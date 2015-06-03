@@ -1,0 +1,5 @@
+
+	<% if @current_organization.who_we_are_featured %>
+		<%= link_to "Our Purpose", :controller => "fsn", :action => :index, :organization_id => @current_organization, :blog_id => @current_organization.who_we_are_featured.public_id %>
+	<% end -%>
+

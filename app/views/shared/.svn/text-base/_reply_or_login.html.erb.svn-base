@@ -1,0 +1,34 @@
+<% if topic.classroom.active_for?(@current_user) %>
+	<div class="discussion_reply_form">
+		<div class="discussion_reply_form_title">
+			New Reply
+		</div>
+		<div class="discussion_reply_form_notice">
+			Your reply will appear at the end of this topic.
+		</div>
+			<%= text_area :new_discussion, :comment, :cols => 50, :rows => 6 %>			
+		<div class="discussion_reply_form_submit clear">
+			<button class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">Cancel</button>
+			<button class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">Submit</button>
+		</div>
+	</div>
+<% elsif @current_user.nil? %>
+	<div class="discussion_reply_login">
+		<div class="discussion_reply_form_title">
+			Please login or <%= link_to "register", :controller=>"/users", :action=>"register"%> first.
+		</div>
+		<% form_tag :controller => "/users", :action => :login, :organization_id => @current_organization, :admin => defined?(admin) && admin do -%>		
+			<p class="clear">
+				<%= text_field_tag "user[email_address]", "", :size=> 20, :class => "text" %>
+				<%= password_field_tag "user[password]", "", :size=> 20, :class => "text" %>
+			</p>
+			<div class="discussion_reply_login_submit clear">
+				<% if flash[:login_error] -%>
+					<div class="discussion_reply_login_notice"><%= flash[:login_error]%></div>
+				<% end -%>
+				<button class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">login</button>			
+				<button class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">cancel</button>
+			</div>
+		<% end -%>
+	</div>
+<% end %>

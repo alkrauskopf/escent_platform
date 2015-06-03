@@ -1,0 +1,12 @@
+<% unless @cycle.nil? || @indicator.nil? || @activity.nil? || @school.nil?-%>
+	<% @school.elt_cases.final.for_activity(@activity).for_other_cycles(@cycle).each do |elt_case| -%>
+		<div style="line-height:1.3em">
+			<strong><%= elt_case.submit_date ? elt_case.submit_date.strftime("%b %Y") : "No Date" %>&nbsp;
+				<%= elt_case.rubric_for_indicator(@indicator).nil? ? "No Rating" :  elt_case.rubric_for_indicator(@indicator).name%>
+			</strong>	
+			&nbsp;<%= elt_case.note_for_indicator(@indicator) %>
+		</div>
+	<% end -%>								
+<% else -%>
+	Undefined Entity
+<% end -%>

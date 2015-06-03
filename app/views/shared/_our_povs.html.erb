@@ -1,0 +1,15 @@
+
+
+	<% if @current_organization.panel_blog_featured  -%>
+		<%= link_to "Discussions", {:controller => "apps/app_blog", :action => "show_app_blog", :organization_id=> @current_organization, :blog_id => @current_organization.panel_blog_featured, :blog_app=> CoopApp.blog.first},{:target=>"_blank"}%>	
+	<% else -%>
+		<%= @current_organization.panel_blogs_notfeatured.empty? ? "&nbsp;" : "Discusssions" %>
+	<% end -%>
+	<ul>
+		<% if @current_organization.panel_blog_featured -%>
+			<li style="width: 330px;"><li style="width: 330px;"><%= link_to @current_organization.panel_blog_featured.title, {:controller => "apps/app_blog", :action => "show_app_blog", :organization_id=> @current_organization, :blog_id => @current_organization.panel_blog_featured, :blog_app=> CoopApp.blog.first},{:target=>"_blank"}%></li>		
+		<% end -%>
+		<% @current_organization.panel_blogs_notfeatured.each do |blog| -%>
+			<li style="width: 330px;"><%= link_to blog.title, {:controller => "apps/app_blog", :action => "show_app_blog", :organization_id=> @current_organization, :blog_id => blog, :blog_app=> CoopApp.blog.first},{:target=>"_blank"}%></li>
+		<% end -%>
+	</ul>

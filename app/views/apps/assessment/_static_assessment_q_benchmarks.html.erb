@@ -1,0 +1,85 @@
+	
+	<% key = @q.id.to_s + mstr.abbrev %>
+	<% assess_header = "header" + key -%>
+	<% assess_show = "show" + key -%>
+	<% assess_list = "list" + key -%>
+	<% assess_hide = "hide" + key -%>
+
+	<% unless @q.act_benches.for_standard(mstr).size.zero? -%>
+	<table  id="<%= assess_header%>" style="width:500px;">
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:none; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+			<tr>
+				<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
+					&nbsp;
+				</td>
+				<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
+					&nbsp;
+				</td>
+				<td colspan=2 id="<%=assess_show%>" style="width:180px; color: #000000; vertical-align:middle;text-align:left; font-size:10px" >
+					<u>Show Related <%= mstr.abbrev %> Benchmarks</u>
+				</td>
+				<td   style="vertical-align:top; color: #000000; text-align:left; font-size:10px; margin-top:0px; font-weight:normal" >
+					&nbsp;
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table id="<%=assess_list%>">
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:none; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+
+			<tr>
+				<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
+					&nbsp;
+				</td>
+				<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
+					&nbsp;
+				</td>
+				<td colspan=2 id="<%=assess_hide%>" style="width:180px; color: #000000; vertical-align:middle;text-align:left; font-size:10px" >
+					<u>Hide Benchmarks</u>
+				<td   style="vertical-align:top; color: #000000; text-align:left; font-size:10px; margin-top:0px; font-weight:normal" >
+					&nbsp;
+				</td>
+			</tr>
+			<% @q.act_benches.for_standard(mstr).each do |bench| -%>
+			<tr>
+				<td colspan=2 style=" width:100px; color: #000000; vertical-align:middle; font-size:10px" >
+					<%= bench.act_bench_type.name.titleize %><br/>
+					<%= bench.act_standard.abbrev.upcase %>, <%= bench.act_score_range.range %>
+				</td>
+				<td  colspan=3 style="width:400px; text-align:left;">
+					<%= simple_format bench.description %>
+				</td>
+			</tr>
+			<% end -%>
+		</tbody>
+	</table>
+<% end -%>
+<script type="text/javascript">
+jQ(document).ready(function() {
+  		  jQ("#<%=assess_header%>").show();
+		  jQ("#<%=assess_list%>").hide();		  
+
+	jQ("#<%=assess_show%>").click(function() {
+		  	jQ("#<%=assess_header%>").hide();	 
+	   		jQ("#<%=assess_list%>").slideDown("slow");
+	})
+
+	jQ("#<%=assess_hide%>").click(function() {
+	   		jQ("#<%=assess_list%>").slideUp("slow");
+	   		jQ("#<%=assess_header%>").show();
+	})	
+});
+</script>

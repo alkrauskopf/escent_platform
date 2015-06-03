@@ -1,0 +1,25 @@
+
+						
+	<a href="#">Library</a>
+	<% if @current_organization.can_be_displayed?(@current_user)-%>
+	<ul>
+		<% if @current_user.has_authorization_level_for?(@current_organization, "content_manager") -%>
+				<li style="width: 220px;"><%= link_to "ADD Resource To Library", {:controller => "/site/contents", :action => :submit_resource, :organization_id => @current_organization, :function => "New"}, {:target => "_blank"}  %></li>
+				<li style="width: 220px;"><%= link_to "MANAGE Your Library Resources", {:controller => "/site/contents", :action => :index, :organization_id => @current_organization, :function => "New"}, {:target => "_blank"}  %></li>
+		<% end %>					
+	
+		<% unless @content.nil? -%>
+			<% unless @content.id.nil? -%>  <!-- in process of being created -->
+			<% if @current_user.has_authorization_level_for?(@content, "favorite") -%> > 
+				<% link_string = truncate("UnTag " + @content.title, :omission => "...", :length => 25) -%>
+				<li style="width: 220px;"><strong><%= link_to link_string, :controller => "/users", :action => :remove_this_favorite_resource, :organization_id => @current_organization, :content_id => @content.id %></strong></li> 
+				<% else -%>	
+				<% link_string = truncate("Tag " + @content.title, :omission => "...", :length => 23) -%>
+				<li style="width: 220px;"><strong><%= link_to link_string, :controller => "/users", :action => :add_this_favorite_resource, :organization_id => @current_organization, :content_id => @content.id %></strong></li> 
+			<% end %>
+
+			<% end %>
+		<% end %>
+			<li style="width: 220px;">You Have <%= pluralize(@current_user.favorite_resources.size, 'Tagged Resource') %></li> 
+	</ul>
+	<% end -%>

@@ -1,0 +1,6 @@
+
+<div id="cycle_update"> 
+
+    <%= render :partial => "apps/staff_develop/cycle_update", :locals => {:app => @app} %>
+
+</div>	

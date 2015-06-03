@@ -1,0 +1,1 @@
+	<%= render :partial => "/apps/shared/my_broadcast_surveys", :locals => {:user=> @current_user, :organization => @current_organization}  %>

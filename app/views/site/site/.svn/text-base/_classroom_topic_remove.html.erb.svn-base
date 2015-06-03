@@ -1,0 +1,70 @@
+<div id="topic_remove" style = "font-size:12px; color: #000000;padding-left:10px;">
+	
+	<span style ="color: #C83A14; font-size:12px">	 
+	 <center><strong><u>WARNING:</u></strong> This will permanently remove the selected learning units, and their associated discussion history and information.</center>
+	</span>	
+	<div>
+	<% if !@classroom.topics.size.zero? %>
+	<table style="width:600px; margin-left:100px; border:0px">
+
+				<style  type="text/css" media="screen">
+				table,tr,td { border:0px solid white; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>
+			
+			<tbody >
+				<tr style="border:0px" >
+					<td style="border:0px; width:50px; vertical-align:middle; text-align:center; padding-top:3px; padding-bottom:0px; color: #000000; font-size:11px">
+						<u>Remove</u>
+					</td>
+					<td style="border:0px; width:550px;vertical-align:middle;  text-align:left; padding-left:30px; padding-top:3px; padding-bottom:0px; color: #000000; font-size:11px">
+						<u>Topic</u>
+					</td>
+				</tr>
+
+			<% for tpc in @classroom.topics do -%>
+				<% unless tpc.nil? %>
+				<tr  >
+					<td style=" width:50px; color: #C83A14; vertical-align:middle;text-align:center; padding-left:25px; padding-top:5px;font-size:10px" >
+							<%= link_to (image_tag "delete.png"), {:action => "classroom_topic_remove", :organization_id => @current_organization,  :classroom_id => @classroom, :topic_id => tpc}, :confirm => "Are you sure?", :class => "remove_button" %>
+					</td>
+				
+					<td style="width:550px;color: #C83A14; vertical-align:middle;padding-top:10px;padding-bottom:10px;">
+						<% topic_link = tpc.classroom.course_name.upcase + ": " + tpc.title.titleize %>
+						<u><%= link_to topic_link, {:controller => "site/site", :action => "static_classroom", :organization_id => tpc.classroom.organization, :topic_id => tpc, :id => tpc.classroom}, {:target => "_blank"} %></u>
+						<br/>
+						<span style="font-size:10px">
+							Created&nbsp;<% if tpc.user -%>By&nbsp;<%= tpc.user.full_name %>&nbsp;<% end -%>On&nbsp;<%= tpc.created_at.strftime("%Y-%m-%d") %>, Last Updated&nbsp;<%= tpc.updated_at.strftime("%Y-%m-%d") %>					
+						</span>
+					</td>
+				</tr>
+				<% end %>
+			<% end -%>
+		</tbody>
+	</table>
+
+	<% else -%>
+	<br/><br/>
+	<span style ="font-size:11px; color: #C83A14;">
+	<center><i>There Are No Topics Defined For <% @classroom.course_name.upcase%>.</i></center>
+	</span>	
+	<% end -%>
+	</div>	
+
+</div>	
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.remove_button').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#topic_remove").html(data);
+				jQ("#topic_remove").show();
+			})
+			return false;
+	})
+});
+</script>

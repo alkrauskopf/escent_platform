@@ -1,0 +1,4 @@
+
+
+		<%= render (:partial => "apps/shared/question_history", :locals => {:admin => @admin, :question => @survey_question,:app => @app, :start_date=>@start_date, :end_date=> @end_date}) %>	
+

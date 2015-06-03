@@ -1,0 +1,58 @@
+<div id="class_surveys" style="padding:0px; width:99%;  border:0px; margin: 0px 0px 0px 0px; text-align:left; min-height:5px;">
+	<table style="width:99%;">
+		<thead>
+			<tr>
+				<th><strong>CLASSROOM SURVEYS</strong></th>											
+			</tr>
+		</thead>
+	</table>
+    
+		<table id="survey_1" class="tablesorter" style="width:99%;">
+			<tbody>
+				<% col_label = "Schedule " + classroom.course_name + " Student Surveys" -%>
+				<tr>
+				<td class="ifa_levels_close" style=" color: #2061a5;">
+					<%= link_to '', :controller => "apps/classroom", :action => :survey_classroom_schedule, :organization_id => @current_organization, :classroom_id => classroom, :audience_id => CoopApp.classroom.first.tlt_survey_audiences.student.first %>
+					<%= col_label %>
+					<span></span>
+				</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<% CoopApp.classroom.first.tlt_survey_audiences.each do |audience| -%>
+			<% schedules = classroom.classroom_periods.collect{|cp| cp.survey_schedules.for_audience(audience)}.flatten.size -%>
+			<% unless schedules == 0 -%>
+				<table id="survey_2_<%= audience.id %>" class="tablesorter" style="width:99%;">
+					<tbody>
+						<% col_label = "View Results Of " + pluralize(schedules, " " + audience.audience.titleize + " Survey") -%>
+						<tr>
+						<td class="ifa_levels_close" style=" color: #2061a5;">
+							<%= link_to '', :controller => "apps/classroom", :action => :survey_classroom_results, :organization_id => @current_organization, :audience_id => audience, :classroom_id => classroom %>
+							<%= col_label %>
+							<span></span>
+						</td>
+						</tr>
+					</tbody>
+				</table>
+			<% end -%>
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#survey_2_<%=audience.id %> .ifa_levels_close').toggleIfaLevels();
+	jQ('#survey_2_<%=audience.id %> .ifa_levels_open').toggleIfaLevels();
+});
+</script>
+
+		<% end -%>
+		<br/>
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#survey_1 .ifa_levels_close').toggleIfaLevels();
+	jQ('#survey_1 .ifa_levels_open').toggleIfaLevels();
+});
+</script>
+

@@ -1,0 +1,1 @@
+<%= text_area :new_discussion, :comment, :cols => 50, :rows => 6 %>

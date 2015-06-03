@@ -1,0 +1,7 @@
+<tr>
+	<td><%= @reported_abuse.entity.topic.title rescue "-" %></td>
+	<td><%= @reported_abuse.user.full_name %> </td>
+	<td><%= @reported_abuse.user.preferred_email %></td>
+	<td><%= @reported_abuse.abuse %></td>	
+	<td><%= @reported_abuse.created_at %></td>
+</tr>

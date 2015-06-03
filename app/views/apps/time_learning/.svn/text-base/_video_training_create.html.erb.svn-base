@@ -1,0 +1,27 @@
+<div  id="training_video_create">
+	<% if session && session.tlt_session_video -%>
+		<table id="train_video"  style="width:450px; color: #2061a5;">
+			<tbody>  
+				<tr>
+					<td class="resource_levels_close">
+						<%= link_to '', :controller => "apps/time_learning", :action => :create_training_video, :organization_id => @current_organization, :tlt_session_id => session %>
+						Create Training Video
+					<span></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+	<% end -%>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#train_video .resource_levels_close').toggleResourceLevels();
+	jQ('#train_video .resource_levels_open').toggleResourceLevels();	
+});
+</script>
+
+
+</div>
+
+

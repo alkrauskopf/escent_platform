@@ -1,0 +1,288 @@
+
+<div id="diagnostic_form" class="Form clear">
+
+<% unless @last_session.nil? -%>
+
+
+
+<div id="tl_diagnostic_baseline">
+	
+<br/>
+
+	<table style="width:700px; margin-left:0px;border:0px solid #ddd;">
+		<tbody>
+			<tr>
+					<td style=" width:220px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:11px">
+							Since <%= (@since).strftime("%b %d, %Y") %><br/>
+						<span style=" font-weight:normal;  font-size:10.5px; color: #2061a5;  padding-left:0px; text-align:center">
+							&nbsp;
+						</span>
+					</td>
+					<td colspan=3 style="width:240px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:11px">
+						<strong><%= @current_organization.organization_type.name %>&nbsp;<%= @subject_area.name.titleize %> Teacher Population</strong><br/>
+						<span style=" font-weight:normal;  font-size:10.5px; color: #2061a5;  padding-left:0px; text-align:center">
+							<%= pluralize(TltSession.for_subject(@subject_area).since_date(@since).select{|s| s.organization.organization_type_id == @current_organization.organization_type_id}.size, " Session") %> 
+						</span>
+					</td>
+					<td colspan=3 style="width:240px; vertical-align:middle; text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:11px">
+						<strong><%= @current_organization.short_name %>&nbsp;<%= @subject_area.name.titleize %>&nbsp;Teachers</strong><br/>
+						<span style=" font-weight:normal;  font-size:10.5px; color: #2061a5;  padding-left:0px; text-align:center">
+							<%= pluralize(@current_organization.tlt_sessions.for_subject(@subject_area).since_date(@since).size, " Session") %> 
+						</span>
+					</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<% AppMethod.rs.first.tl_activity_types.each do |activity| -%>
+
+	<% pop_stats = activity.stats_for_subject_since(@subject_area, @since, @current_organization.organization_type_id) -%>
+	<% school_stats = activity.stats_for_subject_org_since( @subject_area, @current_organization, @since)  -%>
+	
+	<table id="dash_header_<%= activity.id %>" style="width:700px; margin-left:0px;border:1px solid #ddd;">
+		<thead>
+			<tr>
+					<th id="dash_show_<%= activity.id %>" style=" width:220px; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						<u>Show <%= activity.abbrev %> Details</u></th>
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						Min/Pct</th>
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						Involve</th>
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						Impact</th>
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						Min/Pct</th>
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						Involve</th>
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						Impact</th>
+			</tr>
+		</thead>
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+
+			<tr  style="border:1px solid #ddd;">
+				<td  width = 220px style=" border:1px solid #ddd;  color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:11px" >
+						 <%= activity.activity %><br/>
+				 
+				</td>
+				<td width = 80px style=" border:1px solid #ddd; color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:10px" >
+					<%= number_with_precision((pop_stats[0]/60.0), :precision => 1) %> / <%= number_to_percentage(pop_stats[1], :precision => 0) -%>
+				</td>
+				<td width = 80px style=" border:1px solid #ddd; color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:10px" >
+					<% unless pop_stats[2] == 0.0 %>
+						<%= number_with_precision(pop_stats[2], :precision => 1) %>
+					<% end -%>
+				</td>
+				<td width = 80px style=" border:1px solid #ddd; color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:10px" >
+					<% unless pop_stats[3] == 0.0 %>
+						<%= number_with_precision(pop_stats[3], :precision => 1) %>
+					<% end -%>
+				</td>
+				<td width = 80px style=" border:1px solid #ddd; color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:10px" >
+					<%= number_with_precision((school_stats[0]/60.0), :precision => 1) %> / <%= number_to_percentage(school_stats[1], :precision => 0) -%>
+
+					&nbsp;
+				</td>
+				<td width = 80px style=" border:1px solid #ddd; color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:10px" >
+					<% unless school_stats[2] == 0.0 %>
+						<%= number_with_precision(school_stats[2], :precision => 1) %>
+					<% end -%>
+				</td>
+				<td width = 80px style=" border:1px solid #ddd; color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:10px" >
+
+					<% unless school_stats[3] == 0.0 %>
+						<%= number_with_precision(school_stats[3], :precision => 1) %>
+					<% end -%>
+				</td>
+			</tr>
+		<tbody> 
+	</table>			
+
+	<table id="dash_descript_<%= activity.id %>" style="width:700px; margin-left:0px;border:1px solid #ddd;">
+		<thead>
+			<tr>
+					<th id="dash_hide_<%= activity.id %>" style=" width:220px; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						<u>Hide <%= activity.abbrev %> Details</u></th>
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						Min/Pct</th>
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						Involve</th>
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						Impact</th>
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						Min/Pct</th>
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						Involve</th>
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+						Impact</th>
+			</tr>
+		</thead>
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+
+			<tr  style="border:1px solid #ddd;">
+				<td  width = 220px style=" border:1px solid #ddd;  color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:11px" >
+						 <%= activity.activity %><br/>
+				 
+				</td>
+				<td width = 80px style=" border:1px solid #ddd; color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:10px" >
+					<%= number_with_precision((pop_stats[0]/60.0), :precision => 1) %> / <%= number_to_percentage(pop_stats[1], :precision => 0) -%>
+				</td>
+				<td width = 80px style=" border:1px solid #ddd; color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:10px" >
+					<% unless pop_stats[2] == 0.0 %>
+						<%= number_with_precision(pop_stats[2], :precision => 1) %>
+					<% end -%>
+				</td>
+				<td width = 80px style=" border:1px solid #ddd; color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:10px" >
+					<% unless pop_stats[3] == 0.0 %>
+						<%= number_with_precision(pop_stats[3], :precision => 1) %>
+					<% end -%>
+				</td>
+				<td width = 80px style=" border:1px solid #ddd; color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:10px" >
+					<%= number_with_precision((school_stats[0]/60.0), :precision => 1) %> / <%= number_to_percentage(school_stats[1], :precision => 0) -%>
+
+					&nbsp;
+				</td>
+				<td width = 80px style=" border:1px solid #ddd; color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:10px" >
+					<% unless school_stats[2] == 0.0 %>
+						<%= number_with_precision(school_stats[2], :precision => 1) %>
+					<% end -%>
+				</td>
+				<td width = 80px style=" border:1px solid #ddd; color: #C83A14; vertical-align:top;text-align:center; font-weight:bold; font-size:10px" >
+
+					<% unless school_stats[3] == 0.0 %>
+						<%= number_with_precision(school_stats[3], :precision => 1) %>
+					<% end -%>
+				</td>
+			</tr>
+
+			<% activity.tl_activity_type_tasks.enabled.each do |task| -%>
+
+			<% pop_task_stats = task.stats_for_subject_since(@subject_area, @since, @current_organization.organization_type_id) -%>
+			<% school_task_stats = task.stats_for_subject_org_since( @subject_area, @current_organization, @since)  -%>
+	
+				<tr  style="border:1px solid #ddd;">
+					<td width = 220px style=" border:1px solid #ddd;  color: #000000; vertical-align:top;text-align:center; font-weight:normal; font-size:11px" >
+							<%= task.abbrev %><br/>
+					</td>
+					<td width = 80px style=" border:1px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-weight:normal; font-size:10px" >
+						<% unless pop_task_stats[0] == 0.0 -%>
+							<%= number_with_precision((pop_task_stats[0]/60.0), :precision => 1) %> / <%= number_to_percentage(pop_task_stats[1], :precision => 0) -%>
+						<% end -%>
+					</td>
+					<td width = 80px style=" border:1px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-weight:normal; font-size:10px" >
+						<% unless pop_task_stats[2] == 0.0 %>
+							<%= number_with_precision(pop_task_stats[2], :precision => 1) %>
+						<% end -%>
+					</td>
+					<td width = 80px style=" border:1px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-weight:normal; font-size:10px" >
+						<% unless pop_task_stats[3] == 0.0 %>
+							<%= number_with_precision(pop_task_stats[3], :precision => 1) %>
+						<% end -%>
+					</td>
+					<td width = 80px style=" border:1px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-weight:normal; font-size:10px" >
+						<% unless school_task_stats[0] == 0.0 -%>
+							<%= number_with_precision((school_task_stats[0]/60.0), :precision => 1) %> / <%= number_to_percentage(school_task_stats[1], :precision => 0) -%>
+						<% end -%>
+					</td>
+					<td width = 80px style=" border:1px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-weight:normal; font-size:10px" >
+						<% unless school_task_stats[2] == 0.0 %>
+							<%= number_with_precision(school_task_stats[2], :precision => 1) %>
+						<% end -%>
+					</td>
+					<td width = 80px style=" border:1px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-weight:normal; font-size:10px" >
+						<% unless school_task_stats[3] == 0.0 %>
+							<%= number_with_precision(school_task_stats[3], :precision => 1) %>
+						<% end -%>
+					</td>
+				</tr>
+			<% end -%>
+		<tbody> 
+	</table>
+	
+	
+	
+<script type="text/javascript">
+	jQ(document).ready(function() {
+  		  jQ("#dash_header_<%= activity.id %>").show();
+		  jQ("#dash_descript_<%= activity.id %>").hide();		  
+
+	jQ("#dash_show_<%= activity.id %>").click(function() {
+		  	jQ("#dash_header_<%= activity.id %>").slideUp("slow");	 
+	   		jQ("#dash_descript_<%= activity.id %>").slideDown("slow");
+	})
+
+	jQ("#dash_hide_<%= activity.id %>").click(function() {
+	   		jQ("#dash_descript_<%= activity.id %>").slideUp("slow");
+	   		jQ("#dash_header_<%= activity.id %>").show();
+	})	
+});
+</script>				
+
+
+<% end -%>	
+
+<br/>
+
+<% else -%>
+	<table style=" width=600px; margin-left:20px;border:0px solid #ddd;">
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+			<tr  style=" border:0px solid #ddd;">   			
+ 				<td  style="width=500px; border:0px solid #ddd;vertical-align:top; color:#000000; font-size:11px; padding-top:0px; padding-left:60px; padding-right:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+					<%= @current_user.first_name -%>,<br/>
+					You have no Time & Learning Session on record.
+				</td>
+			</tr>
+   		</tbody>
+   	</table>
+<% end -%>
+</div>
+
+<br/>
+
+<% form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :diagnostics, :organization_id => @current_organization, :user_id => @current_user, :subject_area_id => @subject_area, :function => "submit"}) do |form| -%>
+
+	<%= render :partial => "diagnostic_template"%>
+	<%= render :partial => "/apps/shared/survey_template", :locals=> {:audience => @audience, :survey_type => @survey_type} %>
+
+<%= submit_tag "Submit Analysis", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+<% end -%>
+
+</div>
+
+<script type="text/javascript">		
+	jQ(document).ready(function() {
+//		var AUTH_TOKEN = "<%= protect_against_forgery? ? form_authenticity_token : '' %>";
+//		jQ.ajaxSetup({data:{authenticity_token : AUTH_TOKEN}});
+		jQ("form.ajax").submit(function() {
+			var action = jQ(this).attr("action");					
+			jQ("textarea.mceEditor", this).each(function() {
+				jQ(this).val(tinyMCE.get(this.id).getContent());
+			});
+			var post_data = $(this).serialize()
+		  jQ.post(action, post_data, function(data) {
+				jQ("#diagnostic_form").html(data);
+			});
+
+	    return false;
+	  });
+
+	})
+</script>

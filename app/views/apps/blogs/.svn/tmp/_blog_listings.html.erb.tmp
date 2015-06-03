@@ -1,0 +1,235 @@
+<div id="blog_list_<%= b_type.public_id %><%= blog_app.public_id %>">
+	
+	<% unless  @current_organization.blogs.of_type(b_type).for_app(blog_app).empty? -%>
+
+	<table style="width:770px; margin-left:10px; border:1px solid #ddd;">
+		<thead>
+			<tr >
+				<th width=50px style="vertical-align:middle; border:1px solid #ddd;  padding-right:0px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+					Active
+				</th>
+				<th width=50px style="vertical-align:middle; border:1px solid #ddd;  padding-right:0px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+					Feature
+				</th>
+				<th width=50px style="vertical-align:middle; border:1px solid #ddd;  padding-right:0px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+					User<br/>Comments
+				</th>
+				<th style="vertical-align:middle; border:1px solid #ddd;  padding-right:0px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+					Display<br/>Position
+				</th>				
+				<th width=40px style="vertical-align:middle; border:1px solid #ddd;  padding-right:0px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+					Type
+				</th>
+				<th  width=360px style="vertical-align:middle; border:1px solid #ddd;   padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:13px; font-weight:normal">
+					<%= pluralize(@current_organization.blogs.of_type(b_type).for_app(blog_app).size, b_type.label) %> 
+				</th>					
+				<th width=100px style="vertical-align:middle; border:1px solid #ddd;  padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+					Panelists
+				</th>
+				<th width=90px style="vertical-align:middle; border:1px solid #ddd;  padding-right:0px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+					
+				</th>
+			</tr>
+				<%  @current_organization.blogs.of_type(b_type).for_app(blog_app).sort_by{|b| b.position}.each do |blog| -%>
+		<tbody>
+		<style type="text/css" media="screen">
+	    table,tr,td { border:medium}
+		table tr:hover{
+        background-color: transparent;
+      }
+    	</style>
+			<tr >
+
+				<td  width=50px style="vertical-align:middle; border:1px solid #ddd;  padding-left:17px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+					<% if blog.active %>
+							<%= link_to (image_tag "button_enabled.png",:width => 12), {:action => "toggle_blog_activate", :organization_id => @current_organization, :blog_id => blog, :blog_type_id => b_type.public_id, :blog_app => blog_app,:user_id => @current_user}, :class => "toggle_activate" %>
+					<% else -%>
+							<%= link_to (image_tag "button_disabled.png",:width => 12), {:action => "toggle_blog_activate", :organization_id => @current_organization, :blog_id => blog, :blog_type_id => b_type.public_id, :blog_app => blog_app, :user_id => @current_user}, :class => "toggle_activate" %>
+					<% end -%>
+
+				</td>
+				<td width=50px style="vertical-align:middle; border:1px solid #ddd;  padding-left:17px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+					<% if blog.feature %>
+							<%= link_to (image_tag "button_enabled.png",:width => 12), {:action => "toggle_blog_feature", :organization_id => @current_organization, :blog_id => blog, :blog_type_id => b_type.public_id, :blog_app => blog_app, :user_id => @current_user}, :class => "toggle_feature" %>
+					<% else -%>
+							<%= link_to (image_tag "button_disabled.png",:width => 12), {:action => "toggle_blog_feature", :organization_id => @current_organization, :blog_id => blog, :blog_type_id => b_type.public_id, :blog_app => blog_app, :user_id => @current_user}, :class => "toggle_feature" %>
+					<% end -%>
+				</td>
+				<td width=50px style="vertical-align:middle; border:1px solid #ddd;  padding-left:17px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+					<% if blog.is_commentable %>
+							<%= link_to (image_tag "button_enabled.png",:width => 12), {:action => "toggle_blog_commentable", :organization_id => @current_organization, :blog_id => blog, :blog_type_id => b_type.public_id, :blog_app => blog_app, :user_id => @current_user}, :class => "toggle_comment" %>
+					<% else -%>
+							<%= link_to (image_tag "button_disabled.png",:width => 12), {:action => "toggle_blog_commentable", :organization_id => @current_organization, :blog_id => blog, :blog_type_id => b_type.public_id, :blog_app => blog_app, :user_id => @current_user}, :class => "toggle_comment" %>
+					<% end -%>
+				</td>
+				<td width=15px style="border:1px solid #ddd;vertical-align:middle;  padding-top:0px; padding-left:0px; padding-right:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+					<%= blog.position %>
+				</td>					
+				<td width=40px style="vertical-align:middle; border:1px solid #ddd;   padding-left:5px; padding-right:5px; padding-top:0px; text-align:left; color: #000000; font-size:11px; line-height: 1.3em; font-weight:normal">
+					<center><%= blog.blog_type.blog_type -%></center>
+				</td>				
+				<td width=360px style="vertical-align:top; border:1px solid #ddd;   padding-left:5px; padding-right:5px; padding-top:5px; text-align:left; color: #000000; font-size:11px; line-height: 1.3em; font-weight:normal">
+					<span style = "color: #C83A14;  font-size: 10.5px; font-weight: bold">
+					<center><%= blog.title.titleize -%></center><br/>
+					</span>
+					<% if blog.coop_app %>
+					<span style="font-size:11px; font-weight:bold; text-align:center; color: #2061a5;">
+						<center><%= blog.coop_app.name.titleize %></center><br/>
+					</span>
+					<% end -%>
+					<% unless blog.blog_posts.size == 0 -%>
+						<center><%= pluralize(blog.blog_posts.size, " Posting") %>,&nbsp;&nbsp;<%= pluralize(blog.user_views, " View") %></center>
+						<center>
+						<table style="width:300px; margin-left:0px; border:0px solid #fff;">
+							<tbody>
+								<% blog.blog_posts.by_position.each do |post| -%>							
+								<tr>
+									<td width=20px style="vertical-align:middle; border:0px solid #fff; padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:11px; line-height: 1.3em; font-weight:normal">
+										<% if post.is_active %>
+											<%= (image_tag "button_enabled.png",:width => 8) %>
+										<% else -%>
+											<%= (image_tag "button_disabled.png",:width => 8) %>
+										<% end -%>
+									</td>
+									<td width=50px style="vertical-align:middle; border:0px solid #fff; padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:11px; line-height: 1.3em; font-weight:normal">
+										<% if post.user == @current_user || @admin-%>
+											<%= link_to "Edit", {:controller => "/apps/blogs",:action => :edit_post, :organization_id => @current_organization, :user_id => @current_user, :blog_id => blog.public_id, :blog_post_id => post.public_id}, {:target=>"_blank"}, :class => "edit_posting" %>
+										<% end -%>
+									</td>
+									<td width=50px style="vertical-align:middle; border:0px solid #fff; padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:11px; line-height: 1.3em; font-weight:normal">
+										<% if post.user == @current_user || @admin-%>
+				 							<%= link_to "View" ,{:controller => "apps/app_blog", :action => "show_app_blog", :blog_id => blog, :blog_post_id => post.public_id, :blog_app=> blog.coop_app}, {:target => "_blank"}%>
+										<% end -%>
+									</td>
+									<td width=230px style="vertical-align:middle; border:0px solid #fff; padding-left:5px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:11px; line-height: 1.3em; font-weight:normal">
+										>  <%= post.title %>
+									</td>
+								</tr>
+								<% end -%>
+							</tbody>
+						</table>
+						</center>					
+					<% else -%>
+						<center>No Postings</center>
+					<% end -%>
+				</td>					
+				<td width=100px style="vertical-align:middle; border:1px solid #ddd;  padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+					<% unless blog.users.empty? -%>
+						<% blog.users.each do |p| %>					
+						<%= p.last_name %>
+						<br/>
+						<% end -%>
+					<% else -%>
+						<span style = "color: #C83A14;  font-size: 10.5px; font-weight: normal">
+							<i>No<br/>Panelists</i>
+						</span>
+					<% end -%>
+				</td>
+				<td width=90px style="vertical-align:middle; border:1px solid #ddd;  padding-right:0px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+                    <% if blog.coop_app %>
+				 		<%= link_to "View Blog" ,{:controller => "apps/app_blog", :action => "show_app_blog", :blog_id => blog, :blog_app=> blog.coop_app}, {:target => "_blank"}%>
+					<% end -%>
+					<% if @admin -%>
+                      	<br/>
+                      	<%= link_to  "Edit Blog", {:controller => "/apps/blogs", :action => :edit_blog, :organization_id => @current_organization, :user_id => @current_user, :blog_id => blog}, {:target=>"_blank"} %>
+						<% if blog.can_be_delete? -%>
+							<br/>
+							<%= link_to "Destroy", {:controller => "/apps/blogs",:action => :destroy_blog, :organization_id => @current_organization, :user_id => @current_user, :blog_id => blog, :blog_app => blog_app}, :class => "destroy_blog", :confirm => "Are You Sure?" %>
+						<% end -%>
+					<% end -%>
+					<% if blog.users.include?(@current_user) -%>
+						<br/>
+						<%= link_to "Add Post", {:controller => "/apps/blogs",:action => :create_post, :organization_id => @current_organization, :user_id => @current_user, :blog_id => blog}, {:target=>"_blank"}, :class => "add_posting" %>
+					<% end -%>
+				</td>
+			</tr>				
+			<% end -%>					
+		</tbody>
+	</table>
+	<br/><br/>
+	<% end -%>
+
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.purge_button').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#blog_list_<%= b_type.public_id %><%= blog_app.public_id %>").html(data);
+				jQ("#blog_list_<%= b_type.public_id %><%= blog_app.public_id %>").show();
+			})
+			return false;
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.toggle_activate').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#blog_list_<%= b_type.public_id %><%= blog_app.public_id %>").html(data);
+				jQ("#blog_list_<%= b_type.public_id %><%= blog_app.public_id %>").show();
+			})
+			return false;
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.toggle_feature').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#blog_list_<%= b_type.public_id %><%= blog_app.public_id %>").html(data);
+				jQ("#blog_list_<%= b_type.public_id %><%= blog_app.public_id %>").show();
+			})
+			return false;
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.toggle_comment').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#blog_list_<%= b_type.public_id %><%= blog_app.public_id %>").html(data);
+				jQ("#blog_list_<%= b_type.public_id %><%= blog_app.public_id %>").show();
+			})
+			return false;
+	})
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.destroy_blog').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#blog_list_<%= b_type.public_id %><%= blog_app.public_id %>").html(data);
+				jQ("#blog_list_<%= b_type.public_id %><%= blog_app.public_id %>").show();
+			})
+			return false;
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.resequence').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#blog_list_<%= b_type.public_id %><%= blog_app.public_id %>").html(data);
+				jQ("#blog_list_<%= b_type.public_id %><%= blog_app.public_id %>").show();
+			})
+			return false;
+	})
+});
+</script>

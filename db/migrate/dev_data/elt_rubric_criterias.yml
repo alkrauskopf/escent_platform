@@ -1,0 +1,61 @@
+
+L0:
+    id: 10
+    elt_rubric_id: 1
+    position: 1
+    description: No evidence or significant lack of evidence of implementation
+
+L1:
+    id: 11
+    elt_rubric_id: 1
+    position: 2
+    description: Ineffective solutions, strategies and practices in implementation
+
+E0:
+    id: 20
+    elt_rubric_id: 2
+    position: 1
+    description: Some but insufficient evidence of implementation
+
+E1:
+    id: 21
+    elt_rubric_id: 2
+    position: 2
+    description: Some ineffective solutions, strategies and practices
+
+E2:
+    id: 22
+    elt_rubric_id: 2
+    position: 3
+    description: Inconsistent evidence and/or implementation throughout the school
+
+P0:
+    id: 30
+    elt_rubric_id: 3
+    position: 1
+    description: Clear and sufficient evidence of implementation
+
+P1:
+    id: 31
+    elt_rubric_id: 3
+    position: 2
+    description: Effective solutions, strategies and practices
+
+P2:
+    id: 32
+    elt_rubric_id: 3
+    position: 3
+    description: Consistent level of evidence and/or implementation throughout the school
+
+X0:
+    id: 40
+    elt_rubric_id: 4
+    position: 1
+    description: Creative or original solutions, strategies, or practices
+
+X1:
+    id: 41
+    elt_rubric_id: 4
+    position: 2
+    description: Would serve as a model for others to emulate
+

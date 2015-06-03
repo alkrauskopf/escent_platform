@@ -1,0 +1,19 @@
+  <br/>
+  	<table> 
+		<tbody>
+			<% unless @blog_post.picture_file_name.nil? %>
+			<tr>
+				<td  style ="width:250px; padding-top:0px; padding-left:20px; padding-bottom:5px">
+					<%= image_tag(@blog_post.picture.url, :width => 200,:alt => "No Blog Banner") if @blog_post.picture.file? -%>
+				</td>
+		   	</tr>
+		   	<% else -%>
+			<tr>
+				<td  style ="width:250px; padding-top:0px; padding-left:20px; color: #C83A14; padding-bottom:5px">
+					* * * No Blog Post Picture * * *
+				</td>
+		   	</tr>		   	
+		   	<% end -%>
+		</tbody>
+	</table>
+  <br/>

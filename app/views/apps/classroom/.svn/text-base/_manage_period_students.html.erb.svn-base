@@ -1,0 +1,85 @@
+
+
+<div id="student_list_<%=period.public_id%>">
+	<% if @current_user.can_edit_period?(period) %>
+		<table style="width:650px; margin-left:0px; border:0px solid #ddd;">
+			<style type="text/css" media="screen">
+		    		table,tr,td { border:none }
+					table tr:hover{
+	        		background-color: transparent;
+	      			}
+   			</style>
+			<tbody>  
+				<tr  style="border:0px solid #ddd;" >
+					<td style="width:200px; width;fixed;border:0px solid #ddd; padding-top:0px; padding-bottom:0px; color: #000000; vertical-align:bottom; text-align:left; font-weight:normal; font-size:12px">
+						<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
+							<%= link_to "Remove All Students", {:controller => '/apps/classroom', :action => :remove_all_students, :organization_id => @current_organization,:period_id => period, :redirect_act => return_action}, :confirm => "Are you sure?" %>
+						</span>
+					</td>
+					<td id = "assign_student_<%= period.public_id %>" style="width:225px; width;fixed; border:0px solid #ddd; padding-top:0px; padding-bottom:0px; vertical-align:bottom; text-align:left; font-size:12px">
+						<%=  select(:student_assign, period.public_id, (@current_organization.org_followers - period.classroom.users).sort_by{|a| [a.last_name]}.collect{|s| [truncate(s.last_name_first, :omission => "...", :length => 17), s.id]},{:include_blank =>'Add Student'}) %>
+					</td>
+					<td id = "remove_student_<%= period.public_id %>" style="width:225px; width;fixed; border:0px solid #ddd; padding-top:0px; padding-bottom:0px; vertical-align:bottom; text-align:left; font-size:12px">
+						<%=  select(:student_remove, period.public_id, (period.students).sort_by{|a| [a.last_name]}.collect{|s| [truncate(s.last_name_first, :omission => "...", :length => 17), s.id]},{:include_blank =>'Remove Student'}) %>
+					</td>					
+				</tr>
+			</tbody>
+		</table>				
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#assign_student_<%= period.public_id %>').change(function() {
+		var student_id = jQ('#student_assign_<%= period.public_id %>').val();
+		var url = "<%= url_for :controller => '/apps/classroom', :action => :add_remove_student, :organization_id => @current_organization, :period_id => period, :redirect_act => return_action  %>";
+			jQ.get(url, {'student_id':student_id}, function(data) {
+			jQ("#student_list_<%=period.public_id%>").html(data); 
+	   		jQ("#student_list_<%=period.public_id%>").show();
+			});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#remove_student_<%= period.public_id %>').change(function() {
+		var student_id = jQ('#student_remove_<%= period.public_id %>').val();
+		var url = "<%= url_for :controller => '/apps/classroom', :action => :add_remove_student, :organization_id => @current_organization, :period_id => period, :redirect_act => return_action  %>";
+			jQ.get(url, {'student_id':student_id}, function(data) {
+			jQ("#student_list_<%=period.public_id%>").html(data); 
+	   		jQ("#student_list_<%=period.public_id%>").show();
+			});
+	})
+});
+</script>	
+	<% end %>
+
+	<% unless period.students.empty? -%>
+		<table style="width:600px; margin-left:0px; border:0px">
+			<style  type="text/css" media="screen">
+				table,tr,td { border:0px solid white; }
+				table tr:hover{
+				background-color: transparent;
+				}
+			</style>
+			<tbody >	
+				<% period.students.sort_by{|s| s.last_name}.each do |stud| -%>
+					<tr>						
+						<td align="left" style="width:550px; color: #2061a5; vertical-align:middle;">
+							<% name_link = stud.last_name_first -%>
+							<u><%= link_to name_link,{:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => stud}, {:target => "_blank"} %></u>,&nbsp;
+							&nbsp;&nbsp;
+							<span style="color: #000000; vertical-align:middle;">
+								<%= stud.organization.nil? ? "No Home Organization": stud.organization.short_name %>
+							</span>
+						</td>				
+					</tr>	
+				<% end -%>
+			</tbody
+		</table>
+	<% else -%>
+		<span style=" font-size:10.5px; color: #C83A14;">
+			No Students Assigned
+		</span>					
+	<% end -%>	
+
+</div>
+

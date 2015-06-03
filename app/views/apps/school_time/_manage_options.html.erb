@@ -1,0 +1,32 @@
+<div id="options">
+	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold"> 
+		<strong><center> <%= @current_organization.medium_name %> <%= @app.name.titleize %> Options</center></strong>
+	</div>
+
+
+
+	
+<br/>			
+
+		<table id="time_allocations"   style="width:750px; margin-left:50px; color: #2061a5; ">
+			<tbody>  
+				<tr>
+					<td class="resource_levels_close">
+	
+					<%= link_to '', :controller => "apps/school_time", :action => :options_baselines, :organization_id => @current_organization, :app_id=> @app.id %>
+						Update School Time Baselines
+					<span></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('#time_allocations .resource_levels_close').toggleResourceLevels();
+		jQ('#time_allocations .resource_levels_open').toggleResourceLevels();	
+	});
+	</script>
+	
+
+
+</div>

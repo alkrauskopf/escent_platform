@@ -1,0 +1,132 @@
+<div id="main_content">
+<br/><br/><br/>
+<div id="survey_block">
+	<%= render :partial => "/shared/error_and_notice" %>
+<% unless @survey_type.nil? || @audience.nil? -%>
+<% unless @done %>
+	<table style="width:800px; ">
+		<tbody>
+
+			<tr>
+				<td width = 150px style=" color: #000000; vertical-align:middle;text-align:left; font-size:12px" >
+					&nbsp;
+				</td>
+				<td width = 475px style="vertical-align:top; color: #C83A14; font-size:16px; margin-top:0px; font-weight:normal" >
+							<strong><center><u><%= @app.name %></u><br/></center></strong>
+						     <span style="color: #C83A14;  font-size:12.5px; font-weight:bold">
+								<center><%= @survey_type.description.titleize%>&nbsp;Survey For&nbsp;<%= @audience.audience.titleize %>s</center><br/>
+						     </span>
+				</td>
+				<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
+		    		&nbsp;
+				</td>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center>&nbsp;</center>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+
+	<% unless @current_organization.tlt_survey_questions.for_audience(@audience).for_type(@survey_type).active.empty? %>
+
+		<% form_for(:survey_response, :url => {:controller => "/apps/shared", :action => :submit_survey, :organization_id => @current_organization, :plan_id => @plan, :app_id => @app.id, :audience_id => @audience,:survey_type => @survey_type, :function => "Submit"}) do |form| -%>
+		
+		    <%= render :partial => "/shared/error_and_notice" %>
+			
+		
+			<%= submit_tag "Submit Survey", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+		
+			<%= render :partial => "/apps/shared/survey_template", :locals=> {:audience => @audience, :survey_type => @survey_type} %>
+		
+			<%= submit_tag "Submit Survey", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+			<br/><br/>
+			<% end -%>
+
+		<% else -%>
+		<table style="width:800px; ">
+			<tbody>
+		
+				<tr>
+					<td width = 150px style=" color: #000000; vertical-align:middle;text-align:left; font-size:12px" >
+						&nbsp;
+					</td>
+					<td width = 475px style="vertical-align:top; color: #C83A14; font-size:13px; margin-top:0px; font-weight:normal" >
+							     <span style="color: #C83A14;  font-size:12.5px; font-weight:normal">
+									<center>* * *  There Is No <%= @survey_type.description.titleize%>&nbsp;Survey For&nbsp;<%= @audience.audience.titleize %>s  * * *</center><br/>
+							     </span>
+							     <span style="color: #C83A14;  font-size:10.5px; font-weight:normal">
+									<br/><center>Please Close This Window</center><br/>
+							     </span>
+					</td>
+					<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
+			    		&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<td colspan=3>
+						<center>&nbsp;</center>
+					</td>
+				</tr>
+		
+			</tbody>
+		</table>
+		<% end -%>
+
+<% else -%>
+	<table style="width:800px; ">
+		<tbody>
+
+			<tr>
+				<td width = 150px style=" color: #000000; vertical-align:middle;text-align:left; font-size:12px" >
+					&nbsp;
+				</td>
+				<td width = 475px style="vertical-align:top; color: #C83A14; font-size:13px; margin-top:0px; font-weight:normal" >
+							<strong><center>Thank You, <%= @current_user.first_name %><br/></center></strong>
+						     <span style="color: #C83A14;  font-size:12.5px; font-weight:bold">
+								<center>For Completing The <%= @survey_type.description.titleize%>&nbsp;Survey For&nbsp;<%= @audience.audience.titleize %>s</center><br/>
+						     </span>
+				</td>
+				<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
+		    		&nbsp;
+				</td>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center>&nbsp;</center>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+<% end -%>
+<% else -%>
+	<table style="width:800px; ">
+		<tbody>
+
+			<tr>
+				<td width = 150px style=" color: #000000; vertical-align:middle;text-align:left; font-size:12px" >
+					&nbsp;
+				</td>
+				<td width = 475px style="vertical-align:top; color: #C83A14; font-size:13px; margin-top:0px; font-weight:normal" >
+						     <span style="color: #C83A14;  font-size:12.5px; font-weight:bold">
+								<center>No Survey Found</center><br/>
+						     </span>
+				</td>
+				<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
+		    		&nbsp;
+				</td>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center>&nbsp;</center>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+<% end -%>
+</div>
+</div>

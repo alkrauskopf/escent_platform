@@ -1,0 +1,24 @@
+Under 50:
+    Description: Under 50
+    value_low: NULL
+    value_high: 50
+    
+51-150:
+    Description: 51-150
+    value_low: 51
+    value_high: 150
+    
+151-350:
+    Description: 151-35
+    value_low: 151
+    value_high: 350
+    
+351-1000:
+    Description: 351-1000
+    value_low: 351
+    value_high: 1000
+
+1001+:
+    Description: 1001+
+    value_low: 1001
+    value_high: NULL

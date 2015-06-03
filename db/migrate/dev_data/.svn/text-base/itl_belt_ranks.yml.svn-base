@@ -1,0 +1,36 @@
+white:
+    id: 1
+    rank: white
+    rank_score: 10
+    image: belt_white.png
+    criteria: Novice. Conducts Co-Observations. Familiarity with strategy definitions.
+    filter_select: White Belt or higher
+    filter_image: belts_black_green_white.png
+    
+green:
+    id: 2
+    rank: green
+    rank_score: 55
+    image: belt_green.png
+    criteria: Practitioner. Conducts observations independently. Able to explain strategy definitions.   
+    filter_select: Green Belt or higher
+    filter_image: belts_black_green.png
+    
+black:
+    id: 3
+    rank: black
+    rank_score: 100
+    image: belt_black.png
+    criteria: Leader. Observations are reliably accurate. Can lead workshops and produce training videos.
+    filter_select: Black Belt Only
+    filter_image: belts_black_only.png
+
+none:
+    id: 99
+    rank: none
+    rank_score: 0
+    image: ""
+    criteria: No Proficiency Level Assigned.
+    filter_select: All Proficiencies    
+    filter_image: ""
+           

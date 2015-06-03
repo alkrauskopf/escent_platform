@@ -1,0 +1,27 @@
+	<table   style="width:495px; margin-left:0px;">
+		<tbody>  
+			<tr>
+				<td style ="font-family:Verdana, Geneva, Arial, Helvetica, sans-serif; font-weight:normal; font-size:12px; line-height: 1.5em;>
+					<br/><br/><br/>
+				</td>
+			</tr>
+			<tr>
+				<td style ="font-family:Verdana, Geneva, Arial, Helvetica, sans-serif; font-weight:normal; font-size:12px; line-height: 1.5em; ">
+  					<% unless @thought_post.picture_file_name.nil? %>
+  						<% flash_file = @thought_post.picture.url %>
+	  					<div id="model_flash">
+	     					<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="475" height="345" id="fs_home" align="top">
+	         				<param name="allowScriptAccess" value="sameDomain" /><param name="allowFullScreen" value="false" /><param name="movie" value= <%= flash_file %> /><param name="quality" value="best" /><param name="bgcolor" value="#ffffff" /><embed src= <%= flash_file %> quality="best" bgcolor="#ffffff" width="475" height="345" name="FS_attempt9_REVISED_JOSH" align="top" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+	     					</object>
+	  					</div>
+   					<% end -%>
+  					<div class="main_page_text">
+	  					<br/>
+	  					<%= simple_format @thought_post.body %>
+  					</div>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+

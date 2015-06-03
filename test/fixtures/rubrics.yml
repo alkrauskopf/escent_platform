@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  scope_id: 1
+  scope: MyString
+  name: MyString
+  abbrev: MyString
+  score: 1
+  criteria: MyText
+
+two:
+  scope_id: 1
+  scope: MyString
+  name: MyString
+  abbrev: MyString
+  score: 1
+  criteria: MyText

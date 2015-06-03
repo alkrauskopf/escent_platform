@@ -1,0 +1,33 @@
+<div id="options">
+	<% if @current_user.blog_admin?(app) -%>
+	<table style="width:700px; margin-left:50px; color: #2061a5;">
+		<tbody>
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:none; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>
+			<thead>
+				<tr>
+					<th colspan =2><strong><center>Preference</center></strong></th>			
+					<th><strong>Description</strong></th>
+				</tr>
+			</thead>
+			<% back_color = app.app_discussion.background_color.nil? ? "#000000": "#" + app.app_discussion.background_color -%>
+			<tbody style="font-size:14px; color: #2061a5; background-color:<%=back_color %>">
+				<tr>
+					<td  style=" width:350px; width:fixed; color:#000000; text-align:right; vertical-align:middle; font-weight:normal; font-size:12px; padding-bottom:0px;">
+						Default Hex Color Code For Background Panel
+					</td>
+					<td  style="border:0px solid #ddd;width:60px; width:fixed; vertical-align:middle; padding-top:0px; text-align:center">
+						<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
+							<%= link_to "Update", {:controller => "/apps/owner_maintenance",:action => "update_app_discussion_parameters", :organization_id => @current_organization, :app_id=> app.id }, :class => "color_button" %>
+						</span>
+					</td>		
+					<td style="padding-top:10px;">
+						<%= text_field :background, :panel, :value => app.app_discussion.background_color, :size => 6, :maxlength=>6 %>
+					</td>	
+				</tr>
+			</tbody>
+	</table>

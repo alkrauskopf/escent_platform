@@ -1,0 +1,43 @@
+<div id="show_stats">
+	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold"> 
+		<strong><center> <%= @current_organization.medium_name %> <%= @app.name.titleize %> Stats Summary</center></strong>
+	</div>	
+
+		<table id="classroom_views"  style="margin-left:80px; width:535px; border:0px solid #ddd;">
+			<tbody> 
+					<tr>
+						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal;  padding-bottom:4px; font-size:12px">							
+							<%= link_to '', :controller => "apps/classroom", :action => "offering_views", :organization_id => @current_organization %>
+							Classroom Views
+							<span></span>
+						</td>
+					</tr>
+			</tbody>
+		</table>
+	
+	<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('#classroom_views .resource_levels_close').toggleResourceLevels();
+		jQ('#classroom_views .resource_levels_open').toggleResourceLevels();	
+	});
+	</script>
+		<table id="folder_views"  style="margin-left:80px; width:535px; border:0px solid #ddd;">
+			<tbody> 
+					<tr>
+						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal;  padding-bottom:4px; font-size:12px">							
+							<%= link_to '', :controller => "apps/classroom", :action => "offering_folder_views", :organization_id => @current_organization %>
+							Folder Views
+							<span></span>
+						</td>
+					</tr>
+			</tbody>
+		</table>
+	
+	<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('#folder_views .resource_levels_close').toggleResourceLevels();
+		jQ('#folder_views .resource_levels_open').toggleResourceLevels();	
+	});
+	</script>
+
+</div>

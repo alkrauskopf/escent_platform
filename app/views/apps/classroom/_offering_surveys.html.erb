@@ -1,0 +1,25 @@
+
+<div id="offering_surveys_<%=offering.public_id%>" style = "font-size:12px; color: #2061a5;  padding-left:0px;">
+
+	<% if @current_user.can_edit_offering?(offering) -%>
+		<%= render :partial => "survey_classroom_schedule", :locals=> {:classroom => offering, :audience => audience} -%>
+
+	<% else -%>
+		Not Authorized 
+	<% end -%>			
+</div>
+
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.ref_button').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#offering_surveys_<%=offering.public_id%>").html(data);
+				jQ("#offering_surveys_<%=offering.public_id%>").show();
+			})
+			return false;
+	})
+});
+</script>

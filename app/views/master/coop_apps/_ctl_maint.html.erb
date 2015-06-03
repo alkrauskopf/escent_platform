@@ -1,0 +1,69 @@
+<div id="ctl_maintenance">
+
+	<%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>app} %>
+
+		<% if @current_user.superuser?%>
+			<table style="margin-left:150px; font-size:16px; font-weight:bold; color: #2061a5; width:600px">
+				<thead>
+					<tr>
+						<th colspan=2>One-Time&nbsp;<%= app.abbrev %>&nbsp;Maintenance Functions</th>											
+					</tr>
+				</thead>
+				<tbody style="font-size:14px; color: #2061a5; width:600px">
+					<tr>
+						<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all">
+								 <%= link_to "Go" ,{:controller => "master/coop_apps", :action => "ctl_set_finalize_dates", :app_id => app.id} %>
+							</span>
+						</td>
+						<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
+								Assign Observer Final Dates to Session Finalize Date
+						</td>
+					</tr>
+					<tr>
+						<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all">
+								 <%= link_to "Go" ,{:controller => "master/coop_apps", :action => "ctl_update_session_summary_tables", :app_id => app.id} %>
+							</span>
+						</td>
+						<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
+								Re-Generate <%= app.abbrev %> Session Summary Table
+						</td>
+					</tr>
+					<tr>
+						<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all">
+								 <%= link_to "Go" ,{:controller => "master/coop_apps", :action => "ctl_set_nul_belts", :app_id => app.id} %>
+							</span>
+						</td>
+						<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
+								Set Default Belt Levels On <%= app.abbrev %> Sessions
+						</td>
+					</tr>
+					<tr>
+						<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all">
+								 <%= link_to "Go" ,{:controller => "master/coop_apps", :action => "ctl_adjust_evidence_ratings", :app_id => app.id} %>
+							</span>
+						</td>
+						<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
+								Adjust Existing Evidence Ratings In <%= app.abbrev %> Session Logs 
+						</td>
+					</tr>
+					<tr>
+						<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all">
+								 <%= link_to "Go" ,{:controller => "master/coop_apps", :action => "ctl_backload_itl_template_ids", :app_id => app.id} %>
+							</span>
+						</td>
+						<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
+								Assign Template IDs to <%= app.abbrev %> Sessions From Pre-Template Days. 
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		<% end -%>
+
+<br/>
+</div>
+

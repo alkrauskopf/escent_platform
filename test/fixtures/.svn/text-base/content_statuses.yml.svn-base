@@ -1,0 +1,11 @@
+Available:
+    name: Available
+    description: Content is available for viewing
+    
+Offline:
+    name: Offline
+    description: Content is not available for viewing
+
+Deleted:
+    name: Deleted
+    description: Content has been marked as deleted and not available

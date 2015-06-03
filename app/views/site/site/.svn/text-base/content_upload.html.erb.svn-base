@@ -1,0 +1,157 @@
+<div class="mempro_box" style="text-align:right; width:860px">
+<% form_tag({:action => :"site",:action => "content_upload",:organization_id => @current_organization}, :multipart => true) do -%>
+  <div style="text-align:left;">
+    <%= error_messages_for 'content' %>
+  </div>
+  <div style="text-align:left;">
+      <strong>Content Upload</strong> <br />
+  </div>
+  <div class="FormRow">
+    <div class="FormRowTitle">
+      <label>Content Ablum:</label>
+    </div>
+    <div class="FormRowData">
+      <% @content_albums.each do |album| %>
+        <input type="radio" name="content_album_id" value="<%= album.id %>" checked="checked" /> <%= album.cover_show %>
+      <% end %>
+    </div>
+  </div>
+  <div class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'group_id', 'Type:' %>
+    </div>
+    <div class="FormRowData">
+      <select name="content_object_type[content_object_type_group]" id="content_object_type_content_object_type_group">
+          <option value="">Select Type</option>
+          <option value=1>VIDEO</option>
+          <option value=2>IMAGE</option>
+          <option value=3>AUDIO</option>
+          <option value=4>EMBED CODE</option>
+          <option value=5>LINK</option>
+		  <option value=7>PDF</option>
+		  <option value=8>MSDOC,EXCEL,PPT</option>
+      </select>
+    </div>
+  </div>
+  <div id="content_link" style="display:none;" class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'content_content_object', 'Link' %>
+    </div>
+    <div class="FormRowData">
+      <%= text_field :content,:content_object, :size => 55, :value => @content.content_object %>
+    </div>
+  </div>
+  <div id="content_upload_panel" style="display:none;" class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'content_content_object', 'File:' %>
+    </div>
+    <div class="FormRowData">
+		    <%= file_field_tag "content[source_file]" %>
+    </div>
+  </div>
+  <div id="content_preview_panel" style="display:none;" class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'source_file_preview', 'Preview:' %>
+    </div>
+    <div class="FormRowData">
+      <%= file_field_tag "content[source_file_preview]" %>
+    </div>
+  </div>
+  <div id="content_editor_panel" style="display:none;" class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'content_content_object', 'Embed Code:' %>
+    </div>
+    <div class="FormRowData">
+      <%= text_area_tag "content_editor", "", :style => "width:600px; height:600px;", :class => "text" %>
+    </div>
+  </div>
+  <div class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'content_title', 'Title:' %>
+    </div>
+    <div class="FormRowData">
+      <%= text_field :content, :title, :size => 55, :maxlength => 150 %>150 Characters
+    </div>
+  </div>
+  <div class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'content_title', 'Caption:' %>
+    </div>
+    <div class="FormRowData">
+      <%= text_area :content, :caption, :rows => 2, :cols => 75, :maxlength => 255 %>255 Characters 
+    </div>
+  </div>
+  <div class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'content_description', 'Description:' %>
+    </div>
+    <div class="FormRowData">
+      <%= text_area :content, :description, :rows => 7, :cols => 75, :maxlength => 4000 %>4000 Characters
+    </div>
+  </div>
+
+  <div class="FormRow">
+    <div class="FormRowTitle">
+      &nbsp;
+    </div>
+    <div class="FormRowData">
+      <%= check_box :content , :terms_of_service %>
+	  I have read the Escent <%= link_to 'Terms of Service', {:controller => "../fsn", :action => 'terms'}, :target => '_blank' %> and confirm that  <br/>
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I have a legal right to submit this material.
+    </div>
+  </div>
+
+  <div>
+    <!-- f.submit 'Save' -->
+	<%= submit_tag "Save", :id => "save_button"  , :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
+  	<%= link_to 'Back', :controller => "/site/site", :action => :index, :organization_id => @current_organization %>
+  </div>
+</div>
+<% end -%>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        var content_object_type = jQ("#content_object_type_content_object_type_group");
+        
+        content_object_type.change(function(){
+            jQ("#content_editor_panel").css("display", "none");
+            jQ("#content_upload_panel").css("display", "none");
+            jQ("#content_preview_panel").css("display", "none");
+            jQ("#content_link").css("display", "none");
+            
+            switch (content_object_type.val()) {
+                case "1": //Video
+                    jQ("#content_upload_panel").css("display", "block");
+                    jQ("#content_preview_panel").css("display", "block");
+                    break;
+                    
+                case "4": //Article (HTML)
+                    jQ("#content_editor_panel").css("display", "block");
+                    break;
+                    
+                case "5": //Linke 
+                    jQ("#content_link").css("display", "block");
+                    break;
+                    
+                default:
+                    jQ("#content_upload_panel").css("display", "block");
+            }
+        });
+           
+        if (tinyMCE.getInstanceById("content_editor")) {
+            #initTinyMCE();
+        }
+           
+        tinyMCE.execCommand("mceAddControl", false, 'content_editor');
+        
+        jQ("#loading").hide();
+		jQ("#save_button").bind("click", function(e){
+		  <% if @current_user.blank? %>
+			 if(confirm("Sorry, you must log in first to see the page")){
+				location.href = "<%= url_for(:controller => 'site' , :organization_id => @current_organization )%>";
+		 	 }
+			 return false;
+		  <% end %>
+            jQ("#loading").show();
+        });
+    })
+</script>

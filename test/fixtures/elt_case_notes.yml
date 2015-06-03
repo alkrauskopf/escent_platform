@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  elt_case_id: 1
+  elt_element_id: 1
+  user_name: MyString
+  note: MyText
+
+two:
+  elt_case_id: 1
+  elt_element_id: 1
+  user_name: MyString
+  note: MyText

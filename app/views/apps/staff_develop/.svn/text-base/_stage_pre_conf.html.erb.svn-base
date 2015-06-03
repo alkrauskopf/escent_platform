@@ -1,0 +1,177 @@
+
+
+
+<% if plan.date_finalized || @current_user != plan.user -%>
+	<table style=" width=800px; margin-left:0px;border:0px solid #ddd;">
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+			<tr  style=" border:0px solid #ddd;">   			
+ 				<td  style="width:210px; width:fixed; border:0px solid #ddd;vertical-align:top; color: #2061a5;  font-size:12px; font-weight:bold; padding-top:0px; padding-left:20px; padding-right:0px; text-align:left;">
+					Stage&nbsp;<%= stage-%>:&nbsp;<%= plan.dle_cycle.name.upcase %>
+				</td>
+				<% date_string = plan.date_finalized.nil? ? "Active Stage": "Completed " + plan.date_finalized.strftime("%b %d, %Y") %>
+ 				<td  colspan=2 style=" border:0px solid #ddd;vertical-align:top; padding-left:40px; padding-right:0px; text-align:left; color: #000000; font-size:12px; font-weight:normal">
+					<%= date_string %>
+				</td>
+			</tr>
+			<% if plan.dle_cycle.is_observation && !plan.input_notes.nil? -%>
+   			<tr  style=" border:0px solid #ddd;">   			
+ 				<td  style="width:210px; border:0px solid #ddd;vertical-align:top; color: #2061a5;  font-size:11px; font-weight:bold; padding-top:0px; padding-left:0px; padding-right:0px; text-align:left;">
+					&nbsp;
+				</td>
+ 				<td  style="width:150px;  border:0px solid #ddd;vertical-align:top; padding-left:0px; padding-right:0px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+					<%= plan.dle_cycle.input_label %>:
+				</td>
+ 				<td  style="width:440px; border:0px solid #ddd;vertical-align:top; padding-left:10px; padding-right:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+					<%= plan.input_notes.humanize %>
+				</td>
+			</tr>
+			<% end -%>
+ 			<% if plan.dle_cycle.is_goals && !plan.output_notes.nil? -%>
+   			<tr  style=" border:0px solid #ddd;">   			
+  				<td  style="width:210px; border:0px solid #ddd;vertical-align:top; color: #2061a5;  font-size:11px; font-weight:bold; padding-top:0px; padding-left:0px; padding-right:0px; text-align:left;">
+					&nbsp;
+				</td>
+ 				<td  style="width:150px;  border:0px solid #ddd;vertical-align:top; padding-left:0px; padding-right:0px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+					<%= plan.dle_cycle.output_label %>:
+				</td>
+ 				<td  style="width:440px; border:0px solid #ddd;vertical-align:top; padding-left:10px; padding-right:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+					<%= simple_format plan.output_notes.humanize %>
+				</td>
+			</tr>
+			<% end -%>
+			<% if plan.dle_cycle.tlt_survey_type  && !plan.tlt_survey_responses.empty? %>
+   			<tr  style=" border:0px solid #ddd; "> 
+   				<td  style="width:210px; border:0px solid #ddd;vertical-align:top; color: #2061a5;  font-size:11px; font-weight:bold; padding-top:0px; padding-left:0px; padding-right:0px; text-align:left;">
+					&nbsp;
+				</td>
+   				<td  colspan=2 style=" border:0px solid #ddd;vertical-align:top; color: #2061a5;  font-size:11px; font-weight:bold; padding-top:0px; padding-bottom:20px; padding-left:0px; padding-right:0px; text-align:left;">
+   				 <%= render :partial => "apps/shared/display_survey_results", :locals => {:entity => plan, :survey_type => plan.dle_cycle.tlt_survey_type} %>
+				</td>
+			</tr>
+			<% end -%>
+  			<% if plan.dle_cycle.is_targets && !plan.user_dle_plan_metrics.empty? -%>
+   			<tr  style=" border:0px solid #ddd;">   			
+ 				<td  style="width:210px; border:0px solid #ddd;vertical-align:top; color: #2061a5;  font-size:11px; font-weight:bold; padding-top:0px; padding-left:0px; padding-right:0px; text-align:left;">
+					&nbsp;
+				</td>
+ 				<td  style="width:150px;  border:0px solid #ddd;vertical-align:top; padding-left:0px; padding-right:0px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+					Targets:
+				</td>
+ 				<td  style="width:440px; border:0px solid #ddd;vertical-align:top; padding-left:10px; padding-right:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+					<%=  pluralize(plan.user_dle_plan_metrics.size, " Metric") %>
+				</td>
+			</tr>
+					<table style="width:520px;margin-left:200px">
+						<thead>
+								<tr  style="width:520px; border:0px solid #ddd;" >
+									<th  style=" border:1px solid #ddd; padding-top:0px; padding-left:0px; vertical-align:middle; text-align:center; font-size:11px; font-weight:normal">
+										<u>Current</u>
+									</th>
+									<th  style=" border:1px solid #ddd; padding-top:0px; padding-left:0px; vertical-align:middle; text-align:center; font-size:11px; font-weight:normal">
+										<u>Target</u>
+									</th>
+									<th  style=" border:1px solid #ddd; padding-top:0px; padding-left:0px;vertical-align:left; text-align:left; font-size:11px; font-weight:normal">
+										<u>Metric & Notes </u>
+									</th>
+								</tr>
+						</thead>
+						<style type="text/css" media="screen">
+					    		table,tr,td { border:none }
+								table tr:hover{
+				        		background-color: transparent;
+				      			}
+				   			</style>
+							<tbody>  
+							<% plan.user_dle_plan_metrics.sort_by{|m| m.dle_metric.abbrev}.each do |met| %>
+								<tr  style="width:520px; border:1px solid #ddd;" >
+									<td  style="width:60px; border:1px solid #ddd; padding-top:0px;  vertical-align:middle; text-align:center; color: #000000;  font-size:10.5px; font-weight:normal">
+									     	<%= met.actual %></span>
+									</td>
+									<td  style="width:60px; border:1px solid #ddd; padding-top:0px;  vertical-align:middle; text-align:center; color: #000000;  font-size:10.5px; font-weight:normal">
+									     	<%= met.target %></span>
+									</td>					
+									<td  style="width:400px; border:1px solid #ddd; padding-top:0px;  padding-bottom:5px; text-align:left; color: #000000;  font-size:10.5px;">
+									     <span style="color: #2061a5;  font-size:10.5px; font-weight:normal">
+									     	Metric: <%= met.dle_metric.name %><br/></span>
+									     <% unless met.note.empty? -%>
+									     <span style="color: #000000;  font-size:10.5px; font-weight:normal">
+									     	Teacher Note: <i><%= met.note.humanize %></i><br/></span>
+									     <% end -%>
+									     <% school_note = @current_organization.organization_dle_metrics.for_metric(met.dle_metric).first ? @current_organization.organization_dle_metrics.for_metric(met.dle_metric).first.note : "" -%>
+									     <% unless school_note.empty? -%>
+									     <span style="color: #000000;  font-size:10.5px; font-weight:normal">
+									     	School Note: <i><%= school_note.humanize %></i><br/></span>
+									     <% end -%>
+									</td>
+									<% end -%>
+								</tr>
+							</tbody>
+						</table>
+
+			<% end -%>
+
+   			<% if plan.dle_cycle.is_evaluation && !plan.evaluation.nil? -%>
+   			<tr  style=" border:0px solid #ddd;">   			
+ 				<td  style="width:210px; border:0px solid #ddd;vertical-align:top; color: #2061a5;  font-size:11px; font-weight:bold; padding-top:0px; padding-left:0px; padding-right:0px; text-align:left;">
+					&nbsp;
+				</td>
+ 				<td  style="width:150px;  border:0px solid #ddd;vertical-align:top; padding-left:0px; padding-right:0px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+					Evaluation:
+				</td>
+ 				<td  style="width:440px; border:0px solid #ddd;vertical-align:top; padding-left:10px; padding-right:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+					<%= plan.evaluation.humanize %>
+				</td>
+			</tr>
+			<% end -%>
+   			<% if plan.attach_file_name -%>
+   			<tr  style=" border:0px solid #ddd;">   			
+ 				<td  style="width:210px; border:0px solid #ddd;vertical-align:top; color: #2061a5;  font-size:11px; font-weight:bold; padding-top:0px; padding-left:0px; padding-right:0px; text-align:right;">
+
+				</td>
+ 				<td  style="width:150px;  border:0px solid #ddd;vertical-align:top;  padding-left:0px; padding-right:0px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+					<%= plan.dle_cycle.attach_label %>:
+				</td>
+ 				<td  style="width:440px; border:0px solid #ddd;vertical-align:top; padding-left:10px; padding-right:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+					<%=  plan.attach_title.humanize %>&nbsp;
+						<u><a href="<%= plan.attach.url %>" target="_blank">
+				 		<span style="color: #2061a5;  font-size:10.5px; font-weight:normal">Download</span>
+				 		</a></u>
+				</td>
+			</tr>
+
+			<% end -%>
+   		</tbody>
+   	</table>
+<br/>
+<% else -%>
+
+<div id="assign_resources_panel">
+	<table id="cycle_<%= plan.dle_cycle_id %>"   style="width:99%;">
+		<tbody>  
+			<% col_label = "Update Your " + plan.dle_cycle.name + " Information" -%>
+				<tr>
+				<td class="resource_levels_close" style="color: #C83A14;  font-size:11.5px; font-weight:bold">
+
+				<%= link_to '', :controller => "apps/staff_develop", :action => :cycle_update, :organization_id => @current_organization, :plan_id => plan, :app_id=> app.id %>
+				<%= col_label %>
+				<span></span>
+				</td>
+				</tr>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#cycle_<%= plan.dle_cycle_id %> .resource_levels_close').toggleResourceLevels();
+	jQ('#cycle_<%= plan.dle_cycle_id %> .resource_levels_open').toggleResourceLevels();	
+});
+</script>
+
+<% end -%>
+

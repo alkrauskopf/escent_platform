@@ -1,0 +1,8 @@
+
+<div style = "font-size:14px; color: #000000;">
+
+	<%= render :partial => "question_aggregation", :locals=> {:question => @question, :classroom => @classroom, :period=>@period, :schedule => @schedule, :audience => @audience} -%>
+
+
+</div>
+

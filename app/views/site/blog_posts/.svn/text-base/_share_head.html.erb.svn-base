@@ -1,0 +1,14 @@
+
+
+<span style = "font-size:10px; ">
+ 
+		<center>Posted  xxx
+				<% if @blog_post.created_at > Time.now.utc - 24.hours -%>
+					less than <%= time_ago_in_words(@blog_post.created_at).sub(/about /, '') %> ago
+					<% else -%>
+					<%= @blog_post.created_at.strftime("%b %d, %Y") %>
+				<% end -%>
+	 		 <%= image_tag @blog_post.user.picture.url(:thumb) if @blog_post.user.picture %>
+		   By <%= link_to @blog_post.user.full_name, :controller => "/users", :action => :member_public_profile, :organization_id => @blog_post.user.organization, :id => @blog_post.user %>
+		</center>
+</span>

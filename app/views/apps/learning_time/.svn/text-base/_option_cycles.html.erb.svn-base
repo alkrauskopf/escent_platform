@@ -1,0 +1,45 @@
+
+<div id="option_cycles_<%=org.public_id%>"> 
+	
+	<% unless org.elt_provider.elt_cycles.active.empty? -%>
+			<table  style="width:800px; border-top:2px solid #ddd;">
+				<thead>  
+				<tbody>
+					<tr>
+						<td style="text-align:right; padding-right:10px; vertical-align:middle; font-size:12px; color: #CC0000;">
+							<%= org.active_elt_cycle.nil? ? ("No Active Cycle For " + org.short_name)  : ("<strong>" + org.active_elt_cycle.name + "</strong>") %> 
+						</td>	
+						<td id="select_cycle_<%=org.public_id %>" style="width:350px; width:fixed; font-weight:normal">
+							<%= select(:select_cycle, org.id, org.elt_provider.elt_cycles.active.collect{|c| [c.name, c.id]}<<["No Cycle", 0],{:include_blank =>'Choose ' + org.elt_provider.short_name + ' Cycle'}) %>
+						</td>	
+					</tr>
+				</tbody>
+			</table>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#select_cycle_<%=org.public_id %>').change(function() {
+		var cycle_id = jQ('#select_cycle_<%=org.id%>').val();
+		var url = "<%= url_for :controller => '/apps/learning_time', :action => :assign_option_cycle, :org_id => org, :organization_id => @current_organization %>";
+			jQ.get(url, {'cycle_id':cycle_id}, function(data) {
+			jQ("#option_cycles_<%=org.public_id%>").html(data); 
+	   		jQ("#option_cycles_<%=org.public_id%>").show();
+			});
+	})
+});
+</script>
+	<% else -%>
+			<table  style="width:800px; border-top:2px solid #ddd;">
+				<thead>  
+				<tbody>
+					<tr>
+						<td style="text-align:center; vertical-align:middle; font-size:12px; color: #CC0000;">
+							* * * No Active <%= org.elt_provider.short_name %> Diagnostic Cycles Available  * * *
+						</td>		
+					</tr>
+				</tbody>
+			</table>
+
+
+	<% end -%>		
+</div>	

@@ -1,0 +1,58 @@
+<div class="formBox">
+  <%= render :partial => "/shared/error_and_notice" %>
+  <div class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'name', 'Name:' %>
+    </div>
+    <div class="FormRowData">
+      <%= text_field :content_album, :name %>
+      <span style="color:#C73914;">*</span>      
+    </div>
+  </div>
+  <div class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'display', 'Display:' %>
+    </div>
+    <div class="FormRowData">
+      <%= check_box :content_album, :display %>
+    </div>
+  </div>
+  <div class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'accept_upload', 'Accept Upload:' %>
+    </div>
+    <div class="FormRowData">
+      <%= check_box :content_album, :accept_upload %>
+    </div>
+  </div>  
+
+	<div class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'cover', 'Cover:' %>
+    </div>
+    <div class="FormRowData">
+    	<div id="cover_image_div">
+    		<%= @content_album.cover_show if @content_album.cover.present? %>
+				<%= hidden_field :content_album , :cover %>
+    	</div>
+      <%= file_field_tag "image_value" , :onchange => "this.form.action = '#{url_for(:action => 'preview_image')}';this.form.submit();" %>
+    </div>
+  </div>  
+	
+  <div class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'description', 'Description:' %>
+    </div>
+    <div class="FormRowData">
+      <%= text_area :content_album, :description, :cols => 40, :rows => 3 %>
+    </div>
+  </div>
+  <div class="FormRow">
+    <div class="FormRowTitle">&nbsp;</div>
+    <div class="FormRowData">
+      <%= button_to_remote "Back", {:update => "content_panel", :url => {:controller => :content_albums, :action => :index}},{:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
+			<% url_str = url_for(action_name == "new" || action_name == "create"  ? {:action => :create, :format => 'js'} : {:action => "update", :content_album_id => @content_album, :format => 'js'} ) %>
+      <%= submit_tag "Save",:onclick => "this.form.action = '#{url_str}'", :id => "save_button", :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
+    </div>
+  </div>
+</div>

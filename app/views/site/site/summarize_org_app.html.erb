@@ -1,0 +1,102 @@
+<div style = "font-size:10.5px; color: #000000;">
+	<% unless @app.nil? -%>
+		<% if @app.ctl? -%>
+			<table  style="width:360px; margin-left:10px;font-size:10.5px;color: #2061a5;">
+				<tbody >
+					<tr >
+						<td width=100% align="left" style="vertical-align:middle;  font-size:9.5px; padding-left:0px; word-wrap:break-word;">
+							<i><%= (@current_organization.itl_admins.size> 1 ? @app.abbrev + " Admins:" : @app.abbrev + "Admin:") %>&nbsp;<%= @current_organization.itl_admin_list %></i>
+						</td>
+					</tr>
+					<tr >
+						<td width=100% align="left" style="vertical-align:middle;  padding-left:0px; word-wrap:break-word;">
+							<%= pluralize(@current_organization.itl_observation_count, " Observation")%> 
+						</td>
+					</tr>
+					<tr >
+						<td width=100% align="left" style="vertical-align:middle;  padding-left:0px; word-wrap:break-word;">
+							<%= pluralize(@current_organization.itl_observers.size, " Observer")%>
+							<%= ":  " + @current_organization.itl_observer_list unless @current_organization.itl_observers.empty? %>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		<% elsif @app.pd? %>
+			<table  style="width:360px; margin-left:10px;font-size:10.5px;color: #2061a5;">
+				<tbody >
+					<tr >
+						<td width=100% align="left" style="vertical-align:middle;  font-size:9.5px; padding-left:0px; word-wrap:break-word;">
+							<i><%= (@current_organization.pd_admins.size> 1 ? @app.abbrev + " Admins:" : @app.abbrev + "Admin:") %>&nbsp;<%= @current_organization.pd_admin_list %></i>
+						</td>
+					</tr>
+					<tr >
+						<td width=100% align="left" style="vertical-align:middle;  padding-left:0px; word-wrap:break-word;">
+							<%= pluralize(@current_organization.active_pd_plan_count, " Active PD Plan")%> 
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		<% elsif @app.classroom? %>
+			<table  style="width:360px; margin-left:10px;font-size:10.5px;color: #2061a5;">
+				<tbody >
+					<tr >
+						<td width=100% align="left" style="vertical-align:middle;  padding-left:0px; word-wrap:break-word;">
+							<%= pluralize(@current_organization.classrooms.active.size, " Offering")%> 
+						</td>
+					</tr>
+					<tr >
+						<td width=100% align="left" style="vertical-align:middle;  padding-left:0px; word-wrap:break-word;">
+							<%= pluralize(@current_organization.teachers.size, " Teacher")%>
+							<%= ":  " + @current_organization.teacher_list unless @current_organization.teachers.empty? %>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		<% elsif @app.blogs? %>
+			<table  style="width:360px; margin-left:10px;font-size:10.5px;color: #2061a5;">
+				<tbody >
+					<tr >
+						<td width=100% align="left" style="vertical-align:middle;  font-size:9.5px; padding-left:0px; word-wrap:break-word;">
+							<i><%= (@current_organization.bloggers.size> 1 ? " Bloggers:" : "Blogger:") %>&nbsp;<%= @current_organization.blogger %></i>
+						</td>
+					</tr>
+					<tr >
+						<td width=100% align="left" style="vertical-align:middle;  padding-left:0px; word-wrap:break-word;">
+							<%= pluralize(@current_organization.blog.size, " Blog")%> 
+						</td>
+					</tr>
+					<tr >
+						<td width=100% align="left" style="vertical-align:middle;  padding-left:0px; word-wrap:break-word;">
+							<%= pluralize(@current_organization.bloggers.size, " Blogger")%>
+							<%= ":  " + @current_organization.blogger_list unless @current_organization.bloggers.empty? %>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		<% elsif @app.ifa? %>
+			<table  style="width:360px; margin-left:10px;font-size:10.5px;color: #2061a5;">
+				<tbody >
+					<tr >
+						<td width=100% align="left" style="vertical-align:middle;  font-size:9.5px; padding-left:0px; word-wrap:break-word;">
+							<i><%= (@current_organization.ifa_admins.size> 1 ? @app.abbrev + " Admins:" : @app.abbrev + "Admin:") %>&nbsp;<%= @current_organization.ifa_admin_list %></i>
+						</td>
+					</tr>
+					<tr >
+						<td width=100% align="left" style="vertical-align:middle;  padding-left:0px; word-wrap:break-word;">
+							<%= pluralize(@current_organization.act_submissions.size, " IFA Assessment")%>&nbsp;Taken 
+						</td>
+					</tr>
+						<td width=100% align="left" style="vertical-align:middle;  padding-left:0px; word-wrap:break-word;">
+							<%= pluralize(@current_organization.act_questions.size, " IFA Question")%>&nbsp;In Repository 
+						</td>
+					</tr>
+					</tr>
+						<td width=100% align="left" style="vertical-align:middle;  padding-left:0px; word-wrap:break-word;">
+							<%= pluralize(@current_organization.act_questions.calibrated.size, " Calibrated Question")%>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		<% end -%>
+	<% end -%>
+</div>

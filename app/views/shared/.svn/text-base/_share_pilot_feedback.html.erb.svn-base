@@ -1,0 +1,77 @@
+<% if @current_user -%>
+
+<a href="javascript:void(0)" class="share_pilot_feedback" style="text-align:center">Feedback</a>
+
+	<div class="share_pilot_feedback_form_warp" style="display:none;">
+		<div class="share_pilot_feedback_form">
+			<div class="share_pilot_feedback_form_title"><u>Instant Feedback</u>
+			<br/>Please describe your observation or suggestion below.
+			 <br/>
+			 Thank you <%=@current_user.first_name %>.
+		</div>
+			<input type="hidden" name="email_archive[user_public_id]" value="<%= @current_user.public_id %>" />
+			 <input type="hidden" class="text" id="email_archive_sender_email" name="email_archive[sender_email]" value= "allen@escentpartners.com" type = "text" />
+		<div class="share_pilot_feedback_form_notice">&nbsp;</div>
+		<p>
+			<label for="name">Message:</label>
+			<textarea cols="40" id="email_archive_plain_body" name="email_archive[plain_body]" rows="8"></textarea>
+		</p>
+		<div class="share_pilot_feedback_form_submit clear">
+			<button class="fsn-button ui-button ui-state-default ui-corner-all">cancel</button>
+			<button class="fsn-button ui-button ui-state-default ui-corner-all">send</button>
+		</div>
+	</div>
+</div>
+
+<% else -%>
+
+<% end -%>	
+
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ(".share_pilot_feedback_login_btn").click(function () {
+			if (jQ("#share_pilot_feedback_form").is(":hidden")) {
+			  jQ("#share_pilot_feedback_form").slideDown("slow");
+			} else {
+			  jQ("#share_pilot_feedback_form").slideUp("fast");
+			}
+	  });		
+		var resetSharePilotFeedbackFormWarp = function() {
+			jQ('.share_pilot_feedback_form_warp').hide();
+			jQ('.share_pilot_feedback').slideDown("slow");
+		}
+		jQ('.share_pilot_feedback_form_submit').find('button:odd').click(function() {
+			var $share_pilot_feedback_form_warp = jQ(this).parents('.share_pilot_feedback_form_warp');
+			var $user_public_id = $share_pilot_feedback_form_warp.find("input[name='email_archive[user_public_id]']");			
+			var $sender_email = $share_pilot_feedback_form_warp.find("input[name='email_archive[sender_email]']");
+			var $plain_body = $share_pilot_feedback_form_warp.find("textarea");
+			var user_public_id = $user_public_id.val();
+			var sender_email = $sender_email.val();
+			var plain_body = $plain_body.val();
+			share_url = '<%= url_for :controller => "/site/discussions", :action => :share_pilot_feedback, :organization_id => @current_organization %>';
+			jQ.post(share_url, {
+				'id':user_public_id,
+				'email_archive[sender_email]':sender_email, 
+				'email_archive[plain_body]':plain_body}, function() {
+					resetSharePilotFeedbackFormWarp();
+			})
+		})
+	})
+</script>
+<script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function(){
+				var resetSharePilotFeedbackFormWarp = function() {
+					jQ('.share_pilot_feedback_form_warp').hide();
+				}
+				jQ(".share_pilot_feedback").click(function () {
+					if (jQ(".share_pilot_feedback_form_warp").is(":hidden")) {
+					  jQ(".share_pilot_feedback_form_warp").slideDown("slow");
+					} else {
+					  jQ(".share_pilot_feedback_form_warp").slideUp("fast");
+					}
+			  });	
+        jQ('.share_pilot_feedback_form_submit button:even').click(function(){
+            resetSharePilotFeedbackFormWarp()
+        });
+    })
+</script>

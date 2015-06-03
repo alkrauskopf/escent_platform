@@ -1,0 +1,14 @@
+
+<div class="appreport_box_warp" >
+
+	<% if @report == "SD" -%>
+	   	<%= render :partial => "/apps/app_report/elt_school_diag", :locals => {:provider => @provider, :app => @app, :school => @school, :cycle => @cycle, :activity => @activity} -%>
+	<% elsif @report == "CD" -%>
+	   	<%= render :partial => "/apps/app_report/elt_cycle_diag", :locals => {:provider => @provider, :app => @app, :cycle => @cycle, :activity => @activity} -%>	
+	<% elsif @report == "ND" -%>
+	   	<%= render :partial => "/apps/app_report/elt_network_diag", :locals => {:provider => @provider, :app => @app, :cycle => @cycle, :activity => @activity} -%>	
+	<% end -%>
+	<br style="clear:both" />	
+
+</div>
+

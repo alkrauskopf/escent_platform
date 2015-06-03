@@ -1,0 +1,69 @@
+<div id="edit_threshold">
+
+  	<div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 18px; font-style: normal; font-weight: bold">
+			<br/><center><%= @strategy.name %></center>
+	</div>
+  	<div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 14px; font-style: normal; font-weight: normal">
+			<center><%= @strategy.description %></center>
+	</div>
+  	<div style="text-align:center;  word-wrap:break-word; color:#C73914;;  font-size: 12px; font-style: normal; font-weight: normal">
+		<br/><center>When thresholds are exceeded, the teacher will be shown a warning indicator and the corresponding message.</center>
+		<center>Enter applicable thresholds & corresponding warning message.</center><br/>
+	</div>
+
+    <%= render :partial => "/shared/error_and_notice" %>
+
+	<% form_for :itl_strategy_threshold , @strategy.itl_strategy_threshold , :url=>{:controller => "/apps/owner_maintenance" , :action => "owner_thresholds_edit" , :strategy_id => @strategy.id, :app_id=>@app.id} do |@f| %>
+		<div class="FormRow">	
+			<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+				<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+					<br/>Minimum Segment Minutes:&nbsp;
+				</span>
+				<%= text_field :itl_strategy_threshold, :min_minutes,  :size=> 2, :value => @min_minute ? @min_minute : "" %>
+				<br/>
+				<%= text_area :itl_strategy_threshold, :min_minutes_msg, :value => @min_minute_msg ? @min_minute_msg  : "", :rows => 2, :cols => 75 %>
+			</div>	
+		</div>
+		<div class="FormRow">	
+			<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+				<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight:normal">
+					<br/>Maximum Segment Minutes:&nbsp;
+				</span>
+				<%= text_field :itl_strategy_threshold, :max_minutes,  :size=> 2, :value => @max_minute ? @max_minute : "" %>
+				<br/>
+				<%= text_area :itl_strategy_threshold, :max_minutes_msg, :value => @max_minutes_msg ? @max_minutes_msg : "" , :rows => 2, :cols => 75 %>
+			</div>	
+		</div>
+		<div class="FormRow">	
+			<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+				<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight:normal">
+					<br/>Minimum Aggregate Percent Time:&nbsp;
+				</span>
+				<%= text_field :itl_strategy_threshold, :min_pct,  :size=> 2, :value => @min_pct ? @min_pct : "" %>
+				<br/>
+				<%= text_area :itl_strategy_threshold, :min_pct_msg, :value => @min_pct_msg ? @min_pct_msg : "" , :rows => 2, :cols => 75 %>
+			</div>	
+		</div>
+		<div class="FormRow">	
+			<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+				<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight:normal">
+					<br/>Maximum Aggregate Percent Time:&nbsp;
+				</span>
+				<%= text_field :itl_strategy_threshold, :max_pct,  :size=> 2, :value => @max_pct ? @max_pct : "" %>
+				<br/>
+				<%= text_area :itl_strategy_threshold, :max_pct_msg, :value => @max_pct_msg ? @max_pct_msg : "" , :rows => 2, :cols => 75 %>
+			</div>	
+		</div>
+		<div class="FormRow">	
+			<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
+				<%= @f.submit "Save" %>&nbsp;&nbsp;
+				<%= link_to "Cancel" ,  {:controller => "/apps/owner_maintenance", :action => "owner_strategy_thresholds", :app_id => @app.id} %>
+			</div>	
+		</div>
+	<% end %>
+  	<div style="text-align:center;  word-wrap:break-word; color:#000000;  font-size: 11px; font-style: normal; font-weight: normal">
+			<br/>&nbsp;
+	</div>
+</div>
+
+

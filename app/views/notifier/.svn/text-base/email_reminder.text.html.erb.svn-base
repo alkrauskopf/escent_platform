@@ -1,0 +1,11 @@
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">Dear <%= @prayer_pledge.first_name %>,</p>
+<br />
+
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">As per your request, this is a gentle reminder about your pledge to pray for peace for one minute at noon on Monday, September 21.<br /><br />  You’ll be pleased that your name was included in our list which was presented to Mrs. Ban Ki-moon, wife of the Secretary General of the United Nations at a UN Ceremony on Friday.</p>
+<br />
+
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">Thanks again for joining us.</p>
+<br />
+
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">Odyssey Networks</p>
+<br />

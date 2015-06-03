@@ -1,0 +1,10 @@
+Dear <%= @user.first_name %>,
+<br/>
+<%= @sender.full_name -%> just updated your classroom observation level to <strong><%=@belt.rank.upcase %>&nbsp;BELT</strong>.<br/>
+<br/>
+<%= @belt.rank.upcase %> generally implies the following:&nbsp;<i><%=@belt.criteria %></i>
+<br/></br/>
+<%= @sender.first_name %> noted:&nbsp;<i><%= @message %></i>.
+<br/><br/>
+Please contact <%= @sender.first_name %> if you have any questions.<br/><br/>
+Thank you.

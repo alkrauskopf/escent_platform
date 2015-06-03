@@ -1,0 +1,36 @@
+
+<div class="MasterItemHeaderDiv">View Organization Size</div>
+
+<table>
+	<tr><th style="width:150px;"></th><th></th></tr>
+	<tr>
+		<td>
+			<b>Description:</b>
+		</td>
+		<td>
+			<%=h @organization_size.description %>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<b>Value Low:</b>
+		</td>
+		<td>
+			<%=h @organization_size.value_low %>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<b>Value High:</b>
+		</td>
+		<td>
+			<%=h @organization_size.value_high %>
+		</td>
+	</tr>
+		<tr>
+			<td colspan="2">
+				<%= link_to 'Edit', edit_organization_size_path(@organization_size) %> |
+				<%= link_to 'Back', organization_sizes_path %>
+			</td>
+		</tr>
+</table>

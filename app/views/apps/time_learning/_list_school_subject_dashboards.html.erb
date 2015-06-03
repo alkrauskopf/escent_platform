@@ -1,0 +1,41 @@
+
+<div id ="subject_dashboards" style = "font-size:12px; color: #2061a5; padding-left:20px;">
+	<% unless school.subjects_with_tlt_sessions.empty? -%>
+		<div id="<%=school.public_id %>_assign_resources_panel">
+			<table id="<%=school.public_id %>_subjects"   style="width:800px; border:0px">
+	
+				<tbody>  
+				<style type="text/css" media="screen">
+		    		table,tr,td { border:none; }
+					table tr:hover{
+	        		background-color: transparent;
+	      			}
+	   			</style>
+					<tr style="border:0px">
+						<td style="border:0px">
+							<u>Each Subject By Month</u>
+						</td>
+					</tr>
+					<% school.subjects_with_tlt_sessions.each do |subject| %>
+						<tr style="border:0px">
+							<td class="resource_levels_close" style="border:0px">
+							<%= link_to '', :controller => "apps/time_learning", :action => :subject_dashboard, :organization_id => @current_organization, :school_id => school, :subject_area_id => subject %>
+							<%= subject.name %>
+							<span></span>
+							</td>
+						</tr>
+	
+						<% end -%>
+				</tbody>
+			</table>
+		<br/>
+	
+		</div>
+	<% end -%>
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#<%=school.public_id %>_subjects .resource_levels_close').toggleResourceLevels();
+	jQ('#<%=school.public_id %>_subjects .resource_levels_open').toggleResourceLevels();	
+});
+</script>

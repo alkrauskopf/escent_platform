@@ -1,0 +1,18 @@
+
+<table>
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>User</th>
+			<th>Email</th>
+			<th>Type</th>	
+			<th>Created At</th>
+		</tr>
+	</thead>
+  <tbody>
+  	<%  @reported_abuses = @current_organization.reported_abuses %>
+  	<% @reported_abuses.each do |@reported_abuse| %>
+			<%= render :partial => "/admin/reported_abuses/show" %>
+		<% end %>
+  </tbody>
+</table>

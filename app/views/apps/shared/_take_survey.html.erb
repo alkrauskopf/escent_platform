@@ -1,0 +1,88 @@
+
+	<table style="width:700px; ">
+		<tbody>
+			<% if offering -%>
+				<tr>
+					<td width = 120px style=" color: #2061a5; vertical-align:middle;text-align:left; font-size:12px" >
+						Class:
+					</td>
+					<td width = 580px style="vertical-align:top; text-align:left; color: #2061a5; font-size:12px; margin-top:0px; font-weight:normal" >
+						<%= offering.course_name %>
+					</td>
+	 			</tr>
+			<% end -%>
+			<% if teacher -%>
+				<tr>
+					<td width = 120px style=" color: #2061a5; vertical-align:middle;text-align:left; font-size:12px" >
+						Teacher:
+					</td>
+					<td width = 580px style="vertical-align:top; text-align:left; color: #2061a5; font-size:12px; margin-top:0px; font-weight:normal" >
+						<%= teacher.last_name %>
+					</td>
+	 			</tr>
+			<% end -%>
+			<% if survey_type -%>
+				<tr>
+					<td width = 120px style=" color: #2061a5; vertical-align:middle;text-align:left; font-size:12px" >
+						Survey Type:
+					</td>
+					<td width = 580px style="vertical-align:top; text-align:left; color: #2061a5; font-size:12px; margin-top:0px; font-weight:normal" >
+						<%= survey_type.description.titleize %>
+					</td>
+	 			</tr>
+			<% end -%>
+			<% if survey_audience -%>
+				<tr>
+					<td width = 120px style=" color: #2061a5; vertical-align:middle;text-align:left; font-size:12px" >
+						Survey For:
+					</td>
+					<td width = 580px style="vertical-align:top; text-align:left; color: #2061a5; font-size:12px; margin-top:0px; font-weight:normal" >
+						<%= survey_audience.audience.titleize%>
+					</td>
+	 			</tr>
+			<% end -%>
+			<% if schedule.schedule_start -%>
+				<tr>
+					<td width = 120px style=" color: #2061a5; vertical-align:middle;text-align:left; font-size:12px" >
+						Survey Sent:
+					</td>
+					<td colspan=2 width = 580px style="vertical-align:top; text-align:left; color: #2061a5; font-size:12px; margin-top:0px; font-weight:normal" >
+						<%= @schedule.schedule_start.strftime("%m-%d-%y") %>
+					</td>
+	 			</tr>
+			<% end -%>
+			<% if schedule.schedule_end -%>
+				<tr>
+					<td width = 120px style=" color: #2061a5; vertical-align:middle;text-align:left; font-size:12px" >
+						Expires:
+					</td>
+					<td width = 580px style="vertical-align:top; text-align:left; color: #2061a5; font-size:12px; margin-top:0px; font-weight:normal" >
+						<%= schedule.schedule_end.strftime("%m-%d-%y") %>
+					</td>
+	 			</tr>
+			<% end -%>
+			<% unless schedule.instructions == ""-%>
+				<tr>
+					<td width = 120px style=" color: #2061a5; vertical-align:middle;text-align:left; font-size:12px" >
+						&nbsp;
+					</td>
+					<td width = 580px style="vertical-align:top; text-align:left; color: #2061a5; font-size:12px; margin-top:0px; font-weight:normal" >
+						<%=  schedule.instructions %>
+					</td>
+	 			</tr>
+			<% end -%>
+			<% if schedule.is_anon -%>
+				<tr>
+					<td width = 120px style=" color: #2061a5; vertical-align:middle;text-align:left; font-size:12px" >
+						<i> Anonynous</i>
+					</td>
+					<td width = 580px style="vertical-align:top; text-align:left; color: #2061a5; font-size:12px; margin-top:0px; font-weight:normal" >
+						&nbsp;
+					</td>
+	 			</tr>
+			<% end -%>
+
+		</tbody>
+	</table>
+
+	<%= render :partial => "/apps/shared/survey_form", :locals=> {:schedule=> schedule} %>

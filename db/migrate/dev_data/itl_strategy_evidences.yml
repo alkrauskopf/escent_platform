@@ -1,0 +1,35 @@
+
+LECTURE_notes:
+    id: 1
+    tl_activity_type_task_id: 201
+    evidence_id: 10603
+
+LECTURE_lvl1:
+    id: 2
+    tl_activity_type_task_id: 201
+    evidence_id: 10701
+
+LECTURE_lvl2:
+    id: 3
+    tl_activity_type_task_id: 201
+    evidence_id: 10702    
+
+LECTURE_brt4:
+    id: 4
+    tl_activity_type_task_id: 201
+    evidence_id: 11004
+
+LECTURE_fa1:
+    id: 5
+    tl_activity_type_task_id: 201
+    evidence_id: 10901
+
+LECTURE_set2:
+    id: 6
+    tl_activity_type_task_id: 201
+    evidence_id: 10602 
+
+LECTURE_voc3:
+    id: 7
+    tl_activity_type_task_id: 201
+    evidence_id: 10303

@@ -1,0 +1,30 @@
+
+	<% if @blog %>
+		<table  style = "width:583px; margin-left:0px; font-weight:normal; font-size:12px; ">
+			<tbody>
+           		<% unless @blog.picture_file_name.nil? -%>	
+					<tr>
+						<td  class="main_page_subtext" colspan=3 style = " vertical-align:middle;">
+	            			<%= simple_format @blog.description %> 
+						</td>
+						<td style = "width:150px; vertical-align:middle; font-weight:normal; font-size:12px; ">
+								<center>
+								<%= image_tag(@blog.picture.url,  :height => 60,:alt => " ") if @blog.picture.file? -%>
+	 							</center>
+						</td>
+					</tr>
+				<% else -%>
+					<tr>
+						<td  class="main_page_subtext" colspan=4 style = " width:550px; vertical-align:middle; ">
+	            			<%= simple_format @blog.description %> 
+						</td>
+					</tr>
+				<% end -%>
+			</tbody>
+		</table>
+		<div style = "margin-left:0px;">
+        	<%= render(:partial => "/apps/blogs/blog_post_summary", :locals => {:by_panelist => true}) %>
+		</div>
+		<% end -%>
+
+

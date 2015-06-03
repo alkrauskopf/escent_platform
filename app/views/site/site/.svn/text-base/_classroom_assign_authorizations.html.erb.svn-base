@@ -1,0 +1,110 @@
+
+<div style = "font-size:14px; color: #000000;">
+	<div  id="<%=@letter_group%>">
+
+	<% user_group = User.who_are_friends(@current_organization).compact.select{|u| u.last_name[0].chr.upcase == @letter_group.upcase} rescue [] -%>
+	<% unless user_group.empty? -%>
+
+	<table style="width:700px; margin-left:100px; border:0px">
+
+				<style  type="text/css" media="screen">
+				table,tr,td { border:0px solid white; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>
+			
+			<thead>
+				<tr style="border:0px" >
+					<th style="border:0px; width:50px; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-size:11px">
+						<strong><center>Teacher</center></strong>
+					</th>
+					<th style="border:0px; width:50px; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-size:11px">
+						<strong><center>Student</center></strong>
+					</th>
+					<th style="border:0px; width:50px;">
+						<center>&nbsp;</center>
+					</th>
+					<th style="border:0px; width:550px;vertical-align:middle;  text-align:left; padding-left:10px; padding-top:3px; padding-bottom:3px; color: #000000; font-size:11px">
+						<strong>Person</strong></th>
+				</tr>
+			</thead>
+			<tbody >
+				
+			<% user_group.each do |person| -%>
+				<% unless person.nil? -%>
+				<% unless person.superuser? -%>				
+				<tr id="<%= person.public_id %>" class="content-list-item" >
+					<td id="leader_toggle" style=" width:50px; color: #C83A14; vertical-align:middle;text-align:center; padding-left:25px; padding-top:5px;font-size:10px" >
+						<% if @classroom.leaders.include?(person) -%>
+							<%= link_to (image_tag "delete.png"), {:action => "classroom_authorization_add_remove", :organization_id => @current_organization,  :classroom_id => @classroom, :auth_level => "leader", :letter => @letter_group, :participant_id => person}, :class => "toggle_user" %>
+							<% t_status = true%>
+						<% else -%>
+							<%= link_to (image_tag "add.png"), {:action => "classroom_authorization_add_remove", :organization_id => @current_organization,  :classroom_id => @classroom, :auth_level => "leader", :letter => @letter_group, :participant_id => person}, :class => "toggle_user"  %>
+							<% t_status = false%>
+						<% end -%>
+					</td>
+					<td id="student_toggle" style=" width:50px; color: #C83A14; vertical-align:middle;text-align:center; padding-left:25px; padding-top:5px;font-size:10px" >
+						<% if @classroom.participants.include?(person) -%>
+							<%= link_to (image_tag "delete.png"), {:action => "classroom_authorization_add_remove", :organization_id => @current_organization,  :classroom_id => @classroom, :auth_level => "participant", :letter => @letter_group, :participant_id => person}, :class => "toggle_user"  %>
+							<% s_status = true%>
+						<% else -%>
+							<%= link_to (image_tag "add.png"), {:action => "classroom_authorization_add_remove", :organization_id => @current_organization,  :classroom_id => @classroom, :auth_level => "participant", :letter => @letter_group, :participant_id => person}, :class => "toggle_user"  %>
+							<% s_status = false%>
+						<% end -%>
+					</td>
+
+					<td  style="width:50px; color:#C83A14; vertical-align:middle;  font-size:10px; padding-top:5px; padding-bottom:5px; padding-left:0px; " >
+						<% unless person.picture.url.split("/").last == "missing.png" %>
+        				<%= image_tag person.picture.url(:small_thumb) %>
+						<% else -%>
+						<span style="color:#C83A14; font-size:10px; padding-top:10px; padding-bottom:10px;">
+							<center><i>No Pic</i></center>
+						</span>
+						<% end %>
+					</td>
+
+					<td align="left" style="width:550px; color: #000000; vertical-align:middle;">
+						<span style="color:#C83A14; fon-size:9px">
+						<% if t_status && !s_status -%> Teacher:&nbsp;<% end -%>
+						<% if !t_status && s_status -%> Student:&nbsp;<% end -%>
+						<% if t_status && s_status -%> Teacher & Student:&nbsp;<% end -%>
+						</span>
+						<% name_link = person.last_name.upcase + ", " + person.first_name.titleize -%>
+						<strong><%= link_to name_link,{:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => person}, {:target => "_blank"} %></strong>,&nbsp;
+						<% if person.home_organization.nil? %> ** Home Organization Removed **
+							<%else %> <strong><%= person.home_organization.name %></strong>
+							<% person.roles.each_with_index do|r,i| -%>
+							<% unless i == 0 %>,<% end -%>
+							&nbsp;<%= r.name %>
+							<% end -%>
+						<% end -%>
+					</td>
+				</tr>
+				<% end -%>
+				<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+
+	<% else -%>
+	<span style="color: #C83A14; font-size:12px">
+	* * *  No Users Found Beginning With Letter "<%=@letter_group.upcase %>"  * * *
+	</span>
+<% end -%>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.toggle_user').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#<%=@letter_group%>").html(data);
+				jQ("#<%=@letter_group%>").show();
+			})
+			return false;
+	})
+});
+</script>
+

@@ -1,0 +1,48 @@
+<p>
+  <b>Name:</b>
+  <%=h @fundraising_campaign.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @fundraising_campaign.description %>
+</p>
+
+<p>
+  <b>Date Range:</b>
+  <%=h @fundraising_campaign.show_date_range %>
+</p>
+
+<p>
+  <b>Merchant Account:</b>
+  <%=h @fundraising_campaign.merchant_account.name %>
+</p>
+
+<p>
+  <b>Goal Amount:</b>
+  <%= number_to_currency @fundraising_campaign.goal_amount %>
+</p>
+
+
+<%= link_to 'Edit', edit_admin_fundraising_campaign_path(@fundraising_campaign), :id => 'edit_fundraising_campaign' %> |
+<%= link_to 'Back', admin_fundraising_campaigns_path, :id => 'back_to_index' %>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#edit_fundraising_campaign").click(function() {
+		url = "<%= url_for edit_admin_fundraising_campaign_path(@fundraising_campaign) %>";
+		jQ.get(url, function(data) {
+			jQ("#fundraising_campaigns_panel").html(data);
+		});
+		return false;
+	})
+	
+	jQ("#back_to_index").click(function() {
+		url = "<%= url_for admin_fundraising_campaigns_path %>";
+		jQ.get(url, function(data) {
+			jQ("#fundraising_campaigns_panel").html(data);
+		});
+		return false;
+	})
+});
+</script>

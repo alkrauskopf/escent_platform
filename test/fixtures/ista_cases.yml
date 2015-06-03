@@ -1,0 +1,37 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  organization_id: 1
+  ista_step_id: 1
+  title: MyString
+  case_students: 1
+  is_active: false
+  is_final: false
+  final_date: 2014-02-17
+  is_archived: false
+  daysweek: 9.99
+  hrsday_std: 9.99
+  daysyear_std: 9.99
+  hrsday_er: 9.99
+  daysyear_er: 9.99
+  hrsday_ls: 9.99
+  daysyear_ls: 9.99
+
+two:
+  user_id: 1
+  organization_id: 1
+  ista_step_id: 1
+  title: MyString
+  case_students: 1
+  is_active: false
+  is_final: false
+  final_date: 2014-02-17
+  is_archived: false
+  daysweek: 9.99
+  hrsday_std: 9.99
+  daysyear_std: 9.99
+  hrsday_er: 9.99
+  daysyear_er: 9.99
+  hrsday_ls: 9.99
+  daysyear_ls: 9.99

@@ -1,0 +1,28 @@
+<div class="discussion_reply_warp">
+	<input name="discussion_public_id" type="hidden" value="<%= discussion_reply.public_id %>" />
+	<div class="discussion_reply_comment">
+		<%= show_discussion_is_delete?(discussion_reply.comment, discussion_reply.is_delete) %>
+		<% if @current_user && entity.class == "Topic" && emtity.classroom-%>
+			<% unless @current_user.teacher_of_classroom?(entity.classroom) -%>
+				<% display_value = "none;" %>
+			<% end -%>	
+		<% else -%>
+				<% display_value = "none;" %>		
+		<% end -%>
+		<%= (link_to "Delete", {:controller => "site/discussions", :action => "delete_reply", :id => discussion_reply, :organization_id => @current_organization}, :class => "delete", :style => "display:#{display_value}") unless discussion_reply.is_delete %>
+	</div>
+	<div class="discussion_reply_info">
+		<span><% if discussion_reply.user %> <%= discussion_reply.user.full_name %>
+		<% else %>  -- former member -- <% end %></span> 
+		<abbr title="<%= discussion_reply.created_at.xmlschema %>"> posted 
+			<% if discussion_reply.created_at > Time.now.utc - 24.hours -%>
+				<% last_post_at = time_ago_in_words(discussion_reply.created_at).sub(/about /, '') + " ago" %> 
+			<% else -%>
+				<% last_post_at = "on " + discussion_reply.created_at.strftime("%b %e, %Y") %>
+			<% end -%>
+			<%= last_post_at %>
+		</abbr>
+		<span class="change_status" style="display:none;"><%= render(:partial => "/shared/report_as") %></span>
+	</div>	
+	<input name="last_post_at" type="hidden" value="<%= 'Last Post ' + last_post_at %>" />
+</div>

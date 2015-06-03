@@ -1,0 +1,35 @@
+<div class="topics_panel_title clear">
+	<h4>Fundraising Campaigns</h4>
+	<%= button_to_remote "Add", {:update => "fundraising_campaigns_panel", :url => {:controller => :fundraising_campaigns, :action => :new, :organization_id => @current_organization }, :method => :get}, :class =>"fsn-button ui-button ui-state-default ui-corner-all"  %>
+</div>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Date Range</th>
+    <th>Merchant account</th>
+    <th>Goal Amount</th>
+	<th>Amount Raised</th>
+  </tr>
+
+<% @fundraising_campaigns.each do |fundraising_campaign| %>
+  <tr>
+    <td><%=h fundraising_campaign.name %></td>
+    <td><%=h fundraising_campaign.show_date_range%></td>
+    <td><%= fundraising_campaign.merchant_account ? fundraising_campaign.merchant_account.name : 'N/A' %></td>
+    <td><%= number_to_currency fundraising_campaign.goal_amount %></td>
+	<td><%= number_to_currency fundraising_campaign.payments.sum(:amount) %></td>
+    <td>
+    	<%= button_to_remote "View", {:update => "fundraising_campaigns_panel", :url => {:controller => :fundraising_campaigns, :action => :show, :organization_id => @current_organization, :id => fundraising_campaign }, :method => :get}, :class =>"fsn-button ui-button ui-state-default ui-corner-all"  %>
+		<%= button_to_remote "Edit", {:update => "fundraising_campaigns_panel", :url => {:controller => :fundraising_campaigns, :action => :edit, :organization_id => @current_organization, :id => fundraising_campaign }, :method => :get}, :class =>"fsn-button ui-button ui-state-default ui-corner-all"  %>
+	</td>
+    <td>
+    	<% if fundraising_campaign.can_be_deleted? -%>
+			<%= button_to_remote "Delete", {:update => "fundraising_campaigns_panel", :url => {:controller => :fundraising_campaigns, :action => :destroy, :organization_id => @current_organization, :id => fundraising_campaign }, :confirm => 'Are you sure?', :method => :delete}, :class =>"fsn-button ui-button ui-state-default ui-corner-all"  %>
+    	<%# link_to 'Delete', [:admin, fundraising_campaign], :confirm => 'Are you sure?', :method => :delete %>
+		<% end -%>
+	</td>
+  </tr>
+<% end %>
+</table>
+
+

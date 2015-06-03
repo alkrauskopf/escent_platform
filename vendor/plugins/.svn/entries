@@ -1,0 +1,58 @@
+10
+
+dir
+25042
+svn://svn.riverwatcher.com/tcpj/trunk/vendor/plugins
+svn://svn.riverwatcher.com
+
+
+
+2011-09-18T21:42:52.909869Z
+19978
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+d99b3096-df13-4f1d-8161-802dcdbb7ef6
+
+paperclip
+dir
+
+utility_scopes
+dir
+
+tiny_mce
+dir
+
+acts_as_list
+dir
+
+localized_country_select
+dir
+
+responds_to_parent
+dir
+
+to_xls
+dir
+
+sms-fu
+dir
+
+acts_as_tree
+dir
+
+simple_captcha
+dir
+

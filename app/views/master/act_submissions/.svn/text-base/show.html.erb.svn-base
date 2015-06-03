@@ -1,0 +1,34 @@
+<div class="formBox">
+	<h2>Show</h2>	
+
+<p>
+	<%= label_tag 'act_subject_id', 'Subject Name:' %>
+	<%= @submission.act_subject.name %>
+</p>
+<p>
+	<%= label_tag 'user_id', 'User:' %>
+	<%= @submission.user.full_name %>
+</p>
+<p>
+	<%= label_tag 'classroom_id', 'Classroom:' %>
+	<%= @submission.classroom.course_name %>
+</p>
+<p>
+	<%= label_tag 'teacher_id', 'Teacher ID:' %>
+	<%= @submission.teacher_id %>
+</p>
+<p>
+	<%= label_tag 'is_final', 'Final:' %>
+	<%= @submission.is_final %>
+</p>
+<p>
+	<%= label_tag 'est_sms', 'Est. SMS:' %>
+	<%= @submission.est_sms %>	
+</p>
+<p>
+	<%= label_tag 'created_at', 'Date Created:' %>
+	<%= @submission.created_at.strftime("%Y-%m-%d") %>	
+</p>
+
+<p><%= link_to "Back", :action => :index %></p>
+</div>

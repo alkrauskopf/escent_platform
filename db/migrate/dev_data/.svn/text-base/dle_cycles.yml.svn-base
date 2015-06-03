@@ -1,0 +1,59 @@
+PRE:
+    id: 1
+    abbrev: R
+    name: Pre-Assessment
+    description: Initial Readiness
+    stage: 1
+    is_output: 0
+    is_targets: 0
+    is_actual: 0
+    tlt_survey_type_id: 20
+    is_attachable: 0
+    output_label: ""
+    attach_label: ""
+    purpose: Determines your readiness to embrace the Discover & Action Learning Process.  
+      
+DISC:
+    id: 2
+    abbrev: D
+    name: Discover
+    description: Discovery
+    stage: 2
+    is_output: 1
+    is_targets: 1
+    is_actual: 0
+    is_attachable: 0
+    output_label: Learning Focus
+    attach_label: ""
+    purpose: Provide safe yet analytical steps that lead to a clear understanding of your teaching style, dominant strategies, and time spent in the classroom.  
+    
+LEARN:
+    id: 3
+    abbrev: L
+    name: Learn
+    description: Learning
+    stage: 3
+    is_output: 1
+    is_targets: 0
+    is_actual: 1
+    tlt_survey_type_id: 22
+    is_attachable: 1
+    output_label: Learning Reflection
+    attach_label: Learning Log
+    purpose: A self-directed plan is put into action with the support of colleagues and coaches.  Diagnostic exercises provide direction and help you prioritize goals. Feel empowered to invite evaluators into a process that encourages continuous improvement.    
+    
+ 
+Eval:
+    id: 4
+    abbrev: E
+    name: Evaluate
+    description: Evaluation
+    stage: 4
+    is_output: 1
+    is_targets: 0
+    is_actual: 0
+    is_attachable: 0
+    output_label: Evaluation Reflection
+    attach_label: ""
+    purpose: A short reflection on how well the things went.  
+    

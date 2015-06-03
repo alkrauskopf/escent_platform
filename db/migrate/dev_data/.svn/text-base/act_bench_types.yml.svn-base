@@ -1,0 +1,48 @@
+act-bench:
+    id: 1
+    name: benchmark
+    standard: act
+    act_master_id: 1
+    for_resource_panel: 1
+    for_dash_board: 1
+    for_list: 1
+    for_static: 1
+    long_name: Benchmark
+    description: What must be demonstated or achieved.
+    
+act-improve:
+    id: 2
+    name: improvement
+    standard: act
+    act_master_id: 1
+    for_resource_panel: 1
+    for_dash_board: 1
+    for_list: 0
+    for_static: 1
+    long_name: Improvement Idea
+    description: Suggestions for progress.
+        
+co-evidence:
+    id: 3
+    name: evidence
+    standard: co
+    act_master_id: 2
+    for_resource_panel: 1
+    for_dash_board: 1
+    for_list: 1
+    for_static: 1
+    long_name: Evidence Outcome
+    description: What must be demonstated or achieved.
+
+cc-bench:
+    id: 10
+    name: benchmark
+    standard: cc
+    act_master_id: 3
+    for_resource_panel: 1
+    for_dash_board: 1
+    for_list: 1
+    for_static: 1
+    long_name: Benchmark
+    description: What must be demonstated or achieved.
+    

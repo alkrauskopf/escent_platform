@@ -1,0 +1,119 @@
+<div id="coach_teachers" style=" padding:0px; width:99%;  border:0px; margin: 0px 0px 0px 0px; text-align:left; min-height:5px;">
+		<table  style="width:750px;margin-left:0px; border:0px solid white">
+			<tbody>
+				<tr style="border:0px solid white;"> 
+					<td colspan=2 style=" border:0px solid white; color: #2061a5; font-size:12px; text-align:center; padding-left:0px;">
+						<strong>Coach <%= coach.full_name -%></strong>	
+					</td>
+				</tr>
+				<tr style="border:0px solid white;">
+					<td style="width:375px; border:0px solid white; color: #C83A14; font-size:14px; text-align:center; padding-right:20px; padding-left:20px;">
+						<table  style="width:350px;margin-left:0px; border:1px solid #ddd;">
+							<thead>
+				
+								<tr style="border:1px solid #ddd;">
+									<th style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+										<center>Remove</center>
+									</th>					
+									<th style="width:250px; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+										<center>Teachers <%= coach.first_name.titleize %> Coaches</center>
+									</th>
+								</tr>
+							</thead>
+							<% unless coach.coachees.empty?  -%>		
+								<tbody >
+									<style  type="text/css" media="screen">
+									table tr:hover{
+					        		background-color: transparent;
+					      			}
+					    			</style>	
+									<% coach.coachees.sort_by{|c| c.last_name}.each do |teacher| -%>
+										<tr style="border:1px solid #ddd;">
+												<td style="border:1px solid #ddd; vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; padding-bottom:10px;text-align:center; color: #000000; font-size:11px; font-weight:normal">
+												<%= link_to (image_tag "delete.png", :class => "del"), {:action => "update_coach_assignment", :organization_id => @current_organization, :coach_id => coach.id, :teacher_id => teacher}, :class => "coach_update" %>
+											</td>
+											<td style="width:250px border:1px solid #ddd; vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+												<%= teacher.last_name_first %>
+											</td>
+										</tr>
+									<% end -%>
+								</tbody>
+							<% else -%>
+								<tbody >
+									<style  type="text/css" media="screen">
+									table tr:hover{
+					        		background-color: transparent;
+					      			}
+					    			</style>	
+				
+										<tr style="border:1px solid #ddd;">
+											<td colspan=2 style="border:1px solid #ddd; vertical-align:middle;  padding-left:3px; padding-right:3px; padding-top:10px; padding-bottom:10px;text-align:center; color: #C83A14; font-size:11px; font-weight:normal">
+												No Teachers Assigned
+											</td>
+										</tr>
+								</tbody>			
+							<% end -%>
+						</table>
+					</td>
+					<td style="width:375px; border:0px solid white;  text-align:center; padding-right:0px; padding-left:0px;">
+						<table  style="width:350px;margin-left:22px; border:1px solid #ddd;">
+							<thead>
+				
+								<tr style="border:1px solid #ddd;">
+									<th  style="width:fixed; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+										<center>Assign</center>
+									</th>					
+									<th style=" width:250px; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+										<center><%= @current_organization.short_name.titleize %> Teachers</center>
+									</th>
+								</tr>
+							</thead>
+							<tbody >
+								<style  type="text/css" media="screen">
+								table tr:hover{
+				        		background-color: transparent;
+				      			}
+				    			</style>	
+								<% available_teachers = false %>
+								<% @current_organization.teachers.sort_by{|t| t.last_name}.each do |teacher| -%>
+									<% unless coach.coachees.include?(teacher) || coach == teacher %>
+										<tr style="border:1px solid #ddd;">
+											<td  style="border:1px solid #ddd; vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; padding-bottom:10px;text-align:center; color: #000000; font-size:11px; font-weight:normal">
+												<%= link_to (image_tag "add.png", :class => "del"), {:action => "update_coach_assignment", :organization_id => @current_organization, :coach_id => coach.id, :teacher_id => teacher}, :class => "coach_update" %>
+											</td>
+											<td style="width:250px border:1px solid #ddd; vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+												<%= teacher.last_name_first %>
+											</td>
+										</tr>
+										<% available_teachers = true %>
+									<% end -%>
+								<% end -%>
+								<% unless available_teachers -%>
+										<tr style="border:1px solid #ddd;">
+											<td colspan=2 style="border:1px solid #ddd; vertical-align:middle;  color: #C83A14; text-align:center; padding-right:0px; padding-left:0px; padding-top:10px; padding-bottom:10px; font-size:11px; font-weight:normal">
+												No Teachers Available 
+											</td>
+										</tr>
+								<% end -%>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.coach_update').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#coach_teachers").html(data);
+				jQ("#coach_teachers").show();
+			})
+			return false;
+	})
+});
+</script>
+

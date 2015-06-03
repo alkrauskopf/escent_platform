@@ -1,0 +1,191 @@
+	
+<div id="choices" >
+<br/>
+	<table style="width:600px; margin-left:120px; border:0px">
+		<tbody>
+		<style type="text/css" media="screen">
+	    table,tr,td { border:medium}
+		table tr:hover{
+        background-color: transparent;
+      }
+    	</style>
+				<% if @question.question_type=="SA" %>
+					<% question_type = "Short Answer" -%>
+					<% hover_text = "Add Answer Choices To Create Multiple Choice Question" %>
+				<% else -%>
+					<% question_type = "Multiple Choice" -%>
+					<% hover_text = "Choices Will Be Randomly Sequenced On Assessment" %>
+				<% end -%>
+				<tr >
+					<td class="tip" title="<%= hover_text %>"colspan=4 style="vertical-align:middle;  padding-right:3px; padding-top:0px; text-align:center; color: #000000;font-size:14px; font-weight:bold">
+						<u><%= question_type%></u>
+					</td>
+				</tr>				
+				<% if @question.question_type=="MC" -%>
+					<% unless @question.act_choices.correct.size > 0 -%>
+						<tr>
+							<td colspan=5 style="vertical-align:middle;  padding-left:290px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+								<%= (image_tag "button_warning.png",:width => 25) -%>
+							</td>
+						</tr>						
+						<tr>
+							<td colspan=5 style="vertical-align:middle;  padding-right:0px; padding-top:0px; text-align:center; color: #C83A14;; font-size:12px; font-weight:normal">
+								<i>* * * No Correct Choices. Question Cannot Be Locked. * * *</i>
+							</td>
+						</tr>
+					
+					<% end -%>
+				<tr >
+					<td width=80px style="vertical-align:middle;  padding-right:0px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+						<u>Add/Remove</u>
+					</td>
+					<td width=80px style="vertical-align:middle;  padding-right:0px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+						<u>Correct?</u>
+					</td>
+					<td colspan=3 style="vertical-align:middle;   padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+						<u>Answer Choices Will Be Randomly Sequenced On Assessments</u>
+					</td>					
+					<% else -%>
+					<td width=80px style="vertical-align:middle;  padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+						<u>Add/Remove</u>
+					</td>
+					<td width=80px style="vertical-align:middle;  padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+						&nbsp;
+					</td>
+					<td  style="vertical-align:middle;  padding-left:10px;padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+						<u>Answer Choices Will Be Randomly Sequenced On Assessments</u>
+					</td>
+				<% end -%>					
+				</tr>				
+				
+				<% list = @question.act_choices.sort_by{|c| c.position} -%>
+				<% list.each do |c| -%>
+
+				<tr >
+					<td width=80px style="vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+							<%= link_to (image_tag "delete.png", :class => "del"), {:action => "edit_question_remove_choice", :organization_id => @current_organization, :master_id => @master, :question_id => @question, :choice_id => c.id}, :class => "purge_button" %>
+					</td>						
+					<% if c.is_correct%>
+						<td width=80px style="vertical-align:middle;  padding-left:15px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+							<%= link_to (image_tag "button_correct.png",:width => 15), {:action => "edit_question_toggle_choice", :organization_id => @current_organization, :master_id => @master, :question_id => @question, :choice_id => c.id}, :class => "toggle_correct" %>
+						</td>
+					<% else -%>
+						<td width=80px style="vertical-align:middle;  padding-left:15px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+							<%= link_to (image_tag "button_incorrect.png",:width => 15), {:action => "edit_question_toggle_choice", :organization_id => @current_organization, :master_id => @master, :question_id => @question, :choice_id => c.id}, :class => "toggle_correct" %>
+						</td>						
+					<% end -%>
+
+					<td   style="vertical-align:middle;  padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+						<%=  c.choice %>
+					</td>
+				</tr>
+				<% end -%>
+				<tr > 
+					<td   id = "add_choice" width=80px style="vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+						<%= (image_tag "add.png") -%>
+					</td>						
+					<td width=80px style="vertical-align:middle;  padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+						&nbsp;
+					</td>
+				
+					<td style="vertical-align:middle;  padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+   					 	<%= text_field :choice, :answer, :size=>"75", :value =>"" %>
+					</td>
+				</tr>				
+		</tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.purge_button').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#choices").html(data);
+				jQ("#choices").show();
+			})
+			return false;
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.toggle_correct').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#choices").html(data);
+				jQ("#choices").show();
+			})
+			return false;
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#update_choice').click(function() {
+		var choice_text = jQ('#choice2_answer2').val();
+		var position = jQ('#position2_text2').val();
+		var question_id = '<%= @question.public_id %>';
+		var master_id = '<%= @master.public_id %>';
+		var choice_id = jQ('#choice_id2').val();
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_update_choice, :organization_id => @current_organization  %>";
+			jQ.get(url, {'question_id':question_id, 'choice': choice_text, 'choice_id': choice_id,'position': position, 'master_id': master_id}, function(data) {
+			jQ("#choices").html(data); 
+	   		jQ("#choices").show();
+			});
+	})
+});
+</script>
+
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#add_choice').click(function() {
+		var choice_text = jQ('#choice_answer').val();
+		var position = jQ('#position_text').val();
+		var question_id = '<%= @question.public_id %>';
+		var master_id = '<%= @master.public_id %>';
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_add_choice, :organization_id => @current_organization  %>";
+			jQ.get(url, {'question_id':question_id, 'choice': choice_text, 'position': position, 'master_id': master_id}, function(data) {
+			jQ("#choices").html(data); 
+	   		jQ("#choices").show();
+			});
+	})
+});
+</script>
+<script>
+jQ(function(){
+jQ('td.tip').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'topMiddle',
+         tooltip: 'bottomMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 0,
+         radius: 0,
+         color: '#99911a'
+      },
+      width: 390,
+	  tip: { // Now an object instead of a string
+         corner: 'bottomMiddle', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>

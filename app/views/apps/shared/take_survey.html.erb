@@ -1,0 +1,30 @@
+<div id="main_content">
+<div id="survey_block">
+	<%= render :partial => "/shared/error_and_notice" %>
+<% unless @schedule.tlt_survey_type.nil? || @schedule.tlt_survey_audience.nil? -%>
+		<%= render :partial => "apps/shared/take_survey", :locals => {:schedule => @schedule, :offering=> @offering, :teacher => @teacher,:survey_type => @survey_type, :survey_audience => @survey_audience} %>	
+<% else -%>
+	<table style="width:700px; ">
+		<tbody>
+
+			<tr>
+				<td width = 120px style=" color: #000000; vertical-align:middle;text-align:left; font-size:12px" >
+					&nbsp;
+				</td>
+				<td width = 580px style="vertical-align:top; color: #C83A14; font-size:13px; margin-top:0px; font-weight:normal" >
+						     <span style="color: #C83A14;  font-size:12.5px; font-weight:normal">
+								<center>No Survey Found</center><br/>
+						     </span>
+				</td>
+ 			</tr>
+			<tr>
+				<td colspan=2>
+					<center>&nbsp;</center>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+<% end -%>
+</div>
+</div>

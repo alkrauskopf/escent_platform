@@ -1,0 +1,29 @@
+Under 500:
+    id: 1
+    Description: Under 500
+    value_low: NULL
+    value_high: 500
+    
+501-1000:
+    id: 2
+    Description: 501-1000
+    value_low: 501
+    value_high: 1000
+    
+1001-1500:
+    id: 3
+    Description: 1001-1500
+    value_low: 1001
+    value_high: 1500
+    
+1501-2000:
+    id: 4
+    Description: 1501-2000
+    value_low: 1501
+    value_high: 2000
+
+2001+:
+    id: 5
+    Description: 2001+
+    value_low: 2001
+    value_high: NULL

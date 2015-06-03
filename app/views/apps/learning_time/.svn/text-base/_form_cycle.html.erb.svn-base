@@ -1,0 +1,56 @@
+
+	<div class="FormRow submit_warp" style= "padding-left:25px">	
+		<%= submit_tag button_label, :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
+	<br/>
+	</div>	
+
+<div class="formBox">
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Name:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+        <%= text_field :elt_cycle, :name, :value => @cycle.name, :size => 40, :maxlength => 60 %>
+        </div>
+    </div>	
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Abbreviation:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+        <%= text_field :elt_cycle, :abbrev, :value => @cycle.abbrev, :size => 6 %>
+        </div>
+    </div>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+          Start:&nbsp;<%= @cycle.begin_date.nil? ? "" : @cycle.begin_date.strftime("%B %Y")%> 
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+        	<%= date_select(:begin_date, @cycle.id, :use_short_month=>true, :default => (@cycle.begin_date.nil? ? Date.today : @cycle.begin_date), :order=>[:month, :year], :start_year => Time.now.year - 1, :end_year => Time.now.year + 1) %></td>
+        </div>
+    </div>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+          End:&nbsp;<%= @cycle.end_date.nil? ? "" : @cycle.end_date.strftime("%B %Y")%> 
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+        	<%= date_select(:end_date, @cycle.id, :use_short_month=>true, :default => (@cycle.end_date.nil? ? Date.today : @cycle.end_date), :order=>[:month, :year], :start_year => Time.now.year - 1, :end_year => Time.now.year + 1) %></td>
+        </div>
+    </div>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+          
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+			&nbsp;
+        </div>
+    </div>
+</div>	
+
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>

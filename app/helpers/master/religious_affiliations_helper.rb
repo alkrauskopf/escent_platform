@@ -1,0 +1,2 @@
+module Master::ReligiousAffiliationsHelper
+end

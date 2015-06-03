@@ -1,0 +1,67 @@
+/* -------------------------------------------------------------- 
+   layout.css
+   * Sets up site layout
+-------------------------------------------------------------- */
+.contentWarp { width: 935px; padding: 0 10px; margin: 0 auto; }
+.contentWarpWithBottom { width: 935px; margin: 0 auto; padding-bottom: 147px; }
+#topTip .contentWarp, #footer .contentWarp { width: 915px; }
+.contentInner { width: 890px; margin-left: 12px; }
+/* set topTip layout */
+#topTip { height: 41px; }
+
+/* set header layout */
+#header { width: 915px; height: 176px; background: url('/images/bg_header.jpg') top left no-repeat; }
+h1 { 
+	float: left;	
+  position: relative;
+	width: 231px;	
+	height: 50px;
+	margin: 69px 0 0 60px;
+}
+h1 span {
+	position: absolute;
+	display: block;
+	width:100%; 
+	height:100%;
+}
+/* set mainNav layout */
+#mainNav { position: relative; }
+#mainNav ul>li { float: left; position: relative; }
+#mainNav ul li { padding-right: 15px; padding-left: 20px; }
+#mainNav ul>li.first { margin-left: 0; }
+#mainNav ul li ul { display: none; position: absolute; left: 0; z-index: 999; }
+#mainNav ul li ul li { display: block; padding-right: 0px; }
+#mainNav ul li:hover ul { display: none; }
+#mainNav ul li.users ul li { width: 30px; }
+#mainNav ul li.content ul li { width: 40px; }
+#mainNav ul li.organization ul li { width: 60px; }
+#mainNav ul li.religious_affiliations ul li { width: 40px; }
+#mainNav ul li.coop_appsul li { width: 40px; }
+#mainNav ul li.report_abuses ul li { width: 50px; }
+#mainNav ul li.report_pledges ul li { width: 40px; }
+#mainNav ul li ul li a { display: block; padding-right: 20px; }
+/* set footer layout */
+#footer ul { display: block; width: 375px; margin: 0 auto; }
+#footer ul li { float: left; padding: 0 10px; }
+#footer p { clear: both; }
+
+/* Safari CSS hack redux */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	/* Safari 3.0 and Opera 9 rules here */
+	#mainNav ul li.organization ul li { width: 80px; }
+	#footer ul { width: 405px; }	
+}
+
+/* Clearing floats without extra markup
+   Based on How To Clear Floats Without Structural Markup by PiE
+   [http://www.positioniseverything.net/easyclearing.html] */
+.clear { display: inline-block; }
+.clear:after, .container:after {
+  content: "."; 
+  display: block; 
+  height: 0; 
+  clear: both; 
+  visibility: hidden;
+}
+* html .clear { height: 1%; }
+.clear { display: block; }

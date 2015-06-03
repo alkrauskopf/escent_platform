@@ -1,0 +1,25 @@
+<div class="MasterItemHeaderDiv">Organization Sizes</div>
+<table>
+  <tr>
+    <th>Description</th>
+    <th>Value low</th>
+    <th>Value high</th>
+  </tr>
+
+<% @organization_sizes.each do |organization_size| %>
+  <tr>
+    <td><%=h organization_size.description %></td>
+    <td><%=h organization_size.value_low %></td>
+    <td><%=h organization_size.value_high %></td>
+    <td><%= link_to 'View', organization_size %></td>
+    <td><%= link_to 'Edit', edit_organization_size_path(organization_size) %></td>
+    <td>
+    	<%= link_to 'Destroy', organization_size, :confirm => 'Are you sure?', :method => :delete %>
+		</td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New organization_size', new_organization_size_path %>

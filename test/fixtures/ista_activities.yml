@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  ista_group_id: 1
+  type: 1
+  type_name: MyString
+  abbrev: MyString
+  name: MyString
+  background: MyString
+
+two:
+  ista_group_id: 1
+  type: 1
+  type_name: MyString
+  abbrev: MyString
+  name: MyString
+  background: MyString

@@ -1,0 +1,77 @@
+
+<div style = "font-size:12px; color: #000000;padding-left:10px;">
+	<br/>
+	<span style ="color: #C83A14; font-size:18px">
+	<center><strong>Integrated Formative Assessment Question Repository</strong></center>
+	</span>
+	<div style = "padding-bottom:10px;padding-left:0px; ">
+	<% form_for(:act_question, :url => {:controller => "/apps/assessment", :action => :add_ifa_question, :organization_id => @current_organization}) do |form| -%>
+		<table  style="width:200px;margin-left:305px;">
+			<tbody>  
+				<tr>
+					<td style="width:120px; font-size:normal">
+						<%=  select( :quest, :subject_id, ActSubject.find(:all, :conditions=>["id <> ?", 99], :order => "name").collect{|s| [s.name, s.id]}, {:prompt => ActSubject.first.name}) %>
+					</td>
+        			<td>
+          				<%= form.submit 'Create New Question',:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
+        			</td>			
+				</tr>
+			</tbody>
+		</table>
+	<% end -%>
+	</div>
+	<div>
+	<% active_questions = ActQuestion.active rescue []%>
+	<% unless active_questions.size.zero? %>
+	<div id="assign_resources_panel">
+		<table id="resource_levels"   style="width:99%;">
+			<thead>
+				<tr>
+					<% header_string = pluralize(active_questions.size.to_s, " Available Assessment Questions") + " In The Repository" %>
+					<th><strong><%= header_string %></strong></th>											
+				</tr>
+			</thead>
+			<tbody>  
+				<% unless @current_user.act_questions.size.zero? %>
+					<tr>
+					<td class="resource_levels_close">
+						<% col_label = pluralize(@current_user.act_questions.size, @current_user.last_name + " Question") -%>
+						<%= link_to '', :controller => "apps/assessment", :action => :list_user_questions, :organization_id => @current_organization%>
+						<strong><%= col_label %></strong>
+						<span></span>
+					</td>
+					</tr>				
+				<% else -%>
+					<tr>
+						<td style ="color: #C83A14; font-size:11px">
+							<center><i>* * *  There Are No <%=@current_user.last_name %> Questions In The Repository  * * *</i></center>
+						</td>
+					</tr>
+				<% end -%>
+				<% sub_ids = active_questions.group_by(&:act_subject_id) %>
+				<% sub_ids.each do |si, readings| %>
+					<% subj_name = ActSubject.find(si).name -%> 
+					<% col_label = readings.size.to_s + " " + subj_name-%>
+					<tr>
+					<td class="resource_levels_close">
+
+					<%= link_to '', :controller => "apps/assessment", :action => :subject_questions, :organization_id => @current_organization, :classroom_id => @ifa_classroom,  :subject_id => si %>
+					<strong><%= col_label %></strong>
+					<span></span>
+					</td>
+					</tr>
+					<% end -%>
+			</tbody>
+		</table>
+	<br/>
+
+	</div>
+<% else -%>
+	<br/>
+	<span style ="color: #C83A14; font-size:11px">
+	<center><i>* * *  There Are No Assessment Questions In The Repository At This Time  * * *</i></center>
+	</span>
+<% end -%>	
+
+</div>
+</div>

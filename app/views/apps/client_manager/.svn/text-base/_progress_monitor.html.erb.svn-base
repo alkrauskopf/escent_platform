@@ -1,0 +1,6 @@
+<div id="pm_step_1">
+
+    <%= render :partial => "/shared/error_and_notice" %>
+Progress Monitoring Functions
+<br/>
+</div>

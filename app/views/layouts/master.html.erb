@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" version="-//W3C//DTD XHTML 1.1//EN" xml:lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />	
+		<title>Escent Partners, LLC</title>			
+		<%= stylesheet_link_tag 'screen' %>
+		<%= stylesheet_link_tag url_for(:controller => "/stylesheets", :action => :iwing, :organization_id => @current_organization, :format => "css") %>
+		<%= stylesheet_link_tag "public_info", :media => "screen" %>
+
+		<%= stylesheet_link_tag "master/screen", :media => "screen" %>
+		<%= stylesheet_link_tag "fsn/jquery-ui-1.7.1.custom.css", :media => "screen" %>
+		<%= stylesheet_link_tag "master/print", :media => "print" %>
+		<!--[if IE]>
+			<%= stylesheet_link_tag "master/ie", :media => "screen" %>
+		<![endif]-->
+		<%= javascript_include_tag 'jquery-1.3.2.min' %>
+        <script type="text/javascript" charset="utf-8">
+            jQ = jQuery.noConflict();
+        </script>
+		<%= javascript_include_tag 'swfobject' %>
+		<%= javascript_include_tag "jquery.qtip-1.0.0.min.js" %>
+		<%= javascript_include_tag 'jquery-ui-1.7.1.custom.min' %>
+		<%= javascript_include_tag 'jquery.tablesorter.min' %>
+		<%= javascript_include_tag 'jquery.MetaData' %>
+		<%= javascript_include_tag 'jquery.rating' %>
+		<%= javascript_include_tag 'jquery.validate.min' %>
+		<%- javascript_include_tag 'colorpicker' %>
+		<%= javascript_include_tag 'iColorPicker' %>
+		<%= javascript_include_tag 'jquery.corner' %>
+		<%= javascript_include_tag "jquery.bgiframe" %>
+		<%= javascript_include_tag "jquery.ajaxQueue" %>
+		<%= javascript_include_tag "jquery.autocomplete.min" %>
+		<%= javascript_include_tag '/player/swfobject.js' %>
+		<%= javascript_include_tag 'application' %>
+		<%= javascript_include_tag "wforms_core" %>
+		<%= javascript_include_tag "wforms_sync" %>
+		<%= javascript_include_tag "wforms_validation" %>
+		<%= javascript_include_tag "wforms_switch" %>
+		<%= javascript_include_tag "wforms_repeat_rails" %>
+		<%= javascript_include_tag "tiny_mce/tiny_mce" %>
+		<%= javascript_include_tag "jquery.tools.min.js" %>
+		<%= javascript_include_tag "jquery.ui.potato.menu.js" %>
+		<%= javascript_include_tag 'jquery.jtree.1.0' %>
+		<%= javascript_include_tag 'jquery.jtree.1.0.min' %>
+		<%= javascript_include_tag "jquery.ui.potato.menu.js" %>	
+		<%= include_tiny_mce_if_needed %>
+		<style type="text/css">
+			a.continue {
+				text-transform: uppercase;
+				text-decoration: none;
+				color: #ffffff;
+				display: block;
+				text-align: right;
+				font-weight: bold;
+				font-size: 12px;
+				font-family: Helvetica, Arial;
+			}
+			a.continue:hover {
+				text-decoration: underline;
+			}
+			#main_content {
+				background: #FFFFFF;
+			}
+			#mainContent {
+				background: #FFFFFF;
+	        }
+			#main_content div#app_edit{
+				top: 00px;
+				margin-top:  30px;
+				margin-bottom:  20px;
+				margin-left: 0px;
+				width: 880px;
+				width:fixed;
+				border:0px solid #ddd;
+				position: relative;
+			}
+		</style>
+<style type="text/css">
+ul#mymenu {}
+li.potato-menu-item {
+	width:180px;
+	font-size:11px;
+	background-color:transparent] %>;
+	/* background-color:rgba(0,0,0,0.9); */
+}
+li.potato-menu-item a {
+	padding:5px 20px 5px 12px;
+	color:#000000; %>;
+
+}
+li.potato-menu-hover {
+	background-color: #666;
+}
+
+/*  Remove Arrows for Now 
+ * 
+li.potato-menu-has-vertical > a {
+	background: transparent url(/images/icons/arrow_down.gif) right no-repeat;
+}
+*/
+li.potato-menu-has-horizontal > a {
+	background: transparent url(/images/icons/arrow_right.gif) right no-repeat;
+}
+
+
+li.potato-menu-item ul {
+	border-top:1px solid #444;
+	border-left:1px solid #444;
+	width:250px;
+}
+</style>
+		<script type="text/javascript" charset="utf-8">
+			function initTinyMCE(){
+				tinyMCE.init({
+					entity_encoding: "raw",
+					mode: "textareas",
+					editor_selector : "mceEditor",
+					editor_deselector : "mceNoEditor",
+					theme: "advanced",
+					plugins: "equation,table,insertdatetime,preview",
+					theme_advanced_buttons1_add_before: "save,separator",
+                    theme_advanced_buttons1_add: "bold,italic,underline,fontselect,fontsizeselect",
+                    theme_advanced_buttons2_add: "undo,redo,forecolor,backcolor,sub,sup,insertdate,inserttime,charmap,emotions",
+                    theme_advanced_buttons3_add: "tablecontrols,equation",
+					theme_advanced_toolbar_location: "top",
+					theme_advanced_toolbar_align: "left",
+					theme_advanced_path_location: "bottom",
+					content_css: "/stylesheets/tiny_mce.css"
+				});
+			}
+			initTinyMCE();
+			$(document).ready(function() { 
+				$("#mainNav>ul>li").hover(function(){
+					$("ul", $(this)).fadeIn('normal');
+				}, function(){
+					$("ul", $(this)).fadeOut('normal');			
+				});
+				$('.fsn-button').addUIStateClass();
+				$('.change').addChangeAction("<%= url_for :action => :index %>");
+				$('.edit').addEditAction("<%= url_for :action => :edit %>");				
+				$('.show').addShowAction("<%= url_for :action => :show %>");								
+			});
+
+			jQ(document).ready(function() {
+				jQ.ajaxSetup({
+					'beforeSend' : function(xhr) {
+						xhr.setRequestHeader("Accept", "text/javascript")
+					}
+				});
+				jQ("#loading").ajaxStart(function() {
+					jQ(this).show()
+				}).ajaxStop(function() {
+					jQ(this).hide()
+				});
+				jQ('.fsn-button').addUIStateClass();
+			})			
+		</script>
+	</head>
+<body>
+	<div class="container">
+		<div id="topTip">
+			<div class="contentWarp">
+				<div>
+		
+				</div>
+				<div>
+
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript" charset="utf-8">
+		jQ(document).ready(function() {
+			jQ('#mymenu').ptMenu();
+	    })
+	</script>			
+		<div class="contentWarpWithBottom">
+			<div class="contentWarp">
+				<div id="header">
+					<h1></h1>
+				</div><!-- #header -->
+				<% if @current_user -%>
+				<div id="mainNav" class="contentInner clear">
+					<ul id="mymenu">
+						<li style="width: 70px;text-align:left"><a href="#">Users</a>
+							<ul>
+								<%= link_to_nav "List", :users, :index %>								
+							</ul>
+						</li>						
+						<li  style="width: 70px;text-align:left"><a href="#">Content</a>
+							<ul>
+								<%= link_to_nav "Add", :content, :new, :first %>
+								<%= link_to_nav "List", :content, :index %>
+								<%= link_to_nav "Import", :content, :import %>																
+								<%= link_to_nav "Trash", :content, :trash %>
+							</ul>						
+						</li>
+						<li  style="width: 80px;text-align:left"><a href="#">Organizations</a>
+							<ul>
+								<%= link_to "List", {:controller=>"/master/organizations", :action => :index} %><br/>
+								<%= link_to"App Ownership", {:controller=>"/master/organizations", :action =>  :ownership} %><br/>
+								<%= link_to"App Useability", {:controller=>"/master/organizations", :action =>  :app_useability} %><br/>
+								<%= link_to "Create New", {:controller=>"/organizations", :action => :register},  :target => '_blank' %>
+							</ul>							
+						</li>
+						<li  style="width: 70px;text-align:left"><a href="#">Apps</a>
+							<ul>	
+								<%= link_to "Create App", {:controller => "master/coop_apps", :action => :edit_app, :function=>"New"} %><br/>
+								<% CoopApp.all.each do |app| %>	
+									<%= link_to app.abbrev, {:controller => "master/coop_apps", :action => :index, :app_id=> app.id} %><br/>
+								<% end %>
+							</ul>							
+						</li>
+						<li  style="width: 70px;text-align:left"><a href="#">Maint</a>
+							<ul>
+								<%= link_to_nav "CTL: List Sessions", :tlt_session, :index %>	
+								<%= link_to_nav "CTL: Recalc All Dashboards", :tlt_session, :update_all_session_dashboards %>
+								<%= link_to_nav "IFA: List Submissions", :act_submissions, :index %>	
+								<%= link_to_nav "IFA: Update Dashboards", "/apps/assessment", :manual_ifa_update %>
+								<%= link_to_nav "IFA: Add Submission", :act_submissions, :new, :first %>
+								<%= link_to_nav "IFA: Calibrate Assessments", :act_submissions, :assessment_calibrations %>								
+
+<!--Temp one-time database updates -->
+
+							</ul>							
+						</li>
+						<li  style="width: 70px;text-align:left"> <a href="#">Abuses</a>
+							<ul>
+								<%= link_to_nav "Topics", :topics, :topic_abuses %>
+								<%= link_to_nav "Content", :content, :content_abuses %>								
+							</ul>							
+						</li>	
+											
+					</ul>
+				</div>
+				<% end -%><!-- #mainNav -->
+				<div id="content" class="contentInner">
+					<%= yield %>
+				</div><!-- #content -->
+			</div>
+		</div>
+		<div id="footer">
+			<div class="contentWarp">
+				<p>&copy; <%= Time.now.year %> ESCENT PARTNERS, LLC</p>				
+			</div>
+		</div><!-- #footer -->
+	</div>		
+		<div id="loading" style="display:none;">
+			<%= image_tag "ajax-loader.gif" %>
+		</div>
+		<script type="text/javascript">
+			/*
+			 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+			 */
+		</script>
+		<script type="text/javascript">
+			try {
+				var pageTracker = _gat._getTracker("UA-10167834-1");
+				pageTracker._trackPageview();
+			} catch (err) {
+			}
+		</script>
+
+</body>
+</html>

@@ -1,0 +1,3 @@
+<div id="offering_homeworks">
+   <%= render :partial => "apps/classroom/offering_homeworks", :locals => {:offering => @classroom}  %>
+</div>	

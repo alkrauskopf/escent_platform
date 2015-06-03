@@ -1,0 +1,362 @@
+<div id="analyze_<%= question.public_id %>" style = "color: #2061a5; font-weight:normal;  font-size:12.5px">
+
+	<table id="hist_<%= question.public_id%>"  style="border:0px solid #ddd; margin-left:0px; width:700px;">
+		<tbody>
+			<tr>
+				<td class="resource_levels_close" style=" border:0px solid #ddd; color: #2061a5; font-weight:normal;  font-size:11.5px">
+					<%= link_to '', :controller => "apps/shared", :action => :question_history, :organization_id => @current_organization,:admin => admin, :app_id => app, :survey_question_id => question %>
+					Responses By Month
+					<span></span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#hist_<%= question.public_id%> .resource_levels_close').toggleResourceLevels();
+	jQ('#hist_<%= question.public_id%> .resource_levels_open').toggleResourceLevels();	
+});
+</script>
+
+
+
+	<table id="4_results_header_<%= question.public_id %>" style="width:680px; margin-left:0px;border:0px solid #ddd;">
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+
+			<tr  style="border:0px solid #ddd;">
+				<td  id="4_results_show_<%= question.public_id %>"  style=" border:0px solid #ddd;  vertical-align:top;text-align:left; font-weight:normal;" >
+						 >  <u>Show</u>
+						 <span style="font-size:12px">
+						 	&nbsp;<%= pluralize(question.tlt_survey_responses.comments_of_score(4).size, " " + question.tlt_survey_range_type.high_end.upcase + " Comment")%>
+						</span>
+				</td>
+			</tr>
+		<tbody> 
+	</table>			
+
+	<table id="4_results_descript_<%= question.public_id %>" style="width:680px; margin-left:0px; border:0px solid #ddd;">
+		<thead>
+			<tr style="margin-left:0px; border:1px solid #ddd;">
+					<th id="4_results_hide_<%= question.public_id %>" style=" width:100px;  border:0px solid #ddd; vertical-align:middle;  text-align:left; padding-top:3px; padding-bottom:3px;  font-weight:normal; font-size:10.5px ">
+						>  <u>Hide</u>
+					</th>
+					<th style="  border:0px solid #ddd; vertical-align:middle;  text-align:left; padding-top:0px; padding-bottom:0px;  color: #C83A14; font-weight:normal; font-size:12px">
+						<%= question.tlt_survey_range_type.high_end.upcase%>
+					</th>
+			</tr>
+		</thead>
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+
+			<tr  style="border:1px solid #ddd;">
+				<td colspan=2 style=" border:0px solid #ddd; color: #000000; vertical-align: top;text-align:left; font-weight:normal; font-size:10.5px" >
+					<table  style="width:660px; margin-left:0px;border:0px solid #ddd;">
+						<tbody> 
+						<style type="text/css" media="screen">
+				    		table,tr,td { border:none }
+							table tr:hover{
+			        		background-color: transparent;
+			      			}
+			   			</style>
+						<% question.tlt_survey_responses.comments_of_score(4).sort{|a,b| b.created_at <=> a.created_at}.each do |resp| -%>
+							<% if resp.survey_schedule %>
+								<tr>
+									<td style=" width:100px; vertical-align:top;  padding-top:3px; padding-bottom:3px; color: #2061a5; font-weight:normal; font-size:10.5px">
+										<%= resp.created_at.strftime("%b %d, %Y") %>
+									</td>
+									<td style=" vertical-align:middle;  text-align:left; padding-top:3px; padding-bottom:3px; color: #2061a5; font-weight:normal; font-size:10.5px">
+										<%= resp.survey_schedule.anonymous? ? "":resp.user.full_name %>:&nbsp;<i>"<%= resp.comment.humanize  %>"</i>
+									</td>
+								</tr>
+							<% end -%>
+						<% end -%>
+						<tbody> 
+					</table>
+				</td>
+			</tr>
+		<tbody> 
+	</table>
+	
+<script type="text/javascript">
+	jQ(document).ready(function() {
+  		  jQ("#4_results_header_<%= question.public_id %>").show();
+		  jQ("#4_results_descript_<%= question.public_id %>").hide();		  
+
+	jQ("#4_results_show_<%= question.public_id %>").click(function() {
+		  	jQ("#4_results_header_<%= question.public_id %>").slideUp("slow");	 
+	   		jQ("#4_results_descript_<%= question.public_id %>").slideDown("slow");
+	})
+
+	jQ("#4_results_hide_<%= question.public_id %>").click(function() {
+	   		jQ("#4_results_descript_<%= question.public_id %>").slideUp("slow");
+	   		jQ("#4_results_header_<%= question.public_id %>").show();
+	})	
+});
+</script>				
+	<table id="3_results_header_<%= question.public_id %>" style="width:680px; margin-left:0px; border:0px solid #ddd;">
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+
+			<tr  style="border:0px solid #ddd;">
+				<td  id="3_results_show_<%= question.public_id %>"  style=" border:0px solid #ddd;  vertical-align:top;text-align:left; font-weight:normal;" >
+						 >  <u>Show</u>
+						 <span style="font-size:12px">
+						 	&nbsp;<%= pluralize(question.tlt_survey_responses.comments_of_score(3).size, " SOMEWHAT " + question.tlt_survey_range_type.high_end.upcase + " Comment")%>
+						</span>
+				</td>
+			</tr>
+		<tbody> 
+	</table>			
+
+	<table id="3_results_descript_<%= question.public_id %>" style="width:680px; margin-left:0px; border:0px solid #ddd;">
+		<thead>
+			<tr style="margin-left:0px; border:1px solid #ddd;">
+					<th id="3_results_hide_<%= question.public_id %>" style=" width:100px;  border:0px solid #ddd; vertical-align:middle;  text-align:left; padding-top:3px; padding-bottom:3px;  font-weight:normal; font-size:10.5px ">
+						>  <u>Hide</u>
+					</th>
+					<th style="  border:0px solid #ddd; vertical-align:middle;  text-align:left; padding-top:0px; padding-bottom:0px;  color: #C83A14; font-weight:normal; font-size:12px">
+						SOMEWHAT&nbsp;<%= question.tlt_survey_range_type.high_end.upcase%>
+					</th>
+			</tr>
+		</thead>
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+
+			<tr  style="border:1px solid #ddd;">
+				<td colspan=2 style=" border:0px solid #ddd; color: #000000; vertical-align: top;text-align:left; font-weight:normal; font-size:10.5px" >
+					<table  style="width:660px; margin-left:0px;border:0px solid #ddd;">
+						<tbody> 
+						<style type="text/css" media="screen">
+				    		table,tr,td { border:none }
+							table tr:hover{
+			        		background-color: transparent;
+			      			}
+			   			</style>
+						<% question.tlt_survey_responses.comments_of_score(3).sort{|a,b| b.created_at <=> a.created_at}.each do |resp| -%>
+							<% if resp.survey_schedule %>
+								<tr>
+									<td style=" width:100px; vertical-align:top;  padding-top:3px; padding-bottom:3px; color: #2061a5; font-weight:normal; font-size:10.5px">
+										<%= resp.created_at.strftime("%b %d, %Y") %>
+									</td>
+									<td style=" vertical-align:middle;  text-align:left; padding-top:3px; padding-bottom:3px; color: #2061a5; font-weight:normal; font-size:10.5px">
+										<%= resp.survey_schedule.anonymous? ? "":resp.user.full_name %>:&nbsp;<i>"<%= resp.comment.humanize  %>"</i>
+									</td>
+								</tr>
+							<% end -%>
+						<% end -%>
+						<tbody> 
+					</table>
+				</td>
+			</tr>
+		<tbody> 
+	</table>
+		
+<script type="text/javascript">
+	jQ(document).ready(function() {
+  		  jQ("#3_results_header_<%= question.public_id %>").show();
+		  jQ("#3_results_descript_<%= question.public_id %>").hide();		  
+
+	jQ("#3_results_show_<%= question.public_id %>").click(function() {
+		  	jQ("#3_results_header_<%= question.public_id %>").slideUp("slow");	 
+	   		jQ("#3_results_descript_<%= question.public_id %>").slideDown("slow");
+	})
+
+	jQ("#3_results_hide_<%= question.public_id %>").click(function() {
+	   		jQ("#3_results_descript_<%= question.public_id %>").slideUp("slow");
+	   		jQ("#3_results_header_<%= question.public_id %>").show();
+	})	
+});
+</script>
+
+	<table id="2_results_header_<%= question.public_id %>" style="width:680px; margin-left:0px; border:0px solid #ddd;">
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+
+			<tr  style="border:0px solid #ddd;">
+				<td  id="2_results_show_<%= question.public_id %>"  style=" border:0px solid #ddd;  vertical-align:top;text-align:left; font-weight:normal;" >
+						 >  <u>Show</u>
+						 <span style="font-size:12px">
+						 	&nbsp;<%= pluralize(question.tlt_survey_responses.comments_of_score(2).size, " SOMEWHAT " + question.tlt_survey_range_type.low_end.upcase + " Comment")%>
+						</span>
+				</td>
+			</tr>
+		<tbody> 
+	</table>			
+
+	<table id="2_results_descript_<%= question.public_id %>" style="width:680px; margin-left:0px; border:0px solid #ddd;">
+		<thead>
+			<tr style="margin-left:0px; border:1px solid #ddd;">
+					<th id="2_results_hide_<%= question.public_id %>" style=" width:100px;  border:0px solid #ddd; vertical-align:middle;  text-align:left; padding-top:3px; padding-bottom:3px;  font-weight:normal; font-size:10.5px ">
+						>  <u>Hide</u>
+					</th>
+					<th style="  border:0px solid #ddd; vertical-align:middle;  text-align:left; padding-top:0px; padding-bottom:0px;  color: #C83A14; font-weight:normal; font-size:12px">
+						SOMEWHAT&nbsp;<%= question.tlt_survey_range_type.low_end.upcase%>
+					</th>
+			</tr>
+		</thead>
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+
+			<tr  style="border:1px solid #ddd;">
+				<td colspan=2 style=" border:0px solid #ddd; color: #000000; vertical-align: top;text-align:left; font-weight:normal; font-size:10.5px" >
+					<table  style="width:660px; margin-left:0px;border:0px solid #ddd;">
+						<tbody> 
+						<style type="text/css" media="screen">
+				    		table,tr,td { border:none }
+							table tr:hover{
+			        		background-color: transparent;
+			      			}
+			   			</style>
+						<% question.tlt_survey_responses.comments_of_score(2).sort{|a,b| b.created_at <=> a.created_at}.each do |resp| -%>
+							<% if resp.survey_schedule %>
+								<tr>
+									<td style=" width:100px; vertical-align:top;  padding-top:3px; padding-bottom:3px; color: #2061a5; font-weight:normal; font-size:10.5px">
+										<%= resp.created_at.strftime("%b %d, %Y") %>
+									</td>
+									<td style=" vertical-align:middle;  text-align:left; padding-top:3px; padding-bottom:3px; color: #2061a5; font-weight:normal; font-size:10.5px">
+										<%= resp.survey_schedule.anonymous? ? "":resp.user.full_name %>:&nbsp;<i>"<%= resp.comment.humanize  %>"</i>
+									</td>
+								</tr>
+							<% end -%>
+						<% end -%>
+						<tbody> 
+					</table>
+				</td>
+			</tr>
+		<tbody> 
+	</table>
+		
+<script type="text/javascript">
+	jQ(document).ready(function() {
+  		  jQ("#2_results_header_<%= question.public_id %>").show();
+		  jQ("#2_results_descript_<%= question.public_id %>").hide();		  
+
+	jQ("#2_results_show_<%= question.public_id %>").click(function() {
+		  	jQ("#2_results_header_<%= question.public_id %>").slideUp("slow");	 
+	   		jQ("#2_results_descript_<%= question.public_id %>").slideDown("slow");
+	})
+
+	jQ("#2_results_hide_<%= question.public_id %>").click(function() {
+	   		jQ("#2_results_descript_<%= question.public_id %>").slideUp("slow");
+	   		jQ("#2_results_header_<%= question.public_id %>").show();
+	})	
+});
+</script>				
+	<table id="1_results_header_<%= question.public_id %>" style="width:680px; margin-left:0px; border:0px solid #ddd;">
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+
+			<tr  style="border:0px solid #ddd;">
+				<td  id="1_results_show_<%= question.public_id %>"  style=" border:0px solid #ddd;  vertical-align:top;text-align:left; font-weight:normal;" >
+						 >  <u>Show</u>
+						 <span style="font-size:12px">
+						 	&nbsp;<%= pluralize(question.tlt_survey_responses.comments_of_score(1).size, " " + question.tlt_survey_range_type.low_end.upcase + " Comment")%>
+						</span>
+				</td>
+			</tr>
+		<tbody> 
+	</table>			
+
+	<table id="1_results_descript_<%= question.public_id %>" style="width:680px; margin-left:0px; border:0px solid #ddd;">
+		<thead>
+			<tr style="margin-left:0px; border:1px solid #ddd;">
+					<th id="1_results_hide_<%= question.public_id %>" style=" width:100px;  border:0px solid #ddd; vertical-align:middle;  text-align:left; padding-top:3px; padding-bottom:3px;  font-weight:normal; font-size:10.5px ">
+						>  <u>Hide</u>
+					</th>
+					<th style="  border:0px solid #ddd; vertical-align:middle;  text-align:left; padding-top:0px; padding-bottom:0px;  color: #C83A14; font-weight:normal; font-size:12px">
+						<%= question.tlt_survey_range_type.low_end.upcase%>
+					</th>
+			</tr>
+		</thead>
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+
+			<tr  style="border:1px solid #ddd;">
+				<td colspan=2 style=" border:0px solid #ddd; color: #000000; vertical-align: top;text-align:left; font-weight:normal; font-size:10.5px" >
+					<table  style="width:660px; margin-left:0px;border:0px solid #ddd;">
+						<tbody> 
+						<style type="text/css" media="screen">
+				    		table,tr,td { border:none }
+							table tr:hover{
+			        		background-color: transparent;
+			      			}
+			   			</style>
+						<% question.tlt_survey_responses.comments_of_score(1).sort{|a,b| b.created_at <=> a.created_at}.each do |resp| -%>
+							<% if resp.survey_schedule %>
+								<tr>
+									<td style=" width:100px; vertical-align:top;  padding-top:3px; padding-bottom:3px; color: #2061a5; font-weight:normal; font-size:10.5px">
+										<%= resp.created_at.strftime("%b %d, %Y") %>
+									</td>
+									<td style=" vertical-align:middle;  text-align:left; padding-top:3px; padding-bottom:3px; color: #2061a5; font-weight:normal; font-size:10.5px">
+										<%= resp.survey_schedule.anonymous? ? "":resp.user.full_name %>:&nbsp;<i>"<%= resp.comment.humanize  %>"</i>
+									</td>
+								</tr>
+							<% end -%>
+						<% end -%>
+						<tbody> 
+					</table>
+				</td>
+			</tr>
+		<tbody> 
+	</table>
+		
+<script type="text/javascript">
+	jQ(document).ready(function() {
+  		  jQ("#1_results_header_<%= question.public_id %>").show();
+		  jQ("#1_results_descript_<%= question.public_id %>").hide();		  
+
+	jQ("#1_results_show_<%= question.public_id %>").click(function() {
+		  	jQ("#1_results_header_<%= question.public_id %>").slideUp("slow");	 
+	   		jQ("#1_results_descript_<%= question.public_id %>").slideDown("slow");
+	})
+
+	jQ("#1_results_hide_<%= question.public_id %>").click(function() {
+	   		jQ("#1_results_descript_<%= question.public_id %>").slideUp("slow");
+	   		jQ("#1_results_header_<%= question.public_id %>").show();
+	})	
+});
+</script>					
+</div>

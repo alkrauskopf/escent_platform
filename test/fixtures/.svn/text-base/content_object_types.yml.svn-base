@@ -1,0 +1,298 @@
+AVI:
+    id: 1
+    content_object_type: AVI   
+    content_object_type_group_id: 1 
+    name: Windows Media File
+    mime_type: video/x-ms-wmv
+    is_nested_content: 1
+
+BMP:
+    id: 2
+    content_object_type: BMP   
+    content_object_type_group_id: 2
+    name: bmp image
+    mime_type: image/bmp
+    is_nested_content: 1
+
+DOC:
+    id: 3
+    content_object_type: DOC   
+    content_object_type_group_id: 8
+    name: MS Word Document
+    mime_type: application/msword
+    is_nested_content: 0
+
+FLV:
+    id: 4
+    content_object_type: FLV   
+    content_object_type_group_id: 1
+    name: Flash Movie
+    mime_type: video/x-flv
+    is_nested_content: 0
+
+GIF:
+    id: 5
+    content_object_type: GIF   
+    content_object_type_group_id: 2
+    is_nested_content:
+    name: gif image
+    mime_type: image/gif
+    is_nested_content: 1
+
+HTM:
+    id: 6
+    content_object_type: HTM   
+    content_object_type_group_id: 4
+    is_nested_content:
+    name: HTML document
+    mime_type: text/html
+    is_nested_content: 0
+
+HTML:
+    id: 7
+    content_object_type: HTML  
+    content_object_type_group_id: 4
+    name: HTML document
+    mime_type: text/html
+    is_nested_content: 0
+
+JPE:
+    id: 8
+    content_object_type: JPE
+    content_object_type_group_id: 2
+    name: jpeg image
+    mime_type: image/jpeg
+    is_nested_content: 1
+
+JPEG:
+    id: 9
+    content_object_type: JPEG  
+    content_object_type_group_id: 2
+    name: jpeg image
+    mime_type: image/jpeg
+    is_nested_content: 1
+
+JPG:
+    id: 10
+    content_object_type: JPG
+    content_object_type_group_id: 2
+    name: jpeg image
+    mime_type: image/jpeg
+    is_nested_content: 1
+
+MOV:
+    id: 11
+    content_object_type: MOV   
+    content_object_type_group_id: 1
+    name: Quicktime Media File
+    mime_type: video/quicktime   
+    is_nested_content: 1
+
+MP2:
+    id: 12
+    content_object_type: MP2   
+    content_object_type_group_id: 3
+    name: mpeg 2 file
+    mime_type: audio/mpeg
+    is_nested_content: 1
+
+MP3:
+    id: 13
+    content_object_type: MP3  
+    content_object_type_group_id: 1
+    name: mpeg3 audio
+    mime_type: video/mpeg
+    is_nested_content: 1
+
+MP4:
+    id: 14
+    content_object_type: MP4   
+    content_object_type_group_id: 1
+    name: mpeg 4 file
+    mime_type: video/mp4
+    is_nested_content: 1
+    
+MPE:
+    id: 15
+    content_object_type: MPE   
+    content_object_type_group_id: 1
+    name: mpeg file
+    mime_type: video/mpeg
+    is_nested_content: 1
+
+MPEG:
+    id: 16
+    content_object_type: MPEG  
+    content_object_type_group_id: 1
+    name: mpeg3 audio
+    mime_type: video/mpeg
+    is_nested_content: 1
+
+MPG:
+    id: 17
+    content_object_type: MPG   
+    content_object_type_group_id: 1
+    name: Video MPEG
+    mime_type: video/mpeg
+    is_nested_content: 1
+
+PDF:
+    id: 18
+    content_object_type: PDF   
+    content_object_type_group_id: 4
+    name: Adobe PDF Document
+    mime_type: application/pdf   
+    is_nested_content: 0
+
+PNG:
+    id: 19
+    content_object_type: PNG   
+    content_object_type_group_id: 2
+    name: png image
+    mime_type: image/png
+    is_nested_content: 1
+
+PPS:
+    id: 20
+    content_object_type: PPS   
+    content_object_type_group_id: 8
+    name: powerpoint
+    mime_type: application/vnd.ms-powerpoint
+    is_nested_content: 0
+
+PPT:
+    id: 21
+    content_object_type: PPT   
+    content_object_type_group_id: 8
+    name: MS Powerpoint Document
+    mime_type: application/vnd.ms-powerpoint
+    is_nested_content: 0
+
+PS:
+    id: 22
+    content_object_type: PS    
+    content_object_type_group_id: 4
+    name: postscript document
+    mime_type: application/postscript
+    is_nested_content: 0
+
+RA:
+    id: 23
+    content_object_type: RA    
+    content_object_type_group_id: 3
+    name: Real Audio file
+    mime_type: audio/x-pn-realaudio
+    is_nested_content: 1
+
+RAM:
+    id: 24
+    content_object_type: RAM   
+    content_object_type_group_id: 3
+    name: Real Audio file
+    mime_type: audio/x-pn-realaudio
+    is_nested_content: 1
+
+RAR:
+    id: 25
+    content_object_type: RAR   
+    content_object_type_group_id: 6
+    name: RAR Compressed File(s)
+    mime_type: application/x-rar-compressed
+    is_nested_content: 1
+
+RM:
+    id: 26
+    content_object_type: RM    
+    content_object_type_group_id: 1
+    name: Real Media file
+    mime_type: application/vnd.rn-realmedia
+    is_nested_content: 1
+
+RTF:
+    id: 27
+    content_object_type: RTF   
+    content_object_type_group_id: 4
+    name: MS Rich Text Format Document
+    mime_type: application/msword
+    is_nested_content: 0
+
+SIT:
+    id: 28
+    content_object_type: SIT   
+    content_object_type_group_id: 6
+    name: Stuff It Compressed File(s)
+    mime_type: application/x-sit 
+    is_nested_content: 1
+
+SWF:
+    id: 29
+    content_object_type: SWF   
+    content_object_type_group_id: 1
+    name: Shockwave File
+    mime_type: application/x-Shockwave-Flash
+    is_nested_content: 1
+
+TIF:
+    id: 30
+    content_object_type: TIF   
+    content_object_type_group_id: 2
+    name: tiff image
+    mime_type: image/tiff
+    is_nested_content: 0
+
+TIFF:
+    id: 31
+    content_object_type: TIFF  
+    content_object_type_group_id: 2
+    name: tiff image
+    mime_type: image/tiff
+    is_nested_content: 0
+
+TXT:
+    id: 32
+    content_object_type: TXT   
+    content_object_type_group_id: 4
+    name: Text Document
+    mime_type: application/msword
+    is_nested_content: 0
+
+WAV:
+    id: 33
+    content_object_type: WAV
+    content_object_type_group_id: 3
+    name: wav audio
+    mime_type: audio/wav
+    is_nested_content: 1
+
+WMA:
+    id: 34
+    content_object_type: WMA
+    content_object_type_group_id: 3
+    name: Windows Media Audio
+    mime_type: audio/x-ms-wma
+    is_nested_content: 1
+
+WMV:
+    id: 35
+    content_object_type: WMV
+    content_object_type_group_id: 1
+    name: Windows Media Video
+    mime_type: video/x-ms-wmv
+    is_nested_content: 1
+
+XLS:
+    id: 36
+    content_object_type: XLS
+    content_object_type_group_id: 8
+    name: MS Excel Spreadsheet
+    mime_type: application/vnd.ms-excel
+    is_nested_content: 0
+
+ZIP:
+    id: 37
+    content_object_type: ZIP
+    content_object_type_group_id: 6
+    name: ZIP Compressed File(s)
+    mime_type: application/zip
+    is_nested_content: 1
+    

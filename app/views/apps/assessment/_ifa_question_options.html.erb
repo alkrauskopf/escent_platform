@@ -1,0 +1,477 @@
+<div id="question_options" style="padding:0px; width:99%;  border:0px; margin: 5px 0px 0px 0px; text-align:left; min-height:5px;">
+	<br/>
+
+	<% content_type = @question.content ? @question.content.content_object_type.content_object_type_group.name : ""%>
+
+	<table  id="options_table" style="width:900px; border:0px solid white;">
+		<tbody>
+			<tr>
+				<td colspan=7 style="border:0px solid white;">
+					<center>- - - - - - - -</center>
+				</td>
+			</tr>
+			<tr style=" border:0px solid white;">
+				<% if !@question.is_locked  -%>			
+					<td id="bench_down"  style="width:120px; border:0px solid white; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+							<%= (image_tag "button_benchmark.png",:width => 35) -%>
+					</td>
+				
+				<%else -%>
+				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+						&nbsp;
+				</td>
+				<% end-%>
+				<% if !@question.is_locked && content_type == "IMAGE" -%>			
+					<% if @question.is_enlarged %>
+						<td id="enlarge_toggle"  style="width:120px; border:0px solid white; font-size:11px; padding-left:58px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+							<%= (image_tag "button_enabled.png",:width => 15) -%>
+						</td>			
+					<%else -%>
+						<td  id="enlarge_toggle" style="width:120px; border:0px solid white; font-size:11px; padding-left:58px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+							<%= (image_tag "button_disabled.png",:width => 15) -%>
+						</td>
+					<% end-%>					
+				<%else -%>
+					<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						&nbsp;
+					</td>
+				<% end-%>				
+				<% if !@question.is_locked -%>
+					<td   id="get_image" style="width:120px; border:0px; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+						<%=(image_tag "button_image.png",:width => 30) -%>
+					</td>
+				<%else -%>
+				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+						&nbsp;
+				</td>
+				<% end-%>
+				<% if !@question.is_locked -%>
+					<td   id="get_pdf" style="width:120px; border:0px; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+						<%=(image_tag "button_pdf.png",:width => 30) -%>
+					</td>
+				<%else -%>
+				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+						&nbsp;
+				</td>
+				<% end-%>			
+			
+				<% if !@question.is_locked -%>
+					<td   id="get_audio" style="width:120px; border:0px; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+						<%=(image_tag "button_audio.png",:width => 30) -%>
+					</td>
+				<%else -%>
+				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+						&nbsp;
+				</td>
+				<% end-%>			
+				<% if !@question.is_locked -%>
+					<td   id="get_video" style="width:120px; border:0px; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color:#000000;font-weight:normal;">
+						<%=(image_tag "button_video.png",:width => 30) -%>
+					</td>
+				<%else -%>
+				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+						&nbsp;
+				</td>
+				<% end-%>			
+				<% if @question.is_active -%>			
+					<td id="assess_down"  style="width:120px; border:0px solid white; font-size:11px; padding-left:58px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+							<%= (image_tag "button_paperclip.png",:width => 30) -%>
+					</td>
+				<%else -%>
+					<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:58px; vertical-align:bottom; text-align:right;color:#000000;font-weight:normal;">
+						&nbsp;
+					</td>
+				<% end-%>
+						
+			</tr>
+			<tr style=" border:0px solid white;">
+				<% if !@question.is_locked %>			
+					<% bench_hover = "<center>Tag Relevant Benchmarks To This Question.<br/>Select Benchmarks Associated With It's<br/>Mastery Levels & Knowledge Strands.</center>" %>
+					<td  class="tip_options" title="<%= bench_hover %>" style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+							Tag Benchmarks
+					</td>
+				<%else -%>
+					<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						&nbsp;
+					</td>
+				<% end -%>
+				<% if !@question.is_locked && content_type == "IMAGE" -%>			
+					<% if @question.is_enlarged %>
+						<% enlarge_hover = "<center>Select Green Button To Reduce Image Size On Assessment</center>" %>
+						<td  class="tip_options" title="<%= enlarge_hover %>"  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+							Image Enlarged
+						</td>			
+					<%else -%>
+						<% enlarge_hover = "<center>Select Red Button To Enlarge Image Size On Assessment</center>" %>
+						<td   class="tip_options" title="<%= enlarge_hover %>" style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+							Image Not Enlarged
+						</td>
+					<% end-%>					
+				<%else -%>
+					<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						&nbsp;
+					</td>
+				<% end-%>
+				<% if !@question.is_locked -%>			
+					<% if content_type == "IMAGE" %>
+						<% attach_hover = "<center><strong>" + @question.content.title.titleize + "</strong><br/>Is Attached To This Question</center>" %>
+						<td  class="tip_options" title="<%= attach_hover %>"  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+								<strong>1 Image</strong>
+						</td>
+					<% else -%>
+						<% attach_hover = "<center>You Can Attach A <strong> PICTURE</strong> To This Question.<br/>Select From Library Resources That You And Your Colleagues Have Tagged.</center>" %>
+						<td  class="tip_options" title="<%= attach_hover %>"  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+								Attach Image
+						</td>
+					<% end -%>					
+				<%else -%>
+					<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						&nbsp;
+					</td>
+				<% end-%>
+				<% if !@question.is_locked -%>			
+					<% if content_type == "PDF" %>
+						<% attach_hover = "<center><strong>" + @question.content.title.titleize + "</strong><br/>Is Attached To This Question</center>" %>
+						<td  class="tip_options" title="<%= attach_hover %>"  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+								<strong>1 PDF</strong>
+						</td>
+					<% else -%>
+						<% attach_hover = "<center>You Can Attach A <strong> PDF</strong> To This Question.<br/>Select From Library Resources That You And Your Colleagues Have Tagged.</center>" %>
+						<td  class="tip_options" title="<%= attach_hover %>"  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+								Attach PDF
+						</td>
+					<% end -%>	
+				<% else -%>
+					<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						&nbsp;
+					</td>
+				<% end-%>				
+				<% if !@question.is_locked -%>			
+					<% if content_type == "AUDIO" %>
+						<% attach_hover = "<center><strong>" + @question.content.title.titleize + "</strong><br/>Is Attached To This Question</center>" %>
+						<td  class="tip_options" title="<%= attach_hover %>"  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+								<strong>1 Audio</strong>
+						</td>
+					<% else -%>
+						<% attach_hover = "<center>You Can Attach An <strong> AUDIO</strong> To This Question.<br/>Select From Library Resources That You And Your Colleagues Have Tagged.</center>" %>
+						<td  class="tip_options" title="<%= attach_hover %>"  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+								Attach Audio
+						</td>
+					<% end -%>
+				<%else -%>
+					<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						&nbsp;
+					</td>
+				<% end-%>
+				<% if !@question.is_locked -%>			
+					<% if content_type == "VIDEO" || content_type == "EMBED CODE" -%>
+						<% attach_hover = "<center><strong>" + @question.content.title.titleize + "</strong><br/>Is Attached To This Question</center>" %>
+						<td  class="tip_options" title="<%= attach_hover %>"  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+								<strong>1 Video</strong>
+						</td>
+					<% else -%>
+						<% attach_hover = "<center>You Can Attach An <strong> AUDIO</strong> To This Question.<br/>Select From Library Resources That You And Your Colleagues Have Tagged.</center>" %>
+						<td  class="tip_options" title="<%= attach_hover %>"  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+								Attach Video
+						</td>
+					<% end -%>
+				<%else -%>
+					<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						&nbsp;
+					</td>
+				<% end-%>
+				<% if @question.is_active -%>			
+				<% attach_hover = "<center>Attach This Question To Your<br/><strong>Unlocked Assessments.</strong></center>" %>
+					<td  class="tip_options" title="<%= attach_hover %>" style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+							<%= pluralize(@question.act_assessments.size, " Assessment") %>
+					</td>
+				<%else -%>
+					<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						&nbsp;
+					</td>
+				<% end -%>
+			</tr>
+			<tr style=" border:0px;">
+				<td colspan=7 style="border:0px solid white;">
+					&nbsp;
+				</td>
+			</tr>
+			<tr style=" border:0px solid white;">
+				<% if @question.is_locked %>
+					<td id="lock_toggle"  style="width:120px; border:0px solid white; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+							<%= (image_tag "lock_yes.png",:width => 20) -%>
+					</td>			
+				<%else -%>
+					<td  id="lock_toggle" style="width:120px; border:0px solid white; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+						<%= (image_tag "lock_no.png",:width => 20) -%>
+					</td>
+				<% end-%>
+				<% if @question.is_active %>
+					<td id="active_toggle"  style="width:120px; border:0px solid white; font-size:11px; padding-left:58px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+							<%= (image_tag "button_enabled.png",:width => 15) -%>
+					</td>			
+				<%else -%>
+					<td  id="active_toggle" style="width:120px; border:0px solid white; font-size:11px; padding-left:58px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+						<%= (image_tag "button_disabled.png",:width => 15) -%>
+					</td>
+				<% end-%>
+				<% if @question.act_answers.empty? && @question.act_assessments.empty? && !@question.is_locked %>
+					<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:58px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+						<%=link_to (image_tag "button_destroy.png",:width => 20), {:controller => 'apps/assessment',:action => "edit_question_destroy_question",:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question}, :confirm => "Are You Sure?"%>
+					</td>			
+				<%else -%>
+				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:35px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+						&nbsp;
+				</td>
+				<% end-%>
+				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:35px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+						<%= link_to (image_tag "button_preview.png",:width => 50), {:controller =>  "/apps/assessment", :action => "preview_question", :organization_id => @current_organization, :question_id => @question}, {:target => "_blank"} %>
+				</td>	
+				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:40px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+					<%= link_to (image_tag "button_new.png",:width => 50), :controller => 'apps/assessment',:action => "add_ifa_question",:organization_id => @current_organization, :subject_id => @question.act_subject.id, :function => "New"%>
+				</td>			
+				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:35px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+					<%= link_to (image_tag "button_new.png",:width => 50), {:controller => 'apps/assessment',:action => "add_reading",:organization_id => @current_organization, :subject_id => @question.act_subject.id, :function => "New"}, {:target => "_blank"}  %>
+				</td>			
+				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:35px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
+					<%= link_to (image_tag "button_new.png",:width => 50), {:controller => 'apps/assessment',:action => "add_ifa_assessment",:organization_id => @current_organization,:subject_id => @question.act_subject.id, :function => "New"}, {:target => "_blank"} %>
+				</td>				
+			</tr>
+			<tr style=" border:0px solid white;">
+				<% if @question.is_locked %>
+				<% lock_hover = "<center>This Question Cannot Be Edited.<br/>To Unlock, Click On The Lock Icon.</center>" %>
+					<td   class="tip_options" title="<%= lock_hover %>" style="width:120px; border:0px solid white; font-size:11px;  vertical-align:top; text-align:center; color:#000000; font-weight:normal;">
+						Locked
+					</td>
+				<%else -%>
+				<% lock_hover = "<center>This Question Is Not Locked.<br/>To Lock, Click On The Lock Icon.</center>" %>
+					<td   class="tip_options" title="<%= lock_hover %>" style="width:120px; border:0px solid white; font-size:11px;  vertical-align:top; text-align:center; color: #000000; font-weight:normal;">
+						Not Locked
+					</td>
+				<% end-%>
+				<% if @question.is_active %>
+				<% active_hover = "<center>This Question Is Available For Use. <br/>Green Button De-Activates The Question.</center>" %>
+					<td   class="tip_options" title="<%= active_hover %>" style="width:120px; border:0px solid white; font-size:11px;  vertical-align:top; text-align:center; color: #000000; font-weight:normal;">
+						Active
+					</td>
+				<%else -%>
+				<% active_hover = "<center>This Question Is Not Available For Use. <br/>Red Button Activates The Question.</center>" %>
+					<td   class="tip_options" title="<%= active_hover %>" style="width:120px; border:0px solid white; font-size:11px;  vertical-align:top; text-align:center; color:#000000; font-weight:normal;">
+						Not Active
+					</td>
+				<% end-%>
+				<% if @question.act_answers.empty? && @question.act_assessments.empty? && !@question.is_locked %>
+				<% destroy_hover = "<center>This Question Is Not Assigned To Any Assessments.<br>It Has No Assessment History.<br/>It Can Be Permanently Destroyed.</center>" %>
+					<td   class="tip_options" title="<%= destroy_hover %>" style="width:120px; border:0px solid white; font-size:11px;  vertical-align:top; text-align:center; color: #000000; font-weight:normal;">
+						Destroy
+					</td>
+				<%else -%>
+					<td  style="width:120px; border:0px; font-size:11px; padding-left:0px; vertical-align:top; text-align:center; color: #000000; font-weight:normal;">
+						&nbsp;
+					</td>
+				<% end-%>
+					<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						<small>(Separate Window)</small><br/>&nbsp;
+					</td>			
+				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						Question<br/><small>&nbsp;</small>
+				</td>
+				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						Related Reading<br/><small>(Separate Window)</small>
+				</td>			
+				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						Assessment<br/><small>(Separate Window)</small>
+				</td>				
+			</tr>
+		</tbody>					
+	</table>
+
+	<% if !@question.is_locked %>	
+	    <%= render :partial => "ifa_question_benchmarks" %>
+		<%= render :partial => "ifa_question_resource" %>
+	<% end -%>    
+	<% if @question.is_active -%>
+		<%= render :partial => "ifa_question_assessments" %>	
+	<% end -%>
+</div>
+
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+  		  jQ("#assessment_tags").hide();
+		  jQ("#resource_tags").hide();		  
+		  jQ("#benchmark_tags").hide();
+		  		  	
+	jQ("#bench_down").click(function() {
+	  
+			var organization = "<%= @current_organization.public_id %>";
+			var question = "<%= @question.public_id %>";
+			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_benchmarks_recycle %>";
+			jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
+			jQ("#benchmark_tags").html(data);
+		  	jQ("#options_table").slideUp("fast");	 
+	   		jQ("#benchmark_tags").slideDown("slow");
+					});
+
+	})
+	jQ("#assess_down").click(function() {
+	  		var organization = "<%= @current_organization.public_id %>";
+			var question = "<%= @question.public_id %>";
+			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_assessments_recycle %>";
+			jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
+			jQ("#assessment_tags").html(data);
+		  	jQ("#options_table").slideUp("fast");	 
+	   		jQ("#assessment_tags").slideDown("slow");
+					});
+	})
+
+	jQ("#get_pdf").click(function() {
+	  		var organization = "<%= @current_organization.public_id %>";
+			var question = "<%= @question.public_id %>";
+			var group = "PDF";
+			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_find_resources %>";
+			jQ.get(url,{'organization_id': organization,'question_id': question,'group_type': group},  function(data) {
+			jQ("#resource_tags").html(data);
+		  	jQ("#options_table").slideUp("fast");	 
+	   		jQ("#resource_tags").slideDown("slow");
+					});
+	})
+
+
+	jQ("#get_image").click(function() {
+	  		var organization = "<%= @current_organization.public_id %>";
+			var question = "<%= @question.public_id %>";
+			var group = "IMAGE";
+			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_find_resources %>";
+			jQ.get(url,{'organization_id': organization,'question_id': question,'group_type': group},  function(data) {
+			jQ("#resource_tags").html(data);
+		  	jQ("#options_table").slideUp("fast");	 
+	   		jQ("#resource_tags").slideDown("slow");
+					});
+	})
+	jQ("#get_audio").click(function() {
+	  		var organization = "<%= @current_organization.public_id %>";
+			var question = "<%= @question.public_id %>";
+			var group = "AUDIO";
+			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_find_resources %>";
+			jQ.get(url,{'organization_id': organization,'question_id': question,'group_type': group},  function(data) {
+			jQ("#resource_tags").html(data);
+		  	jQ("#options_table").slideUp("fast");	 
+	   		jQ("#resource_tags").slideDown("slow");
+					});
+	})
+
+
+	jQ("#get_video").click(function() {
+	  		var organization = "<%= @current_organization.public_id %>";
+			var question = "<%= @question.public_id %>";
+			var group = "VIDEO";
+			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_find_resources %>";
+			jQ.get(url,{'organization_id': organization,'question_id': question,'group_type': group},  function(data) {
+			jQ("#resource_tags").html(data);
+		  	jQ("#options_table").slideUp("fast");	 
+	   		jQ("#resource_tags").slideDown("slow");
+					});
+	})
+	
+});
+</script>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#bench_toggle .authorization_levels_close').toggleAuthorizationLevels();
+	jQ('#bench_toggle .authorization_levels_open').toggleAuthorizationLevels();	
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#lock_toggle").click(function() {
+		var organization = "<%= @current_organization.public_id %>";
+		var question = "<%= @question.public_id %>";
+		var user = "<%= @current_user.public_id %>";
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_toggle_lock %>";
+		jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
+			jQ("#question_options").html(data); 
+	   		jQ("#question_options").show();
+					});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#active_toggle").click(function() {
+		var organization = "<%= @current_organization.public_id %>";
+		var question = "<%= @question.public_id %>";
+		var user = "<%= @current_user.public_id %>";
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_toggle_active %>";
+		jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
+			jQ("#question_options").html(data); 
+	   		jQ("#question_options").show();
+					});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#enlarge_toggle").click(function() {
+		var organization = "<%= @current_organization.public_id %>";
+		var question = "<%= @question.public_id %>";
+		var user = "<%= @current_user.public_id %>";
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_picture_enlarge %>";
+		jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
+			jQ("#question_options").html(data); 
+	   		jQ("#question_options").show();
+					});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#destroy_question").click(function() {
+		var organization = "<%= @current_organization.public_id %>";
+		var question = "<%= @question.public_id %>";
+		var user = "<%= @current_user.public_id %>";
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_destroy_question %>";
+		jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
+			jQ("#question_options").html(data); 
+	   		jQ("#question_options").show();
+					});
+	})
+});
+</script>
+
+<script>
+jQ(function(){
+jQ('td.tip_options').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'bottomMiddle',
+         tooltip: 'topMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 0,
+         radius: 0,
+         color: '#99911a'
+      },
+      width: 200,
+	  tip: { // Now an object instead of a string
+         corner: 'topMiddle', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>

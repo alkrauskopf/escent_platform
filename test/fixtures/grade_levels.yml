@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  organzation_type_id: 1
+  name: MyString
+  level: 1
+  abbrev: MyString
+
+two:
+  organzation_type_id: 1
+  name: MyString
+  level: 1
+  abbrev: MyString

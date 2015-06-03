@@ -1,0 +1,6 @@
+Thank you for registering your organization with the Escent Community.
+Please click the link below to actived your registration.
+
+<%= @fsn_host %>
+
+The Escent Support Team

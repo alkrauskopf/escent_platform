@@ -1,0 +1,12 @@
+<div class="formBox">
+	<div class="MasterItemHeaderDiv">Edit Outreach Priority</div>
+	<% form_for :outreach_priority do %>
+	<%= render :partial => "form" %>
+	<p>
+		<%= submit_tag "Save", :class => "submit fsn-button ui-button ui-state-default ui-corner-all" %> 
+		<%=link_to "Cancel", :action => :index %>
+	</p>
+	<% end %>	
+</div>
+
+

@@ -1,0 +1,119 @@
+<div id="manage_rubrics_<%= entity.nil? ? "" : entity.public_id%>">
+
+<% unless entity.nil? -%>	
+
+		<% if entity.rubrics.active.size < 6%>		
+			<span id="add_rubric" style="margin-left:210px;" class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer; ">
+				<%= link_to  "Add Rubric",{:controller => "/apps/shared", :action => :maintain_rubric, :organization_id => @current_organization, :scope_id => entity.id, :scope_type => entity.class.to_s,  :function=>"", :rubric_id => nil, :app_id => app}, {:target => "_blank"} %>
+			</span>
+		<% else -%>
+			<span style="color:#C73914; margin-left:200px">
+				Number of <u>Active</u> Rubrics Reached
+			</span>
+		<% end-%>
+
+		<% unless entity.rubrics.active.empty? -%>	
+			<table style="width:600px;margin-left:210px; border:0px solid #ddd;">
+				<tbody>  
+					<tr  style="border:0px solid #ddd;" >
+						<td   style="border:0px solid #ddd; width:120px; width:fixed; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
+							&nbsp;
+						</td>
+						<td   style="border:0px solid #ddd; vertical-align:middle;   color:#000000; padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; font-size:10.5px; font-weight:normal">
+							<span style =" color:#C73914; font-weight:bold">
+								<%= entity.share_rubric ? entity.share_rubric.name : "No"%>&nbsp;
+							</span>
+							Data Sharing
+						</td>
+					</tr>
+				<tbody>  
+					<tr  style="border:0px solid #ddd;" >
+						<td   id = "share_rubric" style="border:0px solid #ddd; width:120px; width:fixed; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
+							<%=  select(:share, entity.id,   entity.rubrics.active.by_score.collect{|r| [r.name, r.id]}<<["No Sharing", 0], :prompt => "Share Level") %>
+						</td>
+						<td   style="border:0px solid #ddd; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; font-size:10.5px; font-weight:normal">
+							Select Minimum Score That Will Be Share-able Among Schools
+						</td>
+					</tr>
+				</tbody>
+			</table>	
+
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ('#share_rubric').change(function() {
+			var rubric_id = jQ('#share_<%=entity.id%>').val();
+			var url = "<%= url_for :controller => "/apps/learning_time", :action => :share_rubric, :organization_id => @current_organization, :elt_type_id => entity, :app_id => app %>";
+				jQ.get(url, {'rubric_id':rubric_id}, function(data) {
+					jQ("#manage_rubrics_<%=entity.public_id%>").html(data);
+					jQ("#manage_rubrics_<%=entity.public_id%>").show();
+				});
+		})
+	});
+	</script>
+
+		<% end -%>
+		
+		<table  style="width:650px; width:fixed; margin-top:10px; margin-bottom:10px; margin-left:200px">
+				<% entity.rubrics.each do |rub| -%>
+					<thead>
+						<tr style="border:1px solid #ddd; ">
+							<th  style="width:60px; width:fixed; border:0px solid #ddd; padding-top:0px; padding-left:0px; vertical-align:middle; color:#2061a5;">
+								<span id="delete_rubric_<%=rub.id%>" class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer; ">
+									 Delete
+								</span>
+							</th>
+							<th  style="width:60px; width:fixed; border:0px solid #ddd; padding-top:0px; padding-left:0px; vertical-align:middle; color:#2061a5;">
+								<span  class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer; ">
+									<%= link_to  "Change",{:controller => "/apps/shared", :action => :maintain_rubric, :organization_id => @current_organization, :scope_id => entity.id, :scope_type => entity.class.to_s,  :function=>"Update", :rubric_id => rub, :app_id => app}, {:target => "_blank"} %>
+								</span>
+							</th>
+							<th  style="width:70px; width:fixed; border:0px solid #ddd; ;text-align:center; vertical-align:middle; color:#C73914; font-size:10px">
+								<%= (rub.active? ? "" : "Not Used") %>
+							</th>
+							<% wght = rub.active? ?  "bold" : "normal" %>
+							<% clr = rub.active? ?  "#000000" : "#C73914" %>
+							<th  style="border:0px solid #ddd; font-size:12px; font-weight:<%= wght %>; color:<%= clr %>; text-align:center; ">
+								<%= rub.name %>&nbsp;(<%= rub.abbrev %>)
+							</th>
+							<th  style="width:130px; width:fixed; border:0px solid #ddd; font-size:12px; font-weight:<%= wght %>; color:<%= clr %>; text-align:left; ">
+								Score: <%= rub.score %>
+							</th>
+							<th  style="width:130px; width:fixed; border:0px solid #ddd; font-size:12px; font-weight:<%= wght %>; color:<%= clr %>; text-align:left; ">
+								Position: <%= rub.position %>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="border:1px solid #ddd; ">
+							<td  colspan=6 style="border:1px solid #ddd; font-size:9px; line-height:1.4em; padding-bottom:15px; font-family:Garamond; text-align:left; ">
+								<%= simple_format rub.criteria %>
+							</td>
+						</tr>
+					</tbody>
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ("#delete_rubric_<%=rub.id%>").click(function() {			
+			var url = "<%= url_for :controller => "apps/learning_time", :action => :delete_rubric, :organization_id => @current_organization, :elt_type_id => entity, :rubric_id => rub, :app_id => app %>";
+			jQ.get(url,{},  function(data) {
+					jQ("#manage_rubrics_<%=entity.public_id%>").html(data);
+					jQ("#manage_rubrics_<%=entity.public_id%>").show();
+						});
+		})
+	});
+	</script>
+				<% end -%>
+		</table>
+
+<% else -%>
+
+nil entity
+<% end -%>
+</div>
+
+
+
+
+
+
+
+

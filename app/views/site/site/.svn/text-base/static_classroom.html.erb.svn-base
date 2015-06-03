@@ -1,0 +1,272 @@
+<style type="text/css" media="screen">
+    .warp_content {
+        padding: 0;
+        background-color: transparent;
+    }
+</style>
+<script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function(){
+        //jQ("#call_to_action").addImageShadow();
+        //jQ("#followup").addImageShadow();
+    })
+</script>
+<div id="mainContent">
+
+<!-- ALK:  Tabled Container because I screwed up the CCS container, and can't get it to work for all browsers.  -->
+
+	<table style="width:94%; margin:0; border:0px solid #ddd;vertical-align:top;">
+		<style type="text/css" media="screen">
+	    		table,tr,td { border:none }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+		</style>
+		<tbody>  
+			<tr  style="border:0px solid #ddd;" >
+				<td style="width:40%; width:fixed; margin-left:0px; border-right:1px dashed #ddd;vertical-align:top;">
+
+    <div id="leftpane_off" style="border:0px solid #ddd;">
+	<% skip = false%>
+	<% unless skip -%>
+        <div id="affiliate_information" class="module2">
+            <div class="module_body2">
+                <div class="page_text">
+                    <%= render :partial => "affiliate_information_brief_left" %>
+                </div>
+            </div>
+        </div>
+
+      <% unless @classroom.teachers.size.zero? -%> 
+
+        <div class="module2">
+            <div class="module_body2">
+                <div class="page_text" style = "margin-left:5px">
+	<style type="text/css" media="screen">
+	table,tr,td { border:none; }  
+	</style>    
+
+			<% if @classroom.active_for?(@current_user) %>
+				<%= render :partial => "apps/classroom/register_student", :locals=> {:classroom => @classroom} %>
+			<% end -%>
+
+				<%= render :partial => "apps/classroom/display_teachers", :locals=> {:classroom => @classroom} %>
+
+<!-- Messaging Table -->
+			<% unless !@classroom.active_for?(@current_user) || !@classroom.viewable_by?(@current_user)-%>
+				<br/>
+		<!-- Leader Message to Participants -->
+				<% if @classroom.leaders.include?(@current_user) then -%>
+					<%= render :partial => "apps/classroom/display_user_is_teacher", :locals=> {:classroom => @classroom} %>
+				<% elsif @current_user.student_of_classroom?(@classroom) && @classroom.leaders.size > 0 -%>
+					<%= render :partial => "apps/classroom/display_user_is_student", :locals=> {:classroom => @classroom, :topic=> @topic} %>
+				<% end -%>
+			<% end -%>
+            	</div>
+            </div>
+        </div>
+	<% else %>
+		<center><span style = "font-size:11px; font-weight:bold; color:#C73914">No Leaders Assigned</span></center>
+
+	<% end %>	
+	
+	<% unless @classroom.contents.active.empty? -%>
+	<div id="followup" class="module2">
+         <div class="module_header">
+          	<span class="content_area_title" style="margin-left:0px;">General Course Material</span>
+         </div>
+        <div class="module_body2">
+            <div class="page_text" style = "margin-left:5px; margin-bottom:0px;">
+ 				<% if @classroom.viewable_by?(@current_user)-%>
+	 				<% @classroom.contents.active.each do |rsrc| -%>
+						<% if rsrc.content_object_type.content_object_type_group_id == 3 %>
+							<%= javascript_include_tag "audio-player.js" %>
+		                	Listen To: <%= rsrc.title %> : <%= show_audio_player(rsrc.source_file.url) %>
+							<br/>
+							<% elsif rsrc.content_object_type.content_object_type_group_id == 7  %>
+						  	<a href="<%= rsrc.source_file.url %>" target="_blank"><%= rsrc.title.titleize  %></a>
+							<br/>
+							<% elsif rsrc.content_object_type.content_object_type_group_id == 8  %>
+						 	<a href="<%= rsrc.source_file.url %>" target="_blank"><%= rsrc.title.titleize %> </a> 
+							<br/>
+							<% elsif rsrc.content_object_type.content_object_type_group_id == 5 %>
+		 				    <a href="<%= rsrc.content_object %>" target="_blank"><%= rsrc.title.titleize %></a>
+						    <br/>
+							<% else %>
+							<% end %>
+		
+						<% if ![3,5,7,8].include?(rsrc.content_object_type.content_object_type_group_id) %>
+		   					 <div style="width:525px;  min-height:104px; border:0px solid black;">
+					        <% if rsrc.content_object_type.content_object_type_group_id == 2 %>
+								<br/>
+		 				       <img src="<%= rsrc.source_file.url %>" width="200" />
+		
+							<% end -%>
+		    				</div>
+						<% end %>
+	               	<% end -%>
+				<% end -%>				
+				 <br style="clear:both" />
+             </div>
+       </div>	
+    </div>	        
+<% end -%>
+        <div class="module2">
+            <div class="module_header">
+                <span class="content_area_title" style="margin-left:0px:margin-top:0px;">Learning Units</span>
+            </div>
+  			<% if @classroom.viewable_by?(@current_user)-%>
+			    <style type="text/css" media="screen">
+			    table,tr,td { border:none; }  
+			    </style>
+				<table style = "margin-left:5px"> 
+					<tbody>
+		                <% if @classroom.topics.empty? -%>
+							<tr>
+								<td width = 12% style="width:fixed; font-size:10px; vertical-align:middle; padding-left: 0px; padding-top:0px; padding-bottom:5px">
+									&nbsp;
+								</td>
+								<td width = 88% style="font-size:11px;vertical-align:middle; color:#C73914; line-height:1.2em;padding-bottom:10px">
+									<i>No Learning Units </i>
+								</td>									
+							</tr>
+						<% else-%>
+						  	<% @classroom.topics.each do |t| %>
+							<tr>
+								<td width = 12% style="width:fixed; font-size:10px; vertical-align:middle;  line-height:1.4em; padding-left: 0px; padding-top:0px; padding-bottom:0px">
+									<%= t.estimated_start_date.nil? ? "" : t.estimated_start_date.strftime("%b-%d")%>
+								</td>
+								<td width = 88% style="font-size:11.5px;vertical-align:middle;  line-height:1.4em; padding-bottom:0px">
+									<%= link_to t.title, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => t, :id => @classroom %><br>
+								</td>									
+							</tr>						
+							<% end -%>
+						<% end -%>
+					</tbody>
+				</table>
+			<% end -%>
+        </div>
+		<% unless @sms_topics.nil?%>
+			<% unless @sms_topics.empty? || @student_sms_score == 0 %>
+	        <div class="module2">
+ 	           <div class="module_header">
+ 	               <span class="content_area_title" style="margin-left:0px; color:#000000">Level <%= @student_sms_score %> Learning Units For You</span>
+ 	           </div>
+  	          <div class="module_body2">
+                <div class="page_text" style = "margin-left:5px">
+  					<% if @classroom.viewable_by?(@current_user)-%>
+					  	<%@sms_topics.each do |t| %>
+						 <% link_string = t.classroom.organization.short_name + ": " + t.classroom.course_name  + "/" + t.title.titleize -%>
+						<%= link_to link_string, :controller => "/site/site", :action => :static_classroom, :organization_id => t.classroom.organization, :topic_id => t, :id => t.classroom %><br>
+		               	<% end %>
+					<% end -%>
+                  <br style="clear:both" />
+   	            </div>
+    	      </div>
+   		     </div>
+			<% end -%>
+		<% end -%>
+
+		<% unless @classroom.classroom_referrals.empty? %>
+		
+		<div id="followup" class="module2">
+            <div class="module_header">
+                <span class="content_area_title" style="margin-left:0px;">Related Units</span>
+            </div>
+        </div>
+    <div class="module_body">
+ <!---     -->   
+    <style type="text/css" media="screen">
+    table,tr,td { border:none; }  
+    </style>    
+  	<% if @classroom.viewable_by?(@current_user)-%>
+		<table class="tablesorter" style = "margin-left:5px"> 
+			<tbody>
+				<% for topic in @classroom.reference_topics do -%>
+					<% unless topic.nil? -%>
+					<tr>
+						<td width = 25% style="width:fixed; font-size:9px; vertical-align:middle; padding-left: 0px; padding-top:0px; padding-bottom:5px">
+						<% if topic.classroom.organization.logo.file? %>
+							<%= image_tag topic.classroom.organization.logo.url:small_thumb %>
+						<% end %>
+						</td>
+						<td width = 75% style="font-size:10px;vertical-align:middle; line-height:1.2em;padding-bottom:10px">
+							<% link_string = topic.title %>
+							<%= link_to link_string, :controller => "/site/site", :action => :static_classroom, :organization_id => topic.classroom.organization, :topic_id => topic, :id => topic.classroom %>
+							</br><%= topic.classroom.course_name %>
+						</td>									
+					</tr>
+					<% end -%>
+				<% end -%>
+			</tbody>
+		</table>	
+	<% end -%>	        
+ 			
+			</div>
+	<% end %>
+  	<% end -%>
+    </div>
+				</td>
+				<td style=" margin-left:0px; border:0px solid #ddd;vertical-align:top;">
+
+
+	<div id="rightpane_off">
+	      <div style="font-size:18px;font-weight:bold;">
+	        <span style="color: <%= @current_organization.style_setting_value_named("Header and Footer Bars")%>"><%= @classroom.course_name %></span>
+	      </div>
+			<span style="font-size:10px;font-weight:normal">
+				<% if @classroom.status =="archived"%> <i> ARCHIVED</i>
+				<% end %>
+			 </span> 
+			<% if @current_topic && @classroom.ifa_classroom_option && @current_organization.ifa_org_option-%>
+				<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
+					<span style="font-size:12px;font-weight:normal">
+					<% if @current_topic.act_score_ranges.no_na.for_standard(mstr).first -%>
+						<%= mstr.abbrev %> Mastery Level: <%= @current_topic.act_score_ranges.no_na.for_standard(mstr).first.range %>
+						<br/>
+					<% end %>
+				 	</span> 
+				<% end %>
+			<% end -%>
+        <%= render(:partial => "new_topic", :locals => {:topic => @current_topic ? @current_topic : nil, :featured_resource => @content ? @content : nil}) %>
+	</div>
+
+				</td>
+			</tr>
+		</tbody>
+	</table>	
+
+</div>  
+
+
+  <script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function(){
+
+
+    jQ('#send_message_link').click(
+    function(){
+      if(jQ("#send_message_form")[0].style.display == 'none'){
+        jQ("#send_message_form").show();
+      }else{
+        jQ("#send_message_form").hide();
+      }
+      
+      jQ("#send_message_succefully").hide();
+    });
+
+    jQ('#send_message_form .submit').click(function(){
+      if(jQ('#send_message_form #message_content').attr('value') == ''){
+        alert("you must fill some info for the message");
+        return false;
+      }
+      jQ.ajax({
+        type: "POST",
+        url: "/messages/classroom_message",
+        data: jQ("#send_message_form form").serialize(),
+        dataType: "script"
+      });
+      return false;
+    });
+
+
+  });
+</script>

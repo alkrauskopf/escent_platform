@@ -1,0 +1,82 @@
+<div style="width:100%;">
+    <div id="discussion_abuses">
+        <div class="digg_pagination">
+            <%= will_paginate @discussions %>
+        </div>
+        <table id="abuses" class="tablesorter">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Parent ID
+                    </th>
+                    <th style="width:400px;">
+                        Discussion
+                    </th>
+                    <th>
+                        Complaints
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="abuse_results">
+                <% for discussion in @discussions do %>
+                <tr class="report_abuse_comment">
+                    <td>
+                    	<%= discussion.id %>
+                    </td>
+                    <td>
+                    	<%= discussion.parent_id %>                    	
+                    </td>
+                    <td>
+                        <%= discussion.comment %>
+                    </td>
+                    <td>
+                        <%= discussion.reported_abuses.size %>
+                    </td>
+                    <td>
+                        <% if discussion.suspended_at.nil? %>
+                        <%= button_to "Suspend", {:controller => :topics, :action => :suspend, :discussion_id => discussion.id, :topic_id => @topic, :page => params[:page]},  :class =>"fsn-button ui-button ui-state-default ui-corner-all remove" %>
+                        <% else %>
+                        <%= button_to "Unsuspend", {:controller => :topics, :action => :unsuspend, :discussion_id => discussion.id, :topic_id => @topic, :page => params[:page]}, {:class =>"fsn-button ui-button ui-state-default ui-corner-all remove"} %>
+                        <% end %>
+                    </td>
+                    <td id="<%= discussion.id %>">
+                        <%= button_to "Details", {:controller => :topics, :action => :discussion_abuse_details, :discussion_id => discussion.id, :topic_id => @topic}, {:class =>"fsn-button ui-button ui-state-default ui-corner-all remove"} %>
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript" charset="utf-8">
+        jQ(document).ready(function(){
+            jQ("#abuses").tablesorter({
+                headers: {
+                    1: {
+                        sorter: false
+                    },
+                    2: {
+                        sorter: false
+                    },
+                    3: {
+                        sorter: false
+                    },
+                    4: {
+                        sorter: false
+                    }
+                }
+            });
+        });
+    </script>
+</div>
+<div style="text-align:center; padding:20px;">
+<%= link_to "Back", :action => :topic_abuses %>
+</div>

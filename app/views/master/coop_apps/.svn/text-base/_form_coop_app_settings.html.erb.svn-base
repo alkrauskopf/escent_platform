@@ -1,0 +1,67 @@
+
+<div class="FormRow submit_warp" style= "padding-left:25px">	
+	<%= submit_tag function, :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
+	<br/>
+</div>	
+
+<div class="formBox">
+	<% if org.provider?(app) %>
+		<div class="FormRow">
+	      	<div class="FormRowTitle">
+	        	Alternative Name:
+			</div>
+		    <div class="FormRowData" style= "margin-left:25px">
+		    	<%= text_field :coop_app_organization, :alt_name, :value => org.app_settings(app).alt_name, :size => 50 %>
+		    </div>
+	    </div>	
+		<div class="FormRow">
+	      <div class="FormRowTitle">
+	      	Alternative Abbrev (<=9Chars):
+	      </div>
+	      <div class="FormRowData" style= "margin-left:25px">
+	        <%= text_field :coop_app_organization, :alt_abbrev, :value => org.app_settings(app).alt_abbrev, :size => 10 %>
+	      </div>
+	    </div>
+	<% end -%>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+	    Provider?
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+      	<%= check_box :coop_app_organization, :is_owner, :checked=>org.provider?(app) %>
+      </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+      	Selected?
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+      	<%= check_box :coop_app_organization, :is_selected, :checked=>org.selected?(app) %>
+      </div>
+    </div>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+      	Allowed To Use?
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+      	<%= check_box :coop_app_organization, :is_allowed, :checked=>!org.disallowed?(app) %>
+      </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+      	&nbsp;
+      </div>
+    </div>
+</div>
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>

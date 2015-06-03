@@ -1,0 +1,43 @@
+<div >
+	
+	<% unless @master.act_benches.for_subject(@current_subject).empty? -%>
+
+	<% auth_level = "auth" + @current_subject.id.to_s %>
+	<div id="<%= auth_level %>">
+		<table id="authorization_levels"    style="width:99%;">
+			<tbody>  
+				<% std_ids = @master.act_benches.for_subject(@current_subject).sort_by{|a| [a.act_standard.name]}.group_by(&:act_standard_id) %>
+				<% std_ids.each do |sti, benches| %>
+					<% std = ActStandard.find(sti) -%> 
+					<% col_label = benches.size.to_s + " " + std.abbrev.upcase + ": " + std.name.titleize -%>
+					<tr>
+					<td class="authorization_levels_close" style ="color:#C73914">
+
+					<%= link_to '', :controller => "apps/assessment", :action => :subject_standard_benchmarks, :organization_id => @current_organization, :classroom_id => @classroom, :master=> @master, :std_id => sti %>
+					<%= col_label %>
+					<span></span>
+					</td>
+					</tr>
+					<% end -%>
+			</tbody>
+		</table>
+	<br/>
+
+	</div>
+
+	<% else -%>	
+		No Benchmarks.
+	<% end -%>
+
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() { 
+	jQ('.fsn-button').addUIStateClass();
+});
+</script>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#<%= auth_level %> .authorization_levels_close').toggleAuthorizationLevels();
+	jQ('#<%= auth_level %> .authorization_levels_open').toggleAuthorizationLevels();	
+});
+</script>

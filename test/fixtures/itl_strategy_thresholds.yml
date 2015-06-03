@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  tl_activity_type_task_id: 1
+  max_minutes: 1
+  max_minute_msg: MyString
+  min_minutes: 1
+  min_minutes_msg: MyString
+  max_pct: 1
+  max_pct_msg: MyString
+  min_pct: 1
+  min_pct_msg: MyString
+
+two:
+  tl_activity_type_task_id: 1
+  max_minutes: 1
+  max_minute_msg: MyString
+  min_minutes: 1
+  min_minutes_msg: MyString
+  max_pct: 1
+  max_pct_msg: MyString
+  min_pct: 1
+  min_pct_msg: MyString

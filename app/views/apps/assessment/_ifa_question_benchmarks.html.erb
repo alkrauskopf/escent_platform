@@ -1,0 +1,192 @@
+<div id="benchmark_tags" style=" padding:0px; width:99%;  border:0px; margin: 0px 0px 0px 0px; text-align:left; min-height:5px;">
+	<br/>
+		<table  style="width:550px;margin-left:200px; border:0px solid white">
+			<tbody>
+				<tr style="border:0px solid white;"> 
+				<td id="benchmarks_up" style="width:550px; border:0px solid white; padding-left:260px;">
+					<%= (image_tag "button_up.png",:width => 25) -%>				
+				</td>
+				</tr>
+			</tbody>
+		</table>
+		
+<script type="text/javascript">
+jQ(document).ready(function() {
+
+	jQ("#benchmarks_up").click(function() {
+			var organization = "<%= @current_organization.public_id %>";
+			var question = "<%= @question.public_id %>";
+			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_options_recycle %>";
+			jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
+				jQ("#question_options").html(data);
+		  		jQ("#benchmark_tags").hide();
+	   			jQ("#options_table").slideDown("slow");
+					});
+	})
+	
+});
+</script>
+	<% if @question.act_benches.size > 0 -%>
+		<table  style="width:550px;margin-left:200px; border:1px solid #ddd;">
+			<thead>
+				<style  type="text/css" media="screen">
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>
+				<tr style="border:1px solid #ddd;">
+					<% header_string = "This Question Has " + pluralize(@question.act_benches.size, " Benchmark") + " Associated With It." %>
+					<th colspan=3 style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center><%= header_string %></center>
+					</th>
+				</tr>
+
+				<tr style="border:1px solid #ddd;">
+					<th width=80px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center>Remove Tag</center>
+					</th>					
+					<th width=80px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center>Standard</center>
+					</th>
+					<th width=390px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center>Description</center>
+					</th>					
+				</tr>
+
+			</thead>
+			<tbody id = "tagged_benchmarks">
+				<style  type="text/css" media="screen">
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>	
+				<% @question.act_benches.sort_by{|bm| [bm.act_master.abbrev, bm.act_bench_type.name]}.each do |b| -%>
+
+				<tr style="border:1px solid #ddd;">
+					<td width=80px style="vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+							<%= link_to (image_tag "delete.png", :class => "del"), {:action => "edit_question_remove_benchmark", :organization_id => @current_organization, :question_id => @question, :benchmark_id => b.id}, :class => "bench_purge" %>
+					</td>
+					<td width=80px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+						<%=  b.act_master.abbrev.upcase %><br/><%= b.act_score_range.range %>,  <%= b.act_standard.abbrev %>
+					</td>
+					<td width=390px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+						<i><%=  b.act_bench_type.name.titleize %></i><br/>
+						<%= b.description %>
+					</td>
+					<% end -%>
+				</tr>
+			</tbody>
+		</table>				
+	<% end -%>
+		<table  style="width:550px;margin-left:200px; border:1px solid #ddd;">
+			<thead>
+				<tr style="border:1px solid #ddd;">
+					<% header_string = "Choose From The Relevant Benchmark Below" %>
+					<th colspan=3 style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center><%= header_string %></center>
+					</th>
+				</tr>
+
+				<tr style="border:1px solid #ddd;">
+					<th width=80px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center>Add Tag</center>
+					</th>					
+					<th width=80px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center>Standard</center>
+					</th>
+					<th width=390px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center>Description</center>
+					</th>					
+				</tr>
+
+			</thead>
+			<tbody id = "tagged_benchmarks">
+				<style  type="text/css" media="screen">
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>	
+				<% @current_organization.ifa_org_option.act_masters.sort_by{|m| [m.abbrev]}.each do |mstr| -%>
+
+				<% benches = ActBench.find(:all, :conditions => ["act_subject_id = ? AND act_score_range_id = ? AND act_standard_id = ?", @question.act_subject_id, @question.score_range(mstr).id, @question.standard(mstr).id]) rescue [] -%>
+				<% benches.each do|b| %>
+					<% unless @question.act_benches.include?(b) -%>
+					<tr style="border:1px solid #ddd;">
+							<td width=80px style="vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+									<%= link_to (image_tag "add.png", :class => "del"), {:action => "edit_question_add_benchmark", :organization_id => @current_organization, :question_id => @question, :benchmark_id => b.id}, :class => "bench_add" %>
+							</td>
+							<td width=80px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+								<%=  b.act_master.abbrev.upcase %><br/><%= b.act_score_range.range %>,  <%= b.act_standard.abbrev %>
+							</td>
+							<td width=390px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+								<i><%=  b.act_bench_type.name.titleize %></i><br/>
+								<%= b.description %>
+							</td>
+						</tr>
+						<% end -%>
+					<% end -%>
+				<% end -%>				
+			</tbody>
+		</table>				
+	
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.bench_purge').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#benchmark_tags").html(data);
+				jQ("#benchmark_tags").show();
+			})
+			return false;
+	})
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.bench_add').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#benchmark_tags").html(data);
+				jQ("#benchmark_tags").show();
+			})
+			return false;
+	})
+});
+</script>
+
+<script>
+jQ(function(){
+jQ('td.tip_benches').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'bottomMiddle',
+         tooltip: 'topMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 0,
+         radius: 0,
+         color: '#99911a'
+      },
+      width: 300,
+	  tip: { // Now an object instead of a string
+         corner: 'topMiddle', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>

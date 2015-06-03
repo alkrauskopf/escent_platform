@@ -1,0 +1,196 @@
+
+<div style ="color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold"> 
+
+	<br/>
+	<strong><center> <%= @current_organization.medium_name %> Integrated Formative Assessment Options</center></strong>
+</div>
+
+    <%= render :partial => "/shared/error_and_notice" %>
+
+
+    <%#= render :partial => "ifa_dashboard_updates" %>
+
+    <%= render :partial => "manage_options_ifa_masters" %>
+
+
+<div class="Form clear">
+<% form_for(:ifa_org_option, :url => {:controller => "/apps/assessment", :action => :edit_options, :organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment, :options_id => @options}) do |form| -%>
+
+<div >
+		<div class="FormRow submit_warp" style="padding-left:720px;" >
+			<%= submit_tag "Change Options", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+		<br/>
+		</div>		
+<br/>			
+
+		<table id="roles" style="width:900px; ">
+		<tbody>
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:none; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>
+			<thead>
+				<tr>
+					<th><strong><center>Option</center></strong></th>
+					<th><strong><center>Preference</center></strong></th>			
+					<th><strong><center>Description</center></strong></th>
+				</tr>
+			</thead>
+			<tr>
+				<td colspan=3>
+					<center>&nbsp;</center>
+				</td>
+			</tr>
+	
+			<tr>
+			
+				<td width = 150px style=" color: #000000; vertical-align:middle;text-align:center; font-size:12px" >
+					<strong>Beginning of School Year</strong>
+				</td>
+				<td width = 200px style=" color: #000000; vertical-align:middle" >
+				  <%= calendar_date_select "" , "start_date" , :value => @options.begin_school_year , :size => "18px", :class => "text" %>
+				</td>
+				<td width = 650px style=" color: #000000; vertical-align:middle; font-size:11px" >
+					The School Year Start Date. It is used for data analysis & reporting purposes.  <br/>Data preceding this date will be omitted from the analysis.<br/>
+				</td>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center> - - - - - - - -</center>
+				</td>
+			</tr>
+			<tr>
+				<td colspan=3>
+					<center> - - - - - - - -</center>
+				</td>
+			</tr>
+			<tr>
+			
+				<td width = 150px style=" color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
+					<strong>SMS Window (days)</strong>
+				</td>
+				<td width = 100px style=" color: #000000; vertical-align:middle" >
+		 		     <%= text_field :ifa_org_option, :sms_calc_cycle, :size => 3, :maxlength => 3, :value => @options.sms_calc_cycle  %>
+				</td>
+				<td width = 650px style=" color: #000000; vertical-align:middle; font-size:11px" >
+					This establishes the window, in days, that the SMS algorithm uses to determine the actual Score Level of a student.<br/>
+					A value of 0 would use just the most recent assessment as a guide. (This might be too sensitive and cause the student to vary between score levels too much.)<br/>
+					A value of 100 would use the previous 100 days of assessment scores to determine a students current level. (This might be too insensitive to real progress.)<br/> 
+				</td>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center> - - - - - - - -</center>
+				</td>
+			</tr>
+			<tr>
+			
+				<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
+					<strong><center>Days Until Repeat Assessment</center></strong>
+				</td>
+				<td width = 100px style=" color: #000000; vertical-align:middle"" >
+		 		     <%= text_field :option, :days_til_repeat, :size => 3, :maxlength => 3, :value => @options.days_til_repeat  %>
+				</td>
+				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
+					This defines the number of days that can pass before a student can take the same assessment.<br/>
+					A value of 0 would allow the student to re-take the same assessment immediately. (This might be create SMS biases.)<br/>
+					A value of 365 would allow the student to take the same assessment once a year.  (This might be require a very large Assessment pool.)<br/> 
+				</td>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center> - - - - - - - -</center>
+				</td>
+			</tr>
+			<tr>
+			
+				<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
+					<strong><center>"H" Threshold</center></strong>
+				</td>
+				<td width = 100px style=" color: #000000; vertical-align:middle"" >
+		 		     <%= text_field :ifa_org_option, :sms_h_threshold, :size => 4, :precision => 3, :scale => 2, :maxlength => 4, :value => @options.sms_h_threshold  %>
+				</td>
+				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
+					<strong>Value must be > 0 and <= 1.</strong><br/>
+					This defines the SMS (Stotts Mastery Score) "H" threshold.  This represents the % of correct answers at a given Score Level required to establish that Score Level as the basis for the SMS algorithm.
+					If, at a given score level, a student correctly answers 50% of the questions and the "H threshhold" is 75%, then this score level will not be the SMS basis.
+					If the "H threshold" is 40%, then the student's 50% performance is sufficient to establish the Score Level as the basis for the SMS calculation.
+				</td>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center> - - - - - - - -</center>
+				</td>
+			</tr>
+			<tr>
+			
+				<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
+					<strong><center>Remedial Threshold</center></strong><br/>
+					<center><%= image_tag("button_red.png", :width => 15)%></center>
+					
+				</td>
+				<td width = 100px style=" color: #000000; vertical-align:middle"" >
+		 		     <%= text_field :ifa_org_option, :pct_correct_red, :size => 4, :maxlength => 4, :value => @options.pct_correct_red  %> %
+				</td>
+				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
+					Proficiency in terms of Percent Correct Answers.  Dashboards will display statistics that fall below this level in RED.<br/>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center> - - - - - - - -</center>
+				</td>
+			</tr>
+			<tr>
+			
+				<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
+					<strong><center>Mastery Threshold</center></strong><br/>
+					<center><%= image_tag("button_green.png", :width => 15)%></center>
+					
+				</td>
+				<td width = 100px style=" color: #000000; vertical-align:middle"" >
+		 		     <%= text_field :ifa_org_option, :pct_correct_green, :size => 4, :maxlength => 4, :value => @options.pct_correct_green  %> %
+				</td>
+				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
+					Proficiency  in terms of Percent Correct Answers.  Dashboards will display statistics that fall above this level in GREEN.<br/>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center> - - - - - - - -</center>
+				</td>
+			</tr>
+
+			<tr>
+			
+				<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
+					<strong><center>Months Back For Repository Analysis</center></strong><br/>
+					
+				</td>
+				<td width = 100px style=" color: #000000; vertical-align:middle"" >
+		 		     <%= text_field :ifa_org_option, :months_for_questions, :size => 2, :maxlength => 2, :value => @options.months_for_questions  %>
+				</td>
+				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
+					This defines the the number of months back in history that Student Answers will be used for analysing the Question repository.<br/>
+					Students having achieved a certain proficiency level will be used as Dependent variables in analysing how well question they faced perform.  This variable determines how must historical answers should be used in the analysis.<br/>
+					A long history creates a good sample size.  But it also may go back too far in time, when that student was not performing near current levels of proficiency.<br/>
+					default is 3 months.<br/>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center> - - - - - - - -</center>
+				</td>
+			</tr>
+
+
+		</tbody>
+	</table>
+
+
+</div>
+
+<% end -%>
+</div>
+
+<br/>
+	

@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  scope_id: 1
+  scope_type: MyString
+  elt_plan_id: 1
+  rubric_id: 1
+  note: MyText
+
+two:
+  scope_id: 1
+  scope_type: MyString
+  elt_plan_id: 1
+  rubric_id: 1
+  note: MyText

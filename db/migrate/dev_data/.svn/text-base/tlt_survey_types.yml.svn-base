@@ -1,0 +1,82 @@
+
+CTL_PROC:
+    id: 1
+    coop_app_id: 6
+    abbrev: OBS
+    name: Observation
+    description: This Survey Occurs In Response To A Classroom T&L Observation
+    sequence: 12
+
+CTL_REFLECT:
+    id: 2
+    coop_app_id: 6
+    abbrev: REF
+    name: Reflection
+    description: This Survey Facilitates A T&L Reflection Exercise
+    sequence: 13
+
+CTL_General:
+    id: 3
+    coop_app_id: 6
+    abbrev: APP
+    name: General
+    description: This Survey Is A General Time & Learning Inquiry
+    sequence: 10
+
+CTL_Post:
+    id: 4
+    coop_app_id: 6
+    abbrev: POST
+    name: Post-Conference
+    description: This Survey Is Taken After A Post-Conference
+    sequence: 11
+
+CLS_PROG:
+    id: 10
+    coop_app_id: 2
+    abbrev: PROG
+    name: Progress
+    description: This Is A Classroom Progress Inquiry
+    sequence: 20
+
+DALP_PRE:
+    id: 20
+    coop_app_id: 7
+    abbrev: PRE
+    name: Pre Assess
+    description: Readiness  
+    sequence: 30
+
+DALP_DISC:
+    id: 21
+    coop_app_id: 7
+    abbrev: DISC
+    name: Discovery
+    description: Discovery Reflection
+    sequence: 31
+    
+DALP_LRN:
+    id: 22
+    coop_app_id: 7
+    abbrev: LEARN
+    name: Learning
+    description: Learning Reflection
+    sequence: 32
+    
+DALP_POST:
+    id: 23
+    coop_app_id: 7
+    abbrev: POST
+    name: Evaluation
+    description: Evaluation Reflection
+    sequence: 33   
+    
+ELT_Feedback:
+    id: 24
+    coop_app_id: 10
+    abbrev: FEED
+    name: Diagnostic Cycle
+    description: Feedback On Diagnostic Process
+    sequence: 40   
+
+            

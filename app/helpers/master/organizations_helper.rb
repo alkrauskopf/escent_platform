@@ -1,0 +1,2 @@
+module Master::OrganizationsHelper
+end

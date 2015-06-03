@@ -1,0 +1,148 @@
+
+<div id ="maintain_templates" style = "font-size:12px; color: #2061a5; padding-left:0px;">
+	<% if @current_organization.provider?(app) -%>
+
+		<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:normal"> 
+			<center><%= app.name %>&nbsp;Table Maintenance</center>
+		</div>	
+		<div>
+			<table id="cycle_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
+				<tbody>  
+					<tr>
+						<td class="resource_levels_close" style="width:800px;">
+                            <%= link_to '', :controller => "apps/learning_time", :action => :manage_cycles, :organization_id => @current_organization, :app_id=> @app.id  %>
+                            View/Manage Diagnostic Cycles
+						<span></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('#cycle_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
+		jQ('#cycle_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();	
+	});
+	</script>
+
+
+			<table id="activity_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
+				<tbody>  
+					<tr>
+						<td class="resource_levels_close" style="width:800px;">
+		
+						<%= link_to '', :controller => "apps/learning_time", :action => :manage_activities, :organization_id => @current_organization, :app_id=> @app.id  %>
+						View/Manage Activities
+						<span></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('#activity_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
+		jQ('#activity_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();	
+	});
+	</script>
+			<table id="element_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
+				<tbody>  
+					<tr>
+						<td class="resource_levels_close" style="width:800px;">
+		
+						<%= link_to '', :controller => "apps/learning_time", :action => :manage_elements, :organization_id => @current_organization, :app_id=> @app.id  %>
+						View/Manage Elements
+						<span></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('#element_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
+		jQ('#element_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();	
+	});
+	</script>
+
+			<table id="indicator_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
+				<tbody>  
+					<tr>
+						<td class="resource_levels_close" style="width:800px;">
+		
+						<%= link_to '', :controller => "apps/learning_time", :action => :manage_indicators, :organization_id => @current_organization, :app_id=> @app.id  %>
+						View/Manage Indicators & Look-fors
+						<span></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('#indicator_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
+		jQ('#indicator_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();	
+	});
+	</script>
+
+			<table id="plan_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
+				<tbody>  
+					<tr>
+						<td class="resource_levels_close" style="width:800px;">
+		
+						<%= link_to '', :controller => "apps/learning_time", :action => :manage_plan_types, :organization_id => @current_organization, :app_id=> @app.id  %>
+						View/Manage Action Plan Settings
+						<span></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('#plan_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
+		jQ('#plan_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();	
+	});
+	</script>
+
+          <table id="case_xfers_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
+            <tbody>
+            <tr>
+              <td class="resource_levels_close" style="width:800px;">
+
+                <%= link_to '', :controller => "apps/learning_time", :action => :transfer_cases, :organization_id => @current_organization, :app_id=> @app.id  %>
+                Data Maintence: Move Cases To Other Schools or Cycles
+                <span></span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <script type="text/javascript" charset="utf-8">
+              jQ(document).ready(function() {
+                  jQ('#case_xfers_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
+                  jQ('#case_xfers_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();
+              });
+          </script>
+
+
+          <table id="plan_xfers_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
+            <tbody>
+                <tr>
+                  <td class="resource_levels_close" style="width:800px;">
+                    <%= link_to '', :controller => "apps/learning_time", :action => :transfer_plans, :organization_id => @current_organization, :app_id=> @app.id  %>
+                    Data Maintence: Move A School Plan  To Another Cycle
+                    <span></span>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+          <script type="text/javascript" charset="utf-8">
+              jQ(document).ready(function() {
+                  jQ('#plan_xfers_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
+                  jQ('#plan_xfers_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();
+              });
+          </script>
+		</div>
+
+	<% else -%>
+		<br/>
+		<span style ="color: #C83A14; font-size:11px">
+		    <center><i>* * *  <%= @current_organization.short_name %>&nbsp;Is Not An App Owner  * * *</i></center>
+		</span>
+	<% end %>
+</div>

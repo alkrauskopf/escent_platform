@@ -1,0 +1,21 @@
+<div id="mainContent">
+
+
+    <%= render :partial => "/apps/assessment/dashboard_display" %>
+
+
+<br style="clear:both" />
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#authorization_levels .authorization_levels_close').toggleAuthorizationLevels();
+	jQ('#authorization_levels .authorization_levels_open').toggleAuthorizationLevels();	
+  jQ("#roles").tablesorter({ headers: { 1: { sorter: false }} });
+});
+</script>
+
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function(){
+    jQ('#control_panel').tabs();
+  });
+</script>

@@ -1,0 +1,32 @@
+<% if @current_user -%>
+jQ("#header").html('<%= escape_javascript(render(:partial => "/shared/login")) %>')
+jQ("#description_for_vote").html('<%= escape_javascript(render(:partial => "/shared/vote", :locals => {:content => @content, :checked => true, :disabled => false, :rating => nil})) %>')
+jQ("#root_discussion_form div").html('<%= escape_javascript(render(:partial => "/site/discussions/add_comment")) %>')
+jQ(".reply_or_login_warp div").html('<%= escape_javascript(render(:partial => "/shared/reply_or_login")) %>')
+jQ(".change_status").html('<%= escape_javascript(render(:partial => "/shared/report_as")) %>')
+jQ(".discussion_reply_warp").changeReplyStatus().addReportAction();
+jQ(".iwing_discussion_description").changeReplyStatus().addReportAction();
+jQ(".discussion_reply_form_submit button:even").replyFormCancel();
+var reply_url = '<%= url_for :controller => "/site/discussions", :action => :add_reply, :organization_id => @current_organization %>'
+jQ(".discussion_reply_form_submit button:odd").addNewReply(reply_url);
+jQ("#link_of_call_for_action").html('<%= escape_javascript(render(:partial => "/site/site/link_of_call_for_action")) %>');
+jQ("#share_content").html('<%= escape_javascript(render(:partial => "/shared/share_content", :locals => {:content => @content})) %>');
+jQ("#share_content_form").html('<%= escape_javascript(render(:partial => "/shared/share_login")) %>').hide();
+jQ("#share_discussion_form").html('<%= escape_javascript(render(:partial => "/shared/share_login")) %>').hide();
+jQ("#shared_discussion_warp").html('<%= escape_javascript(render(:partial => "/site/discussions/share_discussion_btn")) %>');
+jQ("#shared_discussion_warp_box").html('<%= escape_javascript(render(:partial => "/shared/shared_discussion", :locals => {:discussion => @current_topic})) %>');
+	<% if @current_user.has_authorization_level_for?("Organization", "discussion_moderator") -%>
+		jQ('.delete').show()
+	<% end -%>
+<% else -%>
+jQ("a.delete").deleteCommentAndReply();
+jQ("#header").html('<%= escape_javascript(render(:partial => "/shared/login")) %>')
+jQ("#root_discussion_form div").html('<%= escape_javascript(render(:partial => "/site/discussions/add_comment")) %>')
+jQ(".reply_or_login_warp div").html('<%= escape_javascript(render(:partial => "/shared/reply_or_login")) %>');
+jQ(".discussion_reply_login").addLoginInputLabel();
+jQ(".discussion_root_login").addLoginInputLabel();
+jQ(".discussion_root_login_submit button:odd").ajaxLoginCancel("#root_discussion_form");
+jQ(".discussion_reply_login_submit button:odd").ajaxLoginCancel(".reply_or_login_warp");
+jQ(".discussion_root_login_submit button:even").lgoinFormSubmit("#root_discussion_form", "/site/discussions/add_comment", "<%= @current_topic.public_id %>");
+jQ(".discussion_reply_login_submit button:even").lgoinFormSubmit(".reply_or_login_warp", "/shared/reply_or_login", "<%= @current_topic.public_id %>");
+<% end -%>

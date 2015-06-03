@@ -1,0 +1,58 @@
+<table class="tablesorter">
+	<thead>
+		<th>
+			Select
+		</th>
+		<th>
+			Title
+		</th>
+		<th>Caption</th>		
+		<th>Provider</th>
+		<th>Type</th>
+		<th>&nbsp;</th>		
+	</thead>
+	<tbody id="search-results-dialog">
+		<% unless @contents.empty? %>
+			<% for content in @contents do -%>
+			<tr id="<%= content.public_id %>">
+				<td><input title="" type="checkbox" name="content_ids[]" value="<%= content.public_id %>" /></td>
+				<td><%= content.title %></td>
+				<td><%= content.caption %></td>														
+				<td><%= content.organization.name %></td>
+				<td><%= content.content_object_type.content_object_type_group.name %></td>
+        <td style="width:50px; padding-top:3px;">
+            <button class="fsn-button ui-button ui-state-default ui-corner-all">
+                View
+            </button>
+        </td>
+<!--				
+				<td>
+				<div class="icon">
+					<%= image_tag "icons/#{content.content_object_type.content_object_type_group.name.downcase rescue "none"}.gif"%>
+				</div>
+				</td>
+-->				
+			</tr>
+			<% end %>
+		<% else %>
+			<p style="line-height:30px">No content found matching the criteria.</p>
+		<% end %>
+	</tbody>
+</table>
+<div class="digg_pagination">
+	<%= will_paginate @contents %>
+</div>
+<% if session[:content_ids] %>
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function() {
+    var hits = "<%= session[:content_ids].size %>";
+		jQ("input[name='content_search_type']", jQ("div.dialog")).each(function() {
+       if(jQ(this).attr('checked')) {
+         jQ(this).parent("span").find("label").find("span").html("<br />(" + hits + ")");
+       } else {
+         jQ(this).parent("span").find("label").find("span").html("");
+       }
+		})
+  }) 
+</script>
+<% end %>

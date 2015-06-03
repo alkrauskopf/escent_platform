@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  register_notify: false
+  content_notify: false
+
+two:
+  register_notify: false
+  content_notify: false

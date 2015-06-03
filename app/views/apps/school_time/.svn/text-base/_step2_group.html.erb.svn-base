@@ -1,0 +1,36 @@
+<div id="step_2_<%=ista_group.public_id%>">
+
+	<% submit_label = "Update" -%>
+	<% total_required = (ista_case.daysweek * ista_case.hrsday_std) > 0 ? (ista_case.daysweek * ista_case.hrsday_std * 60.0).to_i : 1 -%>
+	<% minwk = ista_case.ista_case_allocations.for_group(ista_group).for_step(step).collect{|a| a.minsweek}.sum -%>
+
+	<table style="width:270px;margin-left:0px">
+		<tbody> 
+			<% ista_case.ista_case_allocations.for_step(step).for_group(ista_group).each do |subj| -%>
+				<tr style=" border:0px solid #ddd;">
+					<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; vertical-align:top; text-align:right; padding-right:2px; ">
+						<%= subj.name %>
+					</td>
+					<% unless ista_case.final?-%>
+						<td id="<%=subj.public_id%> style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; vertical-align:bottom; text-align:right; ">
+							<%= text_field subj.id, :mins,  :value => subj.minsweek, :size => "3" %>
+						</td>
+					<% else -%>
+						<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; vertical-align:bottom; text-align:right; ">
+							<%= subj.minsweek %>
+						</td>
+					<% end -%>						
+					<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; vertical-align:top; text-align:center; ">
+						<center><%= number_to_percentage((100.0*subj.minsweek.to_f/total_required.to_f).round, :precision => 0) %></center>
+					</td>
+				</tr>
+			<% end -%>
+
+			<tr style=" border:0px solid #ddd;">
+				<td colspan=3 style = "width:125px; width:fixed; border:0px solid #ddd; color: #2061a5;">
+					&nbsp;
+				</td>
+			</tr>			
+		</tbody>
+	</table>
+</div>

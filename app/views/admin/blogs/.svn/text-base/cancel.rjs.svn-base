@@ -1,0 +1,1 @@
+page.replace_html "create_blog_div" , ""

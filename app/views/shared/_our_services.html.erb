@@ -1,0 +1,4 @@
+
+	<% if @current_organization.our_offerings_featured  %>
+		<%= link_to "Our Services", :controller => "fsn", :action => :index, :organization_id => @current_organization, :blog_id => @current_organization.our_offerings_featured.public_id %>
+	<% end -%>

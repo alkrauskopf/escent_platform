@@ -1,0 +1,53 @@
+
+		<table id="ifa_header" style = "width:700px; margin-left:100px; font-size:11px; color:#2061a5">
+			<tbody>
+				<tr>
+				<td id="ifa_show"  >
+					<u>What Is "Integrated Formative Assessment?"</u> <i>(Click Here)</i>
+				</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<table id="ifa_descript" style = "width:600px; margin-left:150px; font-size:10px; color:#2061a5">
+			<tbody>
+				<tr>
+					<td id="ifa_hide" style=" color:#2061a5; font-size:12px;">
+
+			<span style ="font-size:12px; font-weight:normal; color:#C73914">
+			<center>
+				<a href="/articles/IFA_Stotts_Article.pdf" target="_blank"> <u>Read Article:</u></a> "Why Current Assessment Practices Have failed To Transform Our Schools"
+			</center></span>
+						<strong><br/><u>Integrated Formative Assessment (IFA)</u></strong> is a best practice assessment methodology, made uniquely possible by co-operatively integrating the education community.<br/><br/>
+						Today's standardized assessment practices distance teachers from the proficiencies they need for standardized testing to be a useful teaching device.&nbsp;
+						IFA is designed to strengthen teacher assessment skills and integrate standardized evaluations into the classroom experience.
+						Data currency, deep understandings of standards, and classroom relevance are necessary for teachers to use formative assessments as tools to shape the learning priorities of each student.  IFA stresses these requirements.<br/><br/>
+						IFA helps teachers develop their assessment skills by allowing them to analyze and calibrate assessments <u>they developed</u> against established standards.
+						The shared repository of an integrated community helps teachers lever and learn from each other, making them more efficient and proficient assessors and educators.<br/><br/>
+						<i>Teachers Matter!</i><br/>Tools that compensate for, rather than strengthen, critical skills in need of development won't help teachers become responsive to the ever changing needs of their students.<br/>
+						<br/>
+						At this time, <strong><%=ActAssessment.count %> IFA Assessments </strong>have been developed by teachers in the community.<br/> 
+						<strong><%= ActQuestion.count %> Questions</strong> are in the IFA repository.<br/>
+						 <strong><%= ActQuestion.calibrated.count %> Questions</strong> have been calibrated against ACT standards. <br/>
+						<strong><%= ActSubmission.count %> Student Assessments</strong> taken thus far.
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+  		  jQ("#ifa_header").show();
+		  jQ("#ifa_descript").hide();		  
+
+	jQ("#ifa_show").click(function() {
+		  	jQ("#ifa_header").hide();	 
+	   		jQ("#ifa_descript").slideDown("slow");
+	})
+
+	jQ("#ifa_hide").click(function() {
+	   		jQ("#ifa_descript").slideUp("slow");
+	   		jQ("#ifa_header").show();
+	})	
+});
+</script>

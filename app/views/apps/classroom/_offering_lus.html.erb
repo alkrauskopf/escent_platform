@@ -1,0 +1,93 @@
+
+
+<div id="offering_lus_<%=offering.public_id%>" style = "font-size:12px; color: #2061a5;  padding-left:0px;">
+
+	<% if @current_user.can_edit_offering?(offering) -%>
+
+		<%= render :partial => "/shared/error_and_notice_width", :locals => {:width => 600}%>
+	
+		<table id="lu_header_<%=offering.public_id%>" style="width:650px;  margin-left:0px; border:0px solid #ddd;">
+			<tbody>
+				<style type="text/css" media="screen">
+			    table,tr,td { border:medium}
+				table tr:hover{
+	 	       	background-color: transparent;
+	 	     	}
+	 		   	</style>
+				<tr>
+					<td id="lu_show_<%=offering.public_id%>"  style = "border:0px solid #ddd; cursor:pointer; text-align:left; font-weight:normal; vertical-align:top; padding-bottom:5px; font-size:10.5px; color: #1b5698;">
+						<u>Create Learning Unit </u>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table id="lu_descript_<%=offering.public_id%>" style="width:700px;margin-left:20px">
+			<style type="text/css" media="screen">
+		    		table,tr,td { border:none }
+					table tr:hover{
+	        		background-color: transparent;
+	      			}
+	   			</style>
+				<tbody>  
+					<tr>
+						<td colspan=3 id="lu_hide_<%=offering.public_id%>"   style = " border:0px solid #ddd; cursor:pointer; text-align:left; font-weight:normal; vertical-align:top; font-size:10.5px; color: #1b5698;">
+							<u>Cancel</u>
+						</td>
+					</tr>
+					<tr  style="border:0px solid #ddd;" >
+						<td  style=" border:0px solid #ddd; padding-top:3px; padding-left:43px; vertical-align:middle; text-align:left; font-size:12px">
+							<%= render :partial => "/apps/classroom/create_lu", :locals => {:offering => offering}  %>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+	  		  jQ("#lu_header_<%=offering.public_id%>").show();
+			  jQ("#lu_descript_<%=offering.public_id%>").hide();		  
+	
+		jQ("#lu_show_<%=offering.public_id%>").click(function() {
+			  	jQ("#lu_header_<%=offering.public_id%>").hide();	 
+		   		jQ("#lu_descript_<%=offering.public_id%>").slideDown("slow");
+		})
+	
+		jQ("#lu_hide_<%=offering.public_id%>").click(function() {
+		   		jQ("#lu_descript_<%=offering.public_id%>").slideUp("slow");
+		   		jQ("#lu_header_<%=offering.public_id%>").show();
+		})	
+	});
+	</script>
+
+		<table style="width:500px; text-align:left; margin-top:10px; margin-left:50px; padding-bottom:0px; border:0px solid #ddd;">
+			<tbody>  
+				<style type="text/css" media="screen">
+		    		table,tr,td { border:none; }
+					table tr:hover{
+	        		background-color: transparent;
+	      			}
+	   			</style>
+				<% offering.learning_units.each do |lu| -%>
+					<tr style="border:0px solid #ddd;">
+						<td  style=" width:60px;width:fixed; border:0px solid #ddd; vertical-align:top; font-size:10px; padding-top:5px">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all">
+								 <%= link_to "Manage" ,{:controller => "apps/classroom", :action => :setup_classroom_lu, :organization_id => @current_organization,  :topic_id => lu}%>
+							</span>
+						</td>
+						<td  style="  width:80px; width:fixed; color: #000000;  border:0px solid #ddd; font-size:10px; font-weight:normal; vertical-align:bottom; text-align:left;padding-top:0px">
+							 <%= lu.estimated_start_date.strftime("%b %d, %Y")%>
+						</td>
+						<td  style=" color: #000000;  border:0px solid #ddd; font-size:12px; font-weight:normal; vertical-align:bottom; text-align:left;padding-top:0px">
+							<%= lu.title %>
+							<% if lu.featured? -%>
+								<span style = "color: #C83A14; font-size:10px; padding-top:0px; font-weight:normal ">
+									&nbsp;<i>(Currently Featured)</i>&nbsp;
+								</span>
+							<% end -%>
+						</td>
+					</tr>		
+				<% end -%>
+			</tbody>
+		</table>						
+	<% end -%>
+</div>
+

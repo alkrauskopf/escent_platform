@@ -1,0 +1,358 @@
+<div id="leftpane">
+  <div class="module2" id="affiliate_information">
+    <style type="text/css" media="screen">
+      .warp_content {
+        padding: 0;
+        background-color: transparent;
+      }
+    </style>
+
+    <div id="staticorg">
+
+      <div id="affiliate_information" class="module">
+        <div class="module_body2">
+          <div class="page_text">
+            <% if @question.organization.nil?%> <strong>Organizational Owner Not Found </strong>
+            <% else %>
+              <div style="padding-bottom:10px;">
+                <%= image_tag(@question.organization.logo.url, :alt => @question.organization.medium_name) if @question.organization.logo.file? -%>
+              </div>
+
+              <div class="affiliate_information_title" style="font-size:14px; text-align:center; font-weight:bold; width: 230px; color:#000000;">
+                <%= link_to @question.organization.name, {:controller => "/site/site", :action => :static_organization, :organization_id => @question.organization}, :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
+                <br/>
+
+                <span class="normal_text" style="font-size:12px; text-align:center; font-weight:normal; color:#000000;">
+				</span>
+              </div>
+            <% end %>
+            <br/>
+            <div class="affiliate_information_title" style="font-size:11px; margin-left:20px; text-align:left; font-weight:bold; width: 230px; color:#000000;">
+               <% if @question.created_at > (Time.now - 10) -%>
+			 	 <span class="normal_text"style="font-size:14px; text-align:center; width: 200px; font-weight:normal; color:#C73914;">
+					<strong><i>Question Created! </i></strong><br/><br/></span>
+				<% else-%>
+				  <span class="normal_text"style="font-size:11px;line-height: 1.5em; margin-left:0px; text-align:left; width: 200px; font-weight:normal; color:#000000;">
+					Created <%= time_ago_in_words(@question.created_at.to_s, include_seconds = false) %> ago<br/>
+					Last Changed: <%= @question.last_date_changed.strftime("%b %d, %Y") %><br/><br/></span>
+				<% end -%>
+              <span class="normal_text"style="font-size:14px; text-align:center; width: 200px; font-weight:normal; color:#000000;">
+                <% if @question.user.nil?%>
+					<i> * * Unknown Author * * </i>
+				<% else %>
+                  By: <strong><%= link_to @question.user.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => @question.user}, :html => {:style => "text-decoration:none;padding:1px;margin-top:5px; margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
+                  </strong><br/> <br/>
+				<% end -%>
+
+                <div style="font-size:12px; margin-left:50px; width: 250px; font-weight:normal; color:#000000;">
+                  <% unless @question.user.nil?%>
+				  	<% unless @question.user.picture.url.split("/").last == "missing.png" %>
+                    	<%= image_tag @question.user.picture.url(:med_thumb) %> 
+				  	<% end -%>
+				  <% end -%>	
+                </div>
+              <br/>
+			</span>
+              <div class="normal_text" style="font-size:10px; text-align:left; margin-left:30px; width: 250px; font-weight:normal; color:#00000;">
+				<% if @question.generation > 0%>
+					<br/>
+					<u>Copied:</u> <%= pluralize (@question.generation, 'generation') %><br/>
+					<u>Origin:</u> <%= @originator %><br/>
+				<% end -%>
+              </div>
+	  		<div  style="float:left; width:300px;font-size:11px; padding-left:30px; text-align:left; font-weight:normal; color:#C73914;">
+    			<br/><br/>
+				<strong>Used In <%= pluralize( @assess_count, ' Assessment') %></strong><br/><br/>
+    			<strong>Answered <%= pluralize( @answered_count, ' Time')%></strong><br/><br/>
+    			<strong>Correctly <%=number_to_percentage(@pct_correct, :precision => 0) %></strong><br/>
+	    		<%= render :partial => "static_question_options" %>
+            </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="rightpane">	
+	<div style="float:left; width:450px;font-size:17px; word-wrap:break-word; text-align:center; font-weight:bold; color:#C73914;">
+		ASSESSMENT QUESTION  ID: <%= @question.id %></br/>
+ </div> 
+
+	 <div style="float:left; width:450px;font-size:16px; word-wrap:break-word; text-align:center; font-weight:bold; color:#C73914;">
+     	<%= @question.act_subject.name.upcase%><br/>
+		<% @current_organization.ifa_org_option.act_masters.each do|mstr| -%>
+	 	<% title_string = "" -%>
+	 	<% stand = @question.standard(mstr) -%>
+	 	<% range = @question.score_range(mstr) -%>
+		<% if stand -%>
+			<% s_string = stand.abbrev.upcase -%>
+			<% else -%>
+			<% s_string = "Strand Not Defined" -%>
+			<% end -%>
+		<% if range -%>
+			<% r_string = range.range -%>
+			<% else -%>
+			<% r_string = "Level Not Defined" -%>
+			<% end -%>
+	 	<% title_string += mstr.abbrev + ": " + s_string + ", " + r_string -%>
+
+	 	<span style="font-size:12px; font-weight:normal"><%= title_string %></span><br/>
+		<% end-%>	 
+	 </div> 
+	 
+	<div style="float:left; width:550px;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
+
+		<% unless @question.content.nil? -%>
+		<% unless @question.content.content_object_type.nil? -%>
+		<table id="attached_resource">
+			<tbody> 
+				<% if @question.content.content_object_type.content_object_type_group.name == "IMAGE" -%>
+				<tr>
+					<td width = 225px style="vertical-align:top; padding-top:5px; padding-bottom:0px; padding-left:0px; text-align:left; color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
+						<img src="<%= @question.content.source_file.url %>" width="80" />
+					</td>
+				</tr>
+				<% end -%>
+				<% if @question.content.content_object_type.content_object_type_group.name == "PDF" -%>
+				<tr>
+					<td width = 225px style="vertical-align:top; padding-top:5px; padding-bottom:0px; padding-left:0px; text-align:left; color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
+				  	<a href="<%= @question.content.source_file.url %>" target="_blank">View PDF:</a>&nbsp;<%= @question.content.title.titleize  %>
+					</td>
+				</tr>
+				<% end -%>
+			</tbody>
+		</table>
+		<% end -%>
+		<% end -%>
+      <% unless @question.act_rel_reading.nil? %>
+		<table id="reading_header">
+			<tbody>  
+				<% col_label = @question.act_rel_reading.label.titleize -%>
+				<tr>
+					<td id="reading_show" style="width:100px">
+						<u>Show Reading</u>
+					</td>
+					<td style=" text-align:left;">
+						<strong><%= col_label %></strong>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table id="reading_text">
+			<tbody>  
+				<% col_label = @question.act_rel_reading.label.titleize -%>
+				<tr>
+					<td id="reading_hide" style="width:100px">
+						<u>Hide Reading</u>
+					</td>
+					<td style="width:400px">
+						&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<td style="width:100px">
+						&nbsp;
+					</td>
+					<td  style="width:400px; text-align:left;">
+					<%= @question.act_question_reading.reading %>
+					</td>
+				</tr>
+				
+			</tbody>
+		</table>
+		<br/>
+	  <% end -%>	
+	</div>
+
+	  
+	 <div style="float:left; width:450px;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
+		<u>Question:</u> 
+	  <span style="color:#000000;padding-left:30px"><%= simple_format @question.question%></span>
+	 </div> 
+
+	  <div style="float:left; width:450px;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
+	  	<% if @question.question_type =="MC" -%>
+		<table style="float:left; width:400px;">
+			<tbody>  
+			<% @question.act_choices.sort_by{|c| [c.position]}.each do |chc| -%>
+				<tr>
+					<% if chc.is_correct -%>
+					<td style="width:30px; padding-left:15px; vertical-align:middle;">
+						<%=(image_tag "button_correct.png",:width => 10) %>
+					</td>
+					<% else -%>
+					<td style="width:30px; padding-left:15px; vertical-align:middle;">
+						<%=(image_tag "button_incorrect.png",:width => 10) %>
+					</td>
+					<% end -%>
+					<td style=" padding-left:0px; font-size:11px; vertical-align:top;">
+						<%= chc.choice%>
+					</td>
+				</tr>
+			<% end -%>
+			</tbody>
+		</table>
+		<br/>
+
+		<% else -%>	
+		<span style="color:#C73914;padding-left:30px">
+			<i> Short Answer Question </i><br/>
+		</span>
+		<% end -%>
+			<br/>
+		<% unless @question.comment.nil? || @question.comment.empty?%>
+			<br/>
+			<u><br/><br/><br/><%= @question.user.last_name%>&nbsp;Comment:</u> <br/>
+			<span style="color:#000000;padding-left:30px">
+			<i><%= @question.comment %></i><br/>
+			</span>
+		<% end -%>
+	 </div> 
+	<div style="float:left; width:550px;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
+      <% unless @question.act_benches.size.zero? %>
+		<table id="bench_header">
+			<tbody>  
+				<% col_label = pluralize(@question.act_benches.size, " Associated Benchmark") -%>
+				<tr>
+					<td id="bench_show" style="width:100px">
+						<u>Show</u>
+					</td>
+					<td style=" text-align:left;">
+						<%= col_label %>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table id="bench_text">
+			<tbody>  
+				<% col_label = pluralize(@question.act_benches.size, " Associated Benchmark") -%>
+				<tr>
+					<td id="bench_hide" style="width:100px">
+						<u>Hide</u>
+					</td>
+					<td style=" text-align:left;">
+						<%= col_label %>
+					</td>
+				</tr>
+				<br/>
+				<% @question.act_benches.sort_by{|b| [b.act_bench_type.name, b.description]}.each do |b| %>
+				<tr>
+					<td  style="width:100px; text-align:right;">
+						<%= b.act_bench_type.name.upcase %>:
+					</td>
+					<td  style="text-align:left;">
+						<%= b.description.humanize %>
+					</td>
+				</tr>
+				<% end -%>
+			</tbody>
+		</table>
+		<br/>
+	  <% else -%>
+	 	<br/> * * *  No Benchmarks Associated With Question  * * *
+	  <% end -%>	
+	</div>
+
+	<div style="float:left; ;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
+      <% unless @question.content.nil? %>
+		<% link_string = "View Attached " + @question.content.content_object_type.content_object_type_group.name + " Information" -%>
+		<table id="attach_header">
+			<tbody>  
+				<tr>
+					<td id="attach_show" style="width:250px">
+						<u><%= link_string %></u>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table id="attach_file">
+			<tbody>  
+				<tr>
+				<tr>
+					<td id="attach_hide" style="width:250px">
+						<u><%= link_string %></u>
+					</td>
+				</tr>
+				<tr >
+					<td width=250px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+						&nbsp;&nbsp;&nbsp;&nbsp;<strong><i><%=  @question.content.title.titleize %></i></strong><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "View In Separate Window", {:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => @question.content}, {:target => "_blank"}  %>
+						<br/>
+						<% unless @question.content.organization.nil? -%> 
+							&nbsp;&nbsp;&nbsp;&nbsp;<%= @question.content.organization.name %><br/>
+						<% end -%>
+						<% unless @question.content.user.nil? -%> 
+							&nbsp;&nbsp;&nbsp;&nbsp;<%= @question.content.user.full_name %><br/>
+						<% end -%>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	  <% else -%>
+	  <br/>* * *  No Attached File  * * *
+	  <% end -%>	
+	</div>
+	<div style="float:left; width:550px">
+
+		<%= render :partial=> "static_assessment_q_analyze", :locals => {:q => @question} -%>
+
+	</div>
+
+
+ <br style="clear:both">
+
+
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+  		  jQ("#reading_header").show();
+		  jQ("#reading_text").hide();		  
+
+	jQ("#reading_show").click(function() {
+		  	jQ("#reading_header").hide();	 
+	   		jQ("#reading_text").slideDown("slow");
+	})
+
+	jQ("#reading_hide").click(function() {
+	   		jQ("#reading_text").slideUp("slow");
+	   		jQ("#reading_header").show();
+	})	
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+  		  jQ("#bench_header").show();
+		  jQ("#bench_text").hide();		  
+
+	jQ("#bench_show").click(function() {
+		  	jQ("#bench_header").hide();	 
+	   		jQ("#bench_text").slideDown("slow");
+	})
+
+	jQ("#bench_hide").click(function() {
+	   		jQ("#bench_text").slideUp("slow");
+	   		jQ("#bench_header").show();
+	})	
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+  		  jQ("#attach_header").show();
+		  jQ("#attach_file").hide();		  
+
+	jQ("#attach_show").click(function() {
+		  	jQ("#attach_header").hide();	 
+	   		jQ("#attach_file").slideDown("slow");
+	})
+
+	jQ("#attach_hide").click(function() {
+	   		jQ("#attach_file").slideUp("slow");
+	   		jQ("#attach_header").show();
+	})	
+});
+</script>

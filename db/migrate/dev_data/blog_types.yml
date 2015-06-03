@@ -1,0 +1,77 @@
+POV:
+    id: 1                                         
+    blog_type: POV                                    
+    label: Our Points Of View
+    description: Article Expressing An Opinion
+    position: 31
+
+UserBio:
+    id: 2                                         
+    blog_type: UB                                    
+    label: User Bio
+    description: A Personal Bio
+    position: 61
+    
+OrgBio:
+    id: 3                                         
+    blog_type: OD                                    
+    label: Our Purpose
+    description: A Description Of Organization
+    position: 10
+     
+AssBio:
+    id: 4                                         
+    blog_type: OT                                    
+    label: Our Technology
+    description: A Description Of Escent Platform
+    position: 40
+     
+Testi:
+    id: 5                                         
+    blog_type: TST                                    
+    label: Testimonial
+    description: A Client Testimonial
+    position: 50
+         
+Instruct:
+    id: 6                                         
+    blog_type: PROJ                                    
+    label: Our Projects
+    description: Porject Descriptions
+    position: 70
+
+Header:
+    id: 7                                         
+    blog_type: POV_H                                    
+    label: POV Header
+    description: POV Header Content For Web Page          
+    position: 30
+
+Offerings:
+    id: 8                                         
+    blog_type: OFR                                    
+    label: Our Services
+    description: Descriptions of Service Offering
+    position: 20
+     
+Applications:
+    id: 9                                         
+    blog_type: APP                                    
+    label: App Topic Discussion
+    description: Descriptions of Application and App Tool
+    position: 25
+     
+About-Us:
+    id: 10                                        
+    blog_type: AU                                    
+    label: About Us
+    description: Descriptions of Our Team
+    position: 60
+     
+Other:
+    id: 90                                         
+    blog_type: O                                    
+    label: Miscellaneous Blog
+    description: A Catch-All Blog Category
+    position: 90
+    

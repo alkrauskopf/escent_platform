@@ -1,0 +1,87 @@
+<div id="main_header">
+   	<div id="header_bar">
+		<div id="header_main_ep">
+		      <%= render(:partial => "/shared/header_bar_ep") %>
+	   	</div>
+   	</div> 
+</div>
+<div id="body_main_ep">
+<div style="width:600px;padding-left:200px">
+
+	<div style="min-height:50px; margin-left:420px;margin-top:25px; margin-bottom:0px;padding:3px;text-align:left;">
+	  <div class="title_blue">Contact Information</div>
+	  <div class="text_dark_blue" style="margin-left:0px;margin-top:5px;">
+		Escent Partners, LLC<br>
+		1900 Little Raven Street<br>
+		Denver, CO  80202			<br>
+		1.303.250.0436 phone
+	  </div>
+	</div>
+
+	<%= render :partial => "/shared/error_and_notice" %>
+
+<div style="width:580px;padding:3px;">
+  <div class="text_dark_blue" style="margin-left:20px;margin-top:px;">
+	<%= form_tag :action => :contact_us, :organization_id => @current_organization %>
+	<div class="FormRow">
+	  <div class="FormRowTitle">
+		First Name:
+	  </div>
+	  <div class="FormRowData">
+		<%= text_field :contact_info, :first_name, :value => @first_name, :class=>"text required" %>
+	  </div>
+	</div>
+	<div class="FormRow">
+	  <div class="FormRowTitle">
+		Last Name:
+	  </div>
+	  <div class="FormRowData">
+		<%= text_field :contact_info, :last_name, :value => @last_name, :class=>"text required" %>
+	  </div>
+	</div>
+
+	<div class="FormRow">
+	  <div class="FormRowTitle">
+		Email:
+	  </div>
+	  <div class="FormRowData">
+		<%= text_field :contact_info, :email, :value => @email, :class=>"text required" %>
+	  </div>
+	</div>
+
+	<div class="FormRow">
+	  <div class="FormRowTitle">
+		Title:
+	  </div>
+	  <div class="FormRowData">
+		<%= text_field :contact_info, :title, :value => @title, :class=>"text required" %>
+	  </div>
+	</div>
+	<div class="FormRow">
+	  <div class="FormRowTitle">
+		Message:
+	  </div>
+	  <div class="FormRowData">
+		<%= text_area :contact_info, :body, :value => @body, :class=>"text required", :style => "width:575px;height:100px;" %>
+	  </div>
+	</div>
+	<div class="FormRow">
+		<div class="FormRowTitle">&nbsp;</div>
+		<div class="FormRowData" style = " border:0px">
+		  <%= show_simple_captcha %><br/>
+		</div>
+	</div>
+	<div style="width:100%; text-align:center;">
+	  <%= submit_tag value = "Send", options = {:style => "width:75px;height:20px;"} %>
+
+	</div>
+	<div class="FormRow">
+	  <div class="FormRowTitle">
+		&nbsp;<br/>
+	  </div>
+	</div>
+  </div>
+</div>
+	  <br/><br/>
+</div>
+</div>

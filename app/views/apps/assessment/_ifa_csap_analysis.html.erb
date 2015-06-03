@@ -1,0 +1,102 @@
+
+<div>
+	<% q_max_grade = quest.ifa_question_logs.collect{|qst| qst.grade_level}.compact.max rescue 0  -%>
+	<% q_min_grade = quest.ifa_question_logs.collect{|qst| qst.grade_level}.compact.min  rescue 0-%>
+	<% if q_max_grade %>
+		<% grades = q_max_grade - q_min_grade + 1%>
+		<% grades = grades > 4 ? 4 : grades %>
+		<% if q_max_grade > 0 -%>
+		<span style="font-size:12px; color:#000000">
+			<strong><center><br/>TCAP Calibration<br/></center><strong>
+		</span>
+
+		<table   style="width:375px; border:1px solid #ddd;margin-left:40px">
+			<thead>
+				<tr  style=" border:1px solid #ddd;">
+					<th   style="width:75px; border:0px solid white; font-size:12px; padding-left:0px; vertical-align:bottom; text-align:center;color:#000000;font-weight:normal;">
+						<center>Student<br/>Levels</center>
+					</th>
+					<% grade_level = q_min_grade -%>
+					<% until grade_level >= q_min_grade + grades -%>
+ 					<% hover_string = "Question Performance Against Student TCAP Distribution For Grade " + grade_level.to_s %>
+						<th  class="tcap_tip" title="<center><%= hover_string %></center>" style="width:75px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color:#000000; font-weight:normal;">
+							<center>Grade&nbsp;<%=grade_level%><br/>Achievement</center>
+						</th>
+						<% grade_level += 1 %>
+					<% end -%>
+				</tr>
+			</thead>
+			<tbody>
+				<style type="text/css" media="screen">
+			    table,tr,td { border:medium}
+				table tr:hover{
+	 	       	background-color: transparent;
+ 		     	}
+ 			   	</style>
+				<% CoCsapRange.for_subject(quest.act_subject).no_na.each do |level| -%>
+					<% border_w = quest.score_range(mstr) && quest.score_range(mstr).range == level.range ? "1px" : "0px" -%>
+					<% border_c = quest.score_range(mstr) && quest.score_range(mstr).range == level.range ? "#000" : "#ddd" -%>
+					<% level_c = quest.score_range(mstr) && quest.score_range(mstr).range == level.range ? "#FFFFFF" : "#FFFFFF" -%>
+					<% color_string_1 = "#000000" %>
+				<tr style=" border:<%= border_w%> solid <%= border_c%>;">
+					<td  style="width:75px; border:0px solid white; font-size:11px; background:<%=level_c %>; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						<%= level.range %>
+					</td>
+					<% grade_level = q_min_grade -%>
+					<% until grade_level >= q_min_grade + grades -%>
+						<% q_logs = quest.ifa_question_logs.for_csap_grade_level(grade_level, level)%>
+						<% q_students = q_logs.size %>
+						<% q_answers = q_students == 0 ? 0 : q_logs.collect{|qst| qst.choices}.sum   -%>
+						<% q_points = q_students == 0  ? 0 : q_logs.collect{|qst| qst.earned_points}.sum   -%>
+						<% q_prof = q_answers == 0? 0: (100*q_points/q_answers).to_i rescue 0 -%>							
+		 				<% back_1 = "#FFFFFF" %>	
+						<% if q_students > 0 %>
+							<% back_1 = q_prof < 60 ? "#fcd1ca" : (q_prof > 80 ? "#baeaa9" : "#f7f5cc") %>
+						<% end %>			
+						<td  style="width:75px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;  background:<%= back_1 %>; color:<%= color_string_1%>; font-weight:normal;">
+							<% sample_size = "(" + q_students.to_s + ")" -%> 
+							<%=number_to_percentage(q_prof, :precision => 0) %>  <%= sample_size %>
+						</td>
+						<% grade_level += 1 %>
+					<% end -%>	
+				</tr>
+			<% end -%>
+		</tbody>	
+	</table>
+<br/>
+<% end -%>
+<% end -%>
+</div>
+<script>
+jQ(function(){
+jQ('th.tcap_tip').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'topMiddle',
+         tooltip: 'bottomMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 0,
+         radius: 0,
+         color: '#99911a'
+      },
+      width: 250,
+	  tip: { // Now an object instead of a string
+         corner: 'bottomMiddle', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>
+<script>

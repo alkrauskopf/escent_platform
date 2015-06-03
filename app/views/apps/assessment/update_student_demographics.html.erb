@@ -1,0 +1,16 @@
+
+<div style ="color: #C83A14; font-size:18px; margin-top:5px; font-weight:normal"> 
+
+	<br/>
+	<strong><center> <%= @student.full_name.upcase %><br/>Demographics And Baseline Scores</center></strong>
+</div>
+
+    <%= render :partial => "/shared/error_and_notice" %>
+
+	<%= render :partial => "/apps/assessment/student_demographics" %>
+
+    <%= render :partial => "/apps/assessment/student_baseline_scores" %>
+
+
+
+

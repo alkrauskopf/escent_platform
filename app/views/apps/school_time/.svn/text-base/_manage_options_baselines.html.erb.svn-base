@@ -1,0 +1,152 @@
+<div id="options_baseline">
+
+    <%= render :partial => "/shared/error_and_notice" %>
+	<% d_hrsday_std = @current_organization.time_allocation ? @current_organization.time_allocation.hrsday_std: 6.5 -%>
+	<% d_weekday_std = @current_organization.time_allocation  ? @current_organization.time_allocation.weekday_std: 5.0 -%>
+	<% d_daysyear_std = @current_organization.time_allocation  ? @current_organization.time_allocation.daysyear_std: 180.0 -%>
+	<% d_hrsday_er = @current_organization.time_allocation  ? @current_organization.time_allocation.hrsday_er: 4.0 -%>
+	<% d_daysyear_er = @current_organization.time_allocation  ? @current_organization.time_allocation.daysyear_er: 0.0 -%>
+	<% d_hrsday_ls = @current_organization.time_allocation  ? @current_organization.time_allocation.hrsday_ls: 4.0 -%>
+	<% d_daysyear_ls = @current_organization.time_allocation  ? @current_organization.time_allocation.daysyear_ls: 0.0 -%>
+	<% d_fte_teacher = @current_organization.time_allocation  ? @current_organization.time_allocation.fte_teacher: 0.0 -%>
+	<% d_fte_admin = @current_organization.time_allocation  ? @current_organization.time_allocation.fte_admin: 0.0 -%>
+	<% d_total_students = @current_organization.time_allocation  ? @current_organization.time_allocation.total_students: 0 -%>
+	<% button_label = @current_organization.time_allocation ? "Update" : "Create" -%>
+	<table style="width:450px;margin-left:0px">
+		<tbody>  
+			<tr  style="border:0px solid #ddd;" >
+				<td   id = "baseline_submit" style="width:150px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-left:110px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
+					<button><span style="cursor:pointer;"><%= button_label%></span></button>
+				</td>
+				<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:2px; padding-top:2px; text-align:right; color: #2061a5; font-size:10.5px; font-weight:normal">
+					Standard Hours/Day:
+				</td>
+				<td   style="width:50px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:left; color: #2061a5; font-size:10.5px; font-weight:normal">
+					<%= text_field :hrsday, :std,  :value => d_hrsday_std, :size => "4" %>
+				</td>
+			</tr>
+			<tr  style="border:0px solid #ddd;" >
+				<td   style="width:150px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-left:0px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
+					&nbsp;
+				</td>
+				<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:2px; padding-top:2px; text-align:right; color: #2061a5; font-size:10.5px; font-weight:normal">
+					Standard Days/Week:
+				</td>
+				<td   style="width:50px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:left; color: #2061a5; font-size:10.5px; font-weight:normal">
+					<%= text_field :daysweek, :std,  :value => d_weekday_std, :size => "4" %>
+				</td>
+			</tr>
+			<tr  style="border:0px solid #ddd;" >
+				<td   style="width:150px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-left:0px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
+					&nbsp;
+				</td>
+				<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:2px; padding-top:2px; text-align:right; color: #2061a5; font-size:10.5px; font-weight:normal">
+					Standard Days/Year:
+				</td>
+				<td   style="width:50px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:left; color: #2061a5; font-size:10.5px; font-weight:normal">
+					<%= text_field :daysyear, :std,  :value => d_daysyear_std, :size => "4" %>
+				</td>
+			</tr>
+			<tr  style="border:0px solid #ddd;" >
+				<td   style="width:150px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-left:0px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
+					&nbsp;
+				</td>
+				<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:2px; padding-top:2px; text-align:right; color: #2061a5; font-size:10.5px; font-weight:normal">
+					Early Release Hours/Day:
+				</td>
+				<td   style="width:50px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:left; color: #2061a5; font-size:10.5px; font-weight:normal">
+					<%= text_field :hrsday, :er,  :value => d_hrsday_er, :size => "4" %>
+				</td>
+			</tr>
+			<tr  style="border:0px solid #ddd;" >
+				<td   style="width:150px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-left:0px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
+					&nbsp;
+				</td>
+				<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:2px; padding-top:2px; text-align:right; color: #2061a5; font-size:10.5px; font-weight:normal">
+					Early Release Days/Year:
+				</td>
+				<td   style="width:50px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:left; color: #2061a5; font-size:10.5px; font-weight:normal">
+					<%= text_field :daysyear, :er,  :value => d_daysyear_er, :size => "4" %>
+				</td>
+			</tr>
+			<tr  style="border:0px solid #ddd;" >
+				<td   style="width:150px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-left:0px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
+					&nbsp;
+				</td>
+				<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:2px; padding-top:2px; text-align:right; color: #2061a5; font-size:10.5px; font-weight:normal">
+					Late Start Hours/Day:
+				</td>
+				<td   style="width:50px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:left; color: #2061a5; font-size:10.5px; font-weight:normal">
+					<%= text_field :hrsday, :ls,  :value => d_hrsday_ls, :size => "4" %>
+				</td>
+			</tr>
+			<tr  style="border:0px solid #ddd;" >
+				<td   style="width:150px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-left:0px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
+					&nbsp;
+				</td>
+				<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:2px; padding-top:2px; text-align:right; color: #2061a5; font-size:10.5px; font-weight:normal">
+					Late Start Days/Year:
+				</td>
+				<td   style="width:50px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:left; color: #2061a5; font-size:10.5px; font-weight:normal">
+					<%= text_field :daysyear, :ls,  :value => d_daysyear_ls, :size => "4" %>
+				</td>
+			</tr>
+			<tr  style="border:0px solid #ddd;" >
+				<td   style="width:150px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-left:0px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
+					&nbsp;
+				</td>
+				<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:2px; padding-top:2px; text-align:right; color: #2061a5; font-size:10.5px; font-weight:normal">
+					Teacher FTE:
+				</td>
+				<td   style="width:50px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:left; color: #2061a5; font-size:10.5px; font-weight:normal">
+					<%= text_field :fte, :teacher,  :value => d_fte_teacher, :size => "4" %>
+				</td>
+			</tr>
+			<tr  style="border:0px solid #ddd;" >
+				<td   style="width:150px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-left:0px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
+					&nbsp;
+				</td>
+				<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:2px; padding-top:2px; text-align:right; color: #2061a5; font-size:10.5px; font-weight:normal">
+					Admin Staff FTE:
+				</td>
+				<td   style="width:50px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:left; color: #2061a5; font-size:10.5px; font-weight:normal">
+					<%= text_field :fte, :admin,  :value => d_fte_admin, :size => "4" %>
+				</td>
+			</tr>
+			<tr  style="border:0px solid #ddd;" >
+				<td   style="width:150px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-left:0px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
+					&nbsp;
+				</td>
+				<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:2px; padding-top:2px; text-align:right; color: #2061a5; font-size:10.5px; font-weight:normal">
+					Total Students:
+				</td>
+				<td   style="width:50px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:left; color: #2061a5; font-size:10.5px; font-weight:normal">
+					<%= text_field :total, :students,  :value => d_total_students, :size => "4" %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#baseline_submit').click(function() {
+		var hrsday_std = jQ('#hrsday_std').val();
+		var daysweek_std = jQ('#daysweek_std').val();
+		var daysyear_std = jQ('#daysyear_std').val();
+		var hrsday_er = jQ('#hrsday_er').val();
+		var daysyear_er = jQ('#daysyear_er').val();
+		var hrsday_ls = jQ('#hrsday_ls').val();
+		var daysyear_ls = jQ('#daysyear_ls').val();
+		var fte_teacher = jQ('#fte_teacher').val();
+		var fte_admin = jQ('#fte_admin').val();
+		var total_students = jQ('#total_students').val();
+		var url = "<%= url_for :controller => "apps/school_time", :action => :maintain_baselines, :organization_id => @current_organization, :app_id=> app.id %>";
+			jQ.get(url, {'hrsday_std':hrsday_std,'weekday_std':daysweek_std, 'daysyear_std':daysyear_std, 'hrsday_er':hrsday_er, 'daysyear_er':daysyear_er,  'hrsday_ls':hrsday_ls, 'daysyear_ls':daysyear_ls, 'fte_teacher':fte_teacher,  'fte_admin':fte_admin, 'total_students':total_students}, function(data) {
+			jQ("#options_baseline").html(data); 
+	   		jQ("#options_baseline").show();
+			});
+	})
+});
+</script>
+

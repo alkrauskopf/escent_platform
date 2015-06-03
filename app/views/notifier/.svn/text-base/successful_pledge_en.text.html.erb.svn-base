@@ -1,0 +1,12 @@
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">Dear <%= @prayer_pledge.first_name %>,</p>
+<br />
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">Thank you for joining <%= link_to "Odyssey Networks", "http://www.odysseynetworks.org/" %> in the cause for peace.</p>
+<br />
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">Please participate in our <%= link_to "Discussions", url_for(:action => 'index', :controller => '/site', :only_path => false, :host => "live.faithstreams.com") %> and other activities involving Peace in Our World. </p>
+<br />
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">Thanks again,</p>
+<br />
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">Odyssey Networks</p>
+<br />
+
+

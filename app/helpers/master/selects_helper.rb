@@ -1,0 +1,2 @@
+module Master::SelectsHelper
+end

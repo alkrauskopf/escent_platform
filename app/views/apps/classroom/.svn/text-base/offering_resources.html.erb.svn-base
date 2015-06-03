@@ -1,0 +1,5 @@
+<div id="offering_resources">
+
+    <%= render :partial => "apps/classroom/offering_resources", :locals => {:admin => @admin, :copy_lu=>nil, :offering => @classroom, :app=> @app, :lu=> @topic, :pool_class => nil, :pool_filter => nil, :filters=>[], :pool=> [], :header=>""}  %>
+
+</div>	

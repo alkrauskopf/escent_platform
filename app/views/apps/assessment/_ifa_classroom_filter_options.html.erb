@@ -1,0 +1,205 @@
+<div id="filter_options" style="padding:0px; width:99%;  border:0px solid #ddd; margin: 5px 0px 0px 0px; text-align:left; min-height:5px;">
+
+	<% if @classroom.ifa_classroom_option %>
+	<div id="options_table1">
+
+				<% master = @classroom.ifa_classroom_option.act_master -%>
+				<% subject = @classroom.ifa_classroom_option.act_subject -%>
+				<% unless master -%>
+					<% master = ActMaster.first -%>
+				<% end -%>
+				<% subject_tag = subject ? subject.name : "All Subjects" -%>	
+				<% upper_score_tag = @classroom.ifa_classroom_option.max_score_filter ? @classroom.ifa_classroom_option.max_score_filter.to_s : "All" -%>
+				<% upper_scores = ["All"] + ActScoreRange.find(:all, :conditions => ["act_master_id = ? ",  master.id],:order => "upper_score").collect{|s| [s.upper_score]}.uniq %>
+				<% subjects = ["All Subjects"] + ActSubject.find(:all, :conditions => ["name != ?", "-na-"],:order => "name").collect{|s| [s.name, s.id]}%>
+
+	<table   style="width:900px; border:0px solid white;">
+		<tbody>
+			<tr style=" border:0px solid white;">
+
+				<td  style="width:80px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:left;color: #C83A14;font-weight:normal;">
+					&nbsp;
+				</td>
+
+				<% if @classroom.ifa_classroom_option.is_calibrated %>
+					<td id="calibrate_toggle"  style="width:90px; border:0px solid white; font-size:11px; padding-left:45px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:normal;">
+							<%= (image_tag "calibrated_yes.png",:width => 20) -%>
+					</td>			
+				<%else -%>
+					<td id="calibrate_toggle"  style="width:90px; border:0px solid white; font-size:11px; padding-left:45px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:normal;">
+							<%= (image_tag "calibrated_no.png",:width => 20) -%>
+					</td>
+				<% end-%>
+				<% if @classroom.ifa_classroom_option.is_user_filtered %>
+					<td id="user_filter_toggle"  style="width:90px; border:0px solid white; font-size:11px; padding-left:45px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:normal;">
+							<%= (image_tag "button_enabled.png",:width => 15) -%>
+					</td>			
+				<%else -%>
+					<td id="user_filter_toggle"  style="width:90px; border:0px solid white; font-size:11px; padding-left:45px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:normal;">
+							<%= (image_tag "button_disabled.png",:width => 15) -%>
+					</td>
+				<% end-%>
+				<td  id = "master_id" width=70px style="vertical-align:middle;  padding-left:10px; padding-top:10px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+					<%=  select(:ass, :master_id, @current_organization.ifa_org_option.act_masters.collect{|m| [m.abbrev,m.id]},{:prompt => master.abbrev.upcase}) %>
+				</td>
+				<td  id = "subject_id" style="width:110px; vertical-align:middle;  padding-left:30px; padding-top:10px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+						<%=  select(:ass, :subject_id, subjects,{:prompt => subject_tag}) %>
+				</td>
+				<td  id = "upper_score" width=70px style="vertical-align:middle;  padding-left:30px; padding-top:10px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+					<%=  select(:ass, :upper_score, upper_scores,{:prompt => upper_score_tag }) %>
+				</td>			
+				<td  style="width:390px; border:0px solid white; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:normal;">
+					&nbsp;
+				</td>
+
+			</tr>
+			<tr style=" border:0px solid white;">
+				<td  style="width:80px; border:0px solid white; font-size:12px; padding-left:0px; vertical-align:top; text-align:left;color: #000000;font-weight:normal;">
+					Filters =>
+				</td>
+				<% if @classroom.ifa_classroom_option.is_calibrated %>
+					<td   style="width:90px; border:0px solid white; font-size:11px;  vertical-align:top; text-align:center; color: #000000; font-weight:normal;">
+						Calibrated Only<br/>YES
+					</td>
+				<%else -%>
+					<td  style="width:90px; border:0px; font-size:11px; padding-left:0px; vertical-align:top; text-align:center; color: #000000; font-weight:normal;">
+						Calibrated Only<br/>NO
+					</td>
+				<% end-%>
+				<% if @classroom.ifa_classroom_option.is_user_filtered %>
+					<td  style="width:90px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						<%=@current_user.last_name%>&nbsp;Only<br/>YES
+					</td>			
+				<%else -%>
+					<td  style="width:90px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						<%=@current_user.last_name%>&nbsp;Only<br/>NO
+					</td>
+				<% end-%>
+				<td  style="width:70px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						Standard<br/>&nbsp;
+				</td>
+				<td  style="width:110px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						Subject<br/>&nbsp;
+				</td>
+				<td  style="width:70px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+						Upper<br/>Score
+				</td>
+				<td  style="width:390px; border:0px solid white; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:normal;">
+					&nbsp;
+				</td>
+			</tr>
+		</tbody>					
+	</table>
+
+</div>
+<% end -%>
+</div>
+
+
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#calibrate_toggle").click(function() {
+		var organization = "<%= @current_organization.public_id %>";
+		var classroom = "<%= @classroom.public_id %>";
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :classroom_option_toggle_calibrate %>";
+		jQ.get(url,{'organization_id': organization,'classroom_id': classroom},  function(data) {
+			jQ("#filter_options").html(data); 
+	   		jQ("#filter_options").show();
+					});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#user_filter_toggle").click(function() {
+		var organization = "<%= @current_organization.public_id %>";
+		var classroom = "<%= @classroom.public_id %>";
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :classroom_option_toggle_user_filter %>";
+		jQ.get(url,{'organization_id': organization,'classroom_id': classroom},  function(data) {
+			jQ("#filter_options").html(data); 
+	   		jQ("#filter_options").show();
+					});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#subject_id").change(function(){
+		var subject_id = jQ('#ass_subject_id').val();
+		var classroom = "<%= @classroom.public_id %>";
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :classroom_options_update, :organization_id => @current_organization  %>";
+			jQ.get(url, {'classroom_id':classroom, 'subject_id': subject_id}, function(data) {
+			jQ("#filter_options").html(data); 
+	   		jQ("#filter_options").show();
+			});
+	})
+});
+</script>
+
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#master_id").change(function(){
+		var master_id = jQ('#ass_master_id').val();
+		var classroom = "<%= @classroom.public_id %>";
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :classroom_options_update, :organization_id => @current_organization  %>";
+			jQ.get(url, {'classroom_id':classroom, 'master_id': master_id}, function(data) {
+			jQ("#filter_options").html(data); 
+	   		jQ("#filter_options").show();
+			});
+	})
+});
+</script>	
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#upper_score").change(function(){
+		var score = jQ('#ass_upper_score').val();
+		var classroom = "<%= @classroom.public_id %>";
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :classroom_options_update, :organization_id => @current_organization  %>";
+			jQ.get(url, {'classroom_id':classroom, 'score': score}, function(data) {
+			jQ("#filter_options").html(data); 
+	   		jQ("#filter_options").show();
+			});
+	})
+});
+</script>
+
+
+
+
+<script>
+jQ(function(){
+jQ('td.filter_tip').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'bottomMiddle',
+         tooltip: 'topMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 0,
+         radius: 0,
+         color: '#99911a'
+      },
+      width: 200,
+	  tip: { // Now an object instead of a string
+         corner: 'topMiddle', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>

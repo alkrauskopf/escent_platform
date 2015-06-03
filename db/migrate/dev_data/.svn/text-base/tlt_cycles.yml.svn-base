@@ -1,0 +1,18 @@
+
+DISC:
+    id: 1
+    cycle: Discovery
+    description: Initial CTL Cycle
+    stage: 1 
+
+FOC:
+    id: 2
+    cycle: Learning
+    description: Second CTL Cycle
+    stage: 2    
+    
+REAL:
+    id: 3
+    cycle: Evaluation
+    description: Third CTL Cycle
+    stage: 3      

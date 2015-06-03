@@ -1,0 +1,49 @@
+
+<% if @current_user -%>
+	<div style = "font-size:12px; color: #000000;padding-left:10px;">
+		<% form_for(:purge, :url => {:controller => "/site/contents", :action => :destroy_selected, :organization_id => @current_organization, :function => "Destroy", :format => 'js'}, :html => { :multipart => true, :method => :put}) do |form| -%>
+			<br/>
+			<span style ="color: #C83A14; font-size:15px">
+				<center><strong>Manageable Resources:&nbsp;<%= @current_organization.short_name%>/<%= @current_user.last_name %> </strong></center>
+			</span>
+			<%= render :partial => "/shared/error_and_notice" %>		
+			<div class="flash_notice" style="display:none;"></div>
+			<%= render (:partial => "site/contents/list_content_groups", :locals => {:org=>@current_organization, :content_groups=>@content_groups, :current_group=> @current_group}) %>	
+
+		<% end -%>
+	</div>
+	<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('#authorization_levels .authorization_levels_close').toggleAuthorizationLevels();
+		jQ('#authorization_levels .authorization_levels_open').toggleAuthorizationLevels();	
+	  jQ("#roles").tablesorter({ headers: { 1: { sorter: false }} });
+	});
+	</script>
+	<script type="text/javascript">
+		jQ(document).ready(function() {
+			function showDialogContent(title, content_id) {
+				$dialog = jQ("#view-content");
+				// next line is broken.		
+				$dialog.attr("title", title);
+				jQ.post('<%= url_for :controller => :content, :action => :show, :organization_id => @current_organization %>', {'id':content_id}, function(data) {
+					$dialog.html(data);
+					$dialog.dialog('open');
+				})
+			}
+	
+			var addButtonAction = function() {
+				jQ("button", jQ("#topic_content")).each(function() {
+					jQ(this).click(function() {
+						var title = jQ(this).parent("td").parent("tr").children("td").eq(0).text();
+						var content_id = jQ(this).parent("td").parent("tr").attr("id");
+						showDialogContent(title, content_id)
+						return false;
+					})
+				})
+			}
+			jQ('.dialog').dialog('close');
+			addButtonAction();
+	
+		})
+	</script>
+<% end -%>

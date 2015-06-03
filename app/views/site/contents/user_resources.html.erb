@@ -1,0 +1,55 @@
+<div >
+	
+	<% unless @resource_list.empty? -%>
+		<div class="FormRow submit_warp" style = "padding-bottom:0px;padding-left:715px">
+			<%= submit_tag "Destroy Selected Resources", :confirm => "Are You Sure? Selected Resources Will Be Permanently Removed!", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+		</div>			
+	<table id="roles" class="tablesorter" style="width:99%; border:0px">
+		<tbody>
+			
+			<% for rsrc in @resource_list do -%>
+			<% unless rsrc.nil?%>
+			<tr>
+			
+				<td width = 60%% style=" color: #000000; vertical-align:middle" >
+					<strong><u><%= link_to rsrc.title,{:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => rsrc} %></u></strong>
+					&nbsp;&nbsp;&nbsp;<%= rsrc.subject_area.name.upcase %>&nbsp;&nbsp;&nbsp;<%= rsrc.content_status.name %>&nbsp;&nbsp;&nbsp;
+					<% if rsrc.content_object_type.nil? -%> <strong><i> Invalid File Type: Should Be Deleted <i/></strong>
+					<% else -%><%= rsrc.content_object_type.content_object_type_group.name.upcase  %>
+					<% end -%><br/>
+					Submitted: <%= rsrc.created_at.strftime("%Y-%m-%d %I:%M")%>&nbsp;&nbsp;&nbsp;
+					<% if rsrc.updated_at.nil?%><i>Never Updated</i>
+					<% else %>Lasted Updated: <%= rsrc.updated_at.strftime("%Y-%m-%d %I:%M") %>					
+					<% end -%>
+				</td>
+				<td width = 20% style=" color: #C83A14; vertical-align:middle">
+					Used In <%= pluralize(rsrc.topics.size, "Topic") %><br/>
+					Tagged By <%= pluralize(rsrc.favorite_of.size, ' Person') %>
+				</td>
+				<td width = 12% style=" padding-top:5px;padding-left:20px;vertical-align:middle">
+					<%=  check_box_tag "res_check[]", value = rsrc.id ,checked = false %>
+					<%= label_tag "Destroy" %>
+                      <%#= button_to_remote  "DESTROY", {:url => {:controller => "/site/contents", :action => :manage_resources, :organization_id => @current_organization, :content_id => rsrc, :function => "Destroy"},:confirm => "Are You Sure? Resource Will Be Permanently Removed! " }, {:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
+				</td> 
+
+                 <td  style="width:8%;  padding-top:5px;padding-left:20px;vertical-align:middle">
+
+					<%#= submit_tag "EDIT", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+
+                      <u><%= link_to  "Edit", {:controller => "/site/contents", :action => :edit_resource, :organization_id => @current_organization, :content_id => rsrc, :function => "Edit"} %></u>
+                   </td>
+			</tr>
+			<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+	<% else -%>	
+		No Resources.
+	<% end -%>
+
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() { 
+	jQ('.fsn-button').addUIStateClass();
+});
+</script>

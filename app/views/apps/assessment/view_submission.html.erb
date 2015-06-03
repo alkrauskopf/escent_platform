@@ -1,0 +1,319 @@
+
+<div class="Form clear">
+<% form_for(:act_submission, :url => {:controller => "/apps/assessment", :action => :final_assessment_review, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic,:submission_id => @submission, :function => "Submit"}) do |form| -%>
+	
+	<table id="roles" class="tablesorter" style="width:775px; ">
+		<tbody>
+
+			<tr>
+				<td width = 150px style=" color: #000000; vertical-align:middle;text-align:left; font-size:12px" >
+					<%= image_tag(@current_organization.logo.url, :alt => @current_organization.name, :width => 150) if @current_organization.logo.file? -%>
+				</td>
+				<td width = 475px style="vertical-align:top; color: #C83A14; font-size:16px; margin-top:0px; font-weight:normal" >
+		 		     	<br/>
+							<strong><center><u><%= @classroom.course_name.upcase %>&nbsp;ASSESSMENT</u></center></strong>
+				</td>
+				<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
+		    		<%= image_tag("COOP_logo.png", :alt => "Jefferson County School District", :width => 150) %>
+				</td>
+ 			</tr>
+
+			<tr>
+			
+				<td width = 150px style=" color: #C83A14; vertical-align:middle;text-align:middle; font-size:12px" >
+      				<% if @submission.user.picture.url.split("/").last == "missing.png" %>
+        				<%= image_tag "member_ico.gif" %>
+      				<% else %>
+     				   <%= image_tag @submission.user.picture.url(:thumb) %>
+      				<% end %>
+
+
+				</td>
+				<td width = 475px style="vertical-align:top; color: #C83A14; font-size:16px; margin-top:0px; font-weight:normal" >
+							<br/>
+							<strong><center> <%= @submission.user.full_name.upcase %></center></strong>
+						<span style=" color: #C83A14; font-size:12px; margin-top:0px; font-weight:normal" >
+						<br/>
+						<center>Submitted: <%= @submission.created_at.strftime("%B %d, %Y")%></center>
+						
+						<% if @submission.is_final %>
+						 	<center>Finalized: <%= @submission.date_finalized.strftime("%B %d, %Y")%></center>
+						<% else -%>
+							<center> <i> Waiting Review</i></center>
+						<% end -%>
+						</span>
+
+													
+				</td>
+				<td width = 150px style=" color: #000000; vertical-align:top; text-align:top; font-size:12px" >
+
+					<br/><br/>
+					<% unless @teacher.nil? %>
+						<strong>Teacher: <%= @teacher.full_name %></strong><br/>
+						<% unless @teacher.picture.url.split("/").last == "missing.png" %>
+     				   	<%= image_tag @teacher.picture.url(:small_thumb) %>
+      					<% end %><br/>
+					<% else -%>
+						<strong>Teacher: Not Identified </strong><br/>
+					<% end -%>
+					<% if @reviewer %>
+						<strong>Reviewer: <%= @reviewer.full_name %></strong><br/>
+					<% end-%>
+						<span style ="color: #000000; font-size:12px; text-align:left> margin-top:0px; font-weight:normal">
+						<%= pluralize (@submission.act_answers.correct.count, ' Question') %><br/>
+						<%= pluralize (@submission.act_answers.selected.count, ' Answer') %><br/>
+						<%= pluralize (@submission.act_answers.collect{|a| a.points}.sum, '  Point') %><br/>
+						<span style ="color: #000000; font-size:12px; text-align:left> margin-top:0px; font-weight:normal">
+						<% @submission.act_submission_scores.each do |std| %>
+						<%= std.act_master.abbrev %> Mastery: <%= std.est_sms %><br/>
+						<% end -%>
+						</span> 
+						
+				</td>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center>&nbsp;</center>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+	
+
+	<table id="roles" class="tablesorter" style="width:775px; ">
+		<tbody>
+			<tr>
+				<td colspan=3 style=" color: #000000; vertical-align:middle;text-align:left; font-size:12px" >
+					<strong><center><%=@submission.act_subject.name.upcase %><br/><u><%= @submission.act_assessment.name.titleize %></u></center></strong>
+				</td>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center>&nbsp;</center>
+				</td>
+			</tr>
+			  <% @submission_questions.each_with_index do |q,idx| %>
+				<% unless q.act_question_reading.nil? -%>
+					<tr>
+
+						<td colspan=2 width = 625px style="vertical-align:top; padding-top:5px; padding-bottom:5px; padding-left:70px; text-align:left; color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
+							<u>Reading for Question <%= idx+1 %></u><br/>
+							<%= simple_format  q.act_question_reading.reading %>
+						</td>
+						<td width = 70px>
+						&nbsp;
+						</td>
+					</tr>
+				<% end -%>
+				<% benchmarks = q.act_benches.sort_by{|b| [b.act_bench_type.name, b.description]}-%>
+				<% bench_string = []  -%>
+				<% if benchmarks.size.zero? %>
+					<% bench_string << "No Benchmarks" -%>
+				<% else -%>
+					<% benchmarks.each do |b| -%>
+      					<% bench_string << "<u>" + b.act_bench_type.name.upcase + "</u/>  " + b.description + "<br/>" -%>
+					<% end -%>
+				<% end -%>
+				<% q_answers = @submission_answers.select{|a| a.act_question_id == q.id} %>
+				<% points = q_answers.collect{|p| p.points}.sum -%>
+				<tr>
+					<td	 width = 270px style="vertical-align:middle; text-align:right; padding-top:10px; padding-bottom:5px; color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<u>Question&nbsp;<%=idx+1%>:</u><br/><br/>
+					</td>
+					<td	class="quest_tip" title="<%= bench_string %>"width = 400px style="vertical-align:top; text-align:left; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<%= simple_format q.question %>
+					</td>
+					<td width = 105px>
+						&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<td	width = 250px style="vertical-align:top; text-align:right; padding-top:5px; padding-bottom:5px; color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
+						&nbsp;
+					</td>
+					<td	width = 400px style="vertical-align:top; text-align:left; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
+						<table id="choicess"  style="width:400px; ">
+							<tbody>
+								<% if q.question_type =="MC" -%>
+								<% q_answers.each do |ans| -%>
+									<tr>
+										<% if ans.is_correct && ans.was_selected %>
+										<td width = 55px  style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:10px; margin-top:0px; font-weight:normal" >
+												<center><%= image_tag("credit_full.png", :width => 15) %></center>
+										</td>
+										<td	width = 345px style="vertical-align:top; text-align:left; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #197b30; font-size:14px; margin-top:0px; font-weight:normal" >
+											<%= simple_format ans.act_choice.choice %>
+										</td>
+										<% end -%>
+										<% if ans.is_correct && !ans.was_selected %>
+										<td width = 55px  style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:10px; margin-top:0px; font-weight:normal" >
+												<center><%= image_tag("credit_no_noselect.png", :width => 30)%></center>
+											</td>
+										<td	width = 345px style="vertical-align:top; text-align:left; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #197b30; font-size:14px; margin-top:0px; font-weight:normal" >
+											<%= simple_format ans.act_choice.choice %>
+										</td>
+										<% end -%>										
+										<% if !ans.is_correct && ans.was_selected %>
+										<td width = 55px  style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:10px; margin-top:0px; font-weight:normal" >
+												<center><%= image_tag("credit_no_wrongselect.png", :width => 15)%></center>
+											</td>
+										<td	width = 345px style="vertical-align:top; text-align:left; padding-top:0px; padding-bottom:5px; padding-left:10px;color: #C83A14; font-size:14px; margin-top:0px; font-weight:normal" >
+											<%= simple_format ans.act_choice.choice %>
+										</td>
+										<% end -%>										
+									</tr>
+									<% end -%>
+								<% else -%>								
+									<tr>
+										<% q_answers.each do |ans| -%>
+										<% if @submission.is_final -%>
+											<% if ans.points == 1.0 -%>
+											<td width = 55px  style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:10px; margin-top:0px; font-weight:normal" >
+												<center><%= image_tag("credit_full.png", :width => 15) %></center>
+											</td>
+											<% end -%>
+											<% if ans.points == 0.5 -%>
+											<td width = 55px  style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:10px; margin-top:0px; font-weight:normal" >
+												<center><%= image_tag("credit_half.png", :width => 35)%></center>
+											</td>
+											<% end -%>
+											<% if ans.points == 0.0 -%>
+											<td width = 55px  style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:10px; margin-top:0px; font-weight:normal" >
+												<center><%= image_tag("credit_no_wrongselect.png", :width => 15)%></center>
+											</td>
+											<% end -%>
+											<td	width = 345px  style="vertical-align:top; text-align:left; padding-top:0px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
+												<i><%= simple_format ans.short_answer %></i>
+											</td>
+										<% else -%>
+										<center>
+										<td	colspan=2 width = 400px style="vertical-align:top; text-align:left; padding-top:0px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:14px; margin-top:0px; font-weight:normal" >
+											<i><%= simple_format  ans.short_answer %></i><br>
+              									<div style="float:left; border:0px solid white; line-height:10px; font-size:11px; color: #000000;">
+												   <input type='radio' id='answer_credit' name= "credit[<%= q.id %>]" value='0' /> 0 Points
+     										       <input type='radio' id='answer_credit' name= "credit[<%= q.id %>]" value='1' /> 1 Point
+     										       <input type='radio' id='answer_credit' name= "credit[<%= q.id %>]" value='2' /> 2 Points
+     										       <input type='radio' id='answer_credit' name= "credit[<%= q.id %>]" value= '3' /> 3 Points 
+     										       <input type='radio' id='answer_credit' name= "credit[<%= q.id %>]" value= '4' /> 4 Points 												   
+												</div>
+										</td>
+										</center>
+										<% end -%>
+										<% end -%>								
+									</tr>
+								<% end -%>
+							</tbody>
+						</table>
+					</td>
+					<td width = 125px>
+						&nbsp;
+					</td>
+				</tr>	
+
+			<% end -%>
+				<tr>
+					&nbsp;<br/>
+				</tr>
+
+				<tr>
+					<% unless @submission.student_comment.empty? -%>
+					<td colspan=3 style="vertical-align:top; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
+						<center><u>Student Comment</u><br/>
+						<i><%= simple_format @submission.student_comment %></i>
+						</center>
+					</td>
+					<% end -%>
+				</tr>
+				<% if @submission.is_final -%>
+					<% if @submission.teacher_comment -%>
+					<td colspan=3 style="vertical-align:top; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
+						<center><u>Teacher Comment</u><br/>
+						<i><%= simple_format @submission.teacher_comment %></i>
+						</center>
+					</td>
+					<% else-%>
+					<td colspan=3 style="vertical-align:top; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
+						<center><u>No Teacher Comment</u><br/>
+						</center>
+					</td>
+					<% end -%>
+				</tr>
+				<% else -%>
+				<tr>
+					<td colspan=3 style="vertical-align:top; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
+						<br/><center>Reviewer Comment: <%= text_field :act_submission, :teacher_comment, :size => 55, :maxlength => 150 %></center>
+					</td>
+				</tr>
+				<% end -%>
+		</tbody>
+	</table>
+
+
+
+<% end -%>
+<script>
+jQ(function(){
+jQ('td.quest_tip').qtip({
+   content: { text: false },
+	  position: {
+      corner: {
+         target: 'topLeft',
+         tooltip: 'bottomLeft'
+      }
+   },
+   style: { 
+      name: 'blue',
+	  border: {
+         width: 1,
+         radius: 1,
+         color: '#99911a'
+      },
+      width: 400,
+	  tip: { // Now an object instead of a string
+         corner: 'bottomLeft', // We declare our corner within the object using the corner sub-option
+         color: '#1115cc',
+         size: {
+            x: 8, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 15 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>
+
+<script>
+jQ(function(){
+jQ('td.tip_bench').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'leftTop',
+         tooltip: 'rightTop'
+      }
+   },
+   style: { 
+      name: 'blue',
+	  border: {
+         width: 1,
+         radius: 1,
+         color: '#99911a'
+      },
+      width: 350,
+	  tip: { // Now an object instead of a string
+         corner: 'rightTop', // We declare our corner within the object using the corner sub-option
+         color: '#1115cc',
+         size: {
+            x: 8, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 20 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>

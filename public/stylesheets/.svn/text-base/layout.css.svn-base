@@ -1,0 +1,228 @@
+/* -------------------------------------------------------------- 
+   layout.css
+   * Sets up site layout
+-------------------------------------------------------------- */
+#container { width: 950px; margin: 0 auto; }
+#control_panel { min-height: 300px; }
+
+/* Observation Panel  */
+.panel_container { float:left; width:1210px; max-width:1210px; padding:0px;  margin-top:10px; margin-bottom:10px; }
+.panel_title { margin-bottom: 15px; }
+.panel_box .title_large_blue { margin-bottom: 15px; }
+
+/* App Blog Box */
+.appblog_box { float:left;  }
+.appblog_title { margin-bottom: 15px; }
+.appblog_box .title_large_blue { margin-bottom: 1px; }
+
+
+/* Member Profile */
+.mempro_box { float:left; width:650px; padding:15px;  margin-bottom:10px; }
+.mempro_title { margin-bottom: 15px; }
+.mempro_box .title_large_blue { margin-bottom: 15px; }
+
+/* some layout about form */
+.submit_warp { margin-top:10px; }
+.FormRow { width:100%; padding:0px; float:left; padding-top:5px; }
+.FormRowTitle { padding:0px; float:left; width:28%; padding-right:10px; }
+.FormRowData { float:left; width:70%; }
+.FormRowFull { width:400px; padding:0px; float:left; padding-left:270px; padding-top; 3px; padding-bottom:5px; }
+.FormRow .small_notice { display: block; width: 70%; }
+.submit_warp { padding-left: 29%; }
+
+
+/* make a admin Organization Account tag section selector much more clean */
+.section_selector { margin-bottom: 20px; }
+.section_selector div a { display: block; padding: 0 15px; }
+.section_selector div span { display: block; padding: 0 15px; }
+.section_selector div { float: left; height: 32px; }
+
+/* admin iWing css */
+.topics_panel_title { margin-top: 10px; }
+.topics_panel_title h4 { float: left; }
+.topics_panel_title input { float: right; }
+#topics_panel h5 { margin-top: 15px; }
+#FormBoxWarp .ui-widget-content { padding-top: 0px; }
+#FormBoxWarp h4 { padding-bottom: 10px; }
+#FormBoxWarp p.clear span { display: block; margin-bottom: 5px; }
+
+/* admin Our Family */
+.authorization_levels_open,
+.authorization_levels_close { padding-left: 20px; }
+span .back_to_roles { display: none; }
+.FormRow img.del { position: absolute; left: 95px; top: 2px; }
+
+.resource_levels_open,
+.resource_levels_close { padding-left: 20px; }
+.ifa_levels_open,
+.ifa_levels_close { padding-left: 20px; }
+.view_levels_open,
+.view_levels_close { padding-left: 42px; }
+
+/* layout about front site */
+#search_section_selector_option { clear: both; }
+#search_section_selector_option input { float: none; }
+#search_section_selector_option span input { position: relative; top: 3px; }
+#iwcontent { width:auto; height:auto; font-weight:normal; }
+#staticorg { width:auto; height:auto; font-weight:normal; }
+#leftpane { width:338px; margin-right:10px; height:auto; float:left; }
+#leftpane_off { width:338px; margin-right:5px; height:auto; float:left; }
+#leftpane_main { width:450px; margin-right:0px; padding-left: 5px;height:auto; float:left; }
+#leftpane_itl { width:350px; margin-right:10px; height:auto; float:left;}
+#lefpane_ctl { width:350px; margin-right:0px; height:500px; float:left;  background: #f9f5df;}
+#leftpane_appl { width:350px; margin-right:10px; height:auto; float:left;}
+#leftpane_res { width:338px; margin-right:0px; height:auto; float:left; }
+#rightpane_ctl { width:850px; margin:0; height:500px; padding: 0px; float:left; }
+#rightpane_off { width:590px; margin:0; height:auto; padding: 5px; float:right; }
+#rightorgpane { width:500px; width:fixed; margin:0px; height:auto; float:right; }
+#affiliate_information { min-height:100px; }
+.module { width:auto; height:auto; margin-bottom:15px; }
+.module2 { width:auto; height:auto; margin-bottom:5px; }
+#rightpane { width:590px; margin:0; height:auto; padding: 5px; float:left; }
+#rightpane_main { width:700px; margin:0; height:auto; float:left; }
+#rightpane_itl { width:550px; margin:0; height:auto; padding: 0px; float:left; }
+#rightpane_appl { width:550px; margin:0; height:auto; padding: 0px; float:left; }
+#rightpane_res { width:590px; margin:0; height:auto; padding: 5px; float:left; }
+#centerpane_itl { width:850px; margin:0; height:auto; padding: 10px; float:left; }
+#centerpane_appl { width:850px; margin:0; height:auto; padding: 10px; float:left; }
+#rightbuttons { width:280px; margin:0; height:auto; padding-left:150px; float:right; }
+.module_header { width:auto; height:25px; padding-top:10px; padding-left:10px; }
+.module_header_edit { float: right; padding-right: 26px; }
+.module_body { padding:10px; }
+.module_body2 { padding:0px; }
+#search-result-content,
+#control_panel { position: relative; }
+#search-result-content .share_content { display: none; }
+#description_for_vote { display: none; }
+#search-result-content #description_for_vote,
+#control_panel #description_for_vote { display: block; width: 100px; height: 30px; position: absolute; right: 30px; bottom: 8px; }
+#search-result-content #description_for_vote #votes { display: block; width: 110px; position: absolute; right: 10px; top: 16px; }
+#control_panel #description_for_vote #votes { display: block; width: 200px; position: absolute; right: 10px; top: 16px; }
+#control_panel a.share_content,
+#control_panel a.share_content_login_btn,
+#control_panel a.close_share_content { display: block; width: 44px; height: 24px; }
+#control_panel a.share_content, #control_panel a.share_content_login_btn { position: absolute; top: 375px; right: 50px; }
+#control_panel a.upload { position: absolute; top: 405px; right: 50px; width:54px; }
+#control_panel a.close_share_content { z-index: 700; position: absolute; top: 50px; right: 470px; }
+.share_content_form { z-index: 600; position: absolute; top: 250px; right: 300px; width: 470px; height: 280px; }
+
+#control_panel a.share_pilot_feedback,
+#control_panel a.share_pilot_feedback_login_btn,
+#control_panel a.close_share_pilot_feedback { display: block; width: 44px; height: 24px; }
+#control_panel a.share_pilot_feedback, #control_panel a.share_pilot_feedback_login_btn { position: absolute; top: 375px; right: 50px; }
+#control_panel a.close_share_pilot_feedback { z-index: 700; position: absolute; top: 50px; right: 470px; }
+.share_pilot_feedback_form { z-index: 600; position: absolute; bottom: 35px; left: 180px; width: 470px; height: 310px; }
+
+
+#discussions_panel { margin-top: 15px; }
+.discussion_root_login { margin-right: 26px; padding-bottom: 10px; }
+.discussion_root_form_title {}
+.discussion_root_login_submit { position: relative; padding-left: 196px; padding-top: 10px; }
+.share_content_login_submit { position: relative; padding-left: 226px; padding-top: 10px; }
+.share_content_login p { padding-left: 28px; }
+.discussion_root_login_notice { position: absolute; left: 0; top: 6px; }
+.share_content_login_notice { position: absolute; left: 30px; top: 6px; }
+.discussion_root_login_submit button,
+.share_content_login_submit button { margin-left: 10px; } 
+
+.share_pilot_feedback_login_submit { position: relative; padding-left: 226px; padding-top: 10px; }
+.share_pilot_feedback_login p { padding-left: 28px; }
+.share_pilot_feedback_login_notice { position: absolute; left: 30px; top: 6px; }
+.share_pilot_feedback_login_submit button { margin-left: 10px; }
+
+.discussion_thread_header { width:auto; min-height:35px; }
+.root_discussion_trigger { float: right; padding-right: 6px; }
+#root_discussion_form { margin-left: 40px; margin-right: 26px; padding-top: 10px; padding-bottom: 10px; }
+#share_content_form { width:100%; float: left; padding-bottom: 10px; }
+
+#share_pilot_feedback_form { width:100%; float: left; padding-bottom: 10px; }
+
+#share_discussion_form { margin: 0 10px; padding-bottom: 10px; }
+.discussion_root_form_submit { padding-left: 290px; padding-top: 10px; }
+.reply_discussion_trigger { margin-top: 10px; padding-right: 26px; padding-bottom: 10px; }
+.reply_discussion_trigger button { float: right; }
+.results .iwing_module_title { float: left; width: 65%; }
+.iwing_discussion_description { padding-left: 10px; }
+.discussion_thread_header .iwing_module_title { float: none; width: 100%; }
+.discussion_thread_header .iwing_module_title span {float: left; width:250px;}
+.discussion_thread_header .iwing_module_title abbr { float: left;}
+.discussion_thread_header .iwing_module_title em { float: right; margin-right: 26px; }
+.discussion_thread_header .iwing_module_title div { clear: both; padding-bottom: 10px; position: relative; top: -5px; }
+.discussion_thread_header .iwing_discussion_description { margin: 0 26px 10px 40px; padding-left: 0; padding-bottom: 10px; }
+.discussion_replys { padding-left: 40px; margin-right: 26px; }
+.discussion_warp { position: relative; height: 14px; }
+.discussion_reply_comment { padding: 10px; }
+.discussion_reply_info { position: relative; padding-left: 58px; margin-bottom: 10px; }
+.report_successful { padding-right: 20px; }
+.discussion_warp span.change_status,
+.discussion_warp span.report_successful,
+.discussion_reply_info span.change_status,
+.discussion_reply_info span.report_successful { position: absolute; right: 0; top: 0; }
+.discussion_reply_form,
+.discussion_reply_login { margin-left: 40px; margin-right: 26px; padding-bottom: 10px; }
+.discussion_reply_form_submit { padding-left: 270px; padding-top: 10px; }
+.discussion_reply_login_submit { position: relative; padding-left: 200px; padding-top: 10px; }
+.share_discussion_form_submit { position: relative; padding-left: 240px; padding-top: 10px; }
+.discussion_reply_login_notice { position: absolute; left: 0; top: 0; }
+.discussion_reply_form_submit button, 
+.discussion_reply_login_submit button,
+.share_discussion_form_submit button,
+.share_content_form_submit button { margin-left: 10px; }
+#view-content #share_content { display: none; }
+.share_content_form_submit { padding-left: 310px; padding-top: 10px; }
+.share_content_form_title, .share_discussion_form_title { margin-bottom: 10px; }
+.share_content_form p input,
+.share_discussion_form p input { margin-top: 1px; }
+.share_content_form p label,
+.share_discussion_form p label { float: left; width: 60px; }
+.share_content_form p textarea,
+.share_discussion_form p textarea { float: left; }
+
+.share_pilot_feedback_form_submit button { margin-left: 10px; }
+#view-content #share_pilot_feedback { display: none; }
+.share_pilot_feedback_form_submit { padding-left: 310px; padding-top: 10px; }
+.share_pilot_feedback_form_title { margin-bottom: 10px; }
+
+.share_pilot_feedback_form p input { margin-top: 1px; }
+.share_pilot_feedback_form p label { float: left; width: 60px; }
+.share_pilot_feedback_form p textarea { float: left; }
+
+.share_content_form_notice, .share_discussion_form_notice { clear: both; margin: 3px 0; padding-left: 87px; }
+.share_content_form_submit, .share_discussion_form_submit { clear: both; margin-top: 5px; }
+
+.share_pilot_feedback_form_notice { clear: both; margin: 3px 0; padding-left: 87px; }
+.share_pilot_feedback_form_submit { clear: both; margin-top: 5px; }
+
+.discusssion_by_same_author_info { padding-bottom: 10px; }
+.discusssion_by_same_author { margin: 0 10px; padding-left: 25px; padding-top: 5px; }
+.discusssion_by_same_author div { padding-right: 25px; padding-bottom: 5px; }
+/* ajax loading */
+#loading { z-index: 999999; position: fixed; top: 50%; left: 50%; margin-left: -50px; margin-top: -50px; }
+
+/* layout for Blog */
+.blog_box_warp { width:100%; }
+.appblog_box_warp { width:100%; }
+.blog_item h3 { padding-bottom: 6px; }
+.blog_item { padding-bottom: 15px; }
+.blog_cover { float: left; }
+.blog_description { width:580px; }
+.blog_content { margin-top: 10px; }
+#blog_comments h3 { margin-top: 10px; }
+.blogs_side_nav { float: right; width:220px; }
+.blog_content { margin-left: 10px; }
+.blog_info { margin-bottom: 10px; }
+
+#panel { float: left; margin-left: 20px; }
+
+/* layout for App Report */
+.appreport_box_warp { width:100%; }
+.appreport_box_warp { width:100%; }
+.appreport_item h3 { padding-bottom: 6px; }
+.appreport_item { padding-bottom: 15px; }
+.appreport_cover { float: left; }
+.appreport_description { width:580px; }
+.appreport_content { margin-top: 10px; }
+#appreport_comments h3 { margin-top: 10px; }
+.appreport_side_nav { float: right; width:220px; }
+.appreport_content { margin-left: 10px; }
+.appreport_info { margin-bottom: 10px; }

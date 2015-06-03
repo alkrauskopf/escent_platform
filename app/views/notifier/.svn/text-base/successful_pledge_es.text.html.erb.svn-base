@@ -1,0 +1,11 @@
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">Nombre <%= @prayer_pledge.first_name %>,</p>
+<br />
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">Gracias por unirte a <%= link_to "Odyssey Networks", "http://www.odysseynetworks.org/" %> en la causa por la paz.</p>
+<br />
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">Por favor participa en nuestras <%= link_to "Discusiones", url_for(:action => 'index', :controller => '/site', :only_path => false, :host => "live.faithstreams.com") %> y otras actividades relacionadas a la Paz en Nuestro Mundo. </p>
+<br />
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">Nuevamente, gracias por colaborar.</p>
+<br />
+<p  style="font-family:Arial, Helvetica, sans-serif; font-size:16px">Odyssey Networks</p>
+<br />
+

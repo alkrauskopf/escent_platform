@@ -1,0 +1,288 @@
+<div id="step_2">
+
+	<% back_a_1 = "#" + IstaGroup.academics[0].background_1%>
+	<% back_a_2 = "#" + IstaGroup.academics[0].background_2%>
+	<% back_e_1 = "#" + IstaGroup.electives[0].background_1%>
+	<% back_e_2 = "#" + IstaGroup.electives[0].background_2%>
+	<% back_o_1 = "#" + IstaGroup.other[0].background_1%>
+	<% back_o_2 = "#" + IstaGroup.other[0].background_2%>
+
+	<% form_for(:ista_case_allocation, :url => {:controller => "/apps/school_time", :action => :step_update_mins, :organization_id => @current_organization, :step_id => step, :case_id => ista_case}) do |form| -%>
+
+	<table style="width:810px;margin-left:50px">
+		<tbody> 
+			<% unless ista_case.final?-%>
+				<tr style=" border:0px solid #ddd;">
+					<td  style="vertical-align:middle;  padding-top:0px; text-align:left; color: #000000; font-size:10px; font-weight:normal">
+					 	<center><%= submit_tag "Step 2 Update", :class =>"fsn-button ui-button ui-state-default ui-corner-all save"%></center>
+					</td>
+					<td colspan=6 style = "color: #2061a5; font-weight:bold;">
+						&nbsp;
+					</td>
+					<% if ista_case.ista_step == IstaStep.step_2.first -%>
+						<td  colspan=2 style="vertical-align:middle;  padding-top:0px; text-align:left; color: #000000; font-size:10px; font-weight:normal">
+							<center><%= link_to "Next Step ", {:controller => "/apps/school_time", :action => :finish_step, :organization_id => @current_organization, :step_id => step, :case_id => ista_case }, { :class => "fsn-button ui-button ui-state-default ui-corner-all"} %></center>
+						</td>
+					<% else -%>
+						<td colspan=2 style = "color: #2061a5; font-weight:bold;">
+							&nbsp;
+						</td>				
+					<% end -%>
+				</tr>
+			<% end -%>
+			<tr style=" border:0px solid #ddd;">
+				<td style = "color: #2061a5; font-weight:normal;font-size:11px;">
+					<%= ista_case.step_2_minutes_week_total %>&nbsp;of&nbsp;<%= ista_case.total_std_minutes_week %>&nbsp;Allocated
+				</td>
+				<td colspan=2 style = "color: #2061a5; font-weight:bold;">
+					&nbsp;
+				</td>
+				<td colspan=6 style = "color: #2061a5; font-size:14px; font-weight:normal;">
+					Step&nbsp;<%=step.step_number %>:&nbsp;<%=step.name%>
+				</td>
+			</tr>
+			<tr style=" border:0px solid #ddd;">
+				<td colspan=3 style = "width:270px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:14px; font-weight:bold; background:<%= back_a_1%>">
+					<center><%=IstaGroup.academics[0].name%></center>
+				</td>
+				<td colspan=3 style = "width:270px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:14px; font-weight:bold; background:<%= back_e_1%>">
+					<center><%=IstaGroup.electives[0].name%></center>
+				</td>
+				<td colspan=3 style = "width:270px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:14px; font-weight:bold; background:<%= back_o_1%>">
+					<center><%=IstaGroup.other[0].name%></center>
+				</td>
+			</tr> 
+			<tr style=" border:0px solid #ddd;">
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; font-weight:normal; background:<%= back_a_1%>">
+					&nbsp;
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_a_1%>">
+					<center><%=IstaGroup.academics[0].level_name.nil? ? "":"Mins/Wk" %></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_a_1%>">
+					<center><%=IstaGroup.academics[0].level_name.nil? ? "":"Time %" %></center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; font-weight:normal; background:<%= back_e_1%>">
+					&nbsp;
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_e_1%>">
+					<center><%=IstaGroup.electives[0].level_name.nil? ? "":"Mins/Wk" %></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_e_1%>">
+					<center><%=IstaGroup.electives[0].level_name.nil? ? "":"Time %" %></center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; font-weight:normal; background:<%= back_o_1%>">
+					&nbsp;
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_o_1%>">
+					<center><%=IstaGroup.other[0].level_name.nil? ? "":"Mins/Wk" %></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_o_1%>">
+					<center><%=IstaGroup.other[0].level_name.nil? ? "":"Time %" %></center>
+				</td>
+			</tr>
+			<tr style=" border:0px solid #ddd;">
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; font-weight:normal; background:<%= back_a_1%>">
+					<center><%=IstaGroup.academics[0].level_name%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_a_1%>">
+					<center><%= IstaGroup.academics[0].level_name.nil? ? "": ista_case.academics_minutes_week_classes -%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_a_1%>">
+					<center><%= IstaGroup.academics[0].level_name.nil? ? "": number_to_percentage((ista_case.academics_minutes_week_classes_pct).round, :precision => 0) %></center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; font-weight:normal; background:<%= back_e_1%>">
+					<center><%=IstaGroup.electives[0].level_name%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_e_1%>">
+					<center><%= IstaGroup.electives[0].level_name.nil? ? "": ista_case.electives_minutes_week_classes -%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_e_1%>">
+					<center><%= IstaGroup.electives[0].level_name.nil? ? "": number_to_percentage((ista_case.electives_minutes_week_classes_pct).round, :precision => 0) %></center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; font-weight:normal; background:<%= back_o_1%>">
+					<center><%=IstaGroup.other[0].level_name%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_o_1%>">
+					<center><%= IstaGroup.other[0].level_name.nil? ? "": ista_case.other_minutes_week_classes -%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_o_1%>">
+					<center><%= IstaGroup.other[0].level_name.nil? ? "": number_to_percentage((ista_case.other_minutes_week_classes_pct).round, :precision => 0) %></center>
+				</td>
+			</tr> 
+			<tr style=" border:0px solid #ddd;">
+				<td colspan=3 style = "width:270px; width:fixed; border:0px solid #ddd; color: #2061a5; background:<%= back_a_2%>">
+					<%= render :partial => "apps/school_time/step2_group", :locals=>{:app=>@app, :step=> step, :ista_group=> IstaGroup.academics[0], :ista_case=>ista_case} %>
+				</td>
+				<td colspan=3 style = "width:270px; width:fixed; border:0px solid #ddd; color: #2061a5; background:<%= back_e_2%>">
+					<%= render :partial => "apps/school_time/step2_group", :locals=>{:app=>@app, :step=> step, :ista_group=> IstaGroup.electives[0], :ista_case=>ista_case} %>
+				</td>
+				<td colspan=3 style = "width:270px; width:fixed; border:0px solid #ddd; color: #2061a5; background:<%= back_o_2%>">
+					<%= render :partial => "apps/school_time/step2_group", :locals=>{:app=>@app, :step=> step, :ista_group=> IstaGroup.other[0], :ista_case=>ista_case} %>
+				</td>
+			</tr> 
+			<tr style=" border:0px solid #ddd;">
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; font-weight:normal; background:<%= back_a_1%>">
+					&nbsp;
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_a_1%>">
+					<center><%=IstaGroup.academics[1].level_name.nil? ? "":"Mins/Wk" %></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_a_1%>">
+					<center><%=IstaGroup.academics[1].level_name.nil? ? "":"Time %" %></center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; font-weight:normal; background:<%= back_e_1%>">
+					&nbsp;
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_e_1%>">
+					<center><%=IstaGroup.electives[1].level_name.nil? ? "":"Mins/Wk" %></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_e_1%>">
+					<center><%=IstaGroup.electives[1].level_name.nil? ? "":"Time %" %></center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; font-weight:normal; background:<%= back_o_1%>">
+					&nbsp;
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_o_1%>">
+					<center><%=IstaGroup.other[1].level_name.nil? ? "":"Mins/Wk" %></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_o_1%>">
+					<center><%=IstaGroup.other[1].level_name.nil? ? "":"Time %" %></center>
+				</td>
+			</tr> 
+			<tr style=" border:0px solid #ddd;">
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; font-weight:normal; background:<%= back_a_1%>">
+					<center><%=IstaGroup.academics[1].level_name%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_a_1%>">
+					<center><%= IstaGroup.academics[1].level_name.nil? ? "": ista_case.academics_minutes_week_support -%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_a_1%>">
+					<center><%= IstaGroup.academics[1].level_name.nil? ? "": number_to_percentage((ista_case.academics_minutes_week_support_pct).round, :precision => 0) %></center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; font-weight:normal; background:<%= back_e_1%>">
+					<center><%=IstaGroup.electives[1].level_name%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_e_1%>">
+					<center><%= IstaGroup.electives[1].level_name.nil? ? "": ista_case.electives_minutes_week_support -%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_e_1%>">
+					<center><%= IstaGroup.electives[1].level_name.nil? ? "": number_to_percentage((ista_case.electives_minutes_week_support_pct).round, :precision => 0) %></center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; font-weight:normal; background:<%= back_o_1%>">
+					<center><%=IstaGroup.other[1].level_name%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_o_1%>">
+					<center><%= IstaGroup.other[1].level_name.nil? ? "": ista_case.other_minutes_week_support -%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_o_1%>">
+					<center><%= IstaGroup.other[1].level_name.nil? ? "": number_to_percentage((ista_case.other_minutes_week_support_pct).round, :precision => 0) %></center>
+				</td>
+			</tr> 
+			<tr style=" border:0px solid #ddd;">
+				<td colspan=3 style = "width:270px; width:fixed; border:0px solid #ddd; color: #2061a5; background:<%= back_a_2%>">
+					<%= render :partial => "apps/school_time/step2_group", :locals=>{:app=>@app, :step=> step, :ista_group=> IstaGroup.academics[1], :ista_case=>ista_case} %>
+				</td>
+				<td colspan=3 style = "width:270px; width:fixed; border:0px solid #ddd; color: #2061a5; background:<%= back_e_2%>">
+					<%= render :partial => "apps/school_time/step2_group", :locals=>{:app=>@app, :step=> step, :ista_group=> IstaGroup.electives[1], :ista_case=>ista_case} %>
+				</td>
+				<td colspan=3 style = "width:270px; width:fixed; border:0px solid #ddd; color: #2061a5; background:<%= back_o_2%>">
+					<%= render :partial => "apps/school_time/step2_group", :locals=>{:app=>@app, :step=> step, :ista_group=> IstaGroup.other[1], :ista_case=>ista_case} %>
+				</td>
+			</tr>
+			<tr style=" border:0px solid #ddd;">
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:11px; font-weight:bold; background:<%= back_a_1%>">
+					<center>Total Weekly Allotted</center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_a_1%>">
+					<center><%=  ista_case.academics_minutes_week_total -%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_a_1%>">
+					<center><%= number_to_percentage((ista_case.academics_weekly_total_pct).round, :precision => 0) %></center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:11px; font-weight:bold; background:<%= back_e_1%>">
+					<center>Total Weekly Allotted</center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_e_1%>">
+					<center><%= ista_case.electives_minutes_week_total-%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_e_1%>">
+					<center><%= number_to_percentage((ista_case.electives_weekly_total_pct).round, :precision => 0) %></center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:11px; font-weight:bold; background:<%= back_o_1%>">
+					<center>Total Weekly Allotted</center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_o_1%>">
+					<center><%= ista_case.other_minutes_week_total -%></center>
+				</td>
+				<td style = "width:60px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:12px; background:<%= back_o_1%>">
+					<center><%= number_to_percentage((ista_case.other_weekly_total_pct).round, :precision => 0) %></center>
+				</td>
+			</tr> 
+			<tr style=" border:0px solid #ddd;">
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:11px; font-weight:bold; background:<%= back_a_1%>">
+					&nbsp;
+				</td>
+				<td colspan= 2 style = " border:0px solid #ddd; color: #2061a5; font-size:11px; background:<%= back_a_1%>">
+					<center><%= number_with_precision(ista_case.academics_hours_week_total, :precision => 1) %>&nbsp;&nbsp;Hrs/Week</center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:11px; font-weight:bold; background:<%= back_e_1%>">
+					&nbsp;
+				</td>
+				<td colspan=2 style = " border:0px solid #ddd; color: #2061a5; font-size:11px; background:<%= back_e_1%>">
+					<center><%= number_with_precision(ista_case.electives_hours_week_total, :precision => 1) %>&nbsp;&nbsp;Hours/Week</center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:11px; font-weight:bold; background:<%= back_o_1%>">
+					&nbsp;
+				</td>
+				<td colspan=2 style = " border:0px solid #ddd; color: #2061a5; font-size:11px; background:<%= back_o_1%>">
+					<center><%= number_with_precision(ista_case.other_hours_week_total, :precision => 1) %>&nbsp;&nbsp;Hrs/Week</center>
+				</td>
+			</tr> 
+			<tr style=" border:0px solid #ddd;">
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:11px; font-weight:bold; background:<%= back_a_1%>">
+					&nbsp;
+				</td>
+				<td colspan= 2 style = " border:0px solid #ddd; color: #2061a5; font-size:11px; background:<%= back_a_1%>">
+					<center><%= number_with_precision(ista_case.academics_hours_day_total, :precision => 1) %>&nbsp;&nbsp;Hrs/Day</center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:11px; font-weight:bold; background:<%= back_e_1%>">
+					&nbsp;
+				</td>
+				<td colspan=2 style = " border:0px solid #ddd; color: #2061a5; font-size:11px; background:<%= back_e_1%>">
+					<center><%= number_with_precision(ista_case.electives_hours_day_total, :precision => 1) %>&nbsp;&nbsp;Hrs/Day</center>
+				</td>
+				<td style = "width:150px; width:fixed; border:0px solid #ddd; color: #2061a5; font-size:11px; font-weight:bold; background:<%= back_o_1%>">
+					&nbsp;
+				</td>
+				<td colspan=2 style = " border:0px solid #ddd; color: #2061a5; font-size:11px; background:<%= back_o_1%>">
+					<center><%= number_with_precision(ista_case.other_hours_day_total, :precision => 1) %>&nbsp;&nbsp;Hrs/Day</center>
+				</td>
+			</tr>
+			<tr style=" border:0px solid #ddd;">
+				<td colspan= 3 style = " border:0px solid #ddd; color: #2061a5; font-size:11px; text-align:center; font-weight:normal; background:<%= back_a_1%>">
+					<%= number_with_precision(ista_case.student_academics_hrs_week_total, :precision => 1) %>&nbsp;&nbsp;Student-Hrs/Wk
+				</td>
+				<td colspan= 3 style = "border:0px solid #ddd; color: #2061a5; font-size:11px; text-align:center; font-weight:normal; background:<%= back_e_1%>">
+					<%= number_with_precision(ista_case.student_electives_hrs_week_total, :precision => 1) %>&nbsp;&nbsp;Student-Hrs/Wk
+				</td>
+				<td colspan= 3 style = "border:0px solid #ddd; color: #2061a5; font-size:11px; text-align:center; font-weight:normal; background:<%= back_o_1%>">
+					<%= number_with_precision(ista_case.student_other_hrs_week_total, :precision => 1) %>&nbsp;&nbsp;Student-Hrs/Wk
+				</td>
+			</tr> 
+			<tr style=" border:0px solid #ddd;">
+				<td colspan= 3 style = " border:0px solid #ddd; color: #2061a5; font-size:11px; text-align:center; font-weight:normal; background:<%= back_a_1%>">
+					<%= number_with_precision(ista_case.teacher_academics_student_hrs_total, :precision => 1) %>&nbsp;&nbsp;Student-Hrs/Teacher/Wk
+				</td>
+				<td colspan= 3 style = "border:0px solid #ddd; color: #2061a5; font-size:11px; text-align:center; font-weight:normal; background:<%= back_e_1%>">
+					<%= number_with_precision(ista_case.teacher_electives_student_hrs_total, :precision => 1) %>&nbsp;&nbsp;Student-Hrs/Teacher/Wk
+				</td>
+				<td colspan= 3 style = "border:0px solid #ddd; color: #2061a5; font-size:11px; text-align:center; font-weight:normal; background:<%= back_o_1%>">
+					&nbsp;
+				</td>
+			</tr>
+		</tbody>
+	</table>
+<% end -%>
+<br/>
+</div>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  subject_list: MyString
+  subject_list_name: MyString
+  support_name: MyString
+
+two:
+  name: MyString
+  subject_list: MyString
+  subject_list_name: MyString
+  support_name: MyString

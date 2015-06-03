@@ -1,0 +1,8 @@
+<p><%= @user.first_name %> <%= @user.last_name %> thinks you might pledge a minute of your time to pray for peace in your own way at noon on September 21, the United Nations International Day of Peace.</p>
+<br />
+<%= @message %>
+<br />
+<br />
+<p><%= link_to "Please Pledge a Minute of Your Time" ,  url_for(:action => "register", :controller => "site/prayer_pledges", :id => @organization.public_id, :only_path => false, :host => "live.faithstreams.com") %></p>
+<br /><br />
+And forward this email to others as an invitation to PLEDGE A MINUTE TO PRAY  FOR PEACE!

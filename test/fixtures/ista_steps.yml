@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  step_number: 1
+  name: MyString
+  is_active: false
+  background: MyString
+
+two:
+  step_number: 1
+  name: MyString
+  is_active: false
+  background: MyString

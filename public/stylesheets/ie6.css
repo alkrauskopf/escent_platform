@@ -1,0 +1,62 @@
+/*
+ * FaithStreams Communities Site
+ * IE 6 Style Tweaks
+ *
+ */
+
+#login_bar form#login {
+	padding-top:0 !important;
+}
+
+button.login {
+	position:relative !important;
+	top:5px !important;
+}
+
+#individuals {
+	left: 35px !important;
+	padding-left:12px !important;
+}
+
+#highlights #service_modules .module ul {
+	line-height: 12px !important;
+	text-indent: 10px !important;
+	list-style-position: outside !important;
+}
+
+#highlights #service_modules .module ul li {
+	margin: 10px 0 !important;
+	text-indent: 12px !important;
+}
+
+
+#congregations ul {
+	position:relative;
+	left:12px;
+}
+
+#congregations p#i_wing {
+	position:relative !important;
+	left:-8px !important;
+}
+
+#providers {
+	padding-left:10px !important;
+	left:512px !important;
+}
+
+#main_content { 
+	position:relative !important;
+	right:100px !important;
+	margin-right:0px !important; }
+
+#sidebar li#congregations {
+	padding-left:0 !important;
+	left:0 !important;
+}
+
+#sidebar #communities {
+	clear:none !important;
+	margin-top:0 !important;
+}
+

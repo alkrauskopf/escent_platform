@@ -1,0 +1,208 @@
+	
+<div id="topic_ifa_tags" >
+	<% if @classroom.ifa_classroom_option && @current_organization.ifa_org_option-%>
+
+			<table style="width:530px; margin-left:200px; border:0px">
+				<tbody>
+				<style type="text/css" media="screen">
+				    table,tr,td { border:medium}
+					table tr:hover{
+			        background-color: transparent;
+			      	}
+ 			   	</style>
+				<tr>
+					<td colspan=3 style = " text-align:center; vertical-align:top; padding-left:0px; font-size:12px">
+						<span style = "color:#C83A14; font-size:12px">
+						<center>
+						<strong><%= @topic_subject.name.upcase %>&nbsp;<%= @master.abbrev %> Standards Associated With <i>"<%= @topic.title.titleize%>"</strong>
+						</center>
+						</span>
+					</td>
+				</tr>					
+  			   	<tr>				
+				<tr >
+					<td width=265px style="vertical-align:middle;  padding-right:3px; padding-top:0px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+						Change Subject Area:
+					</td>
+					<td  id = "subject_id" width=120px style="vertical-align:middle;  padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+						<%=  select(:org, :subject_id, ActSubject.no_na.all.collect{|s| [s.name,s.id]},{:prompt => @topic_subject.name}) %>
+					</td>					
+					<td width=195px style="vertical-align:middle;  padding-right:3px; padding-top:0px; text-align:right; color: #000000; font-size:11px; font-weight:bold">
+						&nbsp;
+					</td>
+				</tr>
+				<tr >
+					<td width=290px style="vertical-align:middle;  padding-right:3px; padding-top:10px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+						Change Standard:
+					</td>
+					<td  id = "master_id" width=70px style="vertical-align:middle;  padding-right:0px; padding-top:10px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+						<%=  select(:org, :master_id, @current_organization.ifa_org_option.act_masters.collect{|m| [m.abbrev,m.id]},{:prompt => @master.abbrev}) %>
+					</td>					
+					<td width=170px style="vertical-align:middle;  padding-right:3px; padding-top:10px; text-align:right; color: #000000; font-size:11px; font-weight:bold">
+						&nbsp;
+					</td>
+				</tr>
+			</tbody>
+		</table>
+			<table style="width:430px; margin-left:240px; border:0px">
+				<tbody>
+				<style type="text/css" media="screen">
+				    table,tr,td { border:medium}
+					table tr:hover{
+			        background-color: transparent;
+			      	}
+ 			   	</style>
+				<tr>
+					<td colspan=3 style = " text-align:center; vertical-align:top; padding-left:0px; font-size:12px">
+						<span style = "color:#C83A14; font-size:12px">
+						<center>
+						<u>Select Relevant <%= @master.abbrev %> Score Range</u>
+						</center>
+						</span>
+					</td>
+				</tr>					
+  			   	<tr>				
+				<% ActScoreRange.no_na.for_standard(@master).for_subject(@topic_subject).each do |range| -%>
+				<tr >
+					<td width=200px style="vertical-align:middle;  padding-right:3px; padding-top:0px; text-align:right; color: #000000; font-size:11px; font-weight:bold">
+						&nbsp;
+					</td>
+					<% if @topic.act_score_ranges.include?(range) -%>
+						<td width = 10px style=" color: #000000; padding-top:0px;vertical-align:middle;text-align:center; font-size:10px" >
+							<%= link_to (image_tag "button_enabled.png", :width => 10), {:controller => "site/site",:action => "topic_assess_ifa_tags", :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :subject_id => @topic_subject.id, :master_id => @master.id, :range_id => range}, :class => "tag_button" %>
+						</td>
+					<% else -%>
+						<td width = 10px style=" color: #000000; padding-top:0px;vertical-align:middle;text-align:center; font-size:10px" >
+							<%= link_to (image_tag "button_disabled.png", :width => 10), {:controller => "site/site",:action => "topic_assess_ifa_tags", :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :subject_id => @topic_subject.id, :master_id => @master.id, :range_id => range}, :class => "tag_button" %>
+						</td>
+					<% end -%>
+					<td  width=230px style="vertical-align:middle;  padding-left:10px; padding-top:0px; text-align:left; color: #000000; font-size:12px; font-weight:normal">
+						<%= range.range %>
+					</td>					
+					</tr>
+				<% end -%>
+			</tbody>
+		</table>
+			<table style="width:530px; margin-left:190px; border:0px">
+				<tbody>
+				<style type="text/css" media="screen">
+				    table,tr,td { border:medium}
+					table tr:hover{
+			        background-color: transparent;
+			      	}
+ 			   	</style>
+				<tr>
+					<td colspan=3 style = " text-align:center; vertical-align:top; padding-left:0px; font-size:12px">
+						<span style = "color:#C83A14; font-size:12px">
+						<center>
+						<u>Select Relevant <%= @master.abbrev %> Knowledge Strands</u>
+						</center>
+						</span>
+					</td>
+				</tr>					
+  			   	<tr>				
+				<% ActStandard.for_standard(@master).for_subject(@topic_subject).each do |std| -%>
+				<tr >
+					<td width=80px style="vertical-align:middle;  padding-right:3px; padding-top:0px; text-align:right; color: #000000; font-size:11px; font-weight:bold">
+						&nbsp;
+					</td>
+					<% if @topic.act_standards.include?(std) -%>
+						<td width = 10px style=" color: #000000; padding-top:0px;vertical-align:middle;text-align:center; font-size:10px" >
+							<%= link_to (image_tag "button_enabled.png", :width => 10), {:controller => "site/site",:action => "topic_assess_ifa_tags", :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :subject_id => @topic_subject.id, :master_id => @master.id, :strand_id => std}, :class => "tag_button" %>
+						</td>
+					<% else -%>
+						<td width = 10px style=" color: #000000; padding-top:0px;vertical-align:middle;text-align:center; font-size:10px" >
+							<%= link_to (image_tag "button_disabled.png", :width => 10), {:controller => "site/site",:action => "topic_assess_ifa_tags", :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :subject_id => @topic_subject.id, :master_id => @master.id, :strand_id => std}, :class => "tag_button" %>
+						</td>
+					<% end -%>
+					<td  width=430px style="vertical-align:middle;  padding-left:10px; padding-top:0px; text-align:left; color: #000000; font-size:12px; font-weight:normal">
+						<%= std.name %>
+					</td>					
+					</tr>
+				<% end -%>
+				<% @topic.act_standards.for_standard(@master).each do |std| -%>
+					<% unless ActStandard.for_standard(@master).for_subject(@topic_subject).include?(std) -%>
+					<tr >
+						<td width=80px style="vertical-align:middle;  padding-right:3px; padding-top:0px; text-align:right; color: #000000; font-size:11px; font-weight:bold">
+							&nbsp;
+						</td>
+						<td width = 10px style=" color: #000000; padding-top:0px;vertical-align:middle;text-align:center; font-size:10px" >
+							<%= link_to (image_tag "button_enabled.png", :width => 10), {:controller => "site/site",:action => "topic_assess_ifa_tags", :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :subject_id => @topic_subject.id, :master_id => @master.id, :strand_id => std}, :class => "tag_button" %>
+						</td>
+						<td  width=430px style="vertical-align:middle;  padding-left:10px; padding-top:0px; text-align:left; color: #000000; font-size:12px; font-weight:normal">
+							<%= std.name %>
+						</td>					
+					<% end -%>					
+					</tr>
+				<% end -%>
+			</tbody>
+		</table>		
+	<% else -%>
+		<table style="width:630px; margin-left:115px; border:0px">
+			<tbody>
+				<style type="text/css" media="screen">
+				    table,tr,td { border:medium}
+					table tr:hover{
+		  	      background-color: transparent;
+			      	}
+ 			   	</style>
+    		  	<tr>
+       		 		<td width = 60% style = "margin:right; text-align:left;vertical-align:top; padding-left:20px; font-size:11px">
+					<span style = "color:#C83A14; font-size:12px">
+					<center>
+					IFA Not Enabled.
+					</center>
+					</span>		
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<% end -%>		
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.tag_button').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#topic_ifa_tags").html(data);
+				jQ("#topic_ifa_tags").show();
+			})
+			return false;
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#master_id").change(function(){
+		var master_id = jQ('#org_master_id').val();
+		var topic_id = '<%= @topic.public_id %>';
+		var classroom_id = '<%= @classroom.public_id %>';
+		var subject_id = '<%= @topic_subject.id %>';		
+		var url = "<%= url_for :controller => '/site/site', :action => :topic_assess_new_master_or_subject, :organization_id => @current_organization  %>";
+			jQ.get(url, {'classroom_id':classroom_id, 'subject_id':subject_id, 'topic_id':topic_id, 'master_id': master_id}, function(data) {
+			jQ("#topic_ifa_tags").html(data); 
+	   		jQ("#mtopic_ifa_tags").show();
+			});
+	})
+});
+</script>			
+
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#subject_id").change(function(){
+		var subject_id = jQ('#org_subject_id').val();
+		var topic_id = '<%= @topic.public_id %>';
+		var classroom_id = '<%= @classroom.public_id %>';
+		var master_id = '<%= @master.id %>';
+		var url = "<%= url_for :controller => '/site/site', :action => :topic_assess_new_master_or_subject, :organization_id => @current_organization  %>";
+			jQ.get(url, {'classroom_id':classroom_id, 'subject_id':subject_id, 'topic_id':topic_id, 'master_id': master_id}, function(data) {
+			jQ("#topic_ifa_tags").html(data); 
+	   		jQ("#mtopic_ifa_tags").show();
+			});
+	})
+});
+</script>	

@@ -1,0 +1,72 @@
+<br/>
+<div id="cycle_summary">
+
+<div id="assign_resources_panel">
+	<table id="coach_<%= teacher.public_id %>"   style="width:99%;">
+		<tbody>  
+			<% col_label = "Coaching Comments"-%>
+				<tr>
+				<td class="resource_levels_close" style="color: #2061a5;  font-size:11.5px; font-weight:bold">
+
+				<%= link_to '', :controller => "apps/staff_develop", :action => :coaching_update, :organization_id => @current_organization, :plan_id => package.last, :teacher_id => teacher %>
+				<%= col_label %>
+				<span></span>
+				</td>
+				</tr>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#coach_<%= teacher.public_id %> .resource_levels_close').toggleResourceLevels();
+	jQ('#coach_<%= teacher.public_id %> .resource_levels_open').toggleResourceLevels();	
+});
+</script>
+
+	<% package.each_with_index do |plan, stage| -%>
+		<% if plan.date_finalized || @current_user != plan.user -%>
+			<div id="assign_resources_panel">
+				<table id="cycle_<%= plan.dle_cycle_id %>"   style="width:99%;">
+					<tbody>  
+						<% date_string = plan.date_finalized.nil? ? "Active Stage": "Completed " + plan.date_finalized.strftime("%b %d, %Y") %>
+
+						<% col_label = plan.dle_cycle.name -%>
+							<tr>
+							<td class="resource_levels_close" style="color: #2061a5;  font-size:11.5px; font-weight:bold">
+			
+							<%= link_to '', :controller => "apps/staff_develop", :action => :stage_display, :organization_id => @current_organization, :stage=> stage, :plan_id => plan, :app_id=> app.id %>
+							<%= col_label %>:&nbsp;<small><%=date_string %></small>
+							<span></span>
+							</td>
+							</tr>
+					</tbody>
+				</table>
+			</div>
+		<% else -%>
+
+			<div id="assign_resources_panel">
+				<table id="cycle_<%= plan.dle_cycle_id %>"   style="width:99%;">
+					<tbody>  
+						<% col_label = "Update Your " + plan.dle_cycle.name + " Information" -%>
+							<tr>
+							<td class="resource_levels_close" style="color: #C83A14;  font-size:11.5px; font-weight:bold">
+			
+							<%= link_to '', :controller => "apps/staff_develop", :action => :cycle_update, :organization_id => @current_organization, :plan_id => plan, :app_id=> app.id %>
+							<%= col_label %>
+							<span></span>
+							</td>
+							</tr>
+					</tbody>
+				</table>
+			</div>
+		<% end -%>
+		<script type="text/javascript" charset="utf-8">
+		jQ(document).ready(function() {
+			jQ('#cycle_<%= plan.dle_cycle_id %> .resource_levels_close').toggleResourceLevels();
+			jQ('#cycle_<%= plan.dle_cycle_id %> .resource_levels_open').toggleResourceLevels();	
+		});
+		</script>
+	<% end -%>
+</div>
+
+

@@ -1,0 +1,158 @@
+
+<style type="text/css" media="screen">
+    .warp_content {
+        padding: 0;
+        background-color: transparent;
+    }
+</style>
+<script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function(){
+        //jQ("#call_to_action").addImageShadow();
+        //jQ("#followup").addImageShadow();
+    })
+</script>
+<div id="staticorg">
+	<table style="width:935px; width:fixed; border:0px solid #ddd; margin-left:5px"> 
+		<tbody>
+			<tr>
+				<td id="affiliate_information" class="module" style ="width:325px; width:fixed; border:0px solid #ddd; vertical-align:top; padding-top:0px; padding-left:00px; padding-bottom:0px">
+					<%= image_tag(@current_organization.logo.url, :alt => @current_organization.name) if @current_organization.logo.file? -%>
+					<% unless @current_organization.body.nil? %>
+						<span class="normal_text"><br/><strong><i><%= to_br(@current_organization.body)%></i></strong></span>
+					<% end %>
+				</td>
+				<td style =" width:400px; width:fixed; border:0px solid #ddd; vertical-align:top; padding-top:10px; padding-left:00px; padding-bottom:0px">
+					<span style="font-size: 16px; font-weight:bold; color:#C73914; text-align:center;">	
+						<center><%= @current_organization.name%></center>
+					</span>
+					<span class="normal_text" style="line-height:1.5em;"><center>
+						<% if @current_organization.addresses.first.country == 'US' %>
+							<%= @current_organization.addresses.first.street1 -%>
+							<%= @current_organization.addresses.first.street2.empty? ? "" : (", " + @current_organization.addresses.first.street2) -%>
+							<%= @current_organization.addresses.first.city.empty? ? "" : (", " + @current_organization.addresses.first.city) -%>,	
+						 	<%= @current_organization.addresses.first.state -%> &nbsp; <%= @current_organization.addresses.first.postal_code rescue nil -%><br/>
+						<% else %>
+							<%= @current_organization.addresses.first.city rescue nil -%>, 
+							<%= I18n.t @current_organization.addresses.first.country, :scope => 'countries' %>	&nbsp <%= @current_organization.addresses.first.postal_code rescue nil -%><br/>
+						<% end %>
+						<%= @current_organization.phone.empty? ? "" : @current_organization.phone -%>&nbsp;&nbsp;
+						<% unless @current_organization.web_site_url.nil? %>
+							<% web_link = "Website"%>
+							<%= link_to web_link, @current_organization.web_site_url, :target => "_blank"  %>
+						<% end %>
+					</center></span>
+				</td>
+				<% contact_user = User.org_contact(@current_organization.contact_email) -%>
+				<% if !contact_user.nil? && @current_organization.contact_name && @current_organization.display_contact?-%> 
+					<td style =" width:83px; width:fixed; border:0px solid #ddd; vertical-align:top; line-height:1.5em; padding-top:10px; padding-left:00px; padding-bottom:0px">
+	  					<% unless contact_user.picture.url.split("/").last == "missing.png" %>
+            				<%= link_to (image_tag contact_user.picture.url :med_thumb), {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => contact_user}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"}%> 
+            			<% end %>
+      				</td>
+					<td style ="  border:0px solid #ddd; vertical-align:middle; line-height:1.5em; padding-top:0px; padding-left:00px; padding-bottom:0px">
+						<center><%= link_to @current_organization.contact_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => contact_user}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>	</center>
+						<span style="font-size:10.5px; line-height:1.3em;">
+							<center>
+								<%= @current_organization.contact_role if @current_organization.contact_role %>
+							</center>
+						</span>    			
+      				</td>
+      			<% else %>
+					<td colspan=2 style ="border:0px solid #ddd; vertical-align:middle; line-height:1.5em; padding-top:10px; padding-left:00px; padding-bottom:0px">
+						<% if @current_organization.display_contact? -%>
+							<center><strong><%= @current_organization.contact_name if @current_organization.contact_name %></strong></center>				
+							<span style="font-size:10.5px; line-height:1.3em;">
+								<center>
+									<%= @current_organization.contact_role if @current_organization.contact_role %>
+								</center>
+							</span> 
+						<% else -%>
+							&nbsp;
+						<% end -%>
+					</td>
+				<% end %>	
+			</tr>
+		</tbody>
+	</table>
+  </div>  
+  <br style="clear:both">       
+
+  <!-- Organization Info End --> 
+  <!-- LEFT Side --> 
+
+<div style="float:left;width:400px;">
+
+  <!-- Our Apps --> 
+
+  <div class="module" id="followup" style="margin-left:10px; width:380px; margin-top:5px;">
+    <div class="module_header">
+      <span class="content_area_title">
+	<center><strong><%= @current_organization.short_name %>&nbsp;APP SUMMARY</strong></center></span>
+    </div>
+	
+		<%= render :partial => "static_organization_apps"%>	
+
+  </div>
+
+  <!-- Our Members End --> 
+  <!-- CURRENT LESSONS **** -->
+   
+  <div class="module" id="followup" style="margin-left:10px; width:380px; margin-top:5px;">
+	<% if @current_organization.classrooms.active.collect{|c| c.topics.active}.flatten.size > 0 -%>
+  <div class="module_header">
+      <span class="content_area_title">
+      	<center><strong>LEARNING UNITS IN-PROGRESS</strong></center></span>
+    </div>
+	
+	<%= render (:partial => "static_organization_classrooms", :locals=>{:display=>"lu"})%>	
+	
+	<% end -%>
+  </div> 
+
+</div>
+
+  <!-- CURRENT LESSONS  End -->
+      
+  <!-- RIGHT Side --> 
+  
+  <div style="float:right;width:500px;">
+  
+    <!-- Our OFFERINGS --> 
+     
+  <div class="module" id="followup" style="margin-left:10px; width:380px; margin-top:5px;">
+    <div class="module_header">
+      <span class="content_area_title">
+      	 <center><strong><%= pluralize(@current_organization.classrooms.active.size, @current_organization.short_name + " OFFERING").upcase %></strong></center>
+</span>
+    </div>
+
+	<%= render (:partial => "static_organization_classrooms", :locals=>{:display=>"Offering"})%>	
+
+
+  </div>
+  
+  <!-- Our Offerings End --> 
+  <!-- Our RESOURCES  --> 
+  
+  <div class="module" id="followup" style="margin-left:10px; width:380px; margin-top:5px;">
+    <div class="module_header">
+      <span class="content_area_title" >
+	  <center><strong>RESOURCE LIBRARY CONTRIBUTIONS</strong></center>
+	 </span>
+    </div>
+
+
+	<%= render (:partial => "static_organization_resources")%>	
+
+
+
+
+  <!-- Our Resources End -->    
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+  jQ("#orgroles").tablesorter({ headers: { 1: { sorter: false }} });
+});
+</script>

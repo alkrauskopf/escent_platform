@@ -1,0 +1,51 @@
+
+<div id="student_add" style = "font-size:12px; color: #000000; margin-top:0px;">
+	<% if @current_user && @current_user.student_of_classroom?(classroom) -%>
+		<table style="width:250px;margin-top:0px;">
+			<tbody>
+				<tr>
+					<td style="width:60px; width:fixed;  text-align:right; font-size:9px; color:#878787">
+							<%= link_to "Un-Join", {:controller => "apps/classroom", :action => :self_unregister_student, :organization_id => @current_organization, :student_id=>@current_user, :classroom_id => classroom}, :class => "unjoin_offering" %>
+					</td>
+					<td style="font-size:10px; color:#878787">
+						<%= @current_user.last_name %>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<% end -%>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.unjoin_offering').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#student_add").html(data);
+				jQ("#student_add").show();
+			})
+			return false;
+	})
+});
+</script>
+	<% unless !@current_user || @current_user.student_of_classroom?(classroom) || @current_user.teacher_of_classroom?(classroom) || classroom.classroom_periods.empty?-%>
+		<table id="register" class="tablesorter" style="width:250px;margin-top:0px;">
+			<tbody>
+				<tr>
+					<td class="ifa_levels_close" style=" color: #C83A14; font-weight:bold; font-size:10.5px">
+						<%= link_to '', :controller => "apps/classroom", :action => :register_classroom, :organization_id => @current_organization, :classroom_id => classroom %>
+						Join Offering
+						<span></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#register .ifa_levels_close').toggleIfaLevels();
+	jQ('#register .ifa_levels_open').toggleIfaLevels();
+});
+</script>					
+	<% end -%>	
+</div>
+

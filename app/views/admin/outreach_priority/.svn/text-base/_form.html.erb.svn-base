@@ -1,0 +1,44 @@
+<div class="formBox">
+	<div id="group_error_message">
+		  <%= render :partial => "/shared/error_and_notice" %>
+	</div>
+  <div class="FormRow">
+    <div class="FormRowTitle">
+      <%= label_tag 'name', 'Name:' %>
+    </div>
+    <div class="FormRowData">
+      <%= text_field :outreach_priority_group, :name , :value => @outreach_priority_group.name%>
+      <%= vaild_tag %>      
+    </div>
+    <br/>
+		<br/>
+   	<div id="all_outreach_priority" class='scrollPrivileges'>
+	  	<% outreach_priority_data.each do |outreach_priority| %>
+	    	<p><%= check_box_tag "outreach_priority_check[]" , value = outreach_priority.id ,checked = false  %> 
+	      	<%= outreach_priority.name %></p>
+	    	<% end %>
+   	</div>
+		<br/>
+    <%= button_to_remote "Add" , {:submit => "all_outreach_priority",:before => "Element.show('loading')", :complete => "Element.hide('loading');", :url => {:controller =>   :outreach_priority, :action => :add_outreach_priority}}, {:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
+    <br/>
+		<br/>
+   	<div id="add_group_outreach_priority" class='scrollPrivileges'>
+   		<% if @outreach_priority_group.present?   %>
+	    	<% @outreach_priority_group.outreach_priorities.each do |@outreach_priority| %>
+					<%= render :partial => "outreach_priority_show" %>
+				<% end %>
+			<% end %>
+ 		</div>
+		<br/>
+    <%= button_to_remote "Remove" , {:submit => "add_group_outreach_priority",:before => "Element.show('loading')", :complete => "Element.hide('loading');", :url => {:controller =>   :outreach_priority, :action => :remove_outreach_priority}}, {:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
+ 
+  </div>
+	
+  <div class="FormRow">
+    <div class="FormRowTitle">&nbsp;</div>
+    <div class="FormRowData">
+      <%= submit_tag "Save" ,:id => "save_button", :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
+      <%= button_to_remote "Cancel", {:before => "Element.show('loading')", :complete => "Element.hide('loading');", :url => {:controller => :outreach_priority, :action => :cancel}}, {:class => "fsn-button ui-button ui-state-default ui-corner-all" }  %>
+		</div>
+  </div>
+</div>

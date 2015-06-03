@@ -1,0 +1,32 @@
+  <br/>
+  	<table> 
+		<tbody>
+			<% unless @blog.picture_file_name.nil? -%>
+				<% blog_file = @blog.picture.url -%>
+				<% if @blog.picture_file_name.include?(".swf") -%>	
+					<tr>
+						<td  style ="width:450px; padding-top:0px; padding-left:20px; padding-bottom:5px">
+						  <div id="flash_content">
+						     <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="348" height="228" id="fs_home" align="top">
+						         <param name="allowScriptAccess" value="sameDomain" /><param name="allowFullScreen" value="false" /><param name="movie" value= <%= blog_file %> /><param name="quality" value="best" /><param name="bgcolor" value="#ffffff" /><embed src= <%= blog_file %> quality="best" bgcolor="#ffffff" width="348" height="228" name="FS_attempt9_REVISED_JOSH" align="top" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+						     </object>
+						  </div>
+		  				</td>
+				   	</tr>
+				   	<% else -%>
+					<tr>
+						<td  style ="width:450px; padding-top:0px; padding-left:20px; padding-bottom:5px">
+							<%= image_tag(blog_file, :width => 200,:alt => "No Image File") -%>
+		  				</td>
+					</tr>
+				<% end -%>
+			<% else -%>
+			<tr>
+				<td  style ="width:450px; padding-top:0px; padding-left:20px; color: #C83A14; padding-bottom:5px">
+					* * * No Attached Blog Image Or Flash File * * *
+				</td>
+		   	</tr>		   	
+		   	<% end -%>
+		</tbody>
+	</table>
+  <br/>

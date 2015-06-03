@@ -1,0 +1,81 @@
+<div id ="list_resource_groups" >
+<center>
+		<table style="width:150px;margin-left:0px; border:0px  solid #ddd; margin-top:0px">
+			<tbody>  
+				<tr  style="border:0px solid #ddd;" >
+					<td   id = "select_group" style="width:150px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:bold">
+						<%=  select(:resource, :group, content_groups, :prompt => "Group By "+ current_group.titleize) %>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+</center>
+
+<% if current_group == "Folder" %>
+
+	<table id="folder_groups"  style="margin-left:0px; width:900px; border:0px solid #ddd;">
+		<tbody> 
+		 	<% org.folders.each do |folder| %>
+				<% unless (@current_user.content_admin?(org) ? folder.lu_resources.for_org(org).empty? : folder.lu_resources.for_user(@current_user).for_org(org).empty?) %>
+					<tr>
+						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal; padding-bottom:0px; font-size:12px">
+						
+						<%= link_to '', :controller => "site/contents", :action => "show_group_content", :organization_id=>@current_organization, :org_id => org, :entity_class=> folder.class, :entity_id => folder.id %>
+							<%= folder.name%>&nbsp;<i>(<%= (@current_user.content_admin?(org) ? folder.lu_resources.for_org(org).size : folder.lu_resources.for_user(@current_user).for_org(org).size) %>)</i>
+						<span></span>
+						</td>
+					</tr>
+				<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#folder_groups .resource_levels_close').toggleResourceLevels();
+	jQ('#folder_groups .resource_levels_open').toggleResourceLevels();	
+});
+</script>
+<% elsif current_group == "Type" %>
+
+	<table id="type_groups"  style="margin-left:0px; width:900px; border:0px solid #ddd;">
+		<tbody> 
+		 	<% org.content_types.each do |type| %>
+				<% unless (@current_user.content_admin?(org) ? org.contents.for_type(type).empty? : org.contents.for_user(@current_user).for_type(type).empty?) %>
+					<tr>
+						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal; padding-bottom:0px; font-size:12px">
+						
+						<%= link_to '', :controller => "site/contents", :action => "show_group_content", :organization_id=>@current_organization, :org_id => org, :entity_class=> type.class, :entity_id => type.id %>
+							<%= type.name%>&nbsp;<i>(<%= (@current_user.content_admin?(org) ? org.contents.for_type(type).size : org.contents.for_user(@current_user).for_type(type).size) %>)</i>
+						<span></span>
+						</td>
+					</tr>
+				<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#type_groups .resource_levels_close').toggleResourceLevels();
+	jQ('#type_groups .resource_levels_open').toggleResourceLevels();	
+});
+</script>
+
+<% else -%>
+
+	Invalid Content Group
+
+<% end -%>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#select_group').change(function() {
+		var content_group = jQ('#resource_group').val();
+		var url = "<%= url_for :controller => '/site/contents', :action => :select_content_group, :organization_id => @current_organization  %>";
+			jQ.get(url, {'current_group':content_group}, function(data) {
+			jQ("#list_resource_groups").html(data); 
+	   		jQ("#list_resource_groups").show();
+			});
+	})
+});
+</script>

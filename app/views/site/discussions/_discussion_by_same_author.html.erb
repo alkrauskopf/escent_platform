@@ -1,0 +1,48 @@
+<div id="show_comment_list">
+<% topic.discusssion_by_same_author.each do |discussion| -%>
+<div class="discusssion_by_same_author_box">
+	<div class="discusssion_by_same_author_warp">
+		<div class="discusssion_by_same_author">
+			<div>
+				<%= show_discussion_is_delete?(discussion.comment, discussion.is_delete) %>
+				<% if @current_user && !topic.nil?-%>
+					<% unless topic.classroom.teachers.include?(@current_user) -%>
+						<% display_value = "none;" %>
+					<% end -%>	
+				<% else -%>
+						<% display_value = "none;" %>		
+				<% end -%>
+				<%= (link_to "Delete", {:controller => "site/discussions", :action => "delete_reply", :id => discussion, :organization_id => @current_organization}, :class => "delete", :style => "display:#{display_value}") unless discussion.is_delete %>
+			</div>
+		</div>
+	</div>
+	<div class="discusssion_by_same_author_info">
+		<span><%= discussion.user.full_name %></span>
+		<abbr title="<%= discussion.created_at.xmlschema %>"> posted 
+			<% if discussion.created_at > Time.now.utc - 24.hours -%>
+				<% last_post_at = time_ago_in_words(discussion.created_at).sub(/about /, '') + " ago" %> 
+			<% else -%>
+				<% last_post_at = "on " + discussion.created_at.strftime("%b %e, %Y") %>
+			<% end -%>
+			<%= last_post_at %>
+		</abbr>
+	</div>
+</div>
+<% end -%>
+</div>
+
+	<script type="text/javascript">
+	//  jQ(document).ready(function(){
+	// 	  var $comments = jQ("#show_comment_list div[class='discusssion_by_same_author_box']:gt(10):not(:last)");
+	// 	  $comments.hide();
+	// 	
+	//  jQ("#more_comments").toggle(function(){
+	//    	jQ("#more_comments").text("Close");
+	//     $comments.show();
+	//  },function(){
+	// 	  jQ("#more_comments").text("More");
+	// 	  $comments.hide();
+	// })	
+	// })
+
+	</script>

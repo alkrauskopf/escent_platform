@@ -1,0 +1,21 @@
+
+	 <div id="flash_box" style="cursor:default;">
+		<% if !@blog_post.picture_file_name.nil? && @blog_post.picture_file_name.include?(".swf") -%>
+		     <center><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="490" height="290" id="fs_home" align="top">
+		         <param name="allowScriptAccess" value="sameDomain" /><param name="allowFullScreen" value="false" /><param name="movie" value= <%= @blog_post.picture.url %> /><param name="quality" value="best" /><param name="bgcolor" value="#ffffff" /><embed src= <%= @blog_post.picture.url %> quality="best" bgcolor="#ffffff" width="490" height="290" name="FS_attempt9_REVISED_JOSH" align="top" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+		     </object></center>
+		<% elsif !@blog_post.picture_file_name.nil? -%>
+	 	      <center><img src="<%= @blog_post.picture.url %>" width="470" /></center>
+		<% end -%>
+	  </div>
+
+
+		<table  style = "width:630px; padding-top:3px; margin-left:0px; cursor:default;">
+			<tbody>
+				<tr>
+					<td  class="main_ep_page_subtext" style = "width:630px; ">
+						<%= simple_format @blog_post.body %>
+					</td>
+				</tr>
+			</tbody>
+		</table>

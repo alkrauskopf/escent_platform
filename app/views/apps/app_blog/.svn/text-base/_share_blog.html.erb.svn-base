@@ -1,0 +1,36 @@
+
+
+<span style = "font-size:12px;">
+				<span style="font-size:12px; font-weight:bold;" >
+					<center><a id="post_1_<%=blog.id%>" href="">Share Discussion</a></center>
+				</span>
+				<div id="post_2_<%=blog.id%>" title= "Share Discussion" style="text-align:left;">
+			 	   <%= render :partial => "apps/app_blog/share_email_box", :locals=>{:blog=>blog, :user_name => (@current_user ? @current_user.full_name : ""), :message=>"", :to_email=>""} %>					
+				</div>						
+
+<script type="text/javascript" charset="utf-8">
+    	jQ(document).ready(function() {
+
+    	    jQ("#post_2_<%=blog.id%>").dialog({
+    	            bgiframe: true,
+    	            autoOpen: false,
+    	            width: 600,
+    	            height: 460,
+    	            modal: true,
+    				buttons: {
+    					 Close: function(){
+    		                        jQ(this).dialog('close');
+    		                    }
+    				}
+        	    }
+    		);					
+			
+    		jQ('#post_1_<%=blog.id%>').click(function(event){
+    		    jQ("#post_2_<%=blog.id%>").dialog('open');
+    			 event.preventDefault();
+    		})							
+
+    });
+</script>
+
+</span>

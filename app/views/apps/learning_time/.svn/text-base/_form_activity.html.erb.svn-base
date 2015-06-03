@@ -1,0 +1,79 @@
+
+<div class="FormRow submit_warp" style= "padding-left:25px">	
+	<%= submit_tag button_label, :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
+	<br/>
+</div>	
+
+<div class="formBox">
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Name:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+        <%= text_field :elt_type, :name, :value => @activity.name, :size => 40, :maxlength => 60 %>
+        </div>
+    </div>	
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Display Position:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+        	<%= text_field :elt_type, :position, :value =>  @activity.position,  :size => 1, :maxlength => 2 %>
+        </div>
+    </div>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Activity Type:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+        	<%=  select(:elt_type, :elt_activity_type_id, EltActivityType.active.collect{|t| [t.name, t.id]}, :prompt =>  @activity.activity_type ) %>
+        </div>
+    </div>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            <%=@current_organization.short_name%> Use Only?
+        </div>
+			<div class="FormRowData" style= "margin-left:25px">
+    			<%= check_box :elt_type, :provider_only, :checked=>@activity.provider_only %>
+			</div>
+    </div>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Reportable For Client?
+        </div>
+			<div class="FormRowData" style= "margin-left:25px">
+    			<%= check_box :elt_type, :is_reportable, :checked=>@activity.is_reportable %>
+			</div>
+    </div>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Collect Subject Area?
+        </div>
+			<div class="FormRowData" style= "margin-left:25px">
+    			<%= check_box :elt_type, :tag_subject, :checked=>@activity.tag_subject %>
+			</div>
+    </div>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Collect Grade Level?
+        </div>
+			<div class="FormRowData" style= "margin-left:25px">
+    			<%= check_box :elt_type, :tag_grade, :checked=>@activity.tag_grade %>
+			</div>
+    </div>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+           
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+        	&nbsp;
+        </div>
+    </div>
+</div>
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>

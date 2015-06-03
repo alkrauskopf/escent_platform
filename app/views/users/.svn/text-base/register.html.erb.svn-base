@@ -1,0 +1,26 @@
+<div style="width:700px; float:left; padding-left:10px; padding-right:100px;" >
+    <img src="/images/member_registration_new.jpg" width="258" height="28" />
+    <br/>
+    <br/>
+   <!-- ALK Changes -->
+    <p>
+      You are about to join the Escent Community. <br/> 
+	  It is a community of learning institutions devoted to the principles of collaboration and continuous improvement.
+	<br />
+You will find this to be a safe and impactful place for learning.
+ </p>
+    <br/>
+    <div style="text-align:left;">
+        <% form_tag :action => :register do %>
+        <%= render :partial => "/shared/error_and_notice" %>
+        <%= render :partial => 'profile' %>
+     <div style="margin-left:207px;">       
+		    <%= button_to " Join ", {}, :class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "font-size:14px;" %>
+    </div>
+    <%end %>
+        </div>
+	<div class="clear:both;">	</div>
+
+
+</div>
+

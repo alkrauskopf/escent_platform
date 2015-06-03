@@ -1,0 +1,638 @@
+
+english-9-oel-1:
+    id: 200
+    act_standard_id: 121
+    skill: Oral presentations require effective preparation strategies
+    gle_position: 1
+    co_grade_level_id: 209
+
+english-9-oel-2:
+    id: 201
+    act_standard_id: 121
+    skill: Listening critically to comprehend a speaker’s message requires mental and physical strategies to direct and maintain attention
+    gle_position: 2
+    co_grade_level_id: 209
+
+english-9-rap-1:
+    id: 202
+    act_standard_id: 122
+    skill: Increasingly complex literary elements in traditional and contemporary works of literature require scrutiny and comparison
+    gle_position: 1
+    co_grade_level_id: 209
+
+english-9-rap-2:
+    id: 203
+    act_standard_id: 122
+    skill: Increasingly complex informational texts require mature interpretation and study
+    gle_position: 2
+    co_grade_level_id: 209
+
+english-9-wc-1:
+    id: 204
+    act_standard_id: 123
+    skill: Literary and narrative texts develop a controlling idea or theme with descriptive and expressive language
+    gle_position: 1
+    co_grade_level_id: 209
+
+english-9-wc-2:
+    id: 205
+    act_standard_id: 123
+    skill: Informational and persuasive texts develop a topic and establish a controlling idea or thesis with relevant support
+    gle_position: 2
+    co_grade_level_id: 209
+
+english-9-wc-3:
+    id: 206
+    act_standard_id: 123
+    skill: Writing for grammar, usage, mechanics, and clarity requires ongoing refinements and revisions
+    gle_position: 3
+    co_grade_level_id: 209
+
+english-9-rr-1:
+    id: 207
+    act_standard_id: 124
+    skill: Informational materials, including electronic sources, need to be collected, evaluated, and analyzed for accuracy, relevance, and effectiveness for answering research questions
+    gle_position: 1
+    co_grade_level_id: 209
+
+english-9-rr-2:
+    id: 208
+    act_standard_id: 124
+    skill: Effective problem-solving strategies require high-quality reasoning
+    gle_position: 2
+    co_grade_level_id: 209
+
+english-10-oel-1:
+    id: 209
+    act_standard_id: 121
+    skill: Content that is gathered carefully and organized well successfully influences an audience
+    gle_position: 1
+    co_grade_level_id: 210
+
+english-10-oel-2:
+    id: 210
+    act_standard_id: 121
+    skill: Effectively operating in small and large groups to accomplish a goal requires active listening
+    gle_position: 2
+    co_grade_level_id: 210
+
+english-10-rap-1:
+    id: 211
+    act_standard_id: 122
+    skill: Literary and historical influences determine the meaning of traditional and contemporary literary texts
+    gle_position: 1
+    co_grade_level_id: 210
+
+english-10-rap-2:
+    id: 212
+    act_standard_id: 122
+    skill: The development of new ideas and concepts within informational and persuasive manuscripts
+    gle_position: 2
+    co_grade_level_id: 210
+
+english-10-rap-3:
+    id: 213
+    act_standard_id: 122
+    skill: Context, parts of speech, grammar, and word choice influence the understanding of literary, persuasive, and informational texts
+    gle_position: 3
+    co_grade_level_id: 210
+
+english-10-wc-1:
+    id: 214
+    act_standard_id: 123
+    skill: Literary or narrative genres feature a variety of stylistic devices to engage or entertain an audience
+    gle_position: 1
+    co_grade_level_id: 210
+
+english-10-wc-2:
+    id: 215
+    act_standard_id: 123
+    skill: Organizational writing patterns inform or persuade an audience
+    gle_position: 2
+    co_grade_level_id: 210
+
+english-10-wc-3:
+    id: 216
+    act_standard_id: 123
+    skill: Grammar, language usage, mechanics, and clarity are the basis of ongoing refinements and revisions within the writing process
+    gle_position: 3
+    co_grade_level_id: 210
+
+english-10-rr-1:
+    id: 217
+    act_standard_id: 124
+    skill: Collect, analyze, and evaluate information obtained from multiple sources to answer a question, propose solutions, or share findings and conclusions
+    gle_position: 1
+    co_grade_level_id: 210
+
+english-10-rr-2:
+    id: 218
+    act_standard_id: 124
+    skill: An author’s reasoning is the essence of legitimate writing and requires evaluating text for validity and accuracy
+    gle_position: 2
+    co_grade_level_id: 210
+ 
+english-11-oel-1:
+    id: 219
+    act_standard_id: 121
+    skill: Verbal and nonverbal cues impact the intent of communication
+    gle_position: 1
+    co_grade_level_id: 211
+
+english-11-oel-2:
+    id: 220
+    act_standard_id: 121
+    skill: Validity of a message is determined by its accuracy and relevance
+    gle_position: 2
+    co_grade_level_id: 211
+
+english-11-rap-1:
+    id: 221
+    act_standard_id: 122
+    skill: Complex literary texts require critical reading approaches to effectively interpret and evaluate meaning
+    gle_position: 1
+    co_grade_level_id: 211
+
+english-11-rap-2:
+    id: 222
+    act_standard_id: 122
+    skill: Ideas synthesized from informational texts serve a specific purpose
+    gle_position: 2
+    co_grade_level_id: 211
+
+english-11-rap-3:
+    id: 223
+    act_standard_id: 122
+    skill: Knowledge of language, including syntax and grammar, influence the understanding of literary, persuasive, and informational texts
+    gle_position: 3
+    co_grade_level_id: 211
+
+english-11-wc-1:
+    id: 224
+    act_standard_id: 123
+    skill: Stylistic and thematic elements of literary or narrative texts can be refined to engage or entertain an audience
+    gle_position: 1
+    co_grade_level_id: 211
+
+english-11-wc-2:
+    id: 225
+    act_standard_id: 123
+    skill: Elements of informational and persuasive texts can be refined to inform or influence an audience
+    gle_position: 2
+    co_grade_level_id: 211
+
+english-11-wc-3:
+    id: 226
+    act_standard_id: 123
+    skill: Writing demands ongoing revisions and refinements for grammar, usage, mechanics, and clarity
+    gle_position: 3
+    co_grade_level_id: 211
+
+english-11-rr-1:
+    id: 227
+    act_standard_id: 124
+    skill: Self-designed research provides insightful information, conclusions, and possible solutions
+    gle_position: 1
+    co_grade_level_id: 211
+
+english-11-rr-2:
+    id: 228
+    act_standard_id: 124
+    skill: Complex situations require critical thinking across multiple disciplines
+    gle_position: 2
+    co_grade_level_id: 211
+
+english-11-rr-3:
+    id: 229
+    act_standard_id: 124
+    skill: Evaluating quality reasoning includes the value of intellectual character such as humility, empathy, and confidence
+    gle_position: 3
+    co_grade_level_id: 211 
+
+english-12-oel-1:
+    id: 230
+    act_standard_id: 121
+    skill: Effective speaking in formal and informal settings requires appropriate use of methods and audience awareness
+    gle_position: 1
+    co_grade_level_id: 212
+
+english-12-oel-2:
+    id: 231
+    act_standard_id: 121
+    skill: Effective collaborative groups accomplish goals
+    gle_position: 2
+    co_grade_level_id: 212
+
+english-12-rap-1:
+    id: 232
+    act_standard_id: 122
+    skill: Literary criticism of complex texts requires the use of analysis, interpretive, and evaluative strategies
+    gle_position: 1
+    co_grade_level_id: 212
+
+english-12-rap-2:
+    id: 233
+    act_standard_id: 122
+    skill: Interpreting and evaluating complex informational texts require the understanding of rhetoric, critical reading, and analysis skills
+    gle_position: 2
+    co_grade_level_id: 212
+
+english-12-wc-1:
+    id: 234
+    act_standard_id: 123
+    skill: Style, detail, expressive language, and genre create a well-crafted statement directed at an intended audience and purpose
+    gle_position: 1
+    co_grade_level_id: 212
+
+english-12-wc-2:
+    id: 235
+    act_standard_id: 123
+    skill: Ideas, evidence, structure, and style create persuasive, academic, and technical texts for particular audiences and specific purposes
+    gle_position: 2
+    co_grade_level_id: 212
+
+english-12-wc-3:
+    id: 236
+    act_standard_id: 123
+    skill: Standard English conventions effectively communicate to targeted audiences and purposes
+    gle_position: 3
+    co_grade_level_id: 212
+
+english-12-rr-1:
+    id: 237
+    act_standard_id: 124
+    skill: Independent research designs articulate and defend information, conclusions, and solutions that address specific contexts and purposes
+    gle_position: 1
+    co_grade_level_id: 212
+
+english-12-rr-2:
+    id: 238
+    act_standard_id: 124
+    skill: Logical arguments distinguish facts from opinions; and evidence defines reasoned judgment
+    gle_position: 2
+    co_grade_level_id: 212
+ 
+math-hs-nspo-1:
+    id: 100
+    act_standard_id: 111
+    skill: The complex number system includes real numbers and imaginary numbers
+    gle_position: 1
+    co_grade_level_id: 100
+
+math-hs-nspo-2:
+    id: 101
+    act_standard_id: 111
+    skill: Quantitative reasoning is used to make sense of quantities and their relationships in problem situations
+    gle_position: 2
+    co_grade_level_id: 100   
+ 
+math-hs-pfas-1:
+    id: 102
+    act_standard_id: 112
+    skill: Functions model situations where one quantity determines another and can be represented algebraically, graphically, and using tables 
+    gle_position: 1
+    co_grade_level_id: 100
+
+math-hs-pfas-2:
+    id: 103
+    act_standard_id: 112
+    skill: Quantitative relationships in the real world can be modeled and solved using functions
+    gle_position: 2
+    co_grade_level_id: 100   
+ 
+math-hs-pfas-3:
+    id: 104
+    act_standard_id: 112
+    skill: Expressions can be represented in multiple, equivalent forms
+    gle_position: 3
+    co_grade_level_id: 100
+
+math-hs-pfas-4:
+    id: 105
+    act_standard_id: 112
+    skill: Solutions to equations, inequalities and systems of equations are found using a variety of tools
+    gle_position: 4
+    co_grade_level_id: 100   
+
+math-hs-dasp-1:
+    id: 106
+    act_standard_id: 113
+    skill: Visual displays and summary statistics condense the information in data sets into usable knowledge 
+    gle_position: 1
+    co_grade_level_id: 100
+
+math-hs-dasp-2:
+    id: 107
+    act_standard_id: 113
+    skill: Statistical methods take variability into account supporting informed decisions making through quantitative studies designed to answer specific questions
+    gle_position: 2
+    co_grade_level_id: 100   
+ 
+math-hs-dasp-3:
+    id: 108
+    act_standard_id: 113
+    skill: Probability models outcomes for situations in which there is inherent randomness 
+    gle_position: 3
+    co_grade_level_id: 100
+ 
+math-hs-sdgr-1:
+    id: 109
+    act_standard_id: 114
+    skill: Objects in the plane can be transformed, and those transformations can be described and analyzed mathematically
+    gle_position: 1
+    co_grade_level_id: 100
+
+math-hs-sdgr-2:
+    id: 110
+    act_standard_id: 114
+    skill: Concepts of similarity are foundational to geometry and its applications
+    gle_position: 2
+    co_grade_level_id: 100   
+ 
+math-hs-sdgr-3:
+    id: 111
+    act_standard_id: 114
+    skill: Objects in the plane can be described and analyzed algebraically
+    gle_position: 3
+    co_grade_level_id: 100
+
+math-hs-sdgr-4:
+    id: 112
+    act_standard_id: 114
+    skill: Attributes of two- and three-dimensional objects are measurable and can be quantified
+    gle_position: 4
+    co_grade_level_id: 100   
+
+math-hs-sdgr-5:
+    id: 113
+    act_standard_id: 114
+    skill: Objects in the real world can be modeled using geometric concepts 
+    gle_position: 5
+    co_grade_level_id: 100   
+
+science-hs-ps-1:
+    id: 400
+    act_standard_id: 141
+    skill: Newton’s laws of motion and gravitation describe the relationships among forces acting on and between objects, their masses, and changes in their motion – but have limitations 
+    gle_position: 1
+    co_grade_level_id: 400   
+
+science-hs-ps-2:
+    id: 401
+    act_standard_id: 141
+    skill: Matter has definite structure that determines characteristic physical and chemical properties 
+    gle_position: 2
+    co_grade_level_id: 400   
+
+science-hs-ps-3:
+    id: 402
+    act_standard_id: 141
+    skill: Matter can change form through chemical or nuclear reactions abiding by the laws of conservation of mass and energy 
+    gle_position: 3
+    co_grade_level_id: 400   
+
+science-hs-ps-4:
+    id: 403
+    act_standard_id: 141
+    skill: Atoms bond in different ways to form molecules and compounds that have definite properties 
+    gle_position: 4
+    co_grade_level_id: 400   
+
+science-hs-ps-5:
+    id: 404
+    act_standard_id: 141
+    skill: Energy exists in many forms such as mechanical, chemical, electrical, radiant, thermal, and nuclear, that can be quantified and experimentally determined 
+    gle_position: 5
+    co_grade_level_id: 400   
+
+science-hs-ps-6:
+    id: 405
+    act_standard_id: 141
+    skill: When energy changes form, it is neither created not destroyed; however, because some is necessarily lost as heat, the amount of energy available to do work decreases 
+    gle_position: 6
+    co_grade_level_id: 400   
+
+science-hs-ls-1:
+    id: 406
+    act_standard_id: 142
+    skill: Matter tends to be cycled within an ecosystem, while energy is transformed and eventually exits an ecosystem
+    gle_position: 1
+    co_grade_level_id: 400   
+
+science-hs-ls-2:
+    id: 407
+    act_standard_id: 142
+    skill: The size and persistence of populations depend on their interactions with each other and on the abiotic factors in an ecosystem
+    gle_position: 2
+    co_grade_level_id: 400   
+
+science-hs-ls-3:
+    id: 408
+    act_standard_id: 142
+    skill: Cellular metabolic activities are carried out by biomolecules produced by organisms
+    gle_position: 3
+    co_grade_level_id: 400   
+
+science-hs-ls-4:
+    id: 409
+    act_standard_id: 142
+    skill: The energy for life primarily derives from the interrelated processes of photosynthesis and cellular respiration.  Photosynthesis transforms the sun’s light energy into the chemical energy of molecular bonds. Cellular respiration allows cells to utilize chemical energy when these bonds are broken.
+    gle_position: 4
+    co_grade_level_id: 400   
+
+science-hs-ls-5:
+    id: 410
+    act_standard_id: 142
+    skill: Cells use the passive and active transport of substances across membranes to maintain relatively stable intracellular environments
+    gle_position: 5
+    co_grade_level_id: 400   
+
+science-hs-ls-6:
+    id: 411
+    act_standard_id: 142
+    skill: Cells, tissues, organs, and organ systems maintain relatively stable internal environments, even in the face of changing external environments
+    gle_position: 6
+    co_grade_level_id: 400   
+
+science-hs-ls-7:
+    id: 412
+    act_standard_id: 142
+    skill: Physical and behavioral characteristics of an organism are influenced to varying degrees by heritable genes, many of which encode instructions for the production of proteins
+    gle_position: 7
+    co_grade_level_id: 400   
+
+science-hs-ls-8:
+    id: 413
+    act_standard_id: 142
+    skill: Multicellularity makes possible a division of labor at the cellular level through the expression of select genes, but not the entire genome
+    gle_position: 8
+    co_grade_level_id: 400   
+
+science-hs-ls-9:
+    id: 414
+    act_standard_id: 142
+    skill: Evolution occurs as the heritable characteristics of populations change across generations and can lead populations to become better adapted to their environment
+    gle_position: 9
+    co_grade_level_id: 400   
+
+science-hs-ess-1:
+    id: 415
+    act_standard_id: 143
+    skill: The history of the universe, solar system and Earth can be inferred from evidence left from past events
+    gle_position: 1
+    co_grade_level_id: 400   
+
+science-hs-ess-2:
+    id: 416
+    act_standard_id: 143
+    skill: As part of the solar system, Earth interacts with various extraterrestrial forces and energies such as gravity, solar phenomena, electromagnetic radiation, and impact events that influence the planet’s geosphere, atmosphere, and biosphere in a variety of ways
+    gle_position: 2
+    co_grade_level_id: 400   
+
+science-hs-ess-3:
+    id: 417
+    act_standard_id: 143
+    skill: The theory of plate tectonics helps to explain geological, physical, and geographical features of Earth
+    gle_position: 3
+    co_grade_level_id: 400   
+
+science-hs-ess-4:
+    id: 418
+    act_standard_id: 143
+    skill: Climate is the result of energy transfer among interactions of the atmosphere, hydrosphere, geosphere, and biosphere
+    gle_position: 4
+    co_grade_level_id: 400   
+
+science-hs-ess-5:
+    id: 419
+    act_standard_id: 143
+    skill: There are costs, benefits, and consequences of exploration, development, and consumption of renewable and nonrenewable resources
+    gle_position: 5
+    co_grade_level_id: 400   
+
+science-hs-ess-6:
+    id: 420
+    act_standard_id: 143
+    skill: The interaction of Earth's surface with water, air, gravity, and biological activity causes physical and chemical changes
+    gle_position: 6
+    co_grade_level_id: 400   
+
+science-hs-ess-7:
+    id: 421
+    act_standard_id: 143
+    skill: Natural hazards have local, national and global impacts such as volcanoes, earthquakes, tsunamis, hurricanes, and thunderstorms
+    gle_position: 7
+    co_grade_level_id: 400   
+
+ss-hs-hist-1:
+    id: 501
+    act_standard_id: 151
+    skill: The historical method of inquiry to ask questions, evaluate primary and secondary sources, critically analyze and interpret data, and develop interpretations defended by evidence from a variety of primary and secondary sources
+    gle_position: 1
+    co_grade_level_id: 500   
+
+ss-hs-hist-2:
+    id: 502
+    act_standard_id: 151
+    skill: Analyze the key concepts of continuity and change, cause and effect, complexity, unity and diversity over time
+    gle_position: 2
+    co_grade_level_id: 500   
+   
+ss-hs-hist-3:
+    id: 503
+    act_standard_id: 151
+    skill: The significance of ideas as powerful forces throughout history
+    gle_position: 3
+    co_grade_level_id: 500   
+
+ss-hs-geo-1:
+    id: 504
+    act_standard_id: 152
+    skill: Use different types of maps and geographic tools to analyze features on Earth to investigate and solve geographic questions
+    gle_position: 1
+    co_grade_level_id: 500   
+
+ss-hs-geo-2:
+    id: 505
+    act_standard_id: 152
+    skill: Explain and interpret geographic variables that influence the interaction of people, places, and environments
+    gle_position: 2
+    co_grade_level_id: 500   
+   
+ss-hs-geo-3:
+    id: 506
+    act_standard_id: 152
+    skill: The interconnected nature of the world, its people and places
+    gle_position: 3
+    co_grade_level_id: 500   
+
+ss-hs-eco-1:
+    id: 507
+    act_standard_id: 153
+    skill: Productive resources - natural, human, capital - are scarce; therefore choices are made about how individuals, businesses, governments, and societies allocate these resources
+    gle_position: 1
+    co_grade_level_id: 500   
+
+ss-hs-eco-2:
+    id: 508
+    act_standard_id: 153
+    skill: Economic policies impact markets
+    gle_position: 2
+    co_grade_level_id: 500   
+   
+ss-hs-eco-3:
+    id: 509
+    act_standard_id: 153
+    skill: Government and competition impact markets
+    gle_position: 3
+    co_grade_level_id: 500   
+
+ss-hs-eco-4:
+    id: 510
+    act_standard_id: 153
+    skill: Design, analyze, and apply a financial plan based on short- and long-term financial goals (PFL)
+    gle_position: 4
+    co_grade_level_id: 500   
+
+ss-hs-eco-5:
+    id: 511
+    act_standard_id: 153
+    skill: Analyze strategic spending, saving, and investment options to achieve the objectives of diversification, liquidity, income, and growth (PFL)
+    gle_position: 5
+    co_grade_level_id: 500   
+   
+ss-hs-eco-6:
+    id: 512
+    act_standard_id: 153
+    skill: The components of personal credit to manage credit and debt (PFL)
+    gle_position: 6
+    co_grade_level_id: 500   
+   
+ss-hs-eco-7:
+    id: 513
+    act_standard_id: 153
+    skill: Identify, develop, and evaluate risk-management strategies (PFL)
+    gle_position: 7
+    co_grade_level_id: 500   
+
+ss-hs-cvc-1:
+    id: 514
+    act_standard_id: 154
+    skill: Research, formulate positions, and engage in appropriate civic participation to address local, state, or national issues or policies
+    gle_position: 1
+    co_grade_level_id: 500   
+
+ss-hs-cvc-2:
+    id: 515
+    act_standard_id: 154
+    skill: Purposes of and limitations on the foundations, structures and functions of government
+    gle_position: 2
+    co_grade_level_id: 500   
+   
+ss-hs-cvc-3:
+    id: 516
+    act_standard_id: 154
+    skill: Analyze how public policy - domestic and foreign - is developed at the local, state, and national levels and compare how policy-making occurs in other forms of government
+    gle_position: 3
+    co_grade_level_id: 500   
+           

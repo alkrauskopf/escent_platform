@@ -1,0 +1,308 @@
+Christianity:
+    id: 1
+    name: Christianity
+    parent_id: NULL
+    
+Islam:
+    id: 2
+    name: Islam
+    parent_id: NULL
+
+Judaism:
+    id: 3
+    name: Judaism
+    parent_id: NULL
+
+Non-denominational:
+    id: 4
+    name: Non-denominational
+    parent_id: NULL
+
+Other:
+    id: 5
+    name: Other
+    parent_id: NULL
+
+Orthodox:
+    id: 6
+    name: Orthodox
+    parent_id: 1
+
+Antiochian Orthodox Christian:
+    id: 7
+    name: Antiochian Orthodox Christian
+    parent_id: 6
+    
+Eastern Orthodox:
+    id: 8
+    name: Eastern Orthodox
+    parent_id: 6
+    
+Greek Orthodox:
+    id: 9
+    name: Greek Orthodox
+    parent_id: 6
+    
+Orthodox Church in America:
+    id: 10
+    name: Orthodox Church in America
+    parent_id: 6
+    
+Russian Orthodox:
+    id: 11
+    name: Russian Orthodox
+    parent_id: 6
+    
+Other:
+    id: 12
+    name: Other
+    parent_id: 6
+    
+Protestant:
+    id: 13
+    name: Protestant
+    parent_id: 1
+
+Non-denominational, community:
+    id: 14
+    name: Non-denominational, community
+    parent_id: 13
+    
+Baptist:
+    id: 15
+    name: Baptist
+    parent_id: 13
+
+American Baptist Churches in the USA:
+    id: 16
+    name: American Baptist Churches in the USA 
+    parent_id: 15
+
+Southern Baptist Convention:
+    id: 17
+    name: Southern Baptist Convention
+    parent_id: 15
+
+Baptist Bible Fellowship:
+    id: 18
+    name: Baptist Bible Fellowship
+    parent_id: 15
+
+National Baptist Convention, USA:
+    id: 19
+    name: National Baptist Convention, USA
+    parent_id: 15
+
+National Missionary Baptist Convention of America:
+    id: 20
+    name: National Missionary Baptist Convention of America
+    parent_id: 15
+
+Progressive National Baptist Convention:
+    id: 21
+    name: Progressive National Baptist Convention
+    parent_id: 15
+
+Congregationalist:
+    id: 22
+    name: Congregationalist
+    parent_id: 13
+    
+Christian Church (Disciples of Christ):
+    id: 23
+    name: Christian Church (Disciples of Christ)
+    parent_id: 22
+    
+United Church of Christ:
+    id: 24
+    name: United Church of Christ
+    parent_id: 22
+    
+Independent Christian Churches:
+    id: 25
+    name: Independent Christian Churches
+    parent_id: 22
+    
+Churches of Christ:
+    id: 26
+    name: Churches of Christ
+    parent_id: 22
+
+Episcopal:
+    id: 27
+    name: Episcopal
+    parent_id: 13
+
+Lutheran:
+    id: 28
+    name: Lutheran
+    parent_id: 13 
+    
+Evangelical Lutheran Church in America:
+    id: 29
+    name: Evangelical Lutheran Church in America
+    parent_id: 28
+    
+The Lutheran Church – Missouri Synod:
+    id: 30
+    name: The Lutheran Church – Missouri Synod
+    parent_id: 28
+
+Methodist:
+    id: 31
+    name: Methodist
+    parent_id: 13
+    
+The United Methodist Church:
+    id: 32
+    name: The United Methodist Church
+    parent_id: 31
+    
+The African Methodist Episcopal Zion Church:
+    id: 33
+    name: The African Methodist Episcopal Zion Church
+    parent_id: 31
+    
+African Methodist Episcopal Church:
+    id: 34
+    name: African Methodist Episcopal Church
+    parent_id: 31
+    
+Pentecostal:
+    id: 35
+    name: Pentecostal
+    parent_id: 13
+    
+Church of God of Prophecy:
+    id: 36
+    name: Church of God of Prophecy
+    parent_id: 35
+    
+Assemblies of God:
+    id: 37
+    name: Assemblies of God
+    parent_id: 35
+    
+Church of God in Christ:
+    id: 38
+    name: Church of God in Christ
+    parent_id: 35
+    
+Pentecostal Assemblies of the World:
+    id: 39
+    name: Pentecostal Assemblies of the World
+    parent_id: 35
+
+Presbyterian:
+    id: 40
+    name: Presbyterian
+    parent_id: 13
+    
+Presbyterian Church (U.S.A.):
+    id: 41
+    name: Presbyterian Church (U.S.A.)
+    parent_id: 40
+    
+Orthodox Presbyterian Church:
+    id: 42
+    name: Orthodox Presbyterian Church
+    parent_id: 40
+    
+Presbyterian Church in America:
+    id: 43
+    name: Presbyterian Church in America
+    parent_id: 40
+
+Other Protestant:
+    id: 44
+    name: Other Protestant
+    parent_id: 13
+Christian Reformed Church:
+    id: 45
+    name: Christian Reformed Church
+    parent_id: 44
+    
+Church of Christ, Scientist:
+    id: 46
+    name: Church of Christ, Scientist
+    parent_id: 44
+    
+Church of the Brethren:
+    id: 47
+    name: Church of the Brethren
+    parent_id: 44
+    
+Friends of United Meeting (Quaker):
+    id: 48
+    name: Friends of United Meeting (Quaker)
+    parent_id: 44
+    
+Moravian Church:
+    id: 49
+    name: Moravian Church
+    parent_id: 44
+    
+Reform Church in America:
+    id: 50
+    name: Reform Church in America
+    parent_id: 44
+    
+Seventh-day Adventist Church:
+    id: 51
+    name: Seventh-day Adventist Church
+    parent_id: 44
+    
+The Salvation Army:
+    id: 52
+    name: The Salvation Army
+    parent_id: 44
+    
+The Church of Jesus Christ of Latter-day Saints:
+    id: 53
+    name: The Church of Jesus Christ of Latter-day Saints 
+    parent_id: 44
+    
+Universalist/Unitarian Association:
+    id: 54
+    name: Universalist/Unitarian Association
+    parent_id: 44
+    
+Roman Catholic:
+    id: 55
+    name: Roman Catholic
+    parent_id: 1
+    
+Shi'a:
+    id: 56
+    name: Shi’a 
+    parent_id: 2
+    
+Sunni:
+    id: 57
+    name: Sunni
+    parent_id: 2
+    
+Sufism:
+    id: 58
+    name: Sufism
+    parent_id: 2
+
+Conservative:
+    id: 59
+    name: Conservative
+    parent_id: 3
+    
+Orthodox:
+    id: 60
+    name: Orthodox
+    parent_id: 3
+    
+Reform:
+    id: 61
+    name: Reform
+    parent_id: 3
+    
+Reconstructionist:
+    id: 62
+    name: Reconstructionist
+    parent_id: 3

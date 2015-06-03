@@ -1,0 +1,167 @@
+T_Classrooms:
+    id: 1	
+    name: Number of Class Offerings
+    purpose: ""
+    abbrev: CC
+    position: 1
+    prereq: CLASS OFFERINGS
+      
+T_Topics:
+    id: 2	
+    name: Number of Learning Units
+    purpose: Illustrates the degree to which each Class Offering is composed of specific units.
+    abbrev: TC
+    position: 2
+    prereq: CLASS OFFERINGS
+    
+T_Students:
+    id: 3
+    name: Number of Students
+    purpose: Number of students of teacher.
+    abbrev: SC
+    position: 3
+    prereq: CLASS OFFERINGS
+    
+T_Periods:
+    id: 4	
+    name: Number of Periods
+    purpose: Number of classroom periods taught.
+    abbrev: PC
+    position: 4
+    prereq: CLASS OFFERINGS
+    
+T_Resources:
+    id: 5	
+    name: Number of resources contributed to library
+    purpose: Illustrates the degree to which the teacher is contributing IP to the community.
+    abbrev: RC    
+    position: 5
+    prereq: CLASS OFFERINGS
+
+T_Views:
+    id: 6	
+    name: Number of time the teacher's resources have been viewed
+    purpose: Illustrates the degree to which the teacher's' IP is viewed by other users.
+    abbrev: RV    
+    position: 6
+    prereq: CLASS OFFERINGS
+    
+T_Resources Used:
+    id: 7	
+    name: Number of Learning Units using the Teacher's IP
+    purpose: Illustrates the degree to which other teachers find this teachers IP useful.
+    abbrev: RU    
+    position: 7
+    prereq: CLASS OFFERINGS
+
+T_Resources Borrowed:
+    id: 8	
+    name: Other Teacher IP Used
+    purpose: Illustrates the degree to which this teacher levers the work of others.
+    abbrev: OTR    
+    position: 8
+    prereq: CLASS OFFERINGS
+
+T_Messages Sent:
+    id: 9	
+    name: Student Messages Sent
+    purpose: Illustrates the degree to teacher communicates elctronically with students.
+    abbrev: SMS    
+    position: 9
+    prereq: CLASS OFFERINGS
+       
+T_Messages Received:
+    id: 10	
+    name: Student Messages Received
+    purpose: Illustrates the degree to students communicate elctronically with teachers.
+    abbrev: SMR    
+    position: 10
+    prereq: CLASS OFFERINGS
+         
+T_Assessments Taken:
+    id: 11
+    name: Student Assessments Taken
+    purpose: Number of Assessments Taken By Teachers Students.
+    abbrev: SAT    
+    position: 11
+    prereq: IFA
+        
+T_Homeworks:
+    id: 17
+    name: Homework Count
+    purpose: Number of Homeworks Submitted Online By Teachers Students.
+    abbrev: HC    
+    position: 12
+    prereq: CLASS OFFERINGS
+     
+T_Discussion Comments:
+    id: 18
+    name: Critical Thinking Comments
+    purpose: Number of Online Critical Thinking Discussion Comments Made By Teachers & Students.
+    abbrev: CTC    
+    position: 13
+    prereq: CLASS OFFERINGS
+     
+T_Locked_Questions:
+    id: 20
+    name: Locked Questions Created
+    purpose: Number of Locked Assessment Questions Created By Teacher.
+    abbrev: LQC    
+    position: 14
+    prereq: IFA
+     
+T_Locked_Assessments:
+    id: 21
+    name: Locked Assessments Created
+    purpose: Number of Locked Assessments Created By Teacher.
+    abbrev: LAC    
+    position: 15
+    prereq: IFA
+     
+T_Calibrated_Questions:
+    id: 22
+    name: Calibrated Questions Created
+    purpose: Illustrates the degree to which Teacher-generated questions have been calibrated.
+    abbrev: CQC    
+    position: 16
+    prereq: IFA
+     
+T_Calibrated_Assessments:
+    id: 23
+    name: Calibrated Assessments Created
+    purpose: Illustrates the degree to which Teacher-generated assessments have been calibrated.
+    abbrev: CAC    
+    position: 17
+    prereq: CTL
+      
+T_tl_sessions:
+    id: 24
+    name: Number of Time & Learning Sessions 
+    purpose: ""
+    abbrev: TLS   
+    position: 18
+    prereq: CTL
+      
+T_tl_reflections:
+    id: 25
+    name: Number of Time & Learning Reflective Analyses
+    purpose: Illustrates the degree to which teacher is analyzing Time & Learning data.
+    abbrev: TLF    
+    position: 19
+    prereq: CTL
+      
+T_tl_survey:
+    id: 26
+    name: Number of Time & Learning Surveys Responses From Students
+    purpose: Illustrates the degree to which student input os beingrecieved on teacher's Time & Learning data.
+    abbrev: TLSR    
+    position: 20
+    prereq: CTL
+      
+T_cl_survey:
+    id: 27
+    name: Number of Classroom Surveys Responses From Students
+    purpose: Illustrates the degree to which teacher solicits student input on classroom progress.
+    abbrev: CLSR    
+    position: 21
+    prereq: CLASS OFFERINGS

@@ -1,0 +1,188 @@
+<div id="ready_surveys">
+	<% no_surveys = true -%>
+	<% if schedule  && schedule.is_active-%>
+		<%= render :partial => "apps/shared/take_survey", :locals => {:schedule => schedule, :offering=> nil, :teacher => nil,:survey_type => nil, :survey_audience => nil} %>	
+		<% no_surveys = false -%>
+	<% end -%>
+
+<!-- Classroom Period Student Surveys -->
+	<% audience = CoopApp.classroom.first.tlt_survey_audiences.student.first -%>
+	<% @current_organization.survey_schedules.classroom.for_audience(audience).active.select{|surv| surv.entity.students.include?(@current_user)}.each do|survey| %>
+		<% if (survey.schedule_end.nil? || Date.today <= survey.schedule_end)-%>
+			<% unless !(survey.tlt_survey_responses.for_user(@current_user).empty?) || survey == schedule %>
+			<% no_surveys = false -%>
+				<table id="classroom_survey_<%= survey.id %>"   style="width:99%;">
+					<tbody>  
+						<% col_label = "Take " + survey.entity.classroom.course_name + " " + survey.tlt_survey_audience.audience.titleize + " " + survey.tlt_survey_type.name.titleize + " Survey" -%>
+							<tr>
+							<td class="resource_levels_close" style="color: #C83A14;  font-size:11.5px; font-weight:normal">
+			
+							<%= link_to '', :controller => "apps/shared", :action => :take_survey, :organization_id => @current_organization, :schedule_id => survey.public_id %>
+							<%= col_label %>
+							<span></span>
+							</td>
+							</tr>
+					</tbody>
+				</table>
+				<script type="text/javascript" charset="utf-8">
+				jQ(document).ready(function() {
+					jQ('#classroom_survey_<%= survey.id %> .resource_levels_close').toggleResourceLevels();
+					jQ('#classroom_survey_<%= survey.id %> .resource_levels_open').toggleResourceLevels();	
+				});
+				</script>
+			<% end -%>
+		<% else -%>
+			<% survey.de_activate -%>
+		<% end -%>
+	<% end -%>
+
+<!-- Classroom Period Teacher Surveys -->
+
+	<% audience = CoopApp.classroom.first.tlt_survey_audiences.teacher.first -%>
+	<% @current_organization.survey_schedules.classroom.for_audience(audience).active.select{|surv| surv.entity.teachers.include?(@current_user)}.each do|survey| %>
+		<% if (survey.schedule_end.nil? || Date.today <= survey.schedule_end) -%>
+			<% unless !survey.tlt_survey_responses.for_user(@current_user).empty? || survey == schedule %>
+			<% no_surveys = false -%>
+				<table id="classroom_survey_<%= survey.id %>"   style="width:99%;">
+					<tbody>  
+						<% col_label = "Take " + survey.entity.classroom.course_name + " " + survey.tlt_survey_audience.audience.titleize + " " + survey.tlt_survey_type.name.titleize + " Survey" -%>
+							<tr>
+							<td class="resource_levels_close" style="color: #C83A14;  font-size:11.5px; font-weight:normal">
+			
+							<%= link_to '', :controller => "apps/shared", :action => :take_survey, :organization_id => @current_organization, :schedule_id => survey.public_id %>
+							<%= col_label %>
+							<span></span>
+							</td>
+							</tr>
+					</tbody>
+				</table>
+				<script type="text/javascript" charset="utf-8">
+				jQ(document).ready(function() {
+					jQ('#classroom_survey_<%= survey.id %> .resource_levels_close').toggleResourceLevels();
+					jQ('#classroom_survey_<%= survey.id %> .resource_levels_open').toggleResourceLevels();	
+				});
+				</script>
+			<% end -%>
+		<% else -%>
+			<% survey.de_activate -%>
+		<% end -%>
+	<% end -%>
+
+<!-- T&L Student Surveys -->
+
+		<% itl_student_audience = CoopApp.itl.first.tlt_survey_audiences.student.first -%>
+		<% @current_user.classroom_periods.select{|cp| cp.student?(@current_user)}.each do |period| %>
+			<% unless period.tlt_sessions.empty? -%>
+				<% period.tlt_sessions.last.survey_schedules.for_audience(itl_student_audience).for_organization(@current_organization).active.each do |survey| -%>
+					<% if (survey.schedule_end.nil? || Date.today <= survey.schedule_end) -%>
+						<% unless !survey.tlt_survey_responses.for_user(@current_user).empty? || survey == schedule %>
+							<% no_surveys = false -%>
+							<table id="itl_stud_survey_<%= survey.id %>"   style="width:99%;">
+								<tbody>  
+									<% col_label = "Take Time & Learning " + survey.tlt_survey_audience.audience.titleize + " " + survey.tlt_survey_type.name.titleize + " Survey"  -%>
+										<tr>
+											<td class="resource_levels_close" style="color: #C83A14;  font-size:11.5px; font-weight:normal">
+							
+											<%= link_to '', :controller => "apps/shared", :action => :take_survey, :organization_id => @current_organization, :schedule_id => survey.public_id %>
+											<%= col_label %>
+											<span></span>
+											</td>
+										</tr>
+								</tbody>
+							</table>
+							<script type="text/javascript" charset="utf-8">
+							jQ(document).ready(function() {
+								jQ('#itl_stud_survey_<%= survey.id %> .resource_levels_close').toggleResourceLevels();
+								jQ('#itl_stud_survey_<%= survey.id %> .resource_levels_open').toggleResourceLevels();	
+							});
+							</script>
+						<% end -%>	
+					<% else -%>
+						<% survey.de_activate -%>
+					<% end -%>
+				<% end -%>
+			<% end -%>	
+		<% end -%>
+
+
+<!-- T&L Teacher & Observer  Surveys -->
+
+
+	<% @current_organization.survey_schedules.itl.active.select{|surv| (surv.tlt_survey_audience == CoopApp.itl.first.tlt_survey_audiences.teacher.first && surv.entity.user == @current_user) || (surv.tlt_survey_audience == CoopApp.itl.first.tlt_survey_audiences.observer.first && surv.entity.tracker == @current_user)}.each do|survey| %>
+		<% if (survey.schedule_end.nil? || Date.today <= survey.schedule_end) -%>
+			<% unless !survey.tlt_survey_responses.for_user(@current_user).empty? || survey == schedule%>
+			<% no_surveys = false -%>
+				<table id="itl_survey_<%= survey.id %>"   style="width:99%;">
+					<tbody>  
+						<% col_label = "Take Time & Learning " + survey.tlt_survey_audience.audience.titleize + " " + survey.tlt_survey_type.name.titleize + " Survey"  -%>
+							<tr>
+								<td class="resource_levels_close" style="color: #C83A14;  font-size:11.5px; font-weight:normal">
+				
+								<%= link_to '', :controller => "apps/shared", :action => :take_survey, :organization_id => @current_organization, :schedule_id => survey.public_id %>
+								<%= col_label %>
+								<span></span>
+								</td>
+							</tr>
+					</tbody>
+				</table>
+				<script type="text/javascript" charset="utf-8">
+				jQ(document).ready(function() {
+					jQ('#itl_survey_<%= survey.id %> .resource_levels_close').toggleResourceLevels();
+					jQ('#itl_survey_<%= survey.id %> .resource_levels_open').toggleResourceLevels();	
+				});
+				</script>
+			<% end -%>	
+		<% else -%>
+			<% survey.de_activate -%>
+		<% end -%>
+	<% end -%>
+
+<!-- PD  Surveys -->
+
+	<% @current_user.survey_schedules.pd.for_organization(@current_organization).active.each do|survey| %>
+		<% if (survey.schedule_end.nil? || Date.today <= survey.schedule_end) -%>
+			<% unless !survey.tlt_survey_responses.for_user(@current_user).empty? || survey == schedule -%>
+			<% no_surveys = false -%>
+				<table id="pd_survey_<%= survey.id %>"   style="width:99%;">
+					<tbody>  
+						<% col_label = "Take Professional Development " + survey.tlt_survey_type.name.titleize + " Survey"-%>
+							<tr>
+								<td class="resource_levels_close" style="color: #C83A14;  font-size:11.5px; font-weight:normal">
+				
+								<%= link_to '', :controller => "apps/shared", :action => :take_survey, :organization_id => @current_organization, :schedule_id => survey.public_id %>
+								<%= col_label %>
+								<span></span>
+								</td>
+							</tr>
+					</tbody>
+				</table>
+				<script type="text/javascript" charset="utf-8">
+				jQ(document).ready(function() {
+					jQ('#pd_survey_<%= survey.id %> .resource_levels_close').toggleResourceLevels();
+					jQ('#pd_survey_<%= survey.id %> .resource_levels_open').toggleResourceLevels();	
+				});
+				</script>
+			<% end -%>
+		<% else -%>
+			<% survey.de_activate -%>
+		<% end -%>
+	<% end -%>
+
+		<% if no_surveys -%>
+			<table  style="width:99%;">
+				<tbody>  
+					<% col_label = "No " + @current_user.last_name + " Surveys Currently Scheduled To Take"  %>
+						<tr>
+							<td style="color: #C83A14;  font-size:11.5px; font-weight:normal">
+							<i><%= col_label %></i>
+							<span></span>
+							</td>
+						</tr>
+				</tbody>
+			</table>
+		<% end -%>
+
+</div>
+
+
+

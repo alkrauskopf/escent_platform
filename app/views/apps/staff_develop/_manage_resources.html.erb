@@ -1,0 +1,132 @@
+
+
+<div id="resource_admin">
+
+	<% unless @current_organization.dle_resources.empty? %>
+
+	  <%= render :partial => "/apps/staff_develop/current_resources", :locals => {:admin => admin, :app => app} %>
+
+	<% end -%>	
+	<% user_pool = @current_user.favorite_resources.select{|r| r.content_resource_type.name == "Professional Development" || r.content_resource_type.name == "Time & Learning"} -%>
+	<% colleague_pool = @current_user.colleagues.collect{|u| u.contents}.flatten.select{|r| r.content_resource_type.name == "Professional Development" || r.content_resource_type.name == "Time & Learning"} -%>
+	<% resource_pool = (user_pool + colleague_pool).uniq -%>
+	<% unless resource_pool.empty? -%>
+		<table   style="width:800px; border:1px solid #ddd;">
+		<thead>
+				<tr  style=" border:1px solid #ddd;" >
+					<th   style="width:50px; border:0px solid #ddd;  vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; color: #2061a5;; font-size:12.5px; font-weight:normal">
+						Add/Remove
+					</th>
+					<th   style="width:680px; border:0px solid #ddd;  vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; color: #2061a5;; font-size:12.5px; font-weight:normal">
+						<%= @current_user.last_name %>&nbsp;PD&nbsp;Resource Pool
+					</th>
+					<th   colspan=2 style="border:0px solid #ddd;  vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; color: #2061a5;; font-size:12.5px; font-weight:normal">
+						Position
+					</th>
+				</tr>
+		</thead>
+		<style type="text/css" media="screen">
+	    		table,tr,td { border:none }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+		<tbody >
+				<% resource_pool.sort{|a,b| b.updated_at <=> a.updated_at}.each do |rsrc| -%>
+				<% unless rsrc.nil? || !(rsrc.content_status.name == "Available" || rsrc.content_status.name =="Restricted") %>
+				<% restrict =  rsrc.content_status.name =="Restricted" ? "RESTRICTED ":""%>	
+				<% user_string = rsrc.user.nil? ? "": " by <span style='color: #2061a5;font-weight:bold;'>" + rsrc.user.full_name + "</span>"%>
+				<% org_string = rsrc.organization ? ", " + rsrc.organization.medium_name : ""%>
+				<% dle_rsrc = rsrc.dle_resources.for_org(@current_organization).first rescue nil %>
+				<% dle_position = dle_rsrc.nil? ? 1 : dle_rsrc.position%>
+				<tr >
+					<% unless dle_rsrc.nil? %>
+						<td     style="width:50px; border:1px solid #ddd;font-size:11px; padding-top:16px; padding-left:40px; vertical-align:top; text-align:right;color: #C83A14;font-weight:normal;">
+							<%= link_to (image_tag "delete.png"), {:controller => "/apps/staff_develop", :action => "add_remove_resource",:organization_id => @current_organization, :resource_id => rsrc, :function=>"delete"}, :class => "remove_button"%>
+						</td>
+					<% else -%>
+						<td  id= "r_<%= rsrc.id %>" style="width:50px; border:1px solid #ddd;font-size:11px; padding-top:16px; padding-left:40px; vertical-align:top; text-align:right;color: #C83A14;font-weight:normal;">
+							<%= (image_tag "add.png")%>
+						</td>
+					<% end -%>
+					<td   style="width:680px; border:1px solid #ddd; font-size:11px; padding-top:0px; padding-left:0px; vertical-align:top; text-align:left;color: #000000;font-weight:normal;">
+						<span style= "font-size:11.5px; color: #2061a5; font-weight:bold;">
+							<u><%= link_to rsrc.title,{:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => rsrc}, {:target => "_blank"} %></u>
+						</span>
+						&nbsp; (<%= restrict %><%= rsrc.content_object_type.content_object_type_group.name.downcase%>)<br/>
+						<% unless rsrc.description == "" -%><%= rsrc.description%><br/><% end -%>
+						Contributed <%= time_ago_in_words(rsrc.created_at.to_s, include_seconds = false)%> ago<%=user_string %><%=org_string %>.
+						<br/>				
+					</td>
+					<td  style="width:45px; border:0px solid #ddd; border-left:0px solid #ddd;padding-left:0px; padding-top:16px; vertical-align:top; ">
+						<%= text_field :position, rsrc.id, :value => dle_position, :size => 2, :maxlength => 2%>
+					</td>
+					<% unless dle_rsrc.nil? -%>
+						<td  id= "r2_<%= rsrc.id %>" style="width:65px; font-size:9px; border:0px solid #ddd; border-left:0px solid #ddd;padding-left:0px; padding-top:20px; vertical-align:top; ">
+							<button>Change</button>
+						</td>
+					<% else -%>
+						<td  style="width:65px; font-size:9px; border:0px solid #ddd; border-left:0px solid #ddd;padding-left:0px; padding-top:20px; vertical-align:top; ">
+							&nbsp;
+						</td>					
+					<% end -%>
+
+				</tr>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#r_<%= rsrc.id %>').click(function() {
+		var position = jQ('#position_<%=rsrc.id%>').val();
+		var url = "<%= url_for :controller => "/apps/staff_develop", :action => "add_remove_resource",:organization_id => @current_organization, :resource_id => rsrc, :function=>"add" %>";
+			jQ.get(url, {'position':position}, function(data) {
+				jQ("#resource_admin").html(data);
+				jQ("#resource_admin").show();
+			});
+	})
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#r2_<%= rsrc.id %>').click(function() {
+		var position = jQ('#position_<%=rsrc.id%>').val();
+		var url = "<%= url_for :controller => "/apps/staff_develop", :action => "add_remove_resource",:organization_id => @current_organization, :resource_id => rsrc, :function=>"repo" %>";
+			jQ.get(url, {'position':position}, function(data) {
+				jQ("#resource_admin").html(data);
+				jQ("#resource_admin").show();
+			});
+	})
+});
+</script>
+				<% end %>
+			<% end -%>
+		</tbody>
+	</table>
+
+	<% else -%>
+	<table   style="width:800px; border:0px solid #ddd;">
+		<tbody>
+				<tr  style=" border:0px solid #ddd;" >
+					<td   style=" border:0px solid #ddd;  vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; color:#C83A14; font-weight:normal;">
+						* * No <%= @current_user.last_name -%> PD Resources Available * *
+					</td>
+				</tr>
+		</tbody>
+	</table>
+
+	<% end -%>
+
+
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.remove_button').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#resource_admin").html(data);
+				jQ("#resource_admin").show();
+			})
+			return false;
+	})
+});
+</script>

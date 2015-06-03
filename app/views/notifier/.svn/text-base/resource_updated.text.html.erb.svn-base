@@ -1,0 +1,13 @@
+Dear <%= @user.first_name%>,
+<br /><br />
+<%= @current_user.full_name %>&nbsp;has updated the resource entitled: <strong><%= @orig_title %></strong>.
+
+<br/><br>
+You are currently using this resource in one or more of your Offerings.
+<br/><br/>
+Please review <%= link_to @content.title, url_for (:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => @content,:host => @fsn_host )%>&nbsp;to ensure it is still a useful resource.
+<br/><br/>
+
+Thank You.
+
+	

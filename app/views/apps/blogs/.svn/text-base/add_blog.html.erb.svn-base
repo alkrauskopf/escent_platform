@@ -1,0 +1,102 @@
+
+<div style ="color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold"> 
+
+	<br/>
+	<strong><center> CREATE <%= @current_organization.name.upcase %> BLOG</center></strong>
+</div>
+
+    <%= render :partial => "/shared/error_and_notice" %>
+
+<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
+	  <%= link_to "Back", :controller => "/apps/blogs", :action => "index", :organization_id => @current_organization, :user_id => @current_user %>
+</div>
+
+<div id="blog_form" class="Form clear">
+<% form_for(:blog, :url => {:controller => "/apps/blogs", :action => :add_blog, :organization_id => @current_organization, :user_id => @current_user, :function => "Create"}) do |form| -%>
+
+	</div>	<div class="FormRow">
+		<div class="FormRowTitle"></div>
+
+			<div class="FormRowData" style= "margin-left:25px">
+
+			</div>
+	</div>
+	<div class="FormRow">
+		<div class="FormRowTitle">Title:</div>
+        <div class="FormRowData" style= "margin-left:25px">
+         <%= text_field :blog, :title, :size => 55, :maxlength => 150 %>
+        </div>
+    </div>
+	<div class="FormRow">
+		<div class="FormRowTitle"></div>
+
+			<div class="FormRowData" style= "margin-left:25px">
+			</div>
+	</div>
+	<br/>
+	<br/>
+	<div class="FormRow">
+		<div class="FormRowTitle">Brief Overview:</div>
+			<div class="FormRowData" style= "margin-left:25px">
+   			  <%= text_area :blog, :description, :rows => 20, :cols => 75 %>
+			</div>
+	</div>
+	<br/>
+	<br/>
+	<div class="FormRow" style="position: relative;">
+			<div class="FormRowTitle">Type Of Blog:</div>
+				<div class="FormRowData" style= "margin-left:25px">
+					<%=  select(:blog, :blog_type_id, BlogType.all(:order => "id").collect{|b| [b.label, b.id]}, :prompt => "Select Type")  %>
+				</div>
+		</div>
+	<br/>
+	<br/>		
+	   	<div class="FormRow">
+					<div class="FormRowTitle">Allow User Comments?</div>
+					<div class="FormRowData" style= "margin-left:25px">
+					<%= check_box :blog, :is_commentable, :checked => true %></div>
+		</div>
+
+	
+		<div class="FormRow submit_warp">
+			<div class="FormRowData" style= "margin-left:25px">
+			<br/>
+				<%= submit_tag "Create Blog", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+			</div>
+			<br/><br/><br/>
+		</div>	
+		
+<div style ="color: #C83A14; font-size:11px; margin-top:5px; font-weight:normal"> 
+	<center> After Creating This Blog, You Can "EDIT" It To Add Panelists, Activate It, etc.. </center>
+</div>		
+		
+<% end -%>	
+
+
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>
+
+<script type="text/javascript">		
+	jQ(document).ready(function() {
+//		var AUTH_TOKEN = "<%= protect_against_forgery? ? form_authenticity_token : '' %>";
+//		jQ.ajaxSetup({data:{authenticity_token : AUTH_TOKEN}});
+		jQ("form.ajax").submit(function() {
+			var action = jQ(this).attr("action");					
+			jQ("textarea.mceEditor", this).each(function() {
+				jQ(this).val(tinyMCE.get(this.id).getContent());
+			});
+			var post_data = $(this).serialize()
+		  jQ.post(action, post_data, function(data) {
+				jQ("#reading_form").html(data);
+			});
+
+	    return false;
+	  });
+
+	})
+</script>

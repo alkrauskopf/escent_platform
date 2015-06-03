@@ -1,0 +1,43 @@
+<p>
+  <b>Organization:</b>
+  <%=h @merchant_account.organization_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @merchant_account.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @merchant_account.description %>
+</p>
+
+<p>
+  <b>Gateway type:</b>
+  <%=h @merchant_account.gateway_type %>
+</p>
+
+<p>
+  <b>Gateway partner:</b>
+  <%=h @merchant_account.gateway_partner %>
+</p>
+
+<p>
+  <b>Gateway login:</b>
+  <%=h @merchant_account.gateway_login %>
+</p>
+
+<p>
+  <b>Gateway password:</b>
+  <%=h @merchant_account.gateway_password %>
+</p>
+
+<p>
+  <b>Gateway certification:</b>
+  <%=h @merchant_account.gateway_certification_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_master_merchant_account_path(@merchant_account) %> |
+<%= link_to 'Back', master_merchant_accounts_path %>

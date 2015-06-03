@@ -1,0 +1,38 @@
+<div id="list_activities_<%=org.public_id%><%= cycle.id%>">
+	<% if @current_organization == cycle.organization -%>
+		<% unless cycle.activities.provider_only.active.empty? %>
+			<table style="width:600px; text-align:left;font-size:12px; margin-top:0px">
+				<tbody>  
+					<style type="text/css" media="screen">
+			    		table,tr,td { border:none; }
+						table tr:hover{
+		        		background-color: transparent;
+		      			}
+		   			</style>
+					<% cycle.activities.provider_only.active.each do |activity| -%>
+						<% if activity.has_active_indicators?%>
+							<tr >
+								<td  style="width:45px; width:fixed; border:0px solid #ddd; vertical-align:middle; text-align:left;padding-left:0px">
+									<span class="fsn-button ui-button ui-state-default ui-corner-all">
+										 <%= link_to "Begin" ,{:controller => "apps/learning_time", :action => "start_case", :organization_id => @current_organization, :elt_cycle_id => cycle, :school_id=> org,  :method_org_id => @app.owner, :elt_type_id => activity, :step=>"Begin"}%>
+									</span>
+								</td>
+								<td  style="border:0px solid #ddd; vertical-align:middle; text-align:left;padding-left:0px">
+									<span style="color: #2061a5;"><%= activity.name %></span>
+								</td>
+							</tr>
+						<% end -%>
+					<% end -%>
+				</tbody>
+			</table>
+		<% end -%>	
+	<% end -%>
+
+		<% unless org.elt_cases.for_cycle(cycle).empty? -%>
+			<% org.elt_cycle_activities(cycle).each do |activity| -%>
+   				<%= render :partial => "/apps/learning_time/show_school_cycle_activity_cases", :locals => {:activity => activity, :org => org, :cycle=>cycle, :app => app} -%>
+			<% end -%>
+		<br/>
+		<% end -%>
+</div>
+

@@ -1,0 +1,53 @@
+<div id="school_plan_<%=school.public_id%>_<%=entity.public_id%>" style="background:<%= (entity.class == EltElement && plan.open?) ? "transparent" :plan.background_for_entity(entity)%>; color:<%= (entity.class == EltElement && plan.open?) ? "#FFFFFF" : plan.font_for_entity(entity)%>; text-align:left; max-width:<%=table_width%>">
+
+	<% unless plan.action_for_entity(entity).nil?%>
+		<div style = "margin-left:5px; margin-right:5px; line-height:1.3em; font-size:10px">
+			<span style = "font-weight:bold;">
+				<%= plan.rubric_for_entity(entity).nil? ? "": plan.rubric_for_entity(entity).name + "<br/>" %>
+			<span>
+			<span style = "font-weight:normal;">
+				<%= plan.action_for_entity(entity).note %>
+			<span>
+		</div>
+	<% end -%>
+	<% unless plan.closed?%>
+				<table style="margin-left:0px; border:0px solid #ddd;">
+					<tbody>  
+						<tr  style="border:0px solid #ddd;" >
+							<td  style="border:0px solid #ddd; vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:0px; font-size:10.5px; font-weight:normal">
+								<%=  select(:rubric, entity.id,   EltPlanType.school.rubrics.active.collect{|r| [r.name, r.id]}<<["None", 0], :prompt => plan.rubric_for_entity(entity).nil? ? "Select Priority": plan.rubric_for_entity(entity).name ) %>
+							</td>
+							<td   id = "plan_update_<%=entity.public_id%>" style="width:70px; width:fixed; float:right; border:0px solid #ddd; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px;">
+								<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
+									Update
+								</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+	<span style = "padding-left:10px;font-weight:normal; font-size:10px;">
+		<%= text_area :action, entity.public_id , :value => (plan.action_for_entity(entity).nil? ? "": plan.action_for_entity(entity).note), :cols=>65, :rows => 1 %>   
+	</span>
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#plan_update_<%=entity.public_id%>").click(function(){
+		var rubricid = jQ('#rubric_<%=entity.id %>').val();
+		var notes = jQ('#action_<%=entity.public_id %>').val();
+		var url = "<%= url_for :controller => '/apps/learning_time', :action => :update_action_plan, :organization_id => @current_organization, :scope_type=>entity.class, :scope_id=>entity.id, :elt_cycle_id=> cycle, :school_id => school, :elt_plan_id => plan %>";
+			jQ.get(url, {'rubricid':rubricid, 'notes':notes}, function(data) {
+				jQ("#school_plan_<%=school.public_id%>_<%=entity.public_id%>").html(data);
+				jQ("#school_plan_<%=school.public_id%>_<%=entity.public_id%>").show();
+			});
+	})
+});
+</script>
+	<% end -%>
+</div>
+
+
+
+
+
+
+
+

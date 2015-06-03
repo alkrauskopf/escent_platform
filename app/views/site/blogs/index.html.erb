@@ -1,0 +1,48 @@
+<div class="blog_box_warp">
+	<%= image_tag "peace-blog-hdr-soft.jpg", :alt => 'Day of peace' %>
+	
+	<div style="position: relative;background-image:url('/images/BLOGGINFORPEACE.jpg');width:950px;height:176px;">
+	 <%= link_to "Escent Partners", "http://www.escentpartners.com", :target => "blank", :style => "text-indent:-999em;outline:none;position:absolute; top:0; left:0; width:170px;height:80px;cursor:pointer" %>
+	</div>
+
+	<div style="float:left; width:690px">
+		<% @blogs.each do |@blog| %>
+		  <% if @blog.feature %>
+			<div class="mempro_box">
+				<div class="blog_item">
+				  <div>
+  					<h3 style="float:left;margin-right:10px;"><%= link_to h(@blog.title.humanize) , :controller => "site/blogs" , :action => "show" , :blog_id => @blog %></h3>
+  					<%= @blog.blog_post_count == 1 ? "Post" : "Posts" %>(<%= @blog.blog_post_count %>)
+				  </div>
+				  <br style="clear:both" />
+					<div class="blog_cover">
+						<a href="<%= url_for( :controller => "site/blogs" , :action => "show" , :blog_id => @blog ) %>">
+	            <%= image_tag @blog.picture.url %>		
+						</a>			 
+					</div>
+					<div class="blog_description">
+						<%= simple_format @blog.description %>
+					</div>			
+					<br style="clear:both" />		
+				   <%= render :partial => "share_head" %>
+				</div>
+			</div>
+			<% end %>
+		<% end %>
+	</div>
+	<div class="mempro_box blogs_side_nav">
+		<h3>Our Blogs</h3>
+		<ul class="blog_content">
+			<% @blogs.each do |blog| -%>
+				<% if blog.active -%>
+					<li>
+						<%= link_to h(blog.title.humanize), :controller => "site/blogs" , :action => "show" , :blog_id => blog %> (<%= blog.blog_posts.size %>)
+					</li>
+				<% end -%>
+			<% end -%>
+			<li>&nbsp;</li>
+		</ul>
+
+		</div>	
+	<br style="clear:both" />
+</div>

@@ -1,0 +1,22 @@
+<div id="iwing_panel">
+	<div class="section_selector" class="clear">
+		<% for section in ["profile", "appearance", "options"] do -%>
+			<% if @current_action == section -%>
+				<div id="section">
+					<span><%= section %></span>
+				</div>
+			<% else -%>
+				<div>
+					<%= link_to_remote section, :update => "iwing_panel", :url => {:controller => :iwing, :action => section, :organization_id => @current_organization}, :method => :get %>
+				</div>
+			<% end -%>
+		<% end -%>
+	</div>
+	<%= render :partial => "/shared/error_and_notice" %>
+	<%= yield %>
+</div>
+<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ(".section_selector").segmentedControl();
+	})
+</script>

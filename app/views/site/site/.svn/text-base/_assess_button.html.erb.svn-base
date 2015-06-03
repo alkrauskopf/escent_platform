@@ -1,0 +1,4 @@
+<% unless @current_user.nil? %>
+      <%= link_to (image_tag "assess_pill.png",:height => 90), {:controller => "/apps/assessment", :action => :take_assessment, :organization_id => @current_organization,:classroom_id => @classroom, :topic_id => @topic} %>
+<% end %>
+           

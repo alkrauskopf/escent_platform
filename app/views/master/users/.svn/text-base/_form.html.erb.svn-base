@@ -1,0 +1,68 @@
+<%= error_messages_for :user %>
+<p>
+	<%= label_tag 'First Name:' %>
+	<%= text_field :user, :first_name %>
+</p>
+<p>
+	<%= label_tag 'Last Name:' %>
+	<%= text_field :user, :last_name %>
+</p>
+<p>
+	<%= label_tag 'Password:' %>
+	<%= password_field :user, :password %>
+</p>
+<p>
+	<%= label_tag 'Password Confirmation:' %>
+	<%= password_field :user, :password_confirmation %>
+</p>
+
+<p>
+	<%= label_tag 'Phone:' %>
+	<%= text_field :user, :phone %>	
+</p>
+<p>
+	<%= label_tag 'Alt Phone:' %>
+	<%= text_field :user, :alt_phone %>	
+</p>
+<p>
+	<%= label_tag 'Other Denomination:' %>
+	<%= text_field :user, :other_denomination %>
+</p>
+<p>
+	<%= label_tag 'Display Name:' %>
+	<%= text_field :user, :display_name %>	
+</p>
+<p>
+	<%= label_tag 'Country:' %>
+	<%= localized_country_select(:user, :country, [], :include_blank => 'Please choose...') %>
+</p>		  
+<p>
+	<%= label_tag 'Postal Code:' %>
+	<%= text_field :user, :postal_code %>
+</p>
+<p>
+	<%= label_tag 'date_of_birth:' %>
+	<%= date_select(:user, :date_of_birth, :order=>[:month, :day, :year], :start_year => 1930, :end_year => Time.now.year-13)%>
+</p>
+<p>
+	<%= label_tag 'Email Address:' %>
+	<%= text_field :user, :email_address %>		
+</p>
+<p>
+	<%= label_tag 'Verified At:' %>
+	<%= text_field :user, :verified_at %> 
+	</p>
+<p>
+	<%= label_tag 'Age Verified:' %>
+	<%= radio_button("user", "age_verified", true) %> yes<br />
+	<%= radio_button("user", "age_verified", false) %> no
+</p>
+<p>
+	<%= label_tag 'Read Tos:' %>
+	<%= radio_button("user", "read_tos", true) %> yes<br />
+	<%= radio_button("user", "read_tos", false) %> no
+</p>
+<p>
+	<%= label_tag 'Religious Affiliation:' %>
+	<%= select("user", "religious_affiliation_id", ReligiousAffiliation.all.collect {|p| [ p.name, p.id ] }, :prompt => "Select a religious affiliation") %>
+</p>

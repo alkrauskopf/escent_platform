@@ -1,0 +1,11 @@
+VIEW:                                                
+    name: VIEW
+
+MODIFY:                                              
+    name: MODIFY
+
+DELETE:                                              
+    name: DELETE
+
+CREATE:                                              
+    name: CREATE

@@ -1,0 +1,23 @@
+<div id="folder_content_panel_<%= folder.nil? ? '': folder.id.to_s%>" style="width:500px; width:fixed; border:0px solid #000; line-height:1.5em; color:#2061a5;">
+	<% unless @content -%>
+		<ul style="list-style: none; color: #2061a5; font-size:9px; padding-left:30px;padding-top:10px; margin-bottom: 10px;">
+			<% (folder.nil? ? topic.unfoldered_resources : lu.resources_for_folder(folder)).each do |rc|-%>
+				<% if rc.viewable_by_user?(@current_user ? @current_user : nil)-%>
+	
+					<li style="font-size:10px; font-weight:normal; line-height:1.0em;text-align:middle">	
+					 	<button><%= link_to_remote "View", :update => ("folder_content_panel_"+ (folder.nil? ? "" : folder.id.to_s)), :url => url_for({:controller => "/apps/classroom", :action => :show_content, :organization_id => @current_organization, :folder_id => folder, :topic_id => lu, :id => rc}) -%></button>		 		
+						&nbsp;<%=rc.title%>
+					</li>
+					<br/>
+				<% end -%>			
+			<% end -%>
+		</ul>
+	<% else -%>
+		<%= render (:partial => "show_content", :locals => {:content => @content, :folder => folder, :lu => lu,}) %>		
+	<% end -%>
+</div>
+
+
+
+
+

@@ -1,0 +1,113 @@
+
+<% unless !admin -%>
+
+	<table   style="width:99%;margin-left:12px;  font-size:14px; color: #2061a5">
+		<thead>
+			<tr>
+				<th colspan=3 ><strong><%=app.name.titleize %>&nbsp;Is A Configurable Methodology</strong></th>											
+			</tr>
+		</thead>
+	</table>
+	<br/>
+	<% option = @current_organization.dle_org_option.is_coach_enabled ? "enabled" : "disabled" -%>
+	<table   style="width:650px; margin-left:125px">
+		<tbody>  
+			<tr>
+				<td style="width:650px: width:fixed; text-align:justify; color: #000000;  font-size:10.5px; font-weight:normal">
+					<strong><%= @current_organization.medium_name %></strong> can override the functions that, by default, compose each stage of the methodology.&nbsp;
+					For instance, teacher surveys are conducted in the Pre-Assessment and Learning stages by default:&nbsp; If <%= @current_organization.short_name %>&nbsp;
+					prefers, surveys can be conducted in other stages or no stages.  Similarly, the Learning stage allows for teachers to upload their Learning Log documents.&nbsp;
+					You can enabled/disabled document uploads for any stage.<br/>
+					<br/>
+					<strong>Objective Metrics</strong> are important to all professional development plans. By default, teachers define their targets/goals in the Discovery stage and the actual (accomplished) measures are captured at the end of the Learning stage.&nbsp;
+					For <%= @current_organization.short_name %>, these tasks can be performed in any stage or not at all.&nbsp;
+					Since the methodology is supported by an <i>integrated technology</i>, many measures can be collected as a byproduct of using its tools. Metrics that are important to one school may be different than the metrics important to another school.&nbsp;
+					Below, under <span style ="color: #2061a5;  font-size:10.5px; font-weight:bold">Select PD Metrics For <%=@current_organization.short_name%></span>, you can select the measures <%=@current_organization.medium_name%> would like to integrate into the professional development methodology.
+					<br/><br/>
+					<strong>Coaching Assignments</strong> ensure coaches view only the information associated with teachers whom they coach.  This option can be <i>enabled</i> or <i>disabled</i>. 
+					<br/>
+					<br/>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br/>
+
+
+
+<% DleCycle.all_by_stage.each do |stage| %>
+
+<div id="stage_options">
+	<table id="stages_<%= stage.id %>"   style="width:99%;">
+		<tbody>  
+			<% col_label = "Preferences For " + stage.name.upcase + " Stage"-%>
+				<tr>
+				<td class="resource_levels_close" style="color: #2061a5;  font-size:11.5px; font-weight:bold">
+
+				<%= link_to '', :controller => "apps/staff_develop", :action => :option_stages, :organization_id => @current_organization, :cycle_id => stage.id %>
+				<%= col_label %>
+				<span></span>
+				</td>
+				</tr>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#stages_<%= stage.id %> .resource_levels_close').toggleResourceLevels();
+	jQ('#stages_<%= stage.id %> .resource_levels_open').toggleResourceLevels();	
+});
+</script>
+
+
+	<% end -%>
+
+
+
+<div id="metric_options">
+	<table id="metrics"   style="width:99%;">
+		<tbody>  
+			<% col_label = "Select PD Metrics For "+ @current_organization.short_name -%>
+				<tr>
+				<td class="resource_levels_close" style="color: #2061a5;  font-size:11.5px; font-weight:bold">
+
+				<%= link_to '', :controller => "apps/staff_develop", :action => :option_metrics, :organization_id => @current_organization %>
+				<%= col_label %>
+				<span></span>
+				</td>
+				</tr>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#metrics .resource_levels_close').toggleResourceLevels();
+	jQ('#metrics .resource_levels_open').toggleResourceLevels();	
+});
+</script>
+
+
+<div id="coach_assign">
+	<table id="coaches"   style="width:99%;">
+		<tbody>  
+			<% col_label = "Coaching Assignments" -%>
+			<tr>
+				<td class="resource_levels_close" style="color: #2061a5;  font-size:11.5px; font-weight:bold">
+
+				<%= link_to '', :controller => "apps/staff_develop", :action => :coach_assignments, :organization_id => @current_organization %>
+				<%= col_label %>
+				<span></span>
+				</td>
+				</tr>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#coaches .resource_levels_close').toggleResourceLevels();
+	jQ('#coaches .resource_levels_open').toggleResourceLevels();	
+});
+</script>
+
+
+<% end -%>

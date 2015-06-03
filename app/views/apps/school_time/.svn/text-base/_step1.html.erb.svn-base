@@ -1,0 +1,135 @@
+<div id="step_1">
+
+    <%= render :partial => "/shared/error_and_notice" %>
+	<% submit_label = ista_case.nil? ? "Create Case":"Step 1 Update" -%>
+	<% def_title = ista_case.nil? ? "":ista_case.title -%>
+	<% def_stud = ista_case.nil? ? 0:ista_case.case_students -%>
+	<% def_teach = ista_case.nil? ? 0:ista_case.case_teachers -%>
+	<% function = ista_case.nil? ? "New":"Update" -%>
+	<% tot_students = ista_case ? ista_case.total_school_students : @current_organization.time_allocation.total_students -%>
+	<% tot_teachers = ista_case ? ista_case.total_school_teachers : @current_organization.time_allocation.fte_teacher -%>
+	<% unless ista_case && ista_case.final? -%>
+	<div class="Form clear">
+		<% form_for(:ista_case, :url => {:controller => "/apps/school_time", :action => :maintain_ista_case, :organization_id => @current_organization, :user_id => @current_user, :step_id=>step, :case_id =>ista_case, :function=>function}) do |form| -%>
+			<div >
+				<div style =" padding-left:60px; font-size:12px; font-weight:normal; padding-bottom:30px; cursor:pointer;">
+					<%= submit_tag submit_label, :style=>"cursor:pointer", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+				</div>	
+			</div>
+			<div class="FormRow" >
+				<div class="FormRowTitle">Case Scenario</div>
+		      	<div class="FormRowData" style= "margin-left:5px">
+		           	<%= text_field :ista_case, :title, :value=>def_title, :size => 55, :maxlength => 150 %>
+		       	</div>
+			</div>
+
+			<div class="FormRow"  >
+				<div class="FormRowTitle">Student Scope</div>
+		      	<div class="FormRowData" style= "margin-left:5px">
+		           	<%= text_field :ista_case, :case_students, :value=>def_stud, :size => 4 %>&nbsp;Total Students, of <%= tot_students %>, Applies To This Case 
+		       	</div>
+			</div>
+
+			<div class="FormRow"  >
+				<div class="FormRowTitle">Teacher Scope</div>
+		      	<div class="FormRowData" style= "margin-left:5px">
+		           	<%= text_field :ista_case, :case_teachers, :value=>def_teach, :size => 4 %>&nbsp;FTE Teachers, of <%= tot_teachers %>, Applies To This Case
+		       	</div>
+			</div>
+
+
+			<div class="FormRow">
+				<div class="FormRowTitle"></div>
+		        <div class="FormRowData"  style= "margin-left:5px">				
+		      </div>
+		    </div>
+
+		<% end -%>  <!-- end Form -->
+<br/></br/>
+	</div>
+	<% else -%>
+
+      	<div  style= "margin-left:5px; color: #000000; text-align:center; font-weight:normal;font-size:14.5px;">
+           	<br/><%= ista_case.title %>
+       	</div>
+
+      	<div style= "margin-left:5px; color: #000000; text-align:center; font-weight:normal;font-size:13px;">
+           	<%= pluralize(ista_case.case_students, " Student") %>,&nbsp;<%= pluralize(ista_case.case_teachers, " Teacher") %>
+       	</div>
+	<% end -%>
+		<% unless ista_case.nil? -%>
+			<table style="width:700px;margin-left:100px">
+				<tbody>  
+					<tr  style="border:0px solid #ddd;" >
+						<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-right:10px; padding-top:0px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+							<u>Standard School Days</u>
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							<%= number_with_precision(ista_case.hrsday_std, :precision => 1) %> Hours/Day
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							<%= number_with_precision((ista_case.hrsday_std * 60.0), :precision => 0) %> Mins/Day					
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							<%= number_with_precision(ista_case.daysyear_std, :precision => 1) %> Days/Year
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							<%= number_with_precision(ista_case.daysweek, :precision => 1) %> Days/Week
+						</td>
+					</tr>
+					<tr  style="border:0px solid #ddd;" >
+						<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-right:10px; padding-top:0px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+							<u>Early Release Days</u>
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							<%= number_with_precision(ista_case.hrsday_er, :precision => 1) %> Hours/Day
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							<%= number_with_precision((ista_case.hrsday_er * 60.0), :precision => 0) %> Mins/Day					
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							<%= number_with_precision(ista_case.daysyear_er, :precision => 1) %> Days/Year
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							&nbsp;
+						</td>
+					</tr>
+					<tr  style="border:0px solid #ddd;" >
+						<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-right:10px; padding-top:0px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+							<u>Late Start Days</u>
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							<%= number_with_precision(ista_case.hrsday_ls, :precision => 1) %> Hours/Day
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							<%= number_with_precision((ista_case.hrsday_ls * 60.0), :precision => 0) %> Mins/Day					
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							<%= number_with_precision(ista_case.daysyear_ls, :precision => 1) %> Day/Year
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							&nbsp;
+						</td>
+					</tr>
+					<tr  style="border:0px solid #ddd;" >
+						<td   style="width:250px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-right:10px; padding-top:0px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+							<u>Total Required</u>
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							<%= number_with_precision((ista_case.total_std_minutes_week), :precision => 0) %> Mins/Week
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							<%= number_with_precision((ista_case.total_hours_year), :precision => 0) %> Hours/Year
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							&nbsp;
+						</td>
+						<td   style="width:120px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10.5px; font-weight:normal">
+							&nbsp;
+						</td>
+					</tr>
+				</tbody>
+			</table>				
+		<% end -%>
+<br/>
+</div>

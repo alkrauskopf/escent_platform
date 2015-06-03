@@ -1,0 +1,83 @@
+<div id="no_timed_tasks">
+	<table  style="width:801px; width:fixed; margin-left:0px;border:3px solid #ddd; font-family:<%=family%>; background-color:<%= "#"+app_method.dashboard_color %>">
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:none }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+			<% unless for_strategy -%>
+				<tr  style="border-top:1px solid #ddd; ">
+					<td  colspan = 2 style="border:0px solid #ddd; color: <%= text_color %>; vertical-align:middle;  padding-left:10px; padding-top:0px; font-size:16px; text-align:left">
+						<strong><%=app_method.task_name.pluralize.upcase %></strong>
+					</td>
+				</tr>
+			<% end -%>
+			<% if for_strategy -%>
+				
+				<% tl_session.active_strategies.each do |strat| -%>
+					<tr  style="border:1px solid #ddd; background-color:<%= "#"+app_method.back_color_strats %>">
+						<td style=" border:1px solid #ddd; cursor:help; padding-top:8px; padding-bottom:8px; line-height:1.2em; color: <%= text_color %>; vertical-align:middle; font-size:14px; text-align:center">
+							<strong><%= strat.name %>&nbsp;<%=app_method.task_name.pluralize %></strong>				
+						</td>
+						<td  style="width:585px; width:fixed; border:0px solid #ddd; color: <%= text_color %>; vertical-align:middle; font-size:14px; text-align:center">
+							
+							<%= render (:partial => "tlt_activity_timed_no_row", :locals => { :tl_session=> tl_session, :activity_tasks => strat.evidences_method(app_method), :app_method=>app_method}) %>		
+						</td>					
+					</tr>
+				<% end -%>
+			<% else -%>
+				<% app_method.tl_activity_types.by_position.select{|a| !a.tl_activity_type_tasks.empty?}.each do |activity| -%>
+					<% filtered_tasks = (tl_session.itl_template && !tl_session.itl_template.tl_activity_type_tasks.empty?) ? tl_session.itl_template.tl_activity_type_tasks.for_activity(activity) : [] %>
+					<% activity_tasks = activity.tl_activity_type_tasks.enabled.by_position - filtered_tasks  -%>
+					<% unless activity_tasks.empty? -%>
+						<tr  style="border:1px solid #ddd; ">
+							<td id="a_<%=activity.id %>" href="" style=" border:1px solid #ddd; cursor:help; padding-top:8px; padding-bottom:8px; line-height:1.2em; color: <%= text_color %>; vertical-align:middle; font-size:14px; text-align:center">
+								<strong><%=activity.activity %></strong><br/>
+	
+							<div title="<%=app_method.name %>" id="b_<%=activity.id %>" style="text-align:left;">
+						    <div class="title_large_blue" style="margin-bottom:15px;">
+						      <%= activity.activity -%>
+						    </div>
+						    <div class="normal_text" style=" font-size:12px;">
+						      <%= activity.description -%>
+						    </div>
+						</div>
+						
+		<script type="text/javascript" charset="utf-8">
+		    	jQ(document).ready(function() {
+		
+		    	    jQ("#b_<%=activity.id %>").dialog({
+		    	            bgiframe: true,
+		    	            autoOpen: false,
+		    	            width: 500,
+		    	            height: 180,
+		    	            modal: true,
+		    				buttons: {
+		    					 Close: function(){
+		    		                        jQ(this).dialog('close');
+		    		                    }
+		    				}
+		        	    }
+		    		);					
+					
+		    		jQ('#a_<%=activity.id %>').click(function(event){
+		    		    jQ("#b_<%=activity.id %>").dialog('open');
+		    			 event.preventDefault();
+		    		})							
+		
+		    });
+		</script>
+							</td>
+							<td  style="width:625px; width:fixed; border:0px solid #ddd; color: <%= text_color %>; vertical-align:middle; font-size:14px; text-align:center">
+								<%= render (:partial => "tlt_activity_timed_no_row", :locals => { :tl_session=> tl_session, :activity_tasks => activity_tasks, :background=>("#" + app_method.dashboard_color), :app_method=>app_method}) %>		
+							</td>					
+						</tr>
+					<% end -%>
+				<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+</div>
+

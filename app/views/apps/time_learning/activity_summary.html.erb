@@ -1,0 +1,21 @@
+<div >
+
+	<% if @level == "summary" -%>
+			<%= render :partial => "itl_activity_summary", :locals => {:session => @tlt_session} %>	
+	<% end -%>
+	<% if @level == "log" -%>
+		<table style="width:650px; margin-left:0px; border:2px solid #ddd;">
+			<tbody>  
+				<tr>
+					<td style="padding-top:3px;">
+						<div id="observer_update">	
+							<% update = @tlt_session.training? ? false : @observer_update -%>
+							<%= render (:partial => "tlt_activity_log", :locals => {:session => @tlt_session, :observer => update}) %>	
+
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<% end -%>	
+</div>

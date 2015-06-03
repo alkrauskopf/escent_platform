@@ -1,0 +1,54 @@
+	
+	<% key = role.id.to_s %>
+	<% nolist_table = "res_nolist" + key -%>
+	<% showlist = "res_show" + key -%>
+	<% list_table = "res_list" + key -%>
+	<% hidelist = "res_hide" + key -%>
+
+	<table >
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:none; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+			<tr id="<%= nolist_table %>" style="margin-left:20px">
+				<td  id="<%= showlist %>" style="width:55px; padding-right:10px; text-align:right">
+					<u>Show</u> 				
+				</td>
+				<td  style="width:370px; text-align:left;">
+					<%= pluralize(role.users.size, " " + role.name) -%>
+				</td>
+			</tr>
+			<tr id="<%= list_table %>" style="margin-left:20px">
+				<td  id="<%= hidelist %>" style="width:55px; padding-right:10px; text-align:right">
+					<u>Hide</u> 				
+				</td>
+				<td  style="width:370px; text-align:left;padding-left:10px">
+					<%= pluralize(role.users.size, " " + role.name) -%><br/>
+					<% role.users.sort_by{|u| [u.last_name, u.first_name]}.each do |usr| %>
+					<%= link_to usr.full_name, :controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => usr %>
+					&nbsp;
+					<% end -%>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+  		  jQ("#<%= nolist_table %>").show();
+		  jQ("#<%= list_table %>").hide();		  
+
+	jQ("#<%= showlist %>").click(function() {
+		  	jQ("#<%= nolist_table %>").hide();	 
+	   		jQ("#<%= list_table %>").slideDown("slow");
+	})
+
+	jQ("#<%= hidelist %>").click(function() {
+		  jQ("#<%= list_table %>").hide();	
+	   		jQ("#<%= nolist_table %>").show();
+	})	
+});
+</script>

@@ -1,0 +1,5 @@
+<div >
+
+	<%= render :partial => "/apps/blogs/panelist_activity", :locals => {:panelist => @panelist, :org => @current_organization, :app => @app}%>
+
+</div>

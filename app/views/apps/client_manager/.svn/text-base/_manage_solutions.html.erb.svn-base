@@ -1,0 +1,62 @@
+<div id="manage_solutions">
+
+	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold"> 
+		<strong><center> <%= @current_organization.medium_name %> Solutions</center></strong>
+	</div>
+	<% family = "Garamond, Time New Roman, Helvitica,sans-serif" -%>
+
+		<table  style="width:520px; border:3px solid #ddd; margin-left:10px; font-family:<%=family%>">
+			<thead>
+				<tr style="border:1px solid #ddd;border-bottom:0px;  ">
+					<th colspan=3 style=" color: #000000;  padding-top:5px; padding-bottom:5px; line-height: 1.0em; vertical-align:middle; text-align:center; font-weight:normal; font-size:13px" >
+						<%= pluralize(@current_organization.coop_apps.size, " Application") %>
+					</th>
+				</tr>
+			</thead>
+	
+			<tbody>
+			<% @current_organization.all_owned_apps.each do |solution| -%>
+				<% status_label = solution.available? ? "Activate":"De-Activate" -%>
+				<tr style="border:1px solid #ddd;border-bottom:0px; ">
+					<% if @current_organization.app_master?(solution) -%>
+						<td  id="toggle_active_<%= solution.public_id %>" style=" width:80px; width:fixed; color: #000000; font-size:9px;  padding-left:4px; padding-top:8px;" >
+							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;">
+								<%= status_label %>
+							</span>
+						</td>
+					<% else -%>	
+						<td style=" width:80px; width:fixed; color: #000000; font-size:9px;  padding-left:4px; padding-top:8px;" >
+							&nbsp;
+						</td>
+					<% end -%>
+					<td    style="width:100px; width:fixed; border:0px solid #ddd;vertical-align:top;  padding-left:10px; padding-top:8px; text-align:center; color: #2061a5; font-size:11px; font-weight:normal">
+						<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;">
+							 <%= link_to "Manage" ,{:controller => "apps/owner_maintenance", :action => :index, :organization_id => @current_organization, :app_id=> solution.id}, {:target => "_blank"} %>
+						</span>
+					</td>
+					<td style=" width:320px; width:fixed; border:0px solid #ddd; border-bottom:0px solid #ddd; color: #000000; vertical-align:top; padding-top:8px; text-align:left; font-weight:normal; font-size:13px" >
+						<%= solution.name -%>
+					</td>
+				</tr>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#toggle_active_<%= solution.public_id %>").click(function() {
+		var url = "<%= url_for :controller => "apps/client_manager", :action => :toggle_enable_solution, :organization_id => @current_organization, :solution => solution, :app_id=> app.id %>";
+		jQ.get(url,{},  function(data) {
+				jQ("#manage_solutions").html(data);
+				jQ("#manage_solutions").show();
+					});
+	})
+});
+</script>
+			<% end-%>			
+			</tbody>
+		</table>
+
+</div>
+
+
+
+
+
+

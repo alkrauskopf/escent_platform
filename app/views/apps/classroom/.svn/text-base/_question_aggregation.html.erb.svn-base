@@ -1,0 +1,104 @@
+
+
+<div id="offering_results" style = "font-size:12px; color: #000000;margin-left:0px;">
+
+	<% survey_schedules = classroom.classroom_periods.collect{|cp| cp.survey_schedules.for_audience(audience)}.flatten -%>
+	<% survey_responses = question.tlt_survey_responses.select{|r| survey_schedules.include?(r.survey_schedule)} -%>
+		<table style="width:800px;margin-left:25px;">
+			<thead style="border:1px solid #ddd;">
+				<tr style="border:1px solid #ddd;">
+					<th  style=" border:0px solid #ddd;width:200px; vertical-align:middle;  text-align:center;  padding-top:5px; padding-bottom:5px; color: #000000; font-weight:normal; font-size:11px">
+						<%= classroom.course_name %>
+					</th>
+					<th style=" border:1px solid #ddd;width:150px; vertical-align:bottom;  text-align:center; padding-top:5px; padding-bottom:5px; color: #000000; font-weight:normal; font-size:11px">
+						<u><%= question.tlt_survey_range_type.low_end  %></u>
+					</th>
+					<th style=" border:1px solid #ddd;width:150px; vertical-align:bottom;  text-align:center; padding-top:5px; padding-bottom:5px; color: #000000; font-weight:normal; font-size:11px">
+						<u>Somewhat&nbsp;<%= question.tlt_survey_range_type.low_end  %></u>
+					</th>
+					<th style=" border:1px solid #ddd;width:150px; vertical-align:bottom;  text-align:center; padding-top:5px; padding-bottom:5px; color: #000000; font-weight:normal; font-size:11px">
+						<u>Somewhat&nbsp;<%= question.tlt_survey_range_type.high_end  %></u>
+					</th>
+					<th style=" border:1px solid #ddd;width:150px; vertical-align:bottom;  text-align:center; padding-top:5px; padding-bottom:5px; color: #000000; font-weight:normal; font-size:11px">
+						<u><%= question.tlt_survey_range_type.high_end  %></u>
+					</th>
+				</tr>
+
+			</thead>
+			<style type="text/css" media="screen">
+		    		table,tr,td { border:none }
+					table tr:hover{
+	        		background-color: transparent;
+	      			}
+	   			</style>
+				<tbody>
+					<% unless survey_responses.empty?%>
+						<tr>
+							<td style=" width:200px; border:1px solid #ddd; vertical-align:middle;  color: #2061a5; padding-left:10px; padding-top:3px; padding-bottom:3px; text-align:left; font-weight:bold; font-size:13px">
+								TOTAL<br/>Avg:&nbsp;<%= number_with_precision(survey_responses.collect{|r| r.score}.sum/survey_responses.size, :precision=> 1) %>
+							</td>
+							<td style=" width:150px; border:1px solid #ddd; vertical-align:middle; color: #2061a5; padding-left:0px; padding-top:3px; padding-bottom:3px; text-align:center; font-weight:bold; font-size:13.5px">
+								<%= survey_responses.select{|r| r.score == 1}.size %>
+							</td>
+							<td style=" width:150px; border:1px solid #ddd; vertical-align:middle; color: #2061a5; padding-left:0px; padding-top:3px; padding-bottom:3px; text-align:center; font-weight:bold; font-size:13.5px">
+								<%= survey_responses.select{|r| r.score == 2}.size %>
+							</td>
+							<td style=" width:150px; border:1px solid #ddd; vertical-align:middle; color: #2061a5; padding-left:0px; padding-top:3px; padding-bottom:3px; text-align:center; font-weight:bold; font-size:13.5px">
+								<%= survey_responses.select{|r| r.score == 3}.size %>
+							</td>						
+							<td style=" width:150px; border:1px solid #ddd; vertical-align:middle; color: #2061a5; padding-left:0px; padding-top:3px; padding-bottom:3px; text-align:center; font-weight:bold; font-size:13.5px">
+								<%= survey_responses.select{|r| r.score == 4}.size %>
+							</td>
+						</tr>
+						<% classroom.classroom_periods.each do |per| -%>
+							<% period_responses = survey_responses.select{|r| r.survey_schedule.entity == per} -%>
+							<% unless period_responses.empty?%>
+								<tr>											
+									<td style=" width:200px; border:1px solid #ddd; vertical-align:middle;  color: #2061a5; padding-left:0px; padding-top:3px; padding-bottom:3px; text-align:center; font-weight:normal; font-size:12px">
+										<%= per.name%><br/>Avg:&nbsp;<%= number_with_precision(period_responses.collect{|r| r.score}.sum/period_responses.size, :precision=> 1) %>
+									</td>
+									<td style=" width:150px; border:1px solid #ddd; vertical-align:middle; color: #2061a5; padding-left:0px; padding-top:3px; padding-bottom:3px; text-align:center; font-weight:normal; font-size:12.5px">
+										<%= period_responses.select{|r| r.score == 1}.size %>
+									</td>
+									<td style=" width:150px; border:1px solid #ddd; vertical-align:middle; color: #2061a5; padding-left:0px; padding-top:3px; padding-bottom:3px; text-align:center; font-weight:normal; font-size:12.5px">
+										<%= period_responses.select{|r| r.score == 2}.size %>
+									</td>
+									<td style=" width:150px; border:1px solid #ddd; vertical-align:middle; color: #2061a5; padding-left:0px; padding-top:3px; padding-bottom:3px; text-align:center; font-weight:normal; font-size:12.5px">
+										<%= period_responses.select{|r| r.score == 3}.size %>
+									</td>						
+									<td style=" width:150px; border:1px solid #ddd; vertical-align:middle; color: #2061a5; padding-left:0px; padding-top:3px; padding-bottom:3px; text-align:center; font-weight:normal; font-size:12.5px">
+										<%= period_responses.select{|r| r.score == 4}.size %>
+									</td>
+								</tr>					
+								<% per.survey_schedules.each do |survey| -%>
+									<% survey_responses = period_responses.select{|r| r.survey_schedule == survey} -%>
+									<% unless survey_responses.empty?%>
+										<tr>											
+											<td style=" width:200px; border:1px solid #ddd; vertical-align:middle;  color: #00000; padding-right:10px; padding-top:3px; padding-bottom:3px; text-align:right; font-weight:normal; font-size:11px">
+												<%= survey.schedule_start.strftime("%m-%d-%y") %><br/>Avg:&nbsp;<%= number_with_precision(survey_responses.collect{|r| r.score}.sum/survey_responses.size, :precision=> 1) %>
+											</td>
+											<td style=" width:150px; border:1px solid #ddd; vertical-align:middle; color: #00000; padding-right:0px; padding-top:3px; padding-bottom:3px; text-align:center; font-weight:normal; font-size:11.5px">
+												<%= survey_responses.select{|r| r.score == 1}.size %>
+											</td>
+											<td style=" width:150px; border:1px solid #ddd; vertical-align:middle; color: #00000; padding-right:0px; padding-top:3px; padding-bottom:3px; text-align:center; font-weight:normal; font-size:11.5px">
+												<%= survey_responses.select{|r| r.score == 2}.size %>
+											</td>
+											<td style=" width:150px; border:1px solid #ddd; vertical-align:middle; color: #00000; padding-right:0px; padding-top:3px; padding-bottom:3px; text-align:center; font-weight:normal; font-size:11.5px">
+												<%= survey_responses.select{|r| r.score == 3}.size %>
+											</td>						
+											<td style=" width:150px; border:1px solid #ddd; vertical-align:middle; color: #00000; padding-right:0px; padding-top:3px; padding-bottom:3px; text-align:center; font-weight:normal; font-size:11.5px">
+												<%= survey_responses.select{|r| r.score == 4}.size %>
+											</td>
+										</tr>
+									<% end -%>
+								<% end -%>
+							<% end -%>
+						<% end -%>		
+					<% end -%>		
+				</tbody> 
+			</table>	
+
+
+
+</div>
+

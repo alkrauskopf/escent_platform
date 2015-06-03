@@ -1,0 +1,38 @@
+<div style="width:99%; border:0px solid #ddd; margin-top:0px;" >
+	<span style = "float:right; padding-right:10px">
+		<%= submit_tag "Destroy Selected Resources", :confirm => "Are You Sure? Selected Resources Will Be Permanently Removed!", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+	</span>	
+	<table style="width:99%; border:0px; margin-top:0px">
+		<tbody>			
+			<% for rsrc in @resource_list do -%>
+				<% unless rsrc.nil?%>
+					<tr style="border:1px solid #ddd;">	
+						<td style=" width:60%;width:fixed; font-size:11.5px; line-height:1.3em;  padding-top:8px; padding-bottom:8px; color:#000000; vertical-align:top" >
+							<strong><u><%= link_to rsrc.title,{:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => rsrc},{:target=>"_blank"} %></u></strong></br>
+							<%= rsrc.organization ? rsrc.organization.short_name : "<i>- No Org -</i>"%>,&nbsp;<%= rsrc.user ? rsrc.user.last_name : "<i>- No Contributor -</i>"%>,&nbsp;<%= rsrc.subject_area.name %>,&nbsp;
+							Tagged: <%= pluralize(rsrc.favorite_of.size, ' Person') %>,&nbsp;<%= pluralize(rsrc.topics.size, " Learning Unit") %>
+						</td>
+						<td style=" width:20%;width:fixed; font-size:11.5px; line-height:1.3em;  padding-top:8px; padding-bottom:8px; color:#000000; vertical-align:top" >
+							<%= !rsrc.content_object_type.nil? ? rsrc.content_object_type.content_object_type_group.name.upcase : "<i>- Invalid Type -</i>"%></br><%= rsrc.content_status.name %><%= rsrc.expired? ? ", Expired" : ""%></br>
+						</td>						
+						<td style=" width:12%;width:fixed; padding-top:5px;padding-left:20px;vertical-align:middle">
+							<input type="hidden" name="current_group" value="<%= @current_group %>" />
+							<%=  check_box_tag "res_check[]", value = rsrc.id ,checked = false %>
+							<%= label_tag "Destroy" %>
+						</td> 
+		                 <td  style="width:8%;width:fixed; padding-top:5px;padding-left:20px;vertical-align:middle">
+		                   <u><%= link_to  "Edit", {:controller => "/site/contents", :action => :edit_resource, :organization_id => @current_organization, :content_id => rsrc, :function => "Edit"},{:target=>"_blank"} %></u>
+		                 </td>
+					</tr>
+				<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+
+
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() { 
+	jQ('.fsn-button').addUIStateClass();
+});
+</script>

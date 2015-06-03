@@ -1,0 +1,17 @@
+ctl_pd:
+    id: 10
+    coop_app_id: 6
+    content_resource_type_id: 6
+    
+ctl_tl:
+    id: 11
+    coop_app_id: 6
+    content_resource_type_id: 18
+
+dalp_pd:
+    id: 20
+    coop_app_id: 7
+    content_resource_type_id: 6
+
+    
+    

@@ -1,0 +1,96 @@
+<div id="edit_elt_indicator">
+	<% if @indicator -%>
+	  	<div style="text-align:center;  word-wrap:break-word; color:#2061a5;  padding-top:20px; font-size: 16px; font-style: normal; font-weight: bold">
+				<center>Edit&nbsp;<%= @app.abbrev %>&nbsp;Indicator<br/><%= @indicator.elt_element.name %></center>
+		</div>
+		<% form_for :elt_indicator , @indicator , :url=>{:controller => "/apps/owner_maintenance" , :action => "elt_indicator_update" , :indicator_id => @indicator.id, :app_id=>@app.id} do |@f| %>
+			<% if @current_user.app_superuser?(@app)-%>	
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#C73914;  padding-left:180px; font-size: 12px;">
+						<span style="color:#C73914;  font-size: 14px; font-style: normal; font-weight: normal">
+							<%= @indicator.active? ? "Active" : "Not Active" %><br/>
+						</span>
+					</div>	
+				</div>
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+							<u>Sequence Number</u><br/>
+						</span>
+						<%= text_field :elt_indicator, :ind_num,  :value => @indicator.ind_num, :size => 3 %>
+					</div>	
+				</div>
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+							<u>Element Position</u><br/>
+						</span>
+						<%= text_field :elt_indicator, :position,  :value => @indicator.position, :size => 2 %>
+					</div>	
+				</div>
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+							<u>Weight</u><br/>
+						</span>
+						<%= text_field :elt_indicator, :weight,  :value => @indicator.weight, :size => 2 %>
+					</div>	
+				</div>
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+							<u>Indicator</u><br/>
+						</span>
+						<%= text_area :elt_indicator, :indicator,  :value => @indicator.indicator , :rows => 3, :cols => 80 %>
+					</div>	
+				</div>
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#000000; padding-left:200px; font-size: 12px;" >
+						<span style = "cursor:pointer; ">
+							<%= @f.submit "Save" %>&nbsp;&nbsp;
+						</span>
+						<%= link_to "Cancel" ,  {:controller => "/apps/owner_maintenance", :action => "index", :app_id => @app.id} %>
+					</div>
+				</div>
+				<% unless @indicator.active? -%>
+					<div class="FormRow">	
+						<div class="FormRowData" style="color:#000000; padding-left:380px; font-size: 12px;">
+							<span style = "cursor:pointer; ">
+								<%= @f.submit "Destroy" %>
+							</span>
+							<span style="color:#C73914;  font-size: 10px; font-style: normal; font-weight: normal">
+								<u>Caution:</u> All Related Data Will Be Lost
+							</span>
+						</div>	
+					</div>
+				<% end -%>	
+			<% else -%>
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
+						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+							User Not Authorized<br/>
+						</span>
+						<span style = "cursor:pointer; ">
+							<%= link_to "Return" ,  {:controller => "/apps/owner_maintenance", :action => "index", :app_id => @app.id} %>
+						</span>
+					</div>	
+				</div>		
+			
+			<% end -%>
+		<% end -%>
+	<% else -%>
+		<div class="FormRow">	
+			<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
+				<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+					Indicator Not Found<br/>
+				</span>
+				<span style = "cursor:pointer; ">
+					<%= link_to "Return" ,  {:controller => "/apps/owner_maintenance", :action => "index", :app_id => @app.id} %>
+				</span>
+			</div>	
+		</div>	
+	<% end -%>
+<br/>&nbsp;
+</div>
+
+

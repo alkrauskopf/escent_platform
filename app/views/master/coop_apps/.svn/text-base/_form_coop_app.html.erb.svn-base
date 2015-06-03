@@ -1,0 +1,148 @@
+
+<div class="FormRow submit_warp" style= "padding-left:25px">	
+	<%= submit_tag function, :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
+	<br/>
+</div>	
+
+<div class="formBox">
+	<div class="FormRow">
+      	<div class="FormRowTitle">
+        	Name:
+		</div>
+	    <div class="FormRowData" style= "margin-left:25px">
+	    	<%= text_field :coop_app, :name, :value => app.name, :size => 50 %>
+	    </div>
+    </div>	
+	<div class="FormRow">
+      <div class="FormRowTitle">
+      	Abbrev (<=9Chars):
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+        <%= text_field :coop_app, :abbrev, :value => app.abbrev, :size => 10 %>
+      </div>
+    </div>
+	<% unless function == "New" -%>
+		<div class="FormRow">
+	      <div class="FormRowTitle">
+		    Available?
+	      </div>
+	      <div class="FormRowData" style= "margin-left:25px">
+	      	<%= check_box :coop_app, :is_available, :checked=>app.is_available %>
+	      </div>
+	    </div>
+	<% end -%>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+      	Beta?
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+      	<%= check_box :coop_app, :is_beta, :checked=>app.is_beta %>
+      </div>
+    </div>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+      	Folder-able?
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+      	<%= check_box :coop_app, :is_folderable, :checked=>app.is_folderable %>
+      </div>
+    </div>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+      	User Enable-able?
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+		<%= check_box :coop_app, :user_enableable, :checked=>app.user_enableable %>
+		</div>
+    </div>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+      	Has A Blog?
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+		<%= check_box :coop_app, :is_blogable, :checked=>app.is_blogable %>
+		</div>
+    </div>
+	<% unless function == "New" -%>
+		<div class="FormRow">
+			<div class="FormRowTitle">
+	          Master Owner:
+	       </div>
+		    <div class="FormRowData" style= "margin-left:25px">
+	          <%= app.owner ? app.owner.name : "Not Defined" %>
+	       	</div>
+		</div>
+		<div class="FormRow">
+			<div class="FormRowTitle">
+	          &nbsp;
+	       </div>
+		    <div class="FormRowData" style= "margin-left:25px">
+				<%=  select(:coop_app, :owner_id, Organization.ep_default.collect{|o| [o.short_name, o.id]}, :prompt =>  "Select" ) %>
+			</div>
+		</div>
+		<div class="FormRow">
+			<div class="FormRowTitle">
+	          <%= pluralize(app.providers.size, "Provider") %>:
+	       </div>
+		    <div class="FormRowData" style= "margin-left:25px">
+	          <%= app.providers.empty? ? "" : app.providers.collect{|p| p.short_name}.join(", ") %>
+	       	</div>
+		</div>
+		<div class="FormRow">
+			<div class="FormRowTitle">
+	          &nbsp;
+	       </div>
+		    <div class="FormRowData" style= "margin-left:25px">
+				<%=  select(:add_provider, :id, (Organization.active - app.providers).sort_by{|o| o.name}.collect{|o| [(o.medium_name), o.public_id]}, :prompt =>  "Select Provider" ) %>
+			</div>
+		</div>
+		<% if app.providers.size > 1 %>
+			<div class="FormRow">
+				<div class="FormRowTitle">
+		          &nbsp;
+		       </div>
+			    <div class="FormRowData" style= "margin-left:25px">
+					<%=  select(:remove_provider, :id, app.providers.sort_by{|o| o.name}.collect{|o| [(o.medium_name), o.public_id]}, :prompt =>  "Remove Provider" ) %>
+				</div>
+			</div>
+		<% end -%>
+		<div class="FormRow">
+			<div class="FormRowTitle">
+	          <%= pluralize(app.disallowed_orgs.size, "Disallowed Orgs") %>:
+	       </div>
+		    <div class="FormRowData" style= "margin-left:25px">
+	          <%= app.disallowed_orgs.empty? ? "" : app.disallowed_orgs.collect{|p| p.short_name}.join(", ") %>
+	       	</div>
+		</div>
+		<div class="FormRow">
+			<div class="FormRowTitle">
+	          &nbsp;
+	       </div>
+		    <div class="FormRowData" style= "margin-left:25px">
+				<%=  select(:add_not_allow, :id, (Organization.active - app.disallowed_orgs).sort_by{|o| o.name}.collect{|o| [(o.medium_name), o.public_id]}, :prompt =>  "Select Dis-Allow Org" ) %>
+			</div>
+		</div>
+		<div class="FormRow">
+			<div class="FormRowTitle">
+	          &nbsp;
+	       </div>
+		    <div class="FormRowData" style= "margin-left:25px">
+				<%=  select(:remove_not_allow, :id, app.disallowed_orgs.sort_by{|o| o.name}.collect{|o| [(o.medium_name), o.public_id]}, :prompt =>  "Select Re-Allow Org" ) %>
+			</div>
+		</div>
+	<% end -%>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+      	&nbsp;
+      </div>
+    </div>
+</div>
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>

@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  elt_cycle_id: 1
+  elt_indicator_id: 1
+  cycle: MyString
+  activity: MyString
+  element: MyString
+  indicator: MyString
+  school_count: 1
+  rating: 9.99
+
+two:
+  elt_cycle_id: 1
+  elt_indicator_id: 1
+  cycle: MyString
+  activity: MyString
+  element: MyString
+  indicator: MyString
+  school_count: 1
+  rating: 9.99

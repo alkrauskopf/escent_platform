@@ -1,0 +1,259 @@
+<div id="tracker_log">
+	<% unless tl_session.logs_are_closed -%>
+		<% unless tl_session.is_manual -%>	
+			<table style="width:350px; width:fixed;  vertical-align:top; margin-left:0px;border:0px solid #ddd;">
+				<tbody>  
+					<style type="text/css" media="screen">
+			    		table,tr,td { border:medium }
+						table tr:hover{
+		        		background-color: transparent;
+		      			}
+		   			</style>
+					<% unless tl_session.tlt_session_logs.empty? -%>						
+						<tr >
+							<td style="vertical-align:middle; line-height:1.2em; padding-top:0px; font-size:15px; text-align:center">
+								<%= pluralize(tl_session.tlt_session_logs.size, " Observation")%>
+								<% if tl_session.tlt_session_logs.size > @current_organization.itl_org_option.log_display_count %>
+									<span style="font-size:11px">
+										&nbsp;&nbsp;(<%=@current_organization.itl_org_option.log_display_count %>&nbsp;Most Recent Below)
+									</span>
+								<% end-%>
+							</td>
+						</tr>
+						<% tl_session.tlt_session_logs.sort{|a,b| b.created_at <=> a.created_at}.each_with_index do |log, idx| -%>		
+							<% break if idx >= @current_organization.itl_org_option.log_display_count -%>
+							<tr  style="border:0px solid #ddd;">
+								<td style="width:340px; width:fixed;">
+									<table style="width:340px; width:fixed; margin-left:2px;border:2px solid #ddd; background:<%="#" + log.tl_activity_type_task.tl_activity_type.app_method.dashboard_color%>">
+										<tbody>  
+											<style type="text/css" media="screen">
+									    		table,tr,td { border:medium }
+												table tr:hover{
+								        		background-color: transparent;
+								      			}
+								   			</style>
+											<tr>							
+												<td  style="border:0px solid #ddd; vertical-align:bottom; text-align:left; padding-top:3px; line-height:1.5em; font-size:12px;">
+													<span style = "color:#C83A14; font-weight:normal">
+														<%= number_with_precision((log.start_time - tl_session.created_at)/60.0, :precision=>1).to_s%>
+													<% if log.tl_activity_type_task.tl_activity_type.app_method.timed?-%>
+													&nbsp; <%= log.tl_activity_type_task.tl_activity_type.app_method.task_name %>				
+														<%= log.is_active ? " In Progress" : " (" + pluralize(number_with_precision(log.duration/60.0, :precision => 1).to_s, " Minute") + ")" %>
+													<% else -%>
+														<%= log.tl_activity_type_task.tl_activity_type.activity %>&nbsp;<%= log.tl_activity_type_task.tl_activity_type.app_method.task_name %>				
+													<% end -%>
+													</span>
+													<span style = "float:right; color:#C83A14; font-weight:bold">
+														<%= log.involve %>&nbsp;
+													</span>												
+													<br/>
+													<strong><%=log.tl_activity_type_task.name.titleize %></strong>
+												</td>
+												<td  colspan=2 id = "involve_<%=log.public_id %>" style=" border:0px solid #ddd; padding-top:3px;">
+													<%=  select(:log_involve, log.public_id, log.tl_activity_type_task.tl_activity_type.app_method.app_method_log_ratings.ratings.collect{|i| [i.label, i.id]},{:prompt => log.tl_activity_type_task.tl_activity_type.app_method.rating_label}) %>
+												</td>
+											</tr>
+											<tr>									
+												<td  style=" border:0px solid #ddd; border-right:0px solid #ddd; padding-top:0px; padding-bottom:5px; vertical-align:middle; text-align:left; font-size:12px">
+													<%= text_area :log_notes, log.public_id, :value => log.note, :rows => 3, :cols=> 30%>		
+												</td>
+												<td   id = "update_note_<%=log.public_id %>" style=" width:15px; width:fixed;  border-left:0px solid #ddd;vertical-align:top;  padding-top:3px; padding-left:5px; text-align:center; cursor:pointer">
+													<%= (image_tag "add.png") -%>
+												</td>
+												<% if log.is_active -%>
+													<td style="width:70px; width:fixed; border:0px solid #ddd;vertical-align:top;  padding-top:6px; padding-left:0px; padding-right:0px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+														&nbsp;
+													</td>
+												<% else -%>
+													<td style="width:70px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-bottom:0px; padding-left:0px; padding-right:0px; text-align:center; color: #000000; font-size:11px">
+														<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
+															<%= link_to "Delete", {:controller=>'/apps/panel', :action => "remove_log", :organization_id => @current_organization, :tlt_session_id => tl_session, :tlt_log_id => log}, :class => "purge_button" %>
+														</span>
+													</td>
+												<% end -%>
+											</tr>							
+										</tbody>
+									</table>
+								</td>
+							</tr>
+
+			<script type="text/javascript">
+			jQ(document).ready(function() {
+				jQ('#update_note_<%=log.public_id %>').click(function() {
+					var note_text = jQ('#log_notes_<%=log.public_id%>').val();
+					var log_id = '<%= log.public_id %>';
+					var session_id = '<%= tl_session.public_id %>';
+					var url = "<%= url_for :controller => '/apps/panel', :action => :update_log_note, :user_id => @current_user, :organization_id => @current_organization  %>";
+						jQ.get(url, {'tlt_log_id':log_id, 'note':note_text, 'tlt_session_id': session_id}, function(data) {
+							jQ("#tracker_log").html(data);
+							jQ("#tracker_log").show();
+						});
+				})
+			});
+			</script>
+		
+			<script type="text/javascript">
+			jQ(document).ready(function() {
+			 	jQ("#involve_<%= log.public_id %>").change(function(){
+					var involve_id = jQ('#log_involve_<%= log.public_id%>').val();
+					var note_text = jQ('#log_notes_<%=log.public_id%>').val();
+					var log_id = '<%= log.public_id %>';
+					var session_id = '<%= tl_session.public_id %>';
+					var url = "<%= url_for :controller => '/apps/panel', :action => :update_log_note, :user_id => @current_user, :organization_id => @current_organization %>";
+						jQ.get(url, {'tlt_log_id':log_id, 'involve_id': involve_id, 'note': note_text, 'tlt_session_id': session_id}, function(data) {
+							jQ("#tracker_log").html(data);
+							jQ("#tracker_log").show();
+						});
+				})
+			});
+			</script>
+
+						<% end -%>	
+					<% else -%>
+						<tr  style="border:0px solid #ddd;">
+							<td style="width:365px; width:fixed;padding-top:60px; color:#C83A14; line-height:2.2em; text-align:center; font-size:15px;">
+								Session Has Begun<br/>Select&nbsp;Observed&nbsp;<%= tl_session.app_methods.collect{|m| m.task_name.pluralize}.join(" or ")%>
+							</td>
+						</tr>					
+					<% end -%>
+				</tbody>
+			</table>
+		<% end -%>
+	<% else -%>
+
+		
+					<% tl_session.tlt_session_logs.sort{|a,b| a.created_at <=> b.created_at}.each do |log| -%>		
+									<table style="width:590px; width:fixed; margin-left:4px;border:2px solid #ddd; background:<%="#" + log.tl_activity_type_task.tl_activity_type.app_method.dashboard_color%>">
+										<tbody>  
+											<style type="text/css" media="screen">
+									    		table,tr,td { border:medium }
+												table tr:hover{
+								        		background-color: transparent;
+								      			}
+								   			</style>
+											<% if observer -%>
+												<tr>							
+													<td  colspan=3 id = "task_<%=log.public_id %>"style="border:0px solid #ddd; vertical-align:bottom; text-align:left; padding-top:3px; line-height:1.5em; font-size:11px;">
+														<span style = "color:#C83A14; font-weight:normal">
+															<strong><%= number_with_precision((log.start_time - tl_session.created_at)/60.0, :precision=>1).to_s%></strong>
+															<% if log.tl_activity_type_task.tl_activity_type.app_method.timed?-%>
+																&nbsp; <%= log.tl_activity_type_task.tl_activity_type.app_method.task_name %>				
+																<%= log.is_active ? " In Progress" : " (" + pluralize(number_with_precision(log.duration/60.0, :precision => 1).to_s, " Minute") + ")" %>
+															<% else -%>
+																&nbsp;<%= log.tl_activity_type_task.tl_activity_type.activity %>&nbsp;<%= log.tl_activity_type_task.tl_activity_type.app_method.task_name %>				
+															<% end -%>
+														</span>
+														<span style = "float:right; color:#C83A14; font-weight:normal">
+															<%= log.involve ? (log.involve ) : "" %>&nbsp;
+														</span>	
+														<br/>											
+														<%=  select(:new_task, log.public_id,  log.log_task_method_tasks.sort_by{|t| [t.tl_activity_type.abbrev, t.position]}.collect{|i| [i.tl_activity_type.abbrev + ": " + i.name, i.id]},{:prompt => log.tl_activity_type_task.tl_activity_type.abbrev + ": " + log.tl_activity_type_task.name.titleize}) %>
+													</td>
+												</tr>
+												<tr>									
+													<td  style=" border:0px solid #ddd; border-right:0px solid #ddd; padding-top:0px; padding-bottom:5px; vertical-align:middle; text-align:left; font-size:11px">
+														<%= text_area :log_notes, log.public_id, :value => log.note, :rows => 2, :cols=> 70%>		
+													</td>
+													<td   id = "update_note_<%=log.public_id %>" style=" width:15px; width:fixed;  border-left:0px solid #ddd;vertical-align:top;  padding-top:3px; padding-left:5px; text-align:center; cursor:pointer">
+														<%= (image_tag "add.png") -%>
+													</td>
+													<td style="width:75px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-bottom:0px; padding-left:0px; padding-right:0px; text-align:center; color: #000000; font-size:10px">
+														<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
+															<%= link_to "Delete", {:controller=>'/apps/panel', :action => "remove_log", :user_id => @current_user, :organization_id => @current_organization, :tlt_session_id => tl_session, :tlt_log_id => log}, :class => "purge_button" %>
+														</span>
+													</td>
+												</tr>							
+											<% else -%>
+												<tr>							
+													<td  colspan=3 style="border:0px solid #ddd; vertical-align:bottom; text-align:left; padding-top:3px; line-height:1.5em; font-size:11px;">
+														<span style = "color:#C83A14; font-weight:normal">
+															<%= number_with_precision((log.start_time - tl_session.created_at)/60.0, :precision=>1).to_s%>
+															<% if log.tl_activity_type_task.tl_activity_type.app_method.timed?-%>
+																&nbsp; <%= log.tl_activity_type_task.tl_activity_type.app_method.task_name %>				
+																<%= log.is_active ? " In Progress" : " (" + pluralize(number_with_precision(log.duration/60.0, :precision => 1).to_s, " Minute") + ")" %>
+															<% else -%>
+																<%= log.tl_activity_type_task.tl_activity_type.activity %>&nbsp;<%= log.tl_activity_type_task.tl_activity_type.app_method.task_name %>				
+															<% end -%>
+														</span>
+														<span style = "float:right; color:#C83A14; font-weight:normal">
+															<%= log.involve ? (log.involve ) : "" %>&nbsp;
+														</span>	
+														<br/>
+														<strong><%=log.tl_activity_type_task.name.titleize %></strong>
+													</td>
+												</tr>
+												<tr>									
+													<td  colspan=2 style=" border:0px solid #ddd; border-right:0px solid #ddd; line-height:1.3em; padding-top:0px; padding-bottom:5px; vertical-align:middle; text-align:left; font-size:11px">
+														<%= simple_format log.note %>		
+													</td>
+													<td style="width:75px; width:fixed; border:0px solid #ddd;vertical-align:top;  padding-top:6px; padding-left:0px; padding-right:0px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+														&nbsp;
+													</td>
+												</tr>
+											<% end -%>
+										</tbody>
+									</table>
+
+			<script type="text/javascript">
+			jQ(document).ready(function() {
+				jQ('#update_note_<%=log.public_id %>').click(function() {
+					var note_text = jQ('#log_notes_<%=log.public_id%>').val();
+					var log_id = '<%= log.public_id %>';
+					var session_id = '<%= tl_session.public_id %>';
+					var url = "<%= url_for :controller => '/apps/panel', :action => :update_log_note, :user_id => @current_user, :organization_id => @current_organization  %>";
+						jQ.get(url, {'tlt_log_id':log_id, 'note':note_text, 'tlt_session_id': session_id}, function(data) {
+							jQ("#tracker_log").html(data);
+							jQ("#tracker_log").show();
+						});
+				})
+			});
+			</script>
+		
+			<script type="text/javascript">
+			jQ(document).ready(function() {
+			 	jQ("#involve_<%= log.public_id %>").change(function(){
+					var involve_id = jQ('#log_involve_<%= log.public_id%>').val();
+					var note_text = jQ('#log_notes_<%=log.public_id%>').val();
+					var log_id = '<%= log.public_id %>';
+					var session_id = '<%= tl_session.public_id %>';
+					var url = "<%= url_for :controller => '/apps/panel', :action => :update_log_note, :user_id => @current_user, :organization_id => @current_organization %>";
+						jQ.get(url, {'tlt_log_id':log_id, 'involve_id': involve_id, 'note': note_text, 'tlt_session_id': session_id}, function(data) {
+							jQ("#tracker_log").html(data);
+							jQ("#tracker_log").show();
+						});
+				})
+			});
+			</script>
+			<script type="text/javascript">
+			jQ(document).ready(function() {
+			 	jQ("#task_<%= log.public_id %>").change(function(){
+					var task_id = jQ('#new_task_<%= log.public_id%>').val();
+					var log_id = '<%= log.public_id %>';
+					var session_id = '<%= tl_session.public_id %>';
+					var url = "<%= url_for :controller => '/apps/panel', :action => :update_log_strategy, :user_id => @current_user, :organization_id => @current_organization %>";
+						jQ.get(url, {'tlt_log_id':log_id, 'task_id':task_id, 'tlt_session_id': session_id}, function(data) {
+							jQ("#tracker_log").html(data);
+							jQ("#tracker_log").show();
+						});
+				})
+			});
+			</script>
+						<% end -%>	
+
+	<% end -%>
+<br/>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.purge_button').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#tracker_log").html(data);
+				jQ("#tracker_log").show();
+			})
+			return false;
+	})
+});
+</script>
+
+</div>

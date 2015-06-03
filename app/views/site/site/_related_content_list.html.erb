@@ -1,0 +1,13 @@
+
+<ul style="list-style: none; color: #2061a5; font-size:9px; padding-left:30px; margin-bottom: 10px;">
+	<% (folder.nil? ? topic.unfoldered_resources : topic.resources_for_folder(folder)).each do |rc|-%>
+		<% if rc.viewable_by_user?(@current_user ? @current_user : nil) && !(rc == featured_resource) -%>
+			<li>	
+			 	<span style="font-size:11px; font-weight:normal; line-height:2.0em;"><%=rc.content_resource_type.name%>:  
+			 		<%= link_to_remote rc.title, :update => ("related_content_panel_"+ (folder.nil? ? "" : folder.id.to_s)), :url => url_for({:controller => "/site/site", :action => :show_content, :organization_id => @current_organization, :folder_id => folder, :topic_id => topic, :id => rc}) -%>
+			 	</span>
+				<br/>
+			</li>
+		<% end -%>			
+	<% end -%>
+</ul>

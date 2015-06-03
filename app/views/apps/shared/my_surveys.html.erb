@@ -1,0 +1,115 @@
+<div id="main_content">
+	<% unless @current_user.nil? -%>
+  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
+			<br/><center><%= @current_user.last_name %>&nbsp;Survey Activity At <%= @current_organization.short_name %> </center>
+	</div>
+
+	<div style="float:none;width:97%;" class="mempro_box clear">
+
+    <div id="member_ico">
+      <% if @current_user.picture.url.split("/").last == "missing.png" %>
+        <%= image_tag "member_ico.gif" %>
+      <% else %>
+        <%= image_tag @current_user.picture.url(:thumb) %>
+      <% end %>
+    </div>
+    <div id="member_info">
+        <div id="app_heading">         		
+	  		<%= render :partial => "/apps/shared/my_waiting_surveys", :locals => {:user=> @current_user, :organization => @current_organization}  %>
+			<% surveys = @current_user.surveys_taken.size -%>
+			<% unless surveys == 0 -%>
+			<table id="past_surveys" style="width:99%;">
+					<tbody>  
+						<% col_label = pluralize(surveys, " Survey") + " Taken By " + @current_user.first_name   %>
+							<tr>
+								<td class="resource_levels_close" style="color: #2061a5;  font-size:12px; font-weight:normal">
+									<%= link_to '', :controller => "apps/shared", :action => :my_taken_surveys, :organization_id => @current_organization %>
+								<%= col_label %>
+								<span></span>
+								</td>
+							</tr>
+					</tbody>
+				</table>
+				<script type="text/javascript" charset="utf-8">
+				jQ(document).ready(function() {
+					jQ('#past_surveys .resource_levels_close').toggleResourceLevels();
+					jQ('#past_surveys .resource_levels_open').toggleResourceLevels();	
+				});
+				</script>
+		<% else -%>
+			<table  style="width:99%;">
+				<tbody>  
+					<% col_label = "No " + @current_user.last_name + " Surveys Taken"  %>
+						<tr>
+							<td style="color: #2061a5;  font-size:11.5px; font-weight:normal">
+							<%= col_label %>
+							<span></span>
+							</td>
+						</tr>
+				</tbody>
+			</table>
+		<% end -%>
+
+		<% surveys = @current_user.surveys_broadcasted -%>
+		<% unless surveys.size == 0 -%>
+			<table id="broad_surveys"   style="width:99%;">
+				<tbody>  
+					<% col_label = pluralize(surveys.size,  " Broadcast Survey") + " Sent By " + @current_user.first_name  -%>
+					<tr>
+						<td class="resource_levels_close" style="color: #2061a5;  font-size:12px; font-weight:normal">
+							<%= link_to '', :controller => "apps/shared", :action => :my_broadcast_surveys, :organization_id => @current_organization %>
+						<%= col_label %>
+						<span></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+				<script type="text/javascript" charset="utf-8">
+				jQ(document).ready(function() {
+					jQ('#broad_surveys .resource_levels_close').toggleResourceLevels();
+					jQ('#broad_surveys .resource_levels_open').toggleResourceLevels();	
+				});
+				</script>
+		<% end -%>
+
+		<% surveys = @current_user.surveys_to_self-%>
+		<% unless surveys.size == 0 -%>
+			<table id="self_surveys"   style="width:99%;">
+				<tbody>  
+					<% col_label = pluralize(surveys.size,  " Individual Survey")  + " Sent By " + @current_user.first_name -%>
+					<tr>
+						<td class="resource_levels_close" style="color: #2061a5;  font-size:12px; font-weight:normal">
+							<%= link_to '', :controller => "apps/shared", :action => :my_self_surveys, :organization_id => @current_organization %>
+						<%= col_label %>
+						<span></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+				<script type="text/javascript" charset="utf-8">
+				jQ(document).ready(function() {
+					jQ('#self_surveys .resource_levels_close').toggleResourceLevels();
+					jQ('#self_surveys .resource_levels_open').toggleResourceLevels();	
+				});
+				</script>
+		<% end -%>
+		</div>	
+ 
+    </div>
+
+  </div>
+
+	<% else -%>
+	  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
+			<br/><center>User Survey Page </center>
+			<br/>
+			<span style="text-align:center;  word-wrap:break-word; color: #2061a5;  font-size: 13px; font-style: normal; font-weight: normal">
+				Please Sign-in To Your Personal Survey Page
+			</span>
+			<br/></br/>
+		</div>
+	<% end -%>
+
+</div>
+
+

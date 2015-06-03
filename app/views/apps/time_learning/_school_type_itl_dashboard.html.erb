@@ -1,0 +1,373 @@
+<div id ="type_dashboard_<%=school_type.id%>">
+
+<br/>
+	<% units = " Hrs/Wk" -%>
+	<% school_type.itl_subjects.in_groups_of(7).each_with_index do |subj, index| %>			
+	<% group = "dashboard_" + school_type.id.to_s + index.to_s -%>
+
+	<table  style="width:870px; border:1px solid #ddd;">
+		<tbody>
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+
+			<tr style="border:1px solid #ddd;">
+				<th style=" width:170px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-weight:bold; font-size:11px" >
+						 Since&nbsp;<%= (Date.today - @current_organization.itl_org_option.stat_window.weeks).strftime("%b %d, %Y") %>
+				</th>
+
+				<%[0,1,2,3,4,5,6].each do |idx| -%>	
+					<th   style=" width:100px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle;text-align:center; font-weight:bold; font-size:11px" >
+						<%=subj[idx].name.upcase unless subj[idx].nil?%>
+					</th>
+				<% end -%>
+			</tr>
+			<tr style="border:1px solid #ddd;">
+				<td style="width:170px; width:fixed;  border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-weight:bold; font-size:11px" >
+					<%= pluralize(school_type.itl_organizations.size,  " " + school_type.name) %>
+				</td>
+				<% duration = [] -%>
+				<%[0,1,2,3,4,5,6].each do |idx| -%>	
+					<% duration[idx] = subj[idx].nil? ? 0.0 :school_type.minutes_in_subject(subj[idx]).to_f/60.0 -%>
+					<td  style="width:100px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-weight:bold; font-size:10px" >
+						<%= (number_with_precision(duration[idx], :precision => 0).to_s + units) unless subj[idx].nil?%>
+					</td>
+				<% end -%>
+			</tr>
+			<tr style="border:1px solid #ddd;">
+				<td style="width:170px; width:fixed;  border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
+						Offerings
+				</td>
+				<%[0,1,2,3,4,5,6].each do |idx| -%>	
+					<td  style="width:100px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
+						<%= school_type.classroom_count(subj[idx]) unless subj[idx].nil?%>
+					</td>
+				<% end -%>
+			</tr>
+			<tr style="border:1px solid #ddd;">
+				<td style=" width:170px; width:fixed;  border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
+						Periods
+				</td>
+				<%[0,1,2,3,4,5,6].each do |idx| -%>	
+					<td  style="width:100px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
+						<%= school_type.period_count(subj[idx]) unless subj[idx].nil?%>
+					</td>
+				<% end -%>
+			</tr>
+			<tr style="border:1px solid #ddd;">
+				<td style="width:170px; width:fixed;  border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
+						Teachers
+				</td>
+				<%[0,1,2,3,4,5,6].each do |idx| -%>	
+					<td  style="width:100px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
+						<%= school_type.teacher_count(subj[idx]) unless subj[idx].nil?%>
+					</td>
+				<% end -%>
+			</tr>
+			<tr style="border:1px solid #ddd;">
+				<td style="width:170px;width:fixed;  border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
+						Students
+				</td>
+				<%[0,1,2,3,4,5,6].each do |idx| -%>	
+					<td  style="width:100px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
+						<%= school_type.student_count(subj[idx]) unless subj[idx].nil?%>
+				<% end -%>
+			</tr>
+
+			<tr style="border:1px solid #ddd;">
+				<td width = 170px style="width:fixed;  border:1px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-size:11px" >
+						Observations
+				</td>
+				 
+				<% tl_sessions = [] -%>
+				<% tot_secs = [] -%>
+				<%[0,1,2,3,4,5,6].each do |idx| -%>	
+					<td  style="width:100px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
+						<% tl_sessions[idx] = subj[idx].nil? ? 0 : school_type.tlt_sessions(subj[idx], (Date.today - @current_organization.itl_org_option.stat_window.weeks)) %>
+						<%= tl_sessions[idx] unless subj[idx].nil? %>
+					</td>
+				<% end -%>
+			</tr>
+			
+			<tr style="border:1px solid #ddd;">
+				<td width = 170px style="width:fixed;  border:1px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-size:11px" >
+						Observed Time (Hrs)
+				</td>
+				<%[0,1,2,3,4,5,6].each do |idx| -%>	
+					<td  style="width:100px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
+						<% unless subj[idx].nil? %> 
+							<% tot_secs[idx] = school_type.tlt_session_time(subj[idx], (Date.today - @current_organization.itl_org_option.stat_window.weeks)) %>
+							<%= tl_sessions[idx]  == 0 ? "-" : number_with_precision(tot_secs[idx].to_f/3600.0, :precision => 1) %>
+						<% end -%>
+					</td>
+
+				<% end -%>
+			</tr>
+
+			<tr style="border:1px solid #ddd;">
+				<td width = 170px style="width:fixed;  border:1px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-size:11px" >
+						Avg. Observation (Mins)
+				</td>
+				<%[0,1,2,3,4,5,6].each do |idx| -%>	
+					<td  style="width:100px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
+						<% unless subj[idx].nil? %> 
+							<%= tl_sessions[idx]  == 0 ? "-" : (number_with_precision(tot_secs[idx].to_f/(60*tl_sessions[idx]).to_f, :precision => 0))  %>
+						<% end -%>
+					</td>
+
+				<% end -%>
+			</tr>
+
+			<% AppMethod.rs.first.tl_activity_types.each do |activity| -%>
+
+			<tr style="border:1px solid #ddd;">
+			<table id="type_header_<%= activity.id %><%= group %>"  style="width:870px; border:1px solid #ddd;">
+				<tbody>
+					<tr  style="border:1px solid #ddd;">
+				
+						<th id="type_show_<%= activity.id %><%= group %>" width = 170px style=" width:fixed; border:1px solid #ddd;  color: #000000; vertical-align:top;text-align:left; font-weight:bold; font-size:10px" >
+						<span style="font-size:9px; text-align:left; font-weight:normal; color: #2061a5;">
+								>&nbsp;&nbsp;Show Breakdown<br/>	
+								</span>
+								<center><%= activity.activity %></center>
+						</th>
+
+						<% school_activity_secs =[] %>
+						<% school_activity_hrs =[] %>
+						<% school_activity_pct =[] %>
+
+						<%[0,1,2,3,4,5,6].each do |idx| -%>	
+							<% school_type_stats = subj[idx].nil? ? [] : activity.stats_for_subject_since(subj[idx], (Date.today - @current_organization.itl_org_option.stat_window.weeks), school_type.id ) -%>
+							<th  style="width:100px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle;text-align:center; font-weight:bold; font-size:10px" >
+								<% unless subj[idx].nil? %>  <br/>
+									<% school_activity_secs[idx] = subj[idx].nil? ? "" : school_type_stats[6].to_f %>
+									<% school_activity_hrs[idx] = subj[idx].nil? ? "" : duration[idx]*school_type_stats[1].to_f/100.0 %>								
+									<% school_activity_pct[idx] = subj[idx].nil? ? "" : school_type_stats[1] %>	
+									<% unless tl_sessions[idx]  == 0 %>
+										<%= number_with_precision(school_activity_hrs[idx], :precision => 0) %>
+										/<%= (number_to_percentage(school_activity_pct[idx], :precision => 0)) %>
+									<% else %>
+										-
+									<% end -%>
+								<% end -%>
+							</th>
+						<% end -%>
+					</tr>
+				</tbody>
+			</table>
+			</tr>
+			<tr   style="border:1px solid #ddd;">
+		<table id="type_descript_<%= activity.id %><%= group %>" style="width:870px; border:1px solid #ddd;">
+			<tbody>
+				<tr  style="border:1px solid #ddd;">
+				
+					<th id="type_hide_<%= activity.id %><%= group %>"  width =170px style=" width:fixed; border:1px solid #ddd;  color: #000000; vertical-align:top;text-align:center; font-weight:bold; font-size:10px" >
+							<span style="font-size:9px; text-align:left; font-weight:normal; color: #2061a5;">
+							>&nbsp;&nbsp;Hide Breakdown<br/>	
+							</span>
+							<center><%= activity.activity %></center>
+					</th>
+					<%[0,1,2,3,4,5,6].each do |idx| -%>	
+						<th  style="width:100px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle;text-align:center; font-weight:bold; font-size:10px" >
+							<% unless subj[idx].nil? %>  <br/>
+								<% unless tl_sessions[idx]  == 0 %>
+									<%= number_with_precision(school_activity_hrs[idx], :precision => 0) %>
+									/<%= (number_to_percentage(school_activity_pct[idx], :precision => 0)) %>
+								<% else %>
+									-
+								<% end -%>
+							<% end -%>
+						</th>
+						<% end -%>
+				</tr>			
+				<% activity.tl_activity_type_tasks.enabled.each do |task| -%>
+				<% hover = "<center>" + task.name + "</center>" -%>
+				<tr style="border:1px solid #ddd;">
+					<td  width =170px class="tip_2" title= "<%= hover %>" style="width:fixed; border:1px solid #ddd;  color: #000000; vertical-align:top;text-align:center; font-weight:normal; font-size:11px" >
+							<%= task.abbrev %> 
+					</td>
+					<%[0,1,2,3,4,5,6].each do |idx| -%>	
+						<td  style="width:100px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle;text-align:center; font-weight:normal; font-size:10px" >
+							<% unless subj[idx].nil? %>
+								<% unless tl_sessions[idx]  == 0 %>
+									<% school_type_stats_task = task.stats_for_subject_since(subj[idx], (Date.today - @current_organization.itl_org_option.stat_window.weeks), school_type.id ) -%>
+									<%= number_with_precision(duration[idx]*school_type_stats_task[1].to_f/100.0, :precision => 1) %>
+									/<%= (number_to_percentage(school_type_stats_task[1], :precision => 0)) %>
+								<% else %>
+									-
+								<% end -%>
+							<% end -%>
+						</td>
+					<% end -%>
+				</tr>
+				<% end -%>
+				</tbody>
+			</table>
+			</tr>
+<script type="text/javascript">
+	jQ(document).ready(function() {
+  		  jQ("#type_header_<%= activity.id %><%= group %>").show();
+		  jQ("#type_descript_<%= activity.id %><%= group %>").hide();		  
+
+	jQ("#type_show_<%= activity.id %><%= group %>").click(function() {
+		  	jQ("#type_header_<%= activity.id %><%= group %>").slideUp("slow");	 
+	   		jQ("#type_descript_<%= activity.id %><%= group %>").slideDown("slow");
+	})
+
+	jQ("#type_hide_<%= activity.id %><%= group %>").click(function() {
+	   		jQ("#type_descript_<%= activity.id %><%= group %>").slideUp("slow");
+	   		jQ("#type_header_<%= activity.id %><%= group %>").show();
+	})	
+});
+</script>
+
+
+
+			<% end -%>
+
+
+		</tbody>
+	</table>
+
+<% end -%>
+
+</div>
+
+
+
+
+
+<script>
+jQ(function(){
+jQ('td.tip').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'topMiddle',
+         tooltip: 'bottomMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 1,
+         radius: 1,
+         color: '#99911a'
+      },
+      width: 250,
+	  tip: { // Now an object instead of a string
+         corner: 'bottomLeft', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 0, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 0 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>
+
+<script>
+jQ(function(){
+jQ('td.tip_2').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'topMiddle',
+         tooltip: 'bottomMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 1,
+         radius: 1,
+         color: '#99911a'
+      },
+      width: 250,
+	  tip: { // Now an object instead of a string
+         corner: 'bottomLeft', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 0, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 0 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>
+
+<script>
+jQ(function(){
+jQ('th.tip_overview').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'topMiddle',
+         tooltip: 'bottomMiddle'
+      }
+   },
+   style: { 
+      name: 'blue',
+	  border: {
+         width: 1,
+         radius: 1,
+         color: '#99911a'
+      },
+      width: 200,
+	  tip: { // Now an object instead of a string
+         corner: 'bottomLeft', // We declare our corner within the object using the corner sub-option
+         color: '#1115cc',
+         size: {
+            x: 0, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 0 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>
+
+<script>
+jQ(function(){
+jQ('td.tip_notes').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'topMiddle',
+         tooltip: 'bottomMiddle'
+      }
+   },
+   style: { 
+      name: 'blue',
+	  border: {
+         width: 1,
+         radius: 1,
+         color: '#99911a'
+      },
+      width: 200,
+	  tip: { // Now an object instead of a string
+         corner: 'bottomLeft', // We declare our corner within the object using the corner sub-option
+         color: '#1115cc',
+         size: {
+            x: 0, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 0 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>

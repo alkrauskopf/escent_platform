@@ -1,0 +1,12 @@
+
+<div>
+	<br style="clear:both" />
+	<br />	
+	<%= render :partial => "/shared/error_and_notice" %>
+	<%= yield %>
+</div>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#our_family_panel .section_selector").segmentedControl();
+})
+</script>

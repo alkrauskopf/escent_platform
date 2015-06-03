@@ -1,0 +1,54 @@
+SpiritBreak:
+    id: 1
+    organization_id: 1	
+    user_id: 1	
+    title: SpiritBreak		
+    enable_approval: 0	
+    created_at: 2008-09-19 09:42:29.133	
+    updated_at: 2008-09-19 09:42:29.133	
+    searchable: 1	
+    publish_start_date: 2009-02-23 15:38:00.693	
+    publish_end_date: NULL	
+    type: Channel
+
+Spiritual Parenting:
+    id: 2
+    parent_id: 1
+    organization_id: 1	
+    user_id: 1	
+    title: Spiritual Parenting		
+    enable_approval: 0	
+    created_at: 2008-09-19 09:42:29.133	
+    updated_at: 2008-09-19 09:42:29.133	
+    searchable: 1	
+    publish_start_date: 2009-02-23 15:38:00.693	
+    publish_end_date: NULL	
+    type: Channel
+
+Daily-Devotionals:
+    id: 3
+    parent_id: 1
+    organization_id: 1	
+    user_id: 1
+    title: Daily-Devotionals
+    enable_approval: 0
+    created_at: 2008-09-19 09:42:29.133
+    updated_at: 2008-09-19 09:42:29.133
+    searchable: 1
+    publish_start_date: 2009-02-23 15:38:00.693
+    publish_end_date: NULL
+    type: Channel
+
+Insights:
+    id: 4
+    parent_id: 1
+    organization_id: 1
+    user_id: 1
+    title: Insights
+    enable_approval: 0
+    created_at: 2008-09-19 09:42:29.150
+    updated_at: 2008-09-19 09:42:29.150
+    searchable: 1
+    publish_start_date: 2009-02-23 15:38:00.693
+    publish_end_date: NULL
+    type: Channel

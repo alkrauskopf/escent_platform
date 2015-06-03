@@ -1,0 +1,22 @@
+<% if @current_organization.appl_enabled?(CoopApp.blog.first) -%>
+	<%= button_to_remote "Add a Blog" , {:before => "Element.show('loading')", :complete => "Element.hide('loading');", :url => {:controller => :blogs, :action => :new}, :method => :get}, {:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
+	
+<div id="create_blog_div"></div>
+<br/>
+<%= render :partial => "/admin/blogs/blog_list" %>
+
+<% else -%>
+<br/>
+<center><i>* * * Blogs For <%= @current_organization.name %> Are Disabled * * *</i></center>
+<br/>
+<% end -%>
+
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function() {
+    jQ("#blog_list :radio").click(function() {
+
+        jQ.post("<%= url_for(:controller => :blogs, :action => :set_feature) %>", {"blog_id":jQ(this).val()})
+
+    })
+  })
+</script>

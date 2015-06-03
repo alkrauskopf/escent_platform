@@ -1,0 +1,32 @@
+development:
+  adapter: mysql
+  encoding: utf8
+  reconnect: false
+  database: TCP_Jeffco_development
+  pool: 5
+  username: root
+  password:
+  host: localhost
+ 
+test:
+  development:
+  adapter: mysql
+  encoding: utf8
+  reconnect: false
+  database: TCP_Jeffco_test
+  pool: 5
+  username: root
+  password: 
+  host: localhost
+  
+production:
+  development:
+  adapter: mysql
+  encoding: utf8
+  reconnect: false
+  database: tcpj_production
+  pool: 5
+  username: tcpj
+  password: floptarts
+  host: localhost
+  socket: /var/lib/mysql/mysql.sock

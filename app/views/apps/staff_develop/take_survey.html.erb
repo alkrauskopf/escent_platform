@@ -1,0 +1,14 @@
+<div >
+	<% form_for(:tlt_session, :url => {:controller => "/apps/staff_develop", :action => :take_survey, :organization_id => @current_organization, :schedule_id => @schedule, :plan_id => @plan, :teacher_id => @plan.user, :function => "submit"}) do |form| -%>
+	<span style="margin:400px">
+		<br/>
+		<%= submit_tag "Submit Survey", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+	</span>
+		<%= render :partial => "/apps/shared/survey_template", :locals=> {:audience => @schedule.tlt_survey_audience, :survey_type => @schedule.tlt_survey_type} %>
+	<span style="margin:400px">
+	
+		<%= submit_tag "Submit Survey", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+	</span>	
+			<br/>
+	<% end -%>
+</div>

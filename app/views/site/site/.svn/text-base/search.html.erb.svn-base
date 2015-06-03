@@ -1,0 +1,19 @@
+
+<div id="search_panel">
+	<%= render :partial => "search_form" %>
+</div>
+
+<div id="search-result-content" style="display1:none;">
+</div>
+<div id="search-result" class="clear">
+	<%= render :partial => "search_results" %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function(){
+		jQ('div.pagination a').live('click', function() {
+			jQ("#search-result").load(this.href);
+			return false
+		})
+	});
+</script>

@@ -1,0 +1,358 @@
+
+
+<div class="Form clear">
+<% form_for(:topic, @topic, :url => {:controller => "/site/site", :action => :manage_topic, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :function => "Assess"}) do |form| %>
+
+	<div style= "margin-left:30px; font-size=12px; font-weight:bold">	
+
+	<div class="FormRow submit_warp" style= "padding-left:0px" >
+	<% tag_name = "UPDATE INFORMATION"%>
+	<%= submit_tag tag_name, :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
+	</div>
+	<br/>
+	</div>
+	
+    <table cellspacing="5" class= "layout" >
+    	<tbody >
+
+	<% if @current_subject.nil? -%>
+      <tr>
+        <td width = 60% style = "margin:right; text-align:left;vertical-align:top; padding-left:20px; font-size:11px">
+			<span style = "color:#C83A14; font-size:12px">
+			<center>
+			This Classroom Has No <%= @current_standard.abbrev %> Standards-based Subject Defined.<br/>
+			Please Select <i>Manage Classroom Option</i> To Define A Subject Area For <i>"<%= @classroom.course_name %>"</i>
+			</center>
+			</span>		
+		</td>
+		</tr>
+		<% else -%>
+		<tr>
+			<td width = 60% style = "margin:right; text-align:left;vertical-align:top; padding-left:20px; font-size:11px">
+				<span style = "color:#C83A14; font-size:12px">
+				<center>
+				<strong><%= @current_standard.abbrev %> Standards Subject For <i>"<%= @classroom.course_name%>"</i> Is:  <%= @current_subject.name.upcase %></strong>
+				</center>
+			</span>
+			</td>
+		</tr>					
+     	 <tr>
+ 			<% score_range = @topic.act_score_ranges.for_standard(@current_standard).first rescue nil -%>
+			 <td width = 60% style = "margin:right; text-align:left;vertical-align:top; padding-left:20px; font-size:11px">
+				<span style = "color:#C83A14; font-size:12px">
+				<center>
+				<% if score_range.nil? %>
+					<strong>No <%= @current_standard.abbrev %> Mastery Level Assigned To <i>"<%= @topic.title.titleize %>"</i></strong><br/>
+					<% range_label = "Select Mastery Level" -%>					
+					<% else -%>
+					<strong>Update <%= @current_standard.abbrev %> Mastery Level Below</strong><br/>
+					<% range_label = score_range.range -%>
+					<% end -%>
+				</center>
+			</span>			  
+			  </td>
+			</tr>
+					
+     	 	<tr>
+				<td  style = "padding-left:410px;">
+					<center><%=  select(:t_range, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id =?", @current_subject.id, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => range_label}) %></center>
+  				</td>
+			</tr>
+		<% end -%>						
+	 	 </tbody>
+	  </table>					
+
+   <table cellspacing="0" class= "layout" >
+   	<tbody >
+
+		<tr>
+								
+		<td colspan=3 style="color:#C73914; padding-left:10px;">
+		 		<center>
+		 		<% if @topic.act_standards.for_standard(@current_standard).size == 0 -%>
+					<strong>No <%= @current_standard.abbrev %> Knowledge Strands Assigned To <i>"<%= @topic.title.titleize %>"</i></strong><br/>
+				<% else -%>
+					<strong><u><%= @current_standard.abbrev %> Knowledge Strands Currently Assigned To <%= @topic.title.titleize %></u></strong><br/>
+				<% end -%>
+			  	</center>
+		 	</td>
+		</tr>
+
+				<% @topic.act_standards.for_standard(@current_standard).each do |s| -%>
+		<tr>
+          <td style ="width:34%"> &nbsp; </td>	
+		  <td style="width:5px;">
+			<center><%=  check_box_tag "del_check[]", value = s.id ,checked = false %>
+			<%= label_tag "Rem" %> 
+		 	</center> 
+		 	</td>
+		  <td style="width:200px ;color:#000000; text-align:left; vertical-align:middle;">
+			<%=  s.name %>
+		  </td>
+		 </tr>
+				<% end -%>
+
+	  </tbody>
+	  </table>
+
+	   <% unless @current_subject.nil? %> 
+			<% standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", @current_subject.id, @current_standard.id]) %>
+   <br/>
+    <table cellspacing="0" class= "layout" >
+   	<tbody >
+
+		<tr>
+								
+		<td colspan=3 style="color:#C73914; padding-left:10px;">
+		 		<center>
+		 		<% if @topic.act_standards.for_standard(@current_standard).size == standards.size -%>
+					<i>* * No More <%= @current_subject.name %>&nbsp;<%= @current_standard.abbrev%> Knowledge Strands Can Be Assigned To "<%= @topic.title.titleize %>" * *</i><br/>
+				<% else -%>
+					<strong><u>Assign <%= @current_subject.name.upcase %>&nbsp;<%= @current_standard.abbrev%> Knowledge Strands To <i>"<%= @topic.title.titleize %>"</i></u></strong><br/>
+				<% end -%>
+			  	</center>
+		 	</td>
+		</tr>
+		<% for std in standards do -%>
+			<% unless @topic.act_standards.for_standard(@current_standard).include?(std)%>
+			<tr>
+	          <td style ="width:34%"> &nbsp; </td>	
+			  <td style="width:5px; text-align:left;">
+				<center><%=  check_box_tag "add_check[]", value = std.id ,checked = false %>
+				<%= label_tag "Add" %> 
+		 		</center> 
+		 		</td>
+		 	 <td style="width:200px; color:#000000; text-align:left; vertical-align:middle;">
+				<%=  std.name %>
+		  	</td>
+		 	</tr>
+			<% end -%>
+		<% end -%>
+	<% end -%>
+<span>	<br/>
+
+</span>
+<% end -%>	
+</div>
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+	  if (jQ('#topic_setting_values_attributes_0_value_roles:checked').val() == "roles"){
+		  jQ("#roles_participation_settings").show();
+	  }else{
+		  jQ("#roles_participation_settings").hide();
+	  }
+		jQ('#topic_setting_values_attributes_0_value_roles').click(function() {
+	    jQ('#roles_participation_settings').show('slow');
+	  });
+	  jQ('#topic_setting_values_attributes_0_value_all').click(function() {
+	    jQ('#roles_participation_settings').hide('slow');
+	  });
+
+			//topic_setting_values_attributes_0_value_roles
+		//	 var AUTH_TOKEN = "<%= protect_against_forgery? ? form_authenticity_token : '' %>";
+		//	 jQ.ajaxSetup({data:{authenticity_token : AUTH_TOKEN}});
+
+		jQ("form.ajax").submit(function() {
+			var action = jQ(this).attr("action");					
+			jQ("textarea.mceEditor", this).each(function() {
+				jQ(this).val(tinyMCE.get(this.id).getContent());
+			});
+			var post_data = $(this).serialize()
+		  jQ.post(action, post_data, function(data) {
+				jQ("#topics_panel").html(data);
+			});
+
+	    return false;
+	  });
+                initTinyMCE();
+
+		/*if (tinyMCE.getInstanceById("topic_instructional_remarks") ) {
+			initTinyMCE();
+		}
+		tinyMCE.execCommand("mceAddControl", false, 'topic_instructional_remarks');
+
+
+		if (tinyMCE.getInstanceById("topic_assignments") ) {
+			initTinyMCE();
+		}
+		tinyMCE.execCommand("mceAddControl", false, 'topic_assignments');
+		*/
+		jQ("#FormBoxWarp").accordion({autoHeight: false});
+
+		// jQ("#topic_content").sortable({
+		// 	items : 'tr',
+		// 	placeholder : 'ui-state-highlight',
+		// 	update : save_contents
+		// }).disableSelection();
+
+		jQ("#no_publish_end_date").change(function() {
+		  	if (jQ("#no_publish_end_date").attr("checked")) {
+					jQ("#publish_end_date_panel").slideUp("slow");
+				} else {
+					jQ("#publish_end_date_panel").slideDown("slow");
+				}
+		});		
+	})
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+		
+	// var $resultsBox = jQ("#search-results");	
+	
+	var $resultsBox = jQ("#result-box-dialog");		
+	
+	function search_content(keywords, type) {
+	  search_url = "<%= url_for :controller => :content, :action => :search_with_type, :organization_id => @current_organization %>";
+		jQ.get(search_url, {'keywords': keywords, 'type':type, 'render_html':'search_results_for_topics'}, function(data) {
+			$resultsBox.html(data)
+		});
+	}
+	
+	jQ("#search_button").click(function() {
+		var keywords = jQ("input[name='keywords']", jQ(this).parent("p")).val();
+		var type = "";
+		jQ("input[name='content_search_type']", jQ(this).parents("div.dialog")).each(function() {
+       if(jQ(this).attr('checked')) {
+         type = jQ(this).val();
+       }
+		})
+		search_content(keywords, type);
+	});
+	
+	jQ("#dialog_keywords").keyup(function(event){
+	    if (event.keyCode == 13) {
+			var keywords = jQ(this).val();
+	        search_content(keywords);
+	    }
+	});
+	
+	var save_contents = function() {
+    var items = jQ(".content-list-item");
+       var content_ids = new Array();
+    var $topic_content = jQ("#topic_content");
+    items.each(function() {
+     content_ids.push(this.id);
+    })
+		jQ.post('<%= url_for :controller => :topics, :action => :sort_content, :id => @topic, :organization_id => @current_organization %>', {'content_ids[]':content_ids}, function(data) {
+			$topic_content.css('background', '#f0f0e8')
+			.fadeTo('slow', 0.5, function() {
+				$topic_content.css('background', '#fff')
+				$topic_content.fadeTo("slow", 1)
+				$topic_content.parent("table").parent("div").html(data)
+				$topic_content.css("padding", "0")
+			})						
+		})
+	}
+
+	jQ('#add_content').click(function() {
+		jQ('.dialog').dialog('open');
+		return false;
+	})
+
+  var addActionToPaginationCouldCheck = function() {
+    jQ(".result-box-dialog :checkbox").click(function() {
+      var $this = jQ(this);
+      var id = $this.val();
+      if($this.attr("checked")) {
+        jQ("p:eq(0)", $this.parents(".dialog")).append("<input id='"+id+"' name='hidden_content_ids' type='hidden' value='"+id+"' />")
+      } else {
+        jQ("input#"+id).remove();
+      }
+    })
+  }
+	
+	jQ(".dialog").dialog({
+		bgiframe: true,
+		autoOpen: false,
+		width: 800,
+		height: 400,
+		modal: true,
+		buttons: {
+			'Add Selected Resource To Topic': function() {
+				var content_ids = new Array();
+				var $this = jQ(this);
+        // jQ("input[name='content_ids[]']", jQ(this)).each(function() {
+        //  if(jQ(this).attr('checked')) {
+        //    content_ids.push(jQ(this).val());
+        //  }
+        // });
+        jQ("input[name='hidden_content_ids']", jQ(this)).each(function() {
+           content_ids.push(jQ(this).val());
+        });
+				jQ.post('<%= url_for :controller => :topics, :action => :add_content, :id => @topic, :organization_id => @current_organization,:classroom_id => @classroom.id %>', {'content_ids[]':content_ids}, function(data) {
+					jQ("#topic_content").html(data);
+					$this.dialog('close');
+				})
+			},
+			Cancel: function() {
+				jQ(this).dialog('close');
+			}
+		}
+	});
+
+	function showDialogContent(title, content_id) {
+		$dialog = jQ("#view-content");
+		// next line is broken.		
+		$dialog.attr("title", title);
+		jQ.post('<%= url_for :controller => :content, :action => :show, :organization_id => @current_organization %>', {'id':content_id}, function(data) {
+			$dialog.html(data);
+			$dialog.dialog('open');
+		})
+	}
+	
+	var addButtonAction = function(parent_elem) {
+		jQ("button", parent_elem).each(function() {
+			jQ(this).click(function() {
+				var title = jQ(this).parent("td").parent("tr").children("td").eq(0).text();
+				var content_id = jQ(this).parent("td").parent("tr").attr("id");
+				showDialogContent(title, content_id)
+				return false;
+			})
+		})
+	}
+
+	addButtonAction(jQ("#topic_content"));
+	addButtonAction(jQ("#search-results-dialog"));	
+	addActionToPaginationCouldCheck();
+
+	jQ("#view-content").dialog({
+		bgiframe: true,
+		autoOpen: false,
+		width: 500,
+		modal: true,
+		buttons: {
+			Close: function() {
+				jQ(this).dialog('close');
+			}
+		}
+	});	
+	
+	jQ('div#result-box-dialog div.pagination a').live('click', function() {
+		jQ(this).parents('.result-box-dialog').load(this.href, function() {addActionToPaginationCouldCheck();addButtonAction(jQ("#search-results-dialog"));});
+		return false
+	})	
+	// Set a content as Featured.
+	var topic_id = "<%=@topic.public_id%>";
+	var set_featured_url = "/admin/t/site/site/set_featured_resource/<%=@current_organization.public_id%>";
+	jQ('#topic_content input[type=radio]').setFeatured(set_featured_url, topic_id)
+});
+</script>
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function() {
+		var post_url = "<%= url_for :controller => 'admin/topics', :action => :select_outreach_priorities %>";
+    jQ("#select_outreach_priority_topic").autocomplete(post_url);
+		var add_url = "<%= url_for :controller => 'admin/topics', :action => :add_outreach_priority, :organization_id => @current_organization, :id => @topic %>";
+    jQ("#add_outreach_priority_topic").click(function() {
+      name = jQ("input#select_outreach_priority_topic").get(0).value;
+      jQ.post(add_url, {"name": name}, null, "script");
+      return false;
+    })
+  })
+</script>

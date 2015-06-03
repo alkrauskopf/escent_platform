@@ -1,0 +1,11 @@
+billing:
+    id: 1
+    name: Billing
+    
+mailing:
+    id: 2
+    name: Mailing
+    
+physical:
+    id: 3
+    name: Physical

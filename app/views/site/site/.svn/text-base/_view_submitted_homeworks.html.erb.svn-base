@@ -1,0 +1,194 @@
+<div id="homework_submissions" style="padding:0px; width:99%;  border:0px; margin: 0px 0px 0px 0px; text-align:left; min-height:5px;">
+	<% @teacher_homeworks = @classroom.homeworks.active.select{|h|h.teacher_id == @current_user.id}%>
+
+	<table  id="homeworks" style="width:900px; border:0px;">
+
+		<thead>
+				<tr>
+					<th colspan=5, style="vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-size:14px; font-weight:bold">
+					<%= pluralize(@teacher_homeworks.size, "Homework")%>&nbsp;For <%= @current_user.last_name.upcase %>
+				</tr>
+					
+				<tr>
+					<th style="vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-size:11px">
+						<strong><center>Purge</center></strong>
+					</th>
+					<th style="vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-size:11px">
+						<strong>Student</strong>
+					</th>
+					<th style="vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-size:11px">
+						<strong><center>Date<br/>Submitted</center></strong>
+					</th>			
+					<th style="vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-size:11px">
+						<strong><center>View/Retrieve<br/>Homework File</center></strong>
+					</th>
+					<th style="vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-size:11px">
+						<strong><center>Label & Student Comments</center></strong>
+					</th>
+				</tr>
+			</thead>
+		<tbody id="classroom">
+			<style type="text/css" media="screen">
+		    table,tr,td { border:1px solid #ddd;}
+			table tr:hover{
+		    background-color: transparent;
+      		}
+    		</style>	
+
+			<% for hmwk in @teacher_homeworks do -%>
+				<% unless hmwk.user.nil? -%>
+				<tr>
+					<td width=8% align="left" style="vertical-align:middle;  padding-top:5px; padding-bottom:5px; padding-left:0px; color: #000000; font-size:10px" >
+						<center>
+							<%= link_to (image_tag "delete.png", :class => "del"), {:action => "purge_classroom_homework", :organization_id => @current_organization, :user_id => @current_user, :classroom_id => @classroom, :topic_id => @topic, :homework_id => hmwk}, :class => "purge_button" %>
+							<%#= link_to (image_tag "delete.png", :class => "del"), {:action => "purge_classroom_homework_part1", :organization_id => @current_organization, :user_id => @current_user, :classroom_id => @classroom, :topic_id => @topic, :homework_id => hmwk}, :class => "delete_button" %>
+							<%#= link_to (image_tag "delete.png", :class => "del"), :class => "delete" %>
+							<%#= (image_tag "delete.png", :class=>'delete')%>
+
+						</center>
+					</td>
+		
+					<td width=20% style="color: #000000; vertical-align:middle;">
+						<% name_string = hmwk.user.last_name.upcase + ", " + hmwk.user.first_name.titleize -%>
+						<center><%= name_string %></center>
+					</td>					
+
+					<td width=10%  style="vertical-align:middle;  padding-top:5px; padding-bottom:5px; color: #000000; font-size:11px" >
+						<center>
+							<%= hmwk.created_at.strftime("%b %d") %><br/>
+							<%= hmwk.created_at.strftime("%H:%M GMT") %>
+						</center>
+					</td>
+										
+					<td width=25% align="center" style="vertical-align:middle;  padding-top:5px; padding-bottom:5px; padding-left:0px; color: #000000; font-size:10px" >
+						<center>
+					<% if hmwk.content_object_type_id.nil? %>
+						 Unknown File Type
+						<% elsif [1,2,3,6,7,8].include?(hmwk.content_object_type.content_object_type_group_id)  %>
+							<% unless hmwk.content_object_type.content_object_type_group.nil?%><%= hmwk.content_object_type.content_object_type_group.name %><br/><% end -%>
+						<a href="<%= hmwk.homework.url %>" target="_blank"><%= hmwk.homework_file_name  %></a>
+						<br/>
+						<% else %>
+							<% unless hmwk.content_object_type.content_object_type_group.nil?%><%= hmwk.content_object_type.content_object_type_group.name %><br/><% end -%>
+							Cannot Download <%= hmwk.homework_file_name %>
+						<% end %>
+						</center>
+					</td>
+					<td style="color: #000000; vertical-align:middle;">
+						<center>
+						<u><%= hmwk.title.titleize -%></u><br/>
+						<%= hmwk.comments %>
+						</center>
+					</td>
+				</tr>
+				<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+</div>
+
+
+<script>
+jQ(function(){
+jQ('td.tip').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'bottomMiddle',
+         tooltip: 'topMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 0,
+         radius: 0,
+         color: '#99911a'
+      },
+      width: 180,
+	  tip: { // Now an object instead of a string
+         corner: 'topMiddle', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>
+
+<script type="text/javascript" charset="utf-8">
+/*
+ 
+	jQ(document).ready(function() {
+
+		jQ('a.delete').click(function() {
+			var $this = jQ(this);
+			var url = $this.attr("href");
+			jQ.get(url, function(data) {
+				if (data == "successful") {
+					$this.parents("tr").remove();
+				}
+			})
+			return false;
+		})
+	
+	})
+*/
+</script>
+
+ <script type="text/javascript">
+jQ(document).ready(function() {
+	
+	var refreshTable = function(){
+		var organization = "<%= @current_organization.public_id %>";
+		var classroom = "<%= @classroom.public_id %>";
+		var topic = "<%= @topic.public_id %>";
+		var user = "<%= @current_user.public_id %>";
+		var url2 = "<%= url_for :controller => '/site/site', :action => :purge_classroom_homework_part2 %>";
+			jQ.get(url2, {'organization_id': organization,
+				'classroom_id': classroom,
+				'user_id': user,
+				'topic_id': topic
+			}, function(data){
+				jQ("#homework_submissions").html(data);
+				jQ("#homework_submissions").show();
+			});
+		}
+	
+	jQ('a.delete_button').click(function() {
+
+		var $this = jQ(this);
+
+		var url = $this.attr("href");
+
+			jQ.get(url);
+			$this.parents("tr").remove();
+			refreshTable();
+			return false;
+	})
+});
+</script>
+ <script type="text/javascript">
+jQ(document).ready(function() {
+	
+	
+	jQ('a.purge_button').click(function() {
+
+		var $this = jQ(this);
+
+		var url = $this.attr("href");
+		$this.parents("tr").remove();
+			jQ.get(url, function(data){
+				jQ("#homework_submissions").html(data);
+				jQ("#homework_submissions").show();
+			})
+			return false;
+	})
+});
+</script>
+

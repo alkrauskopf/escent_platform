@@ -1,0 +1,70 @@
+
+O-Essentials:
+    id: 101
+    organization_id: 50
+    elt_activity_type_id: 1
+    name: Essential Elements Diagnostic
+    is_active: 1
+    
+O-Classroom:
+    id: 102
+    organization_id: 50
+    elt_activity_type_id: 1
+    name: Classroom Observation
+    is_active: 1
+    
+O-Collab:
+    id: 103
+    organization_id: 50
+    elt_activity_type_id: 1
+    name: Collaboration Observation
+    is_active: 1
+    
+O-Interv:
+    id: 104
+    organization_id: 50
+    elt_activity_type_id: 1
+    name: Targeted Intervention & Acceleration Observation
+    is_active: 1
+    
+O-Enrich:
+    id: 105
+    organization_id: 50
+    elt_activity_type_id: 1
+    name: Enrichment Observation
+    is_active: 1
+    
+I-Principal:
+    id: 111
+    organization_id: 50
+    elt_activity_type_id: 2
+    name: Principal Interview
+    is_active: 1
+    
+I-Teacher-1:
+    id: 112
+    organization_id: 50
+    elt_activity_type_id: 2
+    name: Teacher Interview 1
+    is_active: 1
+    
+I-Teacher-2:
+    id: 113
+    organization_id: 50
+    elt_activity_type_id: 2
+    name: Teacher Interview 2
+    is_active: 1
+    
+I-Teacher-Int:
+    id: 114
+    organization_id: 50
+    elt_activity_type_id: 2
+    name: Intervention/Acceleration Teacher Interview
+    is_active: 1
+    
+I-Teacher-En:
+    id: 115
+    organization_id: 50
+    elt_activity_type_id: 2
+    name: Engaging Enrichment Teacher Interview
+    is_active: 1

@@ -1,0 +1,229 @@
+<script type="text/javascript">
+    jQ(document).ready(function(){
+        var $resultsBox = jQ("#organization-results");
+        var url_org_search = '<%= url_for :controller => :content, :action => :organization_search, :organization_id => @current_organization %>';
+        var AUTH_TOKEN = "<%= protect_against_forgery? ? form_authenticity_token : '' %>";
+        var url = "<%= url_for :controller => :our_partners, :action => :update_relationship_inclusive, :relationship_type => :content_partner, :organization_id => @current_organization %>";
+        var scope_ids = new Array();
+        
+        /* Setup Page		*/
+        jQ.ajaxSetup({
+            data: {
+                authenticity_token: AUTH_TOKEN
+            }
+        });
+        
+        jQ("#FormBoxWarp").accordion({
+            autoHeight: false
+        });
+        
+        /*	Partners	*/
+        add_remove_button_action(jQ("#content_partner_results"), "content_partner");
+        configure_add_partner_button("content_partner");
+        configure_add_partner_button("cause_partner");
+        
+        //Create dialog box
+        jQ("#organization-search-dialog").dialog({
+            bgiframe: true,
+            autoOpen: false,
+            width: 700,
+            height: 600,
+            modal: true
+        });
+        
+        //Set results to table
+        jQ("#organization-results").tablesorter();
+        
+        //Configure paging buttons        
+        jQ('div#organization-search-dialog div.pagination a').live('click', function(){
+            search_organizations(this.href, '');
+            return false
+        })
+        
+        
+        /* Affiliations			*/
+        configure_add_affiliation_button("cause_partner");
+        configure_add_affiliation_button("content_partner");
+				
+        jQ("#affiliation-search-dialog").dialog({
+            bgiframe: true,
+            autoOpen: false,
+            width: 700,
+            height: 600,
+            modal: true
+        });
+        
+        jQ("#affiliation-results").tablesorter();
+        
+        jQ('.has_child').click(function(){
+            var id_num = jQ(this).parents("tr").attr("id");
+            var $children = jQ('.affiliation_' + id_num);
+            var $all_children = jQ('.affiliation_child_' + id_num);
+            var paddingLeft = jQ(this).parents("tr").find("td").eq(1).css('paddingLeft');
+            var num = parseFloat(paddingLeft, 10);
+            var unit = paddingLeft.slice(-2);
+            
+            if ($children.is(":hidden")) {
+                new_num = num + 20;
+                new_left_position = new_num - 13;
+                new_position = '' + new_left_position + 'px 11px';
+                $children.find("td:odd").css({
+                    'paddingLeft': new_num + unit,
+                    "background-position": new_position
+                });
+                $children.show();
+            }
+            else {
+                new_num = num - 20;
+                new_left_position = new_num - 13;
+                new_position = '' + new_left_position + 'px 11px';
+                $children.find("td:odd").css({
+                    'paddingLeft': new_num + unit,
+                    "background-position": new_position
+                });
+                $children.hide();
+                $all_children.hide();
+            }
+            jQ(this).toggleClass("has_child_hidden");
+        })
+		
+        /* Utility Functions 	*/
+        
+        function configure_add_partner_button(type){
+            jQ('#add_' + type).click(function(){
+                jQ("#organization-search-dialog").dialog('option', 'buttons', {
+                    'Add selected organizations': function(){
+                        var add_html_id_url = '<%= url_for :controller => :our_partners, :action => :add_organization_relationship,:scope => :Organization, :organization_id => @current_organization %>';
+                        
+                        jQ.post(add_html_id_url, {
+                            'scope_ids[]': scope_ids,
+                            'relationship_type': type,
+                            'html_id': type
+                        }, null, "script")
+                        
+                        clear_selected();
+                    },
+                    Back: function(){
+                        jQ(this).dialog('close');
+                        clear_selected();
+                    }
+                });
+                
+                jQ("#organization-search-dialog").dialog('open');
+                
+                search_organizations('<%= url_for :controller => :our_partners, :action => :organization_search, :organization_id => @current_organization %>', '');
+                
+                return false;
+            });
+        }
+		
+        function configure_add_affiliation_button(type){
+            jQ('#add_affiliation_' + type).click(function(){
+                jQ('#affiliation-search-dialog').dialog('option', 'buttons', {
+                    'Add selected religious affiliations': function(){
+                         var scope_ids = new Array();
+                         
+                         jQ("input[name='affiliation_ids[]']", jQ(this)).each(function(){
+                         if (jQ(this).attr('checked')) {
+                         scope_ids.push(jQ(this).val());
+                         }
+                         });
+						
+                        var add_affiliation_url = '<%= url_for :controller => :our_partners, :action => :add_organization_relationship, :scope => :ReligiousAssociation, :organization_id => @current_organization %>'
+						
+                        jQ.post(add_affiliation_url, {
+                            'scope_ids[]': scope_ids,
+							'relationship_type': type
+                        }, function(data){
+                            jQ("#" + type + "_results").html(data);
+                            jQ("#affiliation-search-dialog").dialog('close');
+							 add_remove_button_action(jQ("#" + type + "_results"), type);
+                        })
+                    },
+                    Back: function(){
+                        jQ(this).dialog('close');
+                    }
+                });
+                jQ('#affiliation-search-dialog').dialog('open');
+                return false;
+            });
+        }
+		
+        //Search function
+        function search_organizations(url, keywords){
+            jQ.get(url, {
+                'keywords': keywords,
+                'render_html': 'search_results'
+            }, function(data){
+                jQ('#organization-search-results').html(data);
+                
+                jQ("input[name='scope_ids[]']", "#organization-search-results").click(function(){
+                    scope_checkbox_click(jQ(this));
+                });
+                
+                set_selected('#organization-search-results');
+            });
+        }
+        
+        function add_remove_button_action($warp, type){
+            jQ("button", $warp).each(function(){
+                jQ(this).click(function(){
+                    removeRelationship($warp, jQ(this).parent("td").parent("tr").attr("id"), type);
+                    return false;
+                })
+            })
+        }
+        
+        function removeRelationship($warp, relationship_id, type){
+	        var url = '<%= url_for :controller => :our_partners, :action => :remove_organization_relationship, :organization_id => @current_organization %>';			
+            jQ.post(url, {
+                'id': relationship_id,
+				'relationship_type': type
+            }, function(data){
+                $warp.html(data);
+                add_remove_button_action($warp, url);
+            })
+        }
+        
+        //When scope checkbox is clicked add or remove it from scope_ids array
+        function scope_checkbox_click(obj){
+            if (obj.attr("checked")) {
+                if (scope_ids.indexOf(obj.val()) == -1) {
+                    scope_ids.push(obj.val());
+                }
+            }
+            else {
+                scope_ids.splice(scope_ids.indexOf(obj.val()), 1);
+            }
+        }
+        
+        //Mark checked any checkboxes that are in the scope_ids array
+        function set_selected(list_name){
+            var obj = jQ(list_name);
+            jQ("input[name='scope_ids[]']", obj).each(function(){
+                if (scope_ids.indexOf(jQ(this).val()) > -1) {
+                    jQ(this).attr('checked', true);
+                }
+                else {
+                    jQ(this).attr('checked', false);
+                }
+            });
+        }
+        
+        //Reset array and clear any checked scope checkboxes
+        function clear_selected(list_name){
+            var obj = jQ(list_name);
+            jQ("input[name='scope_ids[]']", obj).each(function(){
+                jQ(this).attr('checked', false);
+            });
+            scope_ids = new Array();
+        }
+    });
+</script>
+<%= render :partial => "/admin/our_partners/organization_search" %>
+<%= render :partial => "/admin/our_partners/religious_affiliation_search" %>
+<div id="FormBoxWarp">
+    <% for relationship_type in ['content_partner', 'cause_partner'] do -%>
+    <%= render :partial => "/admin/our_partners/organization_relationships", :locals => {:relationship_type => relationship_type, :title => relationship_type.pluralize.titleize, :collection =>  @current_organization.organization_relationships.find_all_by_relationship_type(relationship_type)} %>
+    <% end -%>
+</div>

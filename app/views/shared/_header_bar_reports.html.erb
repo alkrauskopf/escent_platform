@@ -1,0 +1,181 @@
+<style type="text/css">
+ul#mymenu {}
+li.potato-menu-item {
+	width:380px;
+	font-size:11px;
+	background-color:<%= @current_organization ? @current_organization.style_setting_value_named("Header and Footer Bars") : '000' %>;
+	/* background-color:rgba(0,0,0,0.9); */
+}
+li.potato-menu-item a {
+	padding:5px 20px 5px 12px;
+	color:<%= @current_organization ? @current_organization.style_setting_value_named("Header and Footer Text") : '000' %>;
+
+}
+li.potato-menu-hover {
+	background-color: #666;
+}
+
+/*  Remove Arrows for Now 
+ * 
+li.potato-menu-has-vertical > a {
+	background: transparent url(/images/icons/arrow_down.gif) right no-repeat;
+}
+*/
+li.potato-menu-has-horizontal > a {
+	background: transparent url(/images/icons/arrow_right.gif) right no-repeat;
+}
+
+
+li.potato-menu-item ul {
+	border-top:1px solid #444;
+	border-left:1px solid #444;
+	width:250px;
+}
+</style>
+<div class="login_bar">
+    <div class="iwing_header_and_footer_bars clear">
+        <div class="content" style="width:100%;">
+            <div class="header_row clear">
+       			<% unless @current_user -%>
+                <div style="float:left; width:25%;vertical-align:bottom" class="header_footer_text">
+	            	<span style="font-size:12px; vertical-align:bottom; margin-left:10px;">
+	            		<%= link_to "Register Here", {:controller => "/users", :action => :register, :organization_id => @current_organization},  {:target => "_blank"}, :class => "join" %>
+            		</span>
+                </div>
+		        <% form_tag :controller => @in_admin ? "/admin/application" : "/users", :action => :login, :organization_id => @current_organization do -%>
+
+		        <div style="float:left; width:55%; "  class="content form">
+            		<div id= "log_header" style="font-size:12px; margin-left:250px; padding-bottom:2px; vertical-align:top; " class="header_row clear">
+            			<div  id= "log_show" class="header_footer_text">
+			                <label for="login_id">
+			                    <u>Sign In</u>
+			                </label>
+				        </div>
+			        </div>
+            		<div id= "log_descript" class="header_row clear">
+            			<div  class="header_footer_text">
+			                <label for="login_id">
+			                    <span  style="font-size:12px; vertical-align:top; ">ID:</span>
+			                </label>
+			                <%= text_field_tag "login_id]", "", :height=> 20,:size=> 15, :class => "text" %>
+			                <label for="password">
+			                    <span id= "log_hide" style="font-size:12px; vertical-align:top; ">&nbsp;Password:</span>
+			                </label>
+			                <%= password_field_tag "user[password]", "", :size=> 8, :class => "text" %>
+			                <%= submit_tag "Sign-in", :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
+				        </div>
+		            	<div class="forgot_password">
+		                	<div style="font-size:11px; vertical-align:top; " class="header_footer_text">
+		                   	 <%= link_to "Forgot Password?",  {:controller => "/users", :action => :forgot_password, :organization_id => @current_organization}, :class => "login_forgot_password" %>
+		            		</div>
+				        </div>
+			        </div>
+		        </div>
+		        <% end -%>
+                <div style="float:right;text-align:center width:20%; " class="header_footer_text">
+					<span style="font-size:12px; margin-right:10px; vertical-align:bottom;"><%= link_to "Contact Us", {:controller => "/fsn", :action => "contact", :organization_id => @current_organization}, {:target => "_blank"} %></span>
+                </div>
+            <% else -%>
+                <div style="float:left; width:35%; vertical-align:middle" class="header_footer_text">
+                  	Welcome, <%= @current_user.full_name %>
+				 	<% if @current_user.created_at == @current_user.updated_at -%>
+						&nbsp;<%= link_to "Setup Your Profile!", :controller => "/users", :action => :edit_profile, :organization_id => @current_organization, :id => @current_user %> 
+					<% else -%>
+						(<a href="/messages">You have <%= @current_user.messages.length %> <%= @current_user.messages.length == 1 ? 'message' : 'messages' %>)</a>
+					<% end -%>
+                </div>
+                <div style="float:left; text-align:center; width:30%; " class="header_footer_text">
+                    <%= link_to @current_organization.name, :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization %>
+                </div>
+                <div style="float:right;text-align:right; width:35%; " class="header_footer_text">
+	                <%= link_to "Sign Out", :controller => "/users", :action => :logout, :organization_id => @current_organization %>
+                </div>            
+            <% end -%>
+            </div>
+	        <div class="header_row clear" style="border-top:2px solid #FFFFFF;">
+            <% if @current_user -%>
+				<% stands = []-%>
+                <div style="width:100%; float:left; text-align:left;"class="header_footer_text">
+				   <ul id="mymenu">
+ 						<li style="width: 10%;">
+   							<%= render :partial => 'shared/my_profile', :locals => {:stands => stands}%>
+						</li>
+ 						<li style="width: 10%;">
+   							<%= render :partial => 'shared/my_schools'%>
+						</li>
+ 						<li style="width: 10%;">
+   							<%= render :partial => 'shared/my_classrooms'%>
+						</li>
+ 						<li style="width: 30%;">
+   							&nbsp;
+						</li>										
+ 						<% if @app -%>
+	 						<li style="width: 19%;">
+	   							<%= render :partial => 'shared/app_reports', :locals => {:app => @app}%>
+							</li>
+						<% else -%>
+	 						<li style="width: 19%;">
+	   							&nbsp;
+							</li>						
+						<% end -%>
+ 						<li style="width: 11%;">
+   							&nbsp;
+						</li>
+ 						<li style="width: 10%;">
+	                   		<% if @in_admin -%> 
+								&nbsp;
+		                    	<% elsif @current_user.administrator_of?(@current_organization) || @current_user.superuser? -%>
+								  <%= link_to "Admin", :controller => "/admin/application", :action => :index, :organization_id => @current_organization %>
+								<% else%>
+								<span style="visibility:hidden;"> Admin </span>
+		                	<% end -%>
+					   	</li>
+				</ul>
+	<script type="text/javascript" charset="utf-8">
+		jQ(document).ready(function() {
+			jQ('#mymenu').ptMenu();
+	    })
+	</script>	
+			</div>
+	        <% else -%>
+	            <div style="width:100%; float:left; text-align:left;"class="header_footer_text">
+				   <ul id="mymenu">
+
+			   			<li style="width: 15%;">
+		                    <%= link_to @current_organization.name, :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization %>
+				   		</li>
+ 						<li style="width: 45%;">
+   							&nbsp;
+						</li>										
+
+			   			<li style="width: 10%;">
+							&nbsp;
+				   		</li>
+				</ul>
+	<script type="text/javascript" charset="utf-8">
+		jQ(document).ready(function() {
+			jQ('#mymenu').ptMenu();
+	    })
+	</script>	
+			</div>
+		<% end %> 
+       </div>
+      </div>
+   </div>
+</div>
+<script type="text/javascript">
+	jQ(document).ready(function() {
+  		  jQ("#log_header").show();
+		  jQ("#log_descript").hide();		  
+
+	jQ("#log_show").click(function() {
+		  	jQ("#log_header").slideUp("slow");	 
+	   		jQ("#log_descript").slideDown("slow");
+	})
+
+	jQ("#log_hide").click(function() {
+	   		jQ("#log_descript").slideUp("slow");
+	   		jQ("#log_header").show();
+	})	
+});
+</script>

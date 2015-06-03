@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  entity_id: 1
+  entity_type: MyText
+  shares: 1
+
+two:
+  entity_id: 1
+  entity_type: MyText
+  shares: 1

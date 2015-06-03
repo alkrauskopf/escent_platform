@@ -1,0 +1,62 @@
+	<table id="header_<%= cycle.public_id %>" style="width:420px; margin-top:0px; margin-bottom:0px;  border:0px solid #ddd; color:#000000;">
+		<tbody> 
+			<tr style="border:0px solid #ddd; ">
+				<td style=" width:15px; width:fixed; text-align:right;  padding-right:0px; color:#2061a5; vertical-align:top; font-size:9px;" >
+					>
+				</td>
+				<td  id="show_<%= cycle.public_id %>" style="width:60px; width:fixed; border:0px solid #ddd; cursor:pointer; vertical-align:top; color:#2061a5; padding-right:0px; font-size:9px; text-align:left">
+					<u>Show&nbsp;Activities</u>				
+				</td>
+				<td style="border:0px solid #ddd;  vertical-align:top; color:#2061a5; padding-right:0px; font-size:11px; text-align:left">
+					&nbsp;				
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<table id="descript_<%= cycle.public_id %>" style="width:420px;margin-top:0px;  border:0px solid #ddd; color:#000000;">
+		<tbody> 
+			<tr style="border:0px solid #ddd; ">
+				<td style=" width:15px; width:fixed; text-align:right; padding-right:0px; color:#2061a5; vertical-align:top;  font-size:9px;" >
+					>
+				</td>
+				<td  id="hide_<%= cycle.public_id %>" style="width:60px; width:fixed; border:0px solid #ddd; cursor:pointer; vertical-align:top; color:#2061a5; padding-right:0px; font-size:9px; text-align:left">
+					<u>Hide&nbsp;Activities</u>				
+				</td>
+				<td style="border:0px solid #ddd; cursor:pointer; vertical-align:top; color:#2061a5; padding-right:0px; font-size:9px; text-align:left">
+					&nbsp;				
+				</td>
+			</tr>
+			<% cycle.activities.all.each do |activity|  -%>
+				<tr style="border:0px solid #ddd; ">
+					<td style=" width:15px; width:fixed; padding-right:0px;  vertical-align:top;  font-size:9px;" >
+						&nbsp;
+					</td>
+					<td style=" width:60px; width:fixed; font-size:9px; color:#CC0000; text-align:right; padding-right:3px; padding-top:0px; vertical-align:top" >
+						<%= activity.active? ? "" : "Inactive" %>
+					</td>
+					<td style=" text-align:left; font-size:10px; vertical-align:top; padding-left:0px;font-weight:normal;">
+						<%= activity.name%>&nbsp;
+						<span style="font-size:9px;font-weight:normal">
+							<i><%= activity.master? ? "(Master)" : "" %></i>
+						</span>
+					</td>
+				</tr>
+			<% end -%>
+		</tbody>
+	</table>	
+<script type="text/javascript">
+jQ(document).ready(function() {
+  		  jQ("#header_<%= cycle.public_id %>").show();
+		  jQ("#descript_<%= cycle.public_id  %>").hide();		  
+
+	jQ("#show_<%= cycle.public_id  %>").click(function() {
+		  	jQ("#header_<%= cycle.public_id  %>").hide();	 
+	   		jQ("#descript_<%= cycle.public_id  %>").slideDown("slow");
+	})
+
+	jQ("#hide_<%= cycle.public_id  %>").click(function() {
+	   		jQ("#descript_<%= cycle.public_id %>").slideUp("slow");
+	   		jQ("#header_<%= cycle.public_id  %>").show();
+	})	
+});
+</script>

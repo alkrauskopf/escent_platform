@@ -1,0 +1,79 @@
+affiliate:
+    id: 1                                         
+    parent_id: NULL                                    
+    name: Affiliate
+    has_size: 0
+    has_religious_affiliation: 0
+    is_k12: 0
+    
+High School:
+    id: 2
+    parent_id: 1          
+    name: High School
+    has_size: 1
+    has_religious_affiliation: 0
+    is_k12: 1
+
+Middle School:
+    id: 3
+    parent_id: 1          
+    name: Middle School
+    has_size: 1
+    has_religious_affiliation: 0
+    is_k12: 1
+    
+Elementary School:
+    id: 4
+    parent_id: 1          
+    name: Elementary School
+    has_size: 1
+    has_religious_affiliation: 0
+    is_k12: 1
+
+College or University:
+    id: 5
+    parent_id: 1          
+    name: College or University
+    has_size: 1
+    has_religious_affiliation: 0
+    is_k12: 0
+    
+District Office:
+    id: 6
+    parent_id: 1          
+    name: District Office
+    has_size: 0
+    has_religious_affiliation: 0
+    is_k12: 0
+    
+Commercial Partner:
+    id: 7
+    parent_id: 1          
+    name: Commercial Partner
+    has_size: 0
+    has_religious_affiliation: 0
+    is_k12: 0
+    
+Other:
+    id: 8
+    parent_id: 1          
+    name: Other
+    has_size: 0
+    has_religious_affiliation: 0
+    is_k12: 0
+    
+Junior:
+    id: 9
+    parent_id: 2          
+    name: Junior High
+    has_size: 1
+    has_religious_affiliation: 0
+    is_k12: 1
+    
+Senior:
+    id: 10
+    parent_id: 2          
+    name: Senior High
+    has_size: 1
+    has_religious_affiliation: 0
+    is_k12: 1    

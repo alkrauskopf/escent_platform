@@ -1,0 +1,28 @@
+
+	<% @current_organization.populated_offering_folders_app(CoopApp.offering).each do |folder| %>	
+		<table style="width:700px; margin-left:20px; border:0px solid #ddd;">
+			<style type="text/css" media="screen">
+		    		table,tr,td { border:none }
+					table tr:hover{
+	        		background-color: transparent;
+	      			}
+	   			</style>
+				<tbody>  
+					<tr  style="border:0px solid #ddd" >
+						<td style="border:0px solid #ddd; color:#2061a5; font-size:12px; font-weight:normal; line-height:1.3em">
+							<%= folder.name %>&nbsp;<i>(<%=@current_organization.offerings_in_folder(folder).size%>)</i>
+						</td>
+					</tr>
+				<% @current_organization.offerings_in_folder(folder).sort_by{|o| o.course_name}.each do |offering| %>
+					<tr  style="border:0px solid #ddd;" >
+						<td style="border:0px solid #ddd; color:#2061a5; font-size:12px; font-weight:normal; line-height:1.3em">
+							<%= offering.course_name %>:&nbsp;&nbsp;
+						</td>
+					</tr>
+				<% end -%>
+			</tbody>
+		</table>	
+	<% end -%>
+	<% @current_organization.unfoldered_parent_subjects.each do |subject_parent| %>
+
+	<% end -%>

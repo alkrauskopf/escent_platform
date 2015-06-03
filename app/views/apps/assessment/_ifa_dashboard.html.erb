@@ -1,0 +1,216 @@
+<div id="ifa_dashboard_<%= div_key %>">
+
+	<% if @current_user.superuser? && !dashboard.nil?-%>
+	<div id="refresh_scores<%= dashboard.id %>">
+			<span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
+				 Refresh Scores
+			</span>
+	</div>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#refresh_scores<%= dashboard.id %>").click(function() {
+		var url = "<%= url_for :controller => "apps/assessment", :action => "refresh_dashboard_scores", :organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details  %>";
+		jQ.get(url,{},  function(data) {
+			jQ("#ifa_dashboard_<%= div_key %>").html(data);
+			jQ("#ifa_dashboard_<%= div_key %>").show();
+					});
+	})
+});
+</script>		
+	<div id="refresh_cells<%= dashboard.id %>">
+			<span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
+				 Refresh Cells
+			</span>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#refresh_cells<%= dashboard.id %>").click(function() {
+		var url = "<%= url_for :controller => "apps/assessment", :action => "refresh_dashboard_cells", :organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details  %>";
+		jQ.get(url,{},  function(data) {
+			jQ("#ifa_dashboard_<%= div_key %>").html(data);
+			jQ("#ifa_dashboard_<%= div_key %>").show();
+					});
+	})
+});
+</script>
+		&nbsp;Submissions: <%= @temp_count ? @temp_count : "xx" %>,&nbsp;SMS Records For Std: <%= @temp_std_count ? @temp_std_count : "xx" %>
+		&nbsp;Max Score: <%= @max_score ? @max_score : "xx" %>,&nbsp;Min Score: <%= @min_score ? @min_score : "xx" %><br/>
+	</div>
+	<% end -%>
+	<% unless dashboard.nil? %>
+		<div   id = "standard_view_<%= dashboard.id %>" style="margin-left:45px;">
+			<%=  select(:master, div_key, @current_organization.ifa_org_option.act_masters.collect{|s| [s.name, s.id]}, :prompt => "View Standard") %>	
+		</div>
+
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ('#standard_view_<%= dashboard.id %>').change(function() {
+			var master_id = jQ('#master_<%= div_key %>').val();
+			var url = "<%= url_for :controller => "apps/assessment", :action => "switch_standard_view", :organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details  %>";
+				jQ.get(url, {'master_id':master_id}, function(data) {
+				jQ("#ifa_dashboard_<%= div_key %>").html(data);
+				jQ("#ifa_dashboard_<%= div_key %>").show();
+				});
+		})
+	});
+	</script>
+	<% end -%>
+
+		<table  id = "dash" style="width:750px;margin-left:45px">
+			<thead>
+				<tr>
+					<% filter = @current_user.calibrated_only ? "Calibrated" : "Finalized" -%>
+					<% header_string = @current_subject.name.upcase + " IFA RESULTS - " + filter  %>
+					<th colspan=13 style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:14px; margin-top:0px; font-weight:normal" >
+
+					<% if @start_period -%>
+					<center><strong><%= header_string %><br/>
+					 <%= @start_period.strftime("%B, %Y") %> - <%= @end_period.strftime("%B, %Y") %><br/>
+					</strong></center>
+					<% else -%>
+					<center><strong><%= header_string %><br/>
+					 <%= @end_period.strftime("%B, %Y") %><br/>
+					</strong></center>
+					<% end -%>
+					<% mastery_line = @current_user.calibrated_only ? @current_sms_c.to_s + "</strong>  <small>(UnCalibrated: " + @current_sms_f.to_s + ")</small>" :  @current_sms_f.to_s + "</strong>  <small>(Calibrated: " + @current_sms_c.to_s + ")</small>" -%>
+					<% if @baseline_score && @baseline_score != 0%>
+						<% mastery_line += "<small>(Baseline: " + @baseline_score.to_s + ")</small>" -%>
+					<% end -%>
+					<span style="font-size:11px"> 
+					<center><strong>
+					<%= filter %> Assessments: <%= @total_assessments -%>&nbsp;of <%= @total_taken %>&nbsp;Taken. &nbsp;&nbsp;&nbsp;
+					<%= filter %>  Answer Choices: <%= @total_answers -%><br/>
+					Proficiency: <%= @total_proficiency -%>%&nbsp;&nbsp;&nbsp;					
+					Efficiency: <%= @total_efficiency -%> Secs/Point<br/>
+					Current Mastery Level: <%= mastery_line -%>
+					</strong></center>
+					</span>
+					</th>
+				</tr>
+			</thead>
+			<tbody id = "dashboard">
+				<style  type="text/css" media="screen">
+				table,tr,td { border:1px solid #ddd; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>	
+
+				<% col_width = @strand_list.size > 0 ? ((750 - 120)/@strand_list.size).round : 1 -%>
+				<tr>
+					<td colspan=1 width = 65px style="border:1px solid #ddd; vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
+						<center><strong><%= @current_standard.abbrev %> Mastery Levels</strong></center>
+					</td>
+
+
+					<% @strand_list.each do |s|%>
+					<td class="tip_std" title="<center><strong><%= s.name.titleize %></strong></center>" width = 60px style="border:1px solid #ddd; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
+						<strong><%= s.abbrev.upcase %></strong>
+					</td>
+					<% end -%>
+				</tr>
+				<% @range_list.each_with_index do |r,rdx|%>
+				<tr>
+					<td width = 120px style="border:1px solid #ddd; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-right:0px;color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
+							<strong><%= r.range%></strong>
+					</td>
+					<% @strand_list.each_with_index do |s,sdx|-%>
+					<% answers = @range_answers[rdx].fetch(sdx)-%>
+					<% points =  @range_points[rdx].fetch(sdx) -%>
+					<% pct_correct = answers == 0 ? 0 : number_to_percentage((100*points.to_f/answers.to_f).round, :precision => 0) -%>
+					<% hover_text =  @hover_text ? @range_hover_text[rdx].fetch(sdx) : ""-%>
+					<% if !@hover_text -%>
+						<% hover_class = hover_text == "" ? "" : "tip_cell_" + div_key -%>
+					<% end -%>
+					<% hover_text += "<br/><strong>" + r.range + " </strong>" + @current_standard.cell_benchmarks(@current_subject.id, s.id, r.id) -%>
+					<% cell_color = "#6a6529" -%>
+					<% if pct_correct.to_i <= @current_organization.ifa_org_option.pct_correct_red -%> <% cell_color = "#C83A14" -%> <% end -%>
+					<% if pct_correct.to_i >= @current_organization.ifa_org_option.pct_correct_green -%> <% cell_color = "#279605" -%> <% end -%>
+					<% back_color = "#f7f5cc" -%>
+					<% if pct_correct.to_i <= @current_organization.ifa_org_option.pct_correct_red -%> <% back_color = "#fcd1ca" -%> <% end -%>
+					<% if pct_correct.to_i >= @current_organization.ifa_org_option.pct_correct_green -%> <% back_color = "#baeaa9" -%> <% end -%>
+					<% cell_color = "#000000" -%>
+					<% unless answers == 0 -%>
+					<% id = div_key + r.id.to_s + s.id.to_s %>
+					<td  width = <%= col_width %>px style="border:1px solid #ddd; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px; background:<%=back_color%>; color:<%= cell_color %>; font-size:11px; margin-top:0px; font-weight:bold" >
+							<%=  points.round.to_i %> of <%=  answers %><br>
+							<a id="<%= id %>" href=""><%=  pct_correct %></a>
+							<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :title=> (@dashboard_name.nil? ? "" : (@dashboard_name + " => " )) + pct_correct, :blue=>  s.name.titleize, :body=> hover_text, :height=> 300, :width=> 650 } %>
+
+					</td>	
+						<%else -%>
+					<td  width = <%= col_width %>px style="border:1px solid #ddd;" >
+						&nbsp;
+					</td>						
+						<% end -%>
+
+					<% end -%>
+				</tr>
+				<% end -%>
+			</tbody>
+		</table>
+</div>
+<script>
+jQ(function(){
+jQ('td.tip_cell_<%= div_key %>').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'rightTop',
+         tooltip: 'leftTop'
+      }
+   },
+   style: { 
+	  background: '#e8c4d1',
+
+	  border: {
+         width: 0,
+         radius: 0,
+
+      },
+      width: 280,
+	  tip: { // Now an object instead of a string
+         corner: 'leftTop', // We declare our corner within the object using the corner sub-option
+         color: '#e8c4d1',
+         size: {
+            x: 8, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 20 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>
+<script>
+jQ(function(){
+jQ('td.tip_std').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'topMiddle',
+         tooltip: 'bottomMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 0,
+         radius: 0,
+         color: '#99911a'
+      },
+      width: 250,
+	  tip: { // Now an object instead of a string
+         corner: 'bottomMiddle', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>		

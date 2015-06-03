@@ -1,0 +1,27 @@
+<div id="related_content_panel" style="text-align: left;">
+	<ul style="list-style: none; padding-left:30px;  margin: 0;">
+	 
+	<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
+		<% topic_range_id = @topic.act_score_ranges.for_standard(mstr).first.id rescue nil -%>	
+	 	<% if @topic.act_standards.for_standard(mstr).empty? -%>
+			<li style="list-style: none; font-size:12px; padding-left:10px;  margin: 0;">	
+			<br/><i>* * No&nbsp;<%= mstr.abbrev %>&nbsp;Knowledge Strands & Benchmarks Available * *</i>
+			<br/>
+		</li>
+	 	<% else -%>
+		<% @topic.act_standards.for_standard(mstr).each do |s| %>
+			<li style="list-style: none; padding-left:10px;  margin: 0;">
+				<br/><strong> <%= mstr.abbrev %>:&nbsp;<%= s.name.titleize %></strong><br/>
+			<li/>
+		
+			<% benches = ActBench.find(:all, :conditions => ["act_subject_id =? AND act_standard_id = ? AND act_score_range_id = ? ", @classroom.act_subject_id, s.id, topic_range_id]) %>
+			<% benches.each do |b| %>
+				<li style="list-style: none; padding-left:10px;  margin: 20;">
+					+&nbsp;&nbsp <%=b.description %><br/>
+				<li/>		
+				<% end -%>
+			<% end -%>
+	 	<% end -%>
+	 <% end -%>
+	</ul>
+</div>

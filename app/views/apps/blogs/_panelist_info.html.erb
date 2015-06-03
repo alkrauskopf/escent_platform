@@ -1,0 +1,7 @@
+	
+<div id="panelists_info_<%= panelist.public_id%>" >
+	<% if (@current_user == panelist) | @current_user.superuser? -%>
+		<%= link_to  "Edit Bio", {:controller => "/users", :action => "edit_user_bio", :organization_id => @current_organization, :id => @current_user, :user_id => panelist},:target=>'_blank', :class => "fsn-button ui-button ui-state-default ui-corner-all"  %>
+	<% end -%>
+	<%= render :partial => "apps/app_blog/user_info_box", :locals=>{:user=>panelist, :pic=>true} %>					
+</div>

@@ -1,0 +1,49 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+associates:
+    scope_id: 1
+    scope_type: Organization
+    name: Associates
+    user_id: 1
+      
+member:
+    scope_id: 1
+    scope_type: Organization
+    name: Member
+    user_id: 1
+    
+moderator:
+    scope_id: 1
+    scope_type: Organization
+    name: Moderator
+    user_id: 1
+    
+administrator:
+    scope_id: 1
+    scope_type: Organization
+    name: Administrator
+    user_id: 1
+
+jfoa_associates:
+    scope_id: 2
+    scope_type: Organization
+    name: Associates
+    user_id: 1
+      
+jfoa_member:
+    scope_id: 2
+    scope_type: Organization
+    name: Member
+    user_id: 1
+    
+jfoa_moderator:
+    scope_id: 2
+    scope_type: Organization
+    name: Moderator
+    user_id: 1
+    
+jfoa_administrator:
+    scope_id: 2
+    scope_type: Organization
+    name: Administrator
+    user_id: 1

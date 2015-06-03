@@ -1,0 +1,197 @@
+
+
+<div id="offering_periods_<%=offering.public_id%>" style = "font-size:12px; color: #2061a5;  padding-left:0px;">
+	<%= render :partial => "/shared/error_and_notice_width", :locals => {:width => 600}%>
+	<% if admin -%>
+		<table style="width:650px; margin-left:0px; border:0px solid #ddd;">
+			<style type="text/css" media="screen">
+		    		table,tr,td { border:none }
+					table tr:hover{
+	        		background-color: transparent;
+	      			}
+	   			</style>
+				<tbody> 
+					<tr>
+						<td   id = "new_period" style="width:90px; width:fixed; border:0px solid #ddd; vertical-align:middle;  padding-left:12px; padding-right:2px; padding-top:2px; font-size:11px; ">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
+								Create Period
+							</span>
+						</td>
+						<td   style="border:0px solid #ddd; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10px; font-weight:normal">
+							<table style="width:550px;  border:0px solid #ddd;">
+								<style type="text/css" media="screen">
+							    		table,tr,td { border:none }
+										table tr:hover{
+						        		background-color: transparent;
+						      			}
+						   		</style>
+								<tbody>
+									<tr>
+										<td  style="width:50px; width:fixed; border:0px solid #ddd; line-height:2.5em; vertical-align:bottom;  padding-left:0px; padding-right:1px; padding-top:0px; text-align:right; font-size:10px; ">
+											Name:
+										</td>									
+										<td  style="border:0px solid #ddd; vertical-align:bottom;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #C83A14; font-size:13px; font-weight:normal">
+										     <%= text_field :classroom_period, :period_name, :value => "", :size => 65, :maxlength => 250 %>		
+										</td>								
+									</tr>
+									<tr>
+										<td  style="width:50px; width:fixed; border:0px solid #ddd; line-height:2.5em; vertical-align:top;  padding-left:0px; padding-right:1px; padding-top:0px; text-align:right; font-size:10px; ">
+											Duration:
+										</td>									
+										<td  style="border:0px solid #ddd; vertical-align:top;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10px; font-weight:normal">
+											 <%= text_field :classroom_period, :duration, :value => "", :size => 4, :maxlength => 5 %>&nbsp;Min/Wk	
+										</td>								
+									</tr>
+								</tbody>
+							</table>					     
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#new_period').click(function() {
+		var period = jQ('#classroom_period_period_name').val();
+		var duration = jQ('#classroom_period_duration').val();
+		var url = "<%= url_for :controller => '/apps/classroom', :action => :add_period, :organization_id => @current_organization, :classroom_id => offering %>";
+			jQ.get(url, {'period_name':period, 'duration': duration }, function(data) {
+			jQ("#offering_periods_<%=offering.public_id%>").html(data); 
+	   		jQ("#offering_periods_<%=offering.public_id%>").show();
+			});
+	})
+});
+</script>
+		<table style="width:650px; margin-left:0px; border:0px solid #ddd;">
+			<style type="text/css" media="screen">
+		    		table,tr,td { border:none }
+					table tr:hover{
+	        		background-color: transparent;
+	      			}
+	   			</style>
+				<tbody>  
+					<% offering.classroom_periods.sort_by{|p| p.name.upcase}.each do |period| %>
+						<tr  style="border:0px solid #ddd;" >
+							<td style="width:500px; width;fixed;border:0px solid #ddd; vertical-align:middle;  padding-top:0px; padding-bottom:10px; color: #000000; text-align:left; font-weight:normal; font-size:10.5px">
+								<table style="margin-top:0px; width:490px;">
+									<tbody>
+										<tr  style="border:0px solid #ddd;" >
+											<td colspan=2 style="border:0px solid #ddd; padding-top:0px; padding-bottom:0px; vertical-align:bottom; text-align:left; font-size:12px">
+												<span style = "color:#2061a5; font-size:12px;  font-weight:normal ">
+												<u><%= period.name %></u>&nbsp;&nbsp;&nbsp;
+												</span>
+												<span style = "color:#000000; font-size:10px;  font-weight:normal ">
+													<%= period.teachers.empty? ? "(No Teachers)" : period.teacher_list %>,&nbsp;&nbsp;<%= period.week_duration %>&nbsp;Min/Wk
+												</span>
+											</td>
+										</tr>
+										<tr  style="border:0px solid #ddd;" >
+											<td   id = "edit_period_<%= period.public_id%>" style="width:75px; width:fixed; border:0px solid #ddd; vertical-align:middle;  padding-left:20px; padding-right:0px; padding-top:0px; font-size:11px; ">
+												<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
+													Change
+												</span>
+											</td>
+											<td  style="border:0px solid #ddd; padding-left:5px; padding-bottom:0px; vertical-align:middle; text-align:left; font-size:12px">
+											     <%= text_field :classroom_name, period.public_id, :value => period.name, :size => 55, :maxlength => 250 %>		
+												 <%= text_field :classroom_duration, period.public_id, :value => period.week_duration, :size => 4, :maxlength => 5 %>		
+											</td>
+										</tr>
+										<% if period.teachers.empty? -%>
+											<tr  style="border:0px solid #ddd;" >
+												<td id = "destroy_period_<%= period.public_id%>"  style="width:75px; width:fixed; border:0px solid #ddd; vertical-align:middle;  padding-left:20px; padding-right:0px; padding-top:0px; font-size:11px; ">
+													<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
+														Destroy
+													</span>
+												</td>
+												<td style="border:0px solid #ddd; padding-left:5px; padding-bottom:10px; vertical-align:bottom; text-align:left; color: #C83A14; font-size:10px;">
+													<u>Permanently</u> Removes Period.
+												</td>							
+											</tr>
+										<% else -%>
+											<tr  style="border:0px solid #ddd;" >
+												<td   style="width:75px; width:fixed; border:0px solid #ddd; vertical-align:middle;  padding-left:20px; padding-right:0px; padding-top:0px; color: #C83A14; font-size:11px; ">
+														Destroy?
+												</td>
+												<td style="border:0px solid #ddd; padding-left:0px; padding-bottom:0px; vertical-align:middle; text-align:left; color: #C83A14; font-size:11px;">
+													First Remove All Teachers
+												</td>							
+											</tr>
+										<% end -%>
+									</tbody>
+								</table>
+							</td>
+							<td >
+								<table >
+									<tbody>
+										<tr  style="border:0px solid #ddd;" >
+											<td id = "assign_teacher_<%= period.public_id %>" style="border:0px solid #ddd; padding-top:0px; padding-bottom:0px; vertical-align:bottom; text-align:left; font-size:12px">
+												<%=  select(:teacher_assign, period.public_id, (@current_organization.teachers - period.teachers).sort_by{|a| [a.last_name]}.collect{|t| [truncate(t.last_name_first, :omission => "...", :length => 17), t.id]},{:include_blank =>'Add Teacher'}) %>
+											</td>
+										</tr>
+										<tr  style="border:0px solid #ddd;" >
+											<td id = "remove_teacher_<%= period.public_id %>" style="border:0px solid #ddd; padding-top:10px; padding-bottom:0px; vertical-align:bottom; text-align:left; font-size:12px">
+												<%=  select(:teacher_remove, period.public_id, (period.teachers).sort_by{|a| [a.last_name]}.collect{|t| [truncate(t.last_name_first, :omission => "...", :length => 17), t.id]},{:include_blank =>'Remove Teacher'}) %>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>					
+						</tr>
+	
+	
+				<script type="text/javascript">
+				jQ(document).ready(function() {
+					jQ('#edit_period_<%= period.public_id %>').click(function() {
+						var period = jQ('#classroom_name_<%= period.public_id %>').val();
+						var duration = jQ('#classroom_duration_<%= period.public_id %>').val();
+						var url = "<%= url_for :controller => '/apps/classroom', :action => :edit_period, :organization_id => @current_organization, :classroom_id => offering, :period_id => period %>";
+							jQ.get(url, {'period_name':period, 'duration': duration }, function(data) {
+							jQ("#offering_periods_<%=offering.public_id%>").html(data); 
+					   		jQ("#offering_periods_<%=offering.public_id%>").show();
+							});
+					})
+				});
+				</script>
+				
+				<script type="text/javascript">
+				jQ(document).ready(function() {
+					jQ('#assign_teacher_<%= period.public_id %>').change(function() {
+						var teacher_id = jQ('#teacher_assign_<%= period.public_id %>').val();
+						var url = "<%= url_for :controller => '/apps/classroom', :action => :manage_period_teachers, :organization_id => @current_organization, :classroom_id => offering, :period_id => period  %>";
+							jQ.get(url, {'teacher_id':teacher_id}, function(data) {
+							jQ("#offering_periods_<%=offering.public_id%>").html(data); 
+					   		jQ("#offering_periods_<%=offering.public_id%>").show();
+							});
+					})
+				});
+				</script>
+
+				<script type="text/javascript">
+				jQ(document).ready(function() {
+					jQ('#remove_teacher_<%= period.public_id %>').change(function() {
+						var teacher_id = jQ('#teacher_remove_<%= period.public_id %>').val();
+						var url = "<%= url_for :controller => '/apps/classroom', :action => :manage_period_teachers, :organization_id => @current_organization, :classroom_id => offering, :period_id => period  %>";
+							jQ.get(url, {'teacher_id':teacher_id}, function(data) {
+							jQ("#offering_periods_<%=offering.public_id%>").html(data); 
+					   		jQ("#offering_periods_<%=offering.public_id%>").show();
+							});
+					})
+				});
+				</script>
+				<script type="text/javascript">
+				jQ(document).ready(function() {
+					jQ('#destroy_period_<%= period.public_id %>').click(function() {
+						var url = "<%= url_for :controller => '/apps/classroom', :action => :destroy_period, :organization_id => @current_organization, :classroom_id => offering, :period_id => period  %>";
+							jQ.get(url, {}, function(data) {
+							jQ("#offering_periods_<%=offering.public_id%>").html(data); 
+					   		jQ("#offering_periods_<%=offering.public_id%>").show();
+							});
+					})
+				});
+				</script>	
+					<% end-%>
+				</tbody>
+			</table>						
+	<% end -%>
+</div>
+

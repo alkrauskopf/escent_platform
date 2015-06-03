@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  tl_activity_type_task_id: 1
+  evidence_id: 1
+
+two:
+  tl_activity_type_task_id: 1
+  evidence_id: 1

@@ -1,0 +1,14 @@
+<div style="padding-top:10px;padding-bottom:20px;">
+	<a id="back_to_search_results" href="javascript:void(0)">Back to search results</a>
+</div>
+<%= render :partial => "/shared/content", :locals => {:panel_id_prefix => "related_content_", :content => @content} %>
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('#search-result-content').show();
+		jQ('#search-result').hide();
+		jQ('#back_to_search_results').click(function() {
+			jQ('#search-result').show();			
+			jQ('#search-result-content').hide().html("");
+		})
+	})
+</script>

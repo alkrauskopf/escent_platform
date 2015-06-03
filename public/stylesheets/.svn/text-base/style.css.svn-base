@@ -1,0 +1,84 @@
+/* set background and border */
+
+/* Observation Panel */
+.panel_container { border:3px solid #dadada; background-color:#f6f8f9; }
+
+
+/* Appl Blog Box */
+.appblog_box { border:1px solid #dadada;}
+
+/* Member Profile */
+.mempro_box { border:1px solid #dadada;	background-color:#FFFFFF; }
+
+/* make a admin Organization Account tag section selector much more clean */
+.section_selector div {background: url('/images/section_selector_bg_h.png') repeat-x top left; }
+.section_selector div.border { border-left: 1px solid #ced4e2; }
+.section_selector div.first div { background: url('/images/section_selector_bg_first.png') no-repeat top left; }
+.section_selector div.first div.active { background: url('/images/section_selector_bg_first_h.png') no-repeat top left; }
+.section_selector div.last div { background: url('/images/section_selector_bg_last.png') no-repeat top right; }
+.section_selector div.last div.active { background: url('/images/section_selector_bg_last_h.png') no-repeat top right; }
+.section_selector div.active{ background: url('/images/section_selector_bg.png') repeat-x top left; }
+
+/* style about front site */
+.module, #share_content_form, #share_discussion_form { background:#FFF; }
+.module2, #share_content_form, #share_discussion_form { background:#FFF; }
+
+.module, #share_pilot_feedback_form, #share_discussion_form { background:#FFF; }
+.module2, #share_pilot_feedback_form, #share_discussion_form { background:#FFF; }
+
+#rightpane { border: 1px solid #FFF; }
+#rightpane_res { border: 1px solid #FFF; }
+.module_header { background:url('/images/mediashim.png') repeat-x top left; border:1px solid #BFBFBF; }
+.results .module_body { background-color: #f7f7f7; }
+.discussion_thread_header { border-top:1px solid #BFBFBF; }
+.discussion_thread_header .iwing_module_title { background:url('/images/discussion_ico.gif') no-repeat 20px 15px; }
+.discussion_thread_header .hover { background:url('/images/discussion_ico_h.gif') no-repeat 20px 15px; }
+/*.discussion_reply_info, .discussion_reply_form { border-bottom:1px solid #BFBFBF; }*/
+.discussion_thread_header .iwing_discussion_description { border-bottom:1px solid #BFBFBF; }
+.report_successful { background:url('/images/report_successful.gif') no-repeat right center; }
+.discussion_reply_comment { background-color: #ececec; }
+.discussion_reply_info { background: url('/images/info_arrow.gif') 20px 0 no-repeat; }
+.discusssion_by_same_author { background:#fff url('/images/quote_l.png') left top no-repeat; }
+.discusssion_by_same_author div { background:#fff url('/images/quote_r.png') right bottom no-repeat; }
+.discusssion_by_same_author_info { background: url('/images/discussion_by_same_author_info_arrow.gif') 20px 0 no-repeat; }
+
+/*.no_child,*/
+.has_child { background:url('/images/discussion_ico.gif') no-repeat 7px 11px; background-repeat: no-repeat; }
+#affiliation-results .has_child_hidden { background-image:url('/images/discussion_ico_h.gif'); background-repeat: no-repeat; }
+
+#share_content a { background: url('/images/btn_share.gif') left top no-repeat; }
+#share_content a.upload { background: url('/images/btn_share_upload.gif') left top no-repeat; }
+.share_content_form { background-color: #fff; border: 1px solid #aaa; border-right-width: 1; }
+
+#share_pilot_feedback a { background: url('/images/btn_share.gif') left top no-repeat; }
+#share_pilot_feedback a.upload { background: url('/images/btn_share_upload.gif') left top no-repeat; }
+.share_pilot_feedback_form { background-color: #fff; border: 1px solid #aaa; border-right-width: 0; }
+
+
+/* admin */
+.authorization_levels_close { background:url('/images/discussion_ico.gif') no-repeat 5px 7px; background-repeat: no-repeat;  }
+.authorization_levels_open { background:url('/images/discussion_ico_h.gif') no-repeat 5px 7px; background-repeat: no-repeat; }
+.resource_levels_close { background:url('/images/discussion_ico.gif') no-repeat 5px 7px; background-repeat: no-repeat; cursor:pointer}
+.resource_levels_open { background:url('/images/discussion_ico_h.gif') no-repeat 5px 7px; background-repeat: no-repeat; }
+.ifa_levels_close { background:url('/images/discussion_ico.gif') no-repeat 5px 7px; background-repeat: no-repeat; }
+.ifa_levels_open { background:url('/images/discussion_ico_h.gif') no-repeat 5px 7px; background-repeat: no-repeat;}
+.view_levels_close { background:url('/images/discussion_ico_view.png') no-repeat 5px 3px; background-repeat: no-repeat; cursor:pointer; }
+.view_levels_open { background:url('/images/discussion_ico_hide.png') no-repeat 5px 3px; background-repeat: no-repeat;  cursor:pointer;}
+
+
+/* blog */
+.blog_box_warp { background-color: #fff; }
+.blog_box_warp .mempro_box {border: none;}
+.appblog_box_warp { background:url('/images/app_blog_paper.jpg') repeat-y; border:3px solid #dddddd;  }
+.blog_item, #blog_comment_warp h3 { border-bottom: 1px solid #eee; }
+#blog_comment_warp .blog_item h3 { border-bottom: none; }
+.blog_item, #app_blog_comment_warp h3 { border-bottom: 1px solid #555555; }
+#app_blog_comment_warp .blog_item h3 { border-bottom: none; }
+.blogs_said_nav_tile { border-bottom: 1px solid #eee; }
+
+
+/* app report */
+.appreport_box_warp { background-color: #fff; }
+.appreport_box_warp .mempro_box {border: none;}
+.appreport_box_warp { background:url('/images/app_blog_paper.jpg') repeat-y; border:3px solid #dddddd;  }
+

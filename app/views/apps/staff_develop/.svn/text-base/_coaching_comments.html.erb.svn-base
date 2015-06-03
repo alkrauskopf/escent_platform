@@ -1,0 +1,124 @@
+
+<div id="coach_add">
+
+	<% unless plan.package.empty?-%>
+		<% comments = plan.package.collect{|p| p.user_dle_plan_coachings}.flatten.sort_by{|c| c.user_dle_plan.id} -%>
+		<% unless comments.size == 0 -%>
+
+			<table  style="width:700px;margin-left:0px">
+				<style type="text/css" media="screen">
+			    		table,tr,td { border:none }
+						table tr:hover{
+			    		background-color: transparent;
+			  			}
+					</style>
+					<thead> 
+						<tr>
+							<th style=" width:100px; vertical-align:middle;  padding-left:0px; padding-top:5px; padding-bottom:5px; text-align:center; color: #000000; font-weight:normal; font-size:12px">
+								Date
+							</th>
+							<th style=" width:100px; vertical-align:middle;  padding-left:0px; padding-top:5px; padding-bottom:5px; text-align:center; color: #000000; font-weight:normal; font-size:12px">
+								Stage 
+							</th>
+							<th style=" width:100px; vertical-align:middle;  padding-left:0px; padding-top:5px; padding-bottom:5px; text-align:center; color: #000000; font-weight:normal; font-size:12px">
+								Coach 
+							</th>
+							<th style=" width:400px; vertical-align:middle;  padding-left:0px; padding-top:5px; padding-bottom:5px; text-align:center; color: #000000; font-weight:normal; font-size:12px">
+								<%=pluralize(comments.size, " Comment") %> 
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<style type="text/css" media="screen">
+				    		table,tr,td { border:medium }
+							table tr:hover{
+			        		background-color: transparent;
+			      			}
+			   			</style>
+						<% comments.each do |com| -%>
+							<tr style="border:1px solid #ddd;">						
+								<td style= "width:100px; border:1px solid #ddd; font-size:10.5px; vertical-align:top; padding-top:5px; padding-bottom:5px; text-align:center; font-weight:normal; color: #000000;">
+									<%= com.created_at.strftime("%b %d, %Y") %>
+								</td>						
+								<td style= "width:100px; border:1px solid #ddd; font-size:10.5px; vertical-align:top; padding-top:5px; padding-bottom:5px; text-align:center; font-weight:normal; color: #000000;">
+									<%= com.user_dle_plan.dle_cycle.name %>
+								</td>
+								<td style= "width:100px; border:1px solid #ddd; font-size:10.5px; vertical-align:top; padding-top:5px; padding-bottom:5px; text-align:center; font-weight:normal; color: #000000;">
+									<%= com.user.full_name %>
+								</td>						
+								<td style= "width:400px; border:1px solid #ddd; font-size:10.5px; vertical-align:top; padding-top:5px; padding-bottom:5px; text-align:left; font-weight:normal; color: #000000;">
+									<%= com.comment %>
+								</td>
+							</tr>
+						<% end -%>
+					</tbody>
+			</table>
+	<br/>
+	<% else -%>
+		<table style="width:600px;margin-left:0px">
+			<style type="text/css" media="screen">
+		    		table,tr,td { border:none }
+					table tr:hover{
+	        		background-color: transparent;
+	      			}
+	   			</style>
+				<tbody>  
+						<td   style="width:6000px; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-bottom:6px; padding-top:0px; text-align:center; color: #2061a5; font-size:11px; font-weight:normal">
+							* * No Coaching Comments * *
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	<% end -%>
+
+	<% unless teacher == @current_user || !@current_user.pd_authorized_for?(@current_organization) || !plan.is_current-%>
+
+	<table style="width:600px;margin-left:150px">
+		<style type="text/css" media="screen">
+	    		table,tr,td { border:none }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+			<tbody>  
+				<tr  style="border:0px solid #ddd;" >
+					<td   id = "add_comment_<%=teacher.public_id %>"  style="width:20px; width:fixed; vertical-align:middle;  padding-bottom:16px; padding-left:0px; padding-right:0px; padding-top:6px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+						<%= (image_tag "add.png") -%>
+					</td>
+					<td   style="width:580px; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-bottom:16px; padding-top:6px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+						     <%= text_field :plan, :comment, :value => "", :size => 65, :maxlength => 550 %>		
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#add_comment_<%=teacher.public_id %>').click(function() {
+		var comment = jQ('#plan_comment').val();
+		var url = "<%= url_for :controller => '/apps/staff_develop', :action => :add_coaching, :organization_id => @current_organization, :teacher_id => teacher  %>";
+			jQ.get(url, {'coaching':comment}, function(data) {
+			jQ("#coach_add").html(data); 
+	   		jQ("#coach_add").show();
+			});
+	})
+});
+</script>
+	<% end -%>
+<% else -%>
+	<table style="width:600px;margin-left:0px">
+		<style type="text/css" media="screen">
+	    		table,tr,td { border:none }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+			<tbody>  
+					<td   style="width:6000px; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-bottom:6px; padding-top:0px; text-align:center; color: #2061a5; font-size:11px; font-weight:normal">
+						* * No Plans Defined * *
+					</td>
+				</tr>
+			</tbody>
+		</table>
+<% end -%>
+</div>

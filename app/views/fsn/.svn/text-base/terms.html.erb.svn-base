@@ -1,0 +1,277 @@
+<div class="terms">
+	<b>TERMS OF SERVICE</b>
+	<div>
+	 This Web site (the "Site") is owned and operated by Escent Partners, LLC ("EP"). These terms of service (the "Terms of Service" or "TOS") apply to and govern your use, and any use by another person, of your User Account, as well as your use of this Site and the Services (as defined below). Your use of the Site and/or any Service signifies your agreement to be bound by these Terms of Service and 
+	<%= link_to 'Escent Partners Privacy Policy (the "Privacy Policy")', {:controller => :fsn, :action => 'privacy'},  :target => '_blank' %>, which is hereby incorporated by reference.
+
+	<p>
+       &nbsp;
+    </p>
+
+		For purposes of the TOS, the following defined terms shall have these meanings: (A) "Service(s)" shall mean any and all services on, or provided by or in connection with, the Site, whether or not such services are also provided or delivered by other means or media all media, now known or hereafter developed throughout the universe, including without limitation, software or wireless devices,; (B) "Site" shall mean this site; (C) "Site Content" shall mean any and all human–perceivable  audio and/or visual elements of this Site, created or owned by Escent Partners, or user generated content, whether or not commissioned by Escent Partners, including, without limitation, any text, graphics, images, illustrations, photographs, animations, applications, video, audio or audiovisual works (including, for example, without limitation, movie trailers or episodic works), designs, logos, and other information and content made available through the Site; (D) "Site Code" means any and all underlying elements of the Site, including without limitation, source code, script, object code, software, computer programs, and other sets of statements and instructions contained in the underlying Site; (E) "User Account" means any account created by you, through a registration process for the purpose of accessing or using certain Services.
+	</div>
+	<b>LICENSE TO USE THE SITE</b>
+	<div>
+		Escent Partners grants you a non-exclusive, non-transferable, limited right and license to access, use and privately display the Site and the Site Content as described herein for your personal use only, by way of one (1) Internet Device connected to the Site over the Internet, provided that you comply fully with these TOS. You may "cache" pages of the Site for the sole purpose of increasing the speed and efficiency at which you access the Site. Any other copy or use of a portion of the Site is not authorized, will be a violation of these TOS and will constitute a copyright violation. You shall not interfere, or attempt to interfere, with the operation of the Site in any way through any means or device, including without limitation, spamming, hacking, uploading computer viruses or time bombs, or any other means expressly prohibited by any provision of these TOS or by law. 
+	</div>
+	<b>
+		CHANGES TO SITE AND/OR TERMS OF SERVICE
+	</b>
+	<div>
+		Escent Partners reserves the right, at its sole discretion, to change, modify, add or remove any portion of the Site, the Services, the Site Content, the TOS, and/or the Privacy Policy, in whole or in part, at any time, with or without notice to you, prior or otherwise. Changes to the TOS and Privacy Policy will be effective when posted. You agree to review the TOS and Privacy Policy periodically to become aware of any changes. Your continued use of the Site after any changes to the TOS and/or Privacy Policy are posted will be considered acceptance of those changes and will constitute your agreement to be bound thereby. Escent Partners will provide prominent notice on the Site of any major changes to the TOS and/or the Privacy Policy.
+	</div>
+	<b>
+		CHANGES IN SITE OWNERSHIP
+	</b>
+	<div>
+		You will be deemed to have consented to the disclosure to, and use by, a subsequent owner or operator of the Site, of any information about you contained in the applicable EP database as set forth in the Privacy Policy, to the extent Escent Partners assigns its rights and obligations regarding such information in connection with a merger, acquisition, or sale of all or substantially all of EP’s assets, or in connection with a merger, acquisition or sale of all or substantially all of the assets related to this particular Site to a subsequent owner or operator. In the event of such a merger, acquisition, or sale, your continued use of the Site signifies your agreement to be bound by the Terms of Service and Privacy Policy of the Site's subsequent owner or operator. 
+	</div>
+	<b>
+		OWNERSHIP OF TRADEMARKS, COPYRIGHTS, INTELLECTUAL PROPERTY
+	</b>
+	<div>
+		The Site, Site Content, Site Code, and all copyrights, trademarks, service marks, trade names and all other intellectual property rights therein, are proprietary to Escent Partners and are owned by Escent Partners and/or its licensors and content providers, and are protected by applicable U.S. and foreign copyright laws. Unless permitted in writing by Escent Partners, you shall not copy, capture, reproduce, perform, transfer, sell, license, modify, manipulate, create derivative works from or based upon, republish, upload, edit, post, transmit, publicly display, frame, link, distribute, or exploit in whole or in part the Site, the Site Content or Site Code, or otherwise use the Site, Site Content or Site Code on any other web site, other networked computer environment, or in any medium now known or hereafter developed, and you may not remove or alter any trademark, trade names, product names, logo, copyright or other proprietary notices, legends, symbols or labels on the Site or the Services (each, an "Unauthorized Use"). 
+
+	<p>
+       &nbsp;
+    </p>
+
+		Any Unauthorized Use constitutes an infringement of the copyrights and other proprietary rights of Escent Partners and/or its licensors and content providers and constitutes a violation of these TOS. Any violation of copyright laws may subject you to severe penalties under the U.S. Copyright Act, 17 U.S.C § 101, et seq., and under other domestic and foreign laws, including without limitation the payment of damages and attorney’s fees.
+	</div>
+	<b>
+		SOFTWARE
+	</b>
+	<div>
+		From time to time, and at its sole discretion, Escent Partners may make available to users certain software that may be accessible or downloaded from this Site. In the event that you access or download software from this Site, the software, including any files, images incorporated in or generated by the software, and data accompanying the software (collectively, the "Software") are non-exclusively licensed to you by Escent Partners or by a EP approved third party software provider ("Third Party Provider") solely for your personal and non-commercial use. Escent Partners does not transfer title to the Software to you. You own the medium on which the Software is recorded, but Escent Partners and/or the Third Party Provider retain full and complete title to their respective Software, and all intellectual property rights therein. You may not and agree not to redistribute, sell, decompile, reverse engineer, disassemble, or otherwise reduce the Software to a human-perceivable form. Furthermore, your use of any Software of a Third Party Provider shall be subject to the terms and conditions set forth by such Third Party Provider and any applicable license agreement for its Software. Software from this Site is further subject to United States export controls. To the extent required by law, no software from this Site may be downloaded or otherwise exported or re-exported (i) into (or to a national or resident of) Cuba, Iran, Iraq, Libya, North Korea, Sudan, Syria, or any other country to which the U.S. has embargoed goods; or (ii) to anyone on the U.S. Treasury Department's list of Specially Designated Nationals or the U.S. Commerce Department's Table of Deny Orders. By downloading or using the Software, you represent and warrant that you are not located in, under the control of, or a national or resident of, any such country or on any such list. 
+	</div>
+	<b>
+		SUBMISSIONS
+	</b>
+	<div>
+		If you send, post, or otherwise transmit any text, files, links, software, photographs, video, sound, music, feedback, comments, suggestions, or other information or material, including, without limitation, names or likenesses (all whether concerning you or a third party) (collectively, the "Submissions") to any part of the Site or Services, whether or not requested to do so by Escent Partners, you shall be deemed to have granted to Escent Partners a worldwide, royalty-free, non-exclusive, transferrable, sub-licensable, perpetual license to cache, copy, distribute, transmit, publicly display, publicly perform, reproduce, revise and otherwise use the Submissions on the Site, the Services and in any other media, digital or analog, now known or hereafter invented, including without limitation, the internet, television programs, DVDs, mobile devices, outdoor media, and in advertising or promotion, print or otherwise. 
+
+	<p>
+       &nbsp;
+    </p>
+
+		For the avoidance of doubt, by submitting your Submission you understand and agree that: (a) any Submissions you submit may become viewable by the public on the Site or elsewhere; (b) Escent Partners has the right to publish your name in connection with your Submissions, wherever applicable; (c) you will only submit Submissions that you own or have permission to submit from the owner, in which case you will provide Escent Partners upon request with a copy of a written consent from the owner; and (d) your Submission constitutes a waiver of the right to privacy or publicity of the owner of the Submission and any third party named in it with respect to the Submission and all of its contents. 
+
+	<p>
+       &nbsp;
+    </p>
+
+		Escent Partners will have no obligation to pay you any compensation with respect to its use or nonuse of your Submissions, and is under no obligation to post or use any Submissions you may provide.  Escent Partners may remove any Submissions at any time in its sole discretion. You may request the removal of your Submissions for any reason on reasonable written notice to Escent Partners, on receipt of which EP will take commercially reasonable steps to comply.
+	
+	<p>
+       &nbsp;
+    </p>
+
+		By submitting your Submission, you agree to indemnify and hold Escent Partners (and its funders, successors, parents, subsidiaries, affiliates, officers, directors, agents, developers, joint venturers, networks, distributors and attorneys) harmless for any and all claims, damages, losses, and causes of action (including without limitation attorney’s fees) arising as a result of your Submissions, or your violation or claimed violation of any law or rights of a third party, or any other breach or claimed breach of the TOS. Escent Partners does not and cannot review all Submissions and is not responsible for the content or substance of these Submissions. However, Escent Partners reserves the right to delete, move, or edit Submissions that it, in its sole discretion, deems to be abusive, defamatory, obscene, in violation of copyright or trademark laws, or in violation of any person's rights of privacy or publicity, or otherwise unacceptable.
+
+	<p>
+       &nbsp;
+    </p>
+
+	</div>
+	<b>
+		ESCENT PARTNERS SERVICES AND RULES FOR USE
+	</b>
+	<div>
+		As a convenience to its visitors, Escent Partners may provide, from time to time and at its sole discretion, one or more Services, such as chat areas, message boards, e-mail functions, instant messaging service, voice-mail, file communities, polls, surveys, and other services. These Services are provided by Escent Partners to you and others subject to the TOS,
+		and other rules that may be published from time to time (collectively, the "Rules") by EP. Escent Partners reserves the right to change the nature of this relationship at any time. 
+	</div>
+	<b>
+		REGISTRATION AND ACCEPTANCE OF TERMS
+	</b>
+	<div>
+		In order to access some features of the Site and the Services, you may have to create or register for a User Account. In consideration for your use of the Services, you agree to (i) comply with the Rules, (ii) provide accurate, complete and true information about yourself as may be required on any registration form for Services (your "Registration Information") in order to create your User Account, and (iii) maintain and update, as applicable, your Registration Information with current and complete information. Users who violate the Rules, or provide inaccurate, false, or non-current Registration Information may, at EP's sole discretion, have their User Accounts suspended or terminated, and may be permanently banned from using any current or future Services. 
+
+	<p>
+       &nbsp;
+    </p>
+
+		As part of your User Account, you will be responsible for creating, and maintaining the confidentiality of, your user name and password. We urge you to memorize your password or keep it in a secure place, away from the rest of your User Account information, as sharing your password with others may lead to unauthorized access to your User Account and the information therein. You agree that you will (i) immediately notify Escent Partners of any unauthorized use of your User Account, and (ii) ensure that you properly exit all Services at the completion of your use session. You are solely responsible for the activity that occurs on your User Account. Escent Partners shall have no liability for any loss or damage arising from your use of a User Account, the Site or any Service, or your failure to comply with these requirements. Escent Partners will not be liable for any losses caused by any unauthorized use of your User Account, but you may be liable for the losses of Escent Partners or others due to such unauthorized use.
+	</div>
+    <b>GUIDELINES FOR USE OF THE SERVICES</b>
+	<div>
+		You are entirely responsible and liable for all activities conducted by you, and/or any other user of your User Account on the Site or of the Services, including the transmission, posting, or other provision of a Submission to any portion of Site or the Services. Listed below are some, though not all, violations that may result in Escent Partners terminating or suspending your User Account and/or your access to Escent Partners Site and Services and you agree not to take any of the following actions, or other such actions, while using the EP Site or any EP Services: 
+	</div>
+	<div style="margin-left:45px;">
+		<ol style="list-style-type:decimal;">
+		<li>
+			Harass, threaten, embarrass or cause distress or discomfort to another Service participant, user, or other individual or entity; 
+		</li>
+		<li>
+			Transmit, in connection with any Service, any Submission that Escent Partners, in its sole discretion, advises to be false, inaccurate, misleading, disruptive, unlawful, harmful, threatening, abusive, harassing, defamatory, pornographic, vulgar, obscene, hateful, or racially or ethnically-motivated, or otherwise objectionable; 
+		</li>
+		<li>
+			Distribute viruses or any other technologies that may harm the Site, the Service, or the interests or property of our users and partners;
+		</li>
+		<li>
+			Harvest or otherwise collect information, including email addresses, about users or third parties whose information is made available on the Site, without their consent;
+		</li>
+		<li>
+			Use any robot, spider, scraper or other automated means to access the Site or the Services for any purpose without our express written permission;
+		</li>
+		<li>
+			Cause any chat room screen in any chat room to "scroll" faster than other users are able to type to it or any action of a similar disruptive effect; 
+		</li>
+		<li>
+			Impersonate in any Service any person, including without limitation, a EP official or representative, chat or message board leader, guide or host; 
+		</li>
+		<li>
+			Disrupt the normal flow of dialogue in a chat room or otherwise act in a manner that negatively affects other participants; 
+		</li>
+		<li>
+			Post or transmit any unsolicited advertising, promotional materials, or any other forms of solicitation in the Services;
+		</li>
+		<li>
+			Intentionally or unintentionally violate any applicable local, state, national or international law, including without limitation, any regulations having the force of law while using or accessing any Services; 
+		</li>
+		<li>
+			Submit material that is subject to intellectual property protection, including without limitation, copyright, trademark, or patent rights, or otherwise subject to third party proprietary rights, including, without limitation, privacy and publicity rights, unless you are the owner of such rights or have permission from the owner of such rights to post said material and to grant us all of the license rights granted herein.
+		</li>
+	    </ol>
+
+	<p>
+       &nbsp;
+    </p>
+
+		You understand that any content that you upload and/or post on the Site or any Service shall constitute a Submission for all purposes of these TOS. 
+
+	<p>&nbsp;</p>
+
+		Notwithstanding anything to the contrary in this Agreement, in the event that Escent Partners determines that you have breached the TOS and/or the Privacy Policy, or that any part or portion of your Submission violates the TOS, Escent Partners will have the right to immediately remove such Submission, in whole or in part, and to temporarily suspend your User Account, with or without notice to you. In the event of your repeated violation of the TOS and/or the Privacy Policy Escent Partners will have the right to immediately and permanently terminate your User Account, with or without notice to you. Notwithstanding the foregoing, in the event that Escent Partners, in its sole discretion, determines that your first violation is of a particularly offensive or serious nature, Escent Partners will have the right to immediately and permanently terminate your User Account, with or without notice to you.
+	
+	<p>
+       &nbsp;
+    </p>
+
+		Any user may report abuse of the Rules by clicking on the Report Abuse button provided on the Site.
+	</div>
+	<b>
+		LINKED SITES
+	</b>
+	<div>
+		Much of the information on the Site may be updated on a real-time basis and may be proprietary or licensed to Escent Partners by users or third parties. EP sites and/or services may furthermore frame, and/or contain links to or advertisements about, non-EP Web sites (the “Linked Sites”). The Linked Sites may also reference, advertise, or link to Escent Partners sites. Escent Partners does not endorse or sponsor the Linked Sites and is not responsible for the content of such sites. Escent Partners expressly disclaims any statements or assertions made on all non-EP Web sites, and denies all liability associated with your use of, and the content on any Linked Sites. You are responsible for viewing and abiding by the privacy statements and terms of use posted on such other Web sites. Your dealings with third parties (including, without limitation, advertisers) on the Linked Sites and your participation in promotions, including the delivery of and the payment for completed transactions, and any other terms, conditions, warranties or representations associated with such dealings or promotions on the Linked Sites, are solely between you and the advertiser or other third party.  <br/>
+		Third party trademarks, trade names, product names and logos may be the trademarks or registered trademarks of their respective owners.
+	</div>
+	<b>
+		DISPUTES WITH OTHER USERS
+	</b>
+	<div>
+		If you have a dispute with one or more users, you release Escent Partners (and its funders, successors, parents, subsidiaries, affiliates, officers, directors, agents, developers, joint venturers, networks, distributors and attorneys) from claims, demands and damages (actual and consequential) of every kind and nature, known and unknown including without limitation attorney’s fees, arising out of or in any way connected with such disputes.
+	</div>
+	<b>
+		NON-UNITED STATES RESIDENTS
+	</b>
+	<div>
+		Escent Partners makes no representation that the Site Content, including merchandise offered for sale on the Site, and its  copyrights, trademarks, patents, and licensing arrangements, are appropriate or available for use in locations other than the United States of America. Those who choose to access the Site from locations outside of the U.S.A. do so on their own initiative and at their own risk, and are responsible for compliance with local laws, if and to the extent local laws are applicable. With respect to shipments of merchandise to consumers, wherever they may reside, title to the merchandise and risk of loss shall pass to the buyer upon delivery of the merchandise to the common carrier. 
+	</div>
+	<b>
+		JURISDICTIONAL ISSUES
+	</b>
+	<div>
+		The Site is controlled and operated by Escent Partners from its offices within the County of Jefferson, State of Colorado, United States of America. Use of this Site constitutes your consent and submission to service of process under applicable United States or Colorado law and to personal jurisdiction in the federal and state courts located in the County of Jefferson, State of Colorado for the purposes of any legal action or claim pertaining to these Terms of Service, or arising from the use of your User Account and/or any EP Site or Service and you consent to the exclusive jurisdiction and venue of such courts, and waive any defenses such as lack of personal jurisdiction or forum non conveniens. 
+	</div>
+	<b>
+		TERMINATION
+	</b>
+	<div>
+		You understand and agree that Escent Partners may, in its sole discretion and at any time, limit, suspend, or terminate your password, User Account, or use of any Services, and discard and remove any and all Submissions submitted or posted by you to any EP Site or Service, for any reason. Escent Partners may also, in its sole discretion and at any time, discontinue any Site or Services or limit or restrict any user access thereto, for any reason. Escent Partners also reserves the right, in its sole discretion and at any time, to cancel unconfirmed accounts or accounts that have been inactive for an extended period of time. You understand and agree that Escent Partners may take any one or more of these actions without any notice to you, prior or otherwise. Should Escent Partners take any of these actions, it may, in its sole discretion, immediately deactivate and/or delete any or all information about and concerning your User Account, including your Registration Information and Submissions. You understand and agree that Escent Partners shall not have any liability to you or any other person for any termination of your access to any Services and/or the removal of information concerning your User Account. 
+	</div>
+	<b>
+		DISCLAIMER
+	</b>
+	<div>
+		THE SITE, SITE CONTENT, SITE CODE, THE SERVICES, AND THE SOFTWARE, IF APPLICABLE, ARE PROVIDED "AS IS" "WITH ALL FAULTS" AND "AS AVAILABLE" AND WITHOUT WARRANTIES OF ANY KIND EITHER EXPRESS OR IMPLIED. TO THE FULLEST EXTENT PERMISSIBLE PURSUANT TO APPLICABLE LAW, ESCENT PARTNERS DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, IMPLIED WARRANTIES AND CONDITIONS OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, WORKMANLIKE EFFORT, TITLE, AND NON-INFRINGEMENT. ESCENT PARTNERS DOES NOT WARRANT THAT THE AVAILABILITY OF OR THE FUNCTIONS CONTAINED IN THE SITE, SITE CONTENT, SITE CODE, SERVICES OR SOFTWARE, WILL BE UNINTERRUPTED OR ERROR-FREE, THAT DEFECTS WILL BE CORRECTED, OR THAT THIS SITE, SITE CONTENT, SITE CODE, THE SERVER THAT MAKES THEM AVAILABLE, OR THE SOFTWARE ARE FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS, OR THAT THE SITE, SITE CONTENT, SITE CODE, SOFTWARE OR SERVER DO NOT VIOLATE ANY PATENT, COPYRIGHT, TRADEMARK OR OTHER INTELLECTUAL PROPERTY RIGHTS OF ANY PERSON. ESCENT PARTNERS DOES NOT WARRANT OR MAKE ANY REPRESENTATIONS REGARDING THE USE OR THE RESULTS OF THE USE OF THE SITE, THE SITE CONTENT, THE SITE CODE, THE SERVICES OR THE SOFTWARE, IN TERMS OF THEIR CORRECTNESS, ACCURACY, RELIABILITY, OR OTHERWISE. YOU (AND NOT EP) ASSUME THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SITE, SITE CONTENT, SITE CODE, THE SERVICES, AND SOFTWARE, AS WELL AS THE ENTIRE COST OF ALL NECESSARY SERVICING, REPAIR, OR CORRECTION IF THERE ARE ANY DEFECTS. NO ORAL OR WRITTEN INFORMATION OR ADVICE GIVEN BY ESCENT PARTNERS (AND ITS FUNDERS, SUCCESSORS, PARENTS, SUBSIDIARIES, AFFILIATES, OFFICERS, DIRECTORS, AGENTS, DEVELOPERS, JOINT VENTURERS, NETWORKS, DISTRIBUTORS AND ATTORNEYS) SHALL CREATE A WARRANTY. APPLICABLE LAW MAY NOT ALLOW THE EXCLUSION OF IMPLIED WARRANTIES, SO THE FOREGOING EXCLUSION MAY NOT APPLY TO YOU. 
+	</div>
+	<b>
+		LIMITATION OF LIABILITY
+	</b>
+	<div>
+		UNDER NO CIRCUMSTANCES, INCLUDING WITHOUT LIMITATION, NEGLIGENCE, SHALL ESCENT PARTNERS (AND ITS FUNDERS, SUCCESSORS, PARENTS, SUBSIDIARIES, AFFILIATES, OFFICERS, DIRECTORS, AGENTS, DEVELOPERS, NETWORKS, DISTRIBUTORS, JOINT VENTURERS AND ATTORNEYS) BE LIABLE FOR ANY DIRECT, INDIRECT, PUNITIVE, INCIDENTAL, SPECIAL, EXEMPLARY, CONSEQUENTIAL DAMAGES, ATTORNEY’S FEES OR ANY DAMAGES WHATSOEVER INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF USE, DATA, BUSINESS OR PROFITS THAT RESULT FROM THE USE OF, OR THE INABILITY TO USE, THE SITE, SITE CONTENT, SITE CODE, THE SERVICES OR THE SOFTWARE, EVEN IF THE POSSIBILITY OF SUCH DAMAGES HAS BEEN ADVISED, AND EVEN IF A REMEDY SET FORTH HEREIN IS FOUND TO HAVE FAILED ITS ESSENTIAL PURPOSE. WHILE Escent Partners TAKES PRECAUTIONS AGAINST SECURITY BREACHES, NO WEB SITE OR INTERNET TRANSMISSION IS COMPLETELY SECURE, AND AS SUCH, ESCENT PARTNERS (AND ITS FUNDERS, SUCCESSORS, PARENTS, SUBSIDIARIES, AFFILIATES, OFFICERS, DIRECTORS, AGENTS, DEVELOPERS, NETWORKS, DISTRIBUTORS, JOINT VENTURERS AND ATTORNEYS) SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, PUNITIVE, INCIDENTAL, SPECIAL, EXEMPLARY OR CONSEQUENTIAL DAMAGES THAT MAY RESULT FROM UNAUTHORIZED ACCESS, HACKING, DATA LOSS, OR OTHER BREACHES THAT MAY OCCUR. APPLICABLE LAW MAY NOT ALLOW THE LIMITATION OR EXCLUSION OF LIABILITY OR EXEMPLARY, INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THE ABOVE LIMITATION OR EXCLUSION MAY NOT APPLY TO YOU. IN NO EVENT SHALL THE TOTAL LIABILITY OF Escent Partners (AND ITS FUNDERS, SUCCESSORS, PARENTS, SUBSIDIARIES, AFFILIATES, OFFICERS, DIRECTORS, AGENTS, DEVELOPERS, NETWORKS, DISTRIBUTORS, JOINT VENTURERS AND ATTORNEYS) TO YOU FOR ALL DAMAGES, LOSSES, AND CAUSES OF ACTION, WHETHER IN CONTRACT, TORT (INCLUDING WITHOUT LIMITATION, NEGLIGENCE), OR OTHERWISE, EXCEED THE AMOUNT PAID BY YOU TO ESCENT PARTNERS, IF ANY, FOR ACCESSING AND USING THIS SITE AND/OR THE SERVICES. 
+	</div>
+	<b>
+		COPYRIGHT NOTICE
+	</b>
+	<div>
+		If you believe that any Submissions or any Site Content has been copied from any content in which you claim a copyright interest in a way that constitutes an infringement of your copyright interest, please forward the following information to the address below:
+	</div>
+	<div style="margin-left:45px;">
+		<ol style="list-style-type:decimal;">
+		<li>Your name, address, telephone number, and email address; </li>
+		<li>A description of the copyrighted work that you claim has been infringed; </li>
+		<li>The exact URL or a description of where the alleged infringing material is located; </li>
+		<li>A statement by you that you have a good faith belief that the content you claim infringes your copyright interest was copied without your authorization or that of  the copyright owner or his/her/its agent; and, further,; and</li>
+		<li>A statement by you, made under penalty of perjury, that the above information in your notice is accurate and that you are the copyright owner or authorized to act on the copyright owner's behalf. If you are authorized to act on behalf of the copyright owner, you must provide an electronic or physical signature of the copyright owner on a statement wherein he/she/it authorizes you to act on his/her/its behalf.</li>
+		</ol>
+	</div>
+	<div style="margin-left:45px;">
+		  Escent Partners<br/>
+          22081 Bardwell Ave<br/>
+		  Conifer, CO 80433<br/>
+
+	</div>	
+	<div>
+		By this notice, Escent Partners seeks to preserve any and all exemptions from liability that may be available under the Copyright Act, 17 U.S.C. § 101, et seq., but does not necessarily stipulate that it is a service provider as defined in 17 USC Section 512c or elsewhere in the law of the United States or any state or territory within the United States.
+	</div>
+	<b>
+		OTHER
+	</b>
+	<div>
+		GOVERNING LAW
+	</div>
+	<div>
+		These Terms of Service shall be construed and enforced in accordance with the law of the State of Colorado without regard to the choice of law principles thereof.
+	</div>
+	<div>
+		ARBITRATION
+	</div>
+	<div>
+		Except for the right of either party to seek an injunction or other equitable relief in any court of competent jurisdiction to maintain the status quo or prevent irreparable harm, the parties hereto agree to enter into good faith negotiations to resolve any dispute, claim or controversy at law or equity that arises out of or is related to use of the Site and/or any of the Services, or the contents of the TOS or the Privacy Policy (each, a "Claim"), for a period of thirty (30) days from the date the Claim arose.  If such negotiation is unsuccessful, any Claim under this Agreement shall be resolved by final and binding arbitration in accordance with the Commercial Arbitration Rules of the American Arbitration Association.  Such arbitration shall take place in Colorado.  Judgment upon an arbitration award may be entered in any court of competent jurisdiction.
+	     <p>
+            &nbsp;
+        </p>
+		All Claims you bring against Escent Partners must be resolved in accordance with this section. All Claims filed or brought contrary to this section shall be considered improperly filed. Should you file a Claim contrary to this section, Escent Partners may recover reasonable attorney’s fees and costs, provided that Escent Partners has notified you in writing of the improperly filed Claim, and you have failed to promptly withdraw the Claim within thirty (30) days of such notice.
+	      <p>
+            &nbsp;
+          </p>
+		Any Claim must be filed within one (1) year after such Claim arose regardless of any status or law to the contrary. In the event any such Claim is not filed within such one (1) year period, such Claim shall be barred.
+	     <p>
+            &nbsp;
+        </p>
+		Any failure to act by Escent Partners with respect to a breach by you or others does not waive Escent Partners’s right to act with respect to subsequent or similar breaches. 
+	</div>
+	<div>
+		SEVERABILITY
+	</div>
+	<div>
+		If any provision of the TOS shall be held unlawful, void, invalid, or for any reason unenforceable, then that provision shall be deemed severable from these Terms of Service and shall not affect the validity and enforceability of any remaining provisions. 
+	</div>
+	<div>
+		COMPLIANCE WITH LAWS
+	</div>
+	<div>
+		You agree to comply with all applicable laws, rules and regulations in connection with your activities under the Rules.
+	</div>
+	<div>
+		ENTIRE AGREEMENT
+	</div>
+	<div>
+		This TOS sets forth the entire understanding and agreement between you and Escent Partners with respect to the subject matter hereof.
+	</div>
+	<div>
+		HEADINGS
+	</div>
+	<div>
+		Headings are for reference purposes only and do not limit the scope or extent of such section.
+	</div>
+	<div>
+		MISCELLANEOUS
+	</div>
+	<div>
+		You agree that no joint venture, partnership, employment, or agency relationship exists between you and Escent Partners as a result of this TOS or your use of the Site and/or any of the Services.  This TOS is subject to existing laws and legal process, and nothing contained in this TOS is in derogation of any obligation on our part to comply with governmental, court and law enforcement requests or requirements relating to your use of the Site and/or any of the Services or information provided to or gathered by us with respect to such use. The Sites may be viewed or used outside the United States of America, but Escent Partners makes no representation that these materials are appropriate or available for use there.
+	</div>
+</div>
+

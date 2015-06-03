@@ -1,0 +1,20 @@
+<div id="mainContent">
+	
+				<h3>User Bio Update</h3>
+				<% if @user -%>
+					<% form_tag({:controller => "/users", :action => :edit_user_bio, :organization_id => @current_organization, :user_id => @user, :update => "Update"}) do -%>
+						<br style="clear:both" />	
+				 		<%= render :partial => "users/user_bio", :locals=>{:user => @user, :bio=> @bio, :function=>"Update"} %>
+						<div class="FormRow">
+					        <div class="FormRowData" style= "margin-left:205px">
+							<%= submit_tag "Save", :class => "fsn-button ui-button ui-state-default ui-corner-all", :onclick => "this.form.submit();"%>
+							</div>
+						</div>
+					<% end -%>
+				<% else -%>
+					No User Defined.    Close Window
+				<% end -%>
+
+
+
+</div>

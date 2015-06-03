@@ -1,0 +1,5 @@
+<div id="main_content">
+
+    <%= render :partial => "apps/classroom/edit_classroom", :locals => {:admin => @admin, :parent=> @classroom.parent_subject, :parent_reset => false, :app=> @app, :classroom => @classroom, :name=> @classroom.course_name}  %>
+
+</div>	

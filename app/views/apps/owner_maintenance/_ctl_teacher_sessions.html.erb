@@ -1,0 +1,62 @@
+<div id="<%=teacher.public_id%>_sessions">
+  <%= render :partial => "/shared/error_and_notice" %>
+	<table style="width:600px; border:1px solid #ddd;">
+		<thead style="border:1px solid #ddd;">
+			<tr style=" border:1px solid #ddd;">
+				<th colspan=4 style = "color:#000000"><center><%= pluralize(teacher.tlt_sessions.final.size, " Finalized Observation")%> </center></th>
+			</tr>
+		</thead>
+		<tbody>
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+
+		<% teacher.tlt_sessions.final.sort{|a,b| b.session_date <=> a.session_date}.each do |sess| -%>
+			<% observer = sess.tracker ? sess.tracker.last_name : "Former User" -%>
+			<tr style="border:1px solid #ddd;">
+
+					<td  style=" border:1px solid #ddd; width:100px; width:fixed; padding-top:5px; padding-bottom:5px; color: #000000; vertical-align:top;text-align:center; font-size:11px" >
+						<%= sess.session_date.strftime("%b %d, %Y") %>
+					</td>
+					<td  style=" width:380px; width:fixed; border:1px solid #ddd; padding-top:5px; padding-bottom:5px; color: #000000; vertical-align:top;text-align:left; font-size:11px" >
+							Observer:&nbsp;<%= sess.tracker ? sess.tracker.last_name : "Former User" %><br/>
+							<%= sess.subject_area ? sess.subject_area.name : "Subject Not Defined" %>:&nbsp;<%= sess.classroom_name%>,&nbsp;<%=sess.class_period_name %>
+					</td>
+					<td   style=" width:60px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle;padding-left:10px; padding-right:10px; font-size:11px" >
+						<span class="fsn-button ui-button ui-state-default ui-corner-all">
+							<%= link_to "View", {:controller =>  "/apps/time_learning", :action => "static_itl_session", :organization_id => sess.organization, :tlt_session_id => sess}, {:target => "_blank"}  %>
+						</span>	
+					</td> 			
+					<td   style=" width:60px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle;padding-left:10px; padding-right:10px; font-size:11px" >
+						<span class="fsn-button ui-button ui-state-default ui-corner-all">
+							<%= link_to "Destroy", {:controller =>  "/apps/owner_maintenance", :action => "ctl_destroy_session", :tlt_session_id => sess}, :confirm => "Are You Sure?", :class => "destroy_session"  %>
+						</span>	
+					</td> 
+ 			</tr>
+
+			<% end -%>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.destroy_session').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#<%=teacher.public_id%>_sessions").html(data);
+				jQ("#<%=teacher.public_id%>_sessions").show();
+			})
+			return false;
+	})
+});
+</script>
+
+
+
+
+
+

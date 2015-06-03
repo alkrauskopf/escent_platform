@@ -1,0 +1,107 @@
+<h1>New merchant_account</h1>
+
+<% form_for([:master,@merchant_account]) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :organization_id %><br />
+     <%= f.select(:organization_id, Organization.all.collect{|u| [u.name,u.id]})  %>
+  </p>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </p>
+  <p>
+    <%= f.label :gateway_type %><br />
+    <%= f.select :gateway_type, MerchantAccount::GatewayTypes.collect{|gateway_type| [gateway_type[:name], gateway_type[:type]]}  %>
+  </p>
+  <p>
+    <%= f.label :gateway_partner %><br />
+    <%= f.text_field :gateway_partner %>
+  </p>
+  <p>
+    <%= f.label :gateway_login %><br />
+    <%= f.text_field :gateway_login %>
+  </p>
+  <p>
+    <%= f.label :gateway_password %><br />
+    <%= f.text_field :gateway_password %>
+  </p>
+  <p>
+    <%= f.label :gateway_certification_id %><br />
+    <%= f.text_field :gateway_certification_id %>
+  </p>
+	<p>
+    <%= f.label :vat_registration_number %><br />
+    <%= f.text_field :vat_registration_number %>
+  </p>
+	<p>
+    <%= f.label :gateway_ignore_avs %><br />
+    <%= f.check_box :gateway_ignore_avs %>
+  </p>
+	<p>
+    <%= f.label :gateway_ignore_cvv %><br />
+    <%= f.check_box :gateway_ignore_cvv %>
+  </p>
+	<p>
+    <%= f.label :payment_transaction_fee %><br />
+    <%= f.text_field :payment_transaction_fee %>
+  </p>
+	<p>
+    <%= f.label :payment_transaction_discount_rate %><br />
+    <%= f.text_field :payment_transaction_discount_rate %>
+  </p>
+	<p>
+    <%= f.label :refund_transaction_fee %><br />
+    <%= f.text_field :refund_transaction_fee %>
+  </p>
+	<p>
+    <%= f.label :chargeback_transaction_fee %><br />
+    <%= f.text_field :chargeback_transaction_fee %>
+  </p>
+	<p>
+    <%= f.label :card_statement_name %><br />
+    <%= f.text_field :card_statement_name %>
+  </p>
+	<p>
+    <%= f.label :visa %><br />
+    <%= f.check_box :visa %>
+  </p>
+		<p>
+    <%= f.label :master %><br />
+    <%= f.check_box :master %>
+  </p>
+		<p>
+    <%= f.label :american_express %><br />
+    <%= f.check_box :american_express %>
+  </p>
+		<p>
+    <%= f.label :discover %><br />
+    <%= f.check_box :discover %>
+  </p>
+		<p>
+    <%= f.label :diners_club %><br />
+    <%= f.check_box :diners_club %>
+  </p>
+	<p>
+    <%= f.label :mastro %><br />
+    <%= f.check_box :mastro %>
+  </p>
+  <p>
+    <%= f.label :jcb %><br />
+    <%= f.check_box :jcb %>
+  </p>
+	<p>
+    <%= f.label :gateway_pem %><br />
+    <%= f.text_area :gateway_pem %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', master_merchant_accounts_path %>

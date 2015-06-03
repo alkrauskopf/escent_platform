@@ -1,0 +1,73 @@
+<h1>Editing classroom</h1>
+<%= button_to_remote 'Back', {:url => {:controller => 'admin/classrooms',:action => 'index', :organization_id => @current_organization},:method => 'get', :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
+<div class="Form clear">
+  <% form_remote_for(:classroom,@classroom,:url => {:controller => 'admin/classrooms',:action => "update",:organization_id => @current_organization,:classroom_id => @classroom},:update => "classrooms_panel")  do |f| %>
+    <%= f.error_messages %>
+    <style type="text/css">
+      table.layout{
+        border:0;
+        width:60%;
+      }
+      table.layout td{
+        border:0;
+        padding:5px;
+        vertical-align:top;
+      }
+      table.layout tr:hover{
+        background-color:#F9F9F9;
+      }
+      table.layout td label{
+        text-align:right;
+        width:100%;
+      }
+    </style>
+    <input type="hidden" name="classroom[organization_id]" value="<%= @current_organization.id   %>" />
+    <table cellspacing="5" class="layout">
+      <tr>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td><%= f.label :course_name %></td>
+        <td><%= f.text_field :course_name %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :subject_area_id %></td>
+        <td>
+		<%=  select(:classroom, :subject_area_id, SubjectArea.all(:order => "name").collect{|s| [s.name, s.id]}, {:prompt => "Select Subject"}) %>
+		</td>
+      </tr>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          var url = "<%= url_for :controller => '/admin/content', :action => :select_subject_areas, :organization_id => @current_organization %>";
+          jQ("#classroom_subject_area").autocomplete(url, {
+            autoFill: true,
+            mustMatch: true,
+            matchContains: false
+          });
+
+        });
+      </script>
+
+
+      <tr>
+        <td></td>
+        <td>
+			<%= check_box :classroom, :homework_option %>
+     		Enable Homework Submissions 
+        </td>
+      </tr>
+	        
+      <tr>
+        <td></td>
+        <td>
+          <%= f.submit 'Save New Information',:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+ <%= button_to_remote 'Back', {:url => {:controller => 'admin/classrooms',:action => 'index', :organization_id => @current_organization},:method => 'get', :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
+
+</div>
+

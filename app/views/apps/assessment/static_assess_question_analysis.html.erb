@@ -1,0 +1,273 @@
+
+<div id="<%=@q_table2%>">	
+	<table   style="width:450px; border:0px solid white;color:#000000">
+		<tbody>
+					<% if @current_user.ifa_user_option.is_student_filtered -%> 
+						<% filter_label = "Filter: Students Of " + @current_user.last_name -%>
+						<% elsif @current_user.ifa_user_option.is_classroom_filtered -%> 
+						<% filter_label = "Filter: Students Of " + @current_user.last_name + " Tagged Classrooms" -%>
+						<% elsif @current_user.ifa_user_option.is_colleague_filtered -%> 
+						<% filter_label = "Filter: Students Of " + @current_user.last_name + " Tagged Colleagues" -%>					
+						<% elsif @current_user.ifa_user_option.is_org_filtered -%> 
+						<% filter_label = "Filter: Students Of " + @current_user.last_name + " Tagged Schools" -%>					
+					<% else -%>
+						<% filter_label = "Filter: All Students" -%>					
+					<% end -%>
+			<tr style=" border:0px solid white;">
+				<td  style="width:550px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:left;color: #000000;font-weight:normal;">
+					Created <%= time_ago_in_words(@q.created_at.to_s, include_seconds = false) %> Ago By <%= @current_user.full_name %><br/>
+					Updated <%= time_ago_in_words(@q.updated_at.to_s, include_seconds = false) %> Ago
+				</td>
+			</tr>
+			<tr style=" border:0px solid white;">
+				<td  style="width:550px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:left;color: #000000;font-weight:normal;">
+					Used In <%=pluralize(@q.act_assessments.active.size, " Active Assessment") %>
+				</td>
+			</tr>
+			<tr style=" border:0px solid white;">
+				<td  style="width:550px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:left;color: #000000;font-weight:normal;">
+				<% @current_organization.ifa_org_option.act_masters.each do |mstr| -%>
+				 	<% stand = @q.standard(mstr) -%>
+	 				<% range = @q.score_range(mstr) -%>
+					<% s_string = stand ? stand.abbrev.upcase : "No Strand"  -%>
+					<% r_string = range ? range.range : "No Level" -%>
+	 				<% title_string = mstr.abbrev + ": " + s_string + ", " + r_string -%>	
+					<%= title_string %><br/>			
+				<% end -%>
+				</td>
+			</tr>
+		
+		</tbody>					
+	</table>
+
+	<table   style="width:450px; border:1px solid #ddd;">
+		<thead>
+			<tr style=" border:1px solid #ddd;">			
+				<th  colspan=5 style=" border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+					<%= filter_label%>
+				</th>
+			</tr>
+			<tr style=" border:1px solid #ddd;">			
+				<th  colspan=1 style="width:90px; border:0px solid white; font-size:10px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+					&nbsp;
+				</th>
+				<th  colspan=2 style="border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+					All Results
+				</th>
+				<th  colspan=2 style="border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+					Filtered Results
+				</th>
+			</tr>
+			<tr style=" border:1px solid #ddd;">			
+				<th  style="width:90px;  border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+					Period
+				</th>
+				<th  colspan=1 style="width:90px; width:fixed; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+					Answers
+				</th>
+				<th  colspan=1 style="width:90px; width:fixed;  border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+					Proficiency
+				</th>
+				<th  colspan=1 style="width:90px; width:fixed; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+					Answers
+				</th>
+				<th  colspan=1 style="width:90px; width:fixed;  border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:normal;">
+					Proficiency
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<style type="text/css" media="screen">
+		    table,tr,td { border:medium}
+			table tr:hover{
+ 	       	background-color: transparent;
+ 	     	}
+ 		   	</style>
+			<% period = @current_user.ifa_user_option.beginning_period.beginning_of_month -%>
+			<% until period > Date.today -%>
+				<% period_end = period.end_of_month -%>
+				<% answers = @q.ifa_question_logs.since(period).until(period_end).collect{|a| a.choices}.sum -%>
+				<% points = @q.ifa_question_logs.since(period).until(period_end).collect{|a| a.earned_points}.sum -%>
+				<% prof = answers == 0 ? "" : (100*points/answers).to_i -%>
+					<% if @current_user.ifa_user_option.is_student_filtered -%> 
+						<% f_answers = @q.ifa_question_logs.for_teacher(@current_user).since(period).until(period_end).collect{|a| a.choices}.sum -%>
+						<% f_points = @q.ifa_question_logs.for_teacher(@current_user).since(period).until(period_end).collect{|a| a.earned_points}.sum -%>
+						<% f_prof = f_answers == 0 ? "" : (100*f_points/f_answers).to_i -%>
+						<% elsif @current_user.ifa_user_option.is_classroom_filtered -%> 
+						<% f_answers = @q.ifa_question_logs.for_teacher(@current_user).since(period).until(period_end).collect{|a| a.choices}.sum -%>
+						<% clsrm_ids = @current_user.favorite_classrooms.collect{|c| c.id} -%>
+						<% f_points = @q.ifa_question_logs.since(period).until(period_end).select{|ans| clsrm_ids.include?(ans.act_submission.classroom.id)}.collect{|a| a.earned_points}.sum -%>
+						<% f_prof = f_answers == 0 ? "" : (100*f_points/f_answers).to_i -%>
+						<% elsif @current_user.ifa_user_option.is_colleague_filtered -%> 
+						<% f_answers = @q.ifa_question_logs.for_teacher(@current_user).since(period).until(period_end).collect{|a| a.choices}.sum -%>
+						<% colleague_ids = @current_user.colleagues.collect{|c| c.id} -%>
+						<% f_points = @q.ifa_question_logs.since(period).until(period_end).select{|ans| colleague_ids.include?(ans.teacher_id)}.collect{|a| a.earned_points}.sum -%>
+						<% f_prof = f_answers == 0 ? "" : (100*f_points/f_answers).to_i -%>	 
+						<% elsif @current_user.ifa_user_option.is_org_filtered -%> 
+						<% f_answers = @q.ifa_question_logs.for_teacher(@current_user).since(period).until(period_end).collect{|a| a.choices}.sum  -%>
+						<% org_ids = @current_user.favorite_organizations.collect{|o| o.id} -%>
+						<% f_points = @q.ifa_question_logs.since(period).until(period_end).select{|ans| org_ids.include?(ans.organization_id)}.collect{|a| a.earned_points}.sum -%>
+						<% f_prof = f_answers == 0 ? "" : (100*f_points/f_answers).to_i -%>	 
+						
+					<% else -%>
+						<% f_answers = answers-%>
+						<% f_points = points -%>
+						<% f_prof = prof -%>					
+					<% end -%>
+				<% unless answers == 0 %>
+					<tr style=" border:0px solid #ddd;">
+						<td  style="border:1px solid #ddd;width:90px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:middle; text-align:center;color: #000000;font-weight:normal;">
+							<%= period.strftime("%b, %Y")%>
+						</td>
+						<td  style="border:1px solid #ddd;width:90px; width:fixed; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:middle; text-align:center;color: #000000;font-weight:normal;">
+							<%= answers %>
+						</td>
+						<td  style="border:1px solid #ddd;width:90px; width:fixed; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:middle; text-align:center;color: #000000;font-weight:normal;">
+							<%= prof == "" ? "<small>- - -</small>" : number_to_percentage(prof, :precision => 0) %> 
+						</td>
+						<td  style="border:1px solid #ddd; width:90px; width:fixed; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:middle; text-align:center;color: #000000;font-weight:normal;">
+							<%= f_answers %>
+						</td>
+						<td  style="border:1px solid #ddd;width:90px; width:fixed; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:middle; text-align:center;color: #000000;font-weight:normal;">
+							<%= f_prof == "" ? "<small>- - -</small>" : number_to_percentage(f_prof, :precision => 0) %> 
+						</td
+					</tr>
+				<% end -%>
+				<% period += 1.month -%>
+			<% end -%>
+		</tbody>					
+	</table>
+	<br/>
+<div   style="width:450px; font-size: 13px; border:1px solid #ddd;color:#000000">
+	<br/><center><strong><%= @q.act_subject.name%> Question Calibration</strong></center>
+	<% @current_organization.ifa_org_option.act_masters.each_with_index do |mstr,mdx| -%>
+	<% if mstr.abbrev == "CO" %>
+		<%= render (:partial => "ifa_csap_analysis", :locals => {:quest => @q, :mstr => mstr})%>		
+	<% end -%>
+	<span style="font-size:12px; color:#000000">
+	<strong><center><%= mstr.abbrev %> Calibration<br/>
+		 	<% stand = @q.standard(mstr) -%>
+	 				<% range = @q.score_range(mstr) -%>
+					<% s_string = stand ? stand.abbrev.upcase : "No Strand"  -%>
+					<% r_string = range ? range.range : "No Level" -%>
+	 				<% title_string =  mstr.abbrev + ": " + s_string + ", " + r_string -%>	
+					<%= title_string %><br/>
+					<% hover_1 = "Question Results Of Students Distributed By " + mstr.abbrev + " Achievement Levels" -%>
+		</center></strong>
+		</span>
+	<table   style="width:300px; border:1px solid #ddd; margin-left:75px;">
+		<thead>
+			<tr  style=" border:1px solid #ddd;">
+					<th   style="width:150px; width:fixed; border:0px solid white; font-size:12px; padding-left:0px; vertical-align:bottom; text-align:center;color:#000000;font-weight:normal;">
+						<center>Student Levels</center>
+					</th>
+					<th   class="tip" title="<center><%= hover_1 %></center>"  style="width:150px; width:fixed; border:0px solid white; font-size:12px; padding-left:0px; vertical-align:bottom; text-align:center;color:#000000; font-weight:normal;">
+						Question Results
+					</th>
+			</tr>
+		</thead>
+		<tbody>
+			<style type="text/css" media="screen">
+		    table,tr,td { border:medium}
+			table tr:hover{
+ 	       	background-color: transparent;
+ 	     	}
+ 		   	</style>
+			<% mstr.act_score_ranges.for_subject(@q.act_subject).no_na.each do |level| -%>
+				<% q_performance = @q.ifa_question_performances.for_range(level).first rescue nil %>
+
+				<% q_base_students = q_performance ? q_performance.baseline_students : 0 -%>
+				<% q_base_answers = q_performance ? q_performance.baseline_answers : 0 -%>
+				<% q_base_points = q_performance ? q_performance.baseline_points : 0 -%>
+				<% q_base_prof = q_base_answers == 0? 0: (100*q_base_points/q_base_answers).to_i rescue 0-%>
+
+				<% color_string_3 = "#6a6529" %>
+ 				<% back_3 = "#FFFFFF" %>	
+				<% if q_base_students > 0 %>
+					<% back_3 = q_base_prof < 60 ? "#fcd1ca" : (q_base_prof > 80 ? "#baeaa9" : "#f7f5cc") %>
+				<% end %>			
+				<% border_w = range && range.range == level.range ? "1px" : "0px" -%>
+				<% border_c = range && range.range == level.range ? "#000" : "#ddd" -%>
+				<% level_c = range && range.range == level.range ? "#FFFFFF" : "#FFFFFF" -%>
+				<tr style=" border:<%=border_w%> solid <%=border_c%>;">
+					<td  style="width:150px; width:fixed; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center; background:<%=level_c%>; color: #000000;font-weight:normal;">
+						<%= level.range %>
+					</td>
+					<td  style="width:150px; width:fixed; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center; background:<%=back_3%>; color:<%= color_string_3 %>;font-weight:normal;">
+						<% sample_size = "(" + (q_base_students ? q_base_students : 0).to_s  + ")" -%> 
+						<%=number_to_percentage(q_base_prof, :precision => 0) %>  <%= sample_size %>
+					</td>
+				</tr>
+				<% end -%>
+
+				<% seq_score_act = @q.sequence_score_for(mstr, "ACT") %>
+				<% align_score_act = @q.alignment_score_for(mstr, "ACT") %>
+				<tr style=" border:0px solid #ddd;">
+					<td  style="width:150px; width:fixed;border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:bold;">
+						Sequencing
+					</td>
+					<td  style="width:150px; width:fixed; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center; color:#000000;font-weight:normal;">
+						<% unless seq_score_act.nil? %>
+							<%=number_to_percentage(seq_score_act, :precision => 0) %>  
+						<% else %>
+							---
+						<% end -%>
+					</td>
+				</tr>
+				<tr style=" border:0px solid #ddd;">
+					<td  style="width:150px; width:fixed; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center;color: #000000;font-weight:bold;">
+						Alignment
+					</td>
+					<td  style="width:150px; width:fixed; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:center; color:#000000;font-weight:normal;">
+						<% unless align_score_act.nil? %>
+							<%=number_to_percentage(align_score_act, :precision => 0) %>  
+						<% else %>
+							---
+						<% end -%>
+					</td>
+				</tr>		
+		</tbody>					
+	</table>
+
+	<%= render (:partial => "static_assessment_q_benchmarks", :locals => {:mstr => mstr})%>	
+		<span style="font-size:12px;width:550px;">
+		<center> - - - - - - - </center>
+		</span>
+	
+	<% end -%>
+	</div>
+</div>
+
+<script>
+jQ(function(){
+jQ('th.tip').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'topMiddle',
+         tooltip: 'bottomMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 0,
+         radius: 0,
+         color: '#99911a'
+      },
+      width: 250,
+	  tip: { // Now an object instead of a string
+         corner: 'bottomMiddle', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>
+<script>

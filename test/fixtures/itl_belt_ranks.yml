@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  rank: MyString
+  rank_score: 1
+  image: MyString
+  criteria: MyText
+
+two:
+  rank: MyString
+  rank_score: 1
+  image: MyString
+  criteria: MyText

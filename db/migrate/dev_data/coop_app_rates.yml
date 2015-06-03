@@ -1,0 +1,182 @@
+
+CORE_BASE:
+    id: 1
+    coop_app_id: 1
+    coop_group_code_id: 1
+    pay: 0.00
+    pay_class: Organization
+    pay_period: semester
+    is_default: 1
+
+CORE_CHARTER:
+    id: 2
+    coop_app_id: 1
+    coop_group_code_id: 2
+    pay: 0.00
+    pay_class: Organization
+    pay_period: semester
+    is_default: 0
+
+CLASSROOM_BASE:
+    id: 3
+    coop_app_id: 2
+    coop_group_code_id: 1
+    pay: 0.00
+    pay_class: Classroom
+    pay_period: semester
+    class_max: 10
+    is_default: 1
+
+CLASSROOM_CHARTER:
+    id: 4
+    coop_app_id: 2
+    coop_group_code_id: 2
+    pay: 0.00
+    pay_class: Classroom
+    pay_period: semester
+    class_max: 10
+    is_default: 0
+    
+IFA_BASE:
+    id: 5
+    coop_app_id: 3
+    coop_group_code_id: 1
+    pay: 0.0
+    pay_class: Student
+    pay_period: semester
+    is_default: 1
+
+IFA_CHARTER:
+    id: 6
+    coop_app_id: 3
+    coop_group_code_id: 2
+    pay: 0.0
+    pay_class: Student
+    pay_period: semester
+    is_default: 0
+
+ITA_BASE:
+    id: 7
+    coop_app_id: 4
+    coop_group_code_id: 1
+    pay: 0.0
+    pay_class: Teacher
+    pay_period: semester
+    is_default: 1
+
+ITA_CHARTER:
+    id: 8
+    coop_app_id: 4
+    coop_group_code_id: 2
+    pay: 0.0
+    pay_class: Teacher
+    pay_period: semester
+    is_default: 0
+ 
+BLOG_BASE:
+    id: 9
+    coop_app_id: 5
+    coop_group_code_id: 1
+    pay: 0.0
+    pay_class: Organization
+    pay_period: semester
+    is_default: 1
+
+BLOG_CHARTER:
+    id: 10
+    coop_app_id: 5
+    coop_group_code_id: 2
+    pay: 0.0
+    pay_class: Organization
+    pay_period: semester
+    is_default: 0 
+ 
+CTL_BASE:
+    id: 11
+    coop_app_id: 6
+    coop_group_code_id: 1
+    pay: 0.0
+    pay_class: Teacher
+    pay_period: semester
+    is_default: 1
+
+CTL_CHARTER:
+    id: 12
+    coop_app_id: 6
+    coop_group_code_id: 2
+    pay: 0.0
+    pay_class: Teacher
+    pay_period: semester
+    is_default: 0  
+    
+DLE_BASE:
+    id: 13
+    coop_app_id: 7
+    coop_group_code_id: 1
+    pay: 0.0
+    pay_class: Teacher
+    pay_period: semester
+    is_default: 1
+    
+DLE_CHARTER:
+    id: 14
+    coop_app_id: 7
+    coop_group_code_id: 2
+    pay: 0.0
+    pay_class: Teacher
+    pay_period: semester
+    is_default: 0
+ 
+ISTA_BASE:
+    id: 15
+    coop_app_id: 8
+    coop_group_code_id: 1
+    pay: 0.0
+    pay_class: Organization
+    pay_period: semester
+    is_default: 1
+
+ISTA_CHARTER:
+    id: 16
+    coop_app_id: 8
+    coop_group_code_id: 2
+    pay: 0.0
+    pay_class: Organization
+    pay_period: semester
+    is_default: 0  
+ 
+CM_BASE:
+    id: 17
+    coop_app_id: 9
+    coop_group_code_id: 1
+    pay: 0.0
+    pay_class: Organization
+    pay_period: semester
+    is_default: 1
+
+CM_CHARTER:
+    id: 18
+    coop_app_id: 9
+    coop_group_code_id: 2
+    pay: 0.0
+    pay_class: Organization
+    pay_period: semester
+    is_default: 0  
+
+ELT_BASE:
+    id: 19
+    coop_app_id: 10
+    coop_group_code_id: 1
+    pay: 0.0
+    pay_class: Organization
+    pay_period: semester
+    is_default: 1
+
+ELT_CHARTER:
+    id: 20
+    coop_app_id: 10
+    coop_group_code_id: 2
+    pay: 0.0
+    pay_class: Organization
+    pay_period: semester
+    is_default: 0  

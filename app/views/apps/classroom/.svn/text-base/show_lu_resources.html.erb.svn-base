@@ -1,0 +1,9 @@
+	<div id="folder_panel_<%=@folder.id%>" style = "width:540px; float:left; font-size:10px;">
+		<%= render (:partial => "list_lu_folder_resources", :locals => {:lu => @topic, :folder => @folder}) %>	
+	</div>
+  <script type="text/javascript" charset="utf-8">
+    jQuery(document).ready(function(){
+      jQ('#folder_panel_<%=@folder.id%>').tabs();
+      // selects
+    });
+  </script>

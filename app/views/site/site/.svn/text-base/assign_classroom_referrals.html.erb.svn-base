@@ -1,0 +1,253 @@
+
+<div style = "font-size:14px; color: #000000;">
+	<br/>
+	<span style ="color: #C83A14; font-size:20px">
+	<strong>CLASSROOM REFERRALS for <%= @classroom.course_name.upcase %></strong>
+	</span>
+	 <br/><br/>
+	 <%= @current_user.first_name %>, below are other Classroom pages that you can include as Links on your <i><%= @classroom.course_name.upcase %></i> page.<br/>
+	 These are the topics covered in the Classrooms that you TAGGED.
+	 If you would like to add a Link to a Classroom that is not listed below, first go to that Classroom page and TAG it.
+	<br/>
+	<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
+	Back To: <%= link_to @classroom.course_name, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @return_topic, :id => @classroom%>
+	</div>
+	<br/> <%= render :partial => "/shared/error_and_notice" %>
+	<div class="flash_notice" style="display:none;"></div>
+	<div>
+	<% if !@topics_list.size.zero? %>
+	<table id="roles" class="tablesorter" style="width:99%;">
+		<thead>
+			<tr>
+				<th>&nbsp;
+				</th>
+				<th><center><strong>Topic</strong></center>
+				</th>
+				<th><center><strong>Organization</strong></center></th>
+			</tr>
+		</thead>
+		<tbody id="topic_content">
+		<% for tpc in @classroom.reference_topics.uniq do -%>
+			<% unless tpc.nil? %>
+				<%# unless tpc.classroom == @classroom%>
+				<tr id="<%= tpc.public_id %>" class="content-list-item">
+					<td width=7% align="right" style="vertical-align:middle;  padding-left:18px; color: #000000; font-size:10px">
+						<%= button_to "Remove", {:controller => "/site/site", :action => :assign_classroom_referrals, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @return_topic, :link_topic_id => tpc, :function => "Remove"},{:class =>"fsn-button ui-button ui-state-default ui-corner-all"}  %>
+					</td>
+					
+					<td width=20%, style="padding-left:0px; color: #C83A14; vertical-align:middle; font-size:11px">
+						<center><strong><%= link_to tpc.title,{:controller => "site/site", :action => "static_classroom", :organization_id => tpc.classroom.organization, :topic_id => tpc, :id => tpc.classroom}, {:target => "_blank"} %>
+						</strong></center>
+					</td>
+					
+					<td width=60%, style="color: #C83A14; vertical-align:middle;padding-top:10px; padding-bottom:10px">
+						<center><strong><%= tpc.classroom.organization.name%>,&nbsp;<%= tpc.classroom.course_name%></strong><br/>
+						<% if tpc.classroom.leaders.size == 0%> <small><i> * * No Teachers * *</i></small><% end %>
+						<% if tpc.classroom.leaders.size == 1%> Teacher: &nbsp<% end %>
+						<% if tpc.classroom.leaders.size > 1 %>Teachers: &nbsp; <% end %>
+						<% tpc.classroom.leaders.each_with_index do |ldr,i|%>
+							<% unless ldr.nil? %>
+								<%= link_to ldr.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => ldr}, {:target => "_blank"}%>
+								<% unless i+1 == tpc.classroom.leaders.size%>, &nbsp;
+								<%end%>
+							<% end %>
+						<% end %>
+						</center>
+					</td>
+				</tr>
+				<%# end %>
+			  <% end %>
+			<% end -%>
+			<% add_list = @topics_list - @classroom.reference_topics %>
+			<% unless add_list.empty?%>
+				<% for tpc in add_list do -%>
+					<% unless tpc.nil? %>
+						<% unless tpc.classroom == @classroom%>
+					<tr id="<%= tpc.public_id %>" class="content-list-item">
+					<td width=7% align="right" style="vertical-align:middle;  padding-left:24px; color: #C83A14; font-size:10px">
+						<%= button_to "Add", {:controller => "/site/site", :action => :assign_classroom_referrals, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @return_topic, :link_topic_id => tpc, :function => "Add"},{:class =>"fsn-button ui-button ui-state-default ui-corner-all"}  %>
+					</td>
+					
+					<td width=20%, style="padding-left:0px; color: #000000; vertical-align:middle; font-size:11px">
+						<center><strong><%= link_to tpc.title,{:controller => "site/site", :action => "static_classroom", :organization_id => tpc.classroom.organization, :topic_id => tpc, :id => tpc.classroom}, {:target => "_blank"} %>
+						</strong></center>
+					</td>
+					
+					<td width=60%, style="color: #000000; vertical-align:middle; padding-top:10px; padding-bottom:10px">
+						<center><strong><%= tpc.classroom.organization.name%>,&nbsp;<%= tpc.classroom.course_name%></strong><br/>
+						<% if tpc.classroom.leaders.size == 0%> <small><i> * * No Teachers * *</i></small><% end %>
+						<% if tpc.classroom.leaders.size == 1%> Teacher: &nbsp<% end %>
+						<% if tpc.classroom.leaders.size > 1 %>Teachers: &nbsp; <% end %>
+						<% tpc.classroom.leaders.each_with_index do |ldr,i|%>
+							<% unless ldr.nil? %>
+								<%= link_to ldr.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => ldr}, {:target => "_blank"}%>
+								<% unless i+1 == tpc.classroom.leaders.size%>, &nbsp;
+								<%end%>
+							<% end %>
+						<% end %>
+						</center>
+					</td>
+				</tr>	
+				<% end %>
+				<% end %>
+				<% end%>
+			<% end -%>
+		</tbody>
+		</table>
+		<% else -%>	
+		<strong>No Topics Available To Add or Remove As Referrals.<br/>
+				You Must Tag Other Classrooms To Bew On Your Favorites List.</strong>
+	<% end -%>
+
+	</div>
+	<div style="width:100%; text-align:left;   font-size:12px; padding:10px;">
+	Back To: <%= link_to @classroom.course_name, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @return_topic, :id => @classroom%>
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('input.add_resource').click(function() {
+			var $this = jQ(this);
+			var url = $this.parents("form").attr("action");
+			jQ.post(url, function(data) {
+				$this.parents("tr").remove();
+				jQ('.flash_notice').html(data).css("display", "block");
+			})
+			return false;
+		})
+	})
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+		
+	// var $resultsBox = jQ("#search-results");	
+	
+	var $resultsBox = jQ("#result-box-dialog");		
+	
+	function search_content(keywords, type) {
+	  search_url = "<%= url_for :controller => :content, :action => :search_with_type, :organization_id => @current_organization %>";
+		jQ.get(search_url, {'keywords': keywords, 'type':type, 'render_html':'search_results_for_topics'}, function(data) {
+			$resultsBox.html(data)
+		});
+	}
+	
+	jQ("#search_button").click(function() {
+		var keywords = jQ("input[name='keywords']", jQ(this).parent("p")).val();
+		var type = "";
+		jQ("input[name='content_search_type']", jQ(this).parents("div.dialog")).each(function() {
+       if(jQ(this).attr('checked')) {
+         type = jQ(this).val();
+       }
+		})
+		search_content(keywords, type);
+	});
+	
+	jQ("#dialog_keywords").keyup(function(event){
+	    if (event.keyCode == 13) {
+			var keywords = jQ(this).val();
+	        search_content(keywords);
+	    }
+	});
+	
+	var save_contents = function() {
+    var items = jQ(".content-list-item");
+       var content_ids = new Array();
+    var $topic_content = jQ("#topic_content");
+    items.each(function() {
+     content_ids.push(this.id);
+    })
+		jQ.post('<%= url_for :controller => :topics, :action => :sort_content, :id => @topic, :organization_id => @current_organization %>', {'content_ids[]':content_ids}, function(data) {
+			$topic_content.css('background', '#f0f0e8')
+			.fadeTo('slow', 0.5, function() {
+				$topic_content.css('background', '#fff')
+				$topic_content.fadeTo("slow", 1)
+				$topic_content.parent("table").parent("div").html(data)
+				$topic_content.css("padding", "0")
+			})						
+		})
+	}
+
+	jQ('#add_content').click(function() {
+		jQ('.dialog').dialog('open');
+		return false;
+	})
+
+  var addActionToPaginationCouldCheck = function() {
+    jQ(".result-box-dialog :checkbox").click(function() {
+      var $this = jQ(this);
+      var id = $this.val();
+      if($this.attr("checked")) {
+        jQ("p:eq(0)", $this.parents(".dialog")).append("<input id='"+id+"' name='hidden_content_ids' type='hidden' value='"+id+"' />")
+      } else {
+        jQ("input#"+id).remove();
+      }
+    })
+  }
+	
+	jQ(".dialog").dialog({
+		bgiframe: true,
+		autoOpen: false,
+		width: 800,
+		height: 400,
+		modal: true,
+		buttons: {
+			'Add Selected Resource To Topic': function() {
+				var content_ids = new Array();
+				var $this = jQ(this);
+        // jQ("input[name='content_ids[]']", jQ(this)).each(function() {
+        //  if(jQ(this).attr('checked')) {
+        //    content_ids.push(jQ(this).val());
+        //  }
+        // });
+        jQ("input[name='hidden_content_ids']", jQ(this)).each(function() {
+           content_ids.push(jQ(this).val());
+        });
+				jQ.post('<%= url_for :controller => :topics, :action => :add_content, :id => @topic, :organization_id => @current_organization,:classroom_id => @classroom.id %>', {'content_ids[]':content_ids}, function(data) {
+					jQ("#topic_content").html(data);
+					$this.dialog('close');
+				})
+			},
+			Cancel: function() {
+				jQ(this).dialog('close');
+			}
+		}
+	});
+
+	function showDialogContent(title, content_id) {
+		$dialog = jQ("#view-content");
+		// next line is broken.		
+		$dialog.attr("title", title);
+		jQ.post('<%= url_for :controller => :content, :action => :show, :organization_id => @current_organization %>', {'id':content_id}, function(data) {
+			$dialog.html(data);
+			$dialog.dialog('open');
+		})
+	}
+	
+	var addButtonAction = function(parent_elem) {
+		jQ("button", parent_elem).each(function() {
+			jQ(this).click(function() {
+				var title = jQ(this).parent("td").parent("tr").children("td").eq(0).text();
+				var content_id = jQ(this).parent("td").parent("tr").attr("id");
+				showDialogContent(title, content_id)
+				return false;
+			})
+		})
+	}
+
+	addButtonAction(jQ("#topic_content"));
+	addButtonAction(jQ("#search-results-dialog"));	
+	addActionToPaginationCouldCheck();
+
+	jQ("#view-content").dialog({
+		bgiframe: true,
+		autoOpen: false,
+		width: 500,
+		modal: true,
+		buttons: {
+			Close: function() {
+				jQ(this).dialog('close');
+			}
+		}
+	});	
+
+</script>

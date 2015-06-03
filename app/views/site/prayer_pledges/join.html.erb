@@ -1,0 +1,184 @@
+<div id="logo">
+	<%= image_tag ("OdysseyNetworks-Logo.png") %>
+</div>
+<div style="text-align:center;">
+	<%= image_tag ("pledge_mmfp_hdr.png") %>
+</div>
+<div id="register_step_2">
+	<div id="warp">
+		<div id="main_content">
+			<h2>Thank you, <%= @prayer_pledge.first_name %>, for pledging to stop and pray for peace for one minute on September 21 at noon.</h2>
+			<% form_for :prayer_pledge, :url => { :controller => "/site/prayer_pledges",  :action => "join" } do |f| %>	
+			<%= error_messages_for :prayer_pledge %>
+			<div id="register_form">
+				<div class="fieldRow">
+					<%= check_box :prayer_pledge, :send_reminder_day_before %>
+					Email me a reminder of my pledge for peace as September 21 approaches.
+				</div>
+				<% if @prayer_pledge.country == "US" -%>				
+				<div class="fieldRow">
+					<%= check_box :prayer_pledge, :text_me %>
+					 Text me a reminder of my pledge for peace as September 21 approaches.
+				</div>
+				<% end -%>
+				<div id="phone" style="display:none;">
+					<div class="fieldRow">
+						<p>We need your phone number and provider in order to send you a text message reminder of your pledge.</p>
+						<%= f.label :phone_number, "Phone Number", :style => "float: left; width:104px;" %>
+						<%= f.text_field :phone_number %>
+						<%= f.label :phone_provider, "Phone Provider", :style => "float: left; width:104px;" %>
+						<%= select :prayer_pledge, :phone_provider, PrayerPledge::PHONE_PROVIDER, :prompt => "Please choose" %>											
+						<br style="clear:both;" /><br />
+						<em>Disclaimer: To receive text messages, you must have an SMS/text messaging-enabled phone. Standard text rates apply and/or data usage (depending on your carrier).</em>
+					</div>
+				</div>					
+				<!-- <div class="fieldRow">
+					<%= check_box :prayer_pledge, :send_interest_of_interest %>
+					Send me occasional items of interest from Odyssey Networks.
+				</div> -->
+				<% if @user.blank? -%>
+				<div class="fieldRow">
+					<%= check_box :prayer_pledge, :allow_me_to_particapte %>
+					I’d like to register at Odyssey Networks so I can participate in online discussions about world peace.
+				</div>
+				<div id="password" style="display:none;">
+				<p style="color:#c73914;">ATTENTION!  You will immediately receive an email to validate your registration. 
+Before participating in our discussions, please quickly check your email to validate your ID. 
+
+					</p>
+					<p>Great!  You only need to create a password.</p>
+					<div id="register_form">
+						<%# hidden_field_tag "user[read_tos]", 1 %>		
+						<div class="fieldRow">
+							<%= f.label :prayer_pledge, content_tag(:em, "* ") + "Password" %>
+							<%= password_field :prayer_pledge, :password %>
+						</div>
+						<div class="fieldRow">
+							<%= f.label :prayer_pledge, content_tag(:em, "* ") + "Verify Password" %>
+							<%= password_field :prayer_pledge, :password_confirmation %>
+						</div>				
+						<div class="fieldRow tip">
+							Minimum 7 characters (numbers and letters only). Passwords are case sensitive.
+						</div>				
+						<div class="fieldRow verify">
+							<%= check_box :prayer_pledge, :teams_of_service %>
+							      I have read and understand the Odyssey Networks
+			<%= link_to 'Terms of Service', {:controller => "../fsn", :action => 'terms'}, :target => '_blank' %> .
+						</div>	
+					     <p style="color:#c73914;">
+               When you are “Finished” you will receive an email to verify your registration. </p>
+               
+         				
+					</div>
+				</div>
+				<% end -%>
+				<div class="fieldRow">
+					<%= check_box_tag :invite_friend %>
+					Invite Others to Pledge.
+				</div>		
+				<div id="invite">
+					<div class="fieldRow">
+						<label for="name">Email to:</label>
+						<input class="text" id="email_archive_sender_email" name="email_archive[sender_email]" size="30" type="text" />
+						<!-- <button id="invite_btn" style="float:right;margin-right:60px;">Send Message</button> -->
+					</div>
+					<div class="fieldRow tip"><em>Use commas for multiple friends.</em></div>
+					<div class="fieldRow">
+						<label for="name">Message:</label>
+						<textarea cols="40" id="email_archive_plain_body" name="email_archive[plain_body]" rows="8"></textarea>
+					</div>
+				</div>
+				<div class="fieldRow submit">
+					<%= submit_tag "Finished" %> 
+				</div>
+			</div>			
+			<% end -%>
+		</div>
+	</div>
+</div>	
+<script type="text/javascript" charset="utf-8">
+	// $(document).ready(function() {
+	// 	$("#test").click(function() {
+	// 		var phone_number = $("#prayer_pledge_phone_number").val();
+	// 		var phone_provider = $("#prayer_pledge_phone_provider").val();
+	// 		alert("test button click! Phone Number is " + phone_number + ". Phone Provider is " + phone_provider + ".")
+	// 		return false;
+	// 	})
+	// })
+</script>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$prayer_pledge_text_me = $("#prayer_pledge_text_me");
+		$prayer_pledge_allow_me_to_particapte = $("#prayer_pledge_allow_me_to_particapte");		
+		function HideShowPhone() {
+			if($prayer_pledge_text_me.attr("checked") == true) {
+				$("#phone").show();
+			} else {
+				$("#phone").hide();
+			}
+		}
+		function HideShowPassword() {
+			if($prayer_pledge_allow_me_to_particapte.attr("checked") == true) {
+				$("#password").show();
+			} else {
+				$("#password").hide();
+			}		
+		}
+		HideShowPhone()
+		HideShowPassword()
+		$("#prayer_pledge_text_me").click(function() {
+			HideShowPhone()
+		})
+		$("#prayer_pledge_allow_me_to_particapte").click(function() {
+			HideShowPassword()
+		})
+	})
+</script>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$prayer_pledge_phone_number = $("#prayer_pledge_phone_number")
+		$phone_number = $prayer_pledge_phone_number.val()
+		if($phone_number == "") {
+			$prayer_pledge_phone_number.val("XXX-XXX-XXXX").css("color", "#DDDDDD");
+			$prayer_pledge_phone_number.click(function() {
+				$prayer_pledge_phone_number.val("").css("color", "#000000")
+			})
+		}
+	})
+</script>
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+    // When submit the from, make sure do not store phone number as "XXX-XXX-XXXX";
+    $(":submit").click(function() {
+  		$prayer_pledge_phone_number = $("#prayer_pledge_phone_number")
+      if($prayer_pledge_phone_number.val() == "XXX-XXX-XXXX") {$prayer_pledge_phone_number.val("")}
+    })
+  })
+</script>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$invite_friend = $("#invite_friend");
+		function HideShowShare() {
+			if($invite_friend.attr("checked") == true) {
+				$("#invite").show();
+			} else {
+				$("#invite").hide();
+			}
+		}
+		HideShowShare();
+		$invite_friend.click(function() {
+			HideShowShare();
+		})
+		$('button#invite_btn').click(function() {
+			var sender_email = $("#invite").find("input[name='email_archive[sender_email]']").val();
+			var plain_body = $("#invite").find("textarea").val();
+			var share_url = '<%= url_for :controller => "/site/prayer_pledges", :action => :invite_friend, :organization_id => @prayer_pledge.organization %>';
+			$.post(share_url, {
+				'email_archive[sender_email]':sender_email, 
+				'email_archive[plain_body]':plain_body}, function() {
+					$("#invite").hide();
+			})
+			return false;
+		})		
+	})
+</script>

@@ -1,0 +1,12 @@
+<% form_remote_tag(:url => {:controller => "admin/our_organization", :action => :profile, :organization_id => @current_organization}, :update => "organization_account_panel", :html => {:id => :registration_form}) do %>
+	<%= render(:partial => "/organizations/profile") %>
+	<br style="clear:both" />
+	<%= submit_tag "Save" %>
+<% end -%>
+
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		// we will take a look at this validate function, because it does not works now.
+		// jQ.("#registration_form").validate();
+	});
+</script>

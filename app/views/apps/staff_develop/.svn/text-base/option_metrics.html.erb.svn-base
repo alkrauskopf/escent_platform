@@ -1,0 +1,6 @@
+
+<div id="cycle_update"> 
+
+    <%= render :partial => "apps/staff_develop/option_metrics", :locals => {:admin => @admin, :app => @app} %>
+
+</div>	

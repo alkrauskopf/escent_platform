@@ -1,0 +1,2 @@
+module AppPdfHelper
+end

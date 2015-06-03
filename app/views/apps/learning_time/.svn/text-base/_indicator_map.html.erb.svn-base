@@ -1,0 +1,61 @@
+
+
+	<table style="width:800px; margin-left:0px; border:1px solid #000000;">
+		<tbody> 	
+			<tr style="border:0px solid #000;">
+				<td  style = " width:200px; width:fixed; border:0px solid #000000; line-height:1.3em; background: #2061a5; color: #FFFFFF; vertical-align:middle; text-align:center; padding-left:0px; font-size:12px ">
+					<%=app.abbrev %>&nbsp;Indicator Map
+				</td>
+				<td  style = " width:30px; width:fixed; border:0px solid #000000; background: #2061a5; color: #FFFFFF; padding-bottom:0px; vertical-align:middle; text-align:center; padding-left:0px; font-weight:normal; font-size:15px ">
+					<%= EltRubric.all[0].abbrev -%>
+				</td>
+				<td  style = " width:30px; width:fixed; border:0px solid #000000; background: #2061a5; color: #FFFFFF; padding-bottom:0px; vertical-align:middle; text-align:center; padding-left:0px; font-weight:normal; font-size:15px ">
+					<%= EltRubric.all[1].abbrev -%>
+				</td>
+				<td  style = " width:30px; width:fixed; border:0px solid #000000; background: #2061a5; color: #FFFFFF; padding-bottom:0px; vertical-align:middle; text-align:center; padding-left:0px; font-weight:normal; font-size:15px ">
+					<%= EltRubric.all[2].abbrev -%>
+				</td>
+				<td  style = " width:30px; width:fixed; border:0px solid #000000; background: #2061a5; color: #FFFFFF; padding-bottom:0px; vertical-align:middle; text-align:center; padding-left:0px; font-weight:normal; font-size:15px ">
+					<%= EltRubric.all[3].abbrev -%>
+				</td>
+				<td  style = " width:480px; width:fixed; border:0px solid #000000; background: #2061a5; color: #FFFFFF; padding-bottom:0px; vertical-align:middle; text-align:left; padding-left:10px; font-weight:normal; font-size:15px ">
+					Notes
+				</td>
+			</tr>
+			<% EltElement.active.each do |element| -%>
+				<tr style="border:1px solid #000000;">
+					<td style = "width:200px; width:fixed; border-right:1px solid #000000; background:<%=element.form_background%>; color: <%=element.e_font_color%>; vertical-align:middle; text-align:left; padding-left:5px; font-size:13px ">
+						<%= element.name %>
+					</td>
+					<td  style = " width:30px; width:fixed; border-right:0px solid #000000; line-height:1.4em; background:<%=element.i_form_background%>; color: #000000; padding-top:5px; vertical-align:top; text-align:center; padding-bottom:5px; font-weight:normal; font-size:12px ">
+						<% elt_case.case_indicators_for(element, EltRubric.all[0]).each do |ind| -%>
+						   	<%= render :partial => "/apps/learning_time/show_indicator_help", :locals => {:school=>elt_case.organization, :indicator => ind.elt_indicator, :rubric=>EltRubric.all[0], :help_tag=>help_tag} -%>
+						<br/>
+						<% end -%>
+					</td>
+					<td  style = " width:30px; width:fixed; border-right:0px solid #000000; line-height:1.3em; background:<%=element.i_form_background%>; color: #000000; padding-top:5px; vertical-align:top; text-align:center; padding-bottom:5px; font-weight:normal; font-size:12px ">
+						<% elt_case.case_indicators_for(element, EltRubric.all[1]).each do |ind| -%>
+						   	<%= render :partial => "/apps/learning_time/show_indicator_help", :locals => {:school=>elt_case.organization, :indicator => ind.elt_indicator, :rubric=>EltRubric.all[1], :help_tag=>help_tag} -%>
+						<br/>
+						<% end -%>
+					</td>
+					<td  style = " width:30px; width:fixed; border-right:0px solid #000000; line-height:1.3em; background:<%=element.i_form_background%>; color: #000000; padding-top:5px; vertical-align:top; text-align:center; padding-bottom:5px; font-weight:normal; font-size:12px ">
+						<% elt_case.case_indicators_for(element, EltRubric.all[2]).each do |ind| -%>
+						   	<%= render :partial => "/apps/learning_time/show_indicator_help", :locals => {:school=>elt_case.organization, :indicator => ind.elt_indicator, :rubric=>EltRubric.all[2], :help_tag=>help_tag} -%>
+						<br/>
+						<% end -%>
+					</td>
+					<td  style = " width:30px; width:fixed; border-right:0px solid #000000; line-height:1.3em; background:<%=element.i_form_background%>; color: #000000; padding-top:5px; vertical-align:top; text-align:center; padding-bottom:5px; font-weight:normal; font-size:12px ">
+						<% elt_case.case_indicators_for(element, EltRubric.all[3]).each do |ind| -%>
+						   	<%= render :partial => "/apps/learning_time/show_indicator_help", :locals => {:school=>elt_case.organization, :indicator => ind.elt_indicator, :rubric=>EltRubric.all[3], :help_tag=>help_tag} -%>
+						<br/>
+						<% end -%>
+					</td>
+					<td  style = " width:480px; width:fixed; border-right:0px solid #000000; line-height:1.3em; background:<%=element.i_form_background%>; color: #2061a5; padding-top:5px; vertical-align:top; text-align:left; padding-bottom:5px; font-weight:normal; font-size:10.5px ">
+						<%= elt_case.element_note(element).nil? ? "":elt_case.element_note(element).note -%>
+					</td>
+				</tr>
+			<% end-%>
+		</tbody>
+	</table>		
+

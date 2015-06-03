@@ -1,0 +1,32 @@
+VIDEO:
+    id: 1	
+    name: VIDEO
+
+IMAGE:
+    id: 2
+    name: IMAGE
+
+AUDIO:
+    id: 3	
+    name: AUDIO
+
+EMBEDCODE:
+    id: 4	
+    name: EMBED CODE
+
+LINK:
+    id: 5	
+    name: LINK
+
+COMPRESSED:
+    id: 6	
+    name: COMPRESSED
+    
+PDF:
+    id: 7	
+    name: PDF
+    
+WORD,EXCEL, or PPT:
+    id: 8
+    name: WORD, EXCEL, or PPT
+    

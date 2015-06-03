@@ -1,0 +1,228 @@
+<div id="main_content">
+
+  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
+			<br/><center><%= @app.name.upcase %><br/>
+				<%= @current_organization.name.upcase %></center>
+	</div>
+	<%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@app} %>	
+	<div style="float:none;width:97%;" class="mempro_box clear">
+
+    <div id="member_ico">
+      <% if @teacher.picture.url.split("/").last == "missing.png" %>
+        <%= image_tag "member_ico.gif" %>
+      <% else %>
+        <%= image_tag @teacher.picture.url(:thumb) %>
+      <% end %>
+    </div>
+    <div id="member_info">
+        <div id="app_heading">         		
+			<% blog = @app.blogs.active.for_org(@app.owner).first rescue nil%>
+			<% unless blog.nil? %>
+			<table  style = "width:720px; margin-left:0px; ">
+				<tbody>
+	           		<% unless blog.picture_file_name.nil? || !blog.picture_file_name.include?(".swf") -%>	
+						<% flash_file = blog.picture.url -%>
+						<tr>
+							<td  class="main_page_heading" style = " width:440px;text-align:center; font-size:13px; vertical-align:top;">
+			            		<%= simple_format blog.title %>
+							</td>
+							<td  style = " width:280px;text-align:center; vertical-align:top;">
+			            		&nbsp;
+							</td>
+						</tr>
+						<tr>
+							<td  class="main_page_text" style = " width:440px; text-align:justify; vertical-align:top;">
+			            		<%= simple_format blog.description %>
+								<% blog.blog_posts.active.each do |post| -%>
+									<table id="<%= post.public_id %>" class="main_ep_page_subheading"    style="width:430px; margin-left:10px;">
+										<tbody>  
+											<tr>
+												<td class="resource_levels_close"  >
+													<%= link_to '', :controller => "staff_develop", :action => :show_app_post, :organization_id => @current_organization, :blog_post_id => post.public_id, :size => "narrow"  %>
+													<%=  post.title %>
+													<span></span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+						<script type="text/javascript" charset="utf-8">
+						jQ(document).ready(function() {
+							jQ('#<%= post.public_id %> .resource_levels_close').toggleResourceLevels();
+							jQ('#<%= post.public_id %> .resource_levels_open').toggleResourceLevels();
+						});
+						</script>
+								<% end -%>
+							</td>
+							<td style = "width:280px; vertical-align:top; margin-left:9px; text-align:right; ">
+	
+								     <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="280" height="280" id="fs_home" align="top">
+								         <param name="allowScriptAccess" value="sameDomain" /><param name="allowFullScreen" value="false" /><param name="movie" value= <%= flash_file %> /><param name="quality" value="best" /><param name="bgcolor" value="#ffffff" /><embed src= <%= flash_file %> quality="best" bgcolor="#ffffff" width="280" height="280" name="FS_attempt9_REVISED_JOSH" align="top" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+								     </object>
+	
+							</td>
+						</tr>
+					<% else -%>
+						<tr>
+							<td  class="main_page_heading" style = " width:720px;text-align:center; font-size:13px; vertical-align:top;">
+			            		<%= simple_format blog.title %>
+							</td>
+						</tr>
+					<tr>
+						<td  class="main_page_text" style = " width:720px;text-align:justify; vertical-align:top; ">
+	            			<%= simple_format blog.description %>
+								<% blog.blog_posts.active.each do |post| -%>
+									<table id="<%= post.public_id %>" class="main_ep_page_subheading"    style="width:430px; margin-left:10px;">
+										<tbody>  
+											<tr>
+												<td class="resource_levels_close"  >
+													<%= link_to '', :controller => "staff_develop", :action => :show_app_post, :organization_id => @current_organization, :blog_post_id => post.public_id, :size => "wide" %>
+													<%=  post.title %>
+													<span></span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+						<script type="text/javascript" charset="utf-8">
+						jQ(document).ready(function() {
+							jQ('#<%= post.public_id %> .resource_levels_close').toggleResourceLevels();
+							jQ('#<%= post.public_id %> .resource_levels_open').toggleResourceLevels();
+						});
+						</script>
+								<% end -%>
+						</td>
+					</tr>
+					<% end -%>
+				</tbody>
+			</table>
+
+		<% end -%>
+		</div>	
+    </div>
+
+  </div>
+  <div id="control_panel" >
+ 
+   <ul>
+
+	    <li>
+			<%  tab_1_label = @teacher.last_name + " Plan" %>
+	        <a href="#tabs-1"><span class="tab_label">
+			<%= tab_1_label %></span></a>	
+		</li>
+		<% if @current_organization.app_enabled?(CoopApp.ctl.first.abbrev) -%> 
+		    <li>
+				<%  tab_2_label =  CoopApp.itl.first.abbrev + " Reflections" %>
+		        <a href="#tabs-2"><span class="tab_label">
+				<%= tab_2_label %></span></a>	
+			</li>
+		<% end -%>
+	  	<li>
+	 		<%  tab_3_label = "Resources" %>
+	        <a href="#tabs-3"><span class="tab_label">
+			<%= tab_3_label %></span></a>	
+		</li>
+		
+ 		<% if @current_user.pd_authorized_for?(@current_organization) || @current_user.pd_coach_for?(@current_organization)-%>
+	       	<li>
+	      	<%  tab_6_label = "All Teachers" %>
+	        <a href="#tabs-6"><span class="tab_label">
+			<%= tab_6_label %></span></a>	
+		  	</li>
+		<% end -%>
+ 		<% if @current_user.pd_authorized_for?(@current_organization) -%>
+	       	<li>
+	      	<%  tab_4_label = "Surveys" %>
+	        <a href="#tabs-4"><span class="tab_label">
+			<%= tab_4_label %></span></a>	
+		  	</li>
+		  	<li>
+	      	<%  tab_5_label = "Options" %>
+	        <a href="#tabs-5"><span class="tab_label">
+			<%= tab_5_label %></span></a>	
+			</li>
+    	<% end -%>
+    </ul>
+
+			
+	
+	<div id="tabs-1" class="favorite_organizations" style="width:900px">
+	  <%= render :partial => "/apps/staff_develop/manage_cycles", :locals => {:teacher=> @teacher, :package => @package, :app => @app}  %>
+   	</div>
+	<% if @current_organization.app_enabled?(CoopApp.ctl.first.abbrev) -%> 
+		<div id="tabs-2" class="favorite_organizations" style="width:900px">
+	    	<%= render :partial => "/apps/staff_develop/teacher_itl_reflections", :locals => {:teacher => @teacher,  :admin => @admin, :subject => nil } %>
+	   	</div>
+	<% end -%>
+	<div id="tabs-3" class="favorite_organizations" style="width:900px">
+	  <%= render :partial => "/apps/staff_develop/list_resources", :locals => {:admin => @admin, :app => @app} %>
+   	</div>
+ 	<% if @current_user.pd_authorized_for?(@current_organization) || @current_user.pd_coach_for?(@current_organization)-%>
+		<div id="tabs-6" class="favorite_organizations" style="width:900px">
+	 	  <%= render :partial => "/apps/staff_develop/list_teacher_plans", :locals => {:app => @app}%>
+	   	</div>
+	<% end -%>
+	<% if @current_user.pd_authorized_for?(@current_organization) -%>
+		<div id="tabs-4" class="favorite_organizations" style="width:900px">
+	 	  <%= render :partial => "/apps/shared/sumarize_surveys", :locals => {:admin => @admin, :org => @current_organization, :app => @app} %>
+	   	</div>
+		<div id="tabs-5" class="favorite_organizations" style="width:900px">
+		  <%= render :partial => "/apps/staff_develop/manage_options", :locals => {:admin => @admin, :app => @app} %>
+		</div>
+	<% end -%>
+ </div>
+
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#authorization_levels .authorization_levels_close').toggleAuthorizationLevels();
+	jQ('#authorization_levels .authorization_levels_open').toggleAuthorizationLevels();	
+  jQ("#roles").tablesorter({ headers: { 1: { sorter: false }} });
+});
+</script>
+<script type="text/javascript">
+	jQ(document).ready(function() {
+		function showDialogContent(title, content_id) {
+			$dialog = jQ("#view-content");
+			// next line is broken.		
+			$dialog.attr("title", title);
+			jQ.post('<%= url_for :controller => :content, :action => :show, :organization_id => @current_organization %>', {'id':content_id}, function(data) {
+				$dialog.html(data);
+				$dialog.dialog('open');
+			})
+		}
+
+		var addButtonAction = function() {
+			jQ("button", jQ("#topic_content")).each(function() {
+				jQ(this).click(function() {
+					var title = jQ(this).parent("td").parent("tr").children("td").eq(0).text();
+					var content_id = jQ(this).parent("td").parent("tr").attr("id");
+					showDialogContent(title, content_id)
+					return false;
+				})
+			})
+		}
+		jQ('.dialog').dialog('close');
+		addButtonAction();
+
+	})
+</script>
+
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function(){
+    jQ('#control_panel').tabs();
+  });
+</script>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#resource_levels .resource_levels_close').toggleResourceLevels();
+	jQ('#resource_levels .resource_levels_open').toggleResourceLevels();	
+  jQ("#authorization_levels").tablesorter({ headers: { 1: { sorter: false }} });
+});
+</script>
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#people_levels .resource_levels_close').toggleResourceLevels();
+	jQ('#people_levels .resource_levels_open').toggleResourceLevels();	
+});
+</script>

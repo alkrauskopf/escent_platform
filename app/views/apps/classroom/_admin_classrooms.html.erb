@@ -1,0 +1,80 @@
+
+
+<div id="classroom_add" style = "font-size:12px; color: #2061a5;  padding-left:0px;">
+<div id="classroom_data">
+	<% if admin -%>
+
+	<%= render :partial => "/shared/error_and_notice_width", :locals => {:width => 600}%>
+
+	<table style="width:700px;margin-left:0px">
+		<style type="text/css" media="screen">
+	    		table,tr,td { border:none }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+			<tbody>  
+				<tr  style="width:700px; border:0px solid #ddd;" >
+					<td  colspan=3 style="vertical-align:middle;  padding-left:80px; padding-right:0px; padding-top:0px; text-align:left; color: #1b5698; font-size:10.5px; font-weight:normal">
+						<i>Type Offering Name Below and Select Subject Area</i>
+					</td>					
+				</tr>
+				<tr  style="width:700px; border:0px solid #ddd;" >
+					<td   id = "add_classroom" style="vertical-align:middle;  padding-left:2px; padding-right:2px; padding-top:6px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+						<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
+							Create
+						</span>
+					</td>
+					<td  style="width:400px; border:0px solid #ddd; padding-top:0px; vertical-align:middle; text-align:center; font-size:12px">
+					     <%= text_field :classroom, :course_name, :value => name, :size => 65, :maxlength => 250 %>		
+					</td>					
+					<% prompt_label = parent.nil? ? "Select Subject" : parent.name -%>
+					<% parent_id = parent.nil? ? nil : parent.id -%>
+					<td  id = "select_subject" style=" border:0px solid #ddd; padding-top:0px; vertical-align:middle; text-align:center; font-size:12px">
+						<%=  select(:parent, :parent_subject, SubjectArea.all_parents.sort_by{|a| [a.name]}.collect{|s| [s.name, s.id]},{:include_blank =>prompt_label}) %>
+					</td>
+				</tr>
+				<% unless parent.nil? || parent.all_children.empty? -%>
+					<tr  style="width:700px; border:0px solid #ddd;" >
+						<td  colspan=2 style="border:0px solid #ddd; padding-top:3px; vertical-align:middle; text-align:center; font-size:12px">
+							&nbsp;
+						</td>					
+						<td  style=" border:0px solid #ddd; padding-top:3px; vertical-align:middle; text-align:center; font-size:12px">
+							<%=  select(:child, :child_subject, parent.all_children.sort_by{|a| [a.name]}.collect{|s| [s.name, s.id]},{:include_blank => parent.name + " Detail (Optional)"}) %>
+						</td>
+					</tr>
+				<% end -%>
+			</tbody>
+		</table>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#add_classroom').click(function() {
+		var classroom = jQ('#classroom_course_name').val();
+		var child_id = jQ('#child_child_subject').val();
+		var url = "<%= url_for :controller => '/apps/classroom', :action => :add_classroom, :organization_id => @current_organization, :parent_subject_id => parent_id  %>";
+			jQ.get(url, {'classroom_name':classroom, 'child_subject_id': child_id }, function(data) {
+			jQ("#classroom_add").html(data); 
+	   		jQ("#classroom_add").show();
+			});
+	})
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#select_subject').change(function() {
+		var classroom = jQ('#classroom_course_name').val();
+		var parent_id = jQ('#parent_parent_subject').val();
+		var url = "<%= url_for :controller => '/apps/classroom', :action => :identify_parent_subject, :organization_id => @current_organization  %>";
+			jQ.get(url, {'classroom_name':classroom, 'parent_subject_id': parent_id}, function(data) {
+			jQ("#classroom_add").html(data); 
+	   		jQ("#classroom_add").show();
+			});
+	})
+});
+</script>
+
+	<% end -%>
+	</div>
+</div>
+

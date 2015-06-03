@@ -1,0 +1,56 @@
+
+
+<div id="survey_list" style = "font-size:12px; color: #000000;padding-left:35px;">
+<% app.tlt_survey_audiences.each do |audience| -%>
+	<% app.tlt_survey_types.all.each do |survey_type| -%>
+		<% unless @current_organization.tlt_survey_questions.for_audience(audience).for_type(survey_type).size == 0 -%>
+
+	<% header_string = " " + audience.audience.upcase + ": " + survey_type.description + " Question"%>
+	<table id="surv_header_<%= audience.id %><%= survey_type.id %>"style="width:800px;">
+		<thead>
+			<tr>
+				<th id="surv_show_<%= audience.id %><%= survey_type.id %>"style="width:80px; vertical-align:middle;  padding-left:180px; padding-top:3px; padding-bottom:3px; text-align:left; color: #000000; font-weight:normal; font-size:12px">
+					<span style=" font-weight:normal;  font-size:9px; color: #2061a5;  text-align:left">
+						>&nbsp;&nbsp;<u>Show:</u>  
+					</span>
+					&nbsp;&nbsp;<%= pluralize(@current_organization.tlt_survey_questions.for_audience(audience).for_type(survey_type).size,  header_string) %>
+				</th>
+			</tr>
+		</thead>
+	</table>
+
+
+					<%= render :partial => "/apps/shared/survey_question_row", :locals => {:admin => admin, :survey_type=> survey_type, :audience=> audience, :app => app} %>
+
+
+		<% end -%>
+	<% end -%>
+<% end -%>
+</div>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.toggle_activate').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#survey_list").html(data);
+				jQ("#survey_list").show();
+			})
+			return false;
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.destroy_question').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#survey_list").html(data);
+				jQ("#survey_list").show();
+			})
+			return false;
+	})
+});
+</script>

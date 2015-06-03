@@ -1,0 +1,55 @@
+
+Acad1:
+    id: 10
+    name: Academics
+    subject_list: CORE
+    level_name: Core Academics
+    background_1: e1d5e6
+    background_2: f7e9fd
+    group_code: A
+    level: 1
+    
+Acad2:
+    id: 11
+    name: Academics
+    level_name: Academic Support
+    background_1: e1d5e6
+    background_2: f7e9fd
+    group_code: A
+    level: 2
+                    
+Elec1:
+    id: 20
+    name: Electives
+    subject_list: NONCORE
+    level_name: Scheduled Activity
+    background_1: c9d6dc
+    background_2: e9f6fd
+    group_code: E
+    level: 1
+                    
+Elec2:
+    id: 21
+    name: Electives
+    level_name: Personal Support
+    background_1: c9d6dc
+    background_2: e9f6fd
+    group_code: E
+    level: 2
+            
+othr1:
+    id: 30
+    name: Other
+    background_1: d5dcc9
+    background_2: f0f9e3
+    group_code: O
+    level: 1
+       
+othr2:
+    id: 31
+    name: Other
+    level_name: Other Activities
+    background_1: d5dcc9
+    background_2: f0f9e3
+    group_code: O
+    level: 2                

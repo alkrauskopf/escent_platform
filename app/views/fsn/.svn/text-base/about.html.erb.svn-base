@@ -1,0 +1,26 @@
+<div id="sidebar">
+   <%= render :partial => 'join_sidebar' %>
+</div>
+<div class="marketing_content">
+	<div class="title_large_blue" style="margin-bottom:15px;">ABOUT US</div>
+	See also:
+	<%= link_to "Privacy Policy",{:action => "privacy"}, :class => "" %> |
+	<%= link_to "FAQs",{:action => "faq"}, :class => "" %> |
+	<%= link_to "Contact Us",{:action => "contact"}, :class => "" %>
+	<p>&nbsp;</p>
+<!-- ALK Remove
+
+	For more information about what FaithStreams offers, <%= link_to "click here", {:action => "discover"} %>. 
+	<p>&nbsp;</p>
+	FaithStreams is a service of Odyssey Networks.
+	<p>&nbsp;</p>
+	<a href="http://odysseynetworks.org" target="_blank">Odyssey Networks</a> uses the electronic media to enrich spiritual life and to build bridges of understanding among people of faith. 
+	<p>&nbsp;</p>
+	<a href="http://odysseynetworks.org" target="_blank">Odyssey Networks</a>  (formerly Faith & Values Media) is America’s largest coalition of Christian, Jewish and Muslim faith groups dedicated to using multiple forms of media and distribution to build understanding among people of faith and good will. In collaboration with its for-profit subsidiary and with the world’s leading producers of television and film, the organization creates highly-rated and critically acclaimed productions that inspire, affirm and engage an international audience. Odyssey Networks' programming and that of its subsidiaries appears on such outlets as Hallmark Channel, the BBC, National Geographic, History Channel, Discovery Channel and Channel Four (UK). Odyssey Networks is a 501(c)(3) not-for-profit organization.
+	<p>&nbsp;</p>
+	Odyssey Networks' award-winning <a href="http://www.odysseynetworks.org/FilmTV/tabid/83/Default.aspx" target="_blank"> programming</a> is available on Hallmark Channel and on 
+	<%= link_to "FaithStreams.com", {:action => ""} %>
+	<p>&nbsp;</p>
+	The Odyssey Network <a href="http://www.odysseynetworks.org/Members/tabid/87/Default.aspx" target="_blank">member association</a> is made up of denominations, organizations and individuals, who represent Christian, Jewish and Muslim groups in the United States and Canada. Together, these groups represent more than 200,000 congregations with 120 million congregants.
+-->
+</div>

@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  coop_app_id: 1
+  abbrev: MyString
+  name: MyString
+  description: MyText
+  is_timed: false
+  position: 1
+
+two:
+  coop_app_id: 1
+  abbrev: MyString
+  name: MyString
+  description: MyText
+  is_timed: false
+  position: 1

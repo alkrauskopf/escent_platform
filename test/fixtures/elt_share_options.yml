@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  rubric_id: 1
+  elt_type_id: 1
+
+two:
+  rubric_id: 1
+  elt_type_id: 1

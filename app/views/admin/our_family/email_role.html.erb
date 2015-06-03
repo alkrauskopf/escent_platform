@@ -1,0 +1,43 @@
+<style type="text/css">
+    .FormRowTitle {
+        text-align: left;
+        width: 10%;
+    }
+</style>
+<div style="min-height:300px;">
+    <h2>Email</h2>
+    <% form_remote_tag(:url => {:action => :send_email, :organization_id => @current_organization, :id => @role}, :update => "our_family_panel") do %>
+    <div class="Form">
+        <div class="FormRow">
+            <div class="FormRowTitle">
+                To: 
+            </div>
+            <div class="FormRowData">
+                <%= @role.name %>
+            </div>
+        </div>
+        <div class="FormRow">
+            <div class="FormRowTitle">
+                Subject: 
+            </div>
+            <div class="FormRowData">
+                <%= text_field "email", "subject", :size => 75, :value => params[:email].nil? ? '' : params[:email][:subject]  %>
+            </div>
+        </div>
+        <div class="FormRow">
+            <div class="FormRowTitle">
+                Message: 
+            </div>
+            <div class="FormRowData">
+                <%= text_area "email", "message", :rows => 15, :cols => 100, :value => params[:email].nil? ? '' : params[:email][:message] %>
+            </div>
+        </div>
+    </div>
+    <div style="width:890px; padding:10px; text-align:center; " class="clear">
+	<div style="width:200px; margin: 0 auto;">
+        <%= link_to_remote "Back", :update => "our_family_panel", :url => {:controller => :our_family, :action => :roles, :organization_id => @current_organization}, :html => {:class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "padding:3px; text-decoration:none; float:left; margin:3px; font-size:12px;", :method => :get} %>
+		<input type="submit" value="Send Email" class = "fsn-button ui-button ui-state-default ui-corner-all" style="padding:3px; float:left; margin:3px;">
+	</div>
+    </div>
+    <% end %>
+</div>

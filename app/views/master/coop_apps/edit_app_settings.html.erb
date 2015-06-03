@@ -1,0 +1,25 @@
+<div id="main_content">
+
+  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
+			<br/><center><%= @org.short_name %>:&nbsp;<%= @app.name %>&nbsp;Settings</center>
+	</div>
+    <%= render :partial => "/shared/error_and_notice" %>	
+	<% if @function == "Edit" %>	
+		<div class="Form clear">	
+			<% form_for(:coop_app_organization, :url => {:controller => "/master/coop_apps", :action => :edit_app_settings, :app_id => @app, :org_id => @org, :function=> @function }) do |form| %>				
+				<%= render :partial => "/master/coop_apps/form_coop_app_settings", :locals=>{:function=> @function, :app => @app, :org => @org} %>	
+			<% end -%>	
+		</div>	
+		<% else -%>
+			No Edit Function
+		<% end -%>
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>
+
+</div>
+

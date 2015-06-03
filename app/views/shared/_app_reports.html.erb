@@ -1,0 +1,15 @@
+
+	<a href="#" ><%= app.abbrev %>&nbsp;Reports</a>								
+		<% if app.elt? -%>
+			<ul>
+				<li style="width: 220px;">
+					<%= link_to "School Diagnostic" ,{:controller => "/apps/app_report", :action => "elt_school_diag", :organization_id => @current_organization, :user_id => @current_user, :report_id => "SD", :app_id => app.id} %>
+				</li>				
+				<li style="width: 220px;">
+					<%= link_to "Cycle Diagnostic" ,{:controller => "/apps/app_report", :action => "elt_school_diag", :organization_id => @current_organization, :user_id => @current_user, :report_id => "CD", :app_id => app.id} %>
+				</li>
+				<li style="width: 220px;">
+					<%= link_to "Community-wide Diagnostic" ,{:controller => "/apps/app_report", :action => "elt_school_diag", :organization_id => @current_organization, :user_id => @current_user, :report_id => "ND", :app_id => app.id} %>
+				</li>
+			</ul>
+		<% end -%>

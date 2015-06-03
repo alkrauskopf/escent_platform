@@ -1,0 +1,11 @@
+<div id="app_ownership">
+<br/>
+<div style ="color: #2061a5; font-size:16px; margin-top:5px; font-weight:bold"> 
+	<strong><center> Allow/Disallow Org Useability Of Apps</center></strong>
+</div>
+<br/>
+	<% CoopApp.all.each do |app| -%>
+		<%= render :partial => "master/organizations/app_useability", :locals => {:app => app}  %>
+	<% end -%>
+	<br/></br/>
+</div>

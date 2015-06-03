@@ -1,0 +1,131 @@
+/* -------------------------------------------------------------- 
+   forms.css
+   * Sets up some default styling for forms
+   * Gives you classes to enhance your forms
+-------------------------------------------------------------- */
+
+/* Fieldsets */
+fieldset { }
+legend { display: none; }
+label { font-size: 11px; float: left; padding-right: 3px; line-height: 1.8em; }
+label.search { line-height: 1.3em; }
+
+/* Text fields */
+input              { float: left; }
+input.text         { width: 200px; }
+input.text {
+  border: none;
+  background: url('/images/bg_input_field_shadow.gif') top left no-repeat;
+  overflow: hidden;
+  height: 15px;
+  margin-top: -2px;
+  margin-right: 10px;
+  vertical-align: middle;
+  padding: 4px 5px 0 5px;
+  font-family: Verdana;
+  font-size: 10px;
+  border-bottom:1px solid #CCCCCC;
+  border-right:1px solid #CCCCCC;
+}
+
+input.money 		   { width: 60px; padding-left: 10px; background: #fff url(../../images/ico_money.gif) no-repeat 3px center; }
+input.search       { margin-right: 5px; }
+input.print        { float: left; margin-left: 10px; }
+input.text:focus   {}
+
+/* Input submit */
+/*input.submit       { background:#D8D8D8; color:#FCFCFC; font-weight:bold; }*/
+input.submit { margin-left: 5px; }
+
+/* checkbox fields */
+input.check        {}
+input.radio        { margin-right: 5px; }
+input.invalid      { border-color:#FBC2C4; }
+input.reset        { float: left; margin-left: 10px; }
+input.right-submit { margin-left: 5px; }
+/* Textareas */
+textarea            { border:1px solid #bbb; padding:5px; font-size: 1em; }
+textarea:focus      { border:1px solid #999; }
+textarea.invalid    { border-color:#FBC2C4; }
+
+/* Select fields */
+select              { float: left; border:1px solid #ccc; background:#f6f6f6; }
+select.search       { margin-left: 5px; margin-right: 5px; }
+select:focus        { border:1px solid #999; background:#fff; }
+option              { display: block; }
+/* Button */
+button              { float: left; }
+button.pos          { margin-left:65px; }
+button.reset				{ margin-left:10px; }
+/* Success, error & notice boxes for messages and errors. */
+.error,
+.notice, 
+.success       { border:1px solid #ddd; }
+.error ul,
+.notice ul, 
+.success ul    { list-style-type:square; }
+.error         { background:#FBE3E4; color:#D12F19; border-color:#FBC2C4; }
+.notice        { background:#FFF6BF; color:#817134; border-color:#FFD324; }
+.success       { background:#E6EFC2; color:#529214; border-color:#C6D880; }
+.message a     { color:#215F89; }
+.error a       { color:#D12F19; }
+.notice a      { color:#817134; }
+.success a     { color:#529214; }
+
+p.position { margin-top: 0px; margin-bottom: 10px; }
+
+label.error       { font-size: 0.9em; color:#D12F19; margin-left: 5px; }
+input.error     { background:#FBE3E4; color:#D12F19; border-color:#FBC2C4; }
+
+/* for form style and font */
+.formBox h2, .formBox p, .formBox h3 { clear: both; }
+.formBox p {
+	padding: 5px 0px 5px 16px;
+	font-size:12px; 
+	position: relative;
+}
+
+.formBox p label {
+	float: left;
+	width: 160px;
+	text-align: right;
+}
+.formBox form label.right-label { 
+	width: auto;
+	line-height: 1.3em;
+	margin-left: 5px;
+	margin-right: 15px;
+}
+.formBox form input.submit { margin-left: 160px; margin-right: 10px; }
+.formBox p strong { color: #333; line-height: 1.8em; }
+span.invalid {
+	color:#D12F19;
+	position: absolute;
+	left: 400px;
+	font-weight: bold;
+}
+
+/* Safari CSS hack redux */
+/* http://themechanism.com/blog/2008/01/08/safari-css-hack-redux/ */
+/* ep:
+	@media screen and (-webkit-min-device-pixel-ratio:0) {
+		Safari 3.0 and Chrome rules here
+	}
+*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	/* Safari 3.0 and Opera 9 rules here */
+	button { }
+}
+/* Clearing floats without extra markup
+   Based on How To Clear Floats Without Structural Markup by PiE
+   [http://www.positioniseverything.net/easyclearing.html] */
+form p { display: inline-block; }
+form p:after {
+  content: "."; 
+  display: block; 
+  height: 0; 
+  clear: both; 
+  visibility: hidden;
+}
+* html form p { height: 1%; }
+form p { display: block; }

@@ -1,0 +1,5 @@
+<div >
+
+   	<%= render :partial => "/apps/school_time/school_ista_dashboard", :locals => {:school => @school, :app => @app} -%>
+
+</div>

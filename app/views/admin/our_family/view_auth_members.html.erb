@@ -1,0 +1,37 @@
+<div>
+	<% unless @people.size.zero? %>
+	<table id="roles" class="tablesorter" style="width:99%;">
+		<thead>
+			<tr>
+				<th style="width:40px;"></th>
+				<th style="width:400px;">Name</th>
+				<th>Email</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% app_id = @app ? @app.id : "" -%>
+			<% for user in @people do -%>
+			<tr>
+				<td class="button" style="padding-left:15px; width:100px;">					
+					<%= button_to_remote "Remove", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :remove_authentication_level, :organization_id => @current_organization, :app_id=> app_id, :user_id => user, :authentication_level_id => @al}, :confirm => "Are you sure?"}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+				</td>
+				
+				<td>
+					<%= link_to user.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => user}, {:target => "_blank"} %>
+				</td>
+				<td><%= user.preferred_email %>
+
+			</tr>
+			<% end -%>
+		</tbody>
+	</table>
+	<% else -%>	
+		No users found.
+	<% end -%>
+	<%= link_to_remote "back", :update => "our_family_panel", :url => {:controller => :our_family, :action => :authentication_levels, :organization_id => @current_organization}, :method => :get, :html => {:class => "back_to_roles"} %>
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() { 
+	jQ('.fsn-button').addUIStateClass();
+});
+</script>

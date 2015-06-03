@@ -1,0 +1,112 @@
+/* -------------------------------------------------------------- 
+   typography.css
+   * Sets up some sensible default typography.
+-------------------------------------------------------------- */
+
+/* This is where you set your desired font size. The line-heights 
+   and vertical margins are automatically calculated from this. 
+   The percentage is of 16px (0.75 * 16px = 12px). */
+   
+body { font-size: 75%; }
+
+/* Default fonts and colors. 
+   If you prefer serif fonts, remove the font-family 
+   on the headings, and apply this one to the body:
+   font: 1em Georgia, "lucida bright", "times new roman", serif; */
+   
+body {
+	padding-bottom:29px;
+	background:#999 url(/images/bg_body.jpg) repeat-x left 43px; 	
+	color:#000; 
+	font-family: "Lucida Grande", Frutiger, Univers, "Helvetica Neue", Calibri, Helvetica, Verdana, sans-serif;
+}
+
+/* Headings
+-------------------------------------------------------------- */
+
+h1,h2,h3,h4,h5,h6 {}
+
+h1,h2 { font-family: "Helvetica Neue", Calibri, Helvetica, "Lucida Grande", Frutiger, Univers, Verdana, sans-serif; }
+h3,h4,h5,h6 { font-family: "Helvetica Neue", Calibri, Helvetica, "Lucida Grande", Frutiger, Univers, Verdana, sans-serif; }
+h2 { 
+	margin-bottom: 0.2em;
+	font-size: 1.2em; 
+	line-height: 2em; 
+	font-weight: bold;
+}
+h3 {
+	margin-bottom: 5px;
+	color: #333;
+	font-size: 1.1em; 
+	font-weight: bold;	
+}
+/* Text elements
+-------------------------------------------------------------- */
+
+p           {}
+p.last      {}
+p img       { display:block; }
+p img.top   {} /* Use this if the image is at the top of the <p>. */
+img         { margin: 0; display:block; }
+
+ul, ol      { list-style:none; }
+ul          {}
+ol          {}
+dl          {}
+dl dt       {}
+dd          {}
+
+abbr, 
+acronym     {}
+address     {}
+del         {}
+
+a           { color: #007598; text-decoration:underline; }
+a:hover     {}
+a:active    {}
+
+blockquote  {}
+strong      {}
+em,dfn      {}
+dfn         {}
+pre { font-family: Monaco, "Bitstream Vera Sans Mono", sans-serif; }
+code { font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", Monaco, Courier, monospace; }
+pre,code,tt {} 
+tt          {}
+
+
+/* Tables
+-------------------------------------------------------------- */
+table    { width:100%; margin-top:1em; border-collapse: collapse; border:1px solid #ccc; }
+thead th { background-color: #e6EEEE; }
+th       { line-height:2; text-align:center; border:1px solid #ccc; }
+td       { line-height:2; border:1px solid #ccc; padding-left: 4px; }
+th,td    {}
+thead    {}
+tbody    {}
+tfoot    {}
+caption  {}
+tr.odd  { background-color: #F0F0F6; }
+tr.even { background-color: #FFF; }
+tr.current_tr { background-color: #FFC; }
+tr:hover { background-color: #D1F0FF; }
+tr.hover { background-color: #D1F0FF; } /* for ie 6, used by jquery.fm2.js */
+tr.current_tr:hover { background-color: #FFC; }
+td.thead { background-color: #e6EEEE; }
+th.edit_member_icon, td.edit_member_icon { width: 20px; text-align: center; vertical-align: middle; }
+th.edit, td.edit { text-align: center; width: 40px; padding-left: 0; }
+td.edit_member_icon img { margin: 2px auto; }
+td.checkbox { width: 20px; text-align: center; vertical-align: middle; }
+td.status { width: 68px; }
+td.order_id { width: 80px; vertical-align: middle; }
+td.order_amount { width: 80px; vertical-align: middle; }
+th.membership_level { }
+th.membership_total { width: 100px; }
+td.money { text-align: right; padding-right: 4px; }
+tbody th { text-align: left; padding-left: 4px; background-color: #f2f2f2; }
+td.edit_and_remove { text-align: left; width: 170px; }
+td.edit_and_remove button, td.edit_and_remove input { position: relative; margin-left: 5px; top: 4px; }
+/*
+td.text  { width:80px; padding-left:10px; text-align:right; }
+table.edit td { line-height:3; margin:10px 0; }
+*/

@@ -1,0 +1,40 @@
+
+ILT_T:
+    id: 1
+    coop_app_id: 6
+    audience: teacher
+
+ILT_O:
+    id: 2
+    coop_app_id: 6
+    audience: observer
+
+ILT_S:
+    id: 3
+    coop_app_id: 6
+    audience: student
+
+CLS_T:
+    id: 21
+    coop_app_id: 2
+    audience: teacher
+
+CLS_S:
+    id: 22
+    coop_app_id: 2
+    audience: student
+
+DALP_T:
+    id: 31
+    coop_app_id: 7
+    audience: teacher
+
+DALP_E:
+    id: 32
+    coop_app_id: 7
+    audience: coach
+
+ELT_F:
+    id: 40
+    coop_app_id: 10
+    audience: client school

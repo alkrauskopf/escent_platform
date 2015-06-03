@@ -1,0 +1,110 @@
+<div id="mainContent">
+
+    <% unless @entity_assessments.size.zero? || !@current_user.has_authorization_level_for?(@current_organization, "content_manager")%>
+	<% assess_header = "header" + @entity_dashboard.public_id.to_s  -%>
+	<% assess_show = "show" + @entity_dashboard.public_id.to_s -%>
+	<% assess_list = "list" + @entity_dashboard.public_id.to_s -%>
+	<% assess_hide = "hide" + @entity_dashboard.public_id.to_s -%>
+	
+	<table  id="<%= assess_header%>" style="width:600px; margin-left:120px; border:0px">
+		<tbody>
+		<style type="text/css" media="screen">
+	    table,tr,td {border:0px solid #ddd;}
+		table tr:hover{
+        background-color: transparent;
+      }
+    	</style>
+		<tr style="border:0px solid #ddd;">
+			<td id="<%=assess_show%>" style="width:150px; border:0px solid white;">
+				<u>Show The <%= pluralize(@entity_assessments.size, " Used Assessment") -%></u>
+			</td>
+		</tr>
+	</tbody>
+	</table>
+
+<div id="<%=assess_list%>">
+	<table  style="width:600px; margin-left:120px; border:0px">
+		<tbody>
+		<style type="text/css" media="screen">
+	    table,tr,td {border:0px solid #ddd;}
+		table tr:hover{
+        background-color: transparent;
+      }
+    	</style>
+		<tr style="border:0px solid #ddd;">
+			<td id="<%=assess_hide%>" style="width:150px; border:0px solid white;">
+				<u>Hide The <%= pluralize(@entity_assessments.size, " Used Assessment") -%></u>
+			</td>
+		</tr>
+	</tbody>
+	</table>
+	
+	<table  style="width:600px; margin-left:120px; border:0px">	
+	<thead>
+		<tr style="border:1px solid #ddd;">
+			<th width=100px style="border:0px; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+				<center>Updated</center>
+			</th>
+			<th colspan=3 style="border:0px; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center>Assessment Summary</center>
+			</th>					
+		</tr>
+	</thead>		
+		<% @entity_assessments.each do |ass| -%>
+		
+		<tr style="border:1px solid #ddd;">
+			<td width=100px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+				<%= time_ago_in_words(ass.updated_at.to_s, include_seconds = false).titleize %> Ago
+			</td>
+			<td width=20px style="border:0px;vertical-align:middle;  padding-left:0px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+				<% if ass.is_calibrated -%>
+					<%= (image_tag "calibrated_yes.png",:width => 20) -%>
+				<% else -%>
+					&nbsp;
+				<% end -%>
+			</td>
+			<td width=20px style="border:0px;vertical-align:middle;  padding-left:0px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+				<% if ass.is_locked -%>
+					<%= (image_tag "lock_yes.png",:width => 15) -%>
+				<% else -%>
+					<%= (image_tag "lock_no.png",:width => 15) -%>
+				<% end -%>
+			</td>
+			<td  style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+				<i><%=  ass.name.titleize %></i>&nbsp;&nbsp;<u><%= link_to "View In Separate Window", {:controller =>  "/apps/assessment", :action => :static_assessment, :organization_id => @current_organization, :question_id => @question, :assessment_id => ass}, {:target => "_blank"}  %></u>
+				<br/>
+				<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
+				<%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%><br/>
+				<% end -%>
+				<% if ass.user%><%= ass.user.last_name %><% if ass.organization%>,&nbsp;&nbsp;<%= ass.organization.medium_name %><% end-%><% end-%>
+			</td>
+		</tr>
+	<% end -%>				
+	</tbody>
+	</table>
+</div>
+<% end -%>
+    <%= render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "entity"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)} %>
+
+	<% if @show_details -%>
+    	<%= render :partial => "/apps/assessment/ifa_dashboard_details" %>	
+	<% end -%>
+
+</div>
+<br style="clear:both" />
+<script type="text/javascript">
+jQ(document).ready(function() {
+  		  jQ("#<%=assess_header%>").show();
+		  jQ("#<%=assess_list%>").hide();		  
+
+	jQ("#<%=assess_show%>").click(function() {
+		  	jQ("#<%=assess_header%>").hide();	 
+	   		jQ("#<%=assess_list%>").slideDown("slow");
+	})
+
+	jQ("#<%=assess_hide%>").click(function() {
+	   		jQ("#<%=assess_list%>").slideUp("slow");
+	   		jQ("#<%=assess_header%>").show();
+	})	
+});
+</script>

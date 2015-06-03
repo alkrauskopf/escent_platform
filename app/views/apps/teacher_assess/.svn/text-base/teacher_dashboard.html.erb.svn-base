@@ -1,0 +1,172 @@
+<div id="mainContent">
+
+	<div style="float:none;width:97%;" class="mempro_box clear">
+
+    <div id="member_ico">
+      <% if @teacher.picture.url.split("/").last == "missing.png" %>
+        <%= image_tag "member_ico.gif" %>
+ 		<br/>
+      <% else %>
+        <%= image_tag @teacher.picture.url(:thumb) %>
+		<br/>
+      <% end %>
+    </div>
+    <div id="member_info">
+		<div style="float:left; width:630px;">
+	      <p class="name" style="width:630px; word-wrap:break-word; overflow:hidden; font-size:16px" > <%= @teacher.full_name %> <br/></p>
+
+		<p  style="width:630px; color: #000000; font-size:12px; font-weight:normal">
+			<br/>
+			<u>Classrooms:</u><br/>
+					&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;Teaches <%= pluralize(@teacher_classrooms.size, ' Online Classroom')%>,&nbsp;
+					,&nbsp;<%= pluralize(@teacher_students, ' Online Student')%>, &nbsp;
+					<%= pluralize(@teacher_observers, ' Online Observer')%>   <br/>
+					<% @teacher_classrooms.each do |cl| -%>
+						<% room_org = cl.organization -%>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;<u> <%= link_to cl.course_name,{:controller => "/site/site", :action => :static_classroom, :organization_id => room_org, :id => cl}, {:target => "_blank"} %> </u>
+						&nbsp;-&nbsp;Using <%= pluralize(cl.resources.size, ' Library Resource') %><br/>
+					<% end -%>
+			<br/>
+			<u>Resources:</u><br/>
+					<% if @teacher_resources -%>
+						&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;<%= pluralize(@teacher_resources.size, ' Total Resource Library Contribution') %><br/>
+						&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;<%= pluralize(@teacher_period_resources.size, ' Contribution') %>&nbsp;Between&nbsp;<%= @start_date.strftime("%B %d, %Y")%>&nbsp;&nbsp;and&nbsp;&nbsp;<%= @end_date.strftime("%B %d, %Y")%> 									
+					<% else -%>	
+						&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;No Resources Have Been Contributed To The Library
+					<% end -%>
+					<br/>
+					&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;On Average, Each Teacher At <%= @current_organization.medium_name %> Has Contributed <%= pluralize(@resources_per_contributor, ' Resource')%> To The Library 
+					<br/>
+			<br/>
+			<u>Assessments:</u><br/>
+				<% if @teacher_assessments -%>
+						&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;<%= pluralize(@teacher_assessments.size, ' Student Assessment')%> Taken <br/>
+				<% else -%>	
+					&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;No Students Assessed<br/>
+				<% end -%>	
+				
+				<% if @teacher_assessments_finalized -%>
+						&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;<%= @teacher_assessments_finalized.size %> Reviewed and Finalized <br/>					
+				<% else -%>	
+					&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;No Student Assessments Finalized<br/>
+				<% end -%>	
+				&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;On Average, Each Teacher At <%= @current_organization.medium_name %> Has Given <%= pluralize(@assessments_per_teacher, ' Student Assessment') %>
+				<br/>
+				<br/>
+				<u>Communications:</u><br/>
+				<% if @teacher_msgs_sent -%>
+						&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;<%= pluralize(@teacher_msgs_sent.size, ' Message')%>&nbsp;Sent To Students<br/>
+				<% else -%>	
+					&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;No Messages Sent To Studetns
+				<% end -%>
+				<% if @teacher_msgs_received -%>
+						&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;<%= pluralize(@teacher_msgs_received.size, ' Message') %>&nbsp;Received From Students<br/>
+				<% else -%>	
+					&nbsp; &nbsp;&nbsp; &nbsp;-&nbsp;No Messages Received From Students
+				<% end -%>
+				<br/>
+				</p>
+</br></br></br>
+
+
+
+   </div>
+	
+
+</div>
+
+
+<br style="clear:both" />
+	<div id="assign_resources_panel">
+		<table id="authorization_levels" style="width:750px;margin-left:45px">
+			<thead>
+				<tr>
+					<% header_string = "MONTHLY METRICS"  %>
+					<th colspan=15 style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:14px; margin-top:0px; font-weight:normal" >
+						<center><strong></br><%= header_string %><br/></strong></center>
+						<center><strong><i><%= @start_date.strftime("%B %d, %Y")%>&nbsp;&nbsp;-&nbsp;&nbsp;<%= @end_date.strftime("%B %d, %Y")%> </i></strong></center>
+						<% if @tchr_metrics.size == 0 -%>
+							<center><strong><i> * * * Select "Options" Tab To Choose Your Metrics * * *</i></strong></center>
+						<% end -%>
+					</th>											
+				</tr>
+				
+				<tr>
+					<th colspan=2 width = 90px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:11px; margin-top:0px; font-weight:normal" >
+						<center><strong>Metric</strong></center>
+					</th>
+					<% @window.each do |mth|%>
+						<th width = 60px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:10px; margin-left:0px; font-weight:bold" >
+							<center><%= mth.strftime("%b-%y") %></center>
+						</th>
+						<% end -%>
+				</tr>			
+			
+			</thead>
+			<tbody>
+	
+
+				<% if @tchr_metrics -%>
+					<% @tchr_metrics.each_with_index do |m,vdx| -%>
+				<tr>
+					<td class="tip_std" title="<%= @metric_header_hover[vdx] %>" colspan=2 width = 90px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:11px; margin-top:0px; font-weight:bold" >
+						<center><%= @m_name[vdx] %></center>
+					</td>
+
+					<% @w_metrics[vdx].each do |met|-%>
+						<td width = 60px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:13px; margin-left:0px; font-weight:normal" >
+							<center><%= met %></center>
+						</td>
+						<% end -%>
+				</tr>
+				<% end -%>
+			  <% end -%>
+			</tbody>
+		</table>
+	<br/>		
+		</div>	
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#authorization_levels .authorization_levels_close').toggleAuthorizationLevels();
+	jQ('#authorization_levels .authorization_levels_open').toggleAuthorizationLevels();	
+  jQ("#authorization_levels").tablesorter({ headers: { 1: { sorter: false }} });
+});
+</script>
+
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function(){
+    jQ('#control_panel').tabs();
+  });
+</script>
+<script>
+jQ(function(){
+jQ('td.tip_std').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'topMiddle',
+         tooltip: 'bottomMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 0,
+         radius: 0,
+         color: '#99911a'
+      },
+      width: 250,
+	  tip: { // Now an object instead of a string
+         corner: 'bottomMiddle', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>

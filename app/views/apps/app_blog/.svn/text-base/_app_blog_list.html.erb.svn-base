@@ -1,0 +1,93 @@
+<% unless app.blogs.active.not_featured.empty? || !@current_organization.conversation_for?(app)%>
+	<% back_color = (!app.app_discussions.for_org(@current_organization).empty? && !app.app_discussions.for_org(@current_organization).first.background_color.nil?) ?  ("#" + app.app_discussions.for_org(@current_organization).first.background_color) : "#000000" -%>
+
+	<div id="blog_box" style="width:220px; width:fixed; border:8px solid #ddd; border-style:groove; background:<%=back_color%>">	
+
+	<table id="app_blog_header" style=" width:220px; margin-top:0px; margin-left:0px; border:0px solid #ddd; ">
+		<tbody>  
+		<style type="text/css" media="screen">
+    		table,tr,td { border:none; }
+			table tr:hover{
+    		background-color: transparent;
+  			}
+		</style>
+			<tr  style="margin-left:00px">
+				<td  id="app_blog_show" style=" width:60px; width:fixed; font-size:10px;  cursor:pointer; text-align:right; vertical-align:middle; font-weight:normal;  color: #2061a5; padding-top:0px; padding-left:0px;">
+					<u>View</u>&nbsp; 
+				</td> 	
+				<td style = "font-size:13px; text-align:left; vertical-align:top; font-weight:normal;  color: #2061a5; padding-top:0px; padding-left:0px;">
+					<%= pluralize(app.blogs.active.not_featured.size, app.abbrev + " Discussion") %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table id="app_blog_descript" style="width:220px; margin-top:0px; margin-left:0px; border:0px solid #ddd; ">
+		<tbody>
+			<tr>
+				<td  id="app_blog_hide" style=" width:60px; width:fixed; font-size:10px;  cursor:pointer; text-align:right; vertical-align:middle; font-weight:normal;  color: #2061a5; padding-top:0px; padding-left:0px;">
+						<u>Hide</u>&nbsp;  	
+				<td style = "font-size:13px; text-align:left; vertical-align:top; font-weight:normal;  color: #2061a5; padding-top:0px; padding-left:0px;">
+					<% app.blogs.active.not_featured.size == 1 ? " Discussion" : " Discussions" -%>
+				</td>
+			</tr>
+			</tr>
+			<% app.blogs.active.not_featured.each do |blog| -%>
+				<tr>
+					<td colspan=2 style = "font-size:11px; line-height 1.0em; font-weight:bold; color: #2061a5; padding-top:5px; padding-left:10px;">
+					 	<span style = "font-size:10px; font-weight:normal; color: #2061a5; cursor:pointer">
+					 		<%= link_to "Read" ,{:controller => "apps/app_blog", :action => "show_app_blog", :blog_id => blog, :app=> app}, {:target => "_blank"}%>
+						</span>
+						<%= blog.title %>
+					</td>											
+				</tr>
+				<% blog.blog_posts.active.each do |post| -%>
+				<tr>
+					<td style = "font-size:10px; width:50px; width:fixed; font-weight:normal; color: #2061a5; padding-bottom:7px; padding-left:5px;">
+						    <div id="member_ico">
+						      <% if post.user.picture.url.split("/").last == "missing.png" %>
+						        <%= image_tag "member_ico.gif" %>
+						      <% else %>
+						        <%= image_tag post.user.picture.url(:small_thumb) %>
+						      <% end %>
+						    </div>
+					</td>											
+					<td style = "font-size:10px;  line-height:13px; font-weight:normal; color: #2061a5; vertical-align:middle; padding-top:0px; padding-left:10px;">			
+						<i><%= post.title.titleize %></i><br/>
+						<span style = "font-size:9px;  font-weight:normal; color: #000000; padding-top:0px; padding-left:0px;">
+							(<%= pluralize(post.comments.size, " Comment")%>)	
+						</span>
+					</td>
+				</tr>			
+				<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+	</div>
+<script type="text/javascript">
+	jQ(document).ready(function() {
+  		  jQ("#app_blog_header").show();
+		  jQ("#app_blog_descript").hide();		  
+
+	jQ("#app_blog_show").click(function() {
+		  	jQ("#app_blog_header").slideUp("slow");	 
+	   		jQ("#app_blog_descript").slideDown("slow");
+	})
+
+	jQ("#app_blog_hide").click(function() {
+	   		jQ("#app_blog_descript").slideUp("slow");
+	   		jQ("#app_blog_header").show();
+	})	
+});
+</script>
+<% else -%>
+	<table  style="width:210px; margin-left:0px; border:0px solid #ddd;">
+		<tbody>
+			<tr>
+				<td  style = "font-size:12px; width:300px; width:fixed; font-weight:normal;  padding-left:0px; text-align:left;">
+					&nbsp;
+				</td>	
+			</tr>
+		</tbody>
+	</table>
+<% end -%>

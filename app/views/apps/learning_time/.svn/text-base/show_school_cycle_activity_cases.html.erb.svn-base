@@ -1,0 +1,5 @@
+<div >
+
+   	<%= render :partial => "/apps/learning_time/show_school_cycle_activity_cases", :locals => {:activity => @activity, :org => @school, :cycle=>@cycle, :app => @app} -%>
+
+</div>

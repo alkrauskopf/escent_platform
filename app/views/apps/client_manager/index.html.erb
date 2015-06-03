@@ -1,0 +1,123 @@
+<div id="main_content">
+
+  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
+			<br/><center><%= @app.name.upcase %></center>
+	</div>
+	<% if @current_user.app_authorized?(@app,@current_organization) || @current_user.elt_reviewer?(@current_organization.elt_provider)%>
+<!--
+		<%#= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@app} %>			
+-->		
+		<div style="float:none;width:96.7%;" class="mempro_box clear" style="margin-left:00px;">
+
+		<div id="centerpane_appl">
+<br/>			
+			<div id="offering_box">
+		    	<%= render :partial => "/apps/client_manager/cm_dashboard", :locals=>{:app=>@app} %>
+		    </div>
+		</div>
+  	</div>
+	<% end-%>
+  <div id="control_panel" >
+   <ul>
+      <li>
+		<%  tab_1_label = "Progress Monitoring" %>
+        <a href="#tabs-1"><span class="tab_label">
+		<center><%= tab_1_label %></center></span></a>	
+	  </li>
+      <li>
+		<%  tab_2_label = "Clients & Staff" %>
+        <a href="#tabs-2"><span class="tab_label">
+		<center><%= tab_2_label %></center></span></a>	
+	  </li>
+      <li>
+		<%  tab_4_label = "Solutions" %>
+        <a href="#tabs-4"><span class="tab_label">
+		<center><%= tab_4_label %></center></span></a>	
+	  </li>
+      <li>
+      	<%  tab_5_label =  "Resources" %>
+        <a href="#tabs-5"><span class="tab_label">
+		<center><%= tab_5_label %></center></span></a>	
+	  </li>
+      <li>
+		<%  tab_6_label = "Discussions" %>
+        <a href="#tabs-6"><span class="tab_label">
+		<center><%= tab_6_label %></center></span></a>	
+	  </li>
+      <li>
+		<%  tab_7_label = "Surveys" %>
+        <a href="#tabs-7"><span class="tab_label">
+		<center><%= tab_7_label %></center></span></a>	
+	  </li>
+		<% if @admin -%>
+	      <li>
+			<%  tab_9_label = "Options" %>
+	        <a href="#tabs-9"><span class="tab_label">
+			<center><%= tab_9_label %></center></span></a>	
+		  </li>
+		<% end -%>
+    </ul>
+
+	<div id="tabs-1" class="favorite_organizations" style="width:900px">
+	   	<%= render :partial => "/apps/client_manager/progress_monitor", :locals=>{:app=>@app} %>
+   	</div>
+	<div id="tabs-2" class="favorite_organizations" style="width:900px">
+	    <%= render :partial => "/apps/client_manager/client_staff", :locals=>{:app=>@app} %>
+   	</div>
+
+	<div id="tabs-4" class="favorite_organizations" style="width:900px">
+	    <%= render :partial => "/apps/client_manager/manage_solutions", :locals=>{:app=>@app} %>
+   	</div>
+	<div id="tabs-5" class="favorite_organizations" style="width:900px">
+Manage Resources
+   	</div>
+	<div id="tabs-6" class="favorite_organizations" style="width:900px">
+Manage Blogs and Discussions
+	</div>
+	<div id="tabs-7" class="favorite_organizations" style="width:900px">
+Manage Client Surveys
+   	</div>
+	<% if @admin -%> 
+		<div id="tabs-9" class="favorite_organizations" style="width:900px">
+	    	<%= render :partial => "/apps/client_manager/manage_options" %>
+	   	</div>   	
+ 	<% end -%>   		   
+ </div>
+
+</div>
+
+<script type="text/javascript">
+	jQ(document).ready(function() {
+		function showDialogContent(title, content_id) {
+			$dialog = jQ("#view-content");
+			// next line is broken.		
+			$dialog.attr("title", title);
+			jQ.post('<%= url_for :controller => :content, :action => :show, :organization_id => @current_organization %>', {'id':content_id}, function(data) {
+				$dialog.html(data);
+				$dialog.dialog('open');
+			})
+		}
+
+		var addButtonAction = function() {
+			jQ("button", jQ("#topic_content")).each(function() {
+				jQ(this).click(function() {
+					var title = jQ(this).parent("td").parent("tr").children("td").eq(0).text();
+					var content_id = jQ(this).parent("td").parent("tr").attr("id");
+					showDialogContent(title, content_id)
+					return false;
+				})
+			})
+		}
+		jQ('.dialog').dialog('close');
+		addButtonAction();
+
+	})
+</script>
+
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function(){
+    jQ('#control_panel').tabs();
+  });
+</script>
+
+

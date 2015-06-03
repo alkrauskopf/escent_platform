@@ -1,0 +1,1 @@
+Org ID <%= @current_organization.public_id %>

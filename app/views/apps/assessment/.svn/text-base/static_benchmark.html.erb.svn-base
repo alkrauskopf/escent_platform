@@ -1,0 +1,288 @@
+<div id="mainContent">
+
+	
+	<div style="float:none;width:97%;" class="mempro_box clear">
+  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
+		     <u><%= @benchmark.act_master.name %>&nbsp;<%= @benchmark.act_bench_type.long_name %></u><br/><br/>
+	</div>   
+	 <div style="float:left; width:97%;font-size:14px; word-wrap:break-word; text-align:center; font-weight:bold; color:#000000;">
+      <%= @benchmark.act_subject.name.upcase if @benchmark.act_subject %> <br/>
+      <span style=" width:97%;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
+	  <%= @benchmark.act_standard.name.upcase if @benchmark.act_standard %> <br/>
+	  <% if @benchmark.act_score_range -%>
+	  	Mastery level: <%= @benchmark.act_score_range.range %><br/>
+		<% end -%>
+	  <% if @benchmark.co_gle -%>
+	      <% if @benchmark.co_gle.co_grade_level -%>
+	  		Grade Level: <%= @benchmark.co_gle.co_grade_level.level.upcase %><br/>
+		  <% end -%>
+  	 </span>
+     <span style=" width:800px;margin-left:60px;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
+		  <br/><u>Expectation</u><br/><i><%= @benchmark.co_gle.skill.humanize %></i><br/>
+	  </span>
+	  <% end -%>
+     <span style=" width:800px;margin-left:60px;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#C83A14;">
+	  <br/><br/>
+	  <strong><u/><%= @benchmark.act_bench_type.long_name%></u><br/><i><%= @benchmark.description%></i></strong><br/>	 
+	  </span>
+	  <br/>
+     <span style=" width:800px;margin-left:60px;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
+		<br/>
+	  <u>Summary Statistics</u><br/>
+	  Assessed By <%= pluralize(@bench_questions.size, ' Question') %><br/>
+	  Addressed In <%= pluralize(@bench_assessments.size, ' Assessment') %><br/>			  
+	  Assessed In <%= pluralize(@all_schools.size, ' High School') %><br/>
+	  Assessed In <%= pluralize(@all_classrooms.size, ' Classroom') %><br/>  							  
+	  Assessed By <%= pluralize(@all_teachers.size, ' Teacher') %><br/>	  
+	  <br/>
+	  Your Students Assessed:  <%= pluralize(@teacher_students.size, ' Student') %><br/>
+	  Your Student Exposures:  <%= pluralize(@teacher_answers.size, ' Time') %> <br/>
+	  Your Student Performance: <%=number_to_percentage(@teacher_pct_correct, :precision => 0) %> Correct<br/><br/>
+	  <br/>
+	  Total Students Assessed:  <%= pluralize(@all_students.size, ' Student') %><br/>
+	  Total Student Exposures:  <%= pluralize(@bench_answers.size, ' Time') %> <br/>
+	  Total Student Performance: <%=number_to_percentage(@all_pct_correct, :precision => 0) %> Correct<br/><br/>
+   	</span>
+	 
+	 </div> 
+<br style="clear:both" />
+
+  <div id="control_panel" >
+ 
+   <ul>
+
+      <li>
+		<%  tab_1_label = "By School" %>		
+		<a href="#tabs-1"><span class="tab_label">
+		<%= tab_1_label %></span></a>				
+		</li>
+
+	  <li>
+		<%  tab_2_label = "By Teacher" %>
+		<a href="#tabs-2"><span class="tab_label">
+		<%= tab_2_label %></span></a>								
+      </li>
+
+	  <li>
+		<%  tab_3_label = "By Classroom" %>
+		<a href="#tabs-3"><span class="tab_label">
+		<%= tab_3_label %></span></a>								
+      </li>
+	  </li>
+
+    </ul>
+
+	
+
+  <div id="tabs-1" class="favorite_organizations" style="width:900px; margin-left:20;">
+    <span style=" width:800px;margin-left:60px;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#C73914;">
+	<br/>
+	<strong><center><i><%= @benchmark.description%></i></center></strong><br/>	 
+	</span
+	<table id="roles"  style="width:800px;margin-left:30px;font-size:10px; word-wrap:break-word; text-align:center; font-weight:bold; color:#000000;">
+		<thead style="font-size:10px; word-wrap:break-word; text-align:center; font-weight:bold; color:#000000;">
+			<style type="text/css" media="screen">
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    		</style>
+			
+			<tr >
+				<th style="font-size:11px;">
+				  <strong><center>&nbsp;School&nbsp;</center></strong>
+				</th>
+				
+  				<%window = Time.now - 12.months -%> 
+				<% until window > Time.now.end_of_month -%>	
+				<th style="font-size:11px;">
+					<strong><center>&nbsp;<%= window.strftime("%m/%y") %>&nbsp;</center></strong>
+				</th>
+				<% window = window + 1.month -%>
+				<% end -%>			
+			</tr>
+		</thead>
+		<tbody id="topic_content">
+			<% @highschools.each do |hs| -%>
+			<tr >
+				<td style="font-size:11px;vertical-align:middle">
+				  <center><%= hs.medium_name %></center>
+				</td>
+  				<%window = Time.now - 12.months -%> 
+				<% until window > Time.now.end_of_month -%>	
+					<% mnthly_answers = @bench_answers.select{|a| a.organization_id == hs.id && a.created_at.month == window.month && a.created_at.year == window.year} -%>
+					<% if mnthly_answers.size > 0 -%>
+						<% points = mnthly_answers.collect{|a| a.points}.sum -%>
+						<% pct = 100*points/mnthly_answers.size -%>
+					<% else -%>
+						<% points = 0 -%>
+						<% pct = 0 -%>
+					<% end -%>
+				<td style="font-size:11px;vertical-align:middle">
+					<% if points == 0 -%>
+						&nbsp;
+					<% else -%>
+						<center><%=mnthly_answers.size %><br/><%= number_to_percentage(pct, :precision => 0) %></center>
+					<% end -%>
+				</td>
+				<% window = window + 1.month -%>
+				<% end -%>			
+			</tr>			
+			
+			<% end -%>
+		</tbody>
+ 	</table>
+
+</div>
+
+
+
+    <div id="tabs-2" class="favorite_organizations" style="width:900px; margin-left:20;">
+    <span style=" width:800px;margin-left:60px;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#C73914;">
+	<br/>
+	<strong><center><i><%= @benchmark.description%></i></center></strong><br/>	 
+	</span
+	<% unless @teachers.nil? || @teachers.size == 0 %>
+	<table id="roles"  style="width:800px;margin-left:30px;font-size:10px; word-wrap:break-word; text-align:center; font-weight:bold; color:#000000;">
+		<thead style="font-size:10px; word-wrap:break-word; text-align:center; font-weight:bold; color:#000000;">
+			<style type="text/css" media="screen">
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    		</style>
+			
+			<tr >
+				<th style="font-size:11px;">
+				  <strong><center>&nbsp;School&nbsp;</center></strong>
+				</th>
+				
+  				<%window = Time.now - 12.months -%> 
+				<% until window > Time.now.end_of_month -%>	
+				<th style="font-size:11px;">
+					<strong><center>&nbsp;<%= window.strftime("%m/%y") %>&nbsp;</center></strong>
+				</th>
+				<% window = window + 1.month -%>
+				<% end -%>			
+			</tr>
+		</thead>
+		<tbody id="topic_content">
+			<% @teachers.each do |t| -%>
+			<tr >
+				<td style="font-size:11px;vertical-align:middle">
+				  <center><%= t.last_name %>, <%= t.first_name %><br/>
+				  <%= t.organization.medium_name %></center>
+				</td>
+  				<%window = Time.now - 12.months -%> 
+				<% until window > Time.now.end_of_month -%>	
+					<% mnthly_answers = @bench_answers.select{|a| a.teacher_id == t.id && a.created_at.month == window.month && a.created_at.year == window.year} -%>
+					<% if mnthly_answers.size > 0 -%>
+						<% points = mnthly_answers.collect{|a| a.points}.sum -%>
+						<% pct = 100*points/mnthly_answers.size -%>
+					<% else -%>
+						<% points = 0 -%>
+						<% pct = 0 -%>
+					<% end -%>
+				<td style="font-size:11px;vertical-align:middle">
+					<% if points == 0 -%>
+						&nbsp;
+					<% else -%>
+						<center><%=mnthly_answers.size %><br/><%= number_to_percentage(pct, :precision => 0) %></center>
+					<% end -%>
+				</td>
+				<% window = window + 1.month -%>
+				<% end -%>			
+			</tr>			
+			
+			<% end -%>
+		</tbody>
+ 	</table>
+	<% else -%>
+    <span style=" width:800px;margin-left:60px;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#00000;">
+	<center><i>* * * No Teachers Assessing <%=@benchmark.act_master.abbrev %>&nbsp;<%= @benchmark.act_bench_type.long_name %> * * *</i></center><br/>	 
+	</span	
+	
+	<% end -%>
+  </div>
+  
+
+    <div id="tabs-3" class="favorite_organizations" style="width:900px; margin-left:20;">
+    <span style=" width:800px;margin-left:60px;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#C73914;">
+	<br/>
+	<strong><center><i><%= @benchmark.description%></i></center></strong><br/>	 
+	</span
+	<% unless @all_classrooms.nil? || @all_classrooms.size == 0 %>
+	<table id="roles"  style="width:800px;margin-left:30px;font-size:10px; word-wrap:break-word; text-align:center; font-weight:bold; color:#000000;">
+		<thead style="font-size:10px; word-wrap:break-word; text-align:center; font-weight:bold; color:#000000;">
+			<style type="text/css" media="screen">
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    		</style>
+			
+			<tr >
+				<th style="font-size:11px;">
+				  <strong><center>&nbsp;Classroom&nbsp;</center></strong>
+				</th>
+				
+  				<%window = Time.now - 12.months -%> 
+				<% until window > Time.now.end_of_month -%>	
+				<th style="font-size:11px;">
+					<center>&nbsp;<%= window.strftime("%m/%y") %>&nbsp;</center>
+				</th>
+				<% window = window + 1.month -%>
+				<% end -%>			
+			</tr>
+		</thead>
+		<tbody id="topic_content">
+			<% @all_classrooms.each do |c| -%>
+			<tr >
+				<td style="font-size:11px;vertical-align:middle">
+				<% link_string = truncate(c.course_name, :omission => "...", :length => 18) -%>
+				<% leader_string = truncate(clsrm.teacher_list, :omission => "...", :length => 13) -%>
+				<center>
+					<%= link_to link_string, :controller => "/site/site", :action => :static_classroom, :organization_id => c.organization, :id => c %><br/>
+					<%= leader_string %><br/>
+					<%= c.organization.medium_name %>
+				</center>
+				</td>
+  				<%window = Time.now - 12.months -%> 
+				<% until window > Time.now.end_of_month -%>	
+					<% mnthly_answers = @bench_answers.select{|a| a.classroom_id == c.id && a.created_at.month == window.month && a.created_at.year == window.year} -%>
+					<% if mnthly_answers.size > 0 -%>
+						<% points = mnthly_answers.collect{|a| a.points}.sum -%>
+						<% pct = 100*points/mnthly_answers.size -%>
+					<% else -%>
+						<% points = 0 -%>
+						<% pct = 0 -%>
+					<% end -%>
+				<td style="font-size:11px;vertical-align:middle">
+					<% if points == 0 -%>
+						&nbsp;
+					<% else -%>
+						<center><%=mnthly_answers.size %><br/><%= number_to_percentage(pct, :precision => 0) %></center>
+					<% end -%>
+				</td>
+				<% window = window + 1.month -%>
+				<% end -%>			
+			</tr>			
+			
+			<% end -%>
+		</tbody>
+ 	</table>
+	<% else -%>
+    <span style=" width:800px;margin-left:60px;font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#00000;">
+	<center><i>* * * No Classrooms Assessing <%=@benchmark.act_master.abbrev %>&nbsp;<%= @benchmark.act_bench_type.long_name %> * * *</i></center><br/>	 
+	</span	
+	
+	<% end -%>
+  </div>  
+  
+</div>  
+</div>
+<br style="clear:both" />
+
+
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function(){
+    jQ('#control_panel').tabs();
+  });
+</script>

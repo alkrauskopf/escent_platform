@@ -1,0 +1,633 @@
+
+<div style ="color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold"> 
+	<br/>
+	<strong><center> <%= @current_organization.medium_name %>&nbsp;Resource Update</center></strong>
+</div>
+
+
+
+<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
+	  <%= link_to "Resource Page", {:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => @content}%>
+</div>
+
+
+    <%= render :partial => "/shared/error_and_notice" %>
+
+
+<div class="Form clear">
+<%# form_for(:homework, :url => {:controller => "/site/site", :action => :submit_homework,:organization_id => @current_organization, :topic_id => @topic, :classroom_id => @classroom}, :html => { :multipart => true, :method => :put}) do |form| %>
+<% form_for(:content, :url => {:controller => "/site/contents", :action => :edit_resource, :organization_id => @current_organization, :function => "Submit", :content_id => @content, :format => 'js'}, :html => { :multipart => true, :method => :put}) do |form| -%>
+
+<div class="formBox">
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Title:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+         <%= text_field :new_title,:title, :size => 55, :maxlength => 150, :value => @content.title %>
+	     <span style="color:#C73914;">*</span></div>
+    </div>
+		<% formats = @content.valid_formats -%>		
+	    <div class="FormRow">
+			<div class="FormRowTitle">
+				<div class="tip_format" title="<%=formats%>">File Format:</div>
+			</div>	
+				<div class="FormRowData" style= "margin-left:25px">
+
+       		 	<%= ContentObjectTypeGroup.find(@content.content_object_type.content_object_type_group_id).name %>
+		
+				</div>
+	    </div>
+
+		<% if @content.content_object_type.content_object_type_group_id == 2 then %>
+		    <% unless @content.source_file_preview.nil?%>
+		    	<div class="FormRow">
+					<div class="FormRowTitle"></div>
+						<div class="FormRowData" style= "margin-left:302px">	
+
+						 <img src="<%= @content.source_file_preview.url(:thumb) %>" width="60" />
+						 <br/>	
+						</div>
+	    			</div>				 
+				  
+				<% end %>
+		    <div class="FormRow">
+				<div class="FormRowTitle">Replace Image:</div>
+				<div class="FormRowData" style= "margin-left:25px">
+		        <%= file_field_tag "content[source_file]" %>
+				</div>
+	    	</div>
+		<% elsif @content.content_object_type.content_object_type_group_id == 1 then %>
+		<% unless @content.source_file_preview.nil?%>
+		    	<div class="FormRow">
+					<div class="FormRowTitle"></div>
+						<div class="FormRowData" style= "margin-left:302px">	
+
+						 <img src="<%= @content.source_file_preview.url(:thumb) %>" width="60" />
+						 <br/>	
+						</div>
+	    			</div>				 
+				  				
+				<% end %>
+		    <p>
+		    <label>
+		        Replace Video:
+		    </label>
+		    <%= file_field_tag "content[source_file]" %>
+			</p>
+
+			<p>
+    		<label>
+		        Replace Preview Image:
+		    </label>
+	    	<%= file_field_tag "content[source_file_preview]" %>
+			</p>
+
+		<% elsif @content.content_object_type.content_object_type_group_id == 3 then  -%>
+      <p>
+        <label>
+            Replace Audio:
+        </label>
+        <%= file_field_tag "content[source_file]" %>
+  		</p>
+<!-- ALK Updates for Link, PDF and DOC Content -->
+		<% elsif @content.content_object_type.content_object_type_group_id == 8 then  -%>
+      <p>
+        <label>
+            Replace MS File:  
+        </label>
+        <%= file_field_tag "content[source_file]" %>
+  		</p>
+		
+		<% elsif @content.content_object_type.content_object_type_group_id == 5 then  -%>
+      <p>
+      	<%= label_tag 'content_content_object', 'Link:' %>
+        <%= text_field :content,:content_object, :size => 55, :value => @content.content_object %>
+  		</p>
+		
+		<% elsif @content.content_object_type.content_object_type_group_id == 7 then  -%>
+      <p>
+        <label>
+            Replace PDF:
+        </label>
+        <%= file_field_tag "content[source_file]" %>
+  		</p>
+		
+		<% elsif @content.content_object_type.content_object_type_group_id == 4 then  -%>
+      <p>
+
+       	<%= label_tag 'content_content_object', 'Embed Code:' %>
+      <%= text_area :object, :embed, :rows => 7, :cols => 75, :value => @content.content_object  %>
+
+  		</p>
+		
+		<% end %>
+
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Subject Area:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+		<%#= label_tag 'content_title', 'Subject Area:' %>
+        <%#= text_field  :content, :subject_area, :size => 30, :maxlength => 50, :id => "select_subject_area", :value => @content.subject_area, :class=>"text" %>
+		<%=  select(:content, :subject_area_id, SubjectArea.all(:order => "name").collect{|s| [s.name, s.id]}, {:prompt => "Select Subject Area"}) %>
+        <span style="color:#C73914;">*</span>
+		</div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Type of Resource:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+        <%=  select(:content, :content_resource_type_id, ContentResourceType.all(:order => "name").collect{|d| [d.name, d.id]}) %>
+        <span style="color:#C73914;">*</span>        
+		
+		</div>
+    </div>
+
+	
+	<div class="FormRow">
+      <div class="FormRowTitle">
+			<div class="FormRowData" style= "padding-left:250px">&nbsp;</div>
+
+	
+	<table id="authorization_levels" class="tablesorter" style="width:700px;">
+		<tbody>
+		<style type="text/css" media="screen">
+	    table,tr,td { border:none;  }
+		table tr:hover{
+        background-color: transparent;
+      }
+    	</style>			
+
+			<% topic_label = "Click Here For " + @current_standard.abbrev + " Assessment Information" -%>
+					<tr>
+						<td class="authorization_levels_close" style = "margin-left:300px;padding-left:20px" >
+						<%= link_to '', :controller => "/site/contents", :action => :edit_assess, :organization_id => @current_organization, :content_id => @content %>
+						<u><%= topic_label %></u>
+						<span></span>
+						</td>
+					</tr>
+		</tbody>
+	</table>
+	<br/>
+
+	  </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Useful Keywords:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+    	<%#= label_tag 'content_title', 'Useful Keywords:' %>
+    	<%= text_area :content, :caption, :rows => 2, :cols => 75, :maxlength => 255, :value => @content.caption %> 
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Please Tell Others About This Resource And Why They Might Find It Helpful
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+    	<%#= label_tag 'content_description', 'Please Tell Others About This Resource And Why They Might Find It Helpful' %>
+ 	   <%= text_area :content, :description, :rows => 7, :cols => 75, :maxlength => 4000, :value => @content.description %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		From Where, or From Whom Did You Obtain This Resource?
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+    	<%#= label_tag 'content_title', 'From Where, or From Whom Did You Obtain This Resource?' %>
+	    <%= text_field :content, :source_name, :size => 55, :maxlength => 255, :value => @content.source_name %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		If There Is One, What Is Their URL?
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+    	<%#= label_tag 'content_title', 'If There Is One, What Is Their URL?' %>
+   		<%= text_field :content, :source_url, :size => 55, :maxlength => 255, :value => @content.source_url %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Availability Date:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+	    <%#= label_tag 'content_title', 'Availability Date:' %>
+	    <%= date_select(:content, :publish_start_date, :value => @content.publish_start_date, :order=>[:month, :day, :year], :start_year => Time.now.year - 2, :end_year => Time.now.year + 20) %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Expiration Date:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+ 	   <%#= label_tag 'content_title', 'Expiration Date:' %>
+ 	   <%= date_select(:content, :publish_end_date, :value => @content.publish_end_date, :order=>[:month, :day, :year], :start_year => Time.now.year, :end_year => Time.now.year + 20) %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Status:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+    	<%#= label_tag 'content_status_id', 'Status:' %>
+    	<%= select("content", "content_status_id", ContentStatus.find(:all, :conditions => "name <> 'Deleted'").collect {|p|  [ p.name, p.id ] }) %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+        </div>
+   		<br/> 
+		  <div class="FormRowData" style= "padding-left:25px">
+ 
+		<%= check_box :content, :terms_of_service %>
+ 	    Yes, I am authorized to make this submission according to the 
+		<%= link_to 'Terms of Service', {:controller => "../fsn", :action => 'terms'}, :target => '_blank' %> .
+         </div>
+    </div>
+
+
+		<div class="FormRow submit_warp">
+			<br/>
+			<%= submit_tag "Update Resource", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+		</div>	
+
+	</div>	
+<% end -%>	
+</div>
+
+<br/>
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>
+
+
+<!-- ALK Auto complete for Subject & Resource Type -->
+
+<script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+		var url = "<%= url_for :controller => '/site/contents', :action => :select_subject_areas, :organization_id => @current_organization %>";
+		jQ("#select_subject_area").autocomplete(url, {
+                                        				autoFill: false,
+                                        				mustMatch: true,
+                                        				matchContains: false
+                                        		});			
+		var url = "<%= url_for :controller => '/site/contents', :action => :select_resource_types, :organization_id => @current_organization %>";
+		jQ("#select_resource_type").autocomplete(url, {
+                                        				autoFill: true,
+                                        				mustMatch: false,
+                                        				matchContains: false
+                                        		});																			
+   	});
+				
+</script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+		var content_object_type = jQ("#content_object_type_content_object_type_group");
+        
+        content_object_type.change(function(){
+            jQ("#content_editor_panel").css("display", "none");
+            jQ("#content_upload_panel").css("display", "none");
+            jQ("#content_preview_panel").css("display", "none");
+            jQ("#content_link").css("display", "none");
+            
+            switch (content_object_type.val()) {
+                case "1": //Video
+                    jQ("#content_upload_panel").css("display", "block");
+                    jQ("#content_preview_panel").css("display", "block");
+                    break;
+                    
+                case "4": //Article (HTML)
+                    jQ("#content_editor_panel").css("display", "block");
+                    break;
+                    
+                case "5": //Link 
+                    jQ("#content_link").css("display", "block");
+                    break;
+                    
+                default:
+                    jQ("#content_upload_panel").css("display", "block");
+            }
+        });
+		
+        if (tinyMCE.getInstanceById("content_editor")) {
+            initTinyMCE();
+        }
+		
+        tinyMCE.execCommand("mceAddControl", false, 'content_editor');
+        
+        jQ("#loading").hide();
+        jQ("#save_button").bind("click", function(e){
+            jQ("#loading").show();
+        });
+    })
+</script>
+
+
+<script type="text/javascript">
+        jQuery(document).ready(function(){
+        jQ(".standards").hide();
+        jQ("#content_act_subject_id").change(function(){
+        jQ(".standards").hide();
+		var selected_subj = jQ("#content_act_subject_id");
+            switch(jQ(this).val()){
+               case "1":
+               jQ("#act_math").show();
+               //jQ("#not_applic").show();
+               break;
+                         
+               case "2":
+               jQ("#act_english").show();
+               break;
+                          
+               case "3":
+               jQ("#act_read").show();
+			   // jQ("#not_applic").show();
+               break;
+                         
+               case "4":
+               jQ("#act_science").show();
+			   // jQ("#not_applic").show();
+               break;			   
+                        
+               case "5":
+               jQ("#act_write").show();
+			   // jQ("#not_applic").show();
+               break;			   
+
+               default:
+               jQ("#not_applic").show();              
+             }
+           });
+         });
+ </script>
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#authorization_levels .authorization_levels_close').toggleAuthorizationLevels();
+	jQ('#authorization_levels .authorization_levels_open').toggleAuthorizationLevels();	
+  jQ("#roles").tablesorter({ headers: { 1: { sorter: false }} });
+});
+</script>
+
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+	  if (jQ('#topic_setting_values_attributes_0_value_roles:checked').val() == "roles"){
+		  jQ("#roles_participation_settings").show();
+	  }else{
+		  jQ("#roles_participation_settings").hide();
+	  }
+		jQ('#topic_setting_values_attributes_0_value_roles').click(function() {
+	    jQ('#roles_participation_settings').show('slow');
+	  });
+	  jQ('#topic_setting_values_attributes_0_value_all').click(function() {
+	    jQ('#roles_participation_settings').hide('slow');
+	  });
+
+			//topic_setting_values_attributes_0_value_roles
+		//	 var AUTH_TOKEN = "<%= protect_against_forgery? ? form_authenticity_token : '' %>";
+		//	 jQ.ajaxSetup({data:{authenticity_token : AUTH_TOKEN}});
+
+		jQ("form.ajax").submit(function() {
+			var action = jQ(this).attr("action");					
+			jQ("textarea.mceEditor", this).each(function() {
+				jQ(this).val(tinyMCE.get(this.id).getContent());
+			});
+			var post_data = $(this).serialize()
+		  jQ.post(action, post_data, function(data) {
+				jQ("#topics_panel").html(data);
+			});
+
+	    return false;
+	  });
+                initTinyMCE();
+
+		/*if (tinyMCE.getInstanceById("topic_instructional_remarks") ) {
+			initTinyMCE();
+		}
+		tinyMCE.execCommand("mceAddControl", false, 'topic_instructional_remarks');
+
+
+		if (tinyMCE.getInstanceById("topic_assignments") ) {
+			initTinyMCE();
+		}
+		tinyMCE.execCommand("mceAddControl", false, 'topic_assignments');
+		*/
+		jQ("#FormBoxWarp").accordion({autoHeight: false});
+
+		// jQ("#topic_content").sortable({
+		// 	items : 'tr',
+		// 	placeholder : 'ui-state-highlight',
+		// 	update : save_contents
+		// }).disableSelection();
+
+		jQ("#no_publish_end_date").change(function() {
+		  	if (jQ("#no_publish_end_date").attr("checked")) {
+					jQ("#publish_end_date_panel").slideUp("slow");
+				} else {
+					jQ("#publish_end_date_panel").slideDown("slow");
+				}
+		});		
+	})
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+		
+	// var $resultsBox = jQ("#search-results");	
+	
+	var $resultsBox = jQ("#result-box-dialog");		
+	
+	function search_content(keywords, type) {
+	  search_url = "<%= url_for :controller => :content, :action => :search_with_type, :organization_id => @current_organization %>";
+		jQ.get(search_url, {'keywords': keywords, 'type':type, 'render_html':'search_results_for_topics'}, function(data) {
+			$resultsBox.html(data)
+		});
+	}
+	
+	jQ("#search_button").click(function() {
+		var keywords = jQ("input[name='keywords']", jQ(this).parent("p")).val();
+		var type = "";
+		jQ("input[name='content_search_type']", jQ(this).parents("div.dialog")).each(function() {
+       if(jQ(this).attr('checked')) {
+         type = jQ(this).val();
+       }
+		})
+		search_content(keywords, type);
+	});
+	
+	jQ("#dialog_keywords").keyup(function(event){
+	    if (event.keyCode == 13) {
+			var keywords = jQ(this).val();
+	        search_content(keywords);
+	    }
+	});
+	
+	var save_contents = function() {
+    var items = jQ(".content-list-item");
+       var content_ids = new Array();
+    var $topic_content = jQ("#topic_content");
+    items.each(function() {
+     content_ids.push(this.id);
+    })
+		jQ.post('<%= url_for :controller => :topics, :action => :sort_content, :id => @topic, :organization_id => @current_organization %>', {'content_ids[]':content_ids}, function(data) {
+			$topic_content.css('background', '#f0f0e8')
+			.fadeTo('slow', 0.5, function() {
+				$topic_content.css('background', '#fff')
+				$topic_content.fadeTo("slow", 1)
+				$topic_content.parent("table").parent("div").html(data)
+				$topic_content.css("padding", "0")
+			})						
+		})
+	}
+
+	jQ('#add_content').click(function() {
+		jQ('.dialog').dialog('open');
+		return false;
+	})
+
+  var addActionToPaginationCouldCheck = function() {
+    jQ(".result-box-dialog :checkbox").click(function() {
+      var $this = jQ(this);
+      var id = $this.val();
+      if($this.attr("checked")) {
+        jQ("p:eq(0)", $this.parents(".dialog")).append("<input id='"+id+"' name='hidden_content_ids' type='hidden' value='"+id+"' />")
+      } else {
+        jQ("input#"+id).remove();
+      }
+    })
+  }
+	
+	jQ(".dialog").dialog({
+		bgiframe: true,
+		autoOpen: false,
+		width: 800,
+		height: 400,
+		modal: true,
+		buttons: {
+
+		}
+	});
+
+	function showDialogContent(title, content_id) {
+		$dialog = jQ("#view-content");
+		// next line is broken.		
+		$dialog.attr("title", title);
+		jQ.post('<%= url_for :controller => :content, :action => :show, :organization_id => @current_organization %>', {'id':content_id}, function(data) {
+			$dialog.html(data);
+			$dialog.dialog('open');
+		})
+	}
+	
+	var addButtonAction = function(parent_elem) {
+		jQ("button", parent_elem).each(function() {
+			jQ(this).click(function() {
+				var title = jQ(this).parent("td").parent("tr").children("td").eq(0).text();
+				var content_id = jQ(this).parent("td").parent("tr").attr("id");
+				showDialogContent(title, content_id)
+				return false;
+			})
+		})
+	}
+
+	addButtonAction(jQ("#topic_content"));
+	addButtonAction(jQ("#search-results-dialog"));	
+	addActionToPaginationCouldCheck();
+
+	jQ("#view-content").dialog({
+		bgiframe: true,
+		autoOpen: false,
+		width: 500,
+		modal: true,
+		buttons: {
+			Close: function() {
+				jQ(this).dialog('close');
+			}
+		}
+	});	
+	
+	jQ('div#result-box-dialog div.pagination a').live('click', function() {
+		jQ(this).parents('.result-box-dialog').load(this.href, function() {addActionToPaginationCouldCheck();addButtonAction(jQ("#search-results-dialog"));});
+		return false
+	})	
+	// Set a content as Featured.
+	// var topic_id = "<%#=@topic.public_id%>";
+	// var set_featured_url = "/site/site/set_featured_resource/<%=@current_organization.public_id%>";
+	// jQ('#topic_content input[type=radio]').setFeatured(set_featured_url, topic_id)
+});
+</script>
+<script>
+jQ(function(){
+jQ('div.tip_format').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'bottomMiddle',
+         tooltip: 'middleTop'
+      }
+   },
+   style: { 
+      name: 'blue',
+	  border: {
+         width: 1,
+         radius: 1,
+         color: '#99911a'
+      },
+      width: 180,
+  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

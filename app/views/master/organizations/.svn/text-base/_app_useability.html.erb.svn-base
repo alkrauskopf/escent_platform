@@ -1,0 +1,74 @@
+<div id="<%= app.public_id%>_useability">
+
+	<table style="width:840px; border:2px solid #ddd; margin-left:0px; color: #2061a5;">
+		<tbody>
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:2px solid #ddd; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+			</style>
+			<tr >
+				<td colspan=2 style="text-align:center; padding-top:10px; vertical-align:top; color:#2061a5;font-weight:bold;font-size:13px;">
+					<center><%= app.name%></center>
+					<span style="text-align:center; padding-top:0px; vertical-align:top; color:#2061a5;font-weight:normal;font-size:12px;">	
+						<%= app.available? ? "Currently Available": "Not Available"%>,&nbsp;<%= pluralize(app.selected_orgs.size, "Org") %>&nbsp;Currently&nbsp;Selects&nbsp;<%=app.abbrev%>
+					</span>
+				</td>
+			</tr>
+			<tr >
+				<th style="width:210px; width:fixed; text-align:center; padding-top:10px; vertical-align:top; color:#2061a5;font-weight:bold;font-size:12px;">
+					<center>Disallow Use</center>
+					<span style="text-align:center; padding-top:0px; vertical-align:top; color:#2061a5;font-weight:normal;font-size:12px;">		
+						<%= pluralize(app.disallowed_orgs.size, "Disallowed Org")%>,&nbsp;
+						<%= pluralize((Organization.all - app.disallowed_orgs).size, "Allowed Org")%>
+						</center>
+					</span>
+				</th>
+				<th style="width:210px; width:fixed; text-align:center; padding-top:10px; vertical-align:top; color:#2061a5;font-weight:bold;font-size:12px;">
+					<center>Allow Use</center>
+					<span style="text-align:center; padding-top:0px; vertical-align:top; color:#2061a5;font-weight:normal;font-size:12px;">		
+						<%= pluralize((Organization.all - app.disallowed_orgs).size, "Allowed Org")%>,&nbsp;
+						<%= pluralize(app.allowed_orgs.size, "Defined Allowed Org")%>,&nbsp;
+						<%= pluralize(app.disallowed_orgs.size, "Disallowed Org")%>
+						</center>
+					</span>
+				</th>
+			</tr>
+			<tr >
+				<td  id="<%=app.id%>_disallow" style=" color:#000000; font-weight:normal; font-size:12px; padding-left:110px; padding-bottom:0px;">
+					<%=  select(:app_disallow, app.id, (Organization.all - app.disallowed_orgs).sort_by{|o| o.name}.collect{|o| [(o.medium_name), o.id]}, :prompt => "Select Disallowable Org") %>				
+				</td>	
+				<td id="<%=app.id%>_allow" style="font-size:12px; padding-left:110px; ">
+					<%=  select(:app_allow, app.id, app.disallowed_orgs.sort_by{|o| o.name}.collect{|o| [(o.medium_name), o.id]}, :prompt => "Select Allowable Org") %>				
+				</td>		
+			</tr>
+		</tbody>
+	</table>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#<%=app.id%>_disallow').change(function() {
+		var org_id = jQ('#app_disallow_<%=app.id%>').val();
+		var url = "<%= url_for :controller => "/master/organizations", :action => :change_app_useability, :organization_id => @current_organization, :app_id=> app.id %>";
+			jQ.get(url, {'org_id':org_id}, function(data) {
+			jQ("#<%= app.public_id%>_useability").html(data); 
+	   		jQ("#<%= app.public_id%>_useability").show();
+			});
+	})
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#<%=app.id%>_allow').change(function() {
+		var org_id = jQ('#app_allow_<%=app.id%>').val();
+		var url = "<%= url_for :controller => "/master/organizations", :action => :change_app_useability, :organization_id => @current_organization, :app_id=> app.id %>";
+			jQ.get(url, {'org_id':org_id}, function(data) {
+			jQ("#<%= app.public_id%>_useability").html(data); 
+	   		jQ("#<%= app.public_id%>_useability").show();
+			});
+	})
+});
+</script>
+<br/>
+
+</div>

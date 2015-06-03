@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  itl_belt_rank_id: 1
+  grantor_name: MyString
+  justification: MyText
+
+two:
+  user_id: 1
+  itl_belt_rank_id: 1
+  grantor_name: MyString
+  justification: MyText

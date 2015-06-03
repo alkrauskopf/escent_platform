@@ -1,0 +1,15 @@
+<div style="padding-bottom:0px;">
+	<%- if @current_organization.logo.file? -%>
+		<%= link_to (image_tag(@current_organization.logo.url), {:controller => "/site/site", :action => :static_organization, :organization_id => @current_organization})  -%>
+		<%- else -%>
+			<center>
+			<%= link_to @current_organization.name, {:controller => "/site/site", :action => :static_organization, :organization_id => @current_organization}%> 
+			</center>
+		<%- end -%>
+</div>
+
+<%- unless @current_organization.body.nil? -%>
+<div class="normal_text" style="padding-top:7px">
+	<strong><i><%= to_br(@current_organization.body)%></i></strong>
+</div>
+<%- end -%>

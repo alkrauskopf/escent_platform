@@ -1,0 +1,83 @@
+<br style="clear:both" />
+<div id="ifa_dashboard" width = 100px style=" padding_left:0px; color: #000000;  font-size:9px">
+<center>
+	<table  style="width:100px; border:0px;">
+		<tbody>
+			<tr style=" border:0px;">
+				<td   id="toggle_filter" style="width:100px; border:0px; font-size:10px; padding-left:35px; vertical-align:bottom; text-align:center;color: #C83A14;font-weight:bold;">
+					<% if @current_user.calibrated_only -%>
+						<%= (image_tag "calibrated_yes.png",:width => 25) -%>
+						<% calibrate_hover = "<center><u>Calibrated Results</u><br/>Associated With Questions That Have Been Designated As<br/>Valid Indicators Of Mastery Levels. <br/><strong>Click Ribbon To Remove Calibration Filter.</strong></center>" %>
+					<% else %>
+						<%= (image_tag "calibrated_no.png",:width => 25) -%>
+						<% calibrate_hover = "<center><u>Calibrated Results</u><br/>Associated With Questions That Have Been Designated As<br/>Valid Indicators Of Mastery Levels. <br/><strong>Click Ribbon To View Calibrated Result Only.</strong></center>" %>
+					<% end %>
+				</td>	
+			</tr>
+			<tr style=" border:0px; height: 10px;">	
+				<td   class="tip_filter" title="<%= calibrate_hover %>" style="width:50px; border:0px; font-size:8px; padding-left:92px; vertical-align:middle; text-align:right;color: #C83A14;font-weight:bold;">
+					&nbsp;
+				</td>	
+			</tr>	
+		</tbody>					
+	</table>
+</center>
+
+<center>
+    	<%= render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "toggle"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)} %>
+</center>
+
+<br/>		
+</div>	
+
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#toggle_filter").click(function() {
+		var organization = "<%= @current_organization.public_id %>";
+		var entity = "<%= @entity.public_id %>";
+		var entity_class = "<%= @entity.class.to_s %>";
+		var subject = "<%= @current_subject.id %>";
+		var start_period = "<%= @start_period %>";
+		var end_period = "<%= @end_period %>";
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :toggle_ifa_dashboard %>";
+		jQ.get(url,{'organization_id': organization,'entity_id': entity, 'class': entity_class,'subject_id': subject, 'start_period':start_period, 'end_period':end_period},  function(data) {
+			jQ("#ifa_dashboard").html(data); 
+	   		jQ("#ifa_dashboard").show();
+					});
+               
+	})
+});
+</script>
+<script>
+jQ(function(){
+jQ('td.tip_filter').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'bottomMiddle',
+         tooltip: 'topMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 0,
+         radius: 0,
+         color: '#99911a'
+      },
+      width: 400,
+	  tip: { // Now an object instead of a string
+         corner: 'topMiddle', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>

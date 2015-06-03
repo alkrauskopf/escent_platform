@@ -1,0 +1,93 @@
+	
+<div id="applications" >
+<br/>
+	<table style="width:600px; margin-left:285px; border:0px">
+		<tbody>
+		<style type="text/css" media="screen">
+	    table,tr,td { border:medium}
+		table tr:hover{
+        background-color: transparent;
+      }
+    	</style>
+			<% @current_organization.selectable_apps.each do |app| -%>
+
+				<tr >
+				<% button_image = @current_organization.selected?(app) ? "button_enabled.png" : "button_disabled.png" %>
+
+					<% if !app.enableable? || (!@current_organization.selected?(app) && app.providers.size >1 ) %>
+						<td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:5px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+							<%= image_tag button_image, :width => 15%>
+						</td>					
+					<% else -%>
+						<td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:5px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+							<%= link_to (image_tag button_image, :width => 15), {:controller => "admin/our_organization",:action => "coop_app_enable_disable", :organization_id => @current_organization,  :app_id => app}, :confirm => "Are You Sure?", :class => "toggle_button" %>
+						</td>
+					<% end -%>						
+
+					<td   style="width:575px; vertical-align:top;  padding-top:0px; text-align:left; ">
+						<span style="color:#2061a5;  font-size:12px; font-weight:bold">
+						<%=  app.name.titleize %> 
+<!--
+						<%# rate_card = app.coop_app_rates.for_group_code(@current_organization.coop_group_code).first rescue nil%>
+						<%# pay_group = rate_card ? rate_card.coop_group_code : app.coop_app_rates.default.first.coop_group_code %>
+						<%# fee = rate_card ? rate_card.for_group(pay_group).first.pay : app.coop_app_rates.default.first.pay %>
+						<%# pay_period = rate_card ? rate_card.for_group(pay_group).first.pay_period : app.coop_app_rates.default.first.pay_period %>
+						<%# pay_class = rate_card ? rate_card.for_group(pay_group).first.pay_class : app.coop_app_rates.default.first.pay_class %>
+						<%# class_min = rate_card ? rate_card.for_group(pay_group).first.class_min : app.coop_app_rates.default.first.class_min %>
+						<%# class_max = rate_card ? rate_card.for_group(pay_group).first.class_max : app.coop_app_rates.default.first.class_max %>
+-->
+						</span>
+						<%= pluralize(app.providers.size, " Provider") %>
+						<span style="color:#C73914;  font-size:10px; font-weight:normal">
+							&nbsp;<%=app.beta? ? "(Beta)" : ""%>
+							&nbsp;<%= @current_organization.selected?(app) ? ("Provider: " + @current_organization.app_provider(app).short_name) : (app.enableable? ? "" : "Provider Enable-able")%>						
+						</span>
+						<% if app.enableable? && !@current_organization.selected?(app) && app.providers.size >1  %>
+							<table style="width:500px; margin-top:0px; border:0px">
+								<tbody>
+									<% app.providers.each do |prov| -%>
+										<tr style = "margin-top:0px;">
+											<td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:5px;">
+												<%= link_to (image_tag button_image, :width => 12), {:controller => "admin/our_organization",:action => "coop_app_enable_disable", :organization_id => @current_organization, :provider_id => prov.id, :app_id => app}, :confirm => "Are You Sure?", :class => "toggle_button" %>
+											</td>
+											<td   style="width:475px; width:fixed; color:#2061a5; vertical-align:top; font-weight:normal; padding-top:0px; text-align:left;">
+												<u>Provider:</u>&nbsp;<%=  prov.short_name %>,&nbsp;<%=prov.app_settings(app).alt_name %> 
+											</td>
+										</tr>
+									<% end -%>								
+								</tbody>
+							</table>
+						<% end -%>
+<!--
+						<br/>
+						<%# unless fee == 0.0 -%>
+						<%#= pay_group.code.titleize %> Member:  <%#= number_to_currency(fee) %>/<%#=pay_period.titleize %> per <%#= pay_class.titleize %>
+						<br/>
+							<%# unless class_min.nil? -%>
+								Minimum: <%#= pluralize(class_min, " " + pay_class)%>&nbsp;&nbsp;&nbsp;
+							<%# end -%>
+							<%# unless class_max.nil? -%>
+								Maximum: <%#= pluralize(class_max, " " + pay_class)%>&nbsp;&nbsp;&nbsp;
+							<%# end -%>
+						<%# end -%>
+-->
+					</td>
+				</tr>
+			<% end -%>
+		</tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.toggle_button').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#applications").html(data);
+				jQ("#applications").show();
+			})
+			return false;
+	})
+});
+</script>

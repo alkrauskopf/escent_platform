@@ -1,0 +1,15 @@
+<% if collection.empty?  -%>
+	<%= relationship_type == "content_partner" ? "No Content Filters are defined" : "No #{relationship_type.pluralize.titleize} defined" %>
+<% end -%>
+<table class="tablesorter">
+    <thead>
+        <th>Name</th>
+        <th>Location</th>
+        <th>Type</th>
+        <th>Include</th>
+        <th>&nbsp;</th>
+    </thead>
+    <tbody>
+		<%= render :partial => "/admin/our_partners/relationship", :collection => collection %>	
+    </tbody>
+</table>

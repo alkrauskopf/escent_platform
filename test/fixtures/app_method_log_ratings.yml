@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  app_method_id: 1
+  label: MyString
+  integer: 
+
+two:
+  app_method_id: 1
+  label: MyString
+  integer: 

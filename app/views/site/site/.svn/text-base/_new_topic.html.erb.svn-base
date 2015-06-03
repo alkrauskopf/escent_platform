@@ -1,0 +1,127 @@
+
+<% if !topic.nil? && topic.classroom.viewable_by?(@current_user)-%>
+
+	<div class="module2" style= "width:570px; width:fixed; margin: 15px 10px 0px 10px;">
+		<div class="module_header" style=" text-align:left; ">
+	      	<span class="content_area_title" >  <%= topic.title %></span>
+			<div id="shared_discussion_warp" style="float:right; width:160px;">
+	   			<%= render :partial => "site/discussions/share_discussion_btn" %>
+	  		</div>
+		</div>
+	</div>
+	
+	<div id="share_discussion_form" style="display: none;clear:both;">
+	  <%= render :partial => "/shared/share_login" %>
+	</div>
+	<div style="padding:5px; background-color:#F9F9F9; width:auto; margin: 0px 10px 5px 10px; text-align:left; line-height:1.4em;">
+	    <%= topic.instructional_remarks %>
+		<div id="shared_discussion_warp_box">
+			<%= render :partial => "/shared/shared_discussion", :locals => {:discussion => topic} %>
+		</div>
+	</div>
+	<% unless topic.contents.empty? %>
+	
+	<% if !topic.positioned_folders.empty? -%>
+	    <div class="module2" style= "width:570px; width:fixed; margin: 15px 10px 0px 10px;">
+	        <div class="module_header" style=" text-align:left; ">
+	            <span class="content_area_title" > Resource Folders</span>
+	        </div>
+	        <div class="module_body2">
+	            <div class="page_text" >
+					<%= render (:partial => "apps/classroom/list_topic_folders", :locals => {:topic => topic}) %>	
+		            <br style="clear:both" />
+	            </div>
+	        </div>
+	    </div>
+	<% end -%>
+	
+	<div class="module_body" style = "margin-top:-5px; ">
+		<% unless (featured_resource.nil? &&  topic.unfoldered_resources.empty? && !(topic.act_score_ranges && topic.classroom.ifa_classroom_option ))%>
+		  <div id="control_panel" style="width:563px; float:left; font-size:10px;">
+		    <!-- just for some javascript hack, jQ("#control_panel_ul").attr("class") -->
+		    <% topic_name = " " -%>
+	 	    <%= hidden_field_tag "control_panel_ul_" , topic.public_id %>
+	 	    <% topic_name = " " + topic.title.titleize -%>
+		    <ul>
+				<% if !featured_resource.nil? && featured_resource.viewable_by_classroom_user?(@current_user, topic.classroom) %>
+		     		<li>
+			       		 <strong><%= link_to truncate(featured_resource.title.titleize, :omission=>"...", :length=>25), :action => :featured_content, :organization_id => @current_organization, :topic_id => topic %></strong>	
+		      		</li>
+		    	<% end -%>
+		     	<% unless topic.unfoldered_resources.empty? || (topic.unfoldered_resources.size == 1 && topic.unfoldered_resources.include?(featured_resource))%>
+		      	 	<li>
+		 	      		<strong><%= link_to "Other Resources", :action => :related_content, :organization_id => @current_organization, :folder_id => nil, :topic_id => topic %></strong>
+		      	 	</li>
+		      	<% end -%>
+		 		<% if topic.act_score_ranges && topic.classroom.ifa_classroom_option-%>
+		      		<li>
+		      			<strong><%= link_to "Strands & Benchmarks" , :controller => "apps/assessment", :action => :topic_standards_benchmarks, :organization_id => @current_organization, :classroom_id => topic.classroom, :topic_id => topic %></strong>
+				 	</li>
+				<% end -%>			
+			</ul>
+		  </div>
+		
+		  <script type="text/javascript" charset="utf-8">
+		    jQuery(document).ready(function(){
+		      jQ('#control_panel').tabs();
+		      // selects
+		    });
+		  </script>		
+		<% end -%>
+	</div>
+	
+	<% else -%>
+	<!-- Blank Resource Folder for display purposes only  -->
+	    <div class="module2" style= "width:570px; width:fixed; margin: 15px 10px 0px 10px;">
+	        <div class="module_header" style=" text-align:left; ">
+	            <span class="content_area_title" > Resource Folders</span>
+	        </div>
+	    </div>	
+	<% end -%>
+	
+	<div class="module_body" style = "margin-top:-5px; ">
+	  <% unless (topic.assignments.blank?) -%>
+	    <div style="float:left; width:570px;margin-top:10px;">
+			<div id="homework_panel" style = "width:538px; color:#C73914; padding:15px; text-align:left; font-size:12px;">
+			 	<%= simple_format topic.assignments %>
+		 	</div>
+		</div>
+	  <% end -%>
+	  <script type="text/javascript" charset="utf-8">
+	    jQuery(document).ready(function(){
+	      jQ('#homework_panel').tabs();
+	      // selects
+	    });
+	  </script>
+	
+	  <div id="discussions_panel" style="float:left; width:570px;">
+	    <%= render :partial => "/site/discussions/discussions", :locals=>{:topic => topic, :viewable => topic.classroom.viewable_by?(@current_user)}%>
+	    &nbsp;
+	  </div>	
+	</div>
+	
+<% else -%>
+	<div class="module2" style= "width:570px; width:fixed; margin: 15px 10px 0px 10px;">
+		<div class="module_header" style=" text-align:left; ">
+	      	<span class="content_area_title" >  <%= !topic.nil? ? topic.title : "No Learning Unit At This Time" %> </span>
+		</div>
+	</div>
+	<div class="module2" style= "width:570px; width:fixed; margin: 15px 10px 0px 10px;">
+	    <div class="module_header" style=" text-align:left; ">
+	        <span class="content_area_title" > <%= !topic.nil? ? "Resource Folders <i><small>- Not Viewable</small><i>" : "Resource Folders" %></span>
+	    </div>
+	 </div>
+	<div class="module_body" >
+		<div id="control_panel" style="width:563px; float:left; font-size:10px;">
+			<ul>
+				 <li>
+					<%= !topic.nil? ? "Resource Panel <i><small>- Not Viewable</small></i>" : "Resource Panel Empty" %>
+				</li>
+			</u>
+		</div>	
+	</div>
+	  <div id="discussions_panel" style="float:left; width:570px;">
+		<%= render :partial => "/site/discussions/discussions", :locals=>{:topic => topic, :viewable => nil} %>
+	    &nbsp;
+	  </div>
+<% end -%>

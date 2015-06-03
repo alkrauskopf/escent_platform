@@ -1,0 +1,40 @@
+
+<div class="Form clear">
+	<table style="width:775px; margin-left:0px; border:0px">
+		<tbody>
+		<style type="text/css" media="screen">
+	    table,tr,td { border:medium}
+		table tr:hover{
+        background-color: transparent;
+      }
+    	</style>
+			<tr>
+				<td colspan=3 style=" color: #000000; vertical-align:middle;text-align:left; font-weight:normal; font-size:12px" >
+     				<center><%= @question.act_subject.name.upcase%></center>
+					<% @current_organization.ifa_org_option.act_masters.each do|mstr| -%>
+	 				<% title_string = "" -%>
+	 				<% stand = @question.standard(mstr) -%>
+	 				<% range = @question.score_range(mstr) -%>
+					<% if stand -%>
+						<% s_string = stand.abbrev.upcase -%>
+					<% else -%>
+						<% s_string = "Strand Not Defined" -%>
+					<% end -%>
+					<% if range -%>
+						<% r_string = range.range -%>
+					<% else -%>
+						<% r_string = "Level Not Defined" -%>
+					<% end -%>
+	 				<% title_string += mstr.abbrev + ": " + s_string + ", " + r_string -%>
+				 		<center><%= title_string %></center><br/>
+				<% end-%>	 
+				</td>
+ 			</tr>
+		</tbody>
+	</table>
+	<table id="roles" style="width:775px; ">
+		<tbody>
+   			 <%= render (:partial => "view_question_in_assessment" , :locals => {:quest => @question, :num => 1}) %>
+		</tbody>
+	</table>	
+</div>

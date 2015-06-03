@@ -1,0 +1,82 @@
+
+
+<div id="survey_add" style = "font-size:12px; color: #000000;padding-left:0px;">
+<div id="survey_data">
+
+	<% if @admin -%>
+	<table   style="width:99%;">
+			<thead>
+				<tr>
+					<% header_string = pluralize(@current_organization.tlt_survey_questions.for_app(app).size.to_s, app.name + " Survey Question") + " In Repository"%> <%= @current_organization.name %> 
+					<th><strong><%= header_string %></strong></th>											
+				</tr>
+			</thead>
+			<tbody>  
+			</tbody>
+		</table>
+	<br/>
+	<table style="width:800px;margin-left:20px">
+		<style type="text/css" media="screen">
+	    		table,tr,td { border:none }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+			<tbody>  
+				<tr  style="width:800px; border:0px solid #ddd;" >
+					<td   colspan=2 style="vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; color: #000000; font-size:12px; font-weight:normal">
+						<u>Add Question</u>
+					</td>
+					<td  style=" border:0px solid #ddd; padding-top:3px; padding-left:43px; vertical-align:middle; text-align:left; font-size:12px">
+						<u>Range</u>
+					</td>
+					<td  style=" border:0px solid #ddd; padding-top:3px; padding-left:23px;vertical-align:middle; text-align:left; font-size:12px">
+						<u>Type</u>
+					</td>
+					<td  style=" border:0px solid #ddd; padding-top:3px; padding-left:13px;vertical-align:middle; text-align:left; font-size:12px">
+						<u>Audience</u>
+					</td>				
+				
+				</tr>
+				<tr  style="width:800px; border:0px solid #ddd;" >
+					<td   id = "add_quest" width=20px style="vertical-align:middle;  padding-left:2px; padding-right:2px; padding-top:6px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+						<%= (image_tag "add.png") -%>
+					</td>
+					<td  style="width:400px; border:0px solid #ddd; padding-top:3px; vertical-align:middle; text-align:center; font-size:12px">
+					     <%= text_field :tlt_survey_question, :question, :value => "", :size => 65, :maxlength => 250 %>		
+					</td>					
+					<td  style=" border:0px solid #ddd; padding-top:3px; padding-left:23px; vertical-align:middle; text-align:center; font-size:12px">
+						<%=  select(:tlt_survey_question, :range, TltSurveyRangeType.all.collect{|t| [t.label, t.id]}) %>
+					</td>
+					<td  style=" border:0px solid #ddd; padding-top:3px; vertical-align:middle; text-align:center; font-size:12px">
+						<%=  select(:tlt_survey_type, :survey_type, TltSurveyType.all.collect{|t| [t.name, t.id]}) %>
+					</td>
+					<td  style=" border:0px solid #ddd; padding-top:3px; vertical-align:middle; text-align:center; font-size:12px">
+						<%=  select(:tlt_survey_question, :audience, app.tlt_survey_audiences.collect{|a| [a.audience, a.id]}) %>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<br/>
+	<% end -%>
+
+		<%= render (:partial => "list_itl_surveys", :locals => {:admin => @admin, :app => app}) %>	
+
+	</div>
+</div>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#add_quest').click(function() {
+		var question = jQ('#tlt_survey_question_question').val();
+		var range_type_id = jQ('#tlt_survey_question_range').val();
+		var survey_type_id = jQ('#tlt_survey_type_survey_type').val();
+		var audience_id = jQ('#tlt_survey_question_audience').val();		
+		var url = "<%= url_for :controller => '/apps/time_learning', :action => :add_survey_question, :organization_id => @current_organization  %>";
+			jQ.get(url, {'question':question, 'range_type_id': range_type_id, 'survey_type_id': survey_type_id, 'audience_id': audience_id}, function(data) {
+			jQ("#survey_add").html(data); 
+	   		jQ("#survey_add").show();
+			});
+	})
+});
+</script>
+

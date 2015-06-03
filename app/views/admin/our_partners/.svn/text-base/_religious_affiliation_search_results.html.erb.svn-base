@@ -1,0 +1,24 @@
+<table id="affiliations-results-box">
+    <thead>
+        <tr>
+            <th>
+                &nbsp;
+            </th>
+            <th>
+                Name
+            </th>
+        </tr>
+    </thead>
+    <tbody id="affiliation-results">
+        <% for affiliation in @affiliations do -%>
+        <tr id="<%= affiliation.id %>">
+            <td>
+                <input title="" type="checkbox" name="affiliation_ids[]" value="<%= affiliation.id %>" />
+            </td>
+            <td>
+                <%= affiliation.name %>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>

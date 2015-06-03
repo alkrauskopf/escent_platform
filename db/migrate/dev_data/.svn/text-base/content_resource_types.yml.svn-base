@@ -1,0 +1,95 @@
+test:
+    id: 1
+    name: Test
+    descript: Sample Test
+    
+worksheet:
+    id: 2
+    name: Worksheet
+    descript: Worksheet with sample exercises
+
+article:
+    id: 3
+    name: Article
+    descript: Published article
+
+homework:
+    id: 4
+    name: Homework Material
+    descript: Homework Material
+    
+cap-document:
+    id: 5
+    name: Cap Document
+    descript: Cap Guidelines for Teachers
+    
+training:
+    id: 6
+    name: Professional Development
+    descript: Professional Development Material
+    
+instructional-video:
+     id: 7 
+     name: Instructional Video
+     descript: Video Material To Explain a Topic
+     
+quiz:
+     id: 8 
+     name: Quiz
+     descript: Sample Quiz
+          
+website:
+     id: 9 
+     name: Website
+     descript: A Useful Website
+     
+cartoon:
+     id: 10 
+     name: Cartoon
+     descript: Entertaining Cartoon
+     
+photo:
+     id: 11 
+     name: Picture
+     descript: A Photo Image
+      
+audio-recording:
+     id: 12 
+     name: Audio Recording
+     descript: Audio Material         
+
+course-document:
+     id: 13 
+     name: General Course Document
+     descript: General Course Material         
+ 
+calendar:
+     id: 14 
+     name: Calendar
+     descript: Calendar         
+  
+graph-diagram:
+     id: 15 
+     name: Graph/Diagram
+     descript: Graph or Diagram
+  
+notes:
+     id: 16 
+     name: Notes
+     descript: Instructional Notes 
+  
+fiction:
+     id: 17 
+     name: Fictional Document
+     descript: Fictional Story   
+
+timelearn:
+     id: 18 
+     name: Time & Learning
+     descript: CTL Methodology Resource     
+     
+case_study:
+     id: 19 
+     name: Case Study
+     descript: Case Study     
+     

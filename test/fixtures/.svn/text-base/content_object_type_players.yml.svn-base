@@ -1,0 +1,95 @@
+AVI:
+    content_object_type: AVI
+    protocol: HTTP
+    organization_id: 1
+    player_id: 2
+
+FLV_HTTP:
+    content_object_type: FLV
+    protocol: HTTP
+    organization_id: 1
+    player_id: 6
+
+FLV_RTMP:
+    content_object_type: FLV
+    protocol: RTMP
+    organization_id: 1
+    player_id: 6
+
+MOV:
+    content_object_type: MOV
+    protocol: HTTP
+    organization_id: 1
+    player_id: 3
+    
+MP2:
+    content_object_type: MP2
+    protocol: HTTP
+    organization_id: 1
+    player_id: 3
+    
+MP3:
+    content_object_type: MP3
+    protocol: HTTP
+    organization_id: 1
+    player_id: 2
+    
+MP4:
+    content_object_type: MP4
+    protocol: HTTP
+    organization_id: 1
+    player_id: 3
+    
+MPE:
+    content_object_type: MPE
+    protocol: HTTP
+    organization_id: 1
+    player_id: 3
+    
+MPEG:
+    content_object_type: MPEG
+    protocol: HTTP
+    organization_id: 1
+    player_id: 3
+    
+MPG:
+    content_object_type: MPG
+    protocol: HTTP
+    organization_id: 1
+    player_id: 3
+    
+RA:
+    content_object_type: RA
+    protocol: HTTP
+    organization_id: 1
+    player_id: 4
+    
+RAM:
+    content_object_type: RAM
+    protocol: HTTP
+    organization_id: 1
+    player_id: 4
+
+RM:
+    content_object_type: RM
+    protocol: HTTP
+    organization_id: 1
+    player_id: 4
+    
+WAV:
+    content_object_type: WAV
+    protocol: HTTP
+    organization_id: 1
+    player_id: 2
+    
+WMA:
+    content_object_type: WMA
+    protocol: HTTP
+    organization_id: 1
+    player_id: 2
+    
+WMV:
+    content_object_type: WMV
+    protocol: HTTP
+    organization_id: 1
+    player_id: 2

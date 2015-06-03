@@ -1,0 +1,49 @@
+<div id="student_demographics" >
+
+	<table id="roles"  style="width:420px; margin-left:270px">
+		<tbody >
+			<style type="text/css" media="screen">
+		    table,tr,td { border:0px solid #ffffff; }
+			table tr:hover{
+	        background-color: transparent;
+		    }
+    		</style>
+		<tr>
+			<td colspan=3 style = "width:420px; text-align:center;border:0px solid #ffffff;color: #C83A14; font-size:12px; font-weight:bold">
+					Current Grade Level:&nbsp;
+					<%=@student.current_grade_level ? @student.current_grade_level.to_s : "Not Defined" %>
+			</td>
+
+		</tr>
+		<tr>
+			<% grade_levels = [1,2,3,4,5,6,7,8,9,10,11,12] -%>
+			<% prompt = @student.current_grade_level ? "Change Grade As Of " : "Select Grade As Of "%>
+			<td  style = "width:70px; padding-top:20px; text-align:left;border:0px solid #ffffff;">
+						&nbsp;
+			</td>
+			<td id="grade_change" style = "width:50px;  vertical-align:middle; text-align:left;border:0px solid #ffffff;">
+				<%=  select(:student, :id, grade_levels) %>
+			</td>
+			<td style = "width:300px; vertical-align:middle; text-align:left;border:0px solid #ffffff;">
+						&nbsp;<%= prompt %>
+						<%=@current_organization.school_begin_date ?  @current_organization.school_begin_date.to_time.strftime(" %B, %Y") : Time.now.strftime(" %B, %Y") %>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<br/>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#grade_change").change(function(){
+		var grade = jQ('#student_id').val();
+		var student_id = '<%= @student.public_id %>';
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_student_grade_level, :organization_id => @current_organization  %>";
+			jQ.get(url, {'student_id':student_id, 'grade': grade}, function(data) {
+			jQ("#student_demographics").html(data); 
+	   		jQ("#student_demographics").show();
+			});
+	})
+});
+</script>

@@ -1,0 +1,8 @@
+<%= @user.first_name %> <%= @user.last_name %> thinks you might pledge a minute of your time to pray for peace in your own way at noon on September 21, the United Nations International Day of Peace.
+
+<%= @message %>
+
+Please Pledge a Minute of Your Time and navigate to the following url
+<%= url_for(:action => "register", :controller => "site/prayer_pledges", :id => @organization.public_id, :only_path => false, :host => "www.escentpartners.com") %>
+
+And forward this email to others as an invitation to PLEDGE A MINUTE TO PRAY FOR PEACE!

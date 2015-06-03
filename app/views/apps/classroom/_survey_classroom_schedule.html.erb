@@ -1,0 +1,216 @@
+
+
+<div id="period_surveys" style = "font-size:12px; color: #000000;margin-left:0px;">
+
+	<% active_questions = false -%>
+	<% unless (classroom.classroom_periods.size == 0) -%>
+		<% CoopApp.classroom.first.tlt_survey_types.each do |type| %>
+			<% unless @current_organization.tlt_survey_questions.for_audience(audience).for_type(type).active.empty? -%>
+			<% active_questions = true -%>
+				<table style="width:650px;margin-left:5px;">
+					<thead>
+						<tr>
+							<th  colspan=3 style=" vertical-align:middle;  text-align:center;  padding-top:3px; padding-bottom:3px; color: #2061a5;font-weight:bold; font-size:11px">
+								<strong><%=audience.audience.titleize %>&nbsp;<%= type.name.titleize %>&nbsp;Survey</strong>
+							</th>
+						</tr>
+					</thead>
+					<style type="text/css" media="screen">
+				    		table,tr,td { border:none }
+							table tr:hover{
+			        		background-color: transparent;
+			      			}
+			   			</style>
+						<tbody>  
+							<tr  style="border:1px solid #ddd;" >
+								<td  colspan=3 style="vertical-align:middle;  text-align:center;  padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:11px">
+									<table id="surv_header_<%= audience.id %><%= type.id %>" style="width:650px;">
+										<tbody>
+											<tr>
+												<td id="surv_show_<%= audience.id %><%= type.id %>"style=" vertical-align:middle;  padding-left:10px; padding-top:3px; padding-bottom:3px; text-align:left; font-weight:normal; font-size:10.5px">
+													<span style=" font-weight:normal;  font-size:9px; color: #2061a5;  text-align:left">
+														>&nbsp;&nbsp;<u>Show Survey Questions</u>  
+													</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									<table id="surv_descript_<%= audience.id %><%= type.id %>" style="width:650px;">
+										<tbody>
+											<tr>
+												<td id="surv_hide_<%= audience.id %><%= type.id %>"style=" vertical-align:middle;  padding-left:10px; padding-top:3px; padding-bottom:3px; text-align:left; font-weight:normal; font-size:10.5px">
+													<span style=" font-weight:normal;  font-size:9px; color: #2061a5;  text-align:left">
+														>&nbsp;&nbsp;<u>Hide Questions</u>  
+													</span>
+												</td>
+											</tr>
+											<% @current_organization.tlt_survey_questions.for_audience(audience).for_type(type).active.by_position.each do |question| -%>
+												<tr>
+													<td id="surv_hide_<%= audience.id %><%= type.id %>"style=" vertical-align:middle;  color: #000000; padding-left:10px; padding-top:5px; padding-bottom:5px; text-align:left; font-weight:normal; font-size:11.5px">
+														<%= question.position %>)&nbsp;<%= question.tlt_survey_range_type.low_end %>/<%= question.tlt_survey_range_type.high_end %>:&nbsp;&nbsp;<%= question.question %>
+													</td>
+												</tr>
+											<% end -%>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<% classroom.classroom_periods.each do |period| %>
+								<% is_period_teacher = period.teachers.include?(@current_user) ? true : false -%>
+								<% if period.survey_schedules.for_audience(audience).for_type(type).active.empty? %>
+									<tr  style="border:1px solid #ddd;" >
+										<% if is_period_teacher -%>
+											<td id= "s_<%= period.id %><%= type.id %><%= audience.id %>" style="width:110px; width:fixed; border:1px solid #ddd;vertical-align:top;  padding-bottom:15px; padding-top:15px; padding-left:10px; padding-right:0px; text-align:center; color: #000000; font-size:10px; font-weight:normal">
+												<button>Send Survey</button>
+											</td>
+											<% @sched = period.id.to_s + type.id.to_s + audience.id.to_s -%>
+											<td style="width:120px; width:fixed; border:1px solid #ddd; vertical-align:middle;  padding-top:0px; padding-bottom:0px; color:#2061a5; text-align:left; font-weight:normal; font-size:10.5px">
+													<span style = " padding-left:3px; font-size:11px;  font-weight:normal ">
+														<%= text_field :survey, @sched, :value => 5, :size => 1, :maxlength => 2%>
+														Days Til Expiration</span>
+											</td>
+										<% else -%>
+											<td style="width:110px; width:fixed; border:1px solid #ddd;vertical-align:top;  padding-bottom:15px; padding-top:15px; padding-left:10px; padding-right:0px; text-align:center; color: #000000; font-size:10px; font-weight:normal">
+												&nbsp;
+											</td>
+											<% @sched = period.id.to_s + type.id.to_s + audience.id.to_s -%>
+											<td style="width:120px; width:fixed; solid #ddd; vertical-align:middle;  padding-top:0px; padding-bottom:0px; color:#2061a5; text-align:left; font-weight:normal; font-size:10.5px">
+														<center>No Current Survey</center>
+											</td>										
+										<% end -%>
+										<td  style=" border:1px solid #ddd; padding-top:0px; vertical-align:middle; padding-bottom:5px; color:#2061a5; text-align:left; font-size:10.5px">
+											<span style = "color:#2061a5; font-size:12px;  font-weight:bold ">
+											<%= period.name %><br/>
+											</span>
+											<span style = "color:#2061a5; font-size:11px;  font-weight:normal ">
+											<%= period.teacher_list %>
+											</span>
+										</td>					
+									</tr>
+								<% else -%>
+									<tr  style="border:1px solid #ddd;" >
+										<% if is_period_teacher -%>
+											<td id= "c_<%= period.id %><%= type.id %><%= audience.id %>" style="width:110px; width:fixed; border:1px solid #ddd;vertical-align:top;  padding-bottom:15px; padding-top:15px; padding-left:15px; padding-right:0px; text-align:center; color: #000000; font-size:10px; font-weight:normal">
+												<button>Cancel</button>
+											</td>
+										<% else -%>
+											<td  style="width:110px; width:fixed; border:1px solid #ddd;vertical-align:top;  padding-bottom:15px; padding-top:15px; padding-left:10px; padding-right:0px; text-align:center; color: #000000; font-size:10px; font-weight:normal">
+												&nbsp;
+											</td>
+										<% end -%>
+										<td style="width:120px; width:fixed; border:1px solid #ddd; vertical-align:middle;  padding-top:0px; padding-bottom:0px; color:#2061a5; text-align:center; font-weight:normal; font-size:11.5px">
+												Expires<br/><%= period.survey_schedules.active.last.schedule_end.strftime("%B %d") %>
+										</td>
+										<td style="border:1px solid #ddd; vertical-align:middle;  padding-top:0px; padding-bottom:0px; color: #000000; text-align:left; font-weight:normal; font-size:10.5px">
+											<span style = "color:#2061a5; font-size:12px;  font-weight:bold ">
+											<%= period.name %><br/>
+											</span>
+											<span style = "color:#2061a5; font-size:11px;  font-weight:normal ">
+											<%= period.teacher_list %>
+											</span>
+										</td>
+									</tr>
+									<% end -%>
+	
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ('#s_<%= period.id %><%= type.id %><%= audience.id %>').click(function() {
+			var duration = jQ('#survey_<%=@sched%>').val();
+			var url = "<%= url_for :controller =>"apps/classroom", :action => "period_survey_activate", :organization_id => @current_organization, :audience_id => audience, :type_id => type, :period_id => period %>";
+				jQ.get(url, {'duration':duration}, function(data) {
+					jQ("#period_surveys").html(data);
+					jQ("#period_surveys").show();
+				});
+		})
+	});
+	</script>
+	
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ('#c_<%= period.id %><%= type.id %><%= audience.id %>').click(function() {
+			var url = "<%= url_for :controller =>"apps/classroom", :action => "period_survey_deactivate", :organization_id => @current_organization, :audience_id => audience, :type_id => type, :period_id => period %>";
+				jQ.get(url, {}, function(data) {
+					jQ("#period_surveys").html(data);
+					jQ("#period_surveys").show();
+				});
+		})
+	});
+	</script>
+							<% end-%>
+						</tbody>
+					</table>
+	
+	
+	<script type="text/javascript">
+		jQ(document).ready(function() {
+	  		  jQ("#surv_header_<%= audience.id %><%= type.id %>").show();
+			  jQ("#surv_descript_<%= audience.id %><%= type.id %>").hide();		  
+	
+		jQ("#surv_show_<%= audience.id %><%= type.id %>").click(function() {
+			  	jQ("#surv_header_<%= audience.id %><%= type.id %>").slideUp("slow");	 
+		   		jQ("#surv_descript_<%= audience.id %><%= type.id %>").slideDown("slow");
+		})
+	
+		jQ("#surv_hide_<%= audience.id %><%= type.id %>").click(function() {
+		   		jQ("#surv_descript_<%= audience.id %><%= type.id %>").slideUp("slow");
+		   		jQ("#surv_header_<%= audience.id %><%= type.id %>").show();
+		})	
+	});
+	</script>
+	
+				<% end -%>
+			<% end -%>
+
+		<% unless active_questions -%>
+			<table style="width:99%;">
+				<tbody>
+					<% col_label = "No Survey Questions Defined At " + @current_organization.name  -%>
+					<tr>
+					<td style="fong-size:11px; color:#C83A14; padding-left:0px">
+						<center><i><%= col_label %></i></center>
+						<span></span>
+					</td>
+					</tr>
+				</tbody>
+			</table>
+		<% end -%>
+	<% else -%>
+		<table style="width:800px;margin-left:25px;">
+			<tbody>  
+				<tr  style=" border:0px solid #ddd;" >
+					<td style="border:0px solid #ddd;vertical-align:top;  padding-top:5px; padding-left:30px; padding-right:0px; text-align:left; color: #C83A14; font-size:11px; font-weight:normal">
+						No <%= classroom.course_name %>&nbsp;Periods Defined
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<% end-%>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.destroy_period').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#period_list").html(data);
+				jQ("#period_list").show();
+			})
+			return false;
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.remove_teacher').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#period_list").html(data);
+				jQ("#period_list").show();
+			})
+			return false;
+	})
+});
+</script>

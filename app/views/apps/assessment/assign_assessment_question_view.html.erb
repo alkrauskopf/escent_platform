@@ -1,0 +1,85 @@
+
+<div>
+	<% if @range_questions.size > 0 %>
+	
+	
+	
+	<table id="roles" class="tablesorter" style="width:800px; margin-left:50px; border:0px">
+		<tbody>
+			
+			<% for quest in @range_questions do -%>
+				<% unless quest.nil? %>
+				<tr id="<%= quest.public_id %>" class="content-list-item">
+		
+					<td width=40px align="center" style="vertical-align:middle;  align:right; padding-top:10px; padding-left:15px; color: #000000; font-size:10px">
+					<center>
+					<%=  check_box_tag "quest_check[]", value = quest.id ,checked = false %>
+					<%= label_tag "Add" %> 
+					</center>
+					</td>
+					<% if !quest.is_calibrated -%>
+						<td width = 30px style=" color: #000000; vertical-align:middle;text-align:right; font-size:10px" >
+							&nbsp;
+						</td>
+					<% else -%>
+						<td width = 30px style=" color: #000000; vertical-align:middle;text-align:right; font-size:10px" >
+							<%= (image_tag "calibrated_yes.png",:width => 25) -%>
+						</td>
+					<% end -%>
+					<% if !quest.is_locked -%>
+						<td width = 30px style=" color: #000000; vertical-align:middle;text-align:right; font-size:10px" >
+							<%= (image_tag "lock_no.png",:width => 25) -%>
+						</td>
+					<% else -%>
+						<td width = 30px style=" color: #000000; vertical-align:middle;text-align:right; font-size:10px" >
+							<%= (image_tag "lock_yes.png",:width => 25) -%>
+						</td>
+					<% end -%>					
+					<td width=550px, style="color: #000000;; padding-top:10px; vertical-align:middle;">
+							<strong><%=quest.standard(@current_standard).abbrev.upcase %>:&nbsp;<%= quest.standard(@current_standard).name.titleize %></strong><br/>
+							<% if quest.act_rel_reading %>Reading: <%= quest.act_rel_reading.label %><br/><% end -%>
+							<strong><u><%= link_to quest.question.titleize,{:controller =>  "/apps/assessment", :action => "static_question", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest}, {:target => "_blank"} %></u></strong><br>
+							Type <%= quest.question_type %>:&nbsp;<%= pluralize (quest.act_choices.size, ' Choice') %><br/>
+							<% quest.act_choices.each do |chc| %>
+								<% if chc.is_correct -%>
+									<span style="color:#C73914;padding-left:30px">
+									+&nbsp;&nbsp;<%= chc.choice%><br/>
+									</span>
+									<% else -%>		
+									<span style="color:#000000;padding-left:30px">
+									+&nbsp;&nbsp;<%= chc.choice%><br/>
+									</span>
+								<% end -%>
+							<% end -%>
+		
+					</td>
+					<td  width=150px, style="font-size:13px; color:#000000;; padding-top:10px; vertical-align:middle;">
+							<center>
+							<% unless quest.user.nil?%><%= quest.user.full_name%> <br/><%end%>
+							<% unless quest.organization.nil? %> 
+			                <%= image_tag(quest.organization.logo.url, :width => 110, :alt => quest.organization.medium_name) if quest.organization.logo.file? -%>
+							<% end %>
+							</center>						
+					</td>
+				</tr>
+				<% end %>
+			<% end -%>			
+		</tbody>
+	</table>
+	
+	<div class="FormRow submit_warp" style= "padding-left:25px">	
+	<%# button_label = "UPDATE RESOURCES"%>
+	<%#= submit_tag button_label, :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
+	</div>	
+	<br/>
+	<% else -%>	
+	 All Questions Already Assigned To Assessment<i></i>.
+	<% end -%>
+
+
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() { 
+	jQ('.fsn-button').addUIStateClass();
+});
+</script>

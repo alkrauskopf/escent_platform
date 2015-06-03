@@ -1,0 +1,158 @@
+<div id="manage_client_<%= client.public_id %>">
+
+	<% family = "Garamond, Time New Roman, Helvitica,sans-serif" -%>
+	<% status_label = @current_organization.client_active?(client) ? "De-Activate":"Activate" -%>
+		<table  style="width:80px; border:0px solid #ddd; margin-left:10px; font-family:<%=family%>">
+			<tbody>
+				<tr>
+					<td  id="toggle_active_<%= client.public_id %>" style=" width:80px; width:fixed; color: #000000; font-size:9px" >
+						<button><span style="cursor:pointer;"><%= status_label %></span></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table  style="width:520px; border:3px solid #ddd; margin-left:10px; font-family:<%=family%>">
+			<thead>
+				<tr style="border:1px solid #ddd;border-bottom:0px;  ">
+					<th colspan=3 style=" color: #000000;  padding-top:5px; padding-bottom:5px; line-height: 1.0em; vertical-align:middle; text-align:center; font-weight:bold; font-size:13px" >
+						<%= client.name %>
+							<% unless @current_organization.client_active?(client) -%>
+								<span style="color:#C73914; font-size:10px"><br/>Not Active</span>
+							<% end -%>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr style="border:1px solid #ddd;border-bottom:0px; ">
+					<td  style=" width:180px; width:fixed; color: #000000;  vertical-align:top; text-align:center; padding-bottom:10px; font-weight:normal; font-size:12px" >
+						<% if @current_organization.consultants_for_client(client).empty? -%>
+							<strong>No Consultants Assigned</strong>
+							<%else%>
+							<table  style="width:180px; border:0px solid #ddd; margin-top:0px; font-family:<%=family%>">
+								<tr style="border:0px solid #ddd;border-bottom:0px; line-height: 1.5em; ">
+									<td  colspan = 2 style=" color: #000000;  vertical-align:top; text-align:center; font-weight:bold; font-size:12px" >
+										<u>Team</u>
+									</td>
+								</tr>
+								<% @current_organization.consultants_for_client(client).each do |cons| -%>
+									<tr style="border:0px solid #ddd;border-bottom:0px; padding-bottom:0px; line-height: 1.5em; ">
+										<td   id = "remove_cons_<%=cons.public_id%>" style="width:60px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-top:0px; text-align:center; color: #2061a5; font-size:9px; font-weight:normal">
+											<button><span style="cursor:pointer;">Remove</span></button>
+										</td>								
+										<td  style=" width:120px; color: #000000; line-height: 1.5em; vertical-align:middle; text-align:left; font-weight:normal; font-size:12px" >
+											<%= cons.last_name_first%>
+										</td>
+									</tr>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#remove_cons_<%=cons.public_id%>').click(function() {
+		var url = "<%= url_for :controller => "apps/client_manager", :action => :add_delete_client_consultant, :organization_id => @current_organization, :client_id => client, :consultant_id => cons.id, :app_id=> app.id %>";
+			jQ.get(url, {}, function(data) {
+			jQ("#manage_client_<%= client.public_id %>").html(data); 
+	   		jQ("#manage_client_<%= client.public_id %>").show();
+			});
+	})
+});
+</script>
+								<% end -%>
+								</tbody>
+							</table>
+						<% end -%>
+					</td>
+					<td    style="width:20px; width:fixed; border:0px solid #ddd;vertical-align:top;  padding-left:10px; padding-top:8px; text-align:center; color: #2061a5; font-size:11px; font-weight:normal">
+						&nbsp;
+					</td>
+					<td id = "add_consultant_<%= client.public_id %>" style=" width:320px; width:fixed; border:0px solid #ddd; border-bottom:0px solid #ddd; color: #000000; vertical-align:top; padding-top:8px; text-align:center; font-weight:normal; font-size:11px" >
+						<%=  select(:consult, client.id,  (@current_organization.staff_consultants - @current_organization.consultants_for_client(client)).collect{|s| [s.last_name_first, s.id]}, :prompt=>"Assign Consultant") %>
+					</td>
+				</tr>
+				<tr style="border:1px solid #ddd;border-bottom:0px; ">
+					<td  style=" width:180px; width:fixed; color: #000000;  vertical-align:top; text-align:center; padding-bottom:5px; font-weight:normal; font-size:12px" >
+						<% if client.enabled_apps.empty? -%>
+							<strong>No Tools Enabled</strong>
+							<%else%>
+							<table  style="width:180px; border:0px solid #ddd; margin-top:0px; font-family:<%=family%>">
+								<tr style="border:0px solid #ddd;border-bottom:0px; line-height: 1.5em; ">
+									<td  colspan = 2 style=" color: #000000;  vertical-align:top; text-align:center; font-weight:bold; font-size:12px" >
+										<u>Tools</u>
+									</td>
+								</tr>
+								<% client.enabled_apps.each do |tool| -%>
+									<tr style="border:0px solid #ddd;border-bottom:0px; padding-bottom:8px; line-height: 1.5em; ">
+										<td   id = "remove_app_<%=tool.public_id%>" style="width:60px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-top:0px; text-align:center; color: #2061a5; font-size:9px; font-weight:normal">
+											<button><span style="cursor:pointer;">Disable</span></button>
+										</td>								
+										<td  style=" width:120px; color: #000000; line-height: 1.5em; vertical-align:middle; text-align:left; font-weight:normal; font-size:12px" >
+											<%= tool.abbrev %>
+										</td>
+									</tr>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#remove_app_<%=tool.public_id%>').click(function() {
+		var url = "<%= url_for :controller => "apps/client_manager", :action => :add_delete_client_app, :organization_id => @current_organization, :client_id => client, :tool_id => tool.id, :app_id=> app.id %>";
+			jQ.get(url, {}, function(data) {
+			jQ("#manage_client_<%= client.public_id %>").html(data); 
+	   		jQ("#manage_client_<%= client.public_id %>").show();
+			});
+	})
+});
+</script>
+								<% end -%>
+								</tbody>
+							</table>
+						<% end -%>
+					</td>
+					<td   style="width:20px; width:fixed; border:0px solid #ddd;vertical-align:top;  padding-left:10px; padding-top:8px; text-align:center; color: #2061a5; font-size:11px; font-weight:normal">
+						&nbsp;
+					</td>
+					<td  id = "add_app_<%= client.public_id %>" style=" width:320px; width:fixed; border:0px solid #ddd; border-bottom:0px solid #ddd; color: #000000; vertical-align:top; padding-top:8px; text-align:center; font-weight:normal; font-size:11px" >
+						<%=  select(:appl, client.id,  (@current_organization.owned_apps - client.enabled_apps).collect{|a| [a.name, a.id]}, :prompt=>"Enable Tool") %>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+</div>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#add_consultant_<%= client.public_id %>').change(function() {
+		var consultant_id = jQ('#consult_<%= client.id%>').val();
+		var url = "<%= url_for :controller => "apps/client_manager", :action => :add_delete_client_consultant, :organization_id => @current_organization, :client_id => client, :app_id=> app.id %>";
+			jQ.get(url, {'consultant_id':consultant_id}, function(data) {
+			jQ("#manage_client_<%= client.public_id %>").html(data); 
+	   		jQ("#manage_client_<%= client.public_id %>").show();
+			});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#add_app_<%= client.public_id %>').change(function() {
+		var tool_id = jQ('#appl_<%= client.id%>').val();
+		var url = "<%= url_for :controller => "apps/client_manager", :action => :add_delete_client_app, :organization_id => @current_organization, :client_id => client, :app_id=> app.id %>";
+			jQ.get(url, {'tool_id':tool_id}, function(data) {
+			jQ("#manage_client_<%= client.public_id %>").html(data); 
+	   		jQ("#manage_client_<%= client.public_id %>").show();
+			});
+	})
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#toggle_active_<%= client.public_id %>").click(function() {
+		var url = "<%= url_for :controller => "apps/client_manager", :action => :toggle_enable_client, :organization_id => @current_organization, :client_id => client, :app_id=> app.id %>";
+		jQ.get(url,{},  function(data) {
+				jQ("#manage_client_<%= client.public_id %>").html(data);
+				jQ("#manage_client_<%= client.public_id %>").show();
+					});
+	})
+});
+</script>
+</div>
+
+
+
+
+

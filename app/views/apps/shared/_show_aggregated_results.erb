@@ -1,0 +1,136 @@
+
+		<table style="width:580px; ">
+			<tbody>
+				<% if offering -%>
+					<tr>
+						<td width = 580px style="vertical-align:top; text-align:left; color: #2061a5; font-size:12px; margin-top:0px; font-weight:normal" >
+							<%= offering.course_name %>
+						</td>
+		 			</tr>
+				<% end -%>
+				<% if teacher -%>
+					<tr>
+							<td width = 580px style="vertical-align:top; text-align:left; color: #2061a5; font-size:12px; margin-top:0px; font-weight:normal" >
+							Teacher:&nbsp;<%= teacher.last_name %>
+						</td>
+		 			</tr>
+				<% end -%>
+				<% if observer -%>
+					<tr>
+							<td width = 580px style="vertical-align:top; text-align:left; color: #2061a5; font-size:12px; margin-top:0px; font-weight:normal" >
+							Observer:&nbsp;<%= observer.last_name %>
+						</td>
+		 			</tr>
+				<% end -%>
+				<% label =  survey.anonymous? ? " Anonymous Response" : " Response" %>
+				<tr>
+					<td width = 580px style="vertical-align:top; text-align:left; color: #2061a5; font-size:12px; margin-top:0px; font-weight:normal" >
+						<%= survey.audience_type_label + ": " + pluralize(survey.respondants.size, label)%>
+					</td>
+	 			</tr>
+
+			</tbody>
+		</table>	
+
+	<% survey.questions.each do |quest| -%>	
+		<table style="width:580px; border:1px solid #ddd;">
+			<thead>
+				<tr  style="border:1px solid #ddd;">
+					<th colspan=4 style="  vertical-align:middle;  text-align:left; padding-left:10px; padding-top:3px; padding-bottom:3px; color: #C83A14; font-weight:normal; font-size:10.5px">
+						<%= quest.position %>)&nbsp;<%= quest.question  %>
+					</th>
+				</tr>	
+			</thead>
+			<tbody> 
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:medium }
+				table tr:hover{
+	    		background-color: transparent;
+	  			}
+			</style>
+
+				<tr  style="border:0px solid #ddd;">
+					<td style=" width:160px; vertical-align:bottom;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
+						<u><%= quest.tlt_survey_range_type.low_end  %></u>
+					</td>
+					<td style=" width:160px; vertical-align:bottom;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
+						<u>Somewhat&nbsp;<%= quest.tlt_survey_range_type.low_end  %></u>
+					</td>
+					<td style=" width:160px; vertical-align:bottom;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
+						<u>Somewhat&nbsp;<%= quest.tlt_survey_range_type.high_end  %></u>
+					</td>
+					<td style=" width:160px; vertical-align:bottom;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
+						<u><%= quest.tlt_survey_range_type.high_end  %></u>
+					</td>
+				</tr>
+				<tr  style="border:0px solid #ddd;">
+					<td style=" width:120px; vertical-align:middle;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
+						<%= survey.responses_to_question(quest, 1).size  %>
+					</td>
+					<td style=" width:120px; vertical-align:middle;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
+						<%= survey.responses_to_question(quest, 2).size  %>
+					</td>
+					<td style=" width:120px; vertical-align:middle;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
+						<%= survey.responses_to_question(quest, 3).size  %>
+					</td>
+					<td style=" width:120px; vertical-align:middle;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
+						<%= survey.responses_to_question(quest, 4).size  %>
+					</td>
+				</tr>
+				<tr  style="border:0px solid #ddd;">
+					<td colspan=4>	
+							<table  style="width:580px; font-size:10px; margin-left:0px;border:0px solid #ddd;">
+								<tbody> 
+									<% unless  survey.responses_to_question(quest, 1).size == 0  %>
+										<tr>
+											<td style=" width:580px; vertical-align:middle;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
+												<%= render (:partial => "apps/shared/show_aggregated_comments", :locals => {:survey => survey, :quest=> quest, :score => 1}) %>	
+											</td>
+										</tr>
+									<% end -%>
+									<% unless  survey.responses_to_question(quest, 2).size == 0  %>
+										<tr>
+											<td style=" width:580px; vertical-align:middle;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
+												<%= render (:partial => "apps/shared/show_aggregated_comments", :locals => {:survey => survey, :quest=> quest, :score => 2}) %>	
+											</td>
+										</tr>
+									<% end -%>
+									<% unless survey.responses_to_question(quest, 3).size == 0  %>
+										<tr>
+											<td style=" width:580px; vertical-align:middle;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
+												<%= render (:partial => "apps/shared/show_aggregated_comments", :locals => {:survey => survey, :quest=> quest, :score => 3}) %>	
+											</td>
+										</tr>
+									<% end -%>
+									<% unless  survey.responses_to_question(quest, 4).size == 0  %>
+										<tr>
+											<td style=" width:580px; vertical-align:middle;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
+												<%= render (:partial => "apps/shared/show_aggregated_comments", :locals => {:survey => survey, :quest=> quest, :score => 4}) %>	
+											</td>
+										</tr>
+									<% end -%>
+									<tr>
+										<td style=" width:580px; vertical-align:middle;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
+											&nbsp;
+										</td>
+									</tr>
+								<tbody> 
+							</table>
+					</td>
+				</tr>
+			<tbody> 
+		</table>
+
+
+
+	<% end -%>	
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,5 @@
+<div >
+	<% if @admin-%>	
+	    <%= render :partial => "/apps/shared/admin_app_resources", :locals => {:admin => @admin, :app => @app, :resource_pool => @resource_pool, :active_pool => @active_pool}  %>
+	<% end -%>
+</div>

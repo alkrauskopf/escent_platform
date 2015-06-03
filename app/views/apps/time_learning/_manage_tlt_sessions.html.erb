@@ -1,0 +1,205 @@
+
+<div id ="session_history" style = "font-size:12px; color: #2061a5; padding-left:0px;">
+<div>
+
+	<span style = "color: #2061a5; font-size:12px; margin-top:0px; font-weight:normal">
+		<%= @current_organization.itl_org_option.schedule_url.blank? ? "":(link_to @current_organization.itl_org_option.schedule_label, @current_organization.itl_org_option.schedule_url, :target => "_blank" ) %>
+	</span>
+	<br/>
+	<% disposition = [] %>
+	<% disposition[0] = "finalized"-%>
+	<% disposition[1] = "pending" -%>
+	<% disposition[2] = "practice" -%>
+	<% if tab == disposition[0] -%>
+		<% header_count = @current_organization.tlt_sessions.final.completed.size -%>
+		<% header = " " + tab.titleize + " Observation" -%>
+	<% elsif tab == disposition[1] -%>
+		<% header_count = @current_organization.tlt_sessions.backlog.not_practice.completed.size -%>
+		<% header = " Pending Post Conference" -%>
+	<% else -%>
+		<% header_count = @current_organization.tlt_sessions.practice.completed.size -%>
+		<% header = " " + tab.titleize + " Observation" -%>
+	<% end -%>
+<div style ="color: #2061a5; font-size:14px; margin-top:0px; font-weight:bold"> 
+	<strong><center><%=pluralize(header_count, header) %></center></strong>
+	
+	<center>
+		<table style="width:350px;margin-left:0px">
+			<tbody>  
+				<tr  style="border:0px solid #ddd;" >
+					<td   id = "itl_disposition" style="width:200px; width:fixed;  border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:bold">
+						<%=  select(:itl, :tab, [["Finalized Observations",disposition[0]],["Pending Post-Conference",disposition[1]],["Practice Observations",disposition[2]]], :prompt => header.pluralize) %>
+					</td>
+					<td   id = "itl_grouping" style="width:150px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:bold">
+						<%=  select(:itl, :group, @itl_groups, :prompt => "By "+ group.titleize) %>
+					</td>
+				</tr>
+			</tbody>
+		</table>	
+	</center>
+</div>	
+	<% unless @current_organization.tlt_sessions.completed.size == 0 %>
+	<div id="assign_resources_panel">
+		<table id="<%=group %>_levels"   style="width:99%;">
+
+		<% if group == "subject" -%>	
+			<tbody>  
+			<% if tab == disposition[0] -%>
+				<% session_subjects = @current_organization.tlt_sessions.final.completed.collect{|s| s.subject_area}.compact.uniq.sort_by{|a| a.name} %>
+			<% elsif tab == disposition[1] -%>
+				<% session_subjects = @current_organization.tlt_sessions.backlog.not_practice.completed.collect{|s| s.subject_area}.compact.uniq.sort_by{|a| a.name} %>
+			<% else -%>			
+				<% session_subjects = @current_organization.tlt_sessions.practice.completed.collect{|s| s.subject_area}.compact.uniq.sort_by{|a| a.name} %>
+			<% end -%>
+			<% session_subjects.each do |subject| %>
+				<% if tab == disposition[0] -%>
+					<% count = @current_organization.tlt_sessions.for_subject(subject).final.completed.size -%>
+				<% elsif tab == disposition[1] -%>
+					<% count = @current_organization.tlt_sessions.for_subject(subject).backlog.not_practice.completed.size -%>
+				<% elsif tab == disposition[2] -%>				
+					<% count = @current_organization.tlt_sessions.for_subject(subject).practice.completed.size -%>
+				<% else -%>
+					<% count = 0 -%>
+				<% end -%>				
+					<tr>
+						<td class="resource_levels_close">
+						<%= link_to '', :controller => "apps/time_learning", :action => :subject_tlt_sessions, :organization_id => @current_organization, :group => group, :subject_area_id => subject, :tab=> tab %>
+								<strong><%= count %></strong>&nbsp;&nbsp;<%= subject.name %>
+						<span></span>
+						</td>
+					</tr>
+			<% end -%>
+			</tbody>
+			<% elsif group == "teacher" -%>			
+				<% teachers = @current_organization.teachers.sort_by{|u| u.last_name} %>
+				<tbody>  
+						<tr>
+							<td style = "padding-left:40px;">
+								<u><%= pluralize(teachers.size, " " + group).upcase %></u>
+							</td>
+						</tr>
+				<% teachers.each do |user| %>
+					<% if tab == disposition[0] -%>
+						<% count = @current_organization.tlt_sessions.for_teacher(user).final.completed.size -%>
+					<% elsif tab == disposition[1] -%>
+						<% count = @current_organization.tlt_sessions.for_teacher(user).backlog.not_practice.completed.size -%>
+					<% elsif tab == disposition[2] -%>				
+						<% count = @current_organization.tlt_sessions.for_teacher(user).practice.completed.size -%>
+					<% else -%>
+						<% count = 0 -%>
+					<% end -%>				
+
+						<tr>
+							<td class="resource_levels_close">
+							<%= link_to '', :controller => "apps/time_learning", :action => :subject_tlt_sessions, :organization_id => @current_organization, :group => group, :user_id => user, :tab=> tab   %>
+								<strong><%= count %></strong>&nbsp;&nbsp;<%= user.last_name_first %>
+							<span></span>
+							</td>
+						</tr>
+
+				<% end -%>
+				</tbody>
+					<% elsif group == "observer" -%>			
+						<% observers = @current_organization.itl_observers.sort_by{|u| u.last_name} %>
+					<tbody>  
+						<tr>
+							<td style = "padding-left:40px;">
+								<u><%= pluralize(observers.size, " " + group).upcase %></u>
+							</td>
+						</tr>
+					<% observers.each do |user| %>
+						<% if tab == disposition[0] -%>
+							<% count = @current_organization.tlt_sessions.for_observer(user).final.completed.size -%>
+						<% elsif tab == disposition[1] -%>
+							<% count = @current_organization.tlt_sessions.for_observer(user).backlog.not_practice.completed.size -%>
+						<% elsif tab == disposition[2] -%>				
+							<% count = @current_organization.tlt_sessions.for_observer(user).practice.completed.size -%>
+						<% else -%>
+							<% count = 0 -%>
+						<% end -%>				
+							<tr>
+								<td class="resource_levels_close">
+			
+								<%= link_to '', :controller => "apps/time_learning", :action => :subject_tlt_sessions, :organization_id => @current_organization, :group => group, :user_id => user, :tab=> tab %>
+								<strong><%= count%></strong>&nbsp;&nbsp;<%= user.last_name_first %>
+								<span></span>
+								</td>
+							</tr>
+					<% end -%>
+					</tbody>
+					<% elsif group == "month" -%>			
+						<% if tab == disposition[0] -%>
+							<% session_months = @current_organization.tlt_sessions.final.completed.collect{|s| s.session_date.at_beginning_of_month}.compact.uniq.sort{|a,b| b <=> a} %>
+						<% elsif tab == disposition[1] -%>
+							<% session_months = @current_organization.tlt_sessions.backlog.not_practice.completed.collect{|s| s.session_date.at_beginning_of_month}.compact.uniq.sort{|a,b| b <=> a} %>
+						<% else -%>			
+							<% session_months = @current_organization.tlt_sessions.practice.completed.collect{|s| s.session_date.at_beginning_of_month}.compact.uniq.sort{|a,b| b <=> a} %>
+						<% end -%>
+					<tbody>  
+					<% session_months.each do |month| %>
+						<% if tab == disposition[0] -%>
+							<% count = @current_organization.tlt_sessions.between_dates(month.at_beginning_of_month, month.at_end_of_month ).final.completed.size -%>
+						<% elsif tab == disposition[1] -%>
+							<% count = @current_organization.tlt_sessions.between_dates(month.at_beginning_of_month, month.at_end_of_month ).backlog.not_practice.completed.size -%>
+						<% elsif tab == disposition[2] -%>				
+							<% count = @current_organization.tlt_sessions.between_dates(month.at_beginning_of_month, month.at_end_of_month ).practice.completed.size -%>
+						<% else -%>
+							<% count = 0 -%>
+						<% end -%>				
+						<% unless count == 0 -%>
+							<tr>
+								<td class="resource_levels_close">
+			
+								<%= link_to '', :controller => "apps/time_learning", :action => :subject_tlt_sessions, :organization_id => @current_organization, :group => group, :session_month => month, :tab=> tab %>
+								<strong><%= count%></strong>&nbsp;&nbsp;<%= month.strftime("%B %Y") %>
+								<span></span>
+								</td>
+							</tr>
+						<% end -%>
+					<% end -%>
+					</tbody>
+				<% end -%>
+		</table>
+	<br/>
+
+	</div>
+<% else -%>
+	<br/>
+	<span style ="color: #C83A14; font-size:11px">
+	<center><i>* * *  No Observations In Repository  * * *</i></center>
+	</span>
+<% end -%>	
+
+</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#<%=group %>_levels .resource_levels_close').toggleResourceLevels();
+	jQ('#<%=group %>_levels .resource_levels_open').toggleResourceLevels();	
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#itl_grouping').change(function() {
+		var grouping = jQ('#itl_group').val();
+		var url = "<%= url_for :controller => '/apps/time_learning', :action => :session_history, :organization_id => @current_organization, :tab=>tab, :app_id => app.id  %>";
+			jQ.get(url, {'grouping':grouping}, function(data) {
+			jQ("#session_history").html(data); 
+	   		jQ("#session_history").show();
+			});
+	})
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#itl_disposition').change(function() {
+		var tab = jQ('#itl_tab').val();
+		var url = "<%= url_for :controller => '/apps/time_learning', :action => :session_history, :organization_id => @current_organization, :grouping=>group, :app_id => app.id  %>";
+			jQ.get(url, {'tab':tab}, function(data) {
+			jQ("#session_history").html(data); 
+	   		jQ("#session_history").show();
+			});
+	})
+});
+</script>

@@ -1,0 +1,78 @@
+
+AGREE:
+    id: 1
+    label: Disagree/Agree
+    low_end: Disagree
+    high_end: Agree
+
+SATISFY:
+    id: 2
+    label: Disatisfied/Satisfied
+    low_end: Disatisfied
+    high_end: Satisfied
+    
+POSITIVE:
+    id: 3
+    label: Negative/Positive
+    low_end: Negative
+    high_end: Positive
+
+GOOD:
+    id: 4
+    label: Bad/Good
+    low_end: Disatisfied
+    high_end: Satisfied
+    
+HELP:
+    id: 5
+    label: NotHelpful/Helpful
+    low_end: Not Helpful
+    high_end: Helpful
+
+HIGH:
+    id: 6
+    label: Low/High
+    low_end: Low
+    high_end: High    
+
+EASY:
+    id: 7
+    label: Difficult/Easy
+    low_end: Difficult
+    high_end: Easy 
+
+CONS:
+    id: 8
+    label: Inconsistent/Consistent
+    low_end: Inconsistent
+    high_end: Consistent 
+
+FAST:
+    id: 9
+    label: Slow/Fast
+    low_end: Slow
+    high_end: Fast
+    
+CRIT:
+    id: 10
+    label: Not Critical/Critical
+    low_end: Not Critical
+    high_end: Critical
+        
+STIM:
+    id: 11
+    label: Boring/Stimulating
+    low_end: Boring
+    high_end: Stimulating
+        
+IMP:
+    id: 12
+    label: Unimpactful/Impactful
+    low_end: Unimpactful
+    high_end: Impactful
+ 
+STNGTH:
+    id: 13
+    label: Weak/Strong
+    low_end: Weak
+    high_end: Strong

@@ -1,0 +1,70 @@
+
+	<% if score == 1 -%>
+		<% label = quest.tlt_survey_range_type.low_end -%>
+		<% elsif score == 2 -%>
+			<% label = "Somewhat " + quest.tlt_survey_range_type.low_end -%>
+			<% elsif score == 3 -%>
+				<% label = "Somewhat " + quest.tlt_survey_range_type.high_end -%>
+				<% else -%>
+					<% label = quest.tlt_survey_range_type.high_end -%>
+	<% end -%>			
+			
+	<table id="com_header_<%=survey.public_id%><%= quest.public_id %><%=score %>" style="width:580px;margin-left:0px">
+		<style type="text/css" media="screen">
+    		table,tr,td { border:none }
+			table tr:hover{
+    		background-color: transparent;
+  			}
+		</style>
+		<tbody>
+			<tr  style="width:50px; border:0px solid #ddd;" >
+				<td  id="com_show_<%=survey.public_id%><%= quest.public_id %><%=score %>" style="width:580px; border:0px solid #ddd; padding-top:0px;  text-align:left; color: #2061a5;;  font-size:10px;">
+					>&nbsp;&nbsp;<u>Show&nbsp;<%= label  %>&nbsp;Comments</u>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<table id="com_descript_<%=survey.public_id%><%= quest.public_id %><%=score %>"style="width:580px;margin-left:0px">
+		<style type="text/css" media="screen">
+    		table,tr,td { border:none }
+			table tr:hover{
+    		background-color: transparent;
+  			}
+		</style>
+		<tbody>
+			<tr  style="width:580px; border:0px solid #ddd;" >
+				<td  colspan=2 id="com_hide_<%=survey.public_id%><%= quest.public_id %><%=score %>" style=" border:0px solid #ddd; padding-top:0px;  text-align:left; color: #2061a5;;  font-size:10px;">
+					>&nbsp;&nbsp;<u>Hide&nbsp;<%= label  %>&nbsp;Comments</u>
+				</td>
+			</tr>
+			<% survey.responses_to_question(quest, score).each do |response| -%>
+				<% unless response.comment == "" -%>
+					<tr  style="width:580px; padding-bottom:5px; border:0px solid #ddd;" >
+						<td  style=" width:30px ;border:0px solid #ddd; margin-left:10px; padding-top:0px;  text-align:left; color: #00000;  font-size:10.5px;">
+							&nbsp;
+						</td>
+						<% name = survey.anonymous? ? "- " : response.user.last_name + ": "%>
+						<td  style=" width:550px ;border:0px solid #ddd; margin-left:10px; padding-top:0px;  text-align:left; color: #00000;  font-size:10.5px;">
+							<%= name %><%= response.comment.humanize %>
+						</td>
+					</tr>
+				<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+	<script type="text/javascript">
+		jQ(document).ready(function() {
+	  		  jQ("#com_header_<%=survey.public_id%><%= quest.public_id %><%=score %>").show();
+			  jQ("#com_descript_<%=survey.public_id%><%= quest.public_id %><%=score %>").hide();		  
+	
+		jQ("#com_show_<%=survey.public_id%><%= quest.public_id %><%=score %>").click(function() {
+			  	jQ("#com_header_<%=survey.public_id%><%= quest.public_id %><%=score %>").slideUp("slow");	 
+		   		jQ("#com_descript_<%=survey.public_id%><%= quest.public_id %><%=score %>").slideDown("slow");
+		})
+	
+		jQ("#com_hide_<%=survey.public_id%><%= quest.public_id %><%=score %>").click(function() {
+		   		jQ("#com_descript_<%=survey.public_id%><%= quest.public_id %><%=score %>").slideUp("slow");
+		   		jQ("#com_header_<%=survey.public_id%><%= quest.public_id %><%=score %>").show();
+		})	
+	});
+	</script>

@@ -1,0 +1,9 @@
+
+<div style="width:780px; width:fixed;border:0px solid #ddd; ">
+	<span style = "color: #C73914; font-size:10px;">
+		<u>NOTICE:</u>  This is a corrective maintenance function to correct School's Action Plan.<br/>
+	</span>
+
+	<%= render :partial => "/apps/learning_time/transfer_plans", :locals => {:org => @current_organization, :base_org => nil, :app=>@app}%>
+
+</div>

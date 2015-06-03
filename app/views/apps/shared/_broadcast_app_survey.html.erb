@@ -1,0 +1,121 @@
+
+
+<div id="app_survey" style = "font-size:12px; color: #000000;margin-left:0px;">
+
+	<% unless !admin || instruction.active_questions_for_org(@current_organization).empty? -%>
+
+
+				<table style="width:600px;margin-left:0px;">
+					<style type="text/css" media="screen">
+				    		table,tr,td { border:none }
+							table tr:hover{
+			        		background-color: transparent;
+			      			}
+			   			</style>
+						<tbody>  
+							<% if survey.nil? -%>
+								<tr  style="border:0px solid #ddd;" >
+									<td  style="border:0px solid #ddd; width:150px; vertical-align:bottom;  padding-bottom:0px; padding-top:0px; padding-left:10px; padding-right:0px; text-align:center; color: #000000; font-size:10px; font-weight:normal">
+										&nbsp;
+									</td>
+									<td style="border:0px solid #ddd; width:150px;  vertical-align:bottom;  padding-top:0px; padding-bottom:0px; color:#2061a5; text-align:center; font-weight:normal; font-size:10.5px">
+										Days Til Expiration
+									</td>
+									<td  style=" border:0px solid #ddd; width:150px; padding-left:0px; padding-top:0px;  vertical-align:bottom; padding-bottom:0px; color:#2061a5; text-align:center; font-size:10.5px">
+										Email Notify										
+									</td>					
+									<td  style=" border:0px solid #ddd; width:150px; padding-left:0px; padding-top:0px;  vertical-align:bottom; padding-bottom:0px; color:#2061a5; text-align:center; font-size:10.5px">
+										Anonymous
+									</td>
+								</tr>
+
+								<tr  style="border:0px solid #ddd;" >
+									<td id= "s_<%= instruction.public_id %>" width=150px style="border:0px solid #ddd;vertical-align:top;  padding-bottom:15px; padding-top:0px; padding-left:10px; padding-right:0px; text-align:center; color: #000000; font-size:10px; font-weight:normal">
+										<button>Send Survey</button>
+									</td>
+									<% @sched = instruction.public_id  -%>
+									<td style="width:150px; border:0px solid #ddd; vertical-align:top;  padding-left:60px; padding-top:0px; padding-bottom:0px; color:#2061a5; text-align:center; font-weight:normal; font-size:11.5px">
+												<%= text_field :survey, @sched, :value => instruction.default_days, :size => 1, :maxlength => 2%>
+									</td>
+									<td  style=" width:150px;border:0px solid #ddd;  padding-left:55px; padding-top:0px;  vertical-align:top; padding-bottom:0px; color:#2061a5; text-align:center; font-size:11.5px">
+    									<%= select(:survey, :notify, {:Yes => 1, :No => 0}, {:prompt => notify ? "Yes":"No"}) %>
+									</td>					
+									<td  style=" width:150px;border:0px solid #ddd; padding-left:55px; padding-top:0px;  vertical-align:top; padding-bottom:0px; color:#2061a5; text-align:center; font-size:11.5px">
+    									<%= select(:survey, :anon, {:Yes => 1, :No => 0}, {:prompt => anon ? "Yes":"No"}) %>
+									</td>
+								</tr>
+							<% else -%>
+								<tr  style="border:0px solid #ddd;" >
+									<td  style="border:0px solid #ddd; width:150px;  vertical-align:bottom;  padding-top:0px; padding-bottom:0px; color:#2061a5; text-align:center; font-weight:normal; font-size:10.5px">
+										<%= pluralize(survey.recipients, " Survey Recipient") %>
+									</td>
+									<td style="border:0px solid #ddd; width:150px;  vertical-align:bottom;  padding-top:0px; padding-bottom:0px; color:#2061a5; text-align:center; font-weight:normal; font-size:10.5px">
+										<%= pluralize(survey.respondants.count, " Survey") %>&nbsp;Returned
+									</td>
+									<td  style=" border:0px solid #ddd; width:150px; padding-left:0px; padding-top:0px;  vertical-align:bottom; padding-bottom:0px; color:#2061a5; text-align:center; font-size:10.5px">
+										Email Notify									
+									</td>					
+									<td  style=" border:0px solid #ddd; width:150px; padding-left:0px; padding-top:0px;  vertical-align:bottom; padding-bottom:0px; color:#2061a5; text-align:center; font-size:10.5px">
+										Anonymous
+									</td>
+								</tr>
+								<tr  style="border:0px solid #ddd;" >
+									<td id= "c_<%= instruction.public_id %>" width=150px style="border:0px solid #ddd;vertical-align:top;  padding-bottom:15px; padding-top:0px; padding-left:60px; padding-right:0px; text-align:center; color: #000000; font-size:10px; font-weight:normal">
+										<button>Cancel</button>
+									</td>
+									<td style="width:150px; border:0px solid #ddd; vertical-align:top;  padding-left:0px; padding-top:0px; padding-bottom:0px; color:#2061a5; text-align:center; font-weight:normal; font-size:10.5px">
+										<%= survey.schedule_end.nil? ? "No Expiration" : "Expires " + survey.schedule_end.strftime("%B %d") %>
+									</td>
+									<td  style=" width:150px;border:0px solid #ddd;  padding-left:0px; padding-top:0px;  vertical-align:top; padding-bottom:0px; color:#2061a5; text-align:center; font-size:10.5px">
+										<%= survey.is_notify ? "Yes":"No"%>
+									</td>					
+									<td  style=" width:150px;border:0px solid #ddd;  padding-left:0px; padding-top:0px;  vertical-align:top; padding-bottom:0px; color:#2061a5; text-align:center; font-size:10.5px">
+										<%= survey.is_anon ? "Yes":"No"%>
+									</td>
+								</tr>
+							<% end -%>
+						</tbody>
+					</table>	
+
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ('#s_<%= instruction.public_id %>').click(function() {
+			var duration = jQ('#survey_<%=@sched %>').val();
+			var notify = jQ('#survey_notify').val();			
+			var anon = jQ('#survey_anon').val();
+			var url = "<%= url_for :controller =>"apps/shared", :action => "app_survey_activate", :organization_id => @current_organization , :admin => admin, :survey_instruction => instruction, :app_id=> app  %>";
+				jQ.get(url, {'duration':duration, 'is_notify':notify, 'is_anon':anon}, function(data) {
+					jQ("#app_survey").html(data);
+					jQ("#app_survey").show();
+				});
+		})
+	});
+	</script>
+	
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ('#c_<%= instruction.public_id %>').click(function() {
+			var url = "<%= url_for :controller =>"apps/shared", :action => "app_survey_deactivate", :organization_id => @current_organization, :admin => admin, :schedule_id => survey, :app_id => app %>";
+				jQ.get(url, {}, function(data) {
+					jQ("#app_survey").html(data);
+					jQ("#app_survey").show();
+				});
+		})
+	});
+	</script>
+
+	<% else -%>
+		<table style="width:800px;margin-left:25px;">
+			<tbody>
+				<% col_label = "No Survey Questions Defined At " + @current_organization.name  -%>
+				<tr>
+					<td style="font-size:11px; color:#C83A14; padding-left:0px">
+						<center><i><%= col_label %></i></center>
+						<span></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<% end-%>
+</div>
+

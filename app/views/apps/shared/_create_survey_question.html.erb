@@ -1,0 +1,56 @@
+
+
+<% if admin -%>
+
+	<table  style="width:800px;margin-left:20px">
+		<style type="text/css" media="screen">
+	    		table,tr,td { border:none }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+			<tbody>  
+				<tr  style="width:800px; border:0px solid #ddd;" >
+					<td   colspan=2 style="vertical-align:left;  padding-left:40px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:12px; font-weight:normal">
+						#
+					</td>
+					<td    style="vertical-align:left;  padding-left:10px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:12px; font-weight:normal">
+						Type Question For&nbsp;<%= instruction.tlt_survey_audience.audience.pluralize.titleize %>&nbsp;Below
+					</td>
+					<td  style=" border:0px solid #ddd; padding-top:0px; padding-left:70px; vertical-align:middle; text-align:left; color: #000000; font-size:12px">
+						Range
+					</td>
+				</tr>
+				<tr  style="width:800px; border:0px solid #ddd;" >
+					<td   id = "add_quest" width=20px style="vertical-align:middle;  padding-left:2px; padding-right:2px; padding-top:3px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+						<%= (image_tag "add.png") -%>
+					</td>
+					<td  style="width:20px; border:0px solid #ddd; padding-top:0px; vertical-align:middle; text-align:center; font-size:12px">
+					     <%= text_field :tlt_survey_question, :position, :value => "", :size => 2, :maxlength => 2 %>		
+					</td>
+					<td  style="width:400px; border:0px solid #ddd; padding-top:0px; vertical-align:middle; text-align:center; font-size:12px">
+					     <%= text_area :tlt_survey_question, :question, :value => "", :cols => 55, :rows=> 2 %>		
+					</td>					
+					<td  style=" border:0px solid #ddd; padding-top:0px; padding-left:23px; vertical-align:middle; text-align:center; font-size:12px">
+						<%=  select(:tlt_survey_question, :range, TltSurveyRangeType.all.collect{|t| [t.label, t.id]}) %>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+<br/>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#add_quest').click(function() {
+		var question = jQ('#tlt_survey_question_question').val();
+		var position = jQ('#tlt_survey_question_position').val();
+		var range_type_id = jQ('#tlt_survey_question_range').val();
+		var url = "<%= url_for :controller => '/apps/shared', :action => :add_survey_question, :organization_id => @current_organization, :admin => admin, :survey_instruction => instruction, :app_id => app.id  %>";
+			jQ.get(url, {'question':question, 'position':position, 'range_type_id': range_type_id}, function(data) {
+			jQ("#surv_list_<%= instruction.public_id %>").html(data); 
+	   		jQ("#surv_list_<%= instruction.public_id %>").show();
+			});
+	})
+});
+</script>
+
+<% end -%>

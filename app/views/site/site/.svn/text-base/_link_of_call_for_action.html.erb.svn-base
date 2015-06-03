@@ -1,0 +1,11 @@
+<% unless @current_organization.fundraising_campaigns.active.empty? -%>
+	<%= link_to "Donate", :controller => "donations", :action => :give, :organization_id => @current_organization %> &nbsp;&nbsp;
+<% end -%>
+	<%# link_to "View album", :controller => "site", :action => :content_index, :organization_id => @current_organization %>
+												<%= link_to "Affirm My Commitment to Peace" , :controller =>:prayer_pledges, :action => :index %><br/>
+					            <%#= link_to "Sign the UN Declaration" , "http://www.globalproblems-globalsolutions.org/site/PageNavigator/UNF_We_Must_Disarm_Declaration", :target=>"blank" %>
+					            <%#= link_to "Give to Peace Building Awareness" , "https://secure.qgiv.com/cps_donors/?key=MRLARBE4G5BK2A5TV7WP" %>
+ <!--
+ <%= link_to "Give Now, Receive A Free Peace Screensaver." , "https://secure.qgiv.com/cps_donors/?key=MRLARBE4G5BK2A5TV7WP", :target=>"blank"  %><br/>
+ <%= link_to "Visit The Video Festival" , "http://www.odysseynetworks.org/Causes/Peace/PeaceVideoFestival/tabid/179/Default.aspx", :target=>"blank"  %><br/>
+ -->

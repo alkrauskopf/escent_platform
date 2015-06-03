@@ -1,0 +1,34 @@
+<div >
+	<% @org.tlt_sessions.final.collect{|s| s.user}.compact.uniq.sort_by{|u| u.last_name}.each do |user| -%>
+		<table id="<%=user.public_id%>_teachers"   style="width:750px; margin-left:50px; color: #2061a5; ">
+		<style type="text/css" media="screen">
+    		table,tr,td { border:none; }
+			table tr:hover{
+    		background-color: transparent;
+  			}
+			</style>
+			<tbody>  
+				<tr>
+					<td class="resource_levels_close">
+						<%= link_to '', :controller => "/apps/owner_maintenance", :action => :ctl_teacher_sessions, :organization_id => @org, :user_id=> user, :app_id=> @app.id %>
+						<%= user.last_name_first -%>
+						<span></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<script type="text/javascript" charset="utf-8">
+		jQ(document).ready(function() {
+			jQ('#<%=user.public_id%>_teachers .resource_levels_close').toggleResourceLevels();
+			jQ('#<%=user.public_id%>_teachers .resource_levels_open').toggleResourceLevels();	
+		});
+		</script>
+	<% end-%>
+</div>
+
+
+
+
+
+
+

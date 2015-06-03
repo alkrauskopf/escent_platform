@@ -1,0 +1,334 @@
+<div  id="activity_update">
+
+	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:normal"> 
+		<u><center>Observation Panel</center></u>
+	</div>
+	<div style ="color: #2061a5; font-size:12px; margin-top:5px; font-weight:normal"> 
+		<center>Click on the <span style="color:#C83A14; font-weight:bold">Red</span> button to learn more about the strategy.</center>
+	</div>
+
+	
+	<% text_color = "#59637f" -%>
+	<% family = "Garamond, Time New Roman, Helvitica,sans-serif" -%>
+	<% background = "#f6f9f9" -%>
+	<% font_size = "14px" -%>
+	<table  style="width:820px; margin-left:30px;border:3px solid #ddd; font-family:<%=family%>; background-color:<%=background%>">
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:none }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+			<% AppMethod.rs.first.tl_activity_types.by_position.each do |activity| -%>
+				<tr  style="border-top:0px solid #ddd; ">
+					<td  colspan = 9 style="border:0px solid #ddd; color: <%= text_color %>; vertical-align:bottom;  padding-left:0px; padding-top:0px; font-size:16px; text-align:center">
+						<%=activity.activity %>&nbsp;&nbsp;
+					</td>
+				</tr>
+				<% max_position = activity.tl_activity_type_tasks.enabled.collect{|t| t.position}.max -%>
+				<% panel_position = 0 -%>
+				<% until panel_position >= max_position -%>
+					<tr  style="border:0px solid #ddd;">
+						<% t1 = activity.tl_activity_type_tasks.enabled.for_position(panel_position + 1).first rescue nil -%>
+						<% if t1 -%>
+							<td style="border:0px solid #ddd; width:20px; width:fixed; vertical-align:middle; font-size:11px; line-height: 1.7em; text-align:left">
+								&nbsp;
+							</td>
+							<td  style="border:0px solid #ddd;width:20px; width:fixed; vertical-align:top; padding-top:5px; text-align:center">
+								<a id="<%= t1.id%>_help" href=""><%= image_tag "button_disabled.png",:width => 12%></a>
+								<div id="<%= t1.id%>_help-dialog" title= "Strategy Description" style="text-align:left;">
+								    <div class="title_large_blue" style="margin-bottom:15px;">
+								        <%= t1.name %>
+								    </div>
+								    <div class="normal_text" style=" font-size:12px;">
+										<table  style="width:620px; margin-left:30px;border:0px solid #ddd;"  >
+											<tbody>  
+												<style type="text/css" media="screen">
+										    		table,tr,td { border:none }
+													table tr:hover{
+									        		background-color: transparent;
+									      			}
+									   			</style>
+												<tr  style="border-top:0px solid #ddd; ">
+													<td   colspan=2 style="border:0px solid #ddd; line-height:1.2em; color:#2061a5; padding-bottom:15px; text-align:left; vertical-align:middle;">
+														<center><%= simple_format t1.description %></center>
+													</td>
+												</tr>
+												<% scores = ["Low","Moderate","High","Very High"] -%>
+												<tr  style="border-top:0px solid #ddd; ">
+													<td   style="width:85px; width:fixed;border:0px solid #ddd; text-align:left; padding-bottom:15px; vertical-align:middle;">
+														Impact:
+													</td>
+													<td   style="width:535px; width:fixed;border:0px solid #ddd; line-height:1.2em; color:#000000; padding-bottom:15px; text-align:left; vertical-align:middle;">
+														<%= scores[t1.research-1].upcase %>
+													</td>
+												</tr>
+												<% unless t1.tl_strategy_desc.nil? %>
+													<% unless t1.tl_strategy_desc.description.empty? -%>
+														<tr  style="border-top:0px solid #ddd; ">
+															<td   style="width:85px; width:fixed;border:0px solid #ddd; text-align:left; vertical-align:top;">
+																Discussion:
+															</td>
+															<td   style="width:535px; width:fixed;border:0px solid #ddd; line-height:1.2em; color:#000000; padding-bottom:15px; text-align:left; vertical-align:top;">
+																<%= t1.tl_strategy_desc.description %>
+															</td>
+														</tr>
+													<% end -%>
+													<% unless t1.tl_strategy_desc.research.empty? -%>
+														<tr  style="border-top:0px solid #ddd;">
+															<td   style="width:85px; width:fixed;border:0px solid #ddd; text-align:left; vertical-align:top;">
+																Reference:
+															</td>
+															<td   style="width:535px; width:fixed;border:0px solid #ddd; line-height:1.2em; color:#000000; text-align:left; vertical-align:top;">
+																<%= simple_format t1.tl_strategy_desc.research %>
+															</td>
+														</tr>
+													<% end -%>
+												<% end -%>
+											</tbody>
+										</table>
+								    </div>
+								</div>
+<script type="text/javascript" charset="utf-8">
+    	jQ(document).ready(function() {
+
+    	    jQ("#<%= t1.id%>_help-dialog").dialog({
+    	            bgiframe: true,
+    	            autoOpen: false,
+    	            width: 700,
+    	            height: 400,
+    	            modal: true,
+    				buttons: {
+    					 Close: function(){
+    		                        jQ(this).dialog('close');
+    		                    }
+    				}
+        	    }
+    		);					
+			
+    		jQ('#<%= t1.id%>_help').click(function(event){
+    		    jQ("#<%= t1.id%>_help-dialog").dialog('open');
+    			 event.preventDefault();
+    		})							
+
+    });
+</script>
+							</td>
+							<td    style="border:0px solid #ddd; width:270px; width:fixed; vertical-align:middle; font-size:11px; line-height: 1.7em; text-align:left">
+								<%= t1.name.titleize -%>
+							</td>										
+						<% else -%>
+							<td colspan=2 style="border:0px solid #ddd; vertical-align:middle; font-size:11px; line-height: 1.7em; text-align:left">
+								&nbsp;
+							</td>
+						<% end -%>
+						<% t2 = activity.tl_activity_type_tasks.enabled.for_position(panel_position + 2).first rescue nil -%>
+						<% if t2 -%>
+							<td style="border:0px solid #ddd; width:20px; width:fixed; vertical-align:middle; font-size:11px; line-height: 1.7em; text-align:left">
+								&nbsp;
+							</td>
+							<td  style="border:0px solid #ddd;width:20px; width:fixed; vertical-align:top; padding-top:5px; text-align:center">
+								<a id="<%= t2.id%>_help" href=""><%= image_tag "button_disabled.png",:width => 12%></a>
+								<div id="<%= t2.id%>_help-dialog" title= "Strategy Description" style="text-align:left;">
+								    <div class="title_large_blue" style="margin-bottom:15px;">
+								        <%= t2.name %>
+								    </div>
+								    <div class="normal_text" style=" font-size:12px;">
+										<table  style="width:620px; margin-left:30px;border:0px solid #ddd;"  >
+											<tbody>  
+												<style type="text/css" media="screen">
+										    		table,tr,td { border:none }
+													table tr:hover{
+									        		background-color: transparent;
+									      			}
+									   			</style>
+												<tr  style="border-top:0px solid #ddd; ">
+													<td   colspan=2 style="border:0px solid #ddd; line-height:1.2em; color:#2061a5; padding-bottom:15px; text-align:left; vertical-align:middle;">
+														<center><%= simple_format t2.description %></center>
+													</td>
+												</tr>
+												<% scores = ["Low","Moderate","High","Very High"] -%>
+												<tr  style="border-top:0px solid #ddd; ">
+													<td   style="width:85px; width:fixed;border:0px solid #ddd; text-align:left; padding-bottom:15px; vertical-align:middle;">
+														Impact:
+													</td>
+													<td   style="width:535px; width:fixed;border:0px solid #ddd; line-height:1.2em; color:#000000; padding-bottom:15px; text-align:left; vertical-align:middle;">
+														<%= scores[t2.research-1].upcase %>
+													</td>
+												</tr>
+												<% unless t2.tl_strategy_desc.nil? %>
+													<% unless t2.tl_strategy_desc.description.empty? -%>
+														<tr  style="border-top:0px solid #ddd; ">
+															<td   style="width:85px; width:fixed;border:0px solid #ddd; text-align:left; vertical-align:top;">
+																Discussion:
+															</td>
+															<td   style="width:535px; width:fixed;border:0px solid #ddd; line-height:1.2em; color:#000000; padding-bottom:15px; text-align:left; vertical-align:top;">
+																<%=  t2.tl_strategy_desc.description %>
+															</td>
+														</tr>
+													<% end -%>
+													<% unless t2.tl_strategy_desc.research.empty? -%>
+														<tr  style="border-top:0px solid #ddd;">
+															<td   style="width:85px; width:fixed;border:0px solid #ddd; text-align:left; vertical-align:top;">
+																Reference:
+															</td>
+															<td   style="width:535px; width:fixed;border:0px solid #ddd; line-height:1.2em; color:#000000; text-align:left; vertical-align:top;">
+																<%= simple_format t2.tl_strategy_desc.research %>
+															</td>
+														</tr>
+													<% end -%>
+												<% end -%>
+											</tbody>
+										</table>
+								    </div>
+								</div>
+<script type="text/javascript" charset="utf-8">
+    	jQ(document).ready(function() {
+
+    	    jQ("#<%= t2.id%>_help-dialog").dialog({
+    	            bgiframe: true,
+    	            autoOpen: false,
+    	            width: 700,
+    	            height: 400,
+    	            modal: true,
+    				buttons: {
+    					 Close: function(){
+    		                        jQ(this).dialog('close');
+    		                    }
+    				}
+        	    }
+    		);					
+			
+    		jQ('#<%= t2.id%>_help').click(function(event){
+    		    jQ("#<%= t2.id%>_help-dialog").dialog('open');
+    			 event.preventDefault();
+    		})							
+
+    });
+</script>
+							</td>
+							<td    style="border:0px solid #ddd; width:270px; width:fixed; vertical-align:middle; font-size:11px; line-height: 1.7em; text-align:left">
+								<%= t2.name.titleize -%>
+							</td>
+						<% else -%>
+							<td colspan=3 style="border:0px solid #ddd; vertical-align:middle; font-size:11px; line-height: 1.7em; text-align:left">
+								&nbsp;
+							</td>
+						<% end -%>
+						<% t3 = activity.tl_activity_type_tasks.enabled.for_position(panel_position + 3).first rescue nil -%>
+						<% if t3 -%>
+							<td style="border:0px solid #ddd; width:20px; width:fixed; vertical-align:middle; font-size:11px; line-height: 1.7em; text-align:left">
+								&nbsp;
+							</td>
+							<td  style="border:0px solid #ddd;width:20px; width:fixed; vertical-align:top; padding-top:5px; text-align:center">
+								<a id="<%= t3.id%>_help" href=""><%= image_tag "button_disabled.png",:width => 12%></a>
+								<div id="<%= t3.id%>_help-dialog" title= "Strategy Description" style="text-align:left;">
+								    <div class="title_large_blue" style="margin-bottom:15px;">
+								        <%= t3.name %>
+								    </div>
+								    <div class="normal_text" style=" font-size:12px;">
+										<table  style="width:620px; margin-left:30px;border:0px solid #ddd;"  >
+											<tbody>  
+												<style type="text/css" media="screen">
+										    		table,tr,td { border:none }
+													table tr:hover{
+									        		background-color: transparent;
+									      			}
+									   			</style>
+												<tr  style="border-top:0px solid #ddd; ">
+													<td   colspan=2 style="border:0px solid #ddd; line-height:1.2em; color:#2061a5; padding-bottom:15px; text-align:left; vertical-align:middle;">
+														<center><%= simple_format t3.description %></center>
+													</td>
+												</tr>
+												<% scores = ["Low","Moderate","High","Very High"] -%>
+												<tr  style="border-top:0px solid #ddd; ">
+													<td   style="width:85px; width:fixed;border:0px solid #ddd; text-align:left; padding-bottom:15px; vertical-align:middle;">
+														Impact:
+													</td>
+													<td   style="width:535px; width:fixed;border:0px solid #ddd; line-height:1.2em; color:#000000; padding-bottom:15px; text-align:left; vertical-align:middle;">
+														<%= scores[t3.research-1].upcase %>
+													</td>
+												</tr>
+												<% unless t3.tl_strategy_desc.nil? %>
+													<% unless t3.tl_strategy_desc.description.empty? -%>
+														<tr  style="border-top:0px solid #ddd; ">
+															<td   style="width:85px; width:fixed;border:0px solid #ddd; text-align:left; vertical-align:top;">
+																Discussion:
+															</td>
+															<td   style="width:535px; width:fixed;border:0px solid #ddd; line-height:1.2em; color:#000000; padding-bottom:15px; text-align:left; vertical-align:top;">
+																<%= t3.tl_strategy_desc.description %>
+															</td>
+														</tr>
+													<% end -%>
+													<% unless t3.tl_strategy_desc.research.empty? -%>
+														<tr  style="border-top:0px solid #ddd;">
+															<td   style="width:85px; width:fixed;border:0px solid #ddd; text-align:left; vertical-align:top;">
+																Reference:
+															</td>
+															<td   style="width:535px; width:fixed;border:0px solid #ddd; line-height:1.2em; color:#000000; text-align:left; vertical-align:top;">
+																<%= simple_format t3.tl_strategy_desc.research %>
+															</td>
+														</tr>
+													<% end -%>
+												<% end -%>
+											</tbody>
+										</table>
+								    </div>
+								</div>
+<script type="text/javascript" charset="utf-8">
+    	jQ(document).ready(function() {
+
+    	    jQ("#<%= t3.id%>_help-dialog").dialog({
+    	            bgiframe: true,
+    	            autoOpen: false,
+    	            width: 700,
+    	            height: 400,
+    	            modal: true,
+    				buttons: {
+    					 Close: function(){
+    		                        jQ(this).dialog('close');
+    		                    }
+    				}
+        	    }
+    		);					
+			
+    		jQ('#<%= t3.id%>_help').click(function(event){
+    		    jQ("#<%= t3.id%>_help-dialog").dialog('open');
+    			 event.preventDefault();
+    		})							
+
+    });
+</script>
+							</td>
+							<td    style="border:0px solid #ddd; width:270px; width:fixed; vertical-align:middle; font-size:11px; line-height: 1.7em; text-align:left">
+								<%= t3.name.titleize -%>
+							</td>
+						<% else -%>
+							<td colspan=3 style="border:0px solid #ddd; vertical-align:middle; font-size:11px; line-height: 1.7em; text-align:left">
+								&nbsp;
+							</td>
+						<% end -%>
+					</tr>
+					<% panel_position += 3 -%>
+				<% end -%>
+				<tr  style="border-top:0px solid #ddd; ">
+					<td  colspan = 9 style="border-bottom:0px solid #ddd; line-height:1.7em;vertical-align:bottom; padding-left:40px; padding-top:0px; font-size:11px; text-align:center">
+						&nbsp;
+					</td>
+				</tr>
+
+
+
+			<% end -%>
+		</tbody>
+	</table>
+
+
+
+
+
+
+
+</div>
+

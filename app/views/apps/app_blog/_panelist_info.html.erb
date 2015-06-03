@@ -1,0 +1,41 @@
+
+
+<span style = "font-size:10px; ">
+ 
+		<center>
+			<% if blog_post.user -%>
+				<span style="font-size:10px; font-weight:normal;" >
+					<strong><%= blog_post.user.full_name %></strong>&nbsp;<a id="panelist_1_<%=blog_post.id%>_<%=blog_post.user.public_id %>" href="">Who?</a>
+				</span>
+				<div id="panelist_2_<%=blog_post.id%>_<%=blog_post.user.public_id %>" title= "Panelist: <%= blog_post.blog.title %>" style="text-align:left;">
+			 	   <%= render :partial => "apps/app_blog/user_info_box", :locals=>{:user=>blog_post.user, :pic=>true} %>					
+				</div>						
+
+<script type="text/javascript" charset="utf-8">
+    	jQ(document).ready(function() {
+
+    	    jQ("#panelist_2_<%=blog_post.id%>_<%=blog_post.user.public_id %>").dialog({
+    	            bgiframe: true,
+    	            autoOpen: false,
+    	            width: 600,
+    	            height: 500,
+    	            modal: true,
+    				buttons: {
+    					 Close: function(){
+    		                        jQ(this).dialog('close');
+    		                    }
+    				}
+        	    }
+    		);					
+			
+    		jQ('#panelist_1_<%=blog_post.id%>_<%=blog_post.user.public_id %>').click(function(event){
+    		    jQ("#panelist_2_<%=blog_post.id%>_<%=blog_post.user.public_id %>").dialog('open');
+    			 event.preventDefault();
+    		})							
+
+    });
+</script>
+		 		<%= image_tag blog_post.user.picture.url(:thumb) if blog_post.user.picture %>
+			<% end -%>
+		</center>
+</span>

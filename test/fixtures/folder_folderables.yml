@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  folder_id: 1
+  folderable_id: 1
+  folderable: MyString
+  position: 1
+
+two:
+  folder_id: 1
+  folderable_id: 1
+  folderable: MyString
+  position: 1

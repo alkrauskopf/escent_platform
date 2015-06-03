@@ -1,0 +1,17 @@
+*+html h1 { height: 81px; }
+
+#topNav ul li { z-index: 333; }
+#topNav ul li ul { top: 30px; }
+#topNav ul li ul:hover { display: block; }
+
+td.checkbox { width: 20px; text-align: center; vertical-align: left; }
+td.checkbox input { margin-left: -3px; }
+
+.finacial form ul li { float: left; }
+.finacial h4 { clear: both; }
+.finacial .checkbox_wrap_list { display: block; width: 679px; }
+.finacial ul.checkbox_wrap_list li { width: 33.3%; }
+.finacial p.sort_select input { margin-top: 0px; }
+.finacial p.sort_select label { line-height: 18px; }
+
+#TB_window {z-index: 888;}

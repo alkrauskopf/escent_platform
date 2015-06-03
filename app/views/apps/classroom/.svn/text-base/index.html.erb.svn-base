@@ -1,0 +1,133 @@
+<div id="main_content">
+
+  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
+			<br/><center><%= @app.name.upcase %></center>
+	</div>
+	<% if @admin || @current_user.teacher?(@current_organization) %>
+
+		<%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@app} %>	
+		<div style="float:none;width:96.7%;" class="mempro_box clear">
+			<% header_string = @admin ? pluralize(@current_organization.classrooms.size.to_s, " " + @current_organization.short_name + " Offering"): pluralize(@current_user.offerings_taught(@current_organization).size, @current_user.last_name + " Offerings") %>
+			<div style = "font-size:14px; font-weight:bold; color: #2061a5; padding-left:0px;">
+					<center><%= header_string %></center>	
+			</div>
+			<% if @admin -%>
+				<div id="centerpane_appl">
+					<table id="off_header" style="width:750px;  margin-left:20px; border:0px solid #ddd;">
+						<tbody>
+							<style type="text/css" media="screen">
+						    table,tr,td { border:medium}
+							table tr:hover{
+				 	       	background-color: transparent;
+				 	     	}
+				 		   	</style>
+							<tr>
+								<td id="off_show"  style = "border:0px solid #ddd; cursor:pointer; text-align:left; font-weight:normal; vertical-align:top; font-size:10.5px; color: #1b5698;">
+									<u>Create New Offering </u>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table id="off_descript" style="width:700px;margin-left:20px">
+						<style type="text/css" media="screen">
+					    		table,tr,td { border:none }
+								table tr:hover{
+				        		background-color: transparent;
+				      			}
+				   			</style>
+							<tbody>  
+								<tr>
+									<td colspan=3 id="off_hide"   style = " border:0px solid #ddd; cursor:pointer; text-align:left; font-weight:normal; vertical-align:top; font-size:10.5px; color: #1b5698;">
+										<u>Cancel</u>
+									</td>
+								</tr>
+								<tr  style="border:0px solid #ddd;" >
+									<td  style=" border:0px solid #ddd; padding-top:3px; padding-left:43px; vertical-align:middle; text-align:left; font-size:12px">
+										<%= render :partial => "/apps/classroom/admin_classrooms", :locals => {:admin => @admin, :parent=> nil, :name => ""}  %>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+				<script type="text/javascript">
+				jQ(document).ready(function() {
+				  		  jQ("#off_header").show();
+						  jQ("#off_descript").hide();		  
+				
+					jQ("#off_show").click(function() {
+						  	jQ("#off_header").hide();	 
+					   		jQ("#off_descript").slideDown("slow");
+					})
+				
+					jQ("#off_hide").click(function() {
+					   		jQ("#off_descript").slideUp("slow");
+					   		jQ("#off_header").show();
+					})	
+				});
+				</script>
+				</div>		
+			<% end -%>
+	<!--
+			<div id="leftpane_appl">	
+				<%#= render :partial => "apps/app_blog/app_blog_list", :locals=>{:app=>@app} %>		
+			</div>
+	-->
+			<div id="rightpane_applx">
+				<div id="offering_box">		
+					<%= render (:partial => "list_classrooms", :locals => {:admin => @admin}) %>	
+			    </div>
+			</div>
+		</div>
+	  <div id="control_panel" >
+	 
+	   <ul>
+	      <li>
+	      	<%  tab_1_label = "Teacher Assignments" %>
+	        <a href="#tabs-1"><span class="tab_label">
+			<%= tab_1_label %></span></a>	
+		  </li>
+	      <li>
+	      	<%  tab_4_label = "Student Assignments" %>
+	        <a href="#tabs-4"><span class="tab_label">
+			<%= tab_4_label %></span></a>	
+		  </li>	
+	      <li>
+	      	<%  tab_3_label = "Surveys" %>
+	        <a href="#tabs-3"><span class="tab_label">
+			<%= tab_3_label %></span></a>	
+		  </li>	
+			<% if @admin -%>			
+		      <li>
+		      	<%  tab_2_label = "Folders" %>
+		        <a href="#tabs-2"><span class="tab_label">
+				<%= tab_2_label %></span></a>	
+			  </li>	
+			<% end -%>	
+	    </ul>
+		<div id="tabs-1" class="favorite_organizations" style="width:900px">
+	 	  <%= render :partial => "/apps/classroom/manage_teachers", :locals => {:admin => @admin, :app => @app, :teacher=> (@admin ? nil : @current_user), :subject=>nil} %>
+	   	</div >	
+		<div id="tabs-4" class="favorite_organizations" style="width:900px">
+	 	  <%= render :partial => "/apps/classroom/manage_students", :locals => {:admin => @admin} %>
+	   	</div >	 	
+		<div id="tabs-3" class="favorite_organizations" style="width:900px">
+	 	  <%= render :partial => "/apps/shared/sumarize_surveys", :locals => {:admin => @admin, :org => @current_organization, :app => @app} %>
+	   	</div>
+		<div id="tabs-2" class="favorite_organizations" style="width:900px">
+	 	  <%= render :partial => "/apps/shared/manage_app_folders", :locals => {:admin => @admin, :app => @app, :folder=>nil} %>
+	   	</div>
+	 </div>
+
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function(){
+    jQ('#control_panel').tabs();
+  });
+</script>
+	<% else -%>
+	  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 12px; padding-top: 25px; padding-bottom:25 px; font-style: normal; font-weight: normal">
+				<center>* * Not Authorized  * *</center>
+		</div> 
+	<% end -%>
+
+<br style="clear:both" />
+
+</div>

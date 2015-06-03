@@ -1,0 +1,20 @@
+<div  >
+ 	<table   style="width:950px; border:0px ">
+		<tbody>
+		<style type="text/css" media="screen">
+	    table,tr,td {border:0px ;}
+		table tr:hover{
+        background-color: transparent;
+      }
+    	</style>
+			<tr style=" border:0px ">
+				<td  style="width:650px; border:0px; vertical-align:middle; text-align:center">
+				   <%= link_to "Riverwatcher Studios, Inc.", "http://www.riverwatcher.com/index.html" %>&nbsp;|&nbsp;<%= link_to "Escent Partners, LLC", "www.escentpartners.com" %>
+				</td>
+				<td  style="width:120px; border:0px">
+					&nbsp;
+				</td>				
+			</tr>
+		</tbody>					
+	</table>
+</div>

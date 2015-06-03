@@ -1,0 +1,62 @@
+<style type="text/css" media="screen">
+  .tooltip_for_discussion { position: absolute; left:0; top:10px; }
+</style>
+<div class="discussion_thread_header clear">
+	<div class="iwing_module_title iwing_header_and_footer_bars clear">
+		<span><%= discussion.user.full_name rescue "-- former member --" %></span>
+    <!-- <div id='comment_tip_mouse' class="" style="display:none;z-index:99;"></div> -->
+    <div class="tooltip_for_discussion tooltip" style="display:none;z-index:99;line-height:15px;text-indent:0px;height:26px;">Click on arrow to see all related discussion.</div>
+		<abbr title="<%= discussion.created_at.xmlschema %>">Last Post 
+				<% if discussion.created_at > Time.now.utc - 24.hours -%>
+					on <%= time_ago_in_words(discussion.created_at).sub(/about /, '') %> ago
+				<% else -%>
+					<%= discussion.created_at.strftime("%b %e, %Y") %>
+				<% end -%>
+		</abbr>
+		<em style="text-decoration: underline;"><%= pluralize(discussion.children.size, "reply") %></em>
+		<div><%= truncate(show_discussion_is_delete?(discussion.comment, discussion.is_delete), :omission => "... (more)", :length => 65) %></div>
+	</div>
+	<div class="iwing_discussion_description" style="display:none;" id="comment_<%= discussion.public_id %>" author="<%= discussion.user.full_name rescue "" %>">
+		<div>
+			<%= show_discussion_is_delete?(discussion.comment, discussion.is_delete) %>
+			<% if topic.classroom.active_for?(@current_user)  && topic.classroom && topic.is_open-%>
+				<% unless topic.classroom.teachers.include?(@current_user) -%>
+					<% display_value = "none;" %>
+				<% end -%>	
+			<% else -%>
+					<% display_value = "none;" %>		
+			<% end -%>
+			<%= (link_to "Delete", {:controller => "site/discussions", :action => "delete_reply", :id => discussion, :organization_id => @current_organization}, :class => "delete", :style => "display:#{display_value}") unless discussion.is_delete %>		
+		</div>
+		<div class="discussion_warp">
+			<input name="discussion_public_id" type="hidden" value="<%= discussion.public_id %>" />
+			<span class="change_status" style="display:none;"><%= render(:partial => "/shared/report_as") %></span>
+		</div>
+	</div>		
+	<div class="discussion_replys" style="display:none;">
+		<%= render :partial => "/site/discussions/discussion_reply", :collection => discussion.children, :locals=>{:entity => topic} %>
+	</div>
+	<div class="reply_or_login_warp" style="display:none;">
+		<input name="public_id" type="hidden" value="<%= discussion.public_id %>" />
+		<div>
+			<%= render(:partial => "/shared/reply_or_login", :locals=>{:topic => topic}) %>	
+		</div>
+	</div>
+	
+ 	
+	<div class="reply_discussion_trigger clear" style="display:none;">
+ 	 <% unless !topic.classroom.active_for?(@current_user)%>
+	 	<% if topic.is_open && (@current_user.teacher_of_classroom?(topic.classroom) || @current_user.student_of_classroom?(topic.classroom))%>
+			  <button class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">Reply to Comment</button>
+	  	<% end -%>
+	<% end %>
+	</div>
+
+</div>
+<script type="text/javascript">
+	jQ().ready(function(){
+	   jQ(".discussion_thread_header .iwing_module_title span").tooltip({
+				position: ['bottom','center']
+	   });
+	})
+</script>

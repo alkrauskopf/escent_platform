@@ -1,0 +1,67 @@
+<div style="padding:10px 0;">
+	<a id="back_to_search_results" href="javascript:void(0)">Back to search results</a>
+</div>
+<div style="text-align:left">
+    <%= render :partial => "/shared/error_and_notice" %>
+</div>
+<%= render :partial => "associations" %>
+<div class="mempro_box" style="text-align:right;">
+    <img src="/images/fsmempro.png" width="295" height="19" style="float:left;"/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="FormRow">
+        <div class="FormRowTitle">
+            First Name:
+        </div>
+        <div class="FormRowData">
+            <%= @user.first_name %>
+        </div>
+    </div>
+    <div class="FormRow">
+        <div class="FormRowTitle">
+            Last Name:
+        </div>
+        <div class="FormRowData">
+            <%= @user.last_name %>
+        </div>
+    </div>
+    <div class="FormRow">
+        <div class="FormRowTitle">
+            Email Address:
+        </div>
+        <div class="FormRowData">
+            <%= @user.preferred_email %>
+        </div>
+    </div>
+    <div class="FormRow">
+        <div class="FormRowTitle">
+            Zip Code:
+        </div>
+        <div class="FormRowData">
+            <%= @user.postal_code %>
+        </div>
+    </div>
+    <div class="FormRow">
+        <div class="FormRowTitle">
+            Religious Affiliation:
+        </div>
+        <div class="FormRowData">
+            <%= @user.religious_affiliation ? @user.religious_affiliation.name : "" %>
+        </div>
+    </div>
+    <div class="FormRowTitle">
+        &nbsp;
+    </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function(){
+			jQ('#search-result-content').show();
+			jQ('#search-result').hide();
+			jQ('#back_to_search_results').click(function() {
+				jQ('#search-result').show();			
+				jQ('#search-result-content').hide().html("");
+			})
+      jQ('.fsn-button').addUIStateClass();
+    });
+</script>

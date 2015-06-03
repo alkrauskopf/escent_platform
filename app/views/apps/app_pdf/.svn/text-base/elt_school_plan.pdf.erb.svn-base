@@ -1,0 +1,98 @@
+<html>
+<head>
+	<style type="text/css">
+
+	</style>
+</head>
+<body >
+	<% unless @school.nil? || @cycle.nil? || @activity.nil? || @provider.nil? || @activity.nil? || @activity.active_elements.empty?-%>
+		<% ind_count = 0 -%>
+		<% @activity.active_elements.each do |element| -%>
+			<div style = "page-break-after: always; max-width:1100px; font-family:Garamond, Calibri;">
+				<table   style="width:1050px;  margin-left:0px; border:0px solid black ">
+					<tbody>
+						<tr style=" border:0px solid white;">
+							<td style="width:260px; width:fixed;  text-align:left; padding-left:1px; border:0px solid black">
+								<div style="padding-bottom:0px;">
+									<%= pdf_image_tag(@provider.logo.url, :alt => @provider.name, :width => 240) if @provider.logo.file? -%>
+								</div>					
+							</td>
+							<td  style="font-size: 20px; text-align:center; line-height: 1.2em; color:#1b5698; font-weight:normal;">
+								<%= @school.nil? ? "School Diagnostic Report" : @school.name %>
+								<span  style="font-size: 14px; line-height: 1.2em; color:#000000;">
+									<br/><%= @activity.name %>
+									<br/><%= @provider.app_settings(@app).alt_name %>&nbsp;Action Plan
+								</span>
+							</td>
+							<td style="width:260px; width:fixed;  text-align:left; padding-left:1px; border:0px solid black">
+								<div style="padding-bottom:10px;">
+									<%= pdf_image_tag(@school.logo.url, :width => 240) if @school.logo.file? -%>
+								</div>
+								<span  style="font-size: 14px; line-height: 1.2em; color:#000000;">
+									<%= @school.elt_action_plan(@cycle).nil? ? "No Plan Started" : (@school.elt_action_plan(@cycle).open? ? "Plan Not Finalized" : 'Finalized: '+ @school.elt_action_plan(@cycle).updated_at.strftime("%b %d, %Y")) %>
+								</span>										
+							</td>
+						</tr>
+					</tbody>					
+				</table>
+				<table style = " width:1050px; width:fixed; margin-top:60px; border:2px solid <%=element.form_background%>; background:<%=element.form_background%>;">
+					<tbody>
+						<tr style ="border:5px solid <%=element.form_background%>;">
+							<td colspan=3 style = " font-size:18px; min-height:50px; line-height:1.8em; vertical-align:middle; text-align:center; background:<%=element.form_background%>; color: <%=element.e_font_color%>">
+								<%= element.name %>
+							</td>
+						</tr>
+						<% if @school.elt_cycle_plan(@cycle) -%>
+							<tr style ="border:5px solid <%=element.form_background%>;">
+								<td colspan=3 style = "padding-left:200px; padding-right:200px; padding-bottom:10px; padding-top:10px; font-size:13px; line-height:1.2em; vertical-align:middle; text-align:left; background:<%= @school.elt_cycle_plan(@cycle).background_for_entity(element)%>; color:<%= @school.elt_cycle_plan(@cycle).font_for_entity(element)%>;">
+									<%= @school.elt_cycle_plan(@cycle).rubric_for_entity(element).nil? ? "": "<strong>" + @school.elt_cycle_plan(@cycle).rubric_for_entity(element).name.upcase + "</strong><br/>" %><%= @school.elt_cycle_plan(@cycle).action_for_entity(element).nil? ? "" : @school.elt_cycle_plan(@cycle).action_for_entity(element).note%>
+								</td>
+							</tr>
+						<% end -%>
+						<tr style ="border:5px solid <%=element.form_background%>;">
+							<td colspan=3 style = "line-height:1px; background:<%=element.form_background%>;">
+								
+							</td>
+						</tr>
+						<% element.elt_indicators.active.for_activity(@activity).each do |indicator| -%>
+							<% ind_count += 1 -%>
+							<tr style ="border:5px solid <%=element.form_background%>; background:#FFFFFF;">
+								<td style ="width:25px; text-align:center; font-size:13px;">
+									<%= ind_count -%>
+								</td>
+								<td style =" width:550px; width:fixed; padding:10px; text-align:left; font-size:13px; ">
+									<%= indicator.indicator %>
+								</td>
+								<% unless !@school.elt_cycle_plan(@cycle) || @school.elt_cycle_plan(@cycle).action_for_entity(indicator).nil? %>
+									<% backgrnd = @school.elt_cycle_plan(@cycle).background_for_entity(indicator)%>
+									<% fontclr = @school.elt_cycle_plan(@cycle).font_for_entity(indicator)%>
+									<td style =" width:475px; width:fixed; padding:10px; text-align:left; vertical-align:middle; font-size:13px; background:<%=backgrnd %>; color:<%= fontclr %>">
+										<strong><%= @school.elt_cycle_plan(@cycle).rubric_for_entity(indicator).nil? ? "": @school.elt_cycle_plan(@cycle).rubric_for_entity(indicator).name + "<br/>" %></strong>
+										<%= @school.elt_cycle_plan(@cycle).action_for_entity(indicator).note %>										
+									</td>
+								<% else -%>
+									<td style = " width:475px; width:fixed; padding:10px; text-align:left; vertical-align:middle; font-size:12px; background:#ffffff; color:#000000">
+										&nbsp;
+									</td>
+								<% end -%>
+							</tr>
+						<% end -%>
+					</tbody>
+				</table>
+			</div>
+		<% end -%>
+	<% else -%>
+		<table style="width:1050px;margin-left:60px; margin-top:2px; border:0px solid #000000;">
+			<tbody> 
+				<tr>
+					<td style = "vertical-align:middle; text-align:left; padding-top:15px; padding-left:5px; font-size:14px; ">
+						<div class = "app_report_title_2">
+							No <%= @activity.name %> Look-Fors Are Active
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>	
+	<% end -%>		
+</body>
+</html>

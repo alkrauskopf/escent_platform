@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  activity_id: 1
+  activity_type: MyString
+  ista_case_id: 1
+  ista_step_id: 1
+  minsweek: 1
+  hrsyear: 1
+  comment: MyString
+
+two:
+  activity_id: 1
+  activity_type: MyString
+  ista_case_id: 1
+  ista_step_id: 1
+  minsweek: 1
+  hrsyear: 1
+  comment: MyString

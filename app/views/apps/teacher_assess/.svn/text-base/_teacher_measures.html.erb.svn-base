@@ -1,0 +1,55 @@
+
+<div style = "font-size:12px; color: #000000;padding-left:10px;">
+	<br/>
+	<span style ="color: #C83A14; font-size:18px">
+	<center><strong>Teacher Dashboards</strong></center>
+	</span>
+<div>
+	<span style ="color: #C83A14; font-size:12px">
+	<center><strong><i><%= @start_date.strftime("%B %d, %Y")%>&nbsp;&nbsp;-&nbsp;&nbsp;<%= @end_date.strftime("%B %d, %Y")%> </i></strong></center>
+	</span>
+</div>	
+	
+	<div>
+	<% unless @teacher_list.size.zero? %>
+	
+	
+	<div id="assign_resources_panel">
+		<table id="resource_levels"   style="width:99%;">
+			<thead>
+				<tr>
+					<% header_string = "Select Among The " + pluralize(@teacher_list.size, " Teacher") + " At " + @current_organization.medium_name %>
+					<th><strong><%= header_string %></strong></th>											
+				</tr>
+			</thead>
+			<tbody>
+				<style type="text/css" media="screen">
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>  
+				<% @teacher_list.each do |teacher| %>
+					<% col_label = teacher.last_name.upcase + ", " + teacher.first_name.titleize -%>
+					<tr>
+					<td class="resource_levels_close">
+
+					<%= link_to '', :controller => "apps/teacher_assess", :action => :teacher_dashboard, :organization_id => @current_organization, :classroom_id => @classroom,  :teacher_id => teacher %>
+					<strong><%= col_label %></strong>
+					<span></span>
+					</td>
+					</tr>
+					<% end -%>
+			</tbody>
+		</table>
+	<br/>
+
+	</div>
+<% else -%>
+	<br/>
+	<span style ="color: #C83A14; font-size:11px">
+	<center><i>* * *  There Are No Teachers Leading Any Classrooms At <%= @current_organization.name %> At This Time  * * *</i></center>
+	</span>
+<% end -%>	
+
+</div>
+</div>

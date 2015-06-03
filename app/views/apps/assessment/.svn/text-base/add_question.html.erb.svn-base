@@ -1,0 +1,260 @@
+
+<div style ="color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold"> 
+
+	<br/>
+	<strong><center> ADD <%= @current_subject.name.upcase %> QUESTION TO LIBRARY</center></strong>
+</div>
+
+    <%= render :partial => "/shared/error_and_notice" %>
+
+<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
+	  <%= link_to "Back", :controller => "/apps/assessment", :action => "manage", :organization_id => @current_organization, :classroom_id => @classroom %>
+</div>
+
+<div id="question_form" class="Form clear">
+<% form_for(:act_question, :url => {:controller => "/apps/assessment", :action => :add_question, :organization_id => @current_organization, :classroom_id => @classroom , :subject_id => @question.act_subject_id, :function => "Submit"}) do |form| -%>
+
+
+	<div class="FormRow">
+		<div class="FormRowTitle"><strong>Subject Area:</strong></div>
+
+			<div class="FormRowData" style= "margin-left:5px">
+				<strong><%=@question.act_subject.name.upcase%></strong>
+			</div>
+	</div>
+
+	<% range_label = "Select Mastery Level" -%>
+	<% std_label = "Select Knowledge Strand" -%>		
+
+	<div class="FormRow">
+		<div class="FormRowTitle"><strong><%= @current_standard.abbrev %> Knowledge Strand:</strong></div>
+  	     <div class="FormRowData" style= "margin-left:5px">
+			<%=  select(:q_std, @current_standard.abbrev, ActStandard.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @question.act_subject_id, @current_standard.id],:order => "name").collect{|s| [s.name, s.id]},{:prompt => std_label}) %>
+  	  </div>
+  	  </div>
+		<div class="FormRow">
+			<div class="FormRowTitle"><strong><%= @current_standard.abbrev %> Mastery Level:</strong></div>
+  	      <div class="FormRowData" style= "margin-left:5px">
+				<%=  select(:q_range, @current_standard.abbrev, ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @question.act_subject_id, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => range_label}) %>
+  	      </div>
+  	  </div>
+	
+	<div class="FormRow">
+		<br/>
+		<div class="FormRowTitle"><strong>Reading:</strong></div>			
+		<div class="FormRowData" id="reading_id" style= "margin-left:5px">			
+			<%=  select(:q_read, :reading_id, @readings,{:prompt => "* * No Reading * * "}) %>
+		</div>
+	</div>
+
+	<div class="FormRow" id="reading_text" >
+		<div class="FormRowTitle">&nbsp;</div>
+  	      <div class="FormRowData" style= "margin-left:5px">
+            <%= text_area :quest, :reading, :rows => 15, :cols => 75, :class =>"mceEditor" %>
+  	      </div>
+  	  </div>
+
+	<div class="FormRow" id="question_text">
+		<br/>
+		<div class="FormRowTitle"><strong>Question:</strong></div>
+		<div class="FormRowData" style= "margin-left:5px">
+   		   	<%= text_area :quest, :question, :rows => 2, :cols => 75 %>
+			<br/>
+		</div>
+	</div>
+
+	<div class="FormRow">
+		<br/>
+		<div class="FormRowTitle"> <strong>Answers:</strong></div>
+		<div class="FormRowData" style= "margin-left:5px">
+			<select name="question_type" id="question_type">
+            <option value="">Select Answer Type</option>
+			<option value="SA">Short Answer</option>
+			<option value= "MC" >Multiple Choice</option>
+			</select>
+		</div>
+	</div>
+	
+	<div class="FormRow">
+		<div class="FormRowData" style= "margin-left:5px">			
+ 				<table id="act_choices" class="questions" style="display: none; padding-left:200px;  width:500px;"> 
+				<tbody>
+ 				<style type="text/css" media="screen">
+	    		table,tr,td { border:none; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>
+ 					
+
+				<tr>
+					<td colspan=3 style ="width:450px; color: #C83A14; margin-left:30px; font-size:12px;"><center>Enter Each Answer Choice, Check The Correct Choices</center></td>			
+				</tr>
+
+			<% [1,2,3,4,5].each do |c| -%>
+					<tr> <td>&nbsp;</td></tr>
+					<tr id="<%= c %>">
+ 						<td style="width:2%; padding-left:80px;">
+							<%=  check_box_tag "choice_check[]", value = c ,checked = false %>
+							<br/>
+						<td>
+ 						<td style="width:400px; text-align:left;">
+   					      	<%= text_field_tag "choice_ans[]", "", :size=>"100" %>
+							<br/>
+   					    </td>
+  					 </tr>
+					 <% end -%>
+ 					<tr> <td>&nbsp;</td></tr>
+				</tbody>
+			</table>
+		<table id="act_no_choices" class="questions" style="display: none; padding-left:200px; width:500px;"> 
+			<tbody>
+				<tr> 
+					<td  style ="width:450px; color: #C83A14;  padding-left:190px; font-size:12px;"><center>Answer Box Will Be Available On Assessment</center></td>
+				</tr>
+				<tr> <td>&nbsp;</td></tr>
+			</tbody>
+		</table>
+			
+
+		</div>
+	</div>	
+	
+	<div class="FormRow">
+		<div class="FormRowTitle"><strong>Comment:</strong></div>
+        <div class="FormRowData" style= "margin-left:5px">
+         <%= text_field :quest, :comment, :size => 55, :maxlength => 150 %>
+        </div>
+    </div>
+
+		<div class="FormRow submit_warp">
+			<br/>
+			<%= submit_tag "Add Question", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+		</div>	
+<% end -%>	
+</div>	
+
+
+<br/>
+	
+<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
+	  <%= link_to "Back", :controller => "/apps/assessment", :action => "manage", :organization_id => @current_organization, :classroom_id => @classroom %>
+</div>
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:3px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>
+
+
+<script type="text/javascript">
+        jQuery(document).ready(function(){
+        jQ(".standards").hide();
+        jQ("#quest_subj_id").change(function(){
+        jQ(".standards").hide();
+		var selected_subj = jQ("#content_act_subject_id");
+            switch(jQ(this).val()){
+               case "1":
+               jQ("#act_math").show();
+               //jQ("#not_applic").show();
+               break;
+                         
+               case "2":
+               jQ("#act_english").show();
+               break;
+                          
+               case "3":
+               jQ("#act_read").show();
+			   // jQ("#not_applic").show();
+               break;
+                         
+               case "4":
+               jQ("#act_science").show();
+			   // jQ("#not_applic").show();
+               break;			   
+                        
+               case "5":
+               jQ("#act_write").show();
+			   // jQ("#not_applic").show();
+               break;			   
+
+               default:
+               jQ("#not_applic").show();              
+             }
+           });
+         });
+ </script>
+
+<script type="text/javascript">
+        jQuery(document).ready(function(){
+        jQ(".questions").hide();
+        jQ("#question_type").change(function(){
+        jQ(".questions").hide();
+		var selected_subj = jQ("#content_act_subject_id");
+            switch(jQ(this).val()){
+               case "MC":
+               jQ("#act_choices").show();
+               //jQ("#not_applic").show();
+               break;
+               case "SA":
+               jQ("#act_no_choices").show();
+               //jQ("#not_applic").show();
+               break;
+  
+               default:
+               jQ("#act_no_choices").show();              
+             }
+           });
+         });
+ </script>
+
+<script type="text/javascript">
+        jQuery(document).ready(function(){
+	    jQ("#reading_text").hide();
+
+        jQ("#reading_id").change(function(){
+			var related_reading_id = jQ('#q_read_reading_id').val();
+			var url = "<%= url_for :controller => '/apps/assessment', :action => :get_related_reading, :organization_id => @current_organization  %>";
+			jQ.get(url, {'id':related_reading_id}, function(data) {
+				var editor = tinyMCE.get("reading_text");
+				jQ('#quest_reading').val(tinyMCE.activeEditor.setContent(data));
+				});
+              switch(related_reading_id){
+               case "":
+               jQ("#reading_text").hide();
+               break;
+               default:
+               jQ("#reading_text").show();              
+             }
+           });
+         });
+ </script>
+
+
+
+<script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :select_related_reading, :organization_id => @current_organization, :sub_id => @subj_id  %>";
+		jQ("#select_related_reading").autocomplete(url, {
+                                        				autoFill: false,
+                                        				mustMatch: true,
+                                        				matchContains: false
+                                        		});			
+   	});
+				
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+

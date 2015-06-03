@@ -1,0 +1,49 @@
+<div class="topics_panel_title clear" style ="font-weight:bold">
+<%= button_to_remote 'Add New Classroom', {:url => {:controller => 'admin/classrooms',:action => "new",:organization_id => @current_organization}, :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all'%>
+</div>
+
+
+<table>
+  <tr>
+    <th style= "font-weight:normal; vertical-alignment:middle; text-align:center"><center>Course Name</center></th>
+    <th style= "font-weight:normal; vertical-alignment:middle; text-align:center"><center>Subject Area</center></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @active_classrooms.each do |classroom| -%>
+  <tr>
+    <td  width= 200px,style= "vertical-alignment:middle; align:center"><center><strong><%=h classroom.course_name %></strong><br/><small>Last Updated: <%=h classroom.updated_at.strftime("%m/%d/%Y") %></small></center></td>
+    <td width= 200px, style= "vertical-align:middle; font-size:11px; align:center"><center><%=h classroom.subject_area.name.titleize %></center></td>
+	<td width= 15%, style= "vertical-align:middle; padding-left:2px"><%= button_to_remote 'Course Participants', {:url => {:controller => 'admin/classrooms',:action => "authorization_assignments",:organization_id => @current_organization,:classroom_id => classroom}, :method => :get, :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all'  %></td>
+    <td width= 15%, style= "vertical-align:middle;  padding-left:18px"><%= button_to_remote 'Course Info', {:url => {:controller => 'admin/classrooms',:action => "edit",:organization_id => @current_organization,:classroom_id => classroom}, :method => :get, :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all'  %></td>
+    <td width= 100px, style= "vertical-align:middle;  padding-left:0px"><%= button_to_remote 'Archive', {:url => {:controller => 'admin/classrooms',:action => "archive",:organization_id => @current_organization,:classroom_id => classroom},  :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<p>Archived Classrooms</p>
+<table>
+  <tr>
+    <th>Classroom   </th>
+    <th>Subject Area</th>
+    <th>Last Updated</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @archived_classrooms.each do |classroom| %>
+  <tr>
+    <td><%=h classroom.course_name %></td>
+    <td><%=h classroom.subject_area.name.titleize %></td>
+    <td><%=h classroom.updated_at.strftime("%m/%d/%Y") %></td>
+    <td><%= button_to_remote 'Restore', {:url => {:controller => 'admin/classrooms',:action => "restore",:organization_id => @current_organization,:classroom_id => classroom}, :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %></td>
+	<td><%= button_to_remote 'Destroy', {:url => {:controller => 'admin/classrooms',:action => "destroy",:organization_id => @current_organization,:classroom_id => classroom}, :confirm => 'Are You Sure? All Classroom Topcs, Homework, & Information Will Be Permanently Removed! ', :method => :destroy, :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %></td>
+  </tr>
+<% end %>
+</table>
+
+
+

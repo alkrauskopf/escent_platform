@@ -1,0 +1,27 @@
+
+Resource Owner <%= @current_organization.name %>
+<hr />
+
+<div style="padding-bottom:10px;">
+	<%= image_tag(@content_org.logo.url, :alt => @content_org.name) if @content_org.logo.file? -%>
+</div>
+<div class="affiliate_information_title" style="word-wrap:break-word;">
+<span class="normal_text"><%= to_br(@content_org.body) %></span>
+</div>
+<% if @content_org.include_information %>
+<div class="affiliate_information_title">
+	<span class="normal_text"><%= @content_org.name rescue nil %></span>	
+</div>
+<div class="affiliate_information_title">
+	<span class="normal_text">
+	<% if @content_org.addresses.first.country == 'US' %>
+		<%= @content_org.addresses.first.city rescue nil -%>,	
+	 	<%= @content_org.addresses.first.state rescue nil -%>
+	<% else %>
+		<%= @content_org.addresses.first.city rescue nil -%>, 
+		<%= I18n.t @content_org.addresses.first.country, :scope => 'countries' %>	
+	<% end %>
+	 </span>
+</div>
+
+<% end %>

@@ -1,0 +1,5 @@
+<div >
+
+   	<%= render :partial => "/apps/learning_time/case_indicators_element_rubric", :locals => {:org_type => @org_type, :element => @element, :rubric=> @rubric, :app => @app} -%>
+
+</div>

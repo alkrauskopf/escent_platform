@@ -1,0 +1,62 @@
+<div>
+	<% if @current_user-%>
+		<% if topic.is_open%>
+		<div class="discussion_root_form">
+			<% form_tag(:controller => "/site/discussions", :action => :add_comment, :organization_id => @current_organization, :id => @discussion) do -%>		
+				<%= render(:partial => "/site/discussions/discussion_form") %>
+				<div class="discussion_root_form_submit clear">
+					<%= submit_tag "Submit Comment", :class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "cursor:pointer"%>
+					<span id="cancel_add_comment" class="fsn-button ui-button ui-state-default ui-corner-all" style="margin-left:10px; cursor:pointer">
+						Cancel
+					</span>
+				</div>
+				<% end%>
+			</div>
+		<% end %>
+		<script type="text/javascript" charset="utf-8">
+			jQ(document).ready(function() {
+				jQ(".discussion_root_form form").submit(function() {
+					var url = jQ(this).attr("action");
+					var topic_id = "<%= params[:topic_id] ? params[:topic_id] : topic.public_id %>";
+					var comment = jQ(this).find("textarea[name='new_discussion[comment]']").val();
+					var authenticity_token = jQ(this).find("input[name='authenticity_token']").val();
+					if (comment.length == 0)	{
+						alert("Please enter your comment.");
+					} else {
+						jQ.post(url, 
+								{'topic_id':topic_id,
+								 'new_discussion[comment]':comment, 
+								 'authenticity_token':authenticity_token}, function(data) {
+							jQ("#discussions_panel").html(data);
+						});
+					}
+					return false;
+				})
+			})
+			
+			jQ("#cancel_add_comment").click(function(){
+				jQ("#root_discussion_form").slideUp("fast");
+			})
+			
+		</script>
+	<% else -%>
+		<div class="discussion_root_login">
+			<div class="discussion_root_form_title">
+				Please login or <%= link_to "register", :controller=>"/users", :action=>"register"%> first.
+			</div>
+			<% form_tag :controller => "/users", :action => :login, :organization_id => @current_organization, :admin => defined?(admin) && admin do -%>		
+				<p class="clear">
+					<%= text_field_tag "user[email_address]", "", :size=> 20, :class => "text" %>
+					<%= password_field_tag "user[password]", "", :size=> 20, :class => "text" %>
+				</p>
+				<div class="discussion_root_login_submit clear">
+					<% if flash[:login_error] -%>
+						<div class="discussion_root_login_notice"><%= flash[:login_error]%></div>
+					<% end -%>
+					<button class="fsn-button ui-button ui-state-default ui-corner-all">login</button>			
+					<button class="fsn-button ui-button ui-state-default ui-corner-all">cancel</button>
+				</div>
+			<% end -%>
+		</div>	
+	<% end -%>
+</div>

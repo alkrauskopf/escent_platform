@@ -1,0 +1,167 @@
+
+<div class="section_selector" class="clear">
+	<!-- ALK put Organizations & Cause Searches back in.
+	Then change Label of Buttons from "Content" to "Resources" and "Causes" to "Classrooms" -->
+	<% for section in ["People", "Resources","Organizations","Offerings"] do -%>
+		<% if @search_type == section -%>
+			<div class="active_section">
+				<span><%= section %></span>
+			</div>
+		<% else -%>
+			<div>
+				<%= link_to_remote section, :update => "search_panel", :url => {:controller => :site, :action => :search_form, :organization_id => @current_organization, :search_type => section, :keywords => @keywords }, :method => :get %>
+			</div>
+		<% end -%>
+	<% end -%>
+</div>
+	<div style= " margin-top:0px; margin-left:420px; width:300 px; font-weight:normal; text-align:center; font-size:22px; color:#2061a5; ">  
+	<strong><u><%= @search_type %></u></strong>
+	</div> 
+
+<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ(".section_selector").segmentedControl();
+		jQ("#keywords").autocomplete("<%= url_for :controller => '/site/site', :action => :keywords_autocomplete, :organization_id => @current_organization %>", 
+			{extraParams : {
+				search_type : '<%= @search_type %>',
+				search_field : function() { var search_field_value;
+					jQ("input[name='search_field']").each(function() {
+						if (jQ(this).attr("checked")) search_field_value = jQ(this).val();
+					});
+					return search_field_value;
+				}
+			},
+			formatResult: function(row) {
+				var re = /\s+/;
+				if (re.test(row))
+					return '"' + row + '"';
+				else
+					return row;
+			}
+			});
+	})
+</script>
+<div id="search_section_selector_option" style=" margin-left:350px; width:550 px; font-weight:normal; text-align:center;">
+<br/>
+	<% form_tag({:action => :search, :organization_id => @current_organization}, :method => :get) do -%>
+		<% for search_field in @search_fields do -%>
+			<span><%= radio_button_tag "search_field", search_field, @search_field == search_field %> <%= search_field %></span>
+		<% end -%>
+		<%= hidden_field_tag :search_type, @search_type %>
+		<%= hidden_field_tag :prev_keywords, @keywords %>
+		<!-- ALK: Reset search field to "nil" so previous search criteria doesn't remain. -->
+		<%= text_field_tag "keywords", @keywords, :value => nil, :class => "text", :size => 25 %>
+
+		<input type="submit" style="background:url(/images/searchbutton.png) top left no-repeat; width:80px; height:25px; border:0;" name="" value="" />
+</div>	<br style="clear:both" />
+		<% if @filter_type == "Resource" %>
+	
+		<div class="Form clear">
+		  <div class="formBox">
+			<div style= " padding-top:0px; margin-left:0px; padding-left:0px;">
+ 
+				<% filters = ["-- No Filter --"] -%>
+				<% filters += ContentResourceType.all(:order => "name").collect{|d| [d.name, d.name]}-%>
+		 	 	<%=  select_tag :filter, options_for_select(filters) %>
+				<%= label_tag 'filter_type', '&nbsp;&nbsp;' %>
+				<%= submit_tag "Filter Search Results", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+			</div>
+		  </div>
+		</div>
+		
+		<div style= " font-weight:bold;  margin-left:0px; font-size:12px; color:#2061a5; ">  
+			<% if @filter == "-- No Filter --" -%>
+				<% label = "Resource" -%>
+				<% else -%>
+				<% label = @filter -%>
+				<% end -%>				
+			<center><%= pluralize(@items_size, label) %></center>
+		</div>
+		
+		<% end -%>
+
+		<% if @filter_type == "Organization" %>
+	
+		<div class="Form clear">
+		  <div class="formBox">
+			<div style= " padding-top:0px; margin-left:0px; padding-left:0px;">
+ 
+				<% filters = ["-- No Filter --"] -%>
+				<% filters += OrganizationType.affiliate.children.collect{|ot| [ot.name, ot.name]}-%>
+		 	 	<%=  select_tag :filter, options_for_select(filters) %>
+				<%= label_tag 'filter_type', '&nbsp;&nbsp;' %>
+				<%= submit_tag "Filter Search Results", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+			</div>
+		  </div>
+		</div>
+		
+		<div style= " font-weight:bold;  margin-left:0px; font-size:12px; color:#2061a5; ">  
+			<% if @filter == "-- No Filter --" -%>
+				<% label = "Organization" -%>
+				<% else -%>
+				<% label = @filter -%>
+				<% end -%>				
+			<center><%= pluralize(@items_size, label) %></center>
+		</div>
+		
+		<% end -%>
+
+		<% if @filter_type == "Classroom" %>
+
+		<div class="Form clear">
+		  <div class="formBox">
+			<div style= " padding-top:0px; margin-left:0px; padding-left:0px;">
+ 
+				<% filters = ["-- No Filter --"] -%>
+				<% filters += Organization.all(:order => "name").collect{|o| [o.name, o.name]}-%>
+		 	 	<%=  select_tag :filter, options_for_select(filters) %>
+				<%= label_tag 'filter_type', '&nbsp;&nbsp;' %>
+				<%= submit_tag "Filter Search Results", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+			</div>
+		  </div>
+		</div>	
+		
+		<div style= " font-weight:bold;  margin-left:0px; font-size:12px; color:#2061a5;">  
+			<% if @filter == "-- No Filter --" -%>
+				<% label = "Offeirng" -%>
+				<% else -%>
+				<% label = @filter  + " Offering" -%>
+				<% end -%>				
+			<center><%= pluralize(@items_size, label) %></center>
+		</div>
+		
+		<% end -%>
+
+		<% if @filter_type == "People" %>
+
+		<div class="Form clear">
+		  <div class="formBox">
+			<div style= " padding-top:0px; margin-left:0px; padding-left:0px;">
+ 
+				<% filters = ['-- No Filter --'] -%>
+				<% filters += @clsrm_auth_levels.collect{|al| [al.description, al.id]} -%>
+				<% filters += @org_auth_levels.collect{|al| [al.description, al.id]}.sort{|a,b| a <=> b} -%>
+				
+		 	 	<%=  select_tag (:filter, options_for_select(filters), :value => 0) %>
+				<%= label_tag 'filter_type', '&nbsp;&nbsp;' %>
+				<%= submit_tag "Filter Search Results", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+			</div>
+		  </div>
+		</div>		
+		
+		<div style= " font-weight:bold;  margin-left:0px; font-size:12px; color:#2061a5; ">  
+			<% if @filter == "-- No Filter --" -%>
+				<% label = "Person" -%>
+				<% else -%>
+				<% label = @filter_descript -%>
+				<% end -%>				
+			<center><%= pluralize(@items_size, label) %></center>
+		</div>
+		
+		<% end -%>
+	
+	 <% end -%>	
+
+
+
+

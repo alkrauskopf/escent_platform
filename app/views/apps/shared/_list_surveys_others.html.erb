@@ -1,0 +1,71 @@
+
+<div id="othr_list_<%= instruction.public_id %>" style = "font-size:12px; color: #000000;padding-left:0px;">
+
+	<%= render :partial => "/shared/error_and_notice" %>
+
+<table  style="width:800px;">
+		<% question_list = @current_user.tagged_school_surveys_for_(instruction.tlt_survey_audience, instruction.tlt_survey_type, @current_organization)%>
+		<thead>
+			<tr>
+				<th style="width:60px; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:11px">
+					<strong><center>Copy</center></strong></th>
+				<th style="width:100px; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:11px">
+					<strong><center>Source</center></strong></th>
+				<th style="width:400px; vertical-align:middle;  text-align:left;  padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:11px">
+					<strong>&nbsp;&nbsp;<%= pluralize(question_list.size,  " Question") %> </strong>
+				</th>
+				<th colspan=4 style="vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:11px">
+					<strong><center>Current Scores</center></strong></th>
+			</tr>
+		</thead>
+		<style type="text/css" media="screen">
+	    		table,tr,td { border:none }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+				<tbody>  
+				<% question_list.each do |question| -%>
+
+					<tr  style="border:1px solid #ddd;" >
+						<td  id= "o_<%= question.id %>" style="width:60px; border:0px solid #ddd; padding-top:0px; vertical-align:middle; text-align:center; font-size:9px">
+							<button>Copy</button>
+						</td>						
+						<td  style="width:100px; border:1px solid #ddd; text-align:center; font-size:11px; vertical-align:middle; ">
+							<%=  question.organization.medium_name %>
+						</td>
+						<td  style="width:400px; border:1px solid #ddd; vertical-align:middle;  padding-top:0px; padding-bottom:0px; color: #000000; text-align:left; font-weight:bold; font-size:11px">
+							<%= question.position %>)&nbsp;<%= question.question %>
+						</td>
+						<td  style="width:50px; border:0px solid #ddd; padding-top:0px; vertical-align:bottom; text-align:center; font-size:10.5px">
+						    <%= question.tlt_survey_range_type.low_end %><br/><%= question.tlt_survey_responses.of_score(1).size%>	
+						</td>					
+						<td  style="width:50px; border:0px solid #ddd; padding-top:0px; vertical-align:bottom; text-align:center; font-size:10.5px">
+						     &nbsp;<br/><%= question.tlt_survey_responses.of_score(2).size%>		
+						</td>
+						<td  style="width:50px; border:0px solid #ddd; padding-top:0px; vertical-align:bottom; text-align:center; font-size:10.5px">
+						     &nbsp;<br/><%= question.tlt_survey_responses.of_score(3).size%>			
+						</td>					
+						<td  style="width:50px; border:0px solid #ddd; padding-top:0px; vertical-align:bottom; text-align:center; font-size:10.5px">
+						     <%= question.tlt_survey_range_type.high_end %><br/><%= question.tlt_survey_responses.of_score(4).size %>		
+						</td>
+					</tr>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#o_<%= question.id %>').click(function() {
+		var url = "<%= url_for :controller =>"apps/shared", :action => "copy_survey", :organization_id => @current_organization, :survey_question_id => question, :survey_instruction => instruction, :user_id => @current_user, :admin => admin, :app_id => app.id %>";
+			jQ.get(url, {}, function(data) {
+				jQ("#surv_list_<%= instruction.public_id %>").html(data); 
+		   		jQ("#surv_list_<%= instruction.public_id %>").show();
+			});
+	})
+});
+</script>
+
+				<% end-%>
+			</tbody>
+		</table>
+</div>
+
+

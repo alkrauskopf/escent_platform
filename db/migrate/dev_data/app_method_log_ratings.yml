@@ -1,0 +1,120 @@
+
+STR_ALL:
+    id: 110
+    app_method_id: 1
+    label: All
+    score: 4
+    measure: rating
+    bar_color: 3ba7fb
+
+STR_MOST:
+    id: 111
+    app_method_id: 1
+    label: Most
+    score: 3
+    measure: rating
+    bar_color: 81c66e
+    
+STR_SOME:
+    id: 112
+    app_method_id: 1
+    Label: Some
+    score: 2
+    measure: rating
+    bar_color: f4da48
+
+STR_FEW:
+    id: 113
+    app_method_id: 1
+    Label: Few
+    score: 1
+    measure: rating
+    bar_color: fd9896
+
+STR_VH:
+    id: 120
+    app_method_id: 1
+    label: Very High
+    score: 4
+    measure: impact
+    bar_color: 3ba7fb
+    
+STR_H:
+    id: 121
+    app_method_id: 1
+    label: High
+    score: 3
+    measure: impact
+    bar_color: 81c66e
+    
+STR_L:
+    id: 122
+    app_method_id: 1
+    label: Low
+    score: 2
+    measure: impact
+    bar_color: f4da48
+    
+STR_VL:
+    id: 123
+    app_method_id: 1
+    label: Very Low
+    score: 1
+    measure: impact
+    bar_color: fd9896
+
+EV_HIGH:
+    id: 210
+    app_method_id: 2
+    label: High
+    score: 4
+    measure: rating
+    bar_color: 81c66e
+
+EV_MOD:
+    id: 211
+    app_method_id: 2
+    label: Moderate
+    score: 2
+    measure: rating
+    bar_color: f4da48
+
+EV_INEFF:
+    id: 213
+    app_method_id: 2
+    Label: Low
+    score: 0
+    measure: rating
+    bar_color: fd9896
+
+EV_VH:
+    id: 220
+    app_method_id: 2
+    label: Very High
+    score: 4
+    measure: impact
+    bar_color: 3ba7fb
+    
+EV_H:
+    id: 221
+    app_method_id: 2
+    label: High
+    score: 3
+    measure: impact
+    bar_color: 81c66e
+    
+EV_L:
+    id: 222
+    app_method_id: 2
+    label: Low
+    score: 2
+    measure: impact
+    bar_color: f4da48
+    
+EV_VL:
+    id: 223
+    app_method_id: 2
+    label: Very Low
+    score: 1
+    measure: impact
+    bar_color: fd9896

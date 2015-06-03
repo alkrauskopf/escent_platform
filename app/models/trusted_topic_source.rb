@@ -1,0 +1,2 @@
+class TrustedTopicSource < TrustedSource
+end

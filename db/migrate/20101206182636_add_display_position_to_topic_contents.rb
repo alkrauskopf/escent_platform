@@ -1,0 +1,10 @@
+class AddDisplayPositionToTopicContents < ActiveRecord::Migration
+  def self.up
+    add_column :topic_contents, :display_position, :integer, :default => 0
+    execute "UPDATE topic_contents SET display_position = position"
+  end
+
+  def self.down
+    remove_column :topic_contents, :display_position
+  end
+end

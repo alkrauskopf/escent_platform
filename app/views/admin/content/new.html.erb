@@ -1,0 +1,5 @@
+<div style= "color:#000000; margin-top:5px; font-size:16px; font-weight:bold"> <center><%=@current_organization.name %> Resource Library <br/><br/>
+	 </center></div>
+<% form_tag({:action => :create, :organization_id => @current_organization, :format => 'js'}, :multipart => true, :target => 'upload_frame') do -%>
+	<%= render :partial => "form" %>
+<% end %>

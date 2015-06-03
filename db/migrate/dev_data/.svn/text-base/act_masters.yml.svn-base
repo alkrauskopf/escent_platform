@@ -1,0 +1,21 @@
+act-standards:
+    id: 1
+    abbrev: ACT
+    name: ACT College Readiness Standards
+    source: College Readiness Standards For EXPLORE, PLAN, and the ACT
+    is_national: 1
+    
+co-standards:
+    id: 2
+    abbrev: CO
+    name: Colorado State Education Standards
+    source: http://www.cde.state.co.us/cdeassess/UAS/CoAcademicStandards.html
+    is_national: 0
+    
+CC-standards:
+    id: 3
+    abbrev: CC
+    name: Common Core Standards
+    source: http://www.corestandards.org
+    is_national: 1
+    

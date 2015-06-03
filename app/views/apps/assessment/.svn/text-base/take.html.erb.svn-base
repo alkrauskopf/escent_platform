@@ -1,0 +1,212 @@
+<div id="mainContent">
+
+  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 16px; font-style: italic; font-weight: bold">
+			<br/><center><u>The Stotts Mastery Assessment Tool - Initial Framework - TAKE Assessment</u></center>
+	</div>
+  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 12px;">
+			<br/><center>Below is a Summary of the Information the tool might use.<br/>
+			Notice That A Student Must Enter From A Classroom Page In Order To TAKE An Assessment That Was Assigned To That Classroom.<br/>
+			The Tabs correspond to the Steps in Process For A Student To TAKE An Assessment.<br/>
+			<strong><i>Much of the general information shown below will NOT be diplayed when the Actual Tool is Implemented. </i></strong> <br/>
+			</center>
+	</div>	
+	<div style="float:none;width:97%;" class="mempro_box clear">
+
+    <div id="member_ico">
+      <% if @current_user.picture.url.split("/").last == "missing.png" %>
+        <%= image_tag "member_ico.gif" %>
+      <% else %>
+        <%= image_tag @current_user.picture.url(:thumb) %>
+      <% end %>
+    </div>
+    <div id="member_info">
+			<div style="float:left; width:630px;">
+	      <p class="name" style="width:630px; word-wrap:break-word; overflow:hidden; font-size:16px" > Student: <%= @current_user.full_name %> <br/></p>
+
+		  <p class="homeorginfo_label"> 
+			<br/><%= link_to (image_tag @current_organization.logo.url :med_thumb), :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization -%></br>
+			<% @current_organization.name %> 
+		  </p>
+					
+
+			<% if @classroom %>
+			<span style ="width:630px; word-wrap:break-word; overflow:hidden; font-size:12px">
+			<br/>You Entered From: <strong><%= @classroom.course_name -%></strong><br/>
+				<% if @current_subject %>
+					ACT Subject: <strong><%= @current_subject.name.titleize -%></strong><br/>
+					<% else -%>
+					<%= @classroom.course_name -%> Has <strong> No ACT Subject Defined</strong><br/>
+					<% end -%>
+			<br/><%= @classroom.course_name -%> Has <strong><%= pluralize(@clsrm_leaders.size, ' Teacher') %></strong><br/>
+				<% @clsrm_leaders.each do |ldr| -%>
+					&nbsp;&nbsp;&nbsp;-   <%= ldr.full_name -%><br/>
+			 		<% end -%>
+			<br/><%= @classroom.course_name -%> Has <strong><%= pluralize(@topics_list.size, ' Topic') %></strong><br/>
+			</span>	
+			<% else -%>
+			<span style ="width:630px; word-wrap:break-word; overflow:hidden; font-size:14px">
+			<br/>You Did Not Enter From A Classroom.  This is Not Possible.  Something Is Wrong.<br/>	
+			</span>		
+			<% end -%>				
+		  </p>
+
+		</div>	
+    </div>
+  </div>
+
+  <div id="control_panel" >
+ 
+   <ul>
+
+	  <li>
+		<%  tab_1_label = "Choose & Take Assessment" %>
+		<a href="#tabs-1"><span class="tab_label">
+		<%= tab_1_label %></span></a>								
+      </li>
+
+      <li>
+		<%  tab_2_label = "Review My Assessment History" %>		
+		<a href="#tabs-2"><span class="tab_label">
+		<%= tab_2_label %></span></a>				
+		</li>
+
+
+    </ul>
+
+	
+	<div id="tabs-1" class="favorite_organizations" style="width:900px">
+  	<br/><span style = "margin-left:50px; text-align:center; font-weight:bold; font-size:12px; color:#C83A14"> 
+		<center>
+			 This Is Where Student (<%=@current_user.first_name %>) Will See a Listing Of All Assessments That Were Assigned to  <strong><%= @classroom.course_name -%></strong><br/><br/>
+		</center>
+		</span>
+		<br/>
+		<table class="tablesorter">
+			<tbody>
+				<tr>
+					<td width=600 style="vertical-align:middle; font-size: 12px; padding-top:8px;padding-bttom:10px; color:#000000" >
+				 	<strong><u>Comments:</strong></u><br/>
+				 	-   There can be any number of Assessments to choose from..<br/>
+				 	-   They will be listed in order of difficulty (Easiest to Hardest).<br/>					
+					-   If <%=@current_user.first_name %> has already taken an assessment, this will be indicated with something like <i>Date Last Taken:  SMS Score</i><br/>
+					-   Each Assesssment can be taken any number of times.<br/>
+					</td>
+				</tr>
+				<tr>
+					<td width=600 style="vertical-align:middle; font-size: 12px; padding-top:8px;padding-bttom:10px; color:#000000" >
+				 	<strong><u>Taken Assessment Attributes:</strong></u><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>User ID </strong>of Student<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Assessment ID</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Classroom ID</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Organization ID</strong> (Redundant to Classroom, but protects if Classroom is ever deleted.)<br/>										
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Date/Time Taken</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Calculated SMS Score</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Maximum Possible SMS Score</strong> (Redundant to Assessment Table, but protects if Assessment is deleted.)<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Final/Pending Status</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>User ID of Grader</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Grader Comment</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Date/Time Finalized</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- Date Stamps<br/><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- Note: The Knowledge Strands will not be linked to this because those are tied to the "Answers"<br/><br/>
+					</td>
+				</tr>
+				<tr>
+					<td width=600 style="vertical-align:middle; font-size: 12px; padding-top:8px;padding-bttom:10px; color:#000000" >
+				 	<strong><u>Assessment Answers Attributes:</strong></u><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Assessment ID</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Question ID</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Chosen Answer</strong> (For Multiple Choice)<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Grade Score</strong> (0 or 1 For Multiple Choice)<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Text Box Answer</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Text Box Graded Score</strong> (value between 0 & 1)<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- Date Stamps<br/><br/>
+					</td>
+				</tr>
+				<tr>
+					<td width=600 style="vertical-align:middle; font-size: 12px; padding-top:8px;padding-bttom:10px; color:#000000" >
+				 	<strong><u>PROCESS:</strong></u><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;-  This page will present a List of Assessments.<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;-  The student will select an Assessment.<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;-  A Form will be presented reflecting the Questions associated with the Assessment.<br/>					
+					&nbsp;&nbsp;&nbsp;&nbsp;-  When Student selcts "Submit":<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+  The Assessment will be stored.<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+  A preliminary SMS will be calculated.<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+  An Email Notification Will Go To The Teacher.<br/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+   </div>
+	
+
+    <div id="tabs-2" class="favorite_organizations" style="width:900px; margin-left:20;">
+
+   	<br/><span style = "margin-left:50px; text-align:center; font-weight:bold; font-size:12px; color:#C83A14"> 
+		<center>
+			 This Is Where Student (<%=@current_user.first_name %>) Will Be Able To Review Assessment History<br/><br/>
+		</center>
+		</span>
+		<br/>
+		<table class="tablesorter">
+			<tbody>
+				<tr>
+					<td width=600 style="vertical-align:middle; font-size: 12px; padding-top:8px;padding-bttom:10px; color:#000000" >
+				 	<strong><u>Comments:</strong></u><br/>
+					-   This will just be a summary listing covering ALL Assessments, across ALL Classrooms, taken by the student.<br/>
+					-   Grouped by ACT Subject (English & Writing, Mathematics, Reading, & Science)<br>
+					-   Reverse Chronogical (Most Recent First).  <br>
+					-   <i>Many Other Summary Stats Are Possible, Such As Those That Span Students Assessment History, like:<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- Student's Historical Statistical Trends of <strong> SMS by Mastery Level, Knowledge Strand, & Benchmark </i></strong><br/><br/>				
+					Initially, the information to be displayed may show:	<br/>				
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Date Taken</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Classroom Taken In</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Assement Title</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Total # Questions</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>SMS</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Max Possible SMS</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Applicable Knowledge Strands</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Applicable ACT Benchmarks & Ideas For Progress</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Status: Final/Pending</strong><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <strong>Teacher Comment</strong><br/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+
+  </div>
+
+<br style="clear:both" />
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function(){
+    jQ('#control_panel').tabs();
+
+    jQ('#send_message_link').click(
+    function(){
+      if(jQ("#send_message_form")[0].style.display == 'none'){
+        jQ("#send_message_form").show();
+      }else{
+        jQ("#send_message_form").hide();
+      }
+      
+      jQ("#send_message_succefully").hide();
+    });
+
+    jQ('#send_message_form .submit').click(function(){
+      if(jQ('#send_message_form #message_content').attr('value') == ''){
+        alert("you must fill some info for the message");
+        return false;
+      }
+      jQ.ajax({
+        type: "POST",
+        url: "/messages/create",
+        data: jQ("#send_message_form form").serialize(),
+        dataType: "script"
+      });
+      return false;
+    });
+
+
+  });
+</script>

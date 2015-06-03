@@ -1,0 +1,69 @@
+<div class="digg_pagination">
+    <%= will_paginate @discussions %>
+</div>
+<div>
+<table id="topics">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Created By
+            </th>
+            <th>
+                Posts
+            </th>
+            <th>
+                Abuses
+            </th>
+            <th>
+                Start
+            </th>
+            <th>
+                Stop
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for topic in @topics do -%>
+        <tr>
+            <th>
+                <%= topic.title %>
+            </th>
+            <th>
+                <%= topic.organization.nil? ? 'None' : topic.organization.name %>
+            </th>
+            <th>
+                <%= topic.discussion_count %>
+            </th>
+            <th>
+                <%= link_to topic.reported_abuses_count, :controller => :topics, :action => :discussion_abuses, :topic_id => topic %>
+            </th>
+            <th>
+                <%= topic.publish_starts_at ? topic.publish_starts_at.to_date.to_s(:db) : "N/A" %>
+            </th>
+            <th>
+                <%= topic.publish_ends_at ? topic.publish_ends_at.to_date.to_s(:db) : "N/A" %>
+            </th>
+        </tr>
+        <% end -%>
+    </tbody>
+</table>
+<script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+      jQ("#topics").tablesorter({ 
+         headers: { 
+    	 1: {
+    	 	sorter: true
+    	 },
+             // we start counting at zero
+             5: { 
+                 // disable it by setting the property sorter to false 
+                 sorter: false 
+             }
+         } 
+      });
+    });
+</script>
+</div>

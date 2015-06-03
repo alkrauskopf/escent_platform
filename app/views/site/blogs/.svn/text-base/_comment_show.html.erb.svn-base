@@ -1,0 +1,19 @@
+<div class="discusssion_by_same_author_box">
+	<div class="discusssion_by_same_author_warp">
+		<div class="discusssion_by_same_author">
+			<div class="blog_font">
+				<%= h @comment.body %>
+			</div>
+		</div>
+	</div>
+	<div class="discusssion_by_same_author_info">
+		<span><%= @comment.user.full_name %></span>
+		<abbr title="<%= @blog.created_at.xmlschema %>"> posted on 
+				<% if @comment.created_at > Time.now.utc - 24.hours -%>
+					on <%= time_ago_in_words(@comment.created_at).sub(/about /, '') %> ago
+				<% else -%>
+					<%= @comment.created_at.strftime("%b %e, %Y") %>
+				<% end -%>
+		</abbr>
+	</div>
+</div>		

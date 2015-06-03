@@ -1,0 +1,20 @@
+<% unless @current_user -%>
+<div class="share_content_login">
+	<div class="share_content_form_title">
+		Please login or <%= link_to "register", :controller=>"/users", :action=>"register"%> first.
+	</div>
+	<% form_tag :controller => "/users", :action => :login, :organization_id => @current_organization, :admin => defined?(admin) && admin do -%>		
+		<p class="clear">
+			<%= text_field_tag "user[email_address]", "", :size=> 20, :class => "text" %>
+			<%= password_field_tag "user[password]", "", :size=> 20, :class => "text" %>
+		</p>
+		<div class="share_content_login_submit clear">
+			<% if flash[:login_error] -%>
+				<div class="share_content_login_notice"><%= flash[:login_error]%></div>
+			<% end -%>
+			<button class="fsn-button ui-button ui-state-default ui-corner-all">login</button>			
+			<button class="fsn-button ui-button ui-state-default ui-corner-all">cancel</button>
+		</div>
+	<% end -%>
+</div>
+<% end -%>

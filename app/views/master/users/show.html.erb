@@ -1,0 +1,49 @@
+<div class="formBox">
+	<h2>Show</h2>	
+<p>
+	<%= label_tag 'Full Name:' %>
+	<%= @user.full_name %>
+</p>
+<p>
+	<%= label_tag 'Religious Affiliation:' %>
+	<%= @user.religious_affiliation.name if @user.religious_affiliation %>
+</p>
+<p>
+	<%= label_tag 'Phone:' %>
+	<%= @user.phone %>
+</p>
+<p>
+	<%= label_tag 'Alt Phone:' %>
+	<%= @user.alt_phone %>
+</p>
+<p>
+	<%= label_tag 'Other Denomination:' %>
+	<%= @user.other_denomination %>
+</p>
+<p>
+	<%= label_tag 'Display Name:' %>
+	<%= @user.display_name %>
+</p>
+<p>
+	<%= label_tag 'Postal Code:' %>
+	<%= @user.postal_code %>
+</p>
+<p>
+	<%= label_tag 'date_of_birth:' %>
+	<%= @user.date_of_birth %>
+</p>
+
+<p>
+	<%= label_tag 'Email Address:' %>
+	<%= @user.email_address %>
+</p>
+<p>
+	<%= label_tag 'Age Verified:' %>
+	<%= @user.age_verified %>
+</p>
+<p>
+	<%= label_tag 'Read Tos:' %>
+	<%= @user.read_tos %>
+</p>
+<p><%= link_to "Back", :action => :index %></p>
+</div>

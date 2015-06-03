@@ -1,0 +1,24 @@
+
+
+	<table id="folder_levels"  style="margin-left:0px; width:500px; border:0px solid #ddd;">
+		<tbody> 
+		 	<% topic.positioned_folders.by_position.each do |folder| %>
+				<% unless folder.no_lu_contents?(topic)%>
+					<tr>
+						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal; padding-bottom:0px; font-size:12px">
+						<%= link_to '', :controller => "apps/classroom", :action => "show_lu_resources", :organization_id => @current_organization, :topic_id => topic, :folder_id => folder.id %>
+							<%= folder.name%>&nbsp;<i>(<%= folder.resources_for_lu(topic).size%>)</i>
+						<span></span>
+						</td>
+					</tr>
+				<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#folder_levels .resource_levels_close').toggleResourceLevels();
+	jQ('#folder_levels .resource_levels_open').toggleResourceLevels();	
+});
+</script>

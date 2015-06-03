@@ -1,0 +1,121 @@
+
+  <div class="module2" id="affiliate_information">
+    <div id="staticorg">
+
+      <div id="affiliate_information" class="module">
+        <div class="module_body2">
+          <div class="page_text">
+            <% if content.organization.nil?%> <strong>Organizational Owner Not Found </strong>
+            <% else %>
+              <div style="padding-bottom:10px;">
+                <%= image_tag(content.organization.logo.url, :alt => content.organization.name) if content.organization.logo.file? -%>
+              </div>
+
+              <div class="affiliate_information_title" style="font-size:12px; text-align:center; font-weight:bold; color:#000000;">
+                <%= link_to content.organization.name, {:controller => "/site/site", :action => :static_organization, :organization_id => content.organization}, :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
+              </div>
+            <% end %>
+            <div class="affiliate_information_title" style="padding-top:10px; font-weight:normal; border:0px solid #ddd; color:#000000;">
+	            <% if content.created_at > (Time.now - 10) -%>
+				 	<span class="normal_text"style="font-size:12px; text-align:center; font-weight:normal; color:#C73914;">
+						<strong> <i>Successful Submission! </i></strong><br/><br/>
+					</span>
+				<% end -%>
+			 	<table style="width:100%;  border:0px solid #ddd;vertical-align:top;word-wrap:break-word;">
+					<tbody>  
+						<tr  style="border:0px solid #ddd;" >
+							<td style="width:20%;  margin-left:0px; border:0px solid #ddd;vertical-align:top;">
+							  	<% unless content.user.nil? || content.user.picture.url.split("/").last == "missing.png" %>
+			                    	<%= image_tag content.user.picture.url(:small_thumb) %> 
+							  	<% end -%>
+ 							</td>
+							<td style="width:80%;  margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; vertical-align:top;">
+				                 <%unless content.user.nil? %>
+					             	<span style="font-size:12px; text-align:center; font-weight:bold; color:#000000;">
+					                	<%= link_to content.user.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => content.user}, :html => {:style => "text-decoration:none;padding:1px;margin-top:5px; margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
+										<br/>
+									</span>
+								<% end -%>
+								Contributed <%= time_ago_in_words(content.created_at.to_s, include_seconds = false) %> ago
+ 							</td>
+ 						</tr>
+						<% unless content.created_at == content.updated_at -%>
+							<tr  style="border:0px solid #ddd;" >
+								<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; vertical-align:top;">
+									Updated:&nbsp;<%=content.updated_at.strftime("%m/%d/%y") %><%= (!content.updated_by.nil? && content.updater) ? (", " + content.updater.last_name) : "" %> 
+	 							</td>
+	 						</tr>
+	 					<% end -%>
+						<% if content.editable_by_user?(@current_user ? @current_user : nil)-%>
+							<tr  style="border:0px solid #ddd;" >
+								<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; vertical-align:top;">
+									<button><%= link_to  "Edit", {:controller => "/site/contents", :action => :edit_resource, :organization_id => content.organization, :content_id => content, :function => "Edit"} %></button>
+	 							</td>
+	 						</tr>
+	 					<% end -%>
+						<tr  style="border:0px solid #ddd;" >
+							<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; font-weight:bold; color:#C73914; padding-top:10px; vertical-align:top;">
+								<%= content.disposition %>
+ 							</td>
+ 						</tr>
+						<tr  style="border:0px solid #ddd;" >
+							<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; font-weight:normal; color:#000000; vertical-align:top;">
+								Expires in <%= time_ago_in_words(content.publish_end_date.to_s, include_seconds = false) %>
+ 							</td>
+ 						</tr>
+						<% unless content.source_name.nil? || content.source_name.empty? %>
+							<tr  style="border:0px solid #ddd;" >
+								<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; font-weight:normal; color:#000000; vertical-align:top;">
+									<% if content.source_url.nil? || content.source_url.empty?%> 
+										Originator: <%= content.source_name %>
+									<% else %>
+										Originator: <%= link_to content.source_name, content.source_url, :target => "_blank"  %><br>
+									<% end %>
+	 							</td>
+	 						</tr>
+						<% end -%>
+						<tr  style="border:0px solid #ddd;" >
+							<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; font-weight:normal; color:#000000; vertical-align:top;">
+								<%= pluralize (content.views, ' View') %>
+ 							</td>
+ 						</tr>
+						<% unless content.star_rating.nil?%>			
+							<tr  style="border:0px solid #ddd;" >
+								<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; font-weight:normal; color:#000000; vertical-align:top;">
+									Rating:&nbsp;<%=content.star_rating.rating %>,&nbsp;<small>(<%= pluralize (content.star_rating.votes, 'Vote') %>)</small>
+	 							</td>
+	 						</tr>
+						<% end -%>
+						<tr  style="border:0px solid #ddd;" >
+							<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; font-weight:normal; color:#000000; vertical-align:top;">
+								<%=pluralize(content.favorite_of.size, ' User Tag')%>
+ 							</td>
+ 						</tr>
+						<tr  style="border:0px solid #ddd;" >
+							<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; font-weight:bold; padding-top:10px; color:#000000; vertical-align:bottom;">
+								Used In <%=pluralize(content.topics.active.size, ' Learning Unit')%>
+ 							</td>
+ 						</tr>
+ 						<% content.topics.active.collect{|lu| lu.classroom}.compact.uniq.sort_by{|o| [o.organization.name, o.course_name]}.each do |o| -%>
+							<tr  style="border:0px solid #ddd;" >
+								<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:10.5px; text-align:left; font-weight:normal; color:#000000; vertical-align:middle;">
+									<%= o.organization ? o.organization.short_name + ": " : ""%><%= link_to o.course_name, {:controller => "/site/site", :action => :static_classroom, :organization_id => o.organization, :id => o}, :target=> '_blank' %>
+	 							</td>
+	 						</tr> 						
+ 						<% end -%>
+ 					</tbody>
+ 				</table>
+				<div style="padding:5px; width:auto; margin: 0px 0px 0px 0px; text-align:left; min-height:5px;">
+				<% if @current_user -%>
+				  <div id="shared_discussion_warp_box">
+				    <%= render :partial => "/shared/share_content", :locals => {:content => content} %>
+				  </div>
+				<% end -%>	
+				</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

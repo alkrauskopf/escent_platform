@@ -1,0 +1,207 @@
+<h2 class="title_large_red mempro_title">
+	Edit My Profile
+</h2>
+<%= render :partial => "/shared/error_and_notice" %>
+
+<div style="width:97%;" class="mempro_box">
+		<div style="float:right">
+    	<%= link_to "View Public Profile", :controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => @current_user %>
+		</div>
+    <% form_tag :action => :edit_profile, :organization_id => @current_organization do -%>
+	    <div class="FormRow">
+				<div class="FormRowTitle">First Name:</div>
+				<div class="FormRowData"><%= text_field :user, :first_name, :class=>"text", :size=>"50" %></div>
+	    </div>
+	    <div class="FormRow">
+				<div class="FormRowTitle">Last Name:</div>
+				<div class="FormRowData"><%= text_field :user, :last_name, :class=>"text", :size=>"50" %></div>
+	    </div>
+	    <div class="FormRow">
+				<div class="FormRowTitle">Alias Sign-in ID:</div>
+				<div class="FormRowData"><%= text_field :user, :alt_login, :class=>"text", :size=>"20" %></div>
+				<div class="FormRowFull"><i>(Min 8 Letters, Numbers, or Underscore)</i></div>
+	    </div>
+		
+	    <div class="FormRow">
+				<div class="FormRowTitle">Preferred Email:</div>
+				<div class="FormRowData"><%= text_field :user, :preferred_email, :class=>"text", :size=>"50" %></div>
+				<div class="FormRowFull"><i>(Does Not Alter Email ID for Sign-in)</i></div>
+	    </div>		
+		
+		<!-- ALK include "Contact Phone # Info and option to display in Public Profile -->
+		<div class="FormRow">
+				<div class="FormRowTitle">Contact Phone #:</div>
+				<div class="FormRowData"><%= text_field :user, :phone, :class=>"text", :size=>"20" %></div>
+				<div class="FormRowFull">(xxx-xxx-xxxx)</div>
+		</div>
+	   	<div class="FormRow">
+					<div class="FormRowTitle">Display Contact Info in Public Profile?</div>
+					<div class="FormRowData">
+					<%= check_box :user, :display_emai_and_phone %></div>
+		</div>
+		<!-- ALK end of addition -->
+		<!-- ALK include Text Messaging Information -->
+		<div class="FormRow">
+			<div class="FormRowTitle"><br />Your Text Messaging Number & Carrier:</div>
+			<div class="FormRowData"><br /><%= text_field :user, :Phone_for_Texting, :class=>"text", :size=>"20" %><br/><%= select :user, :Provider_of_Texting_Service, User::PHONE_PROVIDER, :prompt => "Select Text Messaging Provider" %></div>
+			<div class="FormRowFull"style="font-size:10px"><em>DISCLAIMER: An SMS/text messaging-enabled phone is required to receive Text Messages. Standard text rates apply.<br />This information will not be displayed to others.</em>
+			</div>
+		</div>
+	  			
+		<!-- ALK end of addition -->
+	  	<div class="FormRow">
+				<div class="FormRowTitle"><br />Zip Code:</div>
+				<div class="FormRowData"><br /><%= text_field :user, :postal_code, :class=>"text", :size=>"50" %></div>
+	    </div>
+		 <div class="FormRow" id="user_state_warp" style="display:<%= @current_user.country == "US" ? 'block' : 'none' %>">
+				<div class="FormRowTitle">State:</div>
+				<div class="FormRowData">
+					<%= select(:user, "state_province", User::STATES) %>
+				</div>
+	    </div>	
+	    
+		
+		 <div class="FormRow">
+        <div class="FormRowTitle">
+		    Country:
+        </div>
+        <div class="FormRowData">
+		  <%= localized_country_select(:user, :country, [], :include_blank => 'Please choose...') %>
+        </div>
+	    </div>	
+		    	  
+		<!-- ALK
+	    <div class="FormRow">
+				<div class="FormRowTitle">Your Religious Affiliation:</div>
+				<div class="FormRowData">
+				<%= select(:user, :religious_affiliation_id, ReligiousAffiliation.all(:order => "name").collect{|d| [d.name, d.id]}, :prompt => "Select One") %>
+				</div>
+	    </div>
+		-->
+		
+	    <div class="FormRow">
+				<div class="FormRowTitle">Your Website: (e.g. http://my_site.com) </div>
+				<div class="FormRowData"><%= text_field :user, :personal_url, :class=>"text", :size=>"50" %></div>
+	    </div>
+		<!-- ALK Include Label used for Website in Profile -->
+		<div class="FormRow">
+				<div class="FormRowTitle">Label of Your Website Link: (e.g. "My Facebook Page" or "More Information")</div>
+				<div class="FormRowData"><%= text_field :user, :website_referred_as, :class=>"text", :size=>"20" %></div>
+	    </div>
+
+	<!--  ALK Added -->
+	<div class="FormRow">
+				<div class="FormRowTitle">Credentials: </div>
+				<div class="FormRowData"><%= text_area :user, :credentials, :class=>"text", :cols => 70, :rows => 2 %></div>
+	    </div>	
+	<div class="FormRow">
+				<div class="FormRowTitle">Personal Philosophy: </div>
+				<div class="FormRowData"><%= text_area :user, :philosophy, :class=>"text", :cols => 70, :rows => 2 %></div>
+	    </div>	
+	<div class="FormRow submit_warp">
+				<%= submit_tag "Save Profile", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+			</div>
+    <%end %>
+</div>
+
+<div style="width:97%;" class="mempro_box">
+	<% form_tag ({:action => :edit_picture, :organization_id => @current_organization}, {:multipart => true})  do -%>
+		<h3 class="title_large_blue">Upload a profile picture</h3>
+		<div class="FormRow" style="position: relative;">
+			<div class="FormRowTitle">Picture:</div>
+			<div class="FormRowData">
+                          <%= file_field_tag 'user[picture]' %>
+			</div>
+		</div>
+		<div class="FormRow submit_warp">
+			<%= submit_tag "Upload", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+		</div>
+	<% end -%>
+</div>
+
+<div style="width:97%;" class="mempro_box">
+	<% home_org = @user.home_organization ? @user.home_organization.name : "Former Institution"%>
+    <% form_tag :action => :change_home_org, :organization_id => @current_organization do -%>
+		<h3 class="title_large_blue">Change Your Affiliation: <%= home_org %></h3>
+		<div class="FormRow" style="position: relative;">
+				<div class="FormRowTitle">Institutions:</div>
+				<div class="FormRowData">
+					<%=  select(:user, :home_org_id, Organization.all(:order => "name").collect{|o| [o.name, o.id]}, :prompt => "Select Institution")  %>
+				</div>
+		</div>
+		<div class="FormRow submit_warp">
+			<%= submit_tag "Change Affiliation", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+		</div>
+	<% end -%>
+</div>
+<div style="width:97%;" class="mempro_box">
+	<% form_tag :action => :change_password, :organization_id => @current_organization do -%>
+		<h3 class="title_large_blue">CHANGE PASSWORD</h3>
+		<div class="FormRow">
+			<div class="FormRowTitle">New Password:</div>
+			<div class="FormRowData">
+			<%= password_field :user, :password, :class=>"text", :size=>"50" %>
+			<p class="small_notice">Minimum 7 characters (numbers and letters only). Passwords are case sensitive.</p>
+			</div>
+		</div>
+		<div class="FormRow">
+			<div class="FormRowTitle">Verify New Password:</div>
+			<div class="FormRowData">
+				<%= password_field :user, :password_confirmation, :class=>"text", :size=>"50" %>
+			</div>
+		</div>
+		<div class="FormRow submit_warp">
+			<%= submit_tag "Update Password", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+		</div>
+	<% end -%>
+</div>
+
+
+
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+	  if(jQ("#user_country").val == "US") {
+	    jQ("#user_state_warp").show()
+	  }
+	  jQ("#user_country").change(function() {
+	    if(jQ(this).val() == "US") {
+	      jQ("#user_state_warp").show()
+	    } else {
+	      jQ("#user_state_warp").hide()
+	    }
+	  })
+		var url = "<%= url_for :action => :check_talent_name %>";
+		jQ(".talents_name").autocomplete(url, {
+				autoFill: true,
+				matchContains: false
+		});
+		jQ('a.delete').click(function() {
+			var $this = jQ(this);
+			var url = $this.attr("href");
+			jQ.post(url, function(data) {
+				if (data == "successful") {
+					$this.parents("div.FormRow").remove();
+				}
+			})
+			return false;
+		})
+		var removeFormRow = function() {
+			jQ('a.remove').click(function() {
+				var $this = jQ(this);
+				$this.parents("div.FormRow").remove();
+				return false;
+			})		
+		}
+		jQ('a.add').click(function() {
+			var $this = jQ(this);
+			var $content = $this.parents("div.FormRow").clone();
+			$content.find("img").attr("src", "/images/delete.png").end()
+				.find("a").removeClass().addClass('remove');
+			$this.parents("div.FormRow").before($content).find("input[name='talents[name][]']").val("");
+			removeFormRow();
+			return false;
+		})
+		var sort_url = "<%= url_for(:controller => '/users', :action => 'sort_authorizations') %>"
+		headerSortUp(sort_url);			
+	})
+</script>

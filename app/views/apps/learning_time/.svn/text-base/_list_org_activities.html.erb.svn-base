@@ -1,0 +1,42 @@
+<div id="list_org_activities">
+	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:normal"> 
+		<center> <%=app.name %>&nbsp;Case History</center>
+	</div>
+	<% unless @current_organization.elt_cases.empty? -%>
+		<% @current_organization.elt_case_activities.each do |activity| -%>
+		<table id="activity_list_<%=activity.public_id%>" style="width:950px;">
+			<tbody>  
+				<tr>
+					<td class="resource_levels_close" style="width:950px;color: #2061a5;">
+	
+					<%= link_to '', :controller => "apps/learning_time", :action => :show_activity_cases, :organization_id => @current_organization, :elt_type_id=>activity, :app_id=> app.id  %>
+					<%= activity.name %>&nbsp;<small><i>(<%= @current_organization.elt_cases.for_activity(activity).size %>)</i></small>
+					<span></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('#activity_list_<%=activity.public_id%> .resource_levels_close').toggleResourceLevels();
+		jQ('#activity_list_<%=activity.public_id%> .resource_levels_open').toggleResourceLevels();	
+	});
+	</script>
+
+		<% end -%>
+	<% end -%>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.destroy_case').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#list_org_activities).html(data);
+				jQ("#list_org_activities").show();
+			})
+			return false;
+	})
+});
+</script>

@@ -1,0 +1,42 @@
+<div id="discussion_abuses">
+    <table id="abuses" class="tablesorter">
+        <thead>
+            <tr>
+                <th>
+                    Type
+                </th>
+				<th>
+                    Reported By
+                </th>
+                <th>
+                    Date
+                </th>
+				<th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody id="abuse_results">
+            <% for abuse in @abuses do %>
+            <tr class="report_abuse_comment">
+                <td>
+                    <%= abuse.abuse %>
+                </td>
+				<td>
+                    <%= abuse.user.email_address %>
+                </td>
+                <td>
+                    <%= abuse.created_at %>
+                </td>
+				<td>
+	                <%= button_to "Remove", {:controller => :topics, :action => :remove_abuse, :discussion_id => params[:discussion_id], :topic_id => @topic, :abuse_id => abuse.id, :page => params[:page]}, {:class =>"fsn-button ui-button ui-state-default ui-corner-all remove"} %>
+				</td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <div class="digg_pagination">
+        <%#= will_paginate @abuses %>
+    </div>
+    <div style="text-align:center;">
+		<%= link_to "Back", :action => :discussion_abuses, :topic_id => @topic %>		
+    </div>
+</div>

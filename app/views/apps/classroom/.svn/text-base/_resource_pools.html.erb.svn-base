@@ -1,0 +1,157 @@
+
+<div id="resource_pools_<%=offering.public_id%>_<%=lu.nil? ? "":lu.id.to_s%>"> 
+	<% if @current_user.can_edit_offering?(offering) -%>	
+		<% pool_classes = lu.nil? ? [["Tagged Resources",0],["Tagged Offerings",1],["Tagged Organizations",2],["Tagged Colleagues",3]] : [["Tagged Resources",0],["Tagged Learning Units",4],["Tagged Organizations",2],["Tagged Colleagues",3]] -%>
+		<% pool_index = [0,1,2,3,1]%>
+		<div style = "padding-bottom:10px;padding-top:10px; ">
+			<table   style="width:750px; border:0px solid white;">
+				<thead style="border:1px solid #ddd;">
+					<tr>
+						<th id="select_pool" style="width:250px; width:fixed; border:0px solid #ddd; text-align:right; vertical-align:middle; font-size:12px; font-weight:bold; color: #2061a5;">
+							<%= select(:pool,:idx, pool_classes,{:include_blank => pool_class.nil? ? 'Select Resource Pool' : pool_classes[pool_index[pool_class]][0]}) %>
+						</th>
+						<th style="width:370px; width:fixed; border:0px solid #ddd; vertical-align:middle;  font-weight:normal; color: #2061a5;">
+								<span style="text-align:left; vertical-align:middle; font-size:14px; font-weight:normal;">
+									Add From Your Selected Resource Pool
+								</span>
+						</th>
+						<th style="width:130px; width:fixed; border:0px solid #ddd; vertical-align:middle;  font-weight:normal; color: #2061a5;">
+							&nbsp;
+						</th>
+					</tr>
+					<% unless pool_class.nil? -%>
+						<% pool_filters = ["Select Resource Type","Select Offering","Select Organization","Select Colleague","Select Learning Unit"] -%>		
+						<tr>
+							<th colspan=3 id="select_filter" style=" border:0px solid #ddd; text-align:right; vertical-align:middle; font-size:12px; font-weight:bold; color: #2061a5;">
+								<%= select(:pool,:filter, filters, { :include_blank => pool_filters[pool_class]}) %>
+							</th>					
+						</tr>
+					<% end -%>
+					<% unless header.empty? -%>
+						<% pool_filters = ["Select Resource Type","Select Offering","Select Organization","Select Colleague","Select Learning Unit"] -%>		
+						<tr>
+							<th colspan=2 style="border:0px solid #ddd; padding-left:15px; text-align:left; vertical-align:middle; font-size:12px; font-weight:normal; color: #2061a5;">
+								<%= pluralize(pool.size, header + " Resource") %>
+							</th>					
+							<th style="width:130px; width:fixed; border:0px solid #ddd; vertical-align:middle;  font-weight:normal; color: #2061a5;">
+								<% unless copy_lu.nil? || pool.empty?%>
+									<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;  font-size:12px;  ">
+										<%= link_to "Copy All Resources", {:controller => "apps/classroom", :action => :copy_lu_resources, :organization_id => @current_organization, :copy_lu_id=>copy_lu.id, :classroom_id=>offering, :topic_id=>lu, :pool_filter=>pool_filter, :pool_class=>pool_class}, :class => "copy_all"%>
+									</span>								
+								<% else -%>
+									&nbsp;
+								<% end -%>
+							</th>
+						</tr>
+					<% end -%>
+				</thead>
+			</table>
+			<% unless pool.empty?%>
+				<% types = pool.collect{|r| r.content_object_type}.compact.collect{|t| t.content_object_type_group}.compact.uniq.sort_by{|t| t.name} -%>
+				<table style="width:750px; border:0px solid white;">
+					<style type="text/css" media="screen">
+			    		table,tr,td { border:none }
+						table tr:hover{
+		        		background-color: transparent;
+		      			}
+		   			</style>
+					<tbody>  
+						<% types.each do |type| -%>
+							<% pool.select{|r| r.content_object_type.content_object_type_group_id == type.id}.sort{|a,b| b.updated_at<=> a.updated_at}.each_with_index do |rsrc, idx| -%>
+								<tr style="border:1px solid #ddd;">
+									<td style="width:90px; width:fixed; border:0px solid #ddd; text-align:left; vertical-align:top; padding-top:8px; font-size:10px; font-weight:bold; padding-right:0px; color: #2061a5;">
+										<%= idx == 0 ? truncate(type.name, :omission=> "...", :length => 18 ): "" %>
+									</td>
+									<% unless lu.nil? || lu.positioned_folders.empty?%>
+										<td   id="add_foldered_resource_<%=rsrc.public_id%>_<%= type.id %>" style="width:240px; width:fixed; border:0px solid #ddd; font-size:11px; padding-top:10px; padding-left:5px; cursor:pointer; vertical-align:top;">
+											<%=  select(:folderx, rsrc.public_id, [["No Folder", 0]] + lu.positioned_folders.by_position.collect{|f| [truncate((f.name + " ABCDEFGFIJKLMNOPQRSTUVWXYZ123"), :omission=>"...", :length=>33), f.id]}, {:prompt=>  "Select LU Folder"}) %>
+										</td>									
+									<% else -%>
+										<td   id="add_resource_<%=rsrc.public_id%>_<%= type.id %>" style="width:50px; width:fixed; border:0px solid #ddd; font-size:11px; padding-top:10px; padding-left:15px; cursor:pointer; vertical-align:top;">
+											<%= image_tag "add.png" %>
+										</td>
+									<% end -%>
+									<td   style="border:0px solid #ddd; font-size:11px; padding-top:8px; padding-left:0px; vertical-align:top; text-align:left; line-height:1.4em; color: #000000;font-weight:normal;">
+										<u><%= link_to rsrc.title.titleize,{:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => rsrc}, {:target => "_blank"} %></u>
+										<span = style= "color:#C73914; font-size:10px;">
+											<%= rsrc.content_status.name == "Restricted" ? " <i>(Restricted)</i>" : "" %>						
+										</span>
+										<br/><%= rsrc.subject_area.name if rsrc.subject_area %> <%= rsrc.content_resource_type.name if rsrc.content_resource_type %>
+										&nbsp;(<%= (rsrc.content_object_type ? rsrc.content_object_type.content_object_type_group.name.downcase : "") if rsrc.content_object_type.content_object_type_group %>)
+										<br/>Contributed <%= time_ago_in_words(rsrc.created_at.to_s, include_seconds = false)%> ago
+										<% unless rsrc.user.nil?%><%= ",  " + rsrc.user.full_name%><%end%>
+										<%= rsrc.organization ? (",  " + rsrc.organization.short_name + "."): "." %>				
+									</td>					
+								</tr>
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ('#add_resource_<%=rsrc.public_id%>_<%= type.id %>').click(function() {
+			var url = "<%= url_for :controller => '/apps/classroom', :action => :add_remove_resource, :organization_id => @current_organization, :classroom_id=>offering, :topic_id=>lu, :pool_filter=>pool_filter, :pool_class=>pool_class, :resource_id=>rsrc %>";
+				jQ.get(url, {}, function(data) {
+					jQ("#offering_resources_<%=offering.public_id%>_<%=lu.nil? ? "":lu.id.to_s%>").html(data);
+					jQ("#offering_resources_<%=offering.public_id%>_<%=lu.nil? ? "":lu.id.to_s%>").show();
+				});
+		})
+	});
+	</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#add_foldered_resource_<%=rsrc.public_id%>_<%= type.id %>').change(function() {
+		var folder_id = jQ('#folderx_<%=rsrc.public_id%>').val();
+		var url = "<%= url_for :controller => '/apps/classroom', :action => :add_remove_resource, :organization_id => @current_organization, :classroom_id=>offering, :topic_id=>lu, :pool_filter=>pool_filter, :pool_class=>pool_class, :resource_id=>rsrc %>";
+			jQ.get(url, {'folder_id':folder_id}, function(data) {
+				jQ("#offering_resources_<%=offering.public_id%>_<%=lu.nil? ? "":lu.id.to_s%>").html(data);
+				jQ("#offering_resources_<%=offering.public_id%>_<%=lu.nil? ? "":lu.id.to_s%>").show();
+			});
+	})
+});
+</script>
+							<% end -%>
+						<% end -%>
+					</tbody>
+				<% end -%>
+			</table>
+		</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#select_pool').change(function() {
+		var pool_idx = jQ('#pool_idx').val();
+		var url = "<%= url_for :controller => '/apps/classroom', :action => :resource_pool, :organization_id => @current_organization, :classroom_id=>offering, :topic_id=>lu, :pool_filter=>nil %>";
+			jQ.get(url, {'pool_class':pool_idx}, function(data) {
+				jQ("#offering_resources_<%=offering.public_id%>_<%=lu.nil? ? "":lu.id.to_s%>").html(data);
+				jQ("#offering_resources_<%=offering.public_id%>_<%=lu.nil? ? "":lu.id.to_s%>").show();
+			});
+	})
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#select_filter').change(function() {
+		var pool_filter = jQ('#pool_filter').val();
+		var url = "<%= url_for :controller => '/apps/classroom', :action => :resource_pool, :organization_id => @current_organization, :classroom_id=>offering, :topic_id=>lu, :pool_class=>pool_class %>";
+			jQ.get(url, {'pool_filter': pool_filter}, function(data) {
+				jQ("#offering_resources_<%=offering.public_id%>_<%=lu.nil? ? "":lu.id.to_s%>").html(data);
+				jQ("#offering_resources_<%=offering.public_id%>_<%=lu.nil? ? "":lu.id.to_s%>").show();
+			});
+	})
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.copy_all').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#offering_resources_<%=offering.public_id%>_<%=lu.nil? ? "":lu.id.to_s%>").html(data);
+				jQ("#offering_resources_<%=offering.public_id%>_<%=lu.nil? ? "":lu.id.to_s%>").show();
+			})
+			return false;
+	})
+});
+</script>
+	<% else -%>
+		Not Authorized 
+	<% end -%>
+	
+</div>	

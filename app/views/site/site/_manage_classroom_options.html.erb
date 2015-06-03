@@ -1,0 +1,142 @@
+<div id="classroom_options" style="padding:0px; width:99%;  border:0px; margin: 0px 0px 0px 0px; text-align:left; min-height:5px;">
+	<table  class="tablesorter" style="width:900px; border:0px;">
+		<tbody>
+			<tr style=" border:0px;">
+				<% if @classroom.homework_option -%>
+					<td   id="homework_on_off" style="width:180px; border:0px; font-size:11px; padding-left:70px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:bold;">
+							<%= (image_tag "button_enabled.png",:width => 15) -%>
+					</td>			
+				<%else -%>
+						<td  id="homework_on_off" style="width:180px; border:0px; font-size:11px; padding-left:70px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:bold;">
+							<%= (image_tag "button_disabled.png",:width => 15) -%>
+						</td>
+				<% end-%>
+				<td  style="width:180px; border:0px; font-size:11px; padding-left:70px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:bold;">
+						&nbsp;
+				</td>
+				<td  style="width:180px; border:0px; font-size:11px; padding-left:70px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:bold;">
+						&nbsp;
+				</td>			
+				<td  style="width:180px; border:0px; font-size:11px; padding-left:70px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:bold;">
+						&nbsp;
+				</td>			
+				<td  style="width:180px; border:0px; font-size:11px; padding-left:70px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:bold;">
+						&nbsp;
+				</td>			
+				<td  style="width:180px; border:0px; font-size:11px; padding-left:70px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:bold;">
+						&nbsp;
+				</td>			
+			</tr>
+			<tr style=" border:0px;">
+				<% if @classroom.homework_option -%>
+				<% homework_hover = "<center>Your Students Are Able To Submit Multi-Media Content For Your Review.<br/><i>Green Button Disables This Feature.</i></center>" %>
+					<td   class="tip" title="<%= homework_hover %>" style="width:180px; border:0px; font-size:10px;  vertical-align:top; text-align:center; color: #C83A14; font-weight:normal;">
+						Homeworks<br/>Enabled
+					</td>
+				<%else -%>
+					<% homework_hover = "<center>Your Students Cannot Submit Multi-Media Content For Your Review.<br/><i>Red Button Enables This Feature.</i></center>" %>
+					<td   class="tip" title="<%= homework_hover %>" style="width:180px; border:0px; font-size:10px;  vertical-align:top; text-align:center; color: #C83A14; font-weight:normal;">
+						Homeworks<br/>Disabled
+					</td>
+				<% end-%>
+				<td  style="width:180px; border:0px; font-size:10px; padding-left:0px; vertical-align:top; text-align:center; color: #C83A14; font-weight:normal;">
+						&nbsp;
+				</td>	
+				<td  style="width:180px; border:0px; font-size:10px; padding-left:0px; vertical-align:top; text-align:center; color: #C83A14; font-weight:normal;">
+						&nbsp;
+				</td>				
+				<td  style="width:180px; border:0px; font-size:10px; padding-left:0px; vertical-align:top; text-align:center; color: #C83A14; font-weight:normal;">
+						&nbsp;
+				</td>				
+				<td  style="width:180px; border:0px; font-size:10px; padding-left:0px; vertical-align:top; text-align:center; color: #C83A14; font-weight:normal;">
+						&nbsp;
+				</td>				
+				<td  style="width:180px; border:0px; font-size:10px; padding-left:0px; vertical-align:top; text-align:center; color: #C83A14; font-weight:normal;">
+						&nbsp;
+				</td>
+			</tr>
+		</tbody>					
+	</table>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#homework_on_off").click(function() {
+		var organization = "<%= @current_organization.public_id %>";
+		var classroom = "<%= @classroom.public_id %>";
+		var user = "<%= @current_user.public_id %>";
+		var url = "<%= url_for :controller => '/site/site', :action => :toggle_classroom_homework_option %>";
+		jQ.get(url,{'organization_id': organization,'classroom_id': classroom, 'user_id': user},  function(data) {
+			jQ("#classroom_options").html(data); 
+	   		jQ("#classroom_options").show();
+					});
+               
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#purge_warning").click(function() {
+		var organization = "<%= @current_organization.public_id %>";
+		var classroom = "<%= @classroom.public_id %>";
+		var user = "<%= @current_user.public_id %>";
+		var url = "<%= url_for :controller => '/site/site', :action => :purge_all_classroom_homeworks_warning %>";
+		jQ.get(url,{'organization_id': organization,'classroom_id': classroom, 'user_id': user},  function(data) {
+			jQ("#classroom_options").html(data); 
+	   		jQ("#classroom_options").show();
+					});
+               
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#purge_homeworks").click(function() {
+		var organization = "<%= @current_organization.public_id %>";
+		var classroom = "<%= @classroom.public_id %>";
+		var user = "<%= @current_user.public_id %>";
+		var url = "<%= url_for :controller => '/site/site', :action => :purge_all_classroom_homeworks %>";
+		jQ.get(url,{'organization_id': organization,'classroom_id': classroom, 'user_id': user},  function(data) {
+			jQ("#classroom_options").html(data); 
+	   		jQ("#classroom_options").show();
+					});
+               
+	})
+});
+</script>
+
+
+<script>
+jQ(function(){
+jQ('td.tip').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'bottomMiddle',
+         tooltip: 'topMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 0,
+         radius: 0,
+         color: '#99911a'
+      },
+      width: 180,
+	  tip: { // Now an object instead of a string
+         corner: 'topMiddle', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>

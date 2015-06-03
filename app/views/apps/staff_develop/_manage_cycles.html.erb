@@ -1,0 +1,61 @@
+
+
+<div id="cycle_add" style = "font-size:12px; color: #000000;padding-left:0px;">
+<div id="cycle_data">
+
+	<% unless teacher.dle_plan_active? %>
+		<table   style="width:99%;margin-left:20px;  font-size:14px; color: #C83A14">
+			<thead>
+				<tr>
+					<th><strong>No <%= teacher.last_name %> Plan Currently Active</strong></th>											
+				</tr>
+			</thead>
+			<% if @current_user == teacher %>
+			<tbody>  
+				<tr>
+					<td  style="border:0px solid #ddd; vertical-align:middle;  padding-left:390px; padding-bottom:0px; color:#1b5698; text-align:center; font-weight:normal; font-size:9.5px">
+						<% form_tag(:controller =>"apps/staff_develop", :action => "start_plan", :organization_id => @current_organization, :teacher_id => teacher) do -%>
+						<br/>
+						<%= submit_tag "Start A Plan", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+						<% end -%>
+					</td>				
+				</tr>
+			</tbody>
+			<% end -%>
+		</table>
+		<br/>
+		<% unless package.empty?%>
+			<table   style="width:99%;margin-left:20px; font-size:18px; color: #2061a5;">
+				<thead>
+					<tr>
+						<th><strong>Last <%= teacher.last_name %> Plan: <%= package.last.date_finalized.strftime("%b %d, %Y") %></strong></th>											
+					</tr>
+				</thead>
+				<tbody>  
+				</tbody>
+			</table>
+		<% end -%>
+
+	<% else -%>
+
+
+	<table   style="width:99%;margin-left:20px; font-size:18px; color: #2061a5;">
+		<thead>
+			<tr>
+				<th><strong>Currently In The <%= teacher.current_dle_plan.dle_cycle.name %>&nbsp;Stage</strong></th>											
+			</tr>
+		</thead>
+		<tbody>  
+		</tbody>
+	</table>
+	<% end -%>
+
+	<% unless package.empty? -%>
+		<%= render :partial => "/apps/staff_develop/stage_update", :locals => {:app => @app, :teacher => teacher, :package=> package} %>
+	<% end -%>
+	<br/>
+
+
+	</div>
+</div>
+

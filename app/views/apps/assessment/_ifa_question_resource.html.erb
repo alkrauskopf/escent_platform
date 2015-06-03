@@ -1,0 +1,183 @@
+<div id="resource_tags" style=" padding:0px; width:99%;  border:0px; margin: 0px 0px 0px 0px; text-align:left; min-height:5px;">
+	<br/>
+		<table  style="width:550px;margin-left:200px; border:0px solid white">
+			<tbody>
+				<tr style="border:0px solid white;"> 
+				<td id="resources_up" style="width:550px; border:0px solid white; padding-left:260px;">
+					<%= (image_tag "button_up.png",:width => 25) -%>				
+				</td>
+				</tr>
+			</tbody>
+		</table>
+		
+<script type="text/javascript">
+jQ(document).ready(function() {
+
+	jQ("#resources_up").click(function() {
+			var organization = "<%= @current_organization.public_id %>";
+			var question = "<%= @question.public_id %>";
+			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_options_recycle %>";
+			jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
+				jQ("#question_options").html(data);
+		  		jQ("#benchmark_tags").hide();
+		  		jQ("#assessment_tags").hide();
+		  		jQ("#resource_tags").hide();	 
+	   			jQ("#options_table").slideDown("slow");
+					});
+	})
+	
+});
+</script>
+	<% if @question.content -%>		
+		<table  style="width:750px;margin-left:100px; border:1px solid #ddd;">
+			<thead>
+				<tr style="border:1px solid #ddd;">
+					<th width=80px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center>Remove</center>
+					</th>					
+					<th width=100px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center>Updated</center>
+					</th>
+					<th  width=570px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center>Question Currently Has This <%= @question.content.content_object_type.content_object_type_group.name rescue "Unkown"  %> Attached</center>
+					</th>					
+				</tr>
+			</thead>
+			<tbody >
+				<style  type="text/css" media="screen">
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>	
+				<tr style="border:1px solid #ddd;">
+					<td width=80px style="vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+						<%= link_to (image_tag "delete.png", :class => "del"), {:action => "edit_question_remove_resource", :organization_id => @current_organization, :question_id => @question, :group_type => @group}, :class => "resource_remove" %>
+					</td>
+					<td width=100px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+						<%= time_ago_in_words(@question.content.updated_at.to_s, include_seconds = false).titleize %> Ago
+					</td>
+					<td width=570px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+						<i><%=  @question.content.title.titleize %></i>&nbsp;&nbsp;<%= link_to "View In Separate Window", {:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => @question.content}, {:target => "_blank"}  %>
+						<br/>
+						<% unless @question.content.organization.nil? -%> <%= @question.content.organization.name %><br/>
+						<% end -%>
+						<% unless @question.content.user.nil? -%> <%= @question.content.user.full_name %><br/>
+						<% end -%>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<% else -%>
+		<span style="margin-left:0px;font-size:12px;color:#C83A14;"><center><strong>This Question Currently Has No Resource Attached</strong></center></span>				
+	<% end -%>
+	<% if @resource_list -%>		
+		<table  style="width:750px;margin-left:100px; border:1px solid #ddd;">
+			<thead>
+
+				<tr style="border:1px solid #ddd;">
+					<th width=80px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center>Attach</center>
+					</th>					
+					<th width=100px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center>Updated</center>
+					</th>
+					<th colspan=2 width=570px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+						<center>Available <%= @group %> Library Resources</center>
+					</th>					
+				</tr>
+
+			</thead>
+			<tbody id = "tagged_benchmarks">
+				<style  type="text/css" media="screen">
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>	
+				<% @resource_list.sort{|a,b| b.updated_at <=> a.updated_at}.each do |res| -%>
+					<% unless @question.content == res %>
+						<tr style="border:1px solid #ddd;">
+							<td width=80px style="vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+							<%= link_to (image_tag "add.png", :class => "del"), {:action => "edit_question_attach_resource", :organization_id => @current_organization, :question_id => @question, :resource_id => res.id, :group_type => @group}, :class => "resource_attach" %>
+						</td>
+						<td width=100px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+							<%= time_ago_in_words(res.updated_at.to_s, include_seconds = false).titleize %> Ago
+						</td>
+						<td width=570px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+							<i><%=  res.title.titleize %></i>&nbsp;&nbsp;<%= link_to "View In Separate Window", {:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => res}, {:target => "_blank"}  %>
+							<br/>
+							<%= res.content_object_type.content_object_type_group.name rescue "Unkown"  %>
+							<br/>
+							<% unless res.organization.nil? -%> <%= res.organization.name %><br/>
+							<% end -%>
+							<% unless res.user.nil? -%> <%= res.user.full_name %><br/>
+							<% end -%>
+						</td>
+						</tr>
+					<% end -%>
+				<% end -%>
+			</tbody>
+		</table>				
+		<% else -%>
+		<span style="margin-left:0px;font-size:11px;color:#000000"><center>You Have No <%= @group %> Library Resources Tagged</center></span>				
+	<% end -%>
+
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.resource_remove').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#resource_tags").html(data);
+				jQ("#resource_tags").show();
+			})
+			return false;
+	})
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.resource_attach').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#resource_tags").html(data);
+				jQ("#resource_tags").show();
+			})
+			return false;
+	})
+});
+</script>
+<script>
+jQ(function(){
+jQ('td.tip_resources').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'bottomMiddle',
+         tooltip: 'topMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 0,
+         radius: 0,
+         color: '#99911a'
+      },
+      width: 300,
+	  tip: { // Now an object instead of a string
+         corner: 'topMiddle', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>

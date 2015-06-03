@@ -1,0 +1,41 @@
+<div class="clear">
+	<h2 style="float:left;">Blogs</h2>
+	<div style="float: right;">
+		<%= button_to_remote "Add blog", {:update => "content_panel", :before => "Element.show('loading')", :complete => "Element.hide('loading');", :url => {:controller => :content_albums, :action => :new}, :method => :get}, {:class =>"fsn-button ui-button ui-state-default ui-corner-all"} %> 
+	</div>
+</div>
+<table id="Blogs" class="tablesorter">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>			
+		</tr>
+	</thead>
+	<tbody>
+	  <% @blogs.each do |blog| -%>
+	  <tr>
+	    <td><%= blog.title %></td>
+	    <td><%= h blog.description %></td>
+	    <td>
+        <%= button_to_remote  "Edit", {:update => "content_panel", :before => "Element.show('loading')", :complete => "Element.hide('loading');", :url => {:controller => :content_albums, :action => :edit, :id => blog}}, {:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
+	    </td>
+      <td>
+				<% if blog.can_be_delete? -%>
+	        <%= button_to_remote "Remove", {:update => "content_panel", :before => "Element.show('loading')", :complete => "Element.hide('loading');", :url => {:controller => :content_albums, :action => :destroy, :id => blog}}, {:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
+				<% end -%>
+      </td>
+	  </tr>
+	  <% end -%>
+	</tbody>  	
+</table>
+<br style="clear:both" />
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+  jQ("#Blogs").tablesorter({ 
+    headers: { 2: { sorter: false }, 3: { sorter: false } } 
+  });
+});
+</script>

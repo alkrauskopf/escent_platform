@@ -1,0 +1,80 @@
+
+english-1:
+    id: 21
+    act_subject_id: 2
+    name: Oral Expression and Listening
+    abbrev: OE&L
+    description: Learning of word meanings occurs rapidly from birth through adolescence within communicative relationships. Everyday interactions with parents, teachers, peers, friends, and community members shape speech habits and knowledge of language. Language is the means to higher mental functioning, that which is a species-specific skill, unique to humans as a generative means for thinking and communication. Through linguistic oral communication, logical thinking develops and makes possible critical thinking, reasoning, development of information literacy, application of collaboration skills, self-direction, and invention. <br/><br/>Oral language foundation and written symbol systems concretize the way a student communicates. Thus, students in Colorado develop oral language skills in listening and speaking, and master the written language skills of reading and writing. Specifically, holding Colorado students accountable for language mastery from the perspectives of scientific research in linguistics, cognitive psychology, human information processing, brain-behavior relationships, and socio-cultural perspectives on language development will allow students to master 21st century skills and serve the state, region, and nation well.
+
+
+english-2:
+    id: 22
+    act_subject_id: 2
+    name: Reading for All Purposes
+    abbrev: RAP
+    description: Literacy skills are essential for students to fully participate in and expand their understanding of today’s global society. Whether they are reading functional texts (voting ballots, a map, a train schedule, a driver’s test, a job application, a text message, product labels); reference materials (textbooks, technical manuals, electronic media); or print and non-print literary texts, students need reading skills to fully manage, evaluate, and use the myriad information available in their day-to-day lives. 
+
+english-3:
+    id: 23
+    act_subject_id: 2
+    name: Writing and Composition
+    abbrev: W&C
+    description: Writing is a fundamental component of literacy. Writing is a means of critical inquiry; it promotes problem solving and mastering new concepts. Adept writers can work through various ideas while producing informational, persuasive, and narrative or literary texts. In other words, writing can be used as a medium for reasoning and making intellectual connections. As students arrange ideas to persuade, describe, and inform, they engage in logical critique, and they are likely to gain new insights and a deeper understanding of concepts and content.
+
+english-4:
+    id: 24
+    act_subject_id: 2
+    name: Research and Reasoning
+    abbrev: R&R
+    description: Research and Reasoning skills are pertinent for success in a postsecondary and workforce setting. Students need to acquire these skills throughout their schooling. This means students need to be able to distinguish their own ideas from information created or discovered by others, understand the importance of creating authentic works, and correctly cite sources to give credit to the author of the original work. 
+    
+math-1:
+    id: 11
+    act_subject_id: 1
+    name: Number Sense, Properties, and Operations
+    abbrev: NSP&O
+    description: Number sense provides students with a firm foundation in mathematics. Students build a deep understanding of quantity, ways of representing numbers, relationships among numbers, and number systems. Students learn that numbers are governed by properties and understanding these properties leads to fluency with operations. 
+
+math-2:
+    id: 12
+    act_subject_id: 1
+    name: Patterns, Functions, and Algebraic Structures
+    abbrev: PF&AS
+    description: Pattern sense gives students a lens with which to understand trends and commonalities. Students recognize and represent mathematical relationships and analyze change. Students learn that the structures of algebra allow complex ideas to be expressed succinctly.
+
+math-3:
+    id: 13
+    act_subject_id: 1
+    name: Data Analysis, Statistics, and Probability
+    abbrev: DAS&P
+    description: Data and probability sense provides students with tools to understand information and uncertainty. Students ask questions and gather and use data to answer them. Students use a variety of data analysis and statistics strategies to analyze, develop and evaluate inferences based on data. Probability provides the foundation for collecting, describing, and interpreting data.
+    
+math-4:
+    id: 14
+    act_subject_id: 1
+    name: Shape, Dimension, and Geometric Relationships
+    abbrev: SD&GR
+    description: Geometric sense allows students to comprehend space and shape. Students analyze the characteristics and relationships of shapes and structures, engage in logical reasoning, and use tools and techniques to determine measurement. Students learn that geometry and measurement are useful in representing and solving problems in the real world as well as in mathematics.
+        
+science-1:
+    id: 41
+    act_subject_id: 4
+    name: Physical Science
+    abbrev: PS
+    description: Common properties, forms, and changes in matter and energy. 
+
+science-2:
+    id: 42
+    act_subject_id: 4
+    name: Life Science
+    abbrev: LS
+    description: The characteristics and structure of living things, the processes of life, and how living things interact with each other and their environment. 
+    
+science-3:
+    id: 43
+    act_subject_id: 4
+    name: Earth Systems Science
+    abbrev: ESS
+    description: The processes and interactions of Earth's systems and the structure and dynamics of Earth and other objects in space. 
+
+  

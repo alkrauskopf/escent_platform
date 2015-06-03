@@ -1,0 +1,2 @@
+module Site::PrayerPledgesHelper
+end

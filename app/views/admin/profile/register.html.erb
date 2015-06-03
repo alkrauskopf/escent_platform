@@ -1,0 +1,14 @@
+<style type="text/css" media="screen">
+	#main_content { width:650px; }
+</style>
+
+<% form_remote_tag(:url => {:controller => :profile, :action => :register, :organization_id => @current_organization}, :update => "profile_panel", :html => {:id => :registration_form}) do   %>
+	<%= render(:partial => "/organizations/profile") %>
+	<%= submit_tag "Save" %>
+<% end -%>
+
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ.("#registration_form").validate();
+	});
+</script>

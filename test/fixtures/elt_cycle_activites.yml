@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  elt_cycle_id: 1
+  elt_type_id: 1
+
+two:
+  elt_cycle_id: 1
+  elt_type_id: 1

@@ -1,0 +1,7 @@
+/* set style about font */
+#footer { text-align: center; }
+#footer, #footer ul li a { line-height: 20px; color: #fff; }
+
+#mainNav ul li { line-height: 30px; }
+#mainNav ul li a { color: #646464; font-size: 1.1em; text-decoration: none; outline: none; }
+#mainNav ul li ul li { font-size: 10px; line-height: 24px; font-weight: normal; }

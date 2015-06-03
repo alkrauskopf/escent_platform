@@ -1,0 +1,59 @@
+<div id="offering_homeworks_<%=offering.public_id%>" style = "font-size:12px; color: #2061a5;  padding-left:0px;">
+	<% if @current_user.current_teacher_of_classroom?(offering) -%>
+		<% unless offering.homeworks.for_teacher(@current_user).active.empty? -%>
+			<table   style="width:650px; border:0px solid white;">
+				<tbody>
+					<% offering.homeworks.for_teacher(@current_user).active.each do |homework|-%>
+						<tr >
+							<td   style="width:60px; width:fixed; border:0px solid white; font-size:11px; padding-top:5px; padding-left:40px; cursor:pointer; vertical-align:top; text-align:right;color: #C83A14;font-weight:normal;">
+								<%= link_to (image_tag "delete.png"), {:controller => "apps/classroom", :action => "delete_homework",:organization_id => @current_organization, :classroom_id => offering, :homework_id => homework}, :class => "homework_button"%>
+							</td>
+							<td   style="width:590px; width:fixed; border:0px solid white; font-size:11px; padding-top:0px; padding-bottom:10px; vertical-align:top; text-align:left; line-height:1.5em;">
+								<strong><%= homework.user ? homework.user.last_name_first : "Undefined User" -%>:&nbsp;
+								<%= homework.created_at.strftime("%b %d") %>&nbsp;&nbsp;
+								<%= homework.title.titleize -%>
+								</strong><br/>
+								<% if homework.content_object_type_id.nil? %>
+									 Unknown File Type
+								<% elsif [1,2,3,6,7,8].include?(homework.content_object_type.content_object_type_group_id)  %>									
+								<u><a href="<%= homework.homework.url %>" target="_blank"><%= homework.homework_file_name  %></a></u>
+								&nbsp;<%= homework.content_object_type.content_object_type_group.nil? ? "" : "(" + homework.content_object_type.content_object_type_group.name + ")" %>
+								<% else %>
+									<%= homework.content_object_type.content_object_type_group.nil? ? "" : homework.content_object_type.content_object_type_group.name + ": " %>	
+									Cannot Download <%= homework.homework_file_name %>
+								<% end %>
+								<% unless homework.comments.empty? %>
+									<span style = "color:#000000"><br/><%= homework.comments %></span>					
+								<% end -%>
+							</td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>	
+		<% else -%>	
+			<span style ="color: #C83A14;   font-size:11px; line-height:1.3em;">
+				<i>No Submitted Homeworks: <%= @current_user.last_name %></i><br/>(<%=pluralize((offering.homeworks.for_teacher(@current_user).processed).size, " Processed Homework") %>)
+			</span>
+		<% end -%>
+<!--
+    	<%#= render :partial => "apps/classroom/referral_links", :locals => {:admin => admin, :offering => offering}  %>
+-->
+	<% else -%>
+		Not Authorized 
+	<% end -%>			
+</div>
+
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.homework_button').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#offering_homeworks_<%=offering.public_id%>").html(data);
+				jQ("#offering_homeworks_<%=offering.public_id%>").show();
+			})
+			return false;
+	})
+});
+</script>

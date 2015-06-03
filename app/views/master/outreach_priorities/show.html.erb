@@ -1,0 +1,17 @@
+<div class="formBox">
+<div class="MasterItemHeaderDiv">View Outreach Priority</div>
+
+	<% if @outreach_priority.parent_id != 51 %>
+		<div>
+			<%= label_tag 'Parent Affiliate:' %>
+			<%= OutreachPriority.find(@outreach_priority.parent_id).name%>
+		</div>
+	<% end %>		
+
+	<div>
+		<%= label_tag 'Name:' %>
+		<%= @outreach_priority.name %>
+	</div>
+
+<p><%= link_to "Back", :action => :index %></p>
+</div>

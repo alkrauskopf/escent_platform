@@ -1,0 +1,21 @@
+/* set background and border */
+#topTip { border-bottom: 2px solid #fff; background: #fff url(/images/bg_nav_header.jpg) repeat-x left bottom; }
+.contentWarp { background: transparent url('/images/bg_main_container_shadow.png') repeat-y left top; }
+#topTip .contentWarp, #footer .contentWarp { background-image: none; }
+.contentWarpWithBottom { background: url('/images/main_container_bottom_secondary.png') no-repeat left bottom; }
+/* set header style */
+h1 span { background:url(/images/faith_streams_logo.jpg) no-repeat left top; cursor: hand; }
+/* set header style */
+#header { background: url('/images/header_public_member_layout.jpg') no-repeat left top; }
+#footer ul li { float: left; padding: 0 10px; }
+#footer ul li { background-image: none; }
+#footer ul > *:first-child { background-image: none; }
+
+#mainNav { background: #fff url(/images/bg_nav_header.jpg) repeat-x left top; }
+#mainNav li { background-repeat: no-repeat; background-position: 5px 5px; }
+#mainNav li:hover { background-color: #e1e1e1; }
+/*#mainNav li.users { background-image: url(../../images/icons/author_16.gif); }*/
+#mainNav ul li ul { background-color: #fff; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+#mainNav ul li ul li { border-left: 1px solid #eee; border-top: 1px solid #eee; }
+#mainNav ul li ul li.first { border-top: none; }
+#mainNav ul li ul li:hover { background-color: #eee; }

@@ -1,0 +1,42 @@
+<div class="clear">
+	<div style="margin-bottom: 10px; font-weight: bold; font-size: 14px; float:left;">Associates</div>
+	<div style="margin-bottom: 10px; float: right;">
+	</div>
+</div>
+<div style="margin-bottom: 20px; font-size: 11px; line-height:16px;">
+	The people whose names appear here are members of FaithStreams who have chosen to be “friends” with your iWing.  That means they may want to participate in discussions you have and view the content you allow.  You, as an administrator, have the ability to remove this association so that their participation is not allowed. 
+</div>
+<div id="associates">
+	<table id="users" class="tablesorter">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th style="width:150px;">Member of <%= @current_organization.name %>?</th>
+				<th style="width:150px;">Religious <br />Affiliation</th>
+				<th>&nbsp;</th>
+				<th>&nbsp;</th>				
+			</tr>
+		</thead>
+		<tbody>
+			<% for user in @current_organization.roles.associates.first.users do -%>
+			<tr>
+				<td ><a href="#"><%= user.full_name %></a></td>
+				<td class="center change_status" title="<%= user.public_id %>"><%= user.member_of?(@current_organization) ? "Yes" : "No" %></td>
+				<td><%= user.religious_affiliation.name if user.religious_affiliation %></td>
+				<td class="button" style="width:100px;">
+					<%= button_to_remote "Send message", {:update => "associates_panel", :url => {:controller => :associates, :action => :contact, :organization_id => @current_organization, :id => user }, :method => :get}, :class =>"fsn-button ui-button ui-state-default ui-corner-all"  %>
+				</td>					
+				<td class="button" style="width:100px;">					
+					<%= button_to_remote "Remove association", {:update => "associates_panel", :url => {:controller => :associates, :action => :remove_association, :organization_id => @current_organization, :id => user}, :confirm => "Are you sure?"}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+				</td>
+			</tr>
+			<% end -%>	
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() { 
+	jQ('.change_status').changeMemberStatus('<%= url_for :controller => :associates, :action => :change_member_status, :organization_id => @current_organization %>')
+	jQ("#users").tablesorter({sortList: [[0,0]], headers: { 3:{sorter: false},  4:{sorter: false}}});
+});
+</script>

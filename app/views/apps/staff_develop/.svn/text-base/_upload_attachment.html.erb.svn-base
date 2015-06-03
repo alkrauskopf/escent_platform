@@ -1,0 +1,123 @@
+
+<% form_tag({:controller => "apps/staff_develop", :action => :submit_attachment, :organization_id => @current_organization, :plan_id => @plan, :teacher_id => @plan.user}, :multipart => true) do -%>
+<% attach_label = @plan.preferences(@current_organization).attach_label == "" ? "Document": @plan.preferences(@current_organization).attach_label %>
+<% show_label = @plan.attach_file_name.nil? ? "Upload " +  attach_label  : "Replace"-%>
+
+<table id="attach_header" style="width:600px;">
+	<tbody>
+     	<% unless @plan.attach_file_name.nil? -%>
+		<tr  style=" border:0px solid #ddd;" >
+			<td  style="width:600px; border:0px solid #ddd; padding-top:3px;  text-align:left; color: #000000;  font-size:11px;">
+		     <span style="color: #2061a5;  font-size:11.5px; font-weight:normal">
+		     	<strong><%= @plan.attach_title.titleize %></strong>&nbsp;Uploaded
+		     	<% unless @plan.attach_date.nil? %>&nbsp;On&nbsp;<%=  @plan.attach_date.strftime("%b %d, %Y") -%><% end -%><br/>
+		     </span>
+			</td>					
+		</tr>
+		<tr  style=" border:0px solid #ddd;" >
+			<td  style="width:600px; border:0px solid #ddd; padding-top:3px;  padding-left:0px; text-align:left; color: #000000;  font-size:12px;">
+				 	>&nbsp;<u><a href="<%= @plan.attach.url %>" target="_blank">
+				 		<span style="color: #000000;  font-size:11.5px; font-weight:normal">Download</span>
+				 		</a></u>
+			</td>					
+		</tr>
+		<% end -%>
+		<tr>
+			<td id="attach_show" style=" width:600px; vertical-align:middle;  padding-left:0px; padding-top:00px; padding-bottom:0px; text-align:left; color: #000000; font-weight:normal; font-size:11.5px">
+					>&nbsp;&nbsp;<u><%=show_label %></u>  
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<table id="attach_descript" style="width:600px;margin-left:0px">
+	<style type="text/css" media="screen">
+    		table,tr,td { border:none }
+			table tr:hover{
+    		background-color: transparent;
+  			}
+		</style>
+		<tbody> 
+     	<% unless @plan.attach_file_name.nil? -%>
+		<tr  style=" border:0px solid #ddd;" >
+			<td  style="width:600px; border:0px solid #ddd; padding-top:3px;  text-align:left; color: #000000;  font-size:11px;">
+		     <span style="color: #2061a5;  font-size:11.5px; font-weight:normal">
+		     	<strong><%= @plan.attach_title.titleize %></strong>&nbsp;Uploaded
+		     	<% unless @plan.attach_date.nil? %>&nbsp;On&nbsp;<%=  @plan.attach_date.strftime("%b %d, %Y") -%><% end -%><br/>
+		     </span>
+			</td>					
+		</tr>
+		<tr  style=" border:0px solid #ddd;" >
+			<td  style="width:600px; border:0px solid #ddd; padding-top:3px;  padding-left:10px; text-align:left; color: #2061a5;  font-size:11px;">
+				 	>&nbsp;<u><a href="<%= @plan.attach.url %>" target="_blank">
+				 		<span style="color: #000000;  font-size:11.5px; font-weight:normal">Download</span>
+				 		</a></u>
+			</td>					
+		</tr>
+		<% end-%>
+		<tr>
+			<td id="attach_hide" style=" width:600px; vertical-align:middle;  padding-left:10px; padding-top:0px; padding-bottom:0px; text-align:left; color: #000000; font-weight:normal; font-size:12px">
+				<span style=" font-weight:normal;  font-size:11.5px; color: #000000;  text-align:left">
+					>&nbsp;&nbsp;<u>Hide:</u>  
+				</span>
+			</td>
+		</tr>
+
+		<tr  style=" border:0px solid #ddd;" >
+			<td  style="width:600px; border:0px solid #ddd; padding-top:3px;  text-align:left; color: #000000;  font-size:11px;">
+
+				<div class="FormRow">
+			      <div class="FormRowTitle">
+			            Title:
+			        </div>
+			        <div class="FormRowData" style= "margin-left:25px">
+			        <%= text_field :user_dle_plan, :attach_title,  :class=>"text", :size => 150, :maxlength => 150 %>
+			        </div>
+			    </div>
+			    	
+				<div class="FormRow" style="margin-left:25px;">
+					<div class="FormRowTitle"><%= attach_label %>:</div>
+					<div class="FormRowData">
+			  		    <%= file_field :user_dle_plan, :attach %>
+					</div>
+				</div>
+				<div class="FormRow">
+			        <div class="FormRowData" style= "margin-left:205px">
+						<%= submit_tag "Upload", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+					</div>	
+				</div>	
+				<% unless @plan.attach_file_name.nil? %>
+				<div class="FormRow">
+			        <div class="FormRowData" style= "margin-left:205px">
+						<%= submit_tag "Remove", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+					</div>	
+				</div>
+				<% end -%>
+			</td>			
+		</tr>
+	</tbody>
+</table>
+<% end -%>
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>
+
+<script type="text/javascript">
+	jQ(document).ready(function() {
+  		  jQ("#attach_header").show();
+		  jQ("#attach_descript").hide();		  
+
+	jQ("#attach_show").click(function() {
+		  	jQ("#attach_header").slideUp("slow");	 
+	   		jQ("#attach_descript").slideDown("slow");
+	})
+
+	jQ("#attach_hide").click(function() {
+	   		jQ("#attach_descript").slideUp("slow");
+	   		jQ("#attach_header").show();
+	})	
+});
+</script>

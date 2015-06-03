@@ -1,0 +1,45 @@
+<% unless @organizations.empty? %>
+<table id="organization-results-box">
+    <thead>
+        <tr>
+            <th>
+                &nbsp;
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Religious Affiliation
+            </th>
+            <th>
+                Location
+            </th>
+        </tr>
+    </thead>
+    <tbody id="organization-results">
+        <% for organization in @organizations do -%>
+        <tr id="<%= organization.public_id %>">
+            <td>
+                <input title="" type="checkbox" name="scope_ids[]" value="<%= organization.public_id %>" />
+            </td>
+            <td>
+                <%= organization.name %>
+            </td>
+            <td>
+                <%= organization.religious_affiliation.name rescue "None" %>
+            </td>
+            <td>
+            	<% if organization.addresses.first -%>
+                <%= organization.addresses.first.city %>
+                <%= organization.addresses.first.country == 'US' ? ', ' + organization.addresses.first.state : '' %>
+                <%= organization.addresses.first.country %>
+				<% end -%>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+<div class="digg_pagination">
+    <%= will_paginate @organizations %>
+</div>
+<% end %>

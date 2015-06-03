@@ -1,0 +1,50 @@
+<div id="panel_display" >
+	<table  style = "width:230px; margin-left:00px; font-weight:normal; font-size:12px; color:#000000">
+		<tbody>
+				<% unless @current_organization.bloggers.empty? %>
+				<tr >
+					<th width=50px style="vertical-align:middle; border:1px solid #ddd;  padding-right:0px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+						Panelist
+					</th>
+					<th width=180px style="vertical-align:middle; border:1px solid #ddd;  padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+						Authorized Bloggers
+					</th>
+				</tr>
+					<% @current_organization.bloggers.each do |blogger| -%>
+				<tr>
+					<td  width=50px style="vertical-align:middle; border:1px solid #ddd;  padding-left:22px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+						<% if @blog.users.include?(blogger) %>
+							<%= link_to (image_tag "button_enabled.png",:width => 12), {:action => "add_remove_blogger", :organization_id => @current_organization, :blog_id => @blog, :panelist_id => blogger.public_id, :user_id => @current_user}, :class => "toggle_blogger" %>
+						<% else -%>
+							<%= link_to (image_tag "button_disabled.png",:width => 12), {:action => "add_remove_blogger", :organization_id => @current_organization, :blog_id => @blog, :panelist_id => blogger.public_id, :user_id => @current_user}, :class => "toggle_blogger" %>
+						<% end -%>
+					</td>
+					<td width=180px style="vertical-align:middle; border:1px solid #ddd;  padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+							<%= blogger.full_name %>
+					</td>
+				</tr>				
+			<% end -%>
+			<% else -%>
+					<td colspan=2 style="vertical-align:middle; border:1px solid #ddd;  padding-right:3px; padding-top:0px; text-align:center; color: #C83A14; font-size:11px; font-weight:normal">
+						<center>* * * No Authorized Blogger * * *<br/> Administrator Must First Authorize The People Who Can Blog For <%= @current_organization.medium_name %>  </center>
+					</td>
+			<% end -%>
+			</tbody>
+		</table>
+		<br/>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.toggle_blogger').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#panel_display").html(data);
+				jQ("#panel_display").show();
+			})
+			return false;
+	})
+});
+</script>
+

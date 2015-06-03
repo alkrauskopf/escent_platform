@@ -1,0 +1,49 @@
+Page Background:
+    id: 1
+    name: Page Background
+    group_name: Colors
+    default_value: "#f0f0e8"
+    position: 1
+    type: StyleSetting
+    
+Title Bar:
+    id: 2
+    name: Title Bar
+    group_name: Colors
+    default_value: "#f0f0e8"
+    position: 2
+    type: StyleSetting
+    
+Module Title:
+    id: 3
+    name: Module Title
+    group_name: Colors
+    default_value: "#f0f0e8"
+    position: 3
+    type: StyleSetting
+    
+Link:
+    id: 4
+    name: Link
+    group_name: Colors
+    default_value: "#f0f0e8"
+    position: 4
+    type: StyleSetting
+    
+Title Text:
+    id: 5
+    name: Title Text
+    group_name: Colors
+    default_value: "#f0f0e8"
+    position: 5
+    type: StyleSetting
+    
+Auxilary Text:
+    id: 6
+    name: Auxilary Text
+    group_name: Colors
+    default_value: "#f0f0e8"
+    position: 6
+    type: StyleSetting
+    
+

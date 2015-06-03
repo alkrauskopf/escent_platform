@@ -1,0 +1,51 @@
+
+<div style = "font-size:10.5px; color: #000000;">
+	<% if !@subject.nil? %>
+		<table  style="width:360px; margin-top:0px; margin-left:10px;font-size:10.5px;color: #2061a5;">
+			<tbody >
+				<% if @display == "Offering" -%>
+					<% @current_organization.unfoldered_active_offerings.select{|c| c.subject_area.id == @subject.id || c.subject_area.parent_id == @subject.id}.sort_by{|c| [c.subject_area.name, c.course_name]}.each do |clsrm| %>
+						<tr >
+							<td width=100% align="left" style="vertical-align:top;  padding-left:0px; word-wrap:break-word;">
+								<u><%= link_to clsrm.course_name,{:controller => "site/site", :action => "static_classroom", :organization_id => @current_organization, :id => clsrm}%></u>
+								&nbsp;<%= clsrm.teacher_list %>
+							</td>
+						</tr>
+					<% end -%>
+				<% else-%>
+					<% @current_organization.unfoldered_active_offerings.select{|c| c.featured_topic && (c.subject_area.id == @subject.id || c.subject_area.parent_id == @subject.id)}.sort_by{|c| [c.subject_area.name, c.course_name]}.each do |clsrm| %>
+						<tr >
+							<td width=100% align="left" style="vertical-align:top;  padding-left:0px; word-wrap:break-word;">
+								<%= clsrm.course_name %>:&nbsp;<u><%= link_to clsrm.featured_topic.title.titleize, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization,  :id => clsrm %></u>
+							</td>
+						</tr>
+					<% end -%>
+				<% end -%>
+			</tbody>
+		</table>
+	<% end-%>
+	<% if !@folder.nil? %>
+		<table  style="width:360px; margin-top:0px; margin-left:10px;font-size:10.5px;color: #2061a5;">
+			<tbody >
+				<% if @display == "Offering" -%>
+					<% @current_organization.active_offerings_in_folder(@folder).each do |clsrm| %>
+						<tr >
+							<td width=100% align="left" style="vertical-align:top;  padding-left:0px; word-wrap:break-word;">
+								<u><%= link_to clsrm.course_name,{:controller => "site/site", :action => "static_classroom", :organization_id => @current_organization, :id => clsrm}%></u>
+								&nbsp;<%= clsrm.teacher_list %>
+							</td>
+						</tr>
+					<% end -%>
+				<% else-%>
+					<% @current_organization.active_offerings_in_folder(@folder).select{|c| c.featured_topic}.each do |clsrm| %>
+						<tr >
+							<td width=100% align="left" style="vertical-align:top;  padding-left:0px; word-wrap:break-word;">
+								<%= clsrm.course_name %>:&nbsp;<u><%= link_to clsrm.featured_topic.title.titleize, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization,  :id => clsrm %></u>
+							</td>
+						</tr>
+					<% end -%>
+				<% end -%>
+			</tbody>
+		</table>
+	<% end -%>
+</div>

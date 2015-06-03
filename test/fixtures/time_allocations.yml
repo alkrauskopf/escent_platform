@@ -1,0 +1,31 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  organization_id: 1
+  start_time_std: 2014-02-15 19:11:57
+  end_time_std: 2014-02-15 19:11:57
+  weekday_std: 9.99
+  start_time_er: 2014-02-15 19:11:57
+  end_time_er: 2014-02-15 19:11:57
+  daysyear_er: 9.99
+  start_time_ls: 2014-02-15 19:11:57
+  end_time_ls: 2014-02-15 19:11:57
+  daysyear_ls: 9.99
+  fte_teacher: 9.99
+  fte_admin: 9.99
+  total_students: 1
+
+two:
+  organization_id: 1
+  start_time_std: 2014-02-15 19:11:57
+  end_time_std: 2014-02-15 19:11:57
+  weekday_std: 9.99
+  start_time_er: 2014-02-15 19:11:57
+  end_time_er: 2014-02-15 19:11:57
+  daysyear_er: 9.99
+  start_time_ls: 2014-02-15 19:11:57
+  end_time_ls: 2014-02-15 19:11:57
+  daysyear_ls: 9.99
+  fte_teacher: 9.99
+  fte_admin: 9.99
+  total_students: 1

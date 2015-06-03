@@ -1,0 +1,2 @@
+Your account could not be verified, the following errors occured:
+<%= render :partial => "/shared/error_and_notice" %>

@@ -1,0 +1,11 @@
+Dear <%= @user.first_name %>,
+<br />
+Please Complete A Student Survey About The Time & Learning Observation Your <%= @classroom.course_name %> Class Reently Had.
+<br/><br/>
+You can do this by going to <%= link_to @classroom.course_name, url_for (:controller => "site/site", :action => "static_classroom", :organization_id => @current_organization,:id => @classroom, :host => @fsn_host )%>.
+<br/><br/>
+When you Sign-in, click on the <u>Survey</u> link.
+<br/>
+Or, you can select "My Profile"/"My Surveys" from the header bar after you Sign-in. 
+
+

@@ -1,0 +1,134 @@
+	<tr style="border:1px solid #ddd;border-top:0px; ">
+		<td style=" width:60px; width:fixed; border:1px solid #ddd; border-right:0px solid #ddd; color: #000000; vertical-align:middle; text-align:left; font-weight:bold; font-size:12px;"  >
+			Standard
+		</td>
+		<td style=" width:140px; width:fixed; border:1px solid #ddd; border-left:0px solid #ddd; color: #000000; vertical-align:middle; text-align:right; font-weight:normal; font-size:12px;"  >
+			Hours/Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mins/Day
+		</td>
+		<%columns.each do |idx| -%>	
+			<td  style=" width:170px; width:fixed; border:1px solid #ddd; border-top:0px solid #ddd; color: #000000; line-height: 1.5em; padding-left:3px;vertical-align:middle; text-align:center; font-weight:normal; font-size:10.5px" >
+				<% unless !cases[idx] -%>
+					<%= number_with_precision(cases[idx].hrsday_std, :precision => 1) %>&nbsp;&nbsp;&nbsp;&nbsp;<%= number_with_precision((cases[idx].hrsday_std * 60.0), :precision => 0) %>			
+				<% end -%>
+			</td>
+		<% end -%>
+	</tr>
+		<td style=" width:60px; width:fixed; border:1px solid #ddd; border-right:0px solid #ddd; color: #000000; vertical-align:middle; text-align:left; font-weight:bold; font-size:12px;"  >
+			&nbsp;
+		</td>
+		<td style=" width:140px; width:fixed; border:1px solid #ddd; border-left:0px solid #ddd; color: #000000; vertical-align:middle; text-align:right; font-weight:normal; font-size:12px;"  >
+			Days/Year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Days/Week
+		</td>
+		<%columns.each do |idx| -%>	
+			<td  style=" width:160px; width:fixed; border:1px solid #ddd; border-top:0px solid #ddd; color: #000000; line-height: 1.5em; padding-left:3px;vertical-align:middle; text-align:center; font-weight:normal; font-size:10.5px" >
+				<% unless !cases[idx] -%>
+					<%= number_with_precision(cases[idx].daysyear_std, :precision => 1) %>&nbsp;&nbsp;&nbsp;&nbsp;<%= number_with_precision(cases[idx].daysweek, :precision => 1) %>			
+				<% end -%>
+			</td>
+		<% end -%>
+	</tr>
+	<tr style="border:1px solid #ddd;border-top:0px; ">
+		<td style=" width:60px; width:fixed; border:1px solid #ddd; border-right:0px solid #ddd; color: #000000; vertical-align:middle; text-align:left; font-weight:bold; font-size:12px;"  >
+			ER Days
+		</td>
+		<td style=" width:140px; width:fixed; border:1px solid #ddd; border-left:0px solid #ddd; color: #000000; vertical-align:middle; text-align:right; font-weight:normal; font-size:12px;"  >
+			Hours/Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mins/Day
+		</td>
+		<%columns.each do |idx| -%>	
+			<td   style=" width:160px; width:fixed; border:1px solid #ddd; border-top:0px solid #ddd; color: #000000; line-height: 1.5em; padding-left:3px;vertical-align:middle; text-align:center; font-weight:normal; font-size:10.5px" >
+				<% unless !cases[idx] -%>
+					<%= number_with_precision(cases[idx].hrsday_er, :precision => 1) %>&nbsp;&nbsp;&nbsp;&nbsp;<%= number_with_precision((cases[idx].hrsday_er * 60.0), :precision => 0) %>	
+				<% end -%>
+			</td>
+		<% end -%>
+	</tr>
+	<tr style="border:1px solid #ddd;border-top:0px; ">
+		<td style=" width:60px; width:fixed; border:1px solid #ddd; border-right:0px solid #ddd; color: #000000; vertical-align:middle; text-align:left; font-weight:bold; font-size:12px;"  >
+			&nbsp;
+		</td>
+		<td style=" width:140px; width:fixed; border:1px solid #ddd; border-left:0px solid #ddd; color: #000000; vertical-align:middle; text-align:right;font-weight:normal; font-size:12px;"  >
+			 Days/Year
+		</td>
+		<%columns.each do |idx| -%>	
+			<td   style=" width:160px; width:fixed; border:1px solid #ddd; border-top:0px solid #ddd; color: #000000; line-height: 1.5em; padding-left:3px;vertical-align:middle; text-align:center; font-weight:normal; font-size:10.5px" >
+				<% unless !cases[idx] -%>
+					<%= number_with_precision(cases[idx].daysyear_er, :precision => 1) %>		
+				<% end -%>
+			</td>
+		<% end -%>
+	</tr>
+	<tr style="border:1px solid #ddd;border-top:0px; ">
+		<td style=" width:60px; width:fixed; border:1px solid #ddd; border-right:0px solid #ddd; color: #000000; vertical-align:middle; text-align:left; font-weight:bold; font-size:12px;"  >
+			LS Days
+		</td>
+		<td style=" width:140px; width:fixed; border:1px solid #ddd; border-left:0px solid #ddd; color: #000000; vertical-align:middle;text-align:right; font-weight:normal; font-size:12px;"  >
+			Hours/Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mins/Day
+		</td>
+		<%columns.each do |idx| -%>	
+			<td   style=" width:160px; width:fixed; border:1px solid #ddd; border-top:0px solid #ddd; color: #000000; line-height: 1.5em; padding-left:3px;vertical-align:middle; text-align:center; font-weight:normal; font-size:10.5px" >
+				<% unless !cases[idx] -%>
+					<%= number_with_precision(cases[idx].hrsday_ls, :precision => 1) %>&nbsp;&nbsp;&nbsp;&nbsp;<%= number_with_precision((cases[idx].hrsday_ls * 60.0), :precision => 0) %>
+				<% end -%>
+			</td>
+		<% end -%>
+	</tr>
+	<tr style="border:1px solid #ddd;border-top:0px; ">
+		<td style=" width:60px; width:fixed; border:1px solid #ddd; border-right:0px solid #ddd; color: #000000; vertical-align:middle; text-align:left; font-weight:bold; font-size:12px;"  >
+			&nbsp;
+		</td>
+		<td style=" width:140px; width:fixed; border:1px solid #ddd; border-left:0px solid #ddd; color: #000000; vertical-align:middle; text-align:right; font-weight:normal; font-size:12px;"  >
+			 Days/Year
+		</td>
+		<%columns.each do |idx| -%>	
+			<td   style=" width:160px; width:fixed; border:1px solid #ddd; border-top:0px solid #ddd; color: #000000; line-height: 1.5em; padding-left:3px;vertical-align:middle; text-align:center; font-weight:normal; font-size:10.5px" >
+				<% unless !cases[idx] -%>
+					<%= number_with_precision(cases[idx].daysyear_ls, :precision => 1) %>	
+				<% end -%>
+			</td>
+		<% end -%>
+	</tr>
+	<tr style="border:1px solid #ddd;border-top:0px; ">
+		<td style=" width:60px; width:fixed; border:1px solid #ddd; border-right:0px solid #ddd; color: #000000; vertical-align:middle; text-align:left; font-weight:bold; font-size:12px;"  >
+			Total
+		</td>
+		<td style=" width:140px; width:fixed; border:1px solid #ddd; border-left:0px solid #ddd; color: #000000; vertical-align:middle; text-align:right; font-weight:normal; font-size:12px;"  >
+			Mins/Week&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hours/Year
+		</td>
+		<%columns.each do |idx| -%>	
+			<td   style=" width:160px; width:fixed; border:1px solid #ddd; border-top:0px solid #ddd; color: #000000; line-height: 1.5em; padding-left:3px;vertical-align:middle; text-align:center; font-weight:normal; font-size:10.5px" >
+				<% unless !cases[idx] -%>
+					<%= number_with_precision((cases[idx].total_std_minutes_week), :precision => 0) %>&nbsp;&nbsp;&nbsp;&nbsp;<%= number_with_precision((cases[idx].total_hours_year), :precision => 0) %>		
+				<% end -%>
+			</td>
+		<% end -%>
+	</tr>
+	<tr style="border:1px solid #ddd;border-top:0px; ">
+		<td style=" width:60px; width:fixed; border:1px solid #ddd; border-right:0px solid #ddd; color: #000000; vertical-align:middle; text-align:left; font-weight:bold; font-size:12px;"  >
+			Scope
+		</td>
+		<td style=" width:140px; width:fixed; border:1px solid #ddd; border-left:0px solid #ddd; color: #000000; vertical-align:middle; text-align:right; font-weight:normal; font-size:12px;"  >
+			Students
+		</td>
+		<%columns.each do |idx| -%>	
+			<td   style=" width:160px; width:fixed; border:1px solid #ddd; border-top:0px solid #ddd; color: #000000; line-height: 1.5em; padding-left:3px;vertical-align:middle; text-align:center; font-weight:normal; font-size:10.5px" >
+				<% unless !cases[idx] -%>
+					<%= cases[idx].case_students %>&nbsp;&nbsp;&nbsp;&nbsp;<%= cases[idx].student_pct > 0 ? number_to_percentage((cases[idx].student_pct).round, :precision => 0) : "" %>
+				<% end -%>
+			</td>
+		<% end -%>
+	</tr>
+	<tr style="border:1px solid #ddd;border-top:0px; ">
+		<td style=" width:60px; width:fixed; border:1px solid #ddd; border-right:0px solid #ddd; color: #000000; vertical-align:middle; text-align:left; font-weight:bold; font-size:12px;"  >
+			&nbsp;
+		</td>
+		<td style=" width:140px; width:fixed; border:1px solid #ddd; border-left:0px solid #ddd; color: #000000; vertical-align:middle; text-align:right; font-weight:normal; font-size:12px;"  >
+			Teachers
+		</td>
+		<%columns.each do |idx| -%>	
+			<td   style=" width:160px; width:fixed; border:1px solid #ddd; border-top:0px solid #ddd; color: #000000; line-height: 1.5em; padding-left:3px;vertical-align:middle; text-align:center; font-weight:normal; font-size:10.5px" >
+				<% unless !cases[idx] -%>
+					<%= cases[idx].case_teachers %>&nbsp;&nbsp;&nbsp;&nbsp;<%= cases[idx].teacher_pct > 0 ? number_to_percentage((cases[idx].teacher_pct).round, :precision => 0) : "" %>
+				<% end -%>
+			</td>
+		<% end -%>
+	</tr>

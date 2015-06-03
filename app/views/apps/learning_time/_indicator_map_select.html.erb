@@ -1,0 +1,40 @@
+
+<div id="case_summary_<%=elt_case.public_id %>">
+	<% if list_type == "A" -%>
+		<% select_label = "Select " + school.medium_name + " Case" -%>
+		<% elt_list = school.elt_cases.submitted.select{|c| !(c==elt_case)} -%>
+	<% end -%>
+	<table style="width:800px; margin-left:0px; border:0px solid #000000;">
+		<tbody> 	
+			<tr style="border:0px solid #000;">
+				<% unless elt_list.empty? -%>
+					<td  id ="indicator_map_<%=elt_case.public_id %>" style = " width:200px; border:0px solid #000000; line-height:1.3em; background: #FFFFFF; color: #2061a5; vertical-align:bottom; text-align:center; padding-left:20px; font-size:12px ">
+						<%=  select(:elt, elt_case.id, elt_list.collect{|elt| [ (elt.organization.short_name + ", " + elt.submit_date.strftime("%m-%d-%y")), elt.id]}, :prompt =>  select_label ) %>
+					</td>
+				<% else -%>
+					<td  style = " width:200px; border:0px solid #000000; line-height:1.3em; background: #FFFFFF; color: #2061a5; vertical-align:bottom; text-align:center; padding-left:20px; font-size:12px ">
+						&nbsp;
+					</td>				
+				<% end -%>
+				<td  style = "border:0px solid #000000; background: transparent; color: #2061a5; padding-left:0px; vertical-align:middle; text-align:center;  font-weight:normal; font-size:15px ">
+					<%=elt_case.organization.name %>,&nbsp;<%= elt_case.submit_date.strftime("%b %d, %Y") %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	   	<%= render :partial => "/apps/learning_time/indicator_map", :locals => {:elt_case => elt_case, :help_tag=>"header", :app => @app} -%>
+	
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#indicator_map_<%=elt_case.public_id %>').change(function() {
+		var case_id = jQ('#elt_<%=elt_case.id %>').val();
+		var url = "<%= url_for :controller => '/apps/learning_time', :action => :select_indicator_map, :organization_id => @current_organization, :school_id => school, :list_type=>list_type, :app_id => app.id  %>";
+			jQ.get(url, {'case_id':case_id}, function(data) {
+			jQ("#case_summary_<%=elt_case.public_id %>").html(data); 
+	   		jQ("#case_summary_<%=elt_case.public_id %>").show();
+			});
+	})
+});
+</script>

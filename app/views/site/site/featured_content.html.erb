@@ -1,0 +1,9 @@
+
+	<% if @content -%>
+		<div class="page_text" style="text-align: left; border:0px solid #000;  margin-top:5px; margin-bottom:5px;line-height:1.5em; margin: 0;color:#2061a5;">
+		<%= render :partial => "/shared/content", :locals => {:panel_id_prefix => "featured_content_", :content => @content} %>
+		</div>
+	<% else -%>
+		&nbsp;
+	<% end -%>
+

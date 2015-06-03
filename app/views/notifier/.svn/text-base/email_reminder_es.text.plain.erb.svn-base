@@ -1,0 +1,8 @@
+Hola <%= @prayer_pledge.first_name %>:
+
+Usted nos ha pedido que le enviemos un mensaje para recordarle que el lunes, 21 de septiembre a las 12:00 del mediodía, observaremos juntos un minuto de silencio por la paz.
+También sepa que su nombre fue incluido en la lista que le presentamos a la Sra. Ban Ki-moon , esposa del Secretario General de las Naciones Unidas, en la ceremonia del viernes. 
+
+Muchas gracias por haberse unido a nosotros en esta causa.
+
+Odyssey Networks

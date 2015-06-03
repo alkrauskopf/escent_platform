@@ -1,0 +1,121 @@
+<div id = "<%=group%>_<%=tab%>_<%=tab_id%>">
+	<% unless @current_organization.itl_org_option.app_methods.size < 2 -%> 
+		<div style="color:#000000; font-size:10px;">
+			<% app_methods.each_with_index do |mthd, idx| %>
+				<%= sessions.select{|s| s.app_methods.include?(mthd)}.size %>&nbsp;Used&nbsp;<%= mthd.abbrev%>&nbsp;Method
+				<%= app_methods.size - 1 == idx ? "" : ",  " %>
+			<% end -%>
+		</div>
+	<% end -%>
+	<% if (group =="teacher" || group == "observer") &&  user != @current_user%>
+		<%= render (:partial => "/apps/time_learning/observation_invite", :locals => {:group => group, :recipient => user, :sender => @current_user}) %>
+	<% end -%>
+	<% if user == @current_user || @current_user.superuser?-%>	
+		<% unless sessions.size == 0 %>
+				
+			<table style="width:800px; border:1px solid #ddd;">
+				<thead style="border:1px solid #ddd;">
+					<tr style=" border:1px solid #ddd;">
+						<th style = "color:#000000"><center><%= pluralize(sessions.size, " Session") %></center></th>
+						<th style = "color:#000000"><center>Classroom</center></th>
+						<th colspan=2 style = "color:#000000"><center>Summary Info</center></th>
+					</tr>
+				</thead>
+				<tbody>
+					<style type="text/css" media="screen">
+			    		table,tr,td { border:medium }
+						table tr:hover{
+		        		background-color: transparent;
+		      			}
+		   			</style>
+		
+					<% sessions.each do |tlt| -%>
+					<% teacher = tlt.user ? tlt.user.full_name : "Former User" -%>
+					<% observer = tlt.tracker ? tlt.tracker.last_name : "Former User" -%>
+					<tr style="border:1px solid #ddd; padding-bottom:5px;padding-top:5px;">
+		
+							<td style=" width:190px; width:fixed; border:1px solid #ddd; line-height:1.4em; color: #000000; vertical-align:top;text-align:left; font-size:11px" >
+								<u>
+									<%= link_to "View Session", {:controller =>  "/apps/time_learning", :action => "static_itl_session", :organization_id => @current_organization, :tlt_session_id => tlt}, {:target => "_blank"}  %>
+								</u><br/>
+								<%= tlt.session_date.strftime("%b %d, %Y") %><br/>
+								Duration:&nbsp;<%= number_with_precision(tlt.session_length/60.0, :precision => 1) %>&nbsp;Minutes<br/>
+								Observer: <%= observer %><br/>
+								<span style="color:#C73914;font-size:10px"><i>
+								<% if (tlt.is_final)%>
+									<strong>Final</strong>
+								<% elsif (tlt.training?) %>
+									<strong>Practice</strong>
+								<% elsif (!tlt.is_observer_done && !tlt.is_teacher_done) %>
+									<strong>Open</strong>
+								<% else%>
+									<% if tlt.is_observer_done -%>
+										<strong>Observer Final</strong>
+									<% end -%>
+									<% if tlt.is_teacher_done -%>
+										<strong>Teacher Final</strong>
+									<% end -%>
+								<% end -%>
+								</i></span>
+							</td>
+							<td style=" width:330px; width:fixed; border:1px solid #ddd; line-height:1.4em; color: #000000; vertical-align:top;text-align:left; font-size:10px" >
+								<span style= "font-size:12px; color: #2061a5;">
+									<strong><%= teacher %></strong><br/>									
+									<% if tlt.classroom -%>
+										<% link_string = "View " + tlt.classroom_name -%>
+										<u><%= link_to link_string,{:controller => "site/site", :action => "static_classroom", :organization_id => @current_organization, :id => tlt.classroom}, :target => '_blank' %></u>
+									<% else -%>
+										<u><%= tlt.classroom_name %></u>
+									<% end -%>
+								</span>
+									<br/>Period:&nbsp;&nbsp;&nbsp;&nbsp;<%= tlt.class_period_name %>,&nbsp;<%= number_with_precision(tlt.duration/60.0, :precision => 1) %>&nbsp;Minutes
+								<% if tlt.topic %>
+									<br/>Unit:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= tlt.topic.title.titleize %>
+								<% end-%>
+								<% unless tlt.lesson.empty? %>
+									<br/>Lesson:&nbsp;&nbsp;&nbsp;&nbsp;<%= tlt.lesson.titleize %>
+								<% end-%>
+							</td>
+							<td style=" width:220px; border:1px solid #ddd; border-right:0px solid #ddd; line-height:1.4em; color: #000000; vertical-align:top;text-align:left; font-size:10px" >
+								<% tlt.app_methods.by_desc_position.each do |method| %>
+									<strong><%= method.name %></strong><br/>
+									<% if method.rs? %>
+										<% method.tl_activity_types.each do |activity| %>
+											<%= activity.activity_pct(tlt) %>%&nbsp;<%= activity.activity %></br/>
+										<% end -%>
+									<% end -%>
+								<% end -%>
+							</td> 			
+							<td width = 60px style=" border:1px solid #ddd;  border-left:0px solid #ddd; color: #000000; vertical-align:top;padding-top:10px; padding-right:3px; text-align:left; font-size:10px" >
+								<% if tlt.user && tlt.user == @current_user && !tlt.finalized?-%>
+									<span class="fsn-button ui-button ui-state-default ui-corner-all">
+										<%= link_to "Destroy", {:controller =>  "/apps/time_learning", :action => :subject_tlt_sessions, :organization_id => @current_organization, :group=> group, :tab=> tab, :destroy_session => tlt, :user_id => tlt.user, :app_id=> app}, :class => "destroy_session", :confirm => "Are You Sure?" %>
+									</span>
+								<% else -%>
+									&nbsp;
+								<% end -%>
+							</td>
+		 				</tr>
+					<% end -%>
+				</tbody>
+			</table>
+		<% else -%>	
+			No Observations For This <%= group.titleize %>
+		<% end -%>
+	<% else -%>
+	 	  <%= render :partial => "/apps/time_learning/history_observations", :locals => {:sessions => sessions} %>
+	<% end -%>
+</div>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.destroy_session').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#<%=group%>_<%=tab%>_<%=tab_id%>").html(data);
+				jQ("#<%=group%>_<%=tab%>_<%=tab_id%>").show();
+			})
+			return false;
+	})
+});
+</script>

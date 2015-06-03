@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  coop_app_id: 1
+  organization_id: 1
+  content_id: 1
+  is_featured: false
+  position: 1
+
+two:
+  coop_app_id: 1
+  organization_id: 1
+  content_id: 1
+  is_featured: false
+  position: 1

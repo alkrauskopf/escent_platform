@@ -1,0 +1,15 @@
+
+<%= render :partial => "/shared/error_and_notice" %>
+
+	<div class="FormRow">
+		<div class="FormRowTitle">Job Title</div>
+        <div class="FormRowData" style= "margin-left:0px">
+  		    <%= text_field :bio, :job_title, :value => bio.job_title, :size => 35, :maxlength => 50  %>
+ 		 </div>
+	</div>
+	<div class="FormRow">
+		<div class="FormRowTitle">Bio</div>
+        <div class="FormRowData" style= "margin-left:0px">
+  		    <%=  text_area :bio, :description, :value => bio.description, :class =>"mceEditor", :rows => 25, :cols => 55 %>
+ 		 </div>
+	</div>

@@ -1,0 +1,78 @@
+<div id="add_elt_indicator">
+	<% if @element -%>
+	  	<div style="text-align:center;  word-wrap:break-word; color:#2061a5;  padding-top:20px; font-size: 16px; font-style: normal; font-weight: bold">
+				<center>Add&nbsp;<%= @app.abbrev %>&nbsp;Indicator</center>
+		</div>
+		<% form_for :elt_indicator , @element , :url=>{:controller => "/apps/owner_maintenance" , :action => "elt_indicator_update" , :element_id => @element.id, :app_id=>@app.id} do |@f| %>
+			<% if @current_user.app_superuser?(@app)-%>	
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#C73914;  padding-left:180px; font-size: 12px;">
+						<span style="color:#C73914;  font-size: 14px; font-style: normal; font-weight: normal">
+							<%= @element.name %>
+						</span>
+					</div>	
+				</div>
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+							Sequence Number<br/>
+						</span>
+						<%= text_field :elt_indicator, :ind_num,  :value => "", :size => 3 %>
+					</div>	
+				</div>
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+							Element Position<br/>
+						</span>
+						<%= text_field :elt_indicator, :position,  :value => "", :size => 2 %>
+					</div>	
+				</div>
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+							Weight<br/>
+						</span>
+						<%= text_field :elt_indicator, :weight,  :value => "", :size => 2 %>
+					</div>	
+				</div>
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+							Indicator<br/>
+						</span>
+						<%= text_area :elt_indicator, :indicator,  :value => "" , :rows => 3, :cols => 80 %>
+					</div>	
+				</div>
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
+						<%= @f.submit "Add" %>&nbsp;&nbsp;
+						<%= link_to "Cancel" ,  {:controller => "/apps/owner_maintenance", :action => "index", :app_id => @app.id} %>
+					</div>
+				</div>
+			<% else -%>
+				<div class="FormRow">	
+					<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
+						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+							User Not Authorized<br/>
+						</span>
+						<%= link_to "Return" ,  {:controller => "/apps/owner_maintenance", :action => "index", :app_id => @app.id} %>
+					</div>	
+				</div>		
+			
+			<% end -%>
+		<% end -%>
+	<% else -%>
+		<div class="FormRow">	
+			<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
+				<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+					Element Not Found<br/>
+				</span>
+				<%= link_to "Return" ,  {:controller => "/apps/owner_maintenance", :action => "index", :app_id => @app.id} %>
+			</div>	
+		</div>	
+	<% end -%>
+<br/>&nbsp;
+</div>
+
+

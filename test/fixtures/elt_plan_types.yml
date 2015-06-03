@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  organization_id: 1
+  abbrev: MyString
+  name: MyString
+  is_active: false
+  description: MyText
+
+two:
+  organization_id: 1
+  abbrev: MyString
+  name: MyString
+  is_active: false
+  description: MyText

@@ -1,0 +1,128 @@
+
+<div id="manage_teachers"> 
+	<div style = "font-size:14px; font-weight:bold; color: #2061a5; padding-left:0px;">
+				<center>Offering & Period Teacher Assignments</center>	
+	</div>
+	
+	<% unless @current_organization.classrooms.active.empty? -%>
+		<div id="teacher_select_1" style = "padding-bottom:10px;padding-left:0px; ">
+			<table  style="width:600px;margin-left:200px;">
+				<tbody>  
+	
+						<tr>
+							<td style="width:150px; text-align:right; vertical-align:middle; padding-right:6px; font-size:12px">
+						      <% if teacher.nil? || teacher.picture.url.split("/").last == "missing.png" %>
+						        &nbsp;
+						      <% else %>
+						        <%= image_tag teacher.picture.url(:small_thumb) %>
+						      <% end %>
+							</td>
+							<td id="assign_teacher" style="width:225px; width:fixed; font-size:normal">
+								<%= admin.nil? ? "" : select(:assign_teacher, :id, @current_organization.teachers.sort_by{|a| [a.last_name]}.collect{|t| [truncate(t.last_name_first, :omission => "...", :length => 25), t.id]},{:include_blank =>'Select Teacher'}) %>
+							</td>	
+							<td id="for_subject" style="width:225px; width:fixed; font-size:normal">
+								<%= teacher.nil? ? "" :  select(:for_subject, :id, @current_organization.all_parent_subjects.collect{|s| [truncate(s.name, :omission => "...", :length => 20), s.id]},{:include_blank =>'View Offerings For,'}) %>
+							</td>
+						</tr>
+				</tbody>
+			</table>
+		</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#assign_teacher').change(function() {
+		var teacher_id = jQ('#assign_teacher_id').val();
+		var url = "<%= url_for :controller => '/apps/classroom', :action => :manage_teacher, :organization_id => @current_organization, :subject_area_id=>nil %>";
+			jQ.get(url, {'teacher_id':teacher_id}, function(data) {
+			jQ("#manage_teachers").html(data); 
+	   		jQ("#manage_teachers").show();
+			});
+	})
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#for_subject').change(function() {
+		var subject_id = jQ('#for_subject_id').val();
+		var url = "<%= url_for :controller => '/apps/classroom', :action => :assign_for_subject, :organization_id => @current_organization, :teacher_id=>teacher.nil? ? nil : teacher.id %>";
+			jQ.get(url, {'subject_area_id':subject_id}, function(data) {
+			jQ("#manage_teachers").html(data); 
+	   		jQ("#manage_teachers").show();
+			});
+	})
+});
+</script>
+	<% end -%>	
+	<% unless teacher.nil? %>
+			<table  style="width:600px;margin-left:130px;">
+				<thead>  
+					<tr>
+						<th colspan=2 style="border:1px solid #ddd; text-align:center; vertical-align:middle; font-size:12px; font-weight:bold; color: #2061a5; padding-left:0px;">
+							<%= teacher.last_name %>:&nbsp;<%=pluralize(teacher.periods_taught(@current_organization).size, " Assignment")%> 
+							<% unless subject.nil? -%>
+								</br><span style="font-size:12px; font-weight:normal;" >
+									<%= pluralize(@current_organization.periods_in_subject(subject).size, subject.name + " Period") %>
+								</span>
+							<% end -%>
+						</th>	
+					</tr>
+				</thead>
+				<tbody>
+					<% (subject.nil? ? teacher.offerings_taught(@current_organization): @current_organization.classrooms_in_subject(subject)).each do |clsrm| -%>										
+						<tr  style="border:1px solid #ddd;">
+							<td  style=" width:230px;width:fixed; text-align:right; vertical-align:top; font-size:12px; font-weight:normal; color: #2061a5; padding-top:2px; padding-right:5px; padding-bottom:5px;">
+								<%= clsrm.course_name %> 
+							</td>	
+							<% unless clsrm.classroom_periods.empty? -%>
+								<td style = "width:370px ; width:fixed" >
+									<table  style="width:360px;margin-top:3px; margin-left:5px;">
+										<tbody>							
+											<% clsrm.classroom_periods.each do |per| -%>
+												<% if per.teacher?(teacher) -%>
+													<% font_color = "#2061a5" -%>
+													<% png_button = "delete.png" -%>
+												<% else -%>
+													<% font_color = "#000000" -%>
+													<% png_button = "add.png" -%>
+												<% end -%>
+												<tr>
+													<td id="ass_teach_<%=per.public_id %>" style=" width:35px; width:fixed; text-align:center; vertical-align:middle; color:#C73914; font-size:8px; font-weight:normal; padding-left:0px;"">
+														<%= per.student?(teacher) ? "student" : (image_tag png_button) %> 
+													</td>	
+													<td style="width:325px; width:fixed; text-align:left; vertical-align:middle; font-size:12px; font-weight:normal; color: <%=font_color%>; padding-left:0px;">
+														<%= per.name %>&nbsp;
+														<span style="font-size:9px; font-weight:normal; color: <%=font_color%>;">
+															<i><%= per.teachers.empty? ? "(No Teacher)" : "("+ per.teacher_list + ")"%></i>
+														</span>
+													</td>
+												</tr>
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ('#ass_teach_<%= per.public_id %>').click(function() {
+			var url = "<%= url_for :controller => '/apps/classroom', :action => :assign_period_teacher_1, :organization_id => @current_organization, :period_id => per, :teacher_id => teacher.id, :subject_area_id => subject.nil? ? nil: subject.id %>";
+				jQ.get(url, {}, function(data) {
+					jQ("#manage_teachers").html(data);
+					jQ("#manage_teachers").show();
+				});
+		})
+	});
+	</script>
+											<% end -%>
+										</tbody>
+									</table>															
+								</td>
+							<% else -%>
+							<td style="width:370px; width:fixed; text-align:left; vertical-align:middle; font-size:9px; font-weight:normal; color:#C73914; padding-left:30px;">
+								<i>No Periods Defined</i>
+							</td>						
+							<% end -%>
+						</tr>
+					<% end -%>
+				</tbody>
+			</table>
+
+	<% end -%>
+
+
+	
+</div>	

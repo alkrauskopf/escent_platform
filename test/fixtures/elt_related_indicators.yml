@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  elt_indicator_id: 1
+  related_indicator_id: 1
+
+two:
+  elt_indicator_id: 1
+  related_indicator_id: 1

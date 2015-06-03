@@ -1,0 +1,42 @@
+<div id="discussion_clear" style="padding:0px; width:auto; margin: 0px 0px 0px 0px; text-align:left; min-height:5px;">
+
+	<table>
+		<tbody>
+			<tr>
+					<td  style="width:250px; font-size:11px; vertical-align:middle; text-align:right;color: #C83A14;font-weight:bold;">
+						<%= pluralize(@topic.discussions.active.size.to_s, "Discussion Comment") %> 
+					</td>				
+					<td id="clear_button" style="width:230px;vertical-align:middle;">
+						<% unless @topic.discussions.active.size ==0 -%>
+						<%= (image_tag "button_discussion_clear.png",:width => 140) -%>
+						<% end-%>
+					</td>
+			</tr>		
+		</tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#clear_button").click(function() {
+		var organization = "<%= @current_organization.public_id %>";
+		var classroom = "<%= @classroom.public_id %>";
+		var user = "<%= @current_user.public_id %>";
+		var topic = "<%= @topic.public_id %>";
+		var url = "<%= url_for :controller => '/site/site', :action => :teacher_clear_topic_discussion %>";
+		jQ.get(url,{'organization_id': organization,'classroom_id': classroom, 'user_id': user, 'topic_id': topic},  function(data) {
+			jQ("#discussion_clear").html(data); 
+	   		jQ("#discussion_clear").show();
+					});
+               
+	})
+});
+</script>
+
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#ifa_levels .ifa_levels_close').toggleIfaLevels();
+	jQ('#ifa_levels .ifa_levels_open').toggleIfaLevels();
+});
+</script>

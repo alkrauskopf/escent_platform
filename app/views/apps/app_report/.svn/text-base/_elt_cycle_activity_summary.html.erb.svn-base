@@ -1,0 +1,88 @@
+<div id = "report_<%= cycle.public_id%><%=activity.id%>">
+	<div style="margin-left:40px; overflow:scroll; max-width:1100px;">
+	<% ind_count = 0 -%>
+	<% unless activity.active_elements.empty? -%>
+		<% table_width = (@current_organization == provider ? (685 + cycle.participated_schools.size*80) : 765).to_s + "px" -%>
+		<% activity.active_elements.each do |element| -%>
+			<table style="width:<%=table_width %>; width:fixed;  margin-top:2px; border:2px solid <%=element.form_background%>;">
+				<tbody> 
+					<tr>
+						<td colspan=2 style = " max-width:525px; width:fixed; background:<%=element.form_background%>; color: <%=element.e_font_color%>; line-height:2.0em; vertical-align:middle; text-align:center; padding-left:0px; font-size:18px ">
+							<%= element.name %>
+						</td>
+						<td style = " width:80px; width:fixed; background:<%=element.form_background%>; color: <%=element.e_font_color%>; line-height:2.0em; vertical-align:bottom; text-align:center; padding-left:0px; font-size:12px ">
+							Network
+						</td>
+						<td style = " width:80px; width:fixed; background:<%=element.form_background%>; color: <%=element.e_font_color%>; line-height:2.0em; vertical-align:bottom; text-align:center; padding-left:0px; font-size:12px ">
+							<%= truncate(cycle.abbrev, :omission=>"", :length=>8) %>
+						</td>
+						<% unless @current_organization == provider %>
+							<td title="<%= @current_organization.name %>" style = "width:80px; background:<%=element.form_background%>; color: <%=element.e_font_color%>; line-height:2.0em; vertical-align:bottom; text-align:center; padding-left:0px; font-size:12px ">
+								<%= truncate(@current_organization.short_name, :omission=>"", :length=>8) %>
+							</td>						
+						<% else -%>
+							<% cycle.participated_schools.each do |school| -%>
+								<td title="<%= school.name %>" style = "width:80px; background:<%=element.form_background%>; color: <%=element.e_font_color%>; line-height:2.0em; vertical-align:bottom; text-align:center; padding-left:0px; font-size:12px ">
+									<%= truncate(school.short_name, :omission=>"", :length=>8) %>
+								</td>
+							<% end -%>
+						<% end -%>
+					</tr>
+					<% element.elt_indicators.active.for_activity(activity).each do |indicator| -%>
+						<% ind_count += 1 -%>
+						<tr style ="border:1px solid <%=element.form_background%>">
+							<td style = "width:25px; width:fixed; font-family:Garamond; font-size:10px;  text-align:center; vertical-align:top; padding-top:8px;  color: #00000 ; font-weight:normal ">
+								<%= ind_count %>
+							</td>
+							<td style = " width:500px; width:fixed; vertical-align:top; font-size:14px; font-family:Garamond; padding-top:8px; padding-bottom:8px;font-weight:normal; color: #000000; line-height:1.3em ">
+								<%= indicator.indicator %>
+								<% unless activity.master? || indicator.support_indicators.empty? -%>
+									<br/>
+									<div style = "  vertical-align:middle; font-size:10px; font-family:Helvetica; font-weight:normal; color: #000000; line-height:1.2em ">
+										Informs:&nbsp;
+										<% indicator.support_indicators.each do |si|%>
+											<% id = indicator.id.to_s + si.id.to_s -%>
+											<a id="<%= id%>" href=""><%= si.elt_element.abbrev + "-" + si.position.to_s %></a>
+											<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :title=> si.elt_type.name, :blue=>("Indicator " + si.position.to_s + ",   " + si.elt_element.name), :body=> si.indicator, :height=> 200, :width=> 700 } %>
+											&nbsp;
+										<% end -%>
+									</div>
+								<% end -%>
+							</td>
+							<td style = " width:80px; width:fixed;  font-size:12px; text-align:center; vertical-align:middle; padding-top:0px;  color: #00000 ; font-weight:normal ">
+								<%= indicator.cycle_summaries(nil).empty? ? "-" : number_with_precision(indicator.cycle_summary_avg_score(nil), :precision => 1) %>
+							</td>
+							<td style = " width:80px; width:fixed;  font-size:12px; text-align:center; vertical-align:middle; padding-top:0px;  color: #00000 ; font-weight:normal ">
+								<%= indicator.cycle_summaries(cycle).empty? ? "-" : number_with_precision(indicator.cycle_summary_avg_score(cycle), :precision => 1) %>
+							</td>
+							<% unless @current_organization == provider %>
+								<td style = "width:80px; font-size:12px;  text-align:center; vertical-align:middle; padding-top:0px;  color: #00000 ; font-weight:normal ">
+									<%= indicator.final_scored_indicators_for_org_cycle(@current_organization,cycle).size == 0 ? "-" : number_with_precision(indicator.final_average_score_for_org_cycle(@current_organization, cycle), :precision => 1) %>								
+								</td>
+							<% else -%>
+								<% cycle.participated_schools.each do |school| -%>
+									<td style = "width:80px; font-size:12px;  text-align:center; vertical-align:middle; padding-top:0px;  color: #00000 ; font-weight:normal ">
+										<%= indicator.final_scored_indicators_for_org_cycle(school,cycle).size == 0 ? "-" : number_with_precision(indicator.final_average_score_for_org_cycle(school, cycle), :precision => 1) %>								
+									</td>
+								<% end -%>
+							<% end -%>
+						</tr>
+					<% end -%>
+				</tbody>
+			</table>
+		<% end -%>
+	<% else -%>
+		<table style="width:1100px;margin-left:40px; margin-top:2px; border:0px solid #000000;">
+			<tbody> 
+				<tr>
+					<td style = "vertical-align:middle; text-align:left; padding-top:15px; padding-left:5px; ">
+						<div class = "app_report_title_2">
+							No <%= activity.name %> Look-Fors Are Active
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>	
+	<% end -%>		
+	</div>
+</div>

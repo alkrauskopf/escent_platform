@@ -1,0 +1,38 @@
+<div id="discussion_abuses">
+    <table id="abuses" class="tablesorter">
+        <thead>
+            <tr>
+                <th>
+                    Type
+                </th>
+				<th>
+                    Reported By
+                </th>
+                <th>
+                    Date
+                </th>
+            </tr>
+        </thead>
+        <tbody id="abuse_results">
+            <% for abuse in @current_organization.discussions.find(params[:discussion_id]).reported_abuses do %>
+            <tr class="report_abuse_comment">
+                <td>
+                    <%= abuse.abuse %>
+                </td>
+				<td>
+                    <%= abuse.user.preferred_email %>
+                </td>
+                <td>
+                    <%= abuse.created_at %>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <div class="digg_pagination">
+        <%#= will_paginate @abuses %>
+    </div>
+    <div style="text-align:center;">
+		<%= link_to_remote :Back, {:update => "topics_panel", :url => {:controller => :topics, :action => :reported_abuses, :organization_id => @current_organization, :id => @topic}, :method => :get} %>		
+    </div>
+</div>

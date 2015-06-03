@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  itl_summary_id: 1
+  tlt_activity_type_task_id: 1
+  duration: 1
+  segments: 1
+  engage_total: 1
+  engage_segments: 1
+  layer_effect: 1
+
+two:
+  itl_summary_id: 1
+  tlt_activity_type_task_id: 1
+  duration: 1
+  segments: 1
+  engage_total: 1
+  engage_segments: 1
+  layer_effect: 1

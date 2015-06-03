@@ -1,0 +1,19 @@
+<%= button_to_remote "Create Outreach Priority Group" , {:before => "Element.show('loading')", :complete => "Element.hide('loading');", :url => {:controller => :outreach_priority, :action => :new}, :method => :get} %>
+<br/>
+<div id="create_group_div"></div>
+<table>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Outreach Priority</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>	
+		</tr>
+	</thead>
+  <tbody>
+  	<tr id="insert_group"><td colspan="4"></td></tr>
+  	<% @outreach_priority_groups.each do |@outreach_priority_group| %>
+			<%= render :partial => "/admin/outreach_priority/show" %>
+		<% end %>
+  </tbody>
+</table>

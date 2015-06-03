@@ -1,0 +1,161 @@
+
+<div class="Form clear">
+<% form_for(:view_submission, :url => {:controller => "/apps/assessment", :action => :static_assessment, :organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment}) do |form| -%>
+
+    <%= render :partial => "/shared/error_and_notice" %>
+	
+	<table id="roles" class="tablesorter" style="width:775px; ">
+		<tbody>
+
+			<tr>
+				<td width = 150px style=" color: #000000; vertical-align:middle;text-align:left; font-size:12px" >
+					<%= image_tag(@current_organization.logo.url, :alt => @current_organization.name, :width => 150) if @current_organization.logo.file? -%>
+				</td>
+				<td width = 475px style="vertical-align:top; color: #C83A14; font-size:16px; margin-top:0px; font-weight:normal" >
+		 		     	<br/>
+							<strong><center><i><u>Classroom Name </u></i></center></strong>
+				</td>
+				<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
+		    		<%= image_tag("COOP_logo.png", :alt => "Jefferson County School District", :width => 150) %>
+				</td>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center>&nbsp;</center>
+				</td>
+			</tr>
+			<tr>
+			
+				<td width = 150px style=" color: #C83A14; vertical-align:middle;text-align:middle; font-size:12px" >
+        				<%= image_tag "member_ico.gif" %>
+				</td>
+				<td width = 475px style="vertical-align:top; color: #C83A14; font-size:14px; margin-top:0px; font-weight:normal" >
+		 		     	<br/>
+							<strong><center> Student's Full Name </center></strong>
+				</td>
+				<td width = 150px style=" color: #C83A14; vertical-align:top; text-align:top; font-size:12px" >
+					<br/>
+					<strong><%= Time.now.strftime("%B %d, %Y")%></strong>
+					<br/><br/>
+							<strong>Teacher Full Name</strong>
+					</td>
+ 			</tr>
+			<tr>
+				<td colspan=3>
+					<center>&nbsp;</center>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
+	  <% return_string = "Return" %>
+	  <%= link_to return_string, {:controller => "/apps/assessment", :action => :static_assessment, :organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment}%>
+</div>
+	<table id="roles" class="tablesorter" style="width:775px; ">
+		<tbody>
+			<tr>
+				<td colspan=3 style=" color: #000000; vertical-align:middle;text-align:left; font-size:12px" >
+					<strong><center><%=@assessment.act_subject.name.upcase %><br/><u><%= @assessment.name.titleize %></u></center></strong>
+				</td>
+ 			</tr>
+
+			  <% @assessment.act_questions.each_with_index do |q,idx| %>
+			<tr>
+				<td colspan=3>
+					<br/><% unless idx == 0 -%><center>- - - - -</center><% end -%>
+				</td>
+			</tr>
+			<tr>
+				<td colspan=2 width = 625px style="vertical-align:top; padding-top:5px; padding-bottom:5px; padding-left:70px; text-align:left; color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
+					<strong><u>Question <%= idx+1 %></u></strong>
+				</td>
+				<td width = 70px>
+					&nbsp;
+				</td>
+			</tr>
+				
+			<% unless q.act_question_reading.nil? -%>
+			<tr>
+				<td colspan=2 width = 625px style="vertical-align:top; padding-top:5px; padding-bottom:5px; padding-left:70px; text-align:left; color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
+					<%= simple_format  q.act_question_reading.reading %>
+				</td>
+				<td width = 70px>
+					&nbsp;
+				</td>
+			</tr>
+			<% end -%>
+			<tr>
+				<td	width = 270px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
+					&nbsp;
+				</td>
+				<td	width = 400px style="vertical-align:top; text-align:left; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
+					<%= simple_format q.question %>
+				</td>
+				<td width = 105px>
+					&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td	width = 250px style="vertical-align:top; text-align:right; padding-top:5px; padding-bottom:5px; color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
+					&nbsp;
+				</td>
+				<td	width = 400px style="vertical-align:top; text-align:left; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
+					<table id="choicess"  style="width:400px; ">
+						<tbody>
+							<% if q.question_type =="MC" -%>
+							<% q.act_choices.sort_by{rand}.each do |chc| -%>
+							<tr>
+								<td width = 45px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:10px; margin-top:0px; font-weight:normal" >
+									<%=  check_box_tag "ans_check[]", value = chc.id ,checked = false %>
+								</td>
+								<td	width = 355px style="vertical-align:top; text-align:left; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
+									<%= simple_format chc.choice %>
+								</td>
+							</tr>
+							<% end -%>
+							<% else -%>								
+							<tr>
+								<center>
+								<td	colspan=2 width = 400px style="vertical-align:top; text-align:left; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
+									<%= hidden_field_tag "short_ans[quest_id][]", q.id %>
+		    	 					<%= text_area_tag "short_ans[answer][]", "", :rows => 3, :cols => 50, :maxlength => 255 %>
+								</td>
+								</center>								
+								</tr>
+							<% end -%>
+						</tbody>
+					</table>
+				</td>
+					<td width = 125px>
+						&nbsp;
+					</td>
+				</tr>	
+				<tr>
+					<td colspan=3>
+						<center>&nbsp;</center>
+					</td>
+				</tr>
+			<% end -%>
+				<tr>
+					<td colspan=3 style="vertical-align:top; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #C83A14; font-size:10px; margin-top:0px; font-weight:normal" >
+						<center>- - -  End Of Assessment - - -</center><br/>
+					</td>
+				</tr>
+				<tr>
+					<td colspan=3 style="vertical-align:top; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
+						<center>Optional Comment: <%= text_field :act_submission, :student_comment, :size => 55, :maxlength => 150 %></center>
+					</td>
+				</tr>
+		</tbody>
+	</table>
+
+	
+	<div class="FormRow submit_warp">
+		<br/>
+			<center><%= submit_tag "Submit", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %></center>
+		<br/>
+	</div>	
+<% end -%>
+
+

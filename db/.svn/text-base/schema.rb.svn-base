@@ -1,0 +1,1017 @@
+# This file is auto-generated from the current state of the database. Instead of editing this file, 
+# please use the migrations feature of Active Record to incrementally modify your database, and
+# then regenerate this schema definition.
+#
+# Note that this schema.rb definition is the authoritative source for your database schema. If you need
+# to create the application database on another system, you should be using db:schema:load, not running
+# all the migrations from scratch. The latter is a flawed and unsustainable approach (the more migrations
+# you'll amass, the slower it'll run and the greater likelihood for issues).
+#
+# It's strongly recommended to check this file into your version control system.
+
+ActiveRecord::Schema.define(:version => 20100805130406) do
+
+  create_table "address_types", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name",       :limit => 50, :null => false
+  end
+
+  create_table "addresses", :force => true do |t|
+    t.integer  "address_type_id",                                  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "organization_id"
+    t.integer  "user_id"
+    t.string   "street1",         :limit => 150,                   :null => false
+    t.string   "street2",         :limit => 150
+    t.string   "city",            :limit => 150,                   :null => false
+    t.string   "state",           :limit => 32,                    :null => false
+    t.string   "country",         :limit => 3,   :default => "US", :null => false
+    t.string   "postal_code",     :limit => 20,                    :null => false
+  end
+
+  create_table "associated_organizations", :force => true do |t|
+    t.integer  "organization_id", :null => false
+    t.integer  "user_id",         :null => false
+    t.datetime "created_at",      :null => false
+  end
+
+  create_table "authorizable_actions", :force => true do |t|
+    t.integer  "authorization_level_id",               :null => false
+    t.string   "name",                   :limit => 64, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "authorizable_actions", ["authorization_level_id", "name"], :name => "index_authorizable_actions_on_authorization_level_id_and_name", :unique => true
+
+  create_table "authorization_levels", :force => true do |t|
+    t.integer  "parent_id"
+    t.string   "name",                        :null => false
+    t.string   "description", :limit => 1000
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "authorization_levels", ["name"], :name => "index_authorization_levels_on_name", :unique => true
+
+  create_table "authorization_levels_roles", :id => false, :force => true do |t|
+    t.integer  "authorization_level_id", :null => false
+    t.integer  "role_id",                :null => false
+    t.datetime "created_at"
+  end
+
+  add_index "authorization_levels_roles", ["authorization_level_id", "role_id"], :name => "index_authorization_level_id_and_role_id", :unique => true
+  add_index "authorization_levels_roles", ["role_id", "authorization_level_id"], :name => "index_role_id_and_authorization_level_id", :unique => true
+
+  create_table "authorization_levels_users", :id => false, :force => true do |t|
+    t.integer  "authorization_level_id", :null => false
+    t.integer  "user_id",                :null => false
+    t.datetime "created_at"
+  end
+
+  add_index "authorization_levels_users", ["authorization_level_id", "user_id"], :name => "index_authorization_level_id_and_user_id", :unique => true
+  add_index "authorization_levels_users", ["user_id", "authorization_level_id"], :name => "index_user_id_and_authorization_level_id", :unique => true
+
+  create_table "authorizations", :force => true do |t|
+    t.integer  "user_id",                              :null => false
+    t.integer  "scope_id"
+    t.string   "scope_type",             :limit => 32
+    t.integer  "authorization_level_id",               :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "authorizations", ["user_id"], :name => "index_authorizations_on_user_id"
+
+  create_table "blog_panels", :force => true do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "blog_panels_users", :id => false, :force => true do |t|
+    t.integer "blog_panel_id"
+    t.integer "user_id"
+  end
+
+  create_table "blog_posts", :force => true do |t|
+    t.integer  "organization_id"
+    t.integer  "user_id"
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "blog_id"
+  end
+
+  create_table "blogs", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "organization_id"
+    t.string   "title"
+    t.text     "description"
+    t.boolean  "active",               :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "blog_panel_id"
+    t.string   "picture_file_name"
+    t.string   "picture_content_type"
+    t.integer  "picture_file_size"
+    t.datetime "picture_updated_at"
+    t.boolean  "feature",              :default => false
+  end
+
+  create_table "channel_contents", :force => true do |t|
+    t.integer  "channel_id", :null => false
+    t.integer  "content_id", :null => false
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "channel_types", :force => true do |t|
+    t.string   "name",        :limit => 50,  :null => false
+    t.string   "description", :limit => 500
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
+
+  create_table "channels", :force => true do |t|
+    t.integer  "parent_id"
+    t.integer  "organization_id",                                      :null => false
+    t.integer  "user_id",                                              :null => false
+    t.string   "title",                              :default => "",   :null => false
+    t.string   "description",        :limit => 8000
+    t.datetime "created_at",                                           :null => false
+    t.datetime "updated_at",                                           :null => false
+    t.boolean  "searchable",                         :default => true, :null => false
+    t.datetime "publish_start_date"
+    t.datetime "publish_end_date"
+    t.string   "type",               :limit => 32,                     :null => false
+    t.datetime "last_posted_at"
+  end
+
+  add_index "channels", ["organization_id", "type"], :name => "index_channels_on_organization_id_and_type"
+  add_index "channels", ["parent_id", "type"], :name => "index_channels_on_parent_id_and_type"
+
+  create_table "comments", :force => true do |t|
+    t.integer  "blog_post_id"
+    t.integer  "user_id"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "user_name"
+    t.string   "user_url"
+    t.string   "user_email"
+  end
+
+  create_table "content_albums", :force => true do |t|
+    t.string   "name"
+    t.string   "description",     :limit => 8000
+    t.integer  "organization_id"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "display",                         :default => false
+    t.boolean  "accept_upload",                   :default => false
+    t.string   "cover",                           :default => ""
+  end
+
+  create_table "content_albums_contents", :id => false, :force => true do |t|
+    t.integer "content_id"
+    t.integer "content_album_id"
+  end
+
+  create_table "content_details", :force => true do |t|
+    t.string   "content_details_key", :limit => 25,  :null => false
+    t.integer  "content_id",                         :null => false
+    t.string   "details_value",       :limit => 500
+    t.datetime "created_at",                         :null => false
+  end
+
+  create_table "content_log", :force => true do |t|
+    t.integer  "content_id",                      :null => false
+    t.datetime "created_at",                      :null => false
+    t.integer  "user_id",                         :null => false
+    t.integer  "channel_id",                      :null => false
+    t.string   "http_header",     :limit => 4000, :null => false
+    t.integer  "organization_id"
+    t.integer  "package_id"
+  end
+
+  create_table "content_object_type_groups", :force => true do |t|
+    t.string   "name",       :limit => 50, :null => false
+    t.datetime "created_at",               :null => false
+  end
+
+  create_table "content_object_type_players", :force => true do |t|
+    t.string   "content_object_type", :limit => 5,                     :null => false
+    t.string   "protocol",            :limit => 5, :default => "HTTP", :null => false
+    t.integer  "organization_id",                                      :null => false
+    t.integer  "player_id",                                            :null => false
+    t.datetime "created_at",                                           :null => false
+  end
+
+  create_table "content_object_types", :force => true do |t|
+    t.string  "content_object_type",          :limit => 5,                      :null => false
+    t.integer "content_object_type_group_id",                                   :null => false
+    t.string  "name",                         :limit => 50,                     :null => false
+    t.string  "mime_type",                    :limit => 100,                    :null => false
+    t.boolean "is_nested_content",                           :default => false, :null => false
+  end
+
+  create_table "content_rating_options", :force => true do |t|
+    t.integer  "content_rating_type_id",                :null => false
+    t.string   "name",                   :limit => 50,  :null => false
+    t.string   "description",            :limit => 256
+    t.datetime "created_at",                            :null => false
+  end
+
+  create_table "content_rating_types", :force => true do |t|
+    t.string   "name",        :limit => 50,  :null => false
+    t.string   "description", :limit => 150, :null => false
+    t.datetime "created_at",                 :null => false
+  end
+
+  create_table "content_ratings", :force => true do |t|
+    t.integer  "content_rating_option_id", :null => false
+    t.datetime "created_at",               :null => false
+  end
+
+  create_table "content_resource_types", :force => true do |t|
+    t.string   "name",        :limit => 50,  :null => false
+    t.string   "description", :limit => 150, :null => false
+    t.datetime "created_at",                 :null => false
+  end
+
+  create_table "content_source_types", :force => true do |t|
+    t.string   "name",       :limit => 50, :null => false
+    t.datetime "created_at",               :null => false
+  end
+
+  create_table "content_sources", :force => true do |t|
+    t.integer  "source_type_id",                :null => false
+    t.string   "source_value",   :limit => 500, :null => false
+    t.datetime "created_at",                    :null => false
+  end
+
+  create_table "content_statuses", :force => true do |t|
+    t.string   "name",        :limit => 50,  :null => false
+    t.string   "description", :limit => 500, :null => false
+    t.datetime "created_at",                 :null => false
+  end
+
+  create_table "content_tags", :force => true do |t|
+    t.integer  "tag_id",     :null => false
+    t.datetime "created_at", :null => false
+  end
+
+  create_table "content_tracking_types", :force => true do |t|
+    t.string   "name",       :limit => 50, :null => false
+    t.datetime "created_at",               :null => false
+  end
+
+  create_table "content_trackings", :force => true do |t|
+    t.integer  "tracking_type_id", :null => false
+    t.integer  "content_id",       :null => false
+    t.integer  "user_id",          :null => false
+    t.datetime "created_at",       :null => false
+  end
+
+  create_table "content_upload_sources", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "content_uploads", :force => true do |t|
+    t.integer  "content_id",                          :null => false
+    t.string   "title",               :limit => 150,  :null => false
+    t.string   "description",         :limit => 4000
+    t.datetime "publish_start_date",                  :null => false
+    t.datetime "publish_end_date"
+    t.string   "source_url",          :limit => 500
+    t.string   "file_name",           :limit => 256
+    t.string   "path_and_file_name",  :limit => 500
+    t.string   "content_object_type", :limit => 5
+    t.binary   "content_object"
+    t.string   "source_url_protocol", :limit => 30
+  end
+
+  create_table "contents", :force => true do |t|
+    t.integer  "child_content_id"
+    t.integer  "related_content_type_id"
+    t.integer  "content_status_id",                                                   :null => false
+    t.string   "title",                            :limit => 150,                     :null => false
+    t.string   "description",                      :limit => 4000
+    t.integer  "organization_id",                                                     :null => false
+    t.integer  "user_id",                                                             :null => false
+    t.datetime "created_at",                                                          :null => false
+    t.datetime "updated_at",                                                          :null => false
+    t.boolean  "mature_content",                                   :default => false, :null => false
+    t.boolean  "user_rating_enabled",                              :default => false, :null => false
+    t.datetime "publish_start_date",                                                  :null => false
+    t.datetime "publish_end_date"
+    t.string   "source_url",                       :limit => 500
+    t.string   "file_name",                        :limit => 256
+    t.string   "source_file_file_name",            :limit => 500
+    t.binary   "content_object"
+    t.integer  "package_id"
+    t.string   "source_url_protocol",              :limit => 30
+    t.string   "source_file_content_type",         :limit => 128
+    t.integer  "source_file_file_size"
+    t.integer  "content_object_type_id"
+    t.string   "caption"
+    t.integer  "duration"
+    t.string   "source_name"
+    t.string   "creator_name"
+    t.string   "star_performer"
+    t.string   "series",                           :limit => 1000
+    t.string   "source_file_preview_file_name"
+    t.string   "source_file_preview_content_type"
+    t.integer  "source_file_preview_file_size"
+    t.boolean  "pending",                                          :default => false
+    t.integer  "content_upload_source_id",                         :default => 1
+    t.boolean  "terms_of_service"
+    t.boolean  "is_delete",                                        :default => false
+    t.integer  "updated_by"
+    t.string   "subject_area"
+    t.string   "resource_type"
+  end
+
+  create_table "contents4", :force => true do |t|
+    t.integer  "child_content_id"
+    t.integer  "related_content_type_id"
+    t.integer  "content_status_id",                                                   :null => false
+    t.string   "title",                            :limit => 150,                     :null => false
+    t.string   "description",                      :limit => 4000
+    t.integer  "organization_id",                                                     :null => false
+    t.integer  "user_id",                                                             :null => false
+    t.datetime "created_at",                                                          :null => false
+    t.datetime "updated_at",                                                          :null => false
+    t.boolean  "mature_content",                                   :default => false, :null => false
+    t.boolean  "user_rating_enabled",                              :default => false, :null => false
+    t.datetime "publish_start_date",                                                  :null => false
+    t.datetime "publish_end_date"
+    t.string   "source_url",                       :limit => 500
+    t.string   "file_name",                        :limit => 256
+    t.string   "source_file_file_name",            :limit => 500
+    t.binary   "content_object"
+    t.integer  "package_id"
+    t.string   "source_url_protocol",              :limit => 30
+    t.string   "source_file_content_type",         :limit => 128
+    t.integer  "source_file_file_size"
+    t.integer  "content_object_type_id"
+    t.string   "caption"
+    t.integer  "duration"
+    t.string   "source_name"
+    t.string   "creator_name"
+    t.string   "star_performer"
+    t.string   "series",                           :limit => 1000
+    t.string   "source_file_preview_file_name"
+    t.string   "source_file_preview_content_type"
+    t.integer  "source_file_preview_file_size"
+  end
+
+  create_table "countries", :force => true do |t|
+    t.string   "code",       :limit => 3,  :null => false
+    t.datetime "created_at",               :null => false
+    t.string   "name",       :limit => 50, :null => false
+  end
+
+  create_table "default_package_roles", :force => true do |t|
+    t.integer  "package_id", :null => false
+    t.integer  "role_id",    :null => false
+    t.datetime "created_at", :null => false
+  end
+
+  create_table "denominations", :force => true do |t|
+    t.string   "name",       :limit => 150, :null => false
+    t.datetime "created_at",                :null => false
+    t.integer  "parent_id"
+    t.integer  "channel_id"
+  end
+
+  create_table "discussions", :force => true do |t|
+    t.integer  "parent_id"
+    t.integer  "organization_id",                 :null => false
+    t.integer  "user_id",                         :null => false
+    t.integer  "topic_id"
+    t.string   "comment",         :limit => 8000
+    t.datetime "last_posted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "suspended_at"
+    t.integer  "suspended_by"
+    t.integer  "deleted_by"
+  end
+
+  add_index "discussions", ["organization_id"], :name => "index_discussions_on_organization_id"
+  add_index "discussions", ["topic_id"], :name => "index_discussions_on_topic_id"
+
+  create_table "event_log_types", :force => true do |t|
+    t.string "name", :limit => 50, :null => false
+  end
+
+  create_table "event_logs", :force => true do |t|
+    t.integer  "event_log_type_id"
+    t.integer  "user_id"
+    t.integer  "channel_id"
+    t.integer  "content_id"
+    t.datetime "created_at",                       :null => false
+    t.string   "event_data",        :limit => 500
+  end
+
+  create_table "fundraising_campaigns", :force => true do |t|
+    t.string   "name"
+    t.string   "description",         :limit => 8000
+    t.integer  "organization_id"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.integer  "merchant_account_id"
+    t.decimal  "goal_amount",                         :precision => 12, :scale => 2, :default => 0.0
+    t.decimal  "suggested_amount",                    :precision => 12, :scale => 2, :default => 0.0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "merchant_accounts", :force => true do |t|
+    t.integer  "organization_id"
+    t.string   "name"
+    t.string   "description"
+    t.string   "gateway_type"
+    t.string   "gateway_partner"
+    t.string   "gateway_login"
+    t.string   "gateway_password"
+    t.string   "gateway_certification_id",          :limit => 128
+    t.string   "vat_registration_number",           :limit => 128
+    t.boolean  "gateway_ignore_avs",                                                             :default => true
+    t.boolean  "gateway_ignore_cvv",                                                             :default => true
+    t.decimal  "payment_transaction_fee",                          :precision => 9, :scale => 2, :default => 0.0
+    t.decimal  "payment_transaction_discount_rate",                :precision => 9, :scale => 2, :default => 0.0
+    t.decimal  "refund_transaction_fee",                           :precision => 9, :scale => 2, :default => 0.0
+    t.decimal  "chargeback_transaction_fee",                       :precision => 9, :scale => 2, :default => 0.0
+    t.string   "card_statement_name",               :limit => 128
+    t.boolean  "visa"
+    t.boolean  "master"
+    t.boolean  "american_express"
+    t.boolean  "discover"
+    t.boolean  "diners_club"
+    t.boolean  "mastro"
+    t.boolean  "jcb"
+    t.text     "gateway_pem"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "messages", :force => true do |t|
+    t.text     "content"
+    t.string   "sender"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "organization_outreach_priorities", :force => true do |t|
+    t.integer  "organization_id",      :null => false
+    t.integer  "outreach_priority_id", :null => false
+    t.datetime "created_at",           :null => false
+  end
+
+  create_table "organization_relationships", :force => true do |t|
+    t.integer  "source_id",                                         :null => false
+    t.string   "relationship_type", :limit => 32,                   :null => false
+    t.integer  "target_id",                                         :null => false
+    t.string   "target_type",       :limit => 32, :default => "",   :null => false
+    t.boolean  "inclusive",                       :default => true, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "source_type",       :limit => 32
+  end
+
+  add_index "organization_relationships", ["source_id", "relationship_type"], :name => "organization_id_and_relationship_type"
+
+  create_table "organization_sizes", :force => true do |t|
+    t.datetime "created_at",                :null => false
+    t.string   "description", :limit => 50, :null => false
+    t.integer  "value_low"
+    t.integer  "value_high"
+  end
+
+  create_table "organization_types", :force => true do |t|
+    t.integer  "parent_id"
+    t.datetime "created_at",                                                 :null => false
+    t.string   "name",                      :limit => 50,                    :null => false
+    t.string   "template_name"
+    t.boolean  "has_size",                                :default => false
+    t.boolean  "has_religious_affiliation",               :default => false
+  end
+
+  create_table "organization_visits", :force => true do |t|
+    t.integer  "organization_id",                :null => false
+    t.integer  "user_id"
+    t.datetime "date_visited",                   :null => false
+    t.integer  "visit_year",      :default => 0, :null => false
+    t.integer  "visit_month",     :default => 0, :null => false
+    t.integer  "visit_day",       :default => 0, :null => false
+    t.integer  "visit_hour",      :default => 0, :null => false
+    t.integer  "visit_minutes",   :default => 0, :null => false
+  end
+
+  add_index "organization_visits", ["date_visited"], :name => "IDX4_OrganizationVisits"
+  add_index "organization_visits", ["organization_id", "date_visited"], :name => "IDX3_OrganizationVisits"
+  add_index "organization_visits", ["organization_id", "visit_year", "visit_month", "visit_day"], :name => "IDX1_OrganizationVisits"
+  add_index "organization_visits", ["visit_year", "visit_month", "visit_day"], :name => "IDX2_OrganizationVisits"
+
+  create_table "organizations", :force => true do |t|
+    t.integer  "parent_id"
+    t.integer  "organization_type_id",                                       :null => false
+    t.string   "name",                      :limit => 200,                   :null => false
+    t.datetime "created_at",                                                 :null => false
+    t.datetime "updated_at",                                                 :null => false
+    t.integer  "channel_id"
+    t.integer  "religious_affiliation_id"
+    t.string   "web_site_url",              :limit => 250
+    t.integer  "iwing_tab_id"
+    t.integer  "status_id",                                                  :null => false
+    t.string   "phone",                     :limit => 20
+    t.string   "fax",                       :limit => 20
+    t.integer  "organization_size_id"
+    t.integer  "package_id"
+    t.string   "email_address",             :limit => 256
+    t.string   "contact_name"
+    t.string   "contact_role"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.integer  "featured_topic_id"
+    t.integer  "default_address_id"
+    t.string   "contact_email"
+    t.string   "contact_phone"
+    t.text     "body"
+    t.integer  "cause_streaming_source_id",                :default => 1
+    t.boolean  "include_information",                      :default => true
+  end
+
+  add_index "organizations", ["organization_type_id"], :name => "IDX2_Organizations"
+  add_index "organizations", ["religious_affiliation_id"], :name => "IDX1_Organizations"
+
+  create_table "organizations_outreach_priorities", :id => false, :force => true do |t|
+    t.integer  "outreach_priority_id", :default => 0, :null => false
+    t.integer  "organization_id",      :default => 0, :null => false
+    t.datetime "created_at"
+  end
+
+  add_index "organizations_outreach_priorities", ["organization_id", "outreach_priority_id"], :name => "index_organization_id_and_outreach_priority_id", :unique => true
+  add_index "organizations_outreach_priorities", ["outreach_priority_id", "organization_id"], :name => "index_outreach_priority_id_and_organization_id", :unique => true
+
+  create_table "organizations_users", :id => false, :force => true do |t|
+    t.integer  "organization_id", :null => false
+    t.integer  "user_id",         :null => false
+    t.datetime "created_at",      :null => false
+  end
+
+  add_index "organizations_users", ["organization_id", "user_id"], :name => "index_organizations_users_on_organization_id_and_user_id", :unique => true
+  add_index "organizations_users", ["user_id", "organization_id"], :name => "index_organizations_users_on_user_id_and_organization_id", :unique => true
+
+  create_table "outreach_priorities", :force => true do |t|
+    t.integer  "parent_id"
+    t.string   "name",       :limit => 50, :null => false
+    t.datetime "created_at",               :null => false
+  end
+
+  create_table "outreach_priorities_outreach_priority_groups", :id => false, :force => true do |t|
+    t.integer  "outreach_priority_id"
+    t.integer  "outreach_priority_group_id"
+    t.datetime "create_at"
+  end
+
+  create_table "outreach_priorities_topics", :id => false, :force => true do |t|
+    t.integer  "outreach_priority_id", :default => 0, :null => false
+    t.integer  "topic_id",             :default => 0, :null => false
+    t.datetime "created_at"
+  end
+
+  add_index "outreach_priorities_topics", ["outreach_priority_id", "topic_id"], :name => "index_outreach_priority_id_and_topic_id", :unique => true
+  add_index "outreach_priorities_topics", ["topic_id", "outreach_priority_id"], :name => "index_topic_id_and_outreach_priority_id", :unique => true
+
+  create_table "outreach_priorities_users", :id => false, :force => true do |t|
+    t.integer  "outreach_priority_id", :default => 0, :null => false
+    t.integer  "user_id",              :default => 0, :null => false
+    t.datetime "created_at"
+  end
+
+  add_index "outreach_priorities_users", ["outreach_priority_id", "user_id"], :name => "index_outreach_priority_id_and_user_id", :unique => true
+  add_index "outreach_priorities_users", ["user_id", "outreach_priority_id"], :name => "index_user_id_and_outreach_priority_id", :unique => true
+
+  create_table "outreach_priority_groups", :force => true do |t|
+    t.integer  "outreach_priority_id"
+    t.integer  "user_id"
+    t.integer  "organization_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "package_subscription_terms", :force => true do |t|
+    t.datetime "created_at",                :null => false
+    t.string   "time_period", :limit => 50, :null => false
+    t.integer  "days"
+  end
+
+  create_table "package_tabs", :force => true do |t|
+    t.integer  "tab_id",       :null => false
+    t.datetime "created_at",   :null => false
+    t.integer  "tab_sequence", :null => false
+  end
+
+  create_table "package_types", :force => true do |t|
+    t.datetime "created_at",                :null => false
+    t.string   "name",       :limit => 150, :null => false
+  end
+
+  create_table "packages", :force => true do |t|
+    t.integer  "base_package_id"
+    t.datetime "created_at",                                                                  :null => false
+    t.integer  "organization_id",                                                             :null => false
+    t.string   "name",                         :limit => 150,                                 :null => false
+    t.string   "description",                  :limit => 4000
+    t.integer  "package_subscription_term_id"
+    t.datetime "subscription_start_date"
+    t.datetime "subscription_end_date"
+    t.decimal  "price",                                        :precision => 18, :scale => 2
+    t.string   "dnn_template_name"
+    t.integer  "package_type_id",                                                             :null => false
+    t.boolean  "is_public",                                                                   :null => false
+    t.boolean  "is_deployable",                                                               :null => false
+  end
+
+  add_index "packages", ["organization_id", "name"], :name => "UK_Packages_OrgAndName", :unique => true
+
+  create_table "page_sections", :force => true do |t|
+    t.integer  "organization_id", :null => false
+    t.string   "page",            :null => false
+    t.string   "section"
+    t.integer  "content_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "body"
+    t.integer  "author_id"
+  end
+
+  add_index "page_sections", ["organization_id", "page", "section"], :name => "index_page_sections_on_organization_id_and_page_and_section"
+
+  create_table "payments", :force => true do |t|
+    t.integer  "merchant_account_id"
+    t.integer  "transaction_status_id"
+    t.integer  "fundraising_campaign_id"
+    t.integer  "user_id"
+    t.decimal  "amount",                                :precision => 9, :scale => 2, :default => 0.0
+    t.string   "memo"
+    t.string   "authorization_code"
+    t.string   "response_message"
+    t.string   "card_number",             :limit => 32
+    t.integer  "organization_id"
+    t.string   "card_holder_name"
+    t.string   "billing_address"
+    t.string   "billing_city"
+    t.string   "billing_state_province"
+    t.string   "billing_postal_code"
+    t.string   "billing_country"
+    t.string   "billing_phone",           :limit => 20
+    t.string   "card_type",               :limit => 32
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "permission_types", :force => true do |t|
+    t.string   "name",       :limit => 50, :null => false
+    t.datetime "created_at",               :null => false
+  end
+
+  create_table "permissions", :force => true do |t|
+    t.integer  "channel_id"
+    t.integer  "content_id"
+    t.integer  "user_id"
+    t.integer  "role_id"
+    t.integer  "permission_type_id", :null => false
+    t.datetime "created_at",         :null => false
+  end
+
+  add_index "permissions", ["channel_id", "id"], :name => "IDX_Permissions1"
+  add_index "permissions", ["content_id", "id"], :name => "IDX_Permissions2"
+  add_index "permissions", ["role_id", "id"], :name => "IDX_Permissions4"
+  add_index "permissions", ["user_id", "id"], :name => "IDX_Permissions3"
+
+  create_table "players", :force => true do |t|
+    t.datetime "created_at",                  :null => false
+    t.string   "name",        :limit => 50,   :null => false
+    t.string   "version",     :limit => 20
+    t.string   "protocol",    :limit => 30
+    t.string   "description", :limit => 4000
+    t.string   "html_code",   :limit => 4000
+  end
+
+  create_table "prayer_pledges", :force => true do |t|
+    t.string   "first_name",                :limit => 50
+    t.string   "last_name",                 :limit => 50
+    t.string   "email_address",             :limit => 512
+    t.string   "state_province",            :limit => 50
+    t.string   "country"
+    t.string   "city"
+    t.string   "phone_number"
+    t.string   "phone_provider"
+    t.boolean  "send_reminder_day_before"
+    t.boolean  "send_interest_of_interest"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.string   "i18n_locale"
+    t.boolean  "should_inform",                            :default => true
+  end
+
+  create_table "related_content_types", :force => true do |t|
+    t.string   "name",       :limit => 100, :null => false
+    t.datetime "created_at",                :null => false
+  end
+
+  create_table "related_contents", :force => true do |t|
+    t.integer  "content_id", :null => false
+    t.datetime "created_at", :null => false
+  end
+
+  create_table "related_organizations", :id => false, :force => true do |t|
+    t.integer  "organization_id",         :null => false
+    t.integer  "related_organization_id", :null => false
+    t.datetime "created_at",              :null => false
+  end
+
+  create_table "religious_affiliations", :force => true do |t|
+    t.string   "name",       :limit => 150, :null => false
+    t.datetime "created_at",                :null => false
+    t.integer  "parent_id"
+    t.integer  "channel_id"
+  end
+
+  create_table "reported_abuses", :force => true do |t|
+    t.integer  "entity_id"
+    t.string   "entity_type"
+    t.integer  "user_id"
+    t.integer  "organization_id"
+    t.string   "abuse",           :limit => 16
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reported_abuses", ["entity_id", "entity_type", "abuse"], :name => "index_reported_abuses_on_entity_id_and_entity_type_and_abuse"
+
+  create_table "role_memberships", :force => true do |t|
+    t.integer  "user_id",                             :null => false
+    t.integer  "role_id",                             :null => false
+    t.datetime "created_at",                          :null => false
+    t.boolean  "has_grant_option", :default => false, :null => false
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+  end
+
+  create_table "roles", :force => true do |t|
+    t.string   "name",        :limit => 50,   :default => "", :null => false
+    t.datetime "created_at",                                  :null => false
+    t.integer  "user_id",                                     :null => false
+    t.string   "description", :limit => 1000
+    t.integer  "scope_id"
+    t.string   "scope_type"
+  end
+
+  add_index "roles", ["scope_id", "scope_type", "name"], :name => "index_roles_on_scope_id_and_scope_type_and_name", :unique => true
+
+  create_table "roles_granted_roles", :force => true do |t|
+    t.integer  "role_id",         :null => false
+    t.integer  "granted_Role_id", :null => false
+    t.datetime "created_at",      :null => false
+  end
+
+  add_index "roles_granted_roles", ["granted_Role_id", "role_id"], :name => "IDX_FSNRolesGrantedRoles1", :unique => true
+
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "setting_values", :force => true do |t|
+    t.integer  "setting_id"
+    t.integer  "scope_id",                   :null => false
+    t.string   "scope_type", :limit => 32
+    t.string   "value",      :limit => 1024
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "setting_values", ["scope_id", "scope_type", "setting_id"], :name => ":scope_id_and_scope_type_and_style_setting_id"
+
+  create_table "settings", :force => true do |t|
+    t.string  "name",                                              :null => false
+    t.string  "setting_type",                :default => "String"
+    t.string  "group_name"
+    t.integer "position"
+    t.string  "default_value"
+    t.string  "type",          :limit => 64
+  end
+
+  create_table "shares", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "organization_id"
+    t.integer  "share_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "simple_captcha_data", :force => true do |t|
+    t.string   "key",        :limit => 40
+    t.string   "value",      :limit => 6
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "star_ratings", :force => true do |t|
+    t.integer  "entity_id"
+    t.string   "entity_type", :limit => 32
+    t.integer  "votes",                                                   :default => 0
+    t.decimal  "rating",                    :precision => 5, :scale => 2, :default => 0.0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "states", :force => true do |t|
+    t.string   "state",       :limit => 32,                   :null => false
+    t.string   "country",     :limit => 3,                    :null => false
+    t.datetime "created_at",                                  :null => false
+    t.string   "name",        :limit => 50,                   :null => false
+    t.boolean  "is_us_state",               :default => true, :null => false
+  end
+
+  create_table "statuses", :force => true do |t|
+    t.datetime "created_at",               :null => false
+    t.string   "name",       :limit => 50, :null => false
+  end
+
+  create_table "style_setting_values", :force => true do |t|
+    t.integer  "style_setting_id"
+    t.integer  "scope_id",                         :null => false
+    t.string   "scope_type",       :limit => 32
+    t.string   "value",            :limit => 1024
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "style_setting_values", ["scope_id", "scope_type", "style_setting_id"], :name => ":scope_id_and_scope_type_and_style_setting_id"
+
+  create_table "style_settings", :force => true do |t|
+    t.string  "name",                                :null => false
+    t.string  "setting_type",  :default => "String"
+    t.string  "group_name"
+    t.integer "position"
+    t.string  "default_value"
+  end
+
+  create_table "subject_areas", :force => true do |t|
+    t.integer  "parent_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tags", :force => true do |t|
+    t.string   "name",       :limit => 150, :null => false
+    t.datetime "created_at",                :null => false
+  end
+
+  add_index "tags", ["name"], :name => "UK_Tags_Tag", :unique => true
+
+  create_table "talents", :force => true do |t|
+    t.integer "user_id"
+    t.string  "name"
+  end
+
+  create_table "topic_contents", :force => true do |t|
+    t.integer  "topic_id",   :null => false
+    t.integer  "content_id", :null => false
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "topic_contents", ["topic_id"], :name => "index_topic_contents_on_topic_id"
+
+  create_table "topics", :force => true do |t|
+    t.integer  "organization_id",                                       :null => false
+    t.integer  "user_id",                                               :null => false
+    t.string   "title"
+    t.string   "description",         :limit => 8000
+    t.boolean  "searchable",                          :default => true, :null => false
+    t.datetime "publish_starts_at"
+    t.datetime "publish_ends_at"
+    t.datetime "last_posted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "discussion_question", :limit => 1000
+    t.integer  "featured_content"
+  end
+
+  add_index "topics", ["organization_id"], :name => "index_topics_on_organization_id"
+
+  create_table "total_views", :force => true do |t|
+    t.integer  "entity_id"
+    t.string   "entity_type", :limit => 32
+    t.integer  "views",                     :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "transaction_statuses", :force => true do |t|
+    t.string   "name",        :limit => 32
+    t.string   "color",       :limit => 8
+    t.string   "description", :limit => 1024
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "trusted_sources", :force => true do |t|
+    t.integer  "organization_id"
+    t.integer  "source_id"
+    t.string   "type",            :limit => 32
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "trusted_sources", ["organization_id", "source_id", "type"], :name => "index_trusted_sources_on_organization_id_and_source_id_and_type", :unique => true
+
+  create_table "user_outreach_priorities", :force => true do |t|
+    t.integer  "user_id",              :null => false
+    t.integer  "outreach_priority_id", :null => false
+    t.datetime "created_at",           :null => false
+  end
+
+  create_table "user_roles", :force => true do |t|
+    t.integer  "user_id",                             :null => false
+    t.integer  "role_id",                             :null => false
+    t.datetime "created_at",                          :null => false
+    t.boolean  "has_grant_option", :default => false, :null => false
+    t.datetime "start_date"
+    t.datetime "end_date"
+  end
+
+  create_table "users", :force => true do |t|
+    t.integer  "religious_affiliation_id"
+    t.datetime "created_at",                                                   :null => false
+    t.integer  "status_id"
+    t.string   "first_name",                  :limit => 50
+    t.string   "last_name",                   :limit => 50
+    t.string   "phone",                       :limit => 20
+    t.string   "alt_phone",                   :limit => 20
+    t.string   "other_denomination",          :limit => 50
+    t.string   "postal_code",                 :limit => 20
+    t.datetime "date_of_birth"
+    t.boolean  "age_verified",                                                 :null => false
+    t.boolean  "read_tos",                                                     :null => false
+    t.string   "display_name",                :limit => 128
+    t.string   "verification_code",           :limit => 16
+    t.datetime "verified_at"
+    t.string   "password",                                   :default => "",   :null => false
+    t.string   "salt",                        :limit => 256
+    t.string   "email_address",               :limit => 512
+    t.string   "crypted_password"
+    t.datetime "updated_at"
+    t.string   "country"
+    t.string   "picture_file_name"
+    t.string   "picture_content_type"
+    t.integer  "picture_file_size"
+    t.datetime "picture_updated_at"
+    t.string   "state_province"
+    t.string   "personal_url"
+    t.string   "city"
+    t.text     "credentials"
+    t.text     "philosophy"
+    t.boolean  "display_emai_and_phone",                     :default => true
+    t.string   "website_referred_as"
+    t.string   "Phone_for_Texting"
+    t.string   "Provider_of_Texting_Service"
+  end
+
+  create_table "zip_codes", :force => true do |t|
+    t.string   "zip_code",   :limit => 10,                   :null => false
+    t.datetime "created_at",                                 :null => false
+    t.string   "city",       :limit => 50,                   :null => false
+    t.string   "state",      :limit => 32,                   :null => false
+    t.string   "country",    :limit => 3,  :default => "US", :null => false
+  end
+
+end

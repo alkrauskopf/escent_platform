@@ -1,0 +1,167 @@
+
+<style>
+  li.ui-tabs-selected {
+    background: #F9F9F9;
+  }
+</style>
+<% if @current_user -%>
+  <div id="control_panel">
+  	
+	 <div style= "color:#C73914; margin-top:5px; font-size:18px; font-weight:bold"> 
+		<center><%= @current_organization.name %> Admin 
+		 	<span style="font-size:12px; font-weight:normal;text-align:center;color:#000000;">
+				<br/><%= pluralize( @current_organization.views, " View")%>&nbsp;Since&nbsp;<%= @current_organization.first_view_date.strftime("%b %e, %Y")%>
+			</span>
+		</center>
+		 <% if @current_user.superuser? -%>
+			<span style= "font-size:12px; font-weight:normal;">
+				<center><%= link_to " CRUD ", {:controller => "/master/application", :action => :index, :organization_id => @current_organization}, {:target => "_blank", :class => "fsn-button ui-button ui-state-default ui-corner-all"} %></center>	 
+		 	</span>
+		 <% end -%>	
+		<br/>
+	 </div>	
+    <ul>
+      <!--
+      <li><%#= link_to "<span>Organization Account</span>", :controller => :organization_account, :organization_id => @current_organization %></li>
+      <li><%#= link_to "<span>iWing</span>", :controller => :iwing, :organization_id => @current_organization %></li>
+      <li><%#= link_to "<span>Content</span>", :controller => :content, :organization_id => @current_organization %></li>
+      <li><%#= link_to "<span>Associates</span>", :controller => :associates, :organization_id => @current_organization %></li>
+      <li><%#= link_to "<span>Roles</span>", :controller => :roles, :organization_id => @current_organization %></li>
+      -->
+	<% if @current_user.has_authorization_level?("superuser")-%>
+      <li>
+        <a href="#tabs-1"><span><strong>Resource Library</strong></span></a>
+      </li> 
+	 <% end -%>
+
+      <li>
+        <a href="#tabs-3"><span><strong>People</strong></span></a>
+      </li>
+      <li>
+        <a href="#tabs-4"><span><strong>Org Information</strong></span></a>
+      </li>      
+
+	  <li>
+        <a href="#tabs-5"><span><strong>Applications</strong></span></a>
+      </li>	  
+
+	  <li>
+        <a href="#tabs-6"><span><strong>Provider</strong></span></a>
+      </li>	
+      <li>
+        <a href="#tabs-8"></span>Abuse Reports</span></p>
+      </li>
+    </ul>
+
+    <!-- #tab-1 Our Content -->
+<% if @current_user.has_authorization_level?("superuser")-%>
+	<div id="tabs-1">
+      <%= render :file => "/admin/content/index" %>
+    </div>
+<% end -%>
+
+
+
+
+    <!-- #tab-3 Roles -->
+    <div id="tabs-3">
+      <div id="our_family_panel">
+        <div class="section_selector" class="clear">
+ 		  <% for section in ["roles", "authorization_levels", "unverified_users"] do -%>
+	          <% for section in [ "authorization_levels","roles"] do -%>
+	              <% if @current_action == section || (@current_action == "index" && section == "authorization_levels")-%>
+	                <div class="active_section">
+	                  <span><%= section.gsub(/_/, " ") %></span>
+	                </div>
+	              <% else -%>
+	                <div>
+	                  <%= link_to_remote section.gsub(/_/, " "), :update => "our_family_panel", :url => {:controller => :our_family, :action => section, :organization_id => @current_organization}, :method => :get %>
+	                </div>
+	              <% end -%>
+	            <% end -%>
+            <% end -%>
+          </div>
+          <div>
+            <br style="clear:both" />
+            <br />
+            <%= render :partial => "/shared/error_and_notice" %>
+            <%= render :file => "/admin/our_family/authorization_levels" %>
+          </div>
+        </div>
+      </div>
+	  
+    <!-- #tab-4 Our Organization -->
+    <div id="tabs-4">
+      <%= render :file => "/admin/our_organization/index" %>
+    </div>
+		 
+	    <!-- #tab-5 Our Applications  --> 
+    <div id="tabs-5">
+      <%= render :file => "/admin/our_organization/app_subscriptions" %>
+    </div>  
+		 
+	    <!-- #tab-6 Our Provider Solutions  --> 
+    <div id="tabs-6">
+      <%= render :file => "/admin/our_organization/provider_subscriptions" %>
+    </div> 
+
+
+      <div id="tabs-8">
+<!-- 
+        <div class="report_link">
+          <div>
+            <a id="metrics">
+                                    Metrics
+            </a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a id="report_abuses">
+                                    Report Abuse
+            </a>
+          </div>
+        </div>
+-->
+        <br>
+        <div id="report_metrics_abuse">
+          <%= render :file => "/admin/reported_abuses/index" %>
+        </div>
+
+      </div>
+ 
+    <script type="text/javascript" charset="utf-8">
+      jQuery(document).ready(function(){
+        jQ('#control_panel').tabs();
+        jQ(".section_selector").segmentedControl();
+		
+		
+        var $link_metrics = jQ("#metrics");
+        var $link_abuse = jQ("#report_abuses");
+        $link_abuse.click(function(event){
+          event.preventDefault();
+          jQuery.get("/admin/reported_abuses/index/<%=@current_organization.public_id%>" , function(data){
+            jQuery("#report_metrics_abuse").html(data);
+          })
+          return false;
+        })
+        $link_metrics.click(function(event){
+          event.preventDefault();
+          jQuery.get("/admin/metrics/index/<%=@current_organization.public_id%>" , function(data){
+            jQuery("#report_metrics_abuse").html(data);
+          })
+          return false;
+        })
+  
+        <% if params[:from_front] == "true" %>
+          jQ("#control_panel > ul li:nth-child(1) a").click();
+          content_edit_url = "<%= url_for ({:controller => :content, :action => :edit, :organization_id => @current_organization, :content_id => params[:content_id]}) %>";
+          jQ.post(content_edit_url, {"from_front":true},function(data) {
+            jQ("#content_panel").html(data);
+          })
+        <% end  %>        
+      });
+    </script>
+
+  <% else -%>
+    <div>
+      Please use the login bar at the top of this page to get access the administrator section.
+    </div>
+  <% end -%>
+

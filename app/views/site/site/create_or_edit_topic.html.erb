@@ -1,0 +1,377 @@
+
+<div class="topics_panel_title clear" >
+	
+	<br/>
+	<span style ="color: #C83A14; font-size:20px">
+	<strong>UPDATE <%= @classroom.course_name.upcase %>:&nbsp;<%=@topic.title%></strong>
+	</span>
+	<span style ="color: #000000; font-size:12px">	 <br/><br/>
+	 <%= @current_user.first_name %>, you can change the name of the topic, it's schedule dates, and your instructions.<br>
+	 You can close/open the topic discussion and choose to be notified by email when discussion comments are made.
+	 <br/>
+
+	</span>	
+</div>
+	<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
+	Back To: <%= link_to @classroom.course_name, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @topic, :id => @classroom%>
+	</div>
+
+    <%= render :partial => "/shared/error_and_notice" %>
+
+<div class="Form clear">
+<% form_for(:topic, @topic, :url => {:controller => "/site/site", :action => :create_or_edit_topic,:organization_id => @current_organization, :topic_id => @return_topic, :classroom_id => @classroom}) do |form| %>
+
+<div class="formBox">
+
+	<br/>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Learning Unit Name:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+        <%= text_field :topic, :title,  :class=>"text", :size => 50, :maxlength => 50 %>
+        </div>
+    </div>
+  	<div class="FormRow">
+      <div class="FormRowTitle">
+            Estimated Start Date:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+			<%= date_select(:topic, :estimated_start_date, :order=>[:month, :day, :year], :start_year => Time.now.year - 1, :end_year => Time.now.year + 1) %>
+        </div>
+    </div>
+	
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Estimated End Date:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+			<%= date_select(:topic, :estimated_end_date, :order=>[:month, :day, :year], :start_year => Time.now.year - 1, :end_year => Time.now.year + 1) %>
+        </div>
+    </div>
+	
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Instructional Remarks:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+		  	<%= text_area :topic, :instructional_remarks, :class=>"text", :rows => 7, :cols => 75, :maxlength => 4000 %>
+			<%#= form.text_area :instructional_remarks, :class => "mceEditor", :cols => 30, :rows => 7 %>	   
+	   </div>
+    </div>	
+	
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Homework or Other Assignments:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+			<%= text_area :topic, :assignments, :class=>"text", :rows => 7, :cols => 75, :maxlength => 4000 %>
+			<%#= form.text_area :assignments, :class => "mceEditor", :cols => 30, :rows => 7 %>
+	   </div>
+    </div>	
+	
+	<% unless @classroom.featured_topic == @topic %>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Assign As CURRENT TOPIC:
+        </div>
+        <div class="FormRowData" style= "float-left">
+			<input type="checkbox" name="featured" value="yes">
+		</div>
+    </div>	 		
+	<% end %>
+
+	<% if @topic.is_open%>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Close Topic Discussion?
+		</div>
+        <div class="FormRowData" style= "float-left">
+			<input type="checkbox" name="close" value= "yes">
+		</div>
+    </div>	 		
+	<% else%>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Open Topic Discussion?
+		</div>
+        <div class="FormRowData" style= "float-left">
+			<input type="checkbox" name="close" value= "no">
+		</div>
+    </div>
+	<% end %>
+	
+	<% if @topic.should_notify%>
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            DON'T NOTIFY Leaders of Comments?
+		</div>
+        <div class="FormRowData" style= "float-left">
+			<input type="checkbox" name="notfy" value= "no">
+		</div>
+    </div>	 		
+	<% else%>
+		<div class="FormRow">
+      <div class="FormRowTitle">
+            NOTIFY Leaders of Comments?
+		</div>
+        <div class="FormRowData" style= "float-left">
+			<input type="checkbox" name="notfy" value= "yes">
+		</div>
+    </div>
+	<% end %>
+	
+
+	<div style= "margin-left:80px; style="font-size=12px; font-weight:bold">	
+		<br/>
+		<div class="FormRow submit_warp" style= "padding-left:0px" >
+		<% tag_name = "UPDATE TOPIC"%>
+		<%= submit_tag tag_name, :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
+		</div>
+		<br/>
+		<br/>
+		<div class="FormRow submit_warp" style= "padding-left:0px" >
+		<% tag_name = "DELETE TOPIC"%>
+		<%= submit_tag tag_name, :confirm => "You You Sure? All Topic Discussions & Information Will Be Permanently Removed!", :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
+		</div>
+		<br/>
+
+<!-- remove Create Option even though it works. Too confusing. 
+		<p>
+			<%# tag_name = "CREATE NEW TOPIC"%>
+			<%#= submit_tag tag_name, :id => "create", :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
+		</p>
+-->
+	
+	</div>	
+
+	</div>	
+<% end -%>	
+</div>
+<br/>
+<div style="width:100%; text-align:left; font-size:12px; padding:10px;">
+	Back To: <%= link_to @classroom.course_name, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @return_topic, :id => @classroom%>
+</div>	
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+	  if (jQ('#topic_setting_values_attributes_0_value_roles:checked').val() == "roles"){
+		  jQ("#roles_participation_settings").show();
+	  }else{
+		  jQ("#roles_participation_settings").hide();
+	  }
+		jQ('#topic_setting_values_attributes_0_value_roles').click(function() {
+	    jQ('#roles_participation_settings').show('slow');
+	  });
+	  jQ('#topic_setting_values_attributes_0_value_all').click(function() {
+	    jQ('#roles_participation_settings').hide('slow');
+	  });
+
+			//topic_setting_values_attributes_0_value_roles
+		//	 var AUTH_TOKEN = "<%= protect_against_forgery? ? form_authenticity_token : '' %>";
+		//	 jQ.ajaxSetup({data:{authenticity_token : AUTH_TOKEN}});
+
+		jQ("form.ajax").submit(function() {
+			var action = jQ(this).attr("action");					
+			jQ("textarea.mceEditor", this).each(function() {
+				jQ(this).val(tinyMCE.get(this.id).getContent());
+			});
+			var post_data = $(this).serialize()
+		  jQ.post(action, post_data, function(data) {
+				jQ("#topics_panel").html(data);
+			});
+
+	    return false;
+	  });
+                initTinyMCE();
+
+		/*if (tinyMCE.getInstanceById("topic_instructional_remarks") ) {
+			initTinyMCE();
+		}
+		tinyMCE.execCommand("mceAddControl", false, 'topic_instructional_remarks');
+
+
+		if (tinyMCE.getInstanceById("topic_assignments") ) {
+			initTinyMCE();
+		}
+		tinyMCE.execCommand("mceAddControl", false, 'topic_assignments');
+		*/
+		jQ("#FormBoxWarp").accordion({autoHeight: false});
+
+		// jQ("#topic_content").sortable({
+		// 	items : 'tr',
+		// 	placeholder : 'ui-state-highlight',
+		// 	update : save_contents
+		// }).disableSelection();
+
+		jQ("#no_publish_end_date").change(function() {
+		  	if (jQ("#no_publish_end_date").attr("checked")) {
+					jQ("#publish_end_date_panel").slideUp("slow");
+				} else {
+					jQ("#publish_end_date_panel").slideDown("slow");
+				}
+		});		
+	})
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+		
+	// var $resultsBox = jQ("#search-results");	
+	
+	var $resultsBox = jQ("#result-box-dialog");		
+	
+	function search_content(keywords, type) {
+	  search_url = "<%= url_for :controller => :content, :action => :search_with_type, :organization_id => @current_organization %>";
+		jQ.get(search_url, {'keywords': keywords, 'type':type, 'render_html':'search_results_for_topics'}, function(data) {
+			$resultsBox.html(data)
+		});
+	}
+	
+	jQ("#search_button").click(function() {
+		var keywords = jQ("input[name='keywords']", jQ(this).parent("p")).val();
+		var type = "";
+		jQ("input[name='content_search_type']", jQ(this).parents("div.dialog")).each(function() {
+       if(jQ(this).attr('checked')) {
+         type = jQ(this).val();
+       }
+		})
+		search_content(keywords, type);
+	});
+	
+	jQ("#dialog_keywords").keyup(function(event){
+	    if (event.keyCode == 13) {
+			var keywords = jQ(this).val();
+	        search_content(keywords);
+	    }
+	});
+	
+	var save_contents = function() {
+    var items = jQ(".content-list-item");
+       var content_ids = new Array();
+    var $topic_content = jQ("#topic_content");
+    items.each(function() {
+     content_ids.push(this.id);
+    })
+		jQ.post('<%= url_for :controller => :topics, :action => :sort_content, :id => @topic, :organization_id => @current_organization %>', {'content_ids[]':content_ids}, function(data) {
+			$topic_content.css('background', '#f0f0e8')
+			.fadeTo('slow', 0.5, function() {
+				$topic_content.css('background', '#fff')
+				$topic_content.fadeTo("slow", 1)
+				$topic_content.parent("table").parent("div").html(data)
+				$topic_content.css("padding", "0")
+			})						
+		})
+	}
+
+	jQ('#add_content').click(function() {
+		jQ('.dialog').dialog('open');
+		return false;
+	})
+
+  var addActionToPaginationCouldCheck = function() {
+    jQ(".result-box-dialog :checkbox").click(function() {
+      var $this = jQ(this);
+      var id = $this.val();
+      if($this.attr("checked")) {
+        jQ("p:eq(0)", $this.parents(".dialog")).append("<input id='"+id+"' name='hidden_content_ids' type='hidden' value='"+id+"' />")
+      } else {
+        jQ("input#"+id).remove();
+      }
+    })
+  }
+	
+	jQ(".dialog").dialog({
+		bgiframe: true,
+		autoOpen: false,
+		width: 800,
+		height: 400,
+		modal: true,
+		buttons: {
+			'Add Selected Resource To Topic': function() {
+				var content_ids = new Array();
+				var $this = jQ(this);
+        // jQ("input[name='content_ids[]']", jQ(this)).each(function() {
+        //  if(jQ(this).attr('checked')) {
+        //    content_ids.push(jQ(this).val());
+        //  }
+        // });
+        jQ("input[name='hidden_content_ids']", jQ(this)).each(function() {
+           content_ids.push(jQ(this).val());
+        });
+				jQ.post('<%= url_for :controller => :topics, :action => :add_content, :id => @topic, :organization_id => @current_organization,:classroom_id => @classroom.id %>', {'content_ids[]':content_ids}, function(data) {
+					jQ("#topic_content").html(data);
+					$this.dialog('close');
+				})
+			},
+			Cancel: function() {
+				jQ(this).dialog('close');
+			}
+		}
+	});
+
+	function showDialogContent(title, content_id) {
+		$dialog = jQ("#view-content");
+		// next line is broken.		
+		$dialog.attr("title", title);
+		jQ.post('<%= url_for :controller => :content, :action => :show, :organization_id => @current_organization %>', {'id':content_id}, function(data) {
+			$dialog.html(data);
+			$dialog.dialog('open');
+		})
+	}
+	
+	var addButtonAction = function(parent_elem) {
+		jQ("button", parent_elem).each(function() {
+			jQ(this).click(function() {
+				var title = jQ(this).parent("td").parent("tr").children("td").eq(0).text();
+				var content_id = jQ(this).parent("td").parent("tr").attr("id");
+				showDialogContent(title, content_id)
+				return false;
+			})
+		})
+	}
+
+	addButtonAction(jQ("#topic_content"));
+	addButtonAction(jQ("#search-results-dialog"));	
+	addActionToPaginationCouldCheck();
+
+	jQ("#view-content").dialog({
+		bgiframe: true,
+		autoOpen: false,
+		width: 500,
+		modal: true,
+		buttons: {
+			Close: function() {
+				jQ(this).dialog('close');
+			}
+		}
+	});	
+	
+	jQ('div#result-box-dialog div.pagination a').live('click', function() {
+		jQ(this).parents('.result-box-dialog').load(this.href, function() {addActionToPaginationCouldCheck();addButtonAction(jQ("#search-results-dialog"));});
+		return false
+	})	
+	// Set a content as Featured.
+	var topic_id = "<%=@topic.public_id%>";
+	var set_featured_url = "/admin/t/site/site/set_featured_resource/<%=@current_organization.public_id%>";
+	jQ('#topic_content input[type=radio]').setFeatured(set_featured_url, topic_id)
+});
+</script>
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function() {
+		var post_url = "<%= url_for :controller => 'admin/topics', :action => :select_outreach_priorities %>";
+    jQ("#select_outreach_priority_topic").autocomplete(post_url);
+		var add_url = "<%= url_for :controller => 'admin/topics', :action => :add_outreach_priority, :organization_id => @current_organization, :id => @topic %>";
+    jQ("#add_outreach_priority_topic").click(function() {
+      name = jQ("input#select_outreach_priority_topic").get(0).value;
+      jQ.post(add_url, {"name": name}, null, "script");
+      return false;
+    })
+  })
+</script>

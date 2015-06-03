@@ -1,0 +1,9 @@
+<div id="organization_notify_container" style="float:left;">
+	<%= render :partial => "admin/our_organization/registration_notify" %>
+</div>
+<div id="organization_logo_container" style="float:left;">
+	<%= render :partial => "admin/our_organization/organization_logo" %>
+</div>
+<div id="organization_info_container" style="float:left; text-align:center; width:100%;">
+	<%= render :partial => "admin/our_organization/organization_information" %>
+</div>

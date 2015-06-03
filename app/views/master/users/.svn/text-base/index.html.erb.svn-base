@@ -1,0 +1,53 @@
+<h2>User list</h2>
+<table>
+	<thead>
+		<tr>
+			<th colspan=2 style="text-align:left">Full Name, School</th>
+			<th colspan=2 style="text-align:left">Registration</th>
+			<th colspan=2 style="width:160px;text-align:left">Last Login</th>
+			<th style="text-align:left">ID Email</th>
+			<th colspan=2 >&nbsp;</th>
+		</tr>		
+		<tr>
+			<th style="width:120px; width:fixed; padding-left:20px"><%= link_to (image_tag "button_arrow_up.png",:width => 12), :controller => "/master/users", :action => "index", :sort_by => "na" -%></th>
+			<th style="width:120px; width:fixed; padding-left:20px"><%= link_to (image_tag "button_arrow_down.png",:width => 12), :controller => "/master/users", :action => "index", :sort_by => "nd" -%></th>
+			<th style="width:80px; width:fixed; padding-left:20px"><%= link_to (image_tag "button_arrow_up.png",:width => 12), :controller => "/master/users", :action => "index", :sort_by => "ra" -%></th>
+			<th style="width:80px; width:fixed; padding-left:20px"><%= link_to (image_tag "button_arrow_down.png",:width => 12), :controller => "/master/users", :action => "index", :sort_by => "rd" -%></th>
+			<th style="width:80px; width:fixed; padding-left:20px"><%= link_to (image_tag "button_arrow_up.png",:width => 12), :controller => "/master/users", :action => "index", :sort_by => "la" -%></th>
+			<th style="width:80px; width:fixed; padding-left:20px"><%= link_to (image_tag "button_arrow_down.png",:width => 12), :controller => "/master/users", :action => "index", :sort_by => "ld" -%></th>
+			<th style="text-align:left">&nbsp;</th>
+			<th colspan=2 >&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% prev_name = "" -%>
+		<% @users.each do |user| -%>
+		<% org_name = user.organization.nil? ? "* * No Org * *" : user.organization.short_name %>
+		<% background = prev_name == user.last_name_first + org_name ? "#f7c2c2" : "#ffffff"  -%>
+		<tr>
+			<td colspan=2 style="background-color:<%=background %>"><%= user.last_name_first %>,&nbsp;&nbsp;<%= org_name %></td>
+			<td colspan=2 style="background-color:<%=background %>""><%= user.created_at.strftime("%b %d, %Y")%></td>
+			<td colspan=2 style="background-color:<%=background %>""><%= user.last_logon.nil? ? "----":user.last_logon.strftime("%b %d, %Y")%></td>
+			<td style="background-color:<%=background %>"><%= user.email_address%></td>
+			<td class="edit_and_remove" style="background-color:<%=background %>">
+				<button title="<%= user.id %>" class="show fsn-button ui-button ui-state-default ui-corner-all">Show</button>
+				<button title="<%= user.id %>" class="edit fsn-button ui-button ui-state-default ui-corner-all">Edit</button>				
+				<% if user.can_be_deleted? -%>
+					<%= button_to "remove", {:action => :delete, :id => user.id}, :confirm => 'Are you sure?', :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
+				<% end -%>
+				<% unless user.superuser? -%>
+					<%button_label =  user.suspended? ? "Activate" : "Suspend"-%>
+					<%= button_to button_label, {:action => :toggle_suspend, :id => user.id}, :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
+				<% end -%>
+			</td>
+			<td class="edit_and_remove" style="background-color:<%=background %>">
+				<%button_label =  user.superuser? ? "Remove SU" : "Make SU"-%>
+				<%= button_to button_label, {:action => :toggle_su, :id => user.id}, :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
+			</td>
+		</tr>		
+		<% prev_name = user.last_name_first + org_name -%>
+		<% end -%>
+	</tbody>
+</table>
+
+

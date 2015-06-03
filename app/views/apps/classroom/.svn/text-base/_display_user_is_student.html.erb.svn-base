@@ -1,0 +1,62 @@
+
+<div id="user_is_student">
+	<table class="tablesorter"> 
+		<tbody>
+			<% if classroom.homework_option?%>
+				<tr>
+					<td width = 120px style ="vertical-align:top; padding-top:0px; padding-left:00px; padding-bottom:0px">
+						<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
+							<%= link_to "Homework", {:controller => "/site/site", :action => :submit_homework, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @current_topic} %>
+						</span>
+					</td>
+				</tr>
+			<% end -%>
+			<tr>
+				<td width = 120px style ="vertical-align:bottom; padding-top:0px; padding-left:00px; padding-bottom:0px">
+					<% send_link = (image_tag "email_teacher.png", :width => 90) -%>
+					<p width = 110px style="padding-top:20px; padding-left:10px; padding-bottom:5px; float:left; word-wrap:break-word; overflow:hidden;"><a id="send_message_link" href="#"><%= send_link %></a></p>
+			 	    <div id="send_message_form" style="display:none">
+			        <%= form_tag %>
+					<textarea id="message_content" name="message[content]" cols="35" rows="5"></textarea>
+					<input type="hidden" name="to" value="teachers">
+					<input type="hidden" name="message[sender]" value="<%= @current_user.full_name %>">					
+					<input type="hidden" name="classroom_id" value="<%= classroom.id %>">						
+						<input type="hidden" name="message[classroom_id]"value="<%= classroom.id %>">
+						<input type="hidden" name="message[sender_id]"value="<%= @current_user.id %>">
+					<input type="submit" class="submit" value="Send Message" /> 
+			        </form>
+				  	</div>
+			      	<div id="send_message_succefully" style="display:none">
+		        	<i>Message Sent</i>
+      				</div>	
+					&nbsp;&nbsp;&nbsp;	
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<% if classroom.ifa_classroom_option -%>									
+		<table > 
+			<tbody>
+				<tr>
+					<td width = 200px style ="vertical-align:top; padding-top:0px; padding-left:00px; padding-bottom:5px">
+						<%= link_to (image_tag "assess_pill.png",:width => 80), {:controller => "/apps/assessment", :action => :take_assessment, :organization_id => @current_organization,:classroom_id => classroom, :topic_id => topic} %>
+					</td>
+				</tr>
+
+				<tr>
+					<td style ="width:200px; padding-top:0px; padding-left:0px; padding-bottom:0px; color:#C83A14; font-size:11px;">
+		 				<% @current_organization.ifa_org_option.act_masters.each do |mstr| -%>			
+							<% latest_scores = @current_user.ifa_dashboards.last.ifa_dashboard_sms_scores.for_standard(mstr).first rescue nil -%>
+							<% if latest_scores -%>
+								<% unless latest_scores.sms_finalized == 0 -%>
+					 				Current <%= mstr.abbrev %> Mastery Level: <%= latest_scores.sms_finalized %>
+								<% end -%>
+							<% end -%>
+						<% end -%>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<% end -%>
+</div>
+

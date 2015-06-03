@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  elt_element_id: 1
+  position: 1
+  weight: 1
+  indicator: MyText
+  is_active: false
+
+two:
+  elt_element_id: 1
+  position: 1
+  weight: 1
+  indicator: MyText
+  is_active: false

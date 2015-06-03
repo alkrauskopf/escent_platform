@@ -1,0 +1,76 @@
+10
+
+dir
+25042
+svn://svn.riverwatcher.com/tcpj/trunk/app/views/apps
+svn://svn.riverwatcher.com
+
+
+
+2015-03-25T14:22:00.466744Z
+25042
+chandler
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+d99b3096-df13-4f1d-8161-802dcdbb7ef6
+
+co_standard
+dir
+
+staff_develop
+dir
+
+app_blog
+dir
+
+assessment
+dir
+
+teacher_assess
+dir
+
+owner_maintenance
+dir
+
+panel
+dir
+
+classroom
+dir
+
+school_time
+dir
+
+blogs
+dir
+
+shared
+dir
+
+client_manager
+dir
+
+app_pdf
+dir
+
+app_report
+dir
+
+learning_time
+dir
+
+time_learning
+dir
+

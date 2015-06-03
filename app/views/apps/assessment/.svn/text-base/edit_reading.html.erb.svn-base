@@ -1,0 +1,146 @@
+
+<div style ="color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold"> 
+
+	<br/>
+	<strong><center> RELATED READING UPDATE</center></strong>
+</div>
+
+    <%= render :partial => "/shared/error_and_notice" %>
+
+<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
+	<input class="fsn-button ui-button ui-state-default ui-corner-all" style="font-size:11px; margin-left:80px;" type=button value="Back" onClick="history.go(-1)">
+<!--
+	  <%#= link_to "Back", :controller => "/apps/assessment", :action => "manage", :organization_id => @current_organization, :classroom_id => @classroom %>
+-->
+</div>
+
+<div id="reading_form" class="Form clear">
+<% form_for(:act_rel_reading, :url => {:controller => "/apps/assessment", :action => :edit_reading, :organization_id => @current_organization, :classroom_id => @classroom , :function => "Submit", :reading_id => @reading}) do |form| -%>
+
+<div style ="color: #000000; font-size:14px; margin-top:5px; margin-left:180px;font-weight:normal"> 
+
+	<br/>
+	<div class="FormRow">
+		<div class="FormRowTitle">Subject:</div>
+        <div class="FormRowData" style= "margin-left:0px">
+ 			<strong><%=@reading.act_subject.name.upcase%></strong>
+        </div>
+   	</div>
+	<div class="FormRow">
+		<div class="FormRowTitle"></div>
+        <div class="FormRowData" style= "margin-left:0px">
+       </div>
+    </div>
+
+	<% score_range = @reading.score_range(@current_standard) -%>
+	<% if score_range -%>
+		<% prompt_label = score_range.range -%>
+		<% else -%>
+		<% prompt_label = "Select " + @current_standard.abbrev + " Mastery Level" -%>
+		<% end -%>	
+		<div class="FormRow">
+			<div class="FormRowTitle"><%= @current_standard.abbrev %> Mastery Level:</div>
+  	      <div class="FormRowData" style= "margin-left:0px">
+				<%=  select(:range, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @reading.act_subject_id, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_label}) %>
+  	      </div>
+  	  </div>
+
+	<div class="FormRow">
+		<div class="FormRowTitle"></div>
+        <div class="FormRowData" style= "margin-left:0px">
+       </div>
+    </div>
+	
+	<div class="FormRow">
+		<div class="FormRowTitle">Genre:</div>
+        <div class="FormRowData" style= "margin-left:0px">
+				<%=  select(:reading, :act_genre_id, ActGenre.all.collect{|g| [g.name, g.id]},{:prompt => @reading.act_genre.name}) %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+		<div class="FormRowTitle"></div>
+        <div class="FormRowData" style= "margin-left:0px">
+       </div>
+    </div>
+	
+				
+	<div class="FormRow">
+		<div class="FormRowTitle">Label:</div>
+        <div class="FormRowData" style= "margin-left:0px">
+         <%= text_field :act_rel_reading, :label, :size => 55, :maxlength => 150, :value => @reading.label   %>
+        </div>
+    </div>
+	
+	<div class="FormRow">
+		<div class="FormRowTitle"></div>
+        <div class="FormRowData" style= "margin-left:0px">
+       </div>
+    </div>
+	
+	<div class="FormRow">
+		<div class="FormRowTitle"></div>
+        <div class="FormRowData" style= "margin-left:25px">
+      <%= text_area :act_rel_reading, :reading, :rows => 20, :cols => 75, :maxlength => 255, :value => @reading.reading, :class =>"mceEditor"  %>
+        </div>
+    </div>
+
+
+		<div class="FormRow submit_warp">
+			<br/>
+			<%= submit_tag "Update Reading", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+		</div>	
+		<div class="FormRow submit_warp">
+			<br/>
+			<%=link_to 'Delete Reading', {:controller => 'apps/assessment',:action => "destroy_reading",:organization_id => @current_organization, :classroom_id => @classroom, :reading_id => @reading}, :confirm => "Are You Sure?"%>
+		</div>	
+	</div>	
+<% end -%>	
+</div>
+
+<br/>
+	
+<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
+	<input class="fsn-button ui-button ui-state-default ui-corner-all" style="font-size:11px; margin-left:80px;" type=button value="Back" onClick="history.go(-1)">
+	  <%#= link_to "Back", :controller => "/apps/assessment", :action => "manage", :organization_id => @current_organization, :classroom_id => @classroom %>
+</div>
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>
+<script type="text/javascript">		
+	jQ(document).ready(function() {
+//		var AUTH_TOKEN = "<%= protect_against_forgery? ? form_authenticity_token : '' %>";
+//		jQ.ajaxSetup({data:{authenticity_token : AUTH_TOKEN}});
+		jQ("form.ajax").submit(function() {
+			var action = jQ(this).attr("action");					
+			jQ("textarea.mceEditor", this).each(function() {
+				jQ(this).val(tinyMCE.get(this.id).getContent());
+			});
+			var post_data = $(this).serialize()
+		  jQ.post(action, post_data, function(data) {
+				jQ("#reading_form").html(data);
+			});
+
+	    return false;
+	  });
+
+	})
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+
+	<% if @current_organization.assets_featured  %>
+		<%= link_to "Our Technology", :controller => "fsn", :action => :index, :organization_id => @current_organization, :blog_id => @current_organization.assets_featured.public_id%>	
+	<% else -%>
+		Our Technology
+	<% end -%>
+	<ul>
+		<% if @current_organization.assets_featured  %>
+			<li style="width: 330px;"><%= link_to @current_organization.assets_featured.title, :controller => "fsn", :action => :index, :organization_id => @current_organization, :blog_id => @current_organization.assets_featured.public_id%></li><br/>		
+		<% end -%>
+		<% @current_organization.active_nonfeatured_assets.each do |blog| -%>
+			<li style="width: 330px;"><%= link_to blog.title, :controller => "fsn", :action => :index, :organization_id => @current_organization, :blog_id => blog.public_id%></li><br/>
+		<% end -%>
+	</ul>

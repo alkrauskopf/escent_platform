@@ -1,0 +1,82 @@
+	
+<div id="master_tags" >
+
+	<table style="width:630px; margin-left:115px; border:0px">
+		<tbody>
+		<style type="text/css" media="screen">
+	    table,tr,td { border:medium}
+		table tr:hover{
+        background-color: transparent;
+      }
+    	</style>
+				<% master_tag = @master.abbrev -%>
+				<% mastery_tag = @question.act_score_ranges.for_standard(@master).first.range rescue "Select Mastery Level" %>
+				<% strand_tag = @question.act_standards.for_standard(@master).first.name rescue "Select Knowledge Strand" %>
+
+				<tr >
+					<td width=160px style="vertical-align:middle;  padding-right:3px; padding-top:0px; text-align:right; color: #000000; font-size:11px; font-weight:bold">
+						Set Standards Tags:
+					</td>
+					<td  id = "master_id" width=70px style="vertical-align:middle;  padding-right:0px; padding-top:0px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
+						<%=  select(:org, :master_id, @current_organization.ifa_org_option.act_masters.collect{|m| [m.abbrev,m.id]},{:prompt => master_tag}) %>
+					</td>
+					<td  id="range_change" width=400px style="vertical-align:middle;  padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:bold">
+						<%=  select(:range, :range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @question.act_subject_id, @master.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => mastery_tag}) %>
+					</td>
+				</tr>
+				<tr >
+					<td width=160px style="vertical-align:middle;  padding-right:3px; padding-top:10px; text-align:right; color: #000000; font-size:11px; font-weight:bold">
+						&nbsp;
+					</td>						
+					<td  id="strand_change" colspan=2 width=470px style="vertical-align:middle;  padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+						<%=  select(:strand, :strand_id, ActStandard.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @question.act_subject_id, @master.id],:order => "name").collect{|s| [s.name, s.id]},{:prompt => strand_tag}) %>
+					</td>						
+
+				</tr>
+		</tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#range_change").change(function(){
+		var range_id = jQ('#range_range_id').val();
+		var question_id = '<%= @question.public_id %>';
+		var master_id = '<%= @master.public_id %>';
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_score_range, :organization_id => @current_organization  %>";
+			jQ.get(url, {'question_id':question_id, 'master_id': master_id, 'range_id':range_id}, function(data) {
+			jQ("#master_tags").html(data); 
+	   		jQ("#master_tags").show();
+			});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#strand_change").change(function(){
+		var strand_id = jQ('#strand_strand_id').val();
+		var question_id = '<%= @question.public_id %>';
+		var master_id = '<%= @master.public_id %>';
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_strand, :organization_id => @current_organization  %>";
+			jQ.get(url, {'question_id':question_id, 'master_id': master_id, 'strand_id':strand_id}, function(data) {
+			jQ("#master_tags").html(data); 
+	   		jQ("#master_tags").show();
+			});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#master_id").change(function(){
+		var master_id = jQ('#org_master_id').val();
+		var question_id = '<%= @question.public_id %>';
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_new_master, :organization_id => @current_organization  %>";
+			jQ.get(url, {'question_id':question_id, 'master_id': master_id}, function(data) {
+			jQ("#master_tags").html(data); 
+	   		jQ("#master_tags").show();
+			});
+	})
+});
+</script>			

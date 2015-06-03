@@ -1,0 +1,5 @@
+<div >
+
+	    <%= render :partial => "/apps/time_learning/then_now_summary_display", :locals => {:type => @then_now_type, :l_entity => @l_entity, :r_entity=> @r_entity, :current_r_entity=> @r_entity_select, :current_subject => @subject_select, :teacher => @teacher, :time_table => @time_table, :sessions=>@session_count,:category_table => @category_table, :strategy_table => @strategy_table, :header => @header, :subject_list => @subject_list, :subject=> @subject, :color_key => @colors, :belt => @belt}  %>
+
+</div>

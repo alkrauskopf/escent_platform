@@ -1,0 +1,111 @@
+<%= link_to 'Back', :controller => "/site/site", :action => :index, :organization_id => @current_organization %>
+<br />
+
+<% if @content_images.present? %>
+<div id="content_panel">
+   <div id="result-box">
+	   <h2>Images (<%= @image_count %>)</h2>
+	     <div id="image_page_div">
+		      <%= render :file => "site/site/content_images_page" %>
+		   </div>
+	 </div>
+</div>
+<% end %>
+
+
+<% if @content_videos.present? %>
+<div id="content_panel">
+   <div id="result-box">
+	   <h2>Videos (<%= @video_count %>)</h2>
+	   <div id="video_page_div">
+        <%= render :file => "site/site/content_videos_page" %>
+		</div>
+	 </div>	
+</div>
+<% end %>
+<div id="content_other_div">
+<%= render :file => "site/site/content_other_page" %>
+</div>
+
+<div id="view-content" title="View Content">
+</div>
+<script type="text/javascript">
+    jQ(document).ready(function(){
+        var $resultsBox = jQ("#search-results");
+        var $image_resultsBox = jQ("#image_results")
+        var $video_resultsBox = jQ("#video_results")       
+
+        var AUTH_TOKEN = "<%= protect_against_forgery? ? form_authenticity_token : '' %>";
+        jQ.ajaxSetup({ data: { authenticity_token: AUTH_TOKEN } });
+        
+        function showDialogContent(content_id){
+            $dialog = jQ("#view-content");
+            jQ.post('<%= url_for :controller => "admin/content", :action => :show, :organization_id => @current_organization %>', {
+                'id': content_id
+            }, function(data){
+                $dialog.html(data);
+                $dialog.dialog('open');
+            })
+        }
+        
+        var addButtonAction = function(){
+            jQ("button", $resultsBox).each(function(){
+                jQ(this).click(function(){
+                    var content_id = jQ(this).parent("td").parent("tr").attr("id");
+                    showDialogContent(content_id)
+                    return false;
+                })
+            })
+            jQ("button", $image_resultsBox).each(function(){
+                jQ(this).click(function(){
+                    var content_id = jQ(this).parent("li").attr("id");
+                    showDialogContent(content_id)
+                    return false;
+                })
+            })
+            jQ("button", $video_resultsBox).each(function(){
+                jQ(this).click(function(){
+                    var content_id = jQ(this).parent("li").attr("id");
+                    showDialogContent(content_id)
+                    return false;
+                })
+            })
+        }
+        addButtonAction();
+
+        jQ("#view-content").dialog({
+            bgiframe: true,
+            autoOpen: false,
+            width: 500,
+            modal: true,
+            buttons: {
+                Close: function(){
+                    jQ(this).dialog('close');
+                }
+            }
+        });
+        /*
+        jQ('div#result-box div.pagination a').live('click', function(){
+            jQ('#result-box').load(this.href, function(){
+                addButtonAction();
+            });
+            return false
+        })*/
+       	jQ('#discussions_panel div.pagination a').live('click', function() {
+    			jQ('#video_page_div').load(this.href);
+    			return false
+    		})
+
+        jQ('#discussions_image_panel div.pagination a').live('click', function() {
+    			jQ('#image_page_div').load(this.href);
+    			return false
+    		})
+
+        jQ('#digg_other_pagination div.pagination a').live('click', function() {
+    			jQ('#content_other_div').load(this.href);
+    			return false
+    		})
+				
+
+    })
+</script>

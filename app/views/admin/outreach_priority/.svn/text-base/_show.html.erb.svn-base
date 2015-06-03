@@ -1,0 +1,14 @@
+<tr id="group_<%= @outreach_priority_group.public_id %>">
+	<td>
+	 <%= @outreach_priority_group.name %>
+	</td>
+	<td>
+	 <%= @outreach_priority_group.outreach_priorities.collect(&:name).join(",") %>
+	</td>
+	<td>
+	<%= button_to_remote  "Edit", {:before => "Element.show('loading')", :complete => "Element.hide('loading');", :url => {:controller => :outreach_priority, :action => :edit, :outreach_priority_group_id => @outreach_priority_group.public_id}}, {:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
+	</td>
+	<td>
+	<%= button_to_remote "Remove", {:before => "Element.show('loading')", :complete => "Element.hide('loading');", :confirm => "Area you sure?"  , :url => {:controller => :outreach_priority, :action => :destroy, :outreach_priority_group_id => @outreach_priority_group.public_id}}, {:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
+	</td>
+</tr>

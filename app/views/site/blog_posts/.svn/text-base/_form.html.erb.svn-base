@@ -1,0 +1,23 @@
+<div class="FormRow">
+	<div class="FormRowTitle">
+		<label for="blog_title">Title</label>
+	</div>
+	<div class="FormRowData">
+		<%= @f.text_field :title %>
+	</div>
+</div>	
+<div class="FormRow">	
+	<div class="FormRowTitle">
+		<label for="blog_body">Content</label>
+	</div>
+	<div class="FormRowData">
+		<%= @f.text_area :body , :class => "mceEditor" %>
+	</div>	
+</div>
+<div class="FormRow">	
+	<div class="FormRowTitle">&nbsp;</div>
+	<div class="FormRowData">
+		<%= @f.submit "Save" %>
+		<%= link_to "Cancel" ,  :controller => "site/blogs" , :action => "show" , :blog_id => @blog.public_id %>
+	</div>	
+</div>

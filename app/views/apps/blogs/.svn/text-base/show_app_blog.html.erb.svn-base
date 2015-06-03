@@ -1,0 +1,151 @@
+	<% @heading_color = "#1b5698" -%> 
+    <% @post_title_color = "#1b5698" -%>
+    <% @text_color = "#555555" -%>
+<a name="Top"></a>
+<style type="text/css" media="screen">
+	#blog_comment_warp .mempro_box { width:900px; }
+	h3.blog_item_title { font-size: 20px; line-height: .8em; color:#000000; font-family:Verdana;}
+</style>
+<div class="blog_box_warp">
+	<div class="mempro_box">
+		<table   style="width:1100px;  margin-left:10px; border:0px solid white;">
+		<tbody>
+			<style type="text/css" media="screen">
+		    table,tr,td { border:medium}
+			table tr:hover{
+ 	       	background-color: transparent;
+ 	     	}
+ 		   	</style>
+			<tr style=" border:0px solid white;">
+				<td style="width:200px; width:fixed;  text-align:left; padding-left:1px; border:0px solid black">
+				<div style="padding-bottom:0px;">
+					<% if @current_user %>
+						<%= image_tag(@current_user.organization.logo.url, :alt => @current_user.organization.name, :width => 140) if @current_user.organization.logo.file? -%>					
+					<% else -%>
+						<%= image_tag(@current_organization.logo.url, :alt => @current_organization.name, :width => 140) if @current_organization.logo.file? -%>
+					<% end %>
+				</div>	
+				</td>
+
+				<td  style="width:700px; vertical-align:top; color: #C83A14; font-size:18px; padding-top:3px; font-weight:bold;">
+					<strong><center> <%= @blog_app.name.upcase %>
+						<span style="font-size:14px; font-weight:bold;">
+							<br/>Discussions 
+						</span>
+					</center></strong>
+				</td>
+				<td style="width:200px;  width:fixed; vertical-align:top; text-align:left; padding-left:0px; border:0px solid black">
+					<% other_blogs = @blog_app.blogs.active.select{|b| b.id != @blog.id}  rescue []  -%>
+					<% unless other_blogs.empty? -%>
+						<table id="blogs_header" style = "width:190px; padding-left:0px">
+							<tbody>
+								<tr>
+									<td  id="blogs_show" style = "width:190px; font-size:12px; text-align:left; padding-left:0px; font-weight:normal; font-family: Calibri; color:<%= @heading_color %>">
+										> <span style="cursor:pointer"><u>Show</u></span>&nbsp;Other&nbsp;<%= @blog_app.abbrev %>&nbsp;Discussions										
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table id="blogs_descript"style = "width:190px; padding-left:0px">
+							<tbody>
+								<tr>
+									<td  id="blogs_hide" style = "width:190px; font-size:12px; text-align:left;  padding-left:0px; font-weight:normal; font-family: Calibri; color:<%= @heading_color %>">
+										> <span style="cursor:pointer"><u>Hide</u></span>										
+									</td>
+								</tr>
+								<% other_blogs.each do |blog| -%>
+									<tr>
+										<td style="width:190px; text-align:left; font-size:12px; padding-left:0px; font-family: Calibri; color:<%= @heading_color %>">
+											<%= link_to (blog.title), {:controller => "apps/blogs", :action => "show_app_blog", :organization_id=> @current_organization, :blog_id => blog, :blog_app=> @blog_app}%> (<%= pluralize blog.blog_posts.size, " Posting" %>)
+										</td>
+									</tr>
+								<% end -%>
+							</tbody>
+						</table>
+					<% end -%>
+				</td>
+			</tr>
+		</tbody>					
+	</table>
+<br/>
+	<table style="width:1100px;  padding-top:0px; border:0px solid white;">
+		<tbody>
+			<style type="text/css" media="screen">
+		    table,tr,td { border:medium}
+			table tr:hover{
+ 	       	background-color: transparent;
+ 	     	}
+ 		   	</style>
+			<tr style=" border:0px solid white;">
+				<td style="width:200px;  text-align:center; font-size:10px; padding-right:0px;">
+     	  			<h3><%= pluralize( @blog.blog_posts.active.size , ' Posting') %></h3>			
+				</td>
+
+				<td  style="width:780px; vertical-align:top;  margin-top:5px;  padding-left:0px;  border:0px solid black;">
+					<div class="blog_item">
+						<div class="blog_title" >
+							<%= h @blog.title %>
+						</div>
+						<div class="blog_description_text" >
+							<%= simple_format @blog.description %>
+						</div>
+					</div>
+				</td>
+				<td style="width:120px;  vertical-align:top; text-align:left; padding-left:0px; border:0px solid black">
+					&nbsp;
+				</td>
+			</tr>
+		</tbody>					
+	</table>
+
+	<div id="blog_comment_warp">
+
+				<%= render :file => "/site/blog_posts/index" %>
+
+	</div>
+<a name="Bottom"></a>
+</div>
+	<br style="clear:both" />	
+</div>
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		$share_blog_warp = jQ("#share_blog_warp");
+		jQ("#share_blog_btn").click(function() {
+			$share_blog_warp.show();
+		})
+		$share_blog_warp.find("button:first").click(function() {
+			$share_blog_warp.hide();
+		})
+		$share_blog_warp.find("button:last").click(function() {
+			var $sender_email = $share_blog_warp.find("input[name='email_archive[sender_email]']");
+			var $plain_body = $share_blog_warp.find("textarea");
+			var sender_email = $sender_email.val();
+			var plain_body = $plain_body.val();
+			share_url = '<%= url_for :controller => "/site/blogs", :action => :share_blog, :blog_id => @blog.public_id %>';
+			jQ.post(share_url, {'email_archive[sender_email]':sender_email, 'email_archive[plain_body]':plain_body}, function() {
+				$share_blog_warp.hide();
+			})
+		})
+	})
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+  		  jQ("#blogs_header").show();
+		  jQ("#blogs_descript").hide();		  
+
+	jQ("#blogs_show").click(function() {
+		  	jQ("#blogs_header").hide();	 
+	   		jQ("#blogs_descript").slideDown("slow");
+	})
+
+	jQ("#blogs_hide").click(function() {
+	   		jQ("#blogs_descript").slideUp("slow");
+	   		jQ("#blogs_header").show();
+	})	
+});
+</script>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() { 
+	jQ('.fsn-button').addUIStateClass();
+});
+</script>

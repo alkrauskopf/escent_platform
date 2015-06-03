@@ -1,0 +1,60 @@
+<div class="clear">
+	<h2 style="float:left;">Roles</h2>
+	<div style="float: right;">
+		<%= button_to_remote "Add role", {:update => "our_family_panel", :before => "Element.show('loading')", :complete => "Element.hide('loading');", :url => {:controller => :our_family, :action => :new, :organization_id => @current_organization}, :method => :get}, {:id => "add-role", :style => "margin-right:5px", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %> 
+	</div>
+</div>
+<table id="roles" class="tablesorter">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>&nbsp;</th>			
+			<th>&nbsp;</th>						
+			<th>&nbsp;</th>			
+			<th>&nbsp;</th>			
+			<th>&nbsp;</th>			
+			<th>&nbsp;</th>															
+		</tr>
+	</thead>
+	<tbody>
+		<% for role in @current_organization.roles do -%>
+		<tr>
+			<td><%= role.name %></td>
+			<td class="button" style="width:100px;">
+				<%= button_to_remote "View Members", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :view_members, :organization_id => @current_organization, :id => role}, :method => :get}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+			</td>
+			<td class="button" style="width:60px;">
+				<%= button_to_remote "Add Members", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :view_other_members, :organization_id => @current_organization, :id => role}, :method => :get}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+			</td>			
+			<td class="button" style="width:38px;">
+			  <%= button_to_remote "Change Role Name", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :edit, :organization_id => @current_organization, :id => role}, :method => :get}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+			</td>
+			<td class="button" style="width:60px;">
+			  <%= button_to_remote "Email Members", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :email_role, :organization_id => @current_organization, :id => role}, :method => :get}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>				
+			</td>			
+			<td class="button" style="width:60px;">
+			  <%= link_to "Export", "/admin/our_family/export.xls?organization_id=#{@current_organization.public_id}&id=#{role.id}", :class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "text-decoration:none; padding:2px; font-size:12px; margin-top:2px;" %>				
+			</td>						
+			<td class="button" style="width:60px;">
+			  <% if role.can_be_deleted? -%>
+					<%= button_to_remote "Remove", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :delete, :organization_id => @current_organization, :id => role}, :confirm => 'Are you sure?'}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+				<% end -%>
+			</td>										
+		</tr>
+		<% end -%>
+		<tr>
+			<td>Friends</td>
+		  <td>
+		  	<%= button_to_remote  "View Members", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :people, :organization_id => @current_organization, :id => role}, :method => :get}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+	    </td>
+			<td></td>
+			<td></td>
+	 </tr>
+	</tbody>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+  jQ("#roles").tablesorter({ headers: { 1: { sorter: false }} });
+});
+</script>

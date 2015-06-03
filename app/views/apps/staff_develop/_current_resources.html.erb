@@ -1,0 +1,56 @@
+	<table   style="width:800px; margin-left:0px; border:0px solid #ddd;">
+
+		<style type="text/css" media="screen">
+	    		table,tr,td { border:none }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+		<tbody >
+				<% @current_organization.dle_resources.by_position.each do |rsrc| -%>
+				<% unless rsrc.content.nil? || !(rsrc.content.content_status.name == "Available" || rsrc.content.content_status.name =="Restricted")%>
+				<% restrict =  rsrc.content.content_status.name =="Restricted" ? "RESTRICTED ":""%>	
+				<% user_string = rsrc.content.user.nil? ? "": " by " + rsrc.content.user.full_name %>
+				<% org_string = rsrc.content.organization ? ", " + rsrc.content.organization.medium_name : ""%>
+				<tr id="<%= rsrc.content.public_id %>" class="content-list-item" >
+						<td   style="width:180px; border:0px solid #ddd; font-size:11.5px; padding-right:10px; padding-top:20px; vertical-align:top; text-align:right;color: #2061a5; font-weight:normal;">
+							<% if rsrc.content.content_object_type.content_object_type_group_id == 3 %>
+								<%= javascript_include_tag "audio-player.js" %>
+			                	Listen To: <%= rsrc.content.title %> : <%= show_audio_player(rsrc.content.source_file.url) %>
+								<br/>
+								<% elsif rsrc.content.content_object_type.content_object_type_group_id == 7  %>
+							  	<a href="<%= rsrc.content.source_file.url %>" target="_blank">Download</a>
+								<br/>
+								<% elsif rsrc.content.content_object_type.content_object_type_group_id == 8  %>
+							 	<a href="<%= rsrc.content.source_file.url %>" target="_blank">Download</a> 
+								<br/>
+								<% elsif rsrc.content.content_object_type.content_object_type_group_id == 5 %>
+			 				    <a href="<%= rsrc.content.content_object %>" target="_blank">Link To</a>
+							    <br/>
+							<% end %>
+							<% if ![3,5,7,8].include?(rsrc.content.content_object_type.content_object_type_group_id) %>
+						        <% if rsrc.content.content_object_type.content_object_type_group_id == 2 %>
+									<br/>
+			 				       <img src="<%= rsrc.content.source_file.url %>" width="160" />
+								<% end -%>
+							<% end %>
+						</td>
+						<td   style="width:620px;  border:0px solid #ddd; font-size:11.5px; padding-top:20px; padding-left:0px; vertical-align:middle; text-align:left;color: #000000;font-weight:normal;">
+							<span style="color: #2061a5;font-weight:bold;">
+								<%= rsrc.content.title %>
+							</span>
+							&nbsp; (<%= restrict %><%= rsrc.content.content_object_type.content_object_type_group.name.downcase%>)<br/>
+							<% unless rsrc.content.description == "" -%><%= rsrc.content.description%><br/><% end -%>
+							Contributed <%= time_ago_in_words(rsrc.content.created_at.to_s, include_seconds = false)%> ago<%=user_string %><%=org_string %>.
+							<br/>						
+						</td>
+
+					</tr>
+				<% end %>
+			<% end -%>
+		</tbody>
+	</table>
+
+		<br/>
+
+

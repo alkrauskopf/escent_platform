@@ -1,0 +1,56 @@
+
+<div id ="case_cycles_<%=org.public_id%>" style = "font-size:12px; color: #2061a5; padding-left:0px;">
+	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:normal"> 
+		<center><%= org.elt_provider ? ("Active " + org.elt_provider.short_name) : "" %>&nbsp;Diagnostic Cycles</center>				
+	</div>
+	<% unless org.app_provider(app).nil? %>
+		<% unless org.provider?(app) %>
+			<% org.elt_all_cycles(org.app_provider(app)).each do |cycle| -%>
+			<div style ="color: #C73914; font-size:12px; margin-top:10px; font-weight:bold"> 
+				<%=  cycle.name %><span style = "font-size:9px;font-weight:normal"><%= org.active_elt_cycle == cycle ? "&nbsp;&nbsp;(Current Cycle)" : ""%></span>
+			</div>
+				<% cycle.activities.for_client.each do |activity| -%>
+					<table id="activity_list_<%=cycle.id%><%=activity.public_id%>" style="width:950px;margin-top:0px;">
+						<tbody>  
+							<tr>
+								<td class="resource_levels_close" style="width:950px;color: #2061a5;">
+				
+								<%= link_to '', :controller => "apps/learning_time", :action => :show_school_cycle_activity_cases, :organization_id => @current_organization, :school_id => org, :elt_cycle_id => cycle, :elt_type_id=>activity, :app_id=> app.id  %>
+								<%= activity.name %>&nbsp;<small><i>(<%= org.elt_cycle_activity_cases(cycle, activity).size %>)</i></small>
+								<span></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				<script type="text/javascript" charset="utf-8">
+				jQ(document).ready(function() {
+					jQ('#activity_list_<%=cycle.id%><%=activity.public_id%> .resource_levels_close').toggleResourceLevels();
+					jQ('#activity_list_<%=cycle.id%><%=activity.public_id%> .resource_levels_open').toggleResourceLevels();	
+				});
+				</script>
+				<% end -%>
+			<% end -%>	
+	
+		<% else -%>	
+			<% org.elt_cycles.all.active.each do |cycle| -%>
+				<div style ="color: #2061a5; font-size:14px; margin-top:15px; margin-left:0px; font-weight:normal; border:0px solid #ddd;"> 
+					<%= render :partial => "/apps/learning_time/list_cycle_schools", :locals=>{:org=>org, :cycle=>cycle, :app=>app} %>
+				</div>
+			<% end -%>
+		<% end -%>
+	<% end -%>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.destroy_case').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#list_org_activities).html(data);
+				jQ("#list_org_activities").show();
+			})
+			return false;
+	})
+});
+</script>

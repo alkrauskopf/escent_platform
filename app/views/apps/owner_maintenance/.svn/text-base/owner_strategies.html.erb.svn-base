@@ -1,0 +1,85 @@
+<div id="main_content">
+
+  	<div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 18px; font-style: normal; font-weight: bold">
+			<br/><center>Maintain&nbsp;<%= @app.abbrev %>&nbsp; <%= @app.app_methods.collect{|m| m.task_name.pluralize}.join(" and ") %></center>
+	</div>
+	<% if @current_user.app_superuser?(@app)%>
+		<% button_label = @app.abbrev + " Owner Maintenance"%>
+		<table  style="width:350px; margin-left:400px; color: #2061a5; ">
+			<tbody>
+				<tr>
+					<td  style="width:350px; vertical-align:middle; text-align:left;padding-bottom:0px; padding-top:0px; padding-left:0px">
+						<span class="fsn-button ui-button ui-state-default ui-corner-all">
+							 <%= link_to button_label ,{:controller => "apps/owner_maintenance", :action => :index, :organization_id => @current_organization, :app_id=> @app.id}, {:target => "_blank"} %>
+						</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<% end-%>	
+	<% AppMethod.by_position.each do |method| -%>
+		<% background = "#" + method.dashboard_color -%>
+		<table   style="width:900;border:3px solid #ddd;background:<%= background%>;">
+			<style type="text/css" media="screen">
+		    table,tr,td { border:medium}
+			table tr:hover{
+	        background-color: transparent;
+	      }
+	    	</style>
+			<tbody>  
+				<tr>
+					<td colspan=3 style=" text-align:center; font-size:16px; color:#2061a5;">
+						<%=method.task_name.pluralize%>&nbsp;for the&nbsp;<i><%= method.name %></i>&nbsp;Method
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div style="overflow:scroll; max-height:450px;">
+			<table   style="width:900; border:1px solid #ddd;background:<%= background%>">
+				<style type="text/css" media="screen">
+			    table,tr,td { border:medium}
+				table tr:hover{
+		        background-color: transparent;
+		      }
+		    	</style>
+				<tbody> 
+						<% method.tl_activity_types.sort_by{|a| a.seq_num}.each do |activity|%>
+							<% activity.tl_activity_type_tasks.sort_by{|s| [s.name]}.each do |strategy| %>
+								<tr style="border:1px solid #ddd;">
+									<td  style="width:240px;width:fixed;padding-bottom:00px; line-height:1.5em; color:#2061a5;">
+										<%= strategy.tl_activity_type.abbrev %>:&nbsp;<%=strategy.name %>
+									</td>
+									<td  style="width:580px;width:fixed; padding-bottom:15px; line-height:1.5em; color:#2061a5;">
+										<%= strategy.description %><br/>
+										<%= strategy.is_enabled ? "Enabled":"Disabled"%>,&nbsp;&nbsp;Panel Position:&nbsp;<%=strategy.position%>,&nbsp;&nbsp;Impact:&nbsp;<%=strategy.research%>
+										<% unless strategy.evidences.empty? %>
+											<br/><u><%= pluralize(strategy.evidences.size, " Related Evidence")%></u>
+											<% strategy.evidences.collect{ |s| s.tl_activity_type}.uniq.sort_by{|a| a.seq_num}.each do |activity| -%>
+												<span style = "padding-left:40px; line-height:1.2em; font-size:10px">
+													<br/><%= activity.abbrev.upcase%>:&nbsp;&nbsp;<%= strategy.evidences.select{|e| e.tl_activity_type == activity}.collect{|s| s.name}.join(",  ") %>
+												</span>
+											<% end-%>
+										<% end -%>
+									</td>
+									<td  style="width:80px;padding-bottom:10px; line-height:1.5em; color:#2061a5;">
+										<span class="fsn-button ui-button ui-state-default ui-corner-all">
+											<%= link_to 'Edit', :controller => "/apps/owner_maintenance", :action => :owner_strategy_edit, :strategy_id=> strategy.id, :app_id=>@app.id %>
+										</span>
+									</td>
+								</tr>
+							<% end -%>
+						<% end -%>
+				</tbody>
+			</table>
+		</div>
+	<% end -%>
+	<br/>
+
+</div>
+
+
+
+
+
+
+

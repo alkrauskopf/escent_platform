@@ -1,0 +1,24 @@
+<% if outreach_priority.name.upcase != "ROOT" %>
+<div class="rowDiv" style="border:solid 0px #777777;min-height:30px;">
+	<div style="float:left;">
+		<%= link_to h(outreach_priority.name), :controller => 'outreach_priorities', :action => 'show', :id => outreach_priority.id %>
+	</div>
+	<div style="float:right;min-width:80px;">
+		<% if outreach_priority.children.empty? %>
+			<%= button_to 'remove', {:action => :delete, :id => outreach_priority.id}, :confirm => 'Are you sure?', :class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
+		<% else %>
+			&nbsp;
+		<% end %>
+	</div>
+	<div style="float:right;min-width:50px;">
+		<%= button_to 'Edit', {:action => :edit, :id => outreach_priority.id}, :class => 'fsn-button ui-button ui-state-default ui-corner-all', :method => "get" %>
+	</div>
+</div>
+<% end %>
+
+<% if not outreach_priority.children.empty? %>
+	<div style="list-style-type:disc;margin-left:25px;">
+		<%= render :partial => 'outreach_priority', :collection => outreach_priority.children %>
+  	</div>
+<% end %>  
+

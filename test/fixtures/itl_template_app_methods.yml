@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  itl_template_id: 1
+  app_method_id: 1
+
+two:
+  itl_template_id: 1
+  app_method_id: 1

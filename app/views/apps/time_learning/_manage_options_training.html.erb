@@ -1,0 +1,68 @@
+<div id="options_train">
+		<table style="width:650px; margin-left:50px; color: #2061a5;">
+			<tbody>
+				<style type="text/css" media="screen">
+		    		table,tr,td { border:none; }
+					table tr:hover{
+	        		background-color: transparent;
+	      			}
+	    		</style>
+				<tr>
+					<% if @current_organization.itl_org_option.classroom_period %>
+						<td   id = "remove_room" width=80px style="vertical-align:top;  padding-left:12px; padding-right:2px; padding-top:8px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+							<button>Remove</button>
+						</td>
+					<% else -%>
+						<td   width=80px style="vertical-align:top;  padding-left:12px; padding-right:2px; padding-top:8px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+							&nbsp;
+						</td>					
+					<% end -%>
+					<td width = 570px style=" color: #000000; vertical-align:top; font-size:11px" >
+						<span style="color: #2061a5;font-size:12px; font-weight:bold">
+							<%= @current_organization.itl_org_option.classroom_period ? (@current_organization.itl_org_option.classroom_period.classroom.course_name  + ": " + @current_organization.itl_org_option.classroom_period.name) : "No Training Room Defined" %>
+						<br/>
+						</span>	
+						This is the <%=app.abbrev %> training classroom for <%= @current_organization.short_name%></br/>
+						When users select this classroom to observe, the videos listed under the Resource Tab can be used to simulate an observation.<br/>
+						Simulated observations will not be included in the user's <%= app.abbrev %> statistics.
+					</td>
+	 			</tr>
+			</tbody>
+		</table>
+
+	<table style="width:450px;margin-left:0px">
+		<tbody>  
+			<tr  style="border:0px solid #ddd;" >
+				<td   id = "training_class" style="width:450px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:bold">
+					<%=  select(:training, :period, @current_organization.classrooms.active.sort_by{|c| [c.subject_area.name, c.course_name]}.collect{|c| c.classroom_periods}.flatten.collect{|cp| [ (cp.classroom.subject_area.name.upcase + ": " + cp.classroom.course_name + "; " + cp.name), cp.id]}, :prompt => "Select Classroom For "+ app.abbrev + " Practice") %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#remove_room').click(function() {
+		var url = "<%= url_for :controller => '/apps/time_learning', :action => :define_training_room, :organization_id => @current_organization, :app_id => app.id  %>";
+			jQ.get(url, {}, function(data) {
+			jQ("#options_train").html(data); 
+	   		jQ("#options_train").show();
+			});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#training_class').change(function() {
+		var train = jQ('#training_period').val();
+		var url = "<%= url_for :controller => '/apps/time_learning', :action => :define_training_room, :organization_id => @current_organization, :app_id => app.id  %>";
+			jQ.get(url, {'classroom_period_id':train}, function(data) {
+			jQ("#options_train").html(data); 
+	   		jQ("#options_train").show();
+			});
+	})
+});
+</script>
+

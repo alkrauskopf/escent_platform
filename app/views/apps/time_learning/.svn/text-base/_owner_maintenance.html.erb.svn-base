@@ -1,0 +1,39 @@
+<div id="ctl_owner_maintenance">
+
+	<br/>
+	<% if @current_user.app_superuser?(app)-%>	
+		<table style="margin-left:150px; font-size:16px; font-weight:bold;  color: #2061a5; width:600px">
+			<tbody >
+				<tr>
+					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
+						<span class="fsn-button ui-button ui-state-default ui-corner-all">
+							 <%= link_to "Go" ,{:controller => "/apps/time_learning", :action => "owner_strategies", :app_id => app.id} %>
+						</span>
+					</td>
+					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
+							Maintain <%= app.abbrev %> Strategies
+					</td>
+				</tr>
+				<tr>
+					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
+						<span class="fsn-button ui-button ui-state-default ui-corner-all">
+							 <%= link_to "Go" ,{:controller => "/apps/time_learning", :action => "owner_blackbelt_maint", :app_id => app.id} %>
+						</span>
+					</td>
+					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
+							Maintain <%= app.abbrev %> Blackbelts
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		</br/>
+	<% else -%>
+			<span style="color: #C83A14; font-size:12px;  font-weight:normal">
+				<br/></br/><center>
+					Not <%= @app.abbrev %>&nbsp;Authorized.
+				</center><br/></br/>
+			</span>
+	<% end -%>
+<br/>
+</div>
+

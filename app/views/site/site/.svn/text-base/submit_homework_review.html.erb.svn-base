@@ -1,0 +1,39 @@
+
+<div style = "font-size:14px; color: #000000;">
+
+	<div style ="color: #C83A14; font-size:20px">
+	<strong><center><%= @classroom.course_name.upcase %>&nbsp;HOMEWORK</center></strong>
+	</div>
+	<div style ="color: #C83A14; font-size:14px">
+	<center><strong><%= @current_user.full_name.upcase %></strong></center><br/>
+	</div>
+	<div style="width:100%; text-align:left; font-size:12px; padding:10px;">
+		<% link_string = "Back To: " + @classroom.course_name %>
+		<%= link_to link_string, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @topic, :id => @classroom%>
+	</div>
+</div>
+	<% unless @topic.nil?%>
+		<%= render :partial => "update_topic_homework" %>
+	<% end -%>	
+<br/>	
+	<%= render :partial => "manage_classroom_options" %>
+
+
+<div style="width:97%; border: none;color: #C83A14; font-size:14px; " class="mempro_box">
+	
+	<% unless @teacher_homeworks.empty?%>
+		<%= render :partial => "view_submitted_homeworks" %>
+	<% else%>
+		<center><i>* * * No Submitted Homeworks * * * </i></center>
+	<% end%>
+
+
+
+	</div>	
+	<div style="width:100%; text-align:left; font-size:12px; padding:10px;">
+	<br/>
+	<br/>
+	<% link_string = "Back To: " + @classroom.course_name %>
+	<%= link_to link_string, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @topic, :id => @classroom%>
+	</div>
+

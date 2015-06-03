@@ -1,0 +1,70 @@
+<% if @authorizations -%>
+<div style="width:97%;" class="mempro_box">
+    <h3 class="title_large_blue">MY ORGANIZATIONS</h3>
+    <p>
+        <em><span style = "font-size: 14 px:">These are the Organizations you have relationships with.  They will appear on your Member Profile page.<br/>
+		Your</span><Span style= color:#C83A14> "Home Organization"</span><span> is shown in red.</span><br/> </em>
+    </p>
+    <table id="associations" class="tablesorter">
+        <thead>
+            <tr>
+								<% if defined?(header) %>
+									<% header = header == "headerSortDown" ? "headerSortUp" : "headerSortDown" %>
+								<% else %>
+									<% header = 'headerSortDown' %>
+								<% end %>
+                <th class="header <%= header %>" style="width:400px;">
+                    Name
+                </th>
+                <% if defined?(show_remove) && show_remove -%>
+                <th style="width:50px;">
+                    &nbsp;
+                </th>
+                <% end -%>
+                <th style="width:50px;">
+                    &nbsp;
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        	  
+            <% for authorization in  @authorizations do %>
+            <tr>
+                <td>
+                    <% if @current_user.home_org_id == authorization.scope.id%>
+					<span style="color:#C83A14; "><%= authorization.scope.name %></span>
+					<% else %>  <span style="color:#000000; "><%= authorization.scope.name %></span>
+					<% end %>
+                </td>
+                <% if defined?(show_remove) && show_remove -%>
+                <td class="button">
+                  <%= button_to "Remove", {:controller => :users, :action => :remove_association, :org_to_delete =>authorization.scope.id,:organization_id => @current_organization, :id => authorization}, :confirm => "Confirm Remove?", :class =>"fsn-button ui-button ui-state-default ui-corner-all remove" %>
+                </td>
+                <% end -%>
+                <td class="button">
+                    <%= button_to "View", {:controller => "/site/site", :action => :static_organization, :organization_id => authorization.scope}, :class =>"fsn-button ui-button ui-state-default ui-corner-all view" %>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <div class="digg_pagination">
+        <%= will_paginate @authorizations %>
+    </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		var sort_url = "<%= url_for(:controller => '/users', :action => 'sort_authorizations') %>"		
+		jQ("#associations th.headerSortDown").click(function() {
+			headerSortDown(sort_url)
+		})
+		jQ("#associations th.headerSortUp").click(function() {
+			headerSortUp(sort_url)
+		})
+		jQ('div.pagination a').live('click', function() {
+			jQ("#associations_warp").load(this.href);
+			return false
+		})		
+	})
+</script>
+<% end %>

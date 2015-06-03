@@ -1,0 +1,310 @@
+
+    <div id="member_info">
+
+<br style="clear:both" />
+
+	<div id="assign_resources_panel">
+		<table id="authorization_levels"  style="width:750px;margin-left:45px">
+			<thead>
+				<tr>
+					<% header_string = @current_subject.name.upcase + " MASTERY ASSESSMENT DASH BOARD"  %>
+					<th colspan=13 style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:14px; margin-top:0px; font-weight:normal" >
+					<center><strong><%= header_string %><br/>
+					<%= @header2_string %><br/>
+	<!--				<%#= pluralize(@num_assessments, ' Assessment') %>, &nbsp;&nbsp;<%#= pluralize(@num_qa, ' Answer Choice') %>, &nbsp;&nbsp;Current ACT Level: <u><%#= @sms_level %></u> -->
+					<%= @header3_string %><br/></strong>
+					<span style="font-size:11px"><%= @header4_string %><br/>
+					<%= @header5_string %></span>
+					</center>
+					</th>											
+				</tr>
+			</thead>
+			<tbody>
+				<style type="text/css" media="screen">
+				table,tr,td { border:medium}
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>	
+
+				<tr>
+					<td colspan=2 width = 90px style="border:1px solid #ddd; vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:11px; margin-top:0px; font-weight:normal" >
+						&nbsp;
+					</td>
+
+
+					<% @standards_list.each_with_index do |s, idx|%>
+						<% if idx == 0 || idx == 5 || idx == 12 || idx > 13 -%>
+						<td width = 60px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:13px; margin-left:0px; font-weight:normal" >
+							<center><%= image_tag("button_red.png", :width => 15)%></center>
+						</td>
+						<% end -%>
+						<% if idx == 2 || idx == 3 || idx == 8 || idx == 11 || idx == 13 -%>
+						<td width = 60px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px; color: #000000; font-size:13px; margin-left:0px; font-weight:normal" >
+							<center><%= image_tag("button_yellow.png", :width => 15)%></center>
+						</td>
+						<% end -%>
+						<% if idx == 1 || idx == 4 || idx == 6 || idx == 7 || idx == 9 || idx == 10 -%>
+						<td width = 60px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:13px; margin-left:0px; font-weight:normal" >
+							<center><%= image_tag("button_green.png", :width => 15)%></center>
+						</td>
+						<% end -%>
+					<% end -%>
+				</tr>
+
+				<tr>
+					<td colspan=2 width = 110px style="border:1px solid #ddd; vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:13px; margin-top:0px; font-weight:normal" >
+						<center><strong><%= @current_standard.abbrev %> Mastery Levels</strong></center>
+					</td>
+
+
+					<% @standards_list.each do |s|%>
+					<td class="tip_std" title="<center><%= s.name %></center>" width = 60px style="border:1px solid #ddd; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
+						<strong><%=s.abbrev %></strong>
+					</td>
+					<% end -%>
+				</tr>
+					<% @range_list.each_with_index do |r,idx|%>
+					<%# row_stats = sms_stats(@answer_list, @current_subject.id, 0, r.id, @current_organization, @stats_group) -%>
+					<%# stat_string1 = "P_Min: " + row_stats[5].to_s +  ",&nbsp;P_Max: " + row_stats[6].to_s -%>
+					<%# stat_string2 = "P_Avg: " + row_stats[7].to_s +  ",&nbsp;P_Var: " + row_stats[8].to_s -%>
+				<tr>
+					<% if idx < 2 -%>
+						<td width = 35px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:13px; margin-left:0px; font-weight:normal" >
+							<center><%= image_tag("button_green.png", :width => 20)%></center>
+						</td>
+					<% end -%>
+					<% if idx < 5 && idx >1 -%>
+						<td width = 35px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px; color: #000000; font-size:13px; margin-left:0px; font-weight:normal" >
+							<center><%= image_tag("button_yellow.png", :width => 20)%></center>
+						</td>
+					<% end -%>
+					<% if idx > 4 -%>
+						<td width = 35px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:13px; margin-left:0px; font-weight:normal" >
+							<center><%= image_tag("button_red.png", :width => 20)%></center>
+						</td>
+					<% end -%>
+						<td width = 75px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-right:0px;color: #000000; font-size:13px; margin-top:0px; font-weight:normal" >
+							<strong><%= r.range%></strong>
+							<!--
+							<br/> <%#= @stats_group %>
+							<br/> <%#= stat_string1 %>
+							<br/> <%#= stat_string2 %>
+							-->
+						</td>
+					<% @standards_list.each do |s|-%>
+
+						<% cell_ans = cell_answers(@answer_list,s.id, r.id) -%>
+						<% cell_points = cell_ans.sum{|a| a.points} -%>
+						<% if cell_ans.size > 0 -%>
+							<% pct = 100*cell_points/cell_ans.size -%>
+							<% color_string = "#6a6529" %>
+							<% if pct < 60 -%> <% color_string = "#C83A14" -%><% end -%>
+							<% if pct > 80 -%> <% color_string = "#279605" -%> <% end -%>
+							<% if @hover %>
+								<% if @hover== "classroom" -%>
+									<% target = 75 -%>
+									<% students = target_students(cell_ans, target) -%>
+									<% unless students.empty? %>
+										<% s_header = "<strong><center>Students <75%</center></strong>"%>
+										<td class="tip" title="<%= s_header %><%= students %>" width = 60px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color:<%= color_string %>; font-size:13px; margin-top:0px; font-weight:bold" >
+											<center><%= cell_ans.size %><br/><%=number_to_percentage(pct, :precision => 0) %></center>
+										</td>								
+										<% else -%>
+										<td width = 60px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color:<%= color_string %>; font-size:13px; margin-top:0px; font-weight:bold" >
+											<center><%= cell_ans.size %><br/><%=number_to_percentage(pct, :precision => 0) %></center>
+										</td>
+										<% end -%>
+								<!-- Benchmark Hover  For student-->
+								<% elsif @hover== "student" -%>
+
+									<% benchmarks = @current_standard.cell_benchmarks(@current_subject, s.id, r.id) -%>
+	
+									<% unless benchmarks.empty? -%>
+										<td class="tip_bench" title="<%= benchmarks %>" width = 60px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color:<%= color_string %>; font-size:13px; margin-top:0px; font-weight:bold" >
+											<center><%= cell_ans.size %><br/><%=number_to_percentage(pct, :precision => 0) %></center>
+										</td>								
+										<% else -%>
+										<td width = 60px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color:<%= color_string %>; font-size:13px; margin-top:0px; font-weight:bold" >
+											<center><%= cell_ans.size %><br/><%=number_to_percentage(pct, :precision => 0) %></center>
+										</td>
+										<% end -%>
+								<!-- Sumary Stat Hover  For Organization -->
+								<% elsif @hover== "organization" -%>
+									<% target = 75 -%>
+									<% classrooms = target_classrooms(cell_ans, target) -%>
+									<% unless classrooms.empty? %>
+										<% c_header = "<br/><strong>" + pluralize(@num_students, ' Student') + " <75%</strong>"%>
+										<td class="tip_org" title="<%= c_header %><%= classrooms %>" width = 60px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color:<%= color_string %>; font-size:13px; margin-top:0px; font-weight:bold" >
+											<center><%= cell_ans.size %><br/><%=number_to_percentage(pct, :precision => 0) %></center>
+										</td>								
+										<% else -%>
+										<td width = 60px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color:<%= color_string %>; font-size:13px; margin-top:0px; font-weight:bold" >
+											<center><%= cell_ans.size %><br/><%=number_to_percentage(pct, :precision => 0) %></center>
+										</td>
+										<% end -%>
+
+								<% end -%>
+									
+							<!-- No Hover -->
+							<% else -%>
+								<td width = 60px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color:<%= color_string %>; font-size:13px; margin-top:0px; font-weight:bold" >
+									<center><%= cell_ans.size %><br/><%=number_to_percentage(pct, :precision => 0) %></center>
+								</td>
+							<% end -%>
+							
+						<!-- No Statistics For Cell -->																
+						<% else -%>
+						<td width = 60px style="vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:10px; margin-top:0px; font-weight:normal" >
+							<center>&nbsp;<br/>&nbsp;</center>
+						</td>
+						<% end -%>
+
+					<% end -%>
+				</tr>
+				<% end -%>
+			</tbody>
+		</table>
+	<br/>		
+		</div>	
+    </div>
+
+
+<br style="clear:both" />
+
+
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function(){
+    jQ('#control_panel').tabs();
+  });
+</script>
+
+<script>
+jQ(function(){
+jQ('td.tip').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'rightTop',
+         tooltip: 'leftTop'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 1,
+         radius: 1,
+         color: '#99911a'
+      },
+      width: 150,
+	  tip: { // Now an object instead of a string
+         corner: 'leftTop', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 8, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 20 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>
+<script>
+jQ(function(){
+jQ('td.tip_std').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'topMiddle',
+         tooltip: 'bottomMiddle'
+      }
+   },
+   style: { 
+      name: 'cream',
+	  border: {
+         width: 0,
+         radius: 0,
+         color: '#99911a'
+      },
+      width: 250,
+	  tip: { // Now an object instead of a string
+         corner: 'bottomMiddle', // We declare our corner within the object using the corner sub-option
+         color: '#99911a',
+         size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>
+<script>
+jQ(function(){
+jQ('td.tip_bench').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'leftTop',
+         tooltip: 'rightTop'
+      }
+   },
+   style: { 
+      name: 'blue',
+	  border: {
+         width: 1,
+         radius: 1,
+         color: '#99911a'
+      },
+      width: 350,
+	  tip: { // Now an object instead of a string
+         corner: 'rightTop', // We declare our corner within the object using the corner sub-option
+         color: '#1115cc',
+         size: {
+            x: 8, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 20 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>
+<script>
+jQ(function(){
+jQ('td.tip_org').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'rightTop',
+         tooltip: 'leftTop'
+      }
+   },
+   style: { 
+	  background: '#e8c4d1',
+
+	  border: {
+         width: 0,
+         radius: 0,
+
+      },
+      width: 280,
+	  tip: { // Now an object instead of a string
+         corner: 'leftTop', // We declare our corner within the object using the corner sub-option
+         color: '#e8c4d1',
+         size: {
+            x: 8, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 20 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+         }
+}  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>

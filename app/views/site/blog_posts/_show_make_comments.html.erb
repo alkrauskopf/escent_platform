@@ -1,0 +1,148 @@
+
+<div id="comments_<%= @blog_post.public_id %>">
+
+<% if @current_user.present? -%>
+		<table id="2_header_<%= @blog_post.public_id %>" style="width:700px;  margin-left:00px; border:0px solid white;">
+		<tbody>
+			<style type="text/css" media="screen">
+		    table,tr,td { border:medium}
+			table tr:hover{
+ 	       	background-color: transparent;
+ 	     	}
+ 		   	</style>
+				<tr>
+					<td id="2_show_<%= @blog_post.public_id %>"  style = "width:200px; font-weight:normal; text-align:right; font-size:10.5px; color: #1b5698;">
+						<u>Post A Comment</u>
+					</td>
+				<td style="width:500px;  padding-left:10px; border:0px solid white;">
+					&nbsp;
+				</td>
+				</tr>
+			</tbody>
+		</table>
+		<table id="2_descript_<%= @blog_post.public_id %>" style="width:700px;  margin-left:00px; border:0px solid white;">
+		<tbody>
+			<style type="text/css" media="screen">
+		    table,tr,td { border:medium}
+			table tr:hover{
+ 	       	background-color: transparent;
+ 	     	}
+ 		   	</style>
+				<tr>
+					<td  id="2_hide_<%= @blog_post.public_id %>" style = "width:200px; font-weight:normal; text-align:right; font-size:10.5px; color: #1b5698;">
+					<u>Cancel Comment</u>
+					</td>
+				<td style="width:500px;  padding-left:10px; border:0px solid white;">
+				<a id="respond_<%= @blog_post.public_id %>" name="respond"></a>
+							<div id="comment_form_div_<%= @blog_post.public_id %>">
+							  <table>
+								<tr>
+									  <td><label for="">&nbsp;</label></td>
+									  <td>
+									  	<textarea  cols="60" id="post_comment_<%=@blog_post.public_id %>" name="post[comment]" rows="5"></textarea>
+									  <!--	<%#= text_area :post, :comment, :rows => 5, :cols => 60 %></td> -->
+								</tr>
+								<tr>
+								<td ></td>
+			 					 <td id="submit_comment_<%= @blog_post.public_id %>">
+			 					 	<%= submit_tag "Submit Comment" %>
+			 					 </td>
+								</tr>
+								</table>
+							</div>
+
+
+				</td>
+				</tr>
+			</tbody>
+		</table>
+
+	<% end %>
+
+		<table id="1_header_<%= @blog_post.public_id %>" style="width:700px;  margin-left:00px; border:0px solid white;">
+		<tbody>
+			<style type="text/css" media="screen">
+		    table,tr,td { border:medium}
+			table tr:hover{
+ 	       	background-color: transparent;
+ 	     	}
+ 		   	</style>
+				<tr>
+					<td id="1_show_<%= @blog_post.public_id %>"  style = "width:200px; text-align:right; font-weight:normal; font-size:10.5px; color: #1b5698;">
+						<u>View <%= pluralize(@blog_post.comments.size, " Comment") %></u>
+					</td>
+				<td style="width:500px;  padding-left:10px; border:0px solid white;">
+					&nbsp;
+				</td>
+				</tr>
+			</tbody>
+		</table>
+		<table id="1_descript_<%= @blog_post.public_id %>" style="width:700px;  margin-left:00px; border:0px solid white;">
+		<tbody>
+			<style type="text/css" media="screen">
+		    table,tr,td { border:medium}
+			table tr:hover{
+ 	       	background-color: transparent;
+ 	     	}
+ 		   	</style>
+				<tr>
+					<td  id="1_hide_<%= @blog_post.public_id %>" style = "width:200px; font-weight:normal; text-align:right; font-size:10.5px; color: #1b5698;">
+					<u>Hide Comments</u>
+					</td>
+				<td style="width:500px;  padding-left:10px; border:0px solid white;">
+					<div id="blog_comment_warp" style="background-color:#f7f7f7; padding-top:10px">
+						 <% @blog_post.comments.each_with_index do |@comment , @com_num| %>
+					 	  <%= render :partial =>  "site/blog_posts/comment_show" %>
+				 		<% end %>
+					</div>
+				</td>
+				</tr>
+			</tbody>
+		</table>
+</div>
+<script type="text/javascript">
+jQ(document).ready(function() {
+  		  jQ("#1_header_<%= @blog_post.public_id %>").show();
+		  jQ("#1_descript_<%= @blog_post.public_id %>").hide();		  
+
+	jQ("#1_show_<%= @blog_post.public_id %>").click(function() {
+		  	jQ("#1_header_<%= @blog_post.public_id %>").hide();	 
+	   		jQ("#1_descript_<%= @blog_post.public_id %>").slideDown("slow");
+	})
+
+	jQ("#1_hide_<%= @blog_post.public_id %>").click(function() {
+	   		jQ("#1_descript_<%= @blog_post.public_id %>").slideUp("slow");
+	   		jQ("#1_header_<%= @blog_post.public_id %>").show();
+	})	
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+  		  jQ("#2_header_<%= @blog_post.public_id %>").show();
+		  jQ("#2_descript_<%= @blog_post.public_id %>").hide();		  
+
+	jQ("#2_show_<%= @blog_post.public_id %>").click(function() {
+		  	jQ("#2_header_<%= @blog_post.public_id %>").hide();	 
+	   		jQ("#2_descript_<%= @blog_post.public_id %>").slideDown("slow");
+	})
+
+	jQ("#2_hide_<%= @blog_post.public_id %>").click(function() {
+	   		jQ("#2_descript_<%= @blog_post.public_id %>").slideUp("slow");
+	   		jQ("#2_header_<%= @blog_post.public_id %>").show();
+	})	
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#submit_comment_<%= @blog_post.public_id %>').click(function() {
+		var comment_text = jQ('#post_comment_<%= @blog_post.public_id %>').val();
+		var blog_post_id = '<%= @blog_post.public_id %>';
+		var blog_id = '<%= @blog.public_id %>';
+		var url = "<%= url_for :controller => '/site/blog_posts', :action => :new_add_comment, :organization_id => @current_organization  %>";
+			jQ.get(url, {'blog_post_id':blog_post_id, 'comment': comment_text, 'blog_id': blog_id}, function(data) {
+			jQ("#comments_<%= @blog_post.public_id %>").html(data); 
+	   		jQ("#comments_<%= @blog_post.public_id %>").show();
+			});
+	})
+});
+</script>

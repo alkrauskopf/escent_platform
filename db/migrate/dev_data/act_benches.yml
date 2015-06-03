@@ -1,0 +1,1894 @@
+eng-s-1-1:
+    id: 1
+    act_subject_id: 2
+    act_standard_id: 11
+    act_score_range_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-1-2:
+    id: 2
+    act_subject_id: 2
+    act_standard_id: 12
+    act_score_range_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-1-3:
+    id: 3
+    act_subject_id: 2
+    act_standard_id: 13
+    act_score_range_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-1-4:
+    id: 4
+    act_subject_id: 2
+    act_standard_id: 14
+    act_score_range_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-1-5:
+    id: 5
+    act_subject_id: 2
+    act_standard_id: 15
+    act_score_range_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-1-6:
+    id: 6
+    act_subject_id: 2
+    act_standard_id: 16
+    act_score_range_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-1-7:
+    id: 7
+    act_subject_id: 2
+    act_standard_id: 41
+    act_score_range_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-1-8:
+    id: 8
+    act_subject_id: 2
+    act_standard_id: 41
+    act_score_range_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-1-9:
+    id: 9
+    act_subject_id: 2
+    act_standard_id: 43
+    act_score_range_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+    
+eng-s-1-10:
+    id: 10
+    act_subject_id: 2
+    act_standard_id: 44
+    act_score_range_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-1-11:
+    id: 11
+    act_subject_id: 2
+    act_standard_id: 45
+    act_score_range_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-2-1:
+    id: 12
+    act_subject_id: 2
+    act_standard_id: 11
+    act_score_range_id: 9
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-2-2:
+    id: 13
+    act_subject_id: 2
+    act_standard_id: 12
+    act_score_range_id: 9
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-2-3:
+    id: 14
+    act_subject_id: 2
+    act_standard_id: 13
+    act_score_range_id: 9
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-2-4:
+    id: 15
+    act_subject_id: 2
+    act_standard_id: 14
+    act_score_range_id: 9
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-2-5:
+    id: 16
+    act_subject_id: 2
+    act_standard_id: 15
+    act_score_range_id: 9
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-2-6:
+    id: 17
+    act_subject_id: 2
+    act_standard_id: 16
+    act_score_range_id: 9
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-2-7:
+    id: 18
+    act_subject_id: 2
+    act_standard_id: 41
+    act_score_range_id: 9
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-2-8:
+    id: 19
+    act_subject_id: 2
+    act_standard_id: 42
+    act_score_range_id: 9
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-2-9:
+    id: 20
+    act_subject_id: 2
+    act_standard_id: 43
+    act_score_range_id: 9
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-2-10:
+    id: 21
+    act_subject_id: 2
+    act_standard_id: 44
+    act_score_range_id: 9
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-2-11:
+    id: 22
+    act_subject_id: 2
+    act_standard_id: 45
+    act_score_range_id: 9
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-3-1:
+    id: 23
+    act_subject_id: 2
+    act_standard_id: 11
+    act_score_range_id: 10
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-3-2:
+    id: 24
+    act_subject_id: 2
+    act_standard_id: 12
+    act_score_range_id: 10
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-3-3:
+    id: 25
+    act_subject_id: 2
+    act_standard_id: 13
+    act_score_range_id: 10
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-3-4:
+    id: 26
+    act_subject_id: 2
+    act_standard_id: 14
+    act_score_range_id: 10
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-3-5:
+    id: 27
+    act_subject_id: 2
+    act_standard_id: 15
+    act_score_range_id: 10
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-3-6:
+    id: 28
+    act_subject_id: 2
+    act_standard_id: 16
+    act_score_range_id: 10
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-3-7:
+    id: 29
+    act_subject_id: 2
+    act_standard_id: 41
+    act_score_range_id: 10
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-3-8:
+    id: 30
+    act_subject_id: 2
+    act_standard_id: 42
+    act_score_range_id: 10
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-3-9:
+    id: 31
+    act_subject_id: 2
+    act_standard_id: 43
+    act_score_range_id: 10
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-3-10:
+    id: 32
+    act_subject_id: 2
+    act_standard_id: 44
+    act_score_range_id: 10
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-3-11:
+    id: 33
+    act_subject_id: 2
+    act_standard_id: 45
+    act_score_range_id: 10
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-4-1:
+    id: 34
+    act_subject_id: 2
+    act_standard_id: 11
+    act_score_range_id: 11
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-4-2:
+    id: 35
+    act_subject_id: 2
+    act_standard_id: 12
+    act_score_range_id: 11
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-4-3:
+    id: 36
+    act_subject_id: 2
+    act_standard_id: 13
+    act_score_range_id: 11
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-4-4:
+    id: 37
+    act_subject_id: 2
+    act_standard_id: 14
+    act_score_range_id: 11
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-4-5:
+    id: 38
+    act_subject_id: 2
+    act_standard_id: 15
+    act_score_range_id: 11
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-4-6:
+    id: 39
+    act_subject_id: 2
+    act_standard_id: 16
+    act_score_range_id: 11
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-4-7:
+    id: 40
+    act_subject_id: 2
+    act_standard_id: 41
+    act_score_range_id: 11
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-4-8:
+    id: 41
+    act_subject_id: 2
+    act_standard_id: 42
+    act_score_range_id: 11
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-4-9:
+    id: 42
+    act_subject_id: 2
+    act_standard_id: 43
+    act_score_range_id: 11
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-4-10:
+    id: 43
+    act_subject_id: 2
+    act_standard_id: 44
+    act_score_range_id: 11
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-4-11:
+    id: 44
+    act_subject_id: 2
+    act_standard_id: 45
+    act_score_range_id: 11
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-5-1:
+    id: 45
+    act_subject_id: 2
+    act_standard_id: 11
+    act_score_range_id: 12
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-5-2:
+    id: 46
+    act_subject_id: 2
+    act_standard_id: 12
+    act_score_range_id: 12
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-5-3:
+    id: 47
+    act_subject_id: 2
+    act_standard_id: 13
+    act_score_range_id: 12
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-5-4:
+    id: 48
+    act_subject_id: 2
+    act_standard_id: 14
+    act_score_range_id: 12
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-5-5:
+    id: 49
+    act_subject_id: 2
+    act_standard_id: 15
+    act_score_range_id: 12
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-5-6:
+    id: 50
+    act_subject_id: 2
+    act_standard_id: 16
+    act_score_range_id: 12
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-5-7:
+    id: 51
+    act_subject_id: 2
+    act_standard_id: 41
+    act_score_range_id: 12
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-5-8:
+    id: 52
+    act_subject_id: 2
+    act_standard_id: 42
+    act_score_range_id: 12
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-5-9:
+    id: 53
+    act_subject_id: 2
+    act_standard_id: 43
+    act_score_range_id: 12
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-5-10:
+    id: 54
+    act_subject_id: 2
+    act_standard_id: 44
+    act_score_range_id: 12
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-5-11:
+    id: 55
+    act_subject_id: 2
+    act_standard_id: 45
+    act_score_range_id: 12
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-6-1:
+    id: 56
+    act_subject_id: 2
+    act_standard_id: 11
+    act_score_range_id: 13
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-6-2:
+    id: 57
+    act_subject_id: 2
+    act_standard_id: 12
+    act_score_range_id: 13
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-6-3:
+    id: 58
+    act_subject_id: 2
+    act_standard_id: 13
+    act_score_range_id: 13
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-6-4:
+    id: 59
+    act_subject_id: 2
+    act_standard_id: 14
+    act_score_range_id: 13
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-6-5:
+    id: 60
+    act_subject_id: 2
+    act_standard_id: 15
+    act_score_range_id: 13
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-6-6:
+    id: 61
+    act_subject_id: 2
+    act_standard_id: 16
+    act_score_range_id: 13
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-6-7:
+    id: 62
+    act_subject_id: 2
+    act_standard_id: 41
+    act_score_range_id: 13
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-6-8:
+    id: 63
+    act_subject_id: 2
+    act_standard_id: 42
+    act_score_range_id: 13
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-6-9:
+    id: 64
+    act_subject_id: 2
+    act_standard_id: 43
+    act_score_range_id: 13
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-6-10:
+    id: 65
+    act_subject_id: 2
+    act_standard_id: 44
+    act_score_range_id: 13
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-6-11:
+    id: 66
+    act_subject_id: 2
+    act_standard_id: 45
+    act_score_range_id: 13
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-7-1:
+    id: 67
+    act_subject_id: 2
+    act_standard_id: 11
+    act_score_range_id: 14
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-7-2:
+    id: 68
+    act_subject_id: 2
+    act_standard_id: 12
+    act_score_range_id: 14
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-7-3:
+    id: 69
+    act_subject_id: 2
+    act_standard_id: 13
+    act_score_range_id: 14
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-7-4:
+    id: 70
+    act_subject_id: 2
+    act_standard_id: 14
+    act_score_range_id: 14
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-7-5:
+    id: 71
+    act_subject_id: 2
+    act_standard_id: 15
+    act_score_range_id: 14
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-7-6:
+    id: 72
+    act_subject_id: 2
+    act_standard_id: 16
+    act_score_range_id: 14
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-7-7:
+    id: 73
+    act_subject_id: 2
+    act_standard_id: 41
+    act_score_range_id: 14
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-7-8:
+    id: 74
+    act_subject_id: 2
+    act_standard_id: 42
+    act_score_range_id: 14
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-7-9:
+    id: 75
+    act_subject_id: 2
+    act_standard_id: 43
+    act_score_range_id: 14
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+eng-s-7-10:
+    id: 76
+    act_subject_id: 2
+    act_standard_id: 44
+    act_score_range_id: 14
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+eng-s-7-11:
+    id: 77
+    act_subject_id: 2
+    act_standard_id: 45
+    act_score_range_id: 14
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-1-1:
+    id: 111
+    act_subject_id: 1
+    act_score_range_id: 1
+    act_standard_id: 1
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-1-2:
+    id: 112
+    act_subject_id: 1
+    act_score_range_id: 1
+    act_standard_id: 2
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-1-3:
+    id: 113
+    act_subject_id: 1
+    act_score_range_id: 1
+    act_standard_id: 3
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-1-4:
+    id: 114
+    act_subject_id: 1
+    act_score_range_id: 1
+    act_standard_id: 4
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-1-5:
+    id: 115
+    act_subject_id: 1
+    act_score_range_id: 1
+    act_standard_id: 5
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-1-6:
+    id: 116
+    act_subject_id: 1
+    act_score_range_id: 1
+    act_standard_id: 6
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+math-s-1-7:
+    id: 117
+    act_subject_id: 1
+    act_score_range_id: 1
+    act_standard_id: 7
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-1-8:
+    id: 118
+    act_subject_id: 1
+    act_score_range_id: 1
+    act_standard_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-2-1:
+    id: 121
+    act_subject_id: 1
+    act_score_range_id: 2
+    act_standard_id: 1
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-2-2:
+    id: 122
+    act_subject_id: 1
+    act_score_range_id: 2
+    act_standard_id: 2
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+math-s-2-3:
+    id: 123
+    act_subject_id: 1
+    act_score_range_id: 2
+    act_standard_id: 3
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+math-s-2-4:
+    id: 124
+    act_subject_id: 1
+    act_score_range_id: 2
+    act_standard_id: 4
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-2-5:
+    id: 125
+    act_subject_id: 1
+    act_score_range_id: 2
+    act_standard_id: 5
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+math-s-2-6:
+    id: 126
+    act_subject_id: 1
+    act_score_range_id: 2
+    act_standard_id: 6
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-2-7:
+    id: 127
+    act_subject_id: 1
+    act_score_range_id: 2
+    act_standard_id: 7
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-2-8:
+    id: 128
+    act_subject_id: 1
+    act_score_range_id: 2
+    act_standard_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-3-1:
+    id: 131
+    act_subject_id: 1
+    act_score_range_id: 3
+    act_standard_id: 1
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-3-2:
+    id: 132
+    act_subject_id: 1
+    act_score_range_id: 3
+    act_standard_id: 2
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-3-3:
+    id: 133
+    act_subject_id: 1
+    act_score_range_id: 3
+    act_standard_id: 3
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-3-4:
+    id: 134
+    act_subject_id: 1
+    act_score_range_id: 3
+    act_standard_id: 4
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+math-s-3-5:
+    id: 135
+    act_subject_id: 1
+    act_score_range_id: 3
+    act_standard_id: 5
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-3-6:
+    id: 136
+    act_subject_id: 1
+    act_score_range_id: 3
+    act_standard_id: 6
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-3-7:
+    id: 137
+    act_subject_id: 1
+    act_score_range_id: 3
+    act_standard_id: 7
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-3-8:
+    id: 138
+    act_subject_id: 1
+    act_score_range_id: 3
+    act_standard_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-4-1:
+    id: 141
+    act_subject_id: 1
+    act_score_range_id: 4
+    act_standard_id: 1
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-4-2:
+    id: 142
+    act_subject_id: 1
+    act_score_range_id: 4
+    act_standard_id: 2
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-4-3:
+    id: 143
+    act_subject_id: 1
+    act_score_range_id: 4
+    act_standard_id: 3
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-4-4:
+    id: 144
+    act_subject_id: 1
+    act_score_range_id: 4
+    act_standard_id: 4
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-4-5:
+    id: 145
+    act_subject_id: 1
+    act_score_range_id: 4
+    act_standard_id: 5
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-4-6:
+    id: 146
+    act_subject_id: 1
+    act_score_range_id: 4
+    act_standard_id: 6
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-4-7:
+    id: 147
+    act_subject_id: 1
+    act_score_range_id: 4
+    act_standard_id: 7
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-4-8:
+    id: 148
+    act_subject_id: 1
+    act_score_range_id: 4
+    act_standard_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-5-1:
+    id: 151
+    act_subject_id: 1
+    act_score_range_id: 5
+    act_standard_id: 1
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-5-2:
+    id: 152
+    act_subject_id: 1
+    act_score_range_id: 5
+    act_standard_id: 2
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-5-3:
+    id: 153
+    act_subject_id: 1
+    act_score_range_id: 5
+    act_standard_id: 3
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-5-4:
+    id: 154
+    act_subject_id: 1
+    act_score_range_id: 5
+    act_standard_id: 4
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-5-5:
+    id: 155
+    act_subject_id: 1
+    act_score_range_id: 5
+    act_standard_id: 5
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-5-6:
+    id: 156
+    act_subject_id: 1
+    act_score_range_id: 5
+    act_standard_id: 6
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-5-7:
+    id: 157
+    act_subject_id: 1
+    act_score_range_id: 5
+    act_standard_id: 7
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-5-8:
+    id: 158
+    act_subject_id: 1
+    act_score_range_id: 5
+    act_standard_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-6-1:
+    id: 161
+    act_subject_id: 1
+    act_score_range_id: 6
+    act_standard_id: 1
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-6-2:
+    id: 162
+    act_subject_id: 1
+    act_score_range_id: 6
+    act_standard_id: 2
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-6-3:
+    id: 163
+    act_subject_id: 1
+    act_score_range_id: 6
+    act_standard_id: 3
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-6-4:
+    id: 164
+    act_subject_id: 1
+    act_score_range_id: 6
+    act_standard_id: 4
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-6-5:
+    id: 165
+    act_subject_id: 1
+    act_score_range_id: 6
+    act_standard_id: 5
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-6-6:
+    id: 166
+    act_subject_id: 1
+    act_score_range_id: 6
+    act_standard_id: 6
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-6-7:
+    id: 167
+    act_subject_id: 1
+    act_score_range_id: 6
+    act_standard_id: 7
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-6-8:
+    id: 168
+    act_subject_id: 1
+    act_score_range_id: 6
+    act_standard_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-7-1:
+    id: 171
+    act_subject_id: 1
+    act_score_range_id: 7
+    act_standard_id: 1
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-7-2:
+    id: 172
+    act_subject_id: 1
+    act_score_range_id: 7
+    act_standard_id: 2
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-7-3:
+    id: 173
+    act_subject_id: 1
+    act_score_range_id: 7
+    act_standard_id: 3
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-7-4:
+    id: 174
+    act_subject_id: 1
+    act_score_range_id: 7
+    act_standard_id: 4
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+math-s-7-5:
+    id: 175
+    act_subject_id: 1
+    act_score_range_id: 7
+    act_standard_id: 5
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-7-6:
+    id: 176
+    act_subject_id: 1
+    act_score_range_id: 7
+    act_standard_id: 6
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-7-7:
+    id: 177
+    act_subject_id: 1
+    act_score_range_id: 7
+    act_standard_id: 7
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+math-s-7-8:
+    id: 178
+    act_subject_id: 1
+    act_score_range_id: 7
+    act_standard_id: 8
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-1-1:
+    id: 311
+    act_subject_id: 3
+    act_score_range_id: 15
+    act_standard_id: 21
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+read-s-1-2:
+    id: 312
+    act_subject_id: 3
+    act_score_range_id: 15
+    act_standard_id: 22
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-1-3:
+    id: 313
+    act_subject_id: 3
+    act_score_range_id: 15
+    act_standard_id: 23
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-1-4:
+    id: 314
+    act_subject_id: 3
+    act_score_range_id: 15
+    act_standard_id: 24
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-1-5:
+    id: 315
+    act_subject_id: 3
+    act_score_range_id: 15
+    act_standard_id: 25
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+
+read-s-2-1:
+    id: 321
+    act_subject_id: 3
+    act_score_range_id: 16
+    act_standard_id: 21
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-2-2:
+    id: 322
+    act_subject_id: 3
+    act_score_range_id: 16
+    act_standard_id: 22
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+    
+read-s-2-3:
+    id: 323
+    act_subject_id: 3
+    act_score_range_id: 16
+    act_standard_id: 23
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-2-4:
+    id: 324
+    act_subject_id: 3
+    act_score_range_id: 16
+    act_standard_id: 24
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-2-5:
+    id: 325
+    act_subject_id: 3
+    act_score_range_id: 16
+    act_standard_id: 25
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+
+read-s-3-1:
+    id: 331
+    act_subject_id: 3
+    act_score_range_id: 17
+    act_standard_id: 21
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-3-2:
+    id: 332
+    act_subject_id: 3
+    act_score_range_id: 17
+    act_standard_id: 22
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-3-3:
+    id: 333
+    act_subject_id: 3
+    act_score_range_id: 17
+    act_standard_id: 23
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+read-s-3-4:
+    id: 334
+    act_subject_id: 3
+    act_score_range_id: 17
+    act_standard_id: 24
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-3-5:
+    id: 335
+    act_subject_id: 3
+    act_score_range_id: 17
+    act_standard_id: 25
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+
+read-s-4-1:
+    id: 341
+    act_subject_id: 3
+    act_score_range_id: 18
+    act_standard_id: 21
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-4-2:
+    id: 342
+    act_subject_id: 3
+    act_score_range_id: 18
+    act_standard_id: 22
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-4-3:
+    id: 343
+    act_subject_id: 3
+    act_score_range_id: 18
+    act_standard_id: 23
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-4-4:
+    id: 344
+    act_subject_id: 3
+    act_score_range_id: 18
+    act_standard_id: 24
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-4-5:
+    id: 345
+    act_subject_id: 3
+    act_score_range_id: 18
+    act_standard_id: 25
+    user_id: 1026
+    benchmark_type: benchmark
+    description: -none-
+
+
+read-s-5-1:
+    id: 351
+    act_subject_id: 3
+    act_score_range_id: 19
+    act_standard_id: 21
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-5-2:
+    id: 352
+    act_subject_id: 3
+    act_score_range_id: 19
+    act_standard_id: 22
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-5-3:
+    id: 353
+    act_subject_id: 3
+    act_score_range_id: 19
+    act_standard_id: 23
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+read-s-5-4:
+    id: 354
+    act_subject_id: 3
+    act_score_range_id: 19
+    act_standard_id: 24
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-5-5:
+    id: 355
+    act_subject_id: 3
+    act_score_range_id: 19
+    act_standard_id: 25
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+
+read-s-6-1:
+    id: 361
+    act_subject_id: 3
+    act_score_range_id: 20
+    act_standard_id: 21
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-6-2:
+    id: 362
+    act_subject_id: 3
+    act_score_range_id: 20
+    act_standard_id: 22
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-6-3:
+    id: 363
+    act_subject_id: 3
+    act_score_range_id: 20
+    act_standard_id: 23
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-6-4:
+    id: 364
+    act_subject_id: 3
+    act_score_range_id: 20
+    act_standard_id: 24
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-6-5:
+    id: 365
+    act_subject_id: 3
+    act_score_range_id: 20
+    act_standard_id: 25
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+
+read-s-7-1:
+    id: 371
+    act_subject_id: 3
+    act_score_range_id: 21
+    act_standard_id: 21
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-7-2:
+    id: 372
+    act_subject_id: 3
+    act_score_range_id: 21
+    act_standard_id: 22
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-7-3:
+    id: 373
+    act_subject_id: 3
+    act_score_range_id: 21
+    act_standard_id: 23
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+read-s-7-4:
+    id: 374
+    act_subject_id: 3
+    act_score_range_id: 21
+    act_standard_id: 24
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+read-s-7-5:
+    id: 375
+    act_subject_id: 3
+    act_score_range_id: 21
+    act_standard_id: 25
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-1-1:
+    id: 411
+    act_subject_id: 4
+    act_score_range_id: 22
+    act_standard_id: 31
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-1-2:
+    id: 412
+    act_subject_id: 4
+    act_score_range_id: 22
+    act_standard_id: 32
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-1-3:
+    id: 413
+    act_subject_id: 4
+    act_score_range_id: 22
+    act_standard_id: 33
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-2-1:
+    id: 421
+    act_subject_id: 4
+    act_score_range_id: 23
+    act_standard_id: 31
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-2-2:
+    id: 422
+    act_subject_id: 4
+    act_score_range_id: 23
+    act_standard_id: 32
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+sci-s-2-3:
+    id: 423
+    act_subject_id: 4
+    act_score_range_id: 23
+    act_standard_id: 33
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+sci-s-3-1:
+    id: 431
+    act_subject_id: 4
+    act_score_range_id: 24
+    act_standard_id: 31
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-3-2:
+    id: 432
+    act_subject_id: 4
+    act_score_range_id: 24
+    act_standard_id: 32
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-3-3:
+    id: 433
+    act_subject_id: 4
+    act_score_range_id: 24
+    act_standard_id: 33
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-4-1:
+    id: 441
+    act_subject_id: 4
+    act_score_range_id: 25
+    act_standard_id: 31
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-4-2:
+    id: 442
+    act_subject_id: 4
+    act_score_range_id: 25
+    act_standard_id: 32
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-4-3:
+    id: 443
+    act_subject_id: 4
+    act_score_range_id: 25
+    act_standard_id: 33
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-5-1:
+    id: 451
+    act_subject_id: 4
+    act_score_range_id: 26
+    act_standard_id: 31
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-5-2:
+    id: 452
+    act_subject_id: 4
+    act_score_range_id: 26
+    act_standard_id: 32
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-5-3:
+    id: 453
+    act_subject_id: 4
+    act_score_range_id: 26
+    act_standard_id: 33
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-6-1:
+    id: 461
+    act_subject_id: 4
+    act_score_range_id: 27
+    act_standard_id: 31
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-6-2:
+    id: 462
+    act_subject_id: 4
+    act_score_range_id: 27
+    act_standard_id: 32
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-6-3:
+    id: 463
+    act_subject_id: 4
+    act_score_range_id: 27
+    act_standard_id: 33
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none- 
+
+sci-s-7-1:
+    id: 471
+    act_subject_id: 4
+    act_score_range_id: 28
+    act_standard_id: 31
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-7-2:
+    id: 472
+    act_subject_id: 4
+    act_score_range_id: 28
+    act_standard_id: 32
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-
+
+sci-s-7-3:
+    id: 473
+    act_subject_id: 4
+    act_score_range_id: 28
+    act_standard_id: 33
+    user_id: 1026
+    organization_id: 1
+    benchmark_type: benchmark
+    description: -none-

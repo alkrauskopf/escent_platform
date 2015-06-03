@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  organization_id: 1
+  owner_org_id: 1
+  elt_cycle_id: 1
+
+two:
+  organization_id: 1
+  owner_org_id: 1
+  elt_cycle_id: 1

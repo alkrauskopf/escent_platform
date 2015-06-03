@@ -1,0 +1,66 @@
+<div id="manage_elements_<%=org.public_id%>">
+
+	<table   style="width:700px; width:fixed; margin-top:10px; margin-left:30px">
+		<style type="text/css" media="screen">
+	    table,tr,td { border:medium}
+		table tr:hover{
+        background-color: transparent;
+      }
+    	</style>
+		<tbody>  
+
+			<tr style="border:0px solid #ddd; ">
+				<td style="width:520px; width:fixed;">
+					&nbsp;
+				</td>
+				<td style="width:180px; width:fixed; padding-left:20px; vertical-align:top ">
+					<span class="fsn-button ui-button ui-state-default ui-corner-all">
+						<%= link_to 'Create New Element', {:controller => "/apps/learning_time", :action => :maintain_element, :app_id=> app.id, :task=>"New", :organization_id => @current_organization},{:target=>"_blank"}  %>
+					</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<table  style="width:500px; width:fixed; margin-top:0px; margin-bottom:20px; margin-left:30px">
+		<tbody>  
+			<% org.elt_elements.all.each do |element| -%>
+				<tr style="border:1px solid #ddd; background:<%= element.form_background%>; ">
+					<td  style="width:7px; width:fixed; font-size:11px; text-align:right; color:<%=element.e_font_color %>">
+						<%= element.position %>)&nbsp;
+					</td>
+					<% button_label = element.active? ? "button_enabled.png" : "button_disabled.png"-%>
+					<td id="toggle_active_<%= element.public_id %>" style=" width:20px;  width:fixed; color:<%=element.e_font_color %>; cursor:pointer; float:left; padding-left:0px; padding-top:0px; vertical-align:middle" >
+						<%= (image_tag button_label,:width => 15) %>
+					</td>
+					<td  style="width:45px; width:fixed; padding-top:5px; padding-left:0px; line-height:1.2em; color:#2061a5;">
+						<span class="fsn-button ui-button ui-state-default ui-corner-all">
+							<%= link_to 'Edit', {:controller => "/apps/learning_time", :action => :maintain_element, :app_id=> app.id, :task=>"Update", :elt_element_id=>element, :organization_id => @current_organization},{:target=>"_blank"}  %>
+						</span>
+					</td>
+					<td style=" text-align:left; font-size:13px; padding-left:3px; color:<%=element.e_font_color %>">
+						<%= element.abbrev %>:&nbsp;<%=element.name%>
+					</td>
+				</tr>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#toggle_active_<%= element.public_id %>").click(function() {
+		var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_active_element, :organization_id => @current_organization, :elt_element_id => element, :app_id=> app.id %>";
+		jQ.get(url,{},  function(data) {
+				jQ("#manage_elements_<%=org.public_id%>").html(data);
+				jQ("#manage_elements_<%=org.public_id%>").show();
+					});
+	})
+});
+</script>
+			<% end -%>
+		</tbody>
+	</table>
+</div>
+
+
+
+
+
+
+
+

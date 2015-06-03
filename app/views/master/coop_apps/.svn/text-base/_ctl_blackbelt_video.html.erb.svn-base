@@ -1,0 +1,69 @@
+<div id="<%=video.public_id%>_blackbelt">
+
+	<% if @current_user.app_superuser?(app) -%>
+
+		<table style="width:800px; margin-left:70px;  font-weight:bold; color: #2061a5; ">
+			<thead>
+				<tr>
+					<th colspan=3 style="width:800px; vertical-align:middle; text-align:center; font-size:16px; padding-left:0px">
+							<%= video.title -%></br/>
+							<span style="font-size:12px;font-weight:normal">
+								<center><%=video.organization ? video.organization.medium_name : ""%>&nbsp;
+								Contribution&nbsp;From&nbsp;<%= time_ago_in_words(video.created_at.to_s, include_seconds = false).titleize%> ago </br/>
+							</span>
+					</th>											
+				</tr>
+			</thead>
+
+			<tbody style="border:1px solid #ddd; font-size:14px; color: #2061a5;">
+				<% if video.itl_blackbelt && video.itl_blackbelt.tlt_session %>	
+					<tr>
+						<td style="width:80px; vertical-align:middle; border:0px solid #ddd; text-align:left;padding-left:40px;padding-top:5px; padding-bottom:10px;">
+							<%=image_tag("black_belt.png", :width => 30)%>
+						</td>
+						<td style="width:50px; border:0px solid #ddd; vertical-align:middle; text-align:left;padding-top:5px;padding-bottom:5px">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all">
+								<%= link_to "View", {:controller =>  "/apps/time_learning", :action => "static_itl_session", :organization_id => @current_organization, :tlt_session_id => video.itl_blackbelt.tlt_session}, {:target => "_blank"}  %>		
+							</span>
+						</td>
+						<td style="width:670px; vertical-align:middle; font-size:14px; border:0px solid #ddd; text-align:left;padding-left:5px;padding-top:5px; padding-bottom:10px;">
+							Observation:&nbsp;<%= video.itl_blackbelt.tlt_session.tracker ? video.itl_blackbelt.tlt_session.tracker.full_name : "Former User"%>,&nbsp;<%= video.itl_blackbelt.tlt_session.organization ? video.itl_blackbelt.tlt_session.organization.medium_name : ""%>
+							&nbsp;On&nbsp;<%=video.itl_blackbelt.tlt_session.session_date.strftime("%b %d, %Y")%>
+						</td>
+					</tr>
+				<% end -%>
+				<tr>	
+					<td colspan=3 style=" vertical-align:middle; text-align:center;padding-left:0px">
+						<% video.tlt_sessions.collect{|v| v.tracker}.uniq.each do |trckr|%>							
+							<table id="<%=trckr.public_id%><%=video.id%>_blackbelt"   style="width:750px; margin-left:50px; color: #2061a5;padding-left:0px;font-size:12px; font-weight:bold; ">
+								<tbody>  
+									<tr>
+										<td class="resource_levels_close">
+						
+										<%= link_to '', :controller => "master/coop_apps", :action => :show_user_video_session, :organization_id => @current_organization, :observer_id=> trckr, :video_id=> video,:app_id=> app.id %>
+											<%= trckr.last_name -%>&nbsp;Sessions
+										<span></span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<script type="text/javascript" charset="utf-8">
+							jQ(document).ready(function() {
+								jQ('#<%=trckr.public_id%><%=video.id%>_blackbelt"  .resource_levels_close').toggleResourceLevels();
+								jQ('#<%=trckr.public_id%><%=video.id%>_blackbelt"  .resource_levels_open').toggleResourceLevels();	
+							});
+							</script>
+							<% end -%>
+						</td>					
+					</tr>
+				</tbody>
+			</table>
+	<% else -%>
+		<span style="font-size:12px; color: #2061a5;font-weight:normal">
+			<center><br/>* * * Not Authorized * * *</center>
+		</span>		
+	<% end -%>
+<br/>
+
+</div>
+

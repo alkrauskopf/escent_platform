@@ -1,0 +1,92 @@
+<div  id="video_attach">
+
+	<% if observer == true && !session.training? && !session.content -%>
+		<% embed = session.tlt_session_video ? session.tlt_session_video.embed_code : nil -%>
+		<% show_label = embed.nil? ? "Add" : "Edit" -%>
+		<table id="vid_header"style="width:650px; margin-left:0px;">
+			<tbody>
+				<tr>
+					<td id="vid_show" style="vertical-align:top;   padding-left:3px;  text-align:left; color: #000000;  font-weight:normal; font-size:11px">
+						>&nbsp;<%= show_label %>&nbsp;Video  
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table id="vid_descript" style="width:650px; margin-left:0px;">
+			<tbody>
+				<tr>
+					<td colspan=2 id= "vid_hide" style=" vertical-align:top;  padding-left:3px; padding-top:0px; padding-bottom:0px; text-align:left; color: #000000;  font-weight:normal; font-size:11px">
+							>&nbsp;&nbsp;Cancel  
+					</td>
+				</tr>
+				<tr>
+					<td   id = "attachment_del" style="width:100px; width:fixed; border:0px solid #ddd; font-size:10px;vertical-align:middle;  padding-top:0px; padding-bottom:0px; padding-left:3px; vertical-align:top; ">
+						<button>Delete</button>
+					</td>
+					<td  style=" border:0px solid #ddd; padding-left:0px; padding-top:0px; vertical-align:bottom; text-align:center; font-size:10.5px">
+						 <i>Paste Video Embed Code In Text Box Below</i>		
+					</td>
+				</tr>
+				<tr>
+					<td   id = "attachment" style="width:100px; width:fixed; border:0px solid #ddd; font-size:10px;vertical-align:middle;  padding-top:10px; padding-bottom:0px; padding-left:3px; vertical-align:top; ">
+						<button>Attach</button>
+					</td>
+					<td  style=" border:0px solid #ddd; padding-left:0px; padding-top:10px; vertical-align:top; text-align:left; font-size:11px">
+						 <%= text_area :embed, :code, :value => embed, :rows => 4, :cols => 75  %>			
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	
+	<script type="text/javascript">
+		jQ(document).ready(function() {
+	  		  jQ("#vid_header").show();
+			  jQ("#vid_descript").hide();		  
+	
+		jQ("#vid_show").click(function() {
+			  	jQ("#vid_header").slideUp("slow");	 
+		   		jQ("#vid_descript").slideDown("slow");
+		})
+	
+		jQ("#vid_hide").click(function() {
+		   		jQ("#vid_descript").slideUp("slow");
+		   		jQ("#vid_header").show();
+		})	
+	});
+	</script>
+	
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ('#attachment').click(function() {
+			var session_id = '<%= @tlt_session.public_id %>';
+			var embed = jQ('#embed_code').val();
+			var url = "<%= url_for :controller => '/apps/time_learning', :action => :attach_embed_code, :organization_id => @current_organization  %>";
+				jQ.get(url, {'embed_code':embed,'tlt_session_id': session_id}, function(data) {
+				jQ("#video_attach").html(data); 
+		   		jQ("#video_attach").show();
+				});
+		})
+	});
+	</script>
+	
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ('#attachment_del').click(function() {
+			var session_id = '<%= @tlt_session.public_id %>';
+			var url = "<%= url_for :controller => '/apps/time_learning', :action => :remove_embed_code, :organization_id => @current_organization  %>";
+				jQ.get(url, {'tlt_session_id': session_id}, function(data) {
+				jQ("#video_attach").html(data); 
+		   		jQ("#video_attach").show();
+				});
+		})
+	});
+	</script>
+<% end -%>
+	<% if  session.tlt_session_video  -%>
+	
+		<% if (teacher || observer) && !session.training? && !session.tlt_session_video.embed_code.empty? && @current_user.content_manager_for_org?(@current_organization) && !session.content-%>
+			<%= render (:partial => "video_training_create", :locals => {:session => session}) %>
+		<% end -%>
+		<%= render (:partial => "video_show", :locals => {:session => session}) %>
+	<% end -%>
+</div>

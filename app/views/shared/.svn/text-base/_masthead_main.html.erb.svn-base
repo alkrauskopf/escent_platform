@@ -1,0 +1,48 @@
+<div class="masthead clear">
+
+
+    <% unless @current_action == "search" -%>
+    <% form_tag({:controller => "/site/site", :action => :search, :organization_id => @current_organization}, :method => :get) do -%>
+    <div style="float:left; padding-right:5px; padding-top:0px;" class="background_text">
+		 
+		<div style="float:left; border:0px solid white; line-height:10px;">
+            <input type='radio' id='search_type' name='search_type' value='Organizations' />
+        </div>
+        <div style="float:left; border:0px solid white; line-height:10px; padding-top:5px;">
+            Organizations 
+            <br/>
+            (<%= Organization.count %>)
+        </div>
+	
+              <div style="float:left; border:0px solid white; line-height:10px;">
+            <input type='radio' id='search_type' name='search_type' value='Classrooms' />
+        </div>
+				
+        <div style="float:left; border:0px solid white; line-height:10px; padding-top:5px;">
+            Classrooms
+            <br/>			
+            (<%= Classroom.count %>)
+        </div>
+		  
+		<div style="float:left; border:0px solid white; line-height:10px;">
+            <input type='radio' id='search_type' name='search_type' value='People' />
+        </div>
+        <div style="float:left; border:0px solid white; line-height:10px; padding-top:5px;">
+            People
+            <br/>			
+            (<%= User.count %>) 
+        </div>
+						
+        <div style="float:left; border:0px solid white; line-height:10px;">
+            <input type='radio' id='search_type' name='search_type' value='Resources' checked/>
+        </div>
+        <div style="float:left; border:0px solid white; line-height:10px; padding-top:5px;">
+            Resources
+            <br/>			
+            (<%= Content.active.count %>)			
+        </div>
+    </div>
+    <%= text_field_tag "keywords", @keywords, :class => "text" %><input type="submit" class="submit" name="" value="" /><!-- IDP <a href="/fsn/help" class="help" title="help"><span>help</span></a> -->
+    <% end -%>
+    <% end -%>
+</div>

@@ -1,0 +1,17 @@
+<div class="blog_box_warp">
+	<div style="float:left; width:690px">
+		<div class="mempro_box">	
+			<h3>Create Blog Post For Blog: <%= simple_format @blog.title %></h3>
+
+			<% form_for(:blog_post, :url => {:controller => '/apps/blogs', :action => "create_post", :blog_id => @blog.public_id, :user_id => @current_user, :blog_post_id => @blog_post.public_id, :function=>"Add"}) do |form| -%>
+
+			  <%= render :partial => "apps/blogs/post_form", :locals=>{:blog => @blog, :blog_post => @blog_post, :function=>"New"} %>
+				<div style ="margin-left:150px; cursor:pointer; padding-top:10px; padding-bottom:20px;">
+					<%= submit_tag "Create Post", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+				</div><br/>
+			<% end -%>
+		</div>	
+	</div>	
+
+	<br style="clear:both" />	
+</div>	

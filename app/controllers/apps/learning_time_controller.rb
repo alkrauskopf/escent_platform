@@ -1,7 +1,11 @@
 class Apps::LearningTimeController  < Site::ApplicationController
   
  helper :all # include all helpers, all the time  
- layout "elt", :except =>[:manage_plan_types, :export_case, :report_school_diag, :report_community_diag, :show_case_element_indicators, :transfer_plans, :transfer_cases, :show_school_cycle_activity_cases, :list_school_cycle_activities, :list_case_evidences, :show_activity_cases, :manage_cycles, :manage_activities, :manage_elements, :manage_indicators, :view_latest_submitted, :show_case_summary, :case_indicators_element_rubric]
+ layout "elt", :except =>[:manage_frameworks, :manage_plan_types, :export_case, :report_school_diag, :report_community_diag,
+                          :show_case_element_indicators, :transfer_plans, :transfer_cases,
+                          :show_school_cycle_activity_cases, :list_school_cycle_activities, :list_case_evidences, :show_activity_cases,
+                          :manage_cycles, :manage_activities, :manage_elements, :manage_indicators,
+                          :view_latest_submitted, :show_case_summary, :case_indicators_element_rubric]
 
  before_filter :clear_notification, :except =>[]
  before_filter :initialize_parameters, :except =>[]
@@ -26,7 +30,11 @@ class Apps::LearningTimeController  < Site::ApplicationController
       end    
     end
   end
-  
+
+ def manage_frameworks
+   initialize_parameters
+ end
+
   def manage_cycles
     initialize_parameters
   end
@@ -562,9 +570,49 @@ class Apps::LearningTimeController  < Site::ApplicationController
       @elt_case.destroy
     end
     render :partial => "/apps/learning_time/list_cases", :locals=>{:app=>@app}
- end  
+ end
 
-  def select_rubric
+ def new_framework
+   initialize_parameters
+   framework = EltFramework.new
+   framework.name = params[:name]
+   framework.abbrev = params[:abbrev]
+   if !framework.name.strip.empty? then
+     if @current_organization.elt_frameworks << framework
+      if !@current_organization.elt_framework?
+        @current_organization.set_framework(framework)
+      end
+     end
+   end
+   render :partial => "/apps/learning_time/manage_frameworks", :locals => {:org => @current_organization, :app=>@app}
+ end
+
+ def set_framework
+   initialize_parameters
+   if @framework
+     @current_organization.set_framework(@framework)
+   end
+   render :partial => "/apps/learning_time/maintain_frameworks", :locals=>{:app=>@app, :org => @current_organization}
+ end
+
+ def edit_framework
+   initialize_parameters
+   if @framework && !params[:name].strip.empty?
+     @framework.update_attributes(:name => params[:name], :abbrev => params[:abbrev])
+   end
+   render :partial => "/apps/learning_time/manage_frameworks", :locals => {:org => @current_organization, :app=>@app}
+ end
+
+ def destroy_framework
+   initialize_parameters
+   if @framework
+     @framework.destroy
+     @current_organization.initial_framework
+   end
+   render :partial => "/apps/learning_time/manage_frameworks", :locals => {:org => @current_organization, :app=>@app}
+ end
+
+ def select_rubric
     initialize_parameters
     render :partial => "/apps/learning_time/schools_by_rubric", :locals=>{:org_type => @org_type, :rubric => @rubric, :rubric_list=> (@current_organization.provider?(@app) ? @activity.rubrics.active :  @activity.shareable_rubrics), :activity=>@activity, :app=>@app} 
   end
@@ -662,7 +710,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     
   def initialize_parameters 
     if  params[:organization_id]
-      @current_organization = Organization.find_by_public_id(params[:organization_id])rescue nil
+      @current_organization = Organization.find_by_public_id(params[:organization_id]) rescue nil
     end
     if  params[:organization_type_id]
       @org_type = OrganizationType.find_by_id(params[:organization_type_id])
@@ -696,7 +744,11 @@ class Apps::LearningTimeController  < Site::ApplicationController
     if params[:elt_cycle_id]
       @cycle = EltCycle.find_by_public_id(params[:elt_cycle_id]) rescue nil
     end
-      
+
+    if params[:elt_framework_id]
+      @framework = EltFramework.find_by_public_id(params[:elt_framework_id]) rescue nil
+    end
+
     if params[:elt_plan_type_id]
       @plan_type = EltPlanType.find_by_public_id(params[:elt_plan_type_id]) rescue nil
     end

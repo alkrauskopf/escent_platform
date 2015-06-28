@@ -1,7 +1,7 @@
 
 	<div class="FormRow submit_warp" style= "padding-left:25px">	
 		<%= submit_tag button_label, :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
-	<br/>
+	    <br/>
 	</div>	
 
 <div class="formBox">
@@ -10,7 +10,7 @@
             Name:
         </div>
         <div class="FormRowData" style= "margin-left:25px">
-        <%= text_field :elt_cycle, :name, :value => @cycle.name, :size => 40, :maxlength => 60 %>
+            <%= text_field :elt_cycle, :name, :value => @cycle.name, :size => 40, :maxlength => 60 %>
         </div>
     </div>	
 	<div class="FormRow">
@@ -18,7 +18,7 @@
             Abbreviation:
         </div>
         <div class="FormRowData" style= "margin-left:25px">
-        <%= text_field :elt_cycle, :abbrev, :value => @cycle.abbrev, :size => 6 %>
+          <%= text_field :elt_cycle, :abbrev, :value => @cycle.abbrev, :size => 6 %>
         </div>
     </div>
 	<div class="FormRow">

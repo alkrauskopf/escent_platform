@@ -502,40 +502,6 @@ has-props
 
 973
 
-20141014172733_create_elt_org_options.rb
-file
-
-
-
-
-2014-10-14T17:41:46.000000Z
-93df761d221023d2b7421a5895f32a14
-2014-10-14T23:36:56.433776Z
-24889
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-677
-
 20120604130144_create_organization_dle_metrics.rb
 file
 
@@ -569,6 +535,40 @@ allen
 
 
 387
+
+20141014172733_create_elt_org_options.rb
+file
+
+
+
+
+2014-10-14T17:41:46.000000Z
+93df761d221023d2b7421a5895f32a14
+2014-10-14T23:36:56.433776Z
+24889
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+677
 
 20140904121003_redo_folders.rb
 file
@@ -706,40 +706,6 @@ has-props
 
 260
 
-20110129181417_remove_auto_correct.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-6019a43ca93d1e47fd3aecbb0c17b6c5
-2011-01-31T03:33:10.369574Z
-17191
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-303
-
 20120516221738_add_student_survey_in_session.rb
 file
 
@@ -773,6 +739,40 @@ allen
 
 
 224
+
+20110129181417_remove_auto_correct.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+6019a43ca93d1e47fd3aecbb0c17b6c5
+2011-01-31T03:33:10.369574Z
+17191
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+303
 
 20090828122844_add_blog_feature_and_cover_to_blog.rb
 file
@@ -808,40 +808,6 @@ joe
 
 611
 
-20090511193800_add_content_fields.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-4c34bd3788d860916f19622316c39881
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-601
-
 20141002011522_elt_indicator_type_populate.rb
 file
 
@@ -876,18 +842,17 @@ allen
 
 163
 
-20110211043103_create_act_genres.rb
+20090511193800_add_content_fields.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-03b2bc98b9a4d83522baf0fd5ae745f5
-2011-02-11T04:57:52.757431Z
-17319
-allen
-has-props
+4c34bd3788d860916f19622316c39881
+2010-06-18T13:33:53.219944Z
+13676
+joe
 
 
 
@@ -908,7 +873,8 @@ has-props
 
 
 
-233
+
+601
 
 20110826230807_add_resource_type_id_to_content.rb
 file
@@ -944,16 +910,16 @@ has-props
 
 228
 
-20110708194850_add_app_options.rb
+20110211043103_create_act_genres.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-1c16e7676e0a4be6e91ec70822ce5506
-2011-07-15T20:59:50.375545Z
-19015
+03b2bc98b9a4d83522baf0fd5ae745f5
+2011-02-11T04:57:52.757431Z
+17319
 allen
 has-props
 
@@ -976,7 +942,7 @@ has-props
 
 
 
-446
+233
 
 20120525231808_create_classroom_periods.rb
 file
@@ -1012,17 +978,18 @@ allen
 
 353
 
-20090901145814_add_is_delete_and_updated_by_to_contents.rb
+20110708194850_add_app_options.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-bfb88840c5cd947df80a2a8540e6ca2a
-2010-06-18T13:33:53.219944Z
-13676
-joe
+1c16e7676e0a4be6e91ec70822ce5506
+2011-07-15T20:59:50.375545Z
+19015
+allen
+has-props
 
 
 
@@ -1043,8 +1010,7 @@ joe
 
 
 
-
-309
+446
 
 20120513225633_add_diag_col_survey_resp.rb
 file
@@ -1079,6 +1045,40 @@ allen
 
 
 284
+
+20090901145814_add_is_delete_and_updated_by_to_contents.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+bfb88840c5cd947df80a2a8540e6ca2a
+2010-06-18T13:33:53.219944Z
+13676
+joe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+309
 
 20141011150358_add_rubric_position.rb
 file
@@ -2134,40 +2134,6 @@ allen
 
 210
 
-20120507204026_rename_type_surveys.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-8ed9dac5c90e1460d471546b7e0a36c6
-2012-05-07T22:59:24.687009Z
-22602
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-219
-
 20120518154250_add_session_duration_session.rb
 file
 
@@ -2202,18 +2168,17 @@ allen
 
 201
 
-20110204192420_add_short_answer_to_act_answers.rb
+20120507204026_rename_type_surveys.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-ac49d3a319ca1d02ddbeb998906d0cfe
-2011-02-04T19:50:59.654396Z
-17240
+8ed9dac5c90e1460d471546b7e0a36c6
+2012-05-07T22:59:24.687009Z
+22602
 allen
-has-props
 
 
 
@@ -2234,7 +2199,8 @@ has-props
 
 
 
-201
+
+219
 
 20131020211247_add_show_log_count_org_options.rb
 file
@@ -2269,6 +2235,40 @@ allen
 
 
 286
+
+20110204192420_add_short_answer_to_act_answers.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+ac49d3a319ca1d02ddbeb998906d0cfe
+2011-02-04T19:50:59.654396Z
+17240
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+201
 
 20121121213759_rename_max_responses.rb
 file
@@ -2372,6 +2372,40 @@ allen
 
 738
 
+20150626191645_create_elt_frameworks.rb
+file
+25077
+
+
+
+2015-06-28T11:35:37.000000Z
+698b11f932f5e4bf25281e52fbdb4291
+2015-06-28T11:49:12.432938Z
+25077
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+352
+
 20130409213148_create_itl_summary_strategies.rb
 file
 
@@ -2440,40 +2474,6 @@ allen
 
 235
 
-20141212203316_add_blogabable_coopapp.rb
-file
-
-
-
-
-2014-12-12T20:35:33.000000Z
-39232328b5a0c2d7426a75878cf4ae21
-2014-12-14T02:48:43.787376Z
-24952
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-205
-
 20110209212354_add_std_green_to_options.rb
 file
 
@@ -2508,16 +2508,16 @@ has-props
 
 480
 
-20130409215635_rename_year_month_col.rb
+20141212203316_add_blogabable_coopapp.rb
 file
 
 
 
 
-2013-04-09T22:04:58.000000Z
-2dbb0c7dd0ad71fc13a3eb79c10eb652
-2013-04-17T22:58:02.224280Z
-24250
+2014-12-12T20:35:33.000000Z
+39232328b5a0c2d7426a75878cf4ae21
+2014-12-14T02:48:43.787376Z
+24952
 allen
 
 
@@ -2540,7 +2540,7 @@ allen
 
 
 
-1060
+205
 
 20130921220144_add_app_method_id_tlt_activity.rb
 file
@@ -2575,6 +2575,40 @@ allen
 
 
 273
+
+20130409215635_rename_year_month_col.rb
+file
+
+
+
+
+2013-04-09T22:04:58.000000Z
+2dbb0c7dd0ad71fc13a3eb79c10eb652
+2013-04-17T22:58:02.224280Z
+24250
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1060
 
 20110203153254_rename_act_taken_in_answers.rb
 file
@@ -2644,40 +2678,6 @@ has-props
 
 230
 
-20090803125846_add_state_to_user.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-e0ec3f1846dc237f722a663994173de9
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-184
-
 20120510005510_add_more_fields_to_sesssion_n_survey.rb
 file
 
@@ -2711,6 +2711,40 @@ allen
 
 
 1530
+
+20090803125846_add_state_to_user.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+e0ec3f1846dc237f722a663994173de9
+2010-06-18T13:33:53.219944Z
+13676
+joe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+184
 
 20090330161527_org_contact.rb
 file
@@ -2950,40 +2984,6 @@ joe
 
 235
 
-20130507184528_add_notfication_organization.rb
-file
-
-
-
-
-2013-05-07T18:48:15.000000Z
-9e679402bf3a96eb5f88e6fad2d8b21f
-2013-05-09T17:23:17.419587Z
-24283
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-271
-
 20090725071439_create_blog.rb
 file
 
@@ -3017,6 +3017,40 @@ joe
 
 
 431
+
+20130507184528_add_notfication_organization.rb
+file
+
+
+
+
+2013-05-07T18:48:15.000000Z
+9e679402bf3a96eb5f88e6fad2d8b21f
+2013-05-09T17:23:17.419587Z
+24283
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+271
 
 20140921165443_add_alt_short_name_org.rb
 file
@@ -3052,17 +3086,17 @@ allen
 
 222
 
-20131107041533_create_app_method_log_ratings.rb
+20090314175306_add_logo_columns_to_organizations.rb
 file
 
 
 
 
-2013-11-07T04:18:55.000000Z
-12a3c2adf079bdb89e3cce9468dd39b8
-2013-11-08T22:49:23.485449Z
-24596
-allen
+2013-01-04T17:08:04.000000Z
+f972174d2b1615e151448dbe845291a8
+2010-06-18T13:33:53.219944Z
+13676
+joe
 
 
 
@@ -3084,7 +3118,7 @@ allen
 
 
 
-364
+487
 
 20121121200747_add_default_days_to_survey_instruction.rb
 file
@@ -3120,17 +3154,17 @@ allen
 
 228
 
-20090314175306_add_logo_columns_to_organizations.rb
+20131107041533_create_app_method_log_ratings.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-f972174d2b1615e151448dbe845291a8
-2010-06-18T13:33:53.219944Z
-13676
-joe
+2013-11-07T04:18:55.000000Z
+12a3c2adf079bdb89e3cce9468dd39b8
+2013-11-08T22:49:23.485449Z
+24596
+allen
 
 
 
@@ -3152,7 +3186,7 @@ joe
 
 
 
-487
+364
 
 20110317230428_create_co_gles.rb
 file
@@ -3188,40 +3222,6 @@ has-props
 
 257
 
-20090724143230_add_is_delete_to_discussions.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-b9485777c6d043f6ecf6570d33d272af
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-219
-
 20120501213546_create_tl_activity_types.rb
 file
 
@@ -3255,6 +3255,40 @@ allen
 
 
 259
+
+20090724143230_add_is_delete_to_discussions.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+b9485777c6d043f6ecf6570d33d272af
+2010-06-18T13:33:53.219944Z
+13676
+joe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+219
 
 20120820145353_add_survey_schedule_id_to_responses.rb
 file
@@ -3290,17 +3324,18 @@ allen
 
 296
 
-20090507111438_create_authorizable_actions.rb
+20100727032853_create_subject_areas.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-c54accaa130fca5ffb22377de00a154a
-2010-06-18T13:33:53.219944Z
-13676
-joe
+2538709adeaf9c878adf53e69c8ce679
+2010-08-03T00:55:49.006071Z
+14047
+allen
+has-props
 
 
 
@@ -3321,8 +3356,7 @@ joe
 
 
 
-
-426
+259
 
 20100714181501_add_philosophy_to_user.rb
 file
@@ -3358,18 +3392,17 @@ has-props
 
 179
 
-20100727032853_create_subject_areas.rb
+20090507111438_create_authorizable_actions.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-2538709adeaf9c878adf53e69c8ce679
-2010-08-03T00:55:49.006071Z
-14047
-allen
-has-props
+c54accaa130fca5ffb22377de00a154a
+2010-06-18T13:33:53.219944Z
+13676
+joe
 
 
 
@@ -3390,7 +3423,8 @@ has-props
 
 
 
-259
+
+426
 
 20110905124405_add_period_end_index_to_q_loq.rb
 file
@@ -3630,40 +3664,6 @@ has-props
 
 413
 
-20110319000401_create_co_grade_levels.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-ba444d5c91c0960b77bdbf001abc2d6b
-2011-03-19T02:19:48.009881Z
-17914
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-536
-
 20130930131042_create_itl_template_app_methods.rb
 file
 
@@ -3698,16 +3698,50 @@ allen
 
 457
 
-20111109225930_rename_blog_user_id.rb
+20110319000401_create_co_grade_levels.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-cddcdacc3e05ec272d773e88a965b913
-2011-11-17T03:11:57.343457Z
-21096
+ba444d5c91c0960b77bdbf001abc2d6b
+2011-03-19T02:19:48.009881Z
+17914
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+536
+
+20150310153325_remove_cycle_summary_columns.rb
+file
+
+
+
+
+2015-03-10T15:42:25.000000Z
+f8895f1b99352539eb04b417d130ac53
+2015-03-13T23:51:33.656942Z
+25027
 allen
 
 
@@ -3730,7 +3764,7 @@ allen
 
 
 
-196
+531
 
 20120806172830_rename_coach_id.rb
 file
@@ -3766,16 +3800,16 @@ allen
 
 219
 
-20150310153325_remove_cycle_summary_columns.rb
+20111109225930_rename_blog_user_id.rb
 file
 
 
 
 
-2015-03-10T15:42:25.000000Z
-f8895f1b99352539eb04b417d130ac53
-2015-03-13T23:51:33.656942Z
-25027
+2013-01-04T17:08:04.000000Z
+cddcdacc3e05ec272d773e88a965b913
+2011-11-17T03:11:57.343457Z
+21096
 allen
 
 
@@ -3798,7 +3832,7 @@ allen
 
 
 
-531
+196
 
 20120717143517_add_is_enabled_tlt_tasks.rb
 file
@@ -3970,40 +4004,6 @@ has-props
 
 309
 
-20090810153003_add_user_id_to_prayer_pledge.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-ced9272b46e34d0b1c551bd08d6dc6e9
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-198
-
 20141102165333_remove_org_register_notfify.rb
 file
 
@@ -4038,17 +4038,17 @@ allen
 
 221
 
-20140216004759_add_ista_backround_color.rb
+20090810153003_add_user_id_to_prayer_pledge.rb
 file
 
 
 
 
-2014-02-16T00:51:48.000000Z
-56b632528bd4e102471a69388d41759b
-2014-02-17T00:51:09.947955Z
-24698
-allen
+2013-01-04T17:08:04.000000Z
+ced9272b46e34d0b1c551bd08d6dc6e9
+2010-06-18T13:33:53.219944Z
+13676
+joe
 
 
 
@@ -4070,7 +4070,7 @@ allen
 
 
 
-405
+198
 
 20110324140222_add_score_range_to_outcomes.rb
 file
@@ -4106,16 +4106,16 @@ has-props
 
 409
 
-20140618125451_create_elt_rubrics.rb
+20140216004759_add_ista_backround_color.rb
 file
 
 
 
 
-2014-06-18T14:03:51.000000Z
-ba1ff393e8c8aebe7962e6e91edae2d8
-2014-08-12T14:28:23.769671Z
-24797
+2014-02-16T00:51:48.000000Z
+56b632528bd4e102471a69388d41759b
+2014-02-17T00:51:09.947955Z
+24698
 allen
 
 
@@ -4138,7 +4138,7 @@ allen
 
 
 
-297
+405
 
 20090415145557_create_simple_captcha_data.rb
 file
@@ -4174,18 +4174,51 @@ joe
 
 330
 
-20110130153113_rename_lock_in_act_question.rb
+20140618125451_create_elt_rubrics.rb
+file
+
+
+
+
+2014-06-18T14:03:51.000000Z
+ba1ff393e8c8aebe7962e6e91edae2d8
+2014-08-12T14:28:23.769671Z
+24797
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+297
+
+20090319190247_add_featured_topic_id_to_organizations.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-c06674df81e5d6982d6b4497cc6ac500
-2011-01-31T03:33:10.369574Z
-17191
-allen
-has-props
+517f9a219e88bbe01fa74a026d134f6a
+2010-06-18T13:33:53.219944Z
+13676
+joe
 
 
 
@@ -4206,7 +4239,8 @@ has-props
 
 
 
-203
+
+341
 
 20090708211524_create_content_albums.rb
 file
@@ -4242,17 +4276,18 @@ joe
 
 350
 
-20090319190247_add_featured_topic_id_to_organizations.rb
+20110130153113_rename_lock_in_act_question.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-517f9a219e88bbe01fa74a026d134f6a
-2010-06-18T13:33:53.219944Z
-13676
-joe
+c06674df81e5d6982d6b4497cc6ac500
+2011-01-31T03:33:10.369574Z
+17191
+allen
+has-props
 
 
 
@@ -4273,8 +4308,7 @@ joe
 
 
 
-
-341
+203
 
 20090511170107_create_authorization_levels_roles_table.rb
 file
@@ -8696,40 +8730,6 @@ has-props
 
 333
 
-20120803134830_create_dle_coach_assignments.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-6314c58746d8685d6ad3d8f33b63b896
-2012-08-06T19:24:36.607899Z
-23280
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-367
-
 20090725070608_rename_blog_to_blog_post.rb
 file
 
@@ -8763,6 +8763,40 @@ joe
 
 
 178
+
+20120803134830_create_dle_coach_assignments.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+6314c58746d8685d6ad3d8f33b63b896
+2012-08-06T19:24:36.607899Z
+23280
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+367
 
 20090310173038_create_style_settings.rb
 file
@@ -8900,40 +8934,6 @@ allen
 
 1594
 
-20110331142552_add_act_master_id_to_act_assessment_scores.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-a6f3b004b27599a7073c69cf1d8e4a65
-2011-03-31T17:38:41.129819Z
-18162
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-256
-
 20120606031118_add_is_survey_to_cycle.rb
 file
 
@@ -8968,16 +8968,16 @@ allen
 
 393
 
-20110312182721_add_position_to_act_bench_act_question.rb
+20110331142552_add_act_master_id_to_act_assessment_scores.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-05d2df0bb36e80f9f4b0afc07825030a
-2011-03-12T22:29:44.567677Z
-17785
+a6f3b004b27599a7073c69cf1d8e4a65
+2011-03-31T17:38:41.129819Z
+18162
 allen
 has-props
 
@@ -9000,7 +9000,7 @@ has-props
 
 
 
-227
+256
 
 20120517120022_create_tlt_cycles.rb
 file
@@ -9036,17 +9036,18 @@ allen
 
 234
 
-20120510010904_remove_or_id_from_audience.rb
+20110312182721_add_position_to_act_bench_act_question.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-c1e61a0121d9af9bd1eaacaf4b17b3fc
-2012-05-11T00:49:18.756171Z
-22630
+05d2df0bb36e80f9f4b0afc07825030a
+2011-03-12T22:29:44.567677Z
+17785
 allen
+has-props
 
 
 
@@ -9067,42 +9068,7 @@ allen
 
 
 
-
-225
-
-20090513210008_create_merchant_accounts.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-e53ff4372c554d328edbeff7b7c51704
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1254
+227
 
 20120611164226_create_dle__resources.rb
 file
@@ -9138,6 +9104,74 @@ allen
 
 399
 
+20090513210008_create_merchant_accounts.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+e53ff4372c554d328edbeff7b7c51704
+2010-06-18T13:33:53.219944Z
+13676
+joe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1254
+
+20120510010904_remove_or_id_from_audience.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+c1e61a0121d9af9bd1eaacaf4b17b3fc
+2012-05-11T00:49:18.756171Z
+22630
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+225
+
 20110124144617_remove_act_standard_from_content.rb
 file
 
@@ -9171,40 +9205,6 @@ has-props
 
 
 478
-
-20110823174957_rename_is_user_filtrd.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-7e4dda9fb152667e2a3b1052381721ed
-2011-08-24T04:45:02.337490Z
-19594
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-261
 
 20110131152412_add_score_range_id_to_topics.rb
 file
@@ -9240,16 +9240,16 @@ has-props
 
 203
 
-20110904184247_remove_score_range_from_question_log.rb
+20110823174957_rename_is_user_filtrd.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-63ade09948b578a6e92026d411f9e08d
-2011-09-04T21:25:48.778897Z
-19827
+7e4dda9fb152667e2a3b1052381721ed
+2011-08-24T04:45:02.337490Z
+19594
 allen
 has-props
 
@@ -9272,7 +9272,7 @@ has-props
 
 
 
-240
+261
 
 20111115201437_add_picture_to_blog_post.rb
 file
@@ -9307,6 +9307,40 @@ allen
 
 
 637
+
+20110904184247_remove_score_range_from_question_log.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+63ade09948b578a6e92026d411f9e08d
+2011-09-04T21:25:48.778897Z
+19827
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+240
 
 20110902190858_create_ifa_question_performances.rb
 file
@@ -9546,40 +9580,6 @@ allen
 
 292
 
-20110203004957_create_act_taken_assessments.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-2544eecd453785bbaf9a5f8ba78da2e4
-2011-02-03T22:46:06.343402Z
-17235
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-568
-
 20140919191429_new_folder_indices.rb
 file
 
@@ -9613,6 +9613,40 @@ allen
 
 
 662
+
+20110203004957_create_act_taken_assessments.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+2544eecd453785bbaf9a5f8ba78da2e4
+2011-02-03T22:46:06.343402Z
+17235
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+568
 
 20110121011937_add_act_to_content.rb
 file
@@ -9682,40 +9716,6 @@ allen
 
 447
 
-20120503011607_add_org_tlt_session.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-2f644fe850c5cfddb715efe5472f117c
-2012-05-03T03:31:55.346394Z
-22562
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-250
-
 20110131145250_remove_cols_from_act_guestions.rb
 file
 
@@ -9750,18 +9750,17 @@ has-props
 
 292
 
-20110124151157_remove_act_standard_from_topic.rb
+20120503011607_add_org_tlt_session.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-3610a0d61d06d83f92c59fb57ce90e89
-2011-01-25T17:02:22.327749Z
-17061
+2f644fe850c5cfddb715efe5472f117c
+2012-05-03T03:31:55.346394Z
+22562
 allen
-has-props
 
 
 
@@ -9782,7 +9781,8 @@ has-props
 
 
 
-462
+
+250
 
 20140903205915_create_content_folders.rb
 file
@@ -9817,6 +9817,40 @@ allen
 
 
 335
+
+20110124151157_remove_act_standard_from_topic.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+3610a0d61d06d83f92c59fb57ce90e89
+2011-01-25T17:02:22.327749Z
+17061
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+462
 
 20110404130707_add_label_to_bench_type.rb
 file
@@ -10124,17 +10158,18 @@ has-props
 
 319
 
-20130409210659_create_itl_summaries.rb
+20110206200844_add_reviewer_id_to_submissions.rb
 file
 
 
 
 
-2013-04-09T21:26:51.000000Z
-e7b34a76f1d6ad64c4d95e40542d94d3
-2013-04-17T22:58:02.224280Z
-24250
+2013-01-04T17:08:04.000000Z
+95f355b296bc84afbea99316c06a7e92
+2011-02-07T00:57:20.845021Z
+17252
 allen
+has-props
 
 
 
@@ -10155,8 +10190,7 @@ allen
 
 
 
-
-819
+211
 
 20140215030706_add_seq_num_ista_activity.rb
 file
@@ -10192,18 +10226,17 @@ allen
 
 303
 
-20110206200844_add_reviewer_id_to_submissions.rb
+20130409210659_create_itl_summaries.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-95f355b296bc84afbea99316c06a7e92
-2011-02-07T00:57:20.845021Z
-17252
+2013-04-09T21:26:51.000000Z
+e7b34a76f1d6ad64c4d95e40542d94d3
+2013-04-17T22:58:02.224280Z
+24250
 allen
-has-props
 
 
 
@@ -10224,7 +10257,8 @@ has-props
 
 
 
-211
+
+819
 
 20130509004456_add_is_suspended_org.rb
 file
@@ -10260,18 +10294,17 @@ allen
 
 253
 
-20110121012316_add_act_to_subject_area.rb
+20150318191352_create_elt_plans.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-882d03da4ce7afcfcba80532312f1e75
-2011-01-25T17:02:22.327749Z
-17061
+2015-03-18T19:24:41.000000Z
+aa7a099734606bc4986e5992a8c9f7f3
+2015-03-19T01:44:40.393137Z
+25031
 allen
-has-props
 
 
 
@@ -10292,7 +10325,8 @@ has-props
 
 
 
-206
+
+465
 
 20120821121156_add_max_responses_to_survey.rb
 file
@@ -10328,17 +10362,18 @@ allen
 
 230
 
-20150318191352_create_elt_plans.rb
+20110121012316_add_act_to_subject_area.rb
 file
 
 
 
 
-2015-03-18T19:24:41.000000Z
-aa7a099734606bc4986e5992a8c9f7f3
-2015-03-19T01:44:40.393137Z
-25031
+2013-01-04T17:08:04.000000Z
+882d03da4ce7afcfcba80532312f1e75
+2011-01-25T17:02:22.327749Z
+17061
 allen
+has-props
 
 
 
@@ -10359,8 +10394,7 @@ allen
 
 
 
-
-465
+206
 
 20120514143417_add_subj_responses.rb
 file
@@ -10600,40 +10634,6 @@ joe
 
 200
 
-20110325134632_create_act_question_act_score_ranges.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-152746628552ba999b401449a89c4f43
-2011-03-29T02:14:23.306743Z
-18064
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-316
-
 20131121211232_temp_old_template_id_session.rb
 file
 
@@ -10667,6 +10667,40 @@ allen
 
 
 285
+
+20110325134632_create_act_question_act_score_ranges.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+152746628552ba999b401449a89c4f43
+2011-03-29T02:14:23.306743Z
+18064
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+316
 
 20090726010708_create_messages.rb
 file
@@ -10702,40 +10736,6 @@ joe
 
 251
 
-20140929152052_add_elt_type_ids.rb
-file
-
-
-
-
-2014-09-29T16:00:02.000000Z
-a84ffd7a89070a035770d98fcb827564
-2014-10-02T00:20:37.932869Z
-24875
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1024
-
 20110205171814_remove_points_from_act_answers.rb
 file
 
@@ -10770,18 +10770,17 @@ has-props
 
 221
 
-20110728131818_add_is_active_to_act_question.rb
+20140929152052_add_elt_type_ids.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-cd5da099fefe5fb77f8c7d26b8204526
-2011-08-02T03:11:32.762672Z
-19155
+2014-09-29T16:00:02.000000Z
+a84ffd7a89070a035770d98fcb827564
+2014-10-02T00:20:37.932869Z
+24875
 allen
-has-props
 
 
 
@@ -10802,7 +10801,8 @@ has-props
 
 
 
-254
+
+1024
 
 20120606180317_add_app_id_surveys.rb
 file
@@ -10838,16 +10838,16 @@ allen
 
 202
 
-20110324170051_add_co_gle_to_act_benches.rb
+20110728131818_add_is_active_to_act_question.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-f163d58c3582e84acf1cc2a8aef84fb6
-2011-03-29T02:14:23.306743Z
-18064
+cd5da099fefe5fb77f8c7d26b8204526
+2011-08-02T03:11:32.762672Z
+19155
 allen
 has-props
 
@@ -10870,7 +10870,7 @@ has-props
 
 
 
-197
+254
 
 20111219151519_add_grade_level_to_q_log.rb
 file
@@ -10905,6 +10905,40 @@ allen
 
 
 390
+
+20110324170051_add_co_gle_to_act_benches.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+f163d58c3582e84acf1cc2a8aef84fb6
+2011-03-29T02:14:23.306743Z
+18064
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+197
 
 20110211043147_add_fiction_to_reading.rb
 file
@@ -11008,40 +11042,6 @@ has-props
 
 179
 
-20110130211243_create_status_in_act_question.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-7017df3bf9d001fedb23c1e00c4e4730
-2011-01-31T03:33:10.369574Z
-17191
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-283
-
 20090909145634_add_i18n_locale_to_pledges.rb
 file
 
@@ -11075,6 +11075,40 @@ joe
 
 
 204
+
+20110130211243_create_status_in_act_question.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+7017df3bf9d001fedb23c1e00c4e4730
+2011-01-31T03:33:10.369574Z
+17191
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+283
 
 20120607124202_add_tlt_survy_type_to_cycle.rb
 file
@@ -11382,18 +11416,17 @@ has-props
 
 612
 
-20100715175832_add_msgtext_phone_and_provider.rb
+20130802205811_create_itl_blackbelts.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-b70fd3c60a29c95f38b5f8fd553adfa5
-2010-08-03T00:55:49.006071Z
-14047
+2013-08-02T21:01:28.000000Z
+234422d17c839e780113e8aebfa8c98c
+2013-08-03T01:21:40.904602Z
+24406
 allen
-has-props
 
 
 
@@ -11414,7 +11447,8 @@ has-props
 
 
 
-314
+
+445
 
 20120602001110_create_user_dle_plans.rb
 file
@@ -11450,17 +11484,18 @@ allen
 
 453
 
-20130802205811_create_itl_blackbelts.rb
+20100715175832_add_msgtext_phone_and_provider.rb
 file
 
 
 
 
-2013-08-02T21:01:28.000000Z
-234422d17c839e780113e8aebfa8c98c
-2013-08-03T01:21:40.904602Z
-24406
+2013-01-04T17:08:04.000000Z
+b70fd3c60a29c95f38b5f8fd553adfa5
+2010-08-03T00:55:49.006071Z
+14047
 allen
+has-props
 
 
 
@@ -11481,8 +11516,7 @@ allen
 
 
 
-
-445
+314
 
 20130813140628_add_belt_rank_itl_summry.rb
 file
@@ -11552,40 +11586,6 @@ has-props
 
 653
 
-20131002020114_add_template_id_to_tlt_session.rb
-file
-
-
-
-
-2013-10-02T02:07:19.000000Z
-90794d33715f7fd4fc765aa2677cf475
-2013-10-02T23:35:24.428591Z
-24565
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-384
-
 20120506171344_create_tlt_survey_responses.rb
 file
 
@@ -11619,6 +11619,40 @@ allen
 
 
 520
+
+20131002020114_add_template_id_to_tlt_session.rb
+file
+
+
+
+
+2013-10-02T02:07:19.000000Z
+90794d33715f7fd4fc765aa2677cf475
+2013-10-02T23:35:24.428591Z
+24565
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+384
 
 20110818132341_change_points_to_decimal_in_student_levels.rb
 file
@@ -11654,16 +11688,16 @@ has-props
 
 363
 
-20110327165758_add_std_view.rb
+20110330140239_rename_act_system_column.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-a908d559293c2f29e955908a27393c2b
-2011-03-29T02:14:23.306743Z
-18064
+823696129ddab0cdc1a804a2de487ff8
+2011-03-30T15:14:13.634990Z
+18125
 allen
 has-props
 
@@ -11686,7 +11720,7 @@ has-props
 
 
 
-223
+209
 
 20090315140123_rename_associated_organizations.rb
 file
@@ -11722,16 +11756,16 @@ joe
 
 700
 
-20110330140239_rename_act_system_column.rb
+20110327165758_add_std_view.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-823696129ddab0cdc1a804a2de487ff8
-2011-03-30T15:14:13.634990Z
-18125
+a908d559293c2f29e955908a27393c2b
+2011-03-29T02:14:23.306743Z
+18064
 allen
 has-props
 
@@ -11754,41 +11788,7 @@ has-props
 
 
 
-209
-
-20090320125517_generify_style_settings.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-1c7677d5ab82a1c1be44c32e64bdcffd
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-529
+223
 
 20110317234044_delete_add_co_table_info.rb
 file
@@ -11823,6 +11823,40 @@ has-props
 
 
 669
+
+20090320125517_generify_style_settings.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+1c7677d5ab82a1c1be44c32e64bdcffd
+2010-06-18T13:33:53.219944Z
+13676
+joe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+529
 
 20140220042119_add_short_ista_step_name.rb
 file
@@ -11892,40 +11926,6 @@ allen
 
 343
 
-20110818205158_add_is_default_to_coop_app_rates.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-a584778c8e1cc18117833a081ef9b74d
-2011-08-18T23:14:54.600564Z
-19432
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-213
-
 20120507000749_rename_conclusions_tlt_session.rb
 file
 
@@ -11959,6 +11959,40 @@ allen
 
 
 351
+
+20110818205158_add_is_default_to_coop_app_rates.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+a584778c8e1cc18117833a081ef9b74d
+2011-08-18T23:14:54.600564Z
+19432
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+213
 
 20110701171839_create_ifa_dashboard_cells.rb
 file
@@ -12198,16 +12232,16 @@ allen
 
 566
 
-20141228025712_create_blog_post_related_posts.rb
+20121117011149_create_survey_notifications.rb
 file
 
 
 
 
-2014-12-28T03:04:55.000000Z
-fb24825eb6d6b095ebb7647dc6a37d49
-2014-12-28T23:50:11.570886Z
-24966
+2013-01-04T17:08:04.000000Z
+4af5434fcf03ec62d72a6e34428f3d78
+2012-11-20T23:42:52.134391Z
+23939
 allen
 
 
@@ -12230,7 +12264,7 @@ allen
 
 
 
-401
+406
 
 20120531004452_add_period_id_to_session.rb
 file
@@ -12266,16 +12300,16 @@ allen
 
 267
 
-20121117011149_create_survey_notifications.rb
+20141228025712_create_blog_post_related_posts.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-4af5434fcf03ec62d72a6e34428f3d78
-2012-11-20T23:42:52.134391Z
-23939
+2014-12-28T03:04:55.000000Z
+fb24825eb6d6b095ebb7647dc6a37d49
+2014-12-28T23:50:11.570886Z
+24966
 allen
 
 
@@ -12298,7 +12332,7 @@ allen
 
 
 
-406
+401
 
 20090326180632_expand_description_column_in_channels.rb
 file
@@ -12334,40 +12368,6 @@ joe
 
 688
 
-20110211144345_add_genre_id_to_rel_reading.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-57f2cb868ecfdeb2fc15544fb36d03c3
-2011-02-12T17:24:27.825927Z
-17324
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-275
-
 20090501121943_create_reported_abuses.rb
 file
 
@@ -12401,6 +12401,40 @@ joe
 
 
 498
+
+20110211144345_add_genre_id_to_rel_reading.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+57f2cb868ecfdeb2fc15544fb36d03c3
+2011-02-12T17:24:27.825927Z
+17324
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+275
 
 20110324154010_add_description_to_act_standards.rb
 file
@@ -12470,40 +12504,6 @@ allen
 
 497
 
-20110726151846_change_sms_h_threshold_precision.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-90300f7488aa3f6efddababb845ba3e0
-2011-07-26T16:04:41.498534Z
-19099
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-270
-
 20100822172928_add_featured_topic_id_to_classroom.rb
 file
 
@@ -12537,6 +12537,40 @@ chandler
 
 
 216
+
+20110726151846_change_sms_h_threshold_precision.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+90300f7488aa3f6efddababb845ba3e0
+2011-07-26T16:04:41.498534Z
+19099
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+270
 
 20141214223038_add_blog_index.rb
 file
@@ -12742,18 +12776,17 @@ has-props
 
 260
 
-20110318172220_change_skill_to_text_co_gle.rb
+20121028145945_add_tlt_session_duration.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-3d85c58777a070f53f86f7d2b04149c9
-2011-03-18T20:39:45.543339Z
-17905
+1a29c6f24a18518bef404e7daac9c35d
+2012-10-28T20:02:09.769633Z
+23830
 allen
-has-props
 
 
 
@@ -12774,7 +12807,8 @@ has-props
 
 
 
-261
+
+290
 
 20120606190234_fix_survey_question_length.rb
 file
@@ -12810,17 +12844,18 @@ allen
 
 423
 
-20121028145945_add_tlt_session_duration.rb
+20110318172220_change_skill_to_text_co_gle.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-1a29c6f24a18518bef404e7daac9c35d
-2012-10-28T20:02:09.769633Z
-23830
+3d85c58777a070f53f86f7d2b04149c9
+2011-03-18T20:39:45.543339Z
+17905
 allen
+has-props
 
 
 
@@ -12841,8 +12876,7 @@ allen
 
 
 
-
-290
+261
 
 20110205135454_add_lower_score_to_act_submission.rb
 file
@@ -12912,40 +12946,6 @@ allen
 
 251
 
-20110629164401_create_act_question_readings.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-6021793821287cbaa9b27124f27d7521
-2011-07-01T13:53:15.574073Z
-18945
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-273
-
 20110216232756_create_act_snapshots.rb
 file
 
@@ -12980,17 +12980,18 @@ has-props
 
 363
 
-20140618130132_create_elt_elements.rb
+20110629164401_create_act_question_readings.rb
 file
 
 
 
 
-2014-06-18T14:00:03.000000Z
-2351e794319d8fc4dcd408fdf8c542a8
-2014-08-12T14:28:23.769671Z
-24797
+2013-01-04T17:08:04.000000Z
+6021793821287cbaa9b27124f27d7521
+2011-07-01T13:53:15.574073Z
+18945
 allen
+has-props
 
 
 
@@ -13011,8 +13012,7 @@ allen
 
 
 
-
-446
+273
 
 20090513211521_create_transaction_statuses.rb
 file
@@ -13048,18 +13048,17 @@ joe
 
 330
 
-20110510125813_create_tchr_metrics.rb
+20140618130132_create_elt_elements.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-4a89edfb982fcd62f5e052a31c9d88af
-2011-05-14T02:56:55.579680Z
-18682
+2014-06-18T14:00:03.000000Z
+2351e794319d8fc4dcd408fdf8c542a8
+2014-08-12T14:28:23.769671Z
+24797
 allen
-has-props
 
 
 
@@ -13080,7 +13079,8 @@ has-props
 
 
 
-299
+
+446
 
 20141108184023_create_elt_share_options.rb
 file
@@ -13115,6 +13115,40 @@ allen
 
 
 590
+
+20110510125813_create_tchr_metrics.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+4a89edfb982fcd62f5e052a31c9d88af
+2011-05-14T02:56:55.579680Z
+18682
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+299
 
 20120604190314_add_prereq_to_metric.rb
 file
@@ -13218,40 +13252,6 @@ chandler
 
 274
 
-20090529180640_add_source_file_preview.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-b64af64da912d99e90e89024af4d15f3
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-542
-
 20140218162950_add_name_ista_case_alloc.rb
 file
 
@@ -13285,6 +13285,40 @@ allen
 
 
 205
+
+20090529180640_add_source_file_preview.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+b64af64da912d99e90e89024af4d15f3
+2010-06-18T13:33:53.219944Z
+13676
+joe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+542
 
 20140217182058_add_fix_ista_decimal_fields.rb
 file
@@ -13354,40 +13388,6 @@ allen
 
 185
 
-20150223213657_add_cycle_dates.rb
-file
-
-
-
-
-2015-02-23T21:39:32.000000Z
-8d31a0d3ffeb6a08188ede40adaac24f
-2015-02-24T01:19:44.131335Z
-24996
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-270
-
 20090710110813_create_content_content_album_join_table.rb
 file
 
@@ -13422,16 +13422,16 @@ joe
 
 389
 
-20130930130926_create_itl_templates.rb
+20150223213657_add_cycle_dates.rb
 file
 
 
 
 
-2013-09-30T13:27:54.000000Z
-eb4310dff49e05577d58762d598bee06
-2013-10-02T23:35:24.428591Z
-24565
+2015-02-23T21:39:32.000000Z
+8d31a0d3ffeb6a08188ede40adaac24f
+2015-02-24T01:19:44.131335Z
+24996
 allen
 
 
@@ -13454,7 +13454,7 @@ allen
 
 
 
-425
+270
 
 20110326190833_create_act_assessment_score_ranges.rb
 file
@@ -13490,18 +13490,17 @@ has-props
 
 353
 
-20110727133123_add_content_id_to_act_questions.rb
+20130930130926_create_itl_templates.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-e62f8215950c5d315d25b8b35fa88553
-2011-08-02T03:11:32.762672Z
-19155
+2013-09-30T13:27:54.000000Z
+eb4310dff49e05577d58762d598bee06
+2013-10-02T23:35:24.428591Z
+24565
 allen
-has-props
 
 
 
@@ -13522,7 +13521,8 @@ has-props
 
 
 
-211
+
+425
 
 20110209003219_add_act_assessment_id_to_answers.rb
 file
@@ -13557,6 +13557,40 @@ has-props
 
 
 216
+
+20110727133123_add_content_id_to_act_questions.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+e62f8215950c5d315d25b8b35fa88553
+2011-08-02T03:11:32.762672Z
+19155
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+211
 
 20130406002525_indexes_for_survey_q_and_r.rb
 file
@@ -13728,16 +13762,16 @@ allen
 
 260
 
-20141002175547_create_elt_activity_types.rb
+20120606141308_rename_attachcols_in_plan.rb
 file
 
 
 
 
-2014-10-02T18:26:33.000000Z
-6119c5c7f13d8e7d2b00dcd293f90131
-2014-10-03T03:08:20.577499Z
-24877
+2013-01-04T17:08:04.000000Z
+5669fa8fc198a4a17f13ceb3d1a2bce1
+2012-06-07T02:53:46.414066Z
+22881
 allen
 
 
@@ -13760,41 +13794,7 @@ allen
 
 
 
-582
-
-20131113023646_add_app_blog_org_options.rb
-file
-
-
-
-
-2013-11-13T02:40:10.000000Z
-1d7483e3e728ac6feb64c3bdc6b4bdae
-2013-11-19T19:13:39.560940Z
-24604
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-280
+718
 
 20100715022925_add_display_user_email_option.rb
 file
@@ -13830,16 +13830,16 @@ has-props
 
 330
 
-20120606141308_rename_attachcols_in_plan.rb
+20131113023646_add_app_blog_org_options.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-5669fa8fc198a4a17f13ceb3d1a2bce1
-2012-06-07T02:53:46.414066Z
-22881
+2013-11-13T02:40:10.000000Z
+1d7483e3e728ac6feb64c3bdc6b4bdae
+2013-11-19T19:13:39.560940Z
+24604
 allen
 
 
@@ -13862,7 +13862,41 @@ allen
 
 
 
-718
+280
+
+20141002175547_create_elt_activity_types.rb
+file
+
+
+
+
+2014-10-02T18:26:33.000000Z
+6119c5c7f13d8e7d2b00dcd293f90131
+2014-10-03T03:08:20.577499Z
+24877
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+582
 
 20141021174114_add_rubric_indexes_case_indicators.rb
 file
@@ -14068,40 +14102,6 @@ joe
 
 220
 
-20110331182601_add_act_master_id_to_act_rel_reading_scores.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-f80a9b79b7ac790b5a3273a3dbc85e37
-2011-03-31T19:01:08.774493Z
-18163
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-264
-
 20090313203017_create_page_sections.rb
 file
 
@@ -14135,6 +14135,40 @@ joe
 
 
 417
+
+20110331182601_add_act_master_id_to_act_rel_reading_scores.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+f80a9b79b7ac790b5a3273a3dbc85e37
+2011-03-31T19:01:08.774493Z
+18163
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+264
 
 20140617150541_add_is_active_org_clients.rb
 file
@@ -14170,16 +14204,16 @@ allen
 
 233
 
-20140218160638_add_group_id_ista_case_alloc.rb
+20120517004036_add_diagnostic_id_to_lessons.rb
 file
 
 
 
 
-2014-02-18T16:12:15.000000Z
-4570a548247d7747eeefbc7a3ec1bb19
-2014-08-12T14:28:23.769671Z
-24797
+2013-01-04T17:08:04.000000Z
+caed21ad2fdb433b6aba41658c9068b2
+2012-05-17T04:45:54.560280Z
+22687
 allen
 
 
@@ -14202,7 +14236,7 @@ allen
 
 
 
-287
+356
 
 20110825232824_change_dashboard_cell_points_to_decimal.rb
 file
@@ -14238,16 +14272,16 @@ has-props
 
 398
 
-20120517004036_add_diagnostic_id_to_lessons.rb
+20140218160638_add_group_id_ista_case_alloc.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-caed21ad2fdb433b6aba41658c9068b2
-2012-05-17T04:45:54.560280Z
-22687
+2014-02-18T16:12:15.000000Z
+4570a548247d7747eeefbc7a3ec1bb19
+2014-08-12T14:28:23.769671Z
+24797
 allen
 
 
@@ -14270,7 +14304,7 @@ allen
 
 
 
-356
+287
 
 20141102163809_create_organization_core_options.rb
 file
@@ -14442,40 +14476,6 @@ allen
 
 447
 
-20110818174303_create_coop_app_rates.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-cc67c1e40d497779fed835f61d4b23b7
-2011-08-18T23:14:54.600564Z
-19432
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-407
-
 20131001134324_add_task_name_to_app_methods.rb
 file
 
@@ -14509,6 +14509,40 @@ allen
 
 
 201
+
+20110818174303_create_coop_app_rates.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+cc67c1e40d497779fed835f61d4b23b7
+2011-08-18T23:14:54.600564Z
+19432
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+407
 
 20110901220741_add_earned_points_to_question_log.rb
 file
@@ -14544,17 +14578,17 @@ has-props
 
 351
 
-20090904165132_change_metrics_to_shares.rb
+20130924222004_create_itl_org_option_app_methods.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-21cd07d49a2d9079f6697c4f7fcdc54c
-2010-06-18T13:33:53.219944Z
-13676
-joe
+2013-09-24T22:22:45.000000Z
+fc397033243bcc4f4dea98398fede44d
+2013-09-28T01:24:44.957083Z
+24561
+allen
 
 
 
@@ -14576,7 +14610,7 @@ joe
 
 
 
-173
+474
 
 20121121194102_rename_max_recipients.rb
 file
@@ -14612,17 +14646,17 @@ allen
 
 239
 
-20130924222004_create_itl_org_option_app_methods.rb
+20090904165132_change_metrics_to_shares.rb
 file
 
 
 
 
-2013-09-24T22:22:45.000000Z
-fc397033243bcc4f4dea98398fede44d
-2013-09-28T01:24:44.957083Z
-24561
-allen
+2013-01-04T17:08:04.000000Z
+21cd07d49a2d9079f6697c4f7fcdc54c
+2010-06-18T13:33:53.219944Z
+13676
+joe
 
 
 
@@ -14644,41 +14678,7 @@ allen
 
 
 
-474
-
-20130813184341_add_filter_images_belt_ranks.rb
-file
-
-
-
-
-2013-08-13T18:45:45.000000Z
-4d8009fa6e7890cf6a8504ece0c448b3
-2013-08-14T21:09:03.421183Z
-24424
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-214
+173
 
 20140823021533_add_open_classroom.rb
 file
@@ -14714,17 +14714,17 @@ allen
 
 352
 
-20090725163825_add_column_to_comments.rb
+20130813184341_add_filter_images_belt_ranks.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-5491899ba6f20a287407aa59d6ce77f2
-2010-06-18T13:33:53.219944Z
-13676
-joe
+2013-08-13T18:45:45.000000Z
+4d8009fa6e7890cf6a8504ece0c448b3
+2013-08-14T21:09:03.421183Z
+24424
+allen
 
 
 
@@ -14746,7 +14746,7 @@ joe
 
 
 
-367
+214
 
 20090818120432_add_include_information_to_organization.rb
 file
@@ -14781,6 +14781,40 @@ joe
 
 
 254
+
+20090725163825_add_column_to_comments.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+5491899ba6f20a287407aa59d6ce77f2
+2010-06-18T13:33:53.219944Z
+13676
+joe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+367
 
 20110802125808_create_ifa_user_options.rb
 file
@@ -14884,40 +14918,6 @@ has-props
 
 210
 
-20090816183551_add_credentials_to_users.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-c3a285a791f7b2eb5430782d4e4cb2ec
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-183
-
 20120502122314_add_lu_to_tlt_session.rb
 file
 
@@ -14952,17 +14952,17 @@ allen
 
 231
 
-20141110023329_add_k12_org_type.rb
+20090816183551_add_credentials_to_users.rb
 file
 
 
 
 
-2014-11-10T02:35:48.000000Z
-fb7037811ed42ad85ecf36b056b03ca7
-2014-11-11T02:00:28.335259Z
-24921
-allen
+2013-01-04T17:08:04.000000Z
+c3a285a791f7b2eb5430782d4e4cb2ec
+2010-06-18T13:33:53.219944Z
+13676
+joe
 
 
 
@@ -14984,7 +14984,7 @@ allen
 
 
 
-194
+183
 
 20140930175542_add_org_elt_elements.rb
 file
@@ -15019,6 +15019,40 @@ allen
 
 
 318
+
+20141110023329_add_k12_org_type.rb
+file
+
+
+
+
+2014-11-10T02:35:48.000000Z
+fb7037811ed42ad85ecf36b056b03ca7
+2014-11-11T02:00:28.335259Z
+24921
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+194
 
 20090707150955_create_sessions.rb
 file
@@ -15088,40 +15122,6 @@ joe
 
 271
 
-20090706183705_create_outreach_priorities_outreach_priority_groups.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-88b2be78e389547602b7b96fe23a38ed
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-375
-
 20140218134646_create_ista_case_allocations.rb
 file
 
@@ -15156,18 +15156,17 @@ allen
 
 613
 
-20110205171906_add_points_to_act_answers.rb
+20090706183705_create_outreach_priorities_outreach_priority_groups.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-604292b25760f13e5e078187967a7e0f
-2011-02-06T03:24:13.374138Z
-17249
-allen
-has-props
+88b2be78e389547602b7b96fe23a38ed
+2010-06-18T13:33:53.219944Z
+13676
+joe
 
 
 
@@ -15188,75 +15187,8 @@ has-props
 
 
 
-216
-
-20111117150031_create_blog_types.rb
-file
 
-
-
-
-2013-01-04T17:08:04.000000Z
-011ab2043c9ff4247e368b3a3c2fa35d
-2011-11-18T04:18:46.183468Z
-21133
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-374
-
-20120513133425_add_index_to_log.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-f40baa8cda8f35bfc153fba17f5eedf8
-2012-05-14T23:54:36.065292Z
-22668
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-293
+375
 
 20130815144320_change_irr_columns_to_decimal_again.rb
 file
@@ -15292,16 +15224,16 @@ allen
 
 1073
 
-20130806032029_create_itl_belt_ranks.rb
+20120513133425_add_index_to_log.rb
 file
 
 
 
 
-2013-08-06T03:20:29.000000Z
-4872cebfef11b6e1e70dd96acf666a7c
-2013-08-06T21:48:24.655366Z
-24410
+2013-01-04T17:08:04.000000Z
+f40baa8cda8f35bfc153fba17f5eedf8
+2012-05-14T23:54:36.065292Z
+22668
 allen
 
 
@@ -15324,7 +15256,75 @@ allen
 
 
 
-291
+293
+
+20111117150031_create_blog_types.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+011ab2043c9ff4247e368b3a3c2fa35d
+2011-11-18T04:18:46.183468Z
+21133
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+374
+
+20110205171906_add_points_to_act_answers.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+604292b25760f13e5e078187967a7e0f
+2011-02-06T03:24:13.374138Z
+17249
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+216
 
 20111116235751_create_bios.rb
 file
@@ -15359,6 +15359,40 @@ allen
 
 
 248
+
+20130806032029_create_itl_belt_ranks.rb
+file
+
+
+
+
+2013-08-06T03:20:29.000000Z
+4872cebfef11b6e1e70dd96acf666a7c
+2013-08-06T21:48:24.655366Z
+24410
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+291
 
 20110818185917_add_group_code_id_to_organization.rb
 file
@@ -15428,40 +15462,6 @@ allen
 
 374
 
-20131107044435_add_score_app_method_log_rating.rb
-file
-
-
-
-
-2013-11-07T04:45:52.000000Z
-698a6f64789d3be6f7ebfc616b847d1d
-2013-11-08T22:49:23.485449Z
-24596
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-215
-
 20140104172303_add_select_allow_org_coop_apps.rb
 file
 
@@ -15495,6 +15495,40 @@ allen
 
 
 541
+
+20131107044435_add_score_app_method_log_rating.rb
+file
+
+
+
+
+2013-11-07T04:45:52.000000Z
+698a6f64789d3be6f7ebfc616b847d1d
+2013-11-08T22:49:23.485449Z
+24596
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+215
 
 20111117152811_index_blogs.rb
 file
@@ -15768,40 +15802,6 @@ allen
 
 441
 
-20110705200724_update_ifa_dashboard_cell_attributes.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-a4a7b133e88ffc9aa9863ba9d6ad0b4a
-2011-07-15T20:59:50.375545Z
-19015
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-863
-
 20120506171150_create_tlt_survey_questions.rb
 file
 
@@ -15835,6 +15835,40 @@ allen
 
 
 583
+
+20110705200724_update_ifa_dashboard_cell_attributes.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+a4a7b133e88ffc9aa9863ba9d6ad0b4a
+2011-07-15T20:59:50.375545Z
+19015
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+863
 
 20110121010514_create_act__subjects.rb
 file
@@ -15870,40 +15904,6 @@ has-props
 
 214
 
-20110330154213_create_act_masters.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-9726dfc36b9329d296ef205bf02d9430
-2011-03-30T16:06:26.172130Z
-18135
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-285
-
 20121028152056_rename_session_duration.rb
 file
 
@@ -15937,6 +15937,40 @@ allen
 
 
 233
+
+20110330154213_create_act_masters.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+9726dfc36b9329d296ef205bf02d9430
+2011-03-30T16:06:26.172130Z
+18135
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+285
 
 20120823192820_add_anonymous_to_survey_audience.rb
 file
@@ -16040,40 +16074,6 @@ allen
 
 467
 
-20090806132239_add_personal_url_to_user.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-b3fb6a75baf6e86aa28d2954a162366e
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-186
-
 20111109224750_create_blog_users.rb
 file
 
@@ -16107,6 +16107,40 @@ allen
 
 
 236
+
+20090806132239_add_personal_url_to_user.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+b3fb6a75baf6e86aa28d2954a162366e
+2010-06-18T13:33:53.219944Z
+13676
+joe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+186
 
 20110202151440_create_act_assessment_classrooms.rb
 file
@@ -16176,40 +16210,6 @@ allen
 
 180
 
-20140903211156_index_content_folder.rb
-file
-
-
-
-
-2014-09-03T21:13:37.000000Z
-dacf1de5e1dda6960ed2d2cd3796142b
-2014-09-06T13:29:58.439768Z
-24828
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-191
-
 20130530202702_add_schedule_link_itl_options.rb
 file
 
@@ -16244,18 +16244,17 @@ allen
 
 496
 
-20110525132108_add_duration_to_act_submission.rb
+20140903211156_index_content_folder.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-0a28a1ddb8aa5531c5f36c68447f668d
-2011-05-25T14:53:33.222856Z
-18720
+2014-09-03T21:13:37.000000Z
+dacf1de5e1dda6960ed2d2cd3796142b
+2014-09-06T13:29:58.439768Z
+24828
 allen
-has-props
 
 
 
@@ -16276,7 +16275,8 @@ has-props
 
 
 
-273
+
+191
 
 20120517164007_initialize_cycle_id.rb
 file
@@ -16311,6 +16311,40 @@ allen
 
 
 307
+
+20110525132108_add_duration_to_act_submission.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+0a28a1ddb8aa5531c5f36c68447f668d
+2011-05-25T14:53:33.222856Z
+18720
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+273
 
 20140903204600_remove_org_pos_folders.rb
 file
@@ -16584,40 +16618,6 @@ has-props
 
 258
 
-20141220011234_rename_blog_views.rb
-file
-
-
-
-
-2014-12-20T01:13:57.000000Z
-52b564155e212a16a4071b0ef5185f3c
-2014-12-20T03:06:12.155647Z
-24961
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-189
-
 20110130205529_rename_correct_in_act_choice.rb
 file
 
@@ -16651,6 +16651,40 @@ has-props
 
 
 212
+
+20141220011234_rename_blog_views.rb
+file
+
+
+
+
+2014-12-20T01:13:57.000000Z
+52b564155e212a16a4071b0ef5185f3c
+2014-12-20T03:06:12.155647Z
+24961
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+189
 
 20130417191209_add_last_logon_user.rb
 file
@@ -16822,18 +16856,17 @@ allen
 
 320
 
-20110317230527_create_co_gle_evidence_outcomes.rb
+20130813204252_create_itl_strategy_thresholds.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-cb96e961ed030cd102e96f758ed17090
-2011-03-18T20:39:45.543339Z
-17905
+2013-08-13T20:46:12.000000Z
+ca9065b387d6fb1a705fb6e57ac12720
+2013-08-14T21:09:03.421183Z
+24424
 allen
-has-props
 
 
 
@@ -16854,7 +16887,8 @@ has-props
 
 
 
-307
+
+563
 
 20111117154852_remove_blog_id_from_blog_types.rb
 file
@@ -16890,50 +16924,16 @@ allen
 
 197
 
-20130813204252_create_itl_strategy_thresholds.rb
-file
-
-
-
-
-2013-08-13T20:46:12.000000Z
-ca9065b387d6fb1a705fb6e57ac12720
-2013-08-14T21:09:03.421183Z
-24424
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-563
-
-20101124224206_rename_topic_id_in_homeworks.rb
+20110317230527_create_co_gle_evidence_outcomes.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-32fb7ebe2dff8d4cbcfb4124a8976214
-2010-11-25T01:27:51.099763Z
-16032
+cb96e961ed030cd102e96f758ed17090
+2011-03-18T20:39:45.543339Z
+17905
 allen
 has-props
 
@@ -16956,7 +16956,7 @@ has-props
 
 
 
-314
+307
 
 20130102181921_add_authorization_level_explanation.rb
 file
@@ -16992,50 +16992,16 @@ allen
 
 231
 
-20090508160057_create_organization_relationships.rb
+20101124224206_rename_topic_id_in_homeworks.rb
 file
 
 
 
 
 2013-01-04T17:08:04.000000Z
-35c301a2a27b9ce3069a3b5f781ad3b0
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-768
-
-20110121011333_create_act__score_ranges.rb
-file
-
-
-
-
-2013-01-04T17:08:04.000000Z
-2f03a61072bfe78aab3d726d39363d37
-2011-01-25T17:02:22.327749Z
-17061
+32fb7ebe2dff8d4cbcfb4124a8976214
+2010-11-25T01:27:51.099763Z
+16032
 allen
 has-props
 
@@ -17058,7 +17024,7 @@ has-props
 
 
 
-316
+314
 
 20130711221028_create_coop_app_content_resource_types.rb
 file
@@ -17094,17 +17060,51 @@ allen
 
 452
 
-20130405212824_indexes_for_surveys.rb
+20110121011333_create_act__score_ranges.rb
 file
 
 
 
 
-2013-04-05T21:51:53.000000Z
-e5fb0898a637d244fc094ec005947a22
-2013-04-06T01:08:56.144829Z
-24231
+2013-01-04T17:08:04.000000Z
+2f03a61072bfe78aab3d726d39363d37
+2011-01-25T17:02:22.327749Z
+17061
 allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+316
+
+20090508160057_create_organization_relationships.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+35c301a2a27b9ce3069a3b5f781ad3b0
+2010-06-18T13:33:53.219944Z
+13676
+joe
 
 
 
@@ -17126,7 +17126,7 @@ allen
 
 
 
-2661
+768
 
 20140616155228_rename_client_id_assignments.rb
 file
@@ -17162,16 +17162,16 @@ allen
 
 448
 
-20120513150150_add_dashboard_cols.rb
+20130405212824_indexes_for_surveys.rb
 file
 
 
 
 
-2013-01-04T17:08:04.000000Z
-d3818438e2f84b3071b870189af7118f
-2012-05-14T23:54:36.065292Z
-22668
+2013-04-05T21:51:53.000000Z
+e5fb0898a637d244fc094ec005947a22
+2013-04-06T01:08:56.144829Z
+24231
 allen
 
 
@@ -17194,7 +17194,7 @@ allen
 
 
 
-747
+2661
 
 20121105192813_create_survey_schedule_takers.rb
 file
@@ -17229,6 +17229,40 @@ allen
 
 
 388
+
+20120513150150_add_dashboard_cols.rb
+file
+
+
+
+
+2013-01-04T17:08:04.000000Z
+d3818438e2f84b3071b870189af7118f
+2012-05-14T23:54:36.065292Z
+22668
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+747
 
 20090327151019_clean_up_outreach_priorities_join_tables.rb
 file
@@ -19371,6 +19405,40 @@ has-props
 
 
 235
+
+20150626193758_add_framework_columns_indices.rb
+file
+25077
+
+
+
+2015-06-28T11:35:37.000000Z
+c2c03641b5c654eb81ba45babb289503
+2015-06-28T11:49:12.432938Z
+25077
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+946
 
 20130806032620_add_belt_rankings.rb
 file

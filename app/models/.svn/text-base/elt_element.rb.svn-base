@@ -3,7 +3,8 @@ class EltElement < ActiveRecord::Base
   include PublicPersona
   
   belongs_to  :organization
-  
+  belongs_to :elt_framework
+
   has_many :elt_indicators, :dependent => :destroy
   has_many :elt_case_notes, :dependent => :destroy
   has_many :elt_action_plans, :as => :scope, :dependent => :destroy

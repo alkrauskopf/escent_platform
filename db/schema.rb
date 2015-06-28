@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150318192136) do
+ActiveRecord::Schema.define(:version => 20150626193758) do
 
   create_table "act_answers", :force => true do |t|
     t.integer  "act_submission_id"
@@ -1379,8 +1379,10 @@ ActiveRecord::Schema.define(:version => 20150318192136) do
     t.date     "begin_date"
     t.date     "end_date"
     t.text     "abbrev",             :limit => 255
+    t.integer  "elt_framework_id"
   end
 
+  add_index "elt_cycles", ["elt_framework_id"], :name => "index_elt_cycles_on_elt_framework_id"
   add_index "elt_cycles", ["organization_id"], :name => "index_elt_cycles_on_organization_id"
 
   create_table "elt_elements", :force => true do |t|
@@ -1395,9 +1397,21 @@ ActiveRecord::Schema.define(:version => 20150318192136) do
     t.string   "e_font_color",      :limit => 7
     t.integer  "organization_id"
     t.boolean  "is_active"
+    t.integer  "elt_framework_id"
   end
 
+  add_index "elt_elements", ["elt_framework_id"], :name => "index_elt_elements_on_elt_framework_id"
   add_index "elt_elements", ["organization_id"], :name => "index_elt_elements_on_organization_id"
+
+  create_table "elt_frameworks", :force => true do |t|
+    t.integer  "organization_id"
+    t.string   "abbrev",          :limit => 8
+    t.string   "name",            :limit => 64
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "elt_frameworks", ["organization_id"], :name => "index_elt_frameworks_on_organization_id"
 
   create_table "elt_indicator_lookfors", :force => true do |t|
     t.integer  "elt_indicator_id"
@@ -1432,9 +1446,11 @@ ActiveRecord::Schema.define(:version => 20150318192136) do
     t.integer  "elt_cycle_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "elt_framework_id"
   end
 
   add_index "elt_org_options", ["elt_cycle_id", "organization_id"], :name => "cycle_org"
+  add_index "elt_org_options", ["elt_framework_id"], :name => "index_elt_org_options_on_elt_framework_id"
   add_index "elt_org_options", ["organization_id", "elt_cycle_id"], :name => "org_cycle"
   add_index "elt_org_options", ["organization_id", "owner_org_id", "elt_cycle_id"], :name => "org_ownerorg_cycle"
   add_index "elt_org_options", ["owner_org_id", "organization_id", "elt_cycle_id"], :name => "ownerorg_org_cycle"
@@ -1523,8 +1539,10 @@ ActiveRecord::Schema.define(:version => 20150318192136) do
     t.boolean  "tag_grade",            :default => false
     t.integer  "rubric_id"
     t.boolean  "is_reportable",        :default => true
+    t.integer  "elt_framework_id"
   end
 
+  add_index "elt_types", ["elt_framework_id"], :name => "index_elt_types_on_elt_framework_id"
   add_index "elt_types", ["organization_id"], :name => "type_organization"
   add_index "elt_types", ["rubric_id"], :name => "index_elt_types_on_rubric_id"
 

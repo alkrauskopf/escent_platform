@@ -7,10 +7,10 @@
 	<% project = blog.nil? ? false : (blog.blog_type.blog_type == "PROJ" ? true : false) %>
 	<% about_us = blog.nil? ? false : (blog.blog_type.blog_type == "AU" ? true : false) %>
 	<% if purpose || project%>
-		<% reconstruct = true %>
+		<% reconstruct = false %>
 		<% if reconstruct %>
 			<div style="padding-top:100px; padding-bottom:50px; width:340px; line-height:2em; margin-left:35px; font-size:13px; color:#C73914;">			
-	 			This Site Is In A State Of Re-construction.<br/>
+	 			This Site Is Being Re-constructed.<br/>
 	 			Thank You For Understanding
 	 		</div>
 	 	<% else -%>

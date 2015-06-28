@@ -97,6 +97,7 @@ class Organization < ActiveRecord::Base
   has_many  :conducted_cycles, :through=> :elt_cases, :source => :elt_cycle, :uniq=>true
   has_many :elt_plan_types, :dependent => :destroy
   has_many :elt_plans, :dependent => :destroy
+  has_many :elt_frameworks, :dependent => :destroy
 
   has_one :organization_core_option 
 
@@ -233,7 +234,11 @@ class Organization < ActiveRecord::Base
       self.organization_type = OrganizationType.affiliate
     end
   end
-  
+
+  def reset
+    Organization.find_by_id(self.id) rescue self
+  end
+
   def increment_views
     self.total_view ||= TotalView.create(:entity => self)
     self.total_view.increment
@@ -535,6 +540,22 @@ class Organization < ActiveRecord::Base
 
   def resources_for_app(app)
     self.coop_app_resources.for_app(app).by_position.collect{|ar| ar.content}.uniq    
+  end
+
+  def elt_framework?
+    self.elt_org_option && self.elt_org_option.elt_framework
+  end
+
+  def set_framework(framework)
+    self.elt_org_option.update_attributes(:elt_framework_id => framework.nil? ? nil : framework.id)
+  end
+
+  def initial_framework
+    self.elt_frameworks.empty? ? set_framework(nil) : set_framework(self.elt_frameworks.first)
+  end
+
+  def elt_framework
+    self.elt_framework? ? self.elt_org_option.elt_framework : nil
   end
 
   def elt_cycle_activity_cases(cycle, activity)

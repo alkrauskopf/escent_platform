@@ -82,7 +82,7 @@
 				<center><%= tab_7_label %></center></span></a>	
 			  </li>
 		      <li>
-				<%  tab_8_label = "App Maintenance" %>
+				<%  tab_8_label = "Tool Maintenance" %>
 		        <a href="#tabs-8"><span class="tab_label">
 				<center><%= tab_8_label %></center></span></a>	
 			  </li>
@@ -108,7 +108,7 @@
 	 	  		<%= render :partial => "/apps/shared/sumarize_surveys", :locals => {:admin => @admin, :org => @current_organization, :app => @app} %>
 		   	</div> 
 			<div id="tabs-8" class="favorite_organizations" style="width:900px">
-		    	<%= render :partial => "/apps/learning_time/maintain_templates", :locals=>{:app=>@app, :org => @current_organization} %>
+		    	<%= render :partial => "/apps/learning_time/maintain_frameworks", :locals=>{:app=>@app, :org => @current_organization} %>
 		   	</div>   	
 	 	<% end -%> 
 	 </div>

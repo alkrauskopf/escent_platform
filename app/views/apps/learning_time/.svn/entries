@@ -468,6 +468,40 @@ allen
 
 3220
 
+_manage_frameworks.html.erb
+file
+25077
+
+
+
+2015-06-28T11:35:37.000000Z
+3a8dcea14f2c1c7b468e6ba71a405e15
+2015-06-28T11:49:12.432938Z
+25077
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6242
+
 pdf_example.pdf.erb
 file
 25043
@@ -844,14 +878,14 @@ allen
 
 index.html.erb
 file
+25077
 
 
 
-
-2015-03-22T17:05:27.000000Z
-27db2ac9da774f85898b052482df0565
-2015-03-22T18:21:46.246096Z
-25037
+2015-06-28T11:35:37.000000Z
+537b428e6b7b47b6b53e83fb8fa321e8
+2015-06-28T11:49:12.432938Z
+25077
 allen
 
 
@@ -874,7 +908,7 @@ allen
 
 
 
-6811
+6813
 
 _case_indicators_element_rubric.html.erb
 file
@@ -1862,6 +1896,40 @@ allen
 
 5613
 
+_maintain_frameworks.html.erb
+file
+25077
+
+
+
+2015-06-28T11:35:37.000000Z
+ff1b1a753358ceddc576e731dc54e04a
+2015-06-28T11:49:12.432938Z
+25077
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10195
+
 _show_school_cycle_activity_cases.html.erb
 file
 25052
@@ -2272,14 +2340,14 @@ allen
 
 _form_cycle.html.erb
 file
+25077
 
 
 
-
-2015-02-24T18:28:30.000000Z
-cfb3d7f3f3dc29fa01ef0dc6728ec9f6
-2015-02-25T02:11:34.996933Z
-24997
+2015-06-28T11:35:37.000000Z
+90a594c7cd6935127b507613f26d5289
+2015-06-28T11:49:12.432938Z
+25077
 allen
 
 
@@ -2302,7 +2370,7 @@ allen
 
 
 
-2205
+2215
 
 manage_elements.html.erb
 file
@@ -2473,6 +2541,40 @@ allen
 
 
 3642
+
+manage_frameworks.html.erb
+file
+25077
+
+
+
+2015-06-28T11:35:37.000000Z
+1de17c5dbe62627f6e166c91c74d4218
+2015-06-28T11:49:12.432938Z
+25077
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+201
 
 _list_case_evidences.html.erb
 file

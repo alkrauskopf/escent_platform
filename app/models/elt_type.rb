@@ -5,7 +5,8 @@ class EltType < ActiveRecord::Base
   belongs_to :organization
   belongs_to :elt_activity_type
   belongs_to :share_rubric, :class_name=> 'Rubric', :foreign_key => :rubric_id
-  
+  belongs_to :elt_framework
+
   has_many :elt_cases
   has_many :elt_indicators, :dependent => :destroy
   has_many :rubrics, :as => :scope, :order => "position", :dependent => :destroy

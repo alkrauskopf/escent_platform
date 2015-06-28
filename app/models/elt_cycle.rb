@@ -2,6 +2,8 @@ class EltCycle < ActiveRecord::Base
   include PublicPersona
 
   belongs_to :organization
+  belongs_to :elt_framework
+
   has_many :elt_cases
   has_many :schools, :through=> :elt_cases, :source=>:organization, :uniq=>true
   has_many :elt_org_options

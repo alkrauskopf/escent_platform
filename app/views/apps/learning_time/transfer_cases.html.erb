@@ -4,6 +4,6 @@
 		<u>NOTICE:</u>  This is a corrective maintainance function to correct a Case's School and/or Cycle.<br/>
 	</span>
 
-	<%= render :partial => "/apps/learning_time/transfer_cases", :locals => {:org => @current_organization, :base_org => nil, :app=>@app}%>
+	<%= render :partial => "/apps/learning_time/transfer_cases", :locals => {:framework => @current_organization.elt_framework, :base_org => nil, :app=>@app}%>
 
 </div>

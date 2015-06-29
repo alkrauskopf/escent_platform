@@ -1,5 +1,5 @@
 <div id="supported_indicator_<%= indicator.public_id%>">
-		<table  style="width:650px;margin-left:200px;color: #000000; font-size:11px; font-weight:normal">
+  <table  style="width:650px;margin-left:200px;color: #000000; font-size:11px; font-weight:normal">
 			<tbody> 
 				<% unless indicator.support_indicators.empty? -%> 
 					<% indicator.support_indicators.each do |ind| -%>
@@ -21,16 +21,14 @@
 						</td>	
 					</tr>
 				<% end -%>
-				<% if indicator.elt_element -%>
-					<tr>
-						<td style="vertical-align:top; border:0px solid #ddd;  padding-left:17px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
-							&nbsp;
-						</td>
-						<td id="add_indicator" style=" font-size:normal; padding-bottom:10px; ">
-							<%= select(:add_indicator, indicator.id, (indicator.elt_element.elt_indicators.for_activity(EltType.masters.first).active - indicator.support_indicators).collect{|ind| [(ind.elt_element.abbrev + "-" + ind.position.to_s), ind.id]},{:include_blank =>'Add Supported Indicator'}) %>
-						</td>	
-					</tr>
-				<% end -%>
+                <tr>
+                    <td style="vertical-align:top; border:0px solid #ddd;  padding-left:17px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
+                        &nbsp;
+                    </td>
+                    <td id="add_indicator" style=" font-size:normal; padding-bottom:10px; ">
+                        <%= select(:add_indicator, indicator.id, (indicator.master_indicators_active(indicator.elt_element) - indicator.support_indicators).collect{|ind| [(ind.elt_element.abbrev + "-" + ind.position.to_s), ind.id]},{:include_blank =>'Add Supported Indicator'}) %>
+                    </td>
+                </tr>
 			</tbody>
 		</table>
 

@@ -1,5 +1,6 @@
-<div id="transfer_cases_<%=org.public_id%>">
-	<% if org.appl_owner?(app) -%>
+<div id="transfer_cases_<%=framework.public_id%>">
+<% org = framework.organization -%>
+  <% if org.appl_owner?(app) -%>
 
 		<div>
 			<table style="width:750px;margin-left:0px; border:0px solid #ddd;">
@@ -17,10 +18,10 @@
 jQ(document).ready(function() {
 	jQ("#<%=org.id%>_case_xfer").change(function() {
 		var base_org_id = jQ("#case_org_<%=org.id%>").val();
-		var url = "<%= url_for :controller => "/apps/learning_time", :action => :transfer_case_org, :organization_id => @current_organization, :org_id => org, :app_id=> app %>";
+		var url = "<%= url_for :controller => "/apps/learning_time", :action => :transfer_case_org, :organization_id => @current_organization, :elt_framework_id => framework, :org_id => org, :app_id=> app %>";
 			jQ.get(url, {'base_org_id':base_org_id}, function(data) {
-			jQ("#transfer_cases_<%=org.public_id%>").html(data);
-			jQ("#transfer_cases_<%=org.public_id%>").show();
+			jQ("#transfer_cases_<%=framework.public_id%>").html(data);
+			jQ("#transfer_cases_<%=framework.public_id%>").show();
 			});
 	})
 });
@@ -39,13 +40,13 @@ jQ(document).ready(function() {
 							<%=  select(:xfer_org, org.id, (org.provided_app_orgs(app,false)).sort_by{|o| o.name}.collect{|o| [truncate(o.medium_name, :omission => "...", :length => 18), o.id]}, :prompt => "Transfer To Org") %>				
 						</td>
 						<td  style="width:350px; width:fixed; color:#000000; font-weight:normal; font-size:12px; padding-left:0px; padding-bottom:0px;">
-							<%=  select(:xfer_cycle, org.id, (org.elt_cycles.all).sort_by{|c| c.name}.collect{|c| [truncate(c.name, :omission => "...", :length => 18), c.id]}, :prompt => "Transfer To Cycle") %>				
+							<%=  select(:xfer_cycle, org.id, (framework.elt_cycles.all).sort_by{|c| c.name}.collect{|c| [truncate(c.name, :omission => "...", :length => 18), c.id]}, :prompt => "Transfer To Cycle") %>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 
-			<% base_org.elt_cases.for_provider(org).group_by(&:elt_cycle_id).each do |elt_cycle_id, elt_cases| %>
+			<% base_org.elt_cases.for_framework(framework).group_by(&:elt_cycle_id).each do |elt_cycle_id, elt_cases| %>
 				<table  style="width:750px; width:fixed; border-top:0px solid #000; margin-top:10px; margin-bottom:0px; margin-left:0px">
 					<tbody>  
 						<tr style="border:1px solid #ddd;">
@@ -74,10 +75,10 @@ jQ(document).ready(function() {
 	jQ("#xfer_<%= elt_case.public_id %>").click(function() {
 		var xfer_org_id = jQ('#xfer_org_<%=org.id%>').val();
 		var xfer_cycle_id = jQ('#xfer_cycle_<%=org.id%>').val();
-		var url = "<%= url_for :controller => "/apps/learning_time", :action => :transfer_case_org, :organization_id => @current_organization, :org_id => org, :base_org_id => base_org, :elt_case_id => elt_case, :app_id=> app %>";
+		var url = "<%= url_for :controller => "/apps/learning_time", :action => :transfer_case_org, :organization_id => @current_organization, :elt_framework_id => framework, :org_id => org, :base_org_id => base_org, :elt_case_id => elt_case, :app_id=> app %>";
 		jQ.get(url,{'xfer_org_id':xfer_org_id, 'xfer_cycle_id':xfer_cycle_id},  function(data) {
-			jQ("#transfer_cases_<%=org.public_id%>").html(data);
-			jQ("#transfer_cases_<%=org.public_id%>").show();
+			jQ("#transfer_cases_<%= framework.public_id%>").html(data);
+			jQ("#transfer_cases_<%= framework.public_id%>").show();
 					});
 	})
 });

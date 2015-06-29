@@ -69,10 +69,11 @@ class Apps::LearningTimeController  < Site::ApplicationController
 
   def maintain_element
     @task = params[:task]
-    if params[:function] && params[:function] == "New"
+    if @framework && params[:function] && params[:function] == "New"
       @element = EltElement.new(params[:elt_element])
       @element.is_active = false
       @element.organization_id = @current_organization.id
+      @element.elt_framework_id = @framework.id
       @element.form_background = (params[:elt_element][:form_background].empty? ? "#FFFFFF" : params[:elt_element][:form_background]).upcase
       @element.i_form_background = (params[:elt_element][:i_form_background].empty? ? "#FFFFFF" : params[:elt_element][:i_form_background]).upcase
       @element.e_font_color = (params[:elt_element][:e_font_color].empty? ? "#000000" : params[:elt_element][:e_font_color]).upcase
@@ -99,7 +100,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
         end
         if !@element.nil? && params[:function] && params[:function] == "Destroy"      
           if @element.destroy
-            flash[:notice] = "Element Destoyed.   CLOSE WINDOW"
+            flash[:notice] = "Element Destroyed.   CLOSE WINDOW"
             @element = EltElement.new
             @task = "New"
           else
@@ -116,11 +117,12 @@ class Apps::LearningTimeController  < Site::ApplicationController
 
   def maintain_cycle
     @task = params[:task]
-    if params[:function] && params[:function] == "New"
+    if @framework && params[:function] && params[:function] == "New"
       @cycle = EltCycle.new(params[:elt_cycle])
       @cycle.is_active = false
       @cycle.begin_date = Date.new(params[:begin_date]['(1i)'].to_i, params[:begin_date]['(2i)'].to_i, 1).beginning_of_month
       @cycle.end_date = Date.new(params[:end_date]['(1i)'].to_i, params[:end_date]['(2i)'].to_i, 1).end_of_month
+      @cycle.elt_framework_id = @framework.id
       if @current_organization.elt_cycles << @cycle
         flash[:notice] = "Successfully created diagnostic cycle.   CLOSE WINDOW or CREATE ANOTHER"
         @cycle = EltCycle.new
@@ -158,9 +160,10 @@ class Apps::LearningTimeController  < Site::ApplicationController
 
   def maintain_activity
     @task = params[:task]
-    if params[:function] && params[:function] == "New"
+    if @framework && params[:function] && params[:function] == "New"
       @activity = EltType.new(params[:elt_type])
       @activity.is_active = false
+      @activity.elt_framework_id = @framework.id
       if @current_organization.elt_types << @activity
         flash[:notice] = "Successfully created activity.   CLOSE WINDOW"
       else
@@ -289,7 +292,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
    
   def select_activity
     activity = EltType.find_by_id(params[:activity_id]) rescue nil
-    render :partial => "/apps/learning_time/manage_indicators", :locals => {:org => @current_organization, :activity => activity, :app=>@app} 
+    render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => activity.elt_framework, :activity => activity, :app=>@app}
   end 
    
   def copy_activity_indicators
@@ -305,7 +308,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
         to_activity.elt_indicators << new_indicator
       end
     end
-    render :partial => "/apps/learning_time/manage_indicators", :locals => {:org => @current_organization, :activity => to_activity, :app=>@app} 
+    render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => to_activity.elt_framework, :activity => to_activity, :app=>@app}
   end 
 
   def refresh_element_indicator
@@ -329,7 +332,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     unless @element.nil?
       @element.update_attributes(:is_active=> !@element.is_active)
     end
-    render :partial => "/apps/learning_time/manage_elements", :locals=>{:org=>@current_organization, :app=>@app} 
+    render :partial => "/apps/learning_time/manage_elements", :locals=>{:org=>@current_organization, :framework => @element.elt_framework, :app=>@app}
   end 
 
   def toggle_active_activity
@@ -337,7 +340,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     unless @activity.nil?
       @activity.update_attributes(:is_active=> !@activity.is_active)
     end
-    render :partial => "/apps/learning_time/manage_activities", :locals => {:org => @current_organization, :app=>@app} 
+    render :partial => "/apps/learning_time/manage_activities", :locals => {:org => @current_organization, :framework => @activity.elt_framework, :app=>@app}
   end 
 
   def toggle_master_activity
@@ -350,14 +353,14 @@ class Apps::LearningTimeController  < Site::ApplicationController
         end
       end
     end
-    render :partial => "/apps/learning_time/manage_activities", :locals => {:org => @current_organization, :app=>@app} 
+    render :partial => "/apps/learning_time/manage_activities", :locals => {:org => @current_organization, :framework => @activity.elt_framework, :app=>@app}
   end
 
   def toggle_active_cycle
     unless @cycle.nil?
       @cycle.update_attributes(:is_active=> !@cycle.is_active)
     end
-    render :partial => "/apps/learning_time/manage_cycles", :locals => {:org => @current_organization, :app=>@app} 
+    render :partial => "/apps/learning_time/manage_cycles", :locals => {:org => @current_organization, :framework => @framework, :app=>@app}
   end 
 
   def toggle_active_plan_type
@@ -367,7 +370,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     render :partial => "/apps/learning_time/manage_plan_types", :locals => {:org => @current_organization, :app=>@app} 
   end 
   
-  def assign_org_cycle
+  def assign_framework_cycle
     unless @cycle.nil? || @school.nil?
       if @school.elt_org_option
         @school.elt_org_option.update_attributes(:elt_cycle_id=> @cycle.id)
@@ -377,7 +380,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
         @school.elt_org_option = org_option
       end
     end
-    render :partial => "/apps/learning_time/manage_cycles", :locals => {:org => @current_organization, :app=>@app} 
+    render :partial => "/apps/learning_time/manage_cycles", :locals => {:org => @current_organization, :framework => @framework, :app=>@app}
   end 
   
   def toggle_rubric
@@ -598,7 +601,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
  def edit_framework
    initialize_parameters
    if @framework && !params[:name].strip.empty?
-     @framework.update_attributes(:name => params[:name], :abbrev => params[:abbrev])
+     @framework.update_attributes(:name => params[:name].strip, :abbrev => params[:abbrev].strip)
    end
    render :partial => "/apps/learning_time/manage_frameworks", :locals => {:org => @current_organization, :app=>@app}
  end
@@ -634,7 +637,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     unless elt_case.nil?
       elt_case.reassign_it(((!params[:xfer_org_id] || (params[:xfer_org_id] == "")) ? elt_case.organization_id : params[:xfer_org_id].to_i), (!params[:xfer_cycle_id] || (params[:xfer_cycle_id] == "")) ? elt_case.elt_cycle_id : params[:xfer_cycle_id].to_i)
     end
-    render :partial => "/apps/learning_time/transfer_cases", :locals => {:org => org, :base_org => baseorg, :app=>@app}
+    render :partial => "/apps/learning_time/transfer_cases", :locals => {:org => org, :base_org => baseorg, :framework => @framework, :app=>@app}
   end
 
  def transfer_plan_org
@@ -645,7 +648,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
    unless elt_plan.nil?
      elt_plan.reassign_it((!params[:xfer_cycle_id] || (params[:xfer_cycle_id] == "")) ? elt_plan.elt_cycle_id : params[:xfer_cycle_id].to_i)
    end
-   render :partial => "/apps/learning_time/transfer_plans", :locals => {:org => org, :base_org => baseorg, :app=>@app}
+   render :partial => "/apps/learning_time/transfer_plans", :locals => {:framework => @framework, :base_org => baseorg, :app=>@app}
  end
 
   def send_school_cycle_survey

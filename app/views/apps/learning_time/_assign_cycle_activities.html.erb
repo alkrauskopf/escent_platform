@@ -1,7 +1,7 @@
 
 <div id="assign_activities_<%=cycle.public_id%>"> 
 	
-	<% unless org.elt_types.empty? -%>
+	<% unless cycle.elt_framework.activities.empty? -%>
 		<div style = "padding-bottom:10px;padding-left:0px; ">
 			<table  style="width:400px;margin-left:300px;">
 				<thead>  
@@ -38,7 +38,7 @@
 							Add Activity
 						</td>
 						<td id="add_activity" style="font-size:normal">
-							<%= select(:add_activity, cycle.id, (org.elt_types.all - cycle.activities).collect{|a| [a.name, a.id]},{:include_blank =>'Add Activity'}) %>
+							<%= select(:add_activity, cycle.id, (cycle.elt_framework.activities.all - cycle.activities).collect{|a| [a.name, a.id]},{:include_blank =>'Add Activity'}) %>
 						</td>	
 					</tr>
 				</tbody>

@@ -3,9 +3,9 @@
 	<% if @current_organization.provider?(app) -%>
         <div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold">
           <% if @current_organization.elt_framework? %>
-              <center><%=@current_organization.elt_framework .name%>&nbsp;Configuration & Maintenance</center>
+              <center><%=@current_organization.elt_framework .name%>&nbsp;Configuration</center>
           <% else -%>
-              <center><%= app.name %>&nbsp;Configuration & Maintenance</center>
+              <center><%= app.name %>&nbsp;Configuration</center>
           <% end -%>
         </div>
 
@@ -32,7 +32,7 @@
               });
           </script>
       <% elsif @current_organization.elt_frameworks.size == 0-%>
-          <br/><span style="font-size:12px; color:#C73914; text-align:center">Please Create A Framework</span>
+          <br/><div style="font-size:12px; color:#C73914; text-align:center">Please Create A Framework</div>
       <% end -%>
           <div>
 
@@ -54,12 +54,13 @@
                 });
             </script>
             <% if @current_organization.elt_framework? %>
+                <% frame_abbrev = @current_organization.elt_framework.abbrev.empty? ? '' : @current_organization.elt_framework.abbrev + ' ' %>
                 <table id="cycle_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
                     <tbody>
                         <tr>
                             <td class="resource_levels_close" style="width:800px;">
                                 <%= link_to '', :controller => "apps/learning_time", :action => :manage_cycles, :organization_id => @current_organization, :app_id=> @app.id  %>
-                                Diagnostic Cycles
+                                <%= frame_abbrev %>Diagnostic Cycles
                             <span></span>
                             </td>
                         </tr>
@@ -79,7 +80,7 @@
                             <td class="resource_levels_close" style="width:800px;">
 
                                 <%= link_to '', :controller => "apps/learning_time", :action => :manage_activities, :organization_id => @current_organization, :app_id=> @app.id  %>
-                                Activities
+                              <%= frame_abbrev %>Activities
                             <span></span>
                             </td>
                         </tr>
@@ -96,7 +97,7 @@
                         <tr>
                             <td class="resource_levels_close" style="width:800px;">
                                 <%= link_to '', :controller => "apps/learning_time", :action => :manage_elements, :organization_id => @current_organization, :app_id=> @app.id  %>
-                                Elements
+                              <%= frame_abbrev %>Elements
                             <span></span>
                             </td>
                         </tr>
@@ -115,7 +116,7 @@
                             <td class="resource_levels_close" style="width:800px;">
 
                                 <%= link_to '', :controller => "apps/learning_time", :action => :manage_indicators, :organization_id => @current_organization, :app_id=> @app.id  %>
-                                Indicators & Look-fors
+                              <%= frame_abbrev %>Indicators & Look-fors
                             <span></span>
                             </td>
                         </tr>
@@ -134,7 +135,7 @@
                             <td class="resource_levels_close" style="width:800px;">
 
                                 <%= link_to '', :controller => "apps/learning_time", :action => :manage_plan_types, :organization_id => @current_organization, :app_id=> @app.id  %>
-                                Action Plan Settings
+                              <%= frame_abbrev %>Action Plan Settings
                             <span></span>
                             </td>
                         </tr>
@@ -153,7 +154,7 @@
                   <td class="resource_levels_close" style="width:800px;">
 
                         <%= link_to '', :controller => "apps/learning_time", :action => :transfer_cases, :organization_id => @current_organization, :app_id=> @app.id  %>
-                        Move Cases To Other Schools or Cycles
+                    <%= frame_abbrev %>Move Cases To Other Schools or Cycles
                     <span></span>
                   </td>
                 </tr>
@@ -172,7 +173,7 @@
                     <tr>
                       <td class="resource_levels_close" style="width:800px;">
                             <%= link_to '', :controller => "apps/learning_time", :action => :transfer_plans, :organization_id => @current_organization, :app_id=> @app.id  %>
-                            Move A School Plan  To Another Cycle
+                        <%= frame_abbrev %>Move A School Plan  To Another Cycle
                         <span></span>
                       </td>
                     </tr>

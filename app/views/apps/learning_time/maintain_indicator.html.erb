@@ -1,6 +1,6 @@
 <% ind_label = @activity.nil? ? "Indicator" : (@activity.master? ? "Indicator" : "Look-for") %>
 <div style ="color: #2061a5; font-size:16px; margin-top:0px; padding-top:20px; font-weight:bold"> 
-	<strong><center><%= @current_organization.short_name %>&nbsp;<%= @app.abbrev %>&nbsp;<%= ind_label %></center></strong>
+	<strong><center><%= @activity.elt_framework.name %>&nbsp;<%= ind_label %></center></strong>
 </div>
 <div style ="color: #C83A14; font-size:14px; margin-top:0px; padding-top:10px; font-weight:normal"> 
 	<center><%= @activity.nil? ? "Unknown Activity":@activity.name %>&nbsp;:&nbsp;<%= @element.nil? ? "Unknown Element":@element.name %></center>

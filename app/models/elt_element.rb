@@ -7,7 +7,7 @@ class EltElement < ActiveRecord::Base
 
   has_many :elt_indicators, :dependent => :destroy
   has_many :elt_case_notes, :dependent => :destroy
-  has_many :elt_action_plans, :as => :scope, :dependent => :destroy
+  has_many :elt_plan_actions, :as => :scope, :dependent => :destroy
   
   validates_presence_of :name
   validates_presence_of :abbrev

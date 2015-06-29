@@ -20,7 +20,7 @@ class EltCycle < ActiveRecord::Base
   named_scope :active, :conditions => ["is_active"], :order => 'begin_date DESC'
   named_scope :all,  :conditions => {:is_delete => false}, :order => 'begin_date DESC'  
   named_scope :deleted,  :conditions => {:is_delete => true}, :order => 'created_at DESC'  
- 
+
   def active?
     self.is_active
   end

@@ -12,7 +12,7 @@ class EltIndicator < ActiveRecord::Base
   has_many :lookfors, :through => :elt_related_indicators, :source=> :lookfor, :uniq=>true
   has_many :elt_indicator_lookfors, :dependent => :destroy   
   has_many :elt_cycle_summaries
-  has_many :elt_action_plans, :as => :scope, :dependent => :destroy
+  has_many :elt_plan_actions, :as => :scope, :dependent => :destroy
   
   validates_presence_of :indicator, :message => 'Must Define Indicator' 
   validates_numericality_of :position, :greater_than => 0, :message => 'must > 0.  '
@@ -22,6 +22,7 @@ class EltIndicator < ActiveRecord::Base
       
   named_scope :active, :conditions => ["is_active"], :order => 'position ASC'
   named_scope :for_activity, lambda{|activity| {:conditions => ["elt_type_id = ? ", activity.id]}}
+  named_scope :for_element, lambda{|element| {:conditions => ["elt_element_id = ? ", element.id]}}
   named_scope :all, :order => 'position ASC'
   named_scope :all_parents,   :conditions => ["parent_id IS NULL"], :order=>'name'
 
@@ -44,7 +45,27 @@ class EltIndicator < ActiveRecord::Base
   def support_indicators
     EltRelatedIndicator.find(:all, :conditions =>["related_indicator_id = ?", self.id]).collect{|i| i.elt_indicator}.sort_by{|i| [i.elt_element.abbrev, i.position]}
   end
-  
+
+  def master_indicators_active(element)
+    if element && self.master_activity_active
+      self.master_activity_active.elt_indicators.for_element(element).active
+    else
+      []
+    end
+  end
+
+  def framework
+    self.elt_type.elt_framework rescue nil
+  end
+
+  def master_activity
+    self.framework.elt_types.masters.first rescue nil
+  end
+
+  def master_activity_active
+    self.framework.elt_types.masters.active.first rescue nil
+  end
+
   def final_scored_indicators_for_cycle(cycle)
     self.elt_case_indicators.final_for_cycle(cycle).select{|ci| ci.rubric}
   end

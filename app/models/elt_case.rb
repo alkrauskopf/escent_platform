@@ -26,6 +26,7 @@ class EltCase < ActiveRecord::Base
   named_scope :for_other_cycles, lambda{|cycle| {:conditions => ["elt_cycle_id != ? ", cycle.id], :order => "submit_date DESC"}}
 
   named_scope :for_provider, lambda{|provider| {:include => :elt_cycle, :conditions => ["elt_cycles.organization_id = ?", provider.id], :order => "submit_date DESC"}}
+  named_scope :for_framework, lambda{|framework| {:include => :elt_cycle, :conditions => ["elt_cycles.elt_framework_id = ?", framework.id], :order => "submit_date DESC"}}
 
   def self.schools_for_provider(provider)
     EltCase.for_provider(provider).collect{|c| c.organization}.compact.flatten.uniq.sort_by{|o| o.name}

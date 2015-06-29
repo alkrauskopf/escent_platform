@@ -1,6 +1,6 @@
 
 <div style="width:780px; width:fixed;border:0px solid #ddd; ">
 
-	<%= render :partial => "/apps/learning_time/manage_indicators", :locals => {:org => @current_organization, :element => nil, :activity => nil, :app=>@app}%>
+	<%= render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => @current_organization.elt_framework, :element => nil, :activity => nil, :app=>@app}%>
 
 </div>

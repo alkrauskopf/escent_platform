@@ -1,12 +1,12 @@
-<div id="manage_indicators_<%=org.public_id%>">
-	<% unless !org.appl_owner?(app) -%>
+<div id="manage_indicators_<%= framework.public_id%>">
+	<% if framework.organization.appl_owner?(app) -%>
 
 		<div>
 			<table style="width:750px;margin-left:0px; border:0px solid #ddd;">
 				<tbody>  
 					<tr  style="border:0px solid #ddd;" >
 						<td   id = "indicators_activity" style="border:0px solid #ddd; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
-							<%=  select(:elt, :type,   org.elt_types.all.collect{|t| [t.name, t.id]}, :prompt => activity.nil? ? "Select Activity" : activity.name) %>
+							<%=  select(:elt, :type,   framework.activities.all.collect{|t| [t.name, t.id]}, :prompt => activity.nil? ? "Select Activity" : activity.name) %>
 						</td>
 					</tr>
 				</tbody>
@@ -19,8 +19,8 @@
 			var activity_id = jQ('#elt_type').val();
 			var url = "<%= url_for :controller => "/apps/learning_time", :action => :select_activity, :organization_id => @current_organization, :app_id=> app.id %>";
 				jQ.get(url, {'activity_id':activity_id}, function(data) {
-				jQ("#manage_indicators_<%=org.public_id%>").html(data); 
-		   		jQ("#manage_indicators_<%=org.public_id%>").show();
+				jQ("#manage_indicators_<%= framework.public_id%>").html(data);
+		   		jQ("#manage_indicators_<%= framework.public_id%>").show();
 				});
 		})
 	});
@@ -33,7 +33,7 @@
 				<tbody>  
 					<tr  style="border:0px solid #ddd;" >
 						<td   id = "copy_activity" style="border:0px solid #ddd; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
-							<%=  select(:elt, activity.id,  org.elt_types.all.collect{|t| [t.name, t.id]}, :prompt => "Copy Lookfors From Selected Activity") %>
+							<%=  select(:elt, activity.id,  framework.activities.all.collect{|t| [t.elt_framework.abbrev + ": " + t.name, t.id]}, :prompt => "Copy Lookfors From Selected Activity") %>
 						</td>
 					</tr>
 				</tbody>
@@ -46,8 +46,8 @@
 			var source_id = jQ('#elt_<%= activity.id %>').val();
 			var url = "<%= url_for :controller => "/apps/learning_time", :action => :copy_activity_indicators, :organization_id => @current_organization, :activity_id => activity.id, :app_id=> app.id %>";
 				jQ.get(url, {'source_activity_id':source_id}, function(data) {
-				jQ("#manage_indicators_<%=org.public_id%>").html(data); 
-		   		jQ("#manage_indicators_<%=org.public_id%>").show();
+				jQ("#manage_indicators_<%= framework.public_id%>").html(data);
+		   		jQ("#manage_indicators_<%= framework.public_id%>").show();
 				});
 		})
 	});
@@ -62,7 +62,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<% activity.organization.elt_elements.each do |element| -%>
+			<% activity.elt_framework.elt_elements.each do |element| -%>
 				<%= render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:activity => activity, :element => element, :app=>app}%>
 			<% end -%>
 		<% end -%>

@@ -73,6 +73,23 @@
                 });
                 </script>
 
+                <table id="element_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
+                  <tbody>
+                  <tr>
+                    <td class="resource_levels_close" style="width:800px;">
+                      <%= link_to '', :controller => "apps/learning_time", :action => :manage_elements, :organization_id => @current_organization, :app_id=> @app.id  %>
+                      <%= frame_abbrev %>Elements
+                      <span></span>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+                <script type="text/javascript" charset="utf-8">
+                    jQ(document).ready(function() {
+                        jQ('#element_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
+                        jQ('#element_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();
+                    });
+                </script>
 
                 <table id="activity_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
                     <tbody>
@@ -90,23 +107,6 @@
         jQ(document).ready(function() {
             jQ('#activity_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
             jQ('#activity_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();
-        });
-        </script>
-                <table id="element_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
-                    <tbody>
-                        <tr>
-                            <td class="resource_levels_close" style="width:800px;">
-                                <%= link_to '', :controller => "apps/learning_time", :action => :manage_elements, :organization_id => @current_organization, :app_id=> @app.id  %>
-                              <%= frame_abbrev %>Elements
-                            <span></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-        <script type="text/javascript" charset="utf-8">
-        jQ(document).ready(function() {
-            jQ('#element_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
-            jQ('#element_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();
         });
         </script>
 

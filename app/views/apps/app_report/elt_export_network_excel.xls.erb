@@ -23,7 +23,7 @@
         <Cell><Data ss:Type="String">Indicator</Data></Cell>
         <Cell><Data ss:Type="String"></Data></Cell>
         <Cell><Data ss:Type="String">Network</Data></Cell>
-        <% @activity.organization.elt_cycles.active.each do |cycle| %>
+        <% @activity.elt_framework.elt_cycles.active.each do |cycle| %>
         	<Cell><Data ss:Type="String"><%= cycle.abbrev %></Data></Cell>
         <% end -%>
       </Row>
@@ -36,7 +36,7 @@
 		        <Cell><Data ss:Type="Number"><%= ind_count %></Data></Cell>
 		        <Cell><Data ss:Type="String"><%= indicator.indicator %></Data></Cell>
 		        <Cell><Data ss:Type="Number"><%= indicator.cycle_summaries(nil).empty? ? 0.0 : number_with_precision(indicator.cycle_summary_avg_score(nil), :precision => 1) %></Data></Cell>
-		        <% @activity.organization.elt_cycles.active.each do |cycle| %>
+		        <% @activity.elt_framework.elt_cycles.active.each do |cycle| %>
 		        	<Cell><Data ss:Type="Number"><%= indicator.cycle_summaries(cycle).empty? ? 0.0 : number_with_precision(indicator.cycle_summary_avg_score(cycle), :precision => 1) %></Data></Cell>
 		        <% end -%>
 		      </Row>

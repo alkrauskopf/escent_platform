@@ -25,6 +25,10 @@ class EltCycle < ActiveRecord::Base
     self.is_active
   end
 
+  def master_activity
+    self.activities.masters.first rescue nil
+  end
+
   def client_feedback_surveys
     app = CoopApp.elt.first
     self.survey_schedules.for_audience(app.tlt_survey_audiences.client.first).for_type(app.tlt_survey_types.feedback.first) rescue []

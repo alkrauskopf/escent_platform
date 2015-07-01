@@ -19,7 +19,7 @@
 					<td  style="vertical-align:top;  padding-top:5px;  padding-left:0px; border:0px solid black;">
 						<div class="blog_item">
 							<div class="app_report_title_2">
-								<center><%= provider.name.upcase -%></center>
+								<center><%= activity.nil? || activity.elt_framework.nil? ? 'No Activity or Framework' : activity.elt_framework.name.upcase -%></center>
 							</div>
 						</div>
 					</td>
@@ -37,14 +37,14 @@
 						</div>
 					</td>
 					<td id = "select_activity" style="width:280px; width:fixed; vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
-						<%=  select(:activa, provider.id,  cycle.activities.active.collect{|a| [a.name, a.public_id]}, :prompt=> "Select Cycle Activity") %>
+						<%=  select(:activa, provider.id,  provider.elt_types.active.reportable.collect{|a| [("(" + a.elt_framework.abbrev + ") " + a.name), a.public_id]}, :prompt=> "Select Activity") %>
 					</td>
 				</tr>
 	<script type="text/javascript">
 	jQ(document).ready(function() {
 		jQ('#select_activity').change(function() {
 			var activity_id = jQ('#activa_<%= provider.id%>').val();
-			var url = "<%= url_for :controller => "/apps/app_report", :action => :elt_select_activity_for_network, :organization_id => @current_organization, :provider_id => provider, :elt_cycle_id => cycle, :app_id=> app.id %>";
+			var url = "<%= url_for :controller => "/apps/app_report", :action => :elt_select_activity_for_network, :organization_id => @current_organization, :provider_id => provider, :app_id=> app.id %>";
 				jQ.get(url, {'activity_id':activity_id}, function(data) {
 				jQ("#cycle_diag").html(data); 
 		   		jQ("#cycle_diag").show();
@@ -69,7 +69,7 @@
 				<% end -%>
 			</tbody>					
 		</table>
-		<% unless cycle.nil? || activity.nil?-%>
+		<% unless activity.nil?-%>
 			<%= render :partial => "/apps/app_report/elt_show_rubric", :locals => {:activity => activity} -%>					
 			<%= render :partial => "/apps/app_report/elt_network_activity_summary", :locals => {:activity => activity, :provider => provider} -%>					
 		<% end -%>

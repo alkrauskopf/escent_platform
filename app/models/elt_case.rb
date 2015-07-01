@@ -11,6 +11,7 @@ class EltCase < ActiveRecord::Base
   belongs_to :reviewer, :class_name => 'User', :foreign_key => "reviewer_id"
   belongs_to :elt_cycle
 
+
   has_many :elt_case_notes, :dependent => :destroy
   has_many :elt_case_indicators, :dependent => :destroy
 
@@ -28,6 +29,9 @@ class EltCase < ActiveRecord::Base
   named_scope :for_provider, lambda{|provider| {:include => :elt_cycle, :conditions => ["elt_cycles.organization_id = ?", provider.id], :order => "submit_date DESC"}}
   named_scope :for_framework, lambda{|framework| {:include => :elt_cycle, :conditions => ["elt_cycles.elt_framework_id = ?", framework.id], :order => "submit_date DESC"}}
 
+  def framework
+    self.elt_type.elt_framework rescue nil
+  end
   def self.schools_for_provider(provider)
     EltCase.for_provider(provider).collect{|c| c.organization}.compact.flatten.uniq.sort_by{|o| o.name}
   end

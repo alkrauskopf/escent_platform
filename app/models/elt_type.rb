@@ -110,6 +110,9 @@ class EltType < ActiveRecord::Base
       new_indicator.is_active = false
       new_indicator.elt_type_id = self.id
       new_indicator.save
+      source_ind.support_indicators.each do |sup_indicator|
+        sup_indicator.lookfors << new_indicator
+      end
     end
   end
 end

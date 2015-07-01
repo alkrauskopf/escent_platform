@@ -1,5 +1,7 @@
 <% indicator.lookfors.sort_by{|i| i.elt_type.position}.group_by(&:elt_type_id).each do |elt_type_id, indicators| %>
-	<table style="width:480px;margin-top:0px; border:0px solid #ddd;">
+	<% activity = EltType.find_by_id(elt_type_id).active rescue nil %>
+    <% if activity %>
+        <table style="width:480px;margin-top:0px; border:0px solid #ddd;">
 		<tbody> 
 			<% unless indicators.empty? -%>
 				<tr style=" border:1px solid #ddd;">
@@ -27,5 +29,6 @@
 			<% end -%>
 		</tbody>
 	</table>	
+    <% end -%>
 <% end -%>
 

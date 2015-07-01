@@ -345,9 +345,9 @@ class Apps::LearningTimeController  < Site::ApplicationController
 
   def toggle_master_activity
     @activity = EltType.find_by_public_id(params[:elt_type_id]) rescue nil
-    unless @activity.nil?
+    unless @activity.nil? || @activity.elt_framework.nil?
       @activity.update_attributes(:is_master=> !@activity.is_master)
-      @current_organization.elt_types.each do |act|
+      @activity.elt_framework.activities.each do |act|
         unless act==@activity
           act.update_attributes(:is_master => false)
         end

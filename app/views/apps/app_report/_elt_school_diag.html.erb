@@ -1,7 +1,6 @@
 
 
 <div id="school_diag" >
-
 		<table   style="width:1170px;  margin-left:10px; border:0px solid black;">
 			<tbody>
 				<style type="text/css" media="screen">
@@ -59,7 +58,7 @@
 					<td  style="vertical-align:top;  padding-top:5px;  padding-left:0px; border:0px solid black;">
 						<% unless school.nil? -%>
 							<div style="font-size: 18px; text-align:center; line-height: 1.5em; color:#1b5698; font-weight:normal; font-family:Verdana, Arial, Helvetica, sans-serif;">
-								<%= cycle.nil?  ? "Cycle Not Defined" : cycle.name -%>
+								<%= cycle.nil?  ? "Cycle Not Defined" : cycle.name  + ( cycle.elt_framework ? " (" + cycle.elt_framework.abbrev + ")" : '')%>
 							</div>
 						<% end -%>
 					</td>
@@ -113,7 +112,7 @@
 							</div>
 						</td>
 						<td colspan=2 id = "select_activity" style=" vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
-							<%=  select(:activa, provider.id,  (@current_organization == provider ? school.elt_case_activities_finalized : school.elt_case_activities_reportable).collect{|a| [a.name, a.public_id]}, :prompt=> "Select Finalized " + school.short_name + " Activity") %>
+							<%=  select(:activa, provider.id,  (@current_organization == provider ? school.final_case_activities(cycle.elt_framework) : school.final_case_activities_reportable(cycle.elt_framework)).collect{|a| [a.name, a.public_id]}, :prompt=> "Select Finalized Activity") %>
 						</td>
 					</tr>
 	<script type="text/javascript">

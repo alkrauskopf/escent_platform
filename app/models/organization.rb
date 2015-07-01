@@ -578,10 +578,18 @@ class Organization < ActiveRecord::Base
     self.elt_cases.final.collect{|c| c.elt_type}.compact.uniq.sort_by{|a| a.position}
   end
 
+  def final_case_activities(framework)
+    self.elt_cases.final.for_framework(framework).collect{|c| c.elt_type}.compact.uniq.sort_by{|a| a.position}
+  end
+
   def elt_case_activities_reportable
     self.elt_cases.final.collect{|c| c.elt_type}.compact.uniq.select{|a| a.reportable?}.sort_by{|a| a.position}
   end
-  
+
+  def final_case_activities_reportable(framework)
+    self.elt_cases.final.for_framework(framework).collect{|c| c.elt_type}.compact.uniq.select{|a| a.reportable?}.sort_by{|a| a.position}
+  end
+
   def elt_cycle_plan(cycle)
     self.elt_plans.for_cycle(cycle).first rescue nil
   end
@@ -597,10 +605,13 @@ class Organization < ActiveRecord::Base
   def elt_summarized_cycles
     EltCycleSummary.for_provider(self).collect{|cs| cs.elt_cycle}.compact.uniq.sort{|a,b| b.begin_date <=> a.begin_date}
   end
-
   
   def elt_master_activity
-    self.elt_types.active.masters.first rescue nil
+    self.elt_master_activities.first rescue nil
+  end
+
+  def elt_master_activities
+    self.elt_types.active.masters
   end
 
   def elt_provider

@@ -21,39 +21,38 @@ class Apps::AppReportController < Site::ApplicationController
     @plan_type = EltPlanType.school
     @provider = @current_organization.app_provider(@app)
     @school =  @current_organization == @provider ? nil : @current_organization
-    @activity = @provider.elt_master_activity.nil? ? nil : @provider.elt_master_activity
-    @activity = (!@school.nil? && !@activity.reportable?) ? nil : @activity 
     @cycle = @current_organization.elt_org_option.elt_cycle ? @current_organization.elt_org_option.elt_cycle : nil
-  end  
+    @activity = @cycle.nil? ? nil : @cycle.master_activity
+    @activity = (!@school.nil? && !@activity.reportable?) ? nil : @activity 
+  end
 
   def elt_select_school_for_diag
-    @activity = @provider.elt_master_activity.nil? ? nil : @provider.elt_master_activity
     @cycle = @school.elt_org_option.elt_cycle ? @school.elt_org_option.elt_cycle : nil
+    @activity = @cycle.nil? ? nil : @cycle.master_activity
     render :partial => "/apps/app_report/elt_school_diag", :locals => {:provider => @provider, :app => @app, :school => @school, :cycle => @cycle, :activity => @activity}
   end 
 
   def elt_select_activity_for_school
-    @activity = @activity.nil? ? (@provider.elt_master_activity.nil? ? nil : @provider.elt_master_activity) : @activity
+    @activity = @activity.nil? ? @cycle.master_activity : @activity
     render :partial => "/apps/app_report/elt_school_diag", :locals => {:provider => @provider, :app => @app, :school => @school, :cycle => @cycle, :activity => @activity}
   end 
 
   def elt_select_cycle_for_school
+    @activity = @cycle.activities.include?(@activity) ? @activity : @cycle.master_activity
     render :partial => "/apps/app_report/elt_school_diag", :locals => {:provider => @provider, :app => @app, :school => @school, :cycle => @cycle, :activity => @activity}
   end 
   
   def elt_select_cycle_for_diag
-    @activity = @activity.nil? ? (@provider.elt_master_activity.nil? ? nil : @provider.elt_master_activity) : @activity
-    render :partial => "/apps/app_report/elt_cycle_diag", :locals => {:provider => @provider, :app => @app, :cycle => @cycle, :activity => @activity}
+    render :partial => "/apps/app_report/elt_cycle_diag", :locals => {:provider => @provider, :app => @app, :cycle => @cycle, :activity => @cycle.master_activity}
   end
   
   def elt_select_activity_for_cycle
-    @activity = @activity.nil? ? (@provider.elt_master_activity.nil? ? nil : @provider.elt_master_activity) : @activity
+    @activity = @activity.nil? ? @cycle.master_activity : @activity
     render :partial => "/apps/app_report/elt_cycle_diag", :locals => {:provider => @provider, :app => @app, :cycle => @cycle, :activity => @activity}
   end
   
   def elt_select_activity_for_network
-    @activity = @activity.nil? ? (@provider.elt_master_activity.nil? ? nil : @provider.elt_master_activity) : @activity
-    render :partial => "/apps/app_report/elt_network_diag", :locals => {:provider => @provider, :app => @app, :cycle => @cycle, :activity => @activity}
+    render :partial => "/apps/app_report/elt_network_diag", :locals => {:provider => @provider, :app => @app, :activity => @activity}
   end
 
   def elt_destroy_plan  

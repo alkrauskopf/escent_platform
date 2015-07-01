@@ -102,5 +102,14 @@ class EltType < ActiveRecord::Base
   
   def active_rubrics
     self.rubric? ? self.rubrics.active : []
-  end  
+  end
+
+  def copy_indicators(source_activity)
+    source_activity.elt_indicators.each do |source_ind|
+      new_indicator = source_ind.clone
+      new_indicator.is_active = false
+      new_indicator.elt_type_id = self.id
+      new_indicator.save
+    end
+  end
 end

@@ -299,14 +299,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     to_activity = EltType.find_by_id(params[:activity_id]) rescue nil
     from_activity = EltType.find_by_id(params[:source_activity_id]) rescue nil    
     if (to_activity && from_activity)
-      from_activity.elt_indicators.each do |source_ind|
-        new_indicator = source_ind.clone
-        new_indicator.is_active = false
-        source_ind.elt_indicator_lookfors.each do |lf|
-          new_indicator.elt_indicator_lookfors << lf.clone
-        end
-        to_activity.elt_indicators << new_indicator
-      end
+      to_activity.copy_indicators(from_activity)
     end
     render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => to_activity.elt_framework, :activity => to_activity, :app=>@app}
   end 

@@ -6,7 +6,7 @@
 			<% unless indicators.empty? -%>
 				<tr style=" border:1px solid #ddd;">
 					<td  colspan = 3 style = "  color: #2061a5; vertical-align:middle; text-align:center; padding-left:0px; font-size:11px ">
-						<strong><%= EltType.find_by_id(elt_type_id).name rescue nil %></strong>
+						<strong><%= activity.name rescue nil %></strong>
 					</td>
 				</tr>
 				<% indicators.each do |ind| -%>

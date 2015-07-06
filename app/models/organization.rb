@@ -554,6 +554,18 @@ class Organization < ActiveRecord::Base
     self.elt_frameworks.empty? ? set_framework(nil) : set_framework(self.elt_frameworks.first)
   end
 
+  def used_frameworks
+    self.elt_cases.collect{|c| c.framework}.compact.uniq
+  end
+
+  def current_cycle_framework
+    self.elt_org_option.elt_cycle.elt_framework rescue nil
+  end
+
+  def active_frameworks
+    self.elt_types.active.collect{|a| a.elt_framework}.compact.uniq
+  end
+
   def elt_framework
     self.elt_framework? ? self.elt_org_option.elt_framework : nil
   end

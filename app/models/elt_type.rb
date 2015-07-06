@@ -97,7 +97,7 @@ class EltType < ActiveRecord::Base
   end
 
   def shareable_rubrics
-    self.share_rubric ? self.rubrics.active.select{|r| self.share_rubric.score <= r.score} : []
+    self.share_rubric ? self.active_rubrics.select{|r| self.share_rubric.score <= r.score} : []
   end
   
   def active_rubrics

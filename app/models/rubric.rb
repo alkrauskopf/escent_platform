@@ -25,5 +25,8 @@ class Rubric < ActiveRecord::Base
   def active?
     self.is_active
   end
-  
+
+  def activity
+    self.scope
+  end
 end

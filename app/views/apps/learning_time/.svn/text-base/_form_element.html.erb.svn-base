@@ -26,7 +26,7 @@
             Position:
         </div>
         <div class="FormRowData" style= "margin-left:25px">
-        	<%= text_field :elt_element, :position, :value => (@element.position.nil? ? (org.elt_elements.size + 1) : @element.position),  :size => 1, :maxlength => 2 %>
+        	<%= text_field :elt_element, :position, :value => (@element.position.nil? ? (framework.elt_elements.size + 1) : @element.position),  :size => 1, :maxlength => 2 %>
         </div>
     </div>
 	<div class="FormRow">

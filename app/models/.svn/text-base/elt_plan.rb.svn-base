@@ -9,6 +9,7 @@ class EltPlan < ActiveRecord::Base
   named_scope :open, :conditions => ["is_open"]
   named_scope :for_cycle, lambda{|cycle| {:conditions => ["elt_cycle_id = ?", cycle.id]}}
   named_scope :for_provider, lambda{|provider| {:include => :elt_cycle, :conditions => ["elt_cycles.organization_id = ?", provider.id], :order => "elt_plans.updated_at DESC"}}
+  named_scope :for_framework, lambda{|framework| {:include => :elt_cycle, :conditions => ["elt_cycles.elt_framework_id = ?", framework.id], :order => "elt_plans.updated_at DESC"}}
 
 
   def open?

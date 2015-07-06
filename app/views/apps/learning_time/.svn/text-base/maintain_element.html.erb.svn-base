@@ -1,20 +1,20 @@
 
 	<div style ="color: #2061a5; font-size:16px; margin-top:0px; padding-top:20px; font-weight:bold"> 
-		<strong><center><%=@task %>&nbsp;<%= @current_organization.short_name %>&nbsp;<%= @app.abbrev %>&nbsp;Element</center></strong>
+		<strong><center><%= @framework.name %>&nbsp;Element</center></strong>
 	</div>
 	
 	<%= render :partial => "/shared/error_and_notice" %>
 
 	
 	<div class="Form clear">
-		<% form_for(:elt_element, :url => {:controller => "/apps/learning_time", :action => :maintain_element, :organization_id => @current_organization, :elt_element_id=>@element, :app_id => @app.id, :task=>@task, :function => @task}) do |form| %>
+		<% form_for(:elt_element, :url => {:controller => "/apps/learning_time", :action => :maintain_element, :organization_id => @current_organization, :elt_framework_id=>@framework, :elt_element_id=>@element, :app_id => @app.id, :task=>@task, :function => @task}) do |form| %>
 		
-			<%= render :partial => "/apps/learning_time/form_element", :locals=>{:org=>@current_organization, :button_label=> (@task == "New" ? "Create Element" : "Update"), :element => @element} %>
+			<%= render :partial => "/apps/learning_time/form_element", :locals=>{:org=>@current_organization, :button_label=> (@task == "New" ? "Create Element" : "Update"), :framework =>@framework, :element => @element} %>
 		
 		<% end -%>	
 		
 		<% unless @task == "New" || @element.active?%>
-			<% form_for(:elt_element, :url => {:controller => "/apps/learning_time", :action => :maintain_element, :organization_id => @current_organization, :elt_element_id=>@element, :app_id => @app.id, :task=>@task, :function => "Destroy"}) do |form| %>
+			<% form_for(:elt_element, :url => {:controller => "/apps/learning_time", :action => :maintain_element, :organization_id => @current_organization, :elt_framework_id=>@framework, :elt_element_id=>@element, :app_id => @app.id, :task=>@task, :function => "Destroy"}) do |form| %>
 				<div class="FormRow submit_warp" style= "padding-left:25px; padding-bottom:20px">	
 					<br/>
 					<%= submit_tag "Destroy", :confirm => "Are you sure?", :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>

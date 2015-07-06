@@ -7,6 +7,8 @@ class EltFramework < ActiveRecord::Base
   has_many :elt_cycles, :dependent => :destroy
   has_many :elt_types, :dependent => :destroy
   has_many :elt_elements, :dependent => :destroy
+  has_many :elt_cases, :through => :elt_types
+
 
   def cycles
     self.elt_cycles
@@ -14,6 +16,15 @@ class EltFramework < ActiveRecord::Base
 
   def activities
     self.elt_types
+  end
+
+
+  def master_activity
+    self.elt_types.masters.first rescue nil
+  end
+
+  def master_activity
+    self.elt_types.first
   end
 
   def elements

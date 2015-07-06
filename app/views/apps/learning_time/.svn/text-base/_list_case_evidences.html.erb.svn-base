@@ -1,31 +1,34 @@
 <% indicator.lookfors.sort_by{|i| i.elt_type.position}.group_by(&:elt_type_id).each do |elt_type_id, indicators| %>
-	<table style="width:480px;margin-top:0px; border:0px solid #ddd;">
-		<tbody> 
-			<% unless indicators.empty? -%>
-				<tr style=" border:1px solid #ddd;">
-					<td  colspan = 3 style = "  color: #2061a5; vertical-align:middle; text-align:center; padding-left:0px; font-size:11px ">
-						<strong><%= EltType.find_by_id(elt_type_id).name rescue nil %></strong>
-					</td>
-				</tr>
-				<% indicators.each do |ind| -%>
-					<% elt_case.organization.elt_evidences_for_cycle_indicator(elt_case.elt_cycle,ind).each do |evidence|%>
-						<tr style=" border:1px solid #ddd;">
-							<td  style = "color: color: #2061a5; width:10px; width:fixed;border:0px solid #ddd; vertical-align:middle; text-align:left; padding-left:0px; font-size:10px ">
-								&nbsp;
-							</td>
-							<td  style = "color: color: #2061a5; width:60px; width:fixed; border:0px solid #ddd; line-height:1.3em; vertical-align:top; text-align:center; padding-top:4px; font-size:10px ">
-								<%= evidence.elt_case.final? ? evidence.elt_case.finalize_date.strftime("%m-%d-%y") : "open" %><br/>
-								<%= evidence.elt_case.user ? evidence.elt_case.user.last_name : evidence.elt_case.user_name -%>
-							</td>
-							<td  style = "color: color: #2061a5; border:0px solid #ddd; line-height:1.3em; vertical-align:top; text-align:left; padding-top:4px; font-size:10px ">
-								<span style="color:#CC0000; font-weight:bold"><%= evidence.rubric? ? (evidence.rubric.name + "<br/>"): ""%></span>
-								<%= evidence.note -%>
-							</td>
-						</tr>
-					<% end -%>			
-				<% end -%>
-			<% end -%>
-		</tbody>
-	</table>	
+	<% activity = EltType.find_by_id(elt_type_id).active rescue nil %>
+    <% if activity %>
+        <table style="width:480px;margin-top:0px; border:0px solid #ddd;">
+            <tbody>
+                <% unless indicators.empty? -%>
+                    <tr style=" border:1px solid #ddd;">
+                        <td  colspan = 3 style = "  color: #2061a5; vertical-align:middle; text-align:center; padding-left:0px; font-size:11px ">
+                            <strong><%= activity.name rescue nil %></strong>
+                        </td>
+                    </tr>
+                    <% indicators.each do |ind| -%>
+                        <% elt_case.organization.elt_evidences_for_cycle_indicator(elt_case.elt_cycle,ind).each do |evidence|%>
+                            <tr style=" border:1px solid #ddd;">
+                                <td  style = "color: color: #2061a5; width:10px; width:fixed;border:0px solid #ddd; vertical-align:middle; text-align:left; padding-left:0px; font-size:10px ">
+                                    &nbsp;
+                                </td>
+                                <td  style = "color: color: #2061a5; width:60px; width:fixed; border:0px solid #ddd; line-height:1.3em; vertical-align:top; text-align:center; padding-top:4px; font-size:10px ">
+                                    <%= evidence.elt_case.final? ? evidence.elt_case.finalize_date.strftime("%m-%d-%y") : "open" %><br/>
+                                    <%= evidence.elt_case.user ? evidence.elt_case.user.last_name : evidence.elt_case.user_name -%>
+                                </td>
+                                <td  style = "color: color: #2061a5; border:0px solid #ddd; line-height:1.3em; vertical-align:top; text-align:left; padding-top:4px; font-size:10px ">
+                                    <span style="color:#CC0000; font-weight:bold"><%= evidence.rubric? ? (evidence.rubric.name + "<br/>"): ""%></span>
+                                    <%= evidence.note -%>
+                                </td>
+                            </tr>
+                        <% end -%>
+                    <% end -%>
+                <% end -%>
+            </tbody>
+	    </table>
+    <% end -%>
 <% end -%>
 

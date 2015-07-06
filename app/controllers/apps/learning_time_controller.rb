@@ -607,15 +607,15 @@ class Apps::LearningTimeController  < Site::ApplicationController
    end
    render :partial => "/apps/learning_time/manage_frameworks", :locals => {:org => @current_organization, :app=>@app}
  end
-
- def select_rubric
-    initialize_parameters
-    render :partial => "/apps/learning_time/schools_by_rubric", :locals=>{:org_type => @org_type, :rubric => @rubric, :rubric_list=> (@current_organization.provider?(@app) ? @activity.rubrics.active :  @activity.shareable_rubrics), :activity=>@activity, :app=>@app} 
-  end
   
-  def select_org_type
+  def select_kb_filters
     initialize_parameters
-    render :partial => "/apps/learning_time/share_rubric_data", :locals=>{:org_type => @org_type, :app=>@app} 
+    if @framework && @framework.master_activity
+      rubric = @framework.master_activity.shareable_rubrics.include?(@rubric) ? @rubric : @framework.master_activity.shareable_rubrics.last
+    else
+      rubric = nil
+    end
+    render :partial => "/apps/learning_time/share_rubric_data", :locals=>{:org_type => @org_type, :framework => @framework, :rubric => rubric, :app=>@app}
   end
 
   def case_indicators_element_rubric

@@ -610,12 +610,8 @@ class Apps::LearningTimeController  < Site::ApplicationController
   
   def select_kb_filters
     initialize_parameters
-    if @framework && @framework.master_activity
-      rubric = @framework.master_activity.shareable_rubrics.include?(@rubric) ? @rubric : @framework.master_activity.shareable_rubrics.last
-    else
-      rubric = nil
-    end
-    render :partial => "/apps/learning_time/share_rubric_data", :locals=>{:org_type => @org_type, :framework => @framework, :rubric => rubric, :app=>@app}
+    @rubric = @rubric.activity.elt_framework == @framework ? @rubric : (@framework.master_activity ? @framework.master_activity.shareable_rubrics.last : nil)
+    render :partial => "/apps/learning_time/share_rubric_data", :locals=>{:org_type => @org_type, :framework => @framework, :rubric => @rubric, :app=>@app}
   end
 
   def case_indicators_element_rubric

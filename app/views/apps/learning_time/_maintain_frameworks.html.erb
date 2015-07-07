@@ -14,7 +14,7 @@
             <tbody>
             <tr>
               <td id="framework_assign">
-                <%=  select(:framework, :id, @current_organization.elt_frameworks.select{|f| f != @current_organization.elt_framework}.sort_by{|o| o.name}.collect{|t| [t.name, t.public_id]}, {:include_blank => "Configure Another Framework"}) %>
+                <%=  select(:config_framework, :id, @current_organization.elt_frameworks.select{|f| f != @current_organization.elt_framework}.sort_by{|o| o.name}.collect{|t| [t.name, t.public_id]}, {:include_blank => "Configure Another Framework"}) %>
               </td>
             </tr>
             </tbody>
@@ -22,7 +22,7 @@
           <script type="text/javascript">
               jQ(document).ready(function() {
                   jQ('#framework_assign').change(function() {
-                      var elt_framework_id = jQ('#framework_id').val();
+                      var elt_framework_id = jQ('#config_framework_id').val();
                       var url = "<%= url_for :controller => "/apps/learning_time", :action => :set_framework, :organization_id => @current_organization, :app_id=> app.id%>";
                       jQ.get(url, {'elt_framework_id':elt_framework_id}, function(data) {
                           jQ("#maintain_frameworks").html(data);
@@ -36,7 +36,7 @@
       <% end -%>
           <div>
 
-            <table id="framework_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
+            <table id="frameworks_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
               <tbody>
                   <tr>
                     <td class="resource_levels_close" style="width:800px;">
@@ -49,8 +49,8 @@
             </table>
             <script type="text/javascript" charset="utf-8">
                 jQ(document).ready(function() {
-                    jQ('#framework_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
-                    jQ('#framework_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();
+                    jQ('#frameworks_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
+                    jQ('#frameworks_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();
                 });
             </script>
             <% if @current_organization.elt_framework? %>

@@ -28,3 +28,9 @@ Plan:
     name: Planning  
     description: A Planning and Recommendation Activity
     is_active: 1  
+
+Review:
+    id: 6
+    name: Review
+    description: Review Documents and Resources
+    is_active: 1

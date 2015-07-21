@@ -146,6 +146,7 @@ class Master::CoopAppsController < Master::ApplicationController
       org.organization_core_option = OrganizationCoreOption.new
       count +=1
     end
+
   redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " Organizations with Core Options"
   end
 
@@ -269,6 +270,19 @@ class Master::CoopAppsController < Master::ApplicationController
       end
     end
   redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " sessions have assigned default belt ranking." 
+  end
+
+  def ctl_destroy_observations
+    clear_notification
+    count= 0
+    org_count = 0
+    @app.organizations.each do |app_org|
+      org_count += 1
+      count+= TltSession.destroy_sessions(app_org, params[:status])
+    end
+    flash[:notice] = count.to_s + " Observations Destroyed.  For " + org_count.to_s + " Organizations"
+    render :action => :index
+#    redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " sessions have been finalized."
   end
 
   def ctl_set_finalize_dates

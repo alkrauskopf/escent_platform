@@ -21,7 +21,8 @@ class TltSession < ActiveRecord::Base
   has_many :app_methods, :through => :tlt_session_app_methods
   has_many :survey_schedules, :as => :entity, :dependent => :destroy  
 
-  named_scope :final, :conditions => { :is_final => true} 
+  named_scope :final, :conditions => { :is_final => true}
+  named_scope :open, :conditions => { :is_final => false}
   named_scope :backlog, :conditions => { :is_final => false}
   named_scope :observer_done, :conditions => { :is_observer_done => true}
   named_scope :teacher_done, :conditions => { :is_teacher_done => true}
@@ -49,6 +50,21 @@ class TltSession < ActiveRecord::Base
   validates_numericality_of :duration, :greater_than_or_equal_to => 60, :message => ' => Invalid Class Duration' 
   validates_presence_of :itl_template_id, :message => 'Must Select Observation Template'
 
+  def self.destroy_sessions(school,status)
+    count = 0
+    if school
+      if status == 'open'
+        sessions = school.tlt_sessions.open
+      elsif status == 'practice'
+        sessions = school.tlt_sessions.practice
+      else
+        sessions = []
+      end
+      count = sessions.size
+      sessions.destroy_all
+    end
+    count
+  end
   def logs_for_activity(activity)
     self.tlt_session_logs.select{|l| l.tl_activity_type_task.tl_activity_type.id == activity.id}
   end

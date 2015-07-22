@@ -233,7 +233,7 @@ class Master::CoopAppsController < Master::ApplicationController
      end
     redirect_to :action => :index, :app_id=>@app.id, :msg => message
   end
-  
+
   def ctl_adjust_evidence_ratings
     clear_notification
     count= 0
@@ -274,13 +274,14 @@ class Master::CoopAppsController < Master::ApplicationController
 
   def ctl_destroy_observations
     clear_notification
-    count= 0
-    org_count = 0
-    @app.organizations.each do |app_org|
-      org_count += 1
-      count+= TltSession.destroy_sessions(app_org, params[:status])
-    end
-    flash[:notice] = count.to_s + " Observations Destroyed.  For " + org_count.to_s + " Organizations"
+      count= 0
+      org_count = 0
+      @app.organizations.each do |app_org|
+        org_count += 1
+        count+= TltSession.destroy_sessions(app_org, params[:status])
+      end
+      flash[:notice] = count.to_s + " #{params[:status].capitalize} Observations Destroyed.  For " + org_count.to_s + " Organizations"
+      @trigger = nil
     render :action => :index
 #    redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " sessions have been finalized."
   end
@@ -413,7 +414,8 @@ class Master::CoopAppsController < Master::ApplicationController
 
     if params[:tlt_session_id]
       @session =TltSession.find_by_public_id(params[:tlt_session_id])  rescue nil
-    end 
+    end
+
   end
 
   def clear_notification

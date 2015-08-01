@@ -95,7 +95,7 @@
 		<div id="tabs-3" class="favorite_organizations" style="width:900px">
           <% org_type = @current_organization.provider?(@app) ? OrganizationType.k12.last : @current_organization.organization_type %>
           <% framework = @current_organization.provider?(@app) ? @current_organization.app_provider(@app).elt_framework : @current_organization.current_cycle_framework%>
-          <% rubric = framework.master_activity.nil? ? nil : framework.master_activity.shareable_rubrics.last %>
+          <% rubric = (framework.nil? || framework.master_activity.nil?) ? nil : framework.master_activity.shareable_rubrics.last %>
           <%= render :partial => "/apps/learning_time/share_rubric_data", :locals=>{:org_type => org_type,
                                                                                       :framework => framework,
                                                                                       :rubric => rubric, :app=>@app} %>

@@ -10,7 +10,7 @@ class EltIndicator < ActiveRecord::Base
   has_many :elt_case_indicators, :dependent => :destroy
   has_many :elt_related_indicators, :dependent => :destroy
   has_many :lookfors, :through => :elt_related_indicators, :source=> :lookfor, :uniq=>true
-  has_many :elt_indicator_lookfors, :dependent => :destroy   
+  has_many :elt_indicator_lookfors, :dependent => :destroy
   has_many :elt_cycle_summaries
   has_many :elt_plan_actions, :as => :scope, :dependent => :destroy
   
@@ -44,6 +44,18 @@ class EltIndicator < ActiveRecord::Base
 
   def support_indicators
     EltRelatedIndicator.find(:all, :conditions =>["related_indicator_id = ?", self.id]).collect{|i| i.elt_indicator}.sort_by{|i| [i.elt_element.abbrev, i.position]}
+  end
+
+  def supporting_indicators(cycle)
+    self.lookfors.select{ |lf| cycle.activities.include?(lf.elt_type) }.compact
+  end
+
+  def supporting_evidences(cycle, org)
+    evidences = []
+    self.supporting_indicators(cycle).each do |indicator|
+      evidences << indicator.elt_case_indicators.for_org(org).flatten
+    end
+    evidences.flatten.compact
   end
 
   def master_indicators_active(element)

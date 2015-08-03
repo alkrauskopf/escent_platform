@@ -20,7 +20,7 @@
 				<tr style="border:1px solid #ddd;">
 					<td style="width:100px; width:fixed border:0px solid #ddd; line-height:1.3em; color: #2061a5; padding-top:5px;padding-bottom:5px; vertical-align:top;text-align:left; font-size:11px" >
 						<%= elt_case.submit_date.nil? ? "Date?" :elt_case.submit_date.strftime("%b %d, %Y") %>
-						</br/><%= elt_case.user ? elt_case.user.last_name : "" %>
+						<br/><%= elt_case.user ? elt_case.user.last_name : "" %>
 					</td>
 					<td style=" border:0px solid #ddd; color: #2061a5;line-height:1.3em; padding-top:5px;padding-bottom:5px; vertical-align:top;text-align:left; font-size:10px" >
 						<% if elt_case.viewable?(@current_user) %>

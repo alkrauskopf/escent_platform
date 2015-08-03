@@ -28,5 +28,9 @@ class EltCaseIndicator < ActiveRecord::Base
   def score
     self.rubric? ? self.rubric.score : nil
   end  
-  
+
+  def activity
+    self.elt_indicator.elt_type
+  end
+
 end

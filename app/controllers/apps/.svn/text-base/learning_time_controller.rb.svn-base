@@ -1,6 +1,6 @@
 class Apps::LearningTimeController  < Site::ApplicationController
   
- helper :all # include all helpers, all the time  
+ helper :all  # include all helpers, all the time
  layout "elt", :except =>[:manage_frameworks, :manage_plan_types, :export_case, :report_school_diag, :report_community_diag,
                           :show_case_element_indicators, :transfer_plans, :transfer_cases,
                           :show_school_cycle_activity_cases, :list_school_cycle_activities, :list_case_evidences, :show_activity_cases,
@@ -577,7 +577,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
    if !framework.name.strip.empty? then
      if @current_organization.elt_frameworks << framework
       if !@current_organization.elt_framework?
-        @current_organization.set_framework(framework)
+        @current_organization.set_framework(@current_organization.elt_frameworks.last)
       end
      end
    end

@@ -551,7 +551,7 @@ class Organization < ActiveRecord::Base
   end
 
   def initial_framework
-    self.elt_frameworks.empty? ? set_framework(nil) : set_framework(self.elt_frameworks.first)
+    self.elt_frameworks.empty? ? self.set_framework(nil) : self.set_framework(self.elt_frameworks.first)
   end
 
   def used_frameworks
@@ -731,8 +731,9 @@ class Organization < ActiveRecord::Base
       options = EltOrgOption.new
       options.organization_id = self.id
 #   temp approach
-      options.owner_org_id = CoopApp.elt.first.owner.id rescue nil
-      options.elt_cycle = nil
+      options.owner_org_id = self.provider?(CoopApp.elt.first) ? self.id : CoopApp.elt.first.owner.id rescue nil
+      options.elt_cycle_id = nil
+      options.elt_framework_id = nil
       self.elt_org_option = options
      end
   end 

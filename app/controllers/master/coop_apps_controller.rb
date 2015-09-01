@@ -47,6 +47,7 @@ class Master::CoopAppsController < Master::ApplicationController
         unless params[:add_provider][:id] == "" 
           provider = Organization.find_by_public_id(params[:add_provider][:id])
           toggle_app_provider(@app, provider)
+          provider.set_org_options(@app, true)
         end
         unless !params[:remove_provider] || params[:remove_provider][:id] == "" 
           provider = Organization.find_by_public_id(params[:remove_provider][:id])
@@ -96,7 +97,7 @@ class Master::CoopAppsController < Master::ApplicationController
     @app = CoopApp.find_by_public_id(params[:app_id]) rescue nil
     unless @app.nil? || @org.nil?
       if @org.app_settings(@app).nil?
-        create_app_settings(@app, @org, false, false, true, "", "")    
+        create_app_settings(@app, @org, false, false, true, "", "", @org.id)
         @org = Organization.find_by_public_id(params[:org_id]) rescue nil
       end
       if @function == "Edit"

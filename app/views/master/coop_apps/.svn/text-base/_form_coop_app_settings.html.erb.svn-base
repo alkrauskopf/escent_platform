@@ -29,7 +29,10 @@
 	    Provider?
       </div>
       <div class="FormRowData" style= "margin-left:25px">
-      	<%= check_box :coop_app_organization, :is_owner, :checked=>org.provider?(app) %>
+      	<!--
+      	<%#= check_box :coop_app_organization, :is_owner, :checked=>org.provider?(app) %>
+      	-->
+        <%= org.provider?(app) ? 'Yes' : 'No' %>
       </div>
     </div>
 

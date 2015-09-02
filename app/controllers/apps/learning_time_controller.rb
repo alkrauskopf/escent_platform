@@ -49,6 +49,9 @@ class Apps::LearningTimeController  < Site::ApplicationController
     
   def manage_indicators
     initialize_parameters
+    @framework = @current_organization.elt_framework
+    @activities_for = @framework.activities.all
+    @activities_from = []
   end
     
   def manage_plan_types
@@ -292,16 +295,29 @@ class Apps::LearningTimeController  < Site::ApplicationController
    
   def select_activity
     activity = EltType.find_by_id(params[:activity_id]) rescue nil
-    render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => activity.elt_framework, :activity => activity, :app=>@app}
-  end 
-   
-  def copy_activity_indicators
-    to_activity = EltType.find_by_id(params[:activity_id]) rescue nil
-    from_activity = EltType.find_by_id(params[:source_activity_id]) rescue nil    
-    if (to_activity && from_activity)
-      to_activity.copy_indicators(from_activity)
+    render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => activity.elt_framework, :to_activities => activity.elt_framework.activities, :from_activities => activities_from(@current_organization, @app), :activity => activity, :from_activity => nil,  :to_element => nil, :app=>@app}
+  end
+
+ def select_source_activity
+   to_activity = EltType.find_by_id(params[:activity_id]) rescue nil
+   from_activity = EltType.find_by_id(params[:from_activity_id]) rescue nil
+   render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => to_activity.elt_framework,  :to_activities => to_activity.elt_framework.activities, :from_activities => activities_from(@current_organization, @app),:activity => to_activity, :from_activity => from_activity,  :to_element => nil, :app=>@app}
+ end
+
+ def select_element
+   to_activity = EltType.find_by_id(params[:activity_id]) rescue nil
+   from_activity = EltType.find_by_id(params[:from_activity_id]) rescue nil
+   render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => to_activity.elt_framework,  :to_activities => to_activity.elt_framework.activities, :from_activities => activities_from(@current_organization, @app),:activity => to_activity, :from_activity => from_activity, :to_element => @element, :app=>@app}
+ end
+
+ def copy_activity_indicators
+    to_activity = EltType.find_by_id(params[:activity_id])
+    from_activity = EltType.find_by_id(params[:from_activity_id])
+    to_element = EltElement.find_by_id(params[:to_element_id])
+    if (to_activity && from_activity && to_element && @element)
+      to_activity.copy_indicators(from_activity, @element, to_element)
     end
-    render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => to_activity.elt_framework, :activity => to_activity, :app=>@app}
+    render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => to_activity.elt_framework,  :to_activities => to_activity.elt_framework.activities, :from_activities => activities_from(@current_organization, @app),:activity => to_activity, :from_activity => from_activity, :to_element => nil, :app=>@app}
   end 
 
   def refresh_element_indicator
@@ -813,6 +829,14 @@ class Apps::LearningTimeController  < Site::ApplicationController
       type = @app.tlt_survey_types.feedback.first
       schedule_survey_app(cycle, cycle.organization, nil, audience, type, nil, nil, type.notify_default(audience), type.anon_default(audience))
       refresh_cycle
+  end
+
+  def  activities_from (org,app)
+    if org.appl_master?(app)
+      EltType.all_by_framework.select{|a| a.organization }
+    else
+      org.elt_framework ? org.elt_framework.activities.all : []
+    end
   end
   
 end

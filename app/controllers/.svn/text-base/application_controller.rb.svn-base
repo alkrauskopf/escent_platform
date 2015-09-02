@@ -192,7 +192,18 @@ class ApplicationController < ActionController::Base
     else
       abbrev = provider.app_settings(app).alt_abbrev.nil? ? app.abbrev : provider.app_settings(app).alt_abbrev
       name = provider.app_settings(app).alt_name.nil? ? app.name : provider.app_settings(app).alt_name
-      provider.app_settings(app).update_attributes(:is_owner => !provider.app_settings(app).is_owner, :alt_abbrev => abbrev, :alt_name => name, :provider_id => provider.id)
+      if provider.app_settings(app).is_owner
+        provider.provided_app_orgs(app,true).each do |org|
+          update_app_settings(app, org, org.app_settings(app).is_owner, false, org.app_settings(app).is_allowed, '', '', nil)
+          org.reset_org_option(app)
+        end
+        update_app_settings(app, provider, false, false, provider.app_settings(app).is_allowed, abbrev, name, nil)
+      else
+        provider.app_settings(app).update_attributes(:is_owner => !provider.app_settings(app).is_owner, :alt_abbrev => abbrev, :alt_name => name, :provider_id => provider.id)
+        update_app_settings(app, provider, true, true, provider.app_settings(app).is_allowed, abbrev, name, nil)
+      end
+
+
     end
   end
 

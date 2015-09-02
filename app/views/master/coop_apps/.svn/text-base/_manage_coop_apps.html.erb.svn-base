@@ -36,7 +36,8 @@
 						</span>
 					</td>
 					<td  style=" width:200px; width:fixed;font-size:11px; border:1px solid #ddd; text-align:center; vertical-align:middle; font-weight:bold ">
-						<%= truncate(org.name, :length=>30) %>
+						<%= truncate(org.name, :length=>30) %><br/>
+                        <%= pluralize(org.provided_app_orgs(app, true).size, 'User Org')%>
 					</td>
 					<% button_label = org.provider?(app) ? "button_enabled.png" : "button_disabled.png"-%>
 					<td  style=" width:40px; width:fixed; border:1px solid #ddd;  padding-left:30px; padding-top:0px; vertical-align:middle" >

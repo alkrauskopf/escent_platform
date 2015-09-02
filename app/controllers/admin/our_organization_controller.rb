@@ -206,7 +206,7 @@ class Admin::OurOrganizationController < Admin::ApplicationController
       else
         create_app_settings(app, org, false, true, true, "", "", @current_organization.id)
       end
-      org.elt_reset_org_option
+      org.reset_org_option(app)
     end    
     render :partial => "admin/our_organization/provider_apps"    
   end

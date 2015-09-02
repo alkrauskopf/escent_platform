@@ -724,19 +724,24 @@ class Organization < ActiveRecord::Base
         stage_pref.save
     end
   end 
- 
- 
+
   def elt_set_org_options
     unless self.elt_org_option
-      options = EltOrgOption.new
-      options.organization_id = self.id
-#   temp approach
-      options.owner_org_id = self.provider?(CoopApp.elt.first) ? self.id : CoopApp.elt.first.owner.id rescue nil
-      options.elt_cycle_id = nil
-      options.elt_framework_id = nil
-      self.elt_org_option = options
+      self.elt_reset_org_option
      end
-  end 
+  end
+
+  def elt_reset_org_option
+    if self.elt_org_option
+      self.elt_org_option.destroy
+    end
+    options = EltOrgOption.new
+    options.organization_id = self.id
+    options.owner_org_id = CoopApp.elt.first.owner.id
+    options.elt_cycle_id = nil
+    options.elt_framework_id = nil
+    self.elt_org_option = options
+  end
     
   def ifa_remove_org_options
     if self.ifa_org_option

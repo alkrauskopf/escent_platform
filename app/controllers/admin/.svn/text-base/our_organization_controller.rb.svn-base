@@ -189,14 +189,24 @@ class Admin::OurOrganizationController < Admin::ApplicationController
     if org && app   
       if org.app_settings(app) 
         if org.app_settings(app).is_allowed && (org.app_settings(app).provider_id.nil? || org.app_settings(app).provider_id == @current_organization.id)
-           update_app_settings(app, org, org.app_settings(app).is_owner, !org.app_settings(app).is_selected, org.app_settings(app).is_allowed, @current_organization.app_settings(app).alt_abbrev, @current_organization.app_settings(app).alt_name, @current_organization.id)
+          if  org.app_settings(app).is_selected
+            on_off = false
+            provider_id = nil
+            alt_abbrev = ''
+            alt_name = ''
+          else
+            on_off = true
+            provider_id = @current_organization.id
+            alt_abbrev = @current_organization.app_settings(app).alt_abbrev
+            alt_name = @current_organization.app_settings(app).alt_name
+          end
+          update_app_settings(app, org, org.app_settings(app).is_owner, on_off, org.app_settings(app).is_allowed, alt_abbrev, alt_name, provider_id)
           org = Organization.find_by_id(params[:org_id]) 
         end
       else
-        create_app_settings(app, org, false, true, true, "", "", @current_organization.id)        
-        org.set_org_options(app, true)
-        org.set_org_options(app, org.app_settings(app).is_selected)
+        create_app_settings(app, org, false, true, true, "", "", @current_organization.id)
       end
+      org.elt_reset_org_option
     end    
     render :partial => "admin/our_organization/provider_apps"    
   end

@@ -128,9 +128,9 @@ class Master::CoopAppsController < Master::ApplicationController
   def update_provider_alts
     app = CoopApp.find_by_id(params[:app_id]) rescue nil
     provider = Organization.find_by_public_is(:params[:provider_id]) rescue nil
-    if !provider.nil? && !app.nil? && provider.app_settings.for_app(app)
+    if !provider.nil? && !app.nil? && provider.app_settings(app)
       params[:alt_abbrev] = params[:alt_abbrev].upcase
-      provider.app_settings.for_app(app).update_attributes(:alt_abbrev => params[:alt_abbrev], :alt_name => params[:alt_name])
+      provider.app_settings(app).update_attributes(:alt_abbrev => params[:alt_abbrev], :alt_name => params[:alt_name])
     end
     render :partial => "master/coop_apps/manage_coop_apps", :locals => {:provider=> provider, :app=>app}
     
@@ -163,7 +163,14 @@ class Master::CoopAppsController < Master::ApplicationController
     end
   redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " Blogs Assigned To Core"
   end
-  
+
+
+  def elt_copy_indicators_select
+    clear_notification
+    @source_activity = nil
+    @dest_activity = nil
+  end
+
   def elt_cycle_summaries
     clear_notification
     i_count = 0

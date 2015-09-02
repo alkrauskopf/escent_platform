@@ -220,4 +220,11 @@ class CoopApp < ActiveRecord::Base
     org.app_settings(self).alt_name
   end
 
+  def reset_org_options(provider)
+    provider.provided_app_orgs(self, true).each do |org|
+      if self.elt?
+        org.elt_reset_org_option
+      end
+    end
+  end
 end

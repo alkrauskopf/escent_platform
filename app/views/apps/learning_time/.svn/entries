@@ -26,6 +26,40 @@ chandler
 
 d99b3096-df13-4f1d-8161-802dcdbb7ef6
 
+_list_org_activities.html.erb
+file
+
+
+
+
+2014-10-03T21:08:06.000000Z
+b2ea39f6430237340a6e2bb3305f3ffc
+2014-10-03T22:37:33.514292Z
+24879
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1514
+
 _activate_rubric.html.erb
 file
 
@@ -60,16 +94,16 @@ allen
 
 3617
 
-_list_org_activities.html.erb
+manage_indicators.html.erb
 file
+25098
 
 
 
-
-2014-10-03T21:08:06.000000Z
-b2ea39f6430237340a6e2bb3305f3ffc
-2014-10-03T22:37:33.514292Z
-24879
+2015-09-02T21:58:04.000000Z
+553d43f8e2751a9decaee9bb66804722
+2015-09-02T21:59:18.452647Z
+25098
 allen
 
 
@@ -92,7 +126,7 @@ allen
 
 
 
-1514
+347
 
 _list_case_cycles.html.erb
 file
@@ -128,40 +162,6 @@ allen
 
 2461
 
-manage_indicators.html.erb
-file
-25078
-
-
-
-2015-06-29T20:44:57.000000Z
-34f88bc28973db9d8e11b87d3e78604b
-2015-06-29T21:21:08.862442Z
-25078
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-256
-
 _indicator_map.html.erb
 file
 
@@ -195,40 +195,6 @@ allen
 
 
 4885
-
-_element_indicator_note.html.erb
-file
-
-
-
-
-2014-11-04T20:08:49.000000Z
-e486f543c1d471d89c354b006202df17
-2014-11-07T23:44:28.707252Z
-24920
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4216
 
 _show_activity_cases.html.erb
 file
@@ -264,16 +230,16 @@ allen
 
 1984
 
-_form_element.html.erb
+_element_indicator_note.html.erb
 file
-25078
 
 
 
-2015-06-29T20:44:57.000000Z
-65724f6750d3ed86edc7b831fc304ccc
-2015-06-29T21:21:08.862442Z
-25078
+
+2014-11-04T20:08:49.000000Z
+e486f543c1d471d89c354b006202df17
+2014-11-07T23:44:28.707252Z
+24920
 allen
 
 
@@ -296,7 +262,7 @@ allen
 
 
 
-3111
+4216
 
 _manage_activities.html.erb
 file
@@ -331,6 +297,40 @@ allen
 
 
 4765
+
+_form_element.html.erb
+file
+25078
+
+
+
+2015-06-29T20:44:57.000000Z
+65724f6750d3ed86edc7b831fc304ccc
+2015-06-29T21:21:08.862442Z
+25078
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3111
 
 _show_edit_case_title.html.erb
 file
@@ -810,14 +810,14 @@ allen
 
 _manage_indicators.html.erb
 file
-25078
+25098
 
 
 
-2015-06-29T20:44:57.000000Z
-d70a7d5009d9f1c5f8ee4653ebb501c3
-2015-06-29T21:21:08.862442Z
-25078
+2015-09-02T21:58:04.000000Z
+42b43e5e98994878d036446a89d63b04
+2015-09-02T21:59:18.452647Z
+25098
 allen
 
 
@@ -840,7 +840,7 @@ allen
 
 
 
-3082
+7031
 
 _element_indicators.html.erb
 file
@@ -1250,40 +1250,6 @@ allen
 
 141
 
-_indicator_lookfors.html.erb
-file
-
-
-
-
-2015-02-28T05:16:34.000000Z
-7d22bc13352080282c17eb6dbbd72ffa
-2015-02-28T06:02:58.274225Z
-25015
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3597
-
 _manage_cycles.html.erb
 file
 25078
@@ -1317,6 +1283,40 @@ allen
 
 
 4551
+
+_indicator_lookfors.html.erb
+file
+
+
+
+
+2015-02-28T05:16:34.000000Z
+7d22bc13352080282c17eb6dbbd72ffa
+2015-02-28T06:02:58.274225Z
+25015
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3597
 
 _form_indicator.html.erb
 file
@@ -1624,40 +1624,6 @@ allen
 
 1869
 
-_manage_rubrics.html.erb
-file
-
-
-
-
-2015-03-18T17:17:47.000000Z
-d6e9b71e8f7f7189e1323ef1b9ade3a3
-2015-03-19T01:44:40.393137Z
-25031
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3978
-
 _transfer_plans.html.erb
 file
 25078
@@ -1691,6 +1657,40 @@ allen
 
 
 4855
+
+_manage_rubrics.html.erb
+file
+
+
+
+
+2015-03-18T17:17:47.000000Z
+d6e9b71e8f7f7189e1323ef1b9ade3a3
+2015-03-19T01:44:40.393137Z
+25031
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3978
 
 transfer_plans.html.erb
 file
@@ -1794,40 +1794,6 @@ allen
 
 2288
 
-_list_cases.html.erb
-file
-
-
-
-
-2014-10-16T19:46:12.000000Z
-6e51c38f2c907c0f991904f73956cc7c
-2014-10-16T23:05:11.150285Z
-24895
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1009
-
 _supporting_indicators.html.erb
 file
 
@@ -1861,6 +1827,40 @@ allen
 
 
 876
+
+_list_cases.html.erb
+file
+
+
+
+
+2014-10-16T19:46:12.000000Z
+6e51c38f2c907c0f991904f73956cc7c
+2014-10-16T23:05:11.150285Z
+24895
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1009
 
 _manage_rubrics_plan.html.erb
 file
@@ -1896,40 +1896,6 @@ allen
 
 5613
 
-_maintain_frameworks.html.erb
-file
-25087
-
-
-
-2015-07-07T06:00:19.000000Z
-5efbea3f226fc8a5b2df12c42bcdba9b
-2015-07-07T06:01:52.734518Z
-25087
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-10450
-
 _show_school_cycle_activity_cases.html.erb
 file
 25093
@@ -1963,6 +1929,40 @@ allen
 
 
 4332
+
+_maintain_frameworks.html.erb
+file
+25087
+
+
+
+2015-07-07T06:00:19.000000Z
+5efbea3f226fc8a5b2df12c42bcdba9b
+2015-07-07T06:01:52.734518Z
+25087
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10450
 
 _share_rubric_data.html.erb
 file
@@ -2032,40 +2032,6 @@ allen
 
 467
 
-_analysis_summaries.html.erb
-file
-
-
-
-
-2015-03-22T18:31:04.000000Z
-e4009da429f737af11d3592411cd20cb
-2015-03-22T18:48:28.785668Z
-25038
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2223
-
 _indicator_map_select.html.erb
 file
 
@@ -2100,16 +2066,16 @@ allen
 
 2125
 
-_option_cycles.html.erb
+_analysis_summaries.html.erb
 file
 
 
 
 
-2014-10-15T23:24:09.000000Z
-c4d81f31af75b889ebe0a7ef4b6c93ba
-2014-10-15T23:34:36.620490Z
-24893
+2015-03-22T18:31:04.000000Z
+e4009da429f737af11d3592411cd20cb
+2015-03-22T18:48:28.785668Z
+25038
 allen
 
 
@@ -2132,7 +2098,7 @@ allen
 
 
 
-1714
+2223
 
 maintain_element.html.erb
 file
@@ -2167,6 +2133,40 @@ allen
 
 
 1692
+
+_option_cycles.html.erb
+file
+
+
+
+
+2014-10-15T23:24:09.000000Z
+c4d81f31af75b889ebe0a7ef4b6c93ba
+2014-10-15T23:34:36.620490Z
+24893
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1714
 
 _show_case.html.erb
 file

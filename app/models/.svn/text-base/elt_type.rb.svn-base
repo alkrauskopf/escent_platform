@@ -27,7 +27,8 @@ class EltType < ActiveRecord::Base
   named_scope :reportable, :conditions => ["is_reportable"]
 
   named_scope :all, :order => "position"
-  
+  named_scope :all_by_framework, :order => "elt_framework_id"
+
   validates_presence_of :name
   validates_presence_of :elt_activity_type_id
   validates_numericality_of :position, :greater_than => 0, :message => 'must > 0.  '
@@ -104,14 +105,20 @@ class EltType < ActiveRecord::Base
     self.rubric? ? self.rubrics.active : []
   end
 
-  def copy_indicators(source_activity)
-    source_activity.elt_indicators.each do |source_ind|
-      new_indicator = source_ind.clone
+  def copy_indicators(source_activity, element, to_element)
+    source_activity.elt_indicators.for_element(element).each do |source_ind|
+      new_indicator = EltIndicator.new
+      new_indicator.position = source_ind.position
+      new_indicator.weight = source_ind.weight
+      new_indicator.indicator = source_ind.indicator
+      new_indicator.ind_num = source_ind.ind_num
+      new_indicator.parent_id = nil
       new_indicator.is_active = false
-      new_indicator.elt_type_id = self.id
-      new_indicator.save
-      source_ind.support_indicators.each do |sup_indicator|
-        sup_indicator.lookfors << new_indicator
+      new_indicator.elt_element_id = to_element.id
+      if self.elt_indicators << new_indicator
+        source_ind.elt_indicator_lookfors.each do |lookfor|
+          new_indicator.elt_indicator_lookfors << lookfor
+        end
       end
     end
   end

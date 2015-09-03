@@ -836,6 +836,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     if !org.appl_master?(app)
         activities += app.owner.elt_framework ? app.owner.elt_framework.activities.all : []
     end
+    activities.uniq
   end
   
 end

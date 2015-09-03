@@ -836,7 +836,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     if !org.appl_master?(app)
         activities += org.elt_framework ? org.elt_framework.activities.all : []
     else
-      activities = EltType.all_by_framework
+      activities = EltType.all_by_framework.active
     end
     activities
   end

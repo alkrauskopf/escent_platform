@@ -106,7 +106,7 @@ class EltType < ActiveRecord::Base
   end
 
   def copy_indicators(source_activity, element, to_element)
-    source_activity.elt_indicators.for_element(element).each do |source_ind|
+    source_activity.elt_indicators.for_element(element).active.each do |source_ind|
       new_indicator = EltIndicator.new
       new_indicator.position = source_ind.position
       new_indicator.weight = source_ind.weight

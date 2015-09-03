@@ -46,6 +46,10 @@ class EltIndicator < ActiveRecord::Base
     EltRelatedIndicator.find(:all, :conditions =>["related_indicator_id = ?", self.id]).collect{|i| i.elt_indicator}.sort_by{|i| [i.elt_element.abbrev, i.position]}
   end
 
+  def support_links
+    EltRelatedIndicator.find(:all, :conditions =>["related_indicator_id = ?", self.id])
+  end
+
   def supporting_indicators(cycle)
     self.lookfors.select{ |lf| cycle.activities.include?(lf.elt_type) }.compact
   end

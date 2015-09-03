@@ -43,12 +43,42 @@ jQ(document).ready(function() {
 					<td id="toggle_active_<%= ind.public_id %>" style=" border:0px solid #ddd; width:10px;  width:fixed; cursor:pointer; padding-left:0px; padding-top:8px; vertical-align:top" >
 						<%= (image_tag button_label,:width => 15) %>
 					</td>
-					<td  style="width:35px; width:fixed; border:0px solid #ddd; padding-top:5px; padding-left:10px;">
+                  <script type="text/javascript">
+                      jQ(document).ready(function() {
+                          jQ("#toggle_active_<%= ind.public_id %>").click(function() {
+                              var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_active_indicator, :organization_id => @current_organization, :elt_indicator_id => ind, :elt_element_id => element, :elt_type_id=> activity, :app_id=> app.id %>";
+                              jQ.get(url,{},  function(data) {
+                                  jQ("#manage_element_indicators_<%=element.public_id%>").html(data);
+                                  jQ("#manage_element_indicators_<%=element.public_id%>").show();
+                              });
+                          })
+                      });
+                  </script>
+					<td  style="width:35px; width:fixed; border:0px solid #ddd; padding-top:3px; padding-left:10px;">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
 							<%= link_to 'Edit', {:controller => "/apps/learning_time", :action => :maintain_indicator, :app_id=> app.id, :task=>"Update", :elt_type_id=>activity, :elt_element_id=>element, :elt_indicator_id=>ind, :organization_id => @current_organization},{:target=>"_blank"}  %>
 						</span>
 					</td>
-					<td style=" text-align:left; vertical-align:top, font-size:11px; padding-bottom:10px; :font-weight:normal; line-height:1.2em; color:#000000">
+                  <td id="move_indicator_<%=ind.public_id%>" style="width:50px; width:fixed; border:0px solid #ddd; font-size:9px;padding-top:3px; padding-left:0px;">
+                    <% if !ind.active? %>
+                        <%=  select(ind.public_id, :id, element.siblings.collect{|e| [e.abbrev, e.public_id]}, :include_blank =>  "Move") %>
+                        <script type="text/javascript">
+                            jQ(document).ready(function() {
+                                jQ('#move_indicator_<%=ind.public_id%>').change(function() {
+                                    var new_element_id = jQ('#<%=ind.public_id%>_id').val();
+                                    var url = "<%= url_for :controller => "/apps/learning_time", :action => :move_indicator, :elt_indicator_id => ind.public_id, :organization_id => @current_organization, :elt_element_id => element, :elt_type_id=> activity, :app_id=> app.id %>";
+                                    jQ.get(url, {'new_element_id':new_element_id}, function(data) {
+                                        jQ("#manage_element_indicators_<%=element.public_id%>").html(data);
+                                        jQ("#manage_element_indicators_<%=element.public_id%>").show();
+                                    });
+                                })
+                            });
+                        </script>
+                    <% else %>
+                        &nbsp;
+                    <% end %>
+                  </td>
+					<td style=" text-align:left; vertical-align:top; font-size:12px; padding-left:4px; padding-top:3px; padding-bottom:10px; :font-weight:normal; line-height:1.2em; color:#000000">
 						<%=ind.indicator%>
 						<% unless ind.elt_indicator_lookfors.empty? -%>
 							<% ind.elt_indicator_lookfors.all.each do |lf| -%>						
@@ -58,22 +88,10 @@ jQ(document).ready(function() {
 							<% end -%>
 						<% end %>
 					</td>
-					<td  style="width:200px;width:fixed; border:0px solid #ddd; font-size:10px; padding-top:8px; text-align:center; vertical-align:top; color: #2061a5 ; font-weight:bold">
-						<%= ind.support_indicators.empty? ? "" : ind.support_indicators.collect{|si| (si.elt_element.abbrev + "-" + si.position.to_s)}.join(", ") %>
-					</td>
+					<td  style="width:200px; width:fixed; border:0px solid #ddd; font-size:10px; padding-top:8px; text-align:center; vertical-align:top; color: #2061a5 ; font-weight:bold">
+                      <%= ind.support_indicators.empty? ? "No Support" : ind.support_indicators.collect{|si| (si.elt_element.abbrev + "-" + si.position.to_s)}.join(", ") %>
+                    </td>
 				</tr>
-
-<script type="text/javascript">
-jQ(document).ready(function() {
-	jQ("#toggle_active_<%= ind.public_id %>").click(function() {
-		var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_active_indicator, :organization_id => @current_organization, :elt_indicator_id => ind, :elt_element_id => element, :elt_type_id=> activity, :app_id=> app.id %>";
-		jQ.get(url,{},  function(data) {
-				jQ("#manage_element_indicators_<%=element.public_id%>").html(data);
-				jQ("#manage_element_indicators_<%=element.public_id%>").show();
-					});
-	})
-});
-</script>
 			<% end -%>
 		</tbody>
 	</table>

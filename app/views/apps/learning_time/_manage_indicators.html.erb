@@ -102,9 +102,9 @@
 					</tr>
 				</tbody>
 			</table>
-			<% activity.elt_framework.elt_elements.each do |element| -%>
-				<%= render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:activity => activity, :element => element, :app=>app}%>
-			<% end -%>
+              <% activity.elt_framework.elt_elements.all.active.each do |element| -%>
+                  <%= render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:activity => activity, :element => element, :app=>app}%>
+              <% end %>
           <% end %>
 	    </div>
 	<% end -%>

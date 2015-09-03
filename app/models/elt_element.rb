@@ -20,4 +20,9 @@ class EltElement < ActiveRecord::Base
     self.is_active
   end
 
+
+  def siblings
+    self.elt_framework ? (self.elt_framework.elt_elements.all.select{ |e| e!= self }): []
+  end
+
 end

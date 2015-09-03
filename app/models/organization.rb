@@ -666,7 +666,9 @@ class Organization < ActiveRecord::Base
       self.dle_set_org_options 
     end    
     if app.elt?  && create
-      self.elt_set_org_options
+      unless self.elt_org_option
+        self.reset_org_option(app)
+      end
     end  
   end
      
@@ -743,7 +745,6 @@ class Organization < ActiveRecord::Base
       options.elt_framework_id = nil
       self.elt_org_option = options
     end
-
   end
     
   def ifa_remove_org_options

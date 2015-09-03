@@ -832,11 +832,13 @@ class Apps::LearningTimeController  < Site::ApplicationController
   end
 
   def  activities_from (org,app)
-    activities = org.elt_framework ? org.elt_framework.activities.all : []
+    activities = app.owner.elt_framework ? app.owner.elt_framework.activities.all : []
     if !org.appl_master?(app)
-        activities += app.owner.elt_framework ? app.owner.elt_framework.activities.all : []
+        activities += org.elt_framework ? org.elt_framework.activities.all : []
+    else
+      activities = EltType.all_by_framework
     end
-    activities.uniq
+    activities
   end
   
 end

@@ -322,18 +322,30 @@ class Apps::LearningTimeController  < Site::ApplicationController
 
   def refresh_element_indicator
     activity = EltType.find_by_public_id(params[:elt_type_id]) rescue nil
-    element = EltElement.find_by_public_id(params[:elt_element_id]) rescue nil
-    render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:org => activity.organization, :element => element, :activity => activity, :app=>@app} 
-  end 
+    render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:org => activity.organization, :element => @element, :activity => activity, :app=>@app}
+  end
 
-  def toggle_active_indicator
+ def move_indicator
+   if params[:new_element_id]
+     new_element = EltElement.find_by_public_id(params[:new_element_id]) rescue nil
+   end
+   if !@indicator.nil? && !new_element.nil?
+     if new_element.elt_indicators << @indicator
+       @indicator.support_links.each do|l|
+         l.destroy
+       end
+     end
+   end
+   render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:org => @activity.organization, :element => @element, :activity => @activity, :app=>@app}
+ end
+
+ def toggle_active_indicator
     @indicator = EltIndicator.find_by_public_id(params[:elt_indicator_id]) rescue nil
     activity = EltType.find_by_public_id(params[:elt_type_id]) rescue nil
-    element = EltElement.find_by_public_id(params[:elt_element_id]) rescue nil
     unless @indicator.nil?
       @indicator.update_attributes(:is_active=> !@indicator.is_active)
     end
-    render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:org => activity.organization, :element => element, :activity => activity, :app=>@app} 
+    render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:org => activity.organization, :element => @element, :activity => activity, :app=>@app}
   end   
 
   def toggle_active_element

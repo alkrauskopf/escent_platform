@@ -21,6 +21,7 @@ class EltIndicator < ActiveRecord::Base
   validates_presence_of :elt_element_id, :message => 'Element Not Defined'
       
   named_scope :active, :conditions => ["is_active"], :order => 'position ASC'
+  named_scope :inactive, :conditions => ["!is_active"], :order => 'position ASC'
   named_scope :for_activity, lambda{|activity| {:conditions => ["elt_type_id = ? ", activity.id]}}
   named_scope :for_element, lambda{|element| {:conditions => ["elt_element_id = ? ", element.id]}}
   named_scope :all, :order => 'position ASC'
@@ -48,6 +49,10 @@ class EltIndicator < ActiveRecord::Base
 
   def support_links
     EltRelatedIndicator.find(:all, :conditions =>["related_indicator_id = ?", self.id])
+  end
+
+  def self.destroy_disabled!(activity,element)
+    EltIndicator.for_activity(activity).for_element(element).inactive.destroy_all
   end
 
   def supporting_indicators(cycle)

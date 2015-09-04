@@ -325,6 +325,12 @@ class Apps::LearningTimeController  < Site::ApplicationController
     render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:org => activity.organization, :element => @element, :activity => activity, :app=>@app}
   end
 
+ def destroy_disabled_indicators
+   activity = EltType.find_by_public_id(params[:elt_type_id]) rescue nil
+   EltIndicator.destroy_disabled!(activity,@element)
+   render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:org => activity.organization, :element => @element, :activity => activity, :app=>@app}
+ end
+
  def move_indicator
    if params[:new_element_id]
      new_element = EltElement.find_by_public_id(params[:new_element_id]) rescue nil

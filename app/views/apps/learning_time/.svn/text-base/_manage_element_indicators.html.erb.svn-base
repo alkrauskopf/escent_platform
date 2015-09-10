@@ -104,8 +104,23 @@ jQ(document).ready(function() {
 							<% end -%>
 						<% end %>
 					</td>
-					<td  style="width:200px; width:fixed; border:0px solid #ddd; font-size:10px; padding-top:8px; text-align:center; vertical-align:top; color: #2061a5 ; font-weight:bold">
-                      <%= ind.support_indicators.empty? ? "No Support" : ind.support_indicators.collect{|si| (si.elt_element.abbrev + "-" + si.position.to_s)}.join(", ") %>
+					<td  style="width:200px; width:fixed; border:0px solid #ddd; font-size:10px; padding-top:8px; text-align:center; vertical-align:top; color: #2061a5 ; font-weight:normal">
+                      <% if activity.master? %>
+                          <% if  ind.lookfors.empty? %>
+                             <span style="color:#C73914;">Not Informed</span>
+                          <% else %>
+                              <% lookfor_groups = ind.lookfors.group_by(&:elt_type_id)%>
+                              <% lookfor_groups.each do |lfg, informer| %>
+                                <%= truncate(informer.first.elt_type.name, :length => 21, :omission => '')%>&nbsp;<em>(<%=informer.size%>)</em></br>
+                              <% end %>
+                          <% end %>
+                      <% else %>
+                          <% if  ind.support_indicators.empty? %>
+                              <span style="color:#C73914;">Does Not Inform</span>
+                          <% else %>
+                            <%= ind.support_indicators.collect{|si| (si.elt_element.abbrev + "-" + si.position.to_s)}.join(", ") %>
+                          <% end %>
+                      <% end %>
                     </td>
 				</tr>
 			<% end -%>

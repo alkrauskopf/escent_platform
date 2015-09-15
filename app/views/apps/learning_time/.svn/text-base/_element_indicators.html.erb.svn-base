@@ -22,7 +22,7 @@
 						<% unless indicator.elt_indicator_lookfors.empty? -%>
 							<% indicator.elt_indicator_lookfors.all.each do |lf| -%>						
 								<div class = "app_elt_lookfor" style="margin-left:20px;">
-									<br/><%= simple_format lf.lookfor %>
+									<br/><%= simple_format (lf.position.to_s + ') ' + lf.lookfor) %>
 								</div>
 							<% end -%>
 						<% end %>
@@ -40,16 +40,19 @@
 						<button><span style="cursor:pointer;">Add Note</span></button>
 					</td>
 					<td  colspan=2 style = "vertical-align:top;padding-top:5px;padding-bottom:5px; ">
-			 		     <%= text_area :notes, element.id, :rows => 3, :cols => 70, :value => elt_case.element_note(element).nil? ? "": elt_case.element_note(element).note %>
-					</td>
+                      <%= text_area :notes, element.id, :rows => 3, :cols => 70, :value => elt_case.element_note(element).nil? ? "": elt_case.element_note(element).note %>
+
+                      <br/><%= elt_case.elt_type.master? ? (render :partial => "/apps/learning_time/supporting_summary_comments", :locals => {:elt_case => elt_case, :element=> element}) : "" -%>
+
+                    </td>
 				</tr>
-			<% end -%>
+            <% end -%>
 				<tr style="border-left:0px solid #000000; background:<%=element.form_background%>; color: <%=element.e_font_color%>;vertical-align:top;padding-top:5px;padding-bottom:5px; ">
 					<td style = "width:90px; width:fixed; color: #000000; vertical-align:top; text-align:left; padding-top:5px; padding-left:5px; font-size:12px; padding-bottom:5px; ">
 						&nbsp;
 					</td>
 					<td  colspan=2 style = "background:<%=element.form_background%>; color: <%=element.e_font_color%>;vertical-align:top;padding-top:5px;padding-bottom:5px; ">
-			 		     <%= elt_case.element_note(element).nil? ? "": elt_case.element_note(element).note %>
+			 		     <%= elt_case.element_note(element).nil? ? "": (simple_format elt_case.element_note(element).note) %>
 					</td>
 				</tr>			
 		</tbody>

@@ -5,7 +5,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
                           :show_case_element_indicators, :transfer_plans, :transfer_cases,
                           :show_school_cycle_activity_cases, :list_school_cycle_activities, :list_case_evidences, :show_activity_cases,
                           :manage_cycles, :manage_activities, :manage_elements, :manage_indicators,
-                          :view_latest_submitted, :show_case_summary, :case_indicators_element_rubric]
+                          :view_latest_submitted, :show_case_summary, :case_indicators_element_rubric, :list_case_comments]
 
  before_filter :clear_notification, :except =>[]
  before_filter :initialize_parameters, :except =>[]
@@ -475,6 +475,16 @@ class Apps::LearningTimeController  < Site::ApplicationController
     initialize_parameters
     @elt_case.organization.elt_cycle_cases(@elt_case.elt_cycle)
   end
+
+ def list_case_comments
+   initialize_parameters
+   @supporting_comments = []
+   @elt_case.organization.elt_cycle_cases(@elt_case.elt_cycle).each do |elt_case|
+    if !elt_case.elt_case_notes.for_element(@element).empty? && !elt_case.elt_case_notes.for_element(@element).first.nil? && @elt_case != elt_case
+        @supporting_comments << elt_case.elt_case_notes.for_element(@element).first
+    end
+   end
+ end
 
   def abort_case
     initialize_parameters  

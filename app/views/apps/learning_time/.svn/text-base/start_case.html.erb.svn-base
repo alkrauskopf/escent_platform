@@ -8,68 +8,68 @@
 	</div>
 	<div id="case_form" class="Form clear">
 	    <%= render :partial => "/shared/error_and_notice" %>
-	
-	<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-		<input class="fsn-button ui-button ui-state-default ui-corner-all" style="font-size:11px; margin-left:80px; cursor:pointer;" type=button value="Back" onClick="history.go(-1)">
-	</div>
-	<div class="Form clear" >
-		<% unless @activity.nil? || @activity.elt_indicators.active.empty? %>
-			<% form_for(:elt_case, :url => {:controller => "/apps/learning_time", :action => :start_case, :organization_id => @current_organization, :school_id=>@school, :user_id => @current_user, :elt_cycle_id => @cycle, :elt_type_id => @activity, :elt_case_id => @case, :function => (@step == "Begin" ? "Track" : "Update")}) do |form| -%>
-			
-				<div class="formBox" >
-					<div class="FormRow" >
-				      <div class="FormRowTitle">
-			            &nbsp;
-			          </div>
-			          <div class="FormRowData" style= "margin-left:5px;">
-						<%= @school.name %>
-			          </div>
-				    </div>
-					<div class="FormRow" >
-				      <div class="FormRowTitle">
-			            <%= @activity.activity_type %>&nbsp;Title:
-			          </div>
-			          <div class="FormRowData" style= "margin-left:5px;">
-			          	<%= text_field :elt_case, :name, :value => @case.name,  :size => 40, :maxlength => 75 %>
-			          </div>
-				    </div>
-					<% if @activity.collect_subject? %>
-						<div class="FormRow">
-					      <div class="FormRowTitle">
-					            Subject Area:
-					        </div>
-					        <div class="FormRowData" style= "margin-left:5px">
-					        	<%=  select(:elt_case, :subject_area_id, SubjectArea.academic.collect{|s| [s.name, s.id]}, :prompt =>  @case.subject_area ? @case.subject_area.name : "Select") %>
-					        </div>
-					    </div>	
-					<% end -%>
-					<% if @school.grade_levels? && @activity.collect_grade?-%>
-						<div class="FormRow">
-					      <div class="FormRowTitle">
-					            Grade Level:
-					        </div>
-					        <div class="FormRowData" style= "margin-left:5px">
-					        	<%=  select(:elt_case, :grade_level_id, @school.organization_type.grade_levels.collect{|gl| [gl.name, gl.id]}, :prompt =>  (@case && @case.grade_level) ? @case.grade_level.name : "Select") %>
-					        </div>
-					    </div>	
-					<% end -%>
-		
-					<div class="FormRow submit_warp" style= "padding-left:225px; padding-bottom:20px">	
-						<br/>
-						<%= submit_tag @step, :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
-						<br/>
-					</div>	
-				</div>
-			<% end -%>
-		<% else -%>
-			<div style ="color: #2061a5; font-size:14px; padding-top:25px; font-weight:normal"> 
-			
-				<br/>
-				<center>* * *  <%= @activity.activity_type %>&nbsp;Template Is Empty  * * *</center>
-				<br/><br/>
-			</div>
-		<% end -%>
-	</div>
+        <div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
+            <input class="fsn-button ui-button ui-state-default ui-corner-all" style="font-size:11px; margin-left:80px; cursor:pointer;" type=button value="Back" onClick="history.go(-1)">
+        </div>
+        <div class="Form clear" >
+            <% unless @activity.nil? || @activity.elt_indicators.active.empty? %>
+                <% form_for(:elt_case, :url => {:controller => "/apps/learning_time", :action => :start_case, :organization_id => @current_organization, :school_id=>@school, :user_id => @current_user, :elt_cycle_id => @cycle, :elt_type_id => @activity, :elt_case_id => @case, :function => (@step == "Begin" ? "Track" : "Update")}) do |form| -%>
+
+                    <div class="formBox" >
+                        <div class="FormRow" >
+                          <div class="FormRowTitle">
+                            &nbsp;
+                          </div>
+                          <div class="FormRowData" style= "margin-left:5px;">
+                            <%= @school.name %>
+                          </div>
+                        </div>
+                        <div class="FormRow" >
+                          <div class="FormRowTitle">
+                            <%= @activity.activity_type %>&nbsp;Title:
+                          </div>
+                          <div class="FormRowData" style= "margin-left:5px;">
+                            <%= text_field :elt_case, :name, :value => @case.name,  :size => 40, :maxlength => 75 %>
+                          </div>
+                        </div>
+                        <% if @activity.collect_subject? %>
+                            <div class="FormRow">
+                              <div class="FormRowTitle">
+                                    Subject Area:
+                                </div>
+                                <div class="FormRowData" style= "margin-left:5px">
+                                    <%=  select(:elt_case, :subject_area_id, SubjectArea.academic.collect{|s| [s.name, s.id]}, :prompt =>  @case.subject_area ? @case.subject_area.name : "Select") %>
+                                </div>
+                            </div>
+                        <% end -%>
+                        <% if @school.grade_levels? && @activity.collect_grade?-%>
+                            <div class="FormRow">
+                              <div class="FormRowTitle">
+                                    Grade Level:
+                                </div>
+                                <div class="FormRowData" style= "margin-left:5px">
+                                    <%=  select(:elt_case, :grade_level_id, @school.organization_type.grade_levels.collect{|gl| [gl.name, gl.id]}, :prompt =>  (@case && @case.grade_level) ? @case.grade_level.name : "Select") %>
+                                </div>
+                            </div>
+                        <% end -%>
+
+                        <div class="FormRow submit_warp" style= "padding-left:225px; padding-bottom:20px">
+                            <br/>
+                            <%= submit_tag @step, :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
+                            <br/>
+                        </div>
+                    </div>
+                <% end -%>
+            <% else -%>
+                <div style ="color: #2061a5; font-size:14px; padding-top:25px; font-weight:normal">
+
+                    <br/>
+                    <center>* * *  <%= @activity.activity_type %>&nbsp;Template Is Empty  * * *</center>
+                    <br/><br/>
+                </div>
+            <% end -%>
+        </div>
+    </div>
 <% else -%>
 	<div style ="color: #C83A14; font-size:14px; padding-top:25px; font-weight:normal"> 
 		<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">

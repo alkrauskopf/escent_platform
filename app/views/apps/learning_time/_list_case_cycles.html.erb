@@ -47,7 +47,7 @@ jQ(document).ready(function() {
 		var $this = jQ(this);
 		var url = $this.attr("href");
 			jQ.get(url, function(data){
-				jQ("#list_org_activities).html(data);
+				jQ("#list_org_activities").html(data);
 				jQ("#list_org_activities").show();
 			})
 			return false;

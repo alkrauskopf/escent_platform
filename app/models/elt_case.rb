@@ -33,6 +33,10 @@ class EltCase < ActiveRecord::Base
     self.elt_type.elt_framework rescue nil
   end
 
+  def activity
+    self.elt_type
+  end
+
   def self.schools_for_provider(provider)
     EltCase.for_provider(provider).collect{|c| c.organization}.compact.flatten.uniq.sort_by{|o| o.name}
   end

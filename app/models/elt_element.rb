@@ -25,4 +25,12 @@ class EltElement < ActiveRecord::Base
     self.elt_framework ? (self.elt_framework.elt_elements.all.select{ |e| e!= self }): []
   end
 
+  def supporting_comments(cycle, org)
+    comments = []
+    self.elt_case_notes(cycle).each do |indicator|
+      evidences << indicator.elt_case_indicators.for_org(org).flatten
+    end
+    evidences.flatten.compact
+  end
+
 end

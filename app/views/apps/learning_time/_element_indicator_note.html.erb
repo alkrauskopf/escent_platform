@@ -1,10 +1,8 @@
 <div id ="note_<%=indicator.public_id%>">
 	<% family = "Helvetica, Arial, sans-serif" -%>
-	<% unless elt_case.case_indicator(indicator).nil? || elt_case.case_indicator(indicator).note.nil? || elt_case.case_indicator(indicator).note.empty? %>
 		<div style = "font-size:11px; font-weight:normal; text-align:left; color: #C73914; font-family:<%=family%>; border-top:1px dashed #000000; padding-top:5px; margin-top:10px; line-height:1.3em;">
-			<u>Note:</u>&nbsp;<%= elt_case.case_indicator(indicator).note %>
-		</div>						
-	<% end -%> 
+			<u>Evidence:</u>&nbsp;<%= elt_case.case_indicator(indicator).nil? || elt_case.case_indicator(indicator).note.nil? || elt_case.case_indicator(indicator).note.empty? ? '' : (simple_format elt_case.case_indicator(indicator).note) %>
+		</div>
 	<% if elt_case.updatable?(@current_user) %>
 <!--
 		<table id="header_<%= indicator.public_id %>" style=" width:450px; width:fixed; margin-top:0px; font-size:11px; font-weight:normal; color:#2061a5; font-family:<%#=family%>;">
@@ -27,29 +25,26 @@
 			</tbody>
 		</table>
 	-->
-		<table id="descriptx_<%= indicator.public_id %>" style=" width:450px; width:fixed; margin-top:0px; font-size:11px; font-weight:normal; color:#2061a5; font-family:<%=family%>;">
+		<table id="descriptx_<%= indicator.public_id %>" style=" width:470px; width:fixed; margin-top:0px; font-size:11px; font-weight:normal; color:#2061a5; font-family:<%=family%>;">
 			<tbody>  
 				<style type="text/css" media="screen">
 		    		table,tr,td { border:none; }
 					table tr:hover{
 	        		background-color: transparent;
 	      			}
-	   			</style>							
-				<tr  style="margin-left:00px; border:0px solid #ddd;">
-					<td  id="hidex_<%= indicator.public_id %>" style="width:80px; width:fixed; border:0px solid #ddd; cursor:pointer; vertical-align:top; color:#2061a5; padding-right:0px; font-size:9px; text-align:left">
-						&nbsp;			
-					</td>
-					<td id="edit_note_<%= indicator.public_id %>" style=" width:370px; width:fixed; border:0px solid #ddd; cursor:pointer; padding-left:330px; padding-top:0px; vertical-align:middle" >
-						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= (elt_case.case_indicator(indicator).nil? || elt_case.case_indicator(indicator).note.nil? || elt_case.case_indicator(indicator).note.empty? ) ? "Save Note" : "Update Note" %>
-						</span>
-					</td>
-				</tr>
+	   			</style>
 				<tr >
-					<td  colspan=2 style="border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
-			 		     <%= text_area :evidence, indicator.public_id, :rows => 3, :cols => 59, :value => elt_case.case_indicator(indicator).nil?  ? "": elt_case.case_indicator(indicator).note %>
+					<td style="border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+			 		     <%= text_area :evidence, indicator.public_id, :rows => 3, :cols => 65, :value => elt_case.case_indicator(indicator).nil?  ? "": elt_case.case_indicator(indicator).note %>
 					</td>
 				</tr>
+                <tr  style="margin-left:00px; border:0px solid #ddd;">
+                  <td id="edit_note_<%= indicator.public_id %>" style=" width:390px; width:fixed; border:0px solid #ddd; padding-bottom:6px; padding-top:3px; vertical-align:middle" >
+						<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer; float:left;">
+							<%= (elt_case.case_indicator(indicator).nil? || elt_case.case_indicator(indicator).note.nil? || elt_case.case_indicator(indicator).note.empty? ) ? "Save Evidence" : "Update Evidence" %>
+						</span>
+                  </td>
+                </tr>
 			</tbody>
 		</table>
 

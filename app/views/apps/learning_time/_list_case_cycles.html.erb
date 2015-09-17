@@ -6,10 +6,14 @@
 	<% unless org.app_provider(app).nil? %>
 		<% unless org.provider?(app) %>
 			<% org.elt_all_cycles(org.app_provider(app)).each do |cycle| -%>
-			<div style ="color: #C73914; font-size:12px; margin-top:10px; font-weight:bold"> 
-				<%=  cycle.name %><span style = "font-size:9px;font-weight:normal"><%= org.active_elt_cycle == cycle ? "&nbsp;&nbsp;(Current Cycle)" : ""%></span>
-			</div>
-				<% cycle.activities.for_client.each do |activity| -%>
+                <div style ="color: #C73914; font-size:12px; margin-top:10px; font-weight:bold">
+                    <%=  cycle.name %><span style = "font-size:9px;font-weight:normal"><%= org.active_elt_cycle == cycle ? "&nbsp;&nbsp;(Current Cycle)" : ""%></span>
+                </div>
+
+              <%= render :partial => "/apps/learning_time/evidence_map", :locals => {:org => org, :cycle => cycle, :app => @app} %>
+
+
+              <% cycle.activities.for_client.each do |activity| -%>
 					<table id="activity_list_<%=cycle.id%><%=activity.public_id%>" style="width:950px;margin-top:0px;">
 						<tbody>  
 							<tr>

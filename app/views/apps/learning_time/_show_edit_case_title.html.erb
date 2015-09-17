@@ -32,7 +32,7 @@
 						</td>
 						<td style="font-size:normal; padding-bottom:10px; ">
 					        <% if elt_case.elt_type.collect_subject?-%>
-					        	<%=  select(:elt_case_subject, elt_case.id, SubjectArea.academic.collect{|s| [s.name, s.id]}, :prompt =>  (elt_case.elt_type.collect_subject? && elt_case.subject_area) ? elt_case.subject_area.name : "Select Subject") %>
+					        	<%=  select(:elt_case_subject, elt_case.id, SubjectArea.top.academic.collect{|s| [s.name, s.id]}, :prompt =>  (elt_case.elt_type.collect_subject? && elt_case.subject_area) ? elt_case.subject_area.name : "Select Subject") %>
 							<% else -%>
 								&nbsp;
 							<% end -%>

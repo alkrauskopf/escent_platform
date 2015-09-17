@@ -3,7 +3,7 @@
 	<% if @current_organization.provider?(app) -%>
         <div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold">
           <% if @current_organization.elt_framework? %>
-              <center><%=@current_organization.elt_framework .name%>&nbsp;Configuration</center>
+              <center><%=@current_organization.elt_framework.name%>&nbsp;Configuration</center>
           <% else -%>
               <center><%= app.name %>&nbsp;Configuration</center>
           <% end -%>

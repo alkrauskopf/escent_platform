@@ -61,6 +61,10 @@ class EltCase < ActiveRecord::Base
     note = self.elt_case_indicators.for_rubric(rubric).select{|i| i.elt_indicator.elt_element_id == element.id}.sort_by{|i| i.elt_indicator.position}
   end
 
+  def scores_for(element)
+    self.elt_case_indicators.for_element(element).collect{ |i| i.score }
+  end
+
   def submitted?
     self.is_submitted
   end

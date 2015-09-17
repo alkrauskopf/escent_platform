@@ -1,6 +1,7 @@
 <div id="list_activities_<%=org.public_id%><%= cycle.id%>">
 	<% if @current_organization == cycle.organization -%>
-		<% unless cycle.activities.provider_only.active.empty? %>
+      <%= render :partial => "/apps/learning_time/evidence_map", :locals => {:org => org, :cycle => cycle, :app => @app} %>
+      <% unless cycle.activities.provider_only.active.empty? %>
 			<table style="width:600px; text-align:left;font-size:12px; margin-top:0px">
 				<tbody>  
 					<style type="text/css" media="screen">
@@ -28,11 +29,11 @@
 		<% end -%>	
 	<% end -%>
 
-		<% unless org.elt_cases.for_cycle(cycle).empty? -%>
-			<% org.elt_cycle_activities(cycle).each do |activity| -%>
-   				<%= render :partial => "/apps/learning_time/show_school_cycle_activity_cases", :locals => {:activity => activity, :org => org, :cycle=>cycle, :app => app} -%>
-			<% end -%>
-		<br/>
-		<% end -%>
+    <% unless org.elt_cases.for_cycle(cycle).empty? -%>
+        <% org.elt_cycle_activities(cycle).each do |activity| -%>
+            <%= render :partial => "/apps/learning_time/show_school_cycle_activity_cases", :locals => {:activity => activity, :org => org, :cycle=>cycle, :app => app} -%>
+        <% end -%>
+    <br/>
+    <% end -%>
 </div>
 

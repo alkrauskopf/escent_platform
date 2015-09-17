@@ -574,6 +574,12 @@ class Organization < ActiveRecord::Base
      EltCase.find(:all, :conditions => ["organization_id = ? AND elt_cycle_id = ? AND elt_type_id = ?", self.id, cycle.id, activity.id])
   end
 
+  def elt_cycle_activity_rubrics(cycle, activity)
+    self.elt_cycle_activity_cases(cycle, activity).each do
+
+    end
+  end
+
   def elt_cycle_cases(cycle)
      EltCase.find(:all, :conditions => ["organization_id = ? AND elt_cycle_id = ?", self.id, cycle.id])
   end

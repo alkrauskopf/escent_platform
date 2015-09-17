@@ -21,6 +21,7 @@ class EltType < ActiveRecord::Base
   named_scope :observations, :conditions => ["elt_activity_type_id = ?", 1]
   named_scope :self_assessments, :conditions => ["elt_activity_type_id = ?", 3]
   named_scope :masters, :conditions => ["is_master"]
+  named_scope :informing, :conditions => ["!is_master"]
   named_scope :provider_only, :conditions => ["provider_only"], :order => "position"
   named_scope :for_client, :conditions => ["provider_only = ?", false], :order => "position"
   named_scope :shareable, :conditions => ["rubric_id IS NOT NULL"], :order => "position"
@@ -121,5 +122,9 @@ class EltType < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def informing_indicators(element)
+   self.elt_indicators.for_element(element).active.map {|ind| ind.support_indicators.compact }.flatten
   end
 end

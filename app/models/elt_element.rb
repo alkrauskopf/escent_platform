@@ -20,7 +20,6 @@ class EltElement < ActiveRecord::Base
     self.is_active
   end
 
-
   def siblings
     self.elt_framework ? (self.elt_framework.elt_elements.all.select{ |e| e!= self }): []
   end
@@ -31,6 +30,10 @@ class EltElement < ActiveRecord::Base
       evidences << indicator.elt_case_indicators.for_org(org).flatten
     end
     evidences.flatten.compact
+  end
+
+  def lookfors(activity)
+    self
   end
 
 end

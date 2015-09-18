@@ -536,7 +536,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
      end
      @element_totals[element] = element_total
    end
-   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @touches, :framework => @framework, :element_totals => @element_totals, :map_label => (grand_total.to_s + ' Touches')}
+   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @touches, :framework => @framework, :element_totals => @element_totals, :map_label => (grand_total.to_s + ' Informers')}
  end
 
   def abort_case

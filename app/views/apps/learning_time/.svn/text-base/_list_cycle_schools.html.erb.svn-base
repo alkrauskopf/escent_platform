@@ -16,7 +16,7 @@
 
 	<% unless cycle.schools.empty? %>
 		<% cycle.schools.sort_by{|s| s.name}.each do |school| -%>
-		<table id="resource_list_<%=cycle.id%><%=school.public_id%>" style="width:900px;margin-left:10px; border:0px solid #ddd; margin-top:0px;">
+          <table id="resource_list_<%=cycle.id%><%=school.public_id%>" style="width:900px;margin-left:10px; border:0px solid #ddd; margin-top:0px;">
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close" style="width:900px;">

@@ -17,8 +17,11 @@
 			</div>
 			<div id="rightpane_appl"></div>
 -->
-			<div id="centerpane_appl">			
-				<div id="activity_list">
+			<div id="centerpane_appl">
+              <% if !@current_organization.active_elt_cycle.nil? %>
+                <%= render :partial => "/apps/learning_time/activity_map", :locals => {:org => @current_organization, :app => @app} %>
+              <% end %>
+                  <div id="activity_list">
 					<% unless !@current_organization.elt_provider || @current_organization.active_elt_cycle.nil? -%>
 						<table style="width:600px; text-align:left;font-size:12px; margin-left:0px;">
 							<tbody>  

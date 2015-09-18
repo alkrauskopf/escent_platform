@@ -494,19 +494,26 @@ class Apps::LearningTimeController  < Site::ApplicationController
    @activities = @cycle.nil? ? [] : @cycle.activities.informing.active
    @framework = @cycle.nil? ? nil : @cycle.elt_framework
    @data_points ={}
-   @activities.each do |activity|
-     @data_points[activity] ||= {} # Create a sub-hash unless it already exists
-     cases = org.elt_cycle_activity_cases(@cycle, activity)
-     @elements.each do |element|
+   @element_totals = {}
+   grand_total = 0
+   @elements.each do |element|
+     @element_totals[element] ||= []
+     element_total = 0
+     @activities.each do |activity|
+       @data_points[activity] ||= {} # Create a sub-hash unless it already exists
        @data_points[activity][element] ||= []
+       cases = org.elt_cycle_activity_cases(@cycle, activity)
        scores = []
        cases.each do |c|
-        scores << c.scores_for(element)
+         scores << c.scores_for(element)
        end
        @data_points[activity][element] = scores.flatten.compact.size
+       grand_total += scores.flatten.compact.size
+       element_total += scores.flatten.compact.size
      end
+     @element_totals[element] = element_total
    end
-   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @data_points, :framework => @framework, :map_label => (org.app_provider(@app).app_settings(@app).alt_abbrev + ' Data Points')}
+   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @data_points, :framework => @framework, :element_totals => @element_totals, :map_label => (grand_total.to_s + ' Evidence')}
  end
 
  def show_activity_map
@@ -516,14 +523,20 @@ class Apps::LearningTimeController  < Site::ApplicationController
    @activities = org.active_elt_cycle.nil? ? [] : org.active_elt_cycle.activities.informing.active
    @framework = org.active_elt_cycle.nil? ? nil : org.active_elt_cycle.elt_framework
    @touches ={}
-   @activities.each do |activity|
-     @touches[activity] ||= {} # Create a sub-hash unless it already exists
-     @elements.each do |element|
-       @touches[activity][element] ||= []
+   @element_totals = {}
+   grand_total = 0
+   @elements.each do |element|
+     @element_totals[element] ||= []
+     element_total = 0
+     @activities.each do |activity|
+       @touches[activity] ||= {} # Create a sub-hash unless it already exists
        @touches[activity][element] = activity.informing_indicators(element).size
+       grand_total += activity.informing_indicators(element).size
+       element_total += activity.informing_indicators(element).size
      end
+     @element_totals[element] = element_total
    end
-   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @touches, :framework => @framework, :map_label => (org.app_provider(@app).app_settings(@app).alt_abbrev + ' Touches')}
+   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @touches, :framework => @framework, :element_totals => @element_totals, :map_label => (grand_total.to_s + ' Touches')}
  end
 
   def abort_case

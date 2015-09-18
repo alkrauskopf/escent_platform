@@ -1,0 +1,20 @@
+
+<div>
+	<table id="evidence_map_<%=org.public_id%>_<%=cycle.id%>" style="margin-top:0px; width:490px; width:fixed; border:0px solid #ddd;">
+		<tbody>  
+			<tr>
+				<td class="resource_levels_close" style="width:480px;">
+                    <%= link_to '', :controller => "apps/learning_time", :action => :show_evidence_map, :org => org, :organization_id => @current_organization, :elt_cycle_id => cycle %>
+                    Evidence Map
+                    <span></span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('#evidence_map_<%=org.public_id%>_<%=cycle.id%> .resource_levels_close').toggleResourceLevels();
+		jQ('#evidence_map_<%=org.public_id%>_<%=cycle.id%> .resource_levels_open').toggleResourceLevels();
+	});
+	</script>
+</div>

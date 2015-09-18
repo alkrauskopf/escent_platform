@@ -1,0 +1,44 @@
+
+<div style="margin-left:70px; overflow:scroll; max-width:850px; border:0px solid #ddd;">
+  <% table_width = (200 + elements.size * 60).to_s + "px" -%>
+  <table style="width:<%=table_width %>; width:fixed;  margin-top:2px; margin-bottom:10px;">
+        <tbody>
+            <style type="text/css" media="screen">
+                table,tr,td { border:medium }
+                table tr:hover{
+                background-color: transparent;
+                }
+            </style>
+            <tr style="border:0px solid #ddd;">
+              <td style=" width: 200px; width:fixed; border:px solid #ddd; color: #000000; vertical-align:bottom;text-align:right; padding-right:9px; font-size:12px; font-weight:bold" >
+                <%= map_label %>
+              </td>
+              <td colspan ="<%=elements.size%>" style=" border:0px solid #ddd; vertical-align:middle;text-align:center; font-size:14px" >
+                    <%= framework.nil? ? 'No Framework Defined' : framework.name %>
+                  </td>
+            </tr>
+            <tr style="border:0px solid #ddd;">
+              <td style=" width: 200px; width:fixed; border:px solid #ddd; color: #000000; vertical-align:bottom;text-align:right; padding-right:9px; font-size:12px; font-weight:bold" >
+
+              </td>
+                <% elements.each do |element| -%>
+                    <td title="<%=element.name%>" style=" width: 60px; width:fixed; border:1px solid #ddd; color: <%=element.e_font_color%>;background-color: <%=element.form_background%>; vertical-align:top;text-align:center; font-size:11px" >
+                        <%= element.abbrev %>
+                    </td>
+                <% end -%>
+            </tr>
+            <% activities.each do |activity| %>
+            <tr style="border:0px solid #ddd;">
+              <td style=" width: 200px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:bottom;text-align:right; padding-right:9px; font-size:12px" >
+                <%=activity.name %>
+              </td>
+              <% elements.each do |element| -%>
+                  <td title="<%=element.name%>" style=" width: 60px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-size:11px" >
+                    <%= touches[activity][element]%>
+                  </td>
+              <% end -%>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

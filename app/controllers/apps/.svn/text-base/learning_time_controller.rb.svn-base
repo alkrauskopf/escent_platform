@@ -5,7 +5,8 @@ class Apps::LearningTimeController  < Site::ApplicationController
                           :show_case_element_indicators, :transfer_plans, :transfer_cases,
                           :show_school_cycle_activity_cases, :list_school_cycle_activities, :list_case_evidences, :show_activity_cases,
                           :manage_cycles, :manage_activities, :manage_elements, :manage_indicators,
-                          :view_latest_submitted, :show_case_summary, :case_indicators_element_rubric, :list_case_comments]
+                          :view_latest_submitted, :show_case_summary, :case_indicators_element_rubric, :list_case_comments,
+                          :show_activity_map, :show_evidence_map]
 
  before_filter :clear_notification, :except =>[]
  before_filter :initialize_parameters, :except =>[]
@@ -484,6 +485,45 @@ class Apps::LearningTimeController  < Site::ApplicationController
         @supporting_comments << elt_case.elt_case_notes.for_element(@element).first
     end
    end
+ end
+
+ def show_evidence_map
+   initialize_parameters
+   org = Organization.find_by_public_id(params[:org]) rescue @current_organization
+   @elements = @cycle.nil? ? [] : @cycle.elt_framework.elt_elements.active
+   @activities = @cycle.nil? ? [] : @cycle.activities.informing.active
+   @framework = @cycle.nil? ? nil : @cycle.elt_framework
+   @data_points ={}
+   @activities.each do |activity|
+     @data_points[activity] ||= {} # Create a sub-hash unless it already exists
+     cases = org.elt_cycle_activity_cases(@cycle, activity)
+     @elements.each do |element|
+       @data_points[activity][element] ||= []
+       scores = []
+       cases.each do |c|
+        scores << c.scores_for(element)
+       end
+       @data_points[activity][element] = scores.flatten.compact.size
+     end
+   end
+   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @data_points, :framework => @framework, :map_label => (org.app_provider(@app).app_settings(@app).alt_abbrev + ' Data Points')}
+ end
+
+ def show_activity_map
+   initialize_parameters
+   org = Organization.find_by_public_id(params[:org]) rescue @current_organization
+   @elements = org.active_elt_cycle.nil? ? [] : org.active_elt_cycle.elt_framework.elt_elements.active
+   @activities = org.active_elt_cycle.nil? ? [] : org.active_elt_cycle.activities.informing.active
+   @framework = org.active_elt_cycle.nil? ? nil : org.active_elt_cycle.elt_framework
+   @touches ={}
+   @activities.each do |activity|
+     @touches[activity] ||= {} # Create a sub-hash unless it already exists
+     @elements.each do |element|
+       @touches[activity][element] ||= []
+       @touches[activity][element] = activity.informing_indicators(element).size
+     end
+   end
+   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @touches, :framework => @framework, :map_label => (org.app_provider(@app).app_settings(@app).alt_abbrev + ' Touches')}
  end
 
   def abort_case

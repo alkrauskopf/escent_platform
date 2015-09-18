@@ -490,8 +490,8 @@ class Apps::LearningTimeController  < Site::ApplicationController
  def show_evidence_map
    initialize_parameters
    org = Organization.find_by_public_id(params[:org]) rescue @current_organization
-   @elements = @cycle.nil? ? [] : @cycle.elt_framework.elt_elements.active
-   @activities = @cycle.nil? ? [] : @cycle.activities.informing.active
+   @elements = @cycle.nil? ? [] : @cycle.elt_framework.elt_elements.active.all
+   @activities = @cycle.nil? ? [] : @cycle.activities.informing.active.all
    @framework = @cycle.nil? ? nil : @cycle.elt_framework
    @data_points ={}
    @element_totals = {}
@@ -513,14 +513,14 @@ class Apps::LearningTimeController  < Site::ApplicationController
      end
      @element_totals[element] = element_total
    end
-   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @data_points, :framework => @framework, :element_totals => @element_totals, :map_label => (grand_total.to_s + ' Evidence')}
+   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @data_points, :framework => @framework, :element_totals => @element_totals, :map_label => (grand_total.to_s + ' Findings')}
  end
 
  def show_activity_map
    initialize_parameters
    org = Organization.find_by_public_id(params[:org]) rescue @current_organization
-   @elements = org.active_elt_cycle.nil? ? [] : org.active_elt_cycle.elt_framework.elt_elements.active
-   @activities = org.active_elt_cycle.nil? ? [] : org.active_elt_cycle.activities.informing.active
+   @elements = org.active_elt_cycle.nil? ? [] : org.active_elt_cycle.elt_framework.elt_elements.active.all
+   @activities = org.active_elt_cycle.nil? ? [] : org.active_elt_cycle.activities.informing.active.all
    @framework = org.active_elt_cycle.nil? ? nil : org.active_elt_cycle.elt_framework
    @touches ={}
    @element_totals = {}

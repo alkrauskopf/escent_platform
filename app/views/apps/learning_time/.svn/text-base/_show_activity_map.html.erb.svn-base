@@ -22,7 +22,7 @@
                 <%= map_label %>
               </td>
                 <% elements.each do |element| -%>
-                    <td title="<%=element.name%>" style=" width: 55px; width:fixed; border:1px solid #ddd; line-height:1.2em; color: <%=element.e_font_color%>;background-color: <%=element.form_background%>; vertical-align:top;text-align:center; font-size:11px" >
+                    <td title="<%=element.name%>" style=" width: 55px; width:fixed; border:1px solid #ddd; line-height:1.2em; color: <%=element.e_font_color%>;background-color: <%=element.form_background%>; padding-top:3px;padding-bottom:3px; font-weight:normal; vertical-align:middle;text-align:center; font-size:12px" >
                         <%= element.abbrev %><br/><span style="font-size:9px">(<%=element_totals[element] %>)</span>
                     </td>
                 <% end -%>

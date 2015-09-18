@@ -1,0 +1,99 @@
+
+
+<div id="school_sched" style="min-height:400px">
+		<table   style="width:1170px;  margin-left:10px; border:0px solid black;">
+			<tbody>
+				<style type="text/css" media="screen">
+			    table,tr,td { border:medium}
+				table tr:hover{
+	 	       	background-color: transparent;
+	 	     	}
+	 		   	</style>
+				<tr style=" border:0px solid white;">
+					<td colspan=2 style="width:260px; width:fixed;  text-align:left; padding-left:1px; border:0px solid black">
+						<div style="padding-bottom:0px;">
+							<%= image_tag(provider.logo.url, :alt => provider.name, :width => 140) if provider.logo.file? -%>
+						</div>						
+					</td>
+					<td  style="vertical-align:top;  padding-top:5px;  padding-left:0px; border:0px solid black;">
+						<div class="blog_item">
+							<div class="app_report_title">
+								<center><strong><%= school.nil? ? "Diagnostic Activity Schedule" : school.name %></strong></center>
+							</div>
+                          <% if !cycle.nil? %>
+                              <div style="font-size: 14px; text-align:center; line-height: 1.5em; color:#1b5698; font-weight:normal; font-family:Verdana, Arial, Helvetica, sans-serif;">
+                                <%= cycle.name %>
+                              </div>
+                          <% end -%>
+						</div>
+					</td>
+					<td id = "select_school" style="width:180px; width:fixed; vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
+						<% if @current_organization == provider %>
+							<%=  select(:schoola, provider.id,  EltCase.schools_for_provider(provider).collect{|s| [s.short_name, s.public_id]}, :prompt=> "Select School") %>
+						<% else -%>&nbsp;
+						<% end %>
+					</td>
+					<td style="width:100px; width:fixed; vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
+                      <% skip = true %>
+						<% unless skip || school.nil? || cycle.nil? -%>
+							<span class="fsn-button ui-button ui-state-default ui-corner-all"  >
+								<%= link_to "Create PDF", {:controller => "/apps/app_pdf", :action => "elt_school_plan", :organization_id => @current_organization, :school_id => school, :elt_cycle_id => cycle, :activity_id => activity, :provider_id => provider, :app_id=> app.id}, {:target => "_blank"} %>
+							</span>
+						<% end -%>
+					</td>
+				</tr>
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ('#select_school').change(function() {
+			var school_id = jQ('#schoola_<%= provider.id%>').val();
+			var url = "<%= url_for :controller => "/apps/app_report", :action => :elt_select_school_for_sched, :organization_id => @current_organization, :provider_id => provider, :app_id=> app.id %>";
+				jQ.get(url, {'school_id':school_id}, function(data) {
+				jQ("#school_sched").html(data);
+		   		jQ("#school_sched").show();
+				});
+		})
+	});
+	</script>
+
+				<tr style=" border:0px solid white;">
+					<td colspan=2 style="width:260px; width:fixed; border:0px solid black">
+						<div style="font-size: 13px; padding-left:0px; vertical-align:middle; line-height: 1.5em; color:#1b5698; font-weight:normal; font-family:Verdana, Arial, Helvetica, sans-serif;">
+							<%= provider.name -%>
+						</div>				
+					</td>
+					<td  style="vertical-align:top;  padding-top:5px;  padding-left:0px; border:0px solid black;">
+						<% unless school.nil? -%>
+							<div style="font-size: 16px; text-align:center; line-height: 1.5em; color:#1b5698; font-weight:normal; font-family:Verdana, Arial, Helvetica, sans-serif;">
+                              <%= cycle.elt_framework ?  cycle.elt_framework.name : 'No Framework'%>
+							</div>
+						<% end -%>
+					</td>
+						<% unless school.nil? -%>
+							<td colspan=2 id = "select_cycle" style=" vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
+								<%=  select(:cycla, provider.id,  school.elt_all_cycles(provider).collect{|c| [c.name, c.public_id]}, :prompt=> "Select Diagnostic Cycle") %>
+							</td>
+						<% end -%>
+					</tr>
+	<script type="text/javascript">
+	jQ(document).ready(function() {
+		jQ('#select_cycle').change(function() {
+			var cycle_id = jQ('#cycla_<%= provider.id%>').val();
+			var url = "<%= url_for :controller => "/apps/app_report", :action => :elt_select_cycle_for_sched, :organization_id => @current_organization, :provider_id => provider, :school_id => school, :app_id=> app.id %>";
+				jQ.get(url, {'elt_cycle_id':cycle_id}, function(data) {
+				jQ("#school_sched").html(data);
+		   		jQ("#school_sched").show();
+				});
+		})
+	});
+	</script>
+
+			</tbody>					
+		</table>
+
+  <% if school && cycle -%>
+      <%= render :partial => "/apps/app_report/elt_school_cycle_schedule", :locals => {:school => school, :cycle => cycle} -%>
+<% end -%>
+	<br style="clear:both" />	
+
+</div>
+

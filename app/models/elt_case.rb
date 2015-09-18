@@ -113,6 +113,14 @@ class EltCase < ActiveRecord::Base
     self.elt_type.rubric? ? self.elt_type.elt_indicators.active.collect{|i| i.elt_case_indicators.for_case(self).rated}.flatten.size : 0
   end
 
+  def findings
+    if self.elt_type.rubric?
+      self.indicators_rated
+    else
+      self.elt_case_indicators.with_note.flatten.size
+    end
+  end
+
   def rateable_indicators
     self.elt_type.rubric? ? self.elt_type.elt_indicators.active.size : 0
   end

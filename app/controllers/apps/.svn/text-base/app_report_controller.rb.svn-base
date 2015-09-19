@@ -30,7 +30,12 @@ class Apps::AppReportController < Site::ApplicationController
     @cycle = @school.elt_org_option.elt_cycle ? @school.elt_org_option.elt_cycle : nil
     @activity = @cycle.nil? ? nil : @cycle.master_activity
     render :partial => "/apps/app_report/elt_school_diag", :locals => {:provider => @provider, :app => @app, :school => @school, :cycle => @cycle, :activity => @activity}
-  end 
+  end
+
+  def elt_select_school_for_sched
+    @cycle = @school.elt_org_option.elt_cycle ? @school.elt_org_option.elt_cycle : nil
+    render :partial => "/apps/app_report/elt_school_sched", :locals => {:provider => @provider, :app => @app, :school => @school, :cycle => @cycle}
+  end
 
   def elt_select_activity_for_school
     @activity = @activity.nil? ? @cycle.master_activity : @activity

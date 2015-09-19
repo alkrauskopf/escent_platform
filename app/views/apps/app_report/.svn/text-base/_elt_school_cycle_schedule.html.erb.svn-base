@@ -29,10 +29,10 @@
 		
 			<% school.elt_cases.for_cycle(cycle).each do |elt_case| -%>
 				<tr style="border:1px solid #ddd;">
-					<td style=" border:0px solid #ddd; color: #2061a5; line-height:1.2em; padding-top:10px;padding-bottom:10px; vertical-align:top;text-align:left; font-size:11px" >
+					<td style=" border:0px solid #ddd; color: #2061a5; line-height:1.1em; padding-top:6px;padding-bottom:6px; vertical-align:top;text-align:left; font-size:11px" >
 						<%= elt_case.submit_date.nil? ? "Date?" :elt_case.submit_date.strftime("%b %d, %Y") %>
 					</td>
-					<td style=" border:0px solid #ddd; color: #2061a5; line-height:1.2em; padding-top:10px;padding-bottom:10px; vertical-align:top;text-align:left; font-size:11px" >
+					<td style=" border:0px solid #ddd; color: #2061a5; line-height:1.1em; padding-top:6px;padding-bottom:6px; vertical-align:top;text-align:left; font-size:11px" >
                       <%= elt_case.activity ? elt_case.activity.name : 'Activity?'%>
                       <% if elt_case.subject_area || elt_case.grade_level %>
                         <span style = "color:#000000; font-size:10px;"><br/>
@@ -41,13 +41,13 @@
                         </span>
                       <% end %>
                     </td>
-                    <td style=" border:0px solid #ddd; color: #2061a5;line-height:1.2em; padding-top:10px;padding-bottom:10px; vertical-align:top;text-align:left; font-size:11px" >
+                    <td style=" border:0px solid #ddd; color: #2061a5;line-height:1.1em; padding-top:6px;padding-bottom:6px; vertical-align:top;text-align:left; font-size:11px" >
                       <%= elt_case.name %>
                     </td>
-                  <td style=" border:0px solid #ddd; color: #2061a5;line-height:1.2em; padding-top:10px;padding-bottom:10px; vertical-align:top; text-align:left; font-size:11px" >
+                  <td style=" border:0px solid #ddd; color: #2061a5;line-height:1.2em; padding-top:6px;padding-bottom:6px; vertical-align:top; text-align:left; font-size:11px" >
                     <%= elt_case.user ? elt_case.user.last_name : "User?" %>
                   </td>
-					<td style="border:0px solid #ddd; color: #2061a5;line-height:1.2em; padding-top:10px;padding-bottom:10px; vertical-align:top;text-align:center; font-size:11px" >
+					<td style="border:0px solid #ddd; color: #2061a5;line-height:1.1em; padding-top:6px;padding-bottom:6px; vertical-align:top;text-align:center; font-size:11px" >
 						<%= elt_case.findings -%>
 					</td>
  				</tr>

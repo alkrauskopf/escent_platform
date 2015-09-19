@@ -7,24 +7,34 @@
 						<td style = "width:90px; width:fixed; font-family:Helvetica; font-size:10px;  text-align:center; vertical-align:top; padding-top:15px;  color: #2061a5 ; font-weight:bold ">
 							<% indicator.support_indicators.each do |si|%>
 								<% id = indicator.id.to_s + si.id.to_s -%>
-								<a id="<%= id%>" href=""><%= si.elt_element.abbrev + "-" + si.position.to_s %></a>
-								<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :title=> si.elt_type.name, :blue=>("Indicator " + si.position.to_s + ",   " + si.elt_element.name), :body=> si.indicator, :height=> 200, :width=> 700 } %>
+                              <% si_label =  si.elt_element.position.to_s + '.' + letter_equivalent(si.position) %>
+								<a id="<%= id%>" href=""><%= si.elt_element.abbrev + "-" + si_label %></a>
+								<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :title=> si.elt_type.name, :blue=>(si.elt_element.name + ',   Indicator ' + si_label ), :body=> si.indicator, :height=> 200, :width=> 700 } %>
 								<br/>
 							<% end -%>
 						</td>
 					<% else -%>
-						<td style = "width:90px; width:fixed; font-family:Helvetica; font-size:10px;  text-align:center; vertical-align:top; padding-top:15px;  color: #2061a5 ; font-weight:bold ">
-							<%= indicator.position %>
+						<td style = "width:90px; width:fixed; font-family:Garamond; font-size:14px;  text-align:center; vertical-align:top; padding-top:12px;  color: #2061a5 ; font-weight:bold ">
+							<%= element.position.to_s + '.' + letter_equivalent(indicator.position) %>
 						</td>
 					<% end -%>
 					<td style = "width:500px; width:fixed; vertical-align:top; font-size:15px; font-family:Garamond; padding-top:5px;padding-bottom:5px;font-weight:normal; line-height:1.2em; ">
 						<%= indicator.indicator %>
 						<% unless indicator.elt_indicator_lookfors.empty? -%>
-							<% indicator.elt_indicator_lookfors.all.each do |lf| -%>						
-								<div class = "app_elt_lookfor" style="margin-left:20px;">
-									<br/><%= simple_format (lf.position.to_s + ') ' + lf.lookfor) %>
-								</div>
-							<% end -%>
+							<table class = "app_elt_lookfor" style="width:480px; width:fixed">
+                              <tbody>
+                                <% indicator.elt_indicator_lookfors.all.each do |lf| -%>
+                                    <tr>
+                                      <td style="padding-right:5px">
+                                        <%= element.position.to_s + '.' + letter_equivalent(indicator.position) + '.' + lf.position.to_s %>
+                                      </td>
+                                      <td style="line-height:1.2em; padding-bottom:5px;">
+                                        <%= simple_format (lf.lookfor) %>
+                                      </td>
+                                    </tr>
+                                <% end %>
+                              </tbody>
+                            </table>
 						<% end %>
 					   	<%= render :partial => "/apps/learning_time/element_indicator_note", :locals => {:elt_case => elt_case, :indicator=> indicator} -%>				
 					   	<%= indicator.elt_type.master? ? (render :partial => "/apps/learning_time/supporting_indicators", :locals => {:elt_case => elt_case, :indicator=> indicator}): "" -%>				

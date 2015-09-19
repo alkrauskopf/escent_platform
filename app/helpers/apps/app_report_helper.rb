@@ -1,0 +1,3 @@
+module Apps::AppReportHelper
+
+end

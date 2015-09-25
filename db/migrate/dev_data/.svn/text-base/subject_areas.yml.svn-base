@@ -8,7 +8,7 @@ mathematics:
      
 english:
      id: 2 
-     name: English/LD
+     name: English/LA
      parent_id: NULL
      act_subject_id: 2
      is_core: 1
@@ -329,9 +329,9 @@ time_col:
 literacy:
      id: 42 
      name: Literacy
-     parent_id: 2
-     act_subject_id: 2
-     is_core: 0
+     parent_id: NULL
+     act_subject_id: 99
+     is_core: 1
      is_academic: 1
 
 eld:

@@ -83,13 +83,13 @@
 		                	Listen To: <%= rsrc.title %> : <%= show_audio_player(rsrc.source_file.url) %>
 							<br/>
 							<% elsif rsrc.content_object_type.content_object_type_group_id == 7  %>
-						  	<a href="<%= rsrc.source_file.url %>" target="_blank"><%= rsrc.title.titleize  %></a>
+						  	<a href="<%= rsrc.source_file.url %>" target="_blank"><%= rsrc.title  %></a>
 							<br/>
 							<% elsif rsrc.content_object_type.content_object_type_group_id == 8  %>
-						 	<a href="<%= rsrc.source_file.url %>" target="_blank"><%= rsrc.title.titleize %> </a> 
+						 	<a href="<%= rsrc.source_file.url %>" target="_blank"><%= rsrc.title %> </a>
 							<br/>
 							<% elsif rsrc.content_object_type.content_object_type_group_id == 5 %>
-		 				    <a href="<%= rsrc.content_object %>" target="_blank"><%= rsrc.title.titleize %></a>
+		 				    <a href="<%= rsrc.content_object %>" target="_blank"><%= rsrc.title %></a>
 						    <br/>
 							<% else %>
 							<% end %>
@@ -199,16 +199,13 @@
 				<% end -%>
 			</tbody>
 		</table>	
-	<% end -%>	        
- 			
+	<% end -%>
 			</div>
 	<% end %>
   	<% end -%>
     </div>
 				</td>
 				<td style=" margin-left:0px; border:0px solid #ddd;vertical-align:top;">
-
-
 	<div id="rightpane_off">
 	      <div style="font-size:18px;font-weight:bold;">
 	        <span style="color: <%= @current_organization.style_setting_value_named("Header and Footer Bars")%>"><%= @classroom.course_name %></span>
@@ -229,19 +226,14 @@
 			<% end -%>
         <%= render(:partial => "new_topic", :locals => {:topic => @current_topic ? @current_topic : nil, :featured_resource => @content ? @content : nil}) %>
 	</div>
-
 				</td>
 			</tr>
 		</tbody>
 	</table>	
 
-</div>  
-
-
+</div>
   <script type="text/javascript" charset="utf-8">
   jQ(document).ready(function(){
-
-
     jQ('#send_message_link').click(
     function(){
       if(jQ("#send_message_form")[0].style.display == 'none'){
@@ -266,7 +258,5 @@
       });
       return false;
     });
-
-
   });
 </script>

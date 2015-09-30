@@ -92,4 +92,18 @@ case_study:
      id: 19 
      name: Case Study
      descript: Case Study     
-     
+
+report:
+     id: 20
+     name: Report
+     descript: Report
+
+present:
+     id: 21
+     name: Presentation
+     descript: Presentation
+
+evidence:
+     id: 22
+     name: Evidence
+     descript: Evidence

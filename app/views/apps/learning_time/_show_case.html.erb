@@ -10,18 +10,14 @@
 				<tbody> 
 					<tr>
 						<td  style = " width:120px;  width:fixed; color: #C83A14; vertical-align:middle; text-align:left; padding-left:0px; font-size:12px ">
-								<% if elt_case.destroyable?(@current_user) -%>
-									<span class="fsn-button ui-button ui-state-default ui-corner-all">
-										<%= link_to "DESTROY" ,{:controller => "apps/learning_time", :action => :abort_case, :organization_id => @current_organization,:elt_case_id=> elt_case, :app_id=> app.id}, :confirm=> "Are You Sure" %>
-									</span>
-								<% end -%>
+                            &nbsp;
 						</td>
 						<td  style = "color: #000000; vertical-align:middle; text-align:center; padding-left:0px; font-size:12px ">
 							&nbsp;
 						</td>
 						<td  style = " width:120px; width:fixed; color: #000000; vertical-align:middle; text-align:left; padding-left:0px; font-size:12px ">
 							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								 <%= link_to "END CASE" ,{:controller => "apps/learning_time", :action => :index, :organization_id => @current_organization, :user_id=> @current_user, :app_id=> app.id} %>
+								 <%= link_to "Finished" ,{:controller => "apps/learning_time", :action => :index, :organization_id => @current_organization, :user_id=> @current_user, :app_id=> app.id} %>
 							</span>
 						</td>
 					</tr>			
@@ -38,8 +34,7 @@
 						</td>
 					</tr>			
 				</tbody>
-			</table>		
-		
+			</table>
 		<% end -%>
 	</div>
 	<% if elt_case.elt_type.rubric? -%>
@@ -112,5 +107,42 @@
 	</script>
 
 	<% end -%>
+  <div id="submit_buttons" style=" border:0px solid #ddd;">
+    <% if elt_case.updatable?(@current_user)%>
+        <table style="width:800px;margin-left:0px; border:0px solid #000000;">
+          <tbody>
+          <tr>
+            <td  style = " width:120px;  width:fixed; color: #C83A14; vertical-align:middle; text-align:left; padding-left:0px; font-size:12px ">
+              <% if elt_case.destroyable?(@current_user) -%>
+									<span class="fsn-button ui-button ui-state-default ui-corner-all">
+										<%= link_to "DESTROY" ,{:controller => "apps/learning_time", :action => :abort_case, :organization_id => @current_organization,:elt_case_id=> elt_case, :app_id=> app.id}, :confirm=> "Are You Sure" %>
+									</span>
+              <% end -%>
+            </td>
+            <td  style = "color: #000000; vertical-align:middle; text-align:center; padding-left:0px; font-size:12px ">
+              &nbsp;
+            </td>
+            <td  style = " width:120px; width:fixed; color: #000000; vertical-align:middle; text-align:left; padding-left:0px; font-size:12px ">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all">
+								 <%= link_to "Finished" ,{:controller => "apps/learning_time", :action => :index, :organization_id => @current_organization, :user_id=> @current_user, :app_id=> app.id} %>
+							</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% else -%>
+        <table style="width:240px;margin-left:0px; border:0px solid #000000;">
+          <tbody>
+          <tr>
+            <td  style = " width:240px; color: #000000; vertical-align:middle; text-align:left; padding-left:60px; font-size:12px ">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all">
+								 <%= link_to "Return" ,{:controller => "apps/learning_time", :action => :index, :organization_id => @current_organization,:app_id=> @app.id} %>
+							</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    <% end -%>
+  </div>
 </div>
 </div>

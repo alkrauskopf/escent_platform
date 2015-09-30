@@ -4,7 +4,7 @@
 		<%= !elt_case.elt_type.collect_subject? ? "" : (elt_case.subject_area ? (", " + elt_case.subject_area.name ) : ", No Subject") -%>
 		<%= !(elt_case.organization.grade_levels? && elt_case.elt_type.collect_grade?) ? "" : (elt_case.grade_level ? (", " + elt_case.grade_level.name  ) : ", No Grade Level") -%>
 	</div>
-	<% if elt_case.user == @current_user && !elt_case.final? -%>
+  <% if elt_case.updatable?(@current_user)%>
 		<table id="case_header" style = "width:590px; margin-left:140px; margin-top:0px">
 			<tbody>
 				<tr>

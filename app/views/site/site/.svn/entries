@@ -128,40 +128,6 @@ allen
 
 3977
 
-list_classroom_topics.html.erb
-file
-
-
-
-
-2013-01-04T17:07:56.000000Z
-5b32888f6ce322f8abc8f50ee7e81645
-2011-08-28T21:07:14.185326Z
-19696
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-138
-
 _link_of_call_for_action.html.erb
 file
 
@@ -196,17 +162,18 @@ allen
 
 1075
 
-content_videos_page.html.erb
+list_classroom_topics.html.erb
 file
 
 
 
 
 2013-01-04T17:07:56.000000Z
-db8fcb52fa27dfdd1fe9802215fec3b9
-2010-06-18T13:33:53.219944Z
-13676
-joe
+5b32888f6ce322f8abc8f50ee7e81645
+2011-08-28T21:07:14.185326Z
+19696
+allen
+has-props
 
 
 
@@ -227,8 +194,7 @@ joe
 
 
 
-
-2596
+138
 
 _manage_topic_resources.html.erb
 file
@@ -264,6 +230,40 @@ has-props
 
 17111
 
+content_videos_page.html.erb
+file
+
+
+
+
+2013-01-04T17:07:56.000000Z
+db8fcb52fa27dfdd1fe9802215fec3b9
+2010-06-18T13:33:53.219944Z
+13676
+joe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2596
+
 _manage_classroom_options.html.erb
 file
 
@@ -298,40 +298,6 @@ has-props
 
 6100
 
-assign_classroom_referral_links.html.erb
-file
-
-
-
-
-2013-01-04T17:07:56.000000Z
-a2b45c52b3531e3435fa4f9b61389c51
-2012-06-01T19:04:41.205657Z
-22822
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1416
-
 _manage_classroom_ifa.html.erb
 file
 
@@ -365,6 +331,40 @@ has-props
 
 
 1160
+
+assign_classroom_referral_links.html.erb
+file
+
+
+
+
+2013-01-04T17:07:56.000000Z
+a2b45c52b3531e3435fa4f9b61389c51
+2012-06-01T19:04:41.205657Z
+22822
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1416
 
 members.html.erb
 file
@@ -1386,40 +1386,6 @@ allen
 
 4754
 
-manage_topic.html.erb
-file
-
-
-
-
-2013-01-04T17:07:56.000000Z
-dec70e390a251686a90f1aea1b7e333f
-2011-09-01T02:37:01.232604Z
-19780
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4126
-
 _new_topic.html.erb
 file
 
@@ -1453,6 +1419,40 @@ allen
 
 
 5552
+
+manage_topic.html.erb
+file
+
+
+
+
+2013-01-04T17:07:56.000000Z
+dec70e390a251686a90f1aea1b7e333f
+2011-09-01T02:37:01.232604Z
+19780
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4126
 
 _search_form.html.erb
 file
@@ -1658,40 +1658,6 @@ allen
 
 774
 
-show_result_content.html.erb
-file
-
-
-
-
-2015-01-15T15:34:52.000000Z
-42202419de1fbc26db21b99f3f7523db
-2015-01-16T00:25:42.042814Z
-24980
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-567
-
 _classroom_assign_authorizations.html.erb
 file
 
@@ -1726,16 +1692,16 @@ has-props
 
 5233
 
-static_classroom.html.erb
+show_result_content.html.erb
 file
 
 
 
 
-2015-01-14T17:59:02.000000Z
-cb475548857db0321c5852030999b76d
-2015-01-14T22:58:27.139826Z
-24978
+2015-01-15T15:34:52.000000Z
+42202419de1fbc26db21b99f3f7523db
+2015-01-16T00:25:42.042814Z
+24980
 allen
 
 
@@ -1758,7 +1724,41 @@ allen
 
 
 
-10450
+567
+
+static_classroom.html.erb
+file
+25122
+
+
+
+2015-09-29T21:59:02.000000Z
+0d8a6576afcd27702adcb6fe50fc1b85
+2015-09-30T00:42:17.984654Z
+25122
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10398
 
 show_content.html.erb
 file
@@ -1828,40 +1828,6 @@ allen
 
 6896
 
-content_upload_successful.html.erb
-file
-
-
-
-
-2013-01-04T17:07:56.000000Z
-ca07d6f554b77357d2798f3464de58aa
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-407
-
 assign_classroom_resource.html.erb
 file
 
@@ -1896,17 +1862,17 @@ has-props
 
 864
 
-content_upload.html.erb
+content_upload_successful.html.erb
 file
 
 
 
 
 2013-01-04T17:07:56.000000Z
-23aa2c76c9c738dc6f55757118aa09d3
-2012-02-28T23:07:31.453576Z
-22056
-allen
+ca07d6f554b77357d2798f3464de58aa
+2010-06-18T13:33:53.219944Z
+13676
+joe
 
 
 
@@ -1928,7 +1894,7 @@ allen
 
 
 
-5815
+407
 
 submit_homework.html.erb
 file
@@ -1963,6 +1929,40 @@ has-props
 
 
 10455
+
+content_upload.html.erb
+file
+
+
+
+
+2013-01-04T17:07:56.000000Z
+23aa2c76c9c738dc6f55757118aa09d3
+2012-02-28T23:07:31.453576Z
+22056
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5815
 
 _edit_button.html.erb
 file
@@ -2032,17 +2032,18 @@ has-props
 
 10840
 
-_resource.html.erb
+_topic_discussion_clear.html.erb
 file
 
 
 
 
-2014-09-23T03:11:52.000000Z
-35ec9a5b8c06ce420ccc113ef449bde9
-2014-09-23T03:44:39.128770Z
-24863
+2013-01-04T17:07:56.000000Z
+7b78ac89bbe8f893b17331826094b2fa
+2011-07-16T00:53:18.512108Z
+19016
 allen
+has-props
 
 
 
@@ -2063,8 +2064,7 @@ allen
 
 
 
-
-168
+1490
 
 _resource_owner_information_brief_left.html.erb
 file
@@ -2100,18 +2100,17 @@ has-props
 
 951
 
-_topic_discussion_clear.html.erb
+_resource.html.erb
 file
 
 
 
 
-2013-01-04T17:07:56.000000Z
-7b78ac89bbe8f893b17331826094b2fa
-2011-07-16T00:53:18.512108Z
-19016
+2014-09-23T03:11:52.000000Z
+35ec9a5b8c06ce420ccc113ef449bde9
+2014-09-23T03:44:39.128770Z
+24863
 allen
-has-props
 
 
 
@@ -2132,7 +2131,8 @@ has-props
 
 
 
-1490
+
+168
 
 featured_content.html.erb
 file

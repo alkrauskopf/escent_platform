@@ -298,40 +298,6 @@ allen
 
 6664
 
-co_subjects_gls.yml
-file
-
-
-
-
-2013-01-04T17:08:03.000000Z
-95fcebfe62ac14d4f1740935d3fb7fc1
-2011-03-18T20:39:45.543339Z
-17905
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-678
-
 app_method_log_ratings.yml
 file
 
@@ -365,6 +331,40 @@ allen
 
 
 1859
+
+co_subjects_gls.yml
+file
+
+
+
+
+2013-01-04T17:08:03.000000Z
+95fcebfe62ac14d4f1740935d3fb7fc1
+2011-03-18T20:39:45.543339Z
+17905
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+678
 
 address_types.yml
 file
@@ -468,40 +468,6 @@ allen
 
 408
 
-outreach_priorities.yml
-file
-
-
-
-
-2013-01-04T17:08:03.000000Z
-382a52994d93428581f0cf05097325c8
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4850
-
 coop_apps.yml
 file
 
@@ -535,6 +501,40 @@ has-props
 
 
 1518
+
+outreach_priorities.yml
+file
+
+
+
+
+2013-01-04T17:08:03.000000Z
+382a52994d93428581f0cf05097325c8
+2010-06-18T13:33:53.219944Z
+13676
+joe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4850
 
 ista_activities.yml
 file
@@ -1046,40 +1046,6 @@ allen
 
 699
 
-co_standards.yml
-file
-
-
-
-
-2013-01-04T17:08:03.000000Z
-dcd44a851fd4601a98130aa9832c8bad
-2011-03-18T20:39:45.543339Z
-17905
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5768
-
 tlt_survey_types.yml
 file
 
@@ -1114,17 +1080,18 @@ allen
 
 1601
 
-prayer_pledges.yml
+co_standards.yml
 file
 
 
 
 
 2013-01-04T17:08:03.000000Z
-a67263e197650c3ce975bf5cedf1d90b
-2010-06-18T13:33:53.219944Z
-13676
-joe
+dcd44a851fd4601a98130aa9832c8bad
+2011-03-18T20:39:45.543339Z
+17905
+allen
+has-props
 
 
 
@@ -1145,8 +1112,7 @@ joe
 
 
 
-
-1663
+5768
 
 tlt_cycles.yml
 file
@@ -1181,6 +1147,40 @@ allen
 
 
 285
+
+prayer_pledges.yml
+file
+
+
+
+
+2013-01-04T17:08:03.000000Z
+a67263e197650c3ce975bf5cedf1d90b
+2010-06-18T13:33:53.219944Z
+13676
+joe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1663
 
 denominations.yml
 file
@@ -1218,14 +1218,14 @@ joe
 
 subject_areas.yml
 file
-25121
+25122
 
 
 
-2015-09-25T00:22:45.000000Z
-3a91b6b86da73c8f3528b9c3838c3a44
-2015-09-25T00:25:38.157866Z
-25121
+2015-09-29T19:47:31.000000Z
+9899edd13234b50d1502a0504cd8f66d
+2015-09-30T00:42:17.984654Z
+25122
 allen
 has-props
 
@@ -1248,7 +1248,7 @@ has-props
 
 
 
-5903
+6044
 
 co_grade_levels.yml
 file
@@ -1318,40 +1318,6 @@ joe
 
 593
 
-organization_sizes.yml
-file
-
-
-
-
-2013-01-04T17:08:03.000000Z
-3c3d83556079375ca059c58e43db5094
-2010-09-03T13:21:36.474594Z
-14342
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-476
-
 content_upload_sources.yml
 file
 
@@ -1385,6 +1351,40 @@ allen
 
 
 164
+
+organization_sizes.yml
+file
+
+
+
+
+2013-01-04T17:08:03.000000Z
+3c3d83556079375ca059c58e43db5094
+2010-09-03T13:21:36.474594Z
+14342
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+476
 
 tchr_metrics.yml
 file
@@ -1794,40 +1794,6 @@ joe
 
 919
 
-act_genres.yml
-file
-
-
-
-
-2013-01-04T17:08:03.000000Z
-435bfeb3bcd0bb1d55ba748b72e00e1f
-2011-02-13T01:46:23.009129Z
-17337
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2046
-
 act_standards.yml
 file
 
@@ -1861,6 +1827,40 @@ has-props
 
 
 15293
+
+act_genres.yml
+file
+
+
+
+
+2013-01-04T17:08:03.000000Z
+435bfeb3bcd0bb1d55ba748b72e00e1f
+2011-02-13T01:46:23.009129Z
+17337
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2046
 
 co_gles.yml
 file
@@ -1896,40 +1896,6 @@ has-props
 
 21178
 
-ista_steps.yml
-file
-
-
-
-
-2014-02-20T04:27:19.000000Z
-ae448a1c7c20f375e38a5126a220c734
-2014-08-12T14:28:23.769671Z
-24797
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-850
-
 content_source_types.yml
 file
 
@@ -1963,6 +1929,40 @@ joe
 
 
 645
+
+ista_steps.yml
+file
+
+
+
+
+2014-02-20T04:27:19.000000Z
+ae448a1c7c20f375e38a5126a220c734
+2014-08-12T14:28:23.769671Z
+24797
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+850
 
 tl_activity_types.yml
 file
@@ -1998,40 +1998,6 @@ allen
 
 2497
 
-transaction_statuses.yml
-file
-
-
-
-
-2013-01-04T17:08:03.000000Z
-3c6b8ae16181c1346b8500e4d63fdb1d
-2010-06-18T13:33:53.219944Z
-13676
-joe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-473
-
 elt_elements.yml
 file
 
@@ -2065,6 +2031,40 @@ allen
 
 
 1736
+
+transaction_statuses.yml
+file
+
+
+
+
+2013-01-04T17:08:03.000000Z
+3c6b8ae16181c1346b8500e4d63fdb1d
+2010-06-18T13:33:53.219944Z
+13676
+joe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+473
 
 survey_instructions.yml
 file
@@ -2100,18 +2100,6 @@ allen
 
 6926
 
-elt_activity_types.yml
-file
-25090
-
-
-
-
-18133af6d127b267c58245ec9aff5908
-2015-07-21T13:49:16.316272Z
-25090
-allen
-
 content_object_types.yml
 file
 
@@ -2145,6 +2133,18 @@ allen
 
 
 6014
+
+elt_activity_types.yml
+file
+25090
+
+
+
+
+18133af6d127b267c58245ec9aff5908
+2015-07-21T13:49:16.316272Z
+25090
+allen
 
 coop_app_content_resource_types.yml
 file
@@ -2454,14 +2454,14 @@ allen
 
 content_resource_types.yml
 file
+25122
 
 
 
-
-2014-09-03T14:55:03.000000Z
-3ca23e816faeeae3c6adb009ead58530
-2014-09-03T14:58:11.469846Z
-24826
+2015-09-30T00:36:58.000000Z
+6b7f93c6c8591771a3cbecd4a8ec161f
+2015-09-30T00:42:17.984654Z
+25122
 allen
 has-props
 
@@ -2484,7 +2484,7 @@ has-props
 
 
 
-1755
+1967
 
 dle_cycles.yml
 file

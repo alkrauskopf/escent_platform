@@ -341,3 +341,11 @@ eld:
      act_subject_id: 99
      is_core: 1
      is_academic: 1
+
+ldr:
+     id: 44
+     name: Leadership Development
+     parent_id: NULL
+     act_subject_id: 99
+     is_core: 0
+     is_academic: 0

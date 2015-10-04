@@ -26,16 +26,16 @@ allen
 
 d99b3096-df13-4f1d-8161-802dcdbb7ef6
 
-_subject_dashboard.html.erb
+_manage_options_params.html.erb
 file
 
 
 
 
-2013-12-12T16:48:07.000000Z
-a47b614c05e86bba77f1e6f2d77a943f
-2013-12-14T01:48:24.294540Z
-24640
+2014-12-20T17:02:17.000000Z
+8966810655ed1a2473133129691394ce
+2014-12-20T18:55:33.427664Z
+24962
 allen
 
 
@@ -58,7 +58,7 @@ allen
 
 
 
-5517
+19607
 
 _school_itl_dashboard.html.erb
 file
@@ -94,16 +94,16 @@ allen
 
 6990
 
-_manage_options_params.html.erb
+_subject_dashboard.html.erb
 file
 
 
 
 
-2014-12-20T17:02:17.000000Z
-8966810655ed1a2473133129691394ce
-2014-12-20T18:55:33.427664Z
-24962
+2013-12-12T16:48:07.000000Z
+a47b614c05e86bba77f1e6f2d77a943f
+2013-12-14T01:48:24.294540Z
+24640
 allen
 
 
@@ -126,7 +126,7 @@ allen
 
 
 
-19607
+5517
 
 diagnostics.html.erb
 file
@@ -264,40 +264,6 @@ allen
 
 50
 
-_itl_activity_summary.html.erb
-file
-
-
-
-
-2013-10-18T14:35:09.000000Z
-f8e9466ac94c328016a1c06f7fcc7ccd
-2013-10-18T21:18:56.896435Z
-24573
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-7606
-
 edit_template.html.erb
 file
 
@@ -331,6 +297,40 @@ allen
 
 
 123
+
+_itl_activity_summary.html.erb
+file
+
+
+
+
+2013-10-18T14:35:09.000000Z
+f8e9466ac94c328016a1c06f7fcc7ccd
+2013-10-18T21:18:56.896435Z
+24573
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7606
 
 _subject_method_activity_dashboard.html.erb
 file
@@ -1080,16 +1080,16 @@ allen
 
 12323
 
-_teacher_itl_reflections.html.erb
+_population_itl_stats.html.erb
 file
 
 
 
 
-2013-06-26T23:41:24.000000Z
-908234839f8fb33ffa22ce98468a37f9
-2013-06-25T18:49:43.340738Z
-24371
+2013-12-12T16:31:21.000000Z
+8b8cdf1ed983f55205cc8ae6119d7bba
+2013-12-14T01:48:24.294540Z
+24640
 allen
 
 
@@ -1112,7 +1112,7 @@ allen
 
 
 
-2160
+12888
 
 _edit_template.html.erb
 file
@@ -1148,16 +1148,16 @@ allen
 
 3070
 
-_population_itl_stats.html.erb
+_teacher_itl_reflections.html.erb
 file
 
 
 
 
-2013-12-12T16:31:21.000000Z
-8b8cdf1ed983f55205cc8ae6119d7bba
-2013-12-14T01:48:24.294540Z
-24640
+2013-06-26T23:41:24.000000Z
+908234839f8fb33ffa22ce98468a37f9
+2013-06-25T18:49:43.340738Z
+24371
 allen
 
 
@@ -1180,7 +1180,7 @@ allen
 
 
 
-12888
+2160
 
 owner_strategy_edit.html.erb
 file
@@ -1420,40 +1420,6 @@ allen
 
 1808
 
-_itl_right_header.html.erb
-file
-
-
-
-
-2013-10-17T18:47:20.000000Z
-8577f282ea98706c8fff2d93a80b74ed
-2013-10-18T21:18:56.896435Z
-24573
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5742
-
 owner_maintenance.html.erb
 file
 
@@ -1488,16 +1454,16 @@ allen
 
 63
 
-training_classroom.html.erb
+_itl_right_header.html.erb
 file
 
 
 
 
-2013-07-17T17:33:59.000000Z
-b33242e9898ff054c899217d9ddc14b2
-2013-07-17T14:13:43.851099Z
-24387
+2013-10-17T18:47:20.000000Z
+8577f282ea98706c8fff2d93a80b74ed
+2013-10-18T21:18:56.896435Z
+24573
 allen
 
 
@@ -1520,7 +1486,41 @@ allen
 
 
 
-122
+5742
+
+_school_method_dashboard.html.erb
+file
+
+
+
+
+2013-11-14T19:28:46.000000Z
+8e7aa094ad7f8f2caa55eeb3ffdb76af
+2013-11-11T21:33:21.959663Z
+24597
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1367
 
 _research_summary_display.html.erb
 file
@@ -1556,16 +1556,16 @@ allen
 
 11681
 
-_school_method_dashboard.html.erb
+training_classroom.html.erb
 file
 
 
 
 
-2013-11-14T19:28:46.000000Z
-8e7aa094ad7f8f2caa55eeb3ffdb76af
-2013-11-11T21:33:21.959663Z
-24597
+2013-07-17T17:33:59.000000Z
+b33242e9898ff054c899217d9ddc14b2
+2013-07-17T14:13:43.851099Z
+24387
 allen
 
 
@@ -1588,7 +1588,7 @@ allen
 
 
 
-1367
+122
 
 _tlt_activity_tracking.html.erb
 file
@@ -1726,40 +1726,6 @@ allen
 
 100
 
-activity_summary.html.erb
-file
-
-
-
-
-2013-10-17T20:05:39.000000Z
-0b9a16f6be408a59e2646f6d0d9e1887
-2013-10-18T21:18:56.896435Z
-24573
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-617
-
 _itl_left_header.html.erb
 file
 
@@ -1793,6 +1759,40 @@ allen
 
 
 6981
+
+activity_summary.html.erb
+file
+
+
+
+
+2013-10-17T20:05:39.000000Z
+0b9a16f6be408a59e2646f6d0d9e1887
+2013-10-18T21:18:56.896435Z
+24573
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+617
 
 _itl_session_student_survey.html.erb
 file
@@ -1930,40 +1930,6 @@ allen
 
 80
 
-_video_training_create.html.erb
-file
-
-
-
-
-2013-08-08T22:55:28.000000Z
-742a6c8b48eedff770716b7afd3356b3
-2013-08-09T01:50:13.668223Z
-24414
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-720
-
 owner_show_video_session.html.erb
 file
 
@@ -1997,6 +1963,40 @@ allen
 
 
 64
+
+_video_training_create.html.erb
+file
+
+
+
+
+2013-08-08T22:55:28.000000Z
+742a6c8b48eedff770716b7afd3356b3
+2013-08-09T01:50:13.668223Z
+24414
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+720
 
 owner_blackbelt_maint.html.erb
 file
@@ -2100,40 +2100,6 @@ allen
 
 4843
 
-_video_attach.html.erb
-file
-
-
-
-
-2014-09-21T16:36:20.000000Z
-84a0ef1ecb1674642621d331fb62f239
-2014-09-21T19:01:34.039187Z
-24856
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3704
-
 _list_coach_backlog.html.erb
 file
 
@@ -2167,6 +2133,40 @@ allen
 
 
 4890
+
+_video_attach.html.erb
+file
+
+
+
+
+2014-09-21T16:36:20.000000Z
+84a0ef1ecb1674642621d331fb62f239
+2014-09-21T19:01:34.039187Z
+24856
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3704
 
 _owner_maintenance.html.erb
 file
@@ -2850,14 +2850,14 @@ allen
 
 _then_now_summary_display.html.erb
 file
+25123
 
 
 
-
-2014-01-24T14:58:13.000000Z
-8b4f6257614b4a2d1a30e8767291f186
-2014-01-24T22:17:43.326533Z
-24678
+2015-10-04T00:14:26.000000Z
+a45eb31d62aeb3b595ebcdeddaacac6a
+2015-10-04T00:19:37.680571Z
+25123
 allen
 
 
@@ -2880,7 +2880,7 @@ allen
 
 
 
-19741
+19742
 
 observation_panel_help.html.erb
 file

@@ -25,6 +25,10 @@ class EltCycle < ActiveRecord::Base
     self.is_active
   end
 
+  def provider
+    self.organization ? self.organization : nil
+  end
+
   def master_activity
     self.activities.masters.first rescue nil
   end

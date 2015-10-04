@@ -25,7 +25,30 @@ class Apps::AppPdfController < Site::ApplicationController
       end
     end 
   end
-    
+
+  def elt_case
+    if !@case.nil?
+      case_name = @case.name
+      @cycle_name = @case.elt_cycle ? @case.elt_cycle.name : 'Undefined Cycle'
+      @framework_name = @case.framework.nil? ? 'Unknown Framework' : @case.framework.name
+      @school = @case.organization ? @case.organization : nil
+    else
+      case_name = 'Case Not Found'
+    end
+    respond_to do |format|
+      format.pdf do
+        render :pdf => "#{case_name}",
+               :template => "apps/app_pdf/elt_case.pdf.erb",
+               :margin => { :top => 20, :bottom => 20, :left => 10, :right => 10},
+               :page_height => 11,
+               :page_width => 8.5,
+               :footer => {:font_name=> 'Garamond', :font_size => 9, :line => true},
+               :layout => false
+      end
+    end
+  end
+
+
    private
    
  def initialize_parameters
@@ -37,6 +60,9 @@ class Apps::AppPdfController < Site::ApplicationController
     end
     if  params[:organization_type_id]
       @org_type = OrganizationType.find_by_id(params[:organization_type_id])
+    end
+    if  params[:elt_case_id]
+      @case = EltCase.find_by_public_id(params[:elt_case_id]) rescue nil
     end
     if  params[:elt_cycle_id]
       @cycle = EltCycle.find_by_public_id(params[:elt_cycle_id]) rescue nil

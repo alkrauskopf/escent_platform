@@ -60,40 +60,6 @@ allen
 
 4358
 
-time_learning_controller.rb
-file
-
-
-
-
-2015-01-20T17:04:31.000000Z
-c71c10545d4d994192175f95b9631ce1
-2015-01-21T23:41:39.485602Z
-24983
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-62694
-
 learning_time_controller.rb
 file
 25116
@@ -128,18 +94,17 @@ allen
 
 36836
 
-co_standard_controller.rb
+time_learning_controller.rb
 file
 
 
 
 
-2013-01-04T17:07:36.000000Z
-23abb95faafa62226a952b9161c12d3b
-2011-10-19T14:05:29.879320Z
-20541
+2015-01-20T17:04:31.000000Z
+c71c10545d4d994192175f95b9631ce1
+2015-01-21T23:41:39.485602Z
+24983
 allen
-has-props
 
 
 
@@ -160,7 +125,8 @@ has-props
 
 
 
-966
+
+62694
 
 staff_develop_controller.rb
 file
@@ -195,6 +161,40 @@ allen
 
 
 12334
+
+co_standard_controller.rb
+file
+
+
+
+
+2013-01-04T17:07:36.000000Z
+23abb95faafa62226a952b9161c12d3b
+2011-10-19T14:05:29.879320Z
+20541
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+966
 
 app_blog_controller.rb
 file
@@ -264,40 +264,6 @@ has-props
 
 158512
 
-teacher_assess_controller.rb
-file
-
-
-
-
-2015-01-20T16:59:22.000000Z
-25f9c3830b77e6b09ecc3ddee0120f40
-2015-01-21T23:41:39.485602Z
-24983
-allen
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-16181
-
 owner_maintenance_controller.rb
 file
 
@@ -331,6 +297,40 @@ allen
 
 
 23283
+
+teacher_assess_controller.rb
+file
+
+
+
+
+2015-01-20T16:59:22.000000Z
+25f9c3830b77e6b09ecc3ddee0120f40
+2015-01-21T23:41:39.485602Z
+24983
+allen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+16181
 
 panel_controller.rb
 file
@@ -434,40 +434,6 @@ allen
 
 8322
 
-blogs_controller.rb
-file
-
-
-
-
-2015-02-11T20:27:01.000000Z
-e6b1223e7a3269edc6ae0df306de6d78
-2015-02-13T03:23:40.307304Z
-24994
-allen
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-13536
-
 shared_controller.rb
 file
 
@@ -501,6 +467,40 @@ allen
 
 
 17075
+
+blogs_controller.rb
+file
+
+
+
+
+2015-02-11T20:27:01.000000Z
+e6b1223e7a3269edc6ae0df306de6d78
+2015-02-13T03:23:40.307304Z
+24994
+allen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+13536
 
 client_manager_controller.rb
 file
@@ -538,14 +538,14 @@ allen
 
 app_pdf_controller.rb
 file
-25062
+25123
 
 
 
-2015-05-07T20:56:53.000000Z
-02eda514fe7d1b94820d254f45754106
-2015-05-10T23:21:27.515262Z
-25062
+2015-10-04T00:14:26.000000Z
+8d312bfced45809288ba9755e77498ca
+2015-10-04T00:19:37.680571Z
+25123
 allen
 
 
@@ -568,5 +568,5 @@ allen
 
 
 
-2047
+2942
 

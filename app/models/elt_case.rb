@@ -34,7 +34,23 @@ class EltCase < ActiveRecord::Base
   end
 
   def activity
-    self.elt_type
+    self.elt_type rescue nil
+  end
+
+  def provider
+    self.elt_cycle ? self.elt_cycle.provider : nil
+  end
+
+  def elements
+    self.elt_case_indicators.collect{ |ci| ci.elt_element}.flatten.compact.uniq.sort_by{ |e| e.position }
+  end
+
+  def element_indicators(element)
+    self.elt_case_indicators.for_element(element).collect{ |ci| ci.elt_indicator }.compact.sort_by{|i| i.position}
+  end
+
+  def element_findings(element)
+    self.elt_case_indicators.for_element(element)
   end
 
   def self.schools_for_provider(provider)

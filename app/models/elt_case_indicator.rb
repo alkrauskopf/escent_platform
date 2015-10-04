@@ -4,7 +4,9 @@ class EltCaseIndicator < ActiveRecord::Base
 
   belongs_to :elt_case
   belongs_to :elt_indicator  
-  belongs_to :rubric 
+  belongs_to :rubric
+
+  has_one :elt_element, :through => :elt_indicator
 
   named_scope :for_indicator, lambda{|ind| {:conditions => ["elt_indicator_id = ?", ind.id]}}
   named_scope :for_rubric, lambda{|rub| {:conditions => ["rubric_id = ?", rub.id]}}

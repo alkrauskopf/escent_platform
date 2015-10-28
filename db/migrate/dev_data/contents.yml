@@ -12,11 +12,11 @@ bed_nets:
     description: Tony Blair Foundation
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/odysseynetworks/bed_nets.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -28,11 +28,11 @@ ac_pass_it_on:
     description: SpiritBreak Video
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/C21B3FD2D1714EECAA3803A1DF1E63A5.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -44,11 +44,11 @@ the_flying_monk:
     description: SpiritBreak Video
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/906127CB4F4D4DA1AE8064295D1EEE76.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -60,11 +60,11 @@ mimi_does_managing_schedules:
     description: SpiritBreak Video
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/78A3F9ADE09F475193ED6CF75A9814AA.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -76,11 +76,11 @@ mimi_does_parental_guilt:
     description: SpiritBreak Video
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/19E7284B70054469933480F990064C8A.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -92,11 +92,11 @@ ac_wavers:
     description: SpiritBreak Video
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/97F82C127A4446D6A780913FFC5E026D.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -108,11 +108,11 @@ who_is_my_neighbor:
     description: SpiritBreak Video
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/9321D72D31DA43F0809198C5FD3CF1FE.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -124,11 +124,11 @@ underdog:
     description: SpiritBreak Video
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/0672C81C7087413DA79999E26876348C.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -140,11 +140,11 @@ ac_big_ideas:
     description: SpiritBreak Video
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/0AE207BD6FA54AB69E0BD1B07B0629AE.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -156,11 +156,11 @@ mimi_does_spiritual_parenting:
     description: SpiritBreak Video
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/10EC6FB6FA034E67AEEBF4CA59A911D5.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -172,10 +172,10 @@ knowledge_is_power_in_the_fight_against_malaria:
     description: 
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     source_url_protocol: HTTP
     content_status_id: 1
@@ -187,10 +187,10 @@ malaria_faq:
     description: 
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     source_url_protocol: HTTP
     content_status_id: 1
@@ -202,10 +202,10 @@ one_million_nets:
     description: 
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     source_url_protocol: HTTP
     content_status_id: 1
@@ -217,10 +217,10 @@ union_for_reform_judaism:
     description: 
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     source_url_protocol: HTTP
     content_status_id: 1
@@ -232,10 +232,10 @@ purim_masquerades_and_march_madness:
     description: 
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     source_url_protocol: HTTP
     content_status_id: 1
@@ -247,11 +247,11 @@ who_is_my_neighbor:
     description: SpiritBreak Video
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/9321D72D31DA43F0809198C5FD3CF1FE.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -263,11 +263,11 @@ new_morning_oval_soul:
     description: Do you sometimes feel like you don't fit in - like you're an oval soul in a round-souled world? In this episode of New Morning, meet people who have found the courage to live out the shape of their souls.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/70B26049C5114830A66FF68B64107624.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -279,11 +279,11 @@ new_morning_the_right_questions:
     description: In this episode of New Morning, meet some people who found that asking the right questions-and being open to the honest answers-helped guide them on their life's journey.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/94C9D52300724ECC8E209A95EA46DE2E.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -295,11 +295,11 @@ new_morning_animals_as_mirrors:
     description: In this episode of New Morning meet some people who found parts of themselves mirrored in the animals they love. Take a look at the unconditional love and health benefits animals can provide, and meet a woman who has literally "gone to the dogs."
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/41CC024EFFF34A6EAD3206C281841862.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -311,11 +311,11 @@ new_morning_you_can_depend_on_me:
     description: Today on New Morning, meet some people who've said, "You can depend on me." You may even get a glimpse of some of the people who depend on you.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/899DD653AC404B57AE43F1E598501D5B.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -327,11 +327,11 @@ new_morning_who_is_your_neighbor:
     description: In this episode of New Morning, explore the question, "Just who is my neighbor?"
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/8C8AAF560A994C95BADB667D5722DDA4.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -343,11 +343,11 @@ new_morning_the_church_within:
     description: In this episode of New Morning meet people who not only believe God is within places of worship, but who also find a deep spiritual connection in other places as well, as we explore <EM>The Church Within</EM>.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/CEC3784E9F7243FBB4F75D25534E4E12.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -359,11 +359,11 @@ new_morning_hands_on:
     description:  <P>In this episode of New Morning, meet people who contribute "a magic touch" to the world around them with hands that heal, touch, clap, pray and even sing.</P>
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/50DA414363DF4739BF64499C43D1E356.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -375,11 +375,11 @@ new_morning_life_transformation:
     description: Today on New Morning, meet some people who've been greatly transformed by death and divorce â€” and the ordinary changes of nature.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/10A2F5D834C34B7DA7C2C3AB2900069B.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -391,11 +391,11 @@ new_morning_sacred_space:
     description: What makes a space sacred? In this episode of New Morning, take a look at some more unusual sacred spaces.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/431AA870C5074587BCD3F23D3624C4B8.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -407,11 +407,11 @@ new_morning_the_inner_rebel:
     description: In this episode of New Morning, meet people who have allowed their inner rebel to lead them to a whole new outward way of life.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/DBC5194F5334425193801AC9F89D8694.flv
     content_object_type_id: 6
     source_url_protocol: HTTP
@@ -423,11 +423,11 @@ new_morning_finding_peace_of_mind:
     description: In this episode of New Morning, meet some people who have found peace of mind in some very different ways. Some of them changed their lives...but most of them just changed their minds.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     source_url: http://rl.faithstreams.com/BAD78488ADD14F0C86B46B21CEDFF2E7.flv
     content_object_type_id: 4
     source_url_protocol: HTTP
@@ -439,11 +439,11 @@ mideast_cycle_of_war_begins_anew:
     description: Sharon cut short a US visit to return to Israel yesterday after a suicide bomb killed 15 Israelis. Article appeared in the May 9, 2002 edition of The Christian Science Monitor.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     content_status_id: 1    
     content_object: '<%= text_fixture_data("127.htm") %>'
@@ -454,11 +454,11 @@ reinterpreting_isaac:
     description: We can only imagine what a father felt when he was called to sacrifice his son, or can we? Article appeared in the January 16, 2003 edition of the Adventist Review.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     content_status_id: 1    
     content_object: '<%= text_fixture_data("128.htm") %>'
@@ -469,11 +469,11 @@ old_testament_ethics:
     description: When one considers how often people invoke biblical teachings in matters of morality, it seems that biblical ethics would be an inviting terrain for scholars to explore. Yet there is a perplexing scarcity of comprehensive, systematic studies of the material. Article was added to FaithandValues.com in July 2002.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     content_status_id: 1    
     content_object: '<%= text_fixture_data("129.htm") %>'
@@ -484,11 +484,11 @@ for_police_cautionary_lessons_from_sniper_case:
     description: They're prioritizing links between local and federal databases and reexamining communication systems.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     content_status_id: 1    
     content_object: '<%= text_fixture_data("130.htm") %>'
@@ -499,11 +499,11 @@ tuck_everlasting:
     description: This story can be viewed as an exploration as to why God did not let humans partake of the Tree of Life in the Garden of Eden. Or, it could be viewed as a statement about why Eternal Life is not such a great thing.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     content_status_id: 1    
     content_object: '<%= text_fixture_data("131.htm") %>'
@@ -514,11 +514,11 @@ in_murder_retrial_no_4_racial_issues_resurface:
     description: A Louisiana man, convicted three times since a 1961 killing, finally gets a racially mixed jury as case reopens this week.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     content_status_id: 1    
     content_object: '<%= text_fixture_data("132.htm") %>'
@@ -529,11 +529,11 @@ faith_nurture_from_africa:
     description: Faith nurturing among Disciples means introducing people to a work that God is doing here and elsewhere to win hearts and save lives. Article appeared in the January 2003 edition of Disciples Today.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     content_status_id: 1    
     content_object: '<%= text_fixture_data("133.htm") %>'
@@ -544,11 +544,11 @@ serve_him_day_and_night_in_the_temple:
     description: Rev. Douglas E. Theuner gives Gene Robinson some words of advice on the day of his consecration. .
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     content_status_id: 1    
     content_object: '<%= text_fixture_data("134.htm") %>'
@@ -559,11 +559,11 @@ god_politics_and_the_democrats:
     description: 
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     content_status_id: 1    
     content_object: '<%= text_fixture_data("135.htm") %>'    
@@ -575,13 +575,12 @@ a_note_from_jill_briscoe:
     description: Fear comes in all sorts of shapes and sizes.  But fear can only be overcome by another fear – the fear of God! Article appeared in the Summer 2003 edition of Just Between Us.
     organization_id: 1
     user_id: 1
-    created_at: Oct 10 2008  2:01PM
-    updated_at: Oct 10 2008  2:01PM
+    created_at: 2013-08-26T12:02:01+00:00
+    updated_at: 2013-08-26T12:02:01+00:00
     mature_content: 0
     user_rating_enabled: 0
-    publish_start_date: Aug  1 2008 12:00AM
+    publish_start_date: 2013-08-26T12:00:00+00:00
     content_object_type_id: 6
     content_status_id: 1    
     content_object: '<%= text_fixture_data("136.htm") %>'
                                             
-                    

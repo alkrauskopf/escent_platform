@@ -4,7 +4,7 @@ class CreateUserItlBeltRanks < ActiveRecord::Migration
       t.integer :user_id
       t.integer :itl_belt_rank_id
       t.string :grantor_name, :limit=>40, :default=>""
-      t.text :justification, :default=>""
+      t.text :justification#, :default=>""
 
       t.timestamps
     end

@@ -468,7 +468,7 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "background_color", :default => "000000"
+    t.string   "background_color", :default => "FFFFFF"
   end
 
   add_index "app_discussions", ["coop_app_id"], :name => "index_app_discussions_on_coop_app_id"
@@ -511,12 +511,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   end
 
   add_index "applicable_scopes", ["authorization_level_id"], :name => "index_applicable_scopes_on_authorization_level_id"
-
-  create_table "associated_organizations", :force => true do |t|
-    t.integer  "organization_id", :null => false
-    t.integer  "user_id",         :null => false
-    t.datetime "created_at",      :null => false
-  end
 
   create_table "authorizable_actions", :force => true do |t|
     t.integer  "authorization_level_id",               :null => false
@@ -691,7 +685,7 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.integer  "parent_id"
     t.integer  "organization_id",                                      :null => false
     t.integer  "user_id",                                              :null => false
-    t.string   "title",                              :default => "",   :null => false
+    t.string   "title",                                                :null => false
     t.string   "description",        :limit => 8000
     t.datetime "created_at",                                           :null => false
     t.datetime "updated_at",                                           :null => false
@@ -1038,40 +1032,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   add_index "contents", ["subject_area_id"], :name => "index_contents_on_subject_area_id"
   add_index "contents", ["user_id"], :name => "index_contents_on_user_id"
 
-  create_table "contents4", :force => true do |t|
-    t.integer  "child_content_id"
-    t.integer  "related_content_type_id"
-    t.integer  "content_status_id",                                                   :null => false
-    t.string   "title",                            :limit => 150,                     :null => false
-    t.string   "description",                      :limit => 4000
-    t.integer  "organization_id",                                                     :null => false
-    t.integer  "user_id",                                                             :null => false
-    t.datetime "created_at",                                                          :null => false
-    t.datetime "updated_at",                                                          :null => false
-    t.boolean  "mature_content",                                   :default => false, :null => false
-    t.boolean  "user_rating_enabled",                              :default => false, :null => false
-    t.datetime "publish_start_date",                                                  :null => false
-    t.datetime "publish_end_date"
-    t.string   "source_url",                       :limit => 500
-    t.string   "file_name",                        :limit => 256
-    t.string   "source_file_file_name",            :limit => 500
-    t.binary   "content_object"
-    t.integer  "package_id"
-    t.string   "source_url_protocol",              :limit => 30
-    t.string   "source_file_content_type",         :limit => 128
-    t.integer  "source_file_file_size"
-    t.integer  "content_object_type_id"
-    t.string   "caption"
-    t.integer  "duration"
-    t.string   "source_name"
-    t.string   "creator_name"
-    t.string   "star_performer"
-    t.string   "series",                           :limit => 1000
-    t.string   "source_file_preview_file_name"
-    t.string   "source_file_preview_content_type"
-    t.integer  "source_file_preview_file_size"
-  end
-
   create_table "coop_app_content_resource_types", :force => true do |t|
     t.integer  "coop_app_id"
     t.integer  "content_resource_type_id"
@@ -1171,13 +1131,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.datetime "created_at", :null => false
   end
 
-  create_table "denominations", :force => true do |t|
-    t.string   "name",       :limit => 150, :null => false
-    t.datetime "created_at",                :null => false
-    t.integer  "parent_id"
-    t.integer  "channel_id"
-  end
-
   create_table "discussions", :force => true do |t|
     t.integer  "parent_id"
     t.integer  "organization_id",                                        :null => false
@@ -1227,6 +1180,7 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
 
   create_table "dle_cycles", :force => true do |t|
     t.integer  "stage"
+    t.string   "name"
     t.text     "description"
     t.boolean  "is_output"
     t.boolean  "is_targets"
@@ -1239,7 +1193,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.string   "output_label"
     t.string   "attach_label"
     t.integer  "tlt_survey_type_id"
-    t.string   "name"
   end
 
   create_table "dle_metrics", :force => true do |t|
@@ -1288,7 +1241,7 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.integer  "elt_case_id"
     t.integer  "elt_indicator_id"
     t.integer  "rubric_id"
-    t.text     "evidence",         :limit => 255
+    t.text     "evidence"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "note"
@@ -2129,17 +2082,11 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.datetime "updated_at"
   end
 
-  create_table "organization_outreach_priorities", :force => true do |t|
-    t.integer  "organization_id",      :null => false
-    t.integer  "outreach_priority_id", :null => false
-    t.datetime "created_at",           :null => false
-  end
-
   create_table "organization_relationships", :force => true do |t|
     t.integer  "source_id",                                         :null => false
     t.string   "relationship_type", :limit => 32,                   :null => false
     t.integer  "target_id",                                         :null => false
-    t.string   "target_type",       :limit => 32, :default => "",   :null => false
+    t.string   "target_type",       :limit => 32,                   :null => false
     t.boolean  "inclusive",                       :default => true, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -2439,15 +2386,15 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   end
 
   create_table "roles", :force => true do |t|
-    t.string   "name",        :limit => 50,   :default => "", :null => false
-    t.datetime "created_at",                                  :null => false
-    t.integer  "user_id",                                     :null => false
+    t.string   "name",        :limit => 50,   :null => false
+    t.datetime "created_at",                  :null => false
+    t.integer  "user_id",                     :null => false
     t.string   "description", :limit => 1000
     t.integer  "scope_id"
     t.string   "scope_type"
   end
 
-  add_index "roles", ["scope_id", "scope_type", "name"], :name => "index_roles_on_scope_id_and_scope_type_and_name", :unique => true
+  add_index "roles", ["scope_id", "scope_type", "name"], :name => "index_roles_on_scope_id_and_scope_type_and_name"
 
   create_table "roles_granted_roles", :force => true do |t|
     t.integer  "role_id",         :null => false
@@ -2563,25 +2510,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   add_index "student_subject_demographics", ["act_subject_id"], :name => "index_student_subject_demographics_on_act_subject_id"
   add_index "student_subject_demographics", ["user_id"], :name => "index_student_subject_demographics_on_user_id"
 
-  create_table "style_setting_values", :force => true do |t|
-    t.integer  "style_setting_id"
-    t.integer  "scope_id",                         :null => false
-    t.string   "scope_type",       :limit => 32
-    t.string   "value",            :limit => 1024
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "style_setting_values", ["scope_id", "scope_type", "style_setting_id"], :name => ":scope_id_and_scope_type_and_style_setting_id"
-
-  create_table "style_settings", :force => true do |t|
-    t.string  "name",                                :null => false
-    t.string  "setting_type",  :default => "String"
-    t.string  "group_name"
-    t.integer "position"
-    t.string  "default_value"
-  end
-
   create_table "subject_areas", :force => true do |t|
     t.integer  "parent_id"
     t.string   "name"
@@ -2656,7 +2584,7 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.integer  "user_id"
     t.boolean  "is_active",                            :default => true
     t.integer  "max_responses",                        :default => 1000
-    t.integer  "survey_instruction_id",                :default => 99
+    t.integer  "survey_instruction_id",                :default => 999
     t.boolean  "is_notify"
     t.boolean  "is_anon"
     t.integer  "recipients",                           :default => 1
@@ -3153,21 +3081,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   add_index "user_itl_belt_ranks", ["itl_belt_rank_id"], :name => "index_user_itl_belt_ranks_on_itl_belt_rank_id"
   add_index "user_itl_belt_ranks", ["user_id"], :name => "index_user_itl_belt_ranks_on_user_id"
 
-  create_table "user_outreach_priorities", :force => true do |t|
-    t.integer  "user_id",              :null => false
-    t.integer  "outreach_priority_id", :null => false
-    t.datetime "created_at",           :null => false
-  end
-
-  create_table "user_roles", :force => true do |t|
-    t.integer  "user_id",                             :null => false
-    t.integer  "role_id",                             :null => false
-    t.datetime "created_at",                          :null => false
-    t.boolean  "has_grant_option", :default => false, :null => false
-    t.datetime "start_date"
-    t.datetime "end_date"
-  end
-
   create_table "users", :force => true do |t|
     t.integer  "religious_affiliation_id"
     t.datetime "created_at",                                                    :null => false
@@ -3184,7 +3097,7 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.string   "display_name",                :limit => 128
     t.string   "verification_code",           :limit => 16
     t.datetime "verified_at"
-    t.string   "password",                                   :default => "",    :null => false
+    t.string   "password",                                                      :null => false
     t.string   "salt",                        :limit => 256
     t.string   "email_address",               :limit => 512
     t.string   "crypted_password"

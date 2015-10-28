@@ -1,0 +1,18 @@
+source 'https://rubygems.org'
+
+# gem 'guard-rspec'
+# gem 'capybara'
+# gem 'capybara-mechanize'
+
+gem 'rails', '2.3.12'
+gem 'crypt', '1.1.4'
+gem 'rmagick', '2.13.1'
+gem 'will_paginate', '2.3.11'
+gem 'calendar_date_select', '1.16.4'
+gem 'activemerchant', '1.7.1'
+gem 'uuidtools', '2.1.3'
+gem 'wicked_pdf', '0.6.0'
+gem 'spreadsheet', '0.6.5.9'
+gem 'rdoc', '3.12'
+gem 'ruby-mysql', '2.9.10'
+gem 'hpricot', '0.8.6'

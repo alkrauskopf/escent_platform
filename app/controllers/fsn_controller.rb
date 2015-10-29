@@ -31,12 +31,17 @@ class FsnController < ApplicationController
  
   def index
     initalialize_parameters
-    @blog = Blog.find_by_public_id(params[:blog_id]) rescue nil
-    if @blog.nil?
-      blog_type = BlogType.of_type("OD").first
-      @blog = @current_organization.blogs.active.featured.of_type(blog_type).first
-    end    
-    render :layout => "ep_site2"
+
+    if (Organization.all.empty? && User.all.empty?)
+      redirect_to :controller=>"/organizations", :action => :register
+    else
+      @blog = Blog.find_by_public_id(params[:blog_id]) rescue nil
+      if @blog.nil?
+        blog_type = BlogType.of_type("OD").first
+        @blog = @current_organization.blogs.active.featured.of_type(blog_type).first
+      end
+      render :layout => "ep_site2"
+    end
   end
  
   def select_blog

@@ -143,7 +143,7 @@ class Organization < ActiveRecord::Base
   named_scope :of_type, lambda{|org| { :conditions => ["organization_type_id = ? ", org.organization_type_id], :order => "name" }} 
   named_scope :with_type_id, lambda{|type_id| { :conditions => ["organization_type_id = ? ", type_id], :order => "name" }} 
 
-  named_scope :ep_default,   :conditions => { :is_default => true }
+  named_scope :ep_default,   {:conditions =>  ["is_default = ?", true], :order => "created_at DESC"}
   named_scope :all_parents,   :conditions => ["parent_id IS NULL AND !is_default"]
   named_scope :active,   :conditions => ["status_id = ?", 1]
 

@@ -25,8 +25,13 @@ class UsersController < ApplicationController
           @user.verification_code = User::generate_password(16)
           @user.set_default_registration_values(@current_organization.id)         
           
-          if simple_captcha_valid?
+          if true #simple_captcha_valid?
             if @user.save
+     #  Initialize First User as Superuser
+              if User.all.size == 1
+                @user.make_superuser!
+              end
+
             @user.add_as_friend_to(@user.organization)
             #   temp omit Notifier.deliver_user_registration(:user => @user,:current_organization => @current_organization, :fsn_host => request.host_with_port)
             #            Notifier.deliver_user_registration @user, @current_organization, request.host_with_port

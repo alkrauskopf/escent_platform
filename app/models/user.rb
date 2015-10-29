@@ -1106,6 +1106,15 @@ class User < ActiveRecord::Base
     self.superuser_of?(nil)
   end
 
+  def make_superuser!
+    unless self.superuser?
+      su = Authorization.new
+      su.authorization_level_id = AuthorizationLevel.superuser.id
+      su.user_id = self.id
+      su.save
+    end
+  end
+
   def app_superuser?(app)
     self.has_authorization_level_for?(app, "app_superuser") || self.superuser?
   end

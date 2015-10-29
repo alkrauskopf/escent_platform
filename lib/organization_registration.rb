@@ -1,7 +1,8 @@
 module OrganizationRegistration
   
   def register
-    redirect_to :action => :no_user, :id => "register" unless @current_user
+    @initialize_master =  (User.all.empty? && Organization.all.empty?)
+    redirect_to :action => :no_user, :id => "register" unless (@current_user || @initialize_master)
     
     if @current_organization.nil?
       @address = Address.new
@@ -34,11 +35,11 @@ module OrganizationRegistration
           else
             change_religious_affiliation_id 
             if @address.save
-
-              if  @organization.update_attributes params[:organization]
+              @organization.is_default = @initialize_master
+              if  @organization.save
                 @address.organization = @organization
-                @current_user.add_as_administrator_to(@organization)
-                @current_user.add_as_friend_to(@organization)
+                if @current_user then @current_user.add_as_administrator_to(@organization) end
+                if @current_user then  @current_user.add_as_friend_to(@organization) end
 #               Notifier.deliver_organization_activate(params["user"]["organization_email"] , url_for(:action => "activate" , :public_id => @organization.public_id , :email => params["user"]["organization_email"]))
 #                Notifier.deliver_organization_registration @organization, @current_user, params["user"]["organization_email"], request.host_with_port
                 @organization.set_default_style_settings     

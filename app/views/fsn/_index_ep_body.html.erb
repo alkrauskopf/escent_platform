@@ -60,10 +60,10 @@
 			</tbody>
 		</table>	 
 	</div>
-		<% end -%>
-	<% if project%>
-		<%= render(:partial => "/fsn/index_ep_testimony") %>
-	<% end -%>
+        <% end -%>
+        <% if project%>
+            <%= render(:partial => "/fsn/index_ep_testimony") %>
+        <% end -%>
 	 <% else -%>
 	 	<% if pov -%>
 			<% blogger = blog.users.first rescue nil %> 

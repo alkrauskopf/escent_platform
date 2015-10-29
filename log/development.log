@@ -25457,3 +25457,191 @@ ActionController::UnknownAction (No action responded to facebox. Actions: author
   /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
 
 Rendering rescues/layout (not_found)
+DEPRECATION WARNING: Kernel#returning has been deprecated in favor of Object#tap. (called from enable_activerecord at /Users/allenkrauskopf/.rvm/gems/ruby-1.8.7-head@allen_project/gems/will_paginate-2.3.11/lib/will_paginate.rb:39)
+DEPRECATION WARNING: Kernel#returning has been deprecated in favor of Object#tap. (called from enable_activerecord at /Users/allenkrauskopf/.rvm/gems/ruby-1.8.7-head@allen_project/gems/will_paginate-2.3.11/lib/will_paginate.rb:39)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+
+
+Processing FsnController#index (for 127.0.0.1 at 2015-10-29 16:19:02) [GET]
+  [4;36;1mOrganization Load (1.4ms)[0m   [0;1mSELECT * FROM `organizations` WHERE (is_default = 1) ORDER BY created_at DESC LIMIT 1[0m
+  [4;35;1mOrganization Columns (3.3ms)[0m   [0mSHOW FIELDS FROM `organizations`[0m
+  [4;36;1mStatus Columns (1.5ms)[0m   [0;1mSHOW FIELDS FROM `statuses`[0m
+  [4;35;1mStatus Load (0.3ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mOrganizationType Columns (1.9ms)[0m   [0;1mSHOW FIELDS FROM `organization_types`[0m
+  [4;35;1mOrganizationType Load (0.4ms)[0m   [0mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 8) [0m
+  [4;36;1mOrganization Load (1.5ms)[0m   [0;1mSELECT * FROM `organizations` [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mOrganizationType Load (0.5ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 8) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mStatus Load (0.4ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 5) [0m
+  [4;36;1mOrganizationType Load (0.4ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 7) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mOrganizationType Load (0.5ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 4) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 5) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 5) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 5) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 5) [0m
+  [4;36;1mOrganizationType Load (0.5ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 5) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 5) [0m
+  [4;36;1mOrganizationType Load (0.4ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 6) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 5) [0m
+  [4;36;1mOrganizationType Load (0.5ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 3) [0m
+  [4;35;1mStatus Load (0.3ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 4) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 3) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 3) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 7) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 7) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 7) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 4) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 2) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 4) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 7) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 8) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 8) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 8) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 8) [0m
+  [4;35;1mBlogType Load (0.9ms)[0m   [0mSELECT * FROM `blog_types` WHERE (blog_type = 'OD' ) LIMIT 1[0m
+  [4;36;1mBlogType Columns (1.9ms)[0m   [0;1mSHOW FIELDS FROM `blog_types`[0m
+  [4;35;1mBlog Load (1.0ms)[0m   [0mSELECT * FROM `blogs` WHERE (`blogs`.organization_id = 79) AND (((blog_type_id = 3 ) AND (feature = 1)) AND (active = 1)) ORDER BY position LIMIT 1[0m
+Rendering template within layouts/ep_site2
+Rendering fsn/index
+  [4;36;1mSettingValue Columns (1.8ms)[0m   [0;1mSHOW FIELDS FROM `setting_values`[0m
+  [4;35;1mSetting Columns (2.5ms)[0m   [0mSHOW FIELDS FROM `settings`[0m
+  [4;36;1mSettingValue Load Including Associations (0.9ms)[0m   [0;1mSELECT `setting_values`.`id` AS t0_r0, `setting_values`.`setting_id` AS t0_r1, `setting_values`.`scope_id` AS t0_r2, `setting_values`.`scope_type` AS t0_r3, `setting_values`.`value` AS t0_r4, `setting_values`.`created_at` AS t0_r5, `setting_values`.`updated_at` AS t0_r6, `settings`.`id` AS t1_r0, `settings`.`name` AS t1_r1, `settings`.`setting_type` AS t1_r2, `settings`.`group_name` AS t1_r3, `settings`.`position` AS t1_r4, `settings`.`default_value` AS t1_r5, `settings`.`type` AS t1_r6 FROM `setting_values` LEFT OUTER JOIN `settings` ON `settings`.id = `setting_values`.setting_id WHERE (`setting_values`.scope_id = 79 AND `setting_values`.scope_type = 'Organization' AND (settings.name = 'Header and Footer Bars')) AND (settings.type = 'StyleSetting') LIMIT 1[0m
+  [4;35;1mSettingValue Load Including Associations (1.0ms)[0m   [0mSELECT `setting_values`.`id` AS t0_r0, `setting_values`.`setting_id` AS t0_r1, `setting_values`.`scope_id` AS t0_r2, `setting_values`.`scope_type` AS t0_r3, `setting_values`.`value` AS t0_r4, `setting_values`.`created_at` AS t0_r5, `setting_values`.`updated_at` AS t0_r6, `settings`.`id` AS t1_r0, `settings`.`name` AS t1_r1, `settings`.`setting_type` AS t1_r2, `settings`.`group_name` AS t1_r3, `settings`.`position` AS t1_r4, `settings`.`default_value` AS t1_r5, `settings`.`type` AS t1_r6 FROM `setting_values` LEFT OUTER JOIN `settings` ON `settings`.id = `setting_values`.setting_id WHERE (`setting_values`.scope_id = 79 AND `setting_values`.scope_type = 'Organization' AND (settings.name = 'Header and Footer Text')) AND (settings.type = 'StyleSetting') LIMIT 1[0m
+  [4;36;1mBlogType Load (0.6ms)[0m   [0;1mSELECT * FROM `blog_types` WHERE (blog_type = 'OD') LIMIT 1[0m
+  [4;35;1mBlog Load (0.9ms)[0m   [0mSELECT * FROM `blogs` WHERE (`blogs`.blog_type_id = 3) AND (feature = 1) [0m
+  [4;36;1mBlog Columns (2.4ms)[0m   [0;1mSHOW FIELDS FROM `blogs`[0m
+Rendered shared/_our_purpose (8.3ms)
+  [4;35;1mBlogType Load (0.7ms)[0m   [0mSELECT * FROM `blog_types` WHERE (blog_type = 'OT') LIMIT 1[0m
+  [4;36;1mBlog Load (0.9ms)[0m   [0;1mSELECT * FROM `blogs` WHERE (`blogs`.blog_type_id = 4) AND (feature = 1) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `blog_types` WHERE (blog_type = 'OT') LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `blogs` WHERE (`blogs`.blog_type_id = 4) AND (feature = 1) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `blog_types` WHERE (blog_type = 'OT') LIMIT 1[0m
+  [4;36;1mBlog Load (1.0ms)[0m   [0;1mSELECT * FROM `blogs` WHERE (`blogs`.blog_type_id = 4) AND ((feature = 0) AND (active = 1)) ORDER BY position[0m
+Rendered shared/_our_technology (6.2ms)
+  [4;35;1mCoopApp Load (0.8ms)[0m   [0mSELECT * FROM `coop_apps` WHERE (abbrev = 'BLOGS' ) LIMIT 1[0m
+  [4;36;1mCoopApp Columns (2.3ms)[0m   [0;1mSHOW FIELDS FROM `coop_apps`[0m
+  [4;35;1mBlog Load (1.1ms)[0m   [0mSELECT * FROM `blogs` WHERE (`blogs`.organization_id = 79) AND (((coop_app_id = 5 ) AND (feature = 1)) AND (active = 1)) ORDER BY position LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `coop_apps` WHERE (abbrev = 'BLOGS' ) LIMIT 1[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mSELECT count(*) AS count_all FROM `blogs` WHERE ((((coop_app_id = 5 ) AND (feature = 0)) AND (active = 1)) AND (`blogs`.organization_id = 79)) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `coop_apps` WHERE (abbrev = 'BLOGS' ) LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `blogs` WHERE (`blogs`.organization_id = 79) AND (((coop_app_id = 5 ) AND (feature = 1)) AND (active = 1)) ORDER BY position LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `coop_apps` WHERE (abbrev = 'BLOGS' ) LIMIT 1[0m
+  [4;35;1mBlog Load (1.3ms)[0m   [0mSELECT * FROM `blogs` WHERE (`blogs`.organization_id = 79) AND (((coop_app_id = 5 ) AND (feature = 0)) AND (active = 1)) ORDER BY position[0m
+Rendered shared/_our_povs (86.5ms)
+Rendered shared/_header_bar_ep (166.7ms)
+Rendered fsn/_index_ep_body (3.0ms)
+Rendered shared/_footer (0.7ms)
+Completed in 457ms (View: 209, DB: 72) | 200 OK [http://127.0.0.1/]
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2015-10-29 16:19:03) [GET]
+
+ActionController::RoutingError (No route matches "/javascripts/swfobject.js" with {:method=>:get}):
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:162:in `start'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:95:in `start'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:92:in `each'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:92:in `start'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:23:in `start'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:82:in `start'
+
+Rendering rescues/layout (not_found)
+  [4;36;1mSQL (1.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+
+
+Processing StylesheetsController#iwing to css (for 127.0.0.1 at 2015-10-29 16:19:03) [GET]
+  Parameters: {"organization_id"=>"43fb7e562924d260"}
+  [4;36;1mOrganization Columns (6.8ms)[0m   [0;1mSHOW FIELDS FROM `organizations`[0m
+  [4;35;1mOrganization Load (1.2ms)[0m   [0mSELECT * FROM `organizations` WHERE (`organizations`.`id` = 79) [0m
+  [4;36;1mStatus Columns (1.4ms)[0m   [0;1mSHOW FIELDS FROM `statuses`[0m
+  [4;35;1mStatus Load (0.4ms)[0m   [0mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;36;1mOrganizationType Columns (1.8ms)[0m   [0;1mSHOW FIELDS FROM `organization_types`[0m
+  [4;35;1mOrganizationType Load (0.5ms)[0m   [0mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 8) [0m
+Rendering stylesheets/iwing
+  [4;36;1mSettingValue Columns (1.7ms)[0m   [0;1mSHOW FIELDS FROM `setting_values`[0m
+  [4;35;1mSetting Columns (1.3ms)[0m   [0mSHOW FIELDS FROM `settings`[0m
+  [4;36;1mSettingValue Load Including Associations (0.9ms)[0m   [0;1mSELECT `setting_values`.`id` AS t0_r0, `setting_values`.`setting_id` AS t0_r1, `setting_values`.`scope_id` AS t0_r2, `setting_values`.`scope_type` AS t0_r3, `setting_values`.`value` AS t0_r4, `setting_values`.`created_at` AS t0_r5, `setting_values`.`updated_at` AS t0_r6, `settings`.`id` AS t1_r0, `settings`.`name` AS t1_r1, `settings`.`setting_type` AS t1_r2, `settings`.`group_name` AS t1_r3, `settings`.`position` AS t1_r4, `settings`.`default_value` AS t1_r5, `settings`.`type` AS t1_r6 FROM `setting_values` LEFT OUTER JOIN `settings` ON `settings`.id = `setting_values`.setting_id WHERE (`setting_values`.scope_id = 79 AND `setting_values`.scope_type = 'Organization' AND (settings.name = 'Page Background')) AND (settings.type = 'StyleSetting') LIMIT 1[0m
+  [4;35;1mSettingValue Load Including Associations (1.0ms)[0m   [0mSELECT `setting_values`.`id` AS t0_r0, `setting_values`.`setting_id` AS t0_r1, `setting_values`.`scope_id` AS t0_r2, `setting_values`.`scope_type` AS t0_r3, `setting_values`.`value` AS t0_r4, `setting_values`.`created_at` AS t0_r5, `setting_values`.`updated_at` AS t0_r6, `settings`.`id` AS t1_r0, `settings`.`name` AS t1_r1, `settings`.`setting_type` AS t1_r2, `settings`.`group_name` AS t1_r3, `settings`.`position` AS t1_r4, `settings`.`default_value` AS t1_r5, `settings`.`type` AS t1_r6 FROM `setting_values` LEFT OUTER JOIN `settings` ON `settings`.id = `setting_values`.setting_id WHERE (`setting_values`.scope_id = 79 AND `setting_values`.scope_type = 'Organization' AND (settings.name = 'Header and Footer Bars')) AND (settings.type = 'StyleSetting') LIMIT 1[0m
+  [4;36;1mSettingValue Load Including Associations (0.8ms)[0m   [0;1mSELECT `setting_values`.`id` AS t0_r0, `setting_values`.`setting_id` AS t0_r1, `setting_values`.`scope_id` AS t0_r2, `setting_values`.`scope_type` AS t0_r3, `setting_values`.`value` AS t0_r4, `setting_values`.`created_at` AS t0_r5, `setting_values`.`updated_at` AS t0_r6, `settings`.`id` AS t1_r0, `settings`.`name` AS t1_r1, `settings`.`setting_type` AS t1_r2, `settings`.`group_name` AS t1_r3, `settings`.`position` AS t1_r4, `settings`.`default_value` AS t1_r5, `settings`.`type` AS t1_r6 FROM `setting_values` LEFT OUTER JOIN `settings` ON `settings`.id = `setting_values`.setting_id WHERE (`setting_values`.scope_id = 79 AND `setting_values`.scope_type = 'Organization' AND (settings.name = 'Header and Footer Text')) AND (settings.type = 'StyleSetting') LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT `setting_values`.`id` AS t0_r0, `setting_values`.`setting_id` AS t0_r1, `setting_values`.`scope_id` AS t0_r2, `setting_values`.`scope_type` AS t0_r3, `setting_values`.`value` AS t0_r4, `setting_values`.`created_at` AS t0_r5, `setting_values`.`updated_at` AS t0_r6, `settings`.`id` AS t1_r0, `settings`.`name` AS t1_r1, `settings`.`setting_type` AS t1_r2, `settings`.`group_name` AS t1_r3, `settings`.`position` AS t1_r4, `settings`.`default_value` AS t1_r5, `settings`.`type` AS t1_r6 FROM `setting_values` LEFT OUTER JOIN `settings` ON `settings`.id = `setting_values`.setting_id WHERE (`setting_values`.scope_id = 79 AND `setting_values`.scope_type = 'Organization' AND (settings.name = 'Header and Footer Text')) AND (settings.type = 'StyleSetting') LIMIT 1[0m
+  [4;36;1mSettingValue Load Including Associations (0.8ms)[0m   [0;1mSELECT `setting_values`.`id` AS t0_r0, `setting_values`.`setting_id` AS t0_r1, `setting_values`.`scope_id` AS t0_r2, `setting_values`.`scope_type` AS t0_r3, `setting_values`.`value` AS t0_r4, `setting_values`.`created_at` AS t0_r5, `setting_values`.`updated_at` AS t0_r6, `settings`.`id` AS t1_r0, `settings`.`name` AS t1_r1, `settings`.`setting_type` AS t1_r2, `settings`.`group_name` AS t1_r3, `settings`.`position` AS t1_r4, `settings`.`default_value` AS t1_r5, `settings`.`type` AS t1_r6 FROM `setting_values` LEFT OUTER JOIN `settings` ON `settings`.id = `setting_values`.setting_id WHERE (`setting_values`.scope_id = 79 AND `setting_values`.scope_type = 'Organization' AND (settings.name = 'Background Text')) AND (settings.type = 'StyleSetting') LIMIT 1[0m
+  [4;35;1mSettingValue Load Including Associations (0.7ms)[0m   [0mSELECT `setting_values`.`id` AS t0_r0, `setting_values`.`setting_id` AS t0_r1, `setting_values`.`scope_id` AS t0_r2, `setting_values`.`scope_type` AS t0_r3, `setting_values`.`value` AS t0_r4, `setting_values`.`created_at` AS t0_r5, `setting_values`.`updated_at` AS t0_r6, `settings`.`id` AS t1_r0, `settings`.`name` AS t1_r1, `settings`.`setting_type` AS t1_r2, `settings`.`group_name` AS t1_r3, `settings`.`position` AS t1_r4, `settings`.`default_value` AS t1_r5, `settings`.`type` AS t1_r6 FROM `setting_values` LEFT OUTER JOIN `settings` ON `settings`.id = `setting_values`.setting_id WHERE (`setting_values`.scope_id = 79 AND `setting_values`.scope_type = 'Organization' AND (settings.name = 'Link')) AND (settings.type = 'StyleSetting') LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT `setting_values`.`id` AS t0_r0, `setting_values`.`setting_id` AS t0_r1, `setting_values`.`scope_id` AS t0_r2, `setting_values`.`scope_type` AS t0_r3, `setting_values`.`value` AS t0_r4, `setting_values`.`created_at` AS t0_r5, `setting_values`.`updated_at` AS t0_r6, `settings`.`id` AS t1_r0, `settings`.`name` AS t1_r1, `settings`.`setting_type` AS t1_r2, `settings`.`group_name` AS t1_r3, `settings`.`position` AS t1_r4, `settings`.`default_value` AS t1_r5, `settings`.`type` AS t1_r6 FROM `setting_values` LEFT OUTER JOIN `settings` ON `settings`.id = `setting_values`.setting_id WHERE (`setting_values`.scope_id = 79 AND `setting_values`.scope_type = 'Organization' AND (settings.name = 'Link')) AND (settings.type = 'StyleSetting') LIMIT 1[0m
+Completed in 162ms (View: 17, DB: 21) | 200 OK [http://127.0.0.1/stylesheets/iwing/43fb7e562924d260.css]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET NAMES 'utf8'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+
+
+Processing StylesheetsController#facebox to css (for 127.0.0.1 at 2015-10-29 16:19:03) [GET]
+  [4;35;1mOrganization Load (1.6ms)[0m   [0mSELECT * FROM `organizations` WHERE (is_default = 1) ORDER BY created_at DESC LIMIT 1[0m
+  [4;36;1mOrganization Columns (7.0ms)[0m   [0;1mSHOW FIELDS FROM `organizations`[0m
+  [4;35;1mStatus Columns (1.5ms)[0m   [0mSHOW FIELDS FROM `statuses`[0m
+  [4;36;1mStatus Load (0.3ms)[0m   [0;1mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;35;1mOrganizationType Columns (1.7ms)[0m   [0mSHOW FIELDS FROM `organization_types`[0m
+  [4;36;1mOrganizationType Load (0.4ms)[0m   [0;1mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 8) [0m
+  [4;35;1mOrganization Load (1.2ms)[0m   [0mSELECT * FROM `organizations` WHERE (`organizations`.`id` = 79) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM `statuses` WHERE (`statuses`.`id` = 1) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM `organization_types` WHERE (`organization_types`.`id` = 8) [0m
+
+ActionController::UnknownAction (No action responded to facebox. Actions: authorization_requirements, authorization_requirements=, check_authorizations, iwing, and simple_captcha_valid?):
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:162:in `start'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:95:in `start'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:92:in `each'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:92:in `start'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:23:in `start'
+  /Users/allenkrauskopf/.rvm/rubies/ruby-1.8.7-head/lib/ruby/1.8/webrick/server.rb:82:in `start'
+
+Rendering rescues/layout (not_found)
+DEPRECATION WARNING: Kernel#returning has been deprecated in favor of Object#tap. (called from enable_activerecord at /Users/allenkrauskopf/.rvm/gems/ruby-1.8.7-head@allen_project/gems/will_paginate-2.3.11/lib/will_paginate.rb:39)
+DEPRECATION WARNING: Kernel#returning has been deprecated in favor of Object#tap. (called from enable_activerecord at /Users/allenkrauskopf/.rvm/gems/ruby-1.8.7-head@allen_project/gems/will_paginate-2.3.11/lib/will_paginate.rb:39)

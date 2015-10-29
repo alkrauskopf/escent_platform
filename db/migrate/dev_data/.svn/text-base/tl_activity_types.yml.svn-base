@@ -41,8 +41,8 @@ Standards:
     
 Relevance:
     id: 102
-    activity: Relevance
-    description: Making Learning Relevant
+    activity: Personalized Learning
+    description: Making Learning Personally Relevant
     seq_num: 2
     abbrev: REL
     app_method_id: 2  
@@ -110,3 +110,11 @@ Behavior:
     seq_num: 10
     abbrev: BRT
     app_method_id: 2      
+
+Culture:
+    id: 111
+    activity: Cultural Responsiveness
+    description: Making Learning Culturally Appropriate
+    seq_num: 11
+    abbrev: CUL
+    app_method_id: 2

@@ -392,23 +392,33 @@ REL_1:
 REL_2:
     id: 10202
     tl_activity_type_id: 102
-    name: Need To Know
-    description: Establishes for student a reason why they need to know the content or be able to use the skill.
-    abbrev: NTK
+    name: Cutural Relevance
+    description: Establishes cultural conection to student.
+    abbrev: CR
     is_enabled: 1
     research: 
     position: 2
-    
+
 REL_3:
     id: 10203
     tl_activity_type_id: 102
     name: Real Life Application
-    description: Provide activities that are related to real-life application.
+    description: Provide activities that are related to student real-life application.
     abbrev: RLA
     is_enabled: 1
-    research: 
+    research:
     position: 3
-    
+
+REL_4:
+    id: 10204
+    tl_activity_type_id: 102
+    name: Student Needs Alignemtn
+    description: Provide activities that are uniquely aligned to the needs of the student.
+    abbrev: SNA
+    is_enabled: 1
+    research:
+    position: 4
+
 VOC_1:
     id: 10301
     tl_activity_type_id: 103
@@ -698,4 +708,43 @@ BRT_4:
     is_enabled: 1
     research: 
     position: 4
-      
+
+CUL_1:
+    id: 11101
+    tl_activity_type_id: 111
+    name: Linguistic Strategies
+    description: Ensuring student understanding through ELD strategies.
+    abbrev: LS
+    is_enabled: 1
+    research:
+    position: 1
+
+CUL_2:
+    id: 11102
+    tl_activity_type_id: 111
+    name: Validation of Culture
+    description: Recognizing and honoring contribritutions of diverse cultures that represented in the classroom.
+    abbrev: CC
+    is_enabled: 1
+    research:
+    position: 1
+
+CUL_3:
+    id: 11103
+    tl_activity_type_id: 111
+    name: Mindset
+    description: Overcoming preconcieved self-imposed constraints or limitations.
+    abbrev: CC
+    is_enabled: 1
+    research:
+    position: 1
+
+CUL_4:
+    id: 11104
+    tl_activity_type_id: 111
+    name: Bias
+    description: Overcoming constraints or limitations imposed by societal forces.
+    abbrev: CC
+    is_enabled: 1
+    research:
+    position: 1

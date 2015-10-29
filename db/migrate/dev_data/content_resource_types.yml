@@ -20,8 +20,8 @@ homework:
     
 cap-document:
     id: 5
-    name: Cap Document
-    descript: Cap Guidelines for Teachers
+    name: UIP
+    descript: Uniform Improvement Plan
     
 training:
     id: 6
@@ -107,3 +107,8 @@ evidence:
      id: 22
      name: Evidence
      descript: Evidence
+
+standard:
+     id: 23
+     name: Standard
+     descript: Document Describing A Standard

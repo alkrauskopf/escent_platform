@@ -463,10 +463,5 @@ end
       end
     end    
   end
-  
-  def change_religious_affiliation_id 
-    unless params[:user][:religious_affiliation_id].blank?
-      params[:user][:religious_affiliation_id] = ReligiousAffiliation.find(:first, :conditions => ["name = ?", params[:user][:religious_affiliation_id]]).id  rescue ''
-    end
-  end  
+
 end

@@ -56,24 +56,6 @@ class Topic < ActiveRecord::Base
     {:conditions => conditions, :include => :organization, :order => order_by}
   }
   
-  named_scope :with_religious_affiliations, lambda { |keywords, options|
-    condition_strings = []
-    conditions = []
-    keywords.parse_keywords.each do |keyword| 
-      ra = ReligiousAffiliation.find_by_name(keyword)
-      if ra # return in search all children of the keyword
-        children_parent = ra.all_children.collect{|r| r.id} << ra.id   
-        condition_strings << "(religious_affiliations.name LIKE ? OR religious_affiliations.parent_id in (#{children_parent.join(',')}))"
-      else
-        condition_strings << '(religious_affiliations.name LIKE ?)'
-      end
-      conditions << "%#{keyword}%"
-    end
-    conditions.unshift condition_strings.join(" OR ")
-    order_by = (options[:order] || "title")    
-    {:conditions => conditions, :include => {:organization => :religious_affiliation}, :order => order_by}
-  }
-  
   named_scope :with_titles, lambda { |keywords, options|
     condition_strings = []
     conditions = []

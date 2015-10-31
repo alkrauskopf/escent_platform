@@ -33,7 +33,6 @@ module OrganizationRegistration
           if params[:no_website].nil? && @organization.web_site_url.empty? then
             flash[:error] = "Website URL is required. If you do not have a website check the Don't have a Web Site checkbox."
           else
-            change_religious_affiliation_id 
             if @address.save
               @organization.is_default = @initialize_master
               if  @organization.save
@@ -78,7 +77,7 @@ module OrganizationRegistration
     @address = @organization.addresses.first || @organization.addresses.new
      flash[:notice] = nil
      if request.post? 
-      change_religious_affiliation_id 
+
       if @organization.update_attributes params[:organization]
         @address.organization = @organization
         
@@ -114,11 +113,6 @@ module OrganizationRegistration
   end  
  
   private
-  
-  def change_religious_affiliation_id 
-    unless params[:organization][:religious_affiliation_id].blank?
-      params[:organization][:religious_affiliation_id] = ReligiousAffiliation.find(:first, :conditions => ["name = ?", params[:organization][:religious_affiliation_id]]).id 
-    end
-  end
+
 
 end

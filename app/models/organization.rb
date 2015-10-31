@@ -4,13 +4,10 @@ class Organization < ActiveRecord::Base
   acts_as_tree :order => "name"
   
   belongs_to :status
-  belongs_to :channel
-  belongs_to :religious_affiliation
   belongs_to :organization_type
   belongs_to :organization_size
   belongs_to :featured_topic, :class_name => "Topic"
   belongs_to :default_address, :class_name => "Address"
-  belongs_to :cause_streaming_source, :class_name => "Organization"
   belongs_to :coop_group_code
   
   has_one :merchant_account, :dependent => :destroy
@@ -27,7 +24,6 @@ class Organization < ActiveRecord::Base
   end
 
   has_many :classrooms, :dependent => :destroy
-  has_many :channels
   has_many :contents
   has_many :discussions
   has_many :fundraising_campaigns, :dependent => :destroy
@@ -160,37 +156,6 @@ class Organization < ActiveRecord::Base
     {:conditions => conditions, :order => order_by}
   }
   
-  named_scope :with_religious_affiliations, lambda { |keywords, options|
-    condition_strings = []
-    conditions = []
-    
-    keywords.parse_keywords.each do |keyword| 
-      ra = ReligiousAffiliation.find_by_name(keyword)
-      if ra # return in search all children of the keyword
-        children_parent = ra.all_children.collect{|r| r.id} << ra.id   
-        condition_strings << "(religious_affiliations.name LIKE ? OR religious_affiliations.parent_id in (#{children_parent.join(',')}))"
-      else
-        condition_strings << '(religious_affiliations.name LIKE ?)'
-      end
-      conditions << "#{keyword}%"
-    end
-    conditions.unshift condition_strings.join(" OR ")
-    order_by = (options[:order] || "organizations.name")    
-    {:conditions => conditions, :include => [:religious_affiliation, :outreach_priorities], :order => order_by}
-  }
-  
-  named_scope :with_outreach_priorities, lambda { |keywords, options|
-    condition_strings = []
-    conditions = []
-    keywords.parse_keywords.each do |keyword| 
-      condition_strings << '(outreach_priorities.name LIKE ?)'
-      conditions << "%#{keyword}%"
-    end
-    conditions.unshift condition_strings.join(" OR ")
-    order_by = (options[:order] || "organizations.name")
-    {:conditions => conditions, :include => [:religious_affiliation, :outreach_priorities], :order => order_by}
-  }
-  
   def before_save
  #   if self.roles.empty?
  #     Role::BuiltinOrganizationRoles.each do |role_name|
@@ -200,14 +165,7 @@ class Organization < ActiveRecord::Base
     if self.default_address.nil? && !self.addresses.empty?
       self.default_address = self.addresses.first
     end
-  
-#  ALK Bypassed required field Religious Affiliation Set as "50"  (Affiliation = NONE)
-  
-    if self.religious_affiliation.nil?
-      self.religious_affiliation_id = 50
-    end    
- #  ALK End of forced setting of Religious Affiliation   
- 
+
     set_page_section_default
   end
  
@@ -887,9 +845,7 @@ class Organization < ActiveRecord::Base
       setting_value ? setting_value.value : Object.const_get(match_data[1].classify).find_by_name(setting_name).default_value
     elsif (match_data = method_name.match(partner_re))
       if self.instance_variable_get("@#{match_data[1]}")
-        self.instance_variable_get("@#{match_data[1]}") 
-      else
-        self.instance_variable_set("@#{match_data[1]}", organizations_of_relationship_type(match_data[1].singularize))
+        self.instance_variable_get("@#{match_data[1]}")
       end
     else
       super
@@ -1289,18 +1245,6 @@ Organization.find(:all, :include => :authorizations, :conditions => ["authorizat
 
   def assigned_teachers
     self.classrooms.collect{|c| c.classroom_periods}.flatten.collect{|p| p.classroom_periods_users.teachers}.flatten.collect{|u| u.users}.flatten.uniq
-  end
-
-  
-  def organizations_of_relationship_type(relationship_type)
-    sources_to_include = []
-    sources_to_exclude = []
-    self.organization_relationships.find_all_by_relationship_type(relationship_type.to_s).each do |relationship|
-      if relationship.target
-       (relationship.inclusive? ? sources_to_include : sources_to_exclude) << (relationship.target.is_a?(ReligiousAffiliation) ? self.class.find_all_by_religious_affiliation_id(relationship.target_id) : relationship.target)
-      end
-    end
-    sources_to_include.flatten - sources_to_exclude.flatten
   end
   
   def remove_organization_relationship(organization_relationship)

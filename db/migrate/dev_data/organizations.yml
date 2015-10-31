@@ -1,0 +1,27 @@
+master_org:
+    id: 33
+    parent_id:
+    organization_type_id: 8
+    name: Escent Partners
+    web_site_url: http://www.precisionschoolimprovement.com
+    status_id: 1
+    phone: 303-250-0436
+    fax:
+    organization_size_id:
+    contact_name: Allen Krauskopf
+    contact_role: Managing Partner
+    logo_file_name:
+    logo_content_type:
+    logo_file_size:
+    featured_topic_id:
+    default_address_id:
+    contact_email: akrauskopf@precisionschoolimprovement.com
+    contact_phone: 303-250-0436
+    body:
+    include_information: 1
+    coop_group_code_id:
+    is_default: 1
+    nick_name: Escent
+    alt_short_name: Escent
+    display_contact: 1
+

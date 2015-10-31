@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150626193758) do
+ActiveRecord::Schema.define(:version => 20151031165816) do
 
   create_table "act_answers", :force => true do |t|
     t.integer  "act_submission_id"
@@ -2130,20 +2130,15 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
 
   create_table "organizations", :force => true do |t|
     t.integer  "parent_id"
-    t.integer  "organization_type_id",                                       :null => false
-    t.string   "name",                      :limit => 200,                   :null => false
-    t.datetime "created_at",                                                 :null => false
-    t.datetime "updated_at",                                                 :null => false
-    t.integer  "channel_id"
-    t.integer  "religious_affiliation_id"
-    t.string   "web_site_url",              :limit => 250
-    t.integer  "iwing_tab_id"
-    t.integer  "status_id",                                                  :null => false
-    t.string   "phone",                     :limit => 20
-    t.string   "fax",                       :limit => 20
+    t.integer  "organization_type_id",                                  :null => false
+    t.string   "name",                 :limit => 200,                   :null => false
+    t.datetime "created_at",                                            :null => false
+    t.datetime "updated_at",                                            :null => false
+    t.string   "web_site_url",         :limit => 250
+    t.integer  "status_id",                                             :null => false
+    t.string   "phone",                :limit => 20
+    t.string   "fax",                  :limit => 20
     t.integer  "organization_size_id"
-    t.integer  "package_id"
-    t.string   "email_address",             :limit => 256
     t.string   "contact_name"
     t.string   "contact_role"
     t.string   "logo_file_name"
@@ -2154,17 +2149,15 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.string   "contact_email"
     t.string   "contact_phone"
     t.text     "body"
-    t.integer  "cause_streaming_source_id",                :default => 1
-    t.boolean  "include_information",                      :default => true
+    t.boolean  "include_information",                 :default => true
     t.integer  "coop_group_code_id"
     t.boolean  "is_default"
-    t.string   "nick_name",                                :default => ""
-    t.string   "alt_short_name",            :limit => 10
-    t.boolean  "display_contact",                          :default => true
+    t.string   "nick_name",                           :default => ""
+    t.string   "alt_short_name",       :limit => 10
+    t.boolean  "display_contact",                     :default => true
   end
 
   add_index "organizations", ["organization_type_id"], :name => "IDX2_Organizations"
-  add_index "organizations", ["religious_affiliation_id"], :name => "IDX1_Organizations"
 
   create_table "organizations_outreach_priorities", :id => false, :force => true do |t|
     t.integer  "outreach_priority_id", :default => 0, :null => false
@@ -3082,7 +3075,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   add_index "user_itl_belt_ranks", ["user_id"], :name => "index_user_itl_belt_ranks_on_user_id"
 
   create_table "users", :force => true do |t|
-    t.integer  "religious_affiliation_id"
     t.datetime "created_at",                                                    :null => false
     t.integer  "status_id"
     t.string   "first_name",                  :limit => 50
@@ -3097,7 +3089,7 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.string   "display_name",                :limit => 128
     t.string   "verification_code",           :limit => 16
     t.datetime "verified_at"
-    t.string   "password",                                                      :null => false
+    t.string   "password"
     t.string   "salt",                        :limit => 256
     t.string   "email_address",               :limit => 512
     t.string   "crypted_password"

@@ -5,8 +5,7 @@ class User < ActiveRecord::Base
   include PublicPersona
 
   has_attached_file :picture, :styles => { :thumb => "118x166#", :med_thumb => "80x112#", :small_thumb => "50x50#" }
-  
-  belongs_to :religious_affiliation
+
   belongs_to :act_master
   belongs_to :organization, :foreign_key => "home_org_id" 
   has_many :tlt_dashboards, :dependent => :destroy
@@ -217,7 +216,7 @@ class User < ActiveRecord::Base
     end
     conditions.unshift condition_strings.join(" OR ")
     order_by = (options[:order] || "last_name, first_name")
-    {:conditions => conditions, :include => :religious_affiliation, :order => order_by}
+    {:conditions => conditions, :order => order_by}
   }
  
   named_scope :with_roles, lambda { |keywords, options|
@@ -230,24 +229,6 @@ class User < ActiveRecord::Base
     conditions.unshift condition_strings.join(" OR ")
     order_by = (options[:order] || "last_name, first_name") 
     {:conditions => conditions, :include => "roles", :order => order_by}
-  } 
-  
-  named_scope :with_religious_affiliations, lambda { |keywords, options|
-    condition_strings = []
-    conditions = []
-    keywords.parse_keywords.each do |keyword| 
-      ra = ReligiousAffiliation.find_by_name(keyword)
-      if ra # return in search all children of the keyword
-        children_parent = ra.all_children.collect{|r| r.id} << ra.id   
-        condition_strings << "(religious_affiliations.name LIKE ? OR religious_affiliations.parent_id in (#{children_parent.join(',')}))"
-      else
-        condition_strings << '(religious_affiliations.name LIKE ?)'
-      end
-      conditions << "%#{keyword}%"
-    end
-    conditions.unshift condition_strings.join(" OR ")
-    order_by = (options[:order] || "last_name, first_name")    
-    {:conditions => conditions, :include => :religious_affiliation, :order => order_by}
   }
 
   named_scope :with_talent, lambda { |keywords, options|
@@ -270,7 +251,7 @@ class User < ActiveRecord::Base
   named_scope :with_organizations, lambda { |keywords, options|
     role_ids = Organization.with_names(keywords,{}).collect{|o| o.roles.collect{|r| r.id}}.flatten
     order_by = (options[:order] || "last_name, first_name")    
-    {:conditions => ["role_memberships.role_id IN (?)", role_ids], :include => [:religious_affiliation, :role_memberships], :order => order_by}
+    {:conditions => ["role_memberships.role_id IN (?)", role_ids], :include => [ :role_memberships], :order => order_by}
   }
   
   def self.generate_password(length = 10)
@@ -1258,7 +1239,7 @@ class User < ActiveRecord::Base
   protected
   
   def password_required?
-    crypted_password.blank? || !password.blank?
+    crypted_password.blank?  || !password.blank?
   end
   
   def age_verified_required?

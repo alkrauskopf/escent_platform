@@ -3,10 +3,10 @@ class ReligiousAffiliation < ActiveRecord::Base
   
   acts_as_tree :order => "name"
   
-  belongs_to :channel
-  has_many :organizations
+#  belongs_to :channel
+#  has_many :organizations
 
-  validates_presence_of :name
+#  validates_presence_of :name
 
   named_scope :top, :conditions => ["parent_id IS NULL"], :order => "name"
 

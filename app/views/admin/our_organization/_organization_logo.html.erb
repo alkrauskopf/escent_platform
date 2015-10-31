@@ -55,11 +55,6 @@
 		     <% end %>
 		     </span>
 	        </div>
-	        <div class="affiliate_information_title">
-		       <span class="normal_text">
-		          <%= @current_organization.religious_affiliation ? @current_organization.religious_affiliation.name : 'N/A'  %>
-		       </span>
-	        </div>
 	        <% unless @current_organization.web_site_url.nil? %>
 	        <div class="affiliate_information_title">
 		    <span class="normal_text"><%= link_to @current_organization.web_site_url, @current_organization.web_site_url, :target => "_blank"  %></span>

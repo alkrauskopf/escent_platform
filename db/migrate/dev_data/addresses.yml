@@ -1,0 +1,11 @@
+master:
+    id: 1
+    address_type_id: 3
+    organization_id: 33
+    user_id:
+    street1: 100 Main Street
+    street2: " "
+    city: Denver
+    state: CO
+    country: US
+    postal_code: 80202

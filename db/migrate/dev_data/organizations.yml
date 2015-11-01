@@ -14,7 +14,7 @@ master_org:
     logo_content_type:
     logo_file_size:
     featured_topic_id:
-    default_address_id:
+    default_address_id: 1
     contact_email: akrauskopf@precisionschoolimprovement.com
     contact_phone: 303-250-0436
     body:

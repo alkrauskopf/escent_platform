@@ -24,8 +24,7 @@ div.verify { padding-left: 120px; }
 .register { margin-right: 40px; }
 #register_step_3 ul { margin-left: 20px; font-size: 12px; color:#19203a; font-weight: bold; }
 #register_step_3 ul li { line-height: 2em; }
-#prayer_pledge_phone_number { float:left; width:160px; }
-#prayer_pledge_phone_provider { float:left; }
+
 
 /*==============================
 		errorExplanation

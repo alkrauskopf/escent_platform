@@ -36,88 +36,6 @@
 	</div>	
 
 </div>
-		
-		
-                 <!--
-		<p class="clear">
-			<span>Description</span>			
-			<%= form.text_area :description, :class => "mceEditor", :cols => 30, :rows => 7 %>
-		</p>
-		<p class="clear">
-			<span>Discussion Question</span>			
-			<%= form.text_area :discussion_question, :class => "mceEditor", :cols => 30, :rows => 7 %>
-		</p>
-               
-    <div style="border:2px solid #ddd;">
-      <div class="FormRow" style="padding-bottom:0">
-				<div class="FormRowTitle">
-              Outreach Priorities 
-				</div>
-				<div class="FormRowData">
-            <input type="text" value="" size="30" id="select_outreach_priority_topic" class="text"/>
-            <button id="add_outreach_priority_topic" class="fsn-button ui-button ui-state-default ui-corner-all">Add</button>      
-            <br style="clear:both;" />
-            <div id="new_outreach_priority_topic" style="float:left;padding:2px 5px;margin:5px 0 0 0;display:none;" class="notice">
-              <input type="hidden" id="new_outreach_priority_value_topic" name="new_outreach_priority_value" />
-              <p>This outreach priority currently does not exist in our database, do you want to add it?</p>
-              <p>
-                <a style="color:green;text-decoration: none;" href="javascript:void(0)" id="create_add_outreach_priority_topic">Save</a> or <a style="color:#F00;text-decoration: none;" href="javascript:void(0)" id="cancel_add_outreach_priority_topic">Cancel</a></p>
-            </div>
-            <script type="text/javascript" charset="utf-8">
-              jQ(document).ready(function() {
-              	var create_url = "<%= url_for :controller => 'admin/topics', :action => :new_outreach_priority, :organization_id => @current_organization, :id => @topic %>";
-                jQ("#create_add_outreach_priority_topic").click(function() {
-                  jQ.post(create_url, {"name": jQ("input#new_outreach_priority_value_topic").val()}, null, "script")
-                })
-                jQ("#cancel_add_outreach_priority_topic").click(function() {
-                  jQ("#new_outreach_priority_topic").hide();
-                })
-              })
-            </script>
-				</div>
-      </div>
-      <div id="outreach_priorities_warp_topic">
-        <%= render :partial => "/admin/topics/outreach_priorities" %>
-      </div>
-      <br style="clear:both" />
-    </div>
-                
-		<h4>Schedule Topics</h4>
-                --> 
-
-                <!--
-		<p class="clear">
-	    Topic closes at:<br/>
-	    <%= check_box_tag "no_publish_end_date", 1, !@topic.publish_ends_at?, :id => "no_publish_end_date" %> No scheduled close
-	  	<div id="publish_end_date_panel" style="<%= 'display: none;' unless @topic.publish_ends_at? %>">
-	   	<%= form.calendar_date_select :publish_ends_at, :size => 18 %>
-			</div>
-		</p>
-		<br />
-		<h4>Participation Settings</h4>
-		<% i = 0 -%>
-	  <% form.fields_for :setting_values do |setting_value| %>
-
-		<% if Topic::SettingOptions[i] %>
-		  <p class="clear">
-			  <label class="form_title"><%= Topic::SettingOptions[i][:label] %>:</label>
-			  <% for option in Topic::SettingOptions[i][:options] do %>
-			    <p>
-			      <%= setting_value.radio_button 'value', option[1], :checked=>should_select(option[1])%> <%= option[0] %></p>
-				    <% if option[1] == 'roles' -%>
-					    <div id="roles_participation_settings" style="margin-left:20px">
-				      <% @current_organization.roles.each do |r|%>
-					    <p class="clear"><%= check_box_tag "role_ids[]", "#{r.id}", should_select(r.id) %><%= r.name %></p>
-				      <% end -%>
-						  </div>
-				    <% end -%>		
-		    <% end %>
-		</p>
-		<% end %>
-		<% i +=1 -%>
-	  <% end -%>
-		<br />
-                -->
 
 <style type="text/css" media="screen">
 .FormRowData { width: auto; }
@@ -327,16 +245,4 @@ jQ(document).ready(function() {
 	var set_featured_url = "/admin/topics/set_featured_content/<%=@current_organization.public_id%>";
 	jQ('#topic_content input[type=radio]').setFeatured(set_featured_url, topic_id)
 });
-</script>
-<script type="text/javascript" charset="utf-8">
-  jQ(document).ready(function() {
-		var post_url = "<%= url_for :controller => 'admin/topics', :action => :select_outreach_priorities %>";
-    jQ("#select_outreach_priority_topic").autocomplete(post_url);
-		var add_url = "<%= url_for :controller => 'admin/topics', :action => :add_outreach_priority, :organization_id => @current_organization, :id => @topic %>";
-    jQ("#add_outreach_priority_topic").click(function() {
-      name = jQ("input#select_outreach_priority_topic").get(0).value;
-      jQ.post(add_url, {"name": name}, null, "script");
-      return false;
-    })
-  })
 </script>

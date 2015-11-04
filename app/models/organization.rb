@@ -26,19 +26,16 @@ class Organization < ActiveRecord::Base
   has_many :classrooms, :dependent => :destroy
   has_many :contents
   has_many :discussions
-  has_many :fundraising_campaigns, :dependent => :destroy
   has_many :payments
   has_many :topics
   has_many :setting_values, :as => :scope, :dependent => :destroy
   has_many :roles, :as => :scope, :dependent => :destroy
   has_many :page_sections, :dependent => :destroy
   has_many :organization_relationships, :as => :source, :dependent => :destroy
-  has_many :trusted_topic_sources, :dependent => :destroy
   has_many :content_albums, :dependent => :destroy
   has_many :blogs, :dependent => :destroy
   has_many :blog_posts, :through => :blogs
   has_many :reported_abuses, :class_name => "ReportedAbuse"
-  has_many :prayer_pledges
   has_many :metrics
   has_many :users 
   has_many :coop_app_organizations, :dependent => :destroy
@@ -97,8 +94,6 @@ class Organization < ActiveRecord::Base
 
   has_one :organization_core_option 
 
-  has_and_belongs_to_many :outreach_priorities
-#  has_and_belongs_to_many :users
   has_many :users
   
   # validates_confirmation_of 
@@ -958,12 +953,7 @@ class Organization < ActiveRecord::Base
     end
     start_date
   end
-  
 
-  def active_topics_within_network(options={})
-    options = options.reverse_merge(:limit => 8)
-    Topic.find :all, :conditions => ["organization_id IN (?)", self.trusted_topic_sources.collect{|tts| tts.source.id}], :order => "last_posted_at DESC", :limit => options[:limit]
-  end
   
   def uniq_resource_subjects
     all = Content.active.find(:all, :conditions => ["organization_id = ?", self.id])
@@ -1252,8 +1242,6 @@ Organization.find(:all, :include => :authorizations, :conditions => ["authorizat
       organization_relationship = self.organization_relationships.find(organization_relationship) rescue nil
     end
     if organization_relationship
-      trusted_topic_source = self.trusted_topic_sources.find_by_source_id(organization_relationship.target_id)
-      self.trusted_topic_sources.delete(trusted_topic_source) if trusted_topic_source
       organization_relationship.destroy
     end
   end

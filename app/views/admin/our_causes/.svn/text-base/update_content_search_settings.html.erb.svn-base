@@ -1,3 +1,0 @@
-<span class="flash_notice" style="padding:0 4px;">
-	Content Search Filter set to <%= params['Content Search Filter'] %> successful.
-</span>

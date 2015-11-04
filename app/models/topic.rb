@@ -21,8 +21,6 @@ class Topic < ActiveRecord::Base
   has_many :act_score_ranges, :through => :act_score_range_topics
   has_many :tlt_sessions  
   has_many :tlt_dashboards
-
-  has_and_belongs_to_many :outreach_priorities
   
   accepts_nested_attributes_for :setting_values
 

@@ -1,6 +1,4 @@
-<style type="text/css" media="screen">
-  #select_outreach_priority, #add_outreach_priority { float: left; margin-top: 8px; }
-</style>
+
 <div class="Form">
     <div class="FormSectionTitle" style="text-align:left; height:25px;">
     		Organization Information
@@ -246,19 +244,6 @@
     <div class="normal_text">
         This will allow us to direct those who are interested in learning more about your organization to your website.    </div>
 	</div>
-<script type="text/javascript" charset="utf-8">
-  jQ(document).ready(function() {
-		var post_url = "<%= url_for :controller => '/organizations', :action => :select_outreach_priorities %>";
-    jQ("#select_outreach_priority").autocomplete(post_url);
-    
-		var add_url = "<%= url_for :controller => 'admin/our_organization', :action => :add_outreach_priority, :organization_id => @organization %>";
-    jQ("#add_outreach_priority").click(function() {
-      name = jQ("input#select_outreach_priority").get(0).value;
-      jQ.post(add_url, {"name": name}, null, "script");
-      return false;
-    })
-  })
-</script>
 <script type="text/javascript" charset="utf-8">
     	jQ(document).ready(function() {
         var organization_types = <%= OrganizationType.affiliate.children.inject({}){|lut, ot| lut[ot.id] = {:name => ot.name, :has_size => ot.has_size?, :has_religious_affiliation => ot.has_religious_affiliation};lut}.to_json %>;

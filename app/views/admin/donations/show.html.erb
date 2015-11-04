@@ -11,10 +11,6 @@
   <%=h @payment.merchant_account.name %>
 </p>
 <p>
-  <b>Fundraising Objective:</b>
-  <%=h @payment.fundraising_campaign.name if @payment.fundraising_campaign? %>
-</p>
-<p>
   <b>Transaction status:</b>
   <%=h @payment.transaction_status.name if @payment.transaction_status? %>
 </p>

@@ -24,7 +24,7 @@ ActionController::Routing::Routes.draw do |map|
 #  map.admin_classroom_restore '/admin/classrooms/restore/:id',:controller => 'admin/classrooms',:action => 'restore'
   map.namespace :admin do |admin|
     admin.resources :donations
-    admin.resources :fundraising_campaigns
+
 #    admin.resources :classrooms
   end
   

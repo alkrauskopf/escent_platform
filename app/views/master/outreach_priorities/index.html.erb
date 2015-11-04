@@ -1,7 +1,0 @@
-<div class="MasterItemHeaderDiv">Outreach Priorities</div>
-<%= link_to "Add", :action => :new %>
-<div>
-	<%= render :partial => 'outreach_priority', :collection => OutreachPriority.find_all_by_parent_id(0) %>
-</div>		
-
-	

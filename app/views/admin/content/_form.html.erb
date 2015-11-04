@@ -193,18 +193,6 @@
     <%= label_tag 'content_title', 'If There Is One, What Is Their URL?' %>
     <%= text_field :content, :source_url, :size => 55, :maxlength => 255 %>
 </p>
-<!-- ALK Remove
-<p>
-    <%= label_tag 'content_title', 'Producer/Author Name:' %>
-    <%= text_field :content, :creator_name, :size => 55, :maxlength => 255 %>500 Characters 
-</p>
-<p>
-    <%= label_tag 'content_title', 'Related OUTREACH PRIORITY:' %>
-</p>
-<p>
-    <%= label_tag 'content_title', 'Affiliate Restrictions:' %>
-</p>
--->
 <p>
     <%= label_tag 'content_title', 'Availability Date:' %>
     <%= date_select(:content, :publish_start_date, :order=>[:month, :day, :year], :start_year => Time.now.year - 2, :end_year => Time.now.year + 20) %>

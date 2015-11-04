@@ -446,7 +446,6 @@ end
     @content = @current_topic ? @current_topic.contents.first : nil
     @related_content = @current_topic ? @current_topic.contents[1,@current_topic.contents.size] : []
     @other_active_topics = @current_organization.topics.active.collect{|t| t} - [@current_organization.featured_topic || @current_organization.topics.active.first]
-    @active_topics_within_network = @current_organization.active_topics_within_network
   end  
   
   def update_talents(talents) 

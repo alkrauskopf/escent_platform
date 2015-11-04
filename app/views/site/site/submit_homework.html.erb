@@ -302,18 +302,7 @@ jQ(document).ready(function() {
 	// jQ('#topic_content input[type=radio]').setFeatured(set_featured_url, topic_id)
 });
 </script>
-<script type="text/javascript" charset="utf-8">
-  jQ(document).ready(function() {
-		var post_url = "<%= url_for :controller => 'admin/topics', :action => :select_outreach_priorities %>";
-    jQ("#select_outreach_priority_topic").autocomplete(post_url);
-		var add_url = "<%= url_for :controller => 'admin/topics', :action => :add_outreach_priority, :organization_id => @current_organization, :id => @topic %>";
-    jQ("#add_outreach_priority_topic").click(function() {
-      name = jQ("input#select_outreach_priority_topic").get(0).value;
-      jQ.post(add_url, {"name": name}, null, "script");
-      return false;
-    })
-  })
-</script>
+
 
 
 

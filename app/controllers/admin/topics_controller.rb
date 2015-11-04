@@ -22,8 +22,6 @@ class Admin::TopicsController < Admin::ApplicationController
     @classroom = Classroom.find(params[:classroom_id])
     @current_organization = Organization.find_by_public_id(params[:organization_id])
     @topic = @classroom.topics.new
-    session[:outreach_priorities] = []
-    @outreach_priorities = OutreachPriority.find(session[:outreach_priorities]) 
     initialize_discussion_setting_values if @topic.setting_values.empty?
     @contents = Content.active.paginate :per_page => 5, :page => params[:page]
     render :template => "/admin/content/search_results_for_topics.html.erb" if params[:page]
@@ -54,9 +52,7 @@ class Admin::TopicsController < Admin::ApplicationController
     
     # currently can be a string "all" or an array of role_ids stored as YAML
     @who_may_contribute_value_settings = YAML::load(@topic.discussion_setting_value_named('Permission To Contribute'))
-    
-    session[:outreach_priorities] = @topic.outreach_priorities.collect{|o| o.id}
-    @outreach_priorities = OutreachPriority.find(session[:outreach_priorities])
+
     @contents = Content.active.paginate :per_page => 15, :page => params[:page]
     render :template => "/admin/content/search_results_for_topics.html.erb" if params[:page]    
   rescue ActiveRecord::RecordNotFound => e
@@ -91,13 +87,7 @@ class Admin::TopicsController < Admin::ApplicationController
     end   
   end
 
-  def update  
-#    params[:topic][:publish_ends_at] = nil if params[:no_publish_end_date] == "1"
-#    params[:topic][:outreach_priority_ids] ||= []
-#    if params[:topic][:setting_values_attributes]["0"][:value] == "roles"
-#      role_ids = params[:role_ids]
-#      params[:topic][:setting_values_attributes]["0"][:value] = role_ids.to_yaml
-#    end
+  def update
     @current_organization = Organization.find_by_public_id(params[:organization_id]) 
     if @topic.update_attributes(params[:topic])
       redirect_to :action => :index,:organization_id => @current_organization, :classroom_id => @classroom.id
@@ -165,38 +155,6 @@ class Admin::TopicsController < Admin::ApplicationController
     @discussions = @topic.discussions.active
     @discussions.paginate :per_page => 10, :page => params[:page]
   end
-
-  def select_outreach_priorities
-    outreach_priorities = OutreachPriority.auto_complete_on params[:q]
-    render :text => outreach_priorities.empty? ? "" : outreach_priorities.collect{|outreach_prioritie| "#{outreach_prioritie.name}\n"}
-  end  
-
-  
-  def add_outreach_priority
-    outreach_priority = OutreachPriority.find_by_name params[:name]
-    if outreach_priority.nil?
-      render :template => "admin/topics/new_outreach_priority.js", :locals => {:name => params[:name]} and return
-    else
-      session[:outreach_priorities] << outreach_priority.id
-    end
-    @outreach_priorities = OutreachPriority.find(session[:outreach_priorities])
-  end  
-  
-  def new_outreach_priority
-    outreach_priority = OutreachPriority.create(:name => params[:name], :parent_id => 1) 
-    session[:outreach_priorities] << outreach_priority.id
-    @outreach_priorities = OutreachPriority.find(session[:outreach_priorities])    
-    render :template => "admin/topics/add_outreach_priority.js"
-  end
-  
-  
-  def remove_outreach_priority
-    outreach_priority = OutreachPriority.find_by_id params[:id]
-    session[:outreach_priorities].delete(outreach_priority.id)
-    @outreach_priorities = OutreachPriority.find(session[:outreach_priorities])
-    render :action => :add_outreach_priority
-  end  
-  
   
   protected
   

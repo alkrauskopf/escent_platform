@@ -19,14 +19,6 @@ class Metric < ActiveRecord::Base
   def self.sum_count(key , start_date , end_date)
     options = ["created_at > '#{start_date}' and created_at < '#{end_date}'"]
     case key
-     when 1
-       PrayerPledge.count(:conditions => options)
-     when 2
-       options[0] << " and send_reminder_day_before = 1"
-       PrayerPledge.count(:conditions => options)
-     when 3
-       options[0] << " and (phone_number is not null) and (phone_number != '')"
-       PrayerPledge.count(:conditions => options)
      when 4
        options[0] << " and share_type = 4"
        count(:conditions => options)

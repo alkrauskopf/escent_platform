@@ -3,7 +3,6 @@ class Payment < ActiveRecord::Base
   belongs_to :organization
   belongs_to :merchant_account
   belongs_to :transaction_status
-  belongs_to :fundraising_campaign
   belongs_to :user
 
   validates_presence_of :organization_id

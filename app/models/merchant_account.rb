@@ -1,6 +1,6 @@
 class MerchantAccount < ActiveRecord::Base
   has_many :payments
-  has_many :fundraising_campaigns
+#  has_many :fundraising_campaigns
   
   belongs_to :organization
   

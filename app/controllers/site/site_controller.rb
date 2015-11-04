@@ -1008,11 +1008,7 @@ class Site::SiteController < Site::ApplicationController
       if @keywords.blank?
         items_found = Organization.active(:order => order_by)
       else
-        if @search_field == "outreach priority"
-          items_found = Organization.with_outreach_priorities @keywords, :order => order_by
-        else
           items_found = Organization.active.with_names @keywords, :order => order_by
-        end
       end
       unless @filter.nil?
         if @filter != "-- No Filter --" 

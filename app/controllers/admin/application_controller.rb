@@ -15,9 +15,7 @@ class Admin::ApplicationController < ApplicationController
     @pending_topics = @current_organization.topics.pending
     @closed_topics = @current_organization.topics.closed
     @contents = @current_organization.contents.paginate :per_page => 10, :page => params[:page]
-    @fundraising_campaigns = @current_organization.fundraising_campaigns
     @people = @current_organization.org_followers
-    @outreach_priority_groups = OutreachPriorityGroups.find(:all)
     @blogs = @current_organization.blogs
     @reported_abuses = @current_organization.reported_abuses
     @active_classrooms = @current_organization.classrooms.active

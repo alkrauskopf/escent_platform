@@ -12,29 +12,6 @@ namespace :fixtures do
     error_check_and_process{load_fixture(Object.const_get(ENV['MODEL']))}
   end
   
-  desc "Import excel file"
-  task :import_prayer_pledges => :environment do 
-    path = RAILS_ROOT+'/db/migrate/dev_data/prayer_pledges.yml'
-    if File.exist?(path)
-      records = YAML.load(File.open(path))
-      if records
-        records.to_a.each do |record|
-          value = record.last
-          if value.is_a?(Hash)
-            value.merge!({:age_verified => "1" })
-            pp = PrayerPledge.new(value).save
-            puts "#{pp.inspect} = #{value.inspect}"
-          end
-        end
-        puts "Fixtures for PrayerPledge loaded"
-      else
-        puts "File no data"
-      end
-    else
-      puts "The path is not exist : #{path}"
-    end
-  end
-  
   desc "load all initial database fixtures (in db/bootstrap/*.yml) into the current environment's database.  Load specific fixtures using FIXTURES=x,y"
   task :load_all => :environment do
     require 'active_record/fixtures'

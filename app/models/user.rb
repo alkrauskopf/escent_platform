@@ -9,14 +9,12 @@ class User < ActiveRecord::Base
   belongs_to :act_master
   belongs_to :organization, :foreign_key => "home_org_id" 
   has_many :tlt_dashboards, :dependent => :destroy
-  
-  has_many :prayer_pledges
+
   has_many :addresses, :dependent => :destroy
   has_many :contents
   has_many :role_memberships, :dependent => :destroy
   has_many :roles, :through => :role_memberships
   has_and_belongs_to_many :organizations
-  has_and_belongs_to_many :outreach_priorities
   has_many :authorizations, :include => :authorization_level, :dependent => :destroy
 #  has_many :authorizations, :as => :scope, :dependent => :destroy
   has_many :payments

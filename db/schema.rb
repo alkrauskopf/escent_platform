@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151104031514) do
+ActiveRecord::Schema.define(:version => 20151104172516) do
 
   create_table "act_answers", :force => true do |t|
     t.integer  "act_submission_id"
@@ -1460,19 +1460,6 @@ ActiveRecord::Schema.define(:version => 20151104031514) do
   add_index "elt_types", ["organization_id"], :name => "type_organization"
   add_index "elt_types", ["rubric_id"], :name => "index_elt_types_on_rubric_id"
 
-  create_table "event_log_types", :force => true do |t|
-    t.string "name", :limit => 50, :null => false
-  end
-
-  create_table "event_logs", :force => true do |t|
-    t.integer  "event_log_type_id"
-    t.integer  "user_id"
-    t.integer  "channel_id"
-    t.integer  "content_id"
-    t.datetime "created_at",                       :null => false
-    t.string   "event_data",        :limit => 500
-  end
-
   create_table "folder_folderables", :force => true do |t|
     t.integer  "folder_id"
     t.integer  "folderable_id"
@@ -2120,15 +2107,6 @@ ActiveRecord::Schema.define(:version => 20151104031514) do
 
   add_index "organizations", ["organization_type_id"], :name => "IDX2_Organizations"
 
-  create_table "organizations_outreach_priorities", :id => false, :force => true do |t|
-    t.integer  "outreach_priority_id", :default => 0, :null => false
-    t.integer  "organization_id",      :default => 0, :null => false
-    t.datetime "created_at"
-  end
-
-  add_index "organizations_outreach_priorities", ["organization_id", "outreach_priority_id"], :name => "index_organization_id_and_outreach_priority_id", :unique => true
-  add_index "organizations_outreach_priorities", ["outreach_priority_id", "organization_id"], :name => "index_outreach_priority_id_and_organization_id", :unique => true
-
   create_table "organizations_users", :id => false, :force => true do |t|
     t.integer  "organization_id", :null => false
     t.integer  "user_id",         :null => false
@@ -2137,45 +2115,6 @@ ActiveRecord::Schema.define(:version => 20151104031514) do
 
   add_index "organizations_users", ["organization_id", "user_id"], :name => "index_organizations_users_on_organization_id_and_user_id", :unique => true
   add_index "organizations_users", ["user_id", "organization_id"], :name => "index_organizations_users_on_user_id_and_organization_id", :unique => true
-
-  create_table "outreach_priorities", :force => true do |t|
-    t.integer  "parent_id"
-    t.string   "name",       :limit => 50, :null => false
-    t.datetime "created_at",               :null => false
-  end
-
-  create_table "outreach_priorities_outreach_priority_groups", :id => false, :force => true do |t|
-    t.integer  "outreach_priority_id"
-    t.integer  "outreach_priority_group_id"
-    t.datetime "create_at"
-  end
-
-  create_table "outreach_priorities_topics", :id => false, :force => true do |t|
-    t.integer  "outreach_priority_id", :default => 0, :null => false
-    t.integer  "topic_id",             :default => 0, :null => false
-    t.datetime "created_at"
-  end
-
-  add_index "outreach_priorities_topics", ["outreach_priority_id", "topic_id"], :name => "index_outreach_priority_id_and_topic_id", :unique => true
-  add_index "outreach_priorities_topics", ["topic_id", "outreach_priority_id"], :name => "index_topic_id_and_outreach_priority_id", :unique => true
-
-  create_table "outreach_priorities_users", :id => false, :force => true do |t|
-    t.integer  "outreach_priority_id", :default => 0, :null => false
-    t.integer  "user_id",              :default => 0, :null => false
-    t.datetime "created_at"
-  end
-
-  add_index "outreach_priorities_users", ["outreach_priority_id", "user_id"], :name => "index_outreach_priority_id_and_user_id", :unique => true
-  add_index "outreach_priorities_users", ["user_id", "outreach_priority_id"], :name => "index_user_id_and_outreach_priority_id", :unique => true
-
-  create_table "outreach_priority_groups", :force => true do |t|
-    t.integer  "outreach_priority_id"
-    t.integer  "user_id"
-    t.integer  "organization_id"
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "page_sections", :force => true do |t|
     t.integer  "organization_id", :null => false
@@ -2193,13 +2132,12 @@ ActiveRecord::Schema.define(:version => 20151104031514) do
   create_table "payments", :force => true do |t|
     t.integer  "merchant_account_id"
     t.integer  "transaction_status_id"
-    t.integer  "fundraising_campaign_id"
     t.integer  "user_id"
-    t.decimal  "amount",                                :precision => 9, :scale => 2, :default => 0.0
+    t.decimal  "amount",                               :precision => 9, :scale => 2, :default => 0.0
     t.string   "memo"
     t.string   "authorization_code"
     t.string   "response_message"
-    t.string   "card_number",             :limit => 32
+    t.string   "card_number",            :limit => 32
     t.integer  "organization_id"
     t.string   "card_holder_name"
     t.string   "billing_address"
@@ -2207,30 +2145,11 @@ ActiveRecord::Schema.define(:version => 20151104031514) do
     t.string   "billing_state_province"
     t.string   "billing_postal_code"
     t.string   "billing_country"
-    t.string   "billing_phone",           :limit => 20
-    t.string   "card_type",               :limit => 32
+    t.string   "billing_phone",          :limit => 20
+    t.string   "card_type",              :limit => 32
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "permission_types", :force => true do |t|
-    t.string   "name",       :limit => 50, :null => false
-    t.datetime "created_at",               :null => false
-  end
-
-  create_table "permissions", :force => true do |t|
-    t.integer  "channel_id"
-    t.integer  "content_id"
-    t.integer  "user_id"
-    t.integer  "role_id"
-    t.integer  "permission_type_id", :null => false
-    t.datetime "created_at",         :null => false
-  end
-
-  add_index "permissions", ["channel_id", "id"], :name => "IDX_Permissions1"
-  add_index "permissions", ["content_id", "id"], :name => "IDX_Permissions2"
-  add_index "permissions", ["role_id", "id"], :name => "IDX_Permissions4"
-  add_index "permissions", ["user_id", "id"], :name => "IDX_Permissions3"
 
   create_table "players", :force => true do |t|
     t.datetime "created_at",                  :null => false
@@ -2928,16 +2847,6 @@ ActiveRecord::Schema.define(:version => 20151104031514) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "trusted_sources", :force => true do |t|
-    t.integer  "organization_id"
-    t.integer  "source_id"
-    t.string   "type",            :limit => 32
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "trusted_sources", ["organization_id", "source_id", "type"], :name => "index_trusted_sources_on_organization_id_and_source_id_and_type", :unique => true
 
   create_table "user_dle_plan_coachings", :force => true do |t|
     t.integer  "user_dle_plan_id"

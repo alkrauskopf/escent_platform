@@ -60,8 +60,6 @@ module OrganizationRegistration
       @organization = Organization.new()
       @organization.organization_type_id = nil
       @address = @organization.addresses.empty? ? @organization.addresses.new : @organization.addresses.physical.first
-      session[:organization_outreach_priorities] = []
-      @outreach_priorities = OutreachPriority.find(session[:organization_outreach_priorities])   
     end
   end
   
@@ -90,22 +88,7 @@ module OrganizationRegistration
         flash[:error] = @organization.errors.full_messages.to_sentence
       end 
     end
-    session[:organization_outreach_priorities] = @organization.outreach_priorities.collect{|o| o.id}
-    @outreach_priorities = OutreachPriority.find(session[:organization_outreach_priorities])
   end
-  
-  def select_outreach_priorities
-    outreach_priorities = OutreachPriority.auto_complete_on params[:q]
-    render :text => outreach_priorities.empty? ? "" : outreach_priorities.collect{|outreach_prioritie| "#{outreach_prioritie.name}\n"}
-  end  
-
-  def remove_outreach_priority
-    @organization = @current_organization  
-    outreach_priority = OutreachPriority.find_by_id params[:id]
-    session[:organization_outreach_priorities].delete(outreach_priority.id)
-    @outreach_priorities = OutreachPriority.find(session[:organization_outreach_priorities])    
-    render :action => :add_outreach_priority
-  end  
  
   private
 

@@ -1,2 +1,0 @@
-class TrustedTopicSource < TrustedSource
-end

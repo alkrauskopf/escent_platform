@@ -1,4 +1,0 @@
-<h2>Add Content Album</h2>
-<% form_tag({:action => :create, :format => 'js'}, :target => 'upload_frame' , :multipart => true) do -%>
-	<%= render :partial => "form" %>
-<% end %>

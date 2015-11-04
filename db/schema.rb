@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151104172516) do
+ActiveRecord::Schema.define(:version => 20151104185527) do
 
   create_table "act_answers", :force => true do |t|
     t.integer  "act_submission_id"
@@ -812,24 +812,6 @@ ActiveRecord::Schema.define(:version => 20151104172516) do
     t.string   "user_name"
     t.string   "user_url"
     t.string   "user_email"
-  end
-
-  create_table "content_albums", :force => true do |t|
-    t.string   "name"
-    t.string   "description",     :limit => 8000
-    t.integer  "organization_id"
-    t.datetime "starts_at"
-    t.datetime "ends_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "display",                         :default => false
-    t.boolean  "accept_upload",                   :default => false
-    t.string   "cover",                           :default => ""
-  end
-
-  create_table "content_albums_contents", :id => false, :force => true do |t|
-    t.integer "content_id"
-    t.integer "content_album_id"
   end
 
   create_table "content_details", :force => true do |t|

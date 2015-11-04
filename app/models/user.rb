@@ -1183,10 +1183,6 @@ class User < ActiveRecord::Base
   def self.org_contact(contact_email)
     User.find(:first, :conditions => ["(email_address = ?)", contact_email]) rescue nil
   end
-  
-  def content_albums_with_organization(organization)
-    self.content_albums.find_all_by_organization_id(organization)
-  end
  
   def owned_classrooms
     Classroom.active.find(:all, :conditions => ["(user_id = ? )", self.id], :order => "course_name")

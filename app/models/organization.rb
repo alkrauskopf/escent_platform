@@ -32,7 +32,6 @@ class Organization < ActiveRecord::Base
   has_many :roles, :as => :scope, :dependent => :destroy
   has_many :page_sections, :dependent => :destroy
   has_many :organization_relationships, :as => :source, :dependent => :destroy
-  has_many :content_albums, :dependent => :destroy
   has_many :blogs, :dependent => :destroy
   has_many :blog_posts, :through => :blogs
   has_many :reported_abuses, :class_name => "ReportedAbuse"

@@ -1,4 +1,0 @@
-<h2>Edit Content Album</h2>
-<% form_for :content_album, @content_album, :url => {:action => "update", :content_album_id => @content_album, :format => 'js'}, :html => { :method => :put, :target => 'upload_frame' , :multipart => true} do |f| %>  
-	<%= render :partial => "form" %>
-<% end %>

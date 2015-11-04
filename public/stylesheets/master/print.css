@@ -134,10 +134,6 @@ col {
   border-right: 1px solid #ccc;
 }
 
-col#albumCol {
-  border: none;
-}
-
 thead {
   background: #ccc url(/images/bar.gif) repeat-x left center;
   border-top: 1px solid #a5a5a5;

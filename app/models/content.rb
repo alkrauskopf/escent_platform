@@ -3,7 +3,6 @@ class Content < ActiveRecord::Base
   
   belongs_to :organization
   belongs_to :child_content,:class_name => "Content"
-  belongs_to :related_content_type
   belongs_to :content_status
   belongs_to :user
   belongs_to :content_object_type
@@ -35,9 +34,6 @@ class Content < ActiveRecord::Base
   has_many :dle_resources, :dependent => :destroy 
   has_many :coop_app_resources, :dependent => :destroy  
 
- 
-    
-  has_and_belongs_to_many :content_albums
   
   validates_presence_of :title
   validates_presence_of :content_object_type_id, :message => "- Invalid File Extension or File Name, No Periods in File Name."
@@ -416,11 +412,7 @@ class Content < ActiveRecord::Base
     self.total_view ||= TotalView.create(:entity => self)
     self.total_view.views
   end
-  
-  def album_image_view
-    "/or"
-  end
-  
+
   def add_star_rating(rating)
     self.star_rating ||= StarRating.create(:entity => self)
     self.star_rating.add rating
@@ -464,8 +456,8 @@ class Content < ActiveRecord::Base
     end
   leaders.uniq
   end 
-   
-  
+
+
   def set_content_upload_source(source_name)
     source = ContentUploadSource.find_by_name(source_name)
     self.update_attribute(:content_upload_source_id, source.id)

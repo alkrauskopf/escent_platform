@@ -26,7 +26,7 @@ class Site::ApplicationController < ApplicationController
     if !params[:topic_id].blank? 
       @current_topic = Topic.find_by_public_id params[:topic_id]
       @return_topic = @current_topic
-  elsif @current_classroom.featured_topic
+    elsif @current_classroom && @current_classroom.featured_topic
 #    elsif @current_classroom.featured_topic && @current_classroom.featured_topic.active?
       @current_topic = @current_classroom.featured_topic
       @return_topic = []
@@ -63,7 +63,7 @@ class Site::ApplicationController < ApplicationController
     @related_content = []
     end
 #    @related_content = @current_topic ? @current_topic.contents.active - [@content] : []
-    @other_active_topics = @current_classroom.topics.active.collect{|t| t} - [@current_classroom.featured_topic || @current_classroom.topics.active.first]
+    @other_active_topics = @current_classroom ? @current_classroom.topics.active.collect{|t| t} - [@current_classroom.featured_topic || @current_classroom.topics.active.first] : []
   end
   
 end

@@ -62,7 +62,8 @@ class Content < ActiveRecord::Base
   has_attached_file :source_file_preview, :path => ":rails_root/public/resourcelibrary/:id/:style/:basename.:extension", :url => "/resourcelibrary/:id/:style/:basename.:extension" , :styles => {:thumb => "41x41>", :med_thumb => "90x90>"}
 
   named_scope :active, :conditions => { :is_delete => false}
-  named_scope :deleted, :conditions => { :is_delete => true }  
+  named_scope :deleted, :conditions => { :is_delete => true }
+  named_scope :trash, :conditions => { :is_delete => true }
   named_scope :available, {:include => :content_status, :conditions =>  ["content_statuses.name = ?", "Available"]}
   named_scope :available_and_restricted, {:include => :content_status, :conditions =>  ["content_statuses.name = ? OR content_statuses.name = ?", "Available", "Restricted"]}
   named_scope :confidential, {:include => :content_status, :conditions =>  ["content_statuses.name = ?", "Confidential"]}

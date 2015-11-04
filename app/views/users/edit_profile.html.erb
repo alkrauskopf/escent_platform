@@ -53,31 +53,22 @@
 				<div class="FormRowTitle"><br />Zip Code:</div>
 				<div class="FormRowData"><br /><%= text_field :user, :postal_code, :class=>"text", :size=>"50" %></div>
 	    </div>
-		 <div class="FormRow" id="user_state_warp" style="display:<%= @current_user.country == "US" ? 'block' : 'none' %>">
-				<div class="FormRowTitle">State:</div>
-				<div class="FormRowData">
-					<%= select(:user, "state_province", User::STATES) %>
-				</div>
-	    </div>	
+      <div class="FormRow" id="user_state_warp" style="display:<%= @current_user.country == "US" ? 'block' : 'none' %>">
+            <div class="FormRowTitle">State:</div>
+            <div class="FormRowData">
+                <%= select(:user, "state_province", User::STATES) %>
+            </div>
+      </div>
 	    
 		
-		 <div class="FormRow">
-        <div class="FormRowTitle">
-		    Country:
-        </div>
-        <div class="FormRowData">
-		  <%= localized_country_select(:user, :country, [], :include_blank => 'Please choose...') %>
-        </div>
-	    </div>	
-		    	  
-		<!-- ALK
-	    <div class="FormRow">
-				<div class="FormRowTitle">Your Religious Affiliation:</div>
-				<div class="FormRowData">
-				<%= select(:user, :religious_affiliation_id, ReligiousAffiliation.all(:order => "name").collect{|d| [d.name, d.id]}, :prompt => "Select One") %>
-				</div>
-	    </div>
-		-->
+      <div class="FormRow">
+            <div class="FormRowTitle">
+                Country:
+            </div>
+            <div class="FormRowData">
+              <%= localized_country_select(:user, :country, [], :include_blank => 'Please choose...') %>
+            </div>
+      </div>
 		
 	    <div class="FormRow">
 				<div class="FormRowTitle">Your Website: (e.g. http://my_site.com) </div>

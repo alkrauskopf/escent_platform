@@ -25,10 +25,6 @@
 	<%= text_field :user, :alt_phone %>	
 </p>
 <p>
-	<%= label_tag 'Other Denomination:' %>
-	<%= text_field :user, :other_denomination %>
-</p>
-<p>
 	<%= label_tag 'Display Name:' %>
 	<%= text_field :user, :display_name %>	
 </p>
@@ -61,8 +57,4 @@
 	<%= label_tag 'Read Tos:' %>
 	<%= radio_button("user", "read_tos", true) %> yes<br />
 	<%= radio_button("user", "read_tos", false) %> no
-</p>
-<p>
-	<%= label_tag 'Religious Affiliation:' %>
-	<%= select("user", "religious_affiliation_id", ReligiousAffiliation.all.collect {|p| [ p.name, p.id ] }, :prompt => "Select a religious affiliation") %>
 </p>

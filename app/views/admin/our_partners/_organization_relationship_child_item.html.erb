@@ -1,13 +1,1 @@
-<% for affiliation in affiliation_parent.children do -%>
-  <tr id="<%= affiliation.id %>" class="affiliation_<%= affiliation_parent.id %> affiliation_child_<%= affiliation_parent.root.id %>" style="display:none;">
-      <td>
-          <input title="" type="checkbox" name="affiliation_ids[]" value="<%= affiliation.id %>" />
-      </td>
-      <td style="padding-left: 20px;" class="<%= affiliation.children.size.zero? ? '' : 'has_child' %>">
-          <%= affiliation.name %>
-      </td>
-  </tr>
-	<% unless affiliation.children.size.zero? %>
-		<%= render :partial => "/admin/our_partners/organization_relationship_child_item", :locals => {:affiliation_parent => affiliation } %>
-	<% end %>
-<% end %>
+our_partners: organization_relationship_child_item partial

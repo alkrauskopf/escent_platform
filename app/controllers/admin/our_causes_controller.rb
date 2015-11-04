@@ -127,20 +127,7 @@ class Admin::OurCausesController < Admin::ApplicationController
 
   def set_stream_organization
     if request.xhr?
-      org = nil
-      if params[:stream] == 'odyssey_networks'
-        org = Organization.find_by_name("Odyssey Networks")   
-      elsif params[:stream] == 'none'
-         org = nil #update(:cause_streaming_source_id => nil)
-      elsif params[:stream] == "cause_partner"
-        org = Organization.find(params[:cause_partner_organization_id])
-      end
-      @current_organization.update_attributes(:cause_streaming_source => org)  
-      if (org.nil?)
         render :text => "Streaming has been disabled."
-      else
-        render :text => "Currently streaming: #{@current_organization.cause_streaming_source.name}."
-      end
     end   
   end
 
@@ -165,12 +152,6 @@ class Admin::OurCausesController < Admin::ApplicationController
   def sort_content
     if params[:id] && params[:content_ids]
       @topic = @current_organization.topics.find_by_public_id params[:id]
-      if @topic
-        params[:content_ids].each_with_index do |id, index|
-          channel_content = @topic.channel_contents.find_by_content_id Content.id_from_public_id(id)
-          channel_content.update_attributes :position => index if channel_content
-        end
-      end
     end
     respond_to do |wants|
       wants.html {render :template => "/admin/topics/contents.html.erb"} 

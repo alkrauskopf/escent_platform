@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151031165816) do
+ActiveRecord::Schema.define(:version => 20151104031514) do
 
   create_table "act_answers", :force => true do |t|
     t.integer  "act_submission_id"
@@ -666,39 +666,6 @@ ActiveRecord::Schema.define(:version => 20151031165816) do
   add_index "blogs", ["organization_id", "blog_type_id", "coop_app_id"], :name => "org_type_app"
   add_index "blogs", ["organization_id", "coop_app_id", "blog_type_id"], :name => "org_app_type"
 
-  create_table "channel_contents", :force => true do |t|
-    t.integer  "channel_id", :null => false
-    t.integer  "content_id", :null => false
-    t.integer  "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "channel_types", :force => true do |t|
-    t.string   "name",        :limit => 50,  :null => false
-    t.string   "description", :limit => 500
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
-  end
-
-  create_table "channels", :force => true do |t|
-    t.integer  "parent_id"
-    t.integer  "organization_id",                                      :null => false
-    t.integer  "user_id",                                              :null => false
-    t.string   "title",                                                :null => false
-    t.string   "description",        :limit => 8000
-    t.datetime "created_at",                                           :null => false
-    t.datetime "updated_at",                                           :null => false
-    t.boolean  "searchable",                         :default => true, :null => false
-    t.datetime "publish_start_date"
-    t.datetime "publish_end_date"
-    t.string   "type",               :limit => 32,                     :null => false
-    t.datetime "last_posted_at"
-  end
-
-  add_index "channels", ["organization_id", "type"], :name => "index_channels_on_organization_id_and_type"
-  add_index "channels", ["parent_id", "type"], :name => "index_channels_on_parent_id_and_type"
-
   create_table "classroom_contents", :force => true do |t|
     t.integer  "classroom_id"
     t.integer  "content_id"
@@ -1123,12 +1090,6 @@ ActiveRecord::Schema.define(:version => 20151031165816) do
     t.string   "code",       :limit => 3,  :null => false
     t.datetime "created_at",               :null => false
     t.string   "name",       :limit => 50, :null => false
-  end
-
-  create_table "default_package_roles", :force => true do |t|
-    t.integer  "package_id", :null => false
-    t.integer  "role_id",    :null => false
-    t.datetime "created_at", :null => false
   end
 
   create_table "discussions", :force => true do |t|
@@ -2216,41 +2177,6 @@ ActiveRecord::Schema.define(:version => 20151031165816) do
     t.datetime "updated_at"
   end
 
-  create_table "package_subscription_terms", :force => true do |t|
-    t.datetime "created_at",                :null => false
-    t.string   "time_period", :limit => 50, :null => false
-    t.integer  "days"
-  end
-
-  create_table "package_tabs", :force => true do |t|
-    t.integer  "tab_id",       :null => false
-    t.datetime "created_at",   :null => false
-    t.integer  "tab_sequence", :null => false
-  end
-
-  create_table "package_types", :force => true do |t|
-    t.datetime "created_at",                :null => false
-    t.string   "name",       :limit => 150, :null => false
-  end
-
-  create_table "packages", :force => true do |t|
-    t.integer  "base_package_id"
-    t.datetime "created_at",                                                                  :null => false
-    t.integer  "organization_id",                                                             :null => false
-    t.string   "name",                         :limit => 150,                                 :null => false
-    t.string   "description",                  :limit => 4000
-    t.integer  "package_subscription_term_id"
-    t.datetime "subscription_start_date"
-    t.datetime "subscription_end_date"
-    t.decimal  "price",                                        :precision => 18, :scale => 2
-    t.string   "dnn_template_name"
-    t.integer  "package_type_id",                                                             :null => false
-    t.boolean  "is_public",                                                                   :null => false
-    t.boolean  "is_deployable",                                                               :null => false
-  end
-
-  add_index "packages", ["organization_id", "name"], :name => "UK_Packages_OrgAndName", :unique => true
-
   create_table "page_sections", :force => true do |t|
     t.integer  "organization_id", :null => false
     t.string   "page",            :null => false
@@ -2348,13 +2274,6 @@ ActiveRecord::Schema.define(:version => 20151031165816) do
     t.integer  "organization_id",         :null => false
     t.integer  "related_organization_id", :null => false
     t.datetime "created_at",              :null => false
-  end
-
-  create_table "religious_affiliations", :force => true do |t|
-    t.string   "name",       :limit => 150, :null => false
-    t.datetime "created_at",                :null => false
-    t.integer  "parent_id"
-    t.integer  "channel_id"
   end
 
   create_table "reported_abuses", :force => true do |t|
@@ -3081,7 +3000,6 @@ ActiveRecord::Schema.define(:version => 20151031165816) do
     t.string   "last_name",                   :limit => 50
     t.string   "phone",                       :limit => 20
     t.string   "alt_phone",                   :limit => 20
-    t.string   "other_denomination",          :limit => 50
     t.string   "postal_code",                 :limit => 20
     t.datetime "date_of_birth"
     t.boolean  "age_verified",                                                  :null => false

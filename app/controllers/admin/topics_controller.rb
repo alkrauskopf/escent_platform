@@ -145,12 +145,6 @@ class Admin::TopicsController < Admin::ApplicationController
   def sort_content
     if params[:id] && params[:content_ids]
       @topic = @current_organization.topics.find_by_public_id params[:id]
-      if @topic
-        params[:content_ids].each_with_index do |id, index|
-          channel_content = @topic.channel_contents.find_by_content_id Content.id_from_public_id(id)
-          channel_content.update_attributes :position => index if channel_content
-        end
-      end
     end
     respond_to do |wants|
       wants.html {render :template => "/admin/topics/contents.html.erb"} 

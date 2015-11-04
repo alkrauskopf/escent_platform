@@ -1,31 +1,3 @@
 <div id="affiliation-search-dialog" title="Find Religious Affiliation">
-	<div id="affiliation-search-results">
-<table id="affiliations-results-box">
-    <thead>
-        <tr>
-            <th style="width:30px;">
-                &nbsp;
-            </th>
-            <th>
-                Name
-            </th>
-        </tr>
-    </thead>
-    <tbody id="affiliation-results">
-	    <% for affiliation in  ReligiousAffiliation.all_parents do -%>
-	     <tr id="<%= affiliation.id %>">
-	         <td>
-	             <input title="" type="checkbox" name="affiliation_ids[]" value="<%= affiliation.id %>" />
-	         </td>
-	         <td style="padding-left: 20px;" class='<%= affiliation.children.size.zero? ? '' : 'has_child' %>'>
-	             <%= affiliation.name %>
-	         </td>
-	     </tr>
-				<% unless affiliation.children.size.zero? %>
-					<%= render :partial => "/admin/our_partners/organization_relationship_child_item", :locals => {:affiliation_parent => affiliation } %>
-				<% end %>
-	    <% end %>
-    </tbody>
-</table>		
-	</div>
+our partners: religious affiliation search
 </div>

@@ -1252,12 +1252,8 @@ Organization.find(:all, :include => :authorizations, :conditions => ["authorizat
       organization_relationship = self.organization_relationships.find(organization_relationship) rescue nil
     end
     if organization_relationship
-      if organization_relationship.target.is_a? ReligiousAffiliation
-        self.trusted_topic_sources.find_all_by_source_id(organization_relationship.target.organizations.collect{|o| o.id}).each{|tts| tts.destroy}
-      else
-        trusted_topic_source = self.trusted_topic_sources.find_by_source_id(organization_relationship.target_id)
-        self.trusted_topic_sources.delete(trusted_topic_source) if trusted_topic_source
-      end
+      trusted_topic_source = self.trusted_topic_sources.find_by_source_id(organization_relationship.target_id)
+      self.trusted_topic_sources.delete(trusted_topic_source) if trusted_topic_source
       organization_relationship.destroy
     end
   end

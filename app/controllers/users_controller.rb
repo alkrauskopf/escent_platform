@@ -25,7 +25,7 @@ class UsersController < ApplicationController
           @user.verification_code = User::generate_password(16)
           @user.set_default_registration_values(@current_organization.id)         
           
-          if true #simple_captcha_valid?
+          if simple_captcha_valid?
             if @user.save
      #  Initialize First User as Superuser
               if User.all.size == 1

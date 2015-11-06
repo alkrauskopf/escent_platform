@@ -3113,3 +3113,36 @@ ActionController::RoutingError (No route matches "/javascripts/swfobject.js" wit
   /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
 
 Rendering rescues/layout (not_found)
+DEPRECATION WARNING: Kernel#returning has been deprecated in favor of Object#tap. (called from enable_activerecord at /Library/Ruby/Gems/1.8/gems/will_paginate-2.3.11/lib/will_paginate.rb:39)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mOrganization Delete all (186.2ms)[0m   [0;1mDELETE FROM `organizations` [0m
+DEPRECATION WARNING: ActiveRecord::Base#class_name is deprecated and will be removed in Rails 3. (called from purge_fixture at /Users/allenkrauskopf/TCPJ_Project/trunk/lib/tasks/fixtures.rake:75)
+DEPRECATION WARNING: ActiveRecord::Base#class_name is deprecated and will be removed in Rails 3. (called from load_fixture at /Users/allenkrauskopf/TCPJ_Project/trunk/lib/tasks/fixtures.rake:80)
+DEPRECATION WARNING: Kernel#returning has been deprecated in favor of Object#tap. (called from enable_activerecord at /Library/Ruby/Gems/1.8/gems/will_paginate-2.3.11/lib/will_paginate.rb:39)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mOrganization Delete all (0.2ms)[0m   [0;1mDELETE FROM `organizations` [0m
+DEPRECATION WARNING: ActiveRecord::Base#class_name is deprecated and will be removed in Rails 3. (called from purge_fixture at /Users/allenkrauskopf/TCPJ_Project/trunk/lib/tasks/fixtures.rake:75)
+DEPRECATION WARNING: ActiveRecord::Base#class_name is deprecated and will be removed in Rails 3. (called from load_fixture at /Users/allenkrauskopf/TCPJ_Project/trunk/lib/tasks/fixtures.rake:80)
+DEPRECATION WARNING: Kernel#returning has been deprecated in favor of Object#tap. (called from enable_activerecord at /Library/Ruby/Gems/1.8/gems/will_paginate-2.3.11/lib/will_paginate.rb:39)
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mOrganization Delete all (0.2ms)[0m   [0;1mDELETE FROM `organizations` [0m
+DEPRECATION WARNING: ActiveRecord::Base#class_name is deprecated and will be removed in Rails 3. (called from purge_fixture at /Users/allenkrauskopf/TCPJ_Project/trunk/lib/tasks/fixtures.rake:75)
+DEPRECATION WARNING: ActiveRecord::Base#class_name is deprecated and will be removed in Rails 3. (called from load_fixture at /Users/allenkrauskopf/TCPJ_Project/trunk/lib/tasks/fixtures.rake:80)
+DEPRECATION WARNING: ActiveRecord::Base#class_name is deprecated and will be removed in Rails 3. (called from load_fixture at /Users/allenkrauskopf/TCPJ_Project/trunk/lib/tasks/fixtures.rake:81)
+DEPRECATION WARNING: Kernel#returning has been deprecated in favor of Object#tap. (called from enable_activerecord at /Library/Ruby/Gems/1.8/gems/will_paginate-2.3.11/lib/will_paginate.rb:39)
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mOrganization Delete all (133.0ms)[0m   [0;1mDELETE FROM `organizations` [0m
+DEPRECATION WARNING: ActiveRecord::Base#class_name is deprecated and will be removed in Rails 3. (called from purge_fixture at /Users/allenkrauskopf/TCPJ_Project/trunk/lib/tasks/fixtures.rake:75)
+DEPRECATION WARNING: ActiveRecord::Base#class_name is deprecated and will be removed in Rails 3. (called from load_fixture at /Users/allenkrauskopf/TCPJ_Project/trunk/lib/tasks/fixtures.rake:80)
+DEPRECATION WARNING: ActiveRecord::Base#class_name is deprecated and will be removed in Rails 3. (called from load_fixture at /Users/allenkrauskopf/TCPJ_Project/trunk/lib/tasks/fixtures.rake:81)
+DEPRECATION WARNING: Kernel#returning has been deprecated in favor of Object#tap. (called from enable_activerecord at /Library/Ruby/Gems/1.8/gems/will_paginate-2.3.11/lib/will_paginate.rb:39)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mOrganization Delete all (78.0ms)[0m   [0;1mDELETE FROM `organizations` [0m
+DEPRECATION WARNING: ActiveRecord::Base#class_name is deprecated and will be removed in Rails 3. (called from purge_fixture at /Users/allenkrauskopf/TCPJ_Project/trunk/lib/tasks/fixtures.rake:75)
+DEPRECATION WARNING: ActiveRecord::Base#class_name is deprecated and will be removed in Rails 3. (called from load_fixture at /Users/allenkrauskopf/TCPJ_Project/trunk/lib/tasks/fixtures.rake:80)
+DEPRECATION WARNING: ActiveRecord::Base#class_name is deprecated and will be removed in Rails 3. (called from load_fixture at /Users/allenkrauskopf/TCPJ_Project/trunk/lib/tasks/fixtures.rake:81)

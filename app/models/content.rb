@@ -357,6 +357,8 @@ class Content < ActiveRecord::Base
           end
         end
       end
+    else
+      view = self.available?
     end
     view
   end

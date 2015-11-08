@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151104185527) do
+ActiveRecord::Schema.define(:version => 20151104190404) do
 
   create_table "act_answers", :force => true do |t|
     t.integer  "act_submission_id"
@@ -814,23 +814,6 @@ ActiveRecord::Schema.define(:version => 20151104185527) do
     t.string   "user_email"
   end
 
-  create_table "content_details", :force => true do |t|
-    t.string   "content_details_key", :limit => 25,  :null => false
-    t.integer  "content_id",                         :null => false
-    t.string   "details_value",       :limit => 500
-    t.datetime "created_at",                         :null => false
-  end
-
-  create_table "content_log", :force => true do |t|
-    t.integer  "content_id",                      :null => false
-    t.datetime "created_at",                      :null => false
-    t.integer  "user_id",                         :null => false
-    t.integer  "channel_id",                      :null => false
-    t.string   "http_header",     :limit => 4000, :null => false
-    t.integer  "organization_id"
-    t.integer  "package_id"
-  end
-
   create_table "content_object_type_groups", :force => true do |t|
     t.string   "name",       :limit => 50, :null => false
     t.datetime "created_at",               :null => false
@@ -852,62 +835,16 @@ ActiveRecord::Schema.define(:version => 20151104185527) do
     t.boolean "is_nested_content",                           :default => false, :null => false
   end
 
-  create_table "content_rating_options", :force => true do |t|
-    t.integer  "content_rating_type_id",                :null => false
-    t.string   "name",                   :limit => 50,  :null => false
-    t.string   "description",            :limit => 256
-    t.datetime "created_at",                            :null => false
-  end
-
-  create_table "content_rating_types", :force => true do |t|
-    t.string   "name",        :limit => 50,  :null => false
-    t.string   "description", :limit => 150, :null => false
-    t.datetime "created_at",                 :null => false
-  end
-
-  create_table "content_ratings", :force => true do |t|
-    t.integer  "content_rating_option_id", :null => false
-    t.datetime "created_at",               :null => false
-  end
-
   create_table "content_resource_types", :force => true do |t|
     t.string   "name",       :limit => 50,  :null => false
     t.string   "descript",   :limit => 150, :null => false
     t.datetime "created_at",                :null => false
   end
 
-  create_table "content_source_types", :force => true do |t|
-    t.string   "name",       :limit => 50, :null => false
-    t.datetime "created_at",               :null => false
-  end
-
-  create_table "content_sources", :force => true do |t|
-    t.integer  "source_type_id",                :null => false
-    t.string   "source_value",   :limit => 500, :null => false
-    t.datetime "created_at",                    :null => false
-  end
-
   create_table "content_statuses", :force => true do |t|
     t.string   "name",        :limit => 50,  :null => false
     t.string   "description", :limit => 500, :null => false
     t.datetime "created_at",                 :null => false
-  end
-
-  create_table "content_tags", :force => true do |t|
-    t.integer  "tag_id",     :null => false
-    t.datetime "created_at", :null => false
-  end
-
-  create_table "content_tracking_types", :force => true do |t|
-    t.string   "name",       :limit => 50, :null => false
-    t.datetime "created_at",               :null => false
-  end
-
-  create_table "content_trackings", :force => true do |t|
-    t.integer  "tracking_type_id", :null => false
-    t.integer  "content_id",       :null => false
-    t.integer  "user_id",          :null => false
-    t.datetime "created_at",       :null => false
   end
 
   create_table "content_upload_sources", :force => true do |t|
@@ -2411,13 +2348,6 @@ ActiveRecord::Schema.define(:version => 20151104185527) do
   add_index "survey_schedules", ["survey_instruction_id", "organization_id"], :name => "instruction_org"
   add_index "survey_schedules", ["user_id", "organization_id", "entity_type"], :name => "user_org_entity"
   add_index "survey_schedules", ["user_id", "tlt_survey_audience_id", "tlt_survey_type_id"], :name => "user_audience_type"
-
-  create_table "tags", :force => true do |t|
-    t.string   "name",       :limit => 150, :null => false
-    t.datetime "created_at",                :null => false
-  end
-
-  add_index "tags", ["name"], :name => "UK_Tags_Tag", :unique => true
 
   create_table "talents", :force => true do |t|
     t.integer "user_id"

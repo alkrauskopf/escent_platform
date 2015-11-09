@@ -12,5 +12,4 @@
 !/log/.keep
 /tmp
 
-# Ignore all local uploads.
-/public/*
+public/system/logos/*

@@ -1416,7 +1416,7 @@ Organization.find(:all, :include => :authorizations, :conditions => ["authorizat
   def logo_width
     required_width  = 300
     dimensions = Paperclip::Geometry.from_file(logo.queued_for_write[:original].path)
-    errors.add(:logo, "Width can't be greater than #{required_width}px") unless dimensions.width <= required_width
+    errors.add(:logo, "Width can't be greater than #{required_width}") unless dimensions.width <= required_width
   end
 
 

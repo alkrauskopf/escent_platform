@@ -124,7 +124,8 @@ class Organization < ActiveRecord::Base
   has_attached_file :logo, :styles => { :normal => "315x170" , :small_thumb => "74x40>", :med_thumb => "111x60>", :thumb=>"148x80>" }, :default_style => :normal
   
   validates_attachment_content_type :logo, :content_type => ["image/gif", "image/jpeg", "image/png", "image/pjpeg", "image/x-png"]
-  
+  validate :logo_width
+
   accepts_nested_attributes_for :organization_relationships
 
 
@@ -1387,7 +1388,6 @@ Organization.find(:all, :include => :authorizations, :conditions => ["authorizat
   def content_abuses
     
   end
-  #end
   
   # Update style settings at once, added by victor
   def update_style_settings(params)
@@ -1410,4 +1410,14 @@ Organization.find(:all, :include => :authorizations, :conditions => ["authorizat
       style.save
     end 
   end
+
+  private
+
+  def logo_width
+    required_width  = 300
+    dimensions = Paperclip::Geometry.from_file(logo.queued_for_write[:original].path)
+    errors.add(:logo, "Width can't be greater than #{required_width}px") unless dimensions.width <= required_width
+  end
+
+
 end

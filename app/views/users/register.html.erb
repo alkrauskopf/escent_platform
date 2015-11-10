@@ -13,7 +13,7 @@ You will find this to be a safe and impactful place for learning.
     <div style="text-align:left;">
         <% form_tag :action => :register do %>
         <%= render :partial => "/shared/error_and_notice" %>
-        <%= render :partial => 'profile' %>
+        <%= render :partial => 'profile', :locals => {:org_list => @home_organization_list} %>
      <div style="margin-left:207px;">       
 		    <%= button_to " Join ", {}, :class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "font-size:14px;" %>
     </div>

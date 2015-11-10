@@ -38,21 +38,23 @@
             <%= text_field :user, :email_address_confirmation, :class=>"text", :size=>"50" %>
         </div>
     </div>
-    <div class="FormRow">
-        <div class="FormRowTitle">
-            School Affiliation: 
+    <% if !org_list.empty? %>
+        <div class="FormRow">
+            <div class="FormRowTitle">
+                School Affiliation:
+            </div>
+            <% org = @user.organization.nil? ? @current_organization : @user.organization%>
+            <div class="FormRowData">
+                <%=  select(:user, :home_org_id, org_list.collect{|o| [o.name, o.id]}, :prompt => org.medium_name)  %>
+            </div>
         </div>
-			<% org = @user.organization.nil? ? @current_organization : @user.organization%>
-			<div class="FormRowData">
-				<%=  select(:user, :home_org_id, Organization.all(:order => "name").collect{|o| [o.name, o.id]}, :prompt => org.medium_name)  %>
-			</div>
-    </div>
+    <% end %>
     <!-- <div class="FormRow">
         <div class="FormRowTitle">
             Date of Birth: 
         </div>
         <div class="FormRowData">
-			<%= date_select(:user, :date_of_birth, :order=>[:month, :day, :year], :start_year => 1930, :end_year => Time.now.year-13)%>
+			<%#= date_select(:user, :date_of_birth, :order=>[:month, :day, :year], :start_year => 1930, :end_year => Time.now.year-13)%>
 			<div>
 			<a href="/" id="help_birthday">Why do we need this?</a>
 			</div>

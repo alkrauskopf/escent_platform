@@ -16,9 +16,7 @@ class UsersController < ApplicationController
   def register
     if request.get?
       @user = User.new
-    else  
-
-      
+    else
       @user = User.new params[:user]
       
         if User.find_by_email_address(@user.email_address).nil?
@@ -58,7 +56,9 @@ class UsersController < ApplicationController
 #          flash[:error] = "A user exists for " + @user.email_address  
          end 
      flash[:error] = @user.errors.full_messages.to_sentence
-     end
+    end
+    @home_organization_list = Organization.active.select{|o| o != @current_organization}.sort_by{|o| o.name}
+    @home_organization_list = []
     render :layout => "registration"
   end
   

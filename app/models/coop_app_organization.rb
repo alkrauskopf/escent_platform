@@ -10,7 +10,7 @@ class CoopAppOrganization < ActiveRecord::Base
   named_scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id]}}
   named_scope :selected, :conditions => { :is_selected => true }
   named_scope :allowed, :conditions => { :is_allowed => true }
-  named_scope :enabled, lambda{|app| {:conditions => ["is_selected AND is_allowed"]}}
+  named_scope :enabled, {:conditions => ["is_selected AND is_allowed"]}
   named_scope :disallowed, :conditions => { :is_allowed => false }
 
 end

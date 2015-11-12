@@ -1,1 +1,17 @@
 rake db:drop db:create db:migrate fixtures:load_all
+rm -rf public/system/logos
+rm -rf public/system/pictures
+mkdir -p public/system/logos/normal
+cp  public/images/missing_logo.png public/system/logos/normal/missing.png
+mkdir -p public/system/pictures/normal
+cp  public/images/member_ico.gif public/system/pictures/normal/missing.png
+rm -rf public/articles
+mkdir -p public/articles
+rm -rf public/blog_images
+mkdir -p public/blog_images
+rm -rf public/blog_posts_images
+mkdir -p public/blog_posts_images
+rm -rf public/homeworklibrary
+mkdir -p public/homeworklibrary
+rm -rf public/resourcelibrary
+mkdir -p public/resourcelibrary

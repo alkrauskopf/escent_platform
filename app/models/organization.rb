@@ -1411,6 +1411,10 @@ Organization.find(:all, :include => :authorizations, :conditions => ["authorizat
     end 
   end
 
+  def logo_missing?
+    self.logo.url.split("/").last == "missing.png"
+  end
+  
   private
 
   def logo_width

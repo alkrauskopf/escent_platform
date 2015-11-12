@@ -9,7 +9,7 @@ module Paperclip
         :url           => "/system/:attachment/:id/:style/:basename.:extension",
         :path          => ":rails_root/public/system/:attachment/:id/:style/:basename.:extension",
         :styles        => {},
-        :default_url   => "/:attachment/:style/missing.png",
+        :default_url   => "/system/:attachment/:style/missing.png",
         :default_style => :original,
         :validations   => {},
         :storage       => :filesystem

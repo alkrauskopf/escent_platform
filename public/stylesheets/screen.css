@@ -6,7 +6,7 @@
 @import url("style.css");
 @import url("font.css");
 /* plugins */
-@import url("facebox.css");
+/* @import url("facebox.css"); */
 @import url("/stylesheets/fsn/jquery-ui-1.7.1.custom.css");
 @import url("colorpicker.css");
 @import url("jquery.autocomplete.css");

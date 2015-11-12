@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # gem 'capybara'
 # gem 'capybara-mechanize'
 
-gem 'rails', '2.3.12'
+gem 'rails', '2.3.18'
 gem 'crypt', '1.1.4'
 gem 'rmagick', '2.13.1'
 gem 'will_paginate', '2.3.11'

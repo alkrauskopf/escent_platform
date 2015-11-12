@@ -1,9 +1,16 @@
 <div class="masthead clear">
 	<% master_org = @app ? @current_organization.app_provider(@app) : (Organization.ep_default.first rescue @current_organization) -%>
 
+
 		<% unless master_org.web_site_url.nil? %>
-			<%=  link_to (image_tag(master_org.logo.url, :class => "logo", :alt => master_org.name, :height => 10),master_org.web_site_url, :target => "_blank" ) %>
-		<% else -%>
+			<% if @current_organization.logo.url.split("/").last != "missing.png"%>
+              <div style="float:left; padding-top:20px;">
+                <%=  link_to (master_org.name, master_org.web_site_url, :target => "_blank" ) %>
+              </div>
+            <% else %>
+                <%=  link_to (image_tag(@current_organization.logo.url, :class => "logo", :alt => master_org.name, :height => 10),master_org.web_site_url, :target => "_blank" ) %>
+		    <% end %>
+          <% else -%>
             <%= master_org.name %>
 		<% end %>
 

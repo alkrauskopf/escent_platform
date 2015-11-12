@@ -57,8 +57,7 @@ class UsersController < ApplicationController
          end 
      flash[:error] = @user.errors.full_messages.to_sentence
     end
-    @home_organization_list = Organization.active.select{|o| o != @current_organization}.sort_by{|o| o.name}
-    @home_organization_list = []
+    @home_organization_list = Organization.active.sort_by{|o| o.name}
     render :layout => "registration"
   end
   

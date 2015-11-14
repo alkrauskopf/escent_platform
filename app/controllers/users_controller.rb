@@ -200,7 +200,7 @@ class UsersController < ApplicationController
     @classroom_lead = @user.lead_classrooms
     @classroom_participate = @user.participate_classrooms
     @colleagues = @user.colleagues
-    @resource_favs = @user.favorite_resources
+    @resource_favs = @user.viewable_favorite_resources(@current_user ? @current_user : nil)
     @org_connects =  @user.authorizations.find(:all,:conditions=>"scope_type LIKE 'Organization'",:order => :scope_id, :group => :scope_id)
     @followers = @user.followers
     

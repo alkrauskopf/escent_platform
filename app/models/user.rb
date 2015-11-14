@@ -381,7 +381,10 @@ class User < ActiveRecord::Base
     authorization_level = AuthorizationLevel.find_by_name("favorite")
     Content.find(:all, :conditions => ["(authorizations.user_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ? AND !is_delete)", self.id, "Content", authorization_level.id], :include => "authorizations", :order => "title")
   end
- 
+
+  def viewable_favorite_resources(user)
+    self.favorite_resources.map{|r| r.viewable_by_user?(user) ? r : nil}.compact
+  end
 
 #
 #  Teacher's Students

@@ -1,0 +1,109 @@
+
+		<% if @filter_type == "Resource" %>
+	
+		<div class="Form clear">
+		  <div class="formBox">
+			<div style= " padding-top:0px; margin-left:0px; padding-left:0px;">
+ 
+				<% filters = ["-- No Filter --"] -%>
+				<% filters += ContentResourceType.all(:order => "name").collect{|d| [d.name, d.name]}-%>
+		 	 	<%=  select_tag :filter, options_for_select(filters) %>
+				<%= label_tag 'filter_type', '&nbsp;&nbsp;' %>
+				<%= submit_tag "Filter Search Results", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+			</div>
+		  </div>
+		</div>
+		
+		<div style= " font-weight:bold;  margin-left:0px; font-size:12px; color:#2061a5; ">  
+			<% if @filter == "-- No Filter --" -%>
+				<% label = "Resource" -%>
+				<% else -%>
+				<% label = @filter -%>
+				<% end -%>				
+			<center><%= pluralize(@items_size, label) %></center>
+		</div>
+		
+		<% end -%>
+
+		<% if @filter_type == "Organization" %>
+	
+		<div class="Form clear">
+		  <div class="formBox">
+			<div style= " padding-top:0px; margin-left:0px; padding-left:0px;">
+ 
+				<% filters = ["-- No Filter --"] -%>
+				<% filters += OrganizationType.affiliate.children.collect{|ot| [ot.name, ot.name]}-%>
+		 	 	<%=  select_tag :filter, options_for_select(filters) %>
+				<%= label_tag 'filter_type', '&nbsp;&nbsp;' %>
+				<%= submit_tag "Filter Search Results", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+			</div>
+		  </div>
+		</div>
+		
+		<div style= " font-weight:bold;  margin-left:0px; font-size:12px; color:#2061a5; ">  
+			<% if @filter == "-- No Filter --" -%>
+				<% label = "Organization" -%>
+				<% else -%>
+				<% label = @filter -%>
+				<% end -%>				
+			<center><%= pluralize(@items_size, label) %></center>
+		</div>
+		
+		<% end -%>
+
+		<% if @filter_type == "Classroom" %>
+
+		<div class="Form clear">
+		  <div class="formBox">
+			<div style= " padding-top:0px; margin-left:0px; padding-left:0px;">
+ 
+				<% filters = ["-- No Filter --"] -%>
+				<% filters += Organization.all(:order => "name").collect{|o| [o.name, o.name]}-%>
+		 	 	<%=  select_tag :filter, options_for_select(filters) %>
+				<%= label_tag 'filter_type', '&nbsp;&nbsp;' %>
+				<%= submit_tag "Filter Search Results", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+			</div>
+		  </div>
+		</div>	
+		
+		<div style= " font-weight:bold;  margin-left:0px; font-size:12px; color:#2061a5;">  
+			<% if @filter == "-- No Filter --" -%>
+				<% label = "Offeirng" -%>
+				<% else -%>
+				<% label = @filter  + " Offering" -%>
+				<% end -%>				
+			<center><%= pluralize(@items_size, label) %></center>
+		</div>
+		
+		<% end -%>
+
+		<% if @filter_type == "People" %>
+
+		<div class="Form clear">
+		  <div class="formBox">
+			<div style= " padding-top:0px; margin-left:0px; padding-left:0px;">
+ 
+				<% filters = ['-- No Filter --'] -%>
+				<% filters += @clsrm_auth_levels.collect{|al| [al.description, al.id]} -%>
+				<% filters += @org_auth_levels.collect{|al| [al.description, al.id]}.sort{|a,b| a <=> b} -%>
+				
+		 	 	<%=  select_tag (:filter, options_for_select(filters), :value => 0) %>
+				<%= label_tag 'filter_type', '&nbsp;&nbsp;' %>
+				<%= submit_tag "Filter Search Results", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+			</div>
+		  </div>
+		</div>		
+		
+		<div style= " font-weight:bold;  margin-left:0px; font-size:12px; color:#2061a5; ">  
+			<% if @filter == "-- No Filter --" -%>
+				<% label = "Person" -%>
+				<% else -%>
+				<% label = @filter_descript -%>
+				<% end -%>				
+			<center><%= pluralize(@items_size, label) %></center>
+		</div>
+		
+		<% end -%>
+
+
+

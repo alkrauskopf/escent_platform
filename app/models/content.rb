@@ -278,7 +278,7 @@ class Content < ActiveRecord::Base
   end
   
   def active?
-    (!self.is_delete && !self.expired?)
+    (!self.deleted? && !self.expired? && !self.pending?)
   end
 
   def available?
@@ -293,12 +293,20 @@ class Content < ActiveRecord::Base
     self.content_status.name == "Confidential"
   end
 
+  def deleted?
+    self.is_delete || self.content_status.name == "Deleted"
+  end
+
+  def pending?
+    self.content_status.name == "Pending"
+  end
+
   def disposition
     disposition = self.content_status.name
     if self.expired?
       disposition = "Expired"
     else
-      disposition = self.is_delete ? "Unavailable" : disposition
+      disposition = self.deleted? ? "Unavailable" : disposition
     end
     disposition 
   end
@@ -316,19 +324,22 @@ class Content < ActiveRecord::Base
   end
   
   def viewable_by_user?(user)
-    view = self.active?
-    unless !self.active?
+    view = false
+    if !self.deleted?
       if user.nil?
         view = self.available?
       else
-        if self.available?
-          view = true
-        elsif self.restricted?
-          view = user.content_manager? || user.superuser?
-        elsif self.confidential?
-          view = self.organization ? (user.content_manager_for_org?(self.organization) || user.superuser? || user.organization_id == self.organization_id) : false
-        else
+        if user.superuser? || (self.user && (self.user == user)) || (self.organization && user.content_manager_for_org?(self.organization))
+        view = true
+        elsif !self.active?
           view = false
+        else
+          view = self.available?
+          if self.restricted?
+              view = user.content_manager?
+          elsif self.confidential?
+              view =  (user.organization_id == self.organization_id)
+          end
         end
       end
     end

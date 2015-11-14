@@ -3,8 +3,14 @@ rm -rf public/system/logos
 rm -rf public/system/pictures
 mkdir -p public/system/logos/normal
 cp  public/images/missing_logo.png public/system/logos/normal/missing.png
-mkdir -p public/system/pictures/normal
-cp  public/images/member_ico.gif public/system/pictures/normal/missing.png
+mkdir -p public/system/pictures/original
+cp  public/images/member_ico.gif public/system/pictures/original/missing.png
+mkdir -p public/system/pictures/thumb
+cp  public/images/member_ico.gif public/system/pictures/thumb/missing.png
+mkdir -p public/system/pictures/med_thumb
+cp  public/images/member_med_ico.gif public/system/pictures/med_thumb/missing.png
+mkdir -p public/system/pictures/small_thumb
+cp  public/images/member_small_ico.gif public/system/pictures/small_thumb/missing.png
 rm -rf public/articles
 mkdir -p public/articles
 rm -rf public/blog_images

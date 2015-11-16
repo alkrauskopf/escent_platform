@@ -118,3 +118,27 @@ Culture:
     seq_num: 11
     abbrev: CUL
     app_method_id: 2
+
+Coop_Strat:
+    id: 112
+    activity: Cooperative Engagement Strategies
+    description: Students are Engaged Through Cooperative Learning
+    seq_num: 12
+    abbrev: CES
+    app_method_id: 2
+
+Meta_Strat:
+    id: 113
+    activity: Metacognition Strategies
+    description: Students are Engaged Through Application of Metacogntion Strategies
+    seq_num: 13
+    abbrev: MCS
+    app_method_id: 2
+
+Tools:
+    id: 114
+    activity: Use of Learning Tools
+    description: Students are Engaged Through Use of Learning Tools
+    seq_num: 14
+    abbrev: LT
+    app_method_id: 2

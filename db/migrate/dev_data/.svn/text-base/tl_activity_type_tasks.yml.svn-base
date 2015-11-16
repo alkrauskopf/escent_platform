@@ -505,7 +505,7 @@ SENG_1:
     name: Direct Student Engagement
     description: Direct students to be engaged in academic learning.
     abbrev: DSE
-    is_enabled: 1
+    is_enabled: 0
     research: 
     position: 1
     
@@ -515,7 +515,7 @@ SENG_2:
     name: Concurrent Student Engagement
     description: Directs 85% or more of the students to be engaged in academic learning at the same time.
     abbrev: CSE
-    is_enabled: 1
+    is_enabled: 0
     research: 
     position: 2
     
@@ -525,10 +525,100 @@ SENG_3:
     name: Sustained Student Engagement
     description: Ensures engagement of 85% or more students throughout the academic learning.
     abbrev: SSE
-    is_enabled: 1
+    is_enabled: 0
     research: 
     position: 3
-    
+
+SENG_4:
+    id: 10504
+    tl_activity_type_id: 105
+    name: Setting Learning Goals
+    description: Students are engaged in setting learning goals.
+    abbrev: SLG
+    is_enabled: 1
+    research:
+    position: 4
+
+SENG_5:
+    id: 10505
+    tl_activity_type_id: 105
+    name: Making Choices
+    description: Students are engaged in making choices.
+    abbrev: MC
+    is_enabled: 1
+    research:
+    position: 5
+
+SENG_6:
+    id: 10506
+    tl_activity_type_id: 105
+    name: Reading
+    description: Students are engaged in reading.
+    abbrev: R
+    is_enabled: 1
+    research:
+    position: 6
+
+SENG_7:
+    id: 10507
+    tl_activity_type_id: 105
+    name: Writing
+    description: Students are engaged in writing.
+    abbrev: W
+    is_enabled: 1
+    research:
+    position: 7
+
+SENG_8:
+    id: 10508
+    tl_activity_type_id: 105
+    name: Discussion
+    description: Students are engaged in discussion text or other input.
+    abbrev: D
+    is_enabled: 1
+    research:
+    position: 8
+
+SENG_9:
+    id: 10509
+    tl_activity_type_id: 105
+    name: Problem Solving
+    description: Students are engaged in problem solving.
+    abbrev: PS
+    is_enabled: 1
+    research:
+    position: 9
+
+SENG_10:
+    id: 10510
+    tl_activity_type_id: 105
+    name: Creating Product
+    description: Students are engaged in creating products.
+    abbrev: CP
+    is_enabled: 1
+    research:
+    position: 10
+
+SENG_11:
+    id: 10511
+    tl_activity_type_id: 105
+    name: Self Assessment
+    description: Students are engaged in self-assessing their work, what they learned, and how they learned.
+    abbrev: SA
+    is_enabled: 1
+    research:
+    position: 11
+
+SENG_12:
+    id: 10512
+    tl_activity_type_id: 105
+    name: Feedback
+    description: Students are asking for and giving specific feedback to peer and to the teacher.
+    abbrev: F
+    is_enabled: 1
+    research:
+    position: 12
+
 SET_1:
     id: 10601
     tl_activity_type_id: 106
@@ -724,27 +814,197 @@ CUL_2:
     tl_activity_type_id: 111
     name: Validation of Culture
     description: Recognizing and honoring contribritutions of diverse cultures that represented in the classroom.
-    abbrev: CC
+    abbrev: CV
     is_enabled: 1
     research:
-    position: 1
+    position: 2
 
 CUL_3:
     id: 11103
     tl_activity_type_id: 111
     name: Mindset
     description: Overcoming preconcieved self-imposed constraints or limitations.
-    abbrev: CC
+    abbrev: CM
     is_enabled: 1
     research:
-    position: 1
+    position: 3
 
 CUL_4:
     id: 11104
     tl_activity_type_id: 111
     name: Bias
     description: Overcoming constraints or limitations imposed by societal forces.
-    abbrev: CC
+    abbrev: CB
     is_enabled: 1
     research:
     position: 1
+
+COOP_1:
+    id: 11201
+    tl_activity_type_id: 112
+    name: Peer Tutoring
+    description: Students tutor and assist their peers.
+    abbrev: PT
+    is_enabled: 1
+    research:
+    position: 1
+
+COOP_2:
+    id: 11202
+    tl_activity_type_id: 112
+    name: Cooperative Learning
+    description: Students are involved in cooperative learning activities.
+    abbrev: CL
+    is_enabled: 1
+    research:
+    position: 2
+
+COOP_3:
+    id: 11203
+    tl_activity_type_id: 112
+    name: Reciprocal Teaching
+    description: Students are involved in reciprocal teaching activitiess.
+    abbrev: RT
+    is_enabled: 1
+    research:
+    position: 3
+
+COOP_4:
+    id: 11204
+    tl_activity_type_id: 112
+    name: Other Group Structures
+    description: Students in cooperative group structures other than peer tutoring, reciprocal teaching and cooperative learning.
+    abbrev: OGS
+    is_enabled: 1
+    research:
+    position: 4
+
+META_1:
+    id: 11301
+    tl_activity_type_id: 113
+    name: Making Connections
+    description: Students are making logical connections.
+    abbrev: MMC
+    is_enabled: 1
+    research:
+    position: 1
+
+META_2:
+    id: 11302
+    tl_activity_type_id: 113
+    name: Inferring & Predicting
+    description: Students are making inferences, generating hypotheses, and predicting.
+    abbrev: IHP
+    is_enabled: 1
+    research:
+    position: 2
+
+META_3:
+    id: 11303
+    tl_activity_type_id: 113
+    name: Generating Questions
+    description: Students are asking or generating questions.
+    abbrev: AGC
+    is_enabled: 1
+    research:
+    position: 3
+
+META_4:
+    id: 11304
+    tl_activity_type_id: 113
+    name: Determining Importance
+    description: Students are determining importance and generating big ideas.
+    abbrev: DI
+    is_enabled: 1
+    research:
+    position: 4
+
+META_5:
+    id: 11305
+    tl_activity_type_id: 113
+    name: Summarizing
+    description: Students are summarizing a collection of facts or ideas.
+    abbrev: SUM
+    is_enabled: 1
+    research:
+    position: 5
+
+META_6:
+    id: 11306
+    tl_activity_type_id: 113
+    name: Visualizing
+    description: Students are visualizing possibilities.
+    abbrev: VIS
+    is_enabled: 1
+    research:
+    position: 6
+
+META_7:
+    id: 11307
+    tl_activity_type_id: 113
+    name: Synthesizing
+    description: Students are synthesizing a diverse ideas or concepts.
+    abbrev: SYN
+    is_enabled: 1
+    research:
+    position: 7
+
+META_8:
+    id: 11308
+    tl_activity_type_id: 113
+    name: Reconciling or Clarifying
+    description: Students are aware of other factors and seeking clarification to reconcile them.
+    abbrev: RC
+    is_enabled: 1
+    research:
+    position: 8
+
+TOOL_1:
+    id: 11401
+    tl_activity_type_id: 114
+    name: Concept Mapping
+    description: Students are applying concept mapping techniques.
+    abbrev: TCM
+    is_enabled: 1
+    research:
+    position: 1
+
+TOOL_2:
+    id: 11402
+    tl_activity_type_id: 114
+    name: Graphic Organizers
+    description: Students are applying advanced or graphic organizer techniques.
+    abbrev: TAGO
+    is_enabled: 1
+    research:
+    position: 2
+
+TOOL_3:
+    id: 11403
+    tl_activity_type_id: 114
+    name: Manipulatives
+    description: Students are applying manipulatives.
+    abbrev: TMAN
+    is_enabled: 1
+    research:
+    position: 3
+
+TOOL_4:
+    id: 11404
+    tl_activity_type_id: 114
+    name: Technology
+    description: Students are using technology aids.
+    abbrev: TECH
+    is_enabled: 1
+    research:
+    position: 4
+
+TOOL_5:
+    id: 11405
+    tl_activity_type_id: 114
+    name: Other Tools
+    description: Students are using other tools.  Please specify what they are.
+    abbrev: TOT
+    is_enabled: 1
+    research:
+    position: 5

@@ -17,12 +17,12 @@ class CreateIfaQuestionLogs < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index "ifa_question_logs", ["user_id", "act_subject_id", "is_calibrated", "date_taken"]
-    add_index "ifa_question_logs", ["organization_id", "act_subject_id", "is_calibrated", "date_taken"]
-    add_index "ifa_question_logs", ["classroom_id", "act_subject_id", "is_calibrated", "date_taken"]
-    add_index "ifa_question_logs", ["teacher_id", "act_subject_id", "is_calibrated", "date_taken"]    
-    add_index "ifa_question_logs", ["act_assessment_id", "date_taken"]
-    add_index "ifa_question_logs", ["act_submission_id"]
+    # add_index "ifa_question_logs", ["user_id", "act_subject_id", "is_calibrated", "date_taken"], :name => 'user_subject_calib_date'
+    # add_index "ifa_question_logs", ["organization_id", "act_subject_id", "is_calibrated", "date_taken"], :name => 'org_act_calib_date'
+    # add_index "ifa_question_logs", ["classroom_id", "act_subject_id", "is_calibrated", "date_taken"]
+    # add_index "ifa_question_logs", ["teacher_id", "act_subject_id", "is_calibrated", "date_taken"]
+    # add_index "ifa_question_logs", ["act_assessment_id", "date_taken"]
+    # add_index "ifa_question_logs", ["act_submission_id"]
     
   end
 

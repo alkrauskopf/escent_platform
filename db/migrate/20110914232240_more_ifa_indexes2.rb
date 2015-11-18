@@ -17,7 +17,7 @@ class MoreIfaIndexes2 < ActiveRecord::Migration
     add_index :act_choices, :act_question_id
     add_index :act_choices, :is_correct
     
-    add_index :act_question_act_score_ranges, :act_score_range_id
+    # add_index :act_question_act_score_ranges, :act_score_range_id
     add_index :act_question_act_score_ranges, :act_question_id    
 
     add_index :act_question_act_standards, :act_standard_id

@@ -1,66 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-	<%= stylesheet_link_tag "screen.css" %>
-    <title>Escent Partners, LLC</title>
+  <title>Allen</title>
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag :defaults %>
+  <%= csrf_meta_tag %>
 </head>
 <body>
-    <div class="login_bar">
-        <% form_tag :controller => :login, :action=> :login, :organization_id => @organization %>
-        <label for="username">
-            Username:</label>
-        <input type="text" class="text" name="username" />
-        <label for="password">
-            Password:</label>
-        <input type="password" class="text" name="password" />
-        <%= submit_tag "Sign-in", :class => "login" %>
-        <%= link_to "Forget Password?", :controller => :login, :action => :reset_password, :organization_id => @organization %>
-  <!--        ALK An "End" was here with 'unexpected end marker -->
-    </div>
-    <div id="container">
-        <div id="home_header">
-            <div class="logo">
-                <a href="#">
-                    <h1>
-                        Faith Streams</h1>
-                    <p>
-                        Helping Congregations Grow</p>
-                </a>
-            </div>
-            <!-- close logo class div -->
-        </div>
-        <!-- close home_header class div -->
-        <div id="home_body">
-            <!-- close sidebar class div -->
-            <div id="main_content">
-            <%= yield %>
-            </div>
-            <!-- close main_content div -->
-            <div class="clear">
-                &nbsp;</div>
-            <div class="bottom">
-                <div id="communities">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="footer">
-        <!-- ALK
-		<ul>
-            <li class="first"><a href="#">About Us</a>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
-            <li><a href="#">FAQ</a>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
-            <li><a href="#">Contact Us</a>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
-            <li><a href="#">Support Our Mission</a>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
-            <li class="last"><a href="#">Help</a></li>
-        </ul>
-		-->
-        <p>
-            &copy; <%= Time.now.year %> ESCENT PARTNERS, LLC
-        </p>
-    </div>
+
+<%= yield %>
+
 </body>
 </html>

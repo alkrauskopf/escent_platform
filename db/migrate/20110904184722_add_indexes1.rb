@@ -11,7 +11,7 @@ class AddIndexes1 < ActiveRecord::Migration
     add_index :contents, :subject_area_id
     add_index :contents, :content_resource_type_id
     add_index :topics, :act_score_range_id    
-    add_index :topic_contents, :topic_id
+    # add_index :topic_contents, :topic_id
     add_index :topic_contents, :content_id
     add_index :act_question_act_score_ranges, :act_score_range_id
     add_index :act_question_act_score_ranges, :act_question_id

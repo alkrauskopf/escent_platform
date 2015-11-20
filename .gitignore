@@ -13,4 +13,9 @@
 /tmp
 
 # Ignore all local uploads.
-/public/*
+/public/articles/*
+/public/blog_images/*
+/public/blog_posts_images/*
+/public/homeworklibrary/*
+/public/resourcelibrary/*
+/public/system/*

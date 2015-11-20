@@ -5,19 +5,16 @@ class User < ActiveRecord::Base
   include PublicPersona
 
   has_attached_file :picture, :styles => { :thumb => "118x166#", :med_thumb => "80x112#", :small_thumb => "50x50#" }
-  
-  belongs_to :religious_affiliation
+
   belongs_to :act_master
   belongs_to :organization, :foreign_key => "home_org_id" 
   has_many :tlt_dashboards, :dependent => :destroy
-  
-  has_many :prayer_pledges
+
   has_many :addresses, :dependent => :destroy
   has_many :contents
   has_many :role_memberships, :dependent => :destroy
   has_many :roles, :through => :role_memberships
   has_and_belongs_to_many :organizations
-  has_and_belongs_to_many :outreach_priorities
   has_many :authorizations, :include => :authorization_level, :dependent => :destroy
 #  has_many :authorizations, :as => :scope, :dependent => :destroy
   has_many :payments
@@ -217,7 +214,7 @@ class User < ActiveRecord::Base
     end
     conditions.unshift condition_strings.join(" OR ")
     order_by = (options[:order] || "last_name, first_name")
-    {:conditions => conditions, :include => :religious_affiliation, :order => order_by}
+    {:conditions => conditions, :order => order_by}
   }
  
   named_scope :with_roles, lambda { |keywords, options|
@@ -230,24 +227,6 @@ class User < ActiveRecord::Base
     conditions.unshift condition_strings.join(" OR ")
     order_by = (options[:order] || "last_name, first_name") 
     {:conditions => conditions, :include => "roles", :order => order_by}
-  } 
-  
-  named_scope :with_religious_affiliations, lambda { |keywords, options|
-    condition_strings = []
-    conditions = []
-    keywords.parse_keywords.each do |keyword| 
-      ra = ReligiousAffiliation.find_by_name(keyword)
-      if ra # return in search all children of the keyword
-        children_parent = ra.all_children.collect{|r| r.id} << ra.id   
-        condition_strings << "(religious_affiliations.name LIKE ? OR religious_affiliations.parent_id in (#{children_parent.join(',')}))"
-      else
-        condition_strings << '(religious_affiliations.name LIKE ?)'
-      end
-      conditions << "%#{keyword}%"
-    end
-    conditions.unshift condition_strings.join(" OR ")
-    order_by = (options[:order] || "last_name, first_name")    
-    {:conditions => conditions, :include => :religious_affiliation, :order => order_by}
   }
 
   named_scope :with_talent, lambda { |keywords, options|
@@ -270,7 +249,7 @@ class User < ActiveRecord::Base
   named_scope :with_organizations, lambda { |keywords, options|
     role_ids = Organization.with_names(keywords,{}).collect{|o| o.roles.collect{|r| r.id}}.flatten
     order_by = (options[:order] || "last_name, first_name")    
-    {:conditions => ["role_memberships.role_id IN (?)", role_ids], :include => [:religious_affiliation, :role_memberships], :order => order_by}
+    {:conditions => ["role_memberships.role_id IN (?)", role_ids], :include => [ :role_memberships], :order => order_by}
   }
   
   def self.generate_password(length = 10)
@@ -402,7 +381,10 @@ class User < ActiveRecord::Base
     authorization_level = AuthorizationLevel.find_by_name("favorite")
     Content.find(:all, :conditions => ["(authorizations.user_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ? AND !is_delete)", self.id, "Content", authorization_level.id], :include => "authorizations", :order => "title")
   end
- 
+
+  def viewable_favorite_resources(user)
+    self.favorite_resources.map{|r| r.viewable_by_user?(user) ? r : nil}.compact
+  end
 
 #
 #  Teacher's Students
@@ -1106,6 +1088,15 @@ class User < ActiveRecord::Base
     self.superuser_of?(nil)
   end
 
+  def make_superuser!
+    unless self.superuser?
+      su = Authorization.new
+      su.authorization_level_id = AuthorizationLevel.superuser.id
+      su.user_id = self.id
+      su.save
+    end
+  end
+
   def app_superuser?(app)
     self.has_authorization_level_for?(app, "app_superuser") || self.superuser?
   end
@@ -1195,10 +1186,6 @@ class User < ActiveRecord::Base
   def self.org_contact(contact_email)
     User.find(:first, :conditions => ["(email_address = ?)", contact_email]) rescue nil
   end
-  
-  def content_albums_with_organization(organization)
-    self.content_albums.find_all_by_organization_id(organization)
-  end
  
   def owned_classrooms
     Classroom.active.find(:all, :conditions => ["(user_id = ? )", self.id], :order => "course_name")
@@ -1249,7 +1236,7 @@ class User < ActiveRecord::Base
   protected
   
   def password_required?
-    crypted_password.blank? || !password.blank?
+    crypted_password.blank?  || !password.blank?
   end
   
   def age_verified_required?

@@ -1,0 +1,36 @@
+Master_Org_PB:
+    id: 1
+    setting_id: 1
+    scope_id: 33
+    scope_type: Organization
+    value: "#eef5fc"
+
+Master_Org_HFB:
+    id: 2
+    setting_id: 2
+    scope_id: 33
+    scope_type: Organization
+    value: "#1a5796"
+
+Master_Org_LNK:
+    id: 3
+    setting_id: 4
+    scope_id: 33
+    scope_type: Organization
+    value: "#000000"
+
+Master_Org_HFT:
+    id: 4
+    setting_id: 5
+    scope_id: 33
+    scope_type: Organization
+    value: "#FFFFFF"
+
+Master_Org_BT:
+    id: 5
+    setting_id: 6
+    scope_id: 33
+    scope_type: Organization
+    value: "#000000"
+
+

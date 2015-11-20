@@ -1,24 +1,3 @@
 <div class="section_selector" class="clear">
-	<% for section in ["content_partners", "cause_partners"] do -%>
-		<% if @current_action == section || (@current_action == "index" && section == "friends")-%>
-			<div class="active_section">
-				<span><%= section.sub(/_/, " ") %></span>
-			</div>
-		<% else -%>
-			<div>
-				<%= link_to_remote section.sub(/_/, " "), :update => "our_partners_panel", :url => {:controller => :our_partner, :action => section, :organization_id => @current_organization}, :method => :get %>
-			</div>
-		<% end -%>
-	<% end -%>
+our partner layout
 </div>
-<div>
-	<br style="clear:both" />
-	<br />	
-	<%= render :partial => "/shared/error_and_notice" %>
-	<%= yield %>
-</div>
-<script type="text/javascript">
-jQ(document).ready(function() {
-	jQ("#our_partner_panel .section_selector").segmentedControl();
-})
-</script>

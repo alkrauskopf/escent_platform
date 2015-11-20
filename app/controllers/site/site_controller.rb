@@ -1008,13 +1008,7 @@ class Site::SiteController < Site::ApplicationController
       if @keywords.blank?
         items_found = Organization.active(:order => order_by)
       else
-        if @search_field == "Description"
-          items_found = Organization.active.with_religious_affiliations @keywords, :order => order_by
-        elsif @search_field == "outreach priority"
-          items_found = Organization.with_outreach_priorities @keywords, :order => order_by
-        else
           items_found = Organization.active.with_names @keywords, :order => order_by
-        end
       end
       unless @filter.nil?
         if @filter != "-- No Filter --" 
@@ -1168,49 +1162,7 @@ class Site::SiteController < Site::ApplicationController
       render :template => "/site/#{params[:render_html]}"
     end
   end
-  
-  def content_upload
-    @content = @current_organization.contents.new(params[:content])
-    @content_albums = @current_organization.content_albums
-    if request.post?
-      @content.user = @current_user
-      content_album = ContentAlbum.find_by_id(params[:content_album_id])
-      @content_object_group = params[:content_object_type][:content_object_type_group].to_i
-      
-      if @content_object_group.blank?
-        flash[:error] = "You must select your content's Type before submitting"
-        render :action => :content_upload
-      else
-        #debugger
-        @content_object_group = params[:content_object_type][:content_object_type_group].to_i
 
-        if @content_object_group == 4  then
-          @content.content_object_type = ContentObjectType.find_by_content_object_type("HTML")
-          @content.content_object = params["content_editor"]
-        elsif @content_object_group == 5
-          @content.content_object_type = ContentObjectType.find_by_content_object_type("LINK")
-          #@content.content_object = params["content_link_text"]
-        else
-          @content.content_object_type = ContentObjectType.find_by_content_object_type(@content.source_file_file_name.match(/\.[\w]+/).to_s.match(/\w+/).to_s) unless @content.source_file_file_name.blank?
-        end
-        
-        if @content_object_group == 2
-          @content.source_file_preview = params[:content][:source_file]
-        end
-        
-        if @content.save then
-          @content.content_albums << content_album
-          @content.set_as_pending
-          @content.set_content_upload_source("call to action")
-          render :action => :content_upload_successful
-        else
-          flash[:error] = @content.errors.full_messages.to_sentence
-          render :action => :content_upload
-        end
-      end
-    end
-    
-  end
   
   def select_subject_areas
     subjects = SubjectArea.auto_complete_on params[:q]

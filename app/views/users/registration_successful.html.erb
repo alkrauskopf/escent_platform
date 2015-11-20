@@ -2,6 +2,9 @@
     <div class="title_large_red">Dear <%= @user.first_name %>,<br/><br/>
     	Thank you for joining the Escent community from <%=@user.organization.name%>.
 	 	<br/><br/>
+      <% if @user.superuser? %>
+        You Are A Superuser<br/><br/>
+      <% end %>
 	 </div>
     <div class="normal" style="margin-top:12px; padding-left:20px; font-size: 12px;">
 		<p style="color:#c73914;"> Your Sign-in ID has been activated.</p>	<br/>	

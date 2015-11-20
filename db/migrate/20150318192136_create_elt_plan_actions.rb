@@ -5,7 +5,7 @@ class CreateEltPlanActions < ActiveRecord::Migration
       t.string :scope_type,   :limit => 32
       t.integer :elt_plan_id,   :null => false
       t.integer :rubric_id
-      t.text :note, :limit=>1024, :default=>""
+      t.text :note, :limit=>1024#, :default=>""
 
       t.timestamps
     end

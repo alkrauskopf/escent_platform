@@ -1,7 +1,8 @@
 module OrganizationRegistration
   
   def register
-    redirect_to :action => :no_user, :id => "register" unless @current_user
+    @initialize_master =  (User.all.empty? && Organization.all.empty?)
+    redirect_to :action => :no_user, :id => "register" unless (@current_user || @initialize_master)
     
     if @current_organization.nil?
       @address = Address.new
@@ -32,13 +33,12 @@ module OrganizationRegistration
           if params[:no_website].nil? && @organization.web_site_url.empty? then
             flash[:error] = "Website URL is required. If you do not have a website check the Don't have a Web Site checkbox."
           else
-            change_religious_affiliation_id 
             if @address.save
-
-              if  @organization.update_attributes params[:organization]
+              @organization.is_default = @initialize_master
+              if  @organization.save
                 @address.organization = @organization
-                @current_user.add_as_administrator_to(@organization)
-                @current_user.add_as_friend_to(@organization)
+                if @current_user then @current_user.add_as_administrator_to(@organization) end
+                if @current_user then  @current_user.add_as_friend_to(@organization) end
 #               Notifier.deliver_organization_activate(params["user"]["organization_email"] , url_for(:action => "activate" , :public_id => @organization.public_id , :email => params["user"]["organization_email"]))
 #                Notifier.deliver_organization_registration @organization, @current_user, params["user"]["organization_email"], request.host_with_port
                 @organization.set_default_style_settings     
@@ -60,8 +60,6 @@ module OrganizationRegistration
       @organization = Organization.new()
       @organization.organization_type_id = nil
       @address = @organization.addresses.empty? ? @organization.addresses.new : @organization.addresses.physical.first
-      session[:organization_outreach_priorities] = []
-      @outreach_priorities = OutreachPriority.find(session[:organization_outreach_priorities])   
     end
   end
   
@@ -77,7 +75,7 @@ module OrganizationRegistration
     @address = @organization.addresses.first || @organization.addresses.new
      flash[:notice] = nil
      if request.post? 
-      change_religious_affiliation_id 
+
       if @organization.update_attributes params[:organization]
         @address.organization = @organization
         
@@ -90,34 +88,9 @@ module OrganizationRegistration
         flash[:error] = @organization.errors.full_messages.to_sentence
       end 
     end
-    session[:organization_outreach_priorities] = @organization.outreach_priorities.collect{|o| o.id}
-    @outreach_priorities = OutreachPriority.find(session[:organization_outreach_priorities])
   end
-  
-  def select_religious_affiliation
-    religious_affiliations = ReligiousAffiliation.auto_complete_on params[:q]
-    render :text => religious_affiliations.empty? ? "" : religious_affiliations.collect{|religious_affiliation| "#{religious_affiliation.name}\n"}
-  end
-  
-  def select_outreach_priorities
-    outreach_priorities = OutreachPriority.auto_complete_on params[:q]
-    render :text => outreach_priorities.empty? ? "" : outreach_priorities.collect{|outreach_prioritie| "#{outreach_prioritie.name}\n"}
-  end  
-
-  def remove_outreach_priority
-    @organization = @current_organization  
-    outreach_priority = OutreachPriority.find_by_id params[:id]
-    session[:organization_outreach_priorities].delete(outreach_priority.id)
-    @outreach_priorities = OutreachPriority.find(session[:organization_outreach_priorities])    
-    render :action => :add_outreach_priority
-  end  
  
   private
-  
-  def change_religious_affiliation_id 
-    unless params[:organization][:religious_affiliation_id].blank?
-      params[:organization][:religious_affiliation_id] = ReligiousAffiliation.find(:first, :conditions => ["name = ?", params[:organization][:religious_affiliation_id]]).id 
-    end
-  end
+
 
 end

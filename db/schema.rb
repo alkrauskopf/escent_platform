@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150626193758) do
+ActiveRecord::Schema.define(:version => 20151104190404) do
 
   create_table "act_answers", :force => true do |t|
     t.integer  "act_submission_id"
@@ -468,7 +468,7 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "background_color", :default => "000000"
+    t.string   "background_color", :default => "FFFFFF"
   end
 
   add_index "app_discussions", ["coop_app_id"], :name => "index_app_discussions_on_coop_app_id"
@@ -511,12 +511,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   end
 
   add_index "applicable_scopes", ["authorization_level_id"], :name => "index_applicable_scopes_on_authorization_level_id"
-
-  create_table "associated_organizations", :force => true do |t|
-    t.integer  "organization_id", :null => false
-    t.integer  "user_id",         :null => false
-    t.datetime "created_at",      :null => false
-  end
 
   create_table "authorizable_actions", :force => true do |t|
     t.integer  "authorization_level_id",               :null => false
@@ -672,39 +666,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   add_index "blogs", ["organization_id", "blog_type_id", "coop_app_id"], :name => "org_type_app"
   add_index "blogs", ["organization_id", "coop_app_id", "blog_type_id"], :name => "org_app_type"
 
-  create_table "channel_contents", :force => true do |t|
-    t.integer  "channel_id", :null => false
-    t.integer  "content_id", :null => false
-    t.integer  "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "channel_types", :force => true do |t|
-    t.string   "name",        :limit => 50,  :null => false
-    t.string   "description", :limit => 500
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
-  end
-
-  create_table "channels", :force => true do |t|
-    t.integer  "parent_id"
-    t.integer  "organization_id",                                      :null => false
-    t.integer  "user_id",                                              :null => false
-    t.string   "title",                              :default => "",   :null => false
-    t.string   "description",        :limit => 8000
-    t.datetime "created_at",                                           :null => false
-    t.datetime "updated_at",                                           :null => false
-    t.boolean  "searchable",                         :default => true, :null => false
-    t.datetime "publish_start_date"
-    t.datetime "publish_end_date"
-    t.string   "type",               :limit => 32,                     :null => false
-    t.datetime "last_posted_at"
-  end
-
-  add_index "channels", ["organization_id", "type"], :name => "index_channels_on_organization_id_and_type"
-  add_index "channels", ["parent_id", "type"], :name => "index_channels_on_parent_id_and_type"
-
   create_table "classroom_contents", :force => true do |t|
     t.integer  "classroom_id"
     t.integer  "content_id"
@@ -853,41 +814,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.string   "user_email"
   end
 
-  create_table "content_albums", :force => true do |t|
-    t.string   "name"
-    t.string   "description",     :limit => 8000
-    t.integer  "organization_id"
-    t.datetime "starts_at"
-    t.datetime "ends_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "display",                         :default => false
-    t.boolean  "accept_upload",                   :default => false
-    t.string   "cover",                           :default => ""
-  end
-
-  create_table "content_albums_contents", :id => false, :force => true do |t|
-    t.integer "content_id"
-    t.integer "content_album_id"
-  end
-
-  create_table "content_details", :force => true do |t|
-    t.string   "content_details_key", :limit => 25,  :null => false
-    t.integer  "content_id",                         :null => false
-    t.string   "details_value",       :limit => 500
-    t.datetime "created_at",                         :null => false
-  end
-
-  create_table "content_log", :force => true do |t|
-    t.integer  "content_id",                      :null => false
-    t.datetime "created_at",                      :null => false
-    t.integer  "user_id",                         :null => false
-    t.integer  "channel_id",                      :null => false
-    t.string   "http_header",     :limit => 4000, :null => false
-    t.integer  "organization_id"
-    t.integer  "package_id"
-  end
-
   create_table "content_object_type_groups", :force => true do |t|
     t.string   "name",       :limit => 50, :null => false
     t.datetime "created_at",               :null => false
@@ -909,62 +835,16 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.boolean "is_nested_content",                           :default => false, :null => false
   end
 
-  create_table "content_rating_options", :force => true do |t|
-    t.integer  "content_rating_type_id",                :null => false
-    t.string   "name",                   :limit => 50,  :null => false
-    t.string   "description",            :limit => 256
-    t.datetime "created_at",                            :null => false
-  end
-
-  create_table "content_rating_types", :force => true do |t|
-    t.string   "name",        :limit => 50,  :null => false
-    t.string   "description", :limit => 150, :null => false
-    t.datetime "created_at",                 :null => false
-  end
-
-  create_table "content_ratings", :force => true do |t|
-    t.integer  "content_rating_option_id", :null => false
-    t.datetime "created_at",               :null => false
-  end
-
   create_table "content_resource_types", :force => true do |t|
     t.string   "name",       :limit => 50,  :null => false
     t.string   "descript",   :limit => 150, :null => false
     t.datetime "created_at",                :null => false
   end
 
-  create_table "content_source_types", :force => true do |t|
-    t.string   "name",       :limit => 50, :null => false
-    t.datetime "created_at",               :null => false
-  end
-
-  create_table "content_sources", :force => true do |t|
-    t.integer  "source_type_id",                :null => false
-    t.string   "source_value",   :limit => 500, :null => false
-    t.datetime "created_at",                    :null => false
-  end
-
   create_table "content_statuses", :force => true do |t|
     t.string   "name",        :limit => 50,  :null => false
     t.string   "description", :limit => 500, :null => false
     t.datetime "created_at",                 :null => false
-  end
-
-  create_table "content_tags", :force => true do |t|
-    t.integer  "tag_id",     :null => false
-    t.datetime "created_at", :null => false
-  end
-
-  create_table "content_tracking_types", :force => true do |t|
-    t.string   "name",       :limit => 50, :null => false
-    t.datetime "created_at",               :null => false
-  end
-
-  create_table "content_trackings", :force => true do |t|
-    t.integer  "tracking_type_id", :null => false
-    t.integer  "content_id",       :null => false
-    t.integer  "user_id",          :null => false
-    t.datetime "created_at",       :null => false
   end
 
   create_table "content_upload_sources", :force => true do |t|
@@ -1037,40 +917,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   add_index "contents", ["organization_id"], :name => "index_contents_on_organization_id"
   add_index "contents", ["subject_area_id"], :name => "index_contents_on_subject_area_id"
   add_index "contents", ["user_id"], :name => "index_contents_on_user_id"
-
-  create_table "contents4", :force => true do |t|
-    t.integer  "child_content_id"
-    t.integer  "related_content_type_id"
-    t.integer  "content_status_id",                                                   :null => false
-    t.string   "title",                            :limit => 150,                     :null => false
-    t.string   "description",                      :limit => 4000
-    t.integer  "organization_id",                                                     :null => false
-    t.integer  "user_id",                                                             :null => false
-    t.datetime "created_at",                                                          :null => false
-    t.datetime "updated_at",                                                          :null => false
-    t.boolean  "mature_content",                                   :default => false, :null => false
-    t.boolean  "user_rating_enabled",                              :default => false, :null => false
-    t.datetime "publish_start_date",                                                  :null => false
-    t.datetime "publish_end_date"
-    t.string   "source_url",                       :limit => 500
-    t.string   "file_name",                        :limit => 256
-    t.string   "source_file_file_name",            :limit => 500
-    t.binary   "content_object"
-    t.integer  "package_id"
-    t.string   "source_url_protocol",              :limit => 30
-    t.string   "source_file_content_type",         :limit => 128
-    t.integer  "source_file_file_size"
-    t.integer  "content_object_type_id"
-    t.string   "caption"
-    t.integer  "duration"
-    t.string   "source_name"
-    t.string   "creator_name"
-    t.string   "star_performer"
-    t.string   "series",                           :limit => 1000
-    t.string   "source_file_preview_file_name"
-    t.string   "source_file_preview_content_type"
-    t.integer  "source_file_preview_file_size"
-  end
 
   create_table "coop_app_content_resource_types", :force => true do |t|
     t.integer  "coop_app_id"
@@ -1165,19 +1011,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.string   "name",       :limit => 50, :null => false
   end
 
-  create_table "default_package_roles", :force => true do |t|
-    t.integer  "package_id", :null => false
-    t.integer  "role_id",    :null => false
-    t.datetime "created_at", :null => false
-  end
-
-  create_table "denominations", :force => true do |t|
-    t.string   "name",       :limit => 150, :null => false
-    t.datetime "created_at",                :null => false
-    t.integer  "parent_id"
-    t.integer  "channel_id"
-  end
-
   create_table "discussions", :force => true do |t|
     t.integer  "parent_id"
     t.integer  "organization_id",                                        :null => false
@@ -1227,6 +1060,7 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
 
   create_table "dle_cycles", :force => true do |t|
     t.integer  "stage"
+    t.string   "name"
     t.text     "description"
     t.boolean  "is_output"
     t.boolean  "is_targets"
@@ -1239,7 +1073,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.string   "output_label"
     t.string   "attach_label"
     t.integer  "tlt_survey_type_id"
-    t.string   "name"
   end
 
   create_table "dle_metrics", :force => true do |t|
@@ -1288,7 +1121,7 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.integer  "elt_case_id"
     t.integer  "elt_indicator_id"
     t.integer  "rubric_id"
-    t.text     "evidence",         :limit => 255
+    t.text     "evidence"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "note"
@@ -1545,19 +1378,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   add_index "elt_types", ["elt_framework_id"], :name => "index_elt_types_on_elt_framework_id"
   add_index "elt_types", ["organization_id"], :name => "type_organization"
   add_index "elt_types", ["rubric_id"], :name => "index_elt_types_on_rubric_id"
-
-  create_table "event_log_types", :force => true do |t|
-    t.string "name", :limit => 50, :null => false
-  end
-
-  create_table "event_logs", :force => true do |t|
-    t.integer  "event_log_type_id"
-    t.integer  "user_id"
-    t.integer  "channel_id"
-    t.integer  "content_id"
-    t.datetime "created_at",                       :null => false
-    t.string   "event_data",        :limit => 500
-  end
 
   create_table "folder_folderables", :force => true do |t|
     t.integer  "folder_id"
@@ -2129,17 +1949,11 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.datetime "updated_at"
   end
 
-  create_table "organization_outreach_priorities", :force => true do |t|
-    t.integer  "organization_id",      :null => false
-    t.integer  "outreach_priority_id", :null => false
-    t.datetime "created_at",           :null => false
-  end
-
   create_table "organization_relationships", :force => true do |t|
     t.integer  "source_id",                                         :null => false
     t.string   "relationship_type", :limit => 32,                   :null => false
     t.integer  "target_id",                                         :null => false
-    t.string   "target_type",       :limit => 32, :default => "",   :null => false
+    t.string   "target_type",       :limit => 32,                   :null => false
     t.boolean  "inclusive",                       :default => true, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -2183,20 +1997,15 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
 
   create_table "organizations", :force => true do |t|
     t.integer  "parent_id"
-    t.integer  "organization_type_id",                                       :null => false
-    t.string   "name",                      :limit => 200,                   :null => false
-    t.datetime "created_at",                                                 :null => false
-    t.datetime "updated_at",                                                 :null => false
-    t.integer  "channel_id"
-    t.integer  "religious_affiliation_id"
-    t.string   "web_site_url",              :limit => 250
-    t.integer  "iwing_tab_id"
-    t.integer  "status_id",                                                  :null => false
-    t.string   "phone",                     :limit => 20
-    t.string   "fax",                       :limit => 20
+    t.integer  "organization_type_id",                                  :null => false
+    t.string   "name",                 :limit => 200,                   :null => false
+    t.datetime "created_at",                                            :null => false
+    t.datetime "updated_at",                                            :null => false
+    t.string   "web_site_url",         :limit => 250
+    t.integer  "status_id",                                             :null => false
+    t.string   "phone",                :limit => 20
+    t.string   "fax",                  :limit => 20
     t.integer  "organization_size_id"
-    t.integer  "package_id"
-    t.string   "email_address",             :limit => 256
     t.string   "contact_name"
     t.string   "contact_role"
     t.string   "logo_file_name"
@@ -2207,26 +2016,15 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.string   "contact_email"
     t.string   "contact_phone"
     t.text     "body"
-    t.integer  "cause_streaming_source_id",                :default => 1
-    t.boolean  "include_information",                      :default => true
+    t.boolean  "include_information",                 :default => true
     t.integer  "coop_group_code_id"
     t.boolean  "is_default"
-    t.string   "nick_name",                                :default => ""
-    t.string   "alt_short_name",            :limit => 10
-    t.boolean  "display_contact",                          :default => true
+    t.string   "nick_name",                           :default => ""
+    t.string   "alt_short_name",       :limit => 10
+    t.boolean  "display_contact",                     :default => true
   end
 
   add_index "organizations", ["organization_type_id"], :name => "IDX2_Organizations"
-  add_index "organizations", ["religious_affiliation_id"], :name => "IDX1_Organizations"
-
-  create_table "organizations_outreach_priorities", :id => false, :force => true do |t|
-    t.integer  "outreach_priority_id", :default => 0, :null => false
-    t.integer  "organization_id",      :default => 0, :null => false
-    t.datetime "created_at"
-  end
-
-  add_index "organizations_outreach_priorities", ["organization_id", "outreach_priority_id"], :name => "index_organization_id_and_outreach_priority_id", :unique => true
-  add_index "organizations_outreach_priorities", ["outreach_priority_id", "organization_id"], :name => "index_outreach_priority_id_and_organization_id", :unique => true
 
   create_table "organizations_users", :id => false, :force => true do |t|
     t.integer  "organization_id", :null => false
@@ -2236,80 +2034,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
 
   add_index "organizations_users", ["organization_id", "user_id"], :name => "index_organizations_users_on_organization_id_and_user_id", :unique => true
   add_index "organizations_users", ["user_id", "organization_id"], :name => "index_organizations_users_on_user_id_and_organization_id", :unique => true
-
-  create_table "outreach_priorities", :force => true do |t|
-    t.integer  "parent_id"
-    t.string   "name",       :limit => 50, :null => false
-    t.datetime "created_at",               :null => false
-  end
-
-  create_table "outreach_priorities_outreach_priority_groups", :id => false, :force => true do |t|
-    t.integer  "outreach_priority_id"
-    t.integer  "outreach_priority_group_id"
-    t.datetime "create_at"
-  end
-
-  create_table "outreach_priorities_topics", :id => false, :force => true do |t|
-    t.integer  "outreach_priority_id", :default => 0, :null => false
-    t.integer  "topic_id",             :default => 0, :null => false
-    t.datetime "created_at"
-  end
-
-  add_index "outreach_priorities_topics", ["outreach_priority_id", "topic_id"], :name => "index_outreach_priority_id_and_topic_id", :unique => true
-  add_index "outreach_priorities_topics", ["topic_id", "outreach_priority_id"], :name => "index_topic_id_and_outreach_priority_id", :unique => true
-
-  create_table "outreach_priorities_users", :id => false, :force => true do |t|
-    t.integer  "outreach_priority_id", :default => 0, :null => false
-    t.integer  "user_id",              :default => 0, :null => false
-    t.datetime "created_at"
-  end
-
-  add_index "outreach_priorities_users", ["outreach_priority_id", "user_id"], :name => "index_outreach_priority_id_and_user_id", :unique => true
-  add_index "outreach_priorities_users", ["user_id", "outreach_priority_id"], :name => "index_user_id_and_outreach_priority_id", :unique => true
-
-  create_table "outreach_priority_groups", :force => true do |t|
-    t.integer  "outreach_priority_id"
-    t.integer  "user_id"
-    t.integer  "organization_id"
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "package_subscription_terms", :force => true do |t|
-    t.datetime "created_at",                :null => false
-    t.string   "time_period", :limit => 50, :null => false
-    t.integer  "days"
-  end
-
-  create_table "package_tabs", :force => true do |t|
-    t.integer  "tab_id",       :null => false
-    t.datetime "created_at",   :null => false
-    t.integer  "tab_sequence", :null => false
-  end
-
-  create_table "package_types", :force => true do |t|
-    t.datetime "created_at",                :null => false
-    t.string   "name",       :limit => 150, :null => false
-  end
-
-  create_table "packages", :force => true do |t|
-    t.integer  "base_package_id"
-    t.datetime "created_at",                                                                  :null => false
-    t.integer  "organization_id",                                                             :null => false
-    t.string   "name",                         :limit => 150,                                 :null => false
-    t.string   "description",                  :limit => 4000
-    t.integer  "package_subscription_term_id"
-    t.datetime "subscription_start_date"
-    t.datetime "subscription_end_date"
-    t.decimal  "price",                                        :precision => 18, :scale => 2
-    t.string   "dnn_template_name"
-    t.integer  "package_type_id",                                                             :null => false
-    t.boolean  "is_public",                                                                   :null => false
-    t.boolean  "is_deployable",                                                               :null => false
-  end
-
-  add_index "packages", ["organization_id", "name"], :name => "UK_Packages_OrgAndName", :unique => true
 
   create_table "page_sections", :force => true do |t|
     t.integer  "organization_id", :null => false
@@ -2327,13 +2051,12 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   create_table "payments", :force => true do |t|
     t.integer  "merchant_account_id"
     t.integer  "transaction_status_id"
-    t.integer  "fundraising_campaign_id"
     t.integer  "user_id"
-    t.decimal  "amount",                                :precision => 9, :scale => 2, :default => 0.0
+    t.decimal  "amount",                               :precision => 9, :scale => 2, :default => 0.0
     t.string   "memo"
     t.string   "authorization_code"
     t.string   "response_message"
-    t.string   "card_number",             :limit => 32
+    t.string   "card_number",            :limit => 32
     t.integer  "organization_id"
     t.string   "card_holder_name"
     t.string   "billing_address"
@@ -2341,30 +2064,11 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.string   "billing_state_province"
     t.string   "billing_postal_code"
     t.string   "billing_country"
-    t.string   "billing_phone",           :limit => 20
-    t.string   "card_type",               :limit => 32
+    t.string   "billing_phone",          :limit => 20
+    t.string   "card_type",              :limit => 32
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "permission_types", :force => true do |t|
-    t.string   "name",       :limit => 50, :null => false
-    t.datetime "created_at",               :null => false
-  end
-
-  create_table "permissions", :force => true do |t|
-    t.integer  "channel_id"
-    t.integer  "content_id"
-    t.integer  "user_id"
-    t.integer  "role_id"
-    t.integer  "permission_type_id", :null => false
-    t.datetime "created_at",         :null => false
-  end
-
-  add_index "permissions", ["channel_id", "id"], :name => "IDX_Permissions1"
-  add_index "permissions", ["content_id", "id"], :name => "IDX_Permissions2"
-  add_index "permissions", ["role_id", "id"], :name => "IDX_Permissions4"
-  add_index "permissions", ["user_id", "id"], :name => "IDX_Permissions3"
 
   create_table "players", :force => true do |t|
     t.datetime "created_at",                  :null => false
@@ -2410,13 +2114,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.datetime "created_at",              :null => false
   end
 
-  create_table "religious_affiliations", :force => true do |t|
-    t.string   "name",       :limit => 150, :null => false
-    t.datetime "created_at",                :null => false
-    t.integer  "parent_id"
-    t.integer  "channel_id"
-  end
-
   create_table "reported_abuses", :force => true do |t|
     t.integer  "entity_id"
     t.string   "entity_type"
@@ -2439,15 +2136,15 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   end
 
   create_table "roles", :force => true do |t|
-    t.string   "name",        :limit => 50,   :default => "", :null => false
-    t.datetime "created_at",                                  :null => false
-    t.integer  "user_id",                                     :null => false
+    t.string   "name",        :limit => 50,   :null => false
+    t.datetime "created_at",                  :null => false
+    t.integer  "user_id",                     :null => false
     t.string   "description", :limit => 1000
     t.integer  "scope_id"
     t.string   "scope_type"
   end
 
-  add_index "roles", ["scope_id", "scope_type", "name"], :name => "index_roles_on_scope_id_and_scope_type_and_name", :unique => true
+  add_index "roles", ["scope_id", "scope_type", "name"], :name => "index_roles_on_scope_id_and_scope_type_and_name"
 
   create_table "roles_granted_roles", :force => true do |t|
     t.integer  "role_id",         :null => false
@@ -2563,25 +2260,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   add_index "student_subject_demographics", ["act_subject_id"], :name => "index_student_subject_demographics_on_act_subject_id"
   add_index "student_subject_demographics", ["user_id"], :name => "index_student_subject_demographics_on_user_id"
 
-  create_table "style_setting_values", :force => true do |t|
-    t.integer  "style_setting_id"
-    t.integer  "scope_id",                         :null => false
-    t.string   "scope_type",       :limit => 32
-    t.string   "value",            :limit => 1024
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "style_setting_values", ["scope_id", "scope_type", "style_setting_id"], :name => ":scope_id_and_scope_type_and_style_setting_id"
-
-  create_table "style_settings", :force => true do |t|
-    t.string  "name",                                :null => false
-    t.string  "setting_type",  :default => "String"
-    t.string  "group_name"
-    t.integer "position"
-    t.string  "default_value"
-  end
-
   create_table "subject_areas", :force => true do |t|
     t.integer  "parent_id"
     t.string   "name"
@@ -2656,7 +2334,7 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.integer  "user_id"
     t.boolean  "is_active",                            :default => true
     t.integer  "max_responses",                        :default => 1000
-    t.integer  "survey_instruction_id",                :default => 99
+    t.integer  "survey_instruction_id",                :default => 999
     t.boolean  "is_notify"
     t.boolean  "is_anon"
     t.integer  "recipients",                           :default => 1
@@ -2670,13 +2348,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   add_index "survey_schedules", ["survey_instruction_id", "organization_id"], :name => "instruction_org"
   add_index "survey_schedules", ["user_id", "organization_id", "entity_type"], :name => "user_org_entity"
   add_index "survey_schedules", ["user_id", "tlt_survey_audience_id", "tlt_survey_type_id"], :name => "user_audience_type"
-
-  create_table "tags", :force => true do |t|
-    t.string   "name",       :limit => 150, :null => false
-    t.datetime "created_at",                :null => false
-  end
-
-  add_index "tags", ["name"], :name => "UK_Tags_Tag", :unique => true
 
   create_table "talents", :force => true do |t|
     t.integer "user_id"
@@ -3089,16 +2760,6 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.datetime "updated_at"
   end
 
-  create_table "trusted_sources", :force => true do |t|
-    t.integer  "organization_id"
-    t.integer  "source_id"
-    t.string   "type",            :limit => 32
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "trusted_sources", ["organization_id", "source_id", "type"], :name => "index_trusted_sources_on_organization_id_and_source_id_and_type", :unique => true
-
   create_table "user_dle_plan_coachings", :force => true do |t|
     t.integer  "user_dle_plan_id"
     t.integer  "user_id"
@@ -3153,30 +2814,13 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
   add_index "user_itl_belt_ranks", ["itl_belt_rank_id"], :name => "index_user_itl_belt_ranks_on_itl_belt_rank_id"
   add_index "user_itl_belt_ranks", ["user_id"], :name => "index_user_itl_belt_ranks_on_user_id"
 
-  create_table "user_outreach_priorities", :force => true do |t|
-    t.integer  "user_id",              :null => false
-    t.integer  "outreach_priority_id", :null => false
-    t.datetime "created_at",           :null => false
-  end
-
-  create_table "user_roles", :force => true do |t|
-    t.integer  "user_id",                             :null => false
-    t.integer  "role_id",                             :null => false
-    t.datetime "created_at",                          :null => false
-    t.boolean  "has_grant_option", :default => false, :null => false
-    t.datetime "start_date"
-    t.datetime "end_date"
-  end
-
   create_table "users", :force => true do |t|
-    t.integer  "religious_affiliation_id"
     t.datetime "created_at",                                                    :null => false
     t.integer  "status_id"
     t.string   "first_name",                  :limit => 50
     t.string   "last_name",                   :limit => 50
     t.string   "phone",                       :limit => 20
     t.string   "alt_phone",                   :limit => 20
-    t.string   "other_denomination",          :limit => 50
     t.string   "postal_code",                 :limit => 20
     t.datetime "date_of_birth"
     t.boolean  "age_verified",                                                  :null => false
@@ -3184,7 +2828,7 @@ ActiveRecord::Schema.define(:version => 20150626193758) do
     t.string   "display_name",                :limit => 128
     t.string   "verification_code",           :limit => 16
     t.datetime "verified_at"
-    t.string   "password",                                   :default => "",    :null => false
+    t.string   "password"
     t.string   "salt",                        :limit => 256
     t.string   "email_address",               :limit => 512
     t.string   "crypted_password"

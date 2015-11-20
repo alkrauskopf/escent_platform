@@ -1,0 +1,23 @@
+rake db:drop db:create db:migrate fixtures:load_all
+rm -rf public/system/logos
+rm -rf public/system/pictures
+mkdir -p public/system/logos/normal
+cp  public/images/missing_logo.png public/system/logos/normal/missing.png
+mkdir -p public/system/pictures/original
+cp  public/images/member_ico.gif public/system/pictures/original/missing.png
+mkdir -p public/system/pictures/thumb
+cp  public/images/member_ico.gif public/system/pictures/thumb/missing.png
+mkdir -p public/system/pictures/med_thumb
+cp  public/images/member_med_ico.gif public/system/pictures/med_thumb/missing.png
+mkdir -p public/system/pictures/small_thumb
+cp  public/images/member_small_ico.gif public/system/pictures/small_thumb/missing.png
+rm -rf public/articles
+mkdir -p public/articles
+rm -rf public/blog_images
+mkdir -p public/blog_images
+rm -rf public/blog_posts_images
+mkdir -p public/blog_posts_images
+rm -rf public/homeworklibrary
+mkdir -p public/homeworklibrary
+rm -rf public/resourcelibrary
+mkdir -p public/resourcelibrary

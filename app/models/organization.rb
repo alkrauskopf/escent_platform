@@ -4,13 +4,10 @@ class Organization < ActiveRecord::Base
   acts_as_tree :order => "name"
   
   belongs_to :status
-  belongs_to :channel
-  belongs_to :religious_affiliation
   belongs_to :organization_type
   belongs_to :organization_size
   belongs_to :featured_topic, :class_name => "Topic"
   belongs_to :default_address, :class_name => "Address"
-  belongs_to :cause_streaming_source, :class_name => "Organization"
   belongs_to :coop_group_code
   
   has_one :merchant_account, :dependent => :destroy
@@ -27,22 +24,17 @@ class Organization < ActiveRecord::Base
   end
 
   has_many :classrooms, :dependent => :destroy
-  has_many :channels
   has_many :contents
   has_many :discussions
-  has_many :fundraising_campaigns, :dependent => :destroy
   has_many :payments
   has_many :topics
   has_many :setting_values, :as => :scope, :dependent => :destroy
   has_many :roles, :as => :scope, :dependent => :destroy
   has_many :page_sections, :dependent => :destroy
   has_many :organization_relationships, :as => :source, :dependent => :destroy
-  has_many :trusted_topic_sources, :dependent => :destroy
-  has_many :content_albums, :dependent => :destroy
   has_many :blogs, :dependent => :destroy
   has_many :blog_posts, :through => :blogs
   has_many :reported_abuses, :class_name => "ReportedAbuse"
-  has_many :prayer_pledges
   has_many :metrics
   has_many :users 
   has_many :coop_app_organizations, :dependent => :destroy
@@ -101,8 +93,6 @@ class Organization < ActiveRecord::Base
 
   has_one :organization_core_option 
 
-  has_and_belongs_to_many :outreach_priorities
-#  has_and_belongs_to_many :users
   has_many :users
   
   # validates_confirmation_of 
@@ -134,7 +124,8 @@ class Organization < ActiveRecord::Base
   has_attached_file :logo, :styles => { :normal => "315x170" , :small_thumb => "74x40>", :med_thumb => "111x60>", :thumb=>"148x80>" }, :default_style => :normal
   
   validates_attachment_content_type :logo, :content_type => ["image/gif", "image/jpeg", "image/png", "image/pjpeg", "image/x-png"]
-  
+  validate :logo_width
+
   accepts_nested_attributes_for :organization_relationships
 
 
@@ -143,7 +134,7 @@ class Organization < ActiveRecord::Base
   named_scope :of_type, lambda{|org| { :conditions => ["organization_type_id = ? ", org.organization_type_id], :order => "name" }} 
   named_scope :with_type_id, lambda{|type_id| { :conditions => ["organization_type_id = ? ", type_id], :order => "name" }} 
 
-  named_scope :ep_default,   :conditions => { :is_default => true }
+  named_scope :ep_default,   {:conditions =>  ["is_default = ?", true], :order => "created_at DESC"}
   named_scope :all_parents,   :conditions => ["parent_id IS NULL AND !is_default"]
   named_scope :active,   :conditions => ["status_id = ?", 1]
 
@@ -160,37 +151,6 @@ class Organization < ActiveRecord::Base
     {:conditions => conditions, :order => order_by}
   }
   
-  named_scope :with_religious_affiliations, lambda { |keywords, options|
-    condition_strings = []
-    conditions = []
-    
-    keywords.parse_keywords.each do |keyword| 
-      ra = ReligiousAffiliation.find_by_name(keyword)
-      if ra # return in search all children of the keyword
-        children_parent = ra.all_children.collect{|r| r.id} << ra.id   
-        condition_strings << "(religious_affiliations.name LIKE ? OR religious_affiliations.parent_id in (#{children_parent.join(',')}))"
-      else
-        condition_strings << '(religious_affiliations.name LIKE ?)'
-      end
-      conditions << "#{keyword}%"
-    end
-    conditions.unshift condition_strings.join(" OR ")
-    order_by = (options[:order] || "organizations.name")    
-    {:conditions => conditions, :include => [:religious_affiliation, :outreach_priorities], :order => order_by}
-  }
-  
-  named_scope :with_outreach_priorities, lambda { |keywords, options|
-    condition_strings = []
-    conditions = []
-    keywords.parse_keywords.each do |keyword| 
-      condition_strings << '(outreach_priorities.name LIKE ?)'
-      conditions << "%#{keyword}%"
-    end
-    conditions.unshift condition_strings.join(" OR ")
-    order_by = (options[:order] || "organizations.name")
-    {:conditions => conditions, :include => [:religious_affiliation, :outreach_priorities], :order => order_by}
-  }
-  
   def before_save
  #   if self.roles.empty?
  #     Role::BuiltinOrganizationRoles.each do |role_name|
@@ -200,14 +160,7 @@ class Organization < ActiveRecord::Base
     if self.default_address.nil? && !self.addresses.empty?
       self.default_address = self.addresses.first
     end
-  
-#  ALK Bypassed required field Religious Affiliation Set as "50"  (Affiliation = NONE)
-  
-    if self.religious_affiliation.nil?
-      self.religious_affiliation_id = 50
-    end    
- #  ALK End of forced setting of Religious Affiliation   
- 
+
     set_page_section_default
   end
  
@@ -887,9 +840,7 @@ class Organization < ActiveRecord::Base
       setting_value ? setting_value.value : Object.const_get(match_data[1].classify).find_by_name(setting_name).default_value
     elsif (match_data = method_name.match(partner_re))
       if self.instance_variable_get("@#{match_data[1]}")
-        self.instance_variable_get("@#{match_data[1]}") 
-      else
-        self.instance_variable_set("@#{match_data[1]}", organizations_of_relationship_type(match_data[1].singularize))
+        self.instance_variable_get("@#{match_data[1]}")
       end
     else
       super
@@ -1002,12 +953,7 @@ class Organization < ActiveRecord::Base
     end
     start_date
   end
-  
 
-  def active_topics_within_network(options={})
-    options = options.reverse_merge(:limit => 8)
-    Topic.find :all, :conditions => ["organization_id IN (?)", self.trusted_topic_sources.collect{|tts| tts.source.id}], :order => "last_posted_at DESC", :limit => options[:limit]
-  end
   
   def uniq_resource_subjects
     all = Content.active.find(:all, :conditions => ["organization_id = ?", self.id])
@@ -1290,30 +1236,12 @@ Organization.find(:all, :include => :authorizations, :conditions => ["authorizat
   def assigned_teachers
     self.classrooms.collect{|c| c.classroom_periods}.flatten.collect{|p| p.classroom_periods_users.teachers}.flatten.collect{|u| u.users}.flatten.uniq
   end
-
-  
-  def organizations_of_relationship_type(relationship_type)
-    sources_to_include = []
-    sources_to_exclude = []
-    self.organization_relationships.find_all_by_relationship_type(relationship_type.to_s).each do |relationship|
-      if relationship.target
-       (relationship.inclusive? ? sources_to_include : sources_to_exclude) << (relationship.target.is_a?(ReligiousAffiliation) ? self.class.find_all_by_religious_affiliation_id(relationship.target_id) : relationship.target)
-      end
-    end
-    sources_to_include.flatten - sources_to_exclude.flatten
-  end
   
   def remove_organization_relationship(organization_relationship)
     unless organization_relationship.is_a? OrganizationRelationship
       organization_relationship = self.organization_relationships.find(organization_relationship) rescue nil
     end
     if organization_relationship
-      if organization_relationship.target.is_a? ReligiousAffiliation
-        self.trusted_topic_sources.find_all_by_source_id(organization_relationship.target.organizations.collect{|o| o.id}).each{|tts| tts.destroy}
-      else
-        trusted_topic_source = self.trusted_topic_sources.find_by_source_id(organization_relationship.target_id)
-        self.trusted_topic_sources.delete(trusted_topic_source) if trusted_topic_source
-      end
       organization_relationship.destroy
     end
   end
@@ -1460,7 +1388,6 @@ Organization.find(:all, :include => :authorizations, :conditions => ["authorizat
   def content_abuses
     
   end
-  #end
   
   # Update style settings at once, added by victor
   def update_style_settings(params)
@@ -1483,4 +1410,20 @@ Organization.find(:all, :include => :authorizations, :conditions => ["authorizat
       style.save
     end 
   end
+
+  def logo_missing?
+    self.logo.url.split("/").last == "missing.png"
+  end
+  
+  private
+
+  def logo_width
+    required_width  = 300
+    if logo.queued_for_write[:original]
+      dimensions = Paperclip::Geometry.from_file(logo.queued_for_write[:original].path)
+      errors.add(:logo, "Width can't be greater than #{required_width}") unless dimensions.width <= required_width
+    end
+  end
+
+
 end

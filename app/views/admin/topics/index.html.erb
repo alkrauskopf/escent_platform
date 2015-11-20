@@ -7,8 +7,7 @@
 	</div>
 
 	<% local = "All Topics" -%>
-	<%= render :partial => "/admin/our_causes/topics", :locals => {:title => local, :topics => @all_topics} %>
-	
+
         <br />
         <%= button_to_remote 'Back', {:url => {:controller => 'admin/classrooms',:action => 'index', :organization_id => @current_organization},:method => 'get', :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
 		<br/>

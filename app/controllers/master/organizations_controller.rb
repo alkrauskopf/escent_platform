@@ -12,7 +12,7 @@ class Master::OrganizationsController < Master::ApplicationController
       @organization = Organization.new(params[:organization])
       @organization.is_default = false
       if @organization.save
-        flash[:notice] = "Successfully created organization #{@organization.name}."
+        flash[:notice] = "Successfully created #{@organization.is_default ? 'Master ': ''}organization #{@organization.name}."
         redirect_to :action => :index
       else
         flash[:error] = @organization.errors.full_messages.to_sentence

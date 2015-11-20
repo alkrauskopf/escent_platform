@@ -17,24 +17,6 @@ class Site::ApplicationController < ApplicationController
     end
   end
   
-  def find_featured_topic_x
-    if !params[:topic_id].blank?
-      @current_topic = Topic.find_by_public_id params[:topic_id] 
-    elsif @current_organization.featured_topic && @current_organization.featured_topic.active?
-      @current_topic = @current_organization.featured_topic    
-    elsif @current_organization.cause_streaming_source
-      @cause_org = @current_organization.cause_streaming_source
-      @current_topic = @cause_org.featured_topic || @cause_org.topics.active.first
-    else
-      @current_topic = @current_organization.topics.active.first
-    end
-    @content = (@current_topic && @current_topic.featured_content) ? Content.find(@current_topic.featured_content) : nil
-#    @related_content = @current_topic ? @current_topic.contents[1,@current_topic.contents.size] : []
-    @related_content = @current_topic ? @current_topic.contents - [@content] : []
-    @other_active_topics = @current_organization.topics.active.collect{|t| t} - [@current_organization.featured_topic || @current_organization.topics.active.first]
-    @active_topics_within_network = @current_organization.active_topics_within_network
-  end
-  
   # Victor rewrite find_featured_topic method for tcpj
   def find_featured_topic
     @current_classroom ||= (Classroom.find_by_public_id(params[:id]) rescue @current_organization.classrooms.active.first)
@@ -44,7 +26,7 @@ class Site::ApplicationController < ApplicationController
     if !params[:topic_id].blank? 
       @current_topic = Topic.find_by_public_id params[:topic_id]
       @return_topic = @current_topic
-  elsif @current_classroom.featured_topic
+    elsif @current_classroom && @current_classroom.featured_topic
 #    elsif @current_classroom.featured_topic && @current_classroom.featured_topic.active?
       @current_topic = @current_classroom.featured_topic
       @return_topic = []
@@ -81,7 +63,7 @@ class Site::ApplicationController < ApplicationController
     @related_content = []
     end
 #    @related_content = @current_topic ? @current_topic.contents.active - [@content] : []
-    @other_active_topics = @current_classroom.topics.active.collect{|t| t} - [@current_classroom.featured_topic || @current_classroom.topics.active.first]
+    @other_active_topics = @current_classroom ? @current_classroom.topics.active.collect{|t| t} - [@current_classroom.featured_topic || @current_classroom.topics.active.first] : []
   end
   
 end

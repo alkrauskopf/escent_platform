@@ -1,8 +1,6 @@
-<!-- <div style="height:45px; background:url('/images/causes_header.png') repeat-x top left; border:1px solid #BFBFBF;"> -->
+
 <div class="module_header" style="margin:0px 10px">	
 	<div class="iwing_module_title" style="text-align:left;">
-        <!-- <div id="header_our_causes" style="padding-left:10px; width:65%; float:left; font-size:16px; font-weight:bold; cursor:pointer;" class="causes_title"> -->
-					<!-- OUR CAUSES -->
 		<div id="header_our_causes" style="line-height:16px; font-size:14px; width:98%; float:left; cursor:pointer;">
 			<div id="shared_discussion_warp" style="float:right;padding-right:0px">
 				<%= render :partial => "site/discussions/share_discussion_btn" %>
@@ -12,17 +10,8 @@
 			</div>
 			<div id="tool_tip_causes" style="display:none;" class="tooltip">
 			   <%= @current_organization.blogs.features.first.title rescue "In weakness is our strength" %>
-		  </div>		
+		    </div>
 		</div>
-        <!-- </div> -->
-		
-        <!-- <div style="font-size:10px; text-align:center; width:30%; float:left; padding-top:13px; font-weight:bold;">
-            <% if @current_topic == @current_organization.featured_topic -%>
-            <%= Time.now.strftime("%A %B %d, %Y") %>
-            <% else -%>
-            <%= link_to "Return to previous page", :action => :index, :organization_id => @current_organization %>
-            <% end -%>
-        </div> -->
 	</div>	
 </div>
 <div class="module_header" style="margin: 15px 10px 0px 10px; text-align:left; padding-top:5px;">
@@ -31,9 +20,7 @@
   <% else -%> 
     No Topic At This Time
   <% end -%>
-	<!--<div id="shared_discussion_warp" style="float:right; width:160px;">
-		<%#= render :partial => "site/discussions/share_discussion_btn" %>
-	</div>-->
+
 </div>
 <div id="share_discussion_form" style="display: none;clear:both;">
     <%= render :partial => "/shared/share_login" %>
@@ -64,11 +51,7 @@
         </ul>
         <br/>
     </div>
-<!--
-		<div id="share_content_form" style="display: none;clear:both;">
-		    <%#= render :partial => "/shared/share_login" %>
-		</div>
--->
+
     <script type="text/javascript" charset="utf-8">
         jQuery(document).ready(function(){
             jQ('#control_panel').tabs();

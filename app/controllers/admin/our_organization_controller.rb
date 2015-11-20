@@ -2,7 +2,7 @@ class Admin::OurOrganizationController < Admin::ApplicationController
   layout "admin/our_organization/layout"
   include ApplicationHelper
   
-  protect_from_forgery :except => [ :update_style_setting_value, :add_outreach_priority, :new_outreach_priority, :remove_outreach_priority ]
+  protect_from_forgery :except => [ :update_style_setting_value ]
   
   include OrganizationRegistration
   
@@ -24,8 +24,6 @@ class Admin::OurOrganizationController < Admin::ApplicationController
   
   def information
     @organization = @current_organization
-    session[:organization_outreach_priorities] = @current_organization.outreach_priorities.collect{|o| o.id}
-    @outreach_priorities = OutreachPriority.find(session[:organization_outreach_priorities])   
     @address = @current_organization.addresses.find(:first)
   end
   
@@ -134,25 +132,7 @@ class Admin::OurOrganizationController < Admin::ApplicationController
     expire_page :controller => "/stylesheets", :action => :iwing, :organization_id => @current_organization
     render :text => ""
   end
-  
-  def add_outreach_priority
-    @organization = @current_organization
-    outreach_priority = OutreachPriority.find_by_name params[:name]
-    if outreach_priority.nil?
-      render :template => "admin/our_organization/new_outreach_priority.js", :locals => {:name => params[:name]} and return
-    else
-      session[:organization_outreach_priorities] << outreach_priority.id
-    end
-    @outreach_priorities = OutreachPriority.find(session[:organization_outreach_priorities])     
-  end  
-  
-  def new_outreach_priority
-    @organization = @current_organization
-    outreach_priority = OutreachPriority.create(:name => params[:name], :parent_id => 1) 
-    session[:organization_outreach_priorities] << outreach_priority.id
-    @outreach_priorities = OutreachPriority.find(session[:organization_outreach_priorities])    
-    render :template => "admin/our_organization/add_outreach_priority.js"
-  end
+
 
   def app_subscriptions
   end

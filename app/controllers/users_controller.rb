@@ -16,9 +16,7 @@ class UsersController < ApplicationController
   def register
     if request.get?
       @user = User.new
-    else  
-
-      
+    else
       @user = User.new params[:user]
       
         if User.find_by_email_address(@user.email_address).nil?
@@ -27,6 +25,11 @@ class UsersController < ApplicationController
           
           if simple_captcha_valid?
             if @user.save
+     #  Initialize First User as Superuser
+              if User.all.size == 1
+                @user.make_superuser!
+              end
+
             @user.add_as_friend_to(@user.organization)
             #   temp omit Notifier.deliver_user_registration(:user => @user,:current_organization => @current_organization, :fsn_host => request.host_with_port)
             #            Notifier.deliver_user_registration @user, @current_organization, request.host_with_port
@@ -53,7 +56,8 @@ class UsersController < ApplicationController
 #          flash[:error] = "A user exists for " + @user.email_address  
          end 
      flash[:error] = @user.errors.full_messages.to_sentence
-     end
+    end
+    @home_organization_list = Organization.active.sort_by{|o| o.name}
     render :layout => "registration"
   end
   
@@ -196,7 +200,7 @@ class UsersController < ApplicationController
     @classroom_lead = @user.lead_classrooms
     @classroom_participate = @user.participate_classrooms
     @colleagues = @user.colleagues
-    @resource_favs = @user.favorite_resources
+    @resource_favs = @user.viewable_favorite_resources(@current_user ? @current_user : nil)
     @org_connects =  @user.authorizations.find(:all,:conditions=>"scope_type LIKE 'Organization'",:order => :scope_id, :group => :scope_id)
     @followers = @user.followers
     
@@ -441,7 +445,6 @@ end
     @content = @current_topic ? @current_topic.contents.first : nil
     @related_content = @current_topic ? @current_topic.contents[1,@current_topic.contents.size] : []
     @other_active_topics = @current_organization.topics.active.collect{|t| t} - [@current_organization.featured_topic || @current_organization.topics.active.first]
-    @active_topics_within_network = @current_organization.active_topics_within_network
   end  
   
   def update_talents(talents) 
@@ -458,10 +461,5 @@ end
       end
     end    
   end
-  
-  def change_religious_affiliation_id 
-    unless params[:user][:religious_affiliation_id].blank?
-      params[:user][:religious_affiliation_id] = ReligiousAffiliation.find(:first, :conditions => ["name = ?", params[:user][:religious_affiliation_id]]).id  rescue ''
-    end
-  end  
+
 end

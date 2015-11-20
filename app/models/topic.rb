@@ -21,8 +21,6 @@ class Topic < ActiveRecord::Base
   has_many :act_score_ranges, :through => :act_score_range_topics
   has_many :tlt_sessions  
   has_many :tlt_dashboards
-
-  has_and_belongs_to_many :outreach_priorities
   
   accepts_nested_attributes_for :setting_values
 
@@ -54,24 +52,6 @@ class Topic < ActiveRecord::Base
     conditions.unshift condition_strings.join(" OR ")
     order_by = (options[:order] || "title")    
     {:conditions => conditions, :include => :organization, :order => order_by}
-  }
-  
-  named_scope :with_religious_affiliations, lambda { |keywords, options|
-    condition_strings = []
-    conditions = []
-    keywords.parse_keywords.each do |keyword| 
-      ra = ReligiousAffiliation.find_by_name(keyword)
-      if ra # return in search all children of the keyword
-        children_parent = ra.all_children.collect{|r| r.id} << ra.id   
-        condition_strings << "(religious_affiliations.name LIKE ? OR religious_affiliations.parent_id in (#{children_parent.join(',')}))"
-      else
-        condition_strings << '(religious_affiliations.name LIKE ?)'
-      end
-      conditions << "%#{keyword}%"
-    end
-    conditions.unshift condition_strings.join(" OR ")
-    order_by = (options[:order] || "title")    
-    {:conditions => conditions, :include => {:organization => :religious_affiliation}, :order => order_by}
   }
   
   named_scope :with_titles, lambda { |keywords, options|

@@ -1,7 +1,6 @@
 class Admin::ContentController < Admin::ApplicationController   
   skip_before_filter :verify_authenticity_token    
   layout false
-  include Admin::TopicsHelper
   
   def search 
     @features = Topic.features

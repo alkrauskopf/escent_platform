@@ -1,26 +1,4 @@
-<h3><a href="#"><%= title %></a></h3>
-<div>
-    <button id="add_<%= relationship_type %>" class="fsn-button ui-button ui-state-default ui-corner-all">
-        Add <%= title %>
-    </button>
-    <button style="margin-left:10px" id="add_affiliation_<%= relationship_type %>" class="fsn-button ui-button ui-state-default ui-corner-all">
-        Add by Religious Affiliation
-    </button>
-    <% if relationship_type == "cause_partner" %>
 
-		<div style="float:right"><a href="#" id="add_affiliation_related_causes">View Related Causes</a></div>
-    <script type="text/javascript" charset="utf-8">
-      jQ(document).ready(function() {
-        jQ("#add_affiliation_related_causes").click(function() {
-          jQ("ul.ui-tabs-nav li:eq(1) a").click();
-          jQ("#iwing_modules_5").click();
-        })
-      })
-    </script>    
-    <% end %>
-    <br/>
-    <br style="clear:both"/>
-    <div id="<%= relationship_type %>_results">
-        <%= render :partial => "/admin/our_partners/organization_relationships_table", :locals => {:relationship_type => relationship_type, :collection => collection} %>
-    </div>
+<div>
+our_partners: organization_relationships partial
 </div>

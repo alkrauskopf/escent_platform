@@ -276,24 +276,6 @@ class Notifier < ActionMailer::Base
       sent_on  Time.now
       body    :user => @user, :sender => @sender, :subject => @subject, :level => @belt.rank, :text=> @message, :fsn_host => @fsn_host
     end
-  end 
-    
-  def successful_pledge_en(preferred_email, fsn_host, prayer_pledge , sent_at = Time.now)
-    #    subject 'Odyssey Networks Prayer Pledge'
-    subject "Pledge Confirmation"
-    recipients preferred_email
-    from       'odysseypledge@odysseynetworks.org'
-    sent_on    sent_at
-    body      :email_address => preferred_email, :fsn_host => fsn_host , :prayer_pledge => prayer_pledge
-  end
-  
-  def successful_pledge_es(preferred_email, fsn_host, prayer_pledge , sent_at = Time.now)
-    #    subject 'Odyssey Networks Prayer Pledge'
-    subject "Pledge Confirmation"
-    recipients preferred_email
-    from       'odysseypledge@odysseynetworks.org'
-    sent_on    sent_at
-    body      :email_address => preferred_email, :fsn_host => fsn_host , :prayer_pledge => prayer_pledge
   end
   
     
@@ -418,22 +400,6 @@ class Notifier < ActionMailer::Base
     #				:first_name => params[:contact_info][:first_name],
     #				:last_name => params[:contact_info][:last_name],
     #				:title => params[:contact_info][:title])) unless params[:contact_info][:body].blank?
-  end
-  
-  def email_reminder(preferred_email, prayer_pledge, sent_at = Time.now)
-    subject "Pledge Reminder"
-    recipients preferred_email
-    from       'odysseypledge@odysseynetworks.org'
-    sent_on    sent_at
-    body       :prayer_pledge => prayer_pledge
-  end
-  
-  def email_reminder_es(preferred_email, prayer_pledge, sent_at = Time.now)
-    subject "Odyssey Networks"
-    recipients preferred_email
-    from       'odysseypledge@odysseynetworks.org'
-    sent_on    sent_at
-    body       :prayer_pledge => prayer_pledge
   end
   
 end

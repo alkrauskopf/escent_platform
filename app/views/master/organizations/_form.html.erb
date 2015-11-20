@@ -1,10 +1,5 @@
 <%= error_messages_for :organization %>
-<!-- ALK remove Religious Affiliation View 
-<p>
-	<%= label_tag 'organization_religious_affiliation_id', 'Religious Affiliation:' %>
-	<%= select("organization", "religious_affiliation_id", ReligiousAffiliation.all.collect {|p| [ p.name, p.id ] }, :prompt => "Select a religious affiliation") %>
-</p>
--->
+
 <p>
 	<%= label_tag 'organization_organization_type_id', 'Organizationx Type:' %>
 	<%= select("organization", "organization_type_id", OrganizationType.all.collect {|p| [ p.name, p.id ] }, :prompt => "Select an organization type") %>

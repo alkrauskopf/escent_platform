@@ -1,6 +1,4 @@
- <%if  @current_organization.fundraising_campaigns.empty? -%>
-No Fundraising Campaigns for the Organization
-<% else -%>
+
 
 <div class="mempro_box" style="text-align:right;">
 <% form_for(@payment,:url => { :controller => "donations",:action => "create" } ) do |f| %>
@@ -9,19 +7,6 @@ No Fundraising Campaigns for the Organization
 </div>
   <div  style="text-align:left;">
       <strong><%= @current_organization.name%></strong> <br />
-  </div>
-	<div class="FormRow">
-    <div class="FormRowTitle" style="text-align:left;">
-         <%= "Fundraising Campaign" %>
-    </div>
-		
-    <div class="FormRowData">
-      <% @current_organization.fundraising_campaigns.active.each_with_index do |fc, i| -%>
-        <input id="payment_fundraising_campaign_id_value<%= fc.id %>" name="payment[fundraising_campaign_id]" type="radio" value="<%= fc.id %>" <%= "checked" if i == 0 %> />  <%= fc.name %> 
-		<br />
-      <% end -%>
-     
-    </div>
   </div>
 
   <div class="FormRow">
@@ -145,4 +130,3 @@ No Fundraising Campaigns for the Organization
 <% end %>
 
 </div>
-<% end -%>

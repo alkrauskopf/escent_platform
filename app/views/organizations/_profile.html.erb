@@ -1,6 +1,4 @@
-<style type="text/css" media="screen">
-  #select_outreach_priority, #add_outreach_priority { float: left; margin-top: 8px; }
-</style>
+
 <div class="Form">
     <div class="FormSectionTitle" style="text-align:left; height:25px;">
     		Organization Information
@@ -247,109 +245,80 @@
         This will allow us to direct those who are interested in learning more about your organization to your website.    </div>
 	</div>
 <script type="text/javascript" charset="utf-8">
-  jQ(document).ready(function() {
-		var post_url = "<%= url_for :controller => '/organizations', :action => :select_outreach_priorities %>";
-    jQ("#select_outreach_priority").autocomplete(post_url);
-    
-		var add_url = "<%= url_for :controller => 'admin/our_organization', :action => :add_outreach_priority, :organization_id => @organization %>";
-    jQ("#add_outreach_priority").click(function() {
-      name = jQ("input#select_outreach_priority").get(0).value;
-      jQ.post(add_url, {"name": name}, null, "script");
-      return false;
-    })
-  })
-</script>
-<script type="text/javascript" charset="utf-8">
     	jQ(document).ready(function() {
-                                        		var organization_types = <%= OrganizationType.affiliate.children.inject({}){|lut, ot| lut[ot.id] = {:name => ot.name, :has_size => ot.has_size?, :has_religious_affiliation => ot.has_religious_affiliation};lut}.to_json %>;
-												
-                                        		jQ("#organization_organization_type_id").change(function(){
-                                        			if (organization_types[this.value.toString()]["has_size"]) {
-                                        				jQ("#organization_size").slideDown();
-                                        			} else {
-                                        				jQ("#organization_size").slideUp();
-                                        			}
-                                        		});
-                            					
-                                        		jQ("#address_country").change(function(){
-                                        			jQ("#address_state")[0].disabled = this.value != "US";
-                                        		});
-                            					
-                                        		<% unless @organization.id.nil? %>
-                                        			var religious_affiliation_name = "<%= @organization.religious_affiliation.name %>"
-                                        			jQ("#select_religious_affiliation").val(religious_affiliation_name);			
-                                        		<% end %>
-                                        		jQ("#address_state")[0].disabled = jQ("#address_country")[0].value != "US";
-                    							
-                                        		var url = "<%= url_for :controller => '/organizations', :action => :select_religious_affiliation %>";
-                    							
-                                        		var resetName = function() {
-                                        			var religious_affiliation_name = jQ("#religious_affiliation_name").val();
-                                        			jQ("input#select_religious_affiliation").val(religious_affiliation_name);
-                                        		}
-                            					
-                                        		jQ("#select_religious_affiliation").autocomplete(url, {
-                                        				autoFill: true,
-                                        				mustMatch: true,
-                                        				matchContains: false
-                                        		});
-                                        		
-                                        	    jQ("#help-admin-dialog").dialog({
-                                        	            bgiframe: true,
-                                        	            autoOpen: false,
-                                        	            width: 700,
-                                        	            height: 400,
-                                        	            modal: true,
-                                        				buttons: {
-                                        					 Close: function(){
-                                        		                        jQ(this).dialog('close');
-                                        		                    }
-                                        				}
-                                            	    }
-                                        		);
-                                        
-                                        	    jQ("#help-website-dialog").dialog({
-                                        	            bgiframe: true,
-                                        	            autoOpen: false,
-                                        	            width: 700,
-                                        	            height: 400,
-                                        	            modal: true,
-                                        				buttons: {
-                                        					 Close: function(){
-                                        		                        jQ(this).dialog('close');
-                                        		                    }
-                                        				}
-                                            	    }
-                                        		);					
-                								
-                                        	    jQ("#help-organization-dialog").dialog({
-                                        	            bgiframe: true,
-                                        	            autoOpen: false,
-                                        	            width: 700,
-                                        	            height: 400,
-                                        	            modal: true,
-                                        				buttons: {
-                                        					 Close: function(){
-                                        		                        jQ(this).dialog('close');
-                                        		                    }
-                                        				}
-                                            	    }
-                                        		);		
-    												
-                                        		jQ('#help_admin').click(function(event){
-                                        		    jQ("#help-admin-dialog").dialog('open');
-                                        			 event.preventDefault();
-                                        		})
-                            
-                                        		jQ('#help_organization').click(function(event){
-                                        		    jQ("#help-organization-dialog").dialog('open');
-                                        			 event.preventDefault();
-                                        		})
-                    							
-                                        		jQ('#help_website').click(function(event){
-                                        		    jQ("#help-website-dialog").dialog('open');
-                                        			 event.preventDefault();
-                                        		})							
+        var organization_types = <%= OrganizationType.affiliate.children.inject({}){|lut, ot| lut[ot.id] = {:name => ot.name, :has_size => ot.has_size?, :has_religious_affiliation => ot.has_religious_affiliation};lut}.to_json %>;
+
+        jQ("#organization_organization_type_id").change(function(){
+            if (organization_types[this.value.toString()]["has_size"]) {
+                jQ("#organization_size").slideDown();
+            } else {
+                jQ("#organization_size").slideUp();
+            }
+        });
+
+        jQ("#address_country").change(function(){
+            jQ("#address_state")[0].disabled = this.value != "US";
+        });
+
+        jQ("#address_state")[0].disabled = jQ("#address_country")[0].value != "US";
+
+
+        jQ("#help-admin-dialog").dialog({
+                bgiframe: true,
+                autoOpen: false,
+                width: 700,
+                height: 400,
+                modal: true,
+                buttons: {
+                     Close: function(){
+                                jQ(this).dialog('close');
+                            }
+                }
+            }
+        );
+
+        jQ("#help-website-dialog").dialog({
+                bgiframe: true,
+                autoOpen: false,
+                width: 700,
+                height: 400,
+                modal: true,
+                buttons: {
+                     Close: function(){
+                                jQ(this).dialog('close');
+                            }
+                }
+            }
+        );
+
+        jQ("#help-organization-dialog").dialog({
+                bgiframe: true,
+                autoOpen: false,
+                width: 700,
+                height: 400,
+                modal: true,
+                buttons: {
+                     Close: function(){
+                                jQ(this).dialog('close');
+                            }
+                }
+            }
+        );
+
+        jQ('#help_admin').click(function(event){
+            jQ("#help-admin-dialog").dialog('open');
+             event.preventDefault();
+        })
+
+        jQ('#help_organization').click(function(event){
+            jQ("#help-organization-dialog").dialog('open');
+             event.preventDefault();
+        })
+
+        jQ('#help_website').click(function(event){
+            jQ("#help-website-dialog").dialog('open');
+             event.preventDefault();
+        })
                                         				
     	jQ('#no_website').click(function(event){
     		if(jQ(this).attr('checked') == true){

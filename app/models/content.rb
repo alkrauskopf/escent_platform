@@ -3,7 +3,6 @@ class Content < ActiveRecord::Base
   
   belongs_to :organization
   belongs_to :child_content,:class_name => "Content"
-  belongs_to :related_content_type
   belongs_to :content_status
   belongs_to :user
   belongs_to :content_object_type
@@ -35,9 +34,6 @@ class Content < ActiveRecord::Base
   has_many :dle_resources, :dependent => :destroy 
   has_many :coop_app_resources, :dependent => :destroy  
 
- 
-    
-  has_and_belongs_to_many :content_albums
   
   validates_presence_of :title
   validates_presence_of :content_object_type_id, :message => "- Invalid File Extension or File Name, No Periods in File Name."
@@ -62,7 +58,8 @@ class Content < ActiveRecord::Base
   has_attached_file :source_file_preview, :path => ":rails_root/public/resourcelibrary/:id/:style/:basename.:extension", :url => "/resourcelibrary/:id/:style/:basename.:extension" , :styles => {:thumb => "41x41>", :med_thumb => "90x90>"}
 
   named_scope :active, :conditions => { :is_delete => false}
-  named_scope :deleted, :conditions => { :is_delete => true }  
+  named_scope :deleted, :conditions => { :is_delete => true }
+  named_scope :trash, :conditions => { :is_delete => true }
   named_scope :available, {:include => :content_status, :conditions =>  ["content_statuses.name = ?", "Available"]}
   named_scope :available_and_restricted, {:include => :content_status, :conditions =>  ["content_statuses.name = ? OR content_statuses.name = ?", "Available", "Restricted"]}
   named_scope :confidential, {:include => :content_status, :conditions =>  ["content_statuses.name = ?", "Confidential"]}
@@ -281,7 +278,7 @@ class Content < ActiveRecord::Base
   end
   
   def active?
-    (!self.is_delete && !self.expired?)
+    (!self.deleted? && !self.expired? && !self.pending?)
   end
 
   def available?
@@ -296,12 +293,20 @@ class Content < ActiveRecord::Base
     self.content_status.name == "Confidential"
   end
 
+  def deleted?
+    self.is_delete || self.content_status.name == "Deleted"
+  end
+
+  def pending?
+    self.content_status.name == "Pending"
+  end
+
   def disposition
     disposition = self.content_status.name
     if self.expired?
       disposition = "Expired"
     else
-      disposition = self.is_delete ? "Unavailable" : disposition
+      disposition = self.deleted? ? "Unavailable" : disposition
     end
     disposition 
   end
@@ -319,19 +324,22 @@ class Content < ActiveRecord::Base
   end
   
   def viewable_by_user?(user)
-    view = self.active?
-    unless !self.active?
+    view = false
+    if !self.deleted?
       if user.nil?
         view = self.available?
       else
-        if self.available?
-          view = true
-        elsif self.restricted?
-          view = user.content_manager? || user.superuser?
-        elsif self.confidential?
-          view = self.organization ? (user.content_manager_for_org?(self.organization) || user.superuser? || user.organization_id == self.organization_id) : false
-        else
+        if user.superuser? || (self.user && (self.user == user)) || (self.organization && user.content_manager_for_org?(self.organization))
+        view = true
+        elsif !self.active?
           view = false
+        else
+          view = self.available?
+          if self.restricted?
+              view = user.content_manager?
+          elsif self.confidential?
+              view =  (user.organization_id == self.organization_id)
+          end
         end
       end
     end
@@ -415,11 +423,7 @@ class Content < ActiveRecord::Base
     self.total_view ||= TotalView.create(:entity => self)
     self.total_view.views
   end
-  
-  def album_image_view
-    "/or"
-  end
-  
+
   def add_star_rating(rating)
     self.star_rating ||= StarRating.create(:entity => self)
     self.star_rating.add rating
@@ -463,8 +467,8 @@ class Content < ActiveRecord::Base
     end
   leaders.uniq
   end 
-   
-  
+
+
   def set_content_upload_source(source_name)
     source = ContentUploadSource.find_by_name(source_name)
     self.update_attribute(:content_upload_source_id, source.id)

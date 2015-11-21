@@ -2,7 +2,7 @@ development:
   adapter: mysql
   encoding: utf8
   reconnect: false
-  database: tcpj_upgrade
+  database: tcpj_local
   pool: 5
   username: root
   password:
@@ -13,7 +13,7 @@ test:
   adapter: mysql
   encoding: utf8
   reconnect: false
-  database: TCP_upgrade_test
+  database: tcpj_local_test
   pool: 5
   username: root
   password: 
@@ -24,7 +24,7 @@ production:
   adapter: mysql
   encoding: utf8
   reconnect: false
-  database: tcpj_upgrade_prod
+  database: tcpj_local_prod
   pool: 5
   username: root
   password: 

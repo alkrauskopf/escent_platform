@@ -15,7 +15,7 @@ GEM
     activeresource (2.3.18)
       activesupport (= 2.3.18)
     activesupport (2.3.18)
-    braintree (2.53.0)
+    braintree (2.56.0)
       builder (>= 2.0.0)
     builder (3.2.2)
     calendar_date_select (1.16.4)
@@ -60,4 +60,4 @@ DEPENDENCIES
   will_paginate (= 2.3.11)
 
 BUNDLED WITH
-   1.10.6
+   1.11.2

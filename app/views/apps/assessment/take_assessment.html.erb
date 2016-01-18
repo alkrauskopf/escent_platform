@@ -62,10 +62,8 @@
 				<br/>
 				<% unless @range_list.size.zero? -%>
 					<span style ="width:630px; word-wrap:break-word; overflow:hidden; font-size:12px; font-weight:normal; color:#000000;">
-					<%= @current_user.first_name %>, below is a summary of your recent formative assessment results.<br/>
-					It summarizes your strengths and areas to work on.<br/>
 					<% unless @suggested_topics.nil? || @suggested_topics.empty?%>
-						These are the <strong><%= @classroom.course_name %> Units </strong>you should be concentrating on.<br/>
+						<%= @classroom.course_name %> Units you should be concentrating on.<br/>
 						<% @suggested_topics.each do |tpc| -%>
 							<span style ="width:630px; word-wrap:break-word; overflow:hidden; font-size:12px; padding-left:200px; font-weight:normal; color:#000000;">
 								-&nbsp;&nbsp;&nbsp;<%= link_to tpc.title, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => tpc, :id => @classroom %><br>
@@ -73,17 +71,14 @@
 						<% end -%>
 						<br/>
 					<% end -%>
-		  			</span>					
-					<span style ="width:630px; word-wrap:break-word; overflow:hidden; font-size:12px; padding-left:0px; font-weight:normal; color:#000000;">
-					Below the dashboard is where you can select and take more assessments.<br/>
-					</span>
+		  			</span>
 				<% else -%>	
 					<span style ="width:630px; word-wrap:break-word; overflow:hidden; font-size:12px; font-weight:normal; color:#000000;">
 					<%= @current_user.first_name %>, you have no finalized formative assessment results thus far.<br/>
 					Select an assessment below.
 		  			</span>
 				<% end -%>
-<!--> 
+<!--
  		  <%#= render :partial => "ifa_dashboard_updates" %>
 -->
 		</div>	

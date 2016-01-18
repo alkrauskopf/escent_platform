@@ -46,5 +46,22 @@ class ActSubmission < ActiveRecord::Base
     score
   end
 
+  def standard_score(standard)
+    score = 0
+    unless self.act_assessment.nil?
+      score_pct = (self.tot_choices.nil? || (self.tot_choices == 0) || self.tot_points.nil?) ? 0.0 : (self.tot_points/self.tot_choices.to_f)
+      delta = (self.act_assessment.upper_score(standard) - self.act_assessment.lower_score(standard)).to_f
+      score = self.act_assessment.lower_score(standard) + (delta * score_pct).to_i
+    end
+    score
+  end
+
+  def total_points
+    self.act_answers.collect{|a|a.points}.sum rescue 0.0
+  end
+
+  def total_choices
+    self.act_answers.selected.size rescue 0
+  end
 
 end

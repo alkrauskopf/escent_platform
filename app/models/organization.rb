@@ -713,8 +713,16 @@ class Organization < ActiveRecord::Base
         c.ifa_classroom_option.destroy rescue nil
       end
      end
-  end 
-      
+  end
+
+  def ifa_standards
+    standards = []
+    if self.ifa_org_option
+      standards = self.ifa_org_option.act_masters
+    end
+    standards
+  end
+
   def elt_remove_org_options
     if self.elt_org_option
       self.elt_org_option.destroy rescue nil

@@ -82,21 +82,15 @@ class ActAssessment < ActiveRecord::Base
 
 
   def lower_score(std)
-    range = self.act_assessment_score_ranges.select{|r| r.act_master_id == std.id}.first rescue nil
-    if range
-      score = range.lower_score
-    else
-      score = 0
-    end
+    #   range = self.act_assessment_score_ranges.select{|r| r.act_master_id == std.id}.first rescue nil
+    range = self.act_assessment_score_ranges.for_standard(std).first rescue nil
+    score = range.nil? ? 0 : range.lower_score
   end
 
   def upper_score(std)
-    range = self.act_assessment_score_ranges.select{|r| r.act_master_id == std.id}.first rescue nil
-    if range
-      score = range.upper_score
-    else
-      score = 0
-    end
+    #  range = self.act_assessment_score_ranges.select{|r| r.act_master_id == std.id}.first rescue nil
+    range = self.act_assessment_score_ranges.for_standard(std).first rescue nil
+    score = range.nil? ? 0 : range.upper_score
   end
 
   def score_range(std)

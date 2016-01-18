@@ -553,43 +553,43 @@
     render :layout => "act_assessment"
   end
 
-  def add_submission
+   def add_submission
 
-  initialize_parameters
+     initialize_parameters
 
-    @submission = ActSubmission.new
-    @submission.user_id = @current_user.id
-    @submission.act_assessment_id = @assessment.id
-    @submission.classroom_id = @classroom.id
-    @submission.organization_id = @current_organization.id
-    @submission.is_final = false
-    @submission.act_subject_id = @assessment.act_subject_id
-    if params[:begin_time]
-      @submission.duration = (Time.now - DateTime.parse(params[:begin_time])).to_i
-    else
-      @submission.duration = 0
-    end
-    if params[:teacher]
-      @submission.teacher_id = params[:teacher][:teacher_id]
-    end
-    if params[:act_submission]
-      @submission.student_comment = params[:act_submission][:student_comment]
-    end    
-    submission_complete = false
-    if @submission.save
+     @submission = ActSubmission.new
+     @submission.user_id = @current_user.id
+     @submission.act_assessment_id = @assessment.id
+     @submission.classroom_id = @classroom.id
+     @submission.organization_id = @current_organization.id
+     @submission.is_final = false
+     @submission.act_subject_id = @assessment.act_subject_id
+     if params[:begin_time]
+       @submission.duration = (Time.now - DateTime.parse(params[:begin_time])).to_i
+     else
+       @submission.duration = 0
+     end
+     if params[:teacher]
+       @submission.teacher_id = params[:teacher][:teacher_id]
+     end
+     if params[:act_submission]
+       @submission.student_comment = params[:act_submission][:student_comment]
+     end
+     submission_complete = false
+     if @submission.save
        teacher_must_review = false
        chosen_ids = []
        unless params[:ans_check].nil?
-          chosen_ids = params[:ans_check].collect{|c| c}             
+         chosen_ids = params[:ans_check].collect{|c| c}
        end
        sa_ids = []
        sa_answers = []
        unless params[:short_ans].nil?
-           sa_ids = params[:short_ans][:quest_id].collect{|i| i}
+         sa_ids = params[:short_ans][:quest_id].collect{|i| i}
        end
-       @assessment.act_questions.each do |q|         
-         if q.question_type == "SA" 
-          then
+       @assessment.act_questions.each do |q|
+         if q.question_type == "SA"
+         then
            teacher_must_review = true
            @answer = @submission.act_answers.new
            @answer.act_assessment_id = @assessment.id
@@ -608,105 +608,108 @@
              if saq == q.id.to_s
                @answer.short_answer = params[:short_ans][:answer][idx]
              end
-            end
+           end
            if @answer.save
-              submission_complete = true
+             submission_complete = true
            end
          else
            correct_choice_ids = q.act_choices.select{|c| c.is_correct == true}.collect{|chc| chc.id}
            incorrect_choice_ids = q.act_choices.select{|c| c.is_correct == false}.collect{|chc| chc.id}
-        
+
            correct_choice_ids.each do |cc|
              if chosen_ids.include?(cc.to_s)
-#   Correct Answer Selected 
-              @answer = @submission.act_answers.new 
-              @answer.act_assessment_id = @assessment.id
-              @answer.user_id = @current_user.id
-              @answer.organization_id = @current_organization.id
-              @answer.classroom_id = @classroom.id
-              @answer.teacher_id = @submission.teacher_id              
-              @answer.act_question_id = q.id
-              @answer.act_choice_id = cc
-              @answer.was_selected = true
-              @answer.is_correct = true
-              @answer.is_calibrated = q.is_calibrated
-              @answer.points = 1.0
-              if @answer.save
-                submission_complete = true
-              end
+  #   Correct Answer Selected
+               @answer = @submission.act_answers.new
+               @answer.act_assessment_id = @assessment.id
+               @answer.user_id = @current_user.id
+               @answer.organization_id = @current_organization.id
+               @answer.classroom_id = @classroom.id
+               @answer.teacher_id = @submission.teacher_id
+               @answer.act_question_id = q.id
+               @answer.act_choice_id = cc
+               @answer.was_selected = true
+               @answer.is_correct = true
+               @answer.is_calibrated = q.is_calibrated
+               @answer.points = 1.0
+               if @answer.save
+                 submission_complete = true
+               end
              else
-#   Correct Answer Not Selected            
-              @answer = @submission.act_answers.new 
-              @answer.act_assessment_id = @assessment.id
-              @answer.user_id = @current_user.id
-              @answer.organization_id = @current_organization.id
-              @answer.classroom_id = @classroom.id
-              @answer.teacher_id = @submission.teacher_id
-              @answer.act_question_id = q.id
-              @answer.act_choice_id = cc
-              @answer.was_selected = false
-              @answer.is_correct = true
-              @answer.is_calibrated = q.is_calibrated
-              @answer.points = 0.0
-              if @answer.save
-                submission_complete = true
-              end
+  #   Correct Answer Not Selected
+               @answer = @submission.act_answers.new
+               @answer.act_assessment_id = @assessment.id
+               @answer.user_id = @current_user.id
+               @answer.organization_id = @current_organization.id
+               @answer.classroom_id = @classroom.id
+               @answer.teacher_id = @submission.teacher_id
+               @answer.act_question_id = q.id
+               @answer.act_choice_id = cc
+               @answer.was_selected = false
+               @answer.is_correct = true
+               @answer.is_calibrated = q.is_calibrated
+               @answer.points = 0.0
+               if @answer.save
+                 submission_complete = true
+               end
              end
            end
            incorrect_choice_ids.each do |nc|
              if chosen_ids.include?(nc.to_s)
-#   InCorrect Answer Selected 
-              @answer = @submission.act_answers.new 
-              @answer.act_assessment_id = @assessment.id
-              @answer.user_id = @current_user.id
-              @answer.organization_id = @current_organization.id
-              @answer.classroom_id = @classroom.id
-              @answer.teacher_id = @submission.teacher_id
-              @answer.act_question_id = q.id
-              @answer.act_choice_id = nc
-              @answer.was_selected = true
-              @answer.is_correct = false
-              @answer.is_calibrated = q.is_calibrated
-              @answer.points = 0.0
-              if @answer.save
-                submission_complete = true
-              end
+  #   InCorrect Answer Selected
+               @answer = @submission.act_answers.new
+               @answer.act_assessment_id = @assessment.id
+               @answer.user_id = @current_user.id
+               @answer.organization_id = @current_organization.id
+               @answer.classroom_id = @classroom.id
+               @answer.teacher_id = @submission.teacher_id
+               @answer.act_question_id = q.id
+               @answer.act_choice_id = nc
+               @answer.was_selected = true
+               @answer.is_correct = false
+               @answer.is_calibrated = q.is_calibrated
+               @answer.points = 0.0
+               if @answer.save
+                 submission_complete = true
+               end
              end
            end
          end
- # Take this out: Question log updated only when Submission is Finalized, AFTER Dashboard is updated
- #       unless q.question_type == "SA" 
- #         log_ifa_question(q)
- #       end
-        end    # end of Question loop      
-    end     
-    if submission_complete
-
-      @submitted_answers = @submission.act_answers
-      ActSubmissionScore.destroy_all(["act_submission_id = ?", @submission.id])rescue nil
-      ActMaster.find(:all).each do |mstr|
-        std_score = ActSubmissionScore.new
-        std_score.act_submission_id = @submission.id
-        std_score.act_master_id = mstr.id
-        std_score.est_sms = mstr.sms(@submitted_answers,@submission.act_subject_id,0,0, @current_organization.id)
-        std_score.update_attributes params[:act_submission_score]
-      end
-      unless teacher_must_review || !@classroom.ifa_classroom_option.is_ifa_auto_finalize
-        finalize_submission
-      else
-        teacher_must_review = true
-      end
-     if @classroom.ifa_classroom_option.is_ifa_notify
-       teacher = User.find(@submission.teacher_id)
-       Notifier.deliver_assessment_submission(:user => teacher, :admin => @current_user, :classroom => @classroom, :current_organization => @current_organization, :need_review => teacher_must_review, :fsn_host => request.host_with_port)          
+         # Take this out: Question log updated only when Submission is Finalized, AFTER Dashboard is updated
+         #       unless q.question_type == "SA"
+         #         log_ifa_question(q)
+         #       end
+       end    # end of Question loop
      end
-     redirect_to :action => 'take_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment,:submission_id => @submission, :function => "Success"
-    else
-      flash[:error] = @submission.errors.full_messages.to_sentence 
-      redirect_to :action => 'submit_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment
-    end
-  end
+     if submission_complete && !@submission.organization.nil?
 
+
+       @submission.update_attributes params[:tot_points => @submission.total_points, :tot_choices => @submission.total_choices]
+       @submitted_answers = @submission.act_answers
+       ActSubmissionScore.destroy_all(["act_submission_id = ?", @submission.id])rescue nil
+       #  ActMaster.find(:all).each do |mstr|
+       @submission.organization.ifa_standards.each do |mstr|
+         std_score = ActSubmissionScore.new
+         std_score.act_submission_id = @submission.id
+         std_score.act_master_id = mstr.id
+         #  std_score.est_sms = mstr.sms(@submitted_answers,@submission.act_subject_id,0,0, @current_organization.id)
+         std_score.est_sms = @submission.standard_score(mstr)
+         std_score.update_attributes params[:act_submission_score]
+       end
+       unless teacher_must_review || !@classroom.ifa_classroom_option.is_ifa_auto_finalize
+         finalize_submission
+       else
+         teacher_must_review = true
+       end
+       if @classroom.ifa_classroom_option.is_ifa_notify
+         teacher = User.find(@submission.teacher_id)
+         Notifier.deliver_assessment_submission(:user => teacher, :admin => @current_user, :classroom => @classroom, :current_organization => @current_organization, :need_review => teacher_must_review, :fsn_host => request.host_with_port)
+       end
+       redirect_to :action => 'take_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment,:submission_id => @submission, :function => "Success"
+     else
+       flash[:error] = @submission.errors.full_messages.to_sentence
+       redirect_to :action => 'submit_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment
+     end
+   end
 
   def teacher_review
   
@@ -2526,42 +2529,41 @@ end
       @question.act_assessments.each do |ass|
         ass.set_min_and_max
    end
-  end 
-
-  def finalize_submission
-
-
-      if @submission.organization.ifa_org_option 
-        @submission.act_assessment.act_questions.each do |quest|
-          log_ifa_question(quest)
-        end   # End Question Loop
-      end  
-    
-    if @reviewer
-      @submission.reviewer_id = @reviewer.id
-    else
-      @submission.is_auto_finalized = true
-      @submission.reviewer_id = @submission.teacher_id      
-    end
-    @submission.is_final = true
-    @submission.is_user_dashboarded = false
-    @submission.is_org_dashboarded = false
-    @submission.is_classroom_dashboarded = false
-    @submission.date_finalized = Time.now
-    @submission.tot_points = @submission.act_answers.collect{|a|a.points}.sum rescue 0
-    @submission.tot_choices = @submission.act_answers.selected.size rescue 0
-    @submission.act_submission_scores.each do |std|
-          fin_sms = @submission.is_auto_finalized ? std.est_sms : std.act_master.sms(@submission.act_answers,@submission.act_subject_id,0,0, @current_organization.id)
-          std.update_attributes(:final_sms => fin_sms)
-        end
-     if @submission.update_attributes params[:act_submission]
-        auto_ifa_dashboard_update(@submission.user)
-        auto_ifa_dashboard_update(@submission.classroom)
-        auto_ifa_dashboard_update(@submission.organization)       
-        @finalized = true   
-   
-     end
   end
+
+     def finalize_submission
+
+       if @submission.organization.ifa_org_option
+         @submission.act_assessment.act_questions.each do |quest|
+           log_ifa_question(quest)
+         end   # End Question Loop
+       end
+
+       if @reviewer
+         @submission.reviewer_id = @reviewer.id
+       else
+         @submission.is_auto_finalized = true
+         @submission.reviewer_id = @submission.teacher_id
+       end
+       @submission.is_final = true
+       @submission.is_user_dashboarded = false
+       @submission.is_org_dashboarded = false
+       @submission.is_classroom_dashboarded = false
+       @submission.date_finalized = Time.now
+       @submission.tot_points = @submission.total_points
+       @submission.tot_choices = @submission.total_choices
+       @submission.act_submission_scores.each do |std|
+         fin_sms = @submission.is_auto_finalized ? std.est_sms : @submission.standard_score(std.act_master)
+         std.update_attributes(:final_sms => fin_sms)
+       end
+       if @submission.update_attributes params[:act_submission]
+         auto_ifa_dashboard_update(@submission.user)
+         auto_ifa_dashboard_update(@submission.classroom)
+         auto_ifa_dashboard_update(@submission.organization)
+         @finalized = true
+
+       end
+     end
 
   def log_ifa_question(question)
      existing_question = @submission.ifa_question_logs.for_question(question).first rescue nil
@@ -2665,55 +2667,6 @@ end
         
          end  # End Master Loop for Question Performance
         end
-  end
-
-
-
-  def finalize_submission_old
-    student_dashboard = @submission.user.ifa_dashboards.for_subject(@submission.act_subject).since(@submission.created_at).first rescue nil
-    unless student_dashboard 
-      student_dashboard = @submission.user.ifa_dashboards.for_subject(@submission.act_subject).up_to(@submission.created_at).last rescue nil
-    end
-    if @submission.organization.ifa_org_option && student_dashboard
-      @submission.act_assessment.act_questions.each do |quest|
-        @submission.organization.ifa_org_option.act_masters.each do |mstr|
-          student_level = IfaStudentLevel.new
-          student_level.act_question_id = quest.id
-          student_level.act_master_id = mstr.id
-          student_level.user_id = @submission.user_id
-          student_level.earned_points = @submission.act_answers.for_question(quest).collect{|a|a.points}.sum rescue 0
-          student_level.choices = @submission.act_answers.for_question(quest).selected.size rescue 0
-          student_level.mastery_level = student_dashboard.ifa_dashboard_sms_scores.for_standard(mstr).first.sms_finalized rescue nil
-          student_level.calibrated_mastery_level = student_dashboard.ifa_dashboard_sms_scores.for_standard(mstr).first.sms_calibrated rescue nil
-          student_level.submission_date = @submission.created_at
-          student_level.act_submission_id = @submission.id
-          if student_level.mastery_level || student_level.calibrated_mastery_level
-            student_level.save
-          end
-        end
-      end
-    end
-    
-    if @reviewer
-      @submission.reviewer_id = @reviewer.id
-    else
-      @submission.is_auto_finalized = true
-      @submission.reviewer_id = @submission.teacher_id      
-    end
-    @submission.is_final = true
-    @submission.is_user_dashboarded = false
-    @submission.is_org_dashboarded = false
-    @submission.is_classroom_dashboarded = false
-    @submission.date_finalized = Time.now
-    @submission.tot_points = @submission.act_answers.collect{|a|a.points}.sum rescue 0
-    @submission.tot_choices = @submission.act_answers.selected.size rescue 0
-    @submission.act_submission_scores.each do |std|
-          fin_sms = @submission.is_auto_finalized ? std.est_sms : std.act_master.sms(@submission.act_answers,@submission.act_subject_id,0,0, @current_organization.id)
-          std.update_attributes(:final_sms => fin_sms)
-        end
-     if @submission.update_attributes params[:act_submission]
-       @finalized = true   
-     end
   end
 
  

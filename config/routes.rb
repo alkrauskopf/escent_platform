@@ -4,8 +4,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/static_organization/:organization_id/:id', :controller => 'site/site', :action => 'static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}
   map.connect '/static_resource/:organization_id/:id', :controller => 'site/site', :action => 'static_resource', :requirements => {:organization_id => /[a-f\d]{16}/}
   map.connect '/static_classroom/:organization_id/:id', :controller => 'site/site', :action => 'static_classroom', :requirements => {:organization_id => /[a-f\d]{16}/}
-  
- 
+  map.connect '/admin/app/classroom/self_register_student/:organization_id', :controller => 'apps/classroom', :action => 'self_register_student'
+
   map.resources :classrooms
 
   map.resources :content_resource_types

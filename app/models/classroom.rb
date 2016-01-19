@@ -171,6 +171,11 @@ class Classroom < ActiveRecord::Base
     self.open? || (user && (user.student_of_classroom?(self) || user.teacher_of_classroom?(self)))
   end
 
+  def joinable_by?(user)
+    (user && !user.student_of_classroom?(self) && !user.teacher_of_classroom?(self) && !self.classroom_periods.empty?)
+  end
+
+
 
   def sequence_resources
   resources = self.classroom_contents.sort_by{|cc|cc.position}

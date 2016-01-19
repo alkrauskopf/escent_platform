@@ -1123,7 +1123,23 @@ class User < ActiveRecord::Base
       super
     end
   end
-  
+
+  #
+  #  Classroom methods
+  #
+
+  def add_to_period(per)
+    if self && per
+      unless per.users.include?(self)
+        period_user = ClassroomPeriodUser.new
+        period_user.user_id = self.id
+        period_user.is_teacher = false
+        period_user.is_student = true
+        per.classroom_period_users<<period_user
+      end
+    end
+  end
+
   def method_missing(method, *args)
     method_name = method.to_s
     of_re, add_as_re, remove_as_re = self.prepare_regexps

@@ -45,9 +45,7 @@
 	table,tr,td { border:none; }  
 	</style>    
 
-			<% if @classroom.active_for?(@current_user) %>
 				<%= render :partial => "apps/classroom/register_student", :locals=> {:classroom => @classroom} %>
-			<% end -%>
 
 				<%= render :partial => "apps/classroom/display_teachers", :locals=> {:classroom => @classroom} %>
 

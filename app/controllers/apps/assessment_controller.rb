@@ -3258,26 +3258,26 @@ end
       end
     end  
     unless already_dashboarded
-    unless entity_dashboard 
-      entity_dashboard = IfaDashboard.new
-            entity_dashboard.ifa_dashboardable_id = dashboardable_id
-            entity_dashboard.ifa_dashboardable_type = entity.class.to_s
-            entity_dashboard.period_end = @submission.created_at.to_date.at_end_of_month
-            entity_dashboard.organization_id = @submission.classroom.organization_id
-            entity_dashboard.act_subject_id = @submission.act_subject_id
-            entity_dashboard.assessments_taken = 1
-            entity_dashboard.finalized_assessments = 1
-            entity_dashboard.calibrated_assessments = @submission.act_assessment.is_calibrated ? 1: 0
-            entity_dashboard.finalized_answers = @submission.act_answers.selected.size rescue 0
-            entity_dashboard.calibrated_answers = @submission.act_answers.calibrated.selected.size rescue 0
-            entity_dashboard.cal_submission_answers = @submission.act_assessment.is_calibrated ? @submission.act_answers.calibrated.selected.size : 0
-            entity_dashboard.finalized_duration = @submission.duration
-            entity_dashboard.calibrated_duration = @submission.act_assessment.is_calibrated ?  @submission.duration : 0   
-            entity_dashboard.fin_points = @submission.act_answers.collect{|a|a.points}.sum rescue 0.0
-            entity_dashboard.cal_points = @submission.act_answers.calibrated.collect{|a|a.points}.sum rescue 0.0       
-            entity_dashboard.cal_submission_points = @submission.act_assessment.is_calibrated ? @submission.act_answers.calibrated.collect{|a|a.points}.sum : 0
-       entity_dashboard.save   
-    else
+      unless entity_dashboard
+        entity_dashboard = IfaDashboard.new
+              entity_dashboard.ifa_dashboardable_id = dashboardable_id
+              entity_dashboard.ifa_dashboardable_type = entity.class.to_s
+              entity_dashboard.period_end = @submission.created_at.to_date.at_end_of_month
+              entity_dashboard.organization_id = @submission.classroom.organization_id
+              entity_dashboard.act_subject_id = @submission.act_subject_id
+              entity_dashboard.assessments_taken = 1
+              entity_dashboard.finalized_assessments = 1
+              entity_dashboard.calibrated_assessments = @submission.act_assessment.is_calibrated ? 1: 0
+              entity_dashboard.finalized_answers = @submission.act_answers.selected.size rescue 0
+              entity_dashboard.calibrated_answers = @submission.act_answers.calibrated.selected.size rescue 0
+              entity_dashboard.cal_submission_answers = @submission.act_assessment.is_calibrated ? @submission.act_answers.calibrated.selected.size : 0
+              entity_dashboard.finalized_duration = @submission.duration
+              entity_dashboard.calibrated_duration = @submission.act_assessment.is_calibrated ?  @submission.duration : 0
+              entity_dashboard.fin_points = @submission.act_answers.collect{|a|a.points}.sum rescue 0.0
+              entity_dashboard.cal_points = @submission.act_answers.calibrated.collect{|a|a.points}.sum rescue 0.0
+              entity_dashboard.cal_submission_points = @submission.act_assessment.is_calibrated ? @submission.act_answers.calibrated.collect{|a|a.points}.sum : 0
+         entity_dashboard.save
+      else
             entity_dashboard.assessments_taken += 1
             entity_dashboard.finalized_assessments += 1
             entity_dashboard.finalized_answers += @submission.act_answers.selected.size 
@@ -3291,8 +3291,8 @@ end
               entity_dashboard.cal_submission_points += @submission.act_answers.calibrated.collect{|a|a.points}.sum       
               entity_dashboard.cal_submission_answers += @submission.act_answers.calibrated.selected.size             
             end
-       entity_dashboard.update_attributes(params[:ifa_dashboard]) 
-    end
+         entity_dashboard.update_attributes(params[:ifa_dashboard])
+      end
 
     ifa_org_option = Organization.find_by_id(entity_dashboard.organization_id).ifa_org_option rescue nil
     if ifa_org_option

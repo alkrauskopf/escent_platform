@@ -479,7 +479,15 @@ class Organization < ActiveRecord::Base
   end
     
   def ifa_enabled?
-    app_enabled?(CoopApp.ifa.first.abbrev)
+    enabled = false
+    app = CoopApp.ifa.first
+    if self.app_enabled?(app.abbrev)
+       if !self.ifa_org_option
+         self.reset_org_option(app)
+       end
+      enabled = true
+    end
+    enabled
   end
   
   def app_enabled?(abbrev)
@@ -703,6 +711,12 @@ class Organization < ActiveRecord::Base
       options.elt_cycle_id = nil
       options.elt_framework_id = nil
       self.elt_org_option = options
+    end
+    if app.ifa?
+      if self.ifa_org_option
+        self.ifa_org_option.destroy
+      end
+      ifa_set_org_options
     end
   end
     

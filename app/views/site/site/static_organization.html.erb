@@ -87,7 +87,7 @@
   <div class="module" id="followup" style="margin-left:10px; width:380px; margin-top:5px;">
     <div class="module_header">
       <span class="content_area_title">
-	<center><strong><%= @current_organization.short_name %>&nbsp;APP SUMMARY</strong></center></span>
+	<center><strong><%= @current_organization.short_name %>&nbsp;Tool Summary</strong></center></span>
     </div>
 	
 		<%= render :partial => "static_organization_apps"%>	
@@ -101,7 +101,7 @@
 	<% if @current_organization.classrooms.active.collect{|c| c.topics.active}.flatten.size > 0 -%>
   <div class="module_header">
       <span class="content_area_title">
-      	<center><strong>LEARNING UNITS IN-PROGRESS</strong></center></span>
+      	<center><strong>Current Learning Units</strong></center></span>
     </div>
 	
 	<%= render (:partial => "static_organization_classrooms", :locals=>{:display=>"lu"})%>	
@@ -122,7 +122,7 @@
   <div class="module" id="followup" style="margin-left:10px; width:380px; margin-top:5px;">
     <div class="module_header">
       <span class="content_area_title">
-      	 <center><strong><%= pluralize(@current_organization.classrooms.active.size, @current_organization.short_name + " OFFERING").upcase %></strong></center>
+      	 <center><strong><%= pluralize(@current_organization.classrooms.active.size, @current_organization.short_name + " Offering") %></strong></center>
 </span>
     </div>
 
@@ -137,7 +137,7 @@
   <div class="module" id="followup" style="margin-left:10px; width:380px; margin-top:5px;">
     <div class="module_header">
       <span class="content_area_title" >
-	  <center><strong>RESOURCE LIBRARY CONTRIBUTIONS</strong></center>
+	  <center><strong>Resource Library Contributions</strong></center>
 	 </span>
     </div>
 

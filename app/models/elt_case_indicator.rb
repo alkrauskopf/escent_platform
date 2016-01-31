@@ -21,6 +21,7 @@ class EltCaseIndicator < ActiveRecord::Base
   named_scope :for_cycle, lambda{|cycle| {:include => :elt_case, :conditions => ["elt_cases.elt_cycle_id = ?", cycle.id]}}
   named_scope :for_org, lambda{|org| {:include => :elt_case, :conditions => ["elt_cases.organization_id = ?", org.id]}}
   named_scope :with_note, :conditions => ["note != ? || note IS NOT NULL", '']
+  named_scope :for_element_rubric, lambda{|element, rub| {:include => :elt_indicator, :conditions => ["elt_indicators.elt_element_id = ? && rubric.id = ?", element.id, rub.id]}}
 
 
   

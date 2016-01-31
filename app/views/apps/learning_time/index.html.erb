@@ -35,10 +35,12 @@
 								<% @current_organization.active_elt_cycle.activities.for_client.active.each do |activity| -%>
 									<% if activity.has_active_indicators? %>
 										<tr >
-											<td  style="width:60px; width:fixed; vertical-align:middle; text-align:left;padding-left:0px">
+											<% new_form = true %>
+
+                      <td  style="width:60px; width:fixed; vertical-align:middle; text-align:left;padding-left:0px">
 												<span class="fsn-button ui-button ui-state-default ui-corner-all">
-													 <%= link_to "Begin" ,{:controller => "apps/learning_time", :action => "start_case", :organization_id => @current_organization, :elt_cycle_id => @current_organization.active_elt_cycle, :school_id=> @current_organization, :method_org_id => @app.owner, :elt_type_id => activity }%>
-												</span>
+                              <%= link_to "Begin" ,{:controller => "apps/learning_time", :action => 'start_case', :organization_id => @current_organization, :elt_cycle_id => @current_organization.active_elt_cycle, :school_id=> @current_organization, :method_org_id => @app.owner, :elt_type_id => activity }%>
+                        </span>
 											</td>
 											<td  style="vertical-align:middle; text-align:left;padding-left:0px">
 												<span style="color: #2061a5;"><%= activity.name %></span>

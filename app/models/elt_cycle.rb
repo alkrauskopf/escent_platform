@@ -70,7 +70,23 @@ class EltCycle < ActiveRecord::Base
   def scores_for_indicator(indicator)
     self.finalized_scored_indicators_for_indicator(indicator).collect{|ci| ci.rubric.score}.join(", ")
   end
-    
+
+  def finalized_case_indicators_for_element(element)
+    self.elt_cases.collect{|c| c.elt_case_indicators.for_element(element)}.compact.flatten.uniq
+  end
+
+  def rubrics_for_element(element)
+    self.finalized_case_indicators_for_element(element).collect{|ci| ci.rubric}.compact.flatten
+  end
+
+  def case_indicators_for_org_element(element, org)
+    org.elt_cases.for_cycle(self).collect{|c| c.elt_case_indicators.for_element(element)}.compact.flatten
+  end
+
+  def rubrics_for_element_org(element, org)
+    self.case_indicators_for_org_element(element, org).collect{|ci| ci.rubric}.compact
+  end
+
   def average_score_for_indicator(indicator)
     self.finalized_scored_indicators_for_indicator(indicator).size == 0 ? 0 : self.finalized_scored_indicators_for_indicator(indicator).collect{|ci| ci.rubric}.sum{|r| r.score}.to_f/self.finalized_scored_indicators_for_indicator(indicator).size.to_f
   end

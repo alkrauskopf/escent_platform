@@ -171,6 +171,18 @@ class Master::CoopAppsController < Master::ApplicationController
     @dest_activity = nil
   end
 
+  def elt_remove_null_notes
+    clear_notification
+    count = 0
+    EltCaseIndicator.all.each do |indicator|
+      if indicator.note.nil?
+        indicator.update_attributes(:note =>'')
+        count += 1
+      end
+    end
+    redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " Cases Indicator Notes Corrected "
+  end
+
   def elt_cycle_summaries
     clear_notification
     i_count = 0

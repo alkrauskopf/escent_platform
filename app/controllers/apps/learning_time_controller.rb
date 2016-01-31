@@ -464,9 +464,13 @@ class Apps::LearningTimeController  < Site::ApplicationController
       @case.destroy
     else
       @case.elt_type.active_elements.each do |element|
-        update_notes(@case, element, (!params[:notes][element.public_id].nil? ? params[:notes][element.public_id] : ''))
+        if params[:notes]
+          update_notes(@case, element, (!params[:notes][element.public_id].nil? ? params[:notes][element.public_id] : ''))
+        end
         element.elt_indicators.active.each do |indicator|
-          update_indicator_note(@case, indicator, (!params[:elt_case][indicator.public_id].nil? ? params[:elt_case][indicator.public_id]:''))
+          if params[:elt_case]
+            update_indicator_note(@case, indicator, (!params[:elt_case][indicator.public_id].nil? ? params[:elt_case][indicator.public_id]:''))
+          end
           if params[:rating]
             update_indicator_rubric(@case, indicator, (!params[:rating][indicator.public_id].nil? ? params[:rating][indicator.public_id]:''))
           end

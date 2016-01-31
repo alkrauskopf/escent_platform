@@ -468,11 +468,11 @@ class Apps::LearningTimeController  < Site::ApplicationController
           update_notes(@case, element, (!params[:notes][element.public_id].nil? ? params[:notes][element.public_id] : ''))
         end
         element.elt_indicators.active.each do |indicator|
-          if params[:elt_case]
-            update_indicator_note(@case, indicator, (!params[:elt_case][indicator.public_id].nil? ? params[:elt_case][indicator.public_id]:''))
+          if params[:case]
+            update_indicator_note(@case, indicator, (!params[:case][indicator.id.to_s].nil? ? params[:case][indicator.id.to_s]:''))
           end
           if params[:rating]
-            update_indicator_rubric(@case, indicator, (!params[:rating][indicator.public_id].nil? ? params[:rating][indicator.public_id]:''))
+            update_indicator_rubric(@case, indicator, (!params[:rating][indicator.id.to_s].nil? ? params[:rating][indicator.id.to_s]:''))
           end
         end
       end
@@ -920,35 +920,36 @@ class Apps::LearningTimeController  < Site::ApplicationController
  end 
 
  def update_indicator_note(elt_case, indicator, note_text)
-   unless elt_case.case_indicator(indicator).nil? && note_text == ''
      if elt_case.case_indicator(indicator).nil?
+       unless note_text == ''
         case_indicator = EltCaseIndicator.new
         case_indicator.elt_indicator_id = indicator.id
         case_indicator.note = note_text
         elt_case.elt_case_indicators << case_indicator
+       end
       else
         elt_case.case_indicator(indicator).update_attributes(:note => note_text)
      end
-   end
  end
 
  def update_indicator_rubric(elt_case, indicator, rubric_id)
-   unless elt_case.case_indicator(indicator).nil? && (rubric_id == '' || rubric_id == 0)
-     if elt_case.case_indicator(indicator).nil?
+   if elt_case.case_indicator(indicator).nil?
+     unless (rubric_id == '' || rubric_id == 0)
        case_indicator = EltCaseIndicator.new
        case_indicator.elt_indicator_id = indicator.id
+       case_indicator.note = ''
        case_indicator.rubric_id = rubric_id
-       @elt_case.elt_case_indicators << case_indicator
-     else
-       if rubric_id == '0'
-         new_id = nil
-       elsif rubric_id == ''
-         new_id = @elt_case.case_indicator(indicator).rubric_id
-       else
-         new_id = rubric_id.to_i
-       end
-       @elt_case.case_indicator(indicator).update_attributes(:rubric_id => new_id)
+       elt_case.elt_case_indicators << case_indicator
      end
+   else
+     if rubric_id == '0'
+       new_id = nil
+     elsif rubric_id == ''
+       new_id = elt_case.case_indicator(indicator).rubric_id
+     else
+       new_id = rubric_id.to_i
+     end
+     elt_case.case_indicator(indicator).update_attributes(:rubric_id => new_id)
    end
  end
 

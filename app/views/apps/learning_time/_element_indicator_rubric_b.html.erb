@@ -8,7 +8,7 @@
 					</span><br/>
 					<% if elt_case.updatable?(@current_user) && elt_case.elt_type.rubric?-%>
 						<span style = "font-weight:normal; color:#000000; text-align:left;  font-size:12px">
-							<%=  select(:rating, indicator.public_id,  elt_case.elt_type.rubrics.active.all.collect{|r| [truncate(r.name, :omission=>"", :length=>12), r.id]}<<["No Rating",0], :prompt=> (rating == '' ? "No Rating" : rating )) %>
+							<%=  select(:rating, indicator.id,  elt_case.elt_type.rubrics.active.all.collect{|r| [truncate(r.name, :omission=>"", :length=>12), r.id]}<<["No Rating",0], :prompt=> (rating == '' ? "No Rating" : rating )) %>
 						</span>
 					<% end -%>
 				</td>

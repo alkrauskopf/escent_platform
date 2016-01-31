@@ -11,8 +11,8 @@
         </style>
 				<tr >
           <% if elt_case.updatable?(@current_user) %>
-						<td style="border:0px solid #ddd; vertical-align:top;padding-top:8px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
-			 		     <%= text_area :elt_case, indicator.public_id, :rows => 2, :cols => 100, :value => elt_case.case_indicator(indicator).nil?  ? "": elt_case.case_indicator(indicator).note %>
+              <td style="border:0px solid #ddd; vertical-align:top;padding-top:8px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+			 		     <%= text_area :case, indicator.id, :rows => 2, :cols => 100, :value => elt_case.case_indicator(indicator).nil?  ? "": elt_case.case_indicator(indicator).note %>
 					  </td>
           <% else %>
               <td style = "font-size:11px; font-weight:normal; text-align:left; color: #C73914; font-family:<%=family%>; border-top:1px dashed #000000; padding-top:5px; margin-top:10px; line-height:1.3em;">

@@ -2,7 +2,7 @@ development:
   adapter: mysql
   encoding: utf8
   reconnect: false
-  database: tcpj_pilot
+  database: tcpj_ifa
   pool: 5
   username: root
   password:
@@ -13,7 +13,7 @@ test:
   adapter: mysql
   encoding: utf8
   reconnect: false
-  database: tcpj_pilot_test
+  database: tcpj_ifa_test
   pool: 5
   username: root
   password: 
@@ -24,7 +24,7 @@ production:
   adapter: mysql
   encoding: utf8
   reconnect: false
-  database: escent_ifa_pilot
+  database: escent_ifa
   pool: 5
   username: tcpj
   password: floptarts

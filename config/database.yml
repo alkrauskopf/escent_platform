@@ -2,7 +2,7 @@ development:
   adapter: mysql
   encoding: utf8
   reconnect: false
-  database: tcpj_ifa
+  database: tcpj_local
   pool: 5
   username: root
   password:

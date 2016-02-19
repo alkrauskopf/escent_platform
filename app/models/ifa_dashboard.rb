@@ -31,4 +31,14 @@ class IfaDashboard < ActiveRecord::Base
       {:conditions => ["period_end = ? ", date]}
       }
 
+  def self.for_entity(entity_class, entity_id, period)
+    IfaDashboard.where("ifa_dashboardable_type = ? AND ifa_dashboardable_id = ? AND period_end = ?", entity_class, entity_id, period ).first
+  end
+
+  def period_beginning
+    self.period_end.beginning_of_month
+  end
+  def period_ending
+    self.period_end.end_of_month
+  end
 end

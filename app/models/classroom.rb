@@ -125,6 +125,10 @@ class Classroom < ActiveRecord::Base
     password
   end
 
+  def name
+    self.course_name
+  end
+
   def ifa_enable
     if self.organization.ifa_org_option
       ifa_option = IfaClassroomOption.new

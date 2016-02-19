@@ -644,6 +644,10 @@ class User < ActiveRecord::Base
     "#{self.first_name} #{self.last_name}"
   end
 
+  def name
+    self.full_name
+  end
+
   def last_name_first
     "#{self.last_name}, #{self.first_name}"
   end

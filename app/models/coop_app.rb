@@ -79,7 +79,8 @@ class CoopApp < ActiveRecord::Base
   def app_link
     if self.ifa?
       controller = "/apps/assessment"
-      action = "manage"
+   #   action = "manage"
+      action = "index"
     end
     if self.ita? 
       controller = "/apps/teacher_assess"

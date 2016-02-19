@@ -24,8 +24,13 @@ class ActMaster < ActiveRecord::Base
      
   named_scope :national, :conditions => { :is_national => true}  
   named_scope :act, :conditions => { :abbrev => "ACT"}  
-  named_scope :all, :order => "abbrev" 
+  named_scope :all, :order => "abbrev"
+  scope       :co,  :conditions => { :abbrev => "CO"}
 
+
+  def self.find_standard(std)
+    self.find(:first, :conditions =>["abbrev = ?", std]) rescue nil
+  end
 
   def sms_for_period(entity, subject,period, h_threshold, calibrated)
     period_end = period.at_end_of_month

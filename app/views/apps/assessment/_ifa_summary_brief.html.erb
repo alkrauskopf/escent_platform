@@ -1,0 +1,56 @@
+<div id="sumry_brief" style=" color: #000000;  font-size:9px">
+	<table  style="width:430px; text-align:center;  margin-left:200px;">
+    <tbody id="dashboard_data">
+      <style type="text/css" media="screen">
+      table,tr,td { border:none; }
+      </style>
+      <tr>
+        <td style="vertical-align:middle; width:80px;  font-size:10px;  padding-top:0px;" >
+          &nbsp;
+        </td>
+        <td id="toggle_filter" style="vertical-align:middle; text-align:left; font-size: 12px; padding-top:8px;padding-bottom:0px;font-weight:normal; color:#000000;" >
+          <% if @current_user.calibrated_only -%>
+              <%= (image_tag "calibrated_yes.png",:width => 25) -%>
+          <% else %>
+              <%= (image_tag "calibrated_no.png",:width => 25) -%>
+          <% end %>
+        </td>
+      </tr>
+      <% @subjects.each_with_index do |subj, idx|%>
+        <tr>
+          <td style="vertical-align:middle; width:80px;  font-size:10px;  padding-top:0px;" >
+            <% if @current_user.ifa_admin?(@current_organization) -%>
+              <%= button_to  "Dashboards", {:controller => "/apps/assessment", :action => :org_analysis, :organization_id => @current_organization,:classroom_id => @classroom, :topic_id => @topic, :subject_id => subj.id}, :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
+            <% end -%>
+          </td>
+          <td style="vertical-align:middle; text-align:left; font-size: 12px; padding-top:8px;padding-bottom:0px;font-weight:normal; color:#000000;" >
+            <%=subj.name %>:&nbsp;
+            <span style=" font-size: 11px; " >
+              (<%= pluralize(@total_submissions[idx], ' Assessment') %>)
+            </span>
+          </td>
+        </tr>
+      <% end -%>
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function(){
+    jQ('#control_panel').tabs();
+  });
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#toggle_filter").click(function() {
+		var organization = "<%= @current_organization.public_id %>";
+		var url = "<%= url_for :controller => '/apps/assessment', :action => :toggle_sumry_ifa_data %>";
+		jQ.get(url,{'organization_id': organization},  function(data) {
+			jQ("#sumry_brief").html(data);
+	   		jQ("#sumry_brief").show();
+					});
+               
+	})
+});
+</script>

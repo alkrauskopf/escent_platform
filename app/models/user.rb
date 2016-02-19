@@ -950,6 +950,10 @@ class User < ActiveRecord::Base
     self.has_authorization_level_for?(org, "beta_user")
   end
 
+  def ifa_admin?(org)
+    self.has_authorization_level_for?(org, "ifa_administrator")
+  end
+
   def itl_school_pool_for_org(org)
       (self.favorite_organizations + org.active_siblings_same_type).uniq.select{|o| o.app_enabled?(CoopApp.ctl.first.abbrev)}
   end

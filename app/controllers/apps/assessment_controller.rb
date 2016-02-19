@@ -14,6 +14,23 @@
 #
 #   MAIN ASSESSMENT MANAGEMENT CONTROLLERS
   def index
+    initialize_parameters
+    CoopApp.ifa.first.increment_views
+    if @current_organization.ifa_org_option
+      @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first
+      @master = ActMaster.find_standard('ACT')
+      @co_master = ActMaster.find_standard('CO')
+      @readings = ActRelReading.find(:all) rescue []
+      @readings.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
+      @assessments = ActAssessment.active rescue []
+      @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}
+      @threshold = Time.now - @current_organization.ifa_org_option.sms_calc_cycle.days
+
+      prepare_summary_data
+      find_dashboard_update_start_dates(@current_organization)
+    else
+      redirect_to :controller => "site/site", :action => "static_organization", :organization_id => @current_organization
+    end
   end
 
   def create
@@ -24,25 +41,20 @@
     initialize_parameters
     CoopApp.ifa.first.increment_views
     if @current_organization.ifa_org_option
+      @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first
+      @master = ActMaster.find(:first, :condition=>["abbrev = ?", "ACT"]) rescue ActMaster.first
+      @co_master = ActMaster.find(:first, :conditions =>["abbrev = ?", "CO"])rescue ActMaster.first
+      @readings = ActRelReading.find(:all) rescue []
+      @readings.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
+      @assessments = ActAssessment.active rescue []
+      @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}
+      @threshold = Time.now - @current_organization.ifa_org_option.sms_calc_cycle.days
 
-
-      @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first 
-
-    
-    @master = ActMaster.find(:first, :condition=>["abbrev = ?", "ACT"]) rescue ActMaster.first
-    @co_master = ActMaster.find(:first, :conditions =>["abbrev = ?", "CO"])rescue ActMaster.first
-    @readings = ActRelReading.find(:all) rescue []
-    @readings.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
-    @assessments = ActAssessment.active rescue []
-    @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}  
-    @threshold = Time.now - @current_organization.ifa_org_option.sms_calc_cycle.days
-
-   prepare_summary_dashboard
-   find_dashboard_update_start_dates(@current_organization)
-  else
-     redirect_to :controller => "site/site", :action => "static_organization", :organization_id => @current_organization
-  end
-
+      prepare_summary_dashboard
+      find_dashboard_update_start_dates(@current_organization)
+    else
+       redirect_to :controller => "site/site", :action => "static_organization", :organization_id => @current_organization
+    end
   end
 
   def student_list
@@ -2428,6 +2440,13 @@ end
     render :partial => "/apps/assessment/ifa_summary_dashboard"
   end
 
+     def toggle_sumry_ifa_data
+       initialize_parameters
+       @current_user.update_attributes(:calibrated_only =>!@current_user.calibrated_only)
+       prepare_summary_data
+       render :partial => "/apps/assessment/ifa_summary_brief"
+     end
+
   def ifa_user_update_dashboards
    @current_organization = Organization.find_by_public_id(params[:organization_id])rescue nil
    @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first rescue nil
@@ -2726,70 +2745,76 @@ end
     end 
   end
 
-  def prepare_summary_dashboard
- 
-    @subjects = ActSubject.find(:all, :conditions =>  ["id <> ?", 99], :order=> "name ASC") rescue []
-      @total_assessments = []      
-      @total_answers = []      
-      @total_points = []      
-      @total_proficiency = []
-      @total_duration = []      
-      @total_efficiency = []      
-      @current_assessments = []      
-      @current_answers = []      
-      @current_points = []      
-      @current_proficiency = []
-      @current_duration = []      
-      @current_efficiency = []      
-      @current_mastery = []
-      @current_period = []
-      @low_bound = []
-      @high_bound =[]
-      calibration_filter = @current_user.calibrated_only
-    @subjects.each_with_index do |subj, idx|
-    @assessments_column_header = calibration_filter ? "Calibrated<br/>Assessments" : "Finalized<br/>Assessments" 
-    @answers_column_header = calibration_filter ? "Calibrated<br/>Answers" : "Finalized<br/>Answers" 
-    dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && ifa_dashboardable_id = ? && ifa_dashboardable_type = ?", subj.id, @current_organization.id, "Organization"],:order=> "period_end ASC") rescue nil
+   def prepare_summary_dashboard
 
-    unless dashboards.empty?
-      @total_assessments[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_assessments}.sum : dashboards.collect{|d| d.finalized_assessments}.sum rescue 0
-      @total_answers[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_answers}.sum : dashboards.collect{|d| d.finalized_answers}.sum rescue 0
-      @total_points [idx] = calibration_filter ? dashboards.collect{|d| d.cal_points}.sum : dashboards.collect{|d| d.fin_points}.sum rescue 0.0
-      @total_duration[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_duration}.sum : dashboards.collect{|d| d.finalized_duration}.sum rescue 0
-   
-      duration_points = calibration_filter ? dashboards.collect{|d| d.cal_submission_points}.sum : @total_points [idx] rescue 0
-      @total_efficiency[idx] = duration_points == 0 ? "-" : (@total_duration[idx].to_f/duration_points.to_f).round
-      @total_proficiency[idx] = @total_answers[idx] == 0 ? "" : (100*@total_points[idx].to_f/@total_answers[idx].to_f).round 
+     @subjects = ActSubject.find(:all, :conditions =>  ["id <> ?", 99], :order=> "name ASC") rescue []
+     @total_assessments = []
+     @total_answers = []
+     @total_points = []
+     @total_proficiency = []
+     @total_duration = []
+     @total_efficiency = []
+     @current_assessments = []
+     @current_answers = []
+     @current_points = []
+     @current_proficiency = []
+     @current_duration = []
+     @current_efficiency = []
+     @current_mastery = []
+     @current_period = []
+     @low_bound = []
+     @high_bound =[]
+     calibration_filter = @current_user.calibrated_only
+     @subjects.each_with_index do |subj, idx|
+       @assessments_column_header = calibration_filter ? "Calibrated<br/>Assessments" : "Finalized<br/>Assessments"
+       @answers_column_header = calibration_filter ? "Calibrated<br/>Answers" : "Finalized<br/>Answers"
+       dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && ifa_dashboardable_id = ? && ifa_dashboardable_type = ?", subj.id, @current_organization.id, "Organization"],:order=> "period_end ASC") rescue nil
 
-      @current_dashboard = dashboards.last rescue nil
-      if @current_dashboard
-        @current_assessments[idx] = calibration_filter ? @current_dashboard.calibrated_assessments : @current_dashboard.finalized_assessments rescue 0
-        @current_answers[idx] = calibration_filter ? @current_dashboard.calibrated_answers : @current_dashboard.finalized_answers rescue 0
-        @current_points[idx] = calibration_filter ? @current_dashboard.cal_points : @current_dashboard.fin_points rescue 0.0
-        @current_duration[idx] = calibration_filter ? @current_dashboard.calibrated_duration : @current_dashboard.finalized_duration rescue 0
-        duration_points = calibration_filter ? @current_dashboard.cal_submission_points : @current_points[idx] rescue 0.0
-        @current_efficiency[idx] = duration_points == 0 ? "-" : (@current_duration[idx].to_f/duration_points.to_f).round
-        @current_proficiency[idx] = @current_answers[idx] == 0 ? "" : (100*@current_points[idx].to_f/@current_answers[idx].to_f).round 
+       unless dashboards.empty?
+         @total_assessments[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_assessments}.sum : dashboards.collect{|d| d.finalized_assessments}.sum rescue 0
+         @total_answers[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_answers}.sum : dashboards.collect{|d| d.finalized_answers}.sum rescue 0
+         @total_points [idx] = calibration_filter ? dashboards.collect{|d| d.cal_points}.sum : dashboards.collect{|d| d.fin_points}.sum rescue 0.0
+         @total_duration[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_duration}.sum : dashboards.collect{|d| d.finalized_duration}.sum rescue 0
 
-        mastery_scores = @current_dashboard.ifa_dashboard_sms_scores.for_standard(@current_standard).first rescue nil
-        if mastery_scores
-          @current_mastery[idx] = calibration_filter ? mastery_scores.sms_calibrated : mastery_scores.sms_finalized
-          @low_bound[idx] = mastery_scores.score_range_min 
-          @high_bound[idx] = mastery_scores.score_range_max        
-        
-        else
-          @current_mastery[idx] = ""
-          @low_bound[idx] = ""
-          @high_bound[idx] = ""        
-        end
-        @current_period[idx] = @current_dashboard.period_end.strftime("%b, %Y")
- 
-      end
-    end
-    @summary_dashboard = true
-  end
-  
-  end
+         duration_points = calibration_filter ? dashboards.collect{|d| d.cal_submission_points}.sum : @total_points [idx] rescue 0
+         @total_efficiency[idx] = duration_points == 0 ? "-" : (@total_duration[idx].to_f/duration_points.to_f).round
+         @total_proficiency[idx] = @total_answers[idx] == 0 ? "" : (100*@total_points[idx].to_f/@total_answers[idx].to_f).round
+
+         @current_dashboard = dashboards.last rescue nil
+         if @current_dashboard
+           @current_assessments[idx] = calibration_filter ? @current_dashboard.calibrated_assessments : @current_dashboard.finalized_assessments rescue 0
+           @current_answers[idx] = calibration_filter ? @current_dashboard.calibrated_answers : @current_dashboard.finalized_answers rescue 0
+           @current_points[idx] = calibration_filter ? @current_dashboard.cal_points : @current_dashboard.fin_points rescue 0.0
+           @current_duration[idx] = calibration_filter ? @current_dashboard.calibrated_duration : @current_dashboard.finalized_duration rescue 0
+           duration_points = calibration_filter ? @current_dashboard.cal_submission_points : @current_points[idx] rescue 0.0
+           @current_efficiency[idx] = duration_points == 0 ? "-" : (@current_duration[idx].to_f/duration_points.to_f).round
+           @current_proficiency[idx] = @current_answers[idx] == 0 ? "" : (100*@current_points[idx].to_f/@current_answers[idx].to_f).round
+
+           mastery_scores = @current_dashboard.ifa_dashboard_sms_scores.for_standard(@current_standard).first rescue nil
+           if mastery_scores
+             @current_mastery[idx] = calibration_filter ? mastery_scores.sms_calibrated : mastery_scores.sms_finalized
+             @low_bound[idx] = mastery_scores.score_range_min
+             @high_bound[idx] = mastery_scores.score_range_max
+
+           else
+             @current_mastery[idx] = ""
+             @low_bound[idx] = ""
+             @high_bound[idx] = ""
+           end
+           @current_period[idx] = @current_dashboard.period_end.strftime("%b, %Y")
+         end
+       end
+     end
+   end
+
+   def prepare_summary_data
+     @subjects = ActSubject.find(:all, :conditions =>  ["id <> ?", 99], :order=> "name ASC") rescue []
+     @total_submissions = []
+     calibration_filter = @current_user.calibrated_only
+     @subjects.each_with_index do |subj, idx|
+       @total_submissions[idx] = @current_organization.act_submissions.for_subject(subj).size
+     end
+   end
   
   def prepare_ifa_dashboard(entity, start_period, end_period)
   @entity = entity

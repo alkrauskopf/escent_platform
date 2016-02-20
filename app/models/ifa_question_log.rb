@@ -40,4 +40,11 @@ class IfaQuestionLog < ActiveRecord::Base
       {:conditions => ["period_end = ? ", date], :order => "date_taken ASC" }
       }
 
+
+  def self.period_score (entity, subject, period_end, calibrated)
+   questions = calibrated ? entity.ifa_question_logs.for_subject(subject).for_period(period_end).calibrated : entity.ifa_question_logs.for_subject(subject).for_period(period_end)
+   choices = questions.collect{ |q| q.choices}.compact.sum.to_f
+   points = questions.collect{ |q| q.earned_points}.compact.sum
+   choices == 0.0 ? 0.0 : (points/choices)
+  end
 end

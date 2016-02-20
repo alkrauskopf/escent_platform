@@ -77,4 +77,15 @@ class ActSubmission < ActiveRecord::Base
     self.act_answers.selected.size rescue 0
   end
 
+  def self.min_max_score(entity, subject, period_end, standard)
+    if (entity && subject && standard)
+      submissions = entity.act_submissions.for_subject(subject).final.submission_period(period_end.beginning_of_month, period_end)
+      assessments = submissions.collect{|s| s.act_assessment}.compact.uniq
+      min_max_score = [assessments.collect{|a| a.lower_score(standard)}.min, assessments.collect{|a| a.upper_score(standard)}.max]
+    else
+      min_max_score = [0,0]
+    end
+    min_max_score
+  end
+
 end

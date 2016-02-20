@@ -69,7 +69,7 @@
       @student = User.find_by_public_id(params[:user_id])rescue nil
     end
     unless @student
-       redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
     end
   end
 
@@ -86,7 +86,7 @@
          flash[:error] = @current_organization.ifa_org_option.errors.full_messages.to_sentence 
       end
     end
-       redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
   end
 
 
@@ -99,7 +99,7 @@
     initialize_parameters
 
     unless  @question
-      redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization
+      redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization
     end
     @rel_reading = ActRelReading.find(:first, :conditions => ["id = ?", @question.act_rel_reading_id]) rescue nil
     @benchmark_list = @question.act_benches.sort_by{|b| [b.benchmark_type, b.description]} rescue []
@@ -134,7 +134,7 @@
   def static_assessment
     initialize_parameters 
     unless @assessment 
-      redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
+      redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
     end
     @originator = "Unkown Creator"
     if @assessment.generation > 0
@@ -155,7 +155,7 @@
     initialize_parameters
 
     unless  @benchmark
-      redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+      redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
     end
     @bench_questions = @benchmark.act_questions rescue nil
     @bench_assessments = []
@@ -433,7 +433,7 @@
       @assessment.destroy
       flash[:notice] = "Assessment Deleted"    
       end
-    redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
+    redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
   end
 
   def unlock_assessment
@@ -841,7 +841,7 @@
   
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     unless @entity_dashboard
-      redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization
+      redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization
     end
     update_sms_in_user_dashboard(@entity_dashboard) 
     prepare_single_ifa_dashboard(@entity_dashboard)
@@ -857,7 +857,7 @@
 
      @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
      if @entity_dashboard.nil?
-       redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization
+       redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization
      end
      ActSubmission.not_dashboarded(@entity_dashboard.ifa_dashboardable_type, @entity_dashboard.ifa_dashboardable, @entity_dashboard.period_beginning, @entity_dashboard.period_ending).each do |@submission|
        if @entity_dashboard.ifa_dashboardable_type == 'User'
@@ -882,7 +882,7 @@
   
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     unless @entity_dashboard
-      redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization
+      redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization
     end
     update_cells_in_user_dashboard(@entity_dashboard) 
     prepare_single_ifa_dashboard(@entity_dashboard)
@@ -899,7 +899,7 @@
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     @current_standard = ActMaster.find_by_id(params[:master_id]) rescue @current_standard 
     unless @entity_dashboard
-      redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization
+      redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization
     end
     @current_user.set_standard_view(@current_standard)
     prepare_single_ifa_dashboard(@entity_dashboard)
@@ -1117,7 +1117,7 @@
           end         
         end
        end
-         redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+         redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
      end
     end
   end
@@ -1199,7 +1199,7 @@
       @benchmark.destroy
       flash[:notice] = "Benchmark Deleted" 
     end
-    redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+    redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
   end
 
 
@@ -1663,7 +1663,7 @@
           end
          end
         end 
-      redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+      redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
     end 
     flash[:error] = @reading.errors.full_messages.to_sentence 
    end
@@ -1699,7 +1699,7 @@
         else
          flash[:error] = @reading.errors.full_messages.to_sentence 
        end
-       redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
     end
   end
 
@@ -1712,7 +1712,7 @@
       reading.destroy
       flash[:notice] = "Related Reading Deleted"
       end
-    redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+    redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
   end
 
 
@@ -2044,7 +2044,7 @@ end
     else
      flash[:error] = "assessment Was Not Deleted"
     end
-    redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+    redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
   end 
 
 
@@ -2114,7 +2114,7 @@ end
       @subject = ActSubject.find_by_public_id(params[:subject_id]) rescue nil
       @lower_score = params[:score] rescue nil
     unless @student && @master && @subject && @lower_score
-       redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
     end
     baseline_score = @student.ifa_user_baseline_scores.for_subject(@subject).for_standard(@master).first rescue nil
     if baseline_score
@@ -2159,7 +2159,7 @@ end
       @subject = ActSubject.find_by_public_id(params[:subject_id]) rescue nil
       @lower_score = params[:score] rescue nil
     unless @student && @subject && @lower_score
-       redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
     end
     subject_demo = @student.student_subject_demographics.for_subject(@subject).first rescue nil
     if subject_demo
@@ -2380,7 +2380,7 @@ end
     else
      flash[:error] = "Question Was Not Deleted"
     end
-    redirect_to :action => CoopApp.ifa.app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+    redirect_to :action => CoopApp.ifa.first.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
   end  
  
   def edit_question_toggle_choice

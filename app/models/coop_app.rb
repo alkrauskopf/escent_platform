@@ -117,6 +117,10 @@ class CoopApp < ActiveRecord::Base
    links = [controller, action]
   end
 
+  def self.ifa_app
+    self.ifa.first
+  end
+
   def ifa?
     self.abbrev=="IFA"
   end

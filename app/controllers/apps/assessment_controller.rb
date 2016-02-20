@@ -709,7 +709,7 @@
          std_score.save
        end
        unless teacher_must_review || !@classroom.ifa_classroom_option.is_ifa_auto_finalize
-         finalize_submission
+         finalize_submission(@submission)
        else
          teacher_must_review = true
        end
@@ -861,11 +861,11 @@
      end
      ActSubmission.not_dashboarded(@entity_dashboard.ifa_dashboardable_type, @entity_dashboard.ifa_dashboardable, @entity_dashboard.period_beginning, @entity_dashboard.period_ending).each do |@submission|
        if @entity_dashboard.ifa_dashboardable_type == 'User'
-         auto_ifa_dashboard_update(@submission.user)
+         auto_ifa_dashboard_update(@submission, @submission.user)
        elsif @entity_dashboard.ifa_dashboardable_type == 'Classroom'
-         auto_ifa_dashboard_update(@submission.classroom)
+         auto_ifa_dashboard_update(@submission, @submission.classroom)
        elsif @entity_dashboard.ifa_dashboardable_type == 'Organization'
-         auto_ifa_dashboard_update(@submission.organization)
+         auto_ifa_dashboard_update(@submission, @submission.organization)
        end
      end
      @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
@@ -972,7 +972,7 @@
         end  # end of SA Answer loop
       end  # end of Check for SA credit
       if sa_credits_ok
-          finalize_submission
+          finalize_submission(@submission)
       end
       unless @finalized
         flash[:error] = @submission.errors.full_messages.to_sentence
@@ -1755,11 +1755,11 @@
             submission_ids.each do |sid|
               @submission = ActSubmission.find_by_id(sid) rescue nil
               if entity_class == "User" && @submission
-                   auto_ifa_dashboard_update(@submission.user)
+                auto_ifa_dashboard_update(@submission, @submission.user)
               elsif entity_class == "Classroom" && @submission
-                auto_ifa_dashboard_update(@submission.classroom)
-                  else entity_class == "Organization" && @submission    
-                      auto_ifa_dashboard_update(@submission.organization)
+                auto_ifa_dashboard_update(@submission, @submission.classroom)
+              else entity_class == "Organization" && @submission
+                auto_ifa_dashboard_update(@submission, @submission.organization)
               end
             end       
         end        
@@ -2575,35 +2575,35 @@ end
    end
   end
 
-     def finalize_submission
+     def finalize_submission(submission)
 
-       if @submission.organization.ifa_org_option
-         @submission.act_assessment.act_questions.each do |quest|
+       if submission.organization.ifa_org_option
+         submission.act_assessment.act_questions.each do |quest|
            log_ifa_question(quest)
          end   # End Question Loop
        end
 
        if @reviewer
-         @submission.reviewer_id = @reviewer.id
+         submission.reviewer_id = @reviewer.id
        else
-         @submission.is_auto_finalized = true
-         @submission.reviewer_id = @submission.teacher_id
+         submission.is_auto_finalized = true
+         submission.reviewer_id = submission.teacher_id
        end
-       @submission.is_final = true
-       @submission.is_user_dashboarded = false
-       @submission.is_org_dashboarded = false
-       @submission.is_classroom_dashboarded = false
-       @submission.date_finalized = Time.now
-       @submission.tot_points = @submission.total_points
-       @submission.tot_choices = @submission.total_choices
-       @submission.act_submission_scores.each do |std|
-         fin_sms = @submission.is_auto_finalized ? std.est_sms : @submission.standard_score(std.act_master)
+       submission.is_final = true
+       submission.is_user_dashboarded = false
+       submission.is_org_dashboarded = false
+       submission.is_classroom_dashboarded = false
+       submission.date_finalized = Time.now
+       submission.tot_points = submission.total_points
+       submission.tot_choices = submission.total_choices
+       submission.act_submission_scores.each do |std|
+         fin_sms = submission.is_auto_finalized ? std.est_sms : submission.standard_score(std.act_master)
          std.update_attributes(:final_sms => fin_sms)
        end
-       if @submission.update_attributes params[:act_submission]
-         auto_ifa_dashboard_update(@submission.user)
-#         auto_ifa_dashboard_update(@submission.classroom)
-#         auto_ifa_dashboard_update(@submission.organization)
+       if submission.update_attributes params[:act_submission]
+         auto_ifa_dashboard_update(submission, submission.user)
+#         auto_ifa_dashboard_update(submission, submission.classroom)
+#         auto_ifa_dashboard_update(submission, submission.organization)
          @finalized = true
 
        end
@@ -3278,33 +3278,33 @@ end
   end   # End Month Cycle
  end  # End of Action
 
-  def auto_ifa_dashboard_update(entity)
+  def auto_ifa_dashboard_update(submission, entity)
     if entity.class.to_s == "User" 
-      if @submission.is_user_dashboarded
+      if submission.is_user_dashboarded
         already_dashboarded = true
       else  
         already_dashboarded = false
-        entity_dashboard = @submission.user.ifa_dashboards.for_subject(@submission.act_subject).for_period(@submission.created_at.to_date.at_end_of_month).first 
-        dashboardable_id = @submission.user_id
-        @submission.update_attributes(:is_user_dashboarded => true)
+        entity_dashboard = submission.user.ifa_dashboards.for_subject(submission.act_subject).for_period(submission.created_at.to_date.at_end_of_month).first
+        dashboardable_id = submission.user_id
+        submission.update_attributes(:is_user_dashboarded => true)
       end
     elsif entity.class.to_s == "Classroom"
-      if @submission.is_classroom_dashboarded
+      if submission.is_classroom_dashboarded
         already_dashboarded = true
       else  
         already_dashboarded = false        
-        entity_dashboard = @submission.classroom.ifa_dashboards.for_subject(@submission.act_subject).for_period(@submission.created_at.to_date.at_end_of_month).first 
-        dashboardable_id = @submission.classroom_id
-        @submission.update_attributes(:is_classroom_dashboarded => true)
+        entity_dashboard = submission.classroom.ifa_dashboards.for_subject(submission.act_subject).for_period(submission.created_at.to_date.at_end_of_month).first
+        dashboardable_id = submission.classroom_id
+        submission.update_attributes(:is_classroom_dashboarded => true)
       end
     elsif entity.class.to_s == "Organization"
-      if @submission.is_org_dashboarded
+      if submission.is_org_dashboarded
         already_dashboarded = true
       else  
         already_dashboarded = false
-        entity_dashboard = @submission.organization.ifa_dashboards.for_subject(@submission.act_subject).for_period(@submission.created_at.to_date.at_end_of_month).first 
-        dashboardable_id = @submission.organization_id
-        @submission.update_attributes(:is_org_dashboarded => true)
+        entity_dashboard = submission.organization.ifa_dashboards.for_subject(submission.act_subject).for_period(submission.created_at.to_date.at_end_of_month).first
+        dashboardable_id = submission.organization_id
+        submission.update_attributes(:is_org_dashboarded => true)
       end
     end  
     unless already_dashboarded
@@ -3312,34 +3312,34 @@ end
         entity_dashboard = IfaDashboard.new
               entity_dashboard.ifa_dashboardable_id = dashboardable_id
               entity_dashboard.ifa_dashboardable_type = entity.class.to_s
-              entity_dashboard.period_end = @submission.created_at.to_date.at_end_of_month
-              entity_dashboard.organization_id = @submission.classroom.organization_id
-              entity_dashboard.act_subject_id = @submission.act_subject_id
+              entity_dashboard.period_end = submission.created_at.to_date.at_end_of_month
+              entity_dashboard.organization_id = submission.classroom.organization_id
+              entity_dashboard.act_subject_id = submission.act_subject_id
               entity_dashboard.assessments_taken = 1
               entity_dashboard.finalized_assessments = 1
-              entity_dashboard.calibrated_assessments = @submission.act_assessment.is_calibrated ? 1: 0
-              entity_dashboard.finalized_answers = @submission.act_answers.selected.size rescue 0
-              entity_dashboard.calibrated_answers = @submission.act_answers.calibrated.selected.size rescue 0
-              entity_dashboard.cal_submission_answers = @submission.act_assessment.is_calibrated ? @submission.act_answers.calibrated.selected.size : 0
-              entity_dashboard.finalized_duration = @submission.duration
-              entity_dashboard.calibrated_duration = @submission.act_assessment.is_calibrated ?  @submission.duration : 0
-              entity_dashboard.fin_points = @submission.act_answers.collect{|a|a.points}.sum rescue 0.0
-              entity_dashboard.cal_points = @submission.act_answers.calibrated.collect{|a|a.points}.sum rescue 0.0
-              entity_dashboard.cal_submission_points = @submission.act_assessment.is_calibrated ? @submission.act_answers.calibrated.collect{|a|a.points}.sum : 0
+              entity_dashboard.calibrated_assessments = submission.act_assessment.is_calibrated ? 1: 0
+              entity_dashboard.finalized_answers = submission.act_answers.selected.size rescue 0
+              entity_dashboard.calibrated_answers = submission.act_answers.calibrated.selected.size rescue 0
+              entity_dashboard.cal_submission_answers = submission.act_assessment.is_calibrated ? submission.act_answers.calibrated.selected.size : 0
+              entity_dashboard.finalized_duration = submission.duration
+              entity_dashboard.calibrated_duration = submission.act_assessment.is_calibrated ?  submission.duration : 0
+              entity_dashboard.fin_points = submission.act_answers.collect{|a|a.points}.sum rescue 0.0
+              entity_dashboard.cal_points = submission.act_answers.calibrated.collect{|a|a.points}.sum rescue 0.0
+              entity_dashboard.cal_submission_points = submission.act_assessment.is_calibrated ? submission.act_answers.calibrated.collect{|a|a.points}.sum : 0
          entity_dashboard.save
       else
             entity_dashboard.assessments_taken += 1
             entity_dashboard.finalized_assessments += 1
-            entity_dashboard.finalized_answers += @submission.act_answers.selected.size 
-            entity_dashboard.calibrated_answers += @submission.act_answers.calibrated.selected.size 
-            entity_dashboard.finalized_duration += @submission.duration
-            entity_dashboard.fin_points += @submission.act_answers.collect{|a|a.points}.sum 
-            entity_dashboard.cal_points += @submission.act_answers.calibrated.collect{|a|a.points}.sum       
-            if @submission.act_assessment.is_calibrated
+            entity_dashboard.finalized_answers += submission.act_answers.selected.size
+            entity_dashboard.calibrated_answers += submission.act_answers.calibrated.selected.size
+            entity_dashboard.finalized_duration += submission.duration
+            entity_dashboard.fin_points += submission.act_answers.collect{|a|a.points}.sum
+            entity_dashboard.cal_points += submission.act_answers.calibrated.collect{|a|a.points}.sum
+            if submission.act_assessment.is_calibrated
               entity_dashboard.calibrated_assessments += 1
-              entity_dashboard.calibrated_duration += @submission.duration              
-              entity_dashboard.cal_submission_points += @submission.act_answers.calibrated.collect{|a|a.points}.sum       
-              entity_dashboard.cal_submission_answers += @submission.act_answers.calibrated.selected.size             
+              entity_dashboard.calibrated_duration += submission.duration
+              entity_dashboard.cal_submission_points += submission.act_answers.calibrated.collect{|a|a.points}.sum
+              entity_dashboard.cal_submission_answers += submission.act_answers.calibrated.selected.size
             end
          entity_dashboard.update_attributes(params[:ifa_dashboard])
       end
@@ -3347,7 +3347,7 @@ end
     ifa_org_option = Organization.find_by_id(entity_dashboard.organization_id).ifa_org_option rescue nil
     if ifa_org_option
       ifa_org_option.act_masters.each do |mstr|
-      @submission.ifa_question_logs.each do |log|
+      submission.ifa_question_logs.each do |log|
           q_range = log.act_question.act_score_ranges.for_standard(mstr).first rescue nil
           q_strand = log.act_question.act_standards.for_standard(mstr).first rescue nil
           if q_range && q_strand
@@ -3361,16 +3361,16 @@ end
               dashboard_cell.calibrated_answers = log.is_calibrated ? log.choices : 0                  
               dashboard_cell.fin_points = log.earned_points
               dashboard_cell.cal_points = log.is_calibrated ? log.earned_points : 0.0
-#              dashboard_cell.finalized_hover = target_hovers(entity, @submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, false)
-#              dashboard_cell.calibrated_hover = target_hovers(entity, @submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, true)
+#              dashboard_cell.finalized_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, false)
+#              dashboard_cell.calibrated_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, true)
               entity_dashboard.ifa_dashboard_cells << dashboard_cell
             else
               dashboard_cell.finalized_answers += log.choices
               dashboard_cell.calibrated_answers += log.is_calibrated ? log.choices : 0                  
               dashboard_cell.fin_points += log.earned_points
               dashboard_cell.cal_points += log.is_calibrated ? log.earned_points : 0.0 
-#              dashboard_cell.finalized_hover = target_hovers(entity, @submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, false)
-#              dashboard_cell.calibrated_hover = target_hovers(entity, @submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, true)
+#              dashboard_cell.finalized_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, false)
+#              dashboard_cell.calibrated_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, true)
               dashboard_cell.update_attributes(params[:ifa_dashboard_cell]) 
             end
           end
@@ -3378,25 +3378,25 @@ end
 
         dashboard_sms = entity_dashboard.ifa_dashboard_sms_scores.for_standard(mstr).first
         up_to_date = Date.today
-        since_date = (up_to_date - @submission.organization.ifa_org_option.sms_calc_cycle.days).to_date rescue Date.today.at_end_of_month
-        h_threshold = @submission.organization.ifa_org_option.sms_h_threshold rescue 0.75
+        since_date = (up_to_date - submission.organization.ifa_org_option.sms_calc_cycle.days).to_date rescue Date.today.at_end_of_month
+        h_threshold = submission.organization.ifa_org_option.sms_h_threshold rescue 0.75
         unless dashboard_sms
           dashboard_sms = IfaDashboardSmsScore.new
           dashboard_sms.act_master_id = mstr.id
-          dashboard_sms.score_range_min = @submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
-          dashboard_sms.score_range_max = @submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
-          dashboard_sms.sms_finalized = mstr.sms_for_period(entity, @submission.act_subject, entity_dashboard.period_end, h_threshold, false)
-          dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, @submission.act_subject, entity_dashboard.period_end, h_threshold, true)
-          dashboard_sms.baseline_score = mstr.base_score(entity, @submission.act_subject)
+          dashboard_sms.score_range_min = submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
+          dashboard_sms.score_range_max = submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
+          dashboard_sms.sms_finalized = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_end, h_threshold, false)
+          dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_end, h_threshold, true)
+          dashboard_sms.baseline_score = mstr.base_score(entity, submission.act_subject)
           entity_dashboard.ifa_dashboard_sms_scores << dashboard_sms            
         else
-          new_min = @submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
+          new_min = submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
           if (new_min < dashboard_sms.score_range_min && new_min != 0) then dashboard_sms.score_range_min = new_min end 
-          new_max =  @submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
+          new_max =  submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
           if (new_max > dashboard_sms.score_range_max && new_max != 0) then dashboard_sms.score_range_max =  new_max end 
-            dashboard_sms.sms_finalized = mstr.sms_for_period(entity, @submission.act_subject, entity_dashboard.period_end, h_threshold, false)
-            dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, @submission.act_subject, entity_dashboard.period_end, h_threshold, true)
-            dashboard_sms.baseline_score = mstr.base_score(entity, @submission.act_subject)
+            dashboard_sms.sms_finalized = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_end, h_threshold, false)
+            dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_end, h_threshold, true)
+            dashboard_sms.baseline_score = mstr.base_score(entity, submission.act_subject)
             dashboard_sms.update_attributes(params[:ifa_dashboard_sms_score]) 
         end 
       end  # end Master Loop

@@ -686,10 +686,6 @@
              end
            end
          end
-         # Take this out: Question log updated only when Submission is Finalized, AFTER Dashboard is updated
-         #       unless q.question_type == "SA"
-         #         log_ifa_question(q)
-         #       end
        end    # end of Question loop
      end
      if submission_complete && !@submission.organization.nil?
@@ -2579,7 +2575,7 @@ end
 
        if submission.organization.ifa_org_option
          submission.act_assessment.act_questions.each do |quest|
-           log_ifa_question(quest)
+           log_ifa_question(submission, quest)
          end   # End Question Loop
        end
 
@@ -2609,36 +2605,36 @@ end
        end
      end
 
-  def log_ifa_question(question)
-     existing_question = @submission.ifa_question_logs.for_question(question).first rescue nil
+  def log_ifa_question(submission, question)
+     existing_question = submission.ifa_question_logs.for_question(question).first rescue nil
         unless existing_question
           question_log = IfaQuestionLog.new
           question_log.act_question_id = question.id
-          question_log.act_assessment_id = @submission.act_assessment_id
-          question_log.act_submission_id = @submission.id
-          question_log.user_id = @submission.user_id
-          question_log.organization_id = @submission.organization_id 
-          question_log.classroom_id = @submission.classroom_id        
-          question_log.teacher_id = @submission.teacher_id 
-          question_log.act_subject_id = @submission.act_subject_id 
-          question_log.date_taken = @submission.created_at
+          question_log.act_assessment_id = submission.act_assessment_id
+          question_log.act_submission_id = submission.id
+          question_log.user_id = submission.user_id
+          question_log.organization_id = submission.organization_id
+          question_log.classroom_id = submission.classroom_id
+          question_log.teacher_id = submission.teacher_id
+          question_log.act_subject_id = submission.act_subject_id
+          question_log.date_taken = submission.created_at
           question_log.period_end = question_log.date_taken.at_end_of_month
           question_log.is_calibrated = question.is_calibrated
-          question_log.grade_level = @submission.user.current_grade_level
-          question_log.csap = @submission.user.student_subject_demographics.for_subject(@submission.act_subject).first.latest_csap rescue nil
-          question_log.earned_points = @submission.act_answers.for_question(question).collect{|a|a.points}.sum rescue 0.0
-          question_log.choices =  @submission.act_answers.for_question(question).selected.size  rescue 0    
+          question_log.grade_level = submission.user.current_grade_level
+          question_log.csap = submission.user.student_subject_demographics.for_subject(submission.act_subject).first.latest_csap rescue nil
+          question_log.earned_points = submission.act_answers.for_question(question).collect{|a|a.points}.sum rescue 0.0
+          question_log.choices =  submission.act_answers.for_question(question).selected.size  rescue 0
           question_log.save
 
 ### update Question Performance
         
-        @submission.organization.ifa_org_option.act_masters.each do |mstr|
-          student_latest_dashboard = @submission.user.ifa_dashboards.for_subject(@submission.act_subject).last rescue nil
+        submission.organization.ifa_org_option.act_masters.each do |mstr|
+          student_latest_dashboard = submission.user.ifa_dashboards.for_subject(submission.act_subject).last rescue nil
           student_latest_scores = student_latest_dashboard.ifa_dashboard_sms_scores.for_standard(mstr).first rescue nil
-          student_range = ActScoreRange.for_standard(mstr).for_subject_sms(@submission.act_subject, student_latest_scores.sms_finalized).first rescue nil
+          student_range = ActScoreRange.for_standard(mstr).for_subject_sms(submission.act_subject, student_latest_scores.sms_finalized).first rescue nil
           question_range_student = question.ifa_question_performances.for_range(student_range).first rescue nil
-          q_earned_points = @submission.act_answers.for_question(question).collect{|a|a.points}.sum rescue 0.0
-          q_answers = @submission.act_answers.for_question(question).selected.size  rescue 0  
+          q_earned_points = submission.act_answers.for_question(question).collect{|a|a.points}.sum rescue 0.0
+          q_answers = submission.act_answers.for_question(question).selected.size  rescue 0
           
           if student_range
             if question_range_student 
@@ -2661,7 +2657,7 @@ end
               question.ifa_question_performances << question_range_student
             end
           end   # end condition if student has existing sms score
-          student_calibrated_range = ActScoreRange.for_standard(mstr).for_subject_sms(@submission.act_subject, student_latest_scores.sms_calibrated).first rescue nil
+          student_calibrated_range = ActScoreRange.for_standard(mstr).for_subject_sms(submission.act_subject, student_latest_scores.sms_calibrated).first rescue nil
           question_range_cal_student = question.ifa_question_performances.for_range(student_calibrated_range).first rescue nil
           if student_calibrated_range
             if question_range_cal_student
@@ -2684,8 +2680,8 @@ end
               question.ifa_question_performances << question_range_cal_student
             end 
           end   # end condition if student has existing calibrated sms score
-          student_baseline_score = @submission.user.ifa_user_baseline_scores.for_subject(@submission.act_subject).for_standard(mstr).first.score rescue nil
-          student_baseline_range = ActScoreRange.for_standard(mstr).for_subject_sms(@submission.act_subject, student_baseline_score).first rescue nil 
+          student_baseline_score = submission.user.ifa_user_baseline_scores.for_subject(submission.act_subject).for_standard(mstr).first.score rescue nil
+          student_baseline_range = ActScoreRange.for_standard(mstr).for_subject_sms(submission.act_subject, student_baseline_score).first rescue nil
           question_range_base_student = question.ifa_question_performances.for_range(student_baseline_range).first rescue nil
           if student_baseline_range
             if question_range_base_student
@@ -3385,17 +3381,17 @@ end
           dashboard_sms.act_master_id = mstr.id
           dashboard_sms.score_range_min = submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
           dashboard_sms.score_range_max = submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
-          dashboard_sms.sms_finalized = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_end, h_threshold, false)
-          dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_end, h_threshold, true)
+          dashboard_sms.sms_finalized = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_ending, h_threshold, false)
+          dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_ending, h_threshold, true)
           dashboard_sms.baseline_score = mstr.base_score(entity, submission.act_subject)
           entity_dashboard.ifa_dashboard_sms_scores << dashboard_sms            
         else
           new_min = submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
           if (new_min < dashboard_sms.score_range_min && new_min != 0) then dashboard_sms.score_range_min = new_min end 
-          new_max =  submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
+            new_max =  submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
           if (new_max > dashboard_sms.score_range_max && new_max != 0) then dashboard_sms.score_range_max =  new_max end 
-            dashboard_sms.sms_finalized = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_end, h_threshold, false)
-            dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_end, h_threshold, true)
+            dashboard_sms.sms_finalized = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_ending, h_threshold, false)
+            dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_ending, h_threshold, true)
             dashboard_sms.baseline_score = mstr.base_score(entity, submission.act_subject)
             dashboard_sms.update_attributes(params[:ifa_dashboard_sms_score]) 
         end 
@@ -3403,10 +3399,6 @@ end
     end
   end  # no IFA ORG Options
   end # Already Dashboarded Condition
-
-
-  def  update_sms_for_period(entity, end_date)
- end 
  
  def target_hovers(entity, subject, range, strand, since_date,threshold, calibrate_only)
     target_list = ""

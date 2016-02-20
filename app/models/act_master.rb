@@ -32,43 +32,48 @@ class ActMaster < ActiveRecord::Base
     self.find(:first, :conditions =>["abbrev = ?", std]) rescue nil
   end
 
-  def sms_for_period(entity, subject,period, h_threshold, calibrated)
-    period_end = period.at_end_of_month
-    ranges = ActScoreRange.for_standard(self).for_subject(subject).no_na.sort{|a,b| b.upper_score <=> a.upper_score}
-    if ranges.size > 0 
-      entity_dashboard = entity.ifa_dashboards.for_subject(subject).for_period(period_end).first rescue nil
-      score = ranges.last.upper_score
-      prev_score = ranges.last.upper_score
-      questions_found = false
-      baseline_found = false
-      ranges.each do |sr|
-        range_cells = entity_dashboard.ifa_dashboard_cells.with_range_id(sr.id) rescue []
-        unless range_cells.empty?
-          questions_found = true
-        end 
-        total_choices = calibrated ? range_cells.collect{|q| q.calibrated_answers}.compact.sum : range_cells.collect{|q| q.finalized_answers}.compact.sum
-        total_points = calibrated ? range_cells.collect{|q| q.cal_points}.compact.sum : range_cells.collect{|q| q.fin_points}.compact.sum
-        pct_correct = total_choices == 0? 0.0 : total_points/total_choices
-        pct_incorrect = total_choices == 0? 0.0 : (1.0-pct_correct)
-        if pct_correct >= h_threshold && !baseline_found
-          score = sr.upper_score
-          prev_score = sr.upper_score        
-          baseline_found = true
-        end
-        if baseline_found
-          score = (score - pct_incorrect*(prev_score - sr.upper_score)) 
-          prev_score = sr.upper_score
-        else
-          prev_score = sr.upper_score
-        end
-      end
+  def sms_for_period(entity, subject, period_end, h_threshold, calibrated)
+    standard_scoring = true
+    if standard_scoring
+      pct_score = IfaQuestionLog.period_score(entity, subject, period_end, calibrated)
+      min_max_score = ActSubmission.min_max_score(entity, subject, period_end, self)
+      final_score = min_max_score[0] + (pct_score * ((min_max_score[1] - min_max_score[0]).to_f)).to_i
     else
-      questions_found = false
-      score = 0
-    end  
-
-    final_score = questions_found ? score.round.to_i : 0
-    
+      ranges = ActScoreRange.for_standard(self).for_subject(subject).no_na.sort{|a,b| b.upper_score <=> a.upper_score}
+      if ranges.size > 0
+        entity_dashboard = entity.ifa_dashboards.for_subject(subject).for_period(period_end).first rescue nil
+        score = ranges.last.upper_score
+        prev_score = ranges.last.upper_score
+        questions_found = false
+        baseline_found = false
+        ranges.each do |sr|
+          range_cells = entity_dashboard.ifa_dashboard_cells.with_range_id(sr.id) rescue []
+          unless range_cells.empty?
+            questions_found = true
+          end
+          total_choices = calibrated ? range_cells.collect{|q| q.calibrated_answers}.compact.sum : range_cells.collect{|q| q.finalized_answers}.compact.sum
+          total_points = calibrated ? range_cells.collect{|q| q.cal_points}.compact.sum : range_cells.collect{|q| q.fin_points}.compact.sum
+          pct_correct = total_choices == 0? 0.0 : total_points/total_choices
+          pct_incorrect = total_choices == 0? 0.0 : (1.0-pct_correct)
+          if pct_correct >= h_threshold && !baseline_found
+            score = sr.upper_score
+            prev_score = sr.upper_score
+            baseline_found = true
+          end
+          if baseline_found
+            score = (score - pct_incorrect*(prev_score - sr.upper_score))
+            prev_score = sr.upper_score
+          else
+            prev_score = sr.upper_score
+          end
+        end
+      else
+        questions_found = false
+        score = 0
+      end
+      final_score = questions_found ? score.round.to_i : 0
+    end
+    final_score
   end
 
   def base_score(entity, subject)

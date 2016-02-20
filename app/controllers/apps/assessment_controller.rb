@@ -734,7 +734,7 @@
     find_dashboard_update_start_dates(@classroom)
   end
 
-  def classroom_dashboard
+  def classroom_dashboard_x
   
   initialize_parameters
   
@@ -905,7 +905,7 @@
     render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "entity"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)}
   end
 
-  def student_dashboard
+  def student_dashboard_x
   
   initialize_parameters
   
@@ -1162,13 +1162,13 @@
      @benchmark.organization_id = @current_organization.id
      @benchmark.save
      redirect_to :action => 'edit_ifa_benchmark', :organization_id => @current_organization, :benchmark_id => @benchmark
- end
+  end
 
   def edit_ifa_benchmark
-  initialize_parameters
-  if @benchmark.co_gle_id
-    @gle = CoGle.find_by_id(@benchmark.co_gle_id)   
-  end
+    initialize_parameters
+    if @benchmark.co_gle_id
+      @gle = CoGle.find_by_id(@benchmark.co_gle_id)
+    end
     if request.post?
       unless params[:bench][:range_id] == ""
         @benchmark.act_score_range_id = params[:bench][:range_id].to_i
@@ -1179,13 +1179,12 @@
       unless params[:bench][:type_id] == ""
         @benchmark.act_bench_type_id = params[:bench][:type_id].to_i
       end
-       if @benchmark.update_attributes params[:act_bench] 
-         flash[:notice] = "Benchmark Updated Successfully"       
-        else
-         flash[:error] = @benchmark.errors.full_messages.to_sentence 
-       end
-
-     end
+      if @benchmark.update_attributes params[:act_bench]
+         flash[:notice] = "Benchmark Updated Successfully"
+      else
+         flash[:error] = @benchmark.errors.full_messages.to_sentence
+      end
+    end
   end
 
   def destroy_benchmark
@@ -2468,22 +2467,6 @@ end
        render :partial => "/apps/assessment/ifa_summary_brief"
      end
 
-  def ifa_user_update_dashboards
-   @current_organization = Organization.find_by_public_id(params[:organization_id])rescue nil
-   @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first rescue nil
-   manual_ifa_dashboard_update
-   if params[:requester] == "Admin"
-    find_dashboard_update_start_dates(@current_organization)
-   end
-   if params[:requester] == "Teacher"
-    find_dashboard_update_start_dates(@ifa_classroom)
-   end 
-   if params[:requester] == "Student"
-    find_dashboard_update_start_dates(@current_user)
-   end  
-  render :partial => "/apps/assessment/ifa_dashboard_updates"
-  end
- 
    private
  
  def get_assessments_from_repository

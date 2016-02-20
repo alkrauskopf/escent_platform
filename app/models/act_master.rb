@@ -98,45 +98,6 @@ class ActMaster < ActiveRecord::Base
     
   end
 
-
-  def sms_new(entity, subject, since_date, up_to_date, h_threshold, calibrate_only)
-
-    ranges = ActScoreRange.for_standard(self).for_subject(subject).no_na.sort{|a,b| b.upper_score <=> a.upper_score}rescue []
-    if ranges.size > 0 
-      question_log_list = calibrate_only ? entity.ifa_question_logs.for_subject(subject).since(since_date.to_date).up_to(up_to_date.to_date).calibrated :  entity.ifa_question_logs.for_subject(subject).since(since_date.to_date).up_to(up_to_date.to_date)   
-      score = ranges.last.upper_score
-      prev_score = ranges.last.upper_score
-      questions_found = false
-      baseline_found = false
-      ranges.each do |sr|
-        question_log_group = question_log_list.select{|ql| ql.act_question.act_score_ranges.include?(sr)}
-        unless question_log_group.empty?
-          questions_found = true
-        end 
-        total_choices = question_log_group.sum{|q| q.choices}
-        total_points = question_log_group.sum{|q| q.earned_points}
-        pct_correct = total_choices == 0? 0.0 : total_points/total_choices
-        pct_incorrect = total_choices == 0? 0.0 : (1.0-pct_correct)
-        if pct_correct >= h_threshold && !baseline_found
-          score = sr.upper_score
-          prev_score = sr.upper_score        
-          baseline_found = true
-        end
-        if baseline_found
-          score = (score - pct_incorrect*(prev_score - sr.upper_score)) 
-          prev_score = sr.upper_score
-        else
-          prev_score = sr.upper_score
-        end
-      end
-    else
-      questions_found = false
-      score = 0
-    end  
-
-    final_score = questions_found ? score.round.to_i : 0
-  end
-
   def sms(answers,subject_id, standard_id, score_range_id, org_id)
     
     act_standard = ActStandard.find_by_id(standard_id) rescue nil
@@ -203,16 +164,6 @@ class ActMaster < ActiveRecord::Base
         score = score - pct_incorrect * delta_score
         prev_upper = sr.upper_score
       end
-#        if idx == 0
-#            test = highest_level
-#            test = prev_upper
-#            test = sr.upper_score        
-#            test = total_selections       
-#            test = delta_score         
-#            test = total_points
-#            test = pct_incorrect        
-#            test = pct_incorrect
-#       end
     end
     if score < lowest_level
       score = lowest_level
@@ -246,7 +197,7 @@ class ActMaster < ActiveRecord::Base
        end 
       sms_array = []
       pct_array = []
-      if stats_group == "submission"
+      if stats_group == 'submission'
         ans_group_ids = selected_answers.collect{|a| a.act_submission_id}.uniq
         ans_group_ids.each_with_index do |gid, idx|  
           group_answers = selected_answers.select{|a| a.act_submission_id == gid}

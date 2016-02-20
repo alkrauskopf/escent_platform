@@ -30,24 +30,23 @@
 			<br/><%= link_to (image_tag @current_organization.logo.url :med_thumb), :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization -%></br>
 		  </p>
 					
-              <% if @submission && @success%>
+        <% if @submission && @success%>
 			 		<span class="normal_text"style="width:630px; font-size:12px; text-align:center; width: 200px; font-weight:normal; color:#C73914;">
 						<br/>
 						<strong> <i>Successful Assessment Submission </i><%= @current_user.first_name -%>!</strong><br/>
 						<br/>
 						<% @current_organization.ifa_org_option.act_masters.each do |mstr| -%>
-						<% sms = mstr.sms_new(@submission, @submission.act_subject, Date.today, Date.today, @current_organization.ifa_org_option.sms_h_threshold, false) %>
-						<% unless sms == 0 -%>
-						Preliminary <%= mstr.abbrev %> Score: <strong><%= sms %></strong><br/>
-						<% end -%>					
+                <% unless @submission.sms_score(mstr) == 0 -%>
+                  <%= @submission.final? ? 'Final' : 'Estimated'%>&nbsp;<%= mstr.abbrev %> Score: <%= @submission.sms_score(mstr) %><br/>
+                <% end -%>
 						<% end -%>
-						Time To Complete: <strong><%= number_with_precision(@submission.duration/60.0, :precision => 1) %> Minutes </strong><br/>
+						Time To Complete: <%= number_with_precision(@submission.duration/60.0, :precision => 1) %> Minutes<br/>
 					</span>
 					<span style ="width:630px; word-wrap:break-word; overflow:hidden; font-size:12px; padding-left:00px; font-weight:normal; color:#000000;">
 						<% if @classroom.ifa_classroom_option.is_ifa_notify %>
 							Your <%= @classroom.course_name %>&nbsp;teacher has been notified.<br/>
 						<% end -%>
-						<% if @submission.is_final -%>
+						<% if @submission.final? -%>
 							&nbsp;<br/>
 						<% else -%>
 							Your dashboard will be updated when your teacher reviews the assessment.<br/>
@@ -78,9 +77,6 @@
 					Select an assessment below.
 		  			</span>
 				<% end -%>
-<!--
- 		  <%#= render :partial => "ifa_dashboard_updates" %>
--->
 		</div>	
     </div>
 	<% unless @range_list.size.zero? -%>

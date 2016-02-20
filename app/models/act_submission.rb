@@ -30,6 +30,10 @@ class ActSubmission < ActiveRecord::Base
   named_scope :finalized_period, lambda{| period_start, period_end| {:conditions => ["date_finalized >= ? AND date_finalized <= ?", period_start, period_end]}}
   named_scope :submission_period, lambda{| period_start, period_end| {:conditions => ["created_at >= ? AND created_at <= ?", period_start, period_end]}}
   
+  def final?
+    self.is_final
+  end
+
   def self.not_dashboarded(dashboard_type, entity, start_date, end_date)
     if dashboard_type == 'User'
       dashboards = entity.act_submissions.final.submission_period(start_date, end_date).not_user_dashboarded
@@ -44,14 +48,13 @@ class ActSubmission < ActiveRecord::Base
   end
 
   def sms_score(std)
-    sms_score = self.act_submission_scores.select{|r| r.act_master_id == std.id}.first rescue nil
-    if sms_score
+    sms_score_record = self.act_submission_scores.for_standard(std).first rescue nil
+    if sms_score_record
       score = 0
-      if sms_score.est_sms
-        score = sms_score.est_sms
-      end
-      if sms_score.final_sms
-        score = sms_score.final_sms
+      if self.final?
+        score = sms_score_record.est_sms.nil? ? 0 : sms_score_record.est_sms
+      else
+        score = sms_score_record.final_sms.nil? ? 0 : sms_score_record.final_sms
       end
     else
       score = 0
@@ -87,5 +90,4 @@ class ActSubmission < ActiveRecord::Base
     end
     min_max_score
   end
-
 end

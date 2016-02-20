@@ -102,7 +102,7 @@ end
   cell_percent
   end
 
-  def sms_stats(answers,subject_id, standard_id, range_id, org_id, stats_group, standard)
+  def sms_xstats(answers,subject_id, standard_id, range_id, org_id, stats_group, standard)
     
     act_standard = ActStandard.find_by_id(standard_id) rescue nil
     act_score_range = ActScoreRange.find_by_id(range_id) rescue nil 
@@ -178,7 +178,7 @@ end
        end
         stats = [sms_array.size, sms_min, sms_max, sms_avg, sms_std,pct_min.to_i,pct_max.to_i, pct_avg, pct_std]        
     end
-  sms_stats = stats 
+  sms_xstats = stats
   end
 
 

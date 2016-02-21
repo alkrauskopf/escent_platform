@@ -1,11 +1,12 @@
 
-	<a href="#" >Apps</a>
-	<% if @current_organization.can_be_displayed?(@current_user)-%>
-		<ul>
-			<% @current_organization.enabled_apps.sort_by{|a| a.name}.each do |app| %>
-				<% if @current_user.app_authorized?(app, @current_organization) -%>
-					<% app_label = (app.beta? ? "<small>(beta) </small>" + @current_organization.provider_app_name(app) : @current_organization.provider_app_name(app)) -%>
-					<li style="width: 230px;"><%= link_to app_label, :controller => app.app_link[0], :action => app.app_link[1], :organization_id => @current_organization,:user_id => @current_user, :teacher_id => @current_user   %></li>
+<!--	<a href="#" >Apps</a>  -->
+  <span>Tools</span>
+	<% if org.can_be_displayed?(user)-%>
+    <ul style="width: 140%;" class="hdr-dropdown-content">
+			<% org.enabled_apps.sort_by{|a| a.name}.each do |app| %>
+				<% if user.app_authorized?(app, org) -%>
+					<% app_label = (app.beta? ? "<small>(beta) </small>" + org.provider_app_name(app) : org.provider_app_name(app)) -%>
+					<li ><%= link_to app_label, :controller => app.app_link[0], :action => app.app_link[1], :organization_id => org,:user_id => user, :teacher_id => user   %></li>
 				<% end %>
 			<% end %>
 		</ul>

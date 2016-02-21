@@ -1,14 +1,14 @@
 
-	<% if @current_organization.assets_featured  %>
-		<%= link_to "Our Technology", :controller => "fsn", :action => :index, :organization_id => @current_organization, :blog_id => @current_organization.assets_featured.public_id%>	
+	<% if org.assets_featured  %>
+		<%= link_to "Our Technology", :controller => "fsn", :action => :index, :organization_id => org, :blog_id => org.assets_featured.public_id%>
 	<% else -%>
-		Our Technology
+		<span>Our Technology</span>
 	<% end -%>
-	<ul>
-		<% if @current_organization.assets_featured  %>
-			<li style="width: 330px;"><%= link_to @current_organization.assets_featured.title, :controller => "fsn", :action => :index, :organization_id => @current_organization, :blog_id => @current_organization.assets_featured.public_id%></li><br/>		
+  <ul style="width: 200%;" class="hdr-dropdown-content">
+		<% if org.assets_featured  %>
+			<li ><%= link_to org.assets_featured.title, :controller => "fsn", :action => :index, :organization_id => org, :blog_id => org.assets_featured.public_id%></li><br/>
 		<% end -%>
-		<% @current_organization.active_nonfeatured_assets.each do |blog| -%>
-			<li style="width: 330px;"><%= link_to blog.title, :controller => "fsn", :action => :index, :organization_id => @current_organization, :blog_id => blog.public_id%></li><br/>
+		<% org.active_nonfeatured_assets.each do |blog| -%>
+			<li ><%= link_to blog.title, :controller => "fsn", :action => :index, :organization_id => org, :blog_id => blog.public_id%></li><br/>
 		<% end -%>
 	</ul>

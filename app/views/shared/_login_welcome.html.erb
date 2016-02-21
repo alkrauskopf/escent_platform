@@ -1,0 +1,24 @@
+ <div class="header_row clear">
+    <div style="float:left; width:40%;" class="header_footer_text">
+      Welcome, <%= user.full_name %>&nbsp;
+      <% if user.created_at == user.updated_at -%>
+        &nbsp;<%= link_to "Setup Your Profile!", :controller => "/users", :action => :edit_profile, :organization_id => org, :id => user %>
+      <% end %>
+    </div>
+    <div style="float:left; width:30%;" class="header_footer_text">
+      <% unless user.waiting_surveys.active.empty? -%>
+                &nbsp;<%= pluralize(user.waiting_surveys.active.size, " Survey") %>&nbsp;Waiting <blink><u><i><%= link_to "Take Now", {:controller => "/apps/shared", :action => :my_surveys, :organization_id => org}, {:target => "_blank"}  %></i></u></blink>
+      <% else %>
+        &nbsp;
+      <% end -%>
+    </div>
+    <% unless org.nil? %>
+      <div style="float:left; width:30%; text-align:right;" class="header_footer_text">
+          <%= link_to org.name, :controller => "/site/site", :action => :static_organization, :organization_id => org %>
+      </div>
+    <% else %>
+      <div style="float:left; width:25%; text-align:right;" class="header_footer_text">
+        &nbsp;
+      </div>
+    <% end %>
+ </div>

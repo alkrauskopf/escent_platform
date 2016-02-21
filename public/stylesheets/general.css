@@ -32,7 +32,7 @@ body {
 .masthead { text-align:right; vertical-align:top; }
 
 /* header and login_bar layout */
-#header { height:50px; padding:0; margin: 10px 0; }
+#header { height:45px; padding:0; margin: 10px 0; }
 #header a { text-decoration: none; }
 #header .content { float: right; }
 #header .tip_info { float:left;  font-size:14px; color:#000; text-align:left; text-indent:5px; line-height:45px;}
@@ -105,7 +105,7 @@ body {
 #header_main_ep .header_flash_notice a { color:#fff; }
 
 /* iwing_footer layout */
-.iwing_footer { margin-top: 10px; text-align: center; }
+.iwing_footer { margin-top: 5px; text-align: center; }
 .iwing_footer ul { display: block; width: auto; padding-left: 250px; height: 42px;	margin: 0 auto; }
 .iwing_footer ul li { float: left; padding: 0 20px; }
 /* iwing_footer style */

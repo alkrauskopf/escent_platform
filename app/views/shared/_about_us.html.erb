@@ -1,7 +1,7 @@
 
 	<% blog_type = BlogType.of_type("AU").first -%>
-    <% blog = @current_organization.blogs.active.featured.of_type(blog_type).first rescue nil%>
+    <% blog = org.blogs.active.featured.of_type(blog_type).first rescue nil%>
 	<% unless blog.nil? -%>
-		<%= link_to "About Us", :controller => "fsn", :action => :index, :organization_id => @current_organization, :blog_id => blog.public_id%>
+		<%= link_to "About Us", :controller => "fsn", :action => :index, :organization_id => org, :blog_id => blog.public_id%>
 	<% end -%>
 		

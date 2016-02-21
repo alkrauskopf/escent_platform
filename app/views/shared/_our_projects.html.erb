@@ -1,11 +1,11 @@
 
-	<% if @current_organization.projects_featured  %>
-		<%= link_to "Our Projects", :controller => "fsn", :action => :index, :organization_id => @current_organization, :blog_id => @current_organization.projects_featured.public_id %>	
+	<% if org.projects_featured  %>
+		<%= link_to "Our Projects", :controller => "fsn", :action => :index, :organization_id => org, :blog_id => org.projects_featured.public_id %>
 	<% else -%>
-		Our Projects
+		<span>Our Projects</span>
 	<% end -%>
-	<ul>
-		<% @current_organization.projects.each do |blog| -%>
-			<li style="width: 330px;"><%= link_to blog.title, :controller => "fsn", :action => :index, :organization_id => @current_organization, :blog_id => blog.public_id%></li>
+  <ul style="width: 200%;" class="hdr-dropdown-content">
+		<% org.projects.each do |blog| -%>
+			<li><%= link_to blog.title, :controller => "fsn", :action => :index, :organization_id => org, :blog_id => blog.public_id%></li>
 		<% end -%>
 	</ul>

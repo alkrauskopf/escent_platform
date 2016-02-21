@@ -1,21 +1,22 @@
 
-	<a href="#" >My Schools</a>
-	<ul style = "overflow:auto; max-height:500px;">
-		<% if @current_user.organization  %>
-			<li style="width: 220px;"><%= link_to @current_user.organization.short_name,{:controller => "/site/site", :action => :static_organization, :organization_id => @current_user.organization} -%></li>		
-		
-			<% unless @current_user.organization == @current_organization %>
-				<% if @current_user.favorite_organizations.include?(@current_organization)-%> 
-					<% link_string = truncate("UnTag " + @current_organization.short_name, :omission => "...", :length => 35)  -%> 
-					<% else -%>
-					<% link_string = truncate("Tag " + @current_organization.short_name, :omission => "...", :length => 35)  -%> 
-				<% end -%>	
-				<li style="width: 220px;"><strong><%= link_to link_string, :controller => "/users", :action => :toggle_favorite_organization, :organization_id => @current_organization %></strong></li>
-			<% end -%>
-		<% end -%>
-		<% @current_user.my_schools.sort_by{|s| s.short_name.upcase}.each do |org| -%>
-			<% unless org == @current_user.organization -%>
-				<li style="width: 220px;"><%= link_to org.short_name,{:controller => "/site/site", :action => :static_organization, :organization_id => org} -%></li>
-			<% end -%>
-		<% end -%>
-	</ul>
+<!--	<a href="#" >My Schools</a>  -->
+  <span>My Schools</span>
+    <ul style="width: 200%; overflow:auto; max-height:500px;" class="hdr-dropdown-content">
+      <% if user.organization  %>
+        <li ><%= link_to user.organization.short_name,{:controller => "/site/site", :action => :static_organization, :organization_id => user.organization} -%></li>
+
+        <% unless user.organization == org %>
+          <% if user.favorite_organizations.include?(org)-%>
+            <% link_string = truncate("UnTag " + org.short_name, :omission => "...", :length => 35)  -%>
+          <% else -%>
+            <% link_string = truncate("Tag " + org.short_name, :omission => "...", :length => 35)  -%>
+          <% end -%>
+          <li ><strong><%= link_to link_string, :controller => "/users", :action => :toggle_favorite_organization, :organization_id => org %></strong></li>
+        <% end -%>
+      <% end -%>
+      <% user.my_schools.sort_by{|s| s.short_name.upcase}.each do |org| -%>
+        <% unless org == user.organization -%>
+          <li ><%= link_to org.short_name,{:controller => "/site/site", :action => :static_organization, :organization_id => org} -%></li>
+        <% end -%>
+      <% end -%>
+    </ul>

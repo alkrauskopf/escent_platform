@@ -28,10 +28,13 @@
 	<%= label_tag 'Display Name:' %>
 	<%= text_field :user, :display_name %>	
 </p>
+<!--
 <p>
-	<%= label_tag 'Country:' %>
-	<%= localized_country_select(:user, :country, [], :include_blank => 'Please choose...') %>
-</p>		  
+	<%#= label_tag 'Country:' %>
+	<%#= localized_country_select(:user, :country, [], :include_blank => 'Please choose...') %>
+</p>
+-->
+<input type="hidden" name="user[country]" value="US" />
 <p>
 	<%= label_tag 'Postal Code:' %>
 	<%= text_field :user, :postal_code %>

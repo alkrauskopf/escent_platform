@@ -79,14 +79,17 @@
         </div>
     </div>
 	
-	<div class="FormRow">
+	<!--
+  <div class="FormRow">
         <div class="FormRowTitle">
             Country:
         </div>
         <div class="FormRowData">
-            <%= localized_country_select(:address, :country, [], :include_blank => 'Please choose...') %><span style="color:#C73914;">*</span>
+            <%#= localized_country_select(:address, :country, [], :include_blank => 'Please choose...') %><span style="color:#C73914;">*</span>
         </div>
     </div>
+    -->
+  <input type="hidden" name="address[country]" value="US" />
 	
       <div class="FormRow">
         <div class="FormRowTitle">

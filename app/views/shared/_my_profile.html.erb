@@ -1,27 +1,27 @@
 
-	<a href="#" >My Profile</a>
-	<ul>
-		<li style="width: 130px;"><%= link_to "Edit", :controller => "/users", :action => :edit_profile, :organization_id => @current_organization, :id => @current_user %></li><br/>
-		<li style="width: 130px;"><%= link_to "View", :controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => @current_user %></li>
-		<li style="width: 130px;"><%= link_to "My Surveys", {:controller => "/apps/shared", :action => :my_surveys, :organization_id => @current_organization}, {:target => "_blank"}  %></li>
-		<% unless stands.empty?%>
-			<br/>
-		
-			<li style="width: 130px;margin-left:0px"><center><u>Standards View</u></center></li>
-				<% stands.each do |mstr| -%>
-				<% unless mstr == @current_user.act_master -%>
-				<br/>
-				<% link_string = mstr.abbrev.upcase -%>
-				<li style="width: 130px;margin-left:0px">
-				<center><%= link_to link_string, :controller => "/users", :action => :assign_standard_view, :organization_id => @current_organization, :id => @current_user, :view => mstr %></center></li>
+<!--	<a href="#" >My Profile</a> -->
+<span>My Profile</span>
+    <ul style="width: 80%;" class="hdr-dropdown-content">
+      <li ><%= link_to "Edit", :controller => "/users", :action => :edit_profile, :organization_id => org, :id => user %></li>
+      <li ><%= link_to "View", :controller => "/users", :action => :member_public_profile, :organization_id => org, :id => user %></li>
+      <li ><%= link_to "My Surveys", {:controller => "/apps/shared", :action => :my_surveys, :organization_id => org}, {:target => "_blank"}  %></li>
+      <% unless stands.empty?%>
+        <br/>
 
-				<% else -%>
-				<br/>
-				<% link_string = "Current: " + mstr.abbrev.upcase -%>
-				<li style="width: 130px;margin-left:0px">								
-				<center><i><%= link_string %></i></center></li>
+        <li style="margin-left:0px; text-align:center"><u>Standards View</u></li>
+          <% stands.each do |mstr| -%>
+          <% unless mstr == user.act_master -%>
+          <br/>
+          <% link_string = mstr.abbrev.upcase -%>
+          <li style="margin-left:0px">
+          <%= link_to link_string, :controller => "/users", :action => :assign_standard_view, :organization_id => org, :id => user, :view => mstr %></li>
+          <% else -%>
+          <br/>
+          <% link_string = "Current: " + mstr.abbrev.upcase -%>
+          <li style="margin-left:0px; text-align:center">
+          <i><%= link_string %></i></li>
 
-				<% end -%>
-			<% end -%>
-		<% end -%>
-	</ul>
+          <% end -%>
+        <% end -%>
+      <% end -%>
+    </ul>

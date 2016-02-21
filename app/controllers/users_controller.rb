@@ -23,28 +23,29 @@ class UsersController < ApplicationController
           @user.verification_code = User::generate_password(16)
           @user.set_default_registration_values(@current_organization.id)         
           
-          if simple_captcha_valid?
+          if true # simple_captcha_valid?
             if @user.save
      #  Initialize First User as Superuser
               if User.all.size == 1
                 @user.make_superuser!
               end
 
-            @user.add_as_friend_to(@user.organization)
-            #   temp omit Notifier.deliver_user_registration(:user => @user,:current_organization => @current_organization, :fsn_host => request.host_with_port)
-            #            Notifier.deliver_user_registration @user, @current_organization, request.host_with_port
-            #            Notifier.deliver_user_activate @user , url_for(:action => "activate" , :email => @user.email_address)
-            
-            if @user.organization.register_notify?
-              @user.organization.administrators.each do |adm|
-                Notifier.deliver_admin_notice(:user => @user, :admn => adm, :user_organization => @user.organization, :fsn_host => request.host_with_port)               
-              end              
-            end
-            redirect_to :action => :registration_successful, :organization_id => @current_organization,:user => @user   
-            return
+              @user.add_as_friend_to(@user.organization)
+              #   temp omit Notifier.deliver_user_registration(:user => @user,:current_organization => @current_organization, :fsn_host => request.host_with_port)
+              #            Notifier.deliver_user_registration @user, @current_organization, request.host_with_port
+              #            Notifier.deliver_user_activate @user , url_for(:action => "activate" , :email => @user.email_address)
+
+              if @user.organization.register_notify?
+                @user.organization.administrators.each do |adm|
+                  Notifier.deliver_admin_notice(:user => @user, :admn => adm, :user_organization => @user.organization, :fsn_host => request.host_with_port)
+                end
+              end
+              redirect_to :action => :registration_successful, :organization_id => @current_organization,:user => @user
+              return
             else
-#            @user.errors.add_to_base("REGISTRATION FAILED: ")
-             @user.errors.add_to_base("REGISTRATION FAILED. ")
+             # create_test_org
+            #  @user.errors.add_to_base("REGISTRATION FAILED. ")
+              @user.errors.add_to_base(@user.errors.full_messages.to_sentence)
             end
           else
 #            flash[:error] = @user.errors.full_messages.to_sentence
@@ -99,8 +100,11 @@ class UsersController < ApplicationController
     end
     @talents = @user.talents
     order_by = params[:sort] || "headerSortUp"
-    @authorizations = Authorization.friend_with_org_name(@user, order_by).paginate :page => params[:page], :per_page => 10
+ # 3.x upgrade bypass paginate problem for now
+ # @authorizations = Authorization.friend_with_org_name(@user, order_by).paginate :page => params[:page], :per_page => 10
+    @authorizations = Authorization.friend_with_org_name(@user, order_by)
     if request.post?
+  #  if params[:commit] && params[:commit] = 'Submit Profile'
 
       valid_input = true
 # 
@@ -128,14 +132,14 @@ class UsersController < ApplicationController
           @user.errors.add_to_base("A Credential Word Is Too Long")
         end
       end
-      if valid_input then
-        if @user.update_attributes params[:user]
-         flash[:notice] = "Profile Updated Successfully"       
+      if valid_input
+        if @user.update_attributes(params[:user])
+          flash[:notice] = "Profile Updated Successfully"
         else
-         flash[:error] = @user.errors.full_messages.to_sentence 
+          flash[:error] = @user.errors.full_messages.to_sentence
         end
       else
-         flash[:error] = @user.errors.full_messages.to_sentence
+        flash[:error] = @user.errors.full_messages.to_sentence
       end
     end
   end
@@ -201,7 +205,9 @@ class UsersController < ApplicationController
     @classroom_participate = @user.participate_classrooms
     @colleagues = @user.colleagues
     @resource_favs = @user.viewable_favorite_resources(@current_user ? @current_user : nil)
-    @org_connects =  @user.authorizations.find(:all,:conditions=>"scope_type LIKE 'Organization'",:order => :scope_id, :group => :scope_id)
+ #   @org_connects =  @user.authorizations.find(:all,:conditions=>"scope_type LIKE 'Organization'",:order => :scope_id, :group => :scope_id)
+  #  @org_connects =  @user.authorizations.org_connections
+    @org_connects = @user.favorite_organizations
     @followers = @user.followers
     
     render :layout => "site"
@@ -211,7 +217,8 @@ class UsersController < ApplicationController
   def login
 #    find_featured_topic
     if request.post?
-      if user = User.authenticate(params[:login_id], params[:user][:password])
+     if user = User.authenticate(params[:login_id], params[:user][:password])
+ #       if user = User.all.first
         user.set_logon_date
         if user.verified_at.nil?
           flash[:unverified] = true
@@ -228,7 +235,8 @@ class UsersController < ApplicationController
             format.js { render :action => :login }
           end
         else
-          self.current_user = user
+  #        self.current_user = user
+          session[:user_id] = user.id
           if request.xhr?
             render :file => "/users/login.js" and return                      
           end
@@ -262,7 +270,8 @@ class UsersController < ApplicationController
          end
       end
     end
-    self.current_user = nil
+#    self.current_user = nil
+    session.delete(:user_id)
     session[:viewed] = nil
     flash[:notice] = 'Logged out'
     redirect_to :controller => "site/site", :action => "static_organization", :organization_id => return_org
@@ -461,5 +470,28 @@ end
       end
     end    
   end
+
+
+  def create_test_org
+    @org = Organization.new
+    @org.name = 'Tester Organization'
+    @org.organization_type_id = 2
+    @org.web_site_url = 'http://www.google.com'
+    @org.status_id = 1
+    @org.phone = '303-250-0436'
+    @org.organization_size_id = 2
+    @org.contact_name = 'ALKrauskopf'
+    @org.contact_role = 'King'
+    @org.default_address_id = 1
+    @org.contact_email = 'akrauskopf@precisionschoolimprovement.com'
+    @org.contact_phone = '303-250-0436'
+    @org.include_information = true
+    @org.is_default = false
+    @org.nick_name = 'Tester'
+    @org.alt_short_name = 'Tester'
+    @org.display_contact = true
+    @org.save
+  end
+
 
 end

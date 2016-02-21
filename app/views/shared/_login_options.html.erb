@@ -1,0 +1,41 @@
+<% stands = org.ifa_org_option.act_masters rescue []-%>
+<div class="header_row clear" style="border-top:2px solid #FFFFFF;">
+  <div style="width:100%; float:left; text-align:left;vertical-align:bottom;"class="header_footer_text">
+    <ul >
+      <li style="width: 10%;" class="hdr-dropdown">
+        <%= user ? (render :partial => 'shared/my_profile', :locals => {:stands => stands,:user => user, :org => org}) : ' '%>
+      </li>
+      <li style="width: 10%;" class="hdr-dropdown">
+        <%= user ? (render :partial => 'shared/my_schools', :locals => {:user => user, :org => org}) : ' '%>
+      </li>
+      <li style="width: 10%;"  class="hdr-dropdown">
+        <%= user ? (render :partial => 'shared/my_classrooms', :locals => {:user => user, :org => org, :classroom => classroom, :topic => topic}) : ' '%>
+      </li>
+      <li style="width: 10%;"  class="hdr-dropdown">
+        <%= render :partial => 'shared/my_colleagues', :locals => {:user => user, :org => org, :member => @user}%>
+      </li>
+      <li style="width: 10%;"  class="hdr-dropdown">
+        <%= render :partial => 'shared/my_resources', :locals => {:user => user, :org => org, :content => content}%>
+      </li>
+      <li style="width: 10%;"  class="hdr-dropdown">
+        &nbsp;
+      </li>
+      <li style="width: 13%;"  class="hdr-dropdown">
+        &nbsp;
+      </li>
+      <li style="width: 10%;" class="hdr-dropdown">
+        <%= render :partial => 'shared/our_apps', :locals=>{:user => user, :org => org}%>
+      </li>
+      <li style="width: 5%;" class="hdr-dropdown">
+        <% if  user && (user.administrator_of?(org) || user.superuser?) -%>
+          <span><%= link_to 'Admin', :controller => "/admin/application", :action => :index, :organization_id => org %></span>
+        <% else %>
+          &nbsp;
+        <% end -%>
+      </li>
+      <li style="width:8%; text-align:center;" class="hdr-dropdown">
+        <%= link_to "Sign Out", :controller => "/users", :action => :logout, :organization_id => org %>
+      </li>
+    </ul>
+  </div>
+</div>

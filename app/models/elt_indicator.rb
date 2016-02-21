@@ -20,12 +20,12 @@ class EltIndicator < ActiveRecord::Base
   validates_presence_of :elt_type_id, :message => 'Element Not Defined'
   validates_presence_of :elt_element_id, :message => 'Element Not Defined'
       
-  named_scope :active, :conditions => ["is_active"], :order => 'position ASC'
-  named_scope :inactive, :conditions => ["!is_active"], :order => 'position ASC'
-  named_scope :for_activity, lambda{|activity| {:conditions => ["elt_type_id = ? ", activity.id]}}
-  named_scope :for_element, lambda{|element| {:conditions => ["elt_element_id = ? ", element.id]}}
-  named_scope :all, :order => 'position ASC'
-  named_scope :all_parents,   :conditions => ["parent_id IS NULL"], :order=>'name'
+  scope :active, :conditions => ["is_active"], :order => 'position ASC'
+  scope :inactive, :conditions => ["!is_active"], :order => 'position ASC'
+  scope :for_activity, lambda{|activity| {:conditions => ["elt_type_id = ? ", activity.id]}}
+  scope :for_element, lambda{|element| {:conditions => ["elt_element_id = ? ", element.id]}}
+  scope :all, :order => 'position ASC'
+  scope :all_parents,   :conditions => ["parent_id IS NULL"], :order=>'name'
 
   def active?
     self.is_active

@@ -17,8 +17,8 @@ class ActStandard < ActiveRecord::Base
   has_many :act_questions, :through => :act_question_act_standards 
 
  
-  named_scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id]}}
-  named_scope :for_standard_and_subject, lambda{|standard, subject| {:conditions => ["act_subject_id = ? && act_master_id = ? ", subject.id, standard.id]}} 
-  named_scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ?", subject.id]}} 
+  scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id]}}
+  scope :for_standard_and_subject, lambda{|standard, subject| {:conditions => ["act_subject_id = ? && act_master_id = ? ", subject.id, standard.id]}}
+  scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ?", subject.id]}}
     
 end

@@ -16,19 +16,19 @@ class EltType < ActiveRecord::Base
   has_many :cycles, :through => :elt_cycle_activities, :source => :elt_cycle
   has_many :elt_cycle_summaries
 
-  named_scope :active, :conditions => ["is_active"]
-  named_scope :interviews, :conditions => ["elt_activity_type_id = ?", 2]
-  named_scope :observations, :conditions => ["elt_activity_type_id = ?", 1]
-  named_scope :self_assessments, :conditions => ["elt_activity_type_id = ?", 3]
-  named_scope :masters, :conditions => ["is_master"]
-  named_scope :informing, :conditions => ["!is_master"]
-  named_scope :provider_only, :conditions => ["provider_only"], :order => "position"
-  named_scope :for_client, :conditions => ["provider_only = ?", false], :order => "position"
-  named_scope :shareable, :conditions => ["rubric_id IS NOT NULL"], :order => "position"
-  named_scope :reportable, :conditions => ["is_reportable"]
+  scope :active, :conditions => ["is_active"]
+  scope :interviews, :conditions => ["elt_activity_type_id = ?", 2]
+  scope :observations, :conditions => ["elt_activity_type_id = ?", 1]
+  scope :self_assessments, :conditions => ["elt_activity_type_id = ?", 3]
+  scope :masters, :conditions => ["is_master"]
+  scope :informing, :conditions => ["!is_master"]
+  scope :provider_only, :conditions => ["provider_only"], :order => "position"
+  scope :for_client, :conditions => ["provider_only = ?", false], :order => "position"
+  scope :shareable, :conditions => ["rubric_id IS NOT NULL"], :order => "position"
+  scope :reportable, :conditions => ["is_reportable"]
 
-  named_scope :all, :order => "position"
-  named_scope :all_by_framework, :order => "elt_framework_id"
+  scope :all, :order => "position"
+  scope :all_by_framework, :order => "elt_framework_id"
 
   validates_presence_of :name
   validates_presence_of :elt_activity_type_id

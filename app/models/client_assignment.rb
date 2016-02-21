@@ -4,7 +4,7 @@ class ClientAssignment < ActiveRecord::Base
   
   belongs_to :organization_client
 
-  named_scope :for_consultant, lambda{|consultant| {:conditions => ["user_id = ? ", consultant.id]}}
+  scope :for_consultant, lambda{|consultant| {:conditions => ["user_id = ? ", consultant.id]}}
 
 
 end

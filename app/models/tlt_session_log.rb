@@ -7,10 +7,10 @@ class TltSessionLog < ActiveRecord::Base
 
  
   
-  named_scope :active, :conditions => { :is_active => true} 
-  named_scope :for_task, lambda{|task| {:conditions => ["tl_activity_type_task_id = ? ", task.id]}}
-  named_scope :with_involvement, :conditions => {:conditions => ["involve_score > ? ", 0]}
-  named_scope :with_impact, :conditions => {:conditions => ["impact_score > ? ", 0]}
+  scope :active, :conditions => { :is_active => true}
+  scope :for_task, lambda{|task| {:conditions => ["tl_activity_type_task_id = ? ", task.id]}}
+  scope :with_involvement, :conditions => {:conditions => ["involve_score > ? ", 0]}
+  scope :with_impact, :conditions => {:conditions => ["impact_score > ? ", 0]}
 
 
 

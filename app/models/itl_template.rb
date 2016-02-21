@@ -11,10 +11,10 @@ class ItlTemplate < ActiveRecord::Base
   has_many :itl_template_filters, :dependent => :destroy
   has_many :tl_activity_type_tasks, :through => :itl_template_filters
 
-  named_scope :enabled, :conditions => { :is_enabled => true}, :order=> "name" 
-  named_scope :disabled, :conditions => { :is_enabled => false}, :order=> "name"
-  named_scope :editable, :conditions => { :is_enabled => false}, :order=> "name"
-  named_scope :default, :conditions => { :is_default => true}, :order=> "name"
+  scope :enabled, :conditions => { :is_enabled => true}, :order=> "name"
+  scope :disabled, :conditions => { :is_enabled => false}, :order=> "name"
+  scope :editable, :conditions => { :is_enabled => false}, :order=> "name"
+  scope :default, :conditions => { :is_default => true}, :order=> "name"
 
 
   validates_presence_of :name, :message => 'Template Must Have A Name'  

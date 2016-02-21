@@ -10,7 +10,7 @@ class Homework < ActiveRecord::Base
   validates_presence_of :teacher_id, :message => "(You Must Identify Teacher)"
   validates_presence_of :content_object_type_id, :message => "(The File Type Is Not Allowed)"
 
-  named_scope :active,  :conditions => ["is_deleted IS NULL OR is_deleted IS FALSE"]
-  named_scope :processed,  :conditions => ["is_deleted = ? ", true]
-  named_scope :for_teacher, lambda{|teacher| {:conditions => ["teacher_id = ?", teacher.id], :order => 'created_at ASC'}}
+  scope :active,  :conditions => ["is_deleted IS NULL OR is_deleted IS FALSE"]
+  scope :processed,  :conditions => ["is_deleted = ? ", true]
+  scope :for_teacher, lambda{|teacher| {:conditions => ["teacher_id = ?", teacher.id], :order => 'created_at ASC'}}
 end

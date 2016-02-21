@@ -4,10 +4,10 @@ class DleCycle < ActiveRecord::Base
   has_many :user_dle_plans, :dependent => :destroy
   has_many :dle_cycle_orgs, :dependent => :destroy
   
-  named_scope :for_stage,  lambda{|stage | {:conditions => ["stage = ?", stage]}}
-  named_scope :all_by_stage, :order => 'stage'
-  named_scope :stage_one,  :conditions => ["stage = ? ", 1]   
-  named_scope :next_stage,  lambda{|stage | {:conditions => ["stage = ?", stage+1]}}
+  scope :for_stage,  lambda{|stage | {:conditions => ["stage = ?", stage]}}
+  scope :all_by_stage, :order => 'stage'
+  scope :stage_one,  :conditions => ["stage = ? ", 1]
+  scope :next_stage,  lambda{|stage | {:conditions => ["stage = ?", stage+1]}}
 
 
 

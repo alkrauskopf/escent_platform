@@ -12,7 +12,7 @@ class Metric < ActiveRecord::Base
                 [8 ,"Network Affliates"] #,
                 ]
   TITLE_HASH = {1 => "PEACE PLEDGE" , 5 => "NETWORK"}
-   named_scope :metric_records , lambda{|type_value , start_date , end_date|
+   scope :metric_records , lambda{|type_value , start_date , end_date|
      {:conditions => ["share_type =? and created_at > ? and created_at < ?" , type_value , start_date , end_date]} 
   }
   

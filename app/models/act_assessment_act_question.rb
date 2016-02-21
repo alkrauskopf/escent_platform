@@ -9,7 +9,7 @@ class ActAssessmentActQuestion < ActiveRecord::Base
   
   acts_as_list :scope => :act_assessment
 
-  named_scope :for_question, lambda{|question| {:conditions => ["act_question_id = ?", question.id]}} 
-  named_scope :with_greater_position, lambda{|position| {:conditions => ["position >= ?", position]}} 
+  scope :for_question, lambda{|question| {:conditions => ["act_question_id = ?", question.id]}}
+  scope :with_greater_position, lambda{|position| {:conditions => ["position >= ?", position]}}
 
 end

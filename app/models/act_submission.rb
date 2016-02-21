@@ -16,19 +16,19 @@ class ActSubmission < ActiveRecord::Base
   
   validates_presence_of :teacher_id, :message => 'You Must Identify Your Teacher' 
   
-  named_scope :final, :conditions => { :is_final => true }
-  named_scope :auto_finalized, :conditions => { :is_auto_finalized => true } 
-  named_scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
-  named_scope :not_user_dashboarded, :conditions => ["is_user_dashboarded IS NULL"] rescue []
-  named_scope :not_classroom_dashboarded, :conditions => ["is_classroom_dashboarded IS NULL"]rescue []
-  named_scope :not_org_dashboarded, :conditions => ["is_org_dashboarded IS NULL"] rescue [] 
-  named_scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}} 
-  named_scope :until, lambda{| end_date| {:conditions => ["created_at <= ?", end_date]}} 
-  named_scope :for_teacher, lambda{| teacher| {:conditions => ["teacher_id = ?", teacher.id]}} 
-  named_scope :for_classroom, lambda{| classroom| {:conditions => ["classroom_id = ?", classroom.id]}} 
-  named_scope :for_user, lambda{| user| {:conditions => ["user_id = ?", user.id]}} 
-  named_scope :finalized_period, lambda{| period_start, period_end| {:conditions => ["date_finalized >= ? AND date_finalized <= ?", period_start, period_end]}}
-  named_scope :submission_period, lambda{| period_start, period_end| {:conditions => ["created_at >= ? AND created_at <= ?", period_start, period_end]}}
+  scope :final, :conditions => { :is_final => true }
+  scope :auto_finalized, :conditions => { :is_auto_finalized => true }
+  scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
+  scope :not_user_dashboarded, :conditions => ["is_user_dashboarded IS NULL"] rescue []
+  scope :not_classroom_dashboarded, :conditions => ["is_classroom_dashboarded IS NULL"]rescue []
+  scope :not_org_dashboarded, :conditions => ["is_org_dashboarded IS NULL"] rescue []
+  scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}}
+  scope :until, lambda{| end_date| {:conditions => ["created_at <= ?", end_date]}}
+  scope :for_teacher, lambda{| teacher| {:conditions => ["teacher_id = ?", teacher.id]}}
+  scope :for_classroom, lambda{| classroom| {:conditions => ["classroom_id = ?", classroom.id]}}
+  scope :for_user, lambda{| user| {:conditions => ["user_id = ?", user.id]}}
+  scope :finalized_period, lambda{| period_start, period_end| {:conditions => ["date_finalized >= ? AND date_finalized <= ?", period_start, period_end]}}
+  scope :submission_period, lambda{| period_start, period_end| {:conditions => ["created_at >= ? AND created_at <= ?", period_start, period_end]}}
   
   def sms_score(std)
     sms_score = self.act_submission_scores.select{|r| r.act_master_id == std.id}.first rescue nil

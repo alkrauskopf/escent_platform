@@ -9,11 +9,11 @@ class TltSurveyAudience < ActiveRecord::Base
   has_many   :survey_instructions, :dependent => :destroy
   has_many   :tlt_survey_types, :through => :survey_instructions
         
-  named_scope :teacher,   :conditions => { :audience => "teacher" }
-  named_scope :observer,   :conditions => { :audience => "observer" }
-  named_scope :student,   :conditions => { :audience => "student" }
-  named_scope :evaluator,   :conditions => { :audience => "evaluator" }
-  named_scope :client,   :conditions => { :audience => "client school" }
+  scope :teacher,   :conditions => { :audience => "teacher" }
+  scope :observer,   :conditions => { :audience => "observer" }
+  scope :student,   :conditions => { :audience => "student" }
+  scope :evaluator,   :conditions => { :audience => "evaluator" }
+  scope :client,   :conditions => { :audience => "client school" }
 
   def notify_default(type)
      SurveyInstruction.for_type(type).for_audience(self).first.is_notify rescue false

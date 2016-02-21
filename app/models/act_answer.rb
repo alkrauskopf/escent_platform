@@ -12,17 +12,17 @@ class ActAnswer < ActiveRecord::Base
   belongs_to :organization  
   belongs_to :classroom 
   
-  named_scope :incorrect, :conditions => { :is_correct => false }
-  named_scope :correct, :conditions => { :is_correct => true }  
-  named_scope :selected, :conditions => { :was_selected => true }    
-  named_scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}} 
-  named_scope :until, lambda{| end_date| {:conditions => ["created_at <= ?", end_date]}} 
-  named_scope :for_teacher, lambda{|teacher| {:conditions => ["teacher_id = ? ", teacher.id]}}
-  named_scope :for_choice, lambda{|choice| {:conditions => ["act_choice_id = ? ", choice.id]}}
-  named_scope :for_assessment, lambda{|assessment| {:conditions => ["act_assessment_id = ? ", assessment.id]}}
-  named_scope :for_submission, lambda{|submission| {:conditions => ["act_submission_id = ? ", submission.id]}}
-  named_scope :for_question, lambda{|question| {:conditions => ["act_question_id = ? ", question.id]}}
-  named_scope :calibrated, :conditions => { :is_calibrated => true }
+  scope :incorrect, :conditions => { :is_correct => false }
+  scope :correct, :conditions => { :is_correct => true }
+  scope :selected, :conditions => { :was_selected => true }
+  scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}}
+  scope :until, lambda{| end_date| {:conditions => ["created_at <= ?", end_date]}}
+  scope :for_teacher, lambda{|teacher| {:conditions => ["teacher_id = ? ", teacher.id]}}
+  scope :for_choice, lambda{|choice| {:conditions => ["act_choice_id = ? ", choice.id]}}
+  scope :for_assessment, lambda{|assessment| {:conditions => ["act_assessment_id = ? ", assessment.id]}}
+  scope :for_submission, lambda{|submission| {:conditions => ["act_submission_id = ? ", submission.id]}}
+  scope :for_question, lambda{|question| {:conditions => ["act_question_id = ? ", question.id]}}
+  scope :calibrated, :conditions => { :is_calibrated => true }
   
 end
 

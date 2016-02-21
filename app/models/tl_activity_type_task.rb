@@ -14,10 +14,10 @@ class TlActivityTypeTask < ActiveRecord::Base
   has_many :itl_strategy_evidences, :dependent=> :destroy
   has_many :evidences, :through => :itl_strategy_evidences
       
-  named_scope :by_position, :order => "position"
-  named_scope :enabled, :conditions => ["is_enabled"], :order => "position"
-  named_scope :for_position, lambda{|position| {:conditions => ["position = ? ", position]}}
-  named_scope :for_activity, lambda{|activity| {:conditions => ["tl_activity_type_id = ? ", activity.id]}}
+  scope :by_position, :order => "position"
+  scope :enabled, :conditions => ["is_enabled"], :order => "position"
+  scope :for_position, lambda{|position| {:conditions => ["position = ? ", position]}}
+  scope :for_activity, lambda{|activity| {:conditions => ["tl_activity_type_id = ? ", activity.id]}}
 
 
   def evidences_method(method)

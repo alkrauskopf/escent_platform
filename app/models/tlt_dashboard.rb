@@ -11,10 +11,10 @@ class TltDashboard < ActiveRecord::Base
   belongs_to :tl_activity_type_task
   belongs_to :subject_area
 
-  named_scope :for_activity, lambda{|activity| {:conditions => ["tl_activity_type_id = ? ", activity.id], :order => "duration_secs ASC"}}
-  named_scope :for_task, lambda{|task| {:conditions => ["tl_activity_type_task_id = ? ", task.id], :order => "duration_secs ASC"}}
-  named_scope :for_organization, lambda{|org| {:conditions => ["organization_id = ? ", org.id], :order => "duration_secs ASC"}}
-  named_scope :for_subject, lambda{|sub| {:conditions => ["subject_area_id = ? ", subj.id], :order => "duration_secs ASC"}}  
-  named_scope :since_date, lambda{|begin_date| {:conditions => ["created_at >= ? ", begin_date], :order => "duration_secs ASC"}}  
+  scope :for_activity, lambda{|activity| {:conditions => ["tl_activity_type_id = ? ", activity.id], :order => "duration_secs ASC"}}
+  scope :for_task, lambda{|task| {:conditions => ["tl_activity_type_task_id = ? ", task.id], :order => "duration_secs ASC"}}
+  scope :for_organization, lambda{|org| {:conditions => ["organization_id = ? ", org.id], :order => "duration_secs ASC"}}
+  scope :for_subject, lambda{|sub| {:conditions => ["subject_area_id = ? ", subj.id], :order => "duration_secs ASC"}}
+  scope :since_date, lambda{|begin_date| {:conditions => ["created_at >= ? ", begin_date], :order => "duration_secs ASC"}}
 
 end

@@ -9,7 +9,7 @@ class ActRelReadingActScoreRange < ActiveRecord::Base
   has_many :act_score_ranges
   has_many :act_rel_readings
  
-  named_scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id]}}
-  named_scope :for_mastery_level, lambda{|mstr| {:conditions => ["act_score_range_id = ? ", mstr.id]}}
+  scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id]}}
+  scope :for_mastery_level, lambda{|mstr| {:conditions => ["act_score_range_id = ? ", mstr.id]}}
 
 end

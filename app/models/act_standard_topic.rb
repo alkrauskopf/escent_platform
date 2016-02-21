@@ -8,6 +8,6 @@ class ActStandardTopic < ActiveRecord::Base
   
   acts_as_list :scope => :topic
  
-  named_scope :for_strand, lambda{|strand| {:conditions => ["act_standard_id = ? ", strand.id]}}
+  scope :for_strand, lambda{|strand| {:conditions => ["act_standard_id = ? ", strand.id]}}
 
 end

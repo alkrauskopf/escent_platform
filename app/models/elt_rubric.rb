@@ -7,10 +7,10 @@ class EltRubric < ActiveRecord::Base
   has_many :elt_rubric_criterias
   has_many :elt_case_indicators
 
-  named_scope :lacking, :conditions => ["abbrev = ?", "L"]
-  named_scope :proficient, :conditions => ["abbrev = ?", "P"]
-  named_scope :emerging, :conditions => ["abbrev = ?", "E"]
-  named_scope :exemplary, :conditions => ["abbrev = ?", "X"]  
+  scope :lacking, :conditions => ["abbrev = ?", "L"]
+  scope :proficient, :conditions => ["abbrev = ?", "P"]
+  scope :emerging, :conditions => ["abbrev = ?", "E"]
+  scope :exemplary, :conditions => ["abbrev = ?", "X"]
 
   validates_numericality_of :score, :greater_than_or_equal_to => 0, :message => 'must >= 0.  '
   

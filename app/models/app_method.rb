@@ -11,12 +11,12 @@ class AppMethod < ActiveRecord::Base
   has_many :itl_org_options, :through => :itl_org_option_app_methods
   has_many :app_method_log_ratings, :dependent => :destroy
     
-  named_scope :timed, :conditions => ["is_timed"]
-  named_scope :not_timed, :conditions => { :is_timed => false}, :order=> "name"
-  named_scope :by_position, :order => 'position'
-  named_scope :by_desc_position, :order => 'position DESC'
-  named_scope :rs, {:conditions => ["abbrev = ?", "RS"]} 
-  named_scope :ie, {:conditions => ["abbrev = ?", "IE"]} 
+  scope :timed, :conditions => ["is_timed"]
+  scope :not_timed, :conditions => { :is_timed => false}, :order=> "name"
+  scope :by_position, :order => 'position'
+  scope :by_desc_position, :order => 'position DESC'
+  scope :rs, {:conditions => ["abbrev = ?", "RS"]}
+  scope :ie, {:conditions => ["abbrev = ?", "IE"]}
 
   def timed?
     self.is_timed

@@ -14,19 +14,19 @@ class SurveySchedule < ActiveRecord::Base
   has_many    :survey_schedule_takers, :dependent => :destroy
   has_many    :takers, :through => :survey_schedule_takers
   
-  named_scope :active, :conditions => ["is_active = ?", true]
-  named_scope :suspended, :conditions => ["!is_active"]
-  named_scope :classroom, :conditions => ["entity_type = ? ", "ClassroomPeriod"], :order => "schedule_start DESC"
-  named_scope :itl, :conditions => ["entity_type = ? ", "TltSession"], :order => "schedule_start DESC"
-  named_scope :pd, :conditions => ["entity_type = ? ", "UserDlePlan"], :order => "schedule_start DESC"
-  named_scope :app, :conditions => ["entity_type = ? ", "CoopApp"], :order => "schedule_start DESC"
-  named_scope :for_audience, lambda{|audience| {:conditions => ["tlt_survey_audience_id = ? ", audience.id]}} 
-  named_scope :for_type, lambda{|s_type| {:conditions => ["tlt_survey_type_id = ? ", s_type.id]}} 
-  named_scope :for_class, lambda{|s_class| {:conditions => ["entity_type = ? ", s_class]}} 
-  named_scope :for_organization, lambda{|org| {:conditions => ["organization_id = ? ", org.id], :order => "schedule_start DESC"}}
-  named_scope :broadcasted, :conditions => ["max_responses > ?", 1], :order => "schedule_start DESC"
-  named_scope :self_survey, :conditions => ["max_responses = ?", 1], :order => "schedule_start DESC"
-  named_scope :by_date, :order => "schedule_start DESC"
+  scope :active, :conditions => ["is_active = ?", true]
+  scope :suspended, :conditions => ["!is_active"]
+  scope :classroom, :conditions => ["entity_type = ? ", "ClassroomPeriod"], :order => "schedule_start DESC"
+  scope :itl, :conditions => ["entity_type = ? ", "TltSession"], :order => "schedule_start DESC"
+  scope :pd, :conditions => ["entity_type = ? ", "UserDlePlan"], :order => "schedule_start DESC"
+  scope :app, :conditions => ["entity_type = ? ", "CoopApp"], :order => "schedule_start DESC"
+  scope :for_audience, lambda{|audience| {:conditions => ["tlt_survey_audience_id = ? ", audience.id]}}
+  scope :for_type, lambda{|s_type| {:conditions => ["tlt_survey_type_id = ? ", s_type.id]}}
+  scope :for_class, lambda{|s_class| {:conditions => ["entity_type = ? ", s_class]}}
+  scope :for_organization, lambda{|org| {:conditions => ["organization_id = ? ", org.id], :order => "schedule_start DESC"}}
+  scope :broadcasted, :conditions => ["max_responses > ?", 1], :order => "schedule_start DESC"
+  scope :self_survey, :conditions => ["max_responses = ?", 1], :order => "schedule_start DESC"
+  scope :by_date, :order => "schedule_start DESC"
 
   def notify?
         self.is_notify

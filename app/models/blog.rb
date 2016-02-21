@@ -13,15 +13,15 @@ class Blog < ActiveRecord::Base
   has_one   :total_view, :as => :entity, :dependent => :destroy
   has_one   :total_share, :as => :entity, :dependent => :destroy
     
-  named_scope :features, :conditions => ["feature = ?", true]
-  named_scope :featured, :conditions => ["feature = ?", true]
-  named_scope :active, :conditions =>["active = ?", true], :order => "position"  
-  named_scope :not_featured, :conditions => ["feature = ?", false], :order => "position"
-  named_scope :by_type_position, :order => "blog_type_id, position" 
-  named_scope :for_type, lambda{|blog| {:conditions => ["blog_type_id = ? ", blog.blog_type_id]}}
-  named_scope :of_type, lambda{|blog_type| {:conditions => ["blog_type_id = ? ", blog_type.id]}}
-  named_scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id]}}
-  named_scope :for_app, lambda{|app| {:conditions => ["coop_app_id = ? ", app.id]}}
+  scope :features, :conditions => ["feature = ?", true]
+  scope :featured, :conditions => ["feature = ?", true]
+  scope :active, :conditions =>["active = ?", true], :order => "position"
+  scope :not_featured, :conditions => ["feature = ?", false], :order => "position"
+  scope :by_type_position, :order => "blog_type_id, position"
+  scope :for_type, lambda{|blog| {:conditions => ["blog_type_id = ? ", blog.blog_type_id]}}
+  scope :of_type, lambda{|blog_type| {:conditions => ["blog_type_id = ? ", blog_type.id]}}
+  scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id]}}
+  scope :for_app, lambda{|app| {:conditions => ["coop_app_id = ? ", app.id]}}
     
   validates_presence_of :title
 

@@ -12,16 +12,16 @@ class TltSurveyResponse < ActiveRecord::Base
   belongs_to :user_dle_plan
   belongs_to :survey_schedule
   
-  named_scope :of_score, lambda{|score| {:conditions => ["score = ? ", score]}}
-  named_scope :comments_of_score, lambda{|score| {:conditions => ["score = ? AND comment!= ? ", score, ""]}}
-  named_scope :for_audience, lambda{|audience| {:conditions => ["tlt_survey_audience_id = ? ", audience.id]}} 
-  named_scope :for_type, lambda{|s_type| {:conditions => ["tlt_survey_type_id = ? ", s_type.id]}} 
-  named_scope :for_user, lambda{|user| {:conditions => ["user_id = ? ", user.id]}} 
-  named_scope :for_question, lambda{|question| {:conditions => ["tlt_survey_question_id = ? ", question.id]}} 
-  named_scope :for_organization, lambda{|org| {:conditions => ["organization_id = ? ", org.id]}}
-  named_scope :between, lambda{|start_date, end_date| {:conditions => ["created_at >= ? AND created_at <= ?", start_date, end_date]}}
+  scope :of_score, lambda{|score| {:conditions => ["score = ? ", score]}}
+  scope :comments_of_score, lambda{|score| {:conditions => ["score = ? AND comment!= ? ", score, ""]}}
+  scope :for_audience, lambda{|audience| {:conditions => ["tlt_survey_audience_id = ? ", audience.id]}}
+  scope :for_type, lambda{|s_type| {:conditions => ["tlt_survey_type_id = ? ", s_type.id]}}
+  scope :for_user, lambda{|user| {:conditions => ["user_id = ? ", user.id]}}
+  scope :for_question, lambda{|question| {:conditions => ["tlt_survey_question_id = ? ", question.id]}}
+  scope :for_organization, lambda{|org| {:conditions => ["organization_id = ? ", org.id]}}
+  scope :between, lambda{|start_date, end_date| {:conditions => ["created_at >= ? AND created_at <= ?", start_date, end_date]}}
 
-  named_scope :ilt_sessions,  {:conditions => ["!tlt_session_id = ? ", nil]}
-  named_scope :pd_plans,  {:conditions => ["!user_dle_plan_id = ? ", nil]}
-  named_scope :diagnostics,  {:conditions => ["!tlt_diagnostic_id = ? ", nil]} 
+  scope :ilt_sessions,  {:conditions => ["!tlt_session_id = ? ", nil]}
+  scope :pd_plans,  {:conditions => ["!user_dle_plan_id = ? ", nil]}
+  scope :diagnostics,  {:conditions => ["!tlt_diagnostic_id = ? ", nil]}
 end

@@ -17,9 +17,10 @@ class Address < ActiveRecord::Base
   
   validates_format_of :city, :with => /^[\w\s'-`]+$/, :message => 'not valid', :allow_nil => false
   
-  named_scope :physical, :conditions => {:address_type_id => AddressType.physical}
-  
-  def after_initialize
+  scope :physical, :conditions => {:address_type_id => AddressType.physical}
+
+  after_initialize :after_initialize_method
+  def after_initialize_method
     if self.address_type.nil?
       self.address_type = AddressType.physical
     end

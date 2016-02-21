@@ -9,11 +9,11 @@ class Discussion < ActiveRecord::Base
   
   has_many  :reported_abuses, :class_name => "ReportedAbuse", :as => :entity, :dependent => :destroy
   
-  named_scope :suspended, :conditions => ["is_suspended = ?", true]
+  scope :suspended, :conditions => ["is_suspended = ?", true]
   
-  named_scope :active, :conditions => ["!is_suspended"]
+  scope :active, :conditions => ["!is_suspended"]
   
-  named_scope :parent_id_blank, :conditions => ["parent_id IS NULL"]
+  scope :parent_id_blank, :conditions => ["parent_id IS NULL"]
   
   cattr_reader :per_page
   @@per_page = 10

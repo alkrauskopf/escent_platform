@@ -4,5 +4,5 @@ class UserDlePlanMetric < ActiveRecord::Base
   belongs_to :user_dle_plan
   belongs_to :dle_metric
 
-    named_scope :for_metric,  lambda{|metric | {:conditions => ["dle_metric_id = ?", metric.id]}}
+    scope :for_metric,  lambda{|metric | {:conditions => ["dle_metric_id = ?", metric.id]}}
 end

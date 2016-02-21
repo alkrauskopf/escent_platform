@@ -7,6 +7,6 @@ class ActScoreRangeContent < ActiveRecord::Base
   has_many :contents
   has_many :act_score_ranges
  
-  named_scope :for_mastery_level, lambda{|mstr| {:conditions => ["act_score_range_id = ? ", mstr.id]}}
+  scope :for_mastery_level, lambda{|mstr| {:conditions => ["act_score_range_id = ? ", mstr.id]}}
 
 end

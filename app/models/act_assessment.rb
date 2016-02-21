@@ -19,13 +19,13 @@ class ActAssessment < ActiveRecord::Base
   validates_presence_of :name
 
 
-  named_scope :calibrated, :conditions => { :is_calibrated => true }
-  named_scope :unlocked, :conditions => { :is_locked => false }
-  named_scope :locked, :conditions => { :is_locked => true }  
-  named_scope :for_subject, lambda{| subject| {:conditions => ["act_subject_id = ?", subject.id]}} 
-  named_scope :active, :conditions => { :is_active => true }
-  named_scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}} 
-  named_scope :until, lambda{| end_date| {:conditions => ["created_at <= ?", end_date]}} 
+  scope :calibrated, :conditions => { :is_calibrated => true }
+  scope :unlocked, :conditions => { :is_locked => false }
+  scope :locked, :conditions => { :is_locked => true }
+  scope :for_subject, lambda{| subject| {:conditions => ["act_subject_id = ?", subject.id]}}
+  scope :active, :conditions => { :is_active => true }
+  scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}}
+  scope :until, lambda{| end_date| {:conditions => ["created_at <= ?", end_date]}}
 
   def question_pool_for(user)
     question_pool = self.act_subject.act_questions.active rescue []

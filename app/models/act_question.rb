@@ -32,19 +32,19 @@ class ActQuestion < ActiveRecord::Base
   validates_presence_of :question_type, :message => ': SELECT ANSWER TYPE' 
   validates_length_of :question, :within => 1..25500, :message => 'Invalid Length Of Question'  
 
-  named_scope :unlocked, :conditions => { :is_locked => false }
-  named_scope :locked, :conditions => { :is_locked => true }  
-  named_scope :calibrated, :conditions => { :is_calibrated => true }
-  named_scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
-  named_scope :for_mastery_level, lambda{|mstr| {:conditions => ["act_score_range_id = ? ", mstr.id]}}
-  named_scope :using_reading, lambda{|reading| {:conditions => ["act_rel_reading_id = ? ", reading.id]}}
-  named_scope :active, :conditions => { :is_active => true }
-  named_scope :available_for_user, lambda{|user| {:conditions => ["(is_active AND is_locked) OR user_id = ? ", user.id]}}
-  named_scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}} 
-  named_scope :until, lambda{| end_date| {:conditions => ["created_at <= ?", end_date]}} 
-  named_scope :for_teacher, lambda{| teacher| {:conditions => ["teacher_id = ?", teacher.id]}} 
+  scope :unlocked, :conditions => { :is_locked => false }
+  scope :locked, :conditions => { :is_locked => true }
+  scope :calibrated, :conditions => { :is_calibrated => true }
+  scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
+  scope :for_mastery_level, lambda{|mstr| {:conditions => ["act_score_range_id = ? ", mstr.id]}}
+  scope :using_reading, lambda{|reading| {:conditions => ["act_rel_reading_id = ? ", reading.id]}}
+  scope :active, :conditions => { :is_active => true }
+  scope :available_for_user, lambda{|user| {:conditions => ["(is_active AND is_locked) OR user_id = ? ", user.id]}}
+  scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}}
+  scope :until, lambda{| end_date| {:conditions => ["created_at <= ?", end_date]}}
+  scope :for_teacher, lambda{| teacher| {:conditions => ["teacher_id = ?", teacher.id]}}
   
-  named_scope :available, {:conditions => ["is_active = true && is_locked = true"]}
+  scope :available, {:conditions => ["is_active = true && is_locked = true"]}
   
   def score_range(std)
     self.act_score_ranges.select{|r| r.act_master_id == std.id}.first rescue nil

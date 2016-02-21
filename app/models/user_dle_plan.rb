@@ -13,10 +13,10 @@ class UserDlePlan < ActiveRecord::Base
     
   has_attached_file :attach, :path => ":rails_root/public/dle_library/:id/:basename.:extension", :url => "/dle_library/:id/:basename.:extension"
 
-  named_scope :current, :conditions => ["is_current"]
-  named_scope :still_open, :conditions => ["date_finalized IS NULL"]
-  named_scope :by_plan_number, :order => 'plan'
-  named_scope :for_package,  lambda{|id | {:conditions => ["plan = ?", id]}}
+  scope :current, :conditions => ["is_current"]
+  scope :still_open, :conditions => ["date_finalized IS NULL"]
+  scope :by_plan_number, :order => 'plan'
+  scope :for_package,  lambda{|id | {:conditions => ["plan = ?", id]}}
 
 
   def new_stage

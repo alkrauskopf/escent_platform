@@ -22,9 +22,9 @@ class ActMaster < ActiveRecord::Base
   
   
      
-  named_scope :national, :conditions => { :is_national => true}  
-  named_scope :act, :conditions => { :abbrev => "ACT"}  
-  named_scope :all, :order => "abbrev" 
+  scope :national, :conditions => { :is_national => true}
+  scope :act, :conditions => { :abbrev => "ACT"}
+  scope :all, :order => "abbrev"
 
 
   def sms_for_period(entity, subject,period, h_threshold, calibrated)

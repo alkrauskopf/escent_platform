@@ -1,8 +1,8 @@
 class Classroom < ActiveRecord::Base
   include PublicPersona
     
-  named_scope :active, :conditions => {:status=> "active"}
-  named_scope :archived, :conditions => {:status=> "archived"}
+  scope :active, :conditions => {:status=> "active"}
+  scope :archived, :conditions => {:status=> "archived"}
 
   has_many :topics, :dependent => :destroy
 
@@ -49,12 +49,12 @@ class Classroom < ActiveRecord::Base
   validates_presence_of :subject_area_id, :message => 'must be defined.  ' 
   validates_presence_of :course_name, :message => 'must be defined.  '
   
-  named_scope :on_subject, lambda{|subject| {:conditions => ["subject_area_id = ? ", subject.id], :order => "course_name"}}
-  named_scope :active, :conditions => ["status = ? ", "active"], :order => "course_name"
-  named_scope :open, :conditions => ["is_open = ? ", true]
-  named_scope :closed, :conditions => ["is_open = ? ", false]
+  scope :on_subject, lambda{|subject| {:conditions => ["subject_area_id = ? ", subject.id], :order => "course_name"}}
+  scope :active, :conditions => ["status = ? ", "active"], :order => "course_name"
+  scope :open, :conditions => ["is_open = ? ", true]
+  scope :closed, :conditions => ["is_open = ? ", false]
  
-  named_scope :with_course_names, lambda { |keywords, options|
+  scope :with_course_names, lambda { |keywords, options|
     condition_strings = []
     conditions = []
     keywords.parse_keywords.each do |keyword| 
@@ -70,7 +70,7 @@ class Classroom < ActiveRecord::Base
   }
   
 
-  named_scope :with_subject_areas, lambda { |keywords, options|
+  scope :with_subject_areas, lambda { |keywords, options|
     condition_strings = []
     conditions = []
     keywords.parse_keywords.each do |keyword| 
@@ -82,7 +82,7 @@ class Classroom < ActiveRecord::Base
     {:conditions => conditions, :include => :subject_area, :order => order_by}
   }
   
-    named_scope :with_organizations, lambda { |keywords, options|
+    scope :with_organizations, lambda { |keywords, options|
     condition_strings = []
     conditions = []
     

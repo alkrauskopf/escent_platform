@@ -7,7 +7,7 @@ class TlActivityType < ActiveRecord::Base
   belongs_to :tlt_diagnostic_lesson  
   belongs_to :app_method
   
-  named_scope :by_position, :order => "seq_num"
+  scope :by_position, :order => "seq_num"
 
 
 

@@ -21,11 +21,11 @@ class ActBench < ActiveRecord::Base
   validates_presence_of :act_score_range_id
   validates_presence_of :act_bench_type_id
 
-  named_scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id]}}
-  named_scope :for_strand, lambda{|strand| {:conditions => ["act_standard_id = ? ", strand.id]}}
-  named_scope :for_mastery_level, lambda{|level| {:conditions => ["act_score_range_id = ? ", level.id]}}
-  named_scope :for_type, lambda{|btype| {:conditions => ["act_bench_type_id = ? ", btype.id]}}
-  named_scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
+  scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id]}}
+  scope :for_strand, lambda{|strand| {:conditions => ["act_standard_id = ? ", strand.id]}}
+  scope :for_mastery_level, lambda{|level| {:conditions => ["act_score_range_id = ? ", level.id]}}
+  scope :for_type, lambda{|btype| {:conditions => ["act_bench_type_id = ? ", btype.id]}}
+  scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
 
 
  end  

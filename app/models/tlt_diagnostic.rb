@@ -10,6 +10,6 @@ class TltDiagnostic < ActiveRecord::Base
   has_many :tlt_diagnostic_lessons, :dependent => :destroy
   has_many   :survey_schedules, :as => :entity, :dependent => :destroy    
 
-  named_scope :for_subject, lambda{|subj| {:conditions => ["subject_area_id = ? ", subj.id]}}
+  scope :for_subject, lambda{|subj| {:conditions => ["subject_area_id = ? ", subj.id]}}
   
 end

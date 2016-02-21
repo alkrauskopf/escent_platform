@@ -4,9 +4,9 @@ class DleResource < ActiveRecord::Base
   belongs_to :organization
   belongs_to  :content
 
-  named_scope :featured, :conditions => ["is_featured"]
-  named_scope :by_position, :order => 'position'
-  named_scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id]}}
+  scope :featured, :conditions => ["is_featured"]
+  scope :by_position, :order => 'position'
+  scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id]}}
 
  
   def sequence_resources

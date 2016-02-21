@@ -2,14 +2,13 @@ class OrganizationType < ActiveRecord::Base
  
   acts_as_tree
 
- has_many :organizations
- has_many :itl_summaries 
- has_many :grade_levels 
-
+  has_many :organizations
+  has_many :itl_summaries
+  has_many :grade_levels
   has_many  :elt_cases, :through => :organizations
 
-  named_scope :schools,   :conditions => ["has_size"]
-  named_scope :k12,   :conditions => ["is_k12"]
+  scope :schools,   :conditions => ["has_size"]
+  scope :k12,   :conditions => ["is_k12"]
   
   validates_presence_of :name
 

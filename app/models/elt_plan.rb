@@ -6,10 +6,10 @@ class EltPlan < ActiveRecord::Base
   
   has_many :elt_plan_actions, :dependent => :destroy
   
-  named_scope :open, :conditions => ["is_open"]
-  named_scope :for_cycle, lambda{|cycle| {:conditions => ["elt_cycle_id = ?", cycle.id]}}
-  named_scope :for_provider, lambda{|provider| {:include => :elt_cycle, :conditions => ["elt_cycles.organization_id = ?", provider.id], :order => "elt_plans.updated_at DESC"}}
-  named_scope :for_framework, lambda{|framework| {:include => :elt_cycle, :conditions => ["elt_cycles.elt_framework_id = ?", framework.id], :order => "elt_plans.updated_at DESC"}}
+  scope :open, :conditions => ["is_open"]
+  scope :for_cycle, lambda{|cycle| {:conditions => ["elt_cycle_id = ?", cycle.id]}}
+  scope :for_provider, lambda{|provider| {:include => :elt_cycle, :conditions => ["elt_cycles.organization_id = ?", provider.id], :order => "elt_plans.updated_at DESC"}}
+  scope :for_framework, lambda{|framework| {:include => :elt_cycle, :conditions => ["elt_cycles.elt_framework_id = ?", framework.id], :order => "elt_plans.updated_at DESC"}}
 
 
   def open?

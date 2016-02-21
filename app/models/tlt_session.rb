@@ -21,29 +21,29 @@ class TltSession < ActiveRecord::Base
   has_many :app_methods, :through => :tlt_session_app_methods
   has_many :survey_schedules, :as => :entity, :dependent => :destroy  
 
-  named_scope :final, :conditions => { :is_final => true}
-  named_scope :open, :conditions => { :is_final => false}
-  named_scope :backlog, :conditions => { :is_final => false}
-  named_scope :observer_done, :conditions => { :is_observer_done => true}
-  named_scope :teacher_done, :conditions => { :is_teacher_done => true}
-  named_scope :observer_backlog, :conditions => { :is_observer_done => false}
-  named_scope :teacher_backlog, :conditions => { :is_teacher_done => false}    
-  named_scope :completed, :conditions => { :logs_are_closed => true}
-  named_scope :of_video, {:conditions => ["content_id >= ?", 1]}  
-  named_scope :practice, :conditions => { :is_training => true} 
-  named_scope :not_practice, :conditions => { :is_training => false}
-  named_scope :blackbelt, :include => :itl_belt_rank, :conditions => ["itl_belt_rank.rank = ?", "black"]
-  named_scope :whitebelt, :include => :itl_belt_rank, :conditions => ["itl_belt_rank.rank = ?", "white"]
+  scope :final, :conditions => { :is_final => true}
+  scope :open, :conditions => { :is_final => false}
+  scope :backlog, :conditions => { :is_final => false}
+  scope :observer_done, :conditions => { :is_observer_done => true}
+  scope :teacher_done, :conditions => { :is_teacher_done => true}
+  scope :observer_backlog, :conditions => { :is_observer_done => false}
+  scope :teacher_backlog, :conditions => { :is_teacher_done => false}
+  scope :completed, :conditions => { :logs_are_closed => true}
+  scope :of_video, {:conditions => ["content_id >= ?", 1]}
+  scope :practice, :conditions => { :is_training => true}
+  scope :not_practice, :conditions => { :is_training => false}
+  scope :blackbelt, :include => :itl_belt_rank, :conditions => ["itl_belt_rank.rank = ?", "black"]
+  scope :whitebelt, :include => :itl_belt_rank, :conditions => ["itl_belt_rank.rank = ?", "white"]
 
   
-  named_scope :for_subject, lambda{|subject| {:conditions => ["subject_area_id = ? ", subject.id], :order => "created_at DESC"}}
-  named_scope :for_observer, lambda{|observer| {:conditions => ["tracker_id = ? ", observer.id], :order => "created_at DESC"}}
-  named_scope :for_teacher, lambda{|teacher| {:conditions => ["user_id = ? ", teacher.id], :order => "created_at DESC"}}
-  named_scope :for_belt, lambda{|belt| {:conditions => ["itl_belt_rank_id = ? ", belt.id], :order => "created_at DESC"}}
-  named_scope :for_user, lambda{|teacher| {:conditions => ["user_id = ? OR tracker_id =?", teacher.id, teacher.id], :order => "created_at DESC"}}
-  named_scope :since_date, lambda{|begin_date| {:conditions => ["session_date >= ? ", begin_date], :order => "session_date ASC"}}  
-  named_scope :before_date, lambda{|end_date| {:conditions => ["session_date <= ? ", end_date], :order => "session_date ASC"}}  
-  named_scope :between_dates, lambda{|begin_date,end_date| {:conditions => ["session_date >= ? AND session_date <= ? ", begin_date, end_date], :order => "session_date ASC"}}  
+  scope :for_subject, lambda{|subject| {:conditions => ["subject_area_id = ? ", subject.id], :order => "created_at DESC"}}
+  scope :for_observer, lambda{|observer| {:conditions => ["tracker_id = ? ", observer.id], :order => "created_at DESC"}}
+  scope :for_teacher, lambda{|teacher| {:conditions => ["user_id = ? ", teacher.id], :order => "created_at DESC"}}
+  scope :for_belt, lambda{|belt| {:conditions => ["itl_belt_rank_id = ? ", belt.id], :order => "created_at DESC"}}
+  scope :for_user, lambda{|teacher| {:conditions => ["user_id = ? OR tracker_id =?", teacher.id, teacher.id], :order => "created_at DESC"}}
+  scope :since_date, lambda{|begin_date| {:conditions => ["session_date >= ? ", begin_date], :order => "session_date ASC"}}
+  scope :before_date, lambda{|end_date| {:conditions => ["session_date <= ? ", end_date], :order => "session_date ASC"}}
+  scope :between_dates, lambda{|begin_date,end_date| {:conditions => ["session_date >= ? AND session_date <= ? ", begin_date, end_date], :order => "session_date ASC"}}
 
 
   validates_numericality_of :students, :greater_than_or_equal_to => 0, :message => 'Attendance Must Be Zero Or Greater' 

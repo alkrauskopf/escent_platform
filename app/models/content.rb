@@ -57,20 +57,20 @@ class Content < ActiveRecord::Base
   has_attached_file :source_file, :path => ":rails_root/public/resourcelibrary/:id/:style/:basename.:extension", :url => "/resourcelibrary/:id/:style/:basename.:extension"
   has_attached_file :source_file_preview, :path => ":rails_root/public/resourcelibrary/:id/:style/:basename.:extension", :url => "/resourcelibrary/:id/:style/:basename.:extension" , :styles => {:thumb => "41x41>", :med_thumb => "90x90>"}
 
-  named_scope :active, :conditions => { :is_delete => false}
-  named_scope :deleted, :conditions => { :is_delete => true }
-  named_scope :trash, :conditions => { :is_delete => true }
-  named_scope :available, {:include => :content_status, :conditions =>  ["content_statuses.name = ?", "Available"]}
-  named_scope :available_and_restricted, {:include => :content_status, :conditions =>  ["content_statuses.name = ? OR content_statuses.name = ?", "Available", "Restricted"]}
-  named_scope :confidential, {:include => :content_status, :conditions =>  ["content_statuses.name = ?", "Confidential"]}
-  named_scope :embed_code, {:include => :content_object_type, :conditions =>  "content_object_types.content_object_type_group_id" == 4 }
-  named_scope :for_ctl, :conditions =>  ["subject_area_id = ?", 7]
-  named_scope :for_subject, lambda{|subject| {:conditions => ["subject_area_id = ? ", subject.id], :order => "created_at DESC"}}
-  named_scope :for_user, lambda{|user| {:conditions => ["user_id = ? ", user.id], :order => "updated_at DESC"}}
-  named_scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id], :order => "updated_at DESC"}}
-  named_scope :for_type, lambda{|type| {:conditions => ["content_resource_type_id = ? ", type.id], :order => "updated_at DESC"}}
+  scope :active, :conditions => { :is_delete => false}
+  scope :deleted, :conditions => { :is_delete => true }
+  scope :trash, :conditions => { :is_delete => true }
+  scope :available, {:include => :content_status, :conditions =>  ["content_statuses.name = ?", "Available"]}
+  scope :available_and_restricted, {:include => :content_status, :conditions =>  ["content_statuses.name = ? OR content_statuses.name = ?", "Available", "Restricted"]}
+  scope :confidential, {:include => :content_status, :conditions =>  ["content_statuses.name = ?", "Confidential"]}
+  scope :embed_code, {:include => :content_object_type, :conditions =>  "content_object_types.content_object_type_group_id" == 4 }
+  scope :for_ctl, :conditions =>  ["subject_area_id = ?", 7]
+  scope :for_subject, lambda{|subject| {:conditions => ["subject_area_id = ? ", subject.id], :order => "created_at DESC"}}
+  scope :for_user, lambda{|user| {:conditions => ["user_id = ? ", user.id], :order => "updated_at DESC"}}
+  scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id], :order => "updated_at DESC"}}
+  scope :for_type, lambda{|type| {:conditions => ["content_resource_type_id = ? ", type.id], :order => "updated_at DESC"}}
 
-  named_scope :with_keywords_and_type, lambda { |keywords, type, options|
+  scope :with_keywords_and_type, lambda { |keywords, type, options|
     condition_strings = []
     conditions = []
     
@@ -107,7 +107,7 @@ class Content < ActiveRecord::Base
     {:conditions => conditions, :include => [{:organization => :religious_affiliation}, :subject_area, :content_resource_type, :user, {:content_object_type => :content_object_type_group}], :order => order_by}
   }
 
-  named_scope :with_keywords, lambda { |keywords, options|
+  scope :with_keywords, lambda { |keywords, options|
     condition_strings = []
     conditions = []
 #
@@ -143,7 +143,7 @@ class Content < ActiveRecord::Base
   }
   
   
-    named_scope :with_subjects, lambda { |keywords, options|
+    scope :with_subjects, lambda { |keywords, options|
     condition_strings = []
     conditions = []
  
@@ -160,7 +160,7 @@ class Content < ActiveRecord::Base
   
   
   
-  named_scope :with_organizations, lambda { |keywords, options|
+  scope :with_organizations, lambda { |keywords, options|
     condition_strings = []
     conditions = []
     
@@ -180,9 +180,10 @@ class Content < ActiveRecord::Base
     {:conditions => conditions, :include => [:organization, {:content_object_type => :content_object_type_group}], :order => order_by}
   }
   
-  named_scope :with_content_upload_source, lambda { |source_id| { :conditions => { :content_upload_source_id => source_id } } }
-  
-  def after_initialize
+  scope :with_content_upload_source, lambda { |source_id| { :conditions => { :content_upload_source_id => source_id } } }
+
+  after_initialize :after_initialize_method
+  def after_initialize_method
     unless self.publish_start_date
       self.publish_start_date = Time.now
     end

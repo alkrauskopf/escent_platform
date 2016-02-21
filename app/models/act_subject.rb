@@ -22,7 +22,7 @@ class ActSubject < ActiveRecord::Base
   has_many :student_subject_demographics
   has_many :co_csap_ranges
         
-  named_scope :no_na, {:conditions => ["name != ?", "-na-"]}
+  scope :no_na, {:conditions => ["name != ?", "-na-"]}
   
 end
 

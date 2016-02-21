@@ -7,6 +7,6 @@ class ActQuestionActStandard < ActiveRecord::Base
   has_many :act_standards
   has_many :act_questions
   
-  named_scope :for_strand, lambda{|strand| {:conditions => ["act_standard_id = ? ", strand.id]}}
+  scope :for_strand, lambda{|strand| {:conditions => ["act_standard_id = ? ", strand.id]}}
 
 end

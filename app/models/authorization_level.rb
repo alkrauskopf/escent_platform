@@ -9,7 +9,7 @@ class AuthorizationLevel < ActiveRecord::Base
   has_many :users, :through => :authorizations 
   has_many :applicable_scopes
 
-  named_scope :favorite, :conditions => ["name = ?", "favorite"]
+  scope :favorite, :conditions => ["name = ?", "favorite"]
   
   
   def self.superuser

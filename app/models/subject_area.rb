@@ -19,11 +19,11 @@ class SubjectArea < ActiveRecord::Base
         
   validates_presence_of :name
 
-  named_scope :top, :conditions => ["parent_id IS NULL"], :order => "name"
-  named_scope :pd, :conditions => ["name = ?","Professional Development"]
-  named_scope :core, :conditions => ["parent_id IS NULL AND is_core AND is_academic"], :order => "name"
-  named_scope :noncore, :conditions => ["parent_id IS NULL AND !is_core AND is_academic"], :order => "name"
-  named_scope :academic, :conditions => ["is_academic"], :order => "name"
+  scope :top, :conditions => ["parent_id IS NULL"], :order => "name"
+  scope :pd, :conditions => ["name = ?","Professional Development"]
+  scope :core, :conditions => ["parent_id IS NULL AND is_core AND is_academic"], :order => "name"
+  scope :noncore, :conditions => ["parent_id IS NULL AND !is_core AND is_academic"], :order => "name"
+  scope :academic, :conditions => ["is_academic"], :order => "name"
   
   def self.auto_complete_on(query)
     SubjectArea.find(:all, :conditions => ["name LIKE ?", '%' + query + '%'], :order => "name")

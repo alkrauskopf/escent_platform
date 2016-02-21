@@ -8,7 +8,7 @@ class ActSnapshot < ActiveRecord::Base
   belongs_to :organization
   belongs_to :act_master
   
-  named_scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id]}}
+  scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id]}}
 
 
 end

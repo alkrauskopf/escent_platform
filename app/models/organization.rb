@@ -121,24 +121,27 @@ class Organization < ActiveRecord::Base
   validates_format_of :phone, :with => /^\d{3}-{1}\d{3}-{1}\d{4}$/, :message => 'not valid, format XXX-XXX-XXXX', 
   :allow_nil => false       
   
-  has_attached_file :logo, :styles => { :normal => "315x170" , :small_thumb => "74x40>", :med_thumb => "111x60>", :thumb=>"148x80>" }, :default_style => :normal
-  
-  validates_attachment_content_type :logo, :content_type => ["image/gif", "image/jpeg", "image/png", "image/pjpeg", "image/x-png"]
-  validate :logo_width
+  has_attached_file :logo, :styles => { :normal => '315x170' , :small_thumb => '74x40>', :med_thumb => '111x60>', :thumb=>'148x80>' }, :default_style => :normal
+
+ # validates_attachment :logo, content_type: { content_type: "image/gif" "image/jpeg" "image/png" "image/pjpeg" "image/x-png"}
+  validates_attachment_content_type :logo, :content_type => ['image/gif' 'image/jpeg' 'image/png' 'image/pjpeg' 'image/x-png']
+  # validate :logo_width
 
   accepts_nested_attributes_for :organization_relationships
 
 
-  named_scope :siblings_of, lambda{|org| { :conditions => ["parent_id AND parent_id = ?", org.parent_id], :order => "name" }} 
+  scope :siblings_of, lambda{|org| { :conditions => ["parent_id AND parent_id = ?", org.parent_id], :order => "name" }}
 
-  named_scope :of_type, lambda{|org| { :conditions => ["organization_type_id = ? ", org.organization_type_id], :order => "name" }} 
-  named_scope :with_type_id, lambda{|type_id| { :conditions => ["organization_type_id = ? ", type_id], :order => "name" }} 
+  scope :of_type, lambda{|org| { :conditions => ["organization_type_id = ? ", org.organization_type_id], :order => "name" }}
+  scope :with_type_id, lambda{|type_id| { :conditions => ["organization_type_id = ? ", type_id], :order => "name" }}
 
-  named_scope :ep_default,   {:conditions =>  ["is_default = ?", true], :order => "created_at DESC"}
-  named_scope :all_parents,   :conditions => ["parent_id IS NULL AND !is_default"]
-  named_scope :active,   :conditions => ["status_id = ?", 1]
+  scope :ep_default,   {:conditions =>  ["is_default = ?", true], :order => "created_at DESC"}
+  scope :all_parents,   :conditions => ["parent_id IS NULL AND !is_default"]
+  scope :active,   :conditions => ["status_id = ?", 1]
 
-  named_scope :with_names, lambda { |keywords, options|
+  scope :with_user_auth, lambda{|user, auth| {:conditions => ['(authorizations.user_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ? AND status_id = ?)', user.id, 'Organization', auth.id, 1],:include => :authorizations,  :order => 'name'}}
+
+  scope :with_names, lambda { |keywords, options|
     condition_strings = []
     conditions = []
     keywords.parse_keywords.each do |keyword| 
@@ -150,20 +153,25 @@ class Organization < ActiveRecord::Base
     order_by = (options[:order] || "organizations.name")    
     {:conditions => conditions, :order => order_by}
   }
-  
-  def before_save
- #   if self.roles.empty?
- #     Role::BuiltinOrganizationRoles.each do |role_name|
- #       self.roles << Role.new(:name => role_name, :user_id => 1)
- #     end
- #   end
+
+  before_save :before_save_method
+  def before_save_method
     if self.default_address.nil? && !self.addresses.empty?
       self.default_address = self.addresses.first
     end
-
     set_page_section_default
   end
- 
+
+  after_initialize :after_initialize_method
+  def after_initialize_method
+    if self.status.nil?
+      self.status = Status.approved
+    end
+    if self.organization_type.nil?
+      self.organization_type = OrganizationType.affiliate
+    end
+  end
+
   DEFAULT_CALL_TO_ACTION = "<p><img src= '\/images\/call_to.jpg' \/><\/p><p>Click [Admin] and edit [Call To Action] module.<\/p>"
   DEFAULT_FOLLOWUP = "<p><img src= '\/images\/followup.jpg' \/><\/p><p>Click [Admin] and edit [WHAT WE HAVE DONE] module.<\/p>"
   
@@ -176,17 +184,7 @@ class Organization < ActiveRecord::Base
       self.page_sections << PageSection.new(:page => "index" , :section => "followup" , :body => DEFAULT_FOLLOWUP)
     end
   end
-  
-  def after_initialize
-    if self.status.nil?
-      self.status = Status.approved
-#     self.status = Status.pending_approval
-    end
-    
-    if self.organization_type.nil?
-      self.organization_type = OrganizationType.affiliate
-    end
-  end
+
 
   def reset
     Organization.find_by_id(self.id) rescue self
@@ -815,16 +813,16 @@ class Organization < ActiveRecord::Base
     Regexp.new("(content_partners|cause_partners)")
   end
   
-  def respond_to?(method)
-    method_name = method.to_s
-    updater_re, getter_re, partner_re = self.prepare_regexps
-    if method_name.match(updater_re) || method_name.match(getter_re)
-      true
-    else
-      super
-    end
-  end
-  
+   def respond_to?(method, foo = nil)
+     method_name = method.to_s
+     updater_re, getter_re, partner_re = self.prepare_regexps
+     if method_name.match(updater_re) || method_name.match(getter_re)
+       true
+     else
+       super
+     end
+   end
+
   def method_missing(method, *args)
     method_name = method.to_s
     

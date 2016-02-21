@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
   
   validates_presence_of :first_name
   validates_presence_of :last_name
-#  validates_presence_of :postal_code
+ # validates_presence_of :postal_code
   validates_presence_of :email_address
   validates_presence_of :preferred_email
   validates_presence_of :password, :if => :password_required?
@@ -190,21 +190,21 @@ class User < ActiveRecord::Base
 
   AuthorizationLevelNames = AuthorizationLevel.all.collect{|al| al.name}
   
-  named_scope :not_students, :conditions => ["is_student = ?", false], :order => "last_name"
-  named_scope :students, :conditions => ["is_student = ?", true], :order => "last_name"
-  named_scope :with_email, lambda{|email| {:conditions => ["email_address = ? ", email]}}
-  named_scope :with_preferred_email, lambda{|email| {:conditions => ["preferred_email = ? ", email]}}
-  named_scope :with_alt_login, lambda{|email| {:conditions => ["alt_login = ? ", email]}}
-  named_scope :by_name_asc, :order => "last_name asc"
-  named_scope :by_name_desc, :order => "last_name desc"
-  named_scope :by_register_asc, :order => "created_at asc"
-  named_scope :by_register_desc, :order => "created_at desc"
-  named_scope :by_last_logon_asc, :order => "last_logon asc"
-  named_scope :by_last_logon_desc, :order => "last_logon desc"
-  named_scope :active, :conditions => ["is_suspended = ?", false]
-  named_scope :suspended, :conditions => ["is_suspended = ?", true]
+  scope :not_students, :conditions => ["is_student = ?", false], :order => "last_name"
+  scope :students, :conditions => ["is_student = ?", true], :order => "last_name"
+  scope :with_email, lambda{|email| {:conditions => ["email_address = ? ", email]}}
+  scope :with_preferred_email, lambda{|email| {:conditions => ["preferred_email = ? ", email]}}
+  scope :with_alt_login, lambda{|email| {:conditions => ["alt_login = ? ", email]}}
+  scope :by_name_asc, :order => "last_name asc"
+  scope :by_name_desc, :order => "last_name desc"
+  scope :by_register_asc, :order => "created_at asc"
+  scope :by_register_desc, :order => "created_at desc"
+  scope :by_last_logon_asc, :order => "last_logon asc"
+  scope :by_last_logon_desc, :order => "last_logon desc"
+  scope :active, :conditions => ["is_suspended = ?", false]
+  scope :suspended, :conditions => ["is_suspended = ?", true]
     
-  named_scope :with_names, lambda { |keywords, options|
+  scope :with_names, lambda { |keywords, options|
     condition_strings = []
     conditions = []
     keywords.parse_keywords.each do |keyword| 
@@ -217,7 +217,7 @@ class User < ActiveRecord::Base
     {:conditions => conditions, :order => order_by}
   }
  
-  named_scope :with_roles, lambda { |keywords, options|
+  scope :with_roles, lambda { |keywords, options|
     condition_strings = []
     conditions = []
     keywords.parse_keywords.each do |keyword| 
@@ -229,7 +229,7 @@ class User < ActiveRecord::Base
     {:conditions => conditions, :include => "roles", :order => order_by}
   }
 
-  named_scope :with_talent, lambda { |keywords, options|
+  scope :with_talent, lambda { |keywords, options|
     condition_strings = []
     conditions = []
     keywords.parse_keywords.each do |keyword| 
@@ -246,12 +246,18 @@ class User < ActiveRecord::Base
     {:conditions => conditions, :include => ["talents", "roles"], :order => order_by}
   }
   
-  named_scope :with_organizations, lambda { |keywords, options|
+  scope :with_organizations, lambda { |keywords, options|
     role_ids = Organization.with_names(keywords,{}).collect{|o| o.roles.collect{|r| r.id}}.flatten
     order_by = (options[:order] || "last_name, first_name")    
     {:conditions => ["role_memberships.role_id IN (?)", role_ids], :include => [ :role_memberships], :order => order_by}
   }
-  
+
+  before_save :before_save_method
+  def before_save_method
+    self.last_name = self.last_name.strip.titleize.delete(" ")
+    self.first_name = self.first_name.strip.humanize
+  end
+
   def self.generate_password(length = 10)
     #generate a random password consisting of strings and digits
     chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
@@ -259,14 +265,18 @@ class User < ActiveRecord::Base
     1.upto(length) { |i| password << chars[rand(chars.size-1)] }
     password
   end
-  
-  def before_save
-     self.last_name = self.last_name.strip.titleize.delete(" ")
-     self.first_name = self.first_name.strip.humanize
+
+  after_initialize :after_initialize_method
+  def after_initialize_method
   end
-  
-  def after_initialize
- #    self.country = "US" if self.country.nil?
+
+  validate :validate_method
+  def validate_method
+    unless self.email_address.blank?
+      unless self.has_valid_email_address?(:verify_domain => false)
+        errors.add(:email_address, "is invalid")
+      end
+    end
   end
 
   def home_organization
@@ -287,13 +297,11 @@ class User < ActiveRecord::Base
   
   def favorite_organizations
     authorization_level = AuthorizationLevel.find_by_name("friend")
-    Organization.find(:all, :conditions => ["(authorizations.user_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ? AND status_id = ?)", self.id, "Organization", authorization_level.id, 1], :include => "authorizations", :order => "name")
+    Organization.with_user_auth(self, authorization_level)
   end
 
   def favorite_other_organizations
-    authorization_level = AuthorizationLevel.find_by_name("friend")
-    favs = Organization.find(:all, :conditions => ["(authorizations.user_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ? AND status_id = ?)", self.id, "Organization", authorization_level.id, 1], :include => "authorizations", :order => "name")
-    self.organization.nil? ? favs : favs.select{|o| o.id != self.organization_id}
+    self.organization.nil? ? self.favorite_organizations : self.favorite_organizations.select{|o| o.id != self.organization_id}
   end
 
   def my_schools
@@ -588,14 +596,6 @@ class User < ActiveRecord::Base
       @mx.size > 0
     else
       true
-    end
-  end
-  
-  def validate
-    unless self.email_address.blank?
-      unless self.has_valid_email_address?(:verify_domain => false)
-        errors.add(:email_address, "is invalid")
-      end
     end
   end
   
@@ -1114,15 +1114,15 @@ class User < ActiveRecord::Base
     return Regexp.new("(#{authorization_level_names})_of\\?"), Regexp.new("add_as_(#{authorization_level_names})_to"), Regexp.new("remove_as_(#{authorization_level_names})_from")
   end
   
-  def respond_to?(method)
-    method_name = method.to_s
-    of_re, add_as_re, remove_as_re = self.prepare_regexps
-    if method_name.match(of_re) || method_name.match(add_as_re) || method_name.match(remove_as_re)
-      true
-    else
-      super
-    end
-  end
+   def respond_to?(method, foo=nil)
+     method_name = method.to_s
+     of_re, add_as_re, remove_as_re = self.prepare_regexps
+     if method_name.match(of_re) || method_name.match(add_as_re) || method_name.match(remove_as_re)
+       true
+     else
+       super
+     end
+   end
   
   def method_missing(method, *args)
     method_name = method.to_s

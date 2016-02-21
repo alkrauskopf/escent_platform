@@ -24,14 +24,14 @@ class Topic < ActiveRecord::Base
   
   accepts_nested_attributes_for :setting_values
 
-  # named_scope :active,  :conditions => ["publish_starts_at <= ? AND (publish_ends_at IS NULL OR publish_ends_at > ?)", Time.now, Time.now], :order => "title"
-  named_scope :active, :order => "title"
-  named_scope :pending, :conditions => ["(publish_starts_at > ? OR publish_starts_at IS NULL)", Time.now], :order => "title"
-  named_scope :closed,  :conditions => ["publish_ends_at <= ?", Time.now], :order => "title"
-  named_scope :estimated_active,  :conditions => ["estimated_end_date >= ?", Time.now], :order => "title"
-  named_scope :estimated_closed,  :conditions => ["estimated_end_date <= ?", Time.now], :order => "title"
-  named_scope :searchable, :conditions => {:searchable => true}
-  named_scope :open,  :conditions => ["is_open = ?", true], :order => "estimated_start_date"
+  # scope :active,  :conditions => ["publish_starts_at <= ? AND (publish_ends_at IS NULL OR publish_ends_at > ?)", Time.now, Time.now], :order => "title"
+  scope :active, :order => "title"
+  scope :pending, :conditions => ["(publish_starts_at > ? OR publish_starts_at IS NULL)", Time.now], :order => "title"
+  scope :closed,  :conditions => ["publish_ends_at <= ?", Time.now], :order => "title"
+  scope :estimated_active,  :conditions => ["estimated_end_date >= ?", Time.now], :order => "title"
+  scope :estimated_closed,  :conditions => ["estimated_end_date <= ?", Time.now], :order => "title"
+  scope :searchable, :conditions => {:searchable => true}
+  scope :open,  :conditions => ["is_open = ?", true], :order => "estimated_start_date"
 
   validates_presence_of :title
   validates_presence_of :estimated_start_date, :message => "Please Define An Estimated Start & End Date."
@@ -42,7 +42,7 @@ class Topic < ActiveRecord::Base
   #SettingOptions = [{:label => "Who may contribute", :options => PermissionToContributeOptions}, {:label => "Moderation", :options => ModerationOptions}]
   SettingOptions = [{:label => "Who may contribute", :options => PermissionToContributeOptions}]
   
-  named_scope :with_organizations, lambda { |keywords, options|
+  scope :with_organizations, lambda { |keywords, options|
     condition_strings = []
     conditions = []
     keywords.parse_keywords.each do |keyword| 
@@ -54,7 +54,7 @@ class Topic < ActiveRecord::Base
     {:conditions => conditions, :include => :organization, :order => order_by}
   }
   
-  named_scope :with_titles, lambda { |keywords, options|
+  scope :with_titles, lambda { |keywords, options|
     condition_strings = []
     conditions = []
     keywords.parse_keywords.each do |keyword| 

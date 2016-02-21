@@ -7,10 +7,10 @@ class OrganizationClient < ActiveRecord::Base
   has_many :client_assignments, :dependent => :destroy
   has_many :consultants, :through => :client_assignments, :order => "last_name"
 
-  named_scope :for_client, lambda{|client| {:conditions => ["client_id = ? ", client.id]}}
-  named_scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id]}}
+  scope :for_client, lambda{|client| {:conditions => ["client_id = ? ", client.id]}}
+  scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id]}}
 
-  named_scope :active, {:conditions =>["is_active = ?", true]}
+  scope :active, {:conditions =>["is_active = ?", true]}
 
 
 end

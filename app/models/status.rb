@@ -1,6 +1,6 @@
 class Status < ActiveRecord::Base
 
-  named_scope :approval,   :conditions => { :name => "Approved" }
+  scope :approval,   :conditions => { :name => "Approved" }
 
 
   def self.approved

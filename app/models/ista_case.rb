@@ -14,11 +14,11 @@ class IstaCase < ActiveRecord::Base
   validates_numericality_of :case_teachers, :greater_than_or_equal_to => 0.0, :message => ' Must Be Zero Or Greater' 
 
 
-  named_scope :active, :conditions => ["is_active"], :order => 'final_date DESC'
-  named_scope :final, :conditions => ["is_final"], :order => 'final_date DESC'
-  named_scope :archived, :conditions => ["is_archived"], :order => 'final_date DESC'
-  named_scope :open, :conditions => ["!is_final"], :order => 'created_at DESC'
-  named_scope :last_first, :order => 'created_at DESC'
+  scope :active, :conditions => ["is_active"], :order => 'final_date DESC'
+  scope :final, :conditions => ["is_final"], :order => 'final_date DESC'
+  scope :archived, :conditions => ["is_archived"], :order => 'final_date DESC'
+  scope :open, :conditions => ["!is_final"], :order => 'created_at DESC'
+  scope :last_first, :order => 'created_at DESC'
   
   def final?
     self.is_final

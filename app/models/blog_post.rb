@@ -12,13 +12,13 @@ class BlogPost < ActiveRecord::Base
 
   has_attached_file :picture, :path => ":rails_root/public/blog_posts_images/:id/:basename.:extension", :url => "/blog_posts_images/:id/:basename.:extension"
 
-  named_scope :for_blog, lambda{|blog| {:conditions => ["blog_id = ? ", blog.id]}}
-  named_scope :featured, :conditions => ["is_featured = ?", true]
-  named_scope :active, :conditions =>["is_active = ?", true], :order => "position"  
-  named_scope :not_featured, :conditions => ["is_featured = ?", false], :order => "position"
-  named_scope :by_position, :order => "position" 
-  named_scope :for_user, lambda{|user| {:conditions => ["user_id = ? ", user.id], :order => "created_at DESC"}}
-  named_scope :for_panelist, lambda{|panelist| {:conditions => ["user_id = ? ", panelist.id], :order => "created_at DESC"}}
+  scope :for_blog, lambda{|blog| {:conditions => ["blog_id = ? ", blog.id]}}
+  scope :featured, :conditions => ["is_featured = ?", true]
+  scope :active, :conditions =>["is_active = ?", true], :order => "position"
+  scope :not_featured, :conditions => ["is_featured = ?", false], :order => "position"
+  scope :by_position, :order => "position"
+  scope :for_user, lambda{|user| {:conditions => ["user_id = ? ", user.id], :order => "created_at DESC"}}
+  scope :for_panelist, lambda{|panelist| {:conditions => ["user_id = ? ", panelist.id], :order => "created_at DESC"}}
 
   
   def to_param  # overridden

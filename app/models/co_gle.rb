@@ -8,6 +8,6 @@ class CoGle < ActiveRecord::Base
   belongs_to :co_grade_level
   
   
-  named_scope :for_strand, lambda{|strand| {:conditions => ["act_standard_id = ? ", strand.id]}}
+  scope :for_strand, lambda{|strand| {:conditions => ["act_standard_id = ? ", strand.id]}}
   
 end

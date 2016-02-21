@@ -5,18 +5,19 @@ class Role < ActiveRecord::Base
   has_many :users, :through => :role_memberships
   has_many :authorization_levels
   
-  named_scope :associates, :conditions => {:name => "Associates"}
-  named_scope :administrator, :conditions => {:name => 'Administrator'}
-  named_scope :member, :conditions => {:name => 'Member'}
-  
+  scope :associates, :conditions => {:name => "Associates"}
+  scope :administrator, :conditions => {:name => 'Administrator'}
+  scope :member, :conditions => {:name => 'Member'}
+
+  before_save :before_save_method
+  def before_save_method
+    self.user_id = 0 unless self.user_id
+  end
+
   # BuiltinOrganizationRoles = ["Associates", "Member", "Moderator", "Administrator"]
-  
+
   def builtin?
     self.user_id == 1
-  end
-  
-  def before_save
-    self.user_id = 0 unless self.user_id
   end
   
   def can_be_deleted?

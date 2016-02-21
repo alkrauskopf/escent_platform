@@ -17,17 +17,17 @@ class EltCase < ActiveRecord::Base
 
   validates_presence_of :name
  
-  named_scope :submitted, :conditions => ["is_submitted"], :order => 'submit_date DESC'
-  named_scope :final, :conditions => ["is_final"], :order => 'finalize_date DESC'
-  named_scope :last_first, :order => 'created_at DESC'
-  named_scope :for_subject, lambda{|subject| {:conditions => ["subject_area_id = ? ", subject.id], :order => "submit_date DESC"}}
-  named_scope :for_grade, lambda{|grade| {:conditions => ["grade_level_id = ? ", grade.id], :order => "submit_date DESC"}}
-  named_scope :for_activity, lambda{|activity| {:conditions => ["elt_type_id = ? ", activity.id], :order => "submit_date DESC"}}
-  named_scope :for_cycle, lambda{|cycle| {:conditions => ["elt_cycle_id = ? ", cycle.id], :order => "submit_date DESC"}}
-  named_scope :for_other_cycles, lambda{|cycle| {:conditions => ["elt_cycle_id != ? ", cycle.id], :order => "submit_date DESC"}}
+  scope :submitted, :conditions => ["is_submitted"], :order => 'submit_date DESC'
+  scope :final, :conditions => ["is_final"], :order => 'finalize_date DESC'
+  scope :last_first, :order => 'created_at DESC'
+  scope :for_subject, lambda{|subject| {:conditions => ["subject_area_id = ? ", subject.id], :order => "submit_date DESC"}}
+  scope :for_grade, lambda{|grade| {:conditions => ["grade_level_id = ? ", grade.id], :order => "submit_date DESC"}}
+  scope :for_activity, lambda{|activity| {:conditions => ["elt_type_id = ? ", activity.id], :order => "submit_date DESC"}}
+  scope :for_cycle, lambda{|cycle| {:conditions => ["elt_cycle_id = ? ", cycle.id], :order => "submit_date DESC"}}
+  scope :for_other_cycles, lambda{|cycle| {:conditions => ["elt_cycle_id != ? ", cycle.id], :order => "submit_date DESC"}}
 
-  named_scope :for_provider, lambda{|provider| {:include => :elt_cycle, :conditions => ["elt_cycles.organization_id = ?", provider.id], :order => "submit_date DESC"}}
-  named_scope :for_framework, lambda{|framework| {:include => :elt_cycle, :conditions => ["elt_cycles.elt_framework_id = ?", framework.id], :order => "submit_date DESC"}}
+  scope :for_provider, lambda{|provider| {:include => :elt_cycle, :conditions => ["elt_cycles.organization_id = ?", provider.id], :order => "submit_date DESC"}}
+  scope :for_framework, lambda{|framework| {:include => :elt_cycle, :conditions => ["elt_cycles.elt_framework_id = ?", framework.id], :order => "submit_date DESC"}}
 
   def framework
     self.elt_type.elt_framework rescue nil

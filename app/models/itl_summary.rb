@@ -9,12 +9,12 @@ class ItlSummary < ActiveRecord::Base
   
   has_many  :itl_summary_strategies, :dependent => :destroy
 
-  named_scope :for_subject, lambda{|subject| {:conditions => ["subject_area_id = ? ", subject.id], :order => "created_at DESC"}}
-  named_scope :since_date, lambda{|begin_date| {:conditions => ["yr_mnth_of >= ? ", begin_date], :order => "yr_mnth_of ASC"}}  
-  named_scope :before_date, lambda{|end_date| {:conditions => ["yr_mnth_of <= ? ", end_date], :order => "yr_mnth_of ASC"}}  
-  named_scope :between_dates, lambda{|begin_date,end_date| {:conditions => ["yr_mnth_of >= ? AND yr_mnth_of <= ? ", begin_date, end_date], :order => "yr_mnth_of ASC"}}  
-  named_scope :for_belt, lambda{|belt| {:conditions => ["itl_belt_rank.id = ? ", belt.id], :order => "yr_mnth_of ASC"}}  
-  named_scope :belt_score_min, lambda{|score| {:conditions => ["itl_belt_rank.rank_score >= ? ", score], :include => "itl_belt_rank", :order => "yr_mnth_of ASC"}}  
+  scope :for_subject, lambda{|subject| {:conditions => ["subject_area_id = ? ", subject.id], :order => "created_at DESC"}}
+  scope :since_date, lambda{|begin_date| {:conditions => ["yr_mnth_of >= ? ", begin_date], :order => "yr_mnth_of ASC"}}
+  scope :before_date, lambda{|end_date| {:conditions => ["yr_mnth_of <= ? ", end_date], :order => "yr_mnth_of ASC"}}
+  scope :between_dates, lambda{|begin_date,end_date| {:conditions => ["yr_mnth_of >= ? AND yr_mnth_of <= ? ", begin_date, end_date], :order => "yr_mnth_of ASC"}}
+  scope :for_belt, lambda{|belt| {:conditions => ["itl_belt_rank.id = ? ", belt.id], :order => "yr_mnth_of ASC"}}
+  scope :belt_score_min, lambda{|score| {:conditions => ["itl_belt_rank.rank_score >= ? ", score], :include => "itl_belt_rank", :order => "yr_mnth_of ASC"}}
 
 
 

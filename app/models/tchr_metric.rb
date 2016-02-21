@@ -6,8 +6,8 @@ class TchrMetric < ActiveRecord::Base
   has_many :tchr_options, :through => :tchr_option_metrics
 
 
-  named_scope :for_teacher, :conditions => { :for_teacher => true }
-  named_scope :for_classroom, :conditions => { :for_classroom => true }  
-  named_scope :by_month, :conditions => { :by_month => true }
+  scope :for_teacher, :conditions => { :for_teacher => true }
+  scope :for_classroom, :conditions => { :for_classroom => true }
+  scope :by_month, :conditions => { :by_month => true }
   
 end

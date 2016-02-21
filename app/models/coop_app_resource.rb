@@ -4,11 +4,11 @@ class CoopAppResource < ActiveRecord::Base
   belongs_to  :content
   belongs_to  :coop_app
  
-  named_scope :featured, :conditions => ["is_featured"]
-  named_scope :by_position, :order => 'position'
-  named_scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id]}}
-  named_scope :for_app, lambda{|app| {:conditions => ["coop_app_id = ? ", app.id]}}
-  named_scope :for_content, lambda{|res| {:conditions => ["content_id = ? ", res.id]}}
+  scope :featured, :conditions => ["is_featured"]
+  scope :by_position, :order => 'position'
+  scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id]}}
+  scope :for_app, lambda{|app| {:conditions => ["coop_app_id = ? ", app.id]}}
+  scope :for_content, lambda{|res| {:conditions => ["content_id = ? ", res.id]}}
 
   def sequence_resources
     app = self.coop_app

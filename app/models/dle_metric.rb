@@ -7,6 +7,6 @@ class DleMetric < ActiveRecord::Base
   has_many :user_dle_plan_metrics, :dependent => :destroy
   has_many :user_dle_plan, :through => :user_dle_plan_metrics
 
-  named_scope :all_by_position, :order => "position"
+  scope :all_by_position, :order => "position"
 
 end

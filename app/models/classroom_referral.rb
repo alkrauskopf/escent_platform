@@ -8,7 +8,7 @@ class ClassroomReferral < ActiveRecord::Base
   has_many :topics
   has_many :classrooms
   
-  named_scope :for_topic, lambda{| topic| {:conditions => ["topic_id = ?", topic.id]}} 
-  named_scope :for_offering, lambda{| offering| {:conditions => ["classroom_id = ?", offering.id]}} 
+  scope :for_topic, lambda{| topic| {:conditions => ["topic_id = ?", topic.id]}}
+  scope :for_offering, lambda{| offering| {:conditions => ["classroom_id = ?", offering.id]}}
 
 end

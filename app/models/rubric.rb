@@ -6,12 +6,12 @@ class Rubric < ActiveRecord::Base
   has_many :elt_case_indicators
   has_many :elt_plans
 
-  named_scope :active, :conditions => ["is_active"], :order => "position"
-  named_scope :lacking, :conditions => ["abbrev = ?", "L"]
-  named_scope :proficient, :conditions => ["abbrev = ?", "P"]
-  named_scope :emerging, :conditions => ["abbrev = ?", "E"]
-  named_scope :exemplary, :conditions => ["abbrev = ?", "X"]  
-  named_scope :by_score, :order => "score"
+  scope :active, :conditions => ["is_active"], :order => "position"
+  scope :lacking, :conditions => ["abbrev = ?", "L"]
+  scope :proficient, :conditions => ["abbrev = ?", "P"]
+  scope :emerging, :conditions => ["abbrev = ?", "E"]
+  scope :exemplary, :conditions => ["abbrev = ?", "X"]
+  scope :by_score, :order => "score"
 
   validates_numericality_of :score, :greater_than_or_equal_to => 0, :message => 'must >= 0.  '
   validates_numericality_of :position, :greater_than_or_equal_to => 0, :message => 'must >= 0.  '

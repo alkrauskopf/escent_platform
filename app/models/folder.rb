@@ -15,10 +15,10 @@ class Folder < ActiveRecord::Base
   has_many :folder_folderables, :dependent => :destroy
   has_many :folder_positions, :dependent => :destroy
   
-  named_scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id], :order=>'name'}}
-  named_scope :for_app, lambda{|app| {:conditions => ["coop_app_id = ? ", app.id], :order=>'name'}}
-  named_scope :all_parents,   :conditions => ["parent_id IS NULL"], :order=>'name'
-  named_scope :by_position,   :include  => [:folder_positions], :order=>'folder_positions.position'
+  scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id], :order=>'name'}}
+  scope :for_app, lambda{|app| {:conditions => ["coop_app_id = ? ", app.id], :order=>'name'}}
+  scope :all_parents,   :conditions => ["parent_id IS NULL"], :order=>'name'
+  scope :by_position,   :include  => [:folder_positions], :order=>'folder_positions.position'
   
   validates_presence_of :name
 

@@ -14,17 +14,18 @@ class TransactionStatus < ActiveRecord::Base
     transaction_status_names = TransactionStatusNames.join('|')
     return Regexp.new("(#{transaction_status_names})\\?"), Regexp.new("(#{transaction_status_names})")
   end
-  
-  def respond_to?(method)
-    method_name = method.to_s
-    comparison_re, get_re = self.class.prepare_regexps
-    if method_name.match(comparison_re)
-      true
-    else
-      super
-    end
-  end
-  
+
+
+  def respond_to?(method, foo = nil)
+     method_name = method.to_s
+     comparison_re, get_re = self.class.prepare_regexps
+     if method_name.match(comparison_re)
+       true
+     else
+       super
+     end
+   end
+
   def method_missing(method, *args)
     method_name = method.to_s
     comparison_re, get_re = self.class.prepare_regexps
@@ -35,8 +36,8 @@ class TransactionStatus < ActiveRecord::Base
       super
     end
   end
-  
-  def self.respond_to?(method)
+
+  def self.respond_to?(method, foo = nil)
     method_name = method.to_s
     comparison_re, get_re = self.prepare_regexps
     if method_name.match(get_re)

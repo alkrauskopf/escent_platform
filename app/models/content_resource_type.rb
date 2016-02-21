@@ -8,7 +8,7 @@ class ContentResourceType < ActiveRecord::Base
   
  validates_presence_of :name
 
- named_scope :ctl, :conditions => ["name = ?","Time & Learning"]
+ scope :ctl, :conditions => ["name = ?","Time & Learning"]
 
   
   def self.auto_complete_on(query)

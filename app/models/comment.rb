@@ -5,7 +5,7 @@ class Comment < ActiveRecord::Base
   validates_presence_of :user_name
   validates_presence_of :body
 
-  named_scope :last_first, :order => 'created_at DESC'
+  scope :last_first, :order => 'created_at DESC'
   
   def user_info
     "#{user.fullname + ":" rescue nil}#{created_at}"

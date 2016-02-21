@@ -14,18 +14,18 @@ class TltSurveyType < ActiveRecord::Base
   has_many   :survey_instructions, :dependent => :destroy
   has_many   :tlt_survey_audiences, :through => :survey_instructions
   
-  named_scope :general,   :conditions => { :abbrev => "GNRL" }
-  named_scope :post_conference,   :conditions => { :abbrev => "POST" } 
-  named_scope :observation,   :conditions => { :abbrev => "OBS" }  
-  named_scope :process,   :conditions => { :abbrev => "PROC" } 
-  named_scope :reflective,   :conditions => { :abbrev => "REF" }
-  named_scope :progress,   :conditions => { :abbrev => "PROG" }
-  named_scope :readiness,   :conditions => { :abbrev => "READY" }    
-  named_scope :pre,   :conditions => { :abbrev => "PRE" }
-  named_scope :disc,   :conditions => { :abbrev => "DISC" }
-  named_scope :learn,   :conditions => { :abbrev => "LEARN" }
-  named_scope :post,   :conditions => { :abbrev => "POST" }
-  named_scope :feedback,   :conditions => { :abbrev => "FEED" }
+  scope :general,   :conditions => { :abbrev => "GNRL" }
+  scope :post_conference,   :conditions => { :abbrev => "POST" }
+  scope :observation,   :conditions => { :abbrev => "OBS" }
+  scope :process,   :conditions => { :abbrev => "PROC" }
+  scope :reflective,   :conditions => { :abbrev => "REF" }
+  scope :progress,   :conditions => { :abbrev => "PROG" }
+  scope :readiness,   :conditions => { :abbrev => "READY" }
+  scope :pre,   :conditions => { :abbrev => "PRE" }
+  scope :disc,   :conditions => { :abbrev => "DISC" }
+  scope :learn,   :conditions => { :abbrev => "LEARN" }
+  scope :post,   :conditions => { :abbrev => "POST" }
+  scope :feedback,   :conditions => { :abbrev => "FEED" }
 
   def notify_default(audience)
     SurveyInstruction.for_type(self).for_audience(audience).first.is_notify rescue false

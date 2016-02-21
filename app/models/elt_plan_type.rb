@@ -6,8 +6,8 @@ class EltPlanType < ActiveRecord::Base
 
   has_many :rubrics, :as => :scope, :order => "position", :dependent => :destroy
 
-  named_scope :active, :conditions => ["is_active"]
-  named_scope :school_plan, :conditions => ["abbrev = ?", "SCHOOL"]
+  scope :active, :conditions => ["is_active"]
+  scope :school_plan, :conditions => ["abbrev = ?", "SCHOOL"]
   
   def active?
     self.is_active

@@ -16,15 +16,15 @@ class CreateTltDashboards < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :tlt_dashboards, :tlt_session_id
-    add_index :tlt_dashboards, :user_id
-    add_index :tlt_dashboards, :tracker_id
-    add_index :tlt_dashboards, :classroom_id
-    add_index :tlt_dashboards, :topic_id
-    add_index :tlt_dashboards, :organization_id
-    add_index :tlt_dashboards, :tl_activity_type_id
-    add_index :tlt_dashboards, :tl_activity_type_task_id
-    add_index :tlt_dashboards, :subject_area_id
+    add_index :tlt_dashboards, :tlt_session_id, :name => 'session'
+    add_index :tlt_dashboards, :user_id, :name => 'user'
+    add_index :tlt_dashboards, :tracker_id, :name => 'tracker'
+    add_index :tlt_dashboards, :classroom_id, :name => 'classroom'
+    add_index :tlt_dashboards, :topic_id, :name => 'topic'
+    add_index :tlt_dashboards, :organization_id, :name => 'organization'
+    add_index :tlt_dashboards, :tl_activity_type_id, :name => 'activity_type'
+    add_index :tlt_dashboards, :tl_activity_type_task_id, :name => 'activity_type_task'
+    add_index :tlt_dashboards, :subject_area_id, :name => 'subject_area'
   end
 
   def self.down

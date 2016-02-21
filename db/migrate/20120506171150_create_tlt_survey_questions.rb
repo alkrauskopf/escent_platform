@@ -11,8 +11,8 @@ class CreateTltSurveyQuestions < ActiveRecord::Migration
       t.timestamps
     end
     add_index :tlt_survey_questions, :organization_id
-    add_index :tlt_survey_questions, :user_id
-    add_index :tlt_survey_questions, :tlt_range_type_id
+    add_index :tlt_survey_questions, :user_id, :name => 'user'
+    add_index :tlt_survey_questions, :tlt_range_type_id, :name => 'range_type'
   end
 
   def self.down

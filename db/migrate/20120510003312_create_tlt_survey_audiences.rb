@@ -7,8 +7,8 @@ class CreateTltSurveyAudiences < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :tlt_survey_audiences, :coop_app_id
-    add_index :tlt_survey_audiences, :organization_id    
+    add_index :tlt_survey_audiences, :coop_app_id, :name => 'coop_app'
+    add_index :tlt_survey_audiences, :organization_id, :name => 'organization'
  
   end
 

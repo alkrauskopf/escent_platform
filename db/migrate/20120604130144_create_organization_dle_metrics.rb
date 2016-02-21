@@ -7,7 +7,7 @@ class CreateOrganizationDleMetrics < ActiveRecord::Migration
 
       t.timestamps
     end
-  add_index :organization_dle_metrics, [:organization_id, :dle_metric_id]
+  add_index :organization_dle_metrics, [:organization_id, :dle_metric_id], :name=>'org_metric'
 
   end
 

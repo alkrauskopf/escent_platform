@@ -1,8 +1,8 @@
 class AddIndexToLog < ActiveRecord::Migration
   def self.up
 
-    add_index :tlt_session_logs, :involve_score
-    add_index :tlt_session_logs, :impact_score
+    add_index :tlt_session_logs, :involve_score, :name => 'involve_score'
+    add_index :tlt_session_logs, :impact_score, :name => 'impact_score'
 
   end
 

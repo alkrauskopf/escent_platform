@@ -5,9 +5,9 @@ class AddSurceyTypeToSurveyQuestions < ActiveRecord::Migration
 
 
     add_index :tlt_survey_questions, :tlt_survey_audience_id
-    add_index :tlt_survey_responses, :tlt_survey_audience_id
+    add_index :tlt_survey_responses, :tlt_survey_audience_id, :name => 'response_audience'
     add_index :tlt_survey_questions, :tlt_survey_type_id
-    add_index :tlt_survey_responses, :tlt_survey_type_id
+    add_index :tlt_survey_responses, :tlt_survey_type_id, :name => 'response_type'
     
     execute "UPDATE tlt_survey_questions SET tlt_survey_type_id = 1" 
     execute "UPDATE tlt_survey_responses SET tlt_survey_type_id = 1"

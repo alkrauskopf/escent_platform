@@ -3,7 +3,7 @@ class AddDiagColSurveyResp < ActiveRecord::Migration
 
    add_column :tlt_survey_responses, :tlt_diagnostic_id, :integer
 
-   add_index :tlt_survey_responses, :tlt_diagnostic_id
+   add_index :tlt_survey_responses, :tlt_diagnostic_id, :name => 'diagnsotic'
 
   end
 

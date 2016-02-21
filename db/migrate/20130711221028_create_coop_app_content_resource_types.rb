@@ -7,7 +7,7 @@ class CreateCoopAppContentResourceTypes < ActiveRecord::Migration
       t.timestamps
     end
     add_index :coop_app_content_resource_types, :coop_app_id
-    add_index :coop_app_content_resource_types, :content_resource_type_id
+    add_index :coop_app_content_resource_types, :content_resource_type_id, :name => 'resource_type'
   end
 
   def self.down

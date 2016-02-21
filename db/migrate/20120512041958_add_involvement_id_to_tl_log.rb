@@ -3,7 +3,7 @@ class AddInvolvementIdToTlLog < ActiveRecord::Migration
     
    add_column :tlt_session_logs, :tl_student_involvement_id, :integer
 
-    add_index :tlt_session_logs, :tl_student_involvement_id
+    add_index :tlt_session_logs, :tl_student_involvement_id, :name => 'involvement'
  
   end
 

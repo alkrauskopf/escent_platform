@@ -1,7 +1,7 @@
 class AddIndexDropTargets < ActiveRecord::Migration
   def self.up
     drop_table :dle_targets
-    add_index :organization_dle_metrics, [:dle_metric_id, :organization_id]
+    add_index :organization_dle_metrics, [:dle_metric_id, :organization_id], :name => 'metric_org'
   end
 
   def self.down

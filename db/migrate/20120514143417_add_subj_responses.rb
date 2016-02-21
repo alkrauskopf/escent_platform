@@ -4,8 +4,8 @@ class AddSubjResponses < ActiveRecord::Migration
    add_column :tlt_survey_responses, :subject_area_id, :integer
    add_column :tlt_survey_responses, :organization_id, :integer
  
-   add_index :tlt_survey_responses, :subject_area_id
-   add_index :tlt_survey_responses, :organization_id
+   add_index :tlt_survey_responses, :subject_area_id, :name => 'subject'
+   add_index :tlt_survey_responses, :organization_id, :name => 'organization'
   end
 
   def self.down

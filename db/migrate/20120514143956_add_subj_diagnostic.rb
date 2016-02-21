@@ -4,8 +4,8 @@ class AddSubjDiagnostic < ActiveRecord::Migration
    add_column :tlt_diagnostics, :subject_area_id, :integer
    add_column :tlt_diagnostics, :organization_id, :integer
  
-   add_index :tlt_diagnostics, :subject_area_id
-   add_index :tlt_diagnostics, :organization_id
+   add_index :tlt_diagnostics, :subject_area_id, :name => 'subject'
+   add_index :tlt_diagnostics, :organization_id, :name => 'organization'
 
   end
 

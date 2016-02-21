@@ -3,7 +3,6 @@ class CreateAppMethodLogRatings < ActiveRecord::Migration
     create_table :app_method_log_ratings do |t|
       t.integer :app_method_id
       t.string :label, :limit => 10
-      t.score :integer
 
       t.timestamps
     end

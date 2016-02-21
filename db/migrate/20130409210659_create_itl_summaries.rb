@@ -12,9 +12,8 @@ class CreateItlSummaries < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :itl_summaries, [:user_id, :year_month, :subject_area_id, :organization_id], :name => "user_period_subject_org"
+
     add_index :itl_summaries, [:organization_id, :year_month, :subject_area_id], :name => "org_period_subject"
-    add_index :itl_summaries, [:organization_type_id, :year_month, :subject_area_id], :name => "orgtype_period_subject"
 
   end
 

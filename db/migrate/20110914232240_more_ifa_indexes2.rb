@@ -18,15 +18,15 @@ class MoreIfaIndexes2 < ActiveRecord::Migration
     add_index :act_choices, :is_correct
     
     # add_index :act_question_act_score_ranges, :act_score_range_id
-    add_index :act_question_act_score_ranges, :act_question_id    
+    # add_index :act_question_act_score_ranges, :act_question_id
 
-    add_index :act_question_act_standards, :act_standard_id
-    add_index :act_question_act_standards, :act_question_id
+    # add_index :act_question_act_standards, :act_standard_id
+    # add_index :act_question_act_standards, :act_question_id
     
     add_index :act_question_readings, :act_question_id, :uniq => true   
-    add_index :act_questions, :act_subject_id    
+    # add_index :act_questions, :act_subject_id
     add_index :act_questions, :act_rel_reading_id
-    add_index :act_questions, :user_id    
+    # add_index :act_questions, :user_id
     add_index :act_questions, :organization_id
     add_index :act_questions, :is_calibrated   
     add_index :act_questions, :is_locked 

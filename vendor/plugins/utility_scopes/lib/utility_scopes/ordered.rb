@@ -7,7 +7,7 @@ module UtilityScopes
       
       base.class_eval do
         # Provide an ordered scope
-        named_scope(:ordered, lambda { |*order|
+        scope(:ordered, lambda { |*order|
           { :order => case
             when order.empty?
               self.default_ordering
@@ -47,7 +47,7 @@ module UtilityScopes
       def ordered_by(clause)
         # Override named scope on AR::Base so we can access default_ordering
         # on subclass
-        named_scope(:ordered, lambda { |*order|
+        scope(:ordered, lambda { |*order|
           { :order => case
             when order.empty?
               self.default_ordering

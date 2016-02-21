@@ -22,7 +22,7 @@ module UtilityScopes
     module ClassMethods
       
       # Must be a class method called directly on AR::Base subclasses
-      # so named_scope knows who its base class, and thus, table_name
+      # so scope knows who its base class, and thus, table_name
       # and primary_key are.
       def attach_except_utility_scope
       
@@ -31,7 +31,7 @@ module UtilityScopes
         # Example: 
         #   before   Article.all.reject{|a| a == @bad_article }
         #   after    Article.except(@bad_article)
-        named_scope :except, lambda { |item_or_list|
+        scope :except, lambda { |item_or_list|
           # nil or empty array causes issues here with mysql
           item_or_list.blank? ? {} : {:conditions => ["#{quoted_table_name}.#{primary_key} NOT IN (?)", item_or_list]}
         }

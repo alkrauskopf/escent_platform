@@ -8,3 +8,5 @@ public/blog_posts_images/*
 public/homeworklibrary/*
 public/resourcelibrary/*
 public/system/*
+
+db/schema.rb

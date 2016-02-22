@@ -32,12 +32,24 @@ class ActMaster < ActiveRecord::Base
     self.find(:first, :conditions =>["abbrev = ?", std]) rescue nil
   end
 
+  def lowest_upper_score(subject)
+    self.act_score_ranges.for_subject_no_na(subject).collect{|sr| sr.upper_score}.min
+  end
+
+  def standard_scoring(entity, subject, period_end, calibrated)
+    pct_score = IfaQuestionLog.period_score(entity, subject, period_end, calibrated)
+    score = self.lowest_upper_score(subject)
+    if pct_score > 0.25
+      min_max_score = ActSubmission.min_max_score(entity, subject, period_end, self)
+      score = self.lowest_upper_score(subject) + (pct_score * ((min_max_score[1] - self.lowest_upper_score(subject)).to_f)).to_i
+    end
+    score
+  end
+
   def sms_for_period(entity, subject, period_end, h_threshold, calibrated)
     standard_scoring = true
     if standard_scoring
-      pct_score = IfaQuestionLog.period_score(entity, subject, period_end, calibrated)
-      min_max_score = ActSubmission.min_max_score(entity, subject, period_end, self)
-      final_score = min_max_score[0] + (pct_score * ((min_max_score[1] - min_max_score[0]).to_f)).to_i
+      final_score = self.standard_scoring(entity, subject,period_end, calibrated)
     else
       ranges = ActScoreRange.for_standard(self).for_subject(subject).no_na.sort{|a,b| b.upper_score <=> a.upper_score}
       if ranges.size > 0

@@ -689,8 +689,6 @@
        end    # end of Question loop
      end
      if submission_complete && !@submission.organization.nil?
-
-
        @submission.update_attributes params[:tot_points => @submission.total_points, :tot_choices => @submission.total_choices]
        @submitted_answers = @submission.act_answers
        ActSubmissionScore.destroy_all(["act_submission_id = ?", @submission.id])rescue nil
@@ -700,12 +698,13 @@
          std_score.act_submission_id = @submission.id
          std_score.act_master_id = mstr.id
          #  std_score.est_sms = mstr.sms(@submitted_answers,@submission.act_subject_id,0,0, @current_organization.id)
-         std_score.est_sms = @submission.standard_score(mstr)
+         std_score.est_sms = @submission.standard_assessment_score(mstr)
        #  std_score.update_attributes params[:act_submission_score]
          std_score.save
        end
        unless teacher_must_review || !@classroom.ifa_classroom_option.is_ifa_auto_finalize
-         finalize_submission(@submission)
+         @submission.finalize(true, @submission.teacher_id)
+         # finalize_submission(@submission)
        else
          teacher_must_review = true
        end
@@ -857,11 +856,14 @@
      end
      ActSubmission.not_dashboarded(@entity_dashboard.ifa_dashboardable_type, @entity_dashboard.ifa_dashboardable, @entity_dashboard.period_beginning, @entity_dashboard.period_ending).each do |@submission|
        if @entity_dashboard.ifa_dashboardable_type == 'User'
-         auto_ifa_dashboard_update(@submission, @submission.user)
+         @submission.dashboard_it(@submission.user)
+         # auto_ifa_dashboard_update(@submission, @submission.user)
        elsif @entity_dashboard.ifa_dashboardable_type == 'Classroom'
-         auto_ifa_dashboard_update(@submission, @submission.classroom)
+         @submission.dashboard_it(@submission.classroom)
+         # auto_ifa_dashboard_update(@submission, @submission.classroom)
        elsif @entity_dashboard.ifa_dashboardable_type == 'Organization'
-         auto_ifa_dashboard_update(@submission, @submission.organization)
+         @submission.dashboard_it(@submission.organization)
+         # auto_ifa_dashboard_update(@submission, @submission.organization)
        end
      end
      @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
@@ -968,7 +970,8 @@
         end  # end of SA Answer loop
       end  # end of Check for SA credit
       if sa_credits_ok
-          finalize_submission(@submission)
+          @submission.finalize(false, @reviewer.id)
+          #finalize_submission(@submission)
       end
       unless @finalized
         flash[:error] = @submission.errors.full_messages.to_sentence
@@ -1749,18 +1752,13 @@
             end
             submission_ids.each do |sid|
               @submission = ActSubmission.find_by_id(sid) rescue nil
-              if entity_class == "User" && @submission
-                auto_ifa_dashboard_update(@submission, @submission.user)
-              elsif entity_class == "Classroom" && @submission
-                auto_ifa_dashboard_update(@submission, @submission.classroom)
-              else entity_class == "Organization" && @submission
-                auto_ifa_dashboard_update(@submission, @submission.organization)
+              if  !@submission.nil?
+                @submission.dashboard_it(entity_class)
               end
             end       
         end        
      end   # end subject loop       
-  end   
-
+  end
     render :layout => "master"
   end
 
@@ -2554,40 +2552,6 @@ end
    end
   end
 
-     def finalize_submission(submission)
-
-       if submission.organization.ifa_org_option
-         submission.act_assessment.act_questions.each do |quest|
-           log_ifa_question(submission, quest)
-         end   # End Question Loop
-       end
-
-       if @reviewer
-         submission.reviewer_id = @reviewer.id
-       else
-         submission.is_auto_finalized = true
-         submission.reviewer_id = submission.teacher_id
-       end
-       submission.is_final = true
-       submission.is_user_dashboarded = false
-       submission.is_org_dashboarded = false
-       submission.is_classroom_dashboarded = false
-       submission.date_finalized = Time.now
-       submission.tot_points = submission.total_points
-       submission.tot_choices = submission.total_choices
-       submission.act_submission_scores.each do |std|
-         fin_sms = submission.is_auto_finalized ? std.est_sms : submission.standard_score(std.act_master)
-         std.update_attributes(:final_sms => fin_sms)
-       end
-       if submission.update_attributes params[:act_submission]
-         auto_ifa_dashboard_update(submission, submission.user)
-#         auto_ifa_dashboard_update(submission, submission.classroom)
-#         auto_ifa_dashboard_update(submission, submission.organization)
-         @finalized = true
-
-       end
-     end
-
   def log_ifa_question(submission, question)
      existing_question = submission.ifa_question_logs.for_question(question).first rescue nil
         unless existing_question
@@ -2624,7 +2588,8 @@ end
               question_range_student.students += 1
               question_range_student.answers += q_answers
               question_range_student.points += q_earned_points
-              question_range_student.update_attributes(params[:ifa_question_performance])
+              #question_range_student.update_attributes(params[:ifa_question_performance])
+              question_range_student.save
             else
               question_range_student = IfaQuestionPerformance.new
               question_range_student.act_score_range_id = student_range.id
@@ -2647,7 +2612,8 @@ end
               question_range_cal_student.calibrated_students += 1
               question_range_cal_student.calibrated_student_answers += q_answers
               question_range_cal_student.calibrated_student_points += q_earned_points
-              question_range_cal_student.update_attributes(params[:ifa_question_performance])
+              #question_range_cal_student.update_attributes(params[:ifa_question_performance])
+              question_range_cal_student.save
             else
               question_range_cal_student = IfaQuestionPerformance.new
               question_range_cal_student.act_score_range_id = student_calibrated_range.id
@@ -2671,7 +2637,8 @@ end
               question_range_base_student.baseline_students += 1
               question_range_base_student.baseline_answers += q_answers
               question_range_base_student.baseline_points += q_earned_points
-              question_range_base_student.update_attributes(params[:ifa_question_performance])
+              #question_range_base_student.update_attributes(params[:ifa_question_performance])
+              question_range_base_student.save
             else
               question_range_base_student = IfaQuestionPerformance.new
               question_range_base_student.act_score_range_id = student_baseline_range.id

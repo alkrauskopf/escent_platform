@@ -1,7 +1,15 @@
 <div class="clear">
 	<div style="margin-bottom: 10px; font-weight: bold; font-size: 14px; float:left;">Authorization Levels</div>
 
-	<table id="add_authorization" style="width:600px; margin-bottom: 10px; color: #2061a5; margin-left:180px;">
+
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+      jQ('#add_authorization .authorization_levels_close').toggleAuthorizationLevels();
+      jQ('#add_authorization .authorization_levels_open').toggleAuthorizationLevels();
+      jQ("#roles").tablesorter({ headers: { 1: { sorter: false }} });
+    });
+  </script>
+  <table id="add_authorization" style="width:600px; margin-bottom: 10px; color: #2061a5; margin-left:180px;">
 		<tbody>
 				<tr>
 					<td class="authorization_levels_close">
@@ -13,14 +21,6 @@
 		</tbody>
 	</table>
 
-<script type="text/javascript" charset="utf-8">
-jQ(document).ready(function() {
-	jQ('#add_authorization .authorization_levels_close').toggleAuthorizationLevels();
-	jQ('#add_authorization .authorization_levels_open').toggleAuthorizationLevels();	
-  jQ("#roles").tablesorter({ headers: { 1: { sorter: false }} });
-});
-</script>
-
 </div>
 
 <table id="authorization_levels" class="tablesorter">
@@ -30,7 +30,7 @@ jQ(document).ready(function() {
 		</tr>
 	</thead>
 	<tbody>
-		<% for authorization_level in AuthorizationLevel.all(:include => :applicable_scopes, :conditions => ["authorization_levels.name NOT IN ('superuser', 'friend') AND applicable_scopes.name = ?", "Organization"]).sort_by{|a| [a.coop_app_id, a.name]} do -%>
+  <% for authorization_level in AuthorizationLevel.app_authorizations do -%>
 			<% auth_string =   authorization_level.coop_app.abbrev + ": " + authorization_level.name.titleize -%>
 			<tr>
 				<td class="authorization_levels_close">
@@ -40,8 +40,8 @@ jQ(document).ready(function() {
 				</td>
 			</tr>
 		<% end -%>
-		<% @current_organization.owned_apps.each do |app| -%>	
-			<% for authorization_level in AuthorizationLevel.all(:include => :applicable_scopes, :conditions => ["applicable_scopes.name = ?", "CoopApp"]) do -%>
+		<% @current_organization.owned_apps.each do |app| -%>
+      <% for authorization_level in AuthorizationLevel.app_provider_authorizations do -%>
 				<% auth_string =   app.abbrev + ": " + authorization_level.name.titleize -%>
 				<tr>
 					<td class="authorization_levels_close">

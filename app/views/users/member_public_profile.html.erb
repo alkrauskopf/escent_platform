@@ -64,9 +64,9 @@
 			
 
 					<p class="homeorginfo_label"> 
-					<% if @user.home_organization.nil? %> ** Home Organization Removed **
-						<%elsif @user.home_organization.logo.file? %><br/><%= link_to (image_tag @user.home_organization.logo.url :small_thumb), :controller => "/site/site", :action => :static_organization, :organization_id => @user.home_organization -%><% end %>					
-					<% if @user.home_organization %><%=@user.home_organization.name %> 
+					<% if @user.organization.nil? %> ** Home Organization Removed **
+						<%elsif @user.organization.logo.file? %><br/><%= link_to (image_tag @user.organization.logo.url :small_thumb), :controller => "/site/site", :action => :static_organization, :organization_id => @user.organization -%><% end %>
+					<% if @user.organization %><%=@user.organization.name %>
 
 						<div style="width:700px;  font-size: 10px;  ">
 							<% unless @classroom_lead.empty?%>
@@ -138,7 +138,7 @@
 
       <li>
         <a href="#tabs-2"><span class="tab_label">
-		<%= pluralize(@org_connects.size, 'Organization Connection') %></span></a>
+		    <%= pluralize(@org_connects.size, 'Organization Connection') %></span></a>
       </li>
 
 	    <li>
@@ -161,8 +161,7 @@
 			<% for resource in @resource_favs do -%>
 			<% unless resource.nil? %>
 				<tr> 
-				<td width=200 style="vertical-align:middle; font-size: 12px; padding-top:8px; padding-bottom:10px; border:1px solid #ddd;" %>
-				<center>
+				<td width=200 style="text-align:center; vertical-align:middle; font-size: 12px; padding-top:8px; padding-bottom:10px; border:1px solid #ddd;" %>
 				<strong><%= link_to resource.title.titleize,{:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => resource}%></strong><br/>
 
 				<% unless resource.organization.nil? %>
@@ -170,7 +169,6 @@
 					<% elsif resource.organization.name?%><%= link_to resource.organization.name, :controller => "/site/site", :action => :static_organization, :organization_id => resource.organization %>
 					<% end %>
 				<% end %>
-				</center>
 				</td>
 				<td width=510 style=" vertical-align:middle; border:1px solid #ddd;">
 				<span style="color:#C83A14"><center><strong><%= resource.subject_area.name.humanize if resource.subject_area %> <%= resource.content_resource_type.name.humanize if resource.resource_type %></strong></center></span>
@@ -182,15 +180,15 @@
 				<% end %></span></center>			 
 				</td>		
 				<td> 
-				<span style=" align:center; padding-top:10px; vertical-align:middle; font-weight:bold; font-size:10px; border:1px solid #ddd;">
+				<span style=" text-align:center; padding-top:10px; vertical-align:middle; font-weight:bold; font-size:10px; border:1px solid #ddd;">
 				<% unless resource.content_object_type.nil? %>
-				<center><u><%=resource.content_object_type.content_object_type_group.name.downcase %></u><br/>
-				<% end -%>
-				<%= pluralize (resource.views, 'View') %><br/>
-	  			<% unless resource.star_rating.nil?%><%=resource.star_rating.rating %> Rating <br/>
-	  				<%= pluralize (resource.star_rating.votes, 'Vote') %><br/>
+				  <%=resource.content_object_type.content_object_type_group.name.downcase %><br/>
 				<% end %>
-				Favorite Of <%=pluralize(resource.favorite_of.size, 'Person')%></center></span>
+          <%= pluralize(resource.views, 'View') %><br/>
+	  			<% unless resource.star_rating.nil?%><%=resource.star_rating.rating %> Rating <br/>
+	  				<%= pluralize(resource.star_rating.votes, 'Vote') %><br/>
+				<% end %>
+				Favorite Of <%=pluralize(resource.favorite_of.size, 'Person')%></span>
 				</td>
 			</tr>
 			<% end %>	
@@ -201,7 +199,7 @@
    </div>
 	
 
-    <div id="tabs-1" class="favorite_organizations" style="width:900px; margin-left:20;">
+    <div id="tabs-1" class="favorite_organizations" style="width:900px; margin-left:20px;">
 
 		<% if all_classrooms.size.zero?%> <span style="margin-left:50px; font-size:14px; font-weight:normal"><br/>
     		<i> * * No Classroom Connections * * </i></span>
@@ -265,7 +263,7 @@
 	<% end %>				
 	</div>
 
-    <div id="tabs-2" class="favorite_organizations" style="width:900px; margin-left:20;">
+    <div id="tabs-2" class="favorite_organizations" style="width:900px; margin-left:20px;">
 	
 	<% if @org_connects.size.zero?%> <span style="margin-left:50px; font-size:14px; font-weight:normal"><br/>
     	<i> * * No Organization Connections * * </i></span>
@@ -273,50 +271,52 @@
 		<table class="tablesorter" style=" border:1px solid #ddd;">
 		<thead></thead>
 			<tbody>
-			<% @org_connects.compact.each do |auth|%>
-				<% if auth.scope %>
+			<% @org_connects.compact.each do |org|%>
+				<% if org %>
 					<tr> 
 						<td width=20% style="vertical-align:middle; font-size: 12px; padding-top:8px;padding-bttom:10px; border:1px solid #ddd;" %>
 							<center>
-								<% if ( auth.scope.logo.file?) %><%= link_to (image_tag auth.scope.logo.url :thumb), :controller => "/site/site", :action => :static_organization, :organization_id => auth.scope-%> <% end %>
-								<span style="font-size:12px; "><%= link_to auth.scope.name, :controller => "/site/site", :action => :static_organization, :organization_id => auth.scope %> </span>
-								<% if (auth.scope.id == @user.home_org_id) %> <i>  Home Organization  </i><br/><% end %> 
+								<% if ( org.logo.file?) %><%= link_to (image_tag org.logo.url :thumb), :controller => "/site/site", :action => :static_organization, :organization_id => org-%> <% end %>
+								<span style="font-size:12px; "><%= link_to org.name, :controller => "/site/site", :action => :static_organization, :organization_id => org %> </span>
+								<% if (org.id == @user.organization_id) %> <i>  Home Organization  </i><br/><% end %>
 							</center>
 						</td>
 			
 						<td width=20% style="vertical-align:middle; font-size: 12px; padding-top:8px;padding-bttom:10px; border:1px solid #ddd;" %>
 							<center>
 										
-							<% contact_user = User.org_contact(auth.scope.contact_email)%>
+							<% contact_user = User.org_contact(org.contact_email)%>
 							<% if contact_user%> 
 				  				<% unless contact_user.picture.url.split("/").last == "missing.png" %>
 			            		<%= image_tag contact_user.picture.url(:small_thumb) %> <% end %>
 			      			<% end %>
-							 <strong><%= auth.scope.contact_name%><br/></strong>
-							<%= auth.scope.contact_role%><br/>
-							<small><%= auth.scope.contact_email%></small><br/><%= auth.scope.contact_phone%>	
+							 <strong><%= org.contact_name%><br/></strong>
+							<%= org.contact_role%><br/>
+							<small><%= org.contact_email%></small><br/><%= org.contact_phone%>
 							</center>
 						</td>	
 						<td width=20% style="vertical-align:middle; font-size: 10px; padding-top:8px;padding-bttom:10px; border:1px solid #ddd;" %>
 							<strong>
-							<%=pluralize(auth.scope.home_users.size, 'Member')%>	<br/>
-							<%= pluralize(auth.scope.contents.active.size, 'Contribution') %> To The Library <br/>
-							<%= pluralize(auth.scope.classrooms.active.size, 'Classroom')%><br/> 
-							In <%=pluralize(auth.scope.uniq_classroom_subjects.size, 'Subject Area')%><br/>
-							<%=pluralize(auth.scope.org_followers.size,'Follower')%> <br/>
+							<%=pluralize(org.home_users.size, 'Member')%>	<br/>
+							<%= pluralize(org.contents.active.size, 'Contribution') %> To The Library <br/>
+							<%= pluralize(org.classrooms.active.size, 'Classroom')%><br/>
+							In <%=pluralize(org.uniq_classroom_subjects.size, 'Subject Area')%><br/>
+							<%=pluralize(org.org_followers.size,'Follower')%> <br/>
 							</strong>
 						</td>						
 						<td style="vertical-align:middle; font-size: 10px; padding-top:8px;padding-bttom:10px; border:1px solid #ddd;" %>
-							<% if auth.scope.uniq_classroom_subjects.size == 0%> * * No Classrooms * *
-								<% else auth.scope.uniq_classroom_subjects.each do |sub|%>
-									<% courses_on_sub = auth.scope.classrooms_on_subject(sub)%>
-									<% unless courses_on_sub.empty? %>
-										<strong><%= sub %>:&nbsp; &nbsp;</strong>
-										<%courses_on_sub.each do|clsrm| %>
-										<%= link_to clsrm.course_name,{:controller => "site/site", :action => "static_classroom", :organization_id => clsrm.organization, :id => clsrm}%> &nbsp; &nbsp;
-										<% end %><br/>
-									<% end %>
-								<% end %>
+							<% if org.uniq_classroom_subjects.size == 0%>
+                  * * No Classrooms * *
+              <% else %>
+                <% org.uniq_classroom_subjects.each do |sub|%>
+                  <% courses_on_sub = org.classrooms_on_subject(sub)%>
+                  <% unless courses_on_sub.empty? %>
+                    <strong><%= sub %>:&nbsp; &nbsp;</strong>
+                    <%courses_on_sub.each do|clsrm| %>
+                      <%= link_to clsrm.course_name,{:controller => "site/site", :action => "static_classroom", :organization_id => clsrm.organization, :id => clsrm}%> &nbsp; &nbsp;
+                    <% end %><br/>
+                  <% end %>
+                <% end %>
 							<% end %>
 						</td>					
 					</tr>
@@ -328,7 +328,7 @@
  	</div>
 
 	
-	 <div id="tabs-3" class="favorite_organizations" style="width:900px; margin-left:20;">
+	 <div id="tabs-3" class="favorite_organizations" style="width:900px; margin-left:20px;">
 	 	<br/><span style = "margin-left:50px; text-align:center; font-weight:bold; font-size:14px; color:#C83A14"> 
 		<center><%=@user.first_name %> Has <%= pluralize(@followers.size, 'Follower')%><br/><br/>
    		<% if @colleagues.size.zero? %> And Is Following No Colleagues
@@ -352,10 +352,10 @@
 						</td>
 						<td width=130 style=" vertical-align:middle; border:1px solid #ddd;" >
 						
-						<% if person.home_organization.nil?%><small><i><center>No<br/>Home<br/>Organization</small></center></i>
-							<% elsif person.home_organization.logo.file? %>
-							<span style="font-size:10px; align:center"><%= link_to (image_tag person.home_organization.logo.url :small_thumb), :controller => "/site/site", :action => :static_organization, :organization_id => person.home_organization -%>
-							<%= link_to person.home_organization.name, :controller => "/site/site", :action => :static_organization, :organization_id => person.home_organization %></span>
+						<% if person.organization.nil?%><small><i><center>No<br/>Home<br/>Organization</center></i></small>
+							<% elsif person.organization.logo.file? %>
+							<span style="font-size:10px; align:center"><%= link_to (image_tag person.organization.logo.url :small_thumb), :controller => "/site/site", :action => :static_organization, :organization_id => person.organization -%>
+							<%= link_to person.organization.name, :controller => "/site/site", :action => :static_organization, :organization_id => person.organization %></span>
 						<% end %> 
 						
 						</td>	
@@ -368,9 +368,9 @@
 						<% tot_connects = person.favorite_classrooms.size + person.lead_classrooms.size + person.participate_classrooms.size %>
 						<span style=" align:center; padding-top:10px; vertical-align:middle; font-weight:bold; font-size:10px">
 						<center><u>CONNECTIONS</u><br/>
-						<%= pluralize (tot_connects, 'Classroom') %><br/>
-						<%= pluralize (person.favorite_resources.size, 'Resource') %><br/>
-						<%= pluralize (person.colleagues.size, 'Colleague') %>
+						<%= pluralize(tot_connects, 'Classroom') %><br/>
+						<%= pluralize(person.favorite_resources.size, 'Resource') %><br/>
+						<%= pluralize(person.colleagues.size, 'Colleague') %>
 						</center></span></td>
 					<% end %>		
 					</tr>

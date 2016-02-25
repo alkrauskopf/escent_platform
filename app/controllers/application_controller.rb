@@ -10,4 +10,8 @@ class ApplicationController < ActionController::Base
     @current_organization ||= (Organization.find_by_public_id(params[:organization_id]) rescue Organization.default)
   end
 
+  def authorized?(user, organization, authorization_level)
+    user.has_authorization_level_for?(organization,  authorization_level.name)
+  end
+
 end

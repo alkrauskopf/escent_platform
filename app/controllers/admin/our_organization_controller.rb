@@ -16,15 +16,13 @@ class Admin::OurOrganizationController < Admin::ApplicationController
     :theme_advanced_resizing => true,
     :theme_advanced_resize_horizontal => false})
   
-  
-  
   def index
-    redirect_to :action => :profile, :organization_id => @current_organization
+  #  redirect_to :action => :profile, :organization_id => @current_organization
   end
   
   def information
     @organization = @current_organization
-    @address = @current_organization.addresses.find(:first)
+    @address = @current_organization.addresses.first
   end
   
   def update_include_information
@@ -32,12 +30,7 @@ class Admin::OurOrganizationController < Admin::ApplicationController
      @current_organization.save
      render :nothing => true
   end
-  
-  def update_information
- #    flash[:notice] = "update_information ", @current_organization.id
-     update
-    render :partial => "organization_information"
-  end
+
 
   def toggle_notification
      if @current_organization.organization_core_option
@@ -80,7 +73,11 @@ class Admin::OurOrganizationController < Admin::ApplicationController
   def profile
     register
   end
-  
+
+  def update_profile
+    @current_organization = Organization.find_by_id(:organization_id)
+    register
+  end
   def registration_successful
     redirect_to :action => :profile, :organization_id => @current_organization
   end

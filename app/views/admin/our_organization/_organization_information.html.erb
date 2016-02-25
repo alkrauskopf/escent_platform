@@ -1,7 +1,7 @@
-<% form_remote_tag(:url => {:controller => "admin/our_organization", :action => :profile, :organization_id => @current_organization}, :update => "organization_account_panel", :html => {:id => :registration_form}) do %>
+<% form_remote_tag(:url => {:controller => "admin/our_organization", :action => :profile, :organization_id => org}, :update => "organization_account_panel", :html => {:id => :registration_form}) do %>
  <div id="organization_information" style="display:none; min-height:200px; margin-top:25px; float:left; ">
 	<div style="text-align:left;"><%= render :partial => "/shared/error_and_notice" %></div>
-	<%= render :partial => "/organizations/profile" %>
+	<%= render :partial => '/organizations/profile', :locals => {:org => org} %>
 </div>
 <% end %>
 <div style="width:100%; float:left;  text-align:center; margin-top:10px;">
@@ -22,7 +22,7 @@
 		})	
 			
 		jQuery("#save_information").click(function(event){
-			jQuery.post("/admin/our_organization/update_information/<%=@current_organization.public_id%>", 
+			jQuery.post("/admin/our_organization/update_information/<%=org.public_id%>",
 				jQuery("#registration_form").serialize(), function(data){
 					jQuery("#organization_info_container").html(data);
 					showEditInformation();					

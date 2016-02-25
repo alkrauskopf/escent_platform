@@ -5,7 +5,7 @@ EscentPartners::Application.routes.draw do |map|
   map.connect '/static_resource/:organization_id/:id', :controller => 'site/site', :action => 'static_resource', :requirements => {:organization_id => /[a-f\d]{16}/}
   map.connect '/static_classroom/:organization_id/:id', :controller => 'site/site', :action => 'static_classroom', :requirements => {:organization_id => /[a-f\d]{16}/}
 
-
+#  map.connect  '/users/edit_picture/:organization_id', :controller => 'users/assessment', :action => 'edit_picture'
   map.resources :classrooms
 
   map.resources :content_resource_types
@@ -22,11 +22,11 @@ EscentPartners::Application.routes.draw do |map|
 
 #  map.admin_classroom_archive '/admin/classrooms/archive/:id',:controller => 'admin/classrooms',:action => 'archive'
 #  map.admin_classroom_restore '/admin/classrooms/restore/:id',:controller => 'admin/classrooms',:action => 'restore'
-  map.namespace :admin do |admin|
-    admin.resources :donations
+  #map.namespace :admin do |admin|
+  #  admin.resources :donations
 
 #    admin.resources :classrooms
-  end
+  #end
 
   map.namespace :master do |master|
     master.resources :merchant_accounts
@@ -92,8 +92,6 @@ EscentPartners::Application.routes.draw do |map|
   map.connect '/site/:organization_id', :controller => 'site/site', :action => 'index', :requirements => {:organization_id => /[a-f\d]{16}/}
   map.connect  '/site/site', :controller => 'fsn', :action => 'index'
   map.connect '/site/', :controller => 'site/site', :action => 'index'
-
-
 
   map.connect '/admin/', :controller => 'admin/application', :action => 'index'
   map.connect '/admin/application/index/:organization_id',  :controller => 'admin/application', :action => 'index', :requirements => {:organization_id => /[a-f\d]{16}/}

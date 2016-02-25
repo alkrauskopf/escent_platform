@@ -1,9 +1,3 @@
-<!--<div class="clear">
-	<div style="margin-bottom: 10px; font-weight: bold; font-size: 14px; float:left;"><%= @role.name %> Users</div>
-	<div style="margin-bottom: 10px; float: right;">
-		<%# button_to_remote "Back to roles", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :roles, :organization_id => @current_organization}, :method => :get}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
-	</div>
-</div>-->
 <div>
 	<% unless @role.users.size.zero? %>
 	<table id="roles" class="tablesorter" style="width:99%;">

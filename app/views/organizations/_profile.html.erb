@@ -223,30 +223,6 @@
         </div>
     </div>
 </div>
-<!-- Help Dialogs -->
-<div id="help-admin-dialog" title="Network Administrator" style="text-align:left;">
-    <div class="title_large_blue" style="margin-bottom:15px;">
-        Please tell us about you, the Administrator
-    </div>
-    <div class="normal_text">
-        The email address provided here is where you will receive your verification email – necessary for completing the registration process.  This verification will allow you to begin setting up your organization's network page. We realize that you may not have an email associated with your organization, in which case your personal email will be sufficient.
-    </div>
-</div>
-<div id="help-organization-dialog" title="Organization Verification" style="text-align:left;">
-    <div class="title_large_blue" style="margin-bottom:15px;">
-        Who should we contact in your organization to verify the above information?
-    </div>
-    <div class="normal_text">
-        We need to make every effort to ensure that those registering their organization, do in fact represent the organization they say they represent. This is just one way to do that.  Once you are part of the community you can be sure that you are in good company, with other bonafide organizations. 
-    </div>
-</div>
-<div id="help-website-dialog" title="Organization Website" style="text-align:left;">
-    <div class="title_large_blue" style="margin-bottom:15px;">
-        Organization Website URL
-    </div>
-    <div class="normal_text">
-        This will allow us to direct those who are interested in learning more about your organization to your website.    </div>
-	</div>
 <script type="text/javascript" charset="utf-8">
     	jQ(document).ready(function() {
         var organization_types = <%= OrganizationType.affiliate.children.inject({}){|lut, ot| lut[ot.id] = {:name => ot.name, :has_size => ot.has_size?, :has_religious_affiliation => ot.has_religious_affiliation};lut}.to_json %>;

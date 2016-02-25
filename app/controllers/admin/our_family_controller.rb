@@ -257,7 +257,6 @@ class Admin::OurFamilyController < Admin::ApplicationController
   end
 
 
-
   def unverified_users
     @users = User.unverified_users
   end

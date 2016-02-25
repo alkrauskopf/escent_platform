@@ -1,15 +1,16 @@
 class Admin::ApplicationController < ApplicationController
   layout "site"
-  include OrganizationRegistration
+#  include OrganizationRegistration
   
   before_filter :current_organization
   before_filter :current_user, :except => [:login]
-  
+  before_filter :admin_authorize
+
 # This doesn't work. Only Superusers pass through this filter 
 #  require_authorization "administrator", :except => [:login , :show]
   
   def index
-    update
+ #   update
     @features = Topic.features    
     @active_topics = @current_organization.topics.active
     @pending_topics = @current_organization.topics.pending
@@ -21,7 +22,7 @@ class Admin::ApplicationController < ApplicationController
     @active_classrooms = @current_organization.classrooms.active
     @archived_classrooms = @current_organization.classrooms.archived
   end
-  
+
   def login
     @email_address = params[:user][:email_address]
     
@@ -35,9 +36,16 @@ class Admin::ApplicationController < ApplicationController
       redirect_back_or_default :controller => "/admin/application", :action => :index, :organization_id => @current_organization
     end
   end
-  
+
   protected
-  
+
+  def admin_authorize
+    if !(!@current_user.nil? && !@current_organization.nil? && (@current_user.superuser? || authorized?(@current_user, @current_organization, AuthorizationLevel.administrator)))
+      organization = !@current_user.nil? ? @current_user.organization : Organization.default
+      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => organization
+    end
+  end
+
   def access_denied(message=nil)
     @login_url = url_for(:controller => "/admin/application", :action => :login, "user[email_address]" => self.current_user ? @current_user.email_address : '', :organization_id => @current_organization)
     #untrack_administrator

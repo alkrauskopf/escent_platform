@@ -1,42 +1,12 @@
-<div class="section_selector" class="clear">
-    <div>
-        <a href="#" id="information">Organization Information</a>
-    </div>
-    <div>
-        <a href="#" id="appearance">Appearance</a>
-    </div>
+<div class="clear">
+  <%= render :partial => "admin/our_organization/registration_notify" %>
+
+  <%= render :partial => "admin/our_organization/organization_logo" %>
+  <div id="organization_notify_container" style="float:left;">
+    <%= render :partial => "admin/our_organization/organization_form" %>
+    <!--
+    <%#= render :partial => "admin/our_organization/organization_information" %>
+    -->
+  </div>
 </div>
-<br style="clear:both"/>
-<br/>
-<div id="our_organization_panel" class="clear"></div>
-<script type="text/javascript">
-    jQuery(document).ready(function(){
-        jQuery(".section_selector div a").click(function(event){
-            event.preventDefault();
-            changeSelection(jQuery(this));
-        })
-        
-        function changeSelection(obj){
-            if (jQuery(".section_selector .active_section a").attr("id") != obj.attr("id")) {
-                jQuery.get("/admin/our_organization/" + obj.attr("id") + "/<%=@current_organization.public_id%>", function(data){
-                    jQuery("#our_organization_panel").html(data);
-                    
-                    if (obj.attr("id") == "appearance") {
-                        jQuery(".section_selector div.first div").removeClass("active");
-                        jQuery(".section_selector div.first").removeClass("active");
-                        jQuery(".section_selector div.last div").addClass("active");
-                        jQuery(".section_selector div.last").addClass("active");
-                    }
-                    else {
-                        jQuery(".section_selector div.first div").addClass("active");
-                        jQuery(".section_selector div.first").addClass("active");
-                        jQuery(".section_selector div.last div").removeClass("active");
-                        jQuery(".section_selector div.last").removeClass("active");
-                    }
-                })
-            }
-        }
-        
-        changeSelection(jQuery(".section_selector #information"));
-    })
-</script>
+

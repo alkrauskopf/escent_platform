@@ -6,7 +6,7 @@
         <%= text_field_tag "keywords", @keywords, :class => "text", :id => "content_keywords" %>
         <input id="search_button" type="button" class="fsn-button ui-button ui-state-default ui-corner-all" value="Search Library" style="margin-right:10px;"/>
 		<button id="show_all_content" class="fsn-button ui-button ui-state-default ui-corner-all" style="display:none; margin-right:10px;">Show All Content</button>
-		<%= button_to_remote  "Contribute Resource", {:update => "content_panel", :url => {:controller => :content, :action => :new, :organization_id => @current_organization}}, {:class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "margin-right:10px;" } %>
+		<%= button_to  "Contribute Resource", {:update => "content_panel", :url => {:controller => :content, :action => :new, :organization_id => @current_organization}}, {:class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "margin-right:10px;" } %>
 	</div>
     <br/>
     <br style="clear:both"/>
@@ -61,12 +61,12 @@
 <!-- ALK: took out the @features.include?(content.id) inspection because it was generating inexplicable nil error -->
 <!-- admin/search_results does the same redundant check successfully  -->
 
-						<%= button_to_remote  "Delete", {:update => "content_panel", :url => {:controller => :content, :action => :destroy_anyway, :organization_id => @current_organization, :content_id => content},:confirm => "Are You Sure? Resource Will Be Permanently Removed! "}, {:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
+						<%= button_to  "Delete", {:update => "content_panel", :url => {:controller => :content, :action => :destroy_anyway, :organization_id => @current_organization, :content_id => content},:confirm => "Are You Sure? Resource Will Be Permanently Removed! "}, {:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
 
                     </td> 
 
                     <td  style="width:50px;  padding-top:0px;vertical-align:middle">
-                        <%= button_to_remote  "Edit", {:update => "content_panel", :url => {:controller => :content, :action => :edit, :organization_id => @current_organization, :content_id => content}}, {:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
+                        <%= button_to  "Edit", {:update => "content_panel", :url => {:controller => :content, :action => :edit, :organization_id => @current_organization, :content_id => content}}, {:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
                     </td>
                 </tr>
 				<% end -%>

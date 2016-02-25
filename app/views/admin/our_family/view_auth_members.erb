@@ -1,0 +1,36 @@
+<div>
+	<% unless @people.size.zero? %>
+	<table id="roles" class="tablesorter" style="width:99%;">
+		<thead>
+			<tr>
+        <th style="width:400px;">Name</th>
+        <th style="width:400px;">Login</th>
+				<th>Email</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% app_id = @app ? @app.id : "" -%>
+			<% for user in @people do -%>
+			<tr>
+				<td style='width:30%'>
+          <%= user.full_name %>
+        </td>
+        <td style='width:35%'>
+          <%= user.email_address%>&nbsp;/&nbsp;<%= user.alt_login %>
+        </td>
+        <td style='width:35%'>
+          <%= user.preferred_email %>
+        </td>
+			</tr>
+			<% end -%>
+		</tbody>
+	</table>
+	<% else -%>	
+		No users found.
+	<% end -%>
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() { 
+	jQ('.fsn-button').addUIStateClass();
+});
+</script>

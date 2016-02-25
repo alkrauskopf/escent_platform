@@ -215,7 +215,15 @@ class AuthorizationLevel < ActiveRecord::Base
   def authorized_for_action?(action)
     self.superuser? || self.all_authorizable_actions.include?(action)
   end
- 
+
+  def self.app_authorizations
+    self.all(:include => :applicable_scopes, :conditions => ["authorization_levels.name NOT IN ('superuser', 'friend') AND applicable_scopes.name = ?", "Organization"]).sort_by{|a| [a.coop_app_id, a.name]}
+  end
+
+  def self.app_provider_authorizations
+    self.all(:include => :applicable_scopes, :conditions => ["authorization_levels.name NOT IN ('superuser', 'friend') AND applicable_scopes.name = ?", "Organization"]).sort_by{|a| [a.coop_app_id, a.name]}
+  end
+
   def user_authorities(usr_id)
     AuthorizationLevel.find(:all, :include => [:authorizations], :conditions => ["authorizations.user_id = ?", usr_id]).uniq
   end 

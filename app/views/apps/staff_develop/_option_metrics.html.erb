@@ -3,7 +3,7 @@
 <div id="metric_add" style = "font-size:12px; color: #000000;padding-left:0px;">
 <div id="metric_data">
 
-	<% if @current_user.pd_authorized_for?(@current_organization) -%>
+	<% if @current_user.pd_authorized?(@current_organization) -%>
 	<table   style="width:750px; margin-left:0px">
 			<thead>
 				<tr>

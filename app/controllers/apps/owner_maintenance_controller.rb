@@ -29,7 +29,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.core.first 
+      @app = CoopApp.core
     end
   end
 
@@ -39,7 +39,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
     end
     @org = Organization.find_by_public_id(params[:org]) rescue nil
     unless @app
-      @app = CoopApp.core.first 
+      @app = CoopApp.core
     end
     unless @org
       redirect_to  :action => "core_maintain_child_parent", :app_id => @app.id
@@ -52,7 +52,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
     end
     @org = Organization.find_by_public_id(params[:org]) rescue nil
     unless @app
-      @app = CoopApp.core.first 
+      @app = CoopApp.core
     end
     if @org
       @org.update_attribute("parent_id", nil)
@@ -66,7 +66,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
     end
     @org = Organization.find_by_public_id(params[:org]) rescue nil
     unless @app
-      @app = CoopApp.core.first 
+      @app = CoopApp.core
     end
     if @org && (@org.id != params[:parent_id].to_i)
       @org.update_attribute("parent_id", params[:parent_id].to_i)
@@ -79,7 +79,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.core.first 
+      @app = CoopApp.core
     end
   end
 
@@ -89,7 +89,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
     end
     @org = Organization.find_by_public_id(params[:org]) rescue nil
     unless @app
-      @app = CoopApp.core.first 
+      @app = CoopApp.core
     end
     unless @org
       redirect_to  :action => "core_maintain_statuses", :app_id => @app.id
@@ -102,7 +102,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
     end
     @org = Organization.find_by_public_id(params[:org]) rescue nil
     unless @app
-      @app = CoopApp.core.first 
+      @app = CoopApp.core
     end
     if @org
       @org.update_attribute("status_id", params[:status_id].to_i)
@@ -178,7 +178,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.itl.first rescue CoopApp.find(:first)
+      @app = CoopApp.itl rescue CoopApp.find(:first)
     end
   end
 
@@ -203,7 +203,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.itl.first rescue CoopApp.find(:first)
+      @app = CoopApp.itl rescue CoopApp.find(:first)
     end
   end
 
@@ -212,7 +212,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.itl.first rescue CoopApp.find(:first)
+      @app = CoopApp.itl rescue CoopApp.find(:first)
     end
     if params[:strategy_id]
       @strategy =TlActivityTypeTask.find_by_id(params[:strategy_id])  rescue nil
@@ -224,7 +224,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.itl.first rescue CoopApp.find(:first)
+      @app = CoopApp.itl rescue CoopApp.find(:first)
     end
     return if request.get?
     if params[:strategy_id]
@@ -249,7 +249,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.itl.first rescue CoopApp.find(:first)
+      @app = CoopApp.itl rescue CoopApp.find(:first)
     end
     if params[:strategy_id]
       @strategy =TlActivityTypeTask.find_by_id(params[:strategy_id])  rescue nil
@@ -299,7 +299,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.itl.first rescue CoopApp.find(:first)
+      @app = CoopApp.itl rescue CoopApp.find(:first)
     end
   end
 
@@ -308,7 +308,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.itl.first rescue CoopApp.find(:first)
+      @app = CoopApp.itl rescue CoopApp.find(:first)
     end
     if params[:video_id]
       @video = Content.find_by_public_id(params[:video_id])  rescue nil
@@ -323,7 +323,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.itl.first rescue CoopApp.find(:first)
+      @app = CoopApp.itl rescue CoopApp.find(:first)
     end
     if @tlt_session && @tlt_session.itl_blackbelt       
         user_id = @tlt_session.itl_blackbelt.observer_id

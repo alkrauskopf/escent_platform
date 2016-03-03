@@ -1,13 +1,12 @@
 class Admin::OurFamilyController < Admin::ApplicationController
   layout "admin/our_family/layout", :except =>[:view_members, :people, :view_auth_members, :new_user_authorization]
-  
+
   def index
 
   end
   
   def people
- #   @people = User.find :all, :include => [:authorizations, :roles], :conditions => ["(authorizations.scope_id = ? AND authorizations.scope_type = ?) OR (roles.id IN (?))", @current_organization, "Organization", @current_organization.roles.collect{|r| r.id}]
-     @people = User.who_are_friends(@current_organization)
+     @people = @current_organization.friends_of_org
   end
   
 
@@ -107,7 +106,7 @@ class Admin::OurFamilyController < Admin::ApplicationController
   def view_other_members
     @role = @current_organization.roles.find params[:id]
      @users_in_role = User.with_role(@role.id)
-     @friends = User.who_are_friends(@current_organization)
+     @friends = @current_organization.friends_of_org
      @users = @friends - @users_in_role
    
   rescue ActiveRecord::RecordNotFound => e
@@ -190,14 +189,14 @@ class Admin::OurFamilyController < Admin::ApplicationController
   
   def authorization_levels
     #@authorization_levels = AuthorizationLevel.all(:conditions => ["id NOT IN (1, 3)"])
-    @authorization_levels = AuthorizationLevel.all(:include => :applicable_scopes, :conditions => ["authorization_levels.name NOT IN ('superuser', 'friend') AND applicable_scopes.name = ?", "Organization"])  
+ #   @authorization_levels = AuthorizationLevel.all(:include => :applicable_scopes, :conditions => ["authorization_levels.name NOT IN ('superuser', 'friend') AND applicable_scopes.name = ?", "Organization"])
+    @authorization_levels = Organization.authorization_levels
   end
   
   def new_user_authorization_old
     #@authorization_levels = AuthorizationLevel.all(:conditions => ["id NOT IN (1, 3)"])
     @authorization_levels = AuthorizationLevel.all(:include => :applicable_scopes, :conditions => ["authorization_levels.name NOT IN ('superuser', 'friend') AND applicable_scopes.name = ?", "Organization"])  
-#   @people = User.find :all, :include => [:authorizations, :roles], :conditions => ["(authorizations.scope_id = ? AND authorizations.scope_type = ?) OR (roles.id IN (?))", @current_organization, "Organization", @current_organization.roles.collect{|r| r.id}]
-     @people = User.who_are_friends(@current_organization)
+     @people = @current_organization.friends_of_org
     if request.post?
       user = User.find(params[:user])
       authorization_level = AuthorizationLevel.find(params[:authorization_level])
@@ -229,12 +228,12 @@ class Admin::OurFamilyController < Admin::ApplicationController
     user = User.find_by_public_id(params[:user_id]) rescue nil
     authorization_level = AuthorizationLevel.find(params[:authorization_level]) rescue nil
     unless user.nil? || authorization_level.nil?
-      if !user.has_authorization_level_for?(@current_organization, authorization_level)
+      if !user.has_authority?(@current_organization, authorization_level)
         if user.authorizations.create :authorization_level => authorization_level, :scope => @current_organization                      
           Notifier.deliver_new_authorization(:user => user, :current_organization => @current_organization, :admin => @current_user, :authorization_level => authorization_level, :fsn_host => request.host_with_port)          
         end     
       else
-        user_level = user.authorizations.for_level(@current_organization, authorization_level).first rescue nil
+        user_level = user.authorizations.for_level(authorization_level).for_entity(@current_organization).first rescue nil
         user_level.destroy unless user_level.nil?
       end
     end
@@ -246,10 +245,10 @@ class Admin::OurFamilyController < Admin::ApplicationController
     app = CoopApp.find_by_id(params[:app_id]) rescue nil
     authorization_level = AuthorizationLevel.find(params[:authorization_level]) rescue nil
     unless user.nil? || authorization_level.nil?
-      if !user.has_authorization_level_for?(app, authorization_level)
+      if !user.has_authority?(app, authorization_level)
         user.authorizations.create :authorization_level => authorization_level, :scope => app                           
       else
-        user_level = user.authorizations.for_level(app, authorization_level).first rescue nil
+        user_level = user.authorizations.for_level(authorization_level).for_entity(@current_organization).first rescue nil
         user_level.destroy unless user_level.nil?
       end
     end
@@ -268,4 +267,5 @@ class Admin::OurFamilyController < Admin::ApplicationController
     Notifier.deliver_user_registration @user, request.host_with_port, true
     render :layout => false 
   end
+
 end

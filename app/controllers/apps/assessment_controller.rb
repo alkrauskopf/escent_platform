@@ -22,7 +22,7 @@
   def manage
 
     initialize_parameters
-    CoopApp.ifa.first.increment_views
+    CoopApp.ifa.increment_views
     if @current_organization.ifa_org_option
 
 
@@ -417,7 +417,7 @@
   
   initialize_parameters
  
-    if @current_user == @assessment.user || @current_user.has_authorization_level_for?(@current_organization, "ifa_administrator")
+    if @current_user == @assessment.user || @current_user.ifa_admin_for_org?(@current_organization)
       @assessment.destroy
       flash[:notice] = "Assessment Deleted"    
       end
@@ -1019,7 +1019,7 @@
     @master = ActMaster.find_by_public_id(params[:master]) rescue ActMaster.first
     @strand = ActStandard.find_by_id(params[:std_id]) rescue nil
     @std_benchmarks = @master.act_benches.for_strand(@strand).sort_by{|a| [a.act_score_range.upper_score]} rescue []
-    if @current_user.has_authorization_level_for?(@current_organization, "ifa_administrator")
+    if @current_user.ifa_admin_for_org?(@current_organization)
       @edit_authorized = true
     end
   end
@@ -1155,7 +1155,7 @@
   def destroy_benchmark
   
     initialize_parameters
-    if @current_organization == @benchmark.organization || @current_user.has_authorization_level_for?(@current_organization, "ifa_administrator")
+    if @current_organization == @benchmark.organization || @current_user.ifa_admin_for_org?(@current_organization)
       @benchmark.destroy
       flash[:notice] = "Benchmark Deleted" 
     end
@@ -1668,7 +1668,7 @@
     initialize_parameters
   
     reading = ActRelReading.find_by_public_id(params[:reading_id])
-     if @current_user == reading.user || @current_user.has_authorization_level_for?(@current_organization, "ifa_administrator")
+     if @current_user == reading.user || @current_user.ifa_admin_for_org?(@current_organization)
       reading.destroy
       flash[:notice] = "Related Reading Deleted"
       end
@@ -1997,7 +1997,7 @@ end
   def edit_assessment_destroy_assessment
   initialize_parameters
     if @assessment.act_submissions.empty? && !@assessment.is_locked 
-      if @current_user == @assessment.user || @current_user.has_authorization_level_for?(@current_organization, "ifa_administrator")
+      if @current_user == @assessment.user || @current_user.ifa_admin_for_org?(@current_organization)
         @assessment.destroy
         flash[:notice] = "Assessment Deleted" 
       end
@@ -2333,7 +2333,7 @@ end
     initialize_parameters
     
     if @question.act_answers.empty? && @question.act_assessments.empty? && !@question.is_locked
-      if @current_user == @question.user || @current_user.has_authorization_level_for?(@current_organization, "ifa_administrator")
+      if @current_user == @question.user || @current_user.ifa_admin_for_org?(@current_organization)
         @question.destroy
         flash[:notice] = "Assessment Question Deleted" 
       end
@@ -2379,7 +2379,7 @@ end
   def get_related_reading
     rel_reading = ActRelReading.find_by_id(params[:id])rescue nil
     if rel_reading
-      reading_text = "<center><strong><u>" + rel_reading.label.titleize + "</u></strong></center><br/>" + rel_reading.reading
+      reading_text = "<span style='vertical-align:center'><strong><u>" + rel_reading.label.titleize + "</u></strong></center><br/>" + rel_reading.reading
     else
       reading_text = " "
     end
@@ -2769,7 +2769,7 @@ end
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.ifa.first rescue CoopApp.find(:first)
+      @app = CoopApp.ifa rescue CoopApp.find(:first)
     end 
   end
 

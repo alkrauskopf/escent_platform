@@ -30,7 +30,7 @@
 		</tr>
 	</thead>
 	<tbody>
-  <% for authorization_level in AuthorizationLevel.app_authorizations do -%>
+  <% for authorization_level in @current_organization.enabled_app_authorizations  do -%>
 			<% auth_string =   authorization_level.coop_app.abbrev + ": " + authorization_level.name.titleize -%>
 			<tr>
 				<td class="authorization_levels_close">

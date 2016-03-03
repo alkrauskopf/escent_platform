@@ -15,7 +15,7 @@ jQ("#share_content_form").html('<%= escape_javascript(render(:partial => "/share
 jQ("#share_discussion_form").html('<%= escape_javascript(render(:partial => "/shared/share_login")) %>').hide();
 jQ("#shared_discussion_warp").html('<%= escape_javascript(render(:partial => "/site/discussions/share_discussion_btn")) %>');
 jQ("#shared_discussion_warp_box").html('<%= escape_javascript(render(:partial => "/shared/shared_discussion", :locals => {:discussion => @current_topic})) %>');
-	<% if @current_user.has_authorization_level_for?("Organization", "discussion_moderator") -%>
+	<% if @current_user.has_authority?(@current_organization, AuthorizationLevel.app_blog_admin(CoopApp.blog)) -%>
 		jQ('.delete').show()
 	<% end -%>
 <% else -%>

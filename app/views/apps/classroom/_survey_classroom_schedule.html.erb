@@ -4,7 +4,7 @@
 
 	<% active_questions = false -%>
 	<% unless (classroom.classroom_periods.size == 0) -%>
-		<% CoopApp.classroom.first.tlt_survey_types.each do |type| %>
+		<% CoopApp.classroom.tlt_survey_types.each do |type| %>
 			<% unless @current_organization.tlt_survey_questions.for_audience(audience).for_type(type).active.empty? -%>
 			<% active_questions = true -%>
 				<table style="width:650px;margin-left:5px;">

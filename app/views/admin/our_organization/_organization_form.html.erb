@@ -1,6 +1,7 @@
-<% form_tag({:controller => "admin/application", :action => :update_profile, :organization_id => @current_organization}) do %>
-	<% @organization = @current_organization %>
-    <%= render(:partial => "/organizations/profile") %>
-	<br style="clear:both" />
-	<%= submit_tag "Save" %>
-<% end -%>
+<div>
+  <% form_tag({:controller => "admin/our_organization", :action => :update_profile, :organization_id => @organization}) do %>
+      <%= render(:partial => "/master/organizations/profile") %>
+      <br style="clear:both" />
+      <%= submit_tag "Save" %>
+  <% end -%>
+</div>

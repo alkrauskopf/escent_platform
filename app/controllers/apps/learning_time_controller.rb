@@ -19,7 +19,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
   def index
 
     initialize_parameters
-    CoopApp.elt.first.increment_views
+    CoopApp.elt.increment_views
     if params[:function] && params[:function] == "New"
 
       new_case = EltCase.new
@@ -869,10 +869,10 @@ class Apps::LearningTimeController  < Site::ApplicationController
     end
 
     unless @app
-      @app = CoopApp.elt.first 
+      @app = CoopApp.elt
     end
 
-    @admin = @current_user ? @current_user.elt_admin?(@current_organization) : false 
+    @admin = @current_user ? @current_user.elt_admin_for_org?(@current_organization) : false
   end
 
   def refresh_cycle      

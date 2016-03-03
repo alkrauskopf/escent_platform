@@ -84,28 +84,28 @@
 									<% unless  survey.responses_to_question(quest, 1).size == 0  %>
 										<tr>
 											<td style=" width:580px; vertical-align:middle;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
-												<%= render (:partial => "apps/shared/show_aggregated_comments", :locals => {:survey => survey, :quest=> quest, :score => 1}) %>	
+												<%= render :partial => "apps/shared/show_aggregated_comments", :locals => {:survey => survey, :quest=> quest, :score => 1}%>
 											</td>
 										</tr>
 									<% end -%>
 									<% unless  survey.responses_to_question(quest, 2).size == 0  %>
 										<tr>
 											<td style=" width:580px; vertical-align:middle;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
-												<%= render (:partial => "apps/shared/show_aggregated_comments", :locals => {:survey => survey, :quest=> quest, :score => 2}) %>	
+												<%= render :partial => "apps/shared/show_aggregated_comments", :locals => {:survey => survey, :quest=> quest, :score => 2}%>
 											</td>
 										</tr>
 									<% end -%>
 									<% unless survey.responses_to_question(quest, 3).size == 0  %>
 										<tr>
 											<td style=" width:580px; vertical-align:middle;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
-												<%= render (:partial => "apps/shared/show_aggregated_comments", :locals => {:survey => survey, :quest=> quest, :score => 3}) %>	
+												<%= render :partial => "apps/shared/show_aggregated_comments", :locals => {:survey => survey, :quest=> quest, :score => 3}%>
 											</td>
 										</tr>
 									<% end -%>
 									<% unless  survey.responses_to_question(quest, 4).size == 0  %>
 										<tr>
 											<td style=" width:580px; vertical-align:middle;  text-align:center; padding-top:0px; padding-bottom:0px; color: #000000; font-weight:normal; font-size:10.5px">
-												<%= render (:partial => "apps/shared/show_aggregated_comments", :locals => {:survey => survey, :quest=> quest, :score => 4}) %>	
+												<%= render :partial => "apps/shared/show_aggregated_comments", :locals => {:survey => survey, :quest=> quest, :score => 4}%>
 											</td>
 										</tr>
 									<% end -%>

@@ -1,5 +1,5 @@
 <div id="reflect_lists">
-	<% unless teacher.nil? || !@current_organization.app_enabled?(CoopApp.ctl.first.abbrev) %>
+	<% unless teacher.nil? || !@current_organization.app_enabled?(CoopApp.ctl) %>
 		<% if admin || (teacher == @current_user)%>
 			<% unless teacher.tlt_sessions.final.empty? -%>
 

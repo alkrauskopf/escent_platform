@@ -156,7 +156,7 @@ class Apps::PanelController < ApplicationController
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.itl.first rescue CoopApp.find(:first)
+      @app = CoopApp.itl rescue CoopApp.find(:first)
     end
 
   end

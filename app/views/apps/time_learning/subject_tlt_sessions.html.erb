@@ -1,6 +1,6 @@
 <div >
 	<% if (@group =="teacher" || @group == "observer") &&  @user != @current_user%>
-		<%= render (:partial => "/apps/time_learning/observation_invite", :locals => {:group => @group, :recipient => @user, :sender => @current_user}) %>
+		<%= render :partial => "/apps/time_learning/observation_invite", :locals => {:group => @group, :recipient => @user, :sender => @current_user}%>
 	<% end -%>
 	<% if @user == @current_user || @current_user.superuser? -%>	
 		<% unless @sessions.size == 0 %>

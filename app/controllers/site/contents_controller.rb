@@ -30,7 +30,7 @@ class Site::ContentsController < Site::ApplicationController
       @current_group = params[:entity_class]
       entity = Folder.find_by_id(params[:entity_id].to_i) rescue nil
       if entity
-        @resource_list = @current_user.content_admin?(org) ? entity.lu_resources.for_org(org) : entity.lu_resources.for_user(@current_user).for_org(org)      
+        @resource_list = @current_user.content_admin_for_org?(org) ? entity.lu_resources.for_org(org) : entity.lu_resources.for_user(@current_user).for_org(org)
       else
         @resource_list = []
       end
@@ -38,7 +38,7 @@ class Site::ContentsController < Site::ApplicationController
       @current_group = "Type"
       entity = ContentResourceType.find_by_id(params[:entity_id].to_i) rescue nil
       if entity
-        @resource_list = @current_user.content_admin?(org) ? org.contents.for_type(entity) : org.contents.for_user(@current_user).for_type(entity)     
+        @resource_list = @current_user.content_admin_for_org?(org) ? org.contents.for_type(entity) : org.contents.for_user(@current_user).for_type(entity)
       else
         @resource_list = []
       end    

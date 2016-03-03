@@ -140,7 +140,7 @@ class Admin::ClassroomsController < Admin::ApplicationController
   def new_user_authorization
      @authorization_levels = AuthorizationLevel.all(:include => :applicable_scopes, :conditions => ["authorization_levels.name NOT IN ('superuser', 'favorite') AND applicable_scopes.name = ?", "Classroom"])    
      find_classroom
-     @people = User.who_are_friends(@current_organization)
+     @people = @current_organization.friends_of_org
     if request.post?
       user = User.find(params[:user])
       authorization_level = AuthorizationLevel.find(params[:authorization_level])

@@ -13,7 +13,7 @@
 			<% end -%>
 		</ul>
 	<% else -%>
-		<%= render (:partial => "show_content", :locals => {:content => @content, :folder => folder, :lu => lu,}) %>		
+		<%= render :partial => "show_content", :locals => {:content => @content, :folder => folder, :lu => lu,}%>
 	<% end -%>
 </div>
 

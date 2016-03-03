@@ -12,7 +12,7 @@
 				<% col_label = "Schedule " + classroom.course_name + " Student Surveys" -%>
 				<tr>
 				<td class="ifa_levels_close" style=" color: #2061a5;">
-					<%= link_to '', :controller => "apps/classroom", :action => :survey_classroom_schedule, :organization_id => @current_organization, :classroom_id => classroom, :audience_id => CoopApp.classroom.first.tlt_survey_audiences.student.first %>
+					<%= link_to '', :controller => "apps/classroom", :action => :survey_classroom_schedule, :organization_id => @current_organization, :classroom_id => classroom, :audience_id => CoopApp.classroom.tlt_survey_audiences.student.first %>
 					<%= col_label %>
 					<span></span>
 				</td>
@@ -20,7 +20,7 @@
 			</tbody>
 		</table>
 
-		<% CoopApp.classroom.first.tlt_survey_audiences.each do |audience| -%>
+		<% CoopApp.classroom.tlt_survey_audiences.each do |audience| -%>
 			<% schedules = classroom.classroom_periods.collect{|cp| cp.survey_schedules.for_audience(audience)}.flatten.size -%>
 			<% unless schedules == 0 -%>
 				<table id="survey_2_<%= audience.id %>" class="tablesorter" style="width:99%;">

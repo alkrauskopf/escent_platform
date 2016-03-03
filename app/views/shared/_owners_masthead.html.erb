@@ -1,7 +1,7 @@
 <div class="masthead clear">
 	<% master_org = Organization.ep_default.first rescue @current_organization -%>
 	<% unless master_org.web_site_url.nil? %>
-		<%=  link_to (image_tag(master_org.logo.url, :class => "logo", :alt => master_org.name, :height => 10),master_org.web_site_url, :target => "_blank" ) %>
+		<%=  link_to(image_tag(master_org.logo.url, :class => "logo", :alt => master_org.name, :height => 10),master_org.web_site_url, :target => "_blank" ) %>
 	<% else -%>
 		<%=  image_tag(master_org.logo.url, :class => "logo", :alt => master_org.name, :height => 10) %>	
 	<% end %>

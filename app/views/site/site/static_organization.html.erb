@@ -22,11 +22,11 @@
               <span class="normal_text"><br/><strong><i><%= to_br(@current_organization.body)%></i></strong></span>
             <% end %>
           </td>
-          <td style =" width:39%; border:0px solid #ddd; vertical-align:top; padding-top:10px; padding-left:00px; padding-bottom:0px">
-            <span style="text-align:center; font-size: 16px; font-weight:bold; color:#C73914; text-align:center;">
-              <%= @current_organization.name%>
+          <td style =" text-align:center; width:39%; border:0px solid #ddd; vertical-align:top; padding-top:10px; padding-left:00px; padding-bottom:0px">
+            <span style=" font-size: 16px; font-weight:bold; color:#C73914; ">
+              <%= @current_organization.name%> <br/>
             </span>
-            <span class="normal_text" style="text-align:center; line-height:1.5em;">
+            <span class="normal_text" style="line-height:1.5em;">
               <% unless @current_organization.addresses.empty? %>
                 <% if @current_organization.addresses.first.country == 'US' %>
                   <%= @current_organization.addresses.first.street1 -%>
@@ -47,15 +47,15 @@
           </td>
           <% contact_user = User.org_contact(@current_organization.contact_email) -%>
           <% if !contact_user.nil? && @current_organization.contact_name && @current_organization.display_contact?-%>
-            <td style =" width:11%; border:0px solid #ddd; vertical-align:top; line-height:1.5em; padding-top:10px; padding-left:00px; padding-bottom:0px">
+            <td style =" width:11%; border:0px solid #ddd; text-align:center; vertical-align:top; line-height:1.5em; padding-top:10px; padding-left:00px; padding-bottom:0px">
               <% unless contact_user.picture.url.split("/").last == "missing.png" %>
                     <%= link_to (image_tag contact_user.picture.url :med_thumb), {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => contact_user}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"}%>
                   <% end %>
               </td>
-            <td style ="text-align:center; border:0px solid #ddd; vertical-align:middle; line-height:1.5em; padding-top:0px; padding-left:00px; padding-bottom:0px">
+            <td style =" border:0px solid #ddd; vertical-align:middle; line-height:1.5em; padding-top:0px; padding-left:00px; padding-bottom:0px">
               <%= link_to @current_organization.contact_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => contact_user}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
               <span style="font-size:10.5px; line-height:1.3em;">
-                  <%= @current_organization.contact_role if @current_organization.contact_role %>
+                  <br/><%= @current_organization.contact_role if @current_organization.contact_role %>
               </span>
             </td>
           <% else %>
@@ -63,7 +63,7 @@
               <% if @current_organization.display_contact? -%>
                 <strong><%= @current_organization.contact_name if @current_organization.contact_name %></strong>
                 <span style="font-size:10.5px; line-height:1.3em;">
-                    <%= @current_organization.contact_role if @current_organization.contact_role %>
+                   <br/><%= @current_organization.contact_role if @current_organization.contact_role %>
                 </span>
               <% end -%>
             </td>

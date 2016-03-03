@@ -2,33 +2,7 @@ class FsnController < ApplicationController
   layout "ep_site2",  :except =>[:model_flash, :select_blog, :show_post]
   
   before_filter :current_user
-  
-  def index_old
 
-  
-    
-    @current_organization = Organization.ep_default.first
-    @all_orgs = Organization.find(:all)
-    @all_people = User.find(:all)
-    @all_classrooms = Classroom.active.find(:all)
-    @all_content = Content.active.find(:all)
-    @who_we_are_blog = @current_organization.who_we_are_featured
-    if @who_we_are_blog
-      @who_we_are_post = @who_we_are_blog.blog_posts.featured.first ? @who_we_are_blog.blog_posts.featured.first.body : " "
-      @thought_post = @who_we_are_blog.blog_posts.not_featured.active.first ? @who_we_are_blog.blog_posts.not_featured.active.first.body : " "
-    end
-    @our_offerings_blog = @current_organization.our_offerings_featured
-    @pov_blogs = @current_organization.active_nonfeatured_povs rescue []
-    @testimonials = @current_organization.testimonials_active rescue [] 
-    @instructions = @current_organization.instructions_featured
-    @bios = @current_organization.bios_featured
-    @asset_blogs = @current_organization.active_nonfeatured_assets rescue []
-    @offering_blogs = @current_organization.active_nonfeatured_offerings rescue []
-    @pov_header_title = @current_organization.pov_header_blog.blog_posts.featured.first rescue nil
-#    render :layout => "ep_site"
-
-  end
- 
   def index
     initalialize_parameters
 

@@ -8,7 +8,7 @@
 						Authorizations For:
 					</td>
 					<td id="for_user" style="width:420px; font-size:normal">
-						<%=  select(:user, :id, User.who_are_friends(@current_organization).sort_by{|a| [a.last_name]}.collect{|t| [t.last_name_first, t.public_id]},{:include_blank =>'Select User'}) %>
+						<%=  select(:user, :id, @current_organization.friends_of_org.collect{|t| [t.last_name_first, t.public_id]},{:include_blank =>'Select User'}) %>
 					</td>	
 				</tr>
 			</tbody>
@@ -27,13 +27,15 @@
 					</tr>
 				</thead>
 				<tbody>  
-					<% for authorization_level in AuthorizationLevel.app_authorizations do -%>
-            <% if !@current_organization.appl_enabled?(authorization_level.coop_app) && user.beta_app_user?(authorization_level.coop_app, @current_organization)-%>
+					<% for authorization_level in @current_organization.enabled_app_authorizations do -%>
+            <!--
+            <%# if user.has_authority?(authorization_level, @current_organization,:superuser=>true )-%>
+							-->
 							<tr>
 								<td width=40px style="vertical-align:bottom;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; color: #C73914; font-size:9px; font-weight:normal">
 									<i><%= authorization_level.coop_app.beta? ? "(Beta)" : "" %></i>
 								</td>
-								<% if user.has_authorization_level_for?(@current_organization, authorization_level) %>
+								<% if user.has_authority?(@current_organization, authorization_level) %>
 									<td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:15px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
 										<%= link_to (image_tag "button_enabled.png", :width => 15), {:controller => "admin/our_family",:action => "toggle_authorization", :organization_id => @current_organization, :user_id=> user, :authorization_level=>authorization_level.id}, :class => "toggle_auth" %>
 									</td>					
@@ -80,7 +82,7 @@ jQ(document).ready(function() {
 	})	
 });
 </script>
-						<% end -%>
+		<!--				<%# end -%>  -->
 					<% end -%>
 					<% @current_organization.owned_apps.each do |app| -%>
             <% for authorization_level in AuthorizationLevel.app_provider_authorizations do -%>

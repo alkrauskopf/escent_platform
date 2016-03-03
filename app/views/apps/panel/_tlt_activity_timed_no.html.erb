@@ -23,7 +23,7 @@
 						</td>
 						<td  style="width:585px; width:fixed; border:0px solid #ddd; color: <%= text_color %>; vertical-align:middle; font-size:14px; text-align:center">
 							
-							<%= render (:partial => "tlt_activity_timed_no_row", :locals => { :tl_session=> tl_session, :activity_tasks => strat.evidences_method(app_method), :app_method=>app_method}) %>		
+							<%= render :partial => "tlt_activity_timed_no_row", :locals => { :tl_session=> tl_session, :activity_tasks => strat.evidences_method(app_method), :app_method=>app_method}%>
 						</td>					
 					</tr>
 				<% end -%>
@@ -71,7 +71,7 @@
 		</script>
 							</td>
 							<td  style="width:625px; width:fixed; border:0px solid #ddd; color: <%= text_color %>; vertical-align:middle; font-size:14px; text-align:center">
-								<%= render (:partial => "tlt_activity_timed_no_row", :locals => { :tl_session=> tl_session, :activity_tasks => activity_tasks, :background=>("#" + app_method.dashboard_color), :app_method=>app_method}) %>		
+								<%= render :partial => "tlt_activity_timed_no_row", :locals => { :tl_session=> tl_session, :activity_tasks => activity_tasks, :background=>("#" + app_method.dashboard_color), :app_method=>app_method}%>
 							</td>					
 						</tr>
 					<% end -%>

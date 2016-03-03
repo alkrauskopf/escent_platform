@@ -15,7 +15,7 @@ class Apps::AppReportController < Site::ApplicationController
 
   def elt_school_diag   
     unless @app
-      @app = CoopApp.elt.first 
+      @app = CoopApp.elt
     end    
     @report = params[:report_id]
     @plan_type = EltPlanType.school
@@ -62,7 +62,7 @@ class Apps::AppReportController < Site::ApplicationController
 
   def elt_destroy_plan  
     @plan.destroy
-    redirect_to :action => :elt_school_diag, :organization_id => @current_organization, :user_id => @current_user, :report_id => "SD", :app_id => CoopApp.elt.first.id 
+    redirect_to :action => :elt_school_diag, :organization_id => @current_organization, :user_id => @current_user, :report_id => "SD", :app_id => CoopApp.elt.id
   end
 
   def elt_other_school_cycles  
@@ -71,7 +71,7 @@ class Apps::AppReportController < Site::ApplicationController
 
   def elt_export_network_excel
     unless @app
-      @app = CoopApp.elt.first 
+      @app = CoopApp.elt
     end    
     respond_to do |format|
       format.xls

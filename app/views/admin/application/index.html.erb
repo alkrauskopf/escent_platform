@@ -95,6 +95,7 @@
 	  
     <!-- #tab-4 Our Organization - Info -->
     <div id="tabs-4">
+      <%= @current_organization.name %>
       <%= render :file => "/admin/our_organization/information" %>
     </div>
 
@@ -105,8 +106,7 @@
 
       <!-- #tab-5 Our Organization - Appearance -->
       <div id="tabs-5">
-        Not Yet
-        <%#= render :file => "/admin/our_organization/index" %>
+        <%= render :file => "/admin/our_organization/branding" %>
       </div>
 
 	    <!-- #tab-6 Our Applications  -->

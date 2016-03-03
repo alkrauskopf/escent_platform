@@ -34,12 +34,12 @@ class EltCycle < ActiveRecord::Base
   end
 
   def client_feedback_surveys
-    app = CoopApp.elt.first
+    app = CoopApp.elt
     self.survey_schedules.for_audience(app.tlt_survey_audiences.client.first).for_type(app.tlt_survey_types.feedback.first) rescue []
   end   
   
   def school_survey_available?
-    app = CoopApp.elt.first
+    app = CoopApp.elt
     !self.organization.tlt_survey_questions.for_audience(app.tlt_survey_audiences.client.first).for_type(app.tlt_survey_types.feedback.first).active.empty?
   end  
  

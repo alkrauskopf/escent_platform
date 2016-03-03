@@ -4,7 +4,7 @@
 <span>Library</span>
 	<% if org.can_be_displayed?(user)-%>
     <ul style="width: 250%;" class="hdr-dropdown-content">
-      <% if user.has_authorization_level_for?(org, "content_manager") -%>
+      <% if user.has_authority?(org, AuthorizationLevel.app_knowledge_manager(CoopApp.core)) -%>
           <li ><%= link_to "ADD Resource To Library", {:controller => "/site/contents", :action => :submit_resource, :organization_id => org, :function => "New"}, {:target => "_blank"}  %></li>
           <li ><%= link_to "MANAGE Your Library Resources", {:controller => "/site/contents", :action => :index, :organization_id => org, :function => "New"}, {:target => "_blank"}  %></li>
       <% end %>

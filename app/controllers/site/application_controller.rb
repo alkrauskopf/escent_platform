@@ -5,9 +5,13 @@ class Site::ApplicationController < ApplicationController
 #  before_filter :filter_not_active
   before_filter :current_organization
   before_filter :current_user
+  before_filter :current_application
+  before_filter :core_enabled_for_current_org?
+ # before_filter :current_app_enabled_for_current_org?
   
   protected
-  
+
+
   def filter_not_active
     @organization = Organization.find_by_public_id(params[:organization_id])
     if @organization.present? && @organization.actived?
@@ -21,7 +25,7 @@ class Site::ApplicationController < ApplicationController
   def find_featured_topic
     @current_classroom ||= (Classroom.find_by_public_id(params[:id]) rescue @current_organization.classrooms.active.first)
     unless @current_classroom
-      @current_classroom = Classroom.find(:first)
+      @current_classroom = Classroom.all.first
     end
     if !params[:topic_id].blank? 
       @current_topic = Topic.find_by_public_id params[:topic_id]

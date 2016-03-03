@@ -8,7 +8,7 @@ class Apps::TeacherAssessController < Site::ApplicationController
   def index
 
   initialize_parameters
-  CoopApp.ita.first.increment_views  
+  CoopApp.ita.increment_views
   @classroom_list = @current_organization.classrooms.active.sort{|a,b| b.act_subject.name <=> a.act_subject.name}
   @teacher_list = @classroom_list.collect{|cl| cl.leaders}.flatten.uniq.sort_by{|teacher|[teacher.last_name]} rescue nil
   @t_name = []
@@ -24,7 +24,7 @@ class Apps::TeacherAssessController < Site::ApplicationController
       @current_user.tchr_option.tchr_metrics.for_teacher.each_with_index do |var,vdx|
       
       @metric_header[vdx] = var.abbrev
-      @metric_header_hover[vdx] = "<center><strong><u>" + var.name.titleize +  "</u></strong></center><center>" + var.description.humanize + "</center>"      
+      @metric_header_hover[vdx] = "<span style='text-align:center'><strong><u>" + var.name.titleize +  "</u></strong></span><span style='text-align:center'>" + var.description.humanize + "</span>"
       vdx_metric = 0
       if var.abbrev == "RC"
          vdx_metric = t.contents.size rescue 0
@@ -163,7 +163,7 @@ class Apps::TeacherAssessController < Site::ApplicationController
 
     @tchr_metrics.each_with_index do |var,vdx|
       @m_name[vdx] = var.abbrev
-      @metric_header_hover[vdx] = "<center><strong><u>" + var.name.titleize +  "</u></strong></center><center>" + var.description.humanize + "</center>"  
+      @metric_header_hover[vdx] = "<span style='text-align:center'><strong><u>" + var.name.titleize +  "</u></strong></span><span style='text-align:center'>" + var.description.humanize + "</span>"
       @w_metrics[vdx] = []      
 
       wdx = 0
@@ -264,7 +264,7 @@ class Apps::TeacherAssessController < Site::ApplicationController
       @current_user.tchr_option.tchr_metrics.for_classroom.each_with_index do |var,vdx|
       
       @metric_header[vdx] = var.abbrev
-      @metric_header_hover[vdx] = "<center><strong><u>" + var.name.titleize +  "</u></strong></center><center>" + var.description.humanize + "</center>"      
+      @metric_header_hover[vdx] = "<span style='text-align:center'><strong><u>" + var.name.titleize +  "</u></strong></span><span style='text-align:center'>" + var.description.humanize + "</span>"
       vdx_metric = 0
       if var.abbrev == "TC"
          vdx_metric = c.topics.active.size rescue 0

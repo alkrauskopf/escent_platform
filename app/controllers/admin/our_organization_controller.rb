@@ -1,10 +1,10 @@
 class Admin::OurOrganizationController < Admin::ApplicationController
   layout "admin/our_organization/layout"
   include ApplicationHelper
-  
+  include SimpleCaptcha::ControllerHelpers
   protect_from_forgery :except => [ :update_style_setting_value ]
   
-  include OrganizationRegistration
+#  include OrganizationRegistration
   
   uses_tiny_mce(:options => {:mode => "textareas",
     :theme => 'advanced',
@@ -21,10 +21,31 @@ class Admin::OurOrganizationController < Admin::ApplicationController
   end
   
   def information
-    @organization = @current_organization
-    @address = @current_organization.addresses.first
+
   end
-  
+
+  def update_profile
+    @organization = @current_organization
+    @address = @organization.addresses.first || @organization.addresses.new
+    flash[:notice] = nil
+    if request.post?
+
+      if @organization.update_attributes params[:organization]
+        @address.organization = @organization
+
+        if !@address.update_attributes params[:address]
+          flash[:error] = @address.errors.full_messages.to_sentence
+        else
+          flash[:notice] = "Organization Information Updated:  ", @organization.name
+        end
+      else
+        flash[:error] = @organization.errors.full_messages.to_sentence
+      end
+    end
+    redirect_to :controller => 'admin/application', :action => :index, :organization_id => @current_organization
+  end
+
+
   def update_include_information
      @current_organization.include_information = params[:include_information] || true
      @current_organization.save
@@ -74,16 +95,17 @@ class Admin::OurOrganizationController < Admin::ApplicationController
     register
   end
 
-  def update_profile
-    @current_organization = Organization.find_by_id(:organization_id)
-    register
-  end
   def registration_successful
     redirect_to :action => :profile, :organization_id => @current_organization
   end
-  
+
+
   def appearance
     @color_style_settings = StyleSetting.colors
+  end
+
+  def branding
+
   end
   
   def options
@@ -130,6 +152,28 @@ class Admin::OurOrganizationController < Admin::ApplicationController
     render :text => ""
   end
 
+  def change_style_setting
+#  make sure org has all style settings set
+    target_setting = Setting.find_by_id(params[:setting_id]) rescue nil
+    if !target_setting.nil?
+      StyleSetting.colors.each do |setting|
+        if @current_organization.setting_values.for_setting(setting).first.nil?
+          @current_organization.new_setting!(setting)
+        end
+        if setting == target_setting
+          if @current_organization.setting_values.for_setting(setting).first.update_attributes(:value => params[:color])
+            flash[:normal] = 'Setting Updated'
+          else
+            flash[:error] = 'Setting Not Updated'
+          end
+        end
+      end
+    else
+      flash[:error] = 'Invalid Setting ID'
+    end
+    render :partial => 'organization_colors', :locals => {:organization => @current_organization}
+
+  end
 
   def app_subscriptions
   end
@@ -185,13 +229,9 @@ class Admin::OurOrganizationController < Admin::ApplicationController
       end
       org.reset_org_option(app)
     end    
-    render :partial => "admin/our_organization/provider_apps"    
+    render :partial => "admin/our_organization/provider_apps"
   end
 
   protected
-
-
-  
-
  
 end  

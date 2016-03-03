@@ -37,25 +37,75 @@ class CoopApp < ActiveRecord::Base
 
   has_many :folders, :dependent => :destroy
    
-  scope :blog,  :conditions => ["abbrev = ? ", "BLOGS"]
-  scope :itl,  :conditions => ["abbrev = ? ", "CTL"]
-  scope :ctl,  :conditions => ["abbrev = ? ", "CTL"]
-  scope :classroom,  :conditions => ["abbrev = ? ", "CLASSROOM"]
-  scope :ifa,  :conditions => ["abbrev = ? ", "IFA"]
+  scope :blogs,  :conditions => ["abbrev = ? ", "BLOGS"]
+  scope :itls,  :conditions => ["abbrev = ? ", "CTL"]
+  scope :ctls,  :conditions => ["abbrev = ? ", "CTL"]
+  scope :classrooms,  :conditions => ["abbrev = ? ", "CLASSROOM"]
+  scope :ifas,  :conditions => ["abbrev = ? ", "IFA"]
   scope :available,  :conditions => ["is_available = ? ", true]
-  scope :pd,  :conditions => ["abbrev = ? ", "PD"]
-  scope :core,  :conditions => ["abbrev = ? ", "CORE"]
-  scope :ita,  :conditions => ["abbrev = ? ", "ITA"]
-  scope :ista,  :conditions => ["abbrev = ? ", "STAT"]
-  scope :cm,  :conditions => ["abbrev = ? ", "CM"]
-  scope :elt,  :conditions => ["abbrev = ? ", "ELT"]
+  scope :pds,  :conditions => ["abbrev = ? ", "PD"]
+  scope :cores,  :conditions => ["abbrev = ? ", "CORE"]
+  scope :itas,  :conditions => ["abbrev = ? ", "ITA"]
+  scope :istas,  :conditions => ["abbrev = ? ", "STAT"]
+  scope :cms,  :conditions => ["abbrev = ? ", "CM"]
+  scope :elts,  :conditions => ["abbrev = ? ", "ELT"]
   scope :unavailable,  :conditions => ["is_available = ? ", false]
   scope :beta,  :conditions => ["is_beta = ? ", true]
   scope :production,  :conditions => ["is_beta = ? ", false]
   scope :use_folders,  :conditions => ["is_folderable = ? ", true]
   scope :blogable,  :conditions => ["is_blogable = ? ", true]
 
-  
+####    Apps
+
+  def self.core
+    self.cores.first
+  end
+
+  def self.blog
+    self.blogs.first
+  end
+
+  def self.itl
+    self.itls.first
+  end
+
+  def self.ctl
+    self.itls.first
+  end
+
+  def self.classroom
+    self.classrooms.first
+  end
+
+  def self.ifa
+    self.ifas.first
+  end
+  def self.pd
+    self.pds.first
+  end
+
+  def self.ita
+    self.itas.first
+  end
+
+  def self.ista
+    self.istas.first
+  end
+  def self.stat
+    self.ista
+  end
+
+  def self.cm
+    self.cms.first
+  end
+
+  def self.elt
+    self.elts.first
+  end
+
+  #########
+
+
   def increment_views
     self.total_view ||= TotalView.create(:entity => self)
     self.total_view.increment
@@ -137,7 +187,7 @@ class CoopApp < ActiveRecord::Base
   end
 
   def self.offering
-    CoopApp.classroom.first
+    CoopApp.classroom
   end
 
   def pd?

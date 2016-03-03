@@ -13,7 +13,7 @@ class Apps::ClientManagerController < Site::ApplicationController
   def index
 
     initialize_parameters
-    CoopApp.cm.first.increment_views
+    CoopApp.cm.increment_views
   end
 
   def manage_staff
@@ -84,12 +84,12 @@ class Apps::ClientManagerController < Site::ApplicationController
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.cm.first 
+      @app = CoopApp.cm
     end
     if params[:solution]
       @solution = CoopApp.find_by_public_id(params[:solution]) rescue nil
     end
-    @admin = @current_user.cm_admin?(@current_organization)  
+    @admin = @current_user.cm_admin_for_org?(@current_organization)
   end
 
   def refresh_client

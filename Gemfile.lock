@@ -46,6 +46,7 @@ GEM
     crypt (2.2.1)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    hpricot (0.8.6)
     i18n (0.5.4)
     jquery-rails (3.1.4)
       railties (>= 3.0, < 5.0)
@@ -104,6 +105,7 @@ DEPENDENCIES
   activemerchant (~> 1.7.1)
   calendar_date_select!
   crypt
+  hpricot
   jquery-rails
   mysql2 (~> 0.2.24)
   paperclip (~> 3.3.1)

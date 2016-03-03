@@ -39,14 +39,14 @@
 									If you'd like to use <%= app.abbrev%> resources that were added to the library by a colleague not from <%= @current_organization.short_name %>, you must visit your colleague's network page and <u>tag</u> that user.</br>
 									<br/>
 									<% unless @current_organization.parent? -%>
-										<% unless @current_organization.active_siblings.select{|o| o.app_enabled?(app.abbrev)}.empty? -%>
-											Currently, you are able to use <%= app.abbrev %> resources from </strong> <%= @current_organization.active_siblings.select{|o| o.app_enabled?(app.abbrev)}.sort_by{|o| o.name}.collect(&:medium_name).join(", ") %></br>
+										<% unless @current_organization.active_siblings.select{|o| o.app_enabled?(app)}.empty? -%>
+											Currently, you are able to use <%= app.abbrev %> resources from </strong> <%= @current_organization.active_siblings.select{|o| o.app_enabled?(app)}.sort_by{|o| o.name}.collect(&:medium_name).join(", ") %></br>
 										<% else -%>
 											Currently, you cannot use <%= app.abbrev %> resources from other schools.</br/>
 										<% end -%>
 									<% else-%>
-										<% unless @current_organization.all_active_children.select{|o| o.app_enabled?(app.abbrev)}.empty? -%>
-											Currently, you are able to use <%= app.abbrev %> resources from </strong> <%= @current_organization.all_active_children.select{|o| o.app_enabled?(app.abbrev)}.sort_by{|o| o.name}.collect(&:medium_name).join(", ") %></br>
+										<% unless @current_organization.all_active_children.select{|o| o.app_enabled?(app)}.empty? -%>
+											Currently, you are able to use <%= app.abbrev %> resources from </strong> <%= @current_organization.all_active_children.select{|o| o.app_enabled?(app)}.sort_by{|o| o.name}.collect(&:medium_name).join(", ") %></br>
 										<% else -%>
 											Currently, you cannot use <%= app.abbrev %> resources from other schools.</br/>
 										<% end -%>

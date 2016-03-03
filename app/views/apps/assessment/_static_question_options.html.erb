@@ -27,7 +27,7 @@
 						&nbsp;
 				</td>
 			</tr>
-			<% if @current_user.has_authorization_level_for?(@current_organization, "ifa_administrator")-%>	
+			<% if @current_user.ifa_admin_for_org?(@current_organization)-%>
 				<tr style=" border:0px solid white;">
 					<td colspan=3 style="  border:0px solid white; font-size:11px; padding-top:15px;padding-bottom:0px; padding-left:3px; vertical-align:middle; text-align:left;color: #C83A14;font-weight:normal;">
 						<% if @question.is_calibrated -%>
@@ -49,7 +49,7 @@
 			</tr>						
 			<tr style=" border:0px solid white;">
 				<td colspan=3 style="  border:0px solid white; font-size:11px; padding-top:0px;padding-bottom:5px; padding-left:3px; vertical-align:middle; text-align:left;color: #C83A14;font-weight:normal;">
-					<% if @current_user.has_authorization_level_for?(@current_organization, "ifa_administrator")-%>
+					<% if @current_user.ifa_admin_for_org?(@current_organization)-%>
 						<br/><%= button_to  "CLONE Question", {:controller => "/apps/assessment", :action => :copy_question, :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question}, :class => "fsn-button ui-button ui-state-default ui-corner-all" %></u><br/>
 					<% else -%>
 						&nbsp;

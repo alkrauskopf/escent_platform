@@ -1,6 +1,6 @@
 
 <div id="period_selection">
-	<% if @current_user.classroom_admin?(@current_organization) -%>
+	<% if @current_user.classroom_admin_for_org?(@current_organization) -%>
 		<div id="teacher_selection" style = "padding-bottom:10px;padding-left:0px; ">
 			<table  style="width:600px;margin-left:230px;">
 				<tbody>  

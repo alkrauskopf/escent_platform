@@ -109,9 +109,9 @@
 	        <a href="#tabs-1"><span class="tab_label">
 			<%= tab_1_label %></span></a>	
 		</li>
-		<% if @current_organization.app_enabled?(CoopApp.ctl.first.abbrev) -%> 
+		<% if @current_organization.app_enabled?(CoopApp.ctl) -%>
 		    <li>
-				<%  tab_2_label =  CoopApp.itl.first.abbrev + " Reflections" %>
+				<%  tab_2_label =  CoopApp.itl.abbrev + " Reflections" %>
 		        <a href="#tabs-2"><span class="tab_label">
 				<%= tab_2_label %></span></a>	
 			</li>
@@ -122,14 +122,14 @@
 			<%= tab_3_label %></span></a>	
 		</li>
 		
- 		<% if @current_user.pd_authorized_for?(@current_organization) || @current_user.pd_coach_for?(@current_organization)-%>
+ 		<% if @current_user.pd_authorized?(@current_organization) || @current_user.pd_coach_for?(@current_organization)-%>
 	       	<li>
 	      	<%  tab_6_label = "All Teachers" %>
 	        <a href="#tabs-6"><span class="tab_label">
 			<%= tab_6_label %></span></a>	
 		  	</li>
 		<% end -%>
- 		<% if @current_user.pd_authorized_for?(@current_organization) -%>
+ 		<% if @current_user.pd_authorized?(@current_organization) -%>
 	       	<li>
 	      	<%  tab_4_label = "Surveys" %>
 	        <a href="#tabs-4"><span class="tab_label">
@@ -148,7 +148,7 @@
 	<div id="tabs-1" class="favorite_organizations" style="width:900px">
 	  <%= render :partial => "/apps/staff_develop/manage_cycles", :locals => {:teacher=> @teacher, :package => @package, :app => @app}  %>
    	</div>
-	<% if @current_organization.app_enabled?(CoopApp.ctl.first.abbrev) -%> 
+	<% if @current_organization.app_enabled?(CoopApp.ctl) -%>
 		<div id="tabs-2" class="favorite_organizations" style="width:900px">
 	    	<%= render :partial => "/apps/staff_develop/teacher_itl_reflections", :locals => {:teacher => @teacher,  :admin => @admin, :subject => nil } %>
 	   	</div>
@@ -156,12 +156,12 @@
 	<div id="tabs-3" class="favorite_organizations" style="width:900px">
 	  <%= render :partial => "/apps/staff_develop/list_resources", :locals => {:admin => @admin, :app => @app} %>
    	</div>
- 	<% if @current_user.pd_authorized_for?(@current_organization) || @current_user.pd_coach_for?(@current_organization)-%>
+ 	<% if @current_user.pd_authorized?(@current_organization) || @current_user.pd_coach_for?(@current_organization)-%>
 		<div id="tabs-6" class="favorite_organizations" style="width:900px">
 	 	  <%= render :partial => "/apps/staff_develop/list_teacher_plans", :locals => {:app => @app}%>
 	   	</div>
 	<% end -%>
-	<% if @current_user.pd_authorized_for?(@current_organization) -%>
+	<% if @current_user.pd_authorized?(@current_organization) -%>
 		<div id="tabs-4" class="favorite_organizations" style="width:900px">
 	 	  <%= render :partial => "/apps/shared/sumarize_surveys", :locals => {:admin => @admin, :org => @current_organization, :app => @app} %>
 	   	</div>

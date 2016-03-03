@@ -129,14 +129,14 @@
                 <li style="width: 10%;"  class="hdr-dropdown">
                     <%= render :partial => 'shared/our_povs', :locals=>{:org => @current_organization}%>
                 </li>
-                <li style="width: 10%;"  class="hdr-dropdown">
+               <li style="width: 10%;"  class="hdr-dropdown">
+                 <%= @current_user ? (render :partial => 'shared/our_apps', :locals=>{:user => @current_user, :org => @current_organization}) : ' '%>
+               </li>
+               <li style="width: 10%;"  class="hdr-dropdown">
                     <%= !reconstruct ?  (render :partial => 'shared/about_us', :locals=>{:org => @current_organization}) : ' ' %>
                 </li>
-                <li style="width: 10%;"  class="hdr-dropdown">
-                    <%= render :partial => 'shared/our_apps', :locals=>{:user => @current_user, :org => @current_organization}%>
-                </li>
                 <li style="width: 5%;" class="hdr-dropdown">
-                  <% if  @current_user && (@current_user.administrator_of?(@current_organization) || @current_user.superuser?) -%>
+                  <% if  @current_user && (@current_user.administrator_for_org?(@current_organization) || @current_user.superuser?) -%>
                     <span><%= link_to 'Admin', :controller => "/admin/application", :action => :index, :organization_id => @current_organization %></span>
                   <% end -%>
                 </li>

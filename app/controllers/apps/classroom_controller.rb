@@ -1,18 +1,19 @@
 class Apps::ClassroomController < Site::ApplicationController
 
  layout "classroom_admin", :except=>[:offering_views, :offering_folder_views, :show_content, :show_lu_resources, :offering_folder_setup, :offering_folders, :offering_surveys, :offering_homeworks, :offering_students, :offering_referrals, :offering_resources, :offering_periods, :offering_lus, :destroy_classroom, :toggle_active, :assign_students, :list_students, :survey_classroom_schedule, :survey_classroom_results, :question_aggregation, :register_classroom, :manage_period_students, :subject_offerings]
-  
-  before_filter :clear_notification
+ before_filter :classroom_allowed?, :except=>[]
+ before_filter :current_user_classroom_authorized?, :except=>[]
+ before_filter :clear_notification
   
  def clear_notification
     flash[:notice] = nil
     flash[:error] = nil
-  end
+ end
 
   def index
     initialize_parameters
-    CoopApp.classroom.first.increment_views
-    unless @current_user.classroom_admin?(@current_organization)
+    CoopApp.classroom.increment_views
+    unless @current_user.classroom_admin_for_org?(@current_organization)
       @teacher = @current_user
     end 
   end
@@ -86,7 +87,7 @@ class Apps::ClassroomController < Site::ApplicationController
     else
       parent = @classroom.parent_subject
     end
-    render :partial => "edit_classroom", :locals => {:admin => @admin,:parent=> parent, :classroom => @classroom, :app=> @app} 
+    render :partial => "edit_classroom", :locals => {:admin => @admin, :parent=> parent, :classroom => @classroom, :app=> @app}
   end
   
   def setup_classroom
@@ -147,7 +148,7 @@ class Apps::ClassroomController < Site::ApplicationController
   
   def offering_surveys
     initialize_parameters
-    @audience = CoopApp.classroom.first.tlt_survey_audiences.student.first
+    @audience = CoopApp.classroom.tlt_survey_audiences.student.first
   end
 
   def offering_folder_setup
@@ -376,7 +377,7 @@ class Apps::ClassroomController < Site::ApplicationController
           per.destroy
         end       
          unless @teacher.teacher_of_classroom?(@period.classroom)
-          set_classroom_favorite(@teacher, @period.classroom, "remove")
+           @teacher.set_classroom_favorite(@period.classroom, "remove")
         end
       else
         period_user = ClassroomPeriodUser.new
@@ -384,7 +385,7 @@ class Apps::ClassroomController < Site::ApplicationController
         period_user.is_teacher = true
         period_user.is_student = false
         @period.classroom_period_users<<period_user
-        set_classroom_favorite(@teacher, @period.classroom, "add")
+        @teacher.set_classroom_favorite(@period.classroom, "add")
       end
     end
     refresh_period
@@ -489,7 +490,7 @@ class Apps::ClassroomController < Site::ApplicationController
       @period.classroom_period_users.students.destroy_all 
       students.each do |stud|
         unless stud.user_of_classroom?(@period.classroom)
-          set_classroom_favorite(stud, @period.classroom, "remove")
+          stud.set_classroom_favorite(@period.classroom, "remove")
         end
       end
     end
@@ -648,18 +649,24 @@ class Apps::ClassroomController < Site::ApplicationController
   end
 
    private
-   
+
+  def classroom_allowed?
+    @current_application = CoopApp.classroom
+    current_app_enabled_for_current_org?
+  end
+
+
   def initialize_parameters 
     @current_organization = Organization.find_by_public_id(params[:organization_id])rescue nil
     if params[:app_id]
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.classroom.first rescue CoopApp.find(:first)
+      @app = CoopApp.classroom
     end
     
-    @admin = @current_user ? @current_user.classroom_admin?(@current_organization) : false  
-    @self_admin = @current_user ? @current_user.teacher?(@current_organization) : false
+    @admin = @current_user.classroom_admin_for_org?(@current_organization)
+    @self_admin = @current_user.teacher_for_org?(@current_organization)
 
     if params[:classroom_id]
       @classroom =Classroom.find_by_public_id(params[:classroom_id])  rescue nil
@@ -753,7 +760,7 @@ class Apps::ClassroomController < Site::ApplicationController
         period_user.is_student = false
         per.classroom_period_users<<period_user
       end
-        set_classroom_favorite(user, per.classroom, "add")
+        user.set_classroom_favorite(per.classroom, "add")
     end    
   end
 
@@ -763,21 +770,8 @@ class Apps::ClassroomController < Site::ApplicationController
         p.destroy
       end
       unless user.user_of_classroom?(per.classroom)
-        set_classroom_favorite(user, per.classroom, "remove")
+        user.set_classroom_favorite(per.classroom, "remove")
       end
-    end    
-  end
-
-  def assign_student(stud, per)
-    if stud && per
-      unless per.users.include?(stud) 
-        period_user = ClassroomPeriodUser.new
-        period_user.user_id = stud.id
-        period_user.is_teacher = false
-        period_user.is_student = true
-        per.classroom_period_users<<period_user
-      end
-        set_classroom_favorite(stud, per.classroom, "add")
     end    
   end
 
@@ -790,7 +784,7 @@ class Apps::ClassroomController < Site::ApplicationController
         period_user.is_student = true
         per.classroom_period_users<<period_user
       end
-        set_classroom_favorite(stud, per.classroom, "add")
+        stud.set_classroom_favorite(per.classroom, "add")
     end    
   end
 
@@ -800,7 +794,7 @@ class Apps::ClassroomController < Site::ApplicationController
         p.destroy
       end
       unless stud.user_of_classroom?(per.classroom)
-        set_classroom_favorite(stud, per.classroom, "remove")
+        stud.set_classroom_favorite(per.classroom, "remove")
       end
     end    
   end
@@ -886,6 +880,6 @@ class Apps::ClassroomController < Site::ApplicationController
  
   def remove_featured_resource(lu)
     lu.update_attributes(:featured_content=> nil)
-  end 
-  
+  end
+
 end

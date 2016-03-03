@@ -1,5 +1,5 @@
 class Master::UsersController < Master::ApplicationController
-  layout "master"
+  layout "crud"
   
   before_filter :find_user, :only => [:edit, :show, :delete, :toggle_su, :toggle_suspend]
   

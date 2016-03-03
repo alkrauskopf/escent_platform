@@ -1,6 +1,6 @@
 class Master::ActSubmissionsController < Master::ApplicationController
 
-  layout "master"
+  layout "crud"
   
   before_filter :find_submission, :only => [:edit, :show, :delete]
   

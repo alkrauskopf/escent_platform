@@ -67,7 +67,7 @@
 			<%= link_to "Blog Posts" , {:controller => "site/blogs" , :action => "show" , :blog_id => @blog.public_id}, :class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "padding:0 4px" %>
 		</div>
 		<div class="blogs_said_nav_tile">
-				<% if @current_user.present? && (@current_user.has_authorization_level_for?(@current_organization, "administrator") ||  @blog.blog_panel.users.include?(@current_user)) %>
+				<% if @current_user.present? && (@current_user.has_authority?(@current_organization, AuthorizationLevel.app_administrator(CoopApp.core)) ||  @blog.blog_panel.users.include?(@current_user)) %>
 				<%= link_to "Add a Post" , {:controller => "site/blog_posts" , :action => "create" , :blog_id => @blog.public_id}, :class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "padding:0 4px" %>
 			<% end %>
 		</div>	

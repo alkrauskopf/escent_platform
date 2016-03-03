@@ -21,7 +21,7 @@
 				<td style= "width:360px; width:fixed; border:0px solid #ddd;padding-left:0px;">
 					<div style="max-width: 360px;">
 
-						<%= render (:partial => "tlt_activity_log", :locals => {:tl_session => tl_session, :no_impact_updates => true, :count=>7}) %>	
+						<%= render :partial => "tlt_activity_log", :locals => {:tl_session => tl_session, :no_impact_updates => true, :count=>7}%>
 
 					</div>
 				</td>
@@ -30,14 +30,14 @@
 						<div >
 							<% tl_session.app_methods.by_position.each do |method| -%>
 								<% if method.timed? -%>
-									<%= render (:partial => "tlt_activity_timed_yes", :locals => {:tl_session => tl_session, :app_method => method, :text_color=>text_color, :family=>family}) %>		
+									<%= render :partial => "tlt_activity_timed_yes", :locals => {:tl_session => tl_session, :app_method => method, :text_color=>text_color, :family=>family}%>
 									<% @current_organization.itl_org_option.app_methods.not_timed.each do |meth| -%>
 										<% if !tl_session.active_strategy_evidences_method(meth).empty?%>
-											<%= render (:partial => "tlt_activity_timed_no", :locals => {:tl_session => tl_session, :app_method => meth, :for_strategy=>true,:text_color=>text_color, :family=>family}) %>		
+											<%= render :partial => "tlt_activity_timed_no", :locals => {:tl_session => tl_session, :app_method => meth, :for_strategy=>true,:text_color=>text_color, :family=>family}%>
 										<% end -%>
 									<% end -%>
 								<% else -%>
-									<%= render (:partial => "tlt_activity_timed_no", :locals => {:tl_session => tl_session, :app_method => method, :for_strategy=>false, :text_color=>text_color, :family=>family}) %>		
+									<%= render :partial => "tlt_activity_timed_no", :locals => {:tl_session => tl_session, :app_method => method, :for_strategy=>false, :text_color=>text_color, :family=>family}%>
 								<% end -%>
 							<% end -%>
 						</div>

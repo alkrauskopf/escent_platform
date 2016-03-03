@@ -58,7 +58,7 @@
 						<%= (image_tag "button_disabled.png",:width => 10) -%>
 					</td>
 				<% end -%>	
-				<%= render (:partial => "thumbs_columns", :locals => {:quest => quest, :std => ActMaster.act.first, :filter =>"ACT"})%>
+				<%= render :partial => "thumbs_columns", :locals => {:quest => quest, :std => ActMaster.act.first, :filter =>"ACT"}%>
 				<td width = 150px style=" color: #000000; vertical-align:top;font-size:11px;" >
 					<% unless @current_organization.ifa_org_option.nil? -%>
 						<% @current_organization.ifa_org_option.act_masters.each do|mstr| -%>

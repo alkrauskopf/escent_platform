@@ -1,26 +1,26 @@
 <div id="past_surveys">
 	<% survey_class = TltSession.first.class -%>
-	<% app = CoopApp.itl.first %>
+	<% app = CoopApp.itl %>
 	<% header_title = "Time & Learning Surveys" -%>
 	<% label_type = "tlt_session" -%>
 	<%= render :partial => "/apps/shared/my_past_survey_class", :locals => {:survey_class=> survey_class, :app => app, :header => header_title, :label_type=>label_type}  %>
 
 	<% survey_class = TltDiagnostic.first.class -%>
-	<% app = CoopApp.itl.first -%>
+	<% app = CoopApp.itl -%>
 	<% header_title = "Time & Learning Reflection" -%>
 	<% label_type = "diagnostic" -%>
 	<% sort_date = "created" -%>
 	<%= render :partial => "/apps/shared/my_past_survey_class", :locals => {:survey_class=> survey_class, :app => app, :header => header_title, :label_type=>label_type}  %>
 
 	<% survey_class = UserDlePlan.first.class -%>
-	<% app = CoopApp.pd.first -%>
+	<% app = CoopApp.pd -%>
 	<% header_title = "PD Surveys" -%>
 	<% label_type = "pd" -%>
 	<% sort_date = "created" -%>
 	<%= render :partial => "/apps/shared/my_past_survey_class", :locals => {:survey_class=> survey_class, :app => app, :header => header_title, :label_type=>label_type}  %>
 
 	<% survey_class = ClassroomPeriod.first.class -%>
-	<% app = CoopApp.classroom.first -%>
+	<% app = CoopApp.classroom -%>
 	<% header_title = "Classroom Surveys" -%>
 	<% label_type = "classroom" -%>
 	<% sort_date = "created" -%>

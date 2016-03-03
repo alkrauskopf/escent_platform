@@ -13,4 +13,5 @@ gem 'wicked_pdf', '~> 0.6.0'
 gem 'paperclip', '~> 3.3.1'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-# gem 'jquery-ui-rails'
+#
+gem 'hpricot'

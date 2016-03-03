@@ -1,0 +1,89 @@
+<style type="text/css">
+  .hdr-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .hdr-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color:<%= Organization.default.style_setting_value_named("Header and Footer Bars") %>;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    color:<%= Organization.default.style_setting_value_named("Header and Footer Text") %>;
+  }
+
+  .hdr-dropdown:hover .hdr-dropdown-content {
+    display: block;
+  }
+</style>
+<div class="login_bar">
+	<% reconstruct = true %>
+  <div class="iwing_header_and_footer_bars clear">
+      <div class="content" style="width:100%;">
+        <div class="header_row clear">
+              <div style="float:left; width:35%; vertical-align:middle" class="header_footer_text">
+                CRUD MAINTENANCE: <%= @current_user.full_name %>
+              </div>
+              <div style="float:left; text-align:center; width:30%; " class="header_footer_text">
+                  <%= link_to Organization.default.name, :controller => "/site/site", :action => :static_organization, :organization_id => Organization.default %>
+              </div>
+              <div style="float:right;text-align:right; width:35%; " class="header_footer_text">
+                <%= link_to "Sign Out", :controller => "/users", :action => :logout, :organization_id => Organization.default %>
+                &nbsp;|&nbsp;
+              </div>
+        </div>
+          <div class="header_row clear" style="border-top:2px solid #FFFFFF;">
+            <div style="width:100%; float:left; text-align:left;vertical-align:bottom;"class="header_footer_text">
+             <ul >
+               <li style="width: 12%;" class="hdr-dropdown">
+                 <%= render :partial => 'shared/my_schools', :locals => {:user => @current_user, :org => @current_organization}%>
+               </li>
+               <li style="width: 15%;" class="hdr-dropdown">
+                  <span>Users</span>
+                  <ul style="width: 80%;" class="hdr-dropdown-content">
+                    <li ><%= link_to "List", :controller => "/master/users", :action => :index %></li>
+                  </ul>
+                </li>
+               <li style="width: 15%;" class="hdr-dropdown">
+                 <span>Organizations</span>
+                 <ul style="width: 80%;" class="hdr-dropdown-content">
+                   <li><%= link_to "List", {:controller=>"/master/organizations", :action => :index} %></li>
+                   <li><%= link_to"App Ownership", {:controller=>"/master/organizations", :action =>  :ownership} %></li>
+                   <li><%= link_to"App Useability", {:controller=>"/master/organizations", :action =>  :app_useability} %></li>
+                   <li><%= link_to "Create New", {:controller=>"/master/organizations", :action => :new},  :target => '_blank' %></li>
+                 </ul>
+               </li>
+               <li style="width: 15%;" class="hdr-dropdown">
+                 <span>Applications</span>
+                 <ul style="width: 80%;" class="hdr-dropdown-content">
+                   <li><%= link_to "Create App", {:controller => "master/coop_apps", :action => :edit_app, :function=>"New"} %></li>
+                   <% CoopApp.all.each do |app| %>
+                         <li><%= link_to app.abbrev, {:controller => "master/coop_apps", :action => :index, :app_id=> app.id} %></li>
+                   <% end %>
+                 </ul>
+               </li>
+               <li style="width: 15%;" class="hdr-dropdown">
+                 <span>Maintenance</span>
+                 <ul class="hdr-dropdown-content">
+                   <li><%= "CTL: List Sessions"%></li>
+                   <li><%="IFA: List Submissions" %></li>
+                   <!--
+                   <%#= link"IFA: Calibrate Assessments", :act_submissions, :assessment_calibrations %>
+                   -->
+                  </ul>
+               </li>
+               <li style="width: 15%;" class="hdr-dropdown">
+                 <span>Authorizations</span>
+                 <ul style="width: 200%;" class="hdr-dropdown-content">
+                   <li><%= link_to "Core: Re-Map Authorizations", {:controller=>"/master/coop_apps", :action =>  :core_map_authorizations}%></li>
+                   <li><%= link_to "Core: Re-Map Appl Scopes", {:controller=>"/master/coop_apps", :action =>  :core_map_appl_scopes}%></li>
+                 </ul>
+               </li>
+             </ul>
+            </div>
+          </div>
+       </div>
+    </div>
+ </div>

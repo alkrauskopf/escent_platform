@@ -46,7 +46,7 @@
 		        <a href="#tabs-6"><span class="tab_label">
 				<center><%= tab_6_label %></center></span></a>	
 			  </li>
-			<% if @current_user.blog_admin?(@current_organization) -%> 
+			<% if @current_user. blog_admin_for_org?(@current_organization) -%>
 		      <li>
 				<%  tab_7_label = "Surveys" %>
 		        <a href="#tabs-7"><span class="tab_label">
@@ -68,7 +68,7 @@
 	    		<%= render :partial => "/apps/blogs/panelist_listings", :locals=>{:app=>@app} %>
 		   	</div>
 	
-			<% if @current_user.blog_admin?(@current_organization) -%> 
+			<% if @current_user. blog_admin_for_org?(@current_organization) -%>
 				<div id="tabs-7" class="favorite_organizations" style="width:900px">
 					Surveys
 			   	</div>  

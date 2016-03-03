@@ -15,7 +15,7 @@ class Apps::TimeLearningController < Site::ApplicationController
   def index
 
     initialize_parameters
-    CoopApp.ctl.first.increment_views
+    CoopApp.ctl.increment_views
     itl_groupings
 
     clean_unresolved_observer_sessions
@@ -249,8 +249,8 @@ class Apps::TimeLearningController < Site::ApplicationController
 
   def teacher_private_itl_dashboards
     initialize_parameters
-    @audience = CoopApp.itl.first.tlt_survey_audiences.teacher.first
-    @survey_type = CoopApp.itl.first.tlt_survey_types.reflective.first
+    @audience = CoopApp.itl.tlt_survey_audiences.teacher.first
+    @survey_type = CoopApp.itl.tlt_survey_types.reflective.first
     @last_session = @current_user.tlt_sessions.for_subject(@subject_area).last rescue nil
     @since = Date.today - @current_organization.itl_org_option.stat_window.weeks 
   end
@@ -764,8 +764,8 @@ class Apps::TimeLearningController < Site::ApplicationController
       redirect_to :action => :teacher_private_itl_dashboards, :organization_id => @current_organization,  :subject_area_id => @subject_area, :teacher_id => @current_user
     end # end of Check Submission
 
-    @audience = CoopApp.itl.first.tlt_survey_audiences.teacher.first
-    @survey_type = CoopApp.itl.first.tlt_survey_types.reflective.first
+    @audience = CoopApp.itl.tlt_survey_audiences.teacher.first
+    @survey_type = CoopApp.itl.tlt_survey_types.reflective.first
     @last_session = @current_user.tlt_sessions.for_subject(@subject_area).last rescue nil
   end
 
@@ -1182,7 +1182,7 @@ class Apps::TimeLearningController < Site::ApplicationController
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
     unless @app
-      @app = CoopApp.itl.first rescue CoopApp.find(:first)
+      @app = CoopApp.itl rescue CoopApp.find(:first)
     end
 
     if params[:hat]
@@ -1193,7 +1193,7 @@ class Apps::TimeLearningController < Site::ApplicationController
       @itl_template = ItlTemplate.find_by_id(params[:itl_template_id])rescue nil
     end  
       
-    @admin = @current_user.ctl_admin?(@current_organization)  
+    @admin = @current_user.ctl_admin_for_org?(@current_organization)
 
   end
 

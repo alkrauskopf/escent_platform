@@ -16,12 +16,12 @@
 	<table id="folder_groups"  style="margin-left:0px; width:900px; border:0px solid #ddd;">
 		<tbody> 
 		 	<% org.folders.each do |folder| %>
-				<% unless (@current_user.content_admin?(org) ? folder.lu_resources.for_org(org).empty? : folder.lu_resources.for_user(@current_user).for_org(org).empty?) %>
+				<% unless (@current_user.content_admin_for_org?(org) ? folder.lu_resources.for_org(org).empty? : folder.lu_resources.for_user(@current_user).for_org(org).empty?) %>
 					<tr>
 						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal; padding-bottom:0px; font-size:12px">
 						
 						<%= link_to '', :controller => "site/contents", :action => "show_group_content", :organization_id=>@current_organization, :org_id => org, :entity_class=> folder.class, :entity_id => folder.id %>
-							<%= folder.name%>&nbsp;<i>(<%= (@current_user.content_admin?(org) ? folder.lu_resources.for_org(org).size : folder.lu_resources.for_user(@current_user).for_org(org).size) %>)</i>
+							<%= folder.name%>&nbsp;<i>(<%= (@current_user.content_admin_for_org?(org) ? folder.lu_resources.for_org(org).size : folder.lu_resources.for_user(@current_user).for_org(org).size) %>)</i>
 						<span></span>
 						</td>
 					</tr>
@@ -41,12 +41,12 @@ jQ(document).ready(function() {
 	<table id="type_groups"  style="margin-left:0px; width:900px; border:0px solid #ddd;">
 		<tbody> 
 		 	<% org.content_types.each do |type| %>
-				<% unless (@current_user.content_admin?(org) ? org.contents.for_type(type).empty? : org.contents.for_user(@current_user).for_type(type).empty?) %>
+				<% unless (@current_user.content_admin_for_org?(org) ? org.contents.for_type(type).empty? : org.contents.for_user(@current_user).for_type(type).empty?) %>
 					<tr>
 						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal; padding-bottom:0px; font-size:12px">
 						
 						<%= link_to '', :controller => "site/contents", :action => "show_group_content", :organization_id=>@current_organization, :org_id => org, :entity_class=> type.class, :entity_id => type.id %>
-							<%= type.name%>&nbsp;<i>(<%= (@current_user.content_admin?(org) ? org.contents.for_type(type).size : org.contents.for_user(@current_user).for_type(type).size) %>)</i>
+							<%= type.name%>&nbsp;<i>(<%= (@current_user.content_admin_for_org?(org) ? org.contents.for_type(type).size : org.contents.for_user(@current_user).for_type(type).size) %>)</i>
 						<span></span>
 						</td>
 					</tr>

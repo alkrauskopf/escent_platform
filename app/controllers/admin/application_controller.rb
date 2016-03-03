@@ -4,23 +4,25 @@ class Admin::ApplicationController < ApplicationController
   
   before_filter :current_organization
   before_filter :current_user, :except => [:login]
-  before_filter :admin_authorize
+  before_filter :core_enabled_for_current_org?
+  before_filter :org_admin_authorize
 
 # This doesn't work. Only Superusers pass through this filter 
 #  require_authorization "administrator", :except => [:login , :show]
   
   def index
  #   update
-    @features = Topic.features    
-    @active_topics = @current_organization.topics.active
-    @pending_topics = @current_organization.topics.pending
-    @closed_topics = @current_organization.topics.closed
-    @contents = @current_organization.contents.paginate :per_page => 10, :page => params[:page]
-    @people = @current_organization.org_followers
-    @blogs = @current_organization.blogs
-    @reported_abuses = @current_organization.reported_abuses
-    @active_classrooms = @current_organization.classrooms.active
-    @archived_classrooms = @current_organization.classrooms.archived
+   # @features = Topic.features
+   # @pending_topics = @current_organization.topics.pending
+ #   @closed_topics = @current_organization.topics.closed
+ #   @contents = @current_organization.contents.paginate :per_page => 10, :page => params[:page]
+ #   @people = @current_organization.org_followers
+ #   @blogs = @current_organization.blogs
+ #   @reported_abuses = @current_organization.reported_abuses
+ #   @active_classrooms = @current_organization.classrooms.active
+ #   @archived_classrooms = @current_organization.classrooms.archived
+    @organization = @current_organization
+    @address = @organization.addresses.first || @organization.addresses.new
   end
 
   def login
@@ -39,11 +41,8 @@ class Admin::ApplicationController < ApplicationController
 
   protected
 
-  def admin_authorize
-    if !(!@current_user.nil? && !@current_organization.nil? && (@current_user.superuser? || authorized?(@current_user, @current_organization, AuthorizationLevel.administrator)))
-      organization = !@current_user.nil? ? @current_user.organization : Organization.default
-      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => organization
-    end
+  def org_admin_authorize
+    user_authorize(AuthorizationLevel.app_administrator(CoopApp.core))
   end
 
   def access_denied(message=nil)

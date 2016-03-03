@@ -234,8 +234,8 @@ class Master::TltSessionController < Master::ApplicationController
 #        end
 #     else
  #      unless session.is_observer_done
-#          session_audience = CoopApp.itl.first.tlt_survey_audiences.observer.first
-#          session_type = CoopApp.itl.first.tlt_survey_types.observation.first
+#          session_audience = CoopApp.itl.tlt_survey_audiences.observer.first
+#          session_type = CoopApp.itl.tlt_survey_types.observation.first
 #          user_id = session.user_id
 #          org_id = session.organization_id
 #          subj_id = session.subject_area_id
@@ -243,8 +243,8 @@ class Master::TltSessionController < Master::ApplicationController
 #          schedule_survey(session, session_audience, session_type, session_limit, false, user_id, org_id, subj_id) 
 #        end
 #       unless session.is_teacher_done
-#          session_audience = CoopApp.itl.first.tlt_survey_audiences.teacher.first
-#          session_type = CoopApp.itl.first.tlt_survey_types.observation.first
+#          session_audience = CoopApp.itl.tlt_survey_audiences.teacher.first
+#          session_type = CoopApp.itl.tlt_survey_types.observation.first
 #          user_id = session.user_id
 #          org_id = session.organization_id
 #          subj_id = session.subject_area_id
@@ -270,11 +270,11 @@ class Master::TltSessionController < Master::ApplicationController
 #        end
 #     else
 #       if session.is_current
-#          session_audience = CoopApp.pd.first.tlt_survey_audiences.teacher.first
-#          if session.dle_cycle_id == 1 then session_type = CoopApp.pd.first.tlt_survey_types.pre.first end
-#          if session.dle_cycle_id == 2 then session_type = CoopApp.pd.first.tlt_survey_types.disc.first end
-#          if session.dle_cycle_id == 3 then session_type = CoopApp.pd.first.tlt_survey_types.learn.first end
-#          if session.dle_cycle_id == 4 then session_type = CoopApp.pd.first.tlt_survey_types.post.first end
+#          session_audience = CoopApp.pd.tlt_survey_audiences.teacher.first
+#          if session.dle_cycle_id == 1 then session_type = CoopApp.pd.tlt_survey_types.pre.first end
+#          if session.dle_cycle_id == 2 then session_type = CoopApp.pd.tlt_survey_types.disc.first end
+#          if session.dle_cycle_id == 3 then session_type = CoopApp.pd.tlt_survey_types.learn.first end
+#          if session.dle_cycle_id == 4 then session_type = CoopApp.pd.tlt_survey_types.post.first end
 #          user_id = session.user_id
 #          org_id = session.user.organization.id
 #          subj_id = nil

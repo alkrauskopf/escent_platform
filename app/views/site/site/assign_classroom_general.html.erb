@@ -11,7 +11,7 @@
 	<center>(Close Window To Exit)</center>
 	</span>
 
-	<% if @current_organization.appl_enabled?(CoopApp.classroom.first) -%>
+	<% if @current_organization.app_enabled?(CoopApp.classroom) -%>
 	    <%= render :partial => "manage_classroom_options", :locals=>{:classroom => @classroom, :topic => @topic} %>
 	
 	
@@ -55,7 +55,7 @@
 		<br/>
 			<%= render :partial => "apps/classroom/manage_classroom_surveys", :locals=>{:classroom => @classroom} %>
 		
-	        <% if @current_organization.appl_enabled?(CoopApp.ifa.first)-%>
+	        <% if @current_organization.app_enabled?(CoopApp.ifa)-%>
 				<%= render :partial => "manage_classroom_ifa", :locals=>{:classroom => @classroom} %>
 			<% end -%>
 	

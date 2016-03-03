@@ -5,5 +5,9 @@ class SettingValue < ActiveRecord::Base
   scope :style_settings, :include => :setting, :conditions => ["settings.type = ?", "StyleSetting"]
   scope :discussion_settings, :include => :setting, :conditions => ["settings.type = ?", "DiscussionSetting"]
   scope :search_settings, :include => :setting, :conditions => ["settings.type = ?", "SearchSetting"]
- 
+
+
+  def self.for_setting(setting)
+    self.where('setting_id = ?', setting.id)
+  end
 end

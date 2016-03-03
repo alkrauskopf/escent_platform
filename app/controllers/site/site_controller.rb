@@ -3,27 +3,22 @@ class Site::SiteController < Site::ApplicationController
   helper :all # include all helpers, all the time  
   layout "site", :except =>[ :summarize_org_resources, :summarize_org_subject_offerings, :summarize_org_app, :assign_topic_resource_view, :create_new_topic, :edit_topic, :topic_assess, :list_topic_resources, :assign_classroom_resource, :assign_classroom_resource_view, :list_classroom_referrals, :list_classroom_topics, :assign_classroom_referral_links, :assign_classroom_people]
 
-  
   before_filter :find_featured_topic, :only => [:index, :more_topic, :add_comment, :update_index, :featured_content, :home_users, :related_content, :related_content_list, :assign_classroom_referrals, :assign_classroom_people, :assign_classroom_resource, :create_or_edit_topic, :create_new_topic, :show_content, :show_share_content, :show_result_content, :add_star_rating_to_content, :static_classroom, :manage_topic, :assign_classroom_general]
   protect_from_forgery :except => [:add_star_rating_to_content, :related_content_list]
- 
+
   before_filter :clear_notification
   
   def clear_notification
     flash[:notice] = nil
     flash[:error] = nil
   end
-  
-  
-  def static_organization
 
+  def static_organization
     @current_organization.increment_views
     unless @current_organization.default?
-
     initialize_std_parameters
-
     else
-      redirect_to  :controller => "//fsn", :action => "index"  
+      redirect_to  :controller => "//fsn", :action => "index"
     end
   end
   
@@ -54,7 +49,8 @@ class Site::SiteController < Site::ApplicationController
   end
 
   def static_classroom
-    
+    @current_application = CoopApp.classroom
+    current_app_enabled_for_current_org?
     initialize_site_parameters
     initialize_std_parameters 
     @classroom = params[:id] ? Classroom.find_by_public_id(params[:id]) : @current_organization.classrooms.active.first 
@@ -299,7 +295,7 @@ class Site::SiteController < Site::ApplicationController
 
     if params[:function] == "People"    
     @classroom_auth = params[:auth_level]
-    @follower_list = User.who_are_friends(@current_organization)
+    @follower_list = @current_organization.friends_of_org
     authorization_level = AuthorizationLevel.first(:include => :applicable_scopes, :conditions => ["authorization_levels.name = ? AND applicable_scopes.name = ?", @classroom_auth, "Classroom"])
     if @classroom_auth == "leader"
       @remove_list = @classroom.leaders.sort{|a,b| a.last_name.downcase <=> b.last_name.downcase}
@@ -446,7 +442,7 @@ class Site::SiteController < Site::ApplicationController
       
       if params[:commit] == "DESTROY TOPIC" && @topic
         @topic.destroy
-        redirect_to :action => :static_classroom, :organization_id => @current_organization, :id => @classroom 
+        redirect_to :action => :static_classroom, :organization_id => @current_organization, :id => @classroom
       end 
     end  
  
@@ -814,7 +810,7 @@ class Site::SiteController < Site::ApplicationController
           @classroom.update_attributes(:featured_topic => @topic.id)
          end
         flash[:notice] = "Topic successfully created"
-        redirect_to :action => :static_classroom, :organization_id => @current_organization, :topic_id => @topic, :id => @classroom 
+        redirect_to :action => :static_classroom, :organization_id => @current_organization, :topic_id => @topic, :id => @classroom
       else
         flash[:error] = "Topic Not Created"
      end
@@ -1367,7 +1363,7 @@ class Site::SiteController < Site::ApplicationController
         @app = CoopApp.find_by_id(params[:app_id]) rescue nil
       end
       unless @app
-        @app = CoopApp.classroom.first rescue CoopApp.find(:first)
+        @app = CoopApp.classroom rescue CoopApp.find(:first)
       end
   end
 

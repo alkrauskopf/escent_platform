@@ -312,7 +312,7 @@ marketing:
           
 special_ed:
      id: 40 
-     name: Special Ed
+     name: Special Education
      parent_id: NULL
      act_subject_id: 99
      is_core: 0

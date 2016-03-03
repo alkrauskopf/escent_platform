@@ -12,7 +12,7 @@ class Apps::BlogsController < ApplicationController
   
 
   def index
-    CoopApp.blog.first.increment_views
+    CoopApp.blog.increment_views
     authorization_check
   end
 
@@ -396,7 +396,7 @@ class Apps::BlogsController < ApplicationController
     if params[:blog_app]
       @blog_app = CoopApp.find_by_public_id(params[:blog_app]) rescue nil
     end
-    @app = CoopApp.blog.first
+    @app = CoopApp.blog
     if params[:panelist_id]
       @panelist = User.find_by_public_id(params[:panelist_id]) rescue nil
     end   
@@ -410,11 +410,11 @@ class Apps::BlogsController < ApplicationController
   end
   
   def admin?
-    @admin = @current_user.blog_admin?(@current_organization)
+    @admin = @current_user. blog_admin_for_org?(@current_organization)
   end
  
   def blogger?
-    @blogger = @current_user.blogger?(@current_organization)
+    @blogger = @current_user.panelist_for_org?(@current_organization)
   end
 
   def current_blog

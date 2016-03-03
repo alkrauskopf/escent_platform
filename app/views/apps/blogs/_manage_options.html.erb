@@ -1,5 +1,5 @@
 <div id="options">
-	<% if @current_user.blog_admin?(app) -%>
+	<% if @current_user.blog_admin?(app.owner) -%>
 	<table style="width:700px; margin-left:50px; color: #2061a5;">
 		<tbody>
 			<style type="text/css" media="screen">

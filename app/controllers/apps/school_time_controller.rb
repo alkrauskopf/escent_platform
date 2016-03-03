@@ -13,7 +13,7 @@ class Apps::SchoolTimeController < Site::ApplicationController
   def index
 
     initialize_parameters
-    CoopApp.ista.first.increment_views
+    CoopApp.stat.increment_views
   end
 
 
@@ -206,10 +206,10 @@ class Apps::SchoolTimeController < Site::ApplicationController
     @ista_case = params[:case_id] ? IstaCase.find_by_public_id(params[:case_id]): nil
 
     unless @app
-      @app = CoopApp.ista.first 
+      @app = CoopApp.stat
     end
 
-    @admin = @current_user.stat_admin?(@current_organization)  
+    @admin = @current_user.stat_admin_for_org?(@current_organization)
   end
 
   def refresh_organization

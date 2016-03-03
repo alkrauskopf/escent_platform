@@ -77,40 +77,7 @@
 				position: relative;
 			}
 		</style>
-<style type="text/css">
-ul#mymenu {}
-li.potato-menu-item {
-	width:180px;
-	font-size:11px;
-	background-color:transparent] %>;
-	/* background-color:rgba(0,0,0,0.9); */
-}
-li.potato-menu-item a {
-	padding:5px 20px 5px 12px;
-	color:#000000; %>;
 
-}
-li.potato-menu-hover {
-	background-color: #666;
-}
-
-/*  Remove Arrows for Now 
- * 
-li.potato-menu-has-vertical > a {
-	background: transparent url(/images/icons/arrow_down.gif) right no-repeat;
-}
-*/
-li.potato-menu-has-horizontal > a {
-	background: transparent url(/images/icons/arrow_right.gif) right no-repeat;
-}
-
-
-li.potato-menu-item ul {
-	border-top:1px solid #444;
-	border-left:1px solid #444;
-	width:250px;
-}
-</style>
 		<script type="text/javascript" charset="utf-8">
 			function initTinyMCE(){
 				tinyMCE.init({
@@ -159,53 +126,56 @@ li.potato-menu-item ul {
 		</script>
 	</head>
 <body>
-	<div class="container">
-		<div id="topTip">
-			<div class="contentWarp">
-				<div>
-		
-				</div>
-				<div>
+<style type="text/css">
+  .hdr-dropdown {
+    position: relative;
+    display: inline-block;
+  }
 
-				</div>
-			</div>
-		</div>
-	<script type="text/javascript" charset="utf-8">
-		jQ(document).ready(function() {
-			jQ('#mymenu').ptMenu();
-	    })
-	</script>			
+  .hdr-dropdown-content {
+    display: none;
+    position: absolute;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+  }
+
+  .hdr-dropdown:hover .hdr-dropdown-content {
+    display: block;
+  }
+</style>
+<div class="container">
 		<div class="contentWarpWithBottom">
 			<div class="contentWarp">
 				<div id="header">
 					<h1></h1>
 				</div><!-- #header -->
 				<% if @current_user -%>
-				<div id="mainNav" class="contentInner clear">
-					<ul id="mymenu">
-						<li style="width: 70px;text-align:left"><a href="#">Users</a>
-							<ul>
+            <div id="mainNav" class="contentInner clear">
+					  <ul>
+						<li  style="width: 70px;text-align:left"  class="hdr-dropdown"><span>Users</span>
+							<ul class="hdr-dropdown-content">
 								<%= link_to_nav "List", :users, :index %>								
 							</ul>
 						</li>
-						<li  style="width: 80px;text-align:left"><a href="#">Organizations</a>
-							<ul>
+						<li class="hdr-dropdown" style="width: 80px;text-align:left"><a href="#">Organizations</a>
+							<ul class="hdr-dropdown-content">
 								<%= link_to "List", {:controller=>"/master/organizations", :action => :index} %><br/>
 								<%= link_to"App Ownership", {:controller=>"/master/organizations", :action =>  :ownership} %><br/>
 								<%= link_to"App Useability", {:controller=>"/master/organizations", :action =>  :app_useability} %><br/>
 								<%= link_to "Create New", {:controller=>"/organizations", :action => :register},  :target => '_blank' %>
 							</ul>							
 						</li>
-						<li  style="width: 70px;text-align:left"><a href="#">Apps</a>
-							<ul>	
+						<li  class="hdr-dropdown" style="width: 70px;text-align:left"><a href="#">Apps</a>
+							<ul class="hdr-dropdown-content">
 								<%= link_to "Create App", {:controller => "master/coop_apps", :action => :edit_app, :function=>"New"} %><br/>
 								<% CoopApp.all.each do |app| %>	
 									<%= link_to app.abbrev, {:controller => "master/coop_apps", :action => :index, :app_id=> app.id} %><br/>
 								<% end %>
 							</ul>							
 						</li>
-						<li  style="width: 70px;text-align:left"><a href="#">Maint</a>
-							<ul>
+						<li class="hdr-dropdown" style="width: 70px;text-align:left"><a href="#">Maint</a>
+							<ul class="hdr-dropdown-content">
 								<%= link_to_nav "CTL: List Sessions", :tlt_session, :index %>	
 								<%= link_to_nav "CTL: Recalc All Dashboards", :tlt_session, :update_all_session_dashboards %>
 								<%= link_to_nav "IFA: List Submissions", :act_submissions, :index %>	
@@ -217,15 +187,15 @@ li.potato-menu-item ul {
 
 							</ul>							
 						</li>
-						<li  style="width: 70px;text-align:left"> <a href="#">Abuses</a>
-							<ul>
+						<li class="hdr-dropdown" style="width: 70px;text-align:left"> <a href="#">Abuses</a>
+							<ul class="hdr-dropdown-content">
 								<%= link_to_nav "Topics", :topics, :topic_abuses %>
 							</ul>							
 						</li>	
 											
 					</ul>
-				</div>
-				<% end -%><!-- #mainNav -->
+            </div>
+            <% end -%><!-- #mainNav -->
 				<div id="content" class="contentInner">
 					<%= yield %>
 				</div><!-- #content -->

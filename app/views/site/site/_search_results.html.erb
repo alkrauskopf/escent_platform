@@ -208,7 +208,7 @@
 					<% if item_found.topics.size > 1 %><strong>Units:</strong> &nbsp; <% end %>
 					<% item_found.topics.each_with_index do |t,i| %>
 						<% unless t.nil? %>
-        					<%= link_to t.title, :controller => "/site/site", :action => :static_classroom, :organization_id => item_found.organization, :topic_id => t, :id => t.classroom %> 
+        					<%= link_to t.title, :controller => "/site/site", :action => :static_classroom, :organization_id => item_found.organization, :topic_id => t, :id => t.classroom %>
 						<% unless i+1 == item_found.topics.size%>, &nbsp;
 						<%end%>
 						<% end %>

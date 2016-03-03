@@ -76,7 +76,7 @@
 									<strong>Teacher:&nbsp;&nbsp;</strong> <% need_label = false %><% end %>
 									<% if c.organization.id == @user.home_org_id %>
 									<% room_org = Organization.find_by_id(c.organization_id)%>
-									<%= link_to h(c.course_name),:controller => "/site/site", :action => :static_classroom, :organization_id => room_org, :id => c %> &nbsp; 
+									<%= link_to h(c.course_name),:controller => "/site/site", :action => :static_classroom, :organization_id => room_org, :id => c %> &nbsp;
 									<% end %>
 								<% end %> <br/>
 							<% end %>
@@ -87,7 +87,7 @@
 									<strong>Student:&nbsp;&nbsp;</strong> <% need_label = false %><% end %>
 									<% if c.organization.id == @user.home_org_id %>
 									<% room_org = Organization.find_by_id(c.organization_id)%>
-									<%= link_to h(c.course_name),:controller => "/site/site", :action => :static_classroom, :organization_id => room_org, :id => c %> &nbsp; 
+									<%= link_to h(c.course_name),:controller => "/site/site", :action => :static_classroom, :organization_id => room_org, :id => c %> &nbsp;
 									<% end %>
 								<% end %> <br/>
 							<% end %>
@@ -98,7 +98,7 @@
 									<strong>Observer:&nbsp;</strong> <% need_label = false %><% end %>								
 									<% if c.organization.id == @user.home_org_id %>
 									<% room_org = Organization.find_by_id(c.organization_id)%>
-									<%= link_to h(c.course_name),:controller => "/site/site", :action => :static_classroom, :organization_id => room_org, :id => c %> &nbsp; 
+									<%= link_to h(c.course_name),:controller => "/site/site", :action => :static_classroom, :organization_id => room_org, :id => c %> &nbsp;
 									<% end %>
 								<% end %> <br/>
 							<% end %>						

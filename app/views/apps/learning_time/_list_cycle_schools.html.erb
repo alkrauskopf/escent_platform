@@ -8,7 +8,7 @@
 					<span style = "font-size:10px;font-weight:normal">&nbsp;<%= cycle.begin_date.strftime("%m/%y")%>&nbsp;&nbsp;-&nbsp;&nbsp;<%= cycle.end_date.strftime("%m/%y")%></span>
 				</td>
 				<td>			
-					<%= @current_user.elt_admin?(cycle.organization) ? (render :partial => "/apps/learning_time/survey_client_schools", :locals=>{:cycle=>cycle, :app=>app}) : "" %>
+					<%= @current_user.elt_admin_for_org?(cycle.organization) ? (render :partial => "/apps/learning_time/survey_client_schools", :locals=>{:cycle=>cycle, :app=>app}) : "" %>
 				</td>
 			</tr>
 		</tbody>

@@ -76,26 +76,6 @@ class ApplicationController < ActionController::Base
     flash[:error] = nil    
   end
 
-#
-#  Tagging
-#
-  def toggle_classroom_favorite(user, classroom)
-    authorization_level = AuthorizationLevel.first(:include => :applicable_scopes, :conditions => ["authorization_levels.name = ? AND applicable_scopes.name = ?", "favorite", "Classroom"])
-    if authorization_level
-      if user.has_favorite?(classroom)
-        user.authorizations.find_by_scope_id_and_scope_type_and_authorization_level_id(classroom, classroom.class.to_s, authorization_level).destroy
-      else
-        user.add_as_favorite_to(classroom)        
-      end
-    end
-  end
-
-  def set_classroom_favorite(user, classroom, add)
-    if (user.has_favorite?(classroom) && add=="remove") || (!user.has_favorite?(classroom) && add=="add")
-      toggle_classroom_favorite(user, classroom)       
-    end
-  end
-
 
 #
 # Surveys
@@ -202,8 +182,6 @@ class ApplicationController < ActionController::Base
         provider.app_settings(app).update_attributes(:is_owner => !provider.app_settings(app).is_owner, :alt_abbrev => abbrev, :alt_name => name, :provider_id => provider.id)
         update_app_settings(app, provider, true, true, provider.app_settings(app).is_allowed, abbrev, name, nil)
       end
-
-
     end
   end
 

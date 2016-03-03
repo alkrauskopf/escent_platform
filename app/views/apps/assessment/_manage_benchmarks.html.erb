@@ -4,7 +4,7 @@
 	<span style ="color: #C83A14; font-size:18px">
 	<center><strong>Integrated Formative Assessment <%= @current_standard.abbrev %> Benchmark Repository</strong></center>
 	</span>
-	<% if @current_user.has_authorization_level_for?(@current_organization, "ifa_administrator")%>
+	<% if @current_user.ifa_admin_for_org?(@current_organization)%>
 	<div style = "padding-bottom:10px;padding-left:0px; ">
 	<% form_for(:act_question, :url => {:controller => "/apps/assessment", :action => :add_ifa_benchmark, :organization_id => @current_organization, :classroom_id => @classroom}) do |form| -%>
 		<table  style="width:200px;margin-left:305px;">

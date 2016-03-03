@@ -82,7 +82,7 @@
 	</script>
 				<% unless school.nil? || cycle.nil? -%>
 					<tr style="border:0px solid #000000;">
-						<% if @current_user.elt_reviewer?(provider) || @current_user.elt_admin?(@current_organization)%>
+						<% if @current_user.elt_reviewer?(provider) || @current_user.elt_admin_for_org?(@current_organization)%>
 							<% plan_label = school.elt_cycle_plan(cycle).nil? ? "Create" : (school.elt_cycle_plan(cycle).open? ? "Close" : "Open")%>
 							<td id = "cycle_plan" style="width:120px; width:fixed;  text-align:left; padding-left:5px; border:0px solid black">
 								<span class="fsn-button ui-button ui-state-default ui-corner-all" style = "cursor:pointer">

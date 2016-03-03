@@ -6,7 +6,7 @@
 	<% end -%>
 
 <!-- Classroom Period Student Surveys -->
-	<% audience = CoopApp.classroom.first.tlt_survey_audiences.student.first -%>
+	<% audience = CoopApp.classroom.tlt_survey_audiences.student.first -%>
 	<% @current_organization.survey_schedules.classroom.for_audience(audience).active.select{|surv| surv.entity.students.include?(@current_user)}.each do|survey| %>
 		<% if (survey.schedule_end.nil? || Date.today <= survey.schedule_end)-%>
 			<% unless !(survey.tlt_survey_responses.for_user(@current_user).empty?) || survey == schedule %>
@@ -38,7 +38,7 @@
 
 <!-- Classroom Period Teacher Surveys -->
 
-	<% audience = CoopApp.classroom.first.tlt_survey_audiences.teacher.first -%>
+	<% audience = CoopApp.classroom.tlt_survey_audiences.teacher.first -%>
 	<% @current_organization.survey_schedules.classroom.for_audience(audience).active.select{|surv| surv.entity.teachers.include?(@current_user)}.each do|survey| %>
 		<% if (survey.schedule_end.nil? || Date.today <= survey.schedule_end) -%>
 			<% unless !survey.tlt_survey_responses.for_user(@current_user).empty? || survey == schedule %>
@@ -70,7 +70,7 @@
 
 <!-- T&L Student Surveys -->
 
-		<% itl_student_audience = CoopApp.itl.first.tlt_survey_audiences.student.first -%>
+		<% itl_student_audience = CoopApp.itl.tlt_survey_audiences.student.first -%>
 		<% @current_user.classroom_periods.select{|cp| cp.student?(@current_user)}.each do |period| %>
 			<% unless period.tlt_sessions.empty? -%>
 				<% period.tlt_sessions.last.survey_schedules.for_audience(itl_student_audience).for_organization(@current_organization).active.each do |survey| -%>
@@ -108,7 +108,7 @@
 <!-- T&L Teacher & Observer  Surveys -->
 
 
-	<% @current_organization.survey_schedules.itl.active.select{|surv| (surv.tlt_survey_audience == CoopApp.itl.first.tlt_survey_audiences.teacher.first && surv.entity.user == @current_user) || (surv.tlt_survey_audience == CoopApp.itl.first.tlt_survey_audiences.observer.first && surv.entity.tracker == @current_user)}.each do|survey| %>
+	<% @current_organization.survey_schedules.itl.active.select{|surv| (surv.tlt_survey_audience == CoopApp.itl.tlt_survey_audiences.teacher.first && surv.entity.user == @current_user) || (surv.tlt_survey_audience == CoopApp.itl.tlt_survey_audiences.observer.first && surv.entity.tracker == @current_user)}.each do|survey| %>
 		<% if (survey.schedule_end.nil? || Date.today <= survey.schedule_end) -%>
 			<% unless !survey.tlt_survey_responses.for_user(@current_user).empty? || survey == schedule%>
 			<% no_surveys = false -%>

@@ -73,7 +73,7 @@ class Apps::AppBlogController < ApplicationController
     if params[:blog_app]
       @blog_app = CoopApp.find_by_public_id(params[:blog_app]) rescue nil
     end
-    @app = CoopApp.blog.first
+    @app = CoopApp.blog
    end
 
   def current_user
@@ -84,7 +84,7 @@ class Apps::AppBlogController < ApplicationController
     @current_organization ||= (Organization.find_by_public_id(params[:organization_id]) rescue Organization.default)
   end
   def admin?
-    @admin = @current_user.has_authorization_level_for?(@current_organization, "administrator") rescue false
+    @admin = @current_user.has_authority?(@current_organization, AuthorizationLevel.app_administrator(CoopApp.core)) rescue false
   end
  
   def blogger?

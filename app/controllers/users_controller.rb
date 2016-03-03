@@ -278,9 +278,9 @@ class UsersController < ApplicationController
   end
   
   def add_this_organization
-    @current_user.add_as_friend_to(@current_organization) unless @current_user.has_authorization_level_for?(@current_organization, "friend")
-    redirect_to :back  
- #   redirect_to :controller => "site/site", :action => "static_organization", :organization_id => @current_organization
+#    @current_user.add_as_friend_to(@current_organization) unless @current_user.has_authorization_level_for?(@current_organization, "friend")
+    @current_user.add_as_friend_to(@current_organization) unless @current_user.has_authority?(AuthorizationLevel.app_friend(CoopApp.core), @current_organization)
+    redirect_to :back
 end
 
   def remove_this_organization
@@ -325,7 +325,7 @@ end
  def toggle_favorite_classroom
     @classroom = Classroom.active.find(params[:classroom_id])rescue nil
     unless @classroom.nil?
-      toggle_classroom_favorite(@current_user, @classroom)
+      @current_user.toggle_classroom_favorite(@classroom)
     end
     redirect_to :back  
  end
@@ -333,7 +333,8 @@ end
  def add_this_favorite_resource
     @content= Content.active.find(params[:content_id])rescue nil
     unless @content.nil?    
-      @current_user.add_as_favorite_to(@content) unless @current_user.has_authorization_level_for?(@content, "favorite")
+ #     @current_user.add_as_favorite_to(@content) unless @current_user.has_authorization_level_for?(@content, "favorite")
+      @current_user.add_as_favorite_to(@content) unless @current_user.has_authority?(AuthorizationLevel.app_favorite(CoopApp.core), @content)
     end
    redirect_to :back  
  end
@@ -342,7 +343,8 @@ end
   def remove_this_favorite_resource
    @content= Content.active.find(params[:content_id]) rescue nil
    unless @content.nil?   
-    if @current_user.has_authorization_level_for?(@content, "favorite")
+ #   if @current_user.has_authorization_level_for?(@content, "favorite")
+    if @current_user.has_authority?(AuthorizationLevel.app_favorite(CoopApp.core), @content)
       @current_user.remove_as_favorite_from(@content)
     end
    end

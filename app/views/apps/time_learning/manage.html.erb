@@ -74,7 +74,7 @@
 		<%= tab_8_label %></span></a>	
 	  </li>	
 	    
-	<% if @current_user.has_authorization_level_for?(@current_organization, "ifa_administrator") -%>
+	<% if @current_user.ifa_admin_for_org?(@current_organization) -%>
       <li>
 		<%  tab_7_label = "Student Baseline Scores" %>
         <a href="#tabs-7"><span class="tab_label">
@@ -121,7 +121,7 @@
 
    </div>
 
-	<% if @current_user.has_authorization_level_for?(@current_organization, "ifa_administrator") -%>
+	<% if @current_user.ifa_admin_for_org?(@current_organization) -%>
 
 		<div id="tabs-7" class="favorite_organizations" style="width:900px">
 	<table id="people_levels" class="tablesorter" style="width:99%;">

@@ -85,8 +85,8 @@
 	<% if  session.tlt_session_video  -%>
 	
 		<% if (teacher || observer) && !session.training? && !session.tlt_session_video.embed_code.empty? && @current_user.content_manager_for_org?(@current_organization) && !session.content-%>
-			<%= render (:partial => "video_training_create", :locals => {:session => session}) %>
+			<%= render :partial => "video_training_create", :locals => {:session => session}%>
 		<% end -%>
-		<%= render (:partial => "video_show", :locals => {:session => session}) %>
+		<%= render :partial => "video_show", :locals => {:session => session}%>
 	<% end -%>
 </div>

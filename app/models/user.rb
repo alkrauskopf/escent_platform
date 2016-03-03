@@ -296,9 +296,15 @@ class User < ActiveRecord::Base
   end 
   
   def favorite_organizations
-    authorization_level = AuthorizationLevel.find_by_name("friend")
-    Organization.with_user_auth(self, authorization_level)
+#    authorization_level = AuthorizationLevel.find_by_name("friend")
+#    Organization.with_user_auth(self, authorization_level)
+    self.tagged_organizations
   end
+
+  def tagged_organizations
+    self.authorizations.for_level(AuthorizationLevel.app_friend(CoopApp.core)).for_scope(Organization.first).collect{|a| a.scope}.compact.uniq
+  end
+
 
   def favorite_other_organizations
     self.organization.nil? ? self.favorite_organizations : self.favorite_organizations.select{|o| o.id != self.organization_id}
@@ -313,16 +319,16 @@ class User < ActiveRecord::Base
   end
 
   def my_schools_for_app(app)
-    self.my_schools.select{|org| org.app_enabled?(app.abbrev)}.uniq.sort_by{|o| o.name}
+    self.my_schools.select{|org| org.app_enabled?(app)}.uniq.sort_by{|o| o.name}
   end
 
 
   def favorite_organizations_for_app(app)
-    self.favorite_organizations.select{|org| org.app_enabled?(app.abbrev)}
+    self.favorite_organizations.select{|org| org.app_enabled?(app)}
   end
 
   def favorite_organizations_type_for_app(app, type)
-    self.favorite_organizations.select{|org| org.app_enabled?(app.abbrev) && org.organization_type_id == type.id}
+    self.favorite_organizations.select{|org| org.app_enabled?(app) && org.organization_type_id == type.id}
   end
 
   
@@ -663,12 +669,16 @@ class User < ActiveRecord::Base
       authorization.authorization_level.authorized_for_action?(action.to_s)
     end
   end
-  
-  def has_authorization_level_for?(scope, authorization_level)
-    authorization_level = authorization_level.is_a?(AuthorizationLevel) ? authorization_level : AuthorizationLevel.find_by_name(authorization_level)
-    self.authorizations.find(:first, :conditions => ["((scope_id = ? AND scope_type = ? AND authorization_level_id = ?) OR authorization_level_id = ?)", scope, scope.class.to_s, authorization_level, AuthorizationLevel.superuser])
+
+  def is_authorized_for?(scope, authorization_level)
+    self.authorizations.select{|a| (a.authorization_level_id == authorization_level.id && a.scope_id == scope.id && a.scope_type == scope.class.to_s)}.empty? ? false : true
   end
-  
+
+  def has_authorization_for?(scope, authorization_level)
+    authorization_level = authorization_level.is_a?(AuthorizationLevel) ? authorization_level : AuthorizationLevel.find_by_name(authorization_level)
+    scope.authorizations.find_all_by_authorization_level_id(authorization_level.id)
+  end
+
   def has_authorization_level?(authorization_level, options={})
     authorization_level = authorization_level.is_a?(AuthorizationLevel) ? authorization_level : AuthorizationLevel.find_by_name(authorization_level)
     if options[:ignore_superuser]
@@ -716,11 +726,11 @@ class User < ActiveRecord::Base
 #
 
   def can_edit_offering?(offering)
-    self.classroom_admin?(offering.organization) || self.current_teacher_of_classroom?(offering)
+    self.classroom_admin_for_org?(offering.organization) || self.current_teacher_of_classroom?(offering)
   end
 
   def can_edit_period?(period)
-    self.classroom_admin?(period.classroom.organization) || (self.teacher?(period.classroom.organization) && period.teacher?(self))
+    self.classroom_admin_for_org?(period.classroom.organization) || (self.teacher_for_org?(period.classroom.organization) && period.teacher?(self))
   end
   
   def student_of_classroom?(classroom)
@@ -732,7 +742,7 @@ class User < ActiveRecord::Base
   end
  
   def current_teacher_of_classroom?(offering)
-   self.teacher?(offering.organization) && self.teacher_of_classroom?(offering)
+   self.teacher_for_org?(offering.organization) && self.teacher_of_classroom?(offering)
   end
 
   def user_of_classroom?(classroom)
@@ -866,11 +876,11 @@ class User < ActiveRecord::Base
        stat = self.tlt_diagnostics.size
      end
      if metric.abbrev == "TLSR"
-       audience = CoopApp.itl.first.tlt_survey_audiences.student.first
+       audience = CoopApp.itl.tlt_survey_audiences.student.first
        stat = self.survey_schedules.for_audience(audience).collect{|s| s.tlt_survey_responses}.flatten.size rescue 0
      end
      if metric.abbrev == "CLSR"
-       audience = CoopApp.classroom.first.tlt_survey_audiences.student.first
+       audience = CoopApp.classroom.tlt_survey_audiences.student.first
        stat = self.survey_schedules.for_audience(audience).collect{|s| s.tlt_survey_responses}.flatten.size rescue 0
      end
    stat
@@ -890,29 +900,7 @@ class User < ActiveRecord::Base
   def belt_rank
     self.itl_belt_rank ? self.itl_belt_rank.rank : ''
   end
- 
-  
-#
-#   APP Authorized?
-#
 
-  def app_authorized?(app,org)
-    auth = false
-    if app.ifa?  then auth = self.ifa_authorized?(org) || self.app_superuser?(app) end
-    if app.ita?  then auth = self.ita_authorized?(org) || self.app_superuser?(app) end      
-    if app.blogs?  then auth = self.blog_authorized?(org) || self.app_superuser?(app) end
-    if app.ctl?  then auth = self.itl_authorized?(org) || self.app_superuser?(app) end
-    if app.ista?  then auth = (self.stat_authorized?(org) || self.app_superuser?(app))  end
-    if app.cm?  then auth = self.cm_authorized?(org) || self.app_superuser?(app) end
-    if app.elt?  then auth = self.elt_authorized?(org) || self.app_superuser?(app) end
-    if app.classroom?  then auth = self.classroom_authorized?(org) || self.app_superuser?(app) end                
-    if app.pd?  then auth = self.dlem_authorized?(org) || self.app_superuser?(app) end
-    auth
-  end
-
-  def beta_app_user?(app, org)
-    app.is_beta? ? (self.beta_authorized?(org) || app_superuser?(app)): true
-  end
 
   def resource_pool_for_app(app)
       full_pool = (self.favorite_resources + self.colleagues.collect{|u| u.contents.active}.flatten + self.favorite_organizations_for_app(app).collect{|o| o.contents.active}.flatten).uniq
@@ -936,158 +924,304 @@ class User < ActiveRecord::Base
         pool += full_pool.select{|r| r.subject_area_id == subj.id}
       end
       unless org.parent?
-        (pool + org.active_siblings.select{|o| o.app_enabled?(app.abbrev)}.collect{|o| o.resources_for_app(app)}.flatten).uniq
+        (pool + org.active_siblings.select{|o| o.app_enabled?(app)}.collect{|o| o.resources_for_app(app)}.flatten).uniq
       else
-        (pool + org.all_active_children.select{|o| o.app_enabled?(app.abbrev)}.collect{|o| o.resources_for_app(app)}.flatten).uniq         
+        (pool + org.all_active_children.select{|o| o.app_enabled?(app)}.collect{|o| o.resources_for_app(app)}.flatten).uniq
       end
   end
 
-  def admin?(org)
-    self.has_authorization_level_for?(org, "administrator")
-  end
-
-  def beta_authorized?(org)
-    self.has_authorization_level_for?(org, "beta_user")
-  end
-
   def itl_school_pool_for_org(org)
-      (self.favorite_organizations + org.active_siblings_same_type).uniq.select{|o| o.app_enabled?(CoopApp.ctl.first.abbrev)}
+      (self.favorite_organizations + org.active_siblings_same_type).uniq.select{|o| o.app_enabled?(CoopApp.ctl)}
   end
+
+#   APP Authorized?
+
+  def app_authorized?(app,org)
+    auth = false
+    if app.ifa?  then auth = self.ifa_authorized?(org) end
+    if app.ita?  then auth = self.ita_authorized?(org) end
+    if app.blogs?  then auth = self.blog_authorized?(org) end
+    if app.ctl?  then auth = self.ctl_authorized?(org) end
+    if app.ista?  then auth = self.stat_authorized?(org) end
+    if app.cm?  then auth = self.cm_authorized?(org)  end
+    if app.elt?  then auth = self.elt_authorized?(org) end
+    if app.classroom?  then auth = self.classroom_authorized?(org) end
+    if app.pd?  then auth = self.dlem_authorized?(org) end
+    auth
+  end
+
+#####################    IFA Authorizations
 
   def ifa_authorized?(org)
-    org.app_enabled?(CoopApp.ifa.first.abbrev) && (self.has_authorization_level_for?(org, "administrator") || self.has_authorization_level_for?(org, "teacher") || self.has_authorization_level_for?(org, "ifa_administrator"))
+#    org.app_enabled?(CoopApp.ifa.abbrev) && (self.has_authorization_level_for?(org, "administrator") || self.has_authorization_level_for?(org, "teacher") || self.has_authorization_level_for?(org, "ifa_administrator"))
+    org.app_enabled?(CoopApp.ifa) && (self.ifa_admin_for_org?(org) || self.teacher_for_org?(org) || self.administrator_for_org?(org) || self.app_superuser?(CoopApp.ifa))
   end
+
+  def ifa_admin_for_org?(org)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.ifa), org)
+  end
+
+#####################    STAT Authorizations
 
   def stat_authorized?(org)
-     org.app_enabled?(CoopApp.ista.first.abbrev) && (self.has_authorization_level_for?(org, "administrator") || self.stat_admin?(org) || self.stat_user?(org))
+#     org.app_enabled?(CoopApp.stat.abbrev) && (self.has_authorization_level_for?(org, "administrator") || self.stat_admin_for_org?(org) || self.stat_user?(org))
+    org.app_enabled?(CoopApp.ista) && (self.stat_admin_for_org?(org) || self.stat_user?(org) || self.administrator_for_org?(org) || self.app_superuser?(CoopApp.ista))
   end
 
-  def stat_admin?(org)
-    self.has_authorization_level_for?(org, "stat_administrator")
+  def stat_admin_for_org?(org)
+    #   self.has_authorization_level_for?(org, "stat_administrator")
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.ista), org)
   end
 
   def stat_user?(org)
-    self.has_authorization_level_for?(org, "stat_user")
+    #  self.has_authorization_level_for?(org, "stat_user")
+    self.has_authority?(AuthorizationLevel.app_user(CoopApp.ista), org)
   end
 
+#####################    CM Authorizations
   def cm_authorized?(org)
-     org.app_enabled?(CoopApp.cm.first.abbrev) && (self.has_authorization_level_for?(org, "administrator") || self.cm_admin?(org) || self.cm_km?(org) || self.consultant?(org))
+    #    org.app_enabled?(CoopApp.cm.abbrev) && (self.has_authorization_level_for?(org, "administrator") || self.cm_admin_for_org?(org) || self.cm_km?(org) || self.consultant?(org))
+    org.app_enabled?(CoopApp.cm) && (self.cm_admin_for_org?(org) || self.cm_km?(org) || self.consultant?(org) || self.administrator_for_org?(org) || self.app_superuser?(CoopApp.cm))
   end
 
-  def cm_admin?(org)
-    self.has_authorization_level_for?(org, "cm_administrator")
+  def cm_admin_for_org?(org)
+    #  self.has_authorization_level_for?(org, "cm_administrator")
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.cm), org)
   end
 
   def cm_km?(org)
-    self.has_authorization_level_for?(org, "cm_knowledge_manager")
+    #   self.has_authorization_level_for?(org, "cm_knowledge_manager")
+    self.has_authority?(AuthorizationLevel.app_knowledge_manager(CoopApp.cm), org)
   end
 
   def consultant?(org)
-    self.has_authorization_level_for?(org, "cm_consultant")
+#    self.has_authorization_level_for?(org, "cm_consultant")
+    self.has_authority?(AuthorizationLevel.app_consultant(CoopApp.cm), org)
   end
-  
+
+
+#####################    ELT Authorizations
+
   def elt_authorized?(org)
-     org.app_enabled?(CoopApp.elt.first.abbrev) && (self.elt_admin?(org) || self.elt_team?(org) || self.elt_reviewer?(org) || self.elt_provider_reviewer?(org) )  
+    #    org.app_enabled?(CoopApp.elt.abbrev) && (self.elt_admin?(org) || self.elt_user?(org) || self.elt_reviewer?(org) || self.elt_provider_reviewer?(org) )
+    org.app_enabled?(CoopApp.elt) && (self.elt_admin_for_org?(org) || self.elt_user?(org) || self.elt_reviewer?(org) || self.elt_provider_reviewer?(org) || self.administrator_for_org?(org) || self.app_superuser?(CoopApp.elt))
   end
 
-  def elt_admin?(org)
-    self.has_authorization_level_for?(org, "elt_administrator")
+  def elt_admin_for_org?(org)
+    #   self.has_authorization_level_for?(org, "elt_administrator")
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.elt), org)
   end
 
-  def elt_team?(org)
-    self.has_authorization_level_for?(org, "elt_team_member")
+  def elt_user?(org)
+#    self.has_authorization_level_for?(org, "elt_team_member")
+    self.has_authority?(AuthorizationLevel.app_user(CoopApp.elt), org)
   end
 
   def elt_reviewer?(org)
-    self.has_authorization_level_for?(org, "elt_reviewer")
+    #   self.has_authorization_level_for?(org, "elt_reviewer")
+    self.has_authority?(AuthorizationLevel.app_reviewer(CoopApp.elt), org)
   end
 
   def elt_provider_reviewer?(org)
     auth = false
     if org.elt_provider
-      auth = self.authorizations.find(:first, :conditions => ["(scope_id = ? AND scope_type = ? AND authorization_level_id = ?)", org.elt_provider.id, org.class.to_s, AuthorizationLevel.elt_reviewer.id])
-    end 
+      #   auth = self.authorizations.find(:first, :conditions => ["(scope_id = ? AND scope_type = ? AND authorization_level_id = ?)", org.elt_provider.id, org.class.to_s, AuthorizationLevel.elt_reviewer.id])
+      auth = self.elt_reviewer?(org)
+    end
     auth
   end
-   
-  def itl_authorized?(org)
-     org.app_enabled?(CoopApp.ctl.first.abbrev) &&(self.has_authorization_level_for?(org, "administrator") || self.has_authorization_level_for?(org, "teacher") || self.has_authorization_level_for?(org, "ctl_administrator") || self.has_authorization_level_for?(org, "ctl_observer"))
+
+#####################    CTL Authorizations
+
+  def ctl_authorized?(org)
+    #  org.app_enabled?(CoopApp.ctl.abbrev) &&(self.has_authorization_level_for?(org, "administrator") || self.has_authorization_level_for?(org, "teacher") || self.has_authorization_level_for?(org, "ctl_administrator") || self.has_authorization_level_for?(org, "ctl_observer"))
+    org.app_enabled?(CoopApp.ctl) && (self.ctl_admin_for_org?(org) || self.ctl_observer_for_org?(org) || self.app_superuser?(CoopApp.ctl) || self.teacher_for_org?(org) || self.administrator_for_org?(org))
   end
 
-  def itl_observer?(org)
-     (self.has_authorization_level_for?(org, "ctl_observer"))
+  def ctl_observer_for_org?(org)
+    #   (self.has_authorization_level_for?(org, "ctl_observer"))
+    self.has_authority?(AuthorizationLevel.app_observer(CoopApp.ctl), org)
   end
 
-  def ctl_admin?(org)
-    self.has_authorization_level_for?(org, "ctl_administrator")
+  def ctl_admin_for_org?(org)
+    #   self.has_authorization_level_for?(org, "ctl_administrator")
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.ctl), org)
   end
+
+#####################    BLOG Authorizations
 
   def blog_authorized?(org)
-     org.app_enabled?(CoopApp.blog.first.abbrev) && (self.has_authorization_level_for?(org, "administrator") || self.has_authorization_level_for?(org, "blog_panelist")) 
+    org.app_enabled?(CoopApp.blog) && (self.blog_admin_for_org?(org) || self.panelist_for_org?(org) || self.administrator_for_org?(org) || self.app_superuser?(CoopApp.blog))
   end
 
-  
-  def blog_authorized?(org)
-     org.app_enabled?(CoopApp.blog.first.abbrev) && (self.blog_admin?(org) || self.blogger?(org) )  
+  def panelist_for_org?(org)
+    #  (self.has_authorization_level_for?(org, "blog_panelist"))
+    self.has_authority?(AuthorizationLevel.app_panelist(CoopApp.blog), org)
   end
 
-  def blogger?(org)
-     (self.has_authorization_level_for?(org, "blog_panelist"))
+  def blog_admin_for_org?(org)
+    #  self.has_authorization_level_for?(org, "blog_administrator")
+     self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.blog), org)
   end
 
-  def blog_admin?(org)
-    self.has_authorization_level_for?(org, "blog_administrator")
-  end
+#####################    ITA Authorizations
 
   def ita_authorized?(org)
-     org.app_enabled?(CoopApp.ita.first.abbrev) && self.has_authorization_level_for?(org, "content_manager") 
+  #   org.app_enabled?(CoopApp.ita.abbrev) && self.has_authorization_level_for?(org, "content_manager")
+     org.app_enabled?(CoopApp.ita) && (self.ita_admin_for_org?(org) || self.administrator_for_org?(org) || self.app_superuser?(CoopApp.pd))
   end
 
-  def classroom_authorized?(org)
-     org.app_enabled?(CoopApp.classroom.first.abbrev) && (self.has_authorization_level_for?(org, "administrator") || self.has_authorization_level_for?(org, "classroom_manager") || self.has_authorization_level_for?(org, "teacher"))  
+  def ita_admin_for_org?(org)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.ita), org)
   end
 
-  def classroom_admin?(org)
-     org.appl_enabled?(CoopApp.classroom.first) && (self.has_authorization_level_for?(org, "administrator") || self.has_authorization_level_for?(org, "classroom_manager"))  
-  end
-
-  def teacher?(org)
-     org.app_enabled?(CoopApp.classroom.first.abbrev) && (self.has_authorization_level_for?(org, "teacher"))  
-  end
-
-  def content_manager_for_org?(org)
-     (self.has_authorization_level_for?(org, "content_manager"))  
-  end
-
-  def content_admin?(org)
-    self.has_authorization_level_for?(org, "content_administrator")
-  end
-
-  def classroom_manager_for?(classroom)
-    classroom.organization.app_enabled?(CoopApp.classroom.first.abbrev) && (self.has_authorization_level_for?(classroom.organization, "teacher") || self.has_authorization_level_for?(classroom.organization, "classroom_manager")) && classroom.teachers.include?(self)
-  end
-
+#####################    PD Authorizations
 
   def dlem_authorized?(org)
-     org.app_enabled?(CoopApp.pd.first.abbrev) && (self.has_authorization_level_for?(org, "administrator") || self.has_authorization_level_for?(org, "pd_administrator") || self.has_authorization_level_for?(org, "teacher"))  
+    #   org.app_enabled?(CoopApp.pd.abbrev) && (self.has_authorization_level_for?(org, "administrator") || self.has_authorization_level_for?(org, "pd_administrator") || self.has_authorization_level_for?(org, "teacher"))
+    org.app_enabled?(CoopApp.pd) && (self.pd_authorized?(org) || self.teacher_for_org?(org))
   end
 
   def pd_coach_for?(org)
-     self.itl_authorized?(org)  
+    self.ctl_authorized?(org)
   end
 
-  def pd_authorized_for?(org)
-     (self.has_authorization_level_for?(org, "administrator") || self.has_authorization_level_for?(org, "pd_administrator"))  
+  def pd_authorized?(org)
+    # (self.has_authorization_level_for?(org, "administrator") || self.has_authorization_level_for?(org, "pd_administrator"))
+    self.pd_admin_for_org?(org) || self.administrator_for_org?(org) || self.app_superuser?(CoopApp.pd)
+  end
+
+  def pd_admin_for_org?(org)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.pd), org)
+  end
+
+  def pd_admin?
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.pd), nil)
+  end
+
+#####################    Classroom Authorizations
+
+  def classroom_manager_for_offering?(classroom)
+    self.classroom_authorized?(classroom.organization) || (classroom.organization.app_enabled?(CoopApp.classroom) && self.teacher_for_org?(classroom.organization) && classroom.teachers.include?(self))
+  end
+
+  def classroom_authorized?(org)
+    self.classroom_admin_for_org?(org) || self.superuser? || self.app_superuser?(CoopApp.classroom)
+  end
+
+  def classroom_admin_for_org?(org)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.classroom), org) || (self.administrator_for_org?(org))
+  end
+
+  def classroom_administrator?  ## for all orgs
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.classroom), nil)
+  end
+
+  def toggle_classroom_favorite(classroom)
+    authorization_level = AuthorizationLevel.first(:include => :applicable_scopes, :conditions => ["authorization_levels.name = ? AND applicable_scopes.name = ?", "favorite", "Classroom"])
+    if authorization_level
+      if self.has_favorite?(classroom)
+        self.authorizations.find_by_scope_id_and_scope_type_and_authorization_level_id(classroom, classroom.class.to_s, authorization_level).destroy
+      else
+        self.add_as_favorite_to(classroom)
+      end
+    end
+  end
+
+  def set_classroom_favorite(classroom, add)
+    if (self.has_favorite?(classroom) && add=="remove") || (!self.has_favorite?(classroom) && add=="add")
+      self.toggle_classroom_favorite(classroom)
+    end
+  end
+
+#####################    Core Authorizations
+
+  def beta_app_user?(app, org)
+    app.is_beta? && self.beta_user_for_org?(org)
+  end
+
+  def beta_user_for_org?(org)
+    org.app_enabled?(CoopApp.classroom) && (self.has_authority?(AuthorizationLevel.app_beta_user(CoopApp.core), org))
+  end
+
+  def beta_user?
+    org.app_enabled?(CoopApp.classroom) && (self.has_authority?(AuthorizationLevel.app_beta_user(CoopApp.core), nil))
+  end
+
+  def teacher_for_org?(org)
+    self.has_authority?(AuthorizationLevel.app_teacher(CoopApp.core), org)
+  end
+
+  def teacher?  # for any org
+    self.has_authority?(AuthorizationLevel.app_teacher(CoopApp.core), nil)
+  end
+
+  def content_admin_for_org?(org)
+    self.has_authority?(AuthorizationLevel.app_library_administrator(CoopApp.core), org)
+  end
+
+  def content_admin?
+    self.has_authority?(AuthorizationLevel.app_library_administrator(CoopApp.core), nil)
+  end
+
+  def content_manager_for_org?(org)
+    # (self.has_authorization_level_for?(org, "content_manager"))
+    self.has_authority?(AuthorizationLevel.app_knowledge_manager(CoopApp.core), org)
   end
 
   def content_manager?
-    self.has_authorization_level?("content_manager", :ignore_superuser => true)
-  end
-  
-  def superuser?
-    self.superuser_of?(nil)
+    self.has_authority?(AuthorizationLevel.app_knowledge_manager(CoopApp.core), nil)
   end
 
+  def administrator_for_org?(org)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.core), org)
+  end
+  def administrator?
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.core), nil)
+  end
+
+  def superuser?
+    self.has_authority?(AuthorizationLevel.app_superuser(CoopApp.core), nil) || self.id == 1
+  end
+
+  def app_superuser?(app)
+    self.has_authority?(AuthorizationLevel.app_superuser(app), nil)
+  end
+#
+####    NEW Authorization Routine
+#
+  def has_authority?(arg1, arg2, option = {})
+    if arg1.class.to_s == 'AuthorizationLevel'
+      auth_level = arg1
+      entity = arg2
+    else
+      auth_level = arg2
+      entity = arg1
+    end
+    unless auth_level.nil?
+      if entity.nil?
+        authority = !self.authorizations.for_level(auth_level).empty?
+      else
+        authority = !self.authorizations.for_level(auth_level).for_entity(entity).empty?
+      end
+      if option[:superuser] == true
+        authority = authority || self.superuser?
+      end
+    else
+      authority = false
+    end
+    authority
+  end
+
+#########
+
+  def has_authorization_level_for?(scope, authorization_level)
+    authorization_level = authorization_level.is_a?(AuthorizationLevel) ? authorization_level : AuthorizationLevel.find_by_name(authorization_level)
+    # self.authorizations.find(:conditions => ["((scope_id = ? AND scope_type = ? AND authorization_level_id = ?) OR authorization_level_id = ?)", scope, scope.class.to_s, authorization_level.id, AuthorizationLevel.superuser]).first
+    self.authorizations.find(:first, :conditions => ["((scope_id = ? AND scope_type = ? AND authorization_level_id = ?) OR authorization_level_id = ?)", scope, scope.class.to_s, authorization_level, AuthorizationLevel.superuser])
+  end
+
+###################################
   def make_superuser!
     unless self.superuser?
       su = Authorization.new
@@ -1097,18 +1231,10 @@ class User < ActiveRecord::Base
     end
   end
 
-  def app_superuser?(app)
-    self.has_authorization_level_for?(app, "app_superuser") || self.superuser?
-  end
-
-  def an_app_superuser?
-    self.has_authorization_level?("app_superuser")
-  end
-
   def content_manager_orgs
-    self.authorizations.content_manager.collect{|a| a.scope}.compact.uniq
+    self.authorizations.for_level(AuthorizationLevel.app_knowledge_manager(CoopApp.core)).collect{|a| a.scope}.compact.uniq
   end
-  
+
   def prepare_regexps
     authorization_level_names = AuthorizationLevelNames.join('|')
     return Regexp.new("(#{authorization_level_names})_of\\?"), Regexp.new("add_as_(#{authorization_level_names})_to"), Regexp.new("remove_as_(#{authorization_level_names})_from")
@@ -1161,26 +1287,6 @@ class User < ActiveRecord::Base
   
   def self.auto_complete_on(query, org)
     org.users.find(:all, :conditions => ["last_name LIKE ?", '%' + query + '%'], :order => "last_name").collect{|ra| [ra, ra.all_children]}.flatten.uniq.sort_by(&:name)
-  end
-  
-  def self.with_out_role(role)
-    User.find(:all, :conditions => ["NOT id IN (SELECT user_id FROM role_memberships WHERE role_id = ?) AND religious_affiliation_id IS NOT NULL", role],  :include => "role_memberships", :order => "last_name, first_name")
-  end
-  
-  def self.with_role(role)
-    User.find(:all, :conditions => ["(role_memberships.role_id = ?)", role],  :include => "role_memberships", :order => "last_name, first_name")
-  end
-  
-  def self.with_authorization_level(authorization_level)
-   User.find(:all, :conditions => ["(authorizations.scope_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ?)", @current_organization, "Organization", authorization_level], :include => "authorizations", :order => "last_name, first_name")
-  end
-    
-  def self.who_are_friends(organization_id)
-    User.find(:all, :conditions => ["(authorizations.scope_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ?)", organization_id, "Organization", AuthorizationLevel.friend], :include => "authorizations", :order => "last_name, first_name")
-  end
-  
-  def self.who_are_authorized(organization_id, authorization_level_id)
-    User.find(:all, :conditions => ["(authorizations.scope_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ?)", organization_id, "Organization", authorization_level_id], :include => "authorizations", :order => "last_name, first_name")
   end
   
   def self.org_contact(contact_email)

@@ -1,14 +1,13 @@
 class Master::ApplicationController < ApplicationController
-  layout "master"
+  layout "crud"
 
-  include OrganizationRegistration
+#  include OrganizationRegistration
   
   before_filter :current_organization
-  before_filter :current_user, :except => [:login]  
-  require_authorization "superuser", :except => [:login]
+  before_filter :current_user, :except => [:login]
+  before_filter :superuser_authorize
   
   def index
-    
   end
   
   def login
@@ -26,7 +25,12 @@ class Master::ApplicationController < ApplicationController
   end
 
   protected
-  
+  def superuser_authorize
+    if (@current_user.nil? || !@current_user.superuser?)
+      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => Organization.default
+    end
+  end
+
   def access_denied(message=nil)
     @login_url = url_for(:controller => "/master/application", :action => :login, "user[email_address]" => self.current_user ? @current_user.email_address : '', :organization_id => @current_organization)
     #untrack_administrator

@@ -1,10 +1,7 @@
-<div class="formBox">
-	<h2>Add a Organization</h2>
-	<% form_for :organization do %>
-	<%= render :partial => "form" %>
-	<p>
-		<%= submit_tag "Add", :class => "submit fsn-button ui-button ui-state-default ui-corner-all" %> 
-		<button class="change fsn-button ui-button ui-state-default ui-corner-all">Change</button>
-	</p>
-	<% end %>	
+<div>
+  <% form_tag({:controller => "/master/organizations", :action => :new, :organization_id => @organization}) do %>
+      <%= render(:partial => "/master/organizations/profile") %>
+      <br style="clear:both" />
+      <%= submit_tag "Create" %>
+  <% end -%>
 </div>

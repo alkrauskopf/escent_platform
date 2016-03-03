@@ -1,6 +1,6 @@
 
 
-	<% unless @current_organization.teachers_in_subject(subject_area).empty? || !@current_user.itl_observer?(@current_organization)-%>
+	<% unless @current_organization.teachers_in_subject(subject_area).empty? || !@current_user.ctl_observer_for_org?(@current_organization)-%>
 		<table style="width:600px; text-align:left;">
 			<tbody>  
 				<style type="text/css" media="screen">
@@ -28,6 +28,6 @@
 		<% else -%>
 		<br/>
 		<span style="color:#C83A14; font-size:11px">
-			<%= !@current_user.itl_observer?(@current_organization) ? "* * You are not an authorized observer * *" : "No " + subject_area.name + "Teachers Defined" %>								
+			<%= !@current_user.ctl_observer_for_org?(@current_organization) ? "* * You are not an authorized observer * *" : "No " + subject_area.name + "Teachers Defined" %>
 		</span>
 	<% end -%>

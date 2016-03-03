@@ -14,7 +14,7 @@ class Apps::StaffDevelopController < Site::ApplicationController
 
 
   def index
-    CoopApp.pd.first.increment_views
+    CoopApp.pd.increment_views
     if @teacher.user_dle_plans.empty?
       @package = []
     else
@@ -283,7 +283,7 @@ class Apps::StaffDevelopController < Site::ApplicationController
         @app = CoopApp.find_by_id(params[:app_id]) rescue nil
       end
       unless @app
-        @app = CoopApp.pd.first
+        @app = CoopApp.pd
       end
   
       if params[:teacher_id]
@@ -321,7 +321,7 @@ class Apps::StaffDevelopController < Site::ApplicationController
         @current_organization.dle_set_org_options
       end
     
-    @admin = @current_user.has_authorization_level_for?(@current_organization, "pd_administrator")  
+    @admin = @current_user.has_authority?(@current_organization, AuthorizationLevel.app_administrator(CoopApp.pd))
 
     end
     

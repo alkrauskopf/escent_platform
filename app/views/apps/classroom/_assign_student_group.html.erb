@@ -2,7 +2,7 @@
 <div id="student_assign" style = "font-size:14px; color: #000000;">
 	<div  id="<%=@letter_group%>">
 
-	<% user_group = User.who_are_friends(@current_organization).compact.select{|u| u.last_name[0].chr.upcase == @letter_group.upcase} rescue [] -%>
+	<% user_group = @current_organization.friends_of_org.select{|u| u.last_name[0].chr.upcase == @letter_group.upcase} rescue [] -%>
 
 	<table  style="width:600px; margin-left:90px; border:0px">
 

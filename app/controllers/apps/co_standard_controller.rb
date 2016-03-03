@@ -20,7 +20,7 @@ class Apps::CoStandardController < Site::ApplicationController
     @grade_level = CoGradeLevel.find_by_id(params[:gl_id]) rescue nil
     @standards_list = ActStandard.find(:all, :conditions => ["act_master_id = ? && act_subject_id = ?", @co_master.id, @current_subject.id])
     @standards_list = @standards_list.sort_by{|a| [a.abbrev]}
-    if @current_user.has_authorization_level_for?(@current_organization, "ifa_administrator")
+    if @current_user.ifa_admin_for_org?(@current_organization)
       @edit_authorized = true
       end
   end

@@ -5,7 +5,7 @@
 		<table id="<%= analysis %>">
 			<tbody>
 				<tr>
-					<%= render (:partial => "thumbs_columns", :locals => {:quest => q, :std => ActMaster.act.first, :filter =>"ACT"})%>
+					<%= render :partial => "thumbs_columns", :locals => {:quest => q, :std => ActMaster.act.first, :filter =>"ACT"}%>
 					<td style ="width:50px; color:#000000;vertical-align:middle; font-size:11px">
 							Quality
 					</td>

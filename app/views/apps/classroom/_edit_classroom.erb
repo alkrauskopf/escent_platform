@@ -1,11 +1,11 @@
 
 
 <div id="classroom_edit" style = "font-size:12px; color: #000000;padding-left:0px;">
-	<div style ="color: #2061a5; font-size:14px; padding-top:15px; font-weight:normal"> 
-		<strong><center> <%= @current_organization.medium_name %> <%= app.name.titleize %> Maintainence</center></strong>
+	<div style ="text-align:center; color: #2061a5; font-size:14px; padding-top:15px; font-weight:normal">
+		<strong><%= @current_organization.medium_name %> <%= app.name.titleize %> Maintainence</strong>
 		<% header_string = classroom.subject_area.parent.nil? ? classroom.subject_area.name.upcase :  classroom.subject_area.parent.name.upcase + ": " + classroom.subject_area.name -%>
-		<center><%= header_string %>:&nbsp;<%=classroom.course_name %><%= classroom.active? ? "" : "<span style='font-size:10px;color: #C83A14;'>  (Not Active)</span>" %>	</center>	
-		<center><span style='font-size:12px;color: #C83A14;'><%= classroom.teachers.empty? ? "No Teachers Assigned " : classroom.teacher_list %></span></center>	
+		<br/><%= header_string %>:&nbsp;<%=classroom.course_name %><br/>
+		<span style='font-size:12px;color: #C83A14;'><%= classroom.teachers.empty? ? "No Teachers Assigned " : classroom.teacher_list %></span>
 	</div>
 	<div id="back_button" style = "font-size:9px; color: #000000;padding-left:0px;">
 		<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
@@ -167,7 +167,7 @@ jQ(document).ready(function() {
 
 	<% else -%>
 <!--
-		<%#= render (:partial => "list_periods", :locals => {:admin => admin, :classroom=>classroom, :app=>app}) %>
+		<%#= render :partial => "list_periods", :locals => {:admin => admin, :classroom=>classroom, :app=>app}%>
 -->
 	<% end -%>
 

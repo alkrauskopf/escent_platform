@@ -6,7 +6,7 @@
 	<strong><center>Observation Analysis</center></strong>
 </div>
 
-<% unless @current_organization.organization_type.tlt_session_count == 0 || @current_organization.itl_org_option.nil? || !@current_organization.app_enabled?(app.abbrev) -%>
+<% unless @current_organization.organization_type.tlt_session_count == 0 || @current_organization.itl_org_option.nil? || !@current_organization.app_enabled?(app) -%>
 	<% none_found =  false -%>
 		<table id="<%=@current_organization.organization_type.id %>_comparison"   style="width:650px; ">
 			<tbody>  
@@ -30,7 +30,7 @@ jQ(document).ready(function() {
 
 
 
-<% unless @current_organization.itl_summaries.empty? || @current_organization.itl_org_option.nil? || !@current_organization.app_enabled?(app.abbrev) -%>
+<% unless @current_organization.itl_summaries.empty? || @current_organization.itl_org_option.nil? || !@current_organization.app_enabled?(app) -%>
 	<% none_found =  false -%>
 		<table id="<%=@current_organization.public_id %>_analyze"   style="width:650px; ">
 			<tbody>  
@@ -52,7 +52,7 @@ jQ(document).ready(function() {
 </script>
 <% end -%>
 
-	<%= render (:partial => "list_school_subject_dashboards", :locals => {:school => @current_organization}) %>	
+	<%= render :partial => "list_school_subject_dashboards", :locals => {:school => @current_organization}%>
 
 	</div>
 <% if none_found -%>

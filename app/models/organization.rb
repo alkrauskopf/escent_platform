@@ -185,6 +185,9 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def self.all_authorization_levels
+    AuthorizationLevel.organizations
+  end
 
   def reset
     Organization.find_by_id(self.id) rescue self
@@ -213,9 +216,11 @@ class Organization < ActiveRecord::Base
   def actived?
     status == Status.approved
   end
-
+  def active?
+    !self.status.nil? && self.status.approved?
+  end
   def parent?
-    !self.parent_id
+    !self.parent.nil?
   end
 
   def parent_or_self
@@ -227,22 +232,22 @@ class Organization < ActiveRecord::Base
   end 
 
   def siblings_same_type
-     Organization.find(:all, :include => :status,  :conditions => ["parent_id AND parent_id = ? AND organization_type_id =?", self.parent_id, self.organization_type_id], :order => "name" ) 
+   self.siblings.select{|o| (o.organization_type_id == self.organization_type_id)}
   end
 
   def active_siblings_same_type
-     Organization.find(:all, :include => :status,  :conditions => ["parent_id AND parent_id = ? AND organization_type_id =? AND status_id = ?", self.parent_id, self.organization_type_id, 1], :order => "name" ) 
+      self.siblings_same_type.select{|o| o.active?}
   end
   def siblings
-     Organization.find(:all, :include => :status,  :conditions => ["parent_id AND parent_id = ? AND id!= ?", self.parent_id, self.id], :order => "name" ) 
+    self.parent? ? self.parent.children.select{|o|  (o != self)} : []
   end
 
   def active_siblings
-     Organization.find(:all, :include => :status,  :conditions => ["parent_id AND parent_id = ? AND id!= ? AND status_id = ?", self.parent_id, self.id, 1], :order => "name" ) 
+    self.sibling.select{|o| o.active?}
   end
 
   def all_active_children
-    self.all_children.select{|o| o.status_id == 1}
+    self.all_children.select{|o| o.active?}
   end
 
   def grade_levels?
@@ -291,11 +296,11 @@ class Organization < ActiveRecord::Base
   end
 
   def register_notify?
-    self.organization_core_option.register_notify
+    self.organization_core_option ? self.organization_core_option.register_notify : false
   end
 
   def content_notify?
-    self.organization_core_option.content_notify
+    self.organization_core_option ? self.organization_core_option.content_notify : false
   end
 
   def blog_panelists
@@ -358,11 +363,11 @@ class Organization < ActiveRecord::Base
   end
 
   def itl_comparison_schools
-    Organization.of_type(self).select{|org| !org.itl_summaries.empty? && !org.itl_org_option.nil? && org.app_enabled?(CoopApp.ctl.first.abbrev) && org != self} rescue []
+    Organization.of_type(self).select{|org| !org.itl_summaries.empty? && !org.itl_org_option.nil? && org.app_enabled?(CoopApp.ctl) && org != self} rescue []
   end
 
   def itl_schools
-    Organization.of_type(self).select{|org| org.app_enabled?(CoopApp.ctl.first.abbrev) } rescue []
+    Organization.of_type(self).select{|org| org.app_enabled?(CoopApp.ctl) } rescue []
   end
 
   def itl_observation_count
@@ -372,12 +377,13 @@ class Organization < ActiveRecord::Base
 
 #   Apps
 
-  def app_settings(app)
-    self.coop_app_organizations.for_app(app).first rescue nil
+
+  def enabled_app_authorizations
+    AuthorizationLevel.app_authorizations(self).select{ |al| app_enabled?(al.coop_app)}.sort_by{|a| a.coop_app.abbrev}
   end
 
-  def appl_enabled?(app)
-    self.enabled_apps.include?(app)
+  def app_settings(app)
+    self.coop_app_organizations.for_app(app).first rescue nil
   end
 
   def appl_owner?(app)
@@ -415,7 +421,15 @@ class Organization < ActiveRecord::Base
   def allowed?(app)
     !self.coop_app_organizations.for_app(app).allowed.empty?
   end
-      
+
+  def self.allowed_orgs(app)
+    app.coop_app_organizations.allowed.collect{ |co| co.organization}
+  end
+
+  def self.disallowed_orgs(app)
+    app.coop_app_organizations.disallowed.collect{ |co| co.organization}
+  end
+
   def appl_disallowed?(app)
     self.disallowed_apps.include?(app)
   end
@@ -473,16 +487,15 @@ class Organization < ActiveRecord::Base
   end
 
   def selectable_apps
-    (CoopApp.available - self.disallowed_apps - CoopApp.core).sort_by{|app| [app.abbrev]}
+    (CoopApp.available - self.disallowed_apps).select{|a| a != CoopApp.core}.sort_by{|app| [app.abbrev]}
   end
     
   def ifa_enabled?
-    app_enabled?(CoopApp.ifa.first.abbrev)
+    app_enabled?(CoopApp.ifa)
   end
   
-  def app_enabled?(abbrev)
-    applic = CoopApp.available.find(:first, :conditions=>["abbrev = ?", abbrev])
-    self.enabled_apps.include?(applic) && applic.available?
+  def app_enabled?(app)
+    self.enabled_apps.include?(app)
   end
 
   def app_id_enabled?(app)
@@ -584,7 +597,7 @@ class Organization < ActiveRecord::Base
   end
 
   def elt_provider
-   self.app_settings(CoopApp.elt.first).app_provider ? self.app_settings(CoopApp.elt.first).app_provider : CoopApp.elt.first.app_providers.first
+   self.app_settings(CoopApp.elt).app_provider ? self.app_settings(CoopApp.elt).app_provider : CoopApp.elt.app_providers.first
 #    self.elt_org_option.elt_provider rescue nil
   end
   
@@ -697,7 +710,7 @@ class Organization < ActiveRecord::Base
       end
       options = EltOrgOption.new
       options.organization_id = self.id
-      options.owner_org_id = CoopApp.elt.first.owner.id
+      options.owner_org_id = CoopApp.elt.owner.id
       options.elt_cycle_id = nil
       options.elt_framework_id = nil
       self.elt_org_option = options
@@ -1153,8 +1166,8 @@ class Organization < ActiveRecord::Base
     end
   end
 
-  def itl_admins 
-      Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.itl_admin, self]).collect{|a| a.user}
+  def itl_admins
+    self.authorizations.for_level(AuthorizationLevel.app_administrator(CoopApp.itl)).collect{ |a| a.user}.compact.uniq
   end
 
   def itl_admin_list
@@ -1165,8 +1178,8 @@ class Organization < ActiveRecord::Base
     end
   end
 
-  def pd_admins 
-      Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.pd_admin, self]).collect{|a| a.user}
+  def pd_admins
+    self.authorizations.for_level(AuthorizationLevel.app_administrator(CoopApp.pd)).collect{ |a| a.user}.compact.uniq
   end
 
   def pd_admin_list
@@ -1177,8 +1190,8 @@ class Organization < ActiveRecord::Base
     end
   end
 
-  def ifa_admins 
-      Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.ifa_admin, self]).collect{|a| a.user}
+  def ifa_admins
+    self.authorizations.for_level(AuthorizationLevel.app_administrator(CoopApp.ifa)).collect{ |a| a.user}.compact.uniq
   end
 
   def ifa_admin_list
@@ -1190,8 +1203,8 @@ class Organization < ActiveRecord::Base
   end
 
  
-  def coaches 
-      trackers = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.itl_observer, self]).collect{|a| a.user}
+  def coaches
+    self.authorizations.for_level(AuthorizationLevel.app_observer(CoopApp.ctl)).collect{ |a| a.user}.compact.uniq
   end
   def coach_list
     unless self.coaches.empty?
@@ -1211,24 +1224,15 @@ class Organization < ActiveRecord::Base
  
  
   def partner_organizations
-# 
-# This is currently defined as the Organizations that people from "self" organization have identified 
-#  On their Favorites List  That is, who have Authorization Level of friend with other organizations
-#  First find Users having Home_ID equal to "self" organization remove any Superusers
-#  Then Create list of Org_IDs (Scope_id) from authorization table where each User ID has Level 3 authorities
-#  make Org list Unique and remove "Self" organization
-# For each Org, list out Friends whose Home_ID equals "Self" organization
-
-#  homers = home_users(@current_organization.id)
- # partner_orgs =[]
- # homers.each do |usr|
-Organization.find(:all, :include => :authorizations, :conditions => ["authorizations.authorization_level_id = ? && authorizations.user_id = ?", 3, 3])
- #  end
+    self.friends_of_org.collect{ |u| u.organization}.compact.uniq
   end
 
+  def friends_of_org
+    self.authorizations.for_level(AuthorizationLevel.app_friend(CoopApp.core)).collect{|a| a.user}.compact.uniq.sort_by{|u| u.last_name}
+  end
 
   def home_users
-  homers = User.find(:all, :conditions=> ["home_org_id=?", self.id])
+   self.users
   end
 
   def assigned_teachers
@@ -1252,17 +1256,16 @@ Organization.find(:all, :include => :authorizations, :conditions => ["authorizat
     blog = BlogType.pov_header.first.blogs.select{|b| b.organization_id == self.id && b.feature}.first rescue nil
   end
 
- 
   def panel_blogs
-    self.blogs.active.for_app(CoopApp.blog.first) rescue []
+    self.blogs.active.for_app(CoopApp.blog) rescue []
   end
 
   def panel_blog_featured
-    self.blogs.active.featured.for_app(CoopApp.blog.first).first rescue nil
+    self.blogs.active.featured.for_app(CoopApp.blog).first rescue nil
   end
 
   def panel_blogs_notfeatured
-    self.blogs.active.not_featured.for_app(CoopApp.blog.first) rescue []
+    self.blogs.active.not_featured.for_app(CoopApp.blog) rescue []
   end
 
   def pov_blogs
@@ -1365,7 +1368,7 @@ Organization.find(:all, :include => :authorizations, :conditions => ["authorizat
   end 
 
   def conversation_for?(app)
-    if CoopApp.itl.first == app
+    if CoopApp.itl == app
       self.itl_org_option.is_conversations
     else
       false
@@ -1394,10 +1397,19 @@ Organization.find(:all, :include => :authorizations, :conditions => ["authorizat
       self.update_style_setting_value_named(style, params[style]) 
     end
   end
-  
+
+  def new_setting!(setting)
+    new_setting = self.setting_value.new
+    new_setting.setting_id = setting.id
+    new_setting.value = setting.default_value
+    new_setting.save
+  end
+
   #restore style settings to the system default, also used to during org registration
   def set_default_style_settings
-    self.setting_values.style_settings.delete_all
+    if !self.setting_values.empty?
+      self.setting_values.style_settings.delete_all
+    end
     
     default_settings = Setting.find_all_by_group_name("Colors")
 

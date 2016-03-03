@@ -4,7 +4,7 @@
 			<div class="blog_font">
 				<% comment_string = (@com_num + 1).to_s + ". " + @comment.body -%>
 				<%= simple_format comment_string %>
-				<% if @current_user && (@current_user == @blog_post.user || @current_user.has_authorization_level_for?(@current_organization, "administrator")) -%>
+				<% if @current_user && (@current_user == @blog_post.user || @current_user.has_authority?(@current_organization, AuthorizationLevel.app_administrator(CoopApp.core)) -%>
 				<%= link_to "[X]", {:controller => "blog_posts", :action => "delete_comment", :id => @comment.id}, :confirm => "Are you sure?" %>
 				<% end -%>
 			</div>

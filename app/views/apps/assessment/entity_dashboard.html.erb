@@ -1,6 +1,6 @@
 <div id="mainContent">
 
-    <% unless @entity_assessments.size.zero? || !@current_user.has_authorization_level_for?(@current_organization, "content_manager")%>
+    <% unless @entity_assessments.size.zero? || !@current_user.has_authority?(@current_organization, AuthorizationLevel.app_knowledge_manager(CoopApp.core))%>
 	<% assess_header = "header" + @entity_dashboard.public_id.to_s  -%>
 	<% assess_show = "show" + @entity_dashboard.public_id.to_s -%>
 	<% assess_list = "list" + @entity_dashboard.public_id.to_s -%>

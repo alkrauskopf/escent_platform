@@ -36,12 +36,12 @@
 		</div>
 		<div id="centerpane_appl">
 	
-			<% if @current_organization.itl_org_option.classroom_period && @current_user.itl_observer?(@current_organization) %>
+			<% if @current_organization.itl_org_option.classroom_period && @current_user.ctl_observer_for_org?(@current_organization) %>
 			 	<span style = "margin:10px; padding-top:10px; font-size:12px">
 			 		<%= link_to "Practice" ,{:controller => "apps/time_learning", :action => "setup_session", :organization_id => @current_organization, :period_id => @current_organization.itl_org_option.classroom_period, :teacher_id => @currnet_user, :practice=>true, :classroom_id => @current_organization.itl_org_option.classroom_period.classroom},:class => 'fsn-button ui-button ui-state-default ui-corner-all'%>
 				</span>
 			<% end -%>
-			<% if !@current_organization.app_enabled?("CLASSROOM") && @admin -%>
+			<% if !@current_organization.app_enabled?(CoopApp.classroom) && @admin -%>
 			 		<span style = "float:right; padding-top:10px; font-size:12px">		
 						<%= link_to "Classroom Admin", {:controller => "/apps/classroom", :action => :index, :organization_id => @current_organization, :user_id => @current_user},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
 					</span>
@@ -92,7 +92,7 @@
     </ul>
 
 	<div id="tabs-2" class="favorite_organizations" style="width:900px">
-	   <%= render (:partial => "/apps/time_learning/list_backlogs", :locals => {:admin => @admin, :user => @current_user, :app => @app}) %>
+	   <%= render :partial => "/apps/time_learning/list_backlogs", :locals => {:admin => @admin, :user => @current_user, :app => @app}%>
    	</div>
 	<div id="tabs-3" class="favorite_organizations" style="width:900px">
     	<%= render :partial => "/apps/staff_develop/teacher_itl_reflections", :locals => {:teacher => @teacher,  :admin => @admin, :subject => nil } %>

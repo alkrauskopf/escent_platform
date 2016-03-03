@@ -1,15 +1,15 @@
 
 
 	<% if org.panel_blog_featured  -%>
-		<%= link_to "Discussions", {:controller => "apps/app_blog", :action => "show_app_blog", :organization_id=> org, :blog_id => org.panel_blog_featured, :blog_app=> CoopApp.blog.first},{:target=>"_blank"}%>
+		<%= link_to "Discussions", {:controller => "apps/app_blog", :action => "show_app_blog", :organization_id=> org, :blog_id => org.panel_blog_featured, :blog_app=> CoopApp.blog},{:target=>"_blank"}%>
 	<% else -%>
 		<span><%= org.panel_blogs_notfeatured.empty? ? ' ' : 'Discusssions' %></span>
 	<% end -%>
   <ul style="width: 200%;" class="hdr-dropdown-content">
 		<% if org.panel_blog_featured -%>
-			<li ><li style="width: 330px;"><%= link_to org.panel_blog_featured.title, {:controller => "apps/app_blog", :action => "show_app_blog", :organization_id=> org, :blog_id => org.panel_blog_featured, :blog_app=> CoopApp.blog.first},{:target=>"_blank"}%></li>
+			<li ><li style="width: 330px;"><%= link_to org.panel_blog_featured.title, {:controller => "apps/app_blog", :action => "show_app_blog", :organization_id=> org, :blog_id => org.panel_blog_featured, :blog_app=> CoopApp.blog},{:target=>"_blank"}%></li>
 		<% end -%>
 		<% org.panel_blogs_notfeatured.each do |blog| -%>
-			<li ><%= link_to blog.title, {:controller => "apps/app_blog", :action => "show_app_blog", :organization_id=> org, :blog_id => blog, :blog_app=> CoopApp.blog.first},{:target=>"_blank"}%></li>
+			<li ><%= link_to blog.title, {:controller => "apps/app_blog", :action => "show_app_blog", :organization_id=> org, :blog_id => blog, :blog_app=> CoopApp.blog},{:target=>"_blank"}%></li>
 		<% end -%>
 	</ul>

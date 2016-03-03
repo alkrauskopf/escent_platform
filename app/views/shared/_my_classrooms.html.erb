@@ -5,7 +5,7 @@
     <ul style="width: 250%;" class="hdr-dropdown-content">
 		<% unless classroom.nil? -%>
 			<% if classroom.status == "active" -%>
-				<% if user.classroom_manager_for?(classroom) then -%>
+				<% if user.classroom_manager_for_offering?(classroom) then -%>
 					<% link_string = truncate("MANAGE OFFERING: " + classroom.course_name, :omission => "...", :length => 35) -%>
 					<li ><%= link_to link_string, {:controller => "apps/classroom", :action => :setup_classroom, :organization_id => org,  :classroom_id => classroom}, :target => '_blank' %></li>
 

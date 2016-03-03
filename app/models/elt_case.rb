@@ -98,7 +98,7 @@ class EltCase < ActiveRecord::Base
   end
     
   def updatable?(user)
-    !self.final? && (self.user == user || user.elt_admin?(self.elt_cycle.organization))
+    !self.final? && (self.user == user || user.elt_admin_for_org?(self.elt_cycle.organization))
   end
   
   def viewable?(user)
@@ -106,11 +106,11 @@ class EltCase < ActiveRecord::Base
   end
   
   def deletable?(user)
-    self.updatable?(user) || (!self.final? && user.elt_admin?(self.elt_cycle.organization))
+    self.updatable?(user) || (!self.final? && user.elt_admin_for_org?(self.elt_cycle.organization))
   end
 
   def destroyable?(user)
-    !self.final? && (user.elt_admin?(self.elt_cycle.organization) || user == self.user)
+    !self.final? && (user.elt_admin_for_org?(self.elt_cycle.organization) || user == self.user)
   end  
   
   def finalizable?(user)
@@ -118,7 +118,7 @@ class EltCase < ActiveRecord::Base
   end  
   
   def reopenable?(user)
-    self.final? && user.elt_admin?(self.elt_cycle.organization)
+    self.final? && user.elt_admin_for_org?(self.elt_cycle.organization)
   end 
 
   def completed?

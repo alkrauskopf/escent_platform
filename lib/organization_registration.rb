@@ -64,10 +64,15 @@ module OrganizationRegistration
   end
   
   def registration_successful
-    @saved_org = Organization.find(:last)
-    create_app_settings(CoopApp.core.first, @saved_org, false, true, true, "", "", CoopApp.core.first.providers.first.id) 
-    @saved_org.organization_core_option = OrganizationCoreOption.new
-    render :layout => "fsn"    
+    @saved_org = Organization.find_by_public_id(params[:organization_id])
+    if @saved_org
+      create_app_settings(CoopApp.core, @saved_org, false, true, true, CoopApp.core.abbrev, CoopApp.core.name, CoopApp.core.providers.first.id)
+      @saved_org.organization_core_option = OrganizationCoreOption.new
+      flash[:normal] = @saved_org.name + ' Created'
+    else
+      flash[:error] = @saved_org.name + ' Created. But Setting & Options were not.  - Problem'
+    end
+    render :layout => "fsn"
   end
   
   def update

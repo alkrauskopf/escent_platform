@@ -10,7 +10,7 @@
 					<td style="padding-top:3px;">
 						<div id="observer_update">	
 							<% update = @tlt_session.training? ? false : @observer_update -%>
-							<%= render (:partial => "tlt_activity_log", :locals => {:session => @tlt_session, :observer => update}) %>	
+							<%= render :partial => "tlt_activity_log", :locals => {:session => @tlt_session, :observer => update}%>
 
 						</div>
 					</td>

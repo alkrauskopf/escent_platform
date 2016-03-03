@@ -102,7 +102,7 @@ class TltSession < ActiveRecord::Base
   end
 
   def student_survey
-    self.survey_schedules.for_audience(CoopApp.itl.first.tlt_survey_audiences.student.first).first rescue nil
+    self.survey_schedules.for_audience(CoopApp.itl.tlt_survey_audiences.student.first).first rescue nil
   end
 
   def student_count
@@ -110,7 +110,7 @@ class TltSession < ActiveRecord::Base
   end
 
   def student_survey_expired?
-    instruction = SurveyInstruction.for_audience(CoopApp.itl.first.tlt_survey_audiences.student.first).for_type(CoopApp.itl.first.tlt_survey_types.observation.first).first 
+    instruction = SurveyInstruction.for_audience(CoopApp.itl.tlt_survey_audiences.student.first).for_type(CoopApp.itl.tlt_survey_types.observation.first).first
     unless instruction.nil?
      self.session_date + instruction.default_days.days <= Date.today
     else 
@@ -124,7 +124,7 @@ class TltSession < ActiveRecord::Base
   end
   
   def student_survey_available?
-    app = CoopApp.itl.first
+    app = CoopApp.itl
     !self.organization.tlt_survey_questions.for_audience(app.tlt_survey_audiences.student.first).for_type(app.tlt_survey_types.observation.first).active.empty?
   end
 

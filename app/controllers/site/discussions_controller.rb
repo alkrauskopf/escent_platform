@@ -48,7 +48,7 @@ class Site::DiscussionsController < Site::ApplicationController
     
     @content = Content.find_by_public_id params[:content_id] rescue nil
     discussion = @content.discussions.active.find_by_public_id params[:id]
-    if @current_user.has_authorization_level_for?(@classroom, "leader")
+    if @current_user.has_authority?(@classroom, AuthorizationLevel.app_teacher(CoopApp.classroom))
       discussion.make_as_delete(@current_user.id)
     end
       render :text => "** This Comment Has Been Removed **" and return
@@ -67,7 +67,7 @@ class Site::DiscussionsController < Site::ApplicationController
   
   def delete_reply
     discussion = @current_organization.discussions.active.find_by_public_id params[:id]
-#    if @current_user.has_authorization_level_for?(@classroom, "leader")
+#    if @current_user.has_authority?(@classroom, "leader")
       discussion.make_as_delete(@current_user.id)
 #    end
       render :text => "** This Comment Has Been Removed **" and return

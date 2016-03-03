@@ -130,14 +130,14 @@ class SurveySchedule < ActiveRecord::Base
 
   def identify_takers
     takers = 1
-    if self.tlt_survey_audience.coop_app == CoopApp.classroom.first
+    if self.tlt_survey_audience.coop_app == CoopApp.classroom
       if self.tlt_survey_audience.audience == "teacher"
         self.takers << self.entity.teachers
         elsif self.tlt_survey_audience.audience == "student"
           self.takers << self.entity.students
         end
         takers = self.takers.size
-    elsif self.tlt_survey_audience.coop_app == CoopApp.itl.first && self.entity.class.to_s == "TltSession"
+    elsif self.tlt_survey_audience.coop_app == CoopApp.itl && self.entity.class.to_s == "TltSession"
       if self.tlt_survey_audience.audience == "teacher"
         self.takers << self.entity.user
         elsif self.tlt_survey_audience.audience == "observer"
@@ -146,12 +146,12 @@ class SurveySchedule < ActiveRecord::Base
             self.takers << self.entity.classroom_period.students
         end
         takers = self.takers.size
-    elsif self.tlt_survey_audience.coop_app == CoopApp.itl.first && self.entity.class.to_s == "CoopApp"
+    elsif self.tlt_survey_audience.coop_app == CoopApp.itl && self.entity.class.to_s == "CoopApp"
       if self.tlt_survey_audience.audience == "teacher"
         self.takers << self.organization.teachers     
       end
       takers = self.takers.size
-    elsif self.tlt_survey_audience.coop_app == CoopApp.elt.first && self.entity.class.to_s == "EltCycle"
+    elsif self.tlt_survey_audience.coop_app == CoopApp.elt && self.entity.class.to_s == "EltCycle"
       if self.tlt_survey_audience.audience == "client school"
         self.takers << self.entity.schools.collect{|s| s.elt_team}.flatten.uniq     
 #       self.takers << self.entity.organization.elt_reviewers          

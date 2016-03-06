@@ -11,8 +11,7 @@
 					<th><strong><%= header_string %></strong></th>											
 				</tr>
 			</thead>
-			<tbody>  
-				
+			<tbody>
 				<% @entity_dashboards.each do |db| -%>
 					<% mastery = @current_user.calibrated_only ? db.ifa_dashboard_sms_scores.for_standard(@current_standard).first.sms_calibrated : db.ifa_dashboard_sms_scores.for_standard(@current_standard).first.sms_finalized rescue "none" -%>
 					<% col_label = db.period_end.strftime("%B, %Y") + ",  Mastery Level: " + mastery.to_s -%>

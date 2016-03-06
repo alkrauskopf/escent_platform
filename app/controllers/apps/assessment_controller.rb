@@ -1,7 +1,6 @@
    class Apps::AssessmentController < Site::ApplicationController
 
  layout "site", :except =>[:manual_ifa_dashboard_update, :student_list, :student_baseline_scores, :static_assess_question_analysis, :list_user_questions, :list_subject_assessments, :subject_benchmarks, :subject_standard_benchmarks, :assign_classroom_assessment, :question_analysis, :entity_dashboard, :growth_dashboards, :student_dashboard, :student_subject_history, :classroom_dashboard,  :assign_classroom_assessment_view, :list_classroom_assessments, :subject_readings, :genre_readings, :list_standard_questions ,:subject_questions, :assign_assessment_question_view, :subject_assessments, :list_user_assessments]
-
   
   before_filter :clear_notification
   
@@ -768,27 +767,11 @@
 
   def org_analysis
   
-  initialize_parameters
-   
-  prepare_ifa_dashboard(@current_organization, @current_organization.ifa_org_option.begin_school_year, Date.today)  
+    initialize_parameters
 
-  @dashboard_name = @current_organization.medium_name
-  @org_family = @current_organization.active_siblings_same_type
-  @current_org_dashboards = @current_organization.ifa_dashboards.for_subject_since(@current_subject,(@current_organization.ifa_org_option.begin_school_year - 1.years)).reverse
-  @classroom_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "Classroom", (@current_organization.ifa_org_option.begin_school_year)]) rescue []
-  @classroom_ids = @classroom_dashboards.collect{|d| d.ifa_dashboardable_id}.uniq rescue []
-  @student_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "User", (@current_organization.ifa_org_option.begin_school_year)]) rescue []
-  @student_ids = @student_dashboards.collect{|d| d.ifa_dashboardable_id}.uniq rescue []
-  @classrooms = []
-  @classroom_ids.each do |id|
-    @classrooms << Classroom.find_by_id(id) rescue nil
-  end
-  @classroom_list = @classrooms.compact.uniq.sort{|a,b| a.course_name <=> b.course_name}
-  @students = []
-  @student_ids.each do |id|
-    @students << User.find_by_id(id) rescue nil
-  end
-  @student_list = @students.compact.uniq.sort{|a,b| a.last_name <=> b.last_name}
+    prepare_ifa_dashboard(@current_organization, @current_organization.ifa_org_option.begin_school_year, Date.today)
+
+    org_analysys_instance_variables
   end
 
   def growth_dashboards
@@ -854,7 +837,7 @@
      if @entity_dashboard.nil?
        redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization
      end
-     ActSubmission.not_dashboarded(@entity_dashboard.ifa_dashboardable_type, @entity_dashboard.ifa_dashboardable, @entity_dashboard.period_beginning, @entity_dashboard.period_ending).each do |@submission|
+     @current_subject.act_submissions.not_dashboarded(@entity_dashboard.ifa_dashboardable_type, @entity_dashboard.ifa_dashboardable, @entity_dashboard.period_beginning, @entity_dashboard.period_ending).each do |@submission|
        if @entity_dashboard.ifa_dashboardable_type == 'User'
          @submission.dashboard_it(@submission.user)
          # auto_ifa_dashboard_update(@submission, @submission.user)
@@ -873,6 +856,34 @@
      render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "entity"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)}
    end
 
+   def tbdashboard_submissions
+     initialize_parameters
+     entity_class = params[:entity_class]
+     period_end = DateTime.parse(params[:period])
+     period_begin = period_end.beginning_of_month
+     if entity_class == 'Organization'
+       entity = Organization.find_by_public_id(params[:entity_id]) rescue nil
+        entity_name = entity.name
+     elsif entity_class == 'Classroom'
+       entity = Classroom.find_by_public_id(params[:entity_id]) rescue nil
+       entity_name = entity.name
+     else
+       entity = nil
+     end
+     unless entity.nil?
+       @current_subject.act_submissions.not_dashboarded(entity_class, entity, period_begin, period_end).each do |submission|
+         if entity_class == 'User'
+           submission.dashboard_it(submission.user)
+         elsif entity_class == 'Classroom'
+           submission.dashboard_it(submission.classroom)
+         elsif entity_class == 'Organization'
+           submission.dashboard_it(submission.organization)
+         end
+       end
+     end
+     org_analysys_instance_variables
+     render :partial => "/apps/assessment/org_analysis_tabs"
+   end
 
   def refresh_dashboard_cells
   
@@ -3506,4 +3517,30 @@ end
       @temp_count = submissions.size
     end
   end
-end
+   def org_analysys_instance_variables
+     @dashboard_name = @current_organization.medium_name
+     @org_family = @current_organization.active_siblings_same_type
+  #   @current_org_dashboards = @current_organization.ifa_dashboards.for_subject_since(@current_subject,(@current_organization.ifa_org_option.begin_school_year - 1.years)).reverse
+     @current_org_dashboards =IfaDashboard.org_subject_after_date('Organization', @current_organization, @current_subject, @current_organization.ifa_org_option.begin_school_year).reverse
+  #    @classroom_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "Classroom", (@current_organization.ifa_org_option.begin_school_year)]) rescue []
+     @classroom_dashboards =IfaDashboard.org_subject_after_date('Classroom', @current_organization, @current_subject, @current_organization.ifa_org_option.begin_school_year).reverse
+     @classroom_ids = @classroom_dashboards.collect{|d| d.ifa_dashboardable_id}.uniq rescue []
+  #   @student_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "User", (@current_organization.ifa_org_option.begin_school_year)]) rescue []
+     @student_dashboards =IfaDashboard.org_subject_after_date('User', @current_organization, @current_subject, @current_organization.ifa_org_option.begin_school_year).reverse
+     @student_ids = @student_dashboards.collect{|d| d.ifa_dashboardable_id}.uniq rescue []
+     @classrooms = []
+     @classroom_ids.each do |id|
+       @classrooms << Classroom.find_by_id(id) rescue nil
+     end
+     @classroom_list = @classrooms.compact.uniq.sort{|a,b| a.course_name <=> b.course_name}
+     @students = []
+     @student_ids.each do |id|
+       @students << User.find_by_id(id) rescue nil
+     end
+     @student_list = @students.compact.uniq.sort{|a,b| a.last_name <=> b.last_name}
+     @org_tbdashboard_period_end =  @current_org_dashboards.empty? ? (Date.today.end_of_month) : (@current_org_dashboards.first.period_end + 1.day).end_of_month
+     @org_tbdashboard_submissions = @current_subject.act_submissions.not_dashboarded('Organization', @current_organization, @org_tbdashboard_period_end.beginning_of_month, @org_tbdashboard_period_end)
+     @classroom_tbdashboard_period_end = @classroom_dashboards.empty? ? (Date.today.end_of_month) :(@classroom_dashboards.first.period_end + 1.day).end_of_month
+     @classroom_tbdashboard_submissions = @current_subject.act_submissions.not_dashboarded('Classroom', @current_organization, @classroom_tbdashboard_period_end.beginning_of_month, @classroom_tbdashboard_period_end)
+   end
+ end

@@ -1,6 +1,6 @@
 <div id="mainContent">
 
-    <% unless @entity_assessments.size.zero? || !@current_user.has_authorization_level_for?(@current_organization, "content_manager")%>
+  <% unless @entity_assessments.size.zero? || !@current_user.has_authorization_level_for?(@current_organization, "content_manager")%>
 	<% assess_header = "header" + @entity_dashboard.public_id.to_s  -%>
 	<% assess_show = "show" + @entity_dashboard.public_id.to_s -%>
 	<% assess_list = "list" + @entity_dashboard.public_id.to_s -%>
@@ -84,6 +84,7 @@
 	</tbody>
 	</table>
 </div>
+
 <% end -%>
     <%= render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "entity"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)} %>
 </div>

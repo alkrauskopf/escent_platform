@@ -1,0 +1,24 @@
+<div id="tbdashboard_<%= entity.class.to_s%><%= entity.id%>">
+    <div style="width:750px;margin-left:45px">
+      <% if submissions.size > 0 %>
+          <%= pluralize(submissions.size,
+                        (subject.name + ' Assessment')) + ' For ' +  period_end.strftime("%B") + ' Not ' +  entity.class.to_s + ' Dashboarded' %>
+              <div id="refresh_tbdashboard<%= entity.class.to_s%><%= entity.id%>">
+                <span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
+                   <%= submissions.size == 1 ? ' Dashboard It ' : ' Dashboard Them ' %>
+                </span>
+              </div>
+              <script type="text/javascript">
+                jQ(document).ready(function() {
+                  jQ("#refresh_tbdashboard<%= entity.class.to_s%><%= entity.id%>").click(function() {
+                    var url = "<%= url_for :controller => "apps/assessment", :action => "tbdashboard_submissions", :organization_id => organization,  :entity_id => entity, :entity_class => entity.class.to_s, :subject_id => subject.id, :period => period_end %>";
+                    jQ.get(url,{},  function(data) {
+                      jQ("#org_analysis_tabs").html(data);
+                      jQ("#org_analysis_tabs").show();
+                    });
+                  })
+                });
+              </script>
+      <% end %>
+    </div>
+</div>

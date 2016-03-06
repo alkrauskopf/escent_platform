@@ -68,8 +68,11 @@
 						<td style="vertical-align:middle; width:100px; text-align:center; font-size:10px;  padding-top:8px;font-weight:bold; padding-bottom:0px" >
 						 	<%= subj.name.upcase %> 
 							<% if @current_user.has_authorization_level_for?(@current_organization, "ifa_administrator") -%>
-							 	<center><%= button_to  "Dashboards", {:controller => "/apps/assessment", :action => :org_analysis, :organization_id => @current_organization,:classroom_id => @classroom, :topic_id => @topic, :subject_id => subj.id}, :class => "fsn-button ui-button ui-state-default ui-corner-all" %></center>
-							<% end -%>
+							 	<!--
+                  <center><%#= button_to  "Dashboards", {:controller => "/apps/assessment", :action => :org_analysis, :organization_id => @current_organization,:classroom_id => @classroom, :topic_id => @topic, :subject_id => subj.id}, :class => "fsn-button ui-button ui-state-default ui-corner-all" %></center>
+                  -->
+                  <center><%= button_to  "Dashboards", {:controller => "/apps/assessment", :action => :org_analysis, :organization_id => @current_organization, :subject_id => subj.id}, :class => "fsn-button ui-button ui-state-default ui-corner-all" %></center>
+              <% end -%>
 						</td>
 						<td style="vertical-align:middle; width:60px; text-align:center; font-size: 12px; padding-top:8px;padding-bottom:0px;font-weight:normal; color:#000000;" >
 							<%=@current_period[idx] %>

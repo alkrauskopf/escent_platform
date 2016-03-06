@@ -60,15 +60,15 @@
 	<% end -%>
     <% if !dashboard.nil? && dashboard.period_end && dashboard.ifa_dashboardable %>
       <div style="width:750px;margin-left:45px">
-        <% if ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, dashboard.period_beginning, dashboard.period_ending).size == 0 %>
+        <% if @current_subject.act_submissions.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, dashboard.period_beginning, dashboard.period_ending).size == 0 %>
             <%= 'All ' + dashboard.ifa_dashboardable.name + ' Assessments Between ' +  dashboard.period_beginning.strftime("%m/%d/%Y") + ' and ' + dashboard.period_ending.strftime("%m/%d/%Y") + ' Have Been Dashboarded' %>
         <% else %>
-          <%= pluralize(ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, dashboard.period_beginning, dashboard.period_ending).size,
+          <%= pluralize(@current_subject.act_submissions.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, dashboard.period_beginning, dashboard.period_ending).size,
               (dashboard.ifa_dashboardable.name + ' Assessment')) + ' Between ' +  dashboard.period_beginning.strftime("%m/%d/%Y") + ' and ' + dashboard.period_ending.strftime("%m/%d/%Y") + ' Not Dashboarded' %>
             <% if @current_user.ifa_admin?(dashboard.organization) %>
               <div id="refresh_dashboard<%= dashboard.id %>">
                 <span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
-                   <%= ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, dashboard.period_beginning, dashboard.period_ending).size == 1 ? ' Dashboard It ' : ' Dashboard Them ' %>
+                   <%= @current_subject.act_submissions.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, dashboard.period_beginning, dashboard.period_ending).size == 1 ? ' Dashboard It ' : ' Dashboard Them ' %>
                 </span>
               </div>
               <script type="text/javascript">

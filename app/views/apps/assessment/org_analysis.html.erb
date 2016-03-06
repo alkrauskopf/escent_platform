@@ -16,11 +16,6 @@
 
 		
 	<div style="float:none;width:97%;" class="mempro_box clear">
-	 <p style="float:right; word-wrap:break-word; overflow:hidden;">
-      <br />
-			<% return_link = "Return" %>
-			<%= link_to return_link, :controller => "/apps/assessment", :action => :manage, :organization_id => @current_organization, :topic_id => @topic, :classroom_id => @classroom %>
-	</p>    
 
     <%= render :partial => "/apps/assessment/ifa_dashboard_with_toggle" %>
 

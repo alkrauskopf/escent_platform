@@ -68,13 +68,13 @@ class ActSubmission < ActiveRecord::Base
   end
 
 
-  def self.not_dashboarded(dashboard_type, entity, start_date, end_date)
+  def self.not_dashboarded(dashboard_type, entity, subject, start_date, end_date)
     if dashboard_type == 'User'
-      dashboards = entity.act_submissions.final.submission_period(start_date, end_date).not_user_dashboarded
+      dashboards = entity.act_submissions.for_subject(subject).final.submission_period(start_date, end_date).not_user_dashboarded
     elsif dashboard_type == 'Classroom'
-      dashboards = entity.act_submissions.final.submission_period(start_date, end_date).not_classroom_dashboarded
+      dashboards = entity.act_submissions.for_subject(subject).final.submission_period(start_date, end_date).not_classroom_dashboarded
     elsif dashboard_type == 'Organization'
-      dashboards = entity.act_submissions.final.submission_period(start_date, end_date).not_org_dashboarded
+      dashboards = entity.act_submissions.for_subject(subject).final.submission_period(start_date, end_date).not_org_dashboarded
     else
       dashboards = []
     end

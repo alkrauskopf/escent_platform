@@ -837,15 +837,15 @@
      if @entity_dashboard.nil?
        redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization
      end
-     @current_subject.act_submissions.not_dashboarded(@entity_dashboard.ifa_dashboardable_type, @entity_dashboard.ifa_dashboardable, @entity_dashboard.period_beginning, @entity_dashboard.period_ending).each do |@submission|
+     ActSubmission.not_dashboarded(@entity_dashboard.ifa_dashboardable_type, @entity_dashboard.ifa_dashboardable, @current_subject, @entity_dashboard.period_beginning, @entity_dashboard.period_ending).each do |submission|
        if @entity_dashboard.ifa_dashboardable_type == 'User'
-         @submission.dashboard_it(@submission.user)
+         submission.dashboard_it(submission.user)
          # auto_ifa_dashboard_update(@submission, @submission.user)
        elsif @entity_dashboard.ifa_dashboardable_type == 'Classroom'
-         @submission.dashboard_it(@submission.classroom)
+         submission.dashboard_it(submission.classroom)
          # auto_ifa_dashboard_update(@submission, @submission.classroom)
        elsif @entity_dashboard.ifa_dashboardable_type == 'Organization'
-         @submission.dashboard_it(@submission.organization)
+         submission.dashboard_it(submission.organization)
          # auto_ifa_dashboard_update(@submission, @submission.organization)
        end
      end
@@ -871,7 +871,7 @@
        entity = nil
      end
      unless entity.nil?
-       @current_subject.act_submissions.not_dashboarded(entity_class, entity, period_begin, period_end).each do |submission|
+       ActSubmission.not_dashboarded(entity_class, entity, @current_subject, period_begin, period_end).each do |submission|
          if entity_class == 'User'
            submission.dashboard_it(submission.user)
          elsif entity_class == 'Classroom'
@@ -3539,8 +3539,8 @@ end
      end
      @student_list = @students.compact.uniq.sort{|a,b| a.last_name <=> b.last_name}
      @org_tbdashboard_period_end =  @current_org_dashboards.empty? ? (Date.today.end_of_month) : (@current_org_dashboards.first.period_end + 1.day).end_of_month
-     @org_tbdashboard_submissions = @current_subject.act_submissions.not_dashboarded('Organization', @current_organization, @org_tbdashboard_period_end.beginning_of_month, @org_tbdashboard_period_end)
+     @org_tbdashboard_submissions = ActSubmission.not_dashboarded('Organization', @current_organization, @current_subject, @org_tbdashboard_period_end.beginning_of_month, @org_tbdashboard_period_end)
      @classroom_tbdashboard_period_end = @classroom_dashboards.empty? ? (Date.today.end_of_month) :(@classroom_dashboards.first.period_end + 1.day).end_of_month
-     @classroom_tbdashboard_submissions = @current_subject.act_submissions.not_dashboarded('Classroom', @current_organization, @classroom_tbdashboard_period_end.beginning_of_month, @classroom_tbdashboard_period_end)
+     @classroom_tbdashboard_submissions = ActSubmission.not_dashboarded('Classroom', @current_organization, @current_subject, @classroom_tbdashboard_period_end.beginning_of_month, @classroom_tbdashboard_period_end)
    end
  end

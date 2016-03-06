@@ -3538,9 +3538,9 @@ end
        @students << User.find_by_id(id) rescue nil
      end
      @student_list = @students.compact.uniq.sort{|a,b| a.last_name <=> b.last_name}
-     @org_tbdashboard_period_end =  @current_org_dashboards.empty? ? (Date.today.end_of_month) : (@current_org_dashboards.first.period_end + 1.day).end_of_month
-     @org_tbdashboard_submissions = ActSubmission.not_dashboarded('Organization', @current_organization, @current_subject, @org_tbdashboard_period_end.beginning_of_month, @org_tbdashboard_period_end)
-     @classroom_tbdashboard_period_end = @classroom_dashboards.empty? ? (Date.today.end_of_month) :(@classroom_dashboards.first.period_end + 1.day).end_of_month
-     @classroom_tbdashboard_submissions = ActSubmission.not_dashboarded('Classroom', @current_organization, @current_subject, @classroom_tbdashboard_period_end.beginning_of_month, @classroom_tbdashboard_period_end)
+ #    @org_tbdashboard_period_end =  @current_org_dashboards.empty? ? (Date.today.end_of_month) : (@current_org_dashboards.first.period_end + 1.day).end_of_month
+ #    @org_tbdashboard_submissions = ActSubmission.not_dashboarded('Organization', @current_organization, @current_subject, @org_tbdashboard_period_end.beginning_of_month, @org_tbdashboard_period_end)
+ #    @classroom_tbdashboard_period_end = @classroom_dashboards.empty? ? (Date.today.end_of_month) :(@classroom_dashboards.first.period_end + 1.day).end_of_month
+ #    @classroom_tbdashboard_submissions = ActSubmission.not_dashboarded('Classroom', @current_organization, @current_subject, @classroom_tbdashboard_period_end.beginning_of_month, @classroom_tbdashboard_period_end)
    end
  end

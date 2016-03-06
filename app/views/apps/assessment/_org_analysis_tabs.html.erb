@@ -58,9 +58,11 @@
 	</div>
  
   <div id="tabs-2" class="favorite_organizations" style="width:900px; margin-left:20;">
-    <% if @org_tbdashboard_submissions.size > 0 %>
-        <%= render :partial => "/apps/assessment/tbdashboard_it", :locals=>{:organization=>@current_organization, :submissions => @org_tbdashboard_submissions, :entity=>@current_organization, :subject=> @current_subject, :period_end=> @org_tbdashboard_period_end} %>
-    <% end%>
+    <!--
+    <%# if @org_tbdashboard_submissions.size > 0 %>
+        <%#= render :partial => "/apps/assessment/tbdashboard_it", :locals=>{:organization=>@current_organization, :submissions => @org_tbdashboard_submissions, :entity=>@current_organization, :subject=> @current_subject, :period_end=> @org_tbdashboard_period_end} %>
+    <%# end%>
+    -->
     <table id="org_levels" class="tablesorter" style="width:99%;">
       <tbody>
         <% unless @current_org_dashboards.size.zero? -%>
@@ -85,10 +87,12 @@
   </div>
 
   <div id="tabs-3" class="favorite_organizations" style="width:900px; margin-left:20;">
-    <% if @classroom_tbdashboard_submissions.size > 0 %>
-        <%= render :partial => "/apps/assessment/tbdashboard_it", :locals=>{:organization=>@current_organization, :submissions => @classroom_tbdashboard_submissions, :entity=>@classroom_tbdashboard_submissions.first.classroom, :subject=> @current_subject, :period_end=> @classroom_tbdashboard_period_end} %>
-    <% end%>
-    <%= @classroom_tbdashboard_period_end.strftime("%B, %Y") -%>
+ <!--
+    <%# if @classroom_tbdashboard_submissions.size > 0 %>
+        <%#= render :partial => "/apps/assessment/tbdashboard_it", :locals=>{:organization=>@current_organization, :submissions => @classroom_tbdashboard_submissions, :entity=>@classroom_tbdashboard_submissions.first.classroom, :subject=> @current_subject, :period_end=> @classroom_tbdashboard_period_end} %>
+    <%# end%>
+    <%#= @classroom_tbdashboard_period_end.strftime("%B, %Y") -%>
+    -->
     <table id="classroom_levels" class="tablesorter" style="width:99%;">
       <tbody>
         <% unless @classroom_list.size.zero? -%>

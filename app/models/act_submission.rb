@@ -58,6 +58,13 @@ class ActSubmission < ActiveRecord::Base
     if self.save
       # Update User Dashboard Only
       self.auto_ifa_dashboard_update(self.user)
+      # Update First Classroom & Org Dashboard of Period
+      unless self.period_dashboard?(self.classroom)
+        self.auto_ifa_dashboard_update(self.classroom)
+      end
+      unless self.period_dashboard?(self.organization)
+        self.auto_ifa_dashboard_update(self.organization)
+      end
       finalized = true
     end
     finalized
@@ -257,6 +264,18 @@ class ActSubmission < ActiveRecord::Base
     end  # no IFA ORG Options
   end # Already Dashboarded Condition
 
+  def period_dashboard?(entity)
+    if entity.class.to_s == 'Organization'
+      dashboard = self.organization.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first ? true : false
+    elsif entity.class.to_s == 'Classroom'
+      dashboard = self.classroom.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first ? true : false
+    elsif entity.class.to_s == 'User'
+      dashboard = self.user.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first ? true : false
+    else
+      dashboard = false
+    end
+    dashboard
+  end
 
   def log_ifa_question(question)
     existing_question = self.ifa_question_logs.for_question(question).first rescue nil

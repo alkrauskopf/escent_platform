@@ -62,7 +62,7 @@ class EltIndicator < ActiveRecord::Base
   def supporting_evidences(cycle, org)
     evidences = []
     self.supporting_indicators(cycle).each do |indicator|
-      evidences << indicator.elt_case_indicators.for_org(org).flatten
+      evidences << indicator.elt_case_indicators.for_org(org).for_cycle(cycle).flatten
     end
     evidences.flatten.compact
   end

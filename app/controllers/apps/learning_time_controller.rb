@@ -498,7 +498,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
 
   def list_case_evidences
     initialize_parameters
-    @elt_case.organization.elt_cycle_cases(@elt_case.elt_cycle)
+#    @support_cases = @elt_case.organization.elt_cycle_cases(@elt_case.elt_cycle).select{|c| c!=@elt_case}
   end
 
  def list_case_comments

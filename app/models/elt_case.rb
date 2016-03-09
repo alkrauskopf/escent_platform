@@ -151,7 +151,13 @@ class EltCase < ActiveRecord::Base
   end
 
   def rateable_indicators
-    self.elt_type.rubric? ? self.elt_type.elt_indicators.active.size : 0
+    rateables = 0
+    if self.elt_type.rubric?
+     self.elt_type.active_elements.each do |element|
+      rateables +=  element.elt_indicators.active.for_activity(self.elt_type).size
+     end
+    end
+   rateables
   end
 
   def finalize_it

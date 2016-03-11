@@ -262,13 +262,10 @@ class UsersController < ApplicationController
   
   def logout
     return_org = @current_organization
-   unless self.current_user.nil?
-     unless     self.current_user.home_org_id.nil?
-         home_org = Organization.find_by_id(@current_user.home_org_id)
-         if home_org 
-           return_org = home_org
-         end
-      end
+    unless self.current_user.nil?
+     unless self.current_user.organization.nil?
+       return_org = self.current_user.organization
+     end
     end
 #    self.current_user = nil
     session.delete(:user_id)

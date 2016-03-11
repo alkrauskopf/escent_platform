@@ -47,16 +47,16 @@
 							<% if ass.organization%>, <%= ass.organization.medium_name %>
 							<% end %><br/>
 						<span style ="color: #000000;font-size:10px">
-						<strong><%= ass.act_subject.name.upcase %></strong>,&nbsp
+						<strong><%= ass.act_subject.name.upcase %></strong>,&nbsp;
 						<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
 							<%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%>&nbsp;&nbsp;&nbsp;
 						<% end -%>
-						<%= pluralize (ass.act_questions.count, ' Question')%>, &nbsp;&nbsp;Last Updated: <%=ass.updated_at.strftime("%m-%d-%y") %><br/>
+						<%= pluralize(ass.act_questions.size, ' Question')%>, &nbsp;&nbsp;Last Updated: <%=ass.updated_at.strftime("%m-%d-%y") %><br/>
 						</span>
 					</td>
 				<tr>
-					<td colspan=4 style="color: #00000; vertical-align:middle; padding-bottom:3px;padding-top:3px;">
-						<center>- - - - - - - - -</center>
+					<td colspan=4 style="color: #000000; text-align:center; vertical-align:middle; padding-bottom:3px;padding-top:3px;">
+						- - - - - - - - -
 					</td>
 				</tr>
 			<% end %>

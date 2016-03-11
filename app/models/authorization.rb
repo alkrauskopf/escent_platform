@@ -15,7 +15,7 @@ class Authorization < ActiveRecord::Base
 #  scope :teacher, :conditions => ["authorization_level_id = ?", 16]
 #  scope :elt_reviewer, :conditions => ["authorization_level_id = ?", 27]
 
-  # ALK new authorization for reporting and data access (following causes error in /views/site/discussions/_discussion_by_same_author.html.erb)
+  # ALK new authorization for reporting and data access (following causes error in /views/site/discussions/_discussion_by_same_author.erb)
 #  named scope :data_owner, :condition => ["authorization_level_id = ?", 6]
 
 #  scope :for_level, lambda{|org, level| {:conditions => ["authorization_level_id = ? AND scope_id = ?", level.id, org.id]}}

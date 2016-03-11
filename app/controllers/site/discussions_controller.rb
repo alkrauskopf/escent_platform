@@ -8,7 +8,8 @@ class Site::DiscussionsController < Site::ApplicationController
     @discussion = @current_organization.discussions.find_by_public_id params[:id]
     @discussions = @current_organization.discussions.paginate(:page => params[:page], :conditions => ["parent_id = ?", @discussion.id], :order => "created_at ASC")                  
     respond_to do |format|
-      format.js { render :partial => "discussions"}  
+      format.js { render :partial => "discussions"
+      }
     end
   end                                                               
   

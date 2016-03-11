@@ -80,7 +80,7 @@
 				</td>
 				<td width = 520px style=" color: #000000; vertical-align:top; font-size:11px" >
 					<% if quest.act_rel_reading %><u>Reading:</u><i> <%= quest.act_rel_reading.label %></i><br/><% end -%>
-						<u>Type:</u>&nbsp;<%= quest.question_type %>,&nbsp;<%= pluralize (quest.act_choices.size, ' Choice') %><br/>
+						<u>Type:</u>&nbsp;<%= quest.question_type %>,&nbsp;<%= pluralize(quest.act_choices.size, ' Choice') %><br/>
 						<i><%= quest.question.titleize %></i><br>
 						<span style="color:#000000;font-size:10px">
 						Updated <%= time_ago_in_words(quest.updated_at.to_s, include_seconds = false).titleize %> Ago

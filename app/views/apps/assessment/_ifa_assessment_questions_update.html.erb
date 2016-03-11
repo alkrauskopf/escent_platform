@@ -178,7 +178,7 @@
 			<td  style="width:460px; border:0px solid #ddd;color: #000000; padding-top:5px; padding-bottom:5px;vertical-align:top;font-size:11px;" >
 				<% if quest.act_rel_reading %><u>Reading:</u><i> <%= quest.act_rel_reading.label %></i><br/><% end -%>
 				<i><%= quest.question.titleize %></i>
-				<br/><%= pluralize (quest.act_choices.size, ' Choice') %><br/>
+				<br/><%= pluralize(quest.act_choices.size, ' Choice') %><br/>
 				<%= link_to "View", {:controller =>  "/apps/assessment", :action => "static_question", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest}, {:target => "_blank"}  %>
 				<% if quest.user_id == @current_user.id %>
 					&nbsp;&nbsp;<%= link_to "Edit", {:controller =>  "/apps/assessment", :action => "edit_ifa_question", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest}, {:target => "_blank"}  %>

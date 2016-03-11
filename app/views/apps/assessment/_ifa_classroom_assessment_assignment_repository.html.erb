@@ -59,7 +59,7 @@
 						<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
 							<%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%>&nbsp;&nbsp;&nbsp;
 						<% end -%>
-						<%= pluralize (ass.act_questions.count, ' Question')%>, &nbsp;&nbsp;Last Updated: <%=ass.updated_at.strftime("%m-%d-%y") %><br/>
+						<%= pluralize(ass.act_questions.count, ' Question')%>, &nbsp;&nbsp;Last Updated: <%=ass.updated_at.strftime("%m-%d-%y") %><br/>
 						</span>
 					</td>
 				<tr>

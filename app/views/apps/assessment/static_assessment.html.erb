@@ -55,7 +55,7 @@
               <div class="normal_text" style="font-size:10px; text-align:left; margin-left:30px; width: 250px; font-weight:normal; color:#00000;">
 				<% if @assessment.generation > 0%>
 					<br/>
-					<u>Copied:</u> <%= pluralize (@assessment.generation, 'generation') %><br/>
+					<u>Copied:</u> <%= pluralize(@assessment.generation, 'generation') %><br/>
 					<u>Origin:</u> <%= @originator %><br/>
 				<% end -%>
               </div>
@@ -120,7 +120,7 @@
 	 
 	 <div style="float:left; width:480px;font-size:15px; word-wrap:break-word; text-align:center; font-weight:normal; color:#C73914;">
      <strong><%= @assessment.name.upcase %></strong><br/>
-	 	 <%= @assessment.act_subject.name.upcase%>&nbsp;:&nbsp;<%= pluralize (@assessment.act_questions.size, ' Question') %>
+	 	 <%= @assessment.act_subject.name.upcase%>&nbsp;:&nbsp;<%= pluralize(@assessment.act_questions.size, ' Question') %>
 	 <br/>
  
 		<span style="font-size:11px">

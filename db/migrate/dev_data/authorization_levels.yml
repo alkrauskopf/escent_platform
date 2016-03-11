@@ -4,227 +4,219 @@ Superuser:
     description: System Wide Administrator
     coop_app_id: 1
     explanation: All access, everywhere,  all the time.
-        
+    old_level_id: 1
+
 Administrator:
     id: 2
-    parent_id: 1
     name: administrator
     description: System Admin
     coop_app_id: 1
     explanation: This allows the user to perform <u>all</u> system adminstration functions for the organization.  
-    
+    old_level_id: 2
+
 Friend:
     id: 3
-    parent_id: 2
     name: friend
     description: Friend of an Affiliate
     coop_app_id: 1
     explanation: This identifies the users who have an affiliation with the organization. Each user either tagged the organization or identified the organization when registering.
-        
+    old_level_id: 3
+
 Content Manager:
     id: 4
-    parent_id: 2
     name: content_manager
     description: Resource Library Contributor
     coop_app_id: 1
     explanation: This allows the user to add resources to the commont resource library.
-    
+    old_level_id: 4
+
 Classroom Manager:
     id: 5
-    parent_id: 2
     name: classroom_manager
     description: Classroom Admin
     coop_app_id: 2
     explanation: This allows the user to manage <u>all</u> of the organization's class offerings as though the user were a teacher for them all. It also allows the user to create new offerings, define the section/periods for each offering, and assign teachers to each section/period. 
-        
+    old_level_id: 5
+
 Leader:
     id: 6
-    parent_id: 5
     name: leader
     description: Teacher
     coop_app_id: 2
     explanation: This designates the user as a teacher for a particular class offering.
-        
+    old_level_id: 6
+
 Participant:
     id: 7
-    parent_id: 5
     name: participant
     description: Student
     coop_app_id: 2
     explanation: This designates the user as a student for a particular class offering. 
-            
+    old_level_id: 7
+
 Favorite:
     id: 8
-    parent_id: 1
     name: favorite
     description: Favorite Scope ID
     coop_app_id: 1
     explanation: This tags an entity, such as a class offering, or library resource, as a favorite of a user.  
-    
+    old_level_id: 8
+
 Colleague:
     id: 9
-    parent_id: 1
     name: colleague
     description: Colleague of a User
     coop_app_id: 1
     explanation: This establishes connections between User to faciliate resource exchanges.  
-        
+    old_level_id: 9
+
 Beta Participant:
     id: 10
-    parent_id: 2
     name: beta_user
     description: Beta Project Participant
     coop_app_id: 1
     explanation: This desginates the user as a beta project participant, giving the user access to features related to a particular project and not available to users not involved with the project.  
+    old_level_id: 10
 
 Assessment Manager:
     id: 11
-    parent_id: 2
     name: ifa_administrator
     description: Integrated Formative Assessment Admin
     coop_app_id: 3
     explanation: This gives the user administrative authority for the Integrated Formative Assessment (IFA) application. User can adjust IFA configuration options, manage assessment repositories, and view IFA dashboards.  
- 
+    old_level_id: 11
+
 Teacher Assessor:
     id: 12
-    parent_id: 2
     name: ita_administrator
     description: Integrated Teacher Assessment Admin
     coop_app_id: 4
     explanation: This gives the user administrative authority for the Integrated Teacher Assessment (ITA) application. User can specify teacher metrics to be gathered for the organization.  
- 
+    old_level_id: 12
+
 Blogger:
     id: 13
-    parent_id: 2
     name: blog_panelist
     description: A Blogger For The Organization    
     coop_app_id: 5
     explanation: This identifies the user as a blog panalist. User will be able to post to blogs discussions for which he is identified as a panelist.  
- 
+    old_level_id: 13
+
 Time_Learning_Observer:
     id: 14
-    parent_id: 2
     name: ctl_observer
     description: Time & Learning Observer
     coop_app_id: 6
     explanation: This designates the user as a classroom observer. User will be able to conduct Time & Learning observations for any of the organization's class offerings.  
- 
+    old_level_id: 14
+
 Time_Learning_Admin:
     id: 15
-    parent_id: 2
     name: ctl_administrator
     description: Time & Learning Administrator
     coop_app_id: 6
     explanation: This gives the user administrative authority for the Collaborative Time & Learning (CTL) application. User can specify CTL configuration options, create/issue Surveys, and view all CTL dashboards.  
+    old_level_id: 15
 
 Teacher:
     id: 16
-    parent_id: 2
     name: teacher
     description: Org Teacher
     coop_app_id: 1
     explanation: This identifies the user as a teacher who can be assigned a section/period for any of the organization's class offerings.  
+    old_level_id: 16
 
 PD_Admin:
     id: 17
-    parent_id: 2
     name: pd_administrator
     description: Professional Development Administrator
     coop_app_id: 7
     explanation: This gives the user administrative authority for the "Discover Action & Learning Process" (DALP) professional development methodology. User can specify DALP configuration options, create/issue surveys, and view all DALP dashboards.  
+    old_level_id: 17
 
 App_Super:
     id: 18
-    parent_id: 1
     name: app_superuser
     description: Application Superuser
     explanation: This gives the user rights to perform universal maintenance functions for the Application.
- 
+    old_level_id: 28
+
 School_Time_Admin:
     id: 19
-    parent_id: 2
     name: stat_administrator
     description: School Time Analysis Administrator
     coop_app_id: 8
     explanation: This gives the user administrative authority for the Integrated School Time Analysis application.  
- 
+    old_level_id: 19
+
 School_Time_User:
     id: 20
-    parent_id: 2
     name: stat_user
     description: School Time Analysis User
     coop_app_id: 8
     explanation: This gives the user authority use the Integrated School Time Analysis application.  
- 
+    old_level_id: 20
+
 CM_Admin:
     id: 21
-    parent_id: 2
     name: cm_administrator
     description: Client Management Administrator
     coop_app_id: 9
     explanation: This gives the user Administrator authority for the Client Management application. 
+    old_level_id: 21
 
 CM_KM:
     id: 22
-    parent_id: 2
     name: cm_knowledge_manager
     description: Knowledge Manager
     coop_app_id: 9
     explanation: This gives the user Knowledge Manager authority for the Client Management application. 
+    old_level_id: 22
 
 CM_CONS:
     id: 23
-    parent_id: 2
     name: cm_consultant
     description: Consultant
     coop_app_id: 9
-    explanation: This gives the user Consultant authority for the Client Management application. 
+    explanation: This gives the user Consultant authority for the Client Management application.
+    old_level_id: 23
 
 ELT_Admin:
     id: 24
-    parent_id: 2
     name: elt_administrator
     description: ELT Administrator
     coop_app_id: 10
-    explanation: This gives the user Administrator authority for the ELT application. 
+    explanation: This gives the user Administrator authority for the ELT application.
+    old_level_id: 24
 
 ELT_Team:
     id: 25
-    parent_id: 2
     name: elt_team_member
     description: ELT Team Member
     coop_app_id: 10
     explanation: This makes the user a Team Member for ELT workshops.
+    old_level_id: 25
         
 Content Admin:
     id: 26
-    parent_id: 2
     name: content_administrator
     description: Resource Library Administrator
     coop_app_id: 1
     explanation: This allows the user to manage all library resources for the organization.
-        
+    old_level_id: 26
+
 ELT_Reviewer:
     id: 27
-    parent_id: 2
     name: elt_reviewer
     description: ELT Case Reviewer
     coop_app_id: 10
     explanation: This allows the user to reiew and finalize all performance monitoring diagnostic cases.
- 
+    old_level_id: 27
+
 Blog_Admin:
     id: 28
-    parent_id: 2
     name: blog_administrator
     description: A Blog Administrator For The Organization    
     coop_app_id: 5
     explanation: This identifies the user as a blog administrator. User will be able to create and maintain the organization's blogs.  
- 
-
-Stub:
-    id: 100
-    parent_id: 1
-    name: stub
-    description: stub so next authorization level starts at 101
-    coop_app_id: 1
-    explanation: stub
+    old_level_id: 28

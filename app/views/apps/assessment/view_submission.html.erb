@@ -60,9 +60,9 @@
 						<strong>Reviewer: <%= @reviewer.full_name %></strong><br/>
 					<% end-%>
 						<span style ="color: #000000; font-size:12px; text-align:left> margin-top:0px; font-weight:normal">
-						<%= pluralize (@submission.act_answers.correct.count, ' Question') %><br/>
-						<%= pluralize (@submission.act_answers.selected.count, ' Answer') %><br/>
-						<%= pluralize (@submission.act_answers.collect{|a| a.points}.sum, '  Point') %><br/>
+						<%= pluralize(@submission.act_answers.correct.count, ' Question') %><br/>
+						<%= pluralize(@submission.act_answers.selected.count, ' Answer') %><br/>
+						<%= pluralize(@submission.act_answers.collect{|a| a.points}.sum, '  Point') %><br/>
 						<span style ="color: #000000; font-size:12px; text-align:left> margin-top:0px; font-weight:normal">
 						<% @submission.act_submission_scores.each do |std| %>
 						<%= std.act_master.abbrev %> Mastery: <%= std.est_sms %><br/>

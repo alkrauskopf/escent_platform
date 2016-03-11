@@ -7,17 +7,17 @@
 	(
 		<% if session[:viewed] %>
 			<% if session[:viewed].key?(content.id) %>
-				<%= pluralize (content ? content.views : 0), "view" %>
+				<%= pluralize(content ? content.views : 0), "view" %>
 			<% else %>
 				<% session[:viewed].store(content.id, true) %>
-				<%= pluralize (content ? content.increment_views : 0), "view" %>
+				<%= pluralize(content ? content.increment_views : 0), "view" %>
 			<% end %>
 		<% else %>
 			<% session[:viewed] = {content.id, true} %>
-			<%= pluralize (content ? content.increment_views : 0), "view" %>
+			<%= pluralize(content ? content.increment_views : 0), "view" %>
 		<% end %>
 		 / 
-		<%= pluralize (content.star_rating ? content.star_rating.votes : 0), "vote" %>
+		<%= pluralize(content.star_rating ? content.star_rating.votes : 0), "vote" %>
 	)
 </span>
 <script type="text/javascript" charset="utf-8">
@@ -28,7 +28,7 @@
 				var url = '<%= url_for :controller => "/site/site", :action => :add_star_rating_to_content, :organization_id => @current_organization %>';
 				jQ.post(url, {"id":public_id, "rating":value}, function(data) {
 					jQ(".description_for_vote_<%= content.public_id %>").html(data)
-					jQ(".votes_<%= content.public_id %>").html("(<%= pluralize (content ? content.views : 0), 'view' %> / <%= pluralize (content.star_rating ? content.star_rating.votes + 1 : 0), 'vote' %>)");						
+					jQ(".votes_<%= content.public_id %>").html("(<%= pluralize(content ? content.views : 0), 'view' %> / <%= pluralize(content.star_rating ? content.star_rating.votes + 1 : 0), 'vote' %>)");
 				})
 		  }
 		});	

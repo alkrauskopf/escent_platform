@@ -23,7 +23,7 @@
 		<% for room in user.favorite_classrooms.sort_by{|c| c.course_name.upcase} do -%>
 			<% unless room.nil? || room.organization.nil? -%>
 				<% link_string = truncate(room.course_name, :omission => "...", :length => 24) + ", " +  truncate(room.organization.short_name, :omission => "...", :length => 15) + ":&nbsp;" + truncate(room.teacher_list, :omission => "...", :length => 20) -%>
-				<li ><%= link_to link_string, {:controller => "/site/site", :action => :static_classroom, :organization_id => room.organization, :id => room} %>
+				<li ><%= link_to simple_format(link_string), {:controller => "/site/site", :action => :static_classroom, :organization_id => room.organization, :id => room} %>
 				</li>
 			<% end -%>
 		<% end %>

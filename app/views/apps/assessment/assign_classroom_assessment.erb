@@ -1,0 +1,63 @@
+
+	
+<div style="color: #C83A14; width:99%; border:0px">
+	<% if @classroom.ifa_classroom_option -%>		
+		<u>Note:</u> Students Will Not Be Able To Take Unlocked or Inactive Assessments
+		<div id="assign_resources_panel">
+			<table id="authorization_levels" class="tablesorter" style="width:99%;">
+				<tbody> 
+          <% col_label = @classroom.course_name + " Assessment Pool"-%>
+          <tr>
+            <td class="authorization_levels_close" style=" color: #C83A14;">
+              <%= link_to '', :controller => "apps/assessment", :action => :assign_classroom_assessment_view, :organization_id => @current_organization, :group_id => @classroom, :classroom_id => @classroom %>
+              <%= col_label %>
+              <span></span>
+            </td>
+          </tr>
+					<% unless @tagged_classrooms.empty? -%>
+						<% @tagged_classrooms.each do |clsrm| -%>
+              <% col_label = "Add From  <i>" + clsrm.course_name + ", " + clsrm.organization.medium_name.titleize + "</i>"-%>
+              <tr>
+                <td class="authorization_levels_close">
+                  <%= link_to '', :controller => "apps/assessment", :action => :assign_classroom_assessment_view, :organization_id => @current_organization, :group_id => clsrm, :classroom_id => @classroom %>
+                  <%= col_label %>
+                  <span></span>
+                </td>
+              </tr>
+						<% end -%>
+					<% end -%>
+					<% col_label = "Add From Common Repository" -%>
+          <tr>
+            <td class="authorization_levels_close">
+              <%= link_to '', :controller => "apps/assessment", :action => :assign_classroom_assessment_view, :organization_id => @current_organization, :classroom_id => @classroom %>
+              <%= col_label %>
+              <span></span>
+            </td>
+          </tr>
+				</tbody>
+			</table>
+		</div>
+	<% else -%>
+		IFA Not Turned On	
+	<% end -%>
+</div>
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+		jQ('input.add_resource').click(function() {
+			var $this = jQ(this);
+			var url = $this.parents("form").attr("action");
+			jQ.post(url, function(data) {
+				$this.parents("tr").remove();
+				jQ('.flash_notice').html(data).css("display", "block");
+			})
+			return false;
+		})
+	})
+</script>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#authorization_levels .authorization_levels_close').toggleAuthorizationLevels();
+	jQ('#authorization_levels .authorization_levels_open').toggleAuthorizationLevels();	
+  jQ("#roles").tablesorter({ headers: { 1: { sorter: false }} });
+});
+</script>

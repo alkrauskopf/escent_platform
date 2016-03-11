@@ -554,7 +554,7 @@ class Apps::ClassroomController < Site::ApplicationController
       end
     end
     refresh_lu
-    render :partial => "lu_options", :locals => {:lu=> @topic} 
+    render :partial => "lu_options", :locals => {:lu=> @topic}
   end
 
   def destroy_lu

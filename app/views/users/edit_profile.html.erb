@@ -88,21 +88,22 @@
 
 	<!--  ALK Added -->
 	  <div class="FormRow">
-				<div class="FormRowTitle">Credentials: </div>
-				<div class="FormRowData"><%= text_area :user, :credentials, :class=>"text", :cols => 70, :rows => 2 %></div>
-	    </div>
+      <div class="FormRowTitle">Credentials: </div>
+      <div class="FormRowData"><%= text_area :user, :credentials, :class=>"text", :cols => 70, :rows => 2 %></div>
+    </div>
 	  <div class="FormRow">
-				<div class="FormRowTitle">Personal Philosophy: </div>
-				<div class="FormRowData"><%= text_area :user, :philosophy, :class=>"text", :cols => 70, :rows => 2 %></div>
-	    </div>
-
+      <div class="FormRowTitle">Personal Philosophy: </div>
+      <div class="FormRowData"><%= text_area :user, :philosophy, :class=>"text", :cols => 70, :rows => 2 %></div>
+    </div>
+<!--
       <h3 class="title_large_blue">Upload a profile picture</h3>
       <div class="FormRow" style="position: relative;">
         <div class="FormRowTitle">Picture:</div>
         <div class="FormRowData">
-          <%= file_field_tag 'user[picture]' %>
+          <%#= file_field_tag 'user[picture]' %>
         </div>
       </div>
+      -->
 	    <div class="FormRow submit_warp">
 				<%= submit_tag "Save Profile", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
 			</div>

@@ -76,13 +76,13 @@
 						<% end -%>
 						<tr  style="border:0px solid #ddd;" >
 							<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; font-weight:normal; color:#000000; vertical-align:top;">
-								<%= pluralize (content.views, ' View') %>
+								<%= pluralize(content.views, ' View') %>
  							</td>
  						</tr>
 						<% unless content.star_rating.nil?%>			
 							<tr  style="border:0px solid #ddd;" >
 								<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; font-weight:normal; color:#000000; vertical-align:top;">
-									Rating:&nbsp;<%=content.star_rating.rating %>,&nbsp;<small>(<%= pluralize (content.star_rating.votes, 'Vote') %>)</small>
+									Rating:&nbsp;<%=content.star_rating.rating %>,&nbsp;<small>(<%= pluralize(content.star_rating.votes, 'Vote') %>)</small>
 	 							</td>
 	 						</tr>
 						<% end -%>

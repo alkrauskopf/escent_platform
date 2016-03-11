@@ -15,7 +15,7 @@ class Organization < ActiveRecord::Base
 
   has_one   :total_view, :as => :entity, :dependent => :destroy
   
-  has_many :addresses
+  has_many :addresses, :dependent => :destroy
   has_many :authorizations, :as => :scope, :dependent => :destroy
   has_many :authorized_users, :through => :authorizations, :source => :user, :uniq => true do
     def find_all_by_authorization_level_id(authorization_level)
@@ -100,26 +100,26 @@ class Organization < ActiveRecord::Base
 
   validates_presence_of :phone
   
-  validates_format_of :name, :with => /^[\w\s'-`]+$/, :message => 'not valid', 
+  validates_format_of :name, :with => /^[\w\s'-`]+$/, :message => 'not valid',
   :allow_nil => false
   
-  validates_format_of :web_site_url, :with => /^((http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?)*$/, 
+  validates_format_of :web_site_url, :with => /^((http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?)*$/,
   :message => 'not valid, format http://www.escentpartners.com', :allow_nil => true
   
-  validates_format_of :contact_email, :with => /^[\w._%+-]+@[\w.-]+\.[\w]{2,6}$/, :message => 'not valid', 
+  validates_format_of :contact_email, :with => /^[\w._%+-]+@[\w.-]+\.[\w]{2,6}$/, :message => 'not valid',
   :allow_nil => false
  
-  validates_format_of :contact_name, :with => /^[\w\s'-`]*$/, :message => 'not valid', 
+  validates_format_of :contact_name, :with => /^[\w\s'-`]*$/, :message => 'not valid',
   :allow_nil => false
   
-  validates_format_of :contact_role, :with => /^[\w\s'-`]*$/, :message => 'not valid', 
+  validates_format_of :contact_role, :with => /^[\w\s'-`]*$/, :message => 'not valid',
   :allow_nil => false
   
-  validates_format_of :contact_phone, :with => /^\d{3}-{1}\d{3}-{1}\d{4}$/, :message => 'not valid, format XXX-XXX-XXXX', 
-  :allow_nil => false       
+  validates_format_of :contact_phone, :with => /^\d{3}-{1}\d{3}-{1}\d{4}$/, :message => 'not valid, format XXX-XXX-XXXX',
+  :allow_nil => false
   
-  validates_format_of :phone, :with => /^\d{3}-{1}\d{3}-{1}\d{4}$/, :message => 'not valid, format XXX-XXX-XXXX', 
-  :allow_nil => false       
+  validates_format_of :phone, :with => /^\d{3}-{1}\d{3}-{1}\d{4}$/, :message => 'not valid, format XXX-XXX-XXXX',
+  :allow_nil => false
   
   has_attached_file :logo, :styles => { :normal => '315x170' , :small_thumb => '74x40>', :med_thumb => '111x60>', :thumb=>'148x80>' }, :default_style => :normal
 
@@ -990,7 +990,7 @@ class Organization < ActiveRecord::Base
   end
   
   def unfoldered_active_offerings
-    self.classrooms.active.select{|c| !c.folder }.sort_by{ |o| o.subject_area.name}
+    self.classrooms.active.select{|c| !c.folder && !c.subject_area.nil? }.sort_by{ |o| o.subject_area.name}
   end
   
   def foldered_offerings

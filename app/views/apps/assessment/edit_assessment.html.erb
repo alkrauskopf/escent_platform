@@ -134,7 +134,7 @@
 							<strong><%= std_string %>, <%= rng_string %></strong><br/>
 							<% if quest.act_rel_reading %>Reading: <%= quest.act_rel_reading.label %><br/><% end -%>
 							<strong><u><%= link_to quest.question.titleize,{:controller =>  "/apps/assessment", :action => "static_question", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest}, {:target => "_blank"} %></u></strong><br>
-							Type <%= quest.question_type %>:&nbsp;<%= pluralize (quest.act_choices.size, ' Choice') %><br/>
+							Type <%= quest.question_type %>:&nbsp;<%= pluralize(quest.act_choices.size, ' Choice') %><br/>
 							<% quest.act_choices.each do |chc| %>
 								<% if chc.is_correct -%>
 									<span style="color:#C73914;padding-left:30px">

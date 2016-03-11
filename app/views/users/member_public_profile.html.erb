@@ -219,7 +219,7 @@
 				<span style="font-size:12px; "><%= link_to c.organization.name, :controller => "/site/site", :action => :static_organization, :organization_id => c.organization %> </span><br/>				
 				<span style="font-size:14px; color: #C83A14; font-weight:bold" >
 				<% room_org = Organization.find_by_id(c.organization_id) %>
-				<% link_string = c.subject_area.name + ": " + c.course_name%>
+				<% link_string = (c.subject_area.nil? ? 'Undefined Subject' : c.subject_area.name) + ": " + c.course_name%>
 				<%= link_to link_string, {:controller => "site/site", :action => "static_classroom", :organization_id => room_org, :id => c} %></span><br/>
 				<span style="font-size:12px;" ><%= pluralize(c.participants.size, 'Participant')%>,&nbsp;<%= pluralize(c.observers.size, 'Observer')%></span><br/>
 				</center>

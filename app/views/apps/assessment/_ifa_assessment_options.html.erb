@@ -176,7 +176,7 @@
 			<%= render :partial => "thumbs_columns", :locals => {:quest => quest, :std => ActMaster.act.first, :filter =>"ACT"}%>
 			<td width=380px style=" border:0px solid #ddd;color: #000000; padding-top:5px; padding-bottom:5px; vertical-align:top;font-size:11px;" >
 				<% if quest.act_rel_reading %><u>Reading:</u><i> <%= quest.act_rel_reading.label %></i><br/><% end -%>
-				<span style="color:#C73914;"><i><%= quest.question.titleize %></i></span>,&nbsp;<%= pluralize (quest.act_choices.size, ' Choice') %><br/>
+				<span style="color:#C73914;"><i><%= quest.question.titleize %></i></span>,&nbsp;<%= pluralize(quest.act_choices.size, ' Choice') %><br/>
 				<% unless quest.user.nil?%><%= quest.user.full_name%><%end%>
 				<% unless quest.organization.nil? %>,  <%= quest.organization.name.titleize%><%end%>
 				<br/>

@@ -68,12 +68,12 @@
 				</td>
 				<td width = 600px style=" color: #000000; vertical-align:top; font-size:11px" >
 					<% if quest.act_rel_reading %><u>Reading:</u><i> <%= quest.act_rel_reading.label %></i><br/><% end -%>
-						<u>Type:</u>&nbsp;<%= quest.question_type %>,&nbsp;<%= pluralize (quest.act_choices.size, ' Choice') %><br/>
+						<u>Type:</u>&nbsp;<%= quest.question_type %>,&nbsp;<%= pluralize(quest.act_choices.size, ' Choice') %><br/>
 						<i><%= quest.question.titleize %></i><br>
  				</td>
 				<td width = 130px style=" color: #000000; vertical-align:top;font-size:11px;" >
-					<%= pluralize (quest.act_assessments.size, ' Assessment') %><br/>
-					<%= pluralize (quest.act_answers.selected.size, ' Exposure') %>
+					<%= pluralize(quest.act_assessments.size, ' Assessment') %><br/>
+					<%= pluralize(quest.act_answers.selected.size, ' Exposure') %>
 				</td>
 				
 				<td width = 100px style=" color: #000000; vertical-align:top;font-size:11px;" >

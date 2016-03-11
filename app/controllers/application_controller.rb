@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def core_enabled_for_current_org?
-    unless(@current_user && @current_user.superuser?)
+    unless(@current_user && @current_user.superuser? || @current_organization.nil? || @current_organization == Organization.default)
       if @current_organization.nil? || (!@current_organization.allowed?(CoopApp.core))
         redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => Organization.default
       end

@@ -456,7 +456,6 @@
  end
 
   def assign_classroom_assessment_view
-  
     initialize_parameters
     if params[:group_id]
       @tagged_classroom = Classroom.find_by_public_id(params[:group_id]) rescue nil

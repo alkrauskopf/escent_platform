@@ -60,9 +60,9 @@
 						<% end -%>
 					<% end-%>
 						<span style ="color: #000000; font-size:12px; text-align:left> margin-top:0px; font-weight:normal">
-						<%= pluralize (@submission.act_answers.correct.count, ' Question') %><br/>
-						<%= pluralize (@submission.act_answers.selected.count, ' Answer') %><br/>
-						<%= pluralize (@submission.act_answers.collect{|a| a.points}.sum, '  Point') %><br/>
+						<%= pluralize(@submission.act_answers.correct.count, ' Question') %><br/>
+						<%= pluralize(@submission.act_answers.selected.count, ' Answer') %><br/>
+						<%= pluralize(@submission.act_answers.collect{|a| a.points}.sum, '  Point') %><br/>
 						<span style ="color: #C83A14; font-size:13px; text-align:left> margin-top:0px; font-weight:bold">
 						<% @submission.act_submission_scores.each do |std| %>
 						Est. <%= std.act_master.abbrev %> SMS: <%= std.est_sms %><br/>

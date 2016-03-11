@@ -56,7 +56,7 @@
               <div class="normal_text" style="font-size:10px; text-align:left; margin-left:30px; width: 250px; font-weight:normal; color:#00000;">
 				<% if @question.generation > 0%>
 					<br/>
-					<u>Copied:</u> <%= pluralize (@question.generation, 'generation') %><br/>
+					<u>Copied:</u> <%= pluralize(@question.generation, 'generation') %><br/>
 					<u>Origin:</u> <%= @originator %><br/>
 				<% end -%>
               </div>

@@ -1,14 +1,14 @@
 <div id="main_content">
 
-  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
-			<br/><center><%= @app.name.upcase %></center>
+  <div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
+    <br/><%= @app.name.upcase %>
 	</div>
 
 		<%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@app} %>	
 		<div style="float:none;width:96.7%;" class="mempro_box clear">
 			<% header_string = @admin ? pluralize(@current_organization.classrooms.size.to_s, " " + @current_organization.short_name + " Offering"): pluralize(@current_user.offerings_taught(@current_organization).size, @current_user.last_name + " Offerings") %>
 			<div style = "text-align:center;font-size:14px; font-weight:bold; color: #2061a5; padding-left:0px;">
-					><%= header_string %>
+					<%= header_string %>
 			</div>
 			<% if @admin -%>
 				<div id="centerpane_appl">

@@ -18,11 +18,15 @@ class Folder < ActiveRecord::Base
   scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id], :order=>'name'}}
   scope :for_app, lambda{|app| {:conditions => ["coop_app_id = ? ", app.id], :order=>'name'}}
   scope :all_parents,   :conditions => ["parent_id IS NULL"], :order=>'name'
-  scope :by_position,   :include  => [:folder_positions], :order=>'folder_positions.position'
+#  scope :by_position,   :include  => [:folder_positions], :order=>'folder_positions.position'
   
   validates_presence_of :name
 
   
+  def self.by_position
+   self.sort_by{|f| f.folder_positions.position}
+  end
+
   def increment_views
     self.total_view ||= TotalView.create(:entity => self)
     self.total_view.increment

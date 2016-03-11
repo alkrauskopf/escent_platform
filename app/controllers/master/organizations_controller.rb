@@ -19,7 +19,7 @@ class Master::OrganizationsController < Master::ApplicationController
           flash[:error] = "Website URL is required. If you do not have a website check the Don't have a Web Site checkbox."
         else
           if @address.save
-            @organization.is_default = Organization.all.size == 0
+            @organization.is_default = Organization.all.size == 0 ? true : false
             if  @organization.save
               @address.organization = @organization
               if @current_user then @current_user.add_as_administrator_to(@organization) end

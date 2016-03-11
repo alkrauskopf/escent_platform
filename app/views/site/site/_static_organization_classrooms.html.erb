@@ -19,8 +19,8 @@ jQ(document).ready(function() {
 });
 </script>
 	<% end-%>
-		<% subjects = display=="lu" ? @current_organization.unfoldered_active_offerings.select{|c| c.featured_topic}.collect{|c| c.parent_subject}.compact.uniq : @current_organization.unfoldered_active_offerings.collect{|c| c.parent_subject}.compact.uniq -%>
-			<% subjects.sort_by{|s| s.name}.each do |sub| %>
+  <% subjects = display=="lu" ? @current_organization.unfoldered_active_offerings.select{|c| c.featured_topic}.collect{|c| c.parent_subject}.compact.uniq : @current_organization.unfoldered_active_offerings.collect{|c| c.parent_subject}.compact.uniq -%>
+      <% subjects.sort_by{|s| s.name}.each do |sub| %>
 			<table id="s_<%=sub.public_id %>_<%=display%>" style="margin-left:10px">
 				<tbody>  
 					<tr>
@@ -39,5 +39,4 @@ jQ(document).ready(function() {
 	jQ('#s_<%=sub.public_id%>_<%=display%> .resource_levels_open').toggleResourceLevels();	
 });
 </script>
-
 	<% end -%>

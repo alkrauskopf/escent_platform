@@ -11,16 +11,6 @@ class Admin::ApplicationController < ApplicationController
 #  require_authorization "administrator", :except => [:login , :show]
   
   def index
- #   update
-   # @features = Topic.features
-   # @pending_topics = @current_organization.topics.pending
- #   @closed_topics = @current_organization.topics.closed
- #   @contents = @current_organization.contents.paginate :per_page => 10, :page => params[:page]
- #   @people = @current_organization.org_followers
- #   @blogs = @current_organization.blogs
- #   @reported_abuses = @current_organization.reported_abuses
- #   @active_classrooms = @current_organization.classrooms.active
- #   @archived_classrooms = @current_organization.classrooms.archived
     @organization = @current_organization
     @address = @organization.addresses.first || @organization.addresses.new
   end

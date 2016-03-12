@@ -10,3 +10,4 @@ public/resourcelibrary/*
 public/system/*
 
 db/schema.rb
+.ruby-gemset

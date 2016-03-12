@@ -17,3 +17,5 @@ OR
 Start your rails server with `ruby script/server`
 
 Visit http://localhost:3000 in a browser
+
+Hello!

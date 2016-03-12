@@ -1,60 +1,91 @@
 <div id="ifa_dashboard_<%= div_key %>">
+  <!-- temporarily disable these refreshes  -->
+	<% if false %>
+    <% if @current_user.superuser? && !dashboard.nil?-%>
 
-	<% if @current_user.superuser? && !dashboard.nil?-%>
-	<div id="refresh_scores<%= dashboard.id %>">
-			<span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
-				 Refresh Scores
-			</span>
-	</div>
-<script type="text/javascript">
-jQ(document).ready(function() {
-	jQ("#refresh_scores<%= dashboard.id %>").click(function() {
-		var url = "<%= url_for :controller => "apps/assessment", :action => "refresh_dashboard_scores", :organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details  %>";
-		jQ.get(url,{},  function(data) {
-			jQ("#ifa_dashboard_<%= div_key %>").html(data);
-			jQ("#ifa_dashboard_<%= div_key %>").show();
-					});
-	})
-});
-</script>		
-	<div id="refresh_cells<%= dashboard.id %>">
-			<span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
-				 Refresh Cells
-			</span>
-<script type="text/javascript">
-jQ(document).ready(function() {
-	jQ("#refresh_cells<%= dashboard.id %>").click(function() {
-		var url = "<%= url_for :controller => "apps/assessment", :action => "refresh_dashboard_cells", :organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details  %>";
-		jQ.get(url,{},  function(data) {
-			jQ("#ifa_dashboard_<%= div_key %>").html(data);
-			jQ("#ifa_dashboard_<%= div_key %>").show();
-					});
-	})
-});
-</script>
-		&nbsp;Submissions: <%= @temp_count ? @temp_count : "xx" %>,&nbsp;SMS Records For Std: <%= @temp_std_count ? @temp_std_count : "xx" %>
-		&nbsp;Max Score: <%= @max_score ? @max_score : "xx" %>,&nbsp;Min Score: <%= @min_score ? @min_score : "xx" %><br/>
-	</div>
-	<% end -%>
-	<% unless dashboard.nil? %>
+      <div id="refresh_scores<%= dashboard.id %>">
+        <span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
+           Refresh Scores  (temporarily disabled)
+        </span>
+      </div>
+      <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#refresh_scores<%= dashboard.id %>").click(function() {
+          var url = "<%= url_for :controller => "apps/assessment", :action => "refresh_dashboard_scores", :organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details  %>";
+          jQ.get(url,{},  function(data) {
+            jQ("#ifa_dashboard_<%= div_key %>").html(data);
+            jQ("#ifa_dashboard_<%= div_key %>").show();
+                });
+        })
+      });
+      </script>
+      <div id="refresh_cells<%= dashboard.id %>">
+        <span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
+           Refresh Cells  (temporarily disabled)
+        </span>
+        <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#refresh_cells<%= dashboard.id %>").click(function() {
+            var url = "<%= url_for :controller => "apps/assessment", :action => "refresh_dashboard_cells", :organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details  %>";
+            jQ.get(url,{},  function(data) {
+              jQ("#ifa_dashboard_<%= div_key %>").html(data);
+              jQ("#ifa_dashboard_<%= div_key %>").show();
+                  });
+          })
+        });
+        </script>
+            &nbsp;Submissions: <%= @temp_count ? @temp_count : "xx" %>,&nbsp;SMS Records For Std: <%= @temp_std_count ? @temp_std_count : "xx" %>
+            &nbsp;Max Score: <%= @max_score ? @max_score : "xx" %>,&nbsp;Min Score: <%= @min_score ? @min_score : "xx" %><br/>
+      </div>
+    <% end -%>
+  <% end %>
+
+	<% if  !dashboard.nil? && (@current_organization.ifa_standards.size > 1)%>
 		<div   id = "standard_view_<%= dashboard.id %>" style="margin-left:45px;">
-			<%=  select(:master, div_key, @current_organization.ifa_org_option.act_masters.collect{|s| [s.name, s.id]}, :prompt => "View Standard") %>	
+			<%=  select(:master, div_key, @current_organization.ifa_standards.collect{|s| [s.name, s.id]}, :prompt => "View Standard") %>
 		</div>
 
-	<script type="text/javascript">
-	jQ(document).ready(function() {
-		jQ('#standard_view_<%= dashboard.id %>').change(function() {
-			var master_id = jQ('#master_<%= div_key %>').val();
-			var url = "<%= url_for :controller => "apps/assessment", :action => "switch_standard_view", :organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details  %>";
-				jQ.get(url, {'master_id':master_id}, function(data) {
-				jQ("#ifa_dashboard_<%= div_key %>").html(data);
-				jQ("#ifa_dashboard_<%= div_key %>").show();
-				});
-		})
-	});
-	</script>
+    <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ('#standard_view_<%= dashboard.id %>').change(function() {
+        var master_id = jQ('#master_<%= div_key %>').val();
+        var url = "<%= url_for :controller => "apps/assessment", :action => "switch_standard_view", :organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details  %>";
+          jQ.get(url, {'master_id':master_id}, function(data) {
+          jQ("#ifa_dashboard_<%= div_key %>").html(data);
+          jQ("#ifa_dashboard_<%= div_key %>").show();
+          });
+      })
+    });
+    </script>
 	<% end -%>
-
+    <% if !dashboard.nil? && dashboard.period_end && dashboard.ifa_dashboardable %>
+      <div style="width:750px;margin-left:45px">
+        <% if ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, @current_subject, dashboard.period_beginning, dashboard.period_ending).size == 0 %>
+            <%= 'All ' + dashboard.ifa_dashboardable.name + ' Assessments Between ' +  dashboard.period_beginning.strftime("%m/%d/%Y") + ' and ' + dashboard.period_ending.strftime("%m/%d/%Y") + ' Have Been Dashboarded' %>
+        <% else %>
+          <%= pluralize(ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, @current_subject, dashboard.period_beginning, dashboard.period_ending).size,
+              (dashboard.ifa_dashboardable.name + ' Assessment')) + ' Between ' +  dashboard.period_beginning.strftime("%m/%d/%Y") + ' and ' + dashboard.period_ending.strftime("%m/%d/%Y") + ' Not Dashboarded' %>
+            <% if @current_user.ifa_admin?(dashboard.organization) %>
+              <div id="refresh_dashboard<%= dashboard.id %>">
+                <span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
+                   <%= ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, @current_subject, dashboard.period_beginning, dashboard.period_ending).size == 1 ? ' Dashboard It ' : ' Dashboard Them ' %>
+                </span>
+              </div>
+              <script type="text/javascript">
+                jQ(document).ready(function() {
+                  jQ("#refresh_dashboard<%= dashboard.id %>").click(function() {
+                    var url = "<%= url_for :controller => "apps/assessment", :action => "dashboard_submissions", :organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details  %>";
+                    jQ.get(url,{},  function(data) {
+                      jQ("#ifa_dashboard_<%= div_key %>").html(data);
+                      jQ("#ifa_dashboard_<%= div_key %>").show();
+                    });
+                  })
+                });
+              </script>
+            <% end %>
+        <% end %>
+      </div>
+    <% end %>
 		<table  id = "dash" style="width:750px;margin-left:45px">
 			<thead>
 				<tr>

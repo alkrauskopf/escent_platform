@@ -129,7 +129,8 @@ class CoopApp < ActiveRecord::Base
   def app_link
     if self.ifa?
       controller = "/apps/assessment"
-      action = "manage"
+   #   action = "manage"
+      action = "index"
     end
     if self.ita? 
       controller = "/apps/teacher_assess"
@@ -164,6 +165,10 @@ class CoopApp < ActiveRecord::Base
       action = "index"
     end
    links = [controller, action]
+  end
+
+  def self.ifa_app
+    self.ifa.first
   end
 
   def ifa?

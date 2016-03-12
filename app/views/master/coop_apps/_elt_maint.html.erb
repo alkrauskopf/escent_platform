@@ -9,15 +9,25 @@
 				<tbody style="font-size:14px; color: #2061a5; width:600px">
                 <tr>
                   <td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
+                    <span class="fsn-button ui-button ui-state-default ui-corner-all">
+                       <%= link_to "Go" ,{:controller => "master/coop_apps", :action => 'elt_remove_null_notes', :app_id => app.id} %>
+                    </span>
+                  </td>
+                  <td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
+                    Replace Case Indicators Note = NULL to Note = ''
+                  </td>
+                </tr>
+				<!--
+				    <tr>
+                  <td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								 <%= link_to "Go" ,{:controller => "master/coop_apps", :action => "elt_copy_indicators_select", :app_id => app.id} %>
+								 <%#= link_to "Go" ,{:controller => "master/coop_apps", :action => "elt_copy_indicators_select", :app_id => app.id} %>
 							</span>
                   </td>
                   <td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
                     Mass Copy Indicators Utilities
                   </td>
                 </tr>
-				<!--
                     <tr>
 						<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 							<span class="fsn-button ui-button ui-state-default ui-corner-all">

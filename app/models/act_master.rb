@@ -22,48 +22,70 @@ class ActMaster < ActiveRecord::Base
   
   
      
-  scope :national, :conditions => { :is_national => true}
-  scope :act, :conditions => { :abbrev => "ACT"}
+  scope :national, :conditions => { :is_national => true}  
+  scope :act, :conditions => { :abbrev => "ACT"}  
   scope :all, :order => "abbrev"
+  scope       :co,  :conditions => { :abbrev => "CO"}
 
 
-  def sms_for_period(entity, subject,period, h_threshold, calibrated)
-    period_end = period.at_end_of_month
-    ranges = ActScoreRange.for_standard(self).for_subject(subject).no_na.sort{|a,b| b.upper_score <=> a.upper_score}
-    if ranges.size > 0 
-      entity_dashboard = entity.ifa_dashboards.for_subject(subject).for_period(period_end).first rescue nil
-      score = ranges.last.upper_score
-      prev_score = ranges.last.upper_score
-      questions_found = false
-      baseline_found = false
-      ranges.each do |sr|
-        range_cells = entity_dashboard.ifa_dashboard_cells.with_range_id(sr.id) rescue []
-        unless range_cells.empty?
-          questions_found = true
-        end 
-        total_choices = calibrated ? range_cells.collect{|q| q.calibrated_answers}.compact.sum : range_cells.collect{|q| q.finalized_answers}.compact.sum
-        total_points = calibrated ? range_cells.collect{|q| q.cal_points}.compact.sum : range_cells.collect{|q| q.fin_points}.compact.sum
-        pct_correct = total_choices == 0? 0.0 : total_points/total_choices
-        pct_incorrect = total_choices == 0? 0.0 : (1.0-pct_correct)
-        if pct_correct >= h_threshold && !baseline_found
-          score = sr.upper_score
-          prev_score = sr.upper_score        
-          baseline_found = true
-        end
-        if baseline_found
-          score = (score - pct_incorrect*(prev_score - sr.upper_score)) 
-          prev_score = sr.upper_score
-        else
-          prev_score = sr.upper_score
-        end
-      end
+  def self.find_standard(std)
+    self.find(:first, :conditions =>["abbrev = ?", std]) rescue nil
+  end
+
+  def lowest_upper_score(subject)
+    self.act_score_ranges.for_subject_no_na(subject).collect{|sr| sr.upper_score}.min
+  end
+
+  def standard_scoring(entity, subject, period_end, calibrated)
+    pct_score = IfaQuestionLog.period_score(entity, subject, period_end, calibrated)
+    score = self.lowest_upper_score(subject)
+    if pct_score > 0.25
+      min_max_score = ActSubmission.min_max_score(entity, subject, period_end, self)
+      score = self.lowest_upper_score(subject) + (pct_score * ((min_max_score[1] - self.lowest_upper_score(subject)).to_f)).to_i
+    end
+    score
+  end
+
+  def sms_for_period(entity, subject, period_end, h_threshold, calibrated)
+    standard_scoring = true
+    if standard_scoring
+      final_score = self.standard_scoring(entity, subject,period_end, calibrated)
     else
-      questions_found = false
-      score = 0
-    end  
-
-    final_score = questions_found ? score.round.to_i : 0
-    
+      ranges = ActScoreRange.for_standard(self).for_subject(subject).no_na.sort{|a,b| b.upper_score <=> a.upper_score}
+      if ranges.size > 0
+        entity_dashboard = entity.ifa_dashboards.for_subject(subject).for_period(period_end).first rescue nil
+        score = ranges.last.upper_score
+        prev_score = ranges.last.upper_score
+        questions_found = false
+        baseline_found = false
+        ranges.each do |sr|
+          range_cells = entity_dashboard.ifa_dashboard_cells.with_range_id(sr.id) rescue []
+          unless range_cells.empty?
+            questions_found = true
+          end
+          total_choices = calibrated ? range_cells.collect{|q| q.calibrated_answers}.compact.sum : range_cells.collect{|q| q.finalized_answers}.compact.sum
+          total_points = calibrated ? range_cells.collect{|q| q.cal_points}.compact.sum : range_cells.collect{|q| q.fin_points}.compact.sum
+          pct_correct = total_choices == 0? 0.0 : total_points/total_choices
+          pct_incorrect = total_choices == 0? 0.0 : (1.0-pct_correct)
+          if pct_correct >= h_threshold && !baseline_found
+            score = sr.upper_score
+            prev_score = sr.upper_score
+            baseline_found = true
+          end
+          if baseline_found
+            score = (score - pct_incorrect*(prev_score - sr.upper_score))
+            prev_score = sr.upper_score
+          else
+            prev_score = sr.upper_score
+          end
+        end
+      else
+        questions_found = false
+        score = 0
+      end
+      final_score = questions_found ? score.round.to_i : 0
+    end
+    final_score
   end
 
   def base_score(entity, subject)
@@ -86,45 +108,6 @@ class ActMaster < ActiveRecord::Base
 
     final_score = score ? score.round.to_i : 0
     
-  end
-
-
-  def sms_new(entity, subject, since_date, up_to_date, h_threshold, calibrate_only)
-
-    ranges = ActScoreRange.for_standard(self).for_subject(subject).no_na.sort{|a,b| b.upper_score <=> a.upper_score}rescue []
-    if ranges.size > 0 
-      question_log_list = calibrate_only ? entity.ifa_question_logs.for_subject(subject).since(since_date.to_date).up_to(up_to_date.to_date).calibrated :  entity.ifa_question_logs.for_subject(subject).since(since_date.to_date).up_to(up_to_date.to_date)   
-      score = ranges.last.upper_score
-      prev_score = ranges.last.upper_score
-      questions_found = false
-      baseline_found = false
-      ranges.each do |sr|
-        question_log_group = question_log_list.select{|ql| ql.act_question.act_score_ranges.include?(sr)}
-        unless question_log_group.empty?
-          questions_found = true
-        end 
-        total_choices = question_log_group.sum{|q| q.choices}
-        total_points = question_log_group.sum{|q| q.earned_points}
-        pct_correct = total_choices == 0? 0.0 : total_points/total_choices
-        pct_incorrect = total_choices == 0? 0.0 : (1.0-pct_correct)
-        if pct_correct >= h_threshold && !baseline_found
-          score = sr.upper_score
-          prev_score = sr.upper_score        
-          baseline_found = true
-        end
-        if baseline_found
-          score = (score - pct_incorrect*(prev_score - sr.upper_score)) 
-          prev_score = sr.upper_score
-        else
-          prev_score = sr.upper_score
-        end
-      end
-    else
-      questions_found = false
-      score = 0
-    end  
-
-    final_score = questions_found ? score.round.to_i : 0
   end
 
   def sms(answers,subject_id, standard_id, score_range_id, org_id)
@@ -193,16 +176,6 @@ class ActMaster < ActiveRecord::Base
         score = score - pct_incorrect * delta_score
         prev_upper = sr.upper_score
       end
-#        if idx == 0
-#            test = highest_level
-#            test = prev_upper
-#            test = sr.upper_score        
-#            test = total_selections       
-#            test = delta_score         
-#            test = total_points
-#            test = pct_incorrect        
-#            test = pct_incorrect
-#       end
     end
     if score < lowest_level
       score = lowest_level
@@ -236,7 +209,7 @@ class ActMaster < ActiveRecord::Base
        end 
       sms_array = []
       pct_array = []
-      if stats_group == "submission"
+      if stats_group == 'submission'
         ans_group_ids = selected_answers.collect{|a| a.act_submission_id}.uniq
         ans_group_ids.each_with_index do |gid, idx|  
           group_answers = selected_answers.select{|a| a.act_submission_id == gid}

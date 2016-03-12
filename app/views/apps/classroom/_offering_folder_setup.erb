@@ -76,7 +76,8 @@
         		background-color: transparent;
       			}
    			</style>
-			<tbody>  
+      <% if !lu.positioned_folders.empty? %>
+			<tbody>
 				<% lu.positioned_folders.by_position.each do |folder| %>
 					<tr  style="border:1px solid #ddd;" >
 						<td id = "assign_position_<%= folder.public_id %>" style="width:100px; width;fixed;border:0px solid #ddd; padding-left:10px; padding-top:0px; padding-bottom:0px; vertical-align:top; text-align:left; font-size:12px">
@@ -103,6 +104,7 @@
 	</script>
 				<% end -%>
 			</tbody>
+      <% end %>
 		</table>
 	<% end -%>
 	<br/>

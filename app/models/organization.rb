@@ -715,6 +715,12 @@ class Organization < ActiveRecord::Base
       options.elt_framework_id = nil
       self.elt_org_option = options
     end
+    if app.ifa?
+      if self.ifa_org_option
+        self.ifa_org_option.destroy
+      end
+      ifa_set_org_options
+    end
   end
     
   def ifa_remove_org_options
@@ -724,8 +730,16 @@ class Organization < ActiveRecord::Base
         c.ifa_classroom_option.destroy rescue nil
       end
      end
-  end 
-      
+  end
+
+  def ifa_standards
+    standards = []
+    if self.ifa_org_option
+      standards = self.ifa_org_option.act_masters
+    end
+    standards
+  end
+
   def elt_remove_org_options
     if self.elt_org_option
       self.elt_org_option.destroy rescue nil

@@ -173,10 +173,7 @@ class Site::SiteController < Site::ApplicationController
   def assign_classroom_resource_view
     @classroom = Classroom.find_by_public_id(params[:classroom_id])rescue nil
     @group_name = params[:group_name]
-  end 
-
-
-
+  end
 
  def assign_classroom_general
    
@@ -1374,9 +1371,21 @@ class Site::SiteController < Site::ApplicationController
     if params[:topic_id]
       @topic = Topic.find_by_public_id(params[:topic_id]) rescue nil
     end
-  end
+    if params[:student_id]
+      @student = User.find_by_public_id(params[:student_id]) rescue nil
+      unless @student
+        @student = User.find_by_id(params[:student_id]) rescue nil
+      end
+    end
 
- 
+    if params[:period_id]
+      @period = ClassroomPeriod.find_by_public_id(params[:period_id]) rescue nil
+      unless @period
+        @period = ClassroomPeriod.find_by_id(params[:period_id]) rescue nil
+      end
+    end
+
+  end
   
   def load_search_fields
     if params[:commit]

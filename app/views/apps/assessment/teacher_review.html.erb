@@ -17,8 +17,6 @@
 		   <%= @current_user.full_name %>
 		  </span>
 
-    <%#= render :partial => "ifa_dashboard_updates" %>
-
 	<% unless @range_list.size.zero? -%>
 	    <%= render :partial => "/apps/assessment/ifa_dashboard_with_toggle" %>	  
 	<% else -%>	

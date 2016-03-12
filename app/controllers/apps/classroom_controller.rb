@@ -286,18 +286,21 @@ class Apps::ClassroomController < Site::ApplicationController
   
   def self_register_student
     initialize_parameters
-    if @classroom.classroom_periods.size == 1
-        @period = @classroom.classroom_periods.first rescue nil
-    end
-    if @period && @student
-      ok_register = (@classroom.open? || (!@classroom.open? && params[:reg_key]==@classroom.registration_key)) ? true : false 
-      if ok_register
-       add_student_to_period(@student, @period)   
+    @period = @classroom.classroom_periods.first
+    if @classroom.classroom_periods.size > 1 && params[:registration][:period_id] != ""
+      @period = ClassroomPeriod.find_by_public_id(params[:period_id]) rescue nil
+      unless @period
+        @period = ClassroomPeriod.find_by_id(params[:registration][:period_id]) rescue nil
       end
     end
-#    redirect_to :controller => '/site/site',:action => :static_classroom, :organization_id => @current_organization, :id => @classroom
-    render :partial => "apps/classroom/register_student", :locals=> {:classroom => @classroom}
-
+    if @period && @student
+      if (@classroom.open? || params[:registration][:key]==@classroom.registration_key)
+        @student.add_to_period(@period)
+        set_classroom_favorite(@student, @period.classroom, "add")
+      end
+    end
+    redirect_to :controller => '/site/site',:action => :static_classroom, :organization_id => @current_organization, :id => @classroom
+  #  render :partial => "apps/classroom/register_student", :locals=> {:classroom => @classroom}
   end
   
   def self_unregister_student
@@ -478,7 +481,12 @@ class Apps::ClassroomController < Site::ApplicationController
    
    def add_remove_student
     initialize_parameters
-    @period.students.include?(@student) ? remove_student_from_period(@student, @period) : add_student_to_period(@student, @period)
+    if @period.students.include?(@student)
+      remove_student_from_period(@student, @period)
+    else
+      @student.add_to_period(@period)
+      set_classroom_favorite(@student, @period.classroom, "add")
+    end
     refresh_period
     render :partial => "manage_period_students", :locals=> {:period => @period, :return_action => params[:redirect_act]}
   end

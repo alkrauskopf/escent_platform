@@ -1,7 +1,7 @@
 <div id="mainContent">
 
   	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
-			<br/><center>Integrated Formative Assessment Methodology</center>
+			<br/>Integrated Formative Assessment Methodology
 	</div>
 	<%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@app} %>	
 	<%= render :partial => "/shared/error_and_notice" %>
@@ -23,15 +23,14 @@
 			<br/><%= link_to (image_tag @current_organization.logo.url :med_thumb), :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization -%></br>
 		  </p>
 
-			  	<div style="text-align:center;  width:730px;margin-left:0px; word-wrap:break-word; color: #C83A14;  font-size: 16px; font-style: normal; font-weight: bold">
-				<br/><center><strong><%= @current_organization.name %> IFA Snapshot</strong></center>
-				</div>
-		<center>
+      <div style="text-align:center;  width:730px;margin-left:0px; word-wrap:break-word; color: #C83A14;  font-size: 16px; font-style: normal; font-weight: bold">
+        <br/><strong><%= @current_organization.short_name %> <%= @current_standard.abbrev.upcase %> Dashboards</strong>
+      </div>
+
 
 	<%= render :partial => "/apps/assessment/ifa_summary_dashboard" %>
 
 
-		</center>
 	<br/>			
 
 
@@ -211,3 +210,4 @@ jQ(document).ready(function() {
 	jQ('#people_levels .resource_levels_open').toggleResourceLevels();	
 });
 </script>
+</div>

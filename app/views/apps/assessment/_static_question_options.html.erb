@@ -59,7 +59,7 @@
 			<tr style=" border:0px solid white;">
 				<td style=" border:0px solid white; font-size:11px; padding-top:5px;padding-bottom:5px; padding-left:3px; vertical-align:bottom; text-align:left;color: #C83A14;font-weight:normal;">
 					<br/>
-					<%= link_to "Return", :controller => "/apps/assessment", :action => "manage", :organization_id => @current_organization, :classroom_id => @classroom %>
+					<%= link_to "Return", :controller => "/apps/assessment", :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom %>
 				</td>		
 			</tr>
 		</tbody>					

@@ -1,5 +1,5 @@
 
-<table style="width:480px;margin-top:0px; border:0px solid #ddd;">
+<table style="width:580px;margin-top:0px; border:0px solid #ddd;">
     <tbody>
     <% indicator.supporting_evidences(elt_case.elt_cycle, elt_case.organization).group_by{|e| e.activity}.each do |activity, evidences| -%>
             <tr style="border-top:1px solid #ddd; ">
@@ -22,5 +22,4 @@
         <% end -%>
     </tbody>
 </table>
-
 

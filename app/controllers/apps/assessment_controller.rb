@@ -1,7 +1,6 @@
    class Apps::AssessmentController < Site::ApplicationController
 
  layout "site", :except =>[:manual_ifa_dashboard_update, :student_list, :student_baseline_scores, :static_assess_question_analysis, :list_user_questions, :list_subject_assessments, :subject_benchmarks, :subject_standard_benchmarks, :assign_classroom_assessment, :question_analysis, :entity_dashboard, :growth_dashboards, :student_dashboard, :student_subject_history, :classroom_dashboard,  :assign_classroom_assessment_view, :list_classroom_assessments, :subject_readings, :genre_readings, :list_standard_questions ,:subject_questions, :assign_assessment_question_view, :subject_assessments, :list_user_assessments]
-
   
   before_filter :clear_notification
   
@@ -14,6 +13,23 @@
 #
 #   MAIN ASSESSMENT MANAGEMENT CONTROLLERS
   def index
+    initialize_parameters
+    CoopApp.ifa.first.increment_views
+    if @current_organization.ifa_org_option
+      @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first
+      @master = ActMaster.find_standard('ACT')
+      @co_master = ActMaster.find_standard('CO')
+      @readings = ActRelReading.find(:all) rescue []
+      @readings.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
+      @assessments = ActAssessment.active rescue []
+      @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}
+      @threshold = Time.now - @current_organization.ifa_org_option.sms_calc_cycle.days
+
+      prepare_summary_data
+      find_dashboard_update_start_dates(@current_organization)
+    else
+      redirect_to :controller => "site/site", :action => "static_organization", :organization_id => @current_organization
+    end
   end
 
   def create
@@ -24,25 +40,20 @@
     initialize_parameters
     CoopApp.ifa.increment_views
     if @current_organization.ifa_org_option
+      @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first
+      @master = ActMaster.find(:first, :condition=>["abbrev = ?", "ACT"]) rescue ActMaster.first
+      @co_master = ActMaster.find(:first, :conditions =>["abbrev = ?", "CO"])rescue ActMaster.first
+      @readings = ActRelReading.find(:all) rescue []
+      @readings.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
+      @assessments = ActAssessment.active rescue []
+      @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}
+      @threshold = Time.now - @current_organization.ifa_org_option.sms_calc_cycle.days
 
-
-      @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first 
-
-    
-    @master = ActMaster.find(:first, :condition=>["abbrev = ?", "ACT"]) rescue ActMaster.first
-    @co_master = ActMaster.find(:first, :conditions =>["abbrev = ?", "CO"])rescue ActMaster.first
-    @readings = ActRelReading.find(:all) rescue []
-    @readings.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
-    @assessments = ActAssessment.active rescue []
-    @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}  
-    @threshold = Time.now - @current_organization.ifa_org_option.sms_calc_cycle.days
-
-   prepare_summary_dashboard
-   find_dashboard_update_start_dates(@current_organization)
-  else
-     redirect_to :controller => "site/site", :action => "static_organization", :organization_id => @current_organization
-  end
-
+      prepare_summary_dashboard
+      find_dashboard_update_start_dates(@current_organization)
+    else
+       redirect_to :controller => "site/site", :action => "static_organization", :organization_id => @current_organization
+    end
   end
 
   def student_list
@@ -57,7 +68,7 @@
       @student = User.find_by_public_id(params[:user_id])rescue nil
     end
     unless @student
-       redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
     end
   end
 
@@ -74,7 +85,7 @@
          flash[:error] = @current_organization.ifa_org_option.errors.full_messages.to_sentence 
       end
     end
-       redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
   end
 
 
@@ -87,7 +98,7 @@
     initialize_parameters
 
     unless  @question
-      redirect_to :action => 'manage', :organization_id => @current_organization
+      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization
     end
     @rel_reading = ActRelReading.find(:first, :conditions => ["id = ?", @question.act_rel_reading_id]) rescue nil
     @benchmark_list = @question.act_benches.sort_by{|b| [b.benchmark_type, b.description]} rescue []
@@ -122,7 +133,7 @@
   def static_assessment
     initialize_parameters 
     unless @assessment 
-      redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
+      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
     end
     @originator = "Unkown Creator"
     if @assessment.generation > 0
@@ -143,7 +154,7 @@
     initialize_parameters
 
     unless  @benchmark
-      redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom
+      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
     end
     @bench_questions = @benchmark.act_questions rescue nil
     @bench_assessments = []
@@ -421,7 +432,7 @@
       @assessment.destroy
       flash[:notice] = "Assessment Deleted"    
       end
-    redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
+    redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
   end
 
   def unlock_assessment
@@ -525,8 +536,8 @@
       else
       @assess_questions  = []
     end
-    @avail_questions = ActQuestion.find(:all, :conditions => ["act_subject_id = ?", @assessment.act_subject_id])    
-
+ #   @avail_questions = ActQuestion.find(:all, :conditions => ["act_subject_id = ?", @assessment.act_subject_id])
+    @avail_questions = @assessment.act_subject.nil? ? [] : ActQuestion.for_subject(@assessment.act_subject)
     if params[:function]=="Assess"
       @teacher_list = @classroom.teachers_for_student(@current_user).sort{|a,b| a.last_name.downcase <=> b.last_name.downcase}
       if @teacher_list.size == 1
@@ -552,43 +563,43 @@
     render :layout => "act_assessment"
   end
 
-  def add_submission
+   def add_submission
 
-  initialize_parameters
+     initialize_parameters
 
-    @submission = ActSubmission.new
-    @submission.user_id = @current_user.id
-    @submission.act_assessment_id = @assessment.id
-    @submission.classroom_id = @classroom.id
-    @submission.organization_id = @current_organization.id
-    @submission.is_final = false
-    @submission.act_subject_id = @assessment.act_subject_id
-    if params[:begin_time]
-      @submission.duration = (Time.now - DateTime.parse(params[:begin_time])).to_i
-    else
-      @submission.duration = 0
-    end
-    if params[:teacher]
-      @submission.teacher_id = params[:teacher][:teacher_id]
-    end
-    if params[:act_submission]
-      @submission.student_comment = params[:act_submission][:student_comment]
-    end    
-    submission_complete = false
-    if @submission.save
+     @submission = ActSubmission.new
+     @submission.user_id = @current_user.id
+     @submission.act_assessment_id = @assessment.id
+     @submission.classroom_id = @classroom.id
+     @submission.organization_id = @current_organization.id
+     @submission.is_final = false
+     @submission.act_subject_id = @assessment.act_subject_id
+     if params[:begin_time]
+       @submission.duration = (Time.now - DateTime.parse(params[:begin_time])).to_i
+     else
+       @submission.duration = 0
+     end
+     if params[:teacher]
+       @submission.teacher_id = params[:teacher][:teacher_id]
+     end
+     if params[:act_submission]
+       @submission.student_comment = params[:act_submission][:student_comment]
+     end
+     submission_complete = false
+     if @submission.save
        teacher_must_review = false
        chosen_ids = []
        unless params[:ans_check].nil?
-          chosen_ids = params[:ans_check].collect{|c| c}             
+         chosen_ids = params[:ans_check].collect{|c| c}
        end
        sa_ids = []
        sa_answers = []
        unless params[:short_ans].nil?
-           sa_ids = params[:short_ans][:quest_id].collect{|i| i}
+         sa_ids = params[:short_ans][:quest_id].collect{|i| i}
        end
-       @assessment.act_questions.each do |q|         
-         if q.question_type == "SA" 
-          then
+       @assessment.act_questions.each do |q|
+         if q.question_type == "SA"
+         then
            teacher_must_review = true
            @answer = @submission.act_answers.new
            @answer.act_assessment_id = @assessment.id
@@ -607,105 +618,104 @@
              if saq == q.id.to_s
                @answer.short_answer = params[:short_ans][:answer][idx]
              end
-            end
+           end
            if @answer.save
-              submission_complete = true
+             submission_complete = true
            end
          else
            correct_choice_ids = q.act_choices.select{|c| c.is_correct == true}.collect{|chc| chc.id}
            incorrect_choice_ids = q.act_choices.select{|c| c.is_correct == false}.collect{|chc| chc.id}
-        
+
            correct_choice_ids.each do |cc|
              if chosen_ids.include?(cc.to_s)
-#   Correct Answer Selected 
-              @answer = @submission.act_answers.new 
-              @answer.act_assessment_id = @assessment.id
-              @answer.user_id = @current_user.id
-              @answer.organization_id = @current_organization.id
-              @answer.classroom_id = @classroom.id
-              @answer.teacher_id = @submission.teacher_id              
-              @answer.act_question_id = q.id
-              @answer.act_choice_id = cc
-              @answer.was_selected = true
-              @answer.is_correct = true
-              @answer.is_calibrated = q.is_calibrated
-              @answer.points = 1.0
-              if @answer.save
-                submission_complete = true
-              end
+  #   Correct Answer Selected
+               @answer = @submission.act_answers.new
+               @answer.act_assessment_id = @assessment.id
+               @answer.user_id = @current_user.id
+               @answer.organization_id = @current_organization.id
+               @answer.classroom_id = @classroom.id
+               @answer.teacher_id = @submission.teacher_id
+               @answer.act_question_id = q.id
+               @answer.act_choice_id = cc
+               @answer.was_selected = true
+               @answer.is_correct = true
+               @answer.is_calibrated = q.is_calibrated
+               @answer.points = 1.0
+               if @answer.save
+                 submission_complete = true
+               end
              else
-#   Correct Answer Not Selected            
-              @answer = @submission.act_answers.new 
-              @answer.act_assessment_id = @assessment.id
-              @answer.user_id = @current_user.id
-              @answer.organization_id = @current_organization.id
-              @answer.classroom_id = @classroom.id
-              @answer.teacher_id = @submission.teacher_id
-              @answer.act_question_id = q.id
-              @answer.act_choice_id = cc
-              @answer.was_selected = false
-              @answer.is_correct = true
-              @answer.is_calibrated = q.is_calibrated
-              @answer.points = 0.0
-              if @answer.save
-                submission_complete = true
-              end
+  #   Correct Answer Not Selected
+               @answer = @submission.act_answers.new
+               @answer.act_assessment_id = @assessment.id
+               @answer.user_id = @current_user.id
+               @answer.organization_id = @current_organization.id
+               @answer.classroom_id = @classroom.id
+               @answer.teacher_id = @submission.teacher_id
+               @answer.act_question_id = q.id
+               @answer.act_choice_id = cc
+               @answer.was_selected = false
+               @answer.is_correct = true
+               @answer.is_calibrated = q.is_calibrated
+               @answer.points = 0.0
+               if @answer.save
+                 submission_complete = true
+               end
              end
            end
            incorrect_choice_ids.each do |nc|
              if chosen_ids.include?(nc.to_s)
-#   InCorrect Answer Selected 
-              @answer = @submission.act_answers.new 
-              @answer.act_assessment_id = @assessment.id
-              @answer.user_id = @current_user.id
-              @answer.organization_id = @current_organization.id
-              @answer.classroom_id = @classroom.id
-              @answer.teacher_id = @submission.teacher_id
-              @answer.act_question_id = q.id
-              @answer.act_choice_id = nc
-              @answer.was_selected = true
-              @answer.is_correct = false
-              @answer.is_calibrated = q.is_calibrated
-              @answer.points = 0.0
-              if @answer.save
-                submission_complete = true
-              end
+  #   InCorrect Answer Selected
+               @answer = @submission.act_answers.new
+               @answer.act_assessment_id = @assessment.id
+               @answer.user_id = @current_user.id
+               @answer.organization_id = @current_organization.id
+               @answer.classroom_id = @classroom.id
+               @answer.teacher_id = @submission.teacher_id
+               @answer.act_question_id = q.id
+               @answer.act_choice_id = nc
+               @answer.was_selected = true
+               @answer.is_correct = false
+               @answer.is_calibrated = q.is_calibrated
+               @answer.points = 0.0
+               if @answer.save
+                 submission_complete = true
+               end
              end
            end
          end
- # Take this out: Question log updated only when Submission is Finalized, AFTER Dashboard is updated
- #       unless q.question_type == "SA" 
- #         log_ifa_question(q)
- #       end
-        end    # end of Question loop      
-    end     
-    if submission_complete
-
-      @submitted_answers = @submission.act_answers
-      ActSubmissionScore.destroy_all(["act_submission_id = ?", @submission.id])rescue nil
-      ActMaster.find(:all).each do |mstr|
-        std_score = ActSubmissionScore.new
-        std_score.act_submission_id = @submission.id
-        std_score.act_master_id = mstr.id
-        std_score.est_sms = mstr.sms(@submitted_answers,@submission.act_subject_id,0,0, @current_organization.id)
-        std_score.update_attributes params[:act_submission_score]
-      end
-      unless teacher_must_review || !@classroom.ifa_classroom_option.is_ifa_auto_finalize
-        finalize_submission
-      else
-        teacher_must_review = true
-      end
-     if @classroom.ifa_classroom_option.is_ifa_notify
-       teacher = User.find(@submission.teacher_id)
-       Notifier.deliver_assessment_submission(:user => teacher, :admin => @current_user, :classroom => @classroom, :current_organization => @current_organization, :need_review => teacher_must_review, :fsn_host => request.host_with_port)          
+       end    # end of Question loop
      end
-     redirect_to :action => 'take_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment,:submission_id => @submission, :function => "Success"
-    else
-      flash[:error] = @submission.errors.full_messages.to_sentence 
-      redirect_to :action => 'submit_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment
-    end
-  end
-
+     if submission_complete && !@submission.organization.nil?
+       @submission.update_attributes params[:tot_points => @submission.total_points, :tot_choices => @submission.total_choices]
+       @submitted_answers = @submission.act_answers
+       ActSubmissionScore.destroy_all(["act_submission_id = ?", @submission.id])rescue nil
+       #  ActMaster.find(:all).each do |mstr|
+       @submission.organization.ifa_standards.each do |mstr|
+         std_score = ActSubmissionScore.new
+         std_score.act_submission_id = @submission.id
+         std_score.act_master_id = mstr.id
+         #  std_score.est_sms = mstr.sms(@submitted_answers,@submission.act_subject_id,0,0, @current_organization.id)
+         std_score.est_sms = @submission.standard_assessment_score(mstr)
+       #  std_score.update_attributes params[:act_submission_score]
+         std_score.save
+       end
+       unless teacher_must_review || !@classroom.ifa_classroom_option.is_ifa_auto_finalize
+         @submission.finalize(true, @submission.teacher_id)
+         # finalize_submission(@submission)
+       else
+         teacher_must_review = true
+       end
+       if @classroom.ifa_classroom_option.is_ifa_notify
+         teacher = User.find(@submission.teacher_id)
+         Notifier.deliver_assessment_submission(:user => teacher, :admin => @current_user, :classroom => @classroom, :current_organization => @current_organization, :need_review => teacher_must_review, :fsn_host => request.host_with_port)
+       end
+       redirect_to :action => 'take_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment,:submission_id => @submission, :function => "Success"
+     else
+       flash[:error] = @submission.errors.full_messages.to_sentence
+       redirect_to :action => 'submit_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment
+     end
+   end
 
   def teacher_review
   
@@ -721,7 +731,7 @@
     find_dashboard_update_start_dates(@classroom)
   end
 
-  def classroom_dashboard
+  def classroom_dashboard_x
   
   initialize_parameters
   
@@ -756,27 +766,11 @@
 
   def org_analysis
   
-  initialize_parameters
-   
-  prepare_ifa_dashboard(@current_organization, @current_organization.ifa_org_option.begin_school_year, Date.today)  
+    initialize_parameters
 
-  @dashboard_name = @current_organization.medium_name
-  @org_family = @current_organization.active_siblings_same_type
-  @current_org_dashboards = @current_organization.ifa_dashboards.for_subject_since(@current_subject,(@current_organization.ifa_org_option.begin_school_year - 1.years)).reverse
-  @classroom_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "Classroom", (@current_organization.ifa_org_option.begin_school_year)]) rescue []
-  @classroom_ids = @classroom_dashboards.collect{|d| d.ifa_dashboardable_id}.uniq rescue []
-  @student_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "User", (@current_organization.ifa_org_option.begin_school_year)]) rescue []
-  @student_ids = @student_dashboards.collect{|d| d.ifa_dashboardable_id}.uniq rescue []
-  @classrooms = []
-  @classroom_ids.each do |id|
-    @classrooms << Classroom.find_by_id(id) rescue nil
-  end
-  @classroom_list = @classrooms.compact.uniq.sort{|a,b| a.course_name <=> b.course_name}
-  @students = []
-  @student_ids.each do |id|
-    @students << User.find_by_id(id) rescue nil
-  end
-  @student_list = @students.compact.uniq.sort{|a,b| a.last_name <=> b.last_name}
+    prepare_ifa_dashboard(@current_organization, @current_organization.ifa_org_option.begin_school_year, Date.today)
+
+    org_analysys_instance_variables
   end
 
   def growth_dashboards
@@ -804,15 +798,14 @@
   def entity_dashboard
   
   initialize_parameters
-  
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     unless @entity_dashboard
       period = params[:period].to_date rescue Date.today
       entity_id = params[:entity_id] rescue ""
       entity_class = params[:entity_class].to_s rescue ""
-      @entity_dashboard = IfaDashboard.find(:first, :conditions =>["ifa_dashboardable_type = ? && ifa_dashboardable_id = ? && period_end = ?", entity_class, entity_id, period ])
+     # @entity_dashboard = IfaDashboard.find(:first, :conditions =>["ifa_dashboardable_type = ? && ifa_dashboardable_id = ? && period_end = ?", entity_class, entity_id, period ])
+      @entity_dashboard = IfaDashboard.for_entity(entity_class, entity_id, period)
     end
-    
     prepare_single_ifa_dashboard(@entity_dashboard)
     @show_details = params[:details] rescue nil
     prepare_single_dashboard_details
@@ -825,7 +818,7 @@
   
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     unless @entity_dashboard
-      redirect_to :action => 'manage', :organization_id => @current_organization
+      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization
     end
     update_sms_in_user_dashboard(@entity_dashboard) 
     prepare_single_ifa_dashboard(@entity_dashboard)
@@ -835,13 +828,69 @@
     render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "entity"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)}
   end
 
+   def dashboard_submissions
+
+     initialize_parameters
+
+     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
+     if @entity_dashboard.nil?
+       redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization
+     end
+     ActSubmission.not_dashboarded(@entity_dashboard.ifa_dashboardable_type, @entity_dashboard.ifa_dashboardable, @current_subject, @entity_dashboard.period_beginning, @entity_dashboard.period_ending).each do |submission|
+       if @entity_dashboard.ifa_dashboardable_type == 'User'
+         submission.dashboard_it(submission.user)
+         # auto_ifa_dashboard_update(@submission, @submission.user)
+       elsif @entity_dashboard.ifa_dashboardable_type == 'Classroom'
+         submission.dashboard_it(submission.classroom)
+         # auto_ifa_dashboard_update(@submission, @submission.classroom)
+       elsif @entity_dashboard.ifa_dashboardable_type == 'Organization'
+         submission.dashboard_it(submission.organization)
+         # auto_ifa_dashboard_update(@submission, @submission.organization)
+       end
+     end
+     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
+     prepare_single_ifa_dashboard(@entity_dashboard)
+     @show_details = params[:details] rescue nil
+     prepare_single_dashboard_details
+     render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "entity"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)}
+   end
+
+   def tbdashboard_submissions
+     initialize_parameters
+     entity_class = params[:entity_class]
+     period_end = DateTime.parse(params[:period])
+     period_begin = period_end.beginning_of_month
+     if entity_class == 'Organization'
+       entity = Organization.find_by_public_id(params[:entity_id]) rescue nil
+        entity_name = entity.name
+     elsif entity_class == 'Classroom'
+       entity = Classroom.find_by_public_id(params[:entity_id]) rescue nil
+       entity_name = entity.name
+     else
+       entity = nil
+     end
+     unless entity.nil?
+       ActSubmission.not_dashboarded(entity_class, entity, @current_subject, period_begin, period_end).each do |submission|
+         if entity_class == 'User'
+           submission.dashboard_it(submission.user)
+         elsif entity_class == 'Classroom'
+           submission.dashboard_it(submission.classroom)
+         elsif entity_class == 'Organization'
+           submission.dashboard_it(submission.organization)
+         end
+       end
+     end
+     org_analysys_instance_variables
+     render :partial => "/apps/assessment/org_analysis_tabs"
+   end
+
   def refresh_dashboard_cells
   
   initialize_parameters
   
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     unless @entity_dashboard
-      redirect_to :action => 'manage', :organization_id => @current_organization
+      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization
     end
     update_cells_in_user_dashboard(@entity_dashboard) 
     prepare_single_ifa_dashboard(@entity_dashboard)
@@ -858,7 +907,7 @@
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     @current_standard = ActMaster.find_by_id(params[:master_id]) rescue @current_standard 
     unless @entity_dashboard
-      redirect_to :action => 'manage', :organization_id => @current_organization
+      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization
     end
     @current_user.set_standard_view(@current_standard)
     prepare_single_ifa_dashboard(@entity_dashboard)
@@ -868,7 +917,7 @@
     render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "entity"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)}
   end
 
-  def student_dashboard
+  def student_dashboard_x
   
   initialize_parameters
   
@@ -931,7 +980,8 @@
         end  # end of SA Answer loop
       end  # end of Check for SA credit
       if sa_credits_ok
-          finalize_submission
+          @submission.finalize(false, @reviewer.id)
+          #finalize_submission(@submission)
       end
       unless @finalized
         flash[:error] = @submission.errors.full_messages.to_sentence
@@ -1076,7 +1126,7 @@
           end         
         end
        end
-         redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom
+         redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
      end
     end
   end
@@ -1125,13 +1175,13 @@
      @benchmark.organization_id = @current_organization.id
      @benchmark.save
      redirect_to :action => 'edit_ifa_benchmark', :organization_id => @current_organization, :benchmark_id => @benchmark
- end
+  end
 
   def edit_ifa_benchmark
-  initialize_parameters
-  if @benchmark.co_gle_id
-    @gle = CoGle.find_by_id(@benchmark.co_gle_id)   
-  end
+    initialize_parameters
+    if @benchmark.co_gle_id
+      @gle = CoGle.find_by_id(@benchmark.co_gle_id)
+    end
     if request.post?
       unless params[:bench][:range_id] == ""
         @benchmark.act_score_range_id = params[:bench][:range_id].to_i
@@ -1142,13 +1192,12 @@
       unless params[:bench][:type_id] == ""
         @benchmark.act_bench_type_id = params[:bench][:type_id].to_i
       end
-       if @benchmark.update_attributes params[:act_bench] 
-         flash[:notice] = "Benchmark Updated Successfully"       
-        else
-         flash[:error] = @benchmark.errors.full_messages.to_sentence 
-       end
-
-     end
+      if @benchmark.update_attributes params[:act_bench]
+         flash[:notice] = "Benchmark Updated Successfully"
+      else
+         flash[:error] = @benchmark.errors.full_messages.to_sentence
+      end
+    end
   end
 
   def destroy_benchmark
@@ -1158,7 +1207,7 @@
       @benchmark.destroy
       flash[:notice] = "Benchmark Deleted" 
     end
-    redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom
+    redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
   end
 
 
@@ -1622,7 +1671,7 @@
           end
          end
         end 
-      redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom
+      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
     end 
     flash[:error] = @reading.errors.full_messages.to_sentence 
    end
@@ -1658,7 +1707,7 @@
         else
          flash[:error] = @reading.errors.full_messages.to_sentence 
        end
-       redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
     end
   end
 
@@ -1671,7 +1720,7 @@
       reading.destroy
       flash[:notice] = "Related Reading Deleted"
       end
-    redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom
+    redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
   end
 
 
@@ -1713,18 +1762,13 @@
             end
             submission_ids.each do |sid|
               @submission = ActSubmission.find_by_id(sid) rescue nil
-              if entity_class == "User" && @submission
-                   auto_ifa_dashboard_update(@submission.user)
-              elsif entity_class == "Classroom" && @submission
-                auto_ifa_dashboard_update(@submission.classroom)
-                  else entity_class == "Organization" && @submission    
-                      auto_ifa_dashboard_update(@submission.organization)
+              if  !@submission.nil?
+                @submission.dashboard_it(entity_class)
               end
             end       
         end        
      end   # end subject loop       
-  end   
-
+  end
     render :layout => "master"
   end
 
@@ -2003,7 +2047,7 @@ end
     else
      flash[:error] = "assessment Was Not Deleted"
     end
-    redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom
+    redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
   end 
 
 
@@ -2073,7 +2117,7 @@ end
       @subject = ActSubject.find_by_public_id(params[:subject_id]) rescue nil
       @lower_score = params[:score] rescue nil
     unless @student && @master && @subject && @lower_score
-       redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
     end
     baseline_score = @student.ifa_user_baseline_scores.for_subject(@subject).for_standard(@master).first rescue nil
     if baseline_score
@@ -2118,7 +2162,7 @@ end
       @subject = ActSubject.find_by_public_id(params[:subject_id]) rescue nil
       @lower_score = params[:score] rescue nil
     unless @student && @subject && @lower_score
-       redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
     end
     subject_demo = @student.student_subject_demographics.for_subject(@subject).first rescue nil
     if subject_demo
@@ -2339,7 +2383,7 @@ end
     else
      flash[:error] = "Question Was Not Deleted"
     end
-    redirect_to :action => 'manage', :organization_id => @current_organization, :classroom_id => @classroom
+    redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
   end  
  
   def edit_question_toggle_choice
@@ -2424,22 +2468,13 @@ end
     render :partial => "/apps/assessment/ifa_summary_dashboard"
   end
 
-  def ifa_user_update_dashboards
-   @current_organization = Organization.find_by_public_id(params[:organization_id])rescue nil
-   @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first rescue nil
-   manual_ifa_dashboard_update
-   if params[:requester] == "Admin"
-    find_dashboard_update_start_dates(@current_organization)
-   end
-   if params[:requester] == "Teacher"
-    find_dashboard_update_start_dates(@ifa_classroom)
-   end 
-   if params[:requester] == "Student"
-    find_dashboard_update_start_dates(@current_user)
-   end  
-  render :partial => "/apps/assessment/ifa_dashboard_updates"
-  end
- 
+     def toggle_sumry_ifa_data
+       initialize_parameters
+       @current_user.update_attributes(:calibrated_only =>!@current_user.calibrated_only)
+       prepare_summary_data
+       render :partial => "/apps/assessment/ifa_summary_brief"
+     end
+
    private
  
  def get_assessments_from_repository
@@ -2525,80 +2560,46 @@ end
       @question.act_assessments.each do |ass|
         ass.set_min_and_max
    end
-  end 
-
-  def finalize_submission
-
-
-      if @submission.organization.ifa_org_option 
-        @submission.act_assessment.act_questions.each do |quest|
-          log_ifa_question(quest)
-        end   # End Question Loop
-      end  
-    
-    if @reviewer
-      @submission.reviewer_id = @reviewer.id
-    else
-      @submission.is_auto_finalized = true
-      @submission.reviewer_id = @submission.teacher_id      
-    end
-    @submission.is_final = true
-    @submission.is_user_dashboarded = false
-    @submission.is_org_dashboarded = false
-    @submission.is_classroom_dashboarded = false
-    @submission.date_finalized = Time.now
-    @submission.tot_points = @submission.act_answers.collect{|a|a.points}.sum rescue 0
-    @submission.tot_choices = @submission.act_answers.selected.size rescue 0
-    @submission.act_submission_scores.each do |std|
-          fin_sms = @submission.is_auto_finalized ? std.est_sms : std.act_master.sms(@submission.act_answers,@submission.act_subject_id,0,0, @current_organization.id)
-          std.update_attributes(:final_sms => fin_sms)
-        end
-     if @submission.update_attributes params[:act_submission]
-        auto_ifa_dashboard_update(@submission.user)
-        auto_ifa_dashboard_update(@submission.classroom)
-        auto_ifa_dashboard_update(@submission.organization)       
-        @finalized = true   
-   
-     end
   end
 
-  def log_ifa_question(question)
-     existing_question = @submission.ifa_question_logs.for_question(question).first rescue nil
+  def log_ifa_question(submission, question)
+     existing_question = submission.ifa_question_logs.for_question(question).first rescue nil
         unless existing_question
           question_log = IfaQuestionLog.new
           question_log.act_question_id = question.id
-          question_log.act_assessment_id = @submission.act_assessment_id
-          question_log.act_submission_id = @submission.id
-          question_log.user_id = @submission.user_id
-          question_log.organization_id = @submission.organization_id 
-          question_log.classroom_id = @submission.classroom_id        
-          question_log.teacher_id = @submission.teacher_id 
-          question_log.act_subject_id = @submission.act_subject_id 
-          question_log.date_taken = @submission.created_at
+          question_log.act_assessment_id = submission.act_assessment_id
+          question_log.act_submission_id = submission.id
+          question_log.user_id = submission.user_id
+          question_log.organization_id = submission.organization_id
+          question_log.classroom_id = submission.classroom_id
+          question_log.teacher_id = submission.teacher_id
+          question_log.act_subject_id = submission.act_subject_id
+          question_log.date_taken = submission.created_at
           question_log.period_end = question_log.date_taken.at_end_of_month
           question_log.is_calibrated = question.is_calibrated
-          question_log.grade_level = @submission.user.current_grade_level
-          question_log.csap = @submission.user.student_subject_demographics.for_subject(@submission.act_subject).first.latest_csap rescue nil
-          question_log.earned_points = @submission.act_answers.for_question(question).collect{|a|a.points}.sum rescue 0.0
-          question_log.choices =  @submission.act_answers.for_question(question).selected.size  rescue 0    
+          question_log.grade_level = submission.user.current_grade_level
+          question_log.csap = submission.user.student_subject_demographics.for_subject(submission.act_subject).first.latest_csap rescue nil
+          question_log.earned_points = submission.act_answers.for_question(question).collect{|a|a.points}.sum rescue 0.0
+          question_log.choices =  submission.act_answers.for_question(question).selected.size  rescue 0
           question_log.save
 
 ### update Question Performance
         
-        @submission.organization.ifa_org_option.act_masters.each do |mstr|
-          student_latest_dashboard = @submission.user.ifa_dashboards.for_subject(@submission.act_subject).last rescue nil
+        submission.organization.ifa_org_option.act_masters.each do |mstr|
+          student_latest_dashboard = submission.user.ifa_dashboards.for_subject(submission.act_subject).last rescue nil
           student_latest_scores = student_latest_dashboard.ifa_dashboard_sms_scores.for_standard(mstr).first rescue nil
-          student_range = ActScoreRange.for_standard(mstr).for_subject_sms(@submission.act_subject, student_latest_scores.sms_finalized).first rescue nil
+          student_range = ActScoreRange.for_standard(mstr).for_subject_sms(submission.act_subject, student_latest_scores.sms_finalized).first rescue nil
           question_range_student = question.ifa_question_performances.for_range(student_range).first rescue nil
-          q_earned_points = @submission.act_answers.for_question(question).collect{|a|a.points}.sum rescue 0.0
-          q_answers = @submission.act_answers.for_question(question).selected.size  rescue 0  
+          q_earned_points = submission.act_answers.for_question(question).collect{|a|a.points}.sum rescue 0.0
+          q_answers = submission.act_answers.for_question(question).selected.size  rescue 0
           
           if student_range
             if question_range_student 
               question_range_student.students += 1
               question_range_student.answers += q_answers
               question_range_student.points += q_earned_points
-              question_range_student.update_attributes(params[:ifa_question_performance])
+              #question_range_student.update_attributes(params[:ifa_question_performance])
+              question_range_student.save
             else
               question_range_student = IfaQuestionPerformance.new
               question_range_student.act_score_range_id = student_range.id
@@ -2614,14 +2615,15 @@ end
               question.ifa_question_performances << question_range_student
             end
           end   # end condition if student has existing sms score
-          student_calibrated_range = ActScoreRange.for_standard(mstr).for_subject_sms(@submission.act_subject, student_latest_scores.sms_calibrated).first rescue nil
+          student_calibrated_range = ActScoreRange.for_standard(mstr).for_subject_sms(submission.act_subject, student_latest_scores.sms_calibrated).first rescue nil
           question_range_cal_student = question.ifa_question_performances.for_range(student_calibrated_range).first rescue nil
           if student_calibrated_range
             if question_range_cal_student
               question_range_cal_student.calibrated_students += 1
               question_range_cal_student.calibrated_student_answers += q_answers
               question_range_cal_student.calibrated_student_points += q_earned_points
-              question_range_cal_student.update_attributes(params[:ifa_question_performance])
+              #question_range_cal_student.update_attributes(params[:ifa_question_performance])
+              question_range_cal_student.save
             else
               question_range_cal_student = IfaQuestionPerformance.new
               question_range_cal_student.act_score_range_id = student_calibrated_range.id
@@ -2637,15 +2639,16 @@ end
               question.ifa_question_performances << question_range_cal_student
             end 
           end   # end condition if student has existing calibrated sms score
-          student_baseline_score = @submission.user.ifa_user_baseline_scores.for_subject(@submission.act_subject).for_standard(mstr).first.score rescue nil
-          student_baseline_range = ActScoreRange.for_standard(mstr).for_subject_sms(@submission.act_subject, student_baseline_score).first rescue nil 
+          student_baseline_score = submission.user.ifa_user_baseline_scores.for_subject(submission.act_subject).for_standard(mstr).first.score rescue nil
+          student_baseline_range = ActScoreRange.for_standard(mstr).for_subject_sms(submission.act_subject, student_baseline_score).first rescue nil
           question_range_base_student = question.ifa_question_performances.for_range(student_baseline_range).first rescue nil
           if student_baseline_range
             if question_range_base_student
               question_range_base_student.baseline_students += 1
               question_range_base_student.baseline_answers += q_answers
               question_range_base_student.baseline_points += q_earned_points
-              question_range_base_student.update_attributes(params[:ifa_question_performance])
+              #question_range_base_student.update_attributes(params[:ifa_question_performance])
+              question_range_base_student.save
             else
               question_range_base_student = IfaQuestionPerformance.new
               question_range_base_student.act_score_range_id = student_baseline_range.id
@@ -2664,55 +2667,6 @@ end
         
          end  # End Master Loop for Question Performance
         end
-  end
-
-
-
-  def finalize_submission_old
-    student_dashboard = @submission.user.ifa_dashboards.for_subject(@submission.act_subject).since(@submission.created_at).first rescue nil
-    unless student_dashboard 
-      student_dashboard = @submission.user.ifa_dashboards.for_subject(@submission.act_subject).up_to(@submission.created_at).last rescue nil
-    end
-    if @submission.organization.ifa_org_option && student_dashboard
-      @submission.act_assessment.act_questions.each do |quest|
-        @submission.organization.ifa_org_option.act_masters.each do |mstr|
-          student_level = IfaStudentLevel.new
-          student_level.act_question_id = quest.id
-          student_level.act_master_id = mstr.id
-          student_level.user_id = @submission.user_id
-          student_level.earned_points = @submission.act_answers.for_question(quest).collect{|a|a.points}.sum rescue 0
-          student_level.choices = @submission.act_answers.for_question(quest).selected.size rescue 0
-          student_level.mastery_level = student_dashboard.ifa_dashboard_sms_scores.for_standard(mstr).first.sms_finalized rescue nil
-          student_level.calibrated_mastery_level = student_dashboard.ifa_dashboard_sms_scores.for_standard(mstr).first.sms_calibrated rescue nil
-          student_level.submission_date = @submission.created_at
-          student_level.act_submission_id = @submission.id
-          if student_level.mastery_level || student_level.calibrated_mastery_level
-            student_level.save
-          end
-        end
-      end
-    end
-    
-    if @reviewer
-      @submission.reviewer_id = @reviewer.id
-    else
-      @submission.is_auto_finalized = true
-      @submission.reviewer_id = @submission.teacher_id      
-    end
-    @submission.is_final = true
-    @submission.is_user_dashboarded = false
-    @submission.is_org_dashboarded = false
-    @submission.is_classroom_dashboarded = false
-    @submission.date_finalized = Time.now
-    @submission.tot_points = @submission.act_answers.collect{|a|a.points}.sum rescue 0
-    @submission.tot_choices = @submission.act_answers.selected.size rescue 0
-    @submission.act_submission_scores.each do |std|
-          fin_sms = @submission.is_auto_finalized ? std.est_sms : std.act_master.sms(@submission.act_answers,@submission.act_subject_id,0,0, @current_organization.id)
-          std.update_attributes(:final_sms => fin_sms)
-        end
-     if @submission.update_attributes params[:act_submission]
-       @finalized = true   
-     end
   end
 
  
@@ -2772,70 +2726,76 @@ end
     end 
   end
 
-  def prepare_summary_dashboard
- 
-    @subjects = ActSubject.find(:all, :conditions =>  ["id <> ?", 99], :order=> "name ASC") rescue []
-      @total_assessments = []      
-      @total_answers = []      
-      @total_points = []      
-      @total_proficiency = []
-      @total_duration = []      
-      @total_efficiency = []      
-      @current_assessments = []      
-      @current_answers = []      
-      @current_points = []      
-      @current_proficiency = []
-      @current_duration = []      
-      @current_efficiency = []      
-      @current_mastery = []
-      @current_period = []
-      @low_bound = []
-      @high_bound =[]
-      calibration_filter = @current_user.calibrated_only
-    @subjects.each_with_index do |subj, idx|
-    @assessments_column_header = calibration_filter ? "Calibrated<br/>Assessments" : "Finalized<br/>Assessments" 
-    @answers_column_header = calibration_filter ? "Calibrated<br/>Answers" : "Finalized<br/>Answers" 
-    dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && ifa_dashboardable_id = ? && ifa_dashboardable_type = ?", subj.id, @current_organization.id, "Organization"],:order=> "period_end ASC") rescue nil
+   def prepare_summary_dashboard
 
-    unless dashboards.empty?
-      @total_assessments[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_assessments}.sum : dashboards.collect{|d| d.finalized_assessments}.sum rescue 0
-      @total_answers[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_answers}.sum : dashboards.collect{|d| d.finalized_answers}.sum rescue 0
-      @total_points [idx] = calibration_filter ? dashboards.collect{|d| d.cal_points}.sum : dashboards.collect{|d| d.fin_points}.sum rescue 0.0
-      @total_duration[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_duration}.sum : dashboards.collect{|d| d.finalized_duration}.sum rescue 0
-   
-      duration_points = calibration_filter ? dashboards.collect{|d| d.cal_submission_points}.sum : @total_points [idx] rescue 0
-      @total_efficiency[idx] = duration_points == 0 ? "-" : (@total_duration[idx].to_f/duration_points.to_f).round
-      @total_proficiency[idx] = @total_answers[idx] == 0 ? "" : (100*@total_points[idx].to_f/@total_answers[idx].to_f).round 
+     @subjects = ActSubject.find(:all, :conditions =>  ["id <> ?", 99], :order=> "name ASC") rescue []
+     @total_assessments = []
+     @total_answers = []
+     @total_points = []
+     @total_proficiency = []
+     @total_duration = []
+     @total_efficiency = []
+     @current_assessments = []
+     @current_answers = []
+     @current_points = []
+     @current_proficiency = []
+     @current_duration = []
+     @current_efficiency = []
+     @current_mastery = []
+     @current_period = []
+     @low_bound = []
+     @high_bound =[]
+     calibration_filter = @current_user.calibrated_only
+     @subjects.each_with_index do |subj, idx|
+       @assessments_column_header = calibration_filter ? "Calibrated<br/>Assessments" : "Finalized<br/>Assessments"
+       @answers_column_header = calibration_filter ? "Calibrated<br/>Answers" : "Finalized<br/>Answers"
+       dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && ifa_dashboardable_id = ? && ifa_dashboardable_type = ?", subj.id, @current_organization.id, "Organization"],:order=> "period_end ASC") rescue nil
 
-      @current_dashboard = dashboards.last rescue nil
-      if @current_dashboard
-        @current_assessments[idx] = calibration_filter ? @current_dashboard.calibrated_assessments : @current_dashboard.finalized_assessments rescue 0
-        @current_answers[idx] = calibration_filter ? @current_dashboard.calibrated_answers : @current_dashboard.finalized_answers rescue 0
-        @current_points[idx] = calibration_filter ? @current_dashboard.cal_points : @current_dashboard.fin_points rescue 0.0
-        @current_duration[idx] = calibration_filter ? @current_dashboard.calibrated_duration : @current_dashboard.finalized_duration rescue 0
-        duration_points = calibration_filter ? @current_dashboard.cal_submission_points : @current_points[idx] rescue 0.0
-        @current_efficiency[idx] = duration_points == 0 ? "-" : (@current_duration[idx].to_f/duration_points.to_f).round
-        @current_proficiency[idx] = @current_answers[idx] == 0 ? "" : (100*@current_points[idx].to_f/@current_answers[idx].to_f).round 
+       unless dashboards.empty?
+         @total_assessments[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_assessments}.sum : dashboards.collect{|d| d.finalized_assessments}.sum rescue 0
+         @total_answers[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_answers}.sum : dashboards.collect{|d| d.finalized_answers}.sum rescue 0
+         @total_points [idx] = calibration_filter ? dashboards.collect{|d| d.cal_points}.sum : dashboards.collect{|d| d.fin_points}.sum rescue 0.0
+         @total_duration[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_duration}.sum : dashboards.collect{|d| d.finalized_duration}.sum rescue 0
 
-        mastery_scores = @current_dashboard.ifa_dashboard_sms_scores.for_standard(@current_standard).first rescue nil
-        if mastery_scores
-          @current_mastery[idx] = calibration_filter ? mastery_scores.sms_calibrated : mastery_scores.sms_finalized
-          @low_bound[idx] = mastery_scores.score_range_min 
-          @high_bound[idx] = mastery_scores.score_range_max        
-        
-        else
-          @current_mastery[idx] = ""
-          @low_bound[idx] = ""
-          @high_bound[idx] = ""        
-        end
-        @current_period[idx] = @current_dashboard.period_end.strftime("%b, %Y")
- 
-      end
-    end
-    @summary_dashboard = true
-  end
-  
-  end
+         duration_points = calibration_filter ? dashboards.collect{|d| d.cal_submission_points}.sum : @total_points [idx] rescue 0
+         @total_efficiency[idx] = duration_points == 0 ? "-" : (@total_duration[idx].to_f/duration_points.to_f).round
+         @total_proficiency[idx] = @total_answers[idx] == 0 ? "" : (100*@total_points[idx].to_f/@total_answers[idx].to_f).round
+
+         @current_dashboard = dashboards.last rescue nil
+         if @current_dashboard
+           @current_assessments[idx] = calibration_filter ? @current_dashboard.calibrated_assessments : @current_dashboard.finalized_assessments rescue 0
+           @current_answers[idx] = calibration_filter ? @current_dashboard.calibrated_answers : @current_dashboard.finalized_answers rescue 0
+           @current_points[idx] = calibration_filter ? @current_dashboard.cal_points : @current_dashboard.fin_points rescue 0.0
+           @current_duration[idx] = calibration_filter ? @current_dashboard.calibrated_duration : @current_dashboard.finalized_duration rescue 0
+           duration_points = calibration_filter ? @current_dashboard.cal_submission_points : @current_points[idx] rescue 0.0
+           @current_efficiency[idx] = duration_points == 0 ? "-" : (@current_duration[idx].to_f/duration_points.to_f).round
+           @current_proficiency[idx] = @current_answers[idx] == 0 ? "" : (100*@current_points[idx].to_f/@current_answers[idx].to_f).round
+
+           mastery_scores = @current_dashboard.ifa_dashboard_sms_scores.for_standard(@current_standard).first rescue nil
+           if mastery_scores
+             @current_mastery[idx] = calibration_filter ? mastery_scores.sms_calibrated : mastery_scores.sms_finalized
+             @low_bound[idx] = mastery_scores.score_range_min
+             @high_bound[idx] = mastery_scores.score_range_max
+
+           else
+             @current_mastery[idx] = ""
+             @low_bound[idx] = ""
+             @high_bound[idx] = ""
+           end
+           @current_period[idx] = @current_dashboard.period_end.strftime("%b, %Y")
+         end
+       end
+     end
+   end
+
+   def prepare_summary_data
+     @subjects = ActSubject.find(:all, :conditions =>  ["id <> ?", 99], :order=> "name ASC") rescue []
+     @total_submissions = []
+     calibration_filter = @current_user.calibrated_only
+     @subjects.each_with_index do |subj, idx|
+       @total_submissions[idx] = @current_organization.act_submissions.for_subject(subj).size
+     end
+   end
   
   def prepare_ifa_dashboard(entity, start_period, end_period)
   @entity = entity
@@ -2909,7 +2869,7 @@ end
     else
       @dashboard_name = ""
     end      
-    @end_period = dashboard.period_end.end_of_month
+    @end_period = dashboard.period_ending
     calibration_filter = @current_user.calibrated_only
     @total_taken = dashboard.assessments_taken
     scores = dashboard.ifa_dashboard_sms_scores.for_standard(@current_standard).first rescue nil
@@ -2986,7 +2946,7 @@ end
 
   def prepare_single_dashboard_details
     @entity_submission_list = []
-    window_begin = @entity_dashboard.period_end.beginning_of_month
+    window_begin = @entity_dashboard.period_beginning
     window_end = @entity_dashboard.period_end
     if @entity_dashboard.ifa_dashboardable_type == "Organization"
       @entity_submission_list = Organization.find_by_id(@entity_dashboard.ifa_dashboardable_id).act_submissions.for_subject(@current_subject).select{|s| s.date_finalized && s.created_at >= window_begin && s.created_at <= window_end}.sort{|a,b| b.created_at <=> a.created_at}  
@@ -3274,76 +3234,76 @@ end
   end   # End Month Cycle
  end  # End of Action
 
-  def auto_ifa_dashboard_update(entity)
+  def auto_ifa_dashboard_update(submission, entity)
     if entity.class.to_s == "User" 
-      if @submission.is_user_dashboarded
+      if submission.is_user_dashboarded
         already_dashboarded = true
       else  
         already_dashboarded = false
-        entity_dashboard = @submission.user.ifa_dashboards.for_subject(@submission.act_subject).for_period(@submission.created_at.to_date.at_end_of_month).first 
-        dashboardable_id = @submission.user_id
-        @submission.update_attributes(:is_user_dashboarded => true)
+        entity_dashboard = submission.user.ifa_dashboards.for_subject(submission.act_subject).for_period(submission.created_at.to_date.at_end_of_month).first
+        dashboardable_id = submission.user_id
+        submission.update_attributes(:is_user_dashboarded => true)
       end
     elsif entity.class.to_s == "Classroom"
-      if @submission.is_classroom_dashboarded
+      if submission.is_classroom_dashboarded
         already_dashboarded = true
       else  
         already_dashboarded = false        
-        entity_dashboard = @submission.classroom.ifa_dashboards.for_subject(@submission.act_subject).for_period(@submission.created_at.to_date.at_end_of_month).first 
-        dashboardable_id = @submission.classroom_id
-        @submission.update_attributes(:is_classroom_dashboarded => true)
+        entity_dashboard = submission.classroom.ifa_dashboards.for_subject(submission.act_subject).for_period(submission.created_at.to_date.at_end_of_month).first
+        dashboardable_id = submission.classroom_id
+        submission.update_attributes(:is_classroom_dashboarded => true)
       end
     elsif entity.class.to_s == "Organization"
-      if @submission.is_org_dashboarded
+      if submission.is_org_dashboarded
         already_dashboarded = true
       else  
         already_dashboarded = false
-        entity_dashboard = @submission.organization.ifa_dashboards.for_subject(@submission.act_subject).for_period(@submission.created_at.to_date.at_end_of_month).first 
-        dashboardable_id = @submission.organization_id
-        @submission.update_attributes(:is_org_dashboarded => true)
+        entity_dashboard = submission.organization.ifa_dashboards.for_subject(submission.act_subject).for_period(submission.created_at.to_date.at_end_of_month).first
+        dashboardable_id = submission.organization_id
+        submission.update_attributes(:is_org_dashboarded => true)
       end
     end  
     unless already_dashboarded
-    unless entity_dashboard 
-      entity_dashboard = IfaDashboard.new
-            entity_dashboard.ifa_dashboardable_id = dashboardable_id
-            entity_dashboard.ifa_dashboardable_type = entity.class.to_s
-            entity_dashboard.period_end = @submission.created_at.to_date.at_end_of_month
-            entity_dashboard.organization_id = @submission.classroom.organization_id
-            entity_dashboard.act_subject_id = @submission.act_subject_id
-            entity_dashboard.assessments_taken = 1
-            entity_dashboard.finalized_assessments = 1
-            entity_dashboard.calibrated_assessments = @submission.act_assessment.is_calibrated ? 1: 0
-            entity_dashboard.finalized_answers = @submission.act_answers.selected.size rescue 0
-            entity_dashboard.calibrated_answers = @submission.act_answers.calibrated.selected.size rescue 0
-            entity_dashboard.cal_submission_answers = @submission.act_assessment.is_calibrated ? @submission.act_answers.calibrated.selected.size : 0
-            entity_dashboard.finalized_duration = @submission.duration
-            entity_dashboard.calibrated_duration = @submission.act_assessment.is_calibrated ?  @submission.duration : 0   
-            entity_dashboard.fin_points = @submission.act_answers.collect{|a|a.points}.sum rescue 0.0
-            entity_dashboard.cal_points = @submission.act_answers.calibrated.collect{|a|a.points}.sum rescue 0.0       
-            entity_dashboard.cal_submission_points = @submission.act_assessment.is_calibrated ? @submission.act_answers.calibrated.collect{|a|a.points}.sum : 0
-       entity_dashboard.save   
-    else
+      unless entity_dashboard
+        entity_dashboard = IfaDashboard.new
+              entity_dashboard.ifa_dashboardable_id = dashboardable_id
+              entity_dashboard.ifa_dashboardable_type = entity.class.to_s
+              entity_dashboard.period_end = submission.created_at.to_date.at_end_of_month
+              entity_dashboard.organization_id = submission.classroom.organization_id
+              entity_dashboard.act_subject_id = submission.act_subject_id
+              entity_dashboard.assessments_taken = 1
+              entity_dashboard.finalized_assessments = 1
+              entity_dashboard.calibrated_assessments = submission.act_assessment.is_calibrated ? 1: 0
+              entity_dashboard.finalized_answers = submission.act_answers.selected.size rescue 0
+              entity_dashboard.calibrated_answers = submission.act_answers.calibrated.selected.size rescue 0
+              entity_dashboard.cal_submission_answers = submission.act_assessment.is_calibrated ? submission.act_answers.calibrated.selected.size : 0
+              entity_dashboard.finalized_duration = submission.duration
+              entity_dashboard.calibrated_duration = submission.act_assessment.is_calibrated ?  submission.duration : 0
+              entity_dashboard.fin_points = submission.act_answers.collect{|a|a.points}.sum rescue 0.0
+              entity_dashboard.cal_points = submission.act_answers.calibrated.collect{|a|a.points}.sum rescue 0.0
+              entity_dashboard.cal_submission_points = submission.act_assessment.is_calibrated ? submission.act_answers.calibrated.collect{|a|a.points}.sum : 0
+         entity_dashboard.save
+      else
             entity_dashboard.assessments_taken += 1
             entity_dashboard.finalized_assessments += 1
-            entity_dashboard.finalized_answers += @submission.act_answers.selected.size 
-            entity_dashboard.calibrated_answers += @submission.act_answers.calibrated.selected.size 
-            entity_dashboard.finalized_duration += @submission.duration
-            entity_dashboard.fin_points += @submission.act_answers.collect{|a|a.points}.sum 
-            entity_dashboard.cal_points += @submission.act_answers.calibrated.collect{|a|a.points}.sum       
-            if @submission.act_assessment.is_calibrated
+            entity_dashboard.finalized_answers += submission.act_answers.selected.size
+            entity_dashboard.calibrated_answers += submission.act_answers.calibrated.selected.size
+            entity_dashboard.finalized_duration += submission.duration
+            entity_dashboard.fin_points += submission.act_answers.collect{|a|a.points}.sum
+            entity_dashboard.cal_points += submission.act_answers.calibrated.collect{|a|a.points}.sum
+            if submission.act_assessment.is_calibrated
               entity_dashboard.calibrated_assessments += 1
-              entity_dashboard.calibrated_duration += @submission.duration              
-              entity_dashboard.cal_submission_points += @submission.act_answers.calibrated.collect{|a|a.points}.sum       
-              entity_dashboard.cal_submission_answers += @submission.act_answers.calibrated.selected.size             
+              entity_dashboard.calibrated_duration += submission.duration
+              entity_dashboard.cal_submission_points += submission.act_answers.calibrated.collect{|a|a.points}.sum
+              entity_dashboard.cal_submission_answers += submission.act_answers.calibrated.selected.size
             end
-       entity_dashboard.update_attributes(params[:ifa_dashboard]) 
-    end
+         entity_dashboard.update_attributes(params[:ifa_dashboard])
+      end
 
     ifa_org_option = Organization.find_by_id(entity_dashboard.organization_id).ifa_org_option rescue nil
     if ifa_org_option
       ifa_org_option.act_masters.each do |mstr|
-      @submission.ifa_question_logs.each do |log|
+      submission.ifa_question_logs.each do |log|
           q_range = log.act_question.act_score_ranges.for_standard(mstr).first rescue nil
           q_strand = log.act_question.act_standards.for_standard(mstr).first rescue nil
           if q_range && q_strand
@@ -3357,16 +3317,16 @@ end
               dashboard_cell.calibrated_answers = log.is_calibrated ? log.choices : 0                  
               dashboard_cell.fin_points = log.earned_points
               dashboard_cell.cal_points = log.is_calibrated ? log.earned_points : 0.0
-#              dashboard_cell.finalized_hover = target_hovers(entity, @submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, false)
-#              dashboard_cell.calibrated_hover = target_hovers(entity, @submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, true)
+#              dashboard_cell.finalized_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, false)
+#              dashboard_cell.calibrated_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, true)
               entity_dashboard.ifa_dashboard_cells << dashboard_cell
             else
               dashboard_cell.finalized_answers += log.choices
               dashboard_cell.calibrated_answers += log.is_calibrated ? log.choices : 0                  
               dashboard_cell.fin_points += log.earned_points
               dashboard_cell.cal_points += log.is_calibrated ? log.earned_points : 0.0 
-#              dashboard_cell.finalized_hover = target_hovers(entity, @submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, false)
-#              dashboard_cell.calibrated_hover = target_hovers(entity, @submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, true)
+#              dashboard_cell.finalized_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, false)
+#              dashboard_cell.calibrated_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, true)
               dashboard_cell.update_attributes(params[:ifa_dashboard_cell]) 
             end
           end
@@ -3374,35 +3334,31 @@ end
 
         dashboard_sms = entity_dashboard.ifa_dashboard_sms_scores.for_standard(mstr).first
         up_to_date = Date.today
-        since_date = (up_to_date - @submission.organization.ifa_org_option.sms_calc_cycle.days).to_date rescue Date.today.at_end_of_month
-        h_threshold = @submission.organization.ifa_org_option.sms_h_threshold rescue 0.75
+        since_date = (up_to_date - submission.organization.ifa_org_option.sms_calc_cycle.days).to_date rescue Date.today.at_end_of_month
+        h_threshold = submission.organization.ifa_org_option.sms_h_threshold rescue 0.75
         unless dashboard_sms
           dashboard_sms = IfaDashboardSmsScore.new
           dashboard_sms.act_master_id = mstr.id
-          dashboard_sms.score_range_min = @submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
-          dashboard_sms.score_range_max = @submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
-          dashboard_sms.sms_finalized = mstr.sms_for_period(entity, @submission.act_subject, entity_dashboard.period_end, h_threshold, false)
-          dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, @submission.act_subject, entity_dashboard.period_end, h_threshold, true)
-          dashboard_sms.baseline_score = mstr.base_score(entity, @submission.act_subject)
+          dashboard_sms.score_range_min = submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
+          dashboard_sms.score_range_max = submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
+          dashboard_sms.sms_finalized = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_ending, h_threshold, false)
+          dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_ending, h_threshold, true)
+          dashboard_sms.baseline_score = mstr.base_score(entity, submission.act_subject)
           entity_dashboard.ifa_dashboard_sms_scores << dashboard_sms            
         else
-          new_min = @submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
+          new_min = submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
           if (new_min < dashboard_sms.score_range_min && new_min != 0) then dashboard_sms.score_range_min = new_min end 
-          new_max =  @submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
+            new_max =  submission.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
           if (new_max > dashboard_sms.score_range_max && new_max != 0) then dashboard_sms.score_range_max =  new_max end 
-            dashboard_sms.sms_finalized = mstr.sms_for_period(entity, @submission.act_subject, entity_dashboard.period_end, h_threshold, false)
-            dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, @submission.act_subject, entity_dashboard.period_end, h_threshold, true)
-            dashboard_sms.baseline_score = mstr.base_score(entity, @submission.act_subject)
+            dashboard_sms.sms_finalized = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_ending, h_threshold, false)
+            dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, submission.act_subject, entity_dashboard.period_ending, h_threshold, true)
+            dashboard_sms.baseline_score = mstr.base_score(entity, submission.act_subject)
             dashboard_sms.update_attributes(params[:ifa_dashboard_sms_score]) 
         end 
       end  # end Master Loop
     end
   end  # no IFA ORG Options
   end # Already Dashboarded Condition
-
-
-  def  update_sms_for_period(entity, end_date)
- end 
  
  def target_hovers(entity, subject, range, strand, since_date,threshold, calibrate_only)
     target_list = ""
@@ -3560,4 +3516,30 @@ end
       @temp_count = submissions.size
     end
   end
-end
+   def org_analysys_instance_variables
+     @dashboard_name = @current_organization.medium_name
+     @org_family = @current_organization.active_siblings_same_type
+  #   @current_org_dashboards = @current_organization.ifa_dashboards.for_subject_since(@current_subject,(@current_organization.ifa_org_option.begin_school_year - 1.years)).reverse
+     @current_org_dashboards =IfaDashboard.org_subject_after_date('Organization', @current_organization, @current_subject, @current_organization.ifa_org_option.begin_school_year).reverse
+  #    @classroom_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "Classroom", (@current_organization.ifa_org_option.begin_school_year)]) rescue []
+     @classroom_dashboards =IfaDashboard.org_subject_after_date('Classroom', @current_organization, @current_subject, @current_organization.ifa_org_option.begin_school_year).reverse
+     @classroom_ids = @classroom_dashboards.collect{|d| d.ifa_dashboardable_id}.uniq rescue []
+  #   @student_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "User", (@current_organization.ifa_org_option.begin_school_year)]) rescue []
+     @student_dashboards =IfaDashboard.org_subject_after_date('User', @current_organization, @current_subject, @current_organization.ifa_org_option.begin_school_year).reverse
+     @student_ids = @student_dashboards.collect{|d| d.ifa_dashboardable_id}.uniq rescue []
+     @classrooms = []
+     @classroom_ids.each do |id|
+       @classrooms << Classroom.find_by_id(id) rescue nil
+     end
+     @classroom_list = @classrooms.compact.uniq.sort{|a,b| a.course_name <=> b.course_name}
+     @students = []
+     @student_ids.each do |id|
+       @students << User.find_by_id(id) rescue nil
+     end
+     @student_list = @students.compact.uniq.sort{|a,b| a.last_name <=> b.last_name}
+ #    @org_tbdashboard_period_end =  @current_org_dashboards.empty? ? (Date.today.end_of_month) : (@current_org_dashboards.first.period_end + 1.day).end_of_month
+ #    @org_tbdashboard_submissions = ActSubmission.not_dashboarded('Organization', @current_organization, @current_subject, @org_tbdashboard_period_end.beginning_of_month, @org_tbdashboard_period_end)
+ #    @classroom_tbdashboard_period_end = @classroom_dashboards.empty? ? (Date.today.end_of_month) :(@classroom_dashboards.first.period_end + 1.day).end_of_month
+ #    @classroom_tbdashboard_submissions = ActSubmission.not_dashboarded('Classroom', @current_organization, @current_subject, @classroom_tbdashboard_period_end.beginning_of_month, @classroom_tbdashboard_period_end)
+   end
+ end

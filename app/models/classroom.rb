@@ -124,20 +124,24 @@ class Classroom < ActiveRecord::Base
     1.upto(length) { |i| password << chars[rand(chars.size-1)] }
     password
   end
- 
+
+  def name
+    self.course_name
+  end
+
   def ifa_enable
-      if self.organization.ifa_org_option
-        ifa_option = IfaClassroomOption.new
-        ifa_option.is_ifa_notify = true
-        ifa_option.is_ifa_auto_finalize = false
-        ifa_option.act_subject_id = self.act_subject_id
-        ifa_option.act_master_id = ActMaster.first.id
-        ifa_option.is_calibrated = false
-        ifa_option.is_user_filtered = false
-        ifa_option.days_til_repeat = self.organization.ifa_org_option.days_til_repeat
-        self.ifa_classroom_option = ifa_option
-      end
-  end   
+    if self.organization.ifa_org_option
+      ifa_option = IfaClassroomOption.new
+      ifa_option.is_ifa_notify = true
+      ifa_option.is_ifa_auto_finalize = false
+      ifa_option.act_subject_id = self.act_subject_id
+      ifa_option.act_master_id = self.organization.ifa_standards.first ? self.organization.ifa_standards.first.id : ActMaster.find(:all).first.id rescue nil
+      ifa_option.is_calibrated = false
+      ifa_option.is_user_filtered = false
+      ifa_option.days_til_repeat = self.organization.ifa_org_option.days_til_repeat
+      self.ifa_classroom_option = ifa_option
+    end
+  end
 
   def ifa_disable
       self.ifa_classroom_option.destroy rescue nil
@@ -170,6 +174,11 @@ class Classroom < ActiveRecord::Base
   def viewable_by?(user)
     self.open? || (user && (user.student_of_classroom?(self) || user.teacher_of_classroom?(self)))
   end
+
+  def joinable_by?(user)
+    (user && !user.student_of_classroom?(self) && !user.teacher_of_classroom?(self) && !self.classroom_periods.empty?)
+  end
+
 
 
   def sequence_resources

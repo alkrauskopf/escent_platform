@@ -1,8 +1,8 @@
 
 <div style = "font-size:12px; color: #000000;padding-left:10px;">
 	<br/>
-	<span style ="color: #C83A14; font-size:18px">
-	<center><strong>Integrated Formative Assessment <%= @current_standard.abbrev %> Benchmark Repository</strong></center>
+	<span style ="text-align:center; color: #C83A14; font-size:18px">
+	<strong>Integrated Formative Assessment <%= @current_standard.abbrev %> Benchmark Repository</strong>
 	</span>
 	<% if @current_user.ifa_admin_for_org?(@current_organization)%>
 	<div style = "padding-bottom:10px;padding-left:0px; ">
@@ -58,8 +58,8 @@
 		<br/>
 		<% else -%>
 			<br/>
-			<span style ="color: #C83A14; font-size:11px">
-			<center><i>* * *  There Are No <%= std.abbrev.upcase %>&nbsp;Benchmarks In The Library At This Time  * * *</i></center>
+			<span style ="text-align:center; color: #C83A14; font-size:11px">
+			<i>* * *  There Are No <%= std.abbrev.upcase %>&nbsp;Benchmarks In The Library At This Time  * * *</i>
 			</span>
 		<% end -%>	
 	<% end -%>

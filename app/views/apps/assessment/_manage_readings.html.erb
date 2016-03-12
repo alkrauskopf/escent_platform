@@ -1,8 +1,8 @@
 
 <div style = "font-size:12px; color: #000000;padding-left:10px;">
 	<br/>
-	<span style ="color: #C83A14; font-size:18px">
-	<center><strong>Integrated Formative Assessment Readings Repository</strong></center>
+	<span style ="text-align:center; color: #C83A14; font-size:18px">
+	<strong>Readings Repository</strong>
 	</span>
 	<div style = "padding-bottom:10px;padding-left:0px; ">
 	<% form_for(:act_reading, :url => {:controller => "/apps/assessment", :action => :add_reading, :organization_id => @current_organization, :classroom_id => @classroom, :function => "New"}) do |form| -%>
@@ -51,8 +51,8 @@
 	</div>
 <% else -%>
 	<br/>
-	<span style ="color: #C83A14; font-size:11px">
-	<center><i>* * *  There Are No Related Readings In The Library At This Time  * * *</i></center>
+	<span style ="text-align:center; color: #C83A14; font-size:11px">
+	<i>* * *  There Are No Related Readings In The Library At This Time  * * *</i>
 	</span>
 <% end -%>	
 

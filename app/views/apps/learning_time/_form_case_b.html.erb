@@ -1,0 +1,10 @@
+<div class="Form clear">
+  <% form_for(:elt_case, :url => {:controller => "/apps/learning_time", :action => :update_case_b, :organization_id => @current_organization, :elt_case_id => elt_case}) do |form| %>
+      <%= render :partial => "/apps/learning_time/form_case_submit_buttons", :locals => {:elt_case => elt_case, :app => app} -%>
+      <br/><% elt_case.elt_type.active_elements.each do |element| -%>
+          <%= render :partial => "/apps/learning_time/element_indicators_b", :locals => {:elt_case => elt_case, :element=> element, :app => app} -%>
+      <% end %>
+      <br/>
+      <%= render :partial => "/apps/learning_time/form_case_submit_buttons", :locals => {:elt_case => elt_case, :app => app} -%>
+  <% end %>
+</div>

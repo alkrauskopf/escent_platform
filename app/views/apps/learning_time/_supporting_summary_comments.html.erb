@@ -1,15 +1,19 @@
 
-<div id ="supporting_comments<%=element.public_id%>" style = "font-size:12px; color: #2061a5; padding-left:0px;">
-	<table id="comments_<%=element.public_id%>" style="margin-top:0px; width:490px; width:fixed; border:0px solid #ddd;">
+<div id ="supporting_comments<%=element.public_id%>" style = "font-size:12px;color: <%=element.e_font_color%>; padding-left:0px;">
+	<table id="comments_<%=element.public_id%>" style="margin-top:0px; width:700px; width:fixed; border:0px solid #ddd;">
 		<tbody>  
 			<tr>
 				<td class="resource_levels_close" style="width:480px;">
-
-                    <%= link_to '', :controller => "apps/learning_time", :action => :list_case_comments, :organization_id => @current_organization, :elt_case_id => elt_case, :elt_element_id => element  %>
-                 
-                    Supporting Comments
-                    <span></span>
+            <%= link_to '', :controller => "apps/learning_time", :action => :list_case_comments, :organization_id => @current_organization, :elt_case_id => elt_case, :elt_element_id => element  %>
+            Supporting Key Findings
+            <span></span>
 				</td>
+        <td style = "line-height:1.2em">
+          <%= elt_case.cycle_case_indicators_for_element(element).size %>&nbsp;Supporting Evidence
+          <% elt_case.cycle_ratings_for_element(element).group_by{|r| r.name}.each do |name, rubs| -%>
+           <br/><%= pluralize(rubs.size, ' ' + name) %>
+          <%end%>
+        </td>
 			</tr>
 		</tbody>
 	</table>

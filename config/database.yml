@@ -2,7 +2,7 @@ development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: tcpj_upgrade
+  database: tcpj_local
   pool: 5
   username: root
   password:
@@ -13,20 +13,20 @@ test:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: TCP_upgrade_test
-  pool: 5
-  username: root
-  password: 
-  host: localhost
-  
-production:
-  development:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
-  database: tcpj_upgrade_prod
+  database: tcpj_ifa_test
   pool: 5
   username: root
   password: 
   host: localhost
 
+production:
+  development:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: tcpj_production
+  pool: 5
+  username: tcpj
+  password: floptarts
+  host: localhost
+  socket: /var/lib/mysql/mysql.sock

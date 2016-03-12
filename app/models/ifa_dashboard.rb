@@ -31,4 +31,19 @@ class IfaDashboard < ActiveRecord::Base
       {:conditions => ["period_end = ? ", date]}
       }
 
+  named_scope :org_subject_after_date, lambda{|entity_class, org, subject, period|
+    {:conditions => ["organization_id = ? AND act_subject_id = ? AND ifa_dashboardable_type = ? AND period_end >= ?", org.id, subject.id, entity_class, period ]}
+  }
+
+
+  def self.for_entity(entity_class, entity_id, period)
+    IfaDashboard.where("ifa_dashboardable_type = ? AND ifa_dashboardable_id = ? AND period_end = ?", entity_class, entity_id, period ).first
+  end
+
+  def period_beginning
+    self.period_end.beginning_of_month
+  end
+  def period_ending
+    self.period_end.end_of_month
+  end
 end

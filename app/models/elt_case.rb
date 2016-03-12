@@ -73,6 +73,19 @@ class EltCase < ActiveRecord::Base
     note = self.elt_case_notes.for_element(elt_element).empty? ? nil : self.elt_case_notes.for_element(elt_element).first
   end
 
+
+  def cycle_case_indicators_for_element(element)
+    self.organization.elt_cases.for_cycle(self.elt_cycle).collect{|c| c.elt_case_indicators.for_element(element)}.compact.flatten
+  end
+
+  def cycle_ratings_for_element(element)
+    self.cycle_case_indicators_for_element(element).collect{|ci| ci.rubric}.compact
+  end
+
+  def element_rubric_count(elt_element, rubric)
+    self.elt_case_indicators.for_element_rubric(elt_element, rubric).count
+  end
+
   def case_indicators_for(element, rubric)
     note = self.elt_case_indicators.for_rubric(rubric).select{|i| i.elt_indicator.elt_element_id == element.id}.sort_by{|i| i.elt_indicator.position}
   end
@@ -138,7 +151,13 @@ class EltCase < ActiveRecord::Base
   end
 
   def rateable_indicators
-    self.elt_type.rubric? ? self.elt_type.elt_indicators.active.size : 0
+    rateables = 0
+    if self.elt_type.rubric?
+     self.elt_type.active_elements.each do |element|
+      rateables +=  element.elt_indicators.active.for_activity(self.elt_type).size
+     end
+    end
+   rateables
   end
 
   def finalize_it

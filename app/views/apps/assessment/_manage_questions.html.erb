@@ -1,8 +1,8 @@
 
 <div style = "font-size:12px; color: #000000;padding-left:10px;">
 	<br/>
-	<span style ="color: #C83A14; font-size:18px">
-	<center><strong>Integrated Formative Assessment Question Repository</strong></center>
+	<span style ="text-align:center; color: #C83A14; font-size:18px">
+	<strong> Question Repository</strong>
 	</span>
 	<div style = "padding-bottom:10px;padding-left:0px; ">
 	<% form_for(:act_question, :url => {:controller => "/apps/assessment", :action => :add_ifa_question, :organization_id => @current_organization}) do |form| -%>
@@ -43,8 +43,8 @@
 					</tr>				
 				<% else -%>
 					<tr>
-						<td style ="color: #C83A14; font-size:11px">
-							<center><i>* * *  There Are No <%=@current_user.last_name %> Questions In The Repository  * * *</i></center>
+						<td style ="text-align:center; color: #C83A14; font-size:11px">
+							<i>* * *  There Are No <%=@current_user.last_name %> Questions In The Repository  * * *</i>
 						</td>
 					</tr>
 				<% end -%>
@@ -68,8 +68,8 @@
 	</div>
 <% else -%>
 	<br/>
-	<span style ="color: #C83A14; font-size:11px">
-	<center><i>* * *  There Are No Assessment Questions In The Repository At This Time  * * *</i></center>
+	<span style ="text-align:center; color: #C83A14; font-size:11px">
+	<i>* * *  There Are No Assessment Questions In The Repository At This Time  * * *</i>
 	</span>
 <% end -%>	
 

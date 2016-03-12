@@ -8,8 +8,6 @@
     <%= render :partial => "/shared/error_and_notice" %>
 
 
-    <%#= render :partial => "ifa_dashboard_updates" %>
-
     <%= render :partial => "manage_options_ifa_masters" %>
 
 
@@ -90,7 +88,7 @@
 				<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
 					<strong><center>Days Until Repeat Assessment</center></strong>
 				</td>
-				<td width = 100px style=" color: #000000; vertical-align:middle"" >
+				<td width = 100px style=" color: #000000; vertical-align:middle" >
 		 		     <%= text_field :option, :days_til_repeat, :size => 3, :maxlength => 3, :value => @options.days_til_repeat  %>
 				</td>
 				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
@@ -109,7 +107,7 @@
 				<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
 					<strong><center>"H" Threshold</center></strong>
 				</td>
-				<td width = 100px style=" color: #000000; vertical-align:middle"" >
+				<td width = 100px style=" color: #000000; vertical-align:middle" >
 		 		     <%= text_field :ifa_org_option, :sms_h_threshold, :size => 4, :precision => 3, :scale => 2, :maxlength => 4, :value => @options.sms_h_threshold  %>
 				</td>
 				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
@@ -131,7 +129,7 @@
 					<center><%= image_tag("button_red.png", :width => 15)%></center>
 					
 				</td>
-				<td width = 100px style=" color: #000000; vertical-align:middle"" >
+				<td width = 100px style=" color: #000000; vertical-align:middle" >
 		 		     <%= text_field :ifa_org_option, :pct_correct_red, :size => 4, :maxlength => 4, :value => @options.pct_correct_red  %> %
 				</td>
 				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
@@ -149,7 +147,7 @@
 					<center><%= image_tag("button_green.png", :width => 15)%></center>
 					
 				</td>
-				<td width = 100px style=" color: #000000; vertical-align:middle"" >
+				<td width = 100px style=" color: #000000; vertical-align:middle" >
 		 		     <%= text_field :ifa_org_option, :pct_correct_green, :size => 4, :maxlength => 4, :value => @options.pct_correct_green  %> %
 				</td>
 				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
@@ -167,7 +165,7 @@
 					<strong><center>Months Back For Repository Analysis</center></strong><br/>
 					
 				</td>
-				<td width = 100px style=" color: #000000; vertical-align:middle"" >
+				<td width = 100px style=" color: #000000; vertical-align:middle" >
 		 		     <%= text_field :ifa_org_option, :months_for_questions, :size => 2, :maxlength => 2, :value => @options.months_for_questions  %>
 				</td>
 				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >

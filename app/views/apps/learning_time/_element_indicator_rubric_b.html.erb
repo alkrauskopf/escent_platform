@@ -1,0 +1,18 @@
+<div id ="rubric_<%=elt_case.public_id%><%=indicator.public_id%>">
+	<table style="width:95px;margin-top:0px;">
+		<tbody> 
+			<tr>
+				<td style = "width:92px; width:fixed; vertical-align:top; padding-bottom:5px; padding-left:2px; ">
+					<span style = "font-size:12; font-weight:normal; text-align:left; color:#C73914;; padding-left:10px;">
+						<%= rating = !(elt_case.case_indicator(indicator).nil? || !elt_case.case_indicator(indicator).rubric) ? truncate(elt_case.case_indicator(indicator).rubric.name, :omission=>"", :length=>12) : "" %>
+					</span><br/>
+					<% if elt_case.updatable?(@current_user) && elt_case.elt_type.rubric?-%>
+						<span style = "font-weight:normal; color:#000000; text-align:left;  font-size:12px">
+							<%=  select(:rating, indicator.id,  elt_case.elt_type.rubrics.active.all.collect{|r| [truncate(r.name, :omission=>"", :length=>12), r.id]}<<["No Rating",0], :prompt=> (rating == '' ? "No Rating" : rating )) %>
+						</span>
+					<% end -%>
+				</td>
+			</tr>
+		</tbody>
+	</table>					
+</div>

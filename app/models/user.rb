@@ -650,6 +650,10 @@ class User < ActiveRecord::Base
     "#{self.first_name} #{self.last_name}"
   end
 
+  def name
+    self.full_name
+  end
+
   def last_name_first
     "#{self.last_name}, #{self.first_name}"
   end
@@ -936,18 +940,12 @@ class User < ActiveRecord::Base
 
 #   APP Authorized?
 
-  def app_authorized?(app,org)
-    auth = false
-    if app.ifa?  then auth = self.ifa_authorized?(org) end
-    if app.ita?  then auth = self.ita_authorized?(org) end
-    if app.blogs?  then auth = self.blog_authorized?(org) end
-    if app.ctl?  then auth = self.ctl_authorized?(org) end
-    if app.ista?  then auth = self.stat_authorized?(org) end
-    if app.cm?  then auth = self.cm_authorized?(org)  end
-    if app.elt?  then auth = self.elt_authorized?(org) end
-    if app.classroom?  then auth = self.classroom_authorized?(org) end
-    if app.pd?  then auth = self.dlem_authorized?(org) end
-    auth
+  def ifa_admin?(org)
+    self.has_authorization_level_for?(org, "ifa_administrator")
+  end
+
+  def itl_school_pool_for_org(org)
+      (self.favorite_organizations + org.active_siblings_same_type).uniq.select{|o| o.app_enabled?(CoopApp.ctl.first.abbrev)}
   end
 
 #####################    IFA Authorizations
@@ -1240,16 +1238,32 @@ class User < ActiveRecord::Base
     return Regexp.new("(#{authorization_level_names})_of\\?"), Regexp.new("add_as_(#{authorization_level_names})_to"), Regexp.new("remove_as_(#{authorization_level_names})_from")
   end
   
-   def respond_to?(method, foo=nil)
-     method_name = method.to_s
-     of_re, add_as_re, remove_as_re = self.prepare_regexps
-     if method_name.match(of_re) || method_name.match(add_as_re) || method_name.match(remove_as_re)
-       true
-     else
-       super
-     end
-   end
-  
+  def respond_to?(method)
+    method_name = method.to_s
+    of_re, add_as_re, remove_as_re = self.prepare_regexps
+    if method_name.match(of_re) || method_name.match(add_as_re) || method_name.match(remove_as_re)
+      true
+    else
+      super
+    end
+  end
+
+  #
+  #  Classroom methods
+  #
+
+  def add_to_period(per)
+    if self && per
+      unless per.users.include?(self)
+        period_user = ClassroomPeriodUser.new
+        period_user.user_id = self.id
+        period_user.is_teacher = false
+        period_user.is_student = true
+        per.classroom_period_users<<period_user
+      end
+    end
+  end
+
   def method_missing(method, *args)
     method_name = method.to_s
     of_re, add_as_re, remove_as_re = self.prepare_regexps

@@ -11,3 +11,4 @@ public/system/*
 
 db/schema.rb
 .ruby-gemset
+Gemfile.lock

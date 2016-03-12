@@ -23,3 +23,5 @@
 /db/schema.rb
 .ruby-gemset
 Gemfile.lock
+/config/initializers/abstract_mysql_adapter.rb
+config/initializers/abstract_mysql_adapter.rb

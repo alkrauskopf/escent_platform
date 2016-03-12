@@ -898,7 +898,7 @@ class User < ActiveRecord::Base
   
 #
 #   APP Authorized?
-#
+##
 
   def app_authorized?(app,org)
     auth = false

@@ -15,7 +15,7 @@ GEM
     activeresource (2.3.18)
       activesupport (= 2.3.18)
     activesupport (2.3.18)
-    braintree (2.57.0)
+    braintree (2.58.0)
       builder (>= 2.0.0)
     builder (3.2.2)
     calendar_date_select (1.16.4)

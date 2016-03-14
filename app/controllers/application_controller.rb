@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
   protected
   
   def instantiate_controller_and_action_names
+
     @in_admin = params[:controller].match(/admin\//)
     @current_action = action_name
     @current_controller = controller_name
@@ -74,6 +75,16 @@ class ApplicationController < ActionController::Base
   def clear_notice
     flash[:notice] = nil
     flash[:error] = nil    
+  end
+
+  #
+  #    ELT Instance Variables
+  #
+  def current_elt_instances
+    @current_case = EltCase.find_by_public_id(params[:elt_case_id]) rescue nil
+    @current_cycle = @current_case.nil? ? nil : (@current_case.elt_cycle.nil? ? nil :@current_case.elt_cycle)
+    @current_activity = @current_case.nil? ? nil : (@current_case.elt_type.nil? ? nil :@current_case.elt_type)
+    @current_case_org = @current_case.nil? ? nil : (@current_case.organization.nil? ? nil :@current_case.organization)
   end
 
 #

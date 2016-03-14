@@ -18,10 +18,26 @@ class ApplicationController < ActionController::Base
     @current_application ||= (CoopApp.find_by_public_id(params[:coop_app_id])) rescue CoopApp.core
   end
 
-  def core_enabled_for_current_org?
-    unless(@current_user && @current_user.superuser? || @current_organization.nil? || @current_organization == Organization.default)
-      if @current_organization.nil? || (!@current_organization.allowed?(CoopApp.core))
-        redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => Organization.default
+  #
+  #    ELT Instance Variables
+  #
+  def current_elt_instances
+    @current_case = EltCase.find_by_public_id(params[:elt_case_id]) rescue nil
+    @current_cycle = @current_case.nil? ? nil : (@current_case.elt_cycle.nil? ? nil :@current_case.elt_cycle)
+    @current_activity = @current_case.nil? ? nil : (@current_case.elt_type.nil? ? nil :@current_case.elt_type)
+    @current_case_org = @current_case.nil? ? nil : (@current_case.organization.nil? ? nil :@current_case.organization)
+  end
+
+#
+#  Tagging
+#
+  def toggle_classroom_favorite(user, classroom)
+    authorization_level = AuthorizationLevel.first(:include => :applicable_scopes, :conditions => ["authorization_levels.name = ? AND applicable_scopes.name = ?", "favorite", "Classroom"])
+    if authorization_level
+      if user.has_favorite?(classroom)
+        user.authorizations.find_by_scope_id_and_scope_type_and_authorization_level_id(classroom, classroom.class.to_s, authorization_level).destroy
+      else
+        user.add_as_favorite_to(classroom)        
       end
     end
   end

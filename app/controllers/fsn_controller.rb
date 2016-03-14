@@ -6,6 +6,7 @@ class FsnController < ApplicationController
   def index
     initalialize_parameters
 
+
     if (Organization.all.empty? && User.all.empty?)
       redirect_to :controller=>"/organizations", :action => :register
     else

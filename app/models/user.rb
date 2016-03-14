@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
   
   validates_presence_of :first_name
   validates_presence_of :last_name
- # validates_presence_of :postal_code
+#  validates_presence_of :postal_code
   validates_presence_of :email_address
   validates_presence_of :preferred_email
   validates_presence_of :password, :if => :password_required?
@@ -252,6 +252,7 @@ class User < ActiveRecord::Base
     {:conditions => ["role_memberships.role_id IN (?)", role_ids], :include => [ :role_memberships], :order => order_by}
   }
 
+# needed for upgrade
   before_save :before_save_method
   def before_save_method
     self.last_name = self.last_name.strip.titleize.delete(" ")
@@ -266,10 +267,12 @@ class User < ActiveRecord::Base
     password
   end
 
+# Upgrade
   after_initialize :after_initialize_method
   def after_initialize_method
   end
 
+# Upgrade
   validate :validate_method
   def validate_method
     unless self.email_address.blank?
@@ -295,17 +298,20 @@ class User < ActiveRecord::Base
      self.update_attributes(:last_logon =>Date.today)
   end 
   
+# Upgrade
   def favorite_organizations
 #    authorization_level = AuthorizationLevel.find_by_name("friend")
 #    Organization.with_user_auth(self, authorization_level)
     self.tagged_organizations
   end
 
+# Merge Keep for Upgrade 
   def tagged_organizations
     self.authorizations.for_level(AuthorizationLevel.app_friend(CoopApp.core)).for_scope(Organization.first).collect{|a| a.scope}.compact.uniq
   end
 
 
+# Merge Keep for Upgrade   
   def favorite_other_organizations
     self.organization.nil? ? self.favorite_organizations : self.favorite_organizations.select{|o| o.id != self.organization_id}
   end
@@ -318,15 +324,17 @@ class User < ActiveRecord::Base
     end 
   end
 
+# Merge Keep for Upgrade  
   def my_schools_for_app(app)
     self.my_schools.select{|org| org.app_enabled?(app)}.uniq.sort_by{|o| o.name}
   end
 
-
+# Merge Keep for Upgrade
   def favorite_organizations_for_app(app)
     self.favorite_organizations.select{|org| org.app_enabled?(app)}
   end
 
+# Merge Keep for Upgrade
   def favorite_organizations_type_for_app(app, type)
     self.favorite_organizations.select{|org| org.app_enabled?(app) && org.organization_type_id == type.id}
   end
@@ -604,7 +612,10 @@ class User < ActiveRecord::Base
       true
     end
   end
-  
+
+# Merge Keep for Upgrade
+# Remove def validate 
+ 
   def has_valid_email_address?(options={})
     self.class.validate_email_address(self.email_address, options)
   end
@@ -674,12 +685,14 @@ class User < ActiveRecord::Base
     end
   end
 
+# Merge Keep for Upgrade
   def is_authorized_for?(scope, authorization_level)
     self.authorizations.select{|a| (a.authorization_level_id == authorization_level.id && a.scope_id == scope.id && a.scope_type == scope.class.to_s)}.empty? ? false : true
   end
 
   def has_authorization_for?(scope, authorization_level)
     authorization_level = authorization_level.is_a?(AuthorizationLevel) ? authorization_level : AuthorizationLevel.find_by_name(authorization_level)
+# Merge Keep for Upgrade
     scope.authorizations.find_all_by_authorization_level_id(authorization_level.id)
   end
 
@@ -730,10 +743,12 @@ class User < ActiveRecord::Base
 #
 
   def can_edit_offering?(offering)
+# Merge Keep for Upgrade
     self.classroom_admin_for_org?(offering.organization) || self.current_teacher_of_classroom?(offering)
   end
 
   def can_edit_period?(period)
+# Merge Keep for Upgrade
     self.classroom_admin_for_org?(period.classroom.organization) || (self.teacher_for_org?(period.classroom.organization) && period.teacher?(self))
   end
   
@@ -746,6 +761,7 @@ class User < ActiveRecord::Base
   end
  
   def current_teacher_of_classroom?(offering)
+# Merge Keep for Upgrade
    self.teacher_for_org?(offering.organization) && self.teacher_of_classroom?(offering)
   end
 
@@ -880,10 +896,12 @@ class User < ActiveRecord::Base
        stat = self.tlt_diagnostics.size
      end
      if metric.abbrev == "TLSR"
+# Merge Keep for Upgrade
        audience = CoopApp.itl.tlt_survey_audiences.student.first
        stat = self.survey_schedules.for_audience(audience).collect{|s| s.tlt_survey_responses}.flatten.size rescue 0
      end
      if metric.abbrev == "CLSR"
+# Merge Keep for Upgrade
        audience = CoopApp.classroom.tlt_survey_audiences.student.first
        stat = self.survey_schedules.for_audience(audience).collect{|s| s.tlt_survey_responses}.flatten.size rescue 0
      end
@@ -904,7 +922,29 @@ class User < ActiveRecord::Base
   def belt_rank
     self.itl_belt_rank ? self.itl_belt_rank.rank : ''
   end
+ 
+  
+#
+#   APP Authorized?
+##
 
+  def app_authorized?(app,org)
+    auth = false
+    if app.ifa?  then auth = self.ifa_authorized?(org) || self.app_superuser?(app) end
+    if app.ita?  then auth = self.ita_authorized?(org) || self.app_superuser?(app) end      
+    if app.blogs?  then auth = self.blog_authorized?(org) || self.app_superuser?(app) end
+    if app.ctl?  then auth = self.ctl_authorized?(org) || self.app_superuser?(app) end
+    if app.ista?  then auth = (self.stat_authorized?(org) || self.app_superuser?(app))  end
+    if app.cm?  then auth = self.cm_authorized?(org) || self.app_superuser?(app) end
+    if app.elt?  then auth = self.elt_authorized?(org) || self.app_superuser?(app) end
+    if app.classroom?  then auth = self.classroom_authorized?(org) || self.app_superuser?(app) end                
+    if app.pd?  then auth = self.dlem_authorized?(org) || self.app_superuser?(app) end
+    auth
+  end
+
+  def beta_app_user?(app, org)
+    app.is_beta? ? (self.beta_authorized?(org) || app_superuser?(app)): true
+  end
 
   def resource_pool_for_app(app)
       full_pool = (self.favorite_resources + self.colleagues.collect{|u| u.contents.active}.flatten + self.favorite_organizations_for_app(app).collect{|o| o.contents.active}.flatten).uniq
@@ -928,8 +968,10 @@ class User < ActiveRecord::Base
         pool += full_pool.select{|r| r.subject_area_id == subj.id}
       end
       unless org.parent?
+# Merge Keep for Upgrade
         (pool + org.active_siblings.select{|o| o.app_enabled?(app)}.collect{|o| o.resources_for_app(app)}.flatten).uniq
       else
+# Merge Keep for Upgrade
         (pool + org.all_active_children.select{|o| o.app_enabled?(app)}.collect{|o| o.resources_for_app(app)}.flatten).uniq
       end
   end

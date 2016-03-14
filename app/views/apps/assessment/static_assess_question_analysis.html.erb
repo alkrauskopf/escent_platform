@@ -142,7 +142,7 @@
 	<br/><center><strong><%= @q.act_subject.name%> Question Calibration</strong></center>
 	<% @current_organization.ifa_org_option.act_masters.each_with_index do |mstr,mdx| -%>
 	<% if mstr.abbrev == "CO" %>
-		<%= render (:partial => "ifa_csap_analysis", :locals => {:quest => @q, :mstr => mstr})%>		
+		<%= render(:partial => "ifa_csap_analysis", :locals => {:quest => @q, :mstr => mstr})%>
 	<% end -%>
 	<span style="font-size:12px; color:#000000">
 	<strong><center><%= mstr.abbrev %> Calibration<br/>
@@ -229,7 +229,7 @@
 		</tbody>					
 	</table>
 
-	<%= render (:partial => "static_assessment_q_benchmarks", :locals => {:mstr => mstr})%>	
+	<%= render(:partial => "static_assessment_q_benchmarks", :locals => {:mstr => mstr})%>
 		<span style="font-size:12px;width:550px;">
 		<center> - - - - - - - </center>
 		</span>

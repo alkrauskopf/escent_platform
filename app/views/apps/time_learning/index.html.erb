@@ -92,7 +92,7 @@
     </ul>
 
 	<div id="tabs-2" class="favorite_organizations" style="width:900px">
-	   <%= render (:partial => "/apps/time_learning/list_backlogs", :locals => {:admin => @admin, :user => @current_user, :app => @app}) %>
+	   <%= render(:partial => "/apps/time_learning/list_backlogs", :locals => {:admin => @admin, :user => @current_user, :app => @app}) %>
    	</div>
 	<div id="tabs-3" class="favorite_organizations" style="width:900px">
     	<%= render :partial => "/apps/staff_develop/teacher_itl_reflections", :locals => {:teacher => @teacher,  :admin => @admin, :subject => nil } %>

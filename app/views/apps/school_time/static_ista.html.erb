@@ -9,20 +9,20 @@
    			</style>
 			<tr>
 				<td style= "width:230px; border:0px solid #ddd; padding-bottom:30px; padding-left:0px;">
-					<%= render (:partial => "itl_left_header", :locals => {:session => @tlt_session, :observer => @observer_update, :teacher => @teacher_update, :survey=>@survey}) %>	
+					<%= render(:partial => "itl_left_header", :locals => {:session => @tlt_session, :observer => @observer_update, :teacher => @teacher_update, :survey=>@survey}) %>
 				</td>
 				<td style= "width:650px; border:0px solid #ddd; vertical-align:top; padding-bottom:30px; padding-left:20px;">
-					<%= render (:partial => "itl_right_header", :locals => {:session => @tlt_session, :observer => @observer_update, :teacher => @teacher_update}) %>	
-					<%= render (:partial => "itl_session_notes", :locals => {:session => @tlt_session, :observer => @observer_update, :teacher => @teacher_update}) %>	
-					<%= render (:partial => "video_attach", :locals => {:session => @tlt_session, :teacher => @teacher_update, :observer => @observer_update}) %>	
+					<%= render(:partial => "itl_right_header", :locals => {:session => @tlt_session, :observer => @observer_update, :teacher => @teacher_update}) %>
+					<%= render(:partial => "itl_session_notes", :locals => {:session => @tlt_session, :observer => @observer_update, :teacher => @teacher_update}) %>
+					<%= render(:partial => "video_attach", :locals => {:session => @tlt_session, :teacher => @teacher_update, :observer => @observer_update}) %>
 					<% unless @tlt_session.training? || @tlt_session.irr? -%>
-						<%= render (:partial => "itl_session_student_survey", :locals => {:session => @tlt_session, :observer => @observer_update}) %>	
+						<%= render(:partial => "itl_session_student_survey", :locals => {:session => @tlt_session, :observer => @observer_update}) %>
 					<% end -%>
 					<% if @tlt_session.app_methods.include?(AppMethod.rs.first)%>
-						<%= render (:partial => "research", :locals => {:session => @tlt_session, :irr=> false, :label => "Observation Graphs"}) %>	
+						<%= render(:partial => "research", :locals => {:session => @tlt_session, :irr=> false, :label => "Observation Graphs"}) %>
 					<% end -%>
 					<% if @tlt_session.blackbelt_available? %>
-						<%= render (:partial => "research", :locals => {:session => @tlt_session.irr_session, :irr=> true, :label => "Calibration Graphs"}) %>	
+						<%= render(:partial => "research", :locals => {:session => @tlt_session.irr_session, :irr=> true, :label => "Calibration Graphs"}) %>
 					<% end -%>
 	
 					<div style="margin-left:20px; padding-top:10px; padding-bottom:10px;">

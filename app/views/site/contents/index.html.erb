@@ -8,7 +8,7 @@
 			</span>
 			<%= render :partial => "/shared/error_and_notice" %>		
 			<div class="flash_notice" style="display:none;"></div>
-			<%= render (:partial => "site/contents/list_content_groups", :locals => {:org=>@current_organization, :content_groups=>@content_groups, :current_group=> @current_group}) %>	
+			<%= render(:partial => "site/contents/list_content_groups", :locals => {:org=>@current_organization, :content_groups=>@content_groups, :current_group=> @current_group}) %>
 
 		<% end -%>
 	</div>

@@ -80,7 +80,7 @@
 			</script>
 		<% end-%>
 		<% if survey_type.general? && !@current_organization.tlt_survey_questions.for_audience(audience).for_type(survey_type).active.empty?-%>
-			<%= render (:partial => "apps/shared/broadcast_a_survey", :locals => {:admin => admin, :app => app, :instruction => instruction}) %>
+			<%= render(:partial => "apps/shared/broadcast_a_survey", :locals => {:admin => admin, :app => app, :instruction => instruction}) %>
 		<% end -%>
 	<% end -%>
 

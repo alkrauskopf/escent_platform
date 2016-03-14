@@ -56,7 +56,7 @@
 						<%= (image_tag "button_disabled.png",:width => 10) -%>
 					</td>
 				<% end -%>	
-				<%= render (:partial => "thumbs_columns", :locals => {:quest => quest, :std => ActMaster.act.first, :filter =>"ACT"})%>				
+				<%= render(:partial => "thumbs_columns", :locals => {:quest => quest, :std => ActMaster.act.first, :filter =>"ACT"})%>
 				<td width = 50px style=" color: #000000; vertical-align:top;text-align:center; font-size:11px" >
 					<u>
 						<%= link_to "View", {:controller =>  "/apps/assessment", :action => "static_question", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest}, {:target => "_blank"}  %>

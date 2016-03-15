@@ -1,0 +1,24 @@
+<div id="organization_logo_container" style=" max-width: 400px;border:0px solid black;">
+  <%= render :partial => "/shared/error_and_notice" %>
+  <div style="margin-bottom: 20px; font-weight: bold; font-size: 14px; float:left;">
+    Logo
+  </div><br/>
+  <div style=" border:0px solid black">
+    <div style="margin:0px 0px 0px 0px;">
+      <% unless @current_organization.logo.file? %>
+          <div style="width:250px; height:100px; text-align:center; border:1px solid black; vertical-align:middle;">
+            No Logo
+          </div>
+      <% else %>
+          <%= image_tag @current_organization.logo.url -%>
+      <% end %>
+    </div>
+    <div  style="margin:20px 0px 10px 0px;">
+      <%= form_tag({:controller => 'our_organization',:action => :update_logo, :organization_id => @current_organization, :format => 'js'}, :multipart => true, :target => 'upload_frame') do -%>
+          <%= file_field_tag "organization[logo]" %>
+          <%= submit_tag "Save" %>
+          <iframe id='upload_frame' name="upload_frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
+      <% end %>
+    </div>
+  </div>
+</div>

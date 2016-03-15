@@ -1,7 +1,14 @@
 <div class="clear">
-  <div id="organization_notify_container" style="float:left;">
-   <%= render :partial => "/admin/our_organization/organization_logo" %>
-
-    <%= render :partial => "/admin/our_organization/organization_colors", :locals => {:organization => @current_organization} %>
-  </div>
+  <table style="float:left; width:100%; border_width:1px">
+    <tbody>
+      <tr>
+        <td style="width:45%">
+          <%= render :partial => "/admin/our_organization/organization_logo" %>
+        </td>
+        <td style="width:55%">
+          <%= render :partial => "/admin/our_organization/organization_colors", :locals => {:organization => @current_organization} %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

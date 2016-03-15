@@ -121,11 +121,14 @@ class Organization < ActiveRecord::Base
   validates_format_of :phone, :with => /^\d{3}-{1}\d{3}-{1}\d{4}$/, :message => 'not valid, format XXX-XXX-XXXX',
   :allow_nil => false
   
-  has_attached_file :logo, :styles => { :normal => '315x170' , :small_thumb => '74x40>', :med_thumb => '111x60>', :thumb=>'148x80>' }, :default_style => :normal
-
- # validates_attachment :logo, content_type: { content_type: "image/gif" "image/jpeg" "image/png" "image/pjpeg" "image/x-png"}
-  validates_attachment_content_type :logo, :content_type => ['image/gif' 'image/jpeg' 'image/png' 'image/pjpeg' 'image/x-png']
-  # validate :logo_width
+  has_attached_file :logo,
+                    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+                    :url => "/system/:attachment/:id/:style/:filename",
+                    :styles => { :normal => '315x170' , :small_thumb => '74x40>', :med_thumb => '111x60>', :thumb=>'148x80>' }, :default_style => :normal
+  validates_attachment :logo,
+                        content_type: {content_type: ['image/png', 'image/jpeg']}
+  validates_with AttachmentSizeValidator, attributes: :logo, less_than: 100.kilobytes
+  validate :logo_width
 
   accepts_nested_attributes_for :organization_relationships
 

@@ -75,12 +75,14 @@ class Admin::OurOrganizationController < Admin::ApplicationController
     else
       flash[:error] = @current_organization.errors.full_messages.to_sentence
     end
-    responds_to_parent do
-      render :update do |page|
-        page.replace_html "organization_logo_container", :partial => 'organization_logo', :object => @current_organization
-#        page.replace_html "organization_logo_container_preview", :partial => 'organization_logo', :object => @current_organization
-      end
-    end          
+#    redirect_to :controller => 'admin/application', :action => :index, :organization_id => @current_organization
+#    render :partial => "/admin/our_organization/organization_logo"
+   responds_to_parent do
+     render :update do |page|
+       page.replace_html "organization_logo_container", :partial => 'organization_logo', :object => @current_organization
+ #       page.replace_html "organization_logo_container_preview", :partial => 'organization_logo', :object => @current_organization
+       end
+     end
   end
   
   def update_body

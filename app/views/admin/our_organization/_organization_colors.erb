@@ -1,6 +1,8 @@
-<div id="colors_<%=organization.public_id%>">
-  <div style="margin-bottom: 10px; font-weight: bold; font-size: 14px; float:left;">Colors</div>
-  <table style = "width:500px; margin-left:140px; margin-top:0px">
+<div id="colors_<%=organization.public_id%>" style="border:0px solid black;">
+  <div style="margin-bottom: 10px; font-weight: bold; font-size: 14px; float:left;">
+    Colors
+  </div><br/>
+  <table style = "width:450px; margin-left:0px; margin-top:0px">
     <tbody>
         <%   StyleSetting.colors.each do |setting| %>
           <% color = (organization.setting_values.for_setting(setting).first.nil? ? setting.default_value : organization.setting_values.for_setting(setting).first.value) %>

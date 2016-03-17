@@ -7,7 +7,7 @@
 		<div style="float:right">
     	<%= link_to "View Public Profile", :controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => @current_user %>
 		</div>
-  <%= form_tag(:url => {:controller => "/users", :action => :edit_profile, :organization_id => @current_organization}, :html => { :multipart => true }  )  do -%>
+  <%= form_tag({:controller => "/users", :action => :edit_profile, :organization_id => @current_organization},  :multipart => true  )  do -%>
 
  <!--
       <%# form_tag(:url => {:controller => "/users", :action => :edit_picture, :organization_id => @current_organization}, :html => { :multipart => true } )  do -%>
@@ -95,15 +95,15 @@
       <div class="FormRowTitle">Personal Philosophy: </div>
       <div class="FormRowData"><%= text_area :user, :philosophy, :class=>"text", :cols => 70, :rows => 2 %></div>
     </div>
-<!--
+
       <h3 class="title_large_blue">Upload a profile picture</h3>
       <div class="FormRow" style="position: relative;">
         <div class="FormRowTitle">Picture:</div>
         <div class="FormRowData">
-          <%#= file_field_tag 'user[picture]' %>
+          <%= file_field_tag 'user[picture]' %>
         </div>
       </div>
-      -->
+
 	    <div class="FormRow submit_warp">
 				<%= submit_tag "Save Profile", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
 			</div>
@@ -146,8 +146,6 @@
 		</div>
 	<% end -%>
 </div>
-
-
 
 <script type="text/javascript" charset="utf-8">
 	jQ(document).ready(function() {

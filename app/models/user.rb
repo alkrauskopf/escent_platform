@@ -4,8 +4,14 @@ class User < ActiveRecord::Base
   require 'authorization_requirement'  
   include PublicPersona
 
-  has_attached_file :picture, :styles => { :thumb => "118x166#", :med_thumb => "80x112#", :small_thumb => "50x50#" }
-
+  has_attached_file :picture,
+                    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+                    :url => "/system/:attachment/:id/:style/:filename",
+                    :styles => { :thumb => "118x166#", :med_thumb => "80x112#", :small_thumb => "50x50#" }
+  validates_attachment :picture,
+                       content_type: {content_type: ['image/gif', 'image/jpeg', 'image/png', 'image/pjpeg', 'image/x-png']}
+  validates_with AttachmentSizeValidator, attributes: :picture, less_than: 500.kilobytes
+  validate :picture_width
   belongs_to :act_master
   belongs_to :organization, :foreign_key => "home_org_id" 
   has_many :tlt_dashboards, :dependent => :destroy
@@ -215,35 +221,6 @@ class User < ActiveRecord::Base
     conditions.unshift condition_strings.join(" OR ")
     order_by = (options[:order] || "last_name, first_name")
     {:conditions => conditions, :order => order_by}
-  }
- 
-  scope :with_roles, lambda { |keywords, options|
-    condition_strings = []
-    conditions = []
-    keywords.parse_keywords.each do |keyword| 
-     condition_strings << '(roles.name LIKE ?)'
-    conditions << "%#{keyword}%"
-    end
-    conditions.unshift condition_strings.join(" OR ")
-    order_by = (options[:order] || "last_name, first_name") 
-    {:conditions => conditions, :include => "roles", :order => order_by}
-  }
-
-  scope :with_talent, lambda { |keywords, options|
-    condition_strings = []
-    conditions = []
-    keywords.parse_keywords.each do |keyword| 
-      condition_strings << '(talents.name REGEXP ? OR talents.name REGEXP ? OR credentials REGEXP ? OR credentials REGEXP ? OR roles.name REGEXP ? OR last_name REGEXP ?)'
-      conditions << "^#{keyword}"
-      conditions << "\s+#{keyword}" 
-      conditions << "^#{keyword}"
-      conditions << "\s+#{keyword}" 
-      conditions << "^#{keyword}"
-      conditions << "^#{keyword}"
-    end
-    conditions.unshift condition_strings.join(" OR ")
-    order_by = (options[:order] || "last_name, first_name") 
-    {:conditions => conditions, :include => ["talents", "roles"], :order => order_by}
   }
   
   scope :with_organizations, lambda { |keywords, options|
@@ -1280,7 +1257,7 @@ class User < ActiveRecord::Base
     return Regexp.new("(#{authorization_level_names})_of\\?"), Regexp.new("add_as_(#{authorization_level_names})_to"), Regexp.new("remove_as_(#{authorization_level_names})_from")
   end
   
-  def respond_to?(method)
+  def respond_to?(method, foo = nil)
     method_name = method.to_s
     of_re, add_as_re, remove_as_re = self.prepare_regexps
     if method_name.match(of_re) || method_name.match(add_as_re) || method_name.match(remove_as_re)
@@ -1407,5 +1384,15 @@ class User < ActiveRecord::Base
   
   def read_tos_required?
     !self.read_tos
+  end
+
+  private
+
+  def picture_width
+    required_width  = 300
+    if picture.queued_for_write[:original]
+      dimensions = Paperclip::Geometry.from_file(picture.queued_for_write[:original].path)
+      errors.add(:picture, "Width can't be greater than #{required_width}") unless dimensions.width <= required_width
+    end
   end
 end

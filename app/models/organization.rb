@@ -126,8 +126,8 @@ class Organization < ActiveRecord::Base
                     :url => "/system/:attachment/:id/:style/:filename",
                     :styles => { :normal => '315x170' , :small_thumb => '74x40>', :med_thumb => '111x60>', :thumb=>'148x80>' }, :default_style => :normal
   validates_attachment :logo,
-                        content_type: {content_type: ['image/png', 'image/jpeg']}
-  validates_with AttachmentSizeValidator, attributes: :logo, less_than: 100.kilobytes
+                        content_type: {content_type: ['image/gif', 'image/jpeg', 'image/png', 'image/pjpeg', 'image/x-png']}
+  validates_with AttachmentSizeValidator, attributes: :logo, less_than: 500.kilobytes
   validate :logo_width
 
   accepts_nested_attributes_for :organization_relationships
@@ -989,7 +989,7 @@ class Organization < ActiveRecord::Base
   end
 
   def uniq_classroom_subjects
-    self.classrooms.active.collect{|clsrm| clsrm.subject_area}.compact.uniq.sort_by{|s| s.name}.collect{|subj| subj.name}
+    self.classrooms.active.collect{|clsrm| clsrm.subject_area}.compact.uniq.sort_by{|s| s.name}
   end
 
   def classrooms_on_subject(subject)

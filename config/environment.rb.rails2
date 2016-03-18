@@ -94,7 +94,7 @@ end
 
 ActionMailer::Base.delivery_method = :smtp
 
-require 'core_ext'      # fsn specific core extensions
+require 'core_ext'      # escent specific core extensions
 require 'uuidtools'
 #require 'win32ole'
 require "spreadsheet/excel"

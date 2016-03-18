@@ -745,8 +745,6 @@ class Site::SiteController < Site::ApplicationController
      render :partial => "manage_classroom_referrals"
  end
  
- 
- 
   def create_or_edit_topic
     @classroom = Classroom.find_by_public_id(params[:classroom_id])
     @current_organization = Organization.find_by_public_id(params[:organization_id])
@@ -778,12 +776,10 @@ class Site::SiteController < Site::ApplicationController
         end
         redirect_to :action => :manage_topic
       end
-
-
- if params[:commit] != ("DELETE TOPIC" || "UPDATE TOPIC")
-      @topic = Topic.find_by_public_id(params[:topic_id])
-      redirect_to :action => :manage_topic      
- end
+   if params[:commit] != ("DELETE TOPIC" || "UPDATE TOPIC")
+        @topic = Topic.find_by_public_id(params[:topic_id])
+        redirect_to :action => :manage_topic
+   end
  end
   
  def create_new_topic
@@ -931,12 +927,11 @@ class Site::SiteController < Site::ApplicationController
     load_search_fields
     @order_by = params[:order_by]
 
-
     case @order_by
     when "people_name"
       order_by = "last_name, first_name"
-    when "religious_affiliation_name"
-      order_by = "religious_affiliations.name"
+    # when "religious_affiliation_name"
+    #   order_by = "religious_affiliations.name"
     when "organization_provider", "organization_name"
       order_by = "organizations.name"
     when "subject_area"
@@ -961,7 +956,7 @@ class Site::SiteController < Site::ApplicationController
       order_by ||= "last_name, first_name"
       @filter_type = "People"
       if @keywords.blank?
-        items_found = User.find(:all, :conditions => ["users.id != ? and verified_at IS NOT NULL", 1], :order => order_by)
+         items_found = User.find(:all, :conditions => ["users.id != ? and verified_at IS NOT NULL", 1], :order => order_by)
       else
         if @search_field == "Role"
           items_found = User.with_roles @keywords, :order => order_by
@@ -970,9 +965,10 @@ class Site::SiteController < Site::ApplicationController
         elsif @search_field == "Organization"
 
           items_found = User.with_organizations @keywords, :order => order_by 
-
-        else
-          items_found = User.with_talent @keywords, :order => order_by
+#
+         else
+ #          items_found = User.with_talent @keywords, :order => order_by
+           items_found = User.with_names @keywords, :order => order_by
         end
      end
      
@@ -1389,15 +1385,12 @@ class Site::SiteController < Site::ApplicationController
   
   def load_search_fields
     if params[:commit]
-      @keywords = params[:prev_keywords] 
+      @keywords = params[:prev_keywords]
     else
       @keywords = params[:keywords]
       @filter = "-- No Filter --"
     end
     if @search_type == "People"
-      # @search_fields = ["name", "talents", "religious affiliation", "organization"] # HACK for Days of Peace site
-      # ALK Put back Organization
-      #  @search_fields = ["name", "talents"]
       @search_fields = ["Anything", "Person's Name", "Organization"]
     elsif @search_type == "Organizations"
  

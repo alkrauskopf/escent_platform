@@ -10,7 +10,7 @@ This email is a necessary step to ensure the validity of all members.
 Your user ID, <%= @user.email_address%> has already been validated.
 
 <%= @user.organization.name %> is your affiliatation.   You can change this by editing your user profile.  
-Clicking <%= link_to "HERE", url_for (:controller => "site/site", :action => "static_organization", :organization_id => @user.organization,:host => @fsn_host )%> 
+Clicking <%= link_to "HERE", url_for(:controller => "site/site", :action => "static_organization", :organization_id => @user.organization,:host => @fsn_host )%>
 will bring you to <%= @user.organization.name %> home page in the community.
 
 

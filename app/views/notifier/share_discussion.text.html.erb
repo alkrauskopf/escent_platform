@@ -4,11 +4,11 @@
 <br/> 
 <% end %>
 <br/>
-Check out <%= link_to @topic.classroom.course_name, url_for (:controller => "site/site", :action => "static_classroom", :organization_id => @current_organization, :topic_id => @topic, :id => @topic.classroom,:host => @fsn_host )%>&nbsp;
+Check out <%= link_to @topic.classroom.course_name, url_for(:controller => "site/site", :action => "static_classroom", :organization_id => @current_organization, :topic_id => @topic, :id => @topic.classroom,:host => @fsn_host )%>&nbsp;
 at <%= @current_organization.name%>!
 <br/>
-<%#= link_to @current_user.full_name, url_for (:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => @current_user, :only_path => false, :host => @fsn_host  ) %><br/>
+<%#= link_to @current_user.full_name, url_for(:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => @current_user, :only_path => false, :host => @fsn_host  ) %><br/>
 
 <br/>
-<%#= link_to @current_orgnaization.name, url_for (:controller => "/users", :action => :member_public_profile, :update => "user_panel",:organization_id => @current_organization, :id => @current_user, :only_path => false, :host => @fsn_host ) %><br/>
+<%#= link_to @current_orgnaization.name, url_for(:controller => "/users", :action => :member_public_profile, :update => "user_panel",:organization_id => @current_organization, :id => @current_user, :only_path => false, :host => @fsn_host ) %><br/>
 	

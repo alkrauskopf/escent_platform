@@ -23,7 +23,7 @@
 					Format:
 				</td>
 				<td style=" border:0px solid #ddd;vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
-					<%= number_to_human_size(content.source_file_file_size,1)%>:&nbsp;<%= content.content_object_type.content_object_type_group.name.upcase %>
+					<%= number_to_human_size(content.source_file_file_size, precision: 1)%>:&nbsp;<%= content.content_object_type.content_object_type_group.name.upcase %>
 				</td>
 				<td style=" width:80px; width:fixed; border:0px solid #ddd; vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:right; padding-right:2px; font-weight:normal; color:#000000;">
 					&nbsp;
@@ -34,7 +34,11 @@
 					Keywords:
 				</td>
 				<td style=" border:0px solid #ddd;vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
-					<%= !(content.caption.nil? || content.caption.empty?) ?  (simple_format content.caption.humanize) : "<i><small> - - none - -</small></i>" %>
+					<% if !(content.caption.nil? || content.caption.empty?) %>
+            <%= simple_format content.caption.humanize %>
+          <% else %>
+            <em><small> - - none - -</small></em>
+          <% end %>
 				</td>
 				<td style=" width:80px; width:fixed; border:0px solid #ddd; vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:right; padding-right:2px; font-weight:normal; color:#000000;">
 					&nbsp;
@@ -45,7 +49,7 @@
 					Description:
 				</td>
 				<td style=" border:0px solid #ddd;vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
-					<%= !(content.description.nil? || content.description.empty?) ?  (simple_format content.description.humanize) : "<i><small> - - none - -</small></i>" %>
+					<%= (!(content.description.nil? || content.description.empty?) ?  (simple_format content.description.humanize) : "<i><small> - - none - -</small></i>").html_safe %>
 				</td>
 				<td style=" width:80px; width:fixed; border:0px solid #ddd; vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:right; padding-right:2px; font-weight:normal; color:#000000;">
 					&nbsp;
@@ -53,8 +57,8 @@
 			</tr>
 			<% if (!content.content_object_type.nil? && [2,1].include?(content.content_object_type.content_object_type_group_id) && content.source_file_preview_file_name.present?) %>
 				<tr  style="border:0px solid #ddd;" >
-					<td colspan=2 style=" border:0px solid #ddd;vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
-			  			<center><img src="<%= content.source_file_preview.url(:med_thumb) %>"></center>
+					<td colspan=2 style=" text-align:center; border:0px solid #ddd;vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
+			  			<img src="<%= content.source_file_preview.url(:med_thumb) %>">
 					</td>
 				<td style=" width:80px; width:fixed; border:0px solid #ddd; vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:right; padding-right:2px; font-weight:normal; color:#000000;">
 					&nbsp;
@@ -64,7 +68,7 @@
 			<% if content.act_subject? -%>
 				<tr  style="border:0px solid #ddd;" >
 					<td colspan=3 style=" border:0px solid #ddd; line-height:1.3em; vertical-align:top; padding-top:17px;padding-bottom:10px; font-size:12px; word-wrap:break-word; text-align:left; padding-left:0px; font-weight:normal; color:#000000;">
-						<%=content.act_subject.name %>&nbsp;Standards<%= content.act_standards.empty? ? "  <i><small>- - none - -</small></i>" : "" %>
+						<%= content.act_subject.name %>&nbsp;Standards<%= (content.act_standards.empty? ? "  <i><small>- - none - -</small></i>" : "").html_safe %>
 					</td>
 				</tr>
 				<% ActMaster.all.each do |std| -%>

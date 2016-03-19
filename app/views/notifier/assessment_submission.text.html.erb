@@ -4,7 +4,7 @@ Dear <%= @user.first_name %>,
 <br />
 <%= @review_msg %><br/>
 <br/>
-<%= link_to "Click Here", url_for (:controller => "site/site", :action => "static_classroom", :organization_id => @current_organization, :id => @classroom, :host => @fsn_host )%>&nbsp;
+<%= link_to "Click Here", url_for(:controller => "site/site", :action => "static_classroom", :organization_id => @current_organization, :id => @classroom, :host => @fsn_host )%>&nbsp;
 for <i><%=@classroom.course_name%>.</i>
  <br/><br/>
 

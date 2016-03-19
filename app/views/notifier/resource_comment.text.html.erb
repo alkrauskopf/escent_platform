@@ -7,10 +7,10 @@ Dear <%= @user.first_name%>,
 <br/><br>
 <%= @current_user.first_name%>&nbsp; said:&nbsp;<i>"<%= @resource_comment %>"</i>
 <br/><br/>
- Review comments for <%= link_to @content.title, url_for (:controller => "site/site", :action => "static_resource", :organization_id => @organization, :id => @content,:host => @fsn_host )%>.
+ Review comments for <%= link_to @content.title, url_for(:controller => "site/site", :action => "static_resource", :organization_id => @organization, :id => @content,:host => @fsn_host )%>.
  <br/>
 or<br/>
-Check out the profile of <%= link_to @current_user.full_name, url_for (:controller => "/users", :action => :member_public_profile, :organization_id => @user_organization, :id => @current_user, :host => @fsn_host  ) %>
+Check out the profile of <%= link_to @current_user.full_name, url_for(:controller => "/users", :action => :member_public_profile, :organization_id => @user_organization, :id => @current_user, :host => @fsn_host  ) %>
 , from <%=@user_organization.name%>.<br/>
 
 				

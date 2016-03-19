@@ -6,10 +6,10 @@ Dear <%= @user.first_name%>,
 <%= @current_user.first_name%>&nbsp; said:&nbsp;<i>"<%= @topic_comment %>"</i>
 
 <br/><br/>
- Review the discussion for <%= link_to @topic.title, url_for (:controller => "site/site", :action => "static_classroom", :organization_id => @current_organization, :topic_id => @topic, :id => @topic.classroom,:host => @fsn_host )%>&nbsp;
+ Review the discussion for <%= link_to @topic.title, url_for(:controller => "site/site", :action => "static_classroom", :organization_id => @current_organization, :topic_id => @topic, :id => @topic.classroom,:host => @fsn_host )%>&nbsp;
  in <%=@topic.classroom.course_name%>.
  <br/><br/>
 or<br/><br/>
-Check out the profile of <%= link_to @current_user.full_name, url_for (:controller => "/users", :action => :member_public_profile, :organization_id => @user_organization, :id => @current_user, :host => @fsn_host  ) %>
+Check out the profile of <%= link_to @current_user.full_name, url_for(:controller => "/users", :action => :member_public_profile, :organization_id => @user_organization, :id => @current_user, :host => @fsn_host  ) %>
 , from <%=@user_organization.name%>.<br/>
 	

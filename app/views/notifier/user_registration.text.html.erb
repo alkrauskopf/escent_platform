@@ -8,7 +8,7 @@ This email is a necessary step to ensure the validity of all members.<br/>
  
 Your user ID, <strong><%= @user.email_address%></strong> has already been validated.<br/><br/>
 <%= @user.organization.name %> is your affiliatation.   You can change this by editing your user profile.<br/>  
-Clicking <%= link_to "HERE", url_for (:controller => "site/site", :action => "static_organization", :organization_id => @user.organization,:host => @fsn_host )%>&nbsp;
+Clicking <%= link_to "HERE", url_for(:controller => "site/site", :action => "static_organization", :organization_id => @user.organization,:host => @fsn_host )%>&nbsp;
 will bring you to <%= @user.organization.short_name %> home page in the community.
 <br /><br />
 

@@ -35,7 +35,7 @@
 
     <% if params[:from_front] == "true" %>
     jQ("#control_panel > ul li:nth-child(1) a").click();
-    content_edit_url = "<%= url_for ({:controller => :content, :action => :edit, :organization_id => @current_organization, :content_id => params[:content_id]}) %>";
+    content_edit_url = "<%= url_for({:controller => :content, :action => :edit, :organization_id => @current_organization, :content_id => params[:content_id]}) %>";
     jQ.post(content_edit_url, {"from_front":true},function(data) {
       jQ("#content_panel").html(data);
     })

@@ -1,6 +1,10 @@
 		<% box_height =  [1,2,4].include?(resource.content_object_type.content_object_type_group_id) ? 530 : 240  %>
 		<span style = "font-size:10px; top:100px;">
-			<a id="<%=key%>_<%= resource.id%>" style = "cursor:pointer" href=""><%= button ? ("<button>"+ label + "</button>") : ("<u>"+ label + "</u>")%></a>
+			<% if button %>
+        <button><a id="<%=key%>_<%= resource.id%>" style = "cursor:pointer" href=""><%= label %></a></button>
+      <% else %>
+           <a id="<%=key%>_<%= resource.id%>" style = "cursor:pointer" href=""><%= label %></a>
+      <% end %>
 		</span>
 		&nbsp;<%= title %>
 		<div  class="normal_text" id="<%=key%>_<%= resource.id%>_dialog" title= "<%= resource.title %>" style="text-align:left;">

@@ -54,8 +54,14 @@ class Content < ActiveRecord::Base
 #  end
   
 
-  has_attached_file :source_file, :path => ":rails_root/public/resourcelibrary/:id/:style/:basename.:extension", :url => "/resourcelibrary/:id/:style/:basename.:extension"
-  has_attached_file :source_file_preview, :path => ":rails_root/public/resourcelibrary/:id/:style/:basename.:extension", :url => "/resourcelibrary/:id/:style/:basename.:extension" , :styles => {:thumb => "41x41>", :med_thumb => "90x90>"}
+  has_attached_file :source_file,
+                    :path => ":rails_root/public/resourcelibrary/:id/:style/:basename.:extension",
+                    :url => "/resourcelibrary/:id/:style/:basename.:extension"
+
+  has_attached_file :source_file_preview,
+                    :path => ":rails_root/public/resourcelibrary/:id/:style/:basename.:extension",
+                    :url => "/resourcelibrary/:id/:style/:basename.:extension" ,
+                    :styles => {:thumb => "41x41>", :med_thumb => "90x90>"}
 
   scope :active, :conditions => { :is_delete => false}
   scope :deleted, :conditions => { :is_delete => true }

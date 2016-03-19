@@ -16,7 +16,7 @@
 	<% unless @content.content_object_type.nil? -%>
 		<% if [4,2,1].include?(@content.content_object_type.content_object_type_group_id)%><% button_label = "View"%> <% past_verb = "View" %> <% end %>
 		<% if [3].include?(@content.content_object_type.content_object_type_group_id)%><% button_label = "Listen"%><% past_verb = "Listen"%> <% end %>
-		<% if [5].include?(@content.content_object_type.content_object_type_group_id)%><% then button_label = "View Link"%> <% past_verb = "View"%><% end %>
+		<% if [5].include?(@content.content_object_type.content_object_type_group_id)%><% button_label = "View Link"%> <% past_verb = "View"%><% end %>
 	<% end -%>
 <!-- ALK:  Tabled Container because I screwed up the CCS container, and can't get it to work for all browsers.  -->
 

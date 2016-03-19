@@ -1,5 +1,5 @@
 
-<p><%#= link_to @user.full_name, url_for (:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => @user.public_id,:host => @fsn_host )%>
+<p><%#= link_to @user.full_name, url_for(:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => @user.public_id,:host => @fsn_host )%>
  <%= @user.full_name %> (<%= @user.preferred_email %>) has Pilot Project Feedback.
 <br/>
 <br/>

@@ -66,11 +66,13 @@
 						<% unless content.source_name.nil? || content.source_name.empty? %>
 							<tr  style="border:0px solid #ddd;" >
 								<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; font-weight:normal; color:#000000; vertical-align:top;">
-									<% if content.source_url.nil? || content.source_url.empty?%> 
+									<!--  Rails 3 Upgrade WHY Doesn't the Link work???
+                  <%# if content.source_url.nil? || content.source_url.empty?%> -->
+                  <% if true %>
 										Originator: <%= content.source_name %>
 									<% else %>
-										Originator: <%= link_to content.source_name, content.source_url, :target => "_blank"  %><br>
-									<% end %>
+										Originator: <a href=<%= content.source_url %> target="_blank"><%=content.source_name%></a><br/>
+                  <% end %>
 	 							</td>
 	 						</tr>
 						<% end -%>

@@ -42,7 +42,7 @@ class Site::DiscussionsController < Site::ApplicationController
     if owner
           Notifier.deliver_resource_comment(:user => owner,:current_user=>@current_user,:content => @content, :new_discussion => discussion, :fsn_host => request.host_with_port)
     end
-    render :partial => "discussions_for_resource"    
+    render :partial => "discussions_for_resource"
   end
  
   def delete_resource_comment

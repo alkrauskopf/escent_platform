@@ -220,3 +220,59 @@ Blog_Admin:
     coop_app_id: 5
     explanation: This identifies the user as a blog administrator. User will be able to create and maintain the organization's blogs.  
     old_level_id: 28
+
+PD_supr:
+    id: 29
+    name: pd_super
+    description: PD Superuser
+    coop_app_id: 7
+    explanation: App Superuser
+
+ST_supr:
+    id: 30
+    name: st_super
+    description: ST Superuser
+    coop_app_id: 8
+    explanation: App Superuser
+
+CM_supr:
+    id: 31
+    name: cm_super
+    description: CM Superuser
+    coop_app_id: 9
+    explanation: App Superuser
+
+ET_supr:
+    id: 32
+    name: et_super
+    description: ET Superuser
+    coop_app_id: 10
+    explanation: App Superuser
+
+OF_supr:
+    id: 33
+    name: of_super
+    description: OF Superuser
+    coop_app_id: 2
+    explanation: App Superuser
+
+IF_supr:
+    id: 34
+    name: if_super
+    description: IF Superuser
+    coop_app_id: 3
+    explanation: App Superuser
+
+ITA_supr:
+    id: 35
+    name: it_super
+    description: IT Superuser
+    coop_app_id: 4
+    explanation: App Superuser
+
+BL_supr:
+    id: 36
+    name: bl_super
+    description: BL Superuser
+    coop_app_id: 5
+    explanation: App Superuser

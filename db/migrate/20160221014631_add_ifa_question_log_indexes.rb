@@ -1,8 +1,8 @@
 class AddIfaQuestionLogIndexes < ActiveRecord::Migration
   def self.up
-    remove_index :ifa_question_logs, [:grade_level, :csap]
-    remove_index :ifa_question_logs, [:act_question_id, :act_submission_id]
-    remove_index :ifa_question_logs, [:act_submission_id,:act_question_id]
+ #   remove_index :ifa_question_logs, [:grade_level, :csap]
+ #   remove_index :ifa_question_logs, [:act_question_id, :act_submission_id]
+ #   remove_index :ifa_question_logs, [:act_submission_id,:act_question_id]
     add_index :ifa_question_logs, [:user_id, :act_subject_id, :period_end, :is_calibrated], :name=>'user_subject_period_calibrated'
     add_index :ifa_question_logs, [:classroom_id, :act_subject_id, :period_end, :is_calibrated], :name=>'classroom_subject_period_calibrated'
     add_index :ifa_question_logs, [:organization_id, :act_subject_id, :period_end, :is_calibrated], :name=>'org_subject_period_calibrated'

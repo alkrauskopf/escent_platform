@@ -1,112 +1,179 @@
 Administrator-Organization:
+    id: 1
     authorization_level_id: 2
     name: Organization
 
 Friend-Organization:
+    id: 2
     authorization_level_id: 3
     name: Organization
 
 Favorite-Classroom:
+    id: 3
     authorization_level_id: 8
     name: Classroom
     
 Content Manager-Organization:
+    id: 4
     authorization_level_id: 4
     name: Organization
     
 Classroom Manager-Organization:
+    id: 5
     authorization_level_id: 5
     name: Organization
     
 Leader-Classroom:
+    id: 6
     authorization_level_id: 6
     name: Classroom
     
 Participant-Classroom:
+    id: 7
     authorization_level_id: 7
     name: Classroom
     
 Favorite-Content:
+    id: 8
     authorization_level_id: 8
     name: Content
     
 Colleague-User:
+    id: 9
     authorization_level_id: 9
     name: User
     
 Pilot-Participant-Organization:
+    id: 10
     authorization_level_id: 10
     name: Organization   
     
 Stotts-Assessment-Organization:
+    id: 11
     authorization_level_id: 11
     name: Organization   
     
 Teacher-Assessor:
+    id: 12
     authorization_level_id: 12
     name: Organization 
     
 Blogger:
+    id: 13
     authorization_level_id: 13
     name: Organization 
     
 CTL-Observer:
+    id: 14
     authorization_level_id: 14
     name: Organization 
     
 CTL-Admin:
+    id: 15
     authorization_level_id: 15
     name: Organization  
     
 Teacher:
+    id: 16
     authorization_level_id: 16
     name: Organization   
     
 DLE-Admin:
+    id: 17
     authorization_level_id: 17
     name: Organization 
             
 APP-Superuser:
+    id: 18
     authorization_level_id: 18
     name: CoopApp   
     
 ISTA-Admin:
+    id: 19
     authorization_level_id: 19
     name: Organization  
     
 ISTA-User:
+    id: 20
     authorization_level_id: 20
     name: Organization  
     
 CM-Admin:
+    id: 21
     authorization_level_id: 21
     name: Organization      
     
 CM-KM:
+    id: 22
     authorization_level_id: 22
     name: Organization 
     
 CM-Consultant:
+    id: 23
     authorization_level_id: 23
     name: Organization 
     
 ELT-Admin:
+    id: 24
     authorization_level_id: 24
     name: Organization      
     
 ELT-Team:
+    id: 25
     authorization_level_id: 25
     name: Organization  
         
 Content-Admin:
+    id: 26
     authorization_level_id: 26
     name: Organization     
         
 ELT-Reviewer:
+    id: 27
     authorization_level_id: 27
     name: Organization  
         
 Blog-Admin:
+    id: 28
     authorization_level_id: 28
     name: Organization 
-                
+
+PD-Superuser:
+    id: 29
+    authorization_level_id: 29
+    name: CoopApp
+
+ST-Superuser:
+    id: 30
+    authorization_level_id: 30
+    name: CoopApp
+
+CM-Superuser:
+    id: 31
+    authorization_level_id: 31
+    name: CoopApp
+
+ET-Superuser:
+    id: 32
+    authorization_level_id: 32
+    name: CoopApp
+
+OF-Superuser:
+    id: 33
+    authorization_level_id: 33
+    name: CoopApp
+
+IF-Superuser:
+    id: 34
+    authorization_level_id: 34
+    name: CoopApp
+
+ITA-Superuser:
+    id: 35
+    authorization_level_id: 35
+    name: CoopApp
+
+BL-Superuser:
+    id: 36
+    authorization_level_id: 36
+    name: CoopApp

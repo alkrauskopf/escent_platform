@@ -7,7 +7,6 @@ class AddActAnswersIndexes < ActiveRecord::Migration
     add_index :act_answers, [:act_choice_id]
     add_index :act_answers, [:act_assessment_id]
     add_index :act_answers, [:user_id]
-    add_index :act_answers, [:organization_id]
     add_index :act_answers, [:teacher_id]
     add_index :act_answers, [:classroom_id]
   end

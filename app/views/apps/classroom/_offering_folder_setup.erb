@@ -84,7 +84,7 @@
 							<%=  select(:folder_position, folder.public_id, [*1...lu.folder_positions.size + 1], {:include_blank =>'Position (' + lu.folder_position(folder).to_s + ")"}) %>
 						</td>
 						<td style=" border:0px solid #ddd; vertical-align:top;  padding-top:0px; padding-bottom:0px; color:#2061a5; text-align:left; font-weight:normal; font-size:12px">
-							<%= folder.parent ? (folder.parent.name + ": " + folder.name) : folder.name  %>
+							<%= folder.parent ? ('<u>' + folder.parent.name + ':</u> ' + folder.name).html_safe : folder.name  %>
 							<span style = "color:#2061a5; font-size:10px;  font-weight:normal ">
 								(<%= pluralize(lu.topic_contents.for_folder(folder).size, " Resource") %>)
 							</span>

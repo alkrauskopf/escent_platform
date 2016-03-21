@@ -1,25 +1,22 @@
 <div id="main_content">
 
-	<% if @current_user  && @app -%>
-  	<div style="text-align:center;  padding-top:10px; word-wrap:break-word; color: #C83A14;  font-size: 16px; font-style: normal; font-weight: bold">
-		<center><%= @current_organization.app_provider(@app).short_name %>&nbsp;<%= @current_organization.app_provider(@app).app_settings(@app).alt_name %></center>
-			<span style = "text-align:center; word-wrap:break-word; color: #C83A14;  font-size: 14px; font-style: normal; font-weight: normal">
-				<%= @current_organization.active_elt_cycle.nil? ? ("No Active Diagnostic Cycle For " + @current_organization.short_name) : @current_organization.active_elt_cycle.name %>
-			</span>
+  <div style="text-align:center;  padding-top:10px; word-wrap:break-word; color: #C83A14;  font-size: 16px; font-style: normal; font-weight: bold">
+		<%= @current_organization.app_provider(@current_application).short_name %>&nbsp;<%= @current_organization.provider_app_name(@current_application) %>
+    <span style = "text-align:center; word-wrap:break-word; color: #C83A14;  font-size: 14px; font-style: normal; font-weight: normal">
+      <br/><%= @current_organization.active_elt_cycle.nil? ? ("No Active Diagnostic Cycle For " + @current_organization.short_name) : @current_organization.active_elt_cycle.name %>
+    </span>
 	</div>
-	<% if @current_user.app_authorized?(@app,@current_organization)%>
-		<div style="float:none;width:96.7%;" class="mempro_box clear" style="margin-left:00px;">
 
-
+  <div style="float:none;width:96.7%;" class="mempro_box clear" style="margin-left:00px;">
 <!--
 			<div id="leftpane_appl">	
-				<%#= render :partial => "apps/app_blog/app_blog_list", :locals=>{:app=>@app} %>		
+				<%#= render :partial => "apps/app_blog/app_blog_list", :locals=>{:app=>@current_application} %>
 			</div>
 			<div id="rightpane_appl"></div>
 -->
 			<div id="centerpane_appl">
               <% if !@current_organization.active_elt_cycle.nil? %>
-                <%= render :partial => "/apps/learning_time/activity_map", :locals => {:org => @current_organization, :app => @app} %>
+                <%= render :partial => "/apps/learning_time/activity_map", :locals => {:org => @current_organization, :app => @current_application} %>
               <% end %>
                   <div id="activity_list">
 					<% unless !@current_organization.elt_provider || @current_organization.active_elt_cycle.nil? -%>
@@ -39,7 +36,7 @@
 
                       <td  style="width:60px; width:fixed; vertical-align:middle; text-align:left;padding-left:0px">
 												<span class="fsn-button ui-button ui-state-default ui-corner-all">
-                              <%= link_to "Begin" ,{:controller => "apps/learning_time", :action => 'start_case', :organization_id => @current_organization, :elt_cycle_id => @current_organization.active_elt_cycle, :school_id=> @current_organization, :method_org_id => @app.owner, :elt_type_id => activity }%>
+                              <%= link_to "Begin" ,{:controller => "apps/learning_time", :action => 'start_case', :organization_id => @current_organization, :elt_cycle_id => @current_organization.active_elt_cycle, :school_id=> @current_organization, :method_org_id => @current_application.owner, :elt_type_id => activity }%>
                         </span>
 											</td>
 											<td  style="vertical-align:middle; text-align:left;padding-left:0px">
@@ -80,7 +77,7 @@
 				<center><%= tab_9_label %></center></span></a>	
 			  </li>
 			<% end -%>
-			<% if @admin && @current_organization.provider?(@app) -%>
+			<% if @admin && @current_organization.provider?(@current_application) -%>
 		      <li>
 				<%  tab_7_label = "Surveys" %>
 		        <a href="#tabs-7"><span class="tab_label">
@@ -95,48 +92,34 @@
 	    </ul>
 	
 		<div id="tabs-2" class="favorite_organizations" style="width:900px">
-		    	<%= render :partial => "/apps/learning_time/list_case_cycles", :locals=>{:org=>@current_organization, :app=>@app} %>
+		    	<%= render :partial => "/apps/learning_time/list_case_cycles", :locals=>{:org=>@current_organization, :app=>@current_application} %>
 	   	</div>
 		<div id="tabs-3" class="favorite_organizations" style="width:900px">
-          <% org_type = @current_organization.provider?(@app) ? OrganizationType.k12.last : @current_organization.organization_type %>
-          <% framework = @current_organization.provider?(@app) ? @current_organization.app_provider(@app).elt_framework : @current_organization.current_cycle_framework%>
+          <% org_type = @current_organization.provider?(@current_application) ? OrganizationType.k12.last : @current_organization.organization_type %>
+          <% framework = @current_organization.provider?(@current_application) ? @current_organization.app_provider(@current_application).elt_framework : @current_organization.current_cycle_framework%>
           <% rubric = (framework.nil? || framework.master_activity.nil?) ? nil : framework.master_activity.shareable_rubrics.last %>
           <%= render :partial => "/apps/learning_time/share_rubric_data", :locals=>{:org_type => org_type,
                                                                                       :framework => framework,
-                                                                                      :rubric => rubric, :app=>@app} %>
+                                                                                      :rubric => rubric, :app=>@current_application} %>
 	   	</div>
 		<div id="tabs-6" class="favorite_organizations" style="width:900px">
-	    	<%= render :partial => "/apps/learning_time/analysis_summaries", :locals=>{:app=>@app, :org => @current_organization} %>
+	    	<%= render :partial => "/apps/learning_time/analysis_summaries", :locals=>{:app=>@current_application, :org => @current_organization} %>
 	   	</div>
 		<% if @current_user.elt_admin_for_org?(@current_organization) -%>
 			<div id="tabs-9" class="favorite_organizations" style="width:900px">
-		    	<%= render :partial => "/apps/learning_time/manage_options", :locals=>{:org=>@current_organization, :app=>@app} %>
+		    	<%= render :partial => "/apps/learning_time/manage_options", :locals=>{:org=>@current_organization, :app=>@current_application} %>
 		   	</div>   	
 	 	<% end -%>   	 	   
-		<% if @current_user.elt_admin_for_org?(@current_organization) && @current_organization.appl_owner?(@app) -%>
+		<% if @current_user.elt_admin_for_org?(@current_organization) && @current_organization.appl_owner?(@current_application) -%>
 			<div id="tabs-7" class="favorite_organizations" style="width:900px">
-	 	  		<%= render :partial => "/apps/shared/sumarize_surveys", :locals => {:admin => @admin, :org => @current_organization, :app => @app} %>
+	 	  		<%= render :partial => "/apps/shared/sumarize_surveys", :locals => {:admin => @admin, :org => @current_organization, :app => @current_application} %>
 		   	</div> 
 			<div id="tabs-8" class="favorite_organizations" style="width:900px">
-		    	<%= render :partial => "/apps/learning_time/maintain_frameworks", :locals=>{:app=>@app, :org => @current_organization} %>
+		    	<%= render :partial => "/apps/learning_time/maintain_frameworks", :locals=>{:app=>@current_application, :org => @current_organization} %>
 		   	</div>   	
 	 	<% end -%> 
 	 </div>
-	
-		<% else -%>
-	<br/></br/>
-  	<div style="text-align:center;  padding-top:10px; word-wrap:break-word; color: #2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
-		<center>* * *  Not Authorized  * * *</center>
-	</div>	
-	<br/></br/>	
-		<% end -%>
-	<% else -%>
-	<br/></br/>
-  	<div style="text-align:center;  padding-top:10px; word-wrap:break-word; color: #2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
-		<center>* * *  Please Sign In  * * *</center>
-	</div>	
-	<br/></br/>
-	<% end -%>
+
 </div>
 
 <script type="text/javascript">

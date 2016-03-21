@@ -2,7 +2,7 @@ class Apps::ClassroomController < Site::ApplicationController
 
  layout "classroom_admin", :except=>[:offering_views, :offering_folder_views, :show_content, :show_lu_resources, :offering_folder_setup, :offering_folders, :offering_surveys, :offering_homeworks, :offering_students, :offering_referrals, :offering_resources, :offering_periods, :offering_lus, :destroy_classroom, :toggle_active, :assign_students, :list_students, :survey_classroom_schedule, :survey_classroom_results, :question_aggregation, :register_classroom, :manage_period_students, :subject_offerings]
  before_filter :classroom_allowed?, :except=>[]
- before_filter :current_user_classroom_authorized?, :except=>[]
+ before_filter :current_user_app_authorized?, :except=>[]
  before_filter :clear_notification
   
  def clear_notification

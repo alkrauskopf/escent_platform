@@ -8,6 +8,9 @@ class Apps::LearningTimeController  < Site::ApplicationController
                           :view_latest_submitted, :show_case_summary, :case_indicators_element_rubric, :list_case_comments,
                           :show_activity_map, :show_evidence_map]
 
+ before_filter :elt_allowed?, :except=>[]
+ before_filter :current_user_app_authorized?, :except=>[]
+
  before_filter :clear_notification, :except =>[]
  before_filter :initialize_parameters, :except =>[]
   
@@ -820,8 +823,13 @@ class Apps::LearningTimeController  < Site::ApplicationController
     end 
   end
     
-   private  
-    
+   private
+
+ def elt_allowed?
+   @current_application = CoopApp.elt
+   current_app_enabled_for_current_org?
+ end
+
   def initialize_parameters 
     if  params[:organization_id]
       @current_organization = Organization.find_by_public_id(params[:organization_id]) rescue nil

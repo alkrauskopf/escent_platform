@@ -35,7 +35,35 @@ class ApplicationController < ActionController::Base
     @current_activity = @current_case.nil? ? nil : (@current_case.elt_type.nil? ? nil :@current_case.elt_type)
     @current_case_org = @current_case.nil? ? nil : (@current_case.organization.nil? ? nil :@current_case.organization)
   end
+#
+#  App Authorizations
+#
+  def current_user_app_authorized?
+    unless(@current_user && @current_user.superuser?)
+      if (@current_user.nil? || !@current_user.app_authorized?(@current_application, @current_organization))
+        redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
+      end
+    end
+  end
 
+  def current_user_classroom_authorized?
+    unless(@current_user && @current_user.superuser?)
+      if (@current_user.nil? || !@current_user.app_authorized?(CoopApp.classroom, @current_organization))
+        redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
+      end
+    end
+  end
+
+  def user_authorize(auth_level)
+    if @current_user.nil? || @current_organization.nil? || !@current_user.has_authority?(auth_level, @current_organization, :superuser=>true)
+      organization = !@current_user.nil? ? @current_user.organization : Organization.default
+      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => organization
+    end
+  end
+
+  def authorized?(user, organization, authorization_level)
+
+  end
 #
 #  Tagging
 #
@@ -58,24 +86,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def current_user_classroom_authorized?
-    unless(@current_user && @current_user.superuser?)
-      if (@current_user.nil? || !@current_user.app_authorized?(CoopApp.classroom, @current_organization))
-        redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
-      end
-    end
-  end
-
-  def user_authorize(auth_level)
-     if @current_user.nil? || @current_organization.nil? || !@current_user.has_authority?(auth_level, @current_organization, :superuser=>true)
-      organization = !@current_user.nil? ? @current_user.organization : Organization.default
-      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => organization
-     end
-  end
-
-  def authorized?(user, organization, authorization_level)
-
-  end
 
   def clear_notice
     flash[:notice] = nil

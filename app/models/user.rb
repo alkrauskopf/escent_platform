@@ -959,7 +959,7 @@ class User < ActiveRecord::Base
 
 #   APP Authorized?
 
-  def ifa_admin?(org)
+  def old_ifa_admin?(org)
     self.has_authorization_level_for?(org, "ifa_administrator")
   end
 
@@ -975,7 +975,7 @@ class User < ActiveRecord::Base
   end
 
   def ifa_admin_for_org?(org)
-    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.ifa), org)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.ifa), org, :superuser => true)
   end
 
 #####################    STAT Authorizations
@@ -987,12 +987,12 @@ class User < ActiveRecord::Base
 
   def stat_admin_for_org?(org)
     #   self.has_authorization_level_for?(org, "stat_administrator")
-    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.ista), org)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.ista), org, :superuser => true)
   end
 
   def stat_user?(org)
     #  self.has_authorization_level_for?(org, "stat_user")
-    self.has_authority?(AuthorizationLevel.app_user(CoopApp.ista), org)
+    self.has_authority?(AuthorizationLevel.app_user(CoopApp.ista), org, :superuser => true)
   end
 
 #####################    CM Authorizations
@@ -1003,46 +1003,42 @@ class User < ActiveRecord::Base
 
   def cm_admin_for_org?(org)
     #  self.has_authorization_level_for?(org, "cm_administrator")
-    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.cm), org)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.cm), org, :superuser => true)
   end
 
   def cm_km?(org)
     #   self.has_authorization_level_for?(org, "cm_knowledge_manager")
-    self.has_authority?(AuthorizationLevel.app_knowledge_manager(CoopApp.cm), org)
+    self.has_authority?(AuthorizationLevel.app_knowledge_manager(CoopApp.cm), org, :superuser => true)
   end
 
   def consultant?(org)
 #    self.has_authorization_level_for?(org, "cm_consultant")
-    self.has_authority?(AuthorizationLevel.app_consultant(CoopApp.cm), org)
+    self.has_authority?(AuthorizationLevel.app_consultant(CoopApp.cm), org, :superuser => true)
   end
 
 
 #####################    ELT Authorizations
 
   def elt_authorized?(org)
-    #    org.app_enabled?(CoopApp.elt.abbrev) && (self.elt_admin?(org) || self.elt_user?(org) || self.elt_reviewer?(org) || self.elt_provider_reviewer?(org) )
     org.app_enabled?(CoopApp.elt) && (self.elt_admin_for_org?(org) || self.elt_user?(org) || self.elt_reviewer?(org) || self.elt_provider_reviewer?(org) || self.administrator_for_org?(org) || self.app_superuser?(CoopApp.elt))
   end
 
   def elt_admin_for_org?(org)
     #   self.has_authorization_level_for?(org, "elt_administrator")
-    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.elt), org)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.elt), org, :superuser => true)
   end
 
   def elt_user?(org)
-#    self.has_authorization_level_for?(org, "elt_team_member")
-    self.has_authority?(AuthorizationLevel.app_user(CoopApp.elt), org)
+    self.has_authority?(AuthorizationLevel.app_user(CoopApp.elt), org, :superuser => true)
   end
 
   def elt_reviewer?(org)
-    #   self.has_authorization_level_for?(org, "elt_reviewer")
-    self.has_authority?(AuthorizationLevel.app_reviewer(CoopApp.elt), org)
+    self.has_authority?(AuthorizationLevel.app_reviewer(CoopApp.elt), org, :superuser => true)
   end
 
   def elt_provider_reviewer?(org)
     auth = false
     if org.elt_provider
-      #   auth = self.authorizations.find(:first, :conditions => ["(scope_id = ? AND scope_type = ? AND authorization_level_id = ?)", org.elt_provider.id, org.class.to_s, AuthorizationLevel.elt_reviewer.id])
       auth = self.elt_reviewer?(org)
     end
     auth
@@ -1057,12 +1053,12 @@ class User < ActiveRecord::Base
 
   def ctl_observer_for_org?(org)
     #   (self.has_authorization_level_for?(org, "ctl_observer"))
-    self.has_authority?(AuthorizationLevel.app_observer(CoopApp.ctl), org)
+    self.has_authority?(AuthorizationLevel.app_observer(CoopApp.ctl), org, :superuser => true)
   end
 
   def ctl_admin_for_org?(org)
     #   self.has_authorization_level_for?(org, "ctl_administrator")
-    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.ctl), org)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.ctl), org, :superuser => true)
   end
 
 #####################    BLOG Authorizations
@@ -1073,12 +1069,12 @@ class User < ActiveRecord::Base
 
   def panelist_for_org?(org)
     #  (self.has_authorization_level_for?(org, "blog_panelist"))
-    self.has_authority?(AuthorizationLevel.app_panelist(CoopApp.blog), org)
+    self.has_authority?(AuthorizationLevel.app_panelist(CoopApp.blog), org, :superuser => true)
   end
 
   def blog_admin_for_org?(org)
     #  self.has_authorization_level_for?(org, "blog_administrator")
-     self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.blog), org)
+     self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.blog), org, :superuser => true)
   end
 
 #####################    ITA Authorizations
@@ -1089,7 +1085,7 @@ class User < ActiveRecord::Base
   end
 
   def ita_admin_for_org?(org)
-    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.ita), org)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.ita), org, :superuser => true)
   end
 
 #####################    PD Authorizations
@@ -1109,11 +1105,11 @@ class User < ActiveRecord::Base
   end
 
   def pd_admin_for_org?(org)
-    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.pd), org)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.pd), org, :superuser => true)
   end
 
   def pd_admin?
-    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.pd), nil)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.pd), nil, :superuser => true)
   end
 
 #####################    Classroom Authorizations
@@ -1127,11 +1123,11 @@ class User < ActiveRecord::Base
   end
 
   def classroom_admin_for_org?(org)
-    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.classroom), org) || (self.administrator_for_org?(org))
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.classroom), org, :superuser => true) || (self.administrator_for_org?(org))
   end
 
   def classroom_administrator?  ## for all orgs
-    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.classroom), nil)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.classroom), nil, :superuser => true)
   end
 
   def toggle_classroom_favorite(classroom)
@@ -1174,24 +1170,24 @@ class User < ActiveRecord::Base
   end
 
   def content_admin_for_org?(org)
-    self.has_authority?(AuthorizationLevel.app_library_administrator(CoopApp.core), org)
+    self.has_authority?(AuthorizationLevel.app_library_administrator(CoopApp.core), org, :superuser => true)
   end
 
   def content_admin?
-    self.has_authority?(AuthorizationLevel.app_library_administrator(CoopApp.core), nil)
+    self.has_authority?(AuthorizationLevel.app_library_administrator(CoopApp.core), nil, :superuser => true)
   end
 
   def content_manager_for_org?(org)
     # (self.has_authorization_level_for?(org, "content_manager"))
-    self.has_authority?(AuthorizationLevel.app_knowledge_manager(CoopApp.core), org)
+    self.has_authority?(AuthorizationLevel.app_knowledge_manager(CoopApp.core), org, :superuser => true)
   end
 
   def content_manager?
-    self.has_authority?(AuthorizationLevel.app_knowledge_manager(CoopApp.core), nil)
+    self.has_authority?(AuthorizationLevel.app_knowledge_manager(CoopApp.core), nil, :superuser => true)
   end
 
   def administrator_for_org?(org)
-    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.core), org)
+    self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.core), org, :superuser => true)
   end
   def administrator?
     self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.core), nil)
@@ -1202,7 +1198,7 @@ class User < ActiveRecord::Base
   end
 
   def app_superuser?(app)
-    self.has_authority?(AuthorizationLevel.app_superuser(app), nil)
+    self.has_authority?(AuthorizationLevel.app_superuser(app), nil, :superuser => true)
   end
 #
 ####    NEW Authorization Routine

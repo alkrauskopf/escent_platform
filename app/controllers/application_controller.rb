@@ -46,14 +46,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def current_user_classroom_authorized?
-    unless(@current_user && @current_user.superuser?)
-      if (@current_user.nil? || !@current_user.app_authorized?(CoopApp.classroom, @current_organization))
-        redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
-      end
-    end
-  end
-
   def user_authorize(auth_level)
     if @current_user.nil? || @current_organization.nil? || !@current_user.has_authority?(auth_level, @current_organization, :superuser=>true)
       organization = !@current_user.nil? ? @current_user.organization : Organization.default

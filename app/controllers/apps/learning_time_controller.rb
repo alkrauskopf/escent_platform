@@ -895,15 +895,12 @@ class Apps::LearningTimeController  < Site::ApplicationController
     if params[:rubric_id]
       @rubric = Rubric.find_by_id(params[:rubric_id]) rescue nil
     end
-    
     if params[:app_id]
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
-
     unless @app
       @app = CoopApp.elt
     end
-
     @admin = @current_user ? @current_user.elt_admin_for_org?(@current_organization) : false
   end
 

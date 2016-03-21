@@ -10,7 +10,7 @@
       <% end %>
       <% unless content.nil? -%>
         <% unless content.id.nil? -%>  <!-- in process of being created -->
-          <% if user.has_authorization_level_for?(content, "favorite") -%> >
+          <% if user.has_authorization_level_for?(content, "favorite") -%>
             <% link_string = truncate("UnTag " + content.title, :omission => "...", :length => 25) -%><li ><strong><%= link_to link_string, :controller => "/users", :action => :remove_this_favorite_resource, :organization_id => org, :content_id => content.id %></strong></li>
           <% else -%>
             <% link_string = truncate("Tag " + content.title, :omission => "...", :length => 23) -%>

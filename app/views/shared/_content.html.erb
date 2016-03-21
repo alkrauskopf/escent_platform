@@ -71,7 +71,7 @@
 
         <% elsif ["HTML", "HTM"].include? content.content_object_type.content_object_type -%>
         <div style="text-align:left;">
-            <%= content.content_object %>
+            <%= content.content_object.html_safe %>
         </div>
         <% elsif content.content_object_type.content_object_type_group_id == 2 %>
         	<img src="<%= content.source_file.url %>" width="400" /><% end -%>

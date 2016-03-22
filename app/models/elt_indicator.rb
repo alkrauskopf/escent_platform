@@ -24,7 +24,7 @@ class EltIndicator < ActiveRecord::Base
   scope :inactive, :conditions => ["!is_active"], :order => 'position ASC'
   scope :for_activity, lambda{|activity| {:conditions => ["elt_type_id = ? ", activity.id]}}
   scope :for_element, lambda{|element| {:conditions => ["elt_element_id = ? ", element.id]}}
-  scope :all, :order => 'position ASC'
+  scope :by_position, :order => 'position ASC'
   scope :all_parents,   :conditions => ["parent_id IS NULL"], :order=>'name'
 
   def active?

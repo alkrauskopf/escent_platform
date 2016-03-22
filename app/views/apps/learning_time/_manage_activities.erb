@@ -66,7 +66,7 @@
 						<%=activity.name%>&nbsp;
 						<span style="font-size:9px;font-weight:normal">
 							<br/>(<%= activity.activity_type%>,&nbsp;<%= activity.rubric? ? (pluralize(activity.rubrics.active.size, " Rubric")) :   "No Rubric" %>,&nbsp;
-							<%= !activity.share_rubric ? "No Data Sharing" : ("Data Share Minimum: <strong>" + activity.share_rubric.name + "</strong>") %>)
+							<%= !activity.share_rubric ? "No Data Sharing" : ("Data Share Minimum: <strong>" + activity.share_rubric.name + "</strong>").html_safe %>)
 						</span>
 					</td>
 				</tr>

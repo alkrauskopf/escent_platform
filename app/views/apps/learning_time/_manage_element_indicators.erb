@@ -13,9 +13,9 @@
 					</span>
               </td>
 				<td style=" text-align:center; font-size:12px;  color:<%=element.e_font_color %>">
-					<span style="font-size:9px"><%= activity.master? ? "(Master)&nbsp;&nbsp;&nbsp;&nbsp;" : ""%></span>
+					<span style="font-size:9px"><%= activity.master? ? ("(Master)&nbsp;&nbsp;&nbsp;&nbsp;").html_safe : ""%></span>
 					<%= element.abbrev %>:&nbsp;<%=element.name%>
-					<span style="font-size:9px"><%= element.active? ? "" : "&nbsp;&nbsp;&nbsp;&nbsp;(Not Active)"%></span>
+					<span style="font-size:9px"><%= element.active? ? "" : ("&nbsp;&nbsp;&nbsp;&nbsp;(Not Active)").html_safe%></span>
 				</td>
 				<td  style=" width:115px; width:fixed; font-size:9px; vertical-align:bottom; cursor:pointer" >
 					<% button_label = activity.master? ? " Indicator" : " Look-for" %>
@@ -50,7 +50,7 @@ jQ(document).ready(function() {
   </script>
 	<table  style="width:750px; width:fixed; border:2px solid <%= element.i_form_background%>; margin-top:0px; margin-bottom:20px; margin-left:0px">
 		<tbody>  
-			<% element.elt_indicators.for_activity(activity).all.each do |ind| -%>
+			<% element.elt_indicators.for_activity(activity).by_position.each do |ind| -%>
 				<tr style="border:1px solid #ddd; background:<%= element.i_form_background%>;">
 					<td  style="width:20px;width:fixed; border:0px solid #ddd; font-size:11px; padding-top:4px; text-align:center; vertical-align:top; color:#000000; ">
 						<%= ind.position %>)

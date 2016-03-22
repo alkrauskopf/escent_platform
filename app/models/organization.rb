@@ -538,7 +538,8 @@ class Organization < ActiveRecord::Base
   end
 
   def elt_cycle_activity_cases(cycle, activity)
-     EltCase.find(:all, :conditions => ["organization_id = ? AND elt_cycle_id = ? AND elt_type_id = ?", self.id, cycle.id, activity.id])
+  #   EltCase.find(:all, :conditions => ["organization_id = ? AND elt_cycle_id = ? AND elt_type_id = ?", self.id, cycle.id, activity.id])
+    EltCase.where("organization_id = ? AND elt_cycle_id = ? AND elt_type_id = ?", self.id, cycle.id, activity.id)
   end
 
   def elt_cycle_activity_rubrics(cycle, activity)
@@ -548,7 +549,8 @@ class Organization < ActiveRecord::Base
   end
 
   def elt_cycle_cases(cycle)
-     EltCase.find(:all, :conditions => ["organization_id = ? AND elt_cycle_id = ?", self.id, cycle.id])
+ #    EltCase.find(:all, :conditions => ["organization_id = ? AND elt_cycle_id = ?", self.id, cycle.id])
+     EltCase.where("organization_id = ? AND elt_cycle_id = ?", self.id, cycle.id)
   end
 
   def elt_cycle_activities(cycle)

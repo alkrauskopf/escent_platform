@@ -27,7 +27,7 @@ class EltType < ActiveRecord::Base
   scope :shareable, :conditions => ["rubric_id IS NOT NULL"], :order => "position"
   scope :reportable, :conditions => ["is_reportable"]
 
-  scope :all, :order => "position"
+  scope :by_position, :order => "position"
   scope :all_by_framework, :order => "elt_framework_id"
 
   validates_presence_of :name

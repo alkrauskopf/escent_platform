@@ -3,8 +3,8 @@
 	<table style="width:770px; width:fixed;  border:1px solid #ddd;">
 		<thead style="border:1px solid #ddd;">
 			<tr style=" border:1px solid #ddd;">
-				<th colspan=6 style = "color:#2061a5; font-size:12px; font-weight:bold;">
-					<center><%= pluralize(org.elt_cycle_activity_cases(cycle, activity).size, activity.name) %></center>
+				<th colspan=6 style = "text-align:center; color:#2061a5; font-size:12px; font-weight:bold;">
+					<%= pluralize(org.elt_cycle_activity_cases(cycle, activity).size, activity.name) %>
 				</th>
 			</tr>
 		</thead>
@@ -30,11 +30,11 @@
 						<span style= "font-size:12px;">
 							<%= elt_case.name %><br/>
 						</span>
-						<%= elt_case.subject_area ? elt_case.subject_area.name + "&nbsp;&nbsp;": ""%>
+						<%= elt_case.subject_area ? (elt_case.subject_area.name + "&nbsp;&nbsp;").html_safe: ""%>
 						<%= elt_case.grade_level ? elt_case.grade_level.name : "" %>
 					</td>
 					<td style="width:70px; width:fixed; border:0px solid #ddd; line-height:1.2em; padding-top:0px;padding-bottom:0px; color:#C73914; vertical-align:middle;text-align:center; font-size:11px" >
-						<%= elt_case.final? ? "Finalized" : (elt_case.elt_type.rubric? ? (elt_case.indicators_rated.to_s + " of " + elt_case.rateable_indicators.to_s + "<br\>Rated"): "") -%>
+						<%= elt_case.final? ? "Finalized" : (elt_case.elt_type.rubric? ? (elt_case.indicators_rated.to_s + " of " + elt_case.rateable_indicators.to_s + "<br\>Rated").html_safe: "") -%>
 					</td>
 					<td style="width:80px; width:fixed border:0px solid #ddd; line-height:1.3em; color:#C73914; padding-top:10px;padding-bottom:0px; vertical-align:top;text-align:left; font-size:11px" >
 							<%= elt_case.final? && !elt_case.finalize_date.nil? ? elt_case.finalize_date.strftime("%b %d, %Y"):"" %>						

@@ -3,14 +3,14 @@
       <table style="width:900px;margin-left:0px; border:0px solid #000000;">
         <tbody>
         <tr>
-          <td  style = " width:350px;  width:fixed; color: #C83A14; vertical-align:middle;  text-align:left; padding-left:0px; font-size:12px ">
-            <center><%= submit_tag 'Abort', :class =>"fsn-button ui-button ui-state-default ui-corner-all save", :confirm => "DATA WILL NOT BE SAVED" %></center>
+          <td  style = " width:350px;  width:fixed; color: #C83A14; vertical-align:middle;  text-align:center; padding-left:0px; font-size:12px ">
+            <%= submit_tag 'Exit Without Saving', :class =>"fsn-button ui-button ui-state-default ui-corner-all save", :confirm => "DATA WILL NOT BE SAVED" %>
           </td>
           <td  style = " color: #000000; vertical-align:middle; text-align:center; padding-left:0px; font-size:12px ">
-            <center><%= submit_tag ('SUBMIT ' + (elt_case.elt_type.elt_activity_type.nil? ? '' : elt_case.elt_type.elt_activity_type.name)), :class =>"fsn-button ui-button ui-state-default ui-corner-all save", :confirm => "Are You Sure?" %></center>
+            <%= submit_tag ('Submit ' + (elt_case.elt_type.elt_activity_type.nil? ? '' : elt_case.elt_type.elt_activity_type.name)), :class =>"fsn-button ui-button ui-state-default ui-corner-all save", :confirm => "Are You Sure?" %>
           </td>
           <td  style = " width:120px; width:fixed; color: #000000; vertical-align:middle; float:right; padding-left:0px; font-size:12px ">
-              <center><%= submit_tag 'Destroy', :class =>"fsn-button ui-button ui-state-default ui-corner-all save", :confirm => "DATA WILL BE DESTROYED" %></center>
+              <%= submit_tag 'Destroy', :class =>"fsn-button ui-button ui-state-default ui-corner-all save", :confirm => "DATA WILL BE DESTROYED" %>
           </td>
         </tr>
         </tbody>

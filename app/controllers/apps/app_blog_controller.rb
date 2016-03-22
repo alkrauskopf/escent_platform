@@ -41,7 +41,8 @@ class Apps::AppBlogController < ApplicationController
 
   def share_email
     if @blog 
-      if simple_captcha_valid? || @current_user
+     # if simple_captcha_valid? || @current_user
+      if  @current_user
       sender_emails = params[:email_to].split(/, */)
       sender_emails.each do |sender_email|
         @blog.increment_shares

@@ -15,26 +15,27 @@
 							<%= image_tag(provider.logo.url, :alt => provider.name, :width => 140) if provider.logo.file? -%>
 						</div>						
 					</td>
-					<td  style="vertical-align:top;  padding-top:5px;  padding-left:0px; border:0px solid black;">
+					<td  style="txt-align:center; vertical-align:top;  padding-top:5px;  padding-left:0px; border:0px solid black;">
 						<div class="blog_item">
 							<div class="app_report_title">
-								<center><strong><%= school.nil? ? "Diagnostic Activity Schedule" : school.name %></strong></center>
+								<strong><%= school.nil? ? "Diagnostic Activity Schedule" : school.name %></strong>
 							</div>
-                          <% if !cycle.nil? %>
-                              <div style="font-size: 14px; text-align:center; line-height: 1.5em; color:#1b5698; font-weight:normal; font-family:Verdana, Arial, Helvetica, sans-serif;">
-                                <%= cycle.name %>
-                              </div>
-                          <% end -%>
+              <% if !cycle.nil? %>
+                <div style="font-size: 14px; text-align:center; line-height: 1.5em; color:#1b5698; font-weight:normal; font-family:Verdana, Arial, Helvetica, sans-serif;">
+                  <%= cycle.name %>
+                </div>
+              <% end -%>
 						</div>
 					</td>
 					<td id = "select_school" style="width:180px; width:fixed; vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
 						<% if @current_organization == provider %>
 							<%=  select(:schoola, provider.id,  EltCase.schools_for_provider(provider).collect{|s| [s.short_name, s.public_id]}, :prompt=> "Select School") %>
-						<% else -%>&nbsp;
+						<% else -%>
+                &nbsp;
 						<% end %>
 					</td>
 					<td style="width:100px; width:fixed; vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
-                      <% skip = true %>
+            <% skip = true %>
 						<% unless skip || school.nil? || cycle.nil? -%>
 							<span class="fsn-button ui-button ui-state-default ui-corner-all"  >
 								<%= link_to "Create PDF", {:controller => "/apps/app_pdf", :action => "elt_school_plan", :organization_id => @current_organization, :school_id => school, :elt_cycle_id => cycle, :activity_id => activity, :provider_id => provider, :app_id=> app.id}, {:target => "_blank"} %>
@@ -64,7 +65,7 @@
 					<td  style="vertical-align:top;  padding-top:5px;  padding-left:0px; border:0px solid black;">
 						<% unless school.nil? -%>
 							<div style="font-size: 16px; text-align:center; line-height: 1.5em; color:#1b5698; font-weight:normal; font-family:Verdana, Arial, Helvetica, sans-serif;">
-                              <%= cycle.elt_framework ?  cycle.elt_framework.name : 'No Framework'%>
+                <%= cycle.elt_framework ?  cycle.elt_framework.name : 'No Framework'%>
 							</div>
 						<% end -%>
 					</td>
@@ -91,7 +92,7 @@
 		</table>
 
   <% if school && cycle -%>
-      <%= render :partial => "/apps/app_report/elt_school_cycle_schedule", :locals => {:school => school, :cycle => cycle} -%>
+      <%= render :partial => "/apps/app_report/elt_school_cycle_schedule", :locals => {:school => school, :d_cycle => cycle} -%>
 <% end -%>
 	<br style="clear:both" />	
 

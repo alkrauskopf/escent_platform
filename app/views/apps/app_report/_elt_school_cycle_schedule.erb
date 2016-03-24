@@ -1,4 +1,4 @@
-<div id="school_schedule<%=school.public_id%><%=cycle.id%>" style="width:95%; margin-top:40px; margin-left:120px; border:0px solid #ddd;">
+<div id="school_schedule<%=school.public_id%><%=d_cycle.id%>" style="width:95%; margin-top:40px; margin-left:120px; border:0px solid #ddd;">
 	<table style="width:840px; width:fixed;  border:1px solid #ddd;">
 		<thead style="border:1px solid #ddd;">
             <tr style=" border:0px solid #ddd;">
@@ -27,22 +27,21 @@
       			}
    			</style>
 		
-			<% school.elt_cases.for_cycle(cycle).each do |elt_case| -%>
+			<% school.elt_cases.for_cycle(d_cycle).each do |elt_case| -%>
 				<tr style="border:1px solid #ddd;">
 					<td style=" border:0px solid #ddd; color: #2061a5; line-height:1.1em; padding-top:6px;padding-bottom:6px; vertical-align:top;text-align:left; font-size:11px" >
 						<%= elt_case.submit_date.nil? ? "Date?" :elt_case.submit_date.strftime("%b %d, %Y") %>
 					</td>
 					<td style=" border:0px solid #ddd; color: #2061a5; line-height:1.1em; padding-top:6px;padding-bottom:6px; vertical-align:top;text-align:left; font-size:11px" >
-                      <%= elt_case.activity ? elt_case.activity.name : 'Activity?'%>
-                      <% if elt_case.subject_area || elt_case.grade_level %>
-                        <span style = "color:#000000; font-size:10px;"><br/>
-                          <%= elt_case.subject_area ? elt_case.subject_area.name + "&nbsp;&nbsp;": ""%>
-                          <%= elt_case.grade_level ? elt_case.grade_level.name : "" %>
-                        </span>
-                      <% end %>
+                      <%= (elt_case.activity && elt_case.activity.elt_activity_type) ? elt_case.activity.elt_activity_type.name : 'Activity?'%>
                     </td>
                     <td style=" border:0px solid #ddd; color: #2061a5;line-height:1.1em; padding-top:6px;padding-bottom:6px; vertical-align:top;text-align:left; font-size:11px" >
                       <%= elt_case.name %>
+                      <% if elt_case.subject_area || elt_case.grade_level %>
+                        <br/>
+                          <%= elt_case.subject_area ? (elt_case.subject_area.name + "&nbsp;&nbsp;").html_safe: ""%>
+                          <%= elt_case.grade_level ? elt_case.grade_level.name : "" %>
+                      <% end %>
                     </td>
                   <td style=" border:0px solid #ddd; color: #2061a5;line-height:1.2em; padding-top:6px;padding-bottom:6px; vertical-align:top; text-align:left; font-size:11px" >
                     <%= elt_case.user ? elt_case.user.last_name : "User?" %>

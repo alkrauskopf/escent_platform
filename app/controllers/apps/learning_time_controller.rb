@@ -20,11 +20,9 @@ class Apps::LearningTimeController  < Site::ApplicationController
  end
   
   def index
-
     initialize_parameters
     CoopApp.elt.increment_views
     if params[:function] && params[:function] == "New"
-
       new_case = EltCase.new
       new_case.user_id = @current_user.id
       new_case.organization_id = @current_organization.id
@@ -455,7 +453,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     @case.user_name = @current_user.last_name_first
     @case.submit_date = Date.today
     @case.elt_cycle_id = @cycle.id
-    @case.name = @school.short_name + ": " + @current_user.last_name + " " + @activity.elt_activity_type.name
+    @case.name = @activity.name + ',   ' +  @current_user.last_name
     @activity.elt_cases << @case
     redirect_to :action => 'show_case', :organization_id => @current_organization, :school_id=> @school, :user_id => @current_user, :elt_case_id => @case, :form => 'new'
   end

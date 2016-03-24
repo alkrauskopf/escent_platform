@@ -1,9 +1,6 @@
 <div id="mainContent" style=" border:1px solid #ddd;">
   <div id="diagnostic_box" >
-    <div style="text-align:center;  word-wrap:break-word; color: #2061a5;  font-size: 15px; font-style: normal; font-weight: normal">
-      <%= elt_case.elt_cycle ? elt_case.elt_cycle.name: "Removed Diagnostic Cycle" -%>:&nbsp;<%= elt_case.elt_type.name %>
-    </div>
-        <%= render :partial => "/apps/learning_time/show_edit_case_title", :locals => {:elt_case => elt_case, :app => app} -%>
+    <%= render :partial => "/apps/learning_time/show_edit_case_title", :locals => {:elt_case => elt_case, :app => app} -%>
     <% if elt_case.elt_type.rubric? -%>
       <table id="rubric_header" style="width:650px;margin-left:100px; border:0px solid #000000;">
         <tbody>

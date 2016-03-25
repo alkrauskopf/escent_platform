@@ -30,7 +30,8 @@
 					
 				</th>
 			</tr>
-				<%  @current_organization.blogs.of_type(b_type).for_app(blog_app).sort_by{|b| b.position}.each do |blog| -%>
+      </thead>
+      <%  @current_organization.blogs.of_type(b_type).for_app(blog_app).sort_by{|b| b.position}.each do |blog| -%>
 		<tbody>
 		<style type="text/css" media="screen">
 	    table,tr,td { border:medium}

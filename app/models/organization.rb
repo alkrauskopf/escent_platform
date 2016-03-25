@@ -406,11 +406,11 @@ class Organization < ActiveRecord::Base
   end
 
   def provider_app_name(app)
-      (self.app_provider(app) && self.app_provider(app).app_settings(app) && !self.app_provider(app).app_settings(app).alt_name == '') ? self.app_provider(app).app_settings(app).alt_name : app.name
+      (self.app_provider(app) && self.app_provider(app).app_settings(app) && self.app_provider(app).app_settings(app).alt_name != '') ? self.app_provider(app).app_settings(app).alt_name : app.name
   end
 
   def provider_app_abbrev(app)
-      (self.app_provider(app) && self.app_provider(app).app_settings(app) && !self.app_provider(app).app_settings(app).alt_abbrev == '') ? self.app_provider(app).app_settings(app).alt_abbrev : app.abbrev
+      (self.app_provider(app) && self.app_provider(app).app_settings(app) && self.app_provider(app).app_settings(app).alt_abbrev != '') ? self.app_provider(app).app_settings(app).alt_abbrev : app.abbrev
   end
 
   def selected?(app)

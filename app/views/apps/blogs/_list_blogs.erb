@@ -16,14 +16,14 @@
 					</td>
 	
 					<td style=" vertical-align:middle; border:0px solid #ddd;  padding-left:0px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
-					     <%= text_field :bloga, blog_app.id, :size => 70, :maxlength => 250 %>		
+					     <%= text_field :bloga, (blog_app.id.to_s + b_type.id.to_s), :size => 70, :maxlength => 250 %>
 					</td>
 				</tr>
 	
 	<script type="text/javascript">
 	jQ(document).ready(function() {
 		jQ('#create_a_<%= blog_app.public_id %>_<%= b_type.public_id %>').click(function() {
-			var title = jQ('#bloga_<%= blog_app.id%>').val();
+			var title = jQ('#bloga_<%= (blog_app.id.to_s + b_type.id.to_s)%>').val();
 			var url = "<%= url_for :controller => '/apps/blogs', :action => :create_blog, :organization_id => @current_organization, :blog_type_id => b_type, :blog_app => blog_app %>";
 				jQ.get(url, {'title':title}, function(data) {
 				jQ("#blog_add_<%= b_type.public_id %><%= blog_app.nil? ? '' : blog_app.public_id %>").html(data); 

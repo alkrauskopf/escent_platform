@@ -1,7 +1,13 @@
 class Apps::TimeLearningController < Site::ApplicationController
   helper :all # include all helpers, all the time  
- layout "tlt", :except =>[:log_summary, :activity_summary, :show_template, :show_not_timed_tasks, :owner_show_video_session, :create_training_video, :manage_belt_user, :manage_belt_rankings, :training_classroom, :observation_subject_list, :list_backlog_for, :observation_panel_help, :then_now, :send_invite, :research_summary, :subject_tlt_sessions,:add_survey_question, :take_survey, :teacher_itl_dashboards, :diagnostic_history, :diagnostics, :student_feedback,:population_stats, :school_utilization, :school_type_utilization, :subject_dashboard]
-
+ layout "tlt", :except =>[:log_summary, :activity_summary, :show_template, :show_not_timed_tasks, :owner_show_video_session,
+                          :manage_template, :create_training_video, :manage_belt_user, :manage_belt_rankings,
+                          :training_classroom, :observation_subject_list, :list_backlog_for, :observation_panel_help,
+                          :then_now, :send_invite, :research_summary, :subject_tlt_sessions,:add_survey_question,
+                          :take_survey, :teacher_itl_dashboards, :diagnostic_history, :diagnostics, :student_feedback,
+                          :population_stats, :school_utilization, :school_type_utilization, :subject_dashboard]
+  before_filter :ctl_allowed?, :except=>[]
+  before_filter :current_user_app_authorized?, :except=>[]
  before_filter :clear_notification, :except =>[:teacher_private_itl_dashboards]
   
  def clear_notification
@@ -1038,6 +1044,10 @@ class Apps::TimeLearningController < Site::ApplicationController
 
   def manage_filters
     initialize_parameters
+  end
+
+  def manage_template
+    initialize_parameters
     if params[:function]=="new"
       @itl_template = ItlTemplate.new
       @itl_template.name = params[:name]
@@ -1053,6 +1063,7 @@ class Apps::TimeLearningController < Site::ApplicationController
       end
       @itl_template.update_attributes(:is_default=>true)
     end
+    render :partial => "manage_templates"
   end
 
 
@@ -1079,6 +1090,12 @@ class Apps::TimeLearningController < Site::ApplicationController
 
    private
 
+  def ctl_allowed?
+    @current_application = CoopApp.ctl
+    current_app_enabled_for_current_org?
+  end
+
+
   def student_itl_survey(session)
       session.update_attributes(:student_survey_date => Date.today)
       audience = @app.tlt_survey_audiences.student.first
@@ -1091,9 +1108,11 @@ class Apps::TimeLearningController < Site::ApplicationController
     session = TltSession.find_by_id(session_id) rescue nil
     unless session.nil?
       session.tlt_session_logs.each do |log|
-        dashboard = TltDashboard.find (:first, :conditions => ["tlt_session_id = ? && tl_activity_type_task_id = ?", session.id, log.tl_activity_type_task_id])
-        same_task_logs = TltSessionLog.find (:all, :conditions => ["tlt_session_id = ? && tl_activity_type_task_id = ?", session.id, log.tl_activity_type_task_id])
-        total = same_task_logs.collect{ |t| t.impact_score}.compact.sum 
+      #  dashboard = TltDashboard.find (:first, :conditions => ["tlt_session_id = ? && tl_activity_type_task_id = ?", session.id, log.tl_activity_type_task_id])
+        dashboard = session.dashboard_for_strategy(log.tl_activity_type_task)
+     #   same_task_logs = TltSessionLog.find (:all, :conditions => ["tlt_session_id = ? && tl_activity_type_task_id = ?", session.id, log.tl_activity_type_task_id])
+        same_task_logs = session.logs_for_strategy(log.tl_activity_type_task)
+        total = same_task_logs.collect{ |t| t.impact_score}.compact.sum
         count = same_task_logs.collect{ |t| t.impact_score}.compact.size
         dashboard.update_attributes(:impact_total => total, :impact_count => count)
       end

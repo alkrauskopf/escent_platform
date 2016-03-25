@@ -65,6 +65,15 @@ class TltSession < ActiveRecord::Base
     end
     count
   end
+
+  def dashboard_for_strategy(strategy)
+    self.tlt_dashboards.for_strategy(strategy).first rescue nil
+  end
+
+  def logs_for_strategy(strategy)
+    self.tlt_session_logs.for_strategy(strategy)
+  end
+
   def logs_for_activity(activity)
     self.tlt_session_logs.select{|l| l.tl_activity_type_task.tl_activity_type.id == activity.id}
   end

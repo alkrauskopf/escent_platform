@@ -227,7 +227,7 @@ class Organization < ActiveRecord::Base
   end
 
   def parent_or_self
-    self.parent? ? self :self.parent
+    (self.parent? || self.parent.nil?) ? self : self.parent
   end
 
   def all_children
@@ -246,7 +246,7 @@ class Organization < ActiveRecord::Base
   end
 
   def active_siblings
-    self.sibling.select{|o| o.active?}
+    self.siblings.select{|o| o.active?}
   end
 
   def all_active_children
@@ -506,7 +506,7 @@ class Organization < ActiveRecord::Base
   end
 
   def resources_for_app(app)
-    self.coop_app_resources.for_app(app).by_position.collect{|ar| ar.content}.uniq    
+    self.coop_app_resources.for_app(app).empty? ? [] : self.coop_app_resources.for_app(app).by_position.collect{|ar| ar.content}.uniq
   end
 
   def elt_framework?

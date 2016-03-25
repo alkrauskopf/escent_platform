@@ -17,4 +17,8 @@ class TltDashboard < ActiveRecord::Base
   scope :for_subject, lambda{|sub| {:conditions => ["subject_area_id = ? ", subj.id], :order => "duration_secs ASC"}}
   scope :since_date, lambda{|begin_date| {:conditions => ["created_at >= ? ", begin_date], :order => "duration_secs ASC"}}
 
+
+  def self.for_strategy(strategy)
+    where('tl_activity_type_task_id = ?', strategy.id)
+  end
 end

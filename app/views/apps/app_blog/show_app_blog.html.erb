@@ -42,20 +42,21 @@
 								<% @blog.panelists_with_active_posts.each do |panelist| %>
 									<tr style=" border:0px solid #dddddd;margin-top:0px;">
 										<td style="text-align:left; font-size:10px; padding-bottom:8px; border:0px solid #dddddd;line-height:1.3em;">
-						     	  			<strong><%= panelist.last_name %></strong><small>&nbsp;
-						     	  			<span>
-											<span style="font-size:9px; font-weight:normal;" >
-												<a id="panelist_1_<%=@blog.id%>_<%=panelist.public_id %>" href="">Who?</a>
-											</span>
+                      <strong><%= panelist.last_name %></strong>
+                      <small>&nbsp;
+                        <span style="font-size:9px; font-weight:normal;" >
+                          <a id="panelist_1_<%=@blog.public_id%>_<%=panelist.public_id %>" href="">Who?</a>
+                        </span>
+                      </small>
 											</br>
-											<div id="panelist_2_<%=@blog.id%>_<%=panelist.public_id %>" title= "Panelist: <%= @blog.title %>" style="text-align:left;">
+											<div id="panelist_2_<%=@blog.public_id%>_<%=panelist.public_id %>" title= "Panelist: <%= @blog.title %>" style="text-align:left;">
 										 	   <%= render :partial => "apps/app_blog/user_info_box", :locals=>{:user=>panelist, :pic=>true} %>					
 											</div>						
 
 <script type="text/javascript" charset="utf-8">
     	jQ(document).ready(function() {
 
-    	    jQ("#panelist_2_<%=@blog.id%>_<%=panelist.public_id %>").dialog({
+    	    jQ("#panelist_2_<%=@blog.public_id%>_<%=panelist.public_id %>").dialog({
     	            bgiframe: true,
     	            autoOpen: false,
     	            width: 600,
@@ -69,8 +70,8 @@
         	    }
     		);					
 			
-    		jQ('#panelist_1_<%=@blog.id%>_<%=panelist.public_id %>').click(function(event){
-    		    jQ("#panelist_2_<%=@blog.id%>_<%=panelist.public_id %>").dialog('open');
+    		jQ('#panelist_1_<%=@blog.public_id%>_<%=panelist.public_id %>').click(function(event){
+    		    jQ("#panelist_2_<%=@blog.public_id%>_<%=panelist.public_id %>").dialog('open');
     			 event.preventDefault();
     		})							
 

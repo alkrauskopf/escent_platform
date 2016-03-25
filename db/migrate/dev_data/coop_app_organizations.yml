@@ -1,5 +1,5 @@
 
-First:
+Core:
     id: 1
     coop_app_id: 1
     organization_id: 33
@@ -10,6 +10,104 @@ First:
     alt_abbrev: CORE
     provider_id: 33
 
+Classroom:
+    id: 2
+    coop_app_id: 2
+    organization_id: 33
+    is_owner: 1
+    is_selected: 1
+    is_allowed: 1
+    alt_name: Knowledge Management
+    alt_abbrev: KM
+    provider_id: 33
+
+IFA:
+    id: 3
+    coop_app_id: 3
+    organization_id: 33
+    is_owner: 1
+    is_selected: 1
+    is_allowed: 1
+    alt_name: Integrated Formative Assessment
+    alt_abbrev: IFA
+    provider_id: 33
+
+ITA:
+    id: 4
+    coop_app_id: 4
+    organization_id: 33
+    is_owner: 1
+    is_selected: 1
+    is_allowed: 1
+    alt_name: Teacher Assess
+    alt_abbrev: ITA
+    provider_id: 33
+
+Blog:
+    id: 5
+    coop_app_id: 5
+    organization_id: 33
+    is_owner: 1
+    is_selected: 1
+    is_allowed: 1
+    alt_name: Panel Blogs
+    alt_abbrev: BLOGS
+    provider_id: 33
+
+CTL:
+    id: 6
+    coop_app_id: 6
+    organization_id: 33
+    is_owner: 1
+    is_selected: 1
+    is_allowed: 1
+    alt_name: Collaborative Time In Learning
+    alt_abbrev: CTL
+    provider_id: 33
+
+DLE:
+    id: 7
+    coop_app_id: 7
+    organization_id: 33
+    is_owner: 1
+    is_selected: 1
+    is_allowed: 1
+    alt_name: Integrated PD
+    alt_abbrev: IPD
+    provider_id: 33
+
+Stat:
+    id: 8
+    coop_app_id: 8
+    organization_id: 33
+    is_owner: 1
+    is_selected: 1
+    is_allowed: 1
+    alt_name: School Time Analysis
+    alt_abbrev: STAT
+    provider_id: 33
+
+CM:
+    id: 9
+    coop_app_id: 9
+    organization_id: 33
+    is_owner: 1
+    is_selected: 1
+    is_allowed: 1
+    alt_name: Client Management
+    alt_abbrev: CM
+    provider_id: 33
+
+ELT:
+    id: 10
+    coop_app_id: 10
+    organization_id: 33
+    is_owner: 1
+    is_selected: 1
+    is_allowed: 1
+    alt_name: Performance Monitoring
+    alt_abbrev: PM
+    provider_id: 33
 
 
     

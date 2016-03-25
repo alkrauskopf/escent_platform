@@ -57,7 +57,7 @@
               </div>
             </div>
           <% end -%>
-            <div style="float:right;text-align:center width:20%; " class="header_footer_text">
+            <div style="float:right;text-align:center; width:20%; " class="header_footer_text">
               <span style="font-size:12px; margin-right:10px; vertical-align:bottom;">
                <!--
                 <%#= link_to "Contact Us", {:controller => "/fsn", :action => "contact", :organization_id => @current_organization}, {:target => "_blank"} %></span>
@@ -89,13 +89,13 @@
           <div style="width:100%; float:left; text-align:left;"class="header_footer_text">
             <ul>
               <li style="width: 10%;" class="hdr-dropdown">
-                <%= @current_user ? (render :partial => 'shared/my_profile', :locals=>{:user => @current_user, :org => @current_organization, :stands => stands}) : ' '%>
+                <%= render :partial => 'shared/my_profile', :locals=>{:user => @current_user, :org => @current_organization, :stands => stands}%>
               </li>
               <li style="width: 10%;" class="hdr-dropdown">
-                <%= @current_user ? (render :partial => 'shared/my_schools', :locals=>{:user => @current_user, :org => @current_organization}) : ' '%>
+                <%= render :partial => 'shared/my_schools', :locals=>{:user => @current_user, :org => @current_organization}%>
               </li>
               <li style="width: 10%;"  class="hdr-dropdown">
-                <%= @current_user ? (render :partial => 'shared/my_classrooms', :locals=>{:user => @current_user, :org => @current_organization, :classroom => @classroom, :topic => @current_topic}) : ' '%>
+                <%= render :partial => 'shared/my_classrooms', :locals=>{:user => @current_user, :org => @current_organization, :classroom => @classroom, :topic => @current_topic}%>
               </li>
               <li style="width: 30%;">
                   &nbsp;

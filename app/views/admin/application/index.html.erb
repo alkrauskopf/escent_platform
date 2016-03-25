@@ -52,7 +52,7 @@
 			</span>
 		 <% if @current_user.superuser? -%>
 			<span style= "text-align:center;font-size:12px; font-weight:normal;">
-				<%= link_to " CRUD ", {:controller => "/master/application", :action => :index, :organization_id => @current_organization}, {:target => "_blank", :class => "fsn-button ui-button ui-state-default ui-corner-all"} %>
+				<br/><%= link_to " CRUD ", {:controller => "/master/application", :action => :index, :organization_id => @current_organization}, {:target => "_blank", :class => "fsn-button ui-button ui-state-default ui-corner-all"} %>
 		 	</span>
    <% end -%>
 		<br/>

@@ -1,9 +1,9 @@
 	
 <div id="panel_listing" >
-	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:normal"> 
-		<center><%= @current_organization.app_provider(app).app_settings(app).alt_name %>&nbsp;Panelists</center>
+	<div style ="text-align:center; color: #2061a5; font-size:14px; margin-top:5px; font-weight:normal">
+		<%= @current_organization.provider_app_name(@current_application) %>&nbsp;Panelists
 		<span style = "text-align:center; word-wrap:break-word; color: #C83A14;  font-size: 10px; font-style: normal; font-weight: normal">
-			<center>(Defined By <%= @current_organization.short_name %>&nbsp;Administrator)</center>
+			<br/>(Defined By <%= @current_organization.short_name %>&nbsp;Administrator)
 		</span>
 	</div>
 	<% unless @current_organization.bloggers.empty? %>	
@@ -12,10 +12,9 @@
 				<tbody>  
 					<tr>
 						<td class="resource_levels_close">
-		
-						<%= link_to '', :controller => "apps/blogs", :action => :panelist_info, :organization_id => @current_organization, :panelist_id => panelist  %>
-						<%= panelist.last_name %>
-						<span></span>
+              <%= link_to '', :controller => "apps/blogs", :action => :panelist_info, :organization_id => @current_organization, :panelist_id => panelist  %>
+              <%= panelist.last_name %>
+              <span></span>
 						</td>
 					</tr>
 				</tbody>

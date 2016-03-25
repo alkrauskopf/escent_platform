@@ -24,4 +24,8 @@ class BlogType < ActiveRecord::Base
     self.blog_type == "APP"
   end
 
+  def self.by_position
+    order('position ASC')
+  end
+
 end

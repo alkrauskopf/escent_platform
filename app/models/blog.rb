@@ -26,7 +26,9 @@ class Blog < ActiveRecord::Base
   validates_presence_of :title
 
 #  has_attached_file :picture, :styles => { :normal => "420x" }, :default_style => :normal
-  has_attached_file :picture, :path => ":rails_root/public/blog_images/:id/:basename.:extension", :url => "/blog_images/:id/:basename.:extension"
+  has_attached_file :picture,
+                    :path => ":rails_root/public/blog_images/:id/:basename.:extension",
+                    :url => "/blog_images/:id/:basename.:extension"
   
      
   def app_blog?

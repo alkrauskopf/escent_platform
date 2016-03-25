@@ -1,24 +1,21 @@
 <div id="main_content">
 	<% if @app -%>
 	  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
-				<br/><center><%= @app.name %>&nbsp; Maintenance</center>
+				<br/><%= @app.name %>&nbsp; Maintenance
 				<span style= "color: #2061a5;  font-size: 12px; font-weight:normal;">
-					<center>Owner:&nbsp;<%=@app.owner ? @app.owner.short_name : "Not Defined" %></center>
+					<br/>Owner:&nbsp;<%=@app.owner ? @app.owner.short_name : "Not Defined" %>
 				</span>
 				<span style= "color: #2061a5;  font-size: 12px; font-weight:normal;">
-					<center><%=@app.available? ?  "Available": "Unavailable" %>,&nbsp;<%=@app.folderable? ?  "Folderable": "Not Folderable" %><%=@app.blogable? ?  ", Blogs ": ", No Blogs" %><%=@app.enableable? ?  ", User Enabled ": ", Provider Enables" %><%=@app.beta? ?  ", Beta ": "" %></center>
+					<%=@app.available? ?  "Available": "Unavailable" %>,&nbsp;<%=@app.folderable? ?  "Folderable": "Not Folderable" %><%=@app.blogable? ?  ", Blogs ": ", No Blogs" %><%=@app.enableable? ?  ", User Enabled ": ", Provider Enables" %><%=@app.beta? ?  ", Beta ": "" %>
 				</span>
 			 	<span style="font-size:12px; font-weight:normal;text-align:center;color:#2061a5;">
-					<center><%= pluralize( @app.views, " View")%>&nbsp;Since&nbsp;<%= @app.first_view_date.strftime("%b %e, %Y")%></center>
+					<br/><%= pluralize( @app.views, " View")%>&nbsp;Since&nbsp;<%= @app.first_view_date.strftime("%b %e, %Y")%>
 				</span>	
 		</div>
-		<div id="app_edit" >
-			<center>
+		<div id="app_edit" style='text-align:center' >
 				<span class="fsn-button ui-button ui-state-default ui-corner-all">
 					<%= link_to ('Edit ' + @app.abbrev), {:controller => "master/coop_apps", :action => :edit_app, :app_id => @app.id, :function=>"Maintain"},{:target=>"_blank"}  %>
 				</span>
-			</center>
-			
 			<%= render :partial => "master/coop_apps/manage_coop_apps", :locals => {:group => "provider", :app=>@app}%>
 		
 		</div>

@@ -12,12 +12,66 @@
   add_applicable_scopes = false
   update_applicable_scopes = true
 
-  if add_authorization_levels
+  initialize_master_app_provider = true
 
+  if initialize_master_app_provider
+    if CoopAppOrganization.where(["coop_app_id = ? AND organization_id = ?", CoopApp.core.id, CoopApp.core.owner.id]).empty?
+      CoopAppOrganization.create('coop_app_id' => CoopApp.core.id, 'organization_id' => CoopApp.core.owner.id,
+                                'is_owner' => true, 'is_selected' => true, 'is_allowed' => true,
+                                'alt_name' => 'Core System', 'alt_abbrev' => 'CORE', 'provider_id' => CoopApp.core.owner.id)
+    end
+    if CoopAppOrganization.where(["coop_app_id = ? AND organization_id = ?", CoopApp.classroom.id, CoopApp.classroom.owner.id]).empty?
+      CoopAppOrganization.create('coop_app_id' => CoopApp.classroom.id, 'organization_id' => CoopApp.classroom.owner.id,
+                                 'is_owner' => true, 'is_selected' => true, 'is_allowed' => true,
+                                 'alt_name' => 'Knowledge Management', 'alt_abbrev' => 'KM', 'provider_id' => CoopApp.classroom.owner.id)
+    end
+    if CoopAppOrganization.where(["coop_app_id = ? AND organization_id = ?", CoopApp.ifa.id, CoopApp.ifa.owner.id]).empty?
+      CoopAppOrganization.create('coop_app_id' => CoopApp.ifa.id, 'organization_id' => CoopApp.ifa.owner.id,
+                                 'is_owner' => true, 'is_selected' => true, 'is_allowed' => true,
+                                 'alt_name' => 'Integrated Formative Assessment', 'alt_abbrev' => 'IFA', 'provider_id' => CoopApp.ifa.owner.id)
+    end
+    if CoopAppOrganization.where(["coop_app_id = ? AND organization_id = ?", CoopApp.ita.id, CoopApp.ita.owner.id]).empty?
+      CoopAppOrganization.create('coop_app_id' => CoopApp.ita.id, 'organization_id' => CoopApp.ita.owner.id,
+                                 'is_owner' => true, 'is_selected' => true, 'is_allowed' => true,
+                                 'alt_name' => 'Teacher Assess', 'alt_abbrev' => 'ITA', 'provider_id' => CoopApp.ita.owner.id)
+    end
+    if CoopAppOrganization.where(["coop_app_id = ? AND organization_id = ?", CoopApp.blog.id, CoopApp.blog.owner.id]).empty?
+      CoopAppOrganization.create('coop_app_id' => CoopApp.blog.id, 'organization_id' => CoopApp.blog.owner.id,
+                                 'is_owner' => true, 'is_selected' => true, 'is_allowed' => true,
+                                 'alt_name' => 'Panel Blogs', 'alt_abbrev' => 'BLOGS', 'provider_id' => CoopApp.blog.owner.id)
+    end
+    if CoopAppOrganization.where(["coop_app_id = ? AND organization_id = ?", CoopApp.ctl.id, CoopApp.ctl.owner.id]).empty?
+      CoopAppOrganization.create('coop_app_id' => CoopApp.ctl.id, 'organization_id' => CoopApp.ctl.owner.id,
+                                 'is_owner' => true, 'is_selected' => true, 'is_allowed' => true,
+                                 'alt_name' => 'Collaborative Time In Learning', 'alt_abbrev' => 'CTL', 'provider_id' => CoopApp.ctl.owner.id)
+    end
+    if CoopAppOrganization.where(["coop_app_id = ? AND organization_id = ?", CoopApp.pd.id, CoopApp.pd.owner.id]).empty?
+      CoopAppOrganization.create('coop_app_id' => CoopApp.pd.id, 'organization_id' => CoopApp.pd.owner.id,
+                                 'is_owner' => true, 'is_selected' => true, 'is_allowed' => true,
+                                 'alt_name' => 'Integrated PD', 'alt_abbrev' => 'IPD', 'provider_id' => CoopApp.pd.owner.id)
+    end
+    if CoopAppOrganization.where(["coop_app_id = ? AND organization_id = ?", CoopApp.stat.id, CoopApp.stat.owner.id]).empty?
+      CoopAppOrganization.create('coop_app_id' => CoopApp.stat.id, 'organization_id' => CoopApp.stat.owner.id,
+                                 'is_owner' => true, 'is_selected' => true, 'is_allowed' => true,
+                                 'alt_name' => 'School Time Analysis', 'alt_abbrev' => 'STAT', 'provider_id' => CoopApp.stat.owner.id)
+    end
+    if CoopAppOrganization.where(["coop_app_id = ? AND organization_id = ?", CoopApp.cm.id, CoopApp.cm.owner.id]).empty?
+      CoopAppOrganization.create('coop_app_id' => CoopApp.cm.id, 'organization_id' => CoopApp.cm.owner.id,
+                                 'is_owner' => true, 'is_selected' => true, 'is_allowed' => true,
+                                 'alt_name' => 'Client Management', 'alt_abbrev' => 'CM', 'provider_id' => CoopApp.cm.owner.id)
+    end
+    if CoopAppOrganization.where(["coop_app_id = ? AND organization_id = ?", CoopApp.elt.id, CoopApp.elt.owner.id]).empty?
+      CoopAppOrganization.create('coop_app_id' => CoopApp.elt.id, 'organization_id' => CoopApp.elt.owner.id,
+                                 'is_owner' => true, 'is_selected' => true, 'is_allowed' => true,
+                                 'alt_name' => 'Performance Monitoring', 'alt_abbrev' => 'PM', 'provider_id' => CoopApp.elt.owner.id)
+    end
+  end
+
+
+  if add_authorization_levels
   end
 
   if add_applicable_scopes
-
   end
 
   if update_authorization_levels

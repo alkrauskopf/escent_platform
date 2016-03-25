@@ -274,7 +274,7 @@ class Organization < ActiveRecord::Base
   end
   
   def self.default
-    find Organization.ep_default.first
+    find Organization.ep_default.first rescue nil
   end
   
   def default?
@@ -398,7 +398,7 @@ class Organization < ActiveRecord::Base
   end
   
   def provider?(app)
-    !self.coop_app_organizations.for_app(app).provider.empty?
+    !self.coop_app_organizations.for_app(app).provider.empty? || self.appl_master?(app)
   end
   
   def app_provider(app)
@@ -406,11 +406,11 @@ class Organization < ActiveRecord::Base
   end
 
   def provider_app_name(app)
-      (self.app_provider(app) && self.app_provider(app).app_settings(app)) ? self.app_provider(app).app_settings(app).alt_name : app.name
+      (self.app_provider(app) && self.app_provider(app).app_settings(app) && !self.app_provider(app).app_settings(app).alt_name == '') ? self.app_provider(app).app_settings(app).alt_name : app.name
   end
 
   def provider_app_abbrev(app)
-      (self.app_provider(app) && self.app_provider(app).app_settings(app)) ? self.app_provider(app).app_settings(app).alt_abbrev : app.abbrev
+      (self.app_provider(app) && self.app_provider(app).app_settings(app) && !self.app_provider(app).app_settings(app).alt_abbrev == '') ? self.app_provider(app).app_settings(app).alt_abbrev : app.abbrev
   end
 
   def selected?(app)
@@ -459,9 +459,9 @@ class Organization < ActiveRecord::Base
   
   def provided_app_orgs(app, ex_self)
     if ex_self
-      CoopAppOrganization.find(:all, :conditions => ["provider_id = ? AND coop_app_id = ? AND organization_id != ? AND is_selected AND is_allowed", self.id, app.id, self.id]).collect{|cao| cao.organization}
+      CoopAppOrganization.where(["provider_id = ? AND coop_app_id = ? AND organization_id != ? AND is_selected AND is_allowed", self.id, app.id, self.id]).collect{|cao| cao.organization}
     else
-      CoopAppOrganization.find(:all, :conditions => ["provider_id = ? AND coop_app_id = ? AND is_selected", self.id, app.id]).collect{|cao| cao.organization}
+      CoopAppOrganization.where(["provider_id = ? AND coop_app_id = ? AND is_selected", self.id, app.id]).collect{|cao| cao.organization}
     end
   end
 

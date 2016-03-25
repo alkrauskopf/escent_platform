@@ -1,8 +1,11 @@
 class Apps::BlogsController < ApplicationController
   helper :all # include all helpers, all the time
  layout "panel_blog", :except =>[:panelist_info, :panelist_activity, :list_app_blogs, :list_blogs, :toggle_blog_activate, :maintain_blogs, :blog_overview, :show_blog_posting, :show_blog_post_flash, :show_blog_post_picture, :add_post_picture, :show_blog_picture,:show_blog_flash,:destroy_blog, :toggle_blog_commentable, :toggle_blog_feature, :edit_blog_sequence, :toggle_blog_post_activate, :toggle_blog_post_feature, :edit_blog_post_sequence]
-  
 
+  before_filter :current_organization, :except => []
+  before_filter :current_user, :except => []
+  before_filter :blog_allowed?, :except=>[]
+  before_filter :current_user_app_authorized?, :except=>[]
   before_filter :initialize_parameters
   
  def clear_notification
@@ -147,7 +150,7 @@ class Apps::BlogsController < ApplicationController
       @blog_post.destroy
     end
   end
-   render :partial => "blog_post_listings"  
+   render :partial => "blog_post_listings"
  end
  
   def add_post_picture
@@ -236,7 +239,7 @@ class Apps::BlogsController < ApplicationController
    end
   @blog.sequence_posts
   end
-  render :partial => "blog_post_listings"  
+  render :partial => "blog_post_listings"
  end
 
  def assign_related_post
@@ -255,7 +258,7 @@ class Apps::BlogsController < ApplicationController
       @blog_post.update_attributes(:is_active =>!@blog_post.is_active)
     end
   end
-   render :partial => "blog_post_listings"  
+   render :partial => "blog_post_listings"
  end
  
  def toggle_blog_post_feature
@@ -268,7 +271,7 @@ class Apps::BlogsController < ApplicationController
     end
     end
    end
-   render :partial => "blog_post_listings"  
+   render :partial => "blog_post_listings"
  end
 
  def reset_views
@@ -384,6 +387,11 @@ class Apps::BlogsController < ApplicationController
   
    private
 
+  def blog_allowed?
+    @current_application = CoopApp.blog
+    current_app_enabled_for_current_org?
+  end
+
  def initialize_parameters
     current_organization
     current_user
@@ -444,11 +452,11 @@ class Apps::BlogsController < ApplicationController
     @people = @blog ? (@current_organization.bloggers - @blog.users): @current_organization.bloggers
   end
 
-  def current_user
+  def current_userx
     @current_user ||= (session[:user_id] && User.find(session[:user_id]) rescue nil) || nil
   end
 
-  def current_organization
+  def current_organizationx
     @current_organization ||= (Organization.find_by_public_id(params[:organization_id]) rescue Organization.default)
   end
 

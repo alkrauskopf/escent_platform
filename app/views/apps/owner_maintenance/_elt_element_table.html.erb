@@ -7,55 +7,56 @@
       }
     	</style>
 		<tbody>  
-			<tr>
-				<% if element.active? -%>
-					<td id="toggle_element_<%= element.public_id %>" style=" width:50px;  width:fixed; color:<%=element.e_font_color %>; cursor:pointer; padding-left:15px; padding-top:10px; vertical-align:top" >
-						<%= (image_tag "button_enabled.png",:width => 15) %>
-					</td>
-				<% else -%>
-					<td id="toggle_element_<%= element.public_id %>" style=" width:50px;  width:fixed; color:<%=element.e_font_color %>; cursor:pointer; padding-left:15px; padding-top:10px; vertical-align:top" >
-						<%= (image_tag "button_disabled.png",:width => 15) %>
-					</td>
-				<% end -%>
-				<td  style="width:50px;width:fixed;padding-bottom:00px; line-height:1.2em;  color:<%=element.e_font_color %>">
-						Position:&nbsp;<%= element.position %>
-				</td>
-				<td style=" text-align:center; font-size:16px; background:<%= element.form_background%>; color:<%=element.e_font_color %>">
-					<%= element.abbrev %>:&nbsp;<%=element.name%>
-				</td>
-				<td  style="width:50px;width:fixed;padding-bottom:00px; line-height:1.2em;  color:<%=element.e_font_color %>">
-						&nbsp;
-				</td>
-				<td  style="width:80px;padding-top:5px; padding-left:40px; line-height:1.2em; color:#2061a5;">
-					<span class="fsn-button ui-button ui-state-default ui-corner-all">
-						<%= link_to 'Edit', :controller => "/apps/owner_maintenance", :action => :elt_element_edit, :element_id=> element.id, :app_id=>@app.id, :organization_id => @current_organization  %>
-					</span>
-				</td>
-			</tr>
-			<tr>
-				<td style=" width:50px; width:fixed; color:<%=element.e_font_color %>; cursor:pointer; padding-left:15px; padding-top:10px; vertical-align:top" >
-					&nbsp;
-				</td>
-				<td  style="width:50px;width:fixed;padding-bottom:00px; line-height:1.2em;  color:<%=element.e_font_color %>">
-					&nbsp;
-				</td>
-				<td style=" text-align:center; font-size:12px; background:<%= element.form_background%>; color:<%=element.e_font_color %>">
-					<%=element.description %>
-				</td>
-				<td  style="width:50px;width:fixed;padding-bottom:00px; line-height:1.2em;  color:<%=element.e_font_color %>">
-						&nbsp;
-				</td>
-				<td  style="width:80px;padding-top:5px; padding-left:15px; line-height:1.2em; color:#2061a5;">
-					<span class="fsn-button ui-button ui-state-default ui-corner-all">
-						<%= link_to 'Add Indicator', :controller => "/apps/owner_maintenance", :action => :elt_indicator_add, :element_id=> element.id, :app_id=>@app.id, :organization_id => @current_organization  %>
-					</span>
-				</td>
-			</tr>		</tbody>
+      <tr>
+        <% if element.active? -%>
+          <td id="toggle_element_<%= element.public_id %>" style=" width:50px;  width:fixed; color:<%=element.e_font_color %>; cursor:pointer; padding-left:15px; padding-top:10px; vertical-align:top" >
+            <%= (image_tag "button_enabled.png",:width => 15) %>
+          </td>
+        <% else -%>
+          <td id="toggle_element_<%= element.public_id %>" style=" width:50px;  width:fixed; color:<%=element.e_font_color %>; cursor:pointer; padding-left:15px; padding-top:10px; vertical-align:top" >
+            <%= (image_tag "button_disabled.png",:width => 15) %>
+          </td>
+        <% end -%>
+        <td  style="width:50px;width:fixed;padding-bottom:00px; line-height:1.2em;  color:<%=element.e_font_color %>">
+            Position:&nbsp;<%= element.position %>
+        </td>
+        <td style=" text-align:center; font-size:16px; background:<%= element.form_background%>; color:<%=element.e_font_color %>">
+          <%= element.abbrev %>:&nbsp;<%=element.name%>
+        </td>
+        <td  style="width:50px;width:fixed;padding-bottom:00px; line-height:1.2em;  color:<%=element.e_font_color %>">
+            &nbsp;
+        </td>
+        <td  style="width:80px;padding-top:5px; padding-left:40px; line-height:1.2em; color:#2061a5;">
+          <span class="fsn-button ui-button ui-state-default ui-corner-all">
+            <%= link_to 'Edit', :controller => "/apps/owner_maintenance", :action => :elt_element_edit, :element_id=> element.id, :coop_app_id=>@current_application, :organization_id => @current_organization  %>
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td style=" width:50px; width:fixed; color:<%=element.e_font_color %>; cursor:pointer; padding-left:15px; padding-top:10px; vertical-align:top" >
+          &nbsp;
+        </td>
+        <td  style="width:50px;width:fixed;padding-bottom:00px; line-height:1.2em;  color:<%=element.e_font_color %>">
+          &nbsp;
+        </td>
+        <td style=" text-align:center; font-size:12px; background:<%= element.form_background%>; color:<%=element.e_font_color %>">
+          <%=element.description %>
+        </td>
+        <td  style="width:50px;width:fixed;padding-bottom:00px; line-height:1.2em;  color:<%=element.e_font_color %>">
+            &nbsp;
+        </td>
+        <td  style="width:80px;padding-top:5px; padding-left:15px; line-height:1.2em; color:#2061a5;">
+          <span class="fsn-button ui-button ui-state-default ui-corner-all">
+            <%= link_to 'Add Indicator', :controller => "/apps/owner_maintenance", :action => :elt_indicator_add, :element_id=> element.id, :coop_app_id=>@current_application, :organization_id => @current_organization  %>
+          </span>
+        </td>
+      </tr>
+    </tbody>
 	</table>
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#toggle_element_<%= element.public_id %>').click(function() {
-		var url = "<%= url_for :controller =>"apps/owner_maintenance", :action => "toggle_element", :element_id => element.id, :app_id=>app.id, :organization_id => @current_organization  %>";
+		var url = "<%= url_for :controller =>"apps/owner_maintenance", :action => "toggle_element", :element_id => element.id, :coop_app_id=>@current_application, :organization_id => @current_organization  %>";
 			jQ.get(url, {}, function(data) {
 				jQ("#elt_<%=element.public_id%>").html(data);
 				jQ("#elt_<%=element.public_id%>").show();
@@ -92,14 +93,14 @@ jQ(document).ready(function() {
 					</td>
 					<td  style="width:80px;padding-top:5px; padding-left:15px; line-height:1.5em; color:#2061a5;">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to 'Edit', :controller => "/apps/owner_maintenance", :action => :elt_indicator_edit, :indicator_id=> indicator.id, :app_id=>@app.id, :organization_id => @current_organization  %>
+							<%= link_to 'Edit', :controller => "/apps/owner_maintenance", :action => :elt_indicator_edit, :indicator_id=> indicator.id, :coop_app_id=>@current_application, :organization_id => @current_organization  %>
 						</span>
 					</td>
 				</tr>
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#toggle_indicator_<%= indicator.id %>').click(function() {
-		var url = "<%= url_for :controller =>"apps/owner_maintenance", :action => "toggle_indicator", :indicator_id => indicator.id, :app_id=>app.id, :organization_id => @current_organization  %>";
+		var url = "<%= url_for :controller =>"apps/owner_maintenance", :action => "toggle_indicator", :indicator_id => indicator.id, :coop_app_id=>@current_application, :organization_id => @current_organization  %>";
 			jQ.get(url, {}, function(data) {
 				jQ("#elt_<%=element.public_id%>").html(data);
 				jQ("#elt_<%=element.public_id%>").show();

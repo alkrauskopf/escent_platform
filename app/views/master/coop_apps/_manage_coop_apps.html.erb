@@ -1,5 +1,4 @@
 <div id="edit_apps_<%=group%><%= app.id%>">
-	
 	<table  style="width:800px; width:fixed; margin-top:20px; margin-bottom:20px; margin-left:10px">
 		<style type="text/css" media="screen">
 	    table,tr,td {border:0px solid #ddd;}
@@ -32,7 +31,7 @@
 				<tr style="border:1px solid #ddd; ">
 					<td style=" width:30px; width:fixed; border:0px solid #ddd; cursor:pointer; padding-left:5px; padding-top:0px; vertical-align:middle" >
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to 'Edit ', {:controller => "master/coop_apps", :action => :edit_app_settings, :app_id => app, :org_id => org, :function => "Maintain"},{:target=>"_blank"}  %>
+							<%= link_to 'Edit ', {:controller => "master/coop_apps", :action => :edit_app_settings, :app_id => app.id, :org_id => org, :function => "Maintain"},{:target=>"_blank"}  %>
 						</span>
 					</td>
 					<td  style=" width:200px; width:fixed;font-size:11px; border:1px solid #ddd; text-align:center; vertical-align:middle; font-weight:bold ">

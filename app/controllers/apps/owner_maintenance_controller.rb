@@ -21,90 +21,46 @@ class Apps::OwnerMaintenanceController < ApplicationController
   end
 
   def core_maintain_child_parent
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.core
-    end
+
   end
 
   def core_org_child_parent
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    @org = Organization.find_by_public_id(params[:org]) rescue nil
-    unless @app
-      @app = CoopApp.core
-    end
     unless @org
-      redirect_to  :action => "core_maintain_child_parent", :app_id => @app.id
+ #     redirect_to  :action => "core_maintain_child_parent", :coop_app_id => @current_application
     end
   end
 
   def core_make_parent
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    @org = Organization.find_by_public_id(params[:org]) rescue nil
-    unless @app
-      @app = CoopApp.core
-    end
     if @org
       @org.update_attribute("parent_id", nil)
     end
-    render :partial => "/apps/owner_maintenance/core_org_child_parent", :locals => {:app => @app, :org=>@org} 
+    render :partial => "/apps/owner_maintenance/core_org_child_parent", :locals => {:org=>@org}
   end
 
   def core_assign_parent
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    @org = Organization.find_by_public_id(params[:org]) rescue nil
-    unless @app
-      @app = CoopApp.core
-    end
     if @org && (@org.id != params[:parent_id].to_i)
       @org.update_attribute("parent_id", params[:parent_id].to_i)
     end
-    render :partial => "/apps/owner_maintenance/core_org_child_parent", :locals => {:app => @app, :org=>@org} 
+    render :partial => "/apps/owner_maintenance/core_org_child_parent", :locals => {:org=>@org}
   end
 
   def core_maintain_statuses
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.core
-    end
+
   end
 
   def core_org_status
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    @org = Organization.find_by_public_id(params[:org]) rescue nil
-    unless @app
-      @app = CoopApp.core
-    end
     unless @org
-      redirect_to  :action => "core_maintain_statuses", :app_id => @app.id
+  #    redirect_to  :action => "core_maintain_statuses", :coop_app_id => @current_application
     end
   end
 
   def core_assign_status
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    @org = Organization.find_by_public_id(params[:org]) rescue nil
-    unless @app
-      @app = CoopApp.core
-    end
+
     if @org
       @org.update_attribute("status_id", params[:status_id].to_i)
       @org = Organization.find_by_public_id(params[:org])
     end
-    render :partial => "/apps/owner_maintenance/core_org_status", :locals => {:app => @app, :org=>@org} 
+    render :partial => "/apps/owner_maintenance/core_org_status", :locals => {:app => @current_application, :org=>@org}
   end
 
   def app_discussion_forum
@@ -262,12 +218,6 @@ class Apps::OwnerMaintenanceController < ApplicationController
   end
 
   def owner_show_video_session
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.itl rescue CoopApp.find(:first)
-    end
     if params[:video_id]
       @video = Content.find_by_public_id(params[:video_id])  rescue nil
     end  
@@ -276,12 +226,6 @@ class Apps::OwnerMaintenanceController < ApplicationController
   def toggle_blackbelt_session
     if params[:tlt_session_id]
       @tlt_session = TltSession.find_by_public_id(params[:tlt_session_id]) rescue nil
-    end
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.itl rescue CoopApp.find(:first)
     end
     if @tlt_session && @tlt_session.itl_blackbelt       
         user_id = @tlt_session.itl_blackbelt.observer_id
@@ -306,7 +250,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
        end
       refresh_session
     end 
-    render :partial => "/apps/owner_maintenance/owner_show_video_session", :locals => {:app => @app, :video=>@tlt_session.content} 
+    render :partial => "/apps/owner_maintenance/owner_show_video_session", :locals => {:app => @current_application, :video=>@tlt_session.content}
   end
 
 
@@ -351,9 +295,6 @@ class Apps::OwnerMaintenanceController < ApplicationController
   end 
 
   def elt_indicator_new
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
     @task = params[:task]
     @activity = EltType.find_by_public_id(params[:elt_type_id])
     if !@activity.nil? && params[:function] && params[:function] == "New"
@@ -394,24 +335,12 @@ class Apps::OwnerMaintenanceController < ApplicationController
   end
   
   def elt_element_edit
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.etl.first
-    end
     if params[:element_id]
       @element = EltElement.find_by_id(params[:element_id])
     end
   end
 
   def elt_element_update
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.etl.first 
-    end
     if params[:commit] == "Add"
      element = EltElement.new
      element.name = params[:elt_element][:name]
@@ -431,49 +360,26 @@ class Apps::OwnerMaintenanceController < ApplicationController
         @element.destroy
       end
     end
-    redirect_to :action=>'index', :organization_id => @current_organization, :app_id=> @app.id
+    redirect_to :action=>'index', :organization_id => @current_organization, :coop_app_id=> @current_application
   end
   
   def elt_element_add
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.etl.first
-    end
+
   end
    
   def elt_indicator_add
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.etl.first
-    end
     if params[:element_id]
       @element = EltElement.find_by_id(params[:element_id])
     end
   end
     
   def elt_indicator_edit
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.etl.first
-    end
     if params[:indicator_id]
       @indicator = EltIndicator.find_by_id(params[:indicator_id])
     end
   end
 
   def elt_indicator_update
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.etl.first 
-    end
     if params[:commit] == "Add"
      @element = EltElement.find_by_id(params[:element_id]) 
      indicator = EltIndicator.new
@@ -491,40 +397,29 @@ class Apps::OwnerMaintenanceController < ApplicationController
         @indicator.destroy
       end
     end
-    redirect_to :action=>'index', :organization_id => @current_organization, :app_id=> @app.id
+    redirect_to :action=>'index', :organization_id => @current_organization, :coop_app_id=> @current_application
   end
      
   def toggle_element
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.etl.first 
-    end
     if params[:element_id]
       @element = EltElement.find_by_id(params[:element_id])
       @element.update_attributes(:is_active=> !@element.is_active)
       @element = EltElement.find_by_id(params[:element_id])
     end
     if @element
-      render :partial => "/apps/owner_maintenance/elt_element_table", :locals => {:element => @element, :app => @app}
+      render :partial => "/apps/owner_maintenance/elt_element_table", :locals => {:element => @element}
     else
       redirect_to :action=>'index', :organization_id => @current_organization, :app_id=> @app.id   
     end
   end    
    
   def elt_toggle_indicator
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.etl.first 
-    end
       @indicator = EltIndicator.find_by_public_id(params[:elt_indicator_id]) rescue nil 
       @indicator.update_attributes(:is_active=> !@indicator.is_active) rescue nil
       @indicator = EltIndicator.find_by_public_id(params[:elt_indicator_id]) rescue nil
-      render :partial => "/apps/owner_maintenance/elt_indicator_table", :locals => {:element => (@indicator ? @indicator.elt_element : nil), :activity => (@indicator ? @indicator.elt_type : nil), :app=>@app}
+      render :partial => "/apps/owner_maintenance/elt_indicator_table", :locals => {:element => (@indicator ? @indicator.elt_element : nil), :activity => (@indicator ? @indicator.elt_type : nil)}
   end
+
    private
 
   def refresh_session

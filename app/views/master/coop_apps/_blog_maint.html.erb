@@ -1,8 +1,6 @@
 <div id="blog_maintenance">
 
 	<%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>app} %>
-
-		<% if @current_user.superuser?%>
 			<table style="margin-left:150px; font-size:16px; font-weight:bold; color: #2061a5; width:600px">
 				<thead>
 					<tr>
@@ -13,8 +11,6 @@
 
 				</tbody>
 			</table>
-		<% end -%>
-
-<br/>
+  <br/>
 </div>
 

@@ -1,0 +1,64 @@
+<div id= "<%=org.public_id%>_childparent">
+  <table style="width:500px; margin-left:0px; font-size:16px; border:0px solid #ddd; font-weight:bold; color: #2061a5; ">
+    <tbody style="font-size:14px; color: #2061a5;">
+      <% unless org.parent?%>
+        <tr>
+          <td  colspan = 3 style="color:#C83A14; font-weight:normal; font-size:12px; padding-bottom:10px;">
+            Parent: <%= org.parent.name %>
+          </td>
+        </tr>
+      <% end -%>
+      <tr>
+        <% unless org.parent? %>
+          <td id="<%=org.public_id%>_parent" style="width:90px; width:fixed">
+            <%= (image_tag "add.png") -%>
+          </td>
+          <td  style="width:150px; width:fixed; text-align:left">
+            Make Parent
+          </td>
+        <% else -%>
+          <td  style="width:90px; width:fixed;color:#C83A14; ">
+            Parent Of:
+          </td>
+          <td  style="width:150px; width:fixed; color:#C83A14; font-weight:normal;">
+            <% unless org.children.empty? -%>
+              <% org.all_children.sort_by{|o| o.name}.each do |child|-%>
+              <%= child.short_name %><br/>
+              <% end -%>
+            <% else -%>
+              <i>No Children</i>
+            <% end -%>
+          </td>
+        <% end -%>
+        <td id="<%=org.public_id%>_child" style="width:260px; width:fixed">
+          <%=  select(:parent, org.id, Organization.all_parents.sort_by{|p| p.name}.collect{|p| [p.name, p.id]}, :prompt => "Select Parent") %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<br/>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#<%=org.public_id%>_parent').click(function() {
+		var url = "<%= url_for :controller => '/apps/owner_maintenance', :action => :core_make_parent, :organization_id => @current_organization, :coop_app_id => @current_application, :org => org %>";
+			jQ.get(url, {}, function(data) {
+			jQ("#<%=org.public_id%>_childparent").html(data); 
+	   		jQ("#<%=org.public_id%>_childparent").show();
+			});
+	})
+});
+</script>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#<%=org.public_id%>_child').change(function() {
+		var parent = jQ('#parent_<%=org.id%>').val();
+		var url = "<%= url_for :controller => "/apps/owner_maintenance", :action => :core_assign_parent, :organization_id => @current_organization, :coop_app_id => @current_application, :org => org %>";
+			jQ.get(url, {'parent_id':parent}, function(data) {
+			jQ("#<%=org.public_id%>_childparent").html(data); 
+	   		jQ("#<%=org.public_id%>_childparent").show();
+			});
+	})
+});
+</script>
+</div>
+

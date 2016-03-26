@@ -21,7 +21,7 @@
 		</div>
 	
 	    <%= render :partial => "/shared/error_and_notice" %>	
-		<% if @app.core? -%> 
+		<% if @app.core? -%>
 			<%= render :partial => "master/coop_apps/core_maint", :locals => {:app => @app} %>
 			<% elsif @app.ctl? -%>
 				<%= render :partial => "master/coop_apps/ctl_maint", :locals => {:app => @app}  %>
@@ -38,13 +38,13 @@
 									<% elsif @app.elt? -%>
 										<%= render :partial => "master/coop_apps/elt_maint", :locals => {:app => @app}  %>
 										<% else -%>
-										<span style="font-size:12px; color: #2061a5;" >
-											<br/><br/><center>No <%= @app.abbrev.upcase %>&nbsp;Functions</center><br/><br/><br/><br/>
+										<span style="text-align:center;font-size:12px; color: #2061a5;" >
+											<br/><br/>No <%= @app.abbrev.upcase %>&nbsp;Maintenance Functions<br/><br/><br/><br/>
 										</span>
 										<% end -%>
 	<% else -%>
-		<span style="font-size:12px; color: #2061a5;" >
-			<br/><br/><center>Application Not Found</center><br/><br/><br/><br/>
+		<span style="text-align:center; font-size:12px; color: #2061a5;" >
+			<br/><br/>Application Not Found<br/><br/><br/><br/>
 		</span>
 	<% end -%>
 

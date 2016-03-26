@@ -1,85 +1,72 @@
 <div id="add_elt_element">
-
-	  	<div style="text-align:center;  word-wrap:break-word; color:#2061a5;  padding-top:20px; font-size: 16px; font-style: normal; font-weight: bold">
-				<center>Add&nbsp;<%= @app.abbrev %>&nbsp;Element</center>
-		</div>
-		<% form_for :elt_element, :url=>{:controller => "/apps/owner_maintenance" , :action => "elt_element_update" , :app_id=>@app.id} do |@f| %>
-			<% if @current_user.app_superuser?(@app)-%>	
-				<div class="FormRow">	
-					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
-						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
-							<u>Name</u><br/>
-						</span>
-						<%= text_field :elt_element, :name,  :value => "", :size => 60 %>
-					</div>	
-				</div>
-				<div class="FormRow">	
-					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
-						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
-							<u>Abbreviation</u><br/>
-						</span>
-						<%= text_field :elt_element, :abbrev,  :value => "", :size => 4 %>
-					</div>	
-				</div>
-				<div class="FormRow">	
-					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
-						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
-							<u>Discussion</u><br/>
-						</span>
-						<%= text_area :elt_element, :description,  :value => "" , :rows => 2, :cols => 60 %>
-					</div>	
-				</div>
-				<div class="FormRow">	
-					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
-						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
-							<u>Position</u><br/>
-						</span>
-						<%= text_field :elt_element, :position,  :value => "", :size => 2 %>
-					</div>	
-				</div>
-				<div class="FormRow">	
-					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
-						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
-							<u>Element Background</u><br/>
-						</span>
-						<%= text_field :elt_element, :form_background,  :value => "#FFFFFF", :size => 7 %>
-					</div>	
-				</div>
-				<div class="FormRow">	
-					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
-						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
-							<u>Element Font Color</u><br/>
-						</span>
-						<%= text_field :elt_element, :e_font_color,  :value => "#000000", :size => 7 %>
-					</div>	
-				</div>
-				<div class="FormRow">	
-					<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
-						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
-							<u>Indicator Background</u><br/>
-						</span>
-						<%= text_field :elt_element, :i_form_background,  :value => "#FFFFFF", :size => 7 %>
-					</div>	
-				</div>
-				<div class="FormRow">	
-					<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
-						<%= @f.submit "Add" %>&nbsp;&nbsp;
-						<%= link_to "Cancel" ,  {:controller => "/apps/owner_maintenance", :action => "index", :app_id => @app.id} %>
-					</div>
-				</div>
-			<% else -%>
-				<div class="FormRow">	
-					<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
-						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
-							User Not Authorized<br/>
-						</span>
-						<%= link_to "Return" ,  {:controller => "/apps/owner_maintenance", :action => "index", :app_id => @app.id} %>
-					</div>	
-				</div>		
-			
-			<% end -%>
+  <div style="text-align:center;  word-wrap:break-word; color:#2061a5;  padding-top:20px; font-size: 16px; font-style: normal; font-weight: bold">
+    Add&nbsp;<%= @current_application.abbrev %>&nbsp;Element
+  </div>
+  <% form_for :elt_element, :url=>{:controller => "/apps/owner_maintenance" , :action => "elt_element_update" , :coop_app_id=>@current_application} do |f| %>
+      <div class="FormRow">
+        <div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+          <span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+            <u>Name</u><br/>
+          </span>
+          <%= text_field :elt_element, :name,  :value => "", :size => 60 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+          <span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+            <u>Abbreviation</u><br/>
+          </span>
+          <%= text_field :elt_element, :abbrev,  :value => "", :size => 4 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+          <span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+            <u>Discussion</u><br/>
+          </span>
+          <%= text_area :elt_element, :description,  :value => "" , :rows => 2, :cols => 60 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+          <span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+            <u>Position</u><br/>
+          </span>
+          <%= text_field :elt_element, :position,  :value => "", :size => 2 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+          <span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+            <u>Element Background</u><br/>
+          </span>
+          <%= text_field :elt_element, :form_background,  :value => "#FFFFFF", :size => 7 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+          <span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+            <u>Element Font Color</u><br/>
+          </span>
+          <%= text_field :elt_element, :e_font_color,  :value => "#000000", :size => 7 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+          <span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+            <u>Indicator Background</u><br/>
+          </span>
+          <%= text_field :elt_element, :i_form_background,  :value => "#FFFFFF", :size => 7 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
+          <%= f.submit "Add" %>&nbsp;&nbsp;
+          <%= link_to "Cancel" ,  {:controller => "/apps/owner_maintenance", :action => "index", :coop_app_id => @current_application} %>
+        </div>
+      </div>
 		<% end -%>
-<br/>&nbsp;
+  <br/>&nbsp;
 </div>
 
 

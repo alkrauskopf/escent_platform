@@ -2,7 +2,7 @@
   <div style ="text-align:center; color: #2061a5; font-size:18px; margin-top:5px; font-weight:bold">
       <%= @current_application.abbrev %>&nbsp;Proficiency Calibration
   </div>
-  <%= render :partial => "apps/shared/app_owner_button" %>
+  <%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@current_application} %>
   <table  style="width:850px; margin-left:70px; color: #2061a5; ">
     <tbody>
       <tr>

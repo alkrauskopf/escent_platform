@@ -26,7 +26,7 @@
 					</td>
 					<td  style="width:30px; width:fixed; border:1px solid #ddd; padding-top:12px; line-height:1.5em;">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to 'Edit', {:controller => "/apps/owner_maintenance", :action => :elt_indicator_new, :app_id=> app.id, :elt_indicator_id => ind, :elt_type_id => ind.elt_type, :task=>"Update", :organization_id => @current_organization},{:target=>"_blank"}  %>
+							<%= link_to 'Edit', {:controller => "/apps/owner_maintenance", :action => :elt_indicator_new, :coop_app_id=> @current_application, :elt_indicator_id => ind, :elt_type_id => ind.elt_type, :task=>"Update", :organization_id => @current_organization},{:target=>"_blank"}  %>
 						</span>
 					</td>
 					<td  style=" border:1px solid #ddd; line-height:1.5em;">
@@ -38,7 +38,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#toggle_indicator_<%= ind.public_id %>').click(function() {
-		var url = "<%= url_for :controller =>"apps/owner_maintenance", :action => "elt_toggle_indicator", :elt_indicator_id => ind, :app_id=>app.id, :organization_id => @current_organization  %>";
+		var url = "<%= url_for :controller =>"apps/owner_maintenance", :action => "elt_toggle_indicator", :elt_indicator_id => ind, :coop_app_id=>@current_application, :organization_id => @current_organization  %>";
 			jQ.get(url, {}, function(data) {
 				jQ("#elt_indicators_<%=element.public_id%>").html(data);
 				jQ("#elt_indicators_<%=element.public_id%>").show();

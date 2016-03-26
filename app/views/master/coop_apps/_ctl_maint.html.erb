@@ -35,43 +35,14 @@
 					<tr>
                         <td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
                             <span class="fsn-button ui-button ui-state-default ui-corner-all">
-                                 <%= link_to "Go" ,{:controller => "master/coop_apps", :action => "ctl_update_session_summary_tables", :app_id => app.id}, :confirm => "Are You Sure?" %>
+                                 Go <%#= link_to "Go" ,{:controller => "master/coop_apps", :action => "ctl_update_session_summary_tables", :app_id => app.id}, :confirm => "Are You Sure?" %>
                             </span>
                         </td>
                         <td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-                                Re-Generate <%= app.abbrev %> Session Summary Table
+                                Re-Generate <%= app.abbrev %> Session Summary Table (Disabled)
                         </td>
 					</tr>
-					<tr>
-                      <td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
-                        <span class="fsn-button ui-button ui-state-default ui-corner-all">
-                             <%= link_to "Go",{:controller => "master/coop_apps", :action => "ctl_set_nul_belts", :app_id => app.id}, :confirm => "Are You Sure?" %>
-                        </span>
-                        </td>
-                        <td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-                                Set Default Belt Levels On <%= app.abbrev %> Sessions
-                        </td>
-					</tr>
-					<tr>
-						<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
-							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								 <%= link_to "Go",{:controller => "master/coop_apps", :action => "ctl_adjust_evidence_ratings", :app_id => app.id}, :confirm => "Are You Sure?" %>
-							</span>
-						</td>
-						<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-								Adjust Existing Evidence Ratings In <%= app.abbrev %> Session Logs 
-						</td>
-					</tr>
-					<tr>
-						<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
-							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								 <%= link_to "Go" ,{:controller => "master/coop_apps", :action => "ctl_backload_itl_template_ids", :app_id => app.id}, :confirm => "Are You Sure?" %>
-							</span>
-						</td>
-						<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-								Assign Template IDs to <%= app.abbrev %> Sessions From Pre-Template Days. 
-						</td>
-					</tr>
+
 				</tbody>
 			</table>
 		<% end -%>

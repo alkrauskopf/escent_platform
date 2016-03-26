@@ -5,6 +5,7 @@ class Master::ApplicationController < ApplicationController
   
   before_filter :current_organization
   before_filter :current_user, :except => [:login]
+  before_filter :current_application_core
   before_filter :superuser_authorize
   
   def index
@@ -25,6 +26,10 @@ class Master::ApplicationController < ApplicationController
   end
 
   protected
+
+  def current_application_core
+    @current_application = CoopApp.core
+  end
   def superuser_authorize
     if (@current_user.nil? || !@current_user.superuser?)
       redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => Organization.default

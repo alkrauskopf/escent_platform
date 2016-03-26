@@ -2,7 +2,7 @@
   <div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 18px; font-style: normal; font-weight: bold">
     <br/>Maintain&nbsp;<%= @current_application.abbrev %>&nbsp;Discussion Forums</center>
 	</div>
-  <%= render :partial => "apps/shared/app_owner_button" %>
+  <%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@current_application} %>
   <table  style="width:850px; margin-left:70px; color: #000000; ">
     <tbody>
       <tr>

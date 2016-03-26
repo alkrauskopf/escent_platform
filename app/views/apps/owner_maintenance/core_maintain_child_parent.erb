@@ -1,17 +1,16 @@
 <div id="org_parent_child">
-
-  	<div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 18px; font-style: normal; font-weight: bold">
-			<br/><center>Maintain&nbsp;Child/Parent Organization Relationships</center>
+  <div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 18px; font-style: normal; font-weight: bold">
+    <br/>Maintain&nbsp;Child/Parent Organization Relationships
 	</div>
-	<% if @current_user.app_superuser?(@app)%>
-		<% Organization.all.sort_by{|o| o.name}.each do |org| -%>
+  <%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@current_application} %>
+  <% Organization.all.sort_by{|o| o.name}.each do |org| -%>
 			<% unless org.default?%>
 				<% color = org.parent? ? "#C83A14" : "#2061a5"%>
 				<table id="<%=org.public_id%>"   style="width:450px; margin-left:120px;color:<%= color%>">
 					<tbody>  
 						<tr>
 							<td class="resource_levels_close">		
-							<%= link_to '', :controller => "apps/owner_maintenance", :action => :core_org_child_parent, :organization_id => @current_organization, :org=> org, :app_id=> @app.id %>
+							<%= link_to '', :controller => "apps/owner_maintenance", :action => :core_org_child_parent, :organization_id => @current_organization, :org=> org, :coop_app_id => @current_application %>
 							<%= org.name%>
 							<span></span>
 							</td>
@@ -26,9 +25,7 @@
 			</script>
 			<% end -%>
 		<% end-%>
-	<% end-%>	
 	<br/>
-
 </div>
 
 

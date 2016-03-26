@@ -1,7 +1,6 @@
 class Master::CoopAppsController < Master::ApplicationController
   layout "crud"
   before_filter :find_organization, :only => [:edit, :show, :delete]
-  
   before_filter :initialize_parameters
   
   
@@ -19,7 +18,6 @@ class Master::CoopAppsController < Master::ApplicationController
     if @function == "New"
       @app = CoopApp.new
     elsif @function == "Maintain"
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil         
       unless @app.nil?
         @function = "Edit"
        else
@@ -40,7 +38,6 @@ class Master::CoopAppsController < Master::ApplicationController
         @function = "New"
       end      
     elsif @function == "Edit"
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
       unless @app.nil?
         params[:coop_app][:abbrev] = params[:coop_app][:abbrev].upcase
         params[:coop_app][:owner_id] = params[:coop_app][:owner_id] == "" ? @app.owner_id : params[:coop_app][:owner_id]
@@ -72,7 +69,6 @@ class Master::CoopAppsController < Master::ApplicationController
         @function = "New"        
       end
     elsif @function == "Destroy"
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
       unless @app.nil?
         if @app.destroy
           flash[:notice] = "App Destroyed"
@@ -94,7 +90,6 @@ class Master::CoopAppsController < Master::ApplicationController
     clear_notification
     @function = params[:function]
     @org = Organization.find_by_public_id(params[:org_id]) rescue nil
-    @app = CoopApp.find_by_public_id(params[:app_id]) rescue nil
     unless @app.nil? || @org.nil?
       if @org.app_settings(@app).nil?
         create_app_settings(@app, @org, false, false, true, "", "", @org.id)
@@ -148,7 +143,7 @@ class Master::CoopAppsController < Master::ApplicationController
       count +=1
     end
 
-  redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " Organizations with Core Options"
+  redirect_to :action => :index, :app_id => @app.id, :msg => count.to_s + " Organizations with Core Options"
   end
 
   def core_map_authorizations
@@ -191,7 +186,7 @@ class Master::CoopAppsController < Master::ApplicationController
         count +=1
       end
     end
-  redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " Blogs Assigned To Core"
+  redirect_to :action => :index, :app_id => @app.id, :msg => count.to_s + " Blogs Assigned To Core"
   end
 
 
@@ -210,7 +205,7 @@ class Master::CoopAppsController < Master::ApplicationController
         count += 1
       end
     end
-    redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " Cases Indicator Notes Corrected "
+    redirect_to :action => :index, :app_id => @app.id, :msg => count.to_s + " Cases Indicator Notes Corrected "
   end
 
   def elt_cycle_summaries
@@ -243,7 +238,7 @@ class Master::CoopAppsController < Master::ApplicationController
       e_count +=1
       end
     end
-    redirect_to :action => :index, :app_id=>@app.id, :msg => e_count.to_s + " Cases Summarized,  " + i_count.to_s + " Indicators Updated,  "
+    redirect_to :action => :index, :app_id => @app.id, :msg => e_count.to_s + " Cases Summarized,  " + i_count.to_s + " Indicators Updated,  "
   end
   
   def elt_supporting_indicators
@@ -255,7 +250,7 @@ class Master::CoopAppsController < Master::ApplicationController
         count +=1
       end
     end
-  redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " EE Indicator LookFors Updated"
+  redirect_to :action => :index, :app_id => @app.id, :msg => count.to_s + " EE Indicator LookFors Updated"
   end
   
   def elt_destroy_nil_activity_cases
@@ -267,7 +262,7 @@ class Master::CoopAppsController < Master::ApplicationController
         count +=1
       end
     end
-  redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " Nil Activity Cases Destroyed"
+  redirect_to :action => :index, :app_id => @app.id, :msg => count.to_s + " Nil Activity Cases Destroyed"
   end
 
   def elt_transfer_case
@@ -281,7 +276,7 @@ class Master::CoopAppsController < Master::ApplicationController
       elt_case.update_attributes(:organization_id => new_org.id, :elt_cycle_id => cycle.nil? ? elt_case.elt_cycle_id : cycle.id)
       message = "Transfer Completed"
      end
-    redirect_to :action => :index, :app_id=>@app.id, :msg => message
+    redirect_to :action => :index, :app_id => @app.id, :msg => message
   end
 
   def ctl_adjust_evidence_ratings
@@ -306,7 +301,7 @@ class Master::CoopAppsController < Master::ApplicationController
         end
       end
     end
-  redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " IE session logs had Effective ratings adjusted." 
+  redirect_to :action => :index, :app_id => @app.id, :msg => count.to_s + " IE session logs had Effective ratings adjusted."
   end
 
   def ctl_set_nul_belts
@@ -319,7 +314,7 @@ class Master::CoopAppsController < Master::ApplicationController
         end
       end
     end
-  redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " sessions have assigned default belt ranking." 
+  redirect_to :action => :index, :app_id => @app.id, :msg => count.to_s + " sessions have assigned default belt ranking."
   end
 
   def ctl_destroy_observations
@@ -333,7 +328,7 @@ class Master::CoopAppsController < Master::ApplicationController
       flash[:notice] = count.to_s + " #{params[:status].capitalize} Observations Destroyed.  For " + org_count.to_s + " Organizations"
       @trigger = nil
     render :action => :index
-#    redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " sessions have been finalized."
+#    redirect_to :action => :index, :app_id => @app.id, :msg => count.to_s + " sessions have been finalized."
   end
 
   def ctl_set_finalize_dates
@@ -348,7 +343,7 @@ class Master::CoopAppsController < Master::ApplicationController
         end
       end
     end
-  redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " sessions have been finalized."
+  redirect_to :action => :index, :app_id => @app.id, :msg => count.to_s + " sessions have been finalized."
   end
 
   def ctl_backload_itl_template_ids
@@ -366,7 +361,7 @@ class Master::CoopAppsController < Master::ApplicationController
           end
       end
     end
-  redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " sessions had template ID assigned."
+  redirect_to :action => :index, :app_id => @app.id, :msg => count.to_s + " sessions had template ID assigned."
   end
 
    def ctl_update_session_summary_tables
@@ -414,7 +409,7 @@ class Master::CoopAppsController < Master::ApplicationController
             end
         end
       end
-  redirect_to :action => :index, :app_id=>@app.id, :msg => TltSession.final.size.to_s + " " + @app.abbrev + " Sessions,  " + sumry_count.to_s + " Summary Records,  " + sumry_strat_count.to_s + " Strategy Records"
+  redirect_to :action => :index, :app_id => @app.id, :msg => TltSession.final.size.to_s + " " + @app.abbrev + " Sessions,  " + sumry_count.to_s + " Summary Records,  " + sumry_strat_count.to_s + " Strategy Records"
    end 
 
 
@@ -435,7 +430,7 @@ class Master::CoopAppsController < Master::ApplicationController
       end
       lu_count += 1
     end
-  redirect_to :action => :index, :app_id=>@app.id, :msg => count.to_s + " Total LU Folder Positions Created For " + lu_count.to_s + " LU's"
+  redirect_to :action => :index, :app_id => @app.id, :msg => count.to_s + " Total LU Folder Positions Created For " + lu_count.to_s + " LU's"
   end
 
   def clsrm_mass_name_change
@@ -451,13 +446,13 @@ class Master::CoopAppsController < Master::ApplicationController
         count +=1
       end
     end
-  redirect_to :action => :index, :app_id=>@app.id, :msg => org.name + ": " + count.to_s + " Name Changes From " + txt_from + " To " + txt_to + "."
+  redirect_to :action => :index, :app_id => @app.id, :msg => org.name + ": " + count.to_s + " Name Changes From " + txt_from + " To " + txt_to + "."
   end
 
   protected
   
-  def initialize_parameters 
-    @app = CoopApp.find(params[:app_id]) rescue nil
+  def initialize_parameters
+    @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     if params[:strategy_id]
       @strategy =TlActivityTypeTask.find_by_id(params[:strategy_id])  rescue nil
     end 

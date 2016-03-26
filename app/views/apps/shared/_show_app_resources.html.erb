@@ -6,7 +6,7 @@
 				<tbody >
 					<tr style=" border:0px solid #ddd;">
 						<td   style="width:50px;  border:0px solid #ddd; padding-top:7px; padding-bottom:0px; padding-left:15px; line-height: 1.5em; vertical-align:top; text-align:left; color:#2061a5; font-weight:normal;">
-							<%= (image_tag ItlBeltRank.black.first.image,:width => 30) %>
+							<%= (image_tag ItlBeltRank.black.image,:width => 30) %>
 						</td>
 						<td   style="width:230px; width:fixed; border:0px solid #ddd; padding-top:3px; padding-bottom:0px; padding-left:0px; line-height: 1.5em; vertical-align:top; text-align:left; color:#2061a5; font-size:12px; font-weight:normal;">
 							A Calibration Resource
@@ -98,7 +98,7 @@
 												<%= rsrc.embed_code? ? "TRAINING VIDEO  " : rsrc.content_object_type.content_object_type_group.name %>								
 											</td>
 											<td style="color: #2061a5;width:35px; width:fixed; font-weight:normal;font-size:10px;">
-												<%= app.ctl? && rsrc.irr_resource? ? (image_tag ItlBeltRank.black.first.image,:width => 20) : ""%>
+												<%= app.ctl? && rsrc.irr_resource? ? (image_tag ItlBeltRank.black.image,:width => 20) : ""%>
 											</td>
 										</tr>
 										<% if rsrc.embed_code? -%>

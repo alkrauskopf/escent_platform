@@ -1,9 +1,13 @@
 class Apps::PanelController < ApplicationController
 
   helper :all # include all helpers, all the time  
- layout "observation_panel"
+  layout "observation_panel"
 
- before_filter :clear_notification
+  before_filter :current_organization, :except => []
+  before_filter :current_user, :except => []
+  before_filter :ctl_allowed?, :except=>[]
+  before_filter :current_user_app_authorized?, :except=>[]
+  before_filter :clear_notification
  
   
  def clear_notification
@@ -40,7 +44,7 @@ class Apps::PanelController < ApplicationController
 
     initialize_parameters
     stop_task
-    render :partial => "tlt_activity_tracking", :locals => {:app => @app, :tl_session => @tlt_session},:layout=>false
+    render :partial => "tlt_activity_tracking", :locals => {:app => @app, :tl_session => @tlt_session}, :layout=>false
   end
 
   def start_session_task
@@ -57,7 +61,7 @@ class Apps::PanelController < ApplicationController
      refresh_session
     end
 
-    render :partial => "tlt_activity_tracking", :locals => {:app => @app, :tl_session => @tlt_session},:layout=>false
+    render :partial => "tlt_activity_tracking", :locals => {:app => @app, :tl_session => @tlt_session}, :layout=>false
   end
 
   def log_no_time_session_task
@@ -73,7 +77,7 @@ class Apps::PanelController < ApplicationController
     if new_log.save
      refresh_session
     end
-    render :partial => "tlt_activity_tracking", :locals => {:app => @app, :tl_session => @tlt_session},:layout=>false
+    render :partial => "tlt_activity_tracking", :locals => {:app => @current_application, :tl_session => @tlt_session}, :layout=>false
   end
 
   def update_log_note
@@ -92,7 +96,7 @@ class Apps::PanelController < ApplicationController
       @tlt_log.update_attributes params[:tl_session_log]
       refresh_session   
     end
-   render :partial => "tlt_activity_log", :locals => {:tl_session => @tlt_session, :observer => true},:layout=>false
+   render :partial => "tlt_activity_log", :locals => {:tl_session => @tlt_session, :observer => true}, :layout=>false
   end
 
   def update_log_strategy
@@ -106,7 +110,7 @@ class Apps::PanelController < ApplicationController
         refresh_session 
       end
     end
-   render :partial => "tlt_activity_log", :locals => {:tl_session => @tlt_session, :observer => true},:layout=>false
+   render :partial => "tlt_activity_log", :locals => {:tl_session => @tlt_session, :observer => true}, :layout=>false
   end
 
   def remove_log
@@ -115,13 +119,17 @@ class Apps::PanelController < ApplicationController
       @tlt_log.destroy
       refresh_session
     end
-   render :partial => "tlt_activity_log", :locals => {:tl_session => @tlt_session, :observer => true},:layout=>false
+   render :partial => "tlt_activity_log", :locals => {:tl_session => @tlt_session, :observer => true}, :layout=>false
   end
 
    private
 
-  def initialize_parameters 
+  def ctl_allowed?
+    @current_application = CoopApp.ctl
+    current_app_enabled_for_current_org?
+  end
 
+  def initialize_parameters
   @suspended = false
 
     if  params[:organization_id]
@@ -152,13 +160,6 @@ class Apps::PanelController < ApplicationController
       @activity = TlActivityType.find_by_id(params[:activity_id]) rescue nil
     end
 
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.itl rescue CoopApp.find(:first)
-    end
-
   end
   
   def stop_all_tasks(session)   
@@ -183,7 +184,6 @@ class Apps::PanelController < ApplicationController
         log.update_attributes(:is_active => false)
       end
     end
-
     refresh_session 
   end 
 
@@ -203,22 +203,20 @@ class Apps::PanelController < ApplicationController
     belt_id = ItlBeltRank.none.first.id rescue 99
     if @current_organization.itl_belt_ranking?
       unless @current_user.itl_belt_rank 
-        white_belt = ItlBeltRank.white.first rescue nil
-        message = session.is_training ? "Initiated By First Practice Observation" : "Initiated By First Observation"
-        if white_belt 
-          create_belt_for(@current_user, white_belt.id, message, @current_user)
-          belt_id = white_belt.id
-        end
+        white_belt = ItlBeltRank.white
+        message = session.is_training ? 'Initiated By First Practice Observation' : 'Initiated By First Observation'
+        create_belt_for(@current_user, ItlBeltRank.white.id, message, @current_user)
+        belt_id = ItlBeltRank.white.id
       else
         belt_id = @current_user.itl_belt_rank.id
       end
     end
     session.update_attributes(:logs_are_closed => true, :session_length => session.session_duration(Time.now), :itl_belt_rank_id => belt_id)
     unless session.training?
-      audience = @app.tlt_survey_audiences.observer.first
-      type = @app.tlt_survey_types.observation.first
+      audience = @current_application.tlt_survey_audiences.observer.first
+      type = @current_application.tlt_survey_types.observation.first
       schedule_survey_app(session, @current_organization, session.subject_area_id, audience, type, nil, nil, type.notify_default(audience), type.anon_default(audience))
-      audience = @app.tlt_survey_audiences.teacher.first
+      audience = @current_application.tlt_survey_audiences.teacher.first
       schedule_survey_app(session, @current_organization, session.subject_area_id, audience, type, nil, nil, type.notify_default(audience), type.anon_default(audience))
     end
   end

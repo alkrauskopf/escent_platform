@@ -43,7 +43,7 @@
 										<tbody>
 											<tr>
 												<td style="color: #2061a5; width:30px; width:fixed; padding-left: 0px; font-weight:normal;font-size:10px;">
-													<%= (image_tag ItlBeltRank.black.first.image,:width => 20)%>
+													<%= (image_tag ItlBeltRank.black.image,:width => 20)%>
 												</td>
 												<td style="color: #2061a5; text-align:left; font-weight:normal;font-size:10px; padding-bottom:5px;">
 													<u><%= link_to "View CR Observation Data", {:controller =>  "/apps/time_learning", :action => "static_itl_session", :organization_id => @current_organization, :tlt_session_id => rsrc.itl_blackbelt.tlt_session}, {:target => "_blank"}  %></u>

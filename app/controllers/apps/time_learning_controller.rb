@@ -6,6 +6,9 @@ class Apps::TimeLearningController < Site::ApplicationController
                           :then_now, :send_invite, :research_summary, :subject_tlt_sessions,:add_survey_question,
                           :take_survey, :teacher_itl_dashboards, :diagnostic_history, :diagnostics, :student_feedback,
                           :population_stats, :school_utilization, :school_type_utilization, :subject_dashboard]
+
+  before_filter :current_organization, :except => []
+  before_filter :current_user, :except => []
   before_filter :ctl_allowed?, :except=>[]
   before_filter :current_user_app_authorized?, :except=>[]
  before_filter :clear_notification, :except =>[:teacher_private_itl_dashboards]
@@ -80,8 +83,8 @@ class Apps::TimeLearningController < Site::ApplicationController
       if @current_organization.itl_belt_ranking?
         unless @current_user.itl_belt_rank 
           message = @tlt_session.is_training ? "Initiated By First Practice Observation" : "Initiated By First Observation"
-          create_belt_for(@current_user, ItlBeltRank.white.first.id, message, @current_user)
-          belt_id = ItlBeltRank.white.first.id
+          create_belt_for(@current_user, ItlBeltRank.white.id, message, @current_user)
+          belt_id = ItlBeltRank.white.id
         else
           belt_id = @current_user.itl_belt_rank.id
         end
@@ -900,7 +903,7 @@ class Apps::TimeLearningController < Site::ApplicationController
     initialize_parameters
     template = ItlTemplate.find_by_id(params[:itl_template_id])
     template.update_attributes(:is_enabled=>!template.is_enabled)
-    redirect_to :action => 'manage_filters', :organization_id => @current_organization
+    render :partial => "manage_templates"
   end
 
   def toggle_template_method
@@ -952,7 +955,7 @@ class Apps::TimeLearningController < Site::ApplicationController
     if template 
       template.destroy
     end
-    redirect_to :action => 'manage_filters', :organization_id => @current_organization
+    render :partial => "manage_templates"
   end
 
 
@@ -1120,10 +1123,7 @@ class Apps::TimeLearningController < Site::ApplicationController
   end
  
  
-  def initialize_parameters 
-    if  params[:organization_id]
-      @current_organization = Organization.find_by_public_id(params[:organization_id])rescue nil
-    end
+  def initialize_parameters
     @current_organization.itl_set_org_options
     if params[:classroom_id]
       @classroom =Classroom.find_by_public_id(params[:classroom_id])  rescue nil
@@ -1241,28 +1241,8 @@ class Apps::TimeLearningController < Site::ApplicationController
     end    
   end
 
-  def close_session_x(session)
-    belt_id = ItlBeltRank.none.first.id rescue 99
-    if @current_organization.itl_belt_ranking?
-      unless @current_user.itl_belt_rank 
-        white_belt = ItlBeltRank.white.first rescue nil
-        message = session.is_training ? "Initiated By First Practice Observation" : "Initiated By First Observation"
-        if white_belt 
-          create_belt_for(@current_user, white_belt.id, message, @current_user)
-          belt_id = white_belt.id
-        end
-      else
-        belt_id = @current_user.itl_belt_rank.id
-      end
-    end
-    session.update_attributes(:logs_are_closed => true, :session_length => session.session_duration(Time.now), :itl_belt_rank_id => belt_id)
-    unless session.training?
-      audience = @app.tlt_survey_audiences.observer.first
-      type = @app.tlt_survey_types.observation.first
-      schedule_survey_app(session, @current_organization, session.subject_area_id, audience, type, nil, nil, type.notify_default(audience), type.anon_default(audience))
-      audience = @app.tlt_survey_audiences.teacher.first
-      schedule_survey_app(session, @current_organization, session.subject_area_id, audience, type, nil, nil, type.notify_default(audience), type.anon_default(audience))
-    end
+  def refresh_session
+    @tlt_session = TltSession.find_by_public_id(params[:tlt_session_id]) rescue nil
   end
 
   def create_belt_for(user,belt_id, note, grantor)

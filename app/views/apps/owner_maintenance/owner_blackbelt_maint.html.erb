@@ -34,7 +34,7 @@
 					</tr>
 				</tbody>
 			</table>	
-		<% ItlBeltRank.black.first.tlt_sessions.collect{|s| s.content}.compact.uniq.each do |vid|%>
+		<% ItlBeltRank.black.tlt_sessions.collect{|s| s.content}.compact.uniq.each do |vid|%>
 			<table id="<%=vid.public_id%>_black"   style="width:750px; margin-left:50px; color: #2061a5; ">
 				<tbody>  
 					<tr>

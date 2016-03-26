@@ -56,7 +56,72 @@ class ApplicationController < ActionController::Base
   def authorized?(user, organization, authorization_level)
 
   end
-#
+  #
+  # Surveys
+  #
+  def schedule_survey_app(entity, organization, subject_id, audience, type, limit, duration, notify, anon)
+    if !audience.nil? && !type.nil? && !organization.tlt_survey_questions.for_audience(audience).for_type(type).active.empty?
+      schedule = entity.survey_schedules.new
+      schedule.organization_id = organization.id
+      schedule.subject_area_id = subject_id
+      schedule.schedule_start = Date.today
+      schedule.schedule_end = duration.nil? ? Date.today + type.duration_default(audience).days : Date.today + duration.to_i.days
+      schedule.user_id = @current_user.id
+      schedule.tlt_survey_audience_id = audience.id
+      schedule.tlt_survey_type_id = type.id
+      schedule.is_notify = notify
+      schedule.is_anon = anon
+      schedule.max_responses = limit.nil? ? type.response_limit_default(audience) : limit
+      schedule.survey_instruction_id = type.instruction_for(audience).nil? ? nil : type.instruction_for(audience).id
+      if schedule.save
+        unless type.self_survey?(audience)
+          schedule.identify_takers
+        end
+        if schedule.is_notify
+          schedule.takers.each do |taker|
+            Notifier.deliver_survey_notification(:user => taker, :anon => schedule.is_anon, :subject => schedule.subject_line, :admin => @current_user, :current_organization => organization, :fsn_host => request.host_with_port)
+          end
+        end
+      end
+    end
+  end
+
+  def stop_survey(schedule)
+    schedule.update_attributes(:is_active => false)
+  end
+
+  def store_survey_responses_app(schedule)
+    if schedule.takers.include?(@current_user)
+      if params[:question] && schedule
+        params[:question].each do |question_id,value|
+          question = TltSurveyQuestion.find_by_id(question_id)rescue nil
+          unless question.nil?
+            response = TltSurveyResponse.new
+            response.organization_id = schedule.organization.id
+            response.user_id = @current_user.id
+            response.tlt_survey_question_id = question_id
+            response.score = value.to_i
+            response.comment = ""
+            if params[:survey_response]
+              params[:survey_response].each do |quest_id, comment|
+                if question_id == quest_id
+                  response.comment = comment
+                end
+              end
+            end
+            schedule.tlt_survey_responses << response
+          end
+        end  # question Loop
+      end
+      schedule.takers.delete(@current_user)
+    end
+    if schedule.tlt_survey_responses.collect{|r| r.user_id}.uniq.size >= schedule.max_responses
+      schedule.de_activate
+    end
+
+  end
+
+  #
 #  Tagging
 #
   def toggle_classroom_favorite(user, classroom)

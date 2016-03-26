@@ -1,15 +1,9 @@
 <div >
-
-<% if code -%>
-
+  <% if code -%>
     <div style="width:525px;  margin-left: 00px; min-height:394px; border:0px solid black;">
-        <div style="text-align:left;">
-            <br/><%= code %>
-        </div>
-
+      <div style="text-align:left;">
+        <br/><%= code.html_safe %>
+      </div>
     </div>
-
-<% end -%>
-
-
+  <% end -%>
 </div>

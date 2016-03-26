@@ -1,89 +1,80 @@
 <div id="ctl_owner_maintenance">
-
 	<br/>
-	<% if @current_user.app_superuser?(app)-%>	
 		<table style="margin-left:150px; font-size:16px; font-weight:bold;  color: #2061a5; width:600px">
 			<tbody >
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "owner_strategies", :app_id => app.id} %>
+							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "owner_strategies", :coop_app_id => @current_application} %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-							 <%= app.abbrev %>&nbsp;<%= app.app_methods.collect{|m| m.task_name.pluralize}.join(" and ")%>
+							 <%= @current_application.abbrev %>&nbsp;<%= @current_application.app_methods.collect{|m| m.task_name.pluralize}.join(" and ")%>
 					</td>
 				</tr>
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "owner_strategy_thresholds", :app_id => app.id} %>
+							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "owner_strategy_thresholds", :coop_app_id => @current_application} %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-							 <%= app.abbrev %> Strategy Thresholds
+							 <%= @current_application.abbrev %> Strategy Thresholds
 					</td>
 				</tr>
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "owner_blackbelt_maint", :app_id => app.id} %>
+							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "owner_blackbelt_maint", :coop_app_id => @current_application} %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-							 <%= app.abbrev %> Proficiency Calibration Resources
+							 <%= @current_application.abbrev %> Proficiency Calibration Resources
 					</td>
 				</tr>
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "ctl_school_listing", :app_id => app.id} %>
+							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "ctl_school_listing", :coop_app_id => @current_application} %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-							Maintain Finalized <%= app.abbrev %> Sessions
+							Maintain Finalized <%= @current_application.abbrev %> Sessions
 					</td>
 				</tr>
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "app_discussion_forum", :app_id => app.id} %>
+							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "app_discussion_forum", :coop_app_id => @current_application} %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-							Maintain <%= app.abbrev %> Discussion Forum
+							Maintain <%= @current_application.abbrev %> Discussion Forum
 					</td>
 				</tr>
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "app_ctl_dashboards", :app_id => app.id} %>
+							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "app_ctl_dashboards", :coop_app_id => @current_application} %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-							Review & Maintain Aggregated <%= app.abbrev %> Dashboards
+							Review & Maintain Aggregated <%= @current_application.abbrev %> Dashboards
 					</td>
 				</tr>
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "app_ctl_open_sessions", :app_id => app.id} %>
+							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "app_ctl_open_sessions", :coop_app_id => @current_application} %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-							Review & Maintain Open <%= app.abbrev %> Observations
+							Review & Maintain Open <%= @current_application.abbrev %> Observations
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		</br/>
-	<% else -%>
-			<span style="color: #C83A14; font-size:12px;  font-weight:normal">
-				<br/></br/><center>
-					Not <%= @app.abbrev %>&nbsp;Authorized.
-				</center><br/></br/>
-			</span>
-	<% end -%>
 <br/>
 </div>
 

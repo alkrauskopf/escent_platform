@@ -4,8 +4,9 @@ class Apps::OwnerMaintenanceController < ApplicationController
   layout "app_owners", :except =>[:elt_manage_indicators,:app_ctl_school_month_opens, :app_ctl_school_opens,:app_ctl_school_subject_dashboards, :app_ctl_school_dashboards, :ctl_teacher_sessions, :ctl_school_teacher_listing, :core_org_status, :core_org_child_parent, :owner_show_video_session]
   
   before_filter :current_organization
-  before_filter :current_user 
-
+  before_filter :current_user
+  before_filter :current_application
+  before_filter :current_user_app_superuser?
 
   before_filter :clear_notification, :except =>[]
   
@@ -16,12 +17,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
 
 
   def index
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app && @current_user && @current_user.app_superuser?(@app)
-      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization
-    end
+    @app = @current_application
   end
 
   def core_maintain_child_parent
@@ -112,7 +108,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
   end
 
   def app_discussion_forum
-    @app = CoopApp.find(params[:app_id]) rescue nil    
+
   end
 
   def update_app_discussion_parameters
@@ -124,31 +120,27 @@ class Apps::OwnerMaintenanceController < ApplicationController
   end
 
   def app_ctl_dashboards
-    @app = CoopApp.find(params[:app_id]) rescue nil    
+
   end
   
   def app_ctl_school_dashboards
-    @app = CoopApp.find(params[:app_id]) rescue nil    
     @school = Organization.find_by_public_id(params[:org_id])
   end
 
   def app_ctl_school_subject_dashboards
-    @app = CoopApp.find(params[:app_id]) rescue nil    
     @school = Organization.find_by_public_id(params[:org_id])
     @subject = SubjectArea.find_by_public_id(params[:subject_id])
   end
 
   def app_ctl_open_sessions
-    @app = CoopApp.find(params[:app_id]) rescue nil    
+
   end
   
   def app_ctl_school_opens
-    @app = CoopApp.find(params[:app_id]) rescue nil    
     @school = Organization.find_by_public_id(params[:org_id])
   end 
 
   def app_ctl_school_month_opens
-    @app = CoopApp.find(params[:app_id]) rescue nil    
     @school = Organization.find_by_public_id(params[:org_id])
     @month = DateTime.parse(params[:session_month]) rescue nil
   end
@@ -174,12 +166,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
 
    
   def owner_strategies
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.itl rescue CoopApp.find(:first)
-    end
+
   end
 
   def owner_strategy_evidence
@@ -199,33 +186,16 @@ class Apps::OwnerMaintenanceController < ApplicationController
   end
 
   def owner_strategy_thresholds
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.itl rescue CoopApp.find(:first)
-    end
+
   end
 
   def owner_strategy_edit
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.itl rescue CoopApp.find(:first)
-    end
     if params[:strategy_id]
       @strategy =TlActivityTypeTask.find_by_id(params[:strategy_id])  rescue nil
     end
   end
 
   def owner_strategy_update
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.itl rescue CoopApp.find(:first)
-    end
     return if request.get?
     if params[:strategy_id]
       @strategy =TlActivityTypeTask.find_by_id(params[:strategy_id])  rescue nil
@@ -241,16 +211,10 @@ class Apps::OwnerMaintenanceController < ApplicationController
         @strategy.tl_strategy_desc.update_attributes params[:tl_strategy_desc]
       end
     end
-      redirect_to  :action => "owner_strategies", :app_id => @app.id
+      redirect_to  :action => "owner_strategies", :coop_app_id => @current_application
   end
 
   def owner_thresholds_edit
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.itl rescue CoopApp.find(:first)
-    end
     if params[:strategy_id]
       @strategy =TlActivityTypeTask.find_by_id(params[:strategy_id])  rescue nil
     end
@@ -266,7 +230,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
       thresh.min_pct_msg = params[:itl_strategy_threshold][:min_pct]=="" ? nil : params[:itl_strategy_threshold][:min_pct_msg]
       thresh.max_pct_msg = params[:itl_strategy_threshold][:max_pct]=="" ? nil : params[:itl_strategy_threshold][:max_pct_msg]
       if thresh.save
-        redirect_to  :action => "owner_strategy_thresholds", :app_id => @app.id          
+        redirect_to  :action => "owner_strategy_thresholds", :coop_app_id => @current_application
       else 
         @min_minute = thresh.min_minutes
         @min_minute_msg = thresh.min_minutes_msg
@@ -290,17 +254,11 @@ class Apps::OwnerMaintenanceController < ApplicationController
         @max_pct = @strategy.itl_strategy_threshold.max_pct
         @max_pct_msg = @strategy.itl_strategy_threshold.max_pct_msg      
     end
- 
   end
 
 
   def owner_blackbelt_maint
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
-    unless @app
-      @app = CoopApp.itl rescue CoopApp.find(:first)
-    end
+
   end
 
   def owner_show_video_session
@@ -610,6 +568,10 @@ class Apps::OwnerMaintenanceController < ApplicationController
   end
 
   protected
+
+  def current_app
+    @current_application ||= CoopApp.find_by_public_id(params[:coop_app_id])
+  end
 
   def access_denied(message=nil)
     @login_url = url_for(:controller => "/master/application", :action => :login, "user[email_address]" => self.current_user ? @current_user.email_address : '', :organization_id => @current_organization)

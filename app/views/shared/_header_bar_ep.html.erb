@@ -88,8 +88,6 @@
                 Welcome, <%= @current_user.full_name %>
                 <% if @current_user.created_at == @current_user.updated_at -%>
                   &nbsp;<%= link_to "Setup Your Profile!", :controller => "/users", :action => :edit_profile, :organization_id => @current_organization, :id => @current_user %>
-                <% else -%>
-                  (<a href="/messages">You have <%= @current_user.messages.length %> <%= @current_user.messages.length == 1 ? 'message' : 'messages' %>)</a>
                 <% end -%>
               </div>
               <div style="float:left; text-align:center; width:30%; " class="header_footer_text">

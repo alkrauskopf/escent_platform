@@ -18,4 +18,9 @@ class ItlBeltRank < ActiveRecord::Base
     where('rank = ?', 'black').first rescue nil
   end
 
+  def self.blackbelt_videos
+    self.black.tlt_sessions.collect{|s| s.content}.compact.uniq
+  end
+
+
 end

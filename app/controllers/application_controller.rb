@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_application
-    @current_application ||= (CoopApp.find_by_public_id(params[:coop_app_id])) rescue CoopApp.core
+    @current_application ||= CoopApp.find_by_public_id(params[:coop_app_id]) rescue CoopApp.core
   end
 
   def core_enabled_for_current_org?
@@ -43,6 +43,12 @@ class ApplicationController < ActionController::Base
       if (@current_user.nil? || !@current_user.app_authorized?(@current_application, @current_organization))
         redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
       end
+    end
+  end
+
+  def current_user_app_superuser?
+    unless(@current_user && @current_user.app_superuser?(@current_application))
+      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
     end
   end
 

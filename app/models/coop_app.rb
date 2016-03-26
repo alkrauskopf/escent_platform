@@ -227,6 +227,10 @@ class CoopApp < ActiveRecord::Base
     self.app_discussion.organization rescue self.owner
   end
 
+  def app_discussion
+    self.app_discussions.first rescue nil
+  end
+
   def available?
     self.is_available
   end

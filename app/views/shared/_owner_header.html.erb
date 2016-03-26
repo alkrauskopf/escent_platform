@@ -1,89 +1,61 @@
 <style type="text/css">
-ul#mymenu {}
-li.potato-menu-item {
-	width:380px;
-	font-size:11px;
-	background-color:<%= @current_organization ? @current_organization.style_setting_value_named("Header and Footer Bars") : '000' %>;
-	/* background-color:rgba(0,0,0,0.9); */
-}
-li.potato-menu-item a {
-	padding:5px 20px 5px 12px;
-	color:<%= @current_organization ? @current_organization.style_setting_value_named("Header and Footer Text") : '000' %>;
-
-}
-li.potato-menu-hover {
-	background-color: #666;
-}
-
-/*  Remove Arrows for Now 
- * 
-li.potato-menu-has-vertical > a {
-	background: transparent url(/images/icons/arrow_down.gif) right no-repeat;
-}
-*/
-li.potato-menu-has-horizontal > a {
-	background: transparent url(/images/icons/arrow_right.gif) right no-repeat;
-}
-
-
-li.potato-menu-item ul {
-	border-top:1px solid #444;
-	border-left:1px solid #444;
-	width:250px;
-}
+  .hdr-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  .hdr-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color:<%= @current_organization ? @current_organization.style_setting_value_named("Header and Footer Bars") : '000' %>;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    color:<%= @current_organization ? @current_organization.style_setting_value_named("Header and Footer Text") : '000' %>;
+  }
+  .hdr-dropdown:hover .hdr-dropdown-content {
+    display: block;
+  }
 </style>
 <div class="login_bar">
-    <div class="iwing_header_and_footer_bars clear">
-        <% if @current_user -%>
-        <div class="content" style="width:100%;">
-            <div class="header_row clear">
-                <div style="float:left; width:42%;" class="header_footer_text">
-                  Welcome, <%= @current_user.full_name %>&nbsp;
-				 <% if @current_user.created_at == @current_user.updated_at -%>
-						&nbsp;<%= link_to "Setup Your Profile!", :controller => "/users", :action => :edit_profile, :organization_id => @current_organization, :id => @current_user %> 
-					<% end %>
-                </div>
-				<div style="float:left; width:33%;" class="header_footer_text">
-					<%=@app.abbrev%>&nbsp;Application Maintenance				 
-				</div>
-				<% unless @current_organization.nil? %>
-                <div style="float:left; width:25%; text-align:right;" class="header_footer_text">
-                    <%= link_to @current_organization.name, :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization %>
-                </div>
-				<% else %>
-	                <div style="float:left; width:25%; text-align:right;" class="header_footer_text">
-					&nbsp;
-				</div>
-				<% end %>
+  <div class="iwing_header_and_footer_bars clear">
+    <% if @current_user -%>
+      <div class="content" style="width:100%;">
+        <div class="header_row clear">
+          <div style="float:left; width:42%;" class="header_footer_text">
+            Welcome, <%= @current_user.full_name %>&nbsp;
+            <% if @current_user.created_at == @current_user.updated_at -%>
+              &nbsp;<%= link_to "Setup Your Profile!", :controller => "/users", :action => :edit_profile, :organization_id => @current_organization, :id => @current_user %>
+            <% end %>
+          </div>
+          <div style="float:left; width:33%;" class="header_footer_text">
+            <%=@current_application.abbrev%>&nbsp;Application Maintenance
+          </div>
+          <% unless @current_organization.nil? %>
+            <div style="float:left; width:25%; text-align:right;" class="header_footer_text">
+              <%= link_to @current_organization.name, :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization %>
             </div>
-		        <div class="header_row clear" style="border-top:2px solid #FFFFFF;">
-                <div style="width:100%; float:left; text-align:left;"class="header_footer_text">
-				   <ul id="mymenu">
-			   		<li style="width: 10%; ">
-  							&nbsp;
-				   	</li>
-					<li style="width: 80%;">
-   							<center>Close Window When Done</center>
-					</li>
-					<li style="width:10%; text-align:center;" class="header_footer_text">	
-	                    <%= link_to "Sign Out", :controller => "/users", :action => :logout, :organization_id => @current_organization %>
-					</li>
-				</ul>
-	<script type="text/javascript" charset="utf-8">
-		jQ(document).ready(function() {
-			jQ('#mymenu').ptMenu();
-	    })
-	</script>	
-			</div>
- 
+          <% else %>
+            <div style="float:left; width:25%; text-align:right;" class="header_footer_text">
+              &nbsp;
             </div>
+          <% end %>
         </div>
-        <% else -%>
-        <div class="tip_info">
-        	<div class="header_footer_text">
-				Not Authorized
-        	</div>
+        <div class="header_row clear" style="border-top:2px solid #FFFFFF;">
+          <div style="width:100%; float:left; text-align:left;"class="header_footer_text">
+            <ul>
+              <li style="width: 10%;" class="hdr-dropdown">
+                &nbsp;
+              </li>
+              <li style="text-align:center; width: 80%;" class="hdr-dropdown">
+                    Close Window When Done
+              </li>
+              <li style="width:10%; text-align:center;" class="header_footer_text">
+                  <%= link_to "Sign Out", :controller => "/users", :action => :logout, :organization_id => @current_organization %>
+              </li>
+            </ul>
+          </div>
         </div>
-     <% end -%>
-    </div>
+      </div>
+    <% end -%>
+  </div>
 </div>

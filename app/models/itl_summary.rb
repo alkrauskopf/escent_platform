@@ -27,4 +27,8 @@ def itl_sessions
   sessions
 end
 
+  def self.organizations
+    self.all.collect{|s| s.organization}.uniq.sort_by{|o| o.name}
+  end
+
 end

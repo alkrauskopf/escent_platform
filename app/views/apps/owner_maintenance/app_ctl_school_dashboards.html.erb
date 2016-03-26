@@ -1,13 +1,12 @@
-	<% if @current_user.app_superuser?(@app) && @school %>
+	<% if @school %>
 		<% @school.itl_summaries.collect{|s| s.subject_area}.uniq.sort_by{|s| s.name}.each do |subj|%>							
 			<table id="<%=@school.public_id%><%=subj.id%>_ag_dashboard"   style="width:880px; margin-left:10px; color: #2061a5;padding-left:0px;font-size:12px; font-weight:bold; ">
 				<tbody>  
 					<tr>
 						<td class="resource_levels_close">
-		
-						<%= link_to '', :controller => "/apps/owner_maintenance", :action => :app_ctl_school_subject_dashboards, :org_id => @school, :subject_id=> subj, :app_id=> @app.id %>
+  						<%= link_to '', :controller => "/apps/owner_maintenance", :action => :app_ctl_school_subject_dashboards, :org_id => @school, :subject_id=> subj, :coop_app_id=> @current_application %>
 							<%= @school.itl_summaries.for_subject(subj).size %>&nbsp;<%= subj.name %>
-						<span></span>
+	  					<span></span>
 						</td>
 					</tr>
 				</tbody>

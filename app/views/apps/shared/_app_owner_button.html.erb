@@ -1,9 +1,6 @@
-	<% if @current_user.app_superuser?(app)%>
-		<% button_label = app.abbrev + " Owner Maintenance"%>
-		<center>
-							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								 <%= link_to button_label ,{:controller => "apps/owner_maintenance", :action => :index, :organization_id => @current_organization, :app_id=> app.id}, {:target => "_blank"} %>
-							</span>
-
-		</center>
-	<% end-%>	
+<div style='text-align:center'>
+  <% button_label = @current_application.abbrev + " Owner Maintenance"%>
+  <span  class="fsn-button ui-button ui-state-default ui-corner-all">
+     <%= link_to button_label ,{:controller => "apps/owner_maintenance", :action => :index, :organization_id => @current_organization, :coop_app_id => @current_application}%>
+  </span>
+</div>

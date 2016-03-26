@@ -1,19 +1,19 @@
 <div id="edit_threshold">
 
   	<div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 18px; font-style: normal; font-weight: bold">
-			<br/><center><%= @strategy.name %></center>
+			<br/><%= @strategy.name %>
 	</div>
   	<div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 14px; font-style: normal; font-weight: normal">
-			<center><%= @strategy.description %></center>
+			<%= @strategy.description %>
 	</div>
   	<div style="text-align:center;  word-wrap:break-word; color:#C73914;;  font-size: 12px; font-style: normal; font-weight: normal">
-		<br/><center>When thresholds are exceeded, the teacher will be shown a warning indicator and the corresponding message.</center>
-		<center>Enter applicable thresholds & corresponding warning message.</center><br/>
+		<br/>When thresholds are exceeded, the teacher will be shown a warning indicator and the corresponding message.
+		<br/>Enter applicable thresholds & corresponding warning message.<br/>
 	</div>
 
     <%= render :partial => "/shared/error_and_notice" %>
 
-	<% form_for :itl_strategy_threshold , @strategy.itl_strategy_threshold , :url=>{:controller => "/apps/owner_maintenance" , :action => "owner_thresholds_edit" , :strategy_id => @strategy.id, :app_id=>@app.id} do |@f| %>
+	<% form_for :itl_strategy_threshold , @strategy.itl_strategy_threshold , :url=>{:controller => "/apps/owner_maintenance" , :action => "owner_thresholds_edit" , :strategy_id => @strategy.id, :coop_app_id=>@current_application} do |f| %>
 		<div class="FormRow">	
 			<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
 				<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
@@ -56,8 +56,8 @@
 		</div>
 		<div class="FormRow">	
 			<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
-				<%= @f.submit "Save" %>&nbsp;&nbsp;
-				<%= link_to "Cancel" ,  {:controller => "/apps/owner_maintenance", :action => "owner_strategy_thresholds", :app_id => @app.id} %>
+				<%= f.submit "Save" %>&nbsp;&nbsp;
+				<%= link_to "Cancel" ,  {:controller => "/apps/owner_maintenance", :action => "owner_strategy_thresholds", :coop_app_id => @current_application} %>
 			</div>	
 		</div>
 	<% end %>

@@ -1,16 +1,13 @@
-	<% if @current_user.app_superuser?(@app) && @school %>
-	
+	<% if @school %>
 		<% session_months = @school.tlt_sessions.backlog.completed.collect{|s| s.session_date.at_beginning_of_month}.compact.uniq.sort{|a,b| b <=> a} -%>
-	
 		<% session_months.each do |month|%>							
 			<table id="<%=@school.public_id%><%= month %>_open_session"   style="width:880px; margin-left:10px; color: #2061a5;padding-left:0px;font-size:12px; font-weight:bold; ">
 				<tbody>  
 					<tr>
 						<td class="resource_levels_close">
-		
-						<%= link_to '', :controller => "/apps/owner_maintenance", :action => :app_ctl_school_month_opens, :org_id => @school, :session_month => month, :app_id=> @app.id %>
+  						<%= link_to '', :controller => "/apps/owner_maintenance", :action => :app_ctl_school_month_opens, :org_id => @school, :session_month => month, :coop_app_id=> @current_application %>
 							<%= @school.tlt_sessions.between_dates(month.at_beginning_of_month, month.at_end_of_month ).backlog.completed.size %>&nbsp;<%= month.strftime("%B %Y") %>
-						<span></span>
+	  					<span></span>
 						</td>
 					</tr>
 				</tbody>

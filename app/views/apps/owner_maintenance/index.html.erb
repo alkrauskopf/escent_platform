@@ -1,29 +1,27 @@
 <div id="main_content" >
-	<div style ="color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold"> 
+	<div style ="text-align:center; color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold">
 		<br/>
-		<center>
-			<strong><%=  @app.name %></strong><br/>
-			<span style="font-size:13px; padding-top:10px; font-weight:normal"><u>Universal</u> changes to <%= @app.abbrev %>&nbsp;are made here.
+			<strong><%=  @current_application.name %></strong><br/>
+			<span style="font-size:13px; padding-top:10px; font-weight:normal"><u>Universal</u> changes to <%= @current_application.abbrev %>&nbsp;are made here.
 			</span>
-		</center>
 	</div>
-		<% if (@app.ctl?) -%>
-			<%= render :partial => "/apps/owner_maintenance/owner_maintenance_ctl", :locals => {:app => @app}  %>
-			<% elsif (@app.pd?) -%>
-				<%= render :partial => "/apps/owner_maintenance/owner_maintenance_pd", :locals => {:app => @app}  %>
-				<% elsif (@app.classroom?) -%>
-					<%= render :partial => "/apps/owner_maintenance/owner_maintenance_clsrm", :locals => {:app => @app}  %>
-					<% elsif (@app.ifa?) -%>
-						<%= render :partial => "/apps/owner_maintenance/owner_maintenance_ifa", :locals => {:app => @app}  %>
-						<% elsif (@app.core?) -%>
-							<%= render :partial => "/apps/owner_maintenance/owner_maintenance_core", :locals => {:app => @app}  %>
-							<% elsif (@app.elt?) -%>
-								<%= render :partial => "/apps/owner_maintenance/owner_maintenance_elt", :locals => {:app => @app}  %>		
+		<% if (@current_application.ctl?) -%>
+			<%= render :partial => "/apps/owner_maintenance/owner_maintenance_ctl"  %>
+			<% elsif (@current_application.pd?) -%>
+				<%= render :partial => "/apps/owner_maintenance/owner_maintenance_pd" %>
+				<% elsif (@current_application.classroom?) -%>
+					<%= render :partial => "/apps/owner_maintenance/owner_maintenance_clsrm" %>
+					<% elsif (@current_application.ifa?) -%>
+						<%= render :partial => "/apps/owner_maintenance/owner_maintenance_ifa"%>
+						<% elsif (@current_application.core?) -%>
+							<%= render :partial => "/apps/owner_maintenance/owner_maintenance_core" %>
+							<% elsif (@current_application.elt?) -%>
+								<%= render :partial => "/apps/owner_maintenance/owner_maintenance_elt"%>
 		<% else -%>
-			<span style="color: #C83A14; font-size:12px;  font-weight:normal">
-				<br/></br/><center>
-					No Maintenance App For <%= @app.abbrev %>.
-				</center><br/></br/>
+			<span style="text-align:center; color: #C83A14; font-size:12px;  font-weight:normal">
+				<br/></br/>
+					No Maintenance App For <%= @current_application.abbrev %>.
+				<br/></br/>
 			</span>	
 		<% end -%>
 	<br/>

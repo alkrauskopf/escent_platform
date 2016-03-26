@@ -1,52 +1,49 @@
 <div id="edit_strategy">
-
-  	<div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 18px; font-style: normal; font-weight: bold">
-			<br/><center><%= @strategy.name %></center>
+  <div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 18px; font-style: normal; font-weight: bold">
+    <br/><%= @strategy.name %>
 	</div>
-  	<div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 14px; font-style: normal; font-weight: normal">
-			<center><%= @strategy.description %></center>
+  <div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 14px; font-style: normal; font-weight: normal">
+    <%= @strategy.description %>
 	</div>
-  	<div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 14px; font-style: normal; font-weight: normal">
-			<center><%= @strategy.is_enabled ? "Enabled":"Disabled" %>;&nbsp;&nbsp;Panel Position:&nbsp;<%=@strategy.position %>;&nbsp;&nbsp;Impact Score:&nbsp;<%=@strategy.research ? @strategy.research : "none" %></center>
+  <div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 14px; font-style: normal; font-weight: normal">
+    <%= @strategy.is_enabled ? "Enabled":"Disabled" %>;&nbsp;&nbsp;Panel Position:&nbsp;<%=@strategy.position %>;&nbsp;&nbsp;Impact Score:&nbsp;<%=@strategy.research ? @strategy.research : "none" %>
 	</div>
-
-	<% form_for :tl_strategy_desc , @strategy.tl_strategy_desc , :url=>{:controller => "/apps/owner_maintenance" , :action => "owner_strategy_update" , :strategy_id => @strategy.id, :app_id=>@app.id} do |@f| %>
-		<div class="FormRow">	
-			<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
-				<span style="color:#2061a5;  font-size: 14px; font-style: normal; font-weight: bold">
-					<u>Discussion</u><br/>
-				</span>
-				<%= text_area :tl_strategy_desc, :description,  :value => @strategy.tl_strategy_desc.nil? ? "" : @strategy.tl_strategy_desc.description , :rows => 20, :cols => 75, :class =>"mceEditor"  %>
-			</div>	
-		</div>
-		<div class="FormRow">	
-			<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
-				<span style="color:#2061a5;  font-size: 14px; font-style: normal; font-weight: bold">
-					<u>Research Attributions</u><br/>
-				</span>
-				<%= text_area :tl_strategy_desc, :research,  :value => @strategy.tl_strategy_desc.nil? ? "" : @strategy.tl_strategy_desc.research  , :rows => 5, :cols => 75 %>
-			</div>	
-		</div>
-		<div class="FormRow">	
-			<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
-				<%= @f.submit "Save" %>&nbsp;&nbsp;
-				<%= link_to "Cancel" ,  {:controller => "/apps/owner_maintenance", :action => "owner_strategies", :app_id => @app.id} %>
-			</div>	
-		</div>
+<!--
+	<%# form_for :tl_strategy_desc , @strategy.tl_strategy_desc , :url=>{:controller => "/apps/owner_maintenance" , :action => "owner_strategy_update" , :strategy_id => @strategy.id, :app_id=>@app.id} do |f| %>
+-->
+  <% form_for :tl_strategy_desc, :url=>{:controller => "/apps/owner_maintenance" , :action => "owner_strategy_update" , :strategy_id => @strategy.id, :coop_app_id=>@current_application} do |f| %>
+    <div class="FormRow">
+      <div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+        <span style="color:#2061a5;  font-size: 14px; font-style: normal; font-weight: bold">
+          <u>Discussion</u><br/>
+        </span>
+        <%= text_area :tl_strategy_desc, :description,  :value => @strategy.tl_strategy_desc.nil? ? "" : @strategy.tl_strategy_desc.description , :rows => 20, :cols => 75, :class =>"mceEditor"  %>
+      </div>
+    </div>
+    <div class="FormRow">
+      <div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+        <span style="color:#2061a5;  font-size: 14px; font-style: normal; font-weight: bold">
+          <u>Research Attributions</u><br/>
+        </span>
+        <%= text_area :tl_strategy_desc, :research,  :value => @strategy.tl_strategy_desc.nil? ? "" : @strategy.tl_strategy_desc.research  , :rows => 5, :cols => 75 %>
+      </div>
+    </div>
+    <div class="FormRow">
+      <div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
+        <%= f.submit "Save" %>&nbsp;&nbsp;
+        <%= link_to "Cancel" ,  {:controller => "/apps/owner_maintenance", :action => "owner_strategies", :coop_app_id=>@current_application} %>
+      </div>
+    </div>
 	<% end %>
-  	<div style="text-align:center;  word-wrap:break-word; color:#000000;  font-size: 11px; font-style: normal; font-weight: normal">
-			<br/><center><i>Use YML Table Reload To Change Position, Impact, & Enable/Disable</i></center><br/>
+  <div style="text-align:center;  word-wrap:break-word; color:#000000;  font-size: 11px; font-style: normal; font-weight: normal">
+    <br/><em>Use YML Table Reload To Change Position, Impact, & Enable/Disable</em><br/>
 	</div>
-
-			<%= render :partial => "/apps/owner_maintenance/owner_strategy_evidences", :locals => {:app => @app, :strategy=>@strategy}  %>		
-
-		<div class="FormRow">	
-			<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
-				&nbsp;
-			</div>	
-		</div>
-
-
+  <%= render :partial => "/apps/owner_maintenance/owner_strategy_evidences", :locals =>{:strategy => @strategy} %>
+  <div class="FormRow">
+    <div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
+      &nbsp;
+    </div>
+  </div>
 </div>
 
 

@@ -1,44 +1,30 @@
 <div >
-
-  	<div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 18px; font-style: normal; font-weight: bold">
-			<br/><center>Maintain&nbsp;<%= @app.abbrev %>&nbsp;Discussion Forums</center>
+  <div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 18px; font-style: normal; font-weight: bold">
+    <br/>Maintain&nbsp;<%= @current_application.abbrev %>&nbsp;Discussion Forums</center>
 	</div>
-			<% button_label = @app.abbrev + " Owner Maintenance"%>
-			<table  style="width:350px; margin-left:400px; color: #2061a5; ">
-				<tbody>
-					<tr>
-						<td  style="width:350px; vertical-align:middle; text-align:left;padding-bottom:0px; padding-top:0px; padding-left:0px">
-							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								 <%= link_to button_label ,{:controller => "apps/owner_maintenance", :action => :index, :organization_id => @current_organization, :app_id=> @app.id}, {:target => "_blank"} %>
-							</span>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<table  style="width:850px; margin-left:70px; color: #000000; ">
-				<tbody>
-					<tr>
-						<td  style="width:850px; width:fixed; font-size: 12px; font-style: normal; vertical-align:middle; text-align:left;padding-bottom:0px; padding-top:0px; padding-left:0px">							
-							This allows <%= @app.abbrev %> Co-Owners to manage <%= @app.abbrev %> Discussion Forums.  Operations currently supported are as follows:<br/><br/>
-							<u><strong>Background Color:</strong></u>  Assigns discussion forum panel's background color.
-							<br/><br/>
-							<i>Future:</i>  <%= @app.abbrev %> Blog management functions will be added here. Currently this is done as an EP Admin function.
-							<br/><br/>
-						</td>
-					</tr>
-					<tr>
-						<td  style="width:850px; width:fixed; font-size: 12px; font-style: normal; vertical-align:middle; text-align:left;padding-bottom:0px; padding-top:0px; padding-left:0px">							
-							The <%= @app.abbrev %> Discussion Forum will take place under the
-							<span style="color:#C83A14;font-weight:bold">
-								&nbsp;<%= @app.discussion_owner.name %>&nbsp;
-							</span> banner.<br/><br/>
-						</td>
-					</tr>
-				</tbody>
-			</table>	
-	<% if @current_user.app_superuser?(@app)%>
-		<%= render :partial => "/apps/owner_maintenance/app_discussion_owner_maintenance", :locals => {:app => @app} %>
-	<% end-%>
+  <%= render :partial => "apps/shared/app_owner_button" %>
+  <table  style="width:850px; margin-left:70px; color: #000000; ">
+    <tbody>
+      <tr>
+        <td  style="width:850px; width:fixed; font-size: 12px; font-style: normal; vertical-align:middle; text-align:left;padding-bottom:0px; padding-top:0px; padding-left:0px">
+          This allows <%= @current_application.abbrev %> Co-Owners to manage <%= @current_application.abbrev %> Discussion Forums.  Operations currently supported are as follows:<br/><br/>
+          <u><strong>Background Color:</strong></u>  Assigns discussion forum panel's background color.
+          <br/><br/>
+          <i>Future:</i>  <%= @current_application.abbrev %> Blog management functions will be added here. Currently this is done as an EP Admin function.
+          <br/><br/>
+        </td>
+      </tr>
+      <tr>
+        <td  style="width:850px; width:fixed; font-size: 12px; font-style: normal; vertical-align:middle; text-align:left;padding-bottom:0px; padding-top:0px; padding-left:0px">
+          The <%= @current_application.abbrev %> Discussion Forum will take place under the
+          <span style="color:#C83A14;font-weight:bold">
+            &nbsp;<%= @current_application.discussion_owner.name %>&nbsp;
+          </span> banner.<br/><br/>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <%= render :partial => "/apps/owner_maintenance/app_discussion_owner_maintenance", :locals => {:app => @current_application} %>
 </br/>
 </div>
 

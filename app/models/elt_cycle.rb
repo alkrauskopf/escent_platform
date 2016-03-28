@@ -12,6 +12,9 @@ class EltCycle < ActiveRecord::Base
     
   has_many :elt_cycle_activities, :dependent => :destroy
   has_many :activities, :through => :elt_cycle_activities, :source => :elt_type
+  has_many :elt_cycle_elements, :dependent => :destroy
+  has_many :elements, :through => :elt_cycle_elements, :source => :elt_element, :uniq=>true
+
   has_many :survey_schedules, :as => :entity, :dependent => :destroy  
   has_many :elt_plans, :dependent => :destroy
   
@@ -93,6 +96,10 @@ class EltCycle < ActiveRecord::Base
   
   def summary_for_indicator(indicator)
     self.elt_cycle_summaries.for_indicator(indicator).empty? ? nil : self.elt_cycle_summaries.for_indicator(indicator).first
+  end
+
+  def standards
+    self.elements.collect{|e| e.standard}.compact.uniq
   end
   
 end

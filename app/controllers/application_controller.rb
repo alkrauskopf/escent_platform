@@ -38,6 +38,14 @@ class ApplicationController < ActionController::Base
 #
 #  App Authorizations
 #
+
+  def current_org_current_app_provider?
+    unless (!@current_organization.nil? && !@current_application.nil? && @current_organization.provider?(@current_application))
+      org = @current_organization.nil? ? Organization.default : @current_organization
+      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => org
+    end
+  end
+
   def current_user_app_authorized?
     unless(@current_user && @current_user.superuser?)
       if (@current_user.nil? || !@current_user.app_authorized?(@current_application, @current_organization))
@@ -52,6 +60,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_user_app_admin?
+    unless(@current_user && @current_application && @current_organization && @current_user.has_authority?(AuthorizationLevel.app_administrator(@current_application), @current_organization, :superuser => true))
+      org = @current_organization.nil? ? Organization.default : @current_organization
+      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => org
+    end
+  end
+
   def user_authorize(auth_level)
     if @current_user.nil? || @current_organization.nil? || !@current_user.has_authority?(auth_level, @current_organization, :superuser=>true)
       organization = !@current_user.nil? ? @current_user.organization : Organization.default
@@ -60,7 +75,11 @@ class ApplicationController < ActionController::Base
   end
 
   def authorized?(user, organization, authorization_level)
+  end
 
+  def clear_notification
+    flash[:notice] = nil
+    flash[:error] = nil
   end
   #
   # Surveys

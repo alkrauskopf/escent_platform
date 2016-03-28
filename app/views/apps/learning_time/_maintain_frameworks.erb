@@ -35,7 +35,7 @@
           <br/><div style="font-size:12px; color:#C73914; text-align:center">Please Create A Framework</div>
       <% end -%>
           <div>
-
+            <%= link_to 'Maintain Standards', :controller => "apps/learning_time_standards", :action => :index, :organization_id => @current_organization  %>
             <table id="frameworks_<%=org.public_id%>" style="margin-left:80px; width:810px; width:fixed; border:0px solid #ddd;">
               <tbody>
                   <tr>

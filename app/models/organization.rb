@@ -90,6 +90,7 @@ class Organization < ActiveRecord::Base
   has_many :elt_plan_types, :dependent => :destroy
   has_many :elt_plans, :dependent => :destroy
   has_many :elt_frameworks, :dependent => :destroy
+  has_many :elt_standards
 
   has_one :organization_core_option 
 

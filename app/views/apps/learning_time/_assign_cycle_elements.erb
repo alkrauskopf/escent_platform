@@ -1,0 +1,74 @@
+
+<div id="assign_elements_<%=cycle.public_id%>">
+	
+	<% EltStandard.org_available(@current_organization).each do |standard| -%>
+    <% unless standard.elements.active.empty? %>
+      <div style = "padding-bottom:10px;padding-left:0px; ">
+        <table  style="width:400px;margin-left:300px;">
+          <thead>
+            <tr>
+              <th style="text-align:center; vertical-align:middle; line-height:1.3em; padding-right:0px; font-size:12px">
+                <span style="font-size:11px;"><%= pluralize(cycle.elements.for_standard(standard).size, " Element")%> Of  <%= standard.name %></span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% cycle.elements.for_standard(standard).each do |element|-%>
+              <tr>
+                <td style="text-align:left; vertical-align:middle; padding-left:30px;  line-height:1.3em; font-size:11px; color:#000000">
+                  <%= element.abbrev%>:&nbsp;&nbsp;<%= element.name%>
+                </td>
+              </tr>
+            <% end -%>
+          </tbody>
+        </table>
+        <table  style="width:600px;margin-left:83px;">
+          <tbody>
+            <tr>
+              <td style="width:40%; text-align:right; vertical-align:middle; padding-right:6px; font-size:12px">
+                &nbsp;
+              </td>
+              <td id="remove_elt_<%= standard.id%>" style='font-weight: normal'>
+                <%= select(:remove_element, standard.id, cycle.elements.for_standard(standard).collect{|e| [e.name, e.id]},{:include_blank =>'Remove ' + standard.abbrev + ' Element'}) %>
+              </td>
+            </tr>
+            <tr>
+              <td style="width:40%; text-align:right; vertical-align:middle; padding-right:6px; font-size:12px">
+                &nbsp;
+              </td>
+              <td id="add_elt_<%= standard.id%>" style='font-weight:normal'>
+                <%= select(:add_element, standard.id, (standard.elements.active - cycle.elements.for_standard(standard)).collect{|e| [e.name, e.id]},{:include_blank =>'Add ' + standard.abbrev + ' Element'}) %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#remove_elt_<%= standard.id%>').change(function() {
+		var element_id = jQ('#remove_element_<%=standard.id%>').val();
+		var url = "<%= url_for :controller => '/apps/learning_time', :action => :assign_cycle_element, :organization_id => @current_organization, :elt_cycle_id=> cycle %>";
+			jQ.get(url, {'elt_element_id':element_id}, function(data) {
+        jQ("#assign_elements_<%=cycle.public_id%>").html(data);
+        jQ("#assign_elements_<%=cycle.public_id%>").show();
+			});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#add_elt_<%= standard.id%>').change(function() {
+		var element_id = jQ('#add_element_<%= standard.id%>').val();
+		var url = "<%= url_for :controller => '/apps/learning_time', :action => :assign_cycle_element, :organization_id => @current_organization, :elt_cycle_id=> cycle %>";
+			jQ.get(url, {'elt_element_id':element_id}, function(data) {
+			  jQ("#assign_elements_<%=cycle.public_id%>").html(data);
+	   		jQ("#assign_elements_<%=cycle.public_id%>").show();
+			});
+	})
+});
+</script>
+    <% end %>
+	<% end -%>		
+</div>	

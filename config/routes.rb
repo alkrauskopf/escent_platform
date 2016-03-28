@@ -1,5 +1,17 @@
 EscentPartners::Application.routes.draw do |map|
 
+  # get "apps/learning_time_standards/new"
+  #
+  # get "apps/learning_time_standards/create"
+  #
+  # get "apps/learning_time_standards/update"
+  #
+  # get "apps/learning_time_standards/edit"
+  #
+  # get "apps/learning_time_standards/destroy"
+  #
+  # get "apps/learning_time_standards/indexx"
+
   # Victor add next two line just for test
   map.connect '/static_organization/:organization_id/:id', :controller => 'site/site', :action => 'static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}
   map.connect '/static_resource/:organization_id/:id', :controller => 'site/site', :action => 'static_resource', :requirements => {:organization_id => /[a-f\d]{16}/}

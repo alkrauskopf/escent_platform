@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  organization_id: 1
+  abbrev: MyText
+  name: MyText
+  is_active: false
+  is_public: false
+
+two:
+  organization_id: 1
+  abbrev: MyText
+  name: MyText
+  is_active: false
+  is_public: false

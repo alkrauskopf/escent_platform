@@ -14,7 +14,8 @@
 		<% end -%>	
 		<% unless @task == "New"%>
 			<%= render :partial => "/apps/learning_time/assign_cycle_activities", :locals=>{:framework => @framework, :cycle => @cycle, :app => @app} %>
-		<% end -%>				
+      <%= render :partial => "/apps/learning_time/assign_cycle_elements", :locals=>{:cycle => @cycle} %>
+    <% end -%>
 		<% unless @task == "New" || @cycle.active?%>
 			<% form_for(:elt_type, :url => {:controller => "/apps/learning_time", :action => :maintain_cycle, :organization_id => @current_organization, :elt_cycle_id=>@cycle, :elt_framework_id => @framework, :app_id => @app.id, :task=>@task, :function => "Delete"}) do |form| %>
 				<div class="FormRow submit_warp" style= "padding-left:25px; padding-bottom:20px">	

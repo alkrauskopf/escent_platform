@@ -72,7 +72,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     initialize_parameters
   end
 
-  def maintain_element
+  def maintain_element_x
     @task = params[:task]
     if @framework && params[:function] && params[:function] == "New"
       @element = EltElement.new(params[:elt_element])
@@ -293,9 +293,23 @@ class Apps::LearningTimeController  < Site::ApplicationController
       end
     end
     render :partial => "/apps/learning_time/assign_cycle_activities", :locals=>{:org=>@current_organization, :cycle => @cycle, :app => @app}
-  end 
-   
-  def select_activity
+  end
+
+ def assign_cycle_element
+   element = EltElement.find_by_id(params[:elt_element_id]) rescue nil
+   unless element.nil? || @cycle.nil?
+     if @cycle.elements.include?(element)
+       @cycle.elt_cycle_elements.for_element(element).each do |ce|
+         ce.destroy
+       end
+     else
+       @cycle.elements<<element
+     end
+   end
+   render :partial => "/apps/learning_time/assign_cycle_elements", :locals=>{:cycle => @cycle}
+ end
+
+ def select_activity
     activity = EltType.find_by_id(params[:activity_id]) rescue nil
     render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => activity.elt_framework, :to_activities => activity.elt_framework.activities, :from_activities => activities_from(@current_organization, @app), :activity => activity, :from_activity => nil, :to_element => nil, :app=>@app}
   end

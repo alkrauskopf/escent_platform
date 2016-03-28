@@ -1,0 +1,131 @@
+<div id="manage_standards" style="padding-bottom:30px;">
+  <div style="text-align:left;"><%= render :partial => "/shared/error_and_notice" %></div>
+  <table  style="border:1px solid #ddd; width:700px; width:fixed; font-size: 13px; margin-top:20px; margin-bottom:20px; margin-left:130px; color:#2061a5;">
+    <thead>
+        <tr style="border:1px solid #ddd; ">
+          <th  style=" border:0px solid #ddd; font-size:10px; font-weight:normal; text-align:center; ">
+            Public
+          </th>
+          <th  style=" border:0px solid #ddd; font-size:10px; font-weight:normal; text-align:center; ">
+            Active
+          </th>
+          <th  colspan=2 style=" border:0px solid #ddd; font-size:12px; font-weight:bold; text-align:center; ">
+            <%= pluralize(@standards.size,  " Available Standard") %>
+          </th>
+        </tr>
+    </thead>
+    <tbody>
+      <% @standards.each do |standard| -%>
+        <% color_text = @current_organization == standard.organization ? "#C73914" : "#2061a5" %>
+        <% active_button = standard.active? ? "button_enabled.png" : "button_disabled.png"-%>
+        <% public_button = standard.public? ? "button_enabled.png" : "button_disabled.png"-%>
+        <tr style="border:1px solid #ddd; ">
+          <% if standard.organization == @current_organization %>
+            <td id="toggle_public_<%= standard.public_id %>" style="border:0px solid #ddd;  width:6%; cursor:pointer; padding-left:9px; padding-top:8px; vertical-align:top" >
+              <%= (image_tag public_button,:width => 12) %>
+            </td>
+            <td id="toggle_active_<%= standard.public_id %>" style="border:0px solid #ddd;  width:6%; cursor:pointer; padding-left:9px; padding-top:8px; vertical-align:top" >
+              <%= (image_tag active_button,:width => 12) %>
+            </td>
+          <% else %>
+            <td style="border:0px solid #ddd;  width:6%; padding-left:9px; padding-top:8px; vertical-align:top" >
+              <%= (image_tag public_button,:width => 12) %>
+            </td>
+            <td style="border:0px solid #ddd;  width:6%; padding-left:9px; padding-top:8px; vertical-align:top" >
+              <%= (image_tag active_button,:width => 12) %>
+            </td>
+          <% end %>
+          <td style="border:0px solid #ddd; text-align:left; font-size:12px; padding-left:3px;padding-bottom:7px; font-weight:bold; color: <%=color_text%>">
+            <%= standard.abbrev %>:&nbsp;&nbsp;<%= standard.name%>
+            <% if standard.editable?(@current_organization) %><br/>
+              <table style="width:500px; width:fixed">
+                <tbody>
+                    <tr>
+                      <td  id="edit_<%= standard.public_id %>" style=" border:0px solid #ddd; font-size:10px; vertical-align:top; text-align:left">
+                        <span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
+                          Update
+                        </span>
+                      </td>
+                      <td  style=" border:0px solid #ddd; font-size:10px; text-align:left">
+                        <%= text_field :name, standard.public_id, :value => standard.name, :size => 50, :maxlength => 60 %>
+                      </td>
+                      <td  style=" border:0px solid #ddd; font-size:10px; text-align:left">
+                        <%= text_field :abbrev, standard.public_id, :value => standard.abbrev, :size => 6 %>
+                      </td>
+                    </tr>
+                </tbody>
+              </table>
+            <% end %>
+            <%= render :partial => "manage_standard_elements", :locals=>{:standard => standard} %>
+          </td>
+          <% if standard.destroyable?(@current_organization) %>
+            <td id="destroy_<%= standard.public_id %>" style="border:0px solid #ddd;  width:70px;  width:fixed; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
+              <span class="fsn-button ui-button ui-state-default ui-corner-all">
+                Destroy
+              </span>
+            </td>
+          <% else %>
+            <td style="border:0px solid #ddd;  width:70px;  width:fixed; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
+              &nbsp;
+            </td>
+          <% end %>
+          <script type="text/javascript">
+              jQ(document).ready(function() {
+                  jQ("#destroy_<%= standard.public_id %>").click(function() {
+                      var url = "<%= url_for :controller => "apps/learning_time_standards", :action => :destroy, :organization_id => @current_organization, :elt_standard_id => standard %>";
+                      jQ.get(url,{},  function(data) {
+                          jQ("#manage_standards").html(data);
+                          jQ("#manage_standards").show();
+                      });
+                  })
+              });
+          </script>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ("#toggle_active_<%= standard.public_id %>").click(function() {
+                var url = "<%= url_for :controller => "apps/learning_time_standards", :action => :toggle_active, :organization_id => @current_organization, :elt_standard_id => standard %>";
+                jQ.get(url,{},  function(data) {
+                  jQ("#manage_standards").html(data);
+                  jQ("#manage_standards").show();
+                });
+              })
+            });
+          </script>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ("#toggle_public_<%= standard.public_id %>").click(function() {
+                var url = "<%= url_for :controller => "apps/learning_time_standards", :action => :toggle_public, :organization_id => @current_organization, :elt_standard_id => standard %>";
+                jQ.get(url,{},  function(data) {
+                  jQ("#manage_standards").html(data);
+                  jQ("#manage_standards").show();
+                });
+              })
+            });
+          </script>
+          <script type="text/javascript">
+              jQ(document).ready(function() {
+                  jQ("#edit_<%= standard.public_id %>").click(function() {
+                      var name = jQ('#name_<%= standard.public_id%>').val();
+                      var abbrev = jQ('#abbrev_<%= standard.public_id%>').val();
+                      var url = "<%= url_for :controller => "apps/learning_time_standards", :action => :update, :organization_id => @current_organization, :elt_standard_id => standard %>";
+                      jQ.get(url,{'name':name, 'abbrev':abbrev},  function(data) {
+                          jQ("#manage_standards").html(data);
+                          jQ("#manage_standards").show();
+                      });
+                  })
+              });
+          </script>
+        </tr>
+      <% end -%>
+    </tbody>
+  </table>
+
+</div>
+
+
+
+
+
+
+
+

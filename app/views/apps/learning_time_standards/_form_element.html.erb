@@ -1,0 +1,73 @@
+    <div class="formBox">
+      <div class="FormRow">
+        <div class="FormRowTitle">
+          Name:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+          <%= text_field :elt_element, :name, :value => @element.name, :size => 60, :maxlength => 150 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowTitle">
+          Abbreviation:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+          <%= text_field :elt_element, :abbrev, :value => @element.abbrev,  :size => 4, :maxlength => 4 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowTitle">
+          Position:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+          <%= text_field :elt_element, :position, :value => (@element.position.nil? ? (@standard.elements.size + 1) : @element.position),  :size => 1, :maxlength => 2 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowTitle">
+          Element Background Color:<br/>
+          <small> #xxxxxx  (hex)</small>
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+          <%= text_field :elt_element, :form_background, :value => (@element.form_background.nil? ? "" : @element.form_background),  :size => 7, :maxlength => 7 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowTitle">
+          Element Font Color:<br/>
+          <small> #xxxxxx  (hex)</small>
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+          <%= text_field :elt_element, :e_font_color, :value => (@element.e_font_color.nil? ? "" : @element.e_font_color), :size => 7, :maxlength => 7 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowTitle">
+          Indicator Background Color:<br/>
+          <small> #xxxxxx  (hex)</small>
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+          <%= text_field :elt_element, :i_form_background, :value => (@element.i_form_background.nil? ? "" : @element.i_form_background), :size => 7, :maxlength => 7 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowTitle">
+          Description:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+          <%= text_area :elt_element, :description, :value => @element.description, :rows => 2, :cols => 55 %>
+        </div>
+      </div>
+      <div class="FormRow">
+        <div class="FormRowTitle"></div>
+        <div class="FormRowData" style= "margin-left:25px">
+          &nbsp;
+        </div>
+      </div>
+  <style type="text/css" media="screen">
+    .FormRowData { width: auto; }
+    .form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+    .FormSectionTitle { margin-top: 10px;}
+    * html .FormRow { float: none; display: block; width: 530px; }
+  </style>
+</div>

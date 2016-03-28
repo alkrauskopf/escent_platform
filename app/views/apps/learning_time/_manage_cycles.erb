@@ -49,8 +49,10 @@
 						<%= cycle.name%> &nbsp;<span style="font-size:9px;"><%= cycle.begin_date ? cycle.begin_date.strftime("%m/%y") : "No Begin Date"%>&nbsp;-&nbsp;<%= cycle.end_date ? cycle.end_date.strftime("%m/%y") : "No End Date"%>&nbsp;&nbsp;(<%= pluralize(cycle.activities.size, " Activity") %>)</span><br/>
 						<span style="font-size:10px; color:#C73914;"><%= cycle.current_schools.empty? ? "No Participating Schools" : cycle.current_schools.collect{|s| s.short_name}.join(", ")%></span>
 						<% unless cycle.activities.empty?%>
-							<%= render :partial => "/apps/learning_time/list_cycle_activities", :locals=>{:cycle => cycle} %>	
-						<% end -%>
+							<%= render :partial => "/apps/learning_time/list_cycle_activities", :locals=>{:cycle => cycle} %>
+                <%= render :partial => "/apps/learning_time/list_cycle_elements", :locals=>{:cycle => cycle} %>
+
+          <% end -%>
 					</td>
 					<td  id="<%=cycle.id%>_org_assign" style="width:160px; width:fixed; color:#000000; font-weight:normal; font-size:10px; padding-left:10px; padding-top:10px;">
 						<%=  select(:cycle_org, cycle.id, (framework.organization.provided_app_orgs(app,false) - cycle.current_schools).sort_by{|o| o.name}.collect{|o| [truncate(o.medium_name, :omission => "...", :length => 18), o.public_id]}, :prompt => "Assign Org To Cycle") %>

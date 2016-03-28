@@ -4,10 +4,13 @@ class EltElement < ActiveRecord::Base
   
   belongs_to  :organization
   belongs_to :elt_framework
+  belongs_to :elt_standard
 
   has_many :elt_indicators, :dependent => :destroy
   has_many :elt_case_notes, :dependent => :destroy
   has_many :elt_plan_actions, :as => :scope, :dependent => :destroy
+  has_many :elt_cycle_elements, :dependent => :destroy
+  has_many :cycles, :through => :elt_cycle_elements, :source => :elt_cycle, :uniq=>true
   
   validates_presence_of :name
   validates_presence_of :abbrev
@@ -34,6 +37,25 @@ class EltElement < ActiveRecord::Base
 
   def lookfors(activity)
     self
+  end
+
+  def standard
+    self.elt_standard rescue nil
+  end
+
+  def self.for_standard(std)
+    where('elt_standard_id = ?', std.id).order('position ASC')
+  end
+  def organization
+    !self.standard.nil? ? self.standard.organization : nil
+  end
+
+  def destroyable?(org)
+    (self.organization == org && !self.active?)
+  end
+
+  def editable?(org)
+    (self.organization == org)
   end
 
 end

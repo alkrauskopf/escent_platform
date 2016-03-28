@@ -1,0 +1,48 @@
+
+<% form_for(:elt_standard, @standard, :url => {:controller => :learning_time_standards, :action => :create, :organization_id => @current_organization}) do |f| %>
+  <div class="formBox">
+    <div class="FormRow">
+      <div class="FormRowTitle">
+        Name:
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+        <%= text_field :elt_standard, :name, :value => @standard.name, :size => 50 %>
+      </div>
+    </div>
+    <div class="FormRow">
+      <div class="FormRowTitle">
+        Abbrev:
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+        <%= text_field :elt_standard, :abbrev, :value => @standard.abbrev, :size => 10 %>
+      </div>
+    </div>
+    <div class="FormRow">
+      <div class="FormRowTitle">
+      Public?
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+        <%= check_box :elt_standard, :is_public, :checked=> @standard.is_public %>
+      </div>
+    </div>
+    <div class="FormRow">
+      <div class="FormRowTitle">
+        Active?
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+        <%= check_box :elt_standard, :is_active, :checked=> @standard.is_active%>
+      </div>
+    </div>
+    <div class="FormRow">
+      <div class="FormRowTitle">
+        <%= f.submit :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>

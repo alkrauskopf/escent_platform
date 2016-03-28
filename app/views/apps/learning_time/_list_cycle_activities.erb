@@ -1,0 +1,20 @@
+
+  <table style="width:420px;margin-top:0px;  border:0px solid #ddd; color:#2061a5; line-height:1.2em">
+    <tbody>
+    <tr style="border:0px solid #ddd; ">
+      <td  colspan=2 style=" border:0px solid #ddd; text-decoration: underline; vertical-align:middle; color:#2061a5; font-size:11px; text-align:left">
+        <%= pluralize(cycle.activities.size, ' Activity')%>
+      </td>
+    </tr>
+    <% cycle.activities.all.each do |activity|  -%>
+        <tr style="border:0px solid #ddd;font-size:11px; color:#2061a5; ">
+          <td colspan=2 style=" text-align:left; padding-right:0px; vertical-align:top; line-height:1.3em; font-size:10px;">
+            <%= activity.name%>&nbsp;
+						<span style="font-size:9px;font-weight:normal">
+							<i><%= activity.master? ? "(Master)" : "" %></i> <%= activity.active? ? "" : " Inactive" %>
+						</span>
+          </td>
+        </tr>
+    <% end -%>
+    </tbody>
+  </table>

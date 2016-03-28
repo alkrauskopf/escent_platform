@@ -1,0 +1,15 @@
+<div id="main_content">
+  <div style="text-align:center;  padding-top:10px; word-wrap:break-word; color: #C83A14;  font-size: 16px; font-style: normal; font-weight: bold">
+    <%= @current_organization.provider_app_name(@current_application) %> Standards
+  </div>
+  <div style="float:none;width:96.7%;" class="mempro_box clear" style="margin-left:00px;">
+    <div id="centerpane_appl">
+      <div >
+        <%= render :partial => "form_standard" %>
+      </div>
+    </div>
+  </div>
+  <div style="width:780px; border:0px solid #ddd; ">
+    <%= render :partial => "manage_standards" %>
+  </div>
+</div>

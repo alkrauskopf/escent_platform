@@ -71,7 +71,7 @@ jQ(document).ready(function() {
 		var title = jQ('#elt_case_name').val();
 		var subject_id = jQ('#elt_case_subject_<%=elt_case.id%>').val();
 		var grade_id = jQ('#elt_case_grade_<%=elt_case.id%>').val();
-		var url = "<%= url_for :controller => '/apps/learning_time', :action => :assign_case_header, :organization_id => @current_organization, :case_id => elt_case.id,:app_id=> app.id %>";
+		var url = "<%= url_for :controller => '/apps/learning_time', :action => :assign_case_header, :organization_id => @current_organization, :case_id => elt_case.id %>";
 			jQ.get(url, {'case_name':title, 'subject_area_id':subject_id,'grade_level_id':grade_id}, function(data) {
 			jQ("#case_title_<%=elt_case.public_id%>").html(data); 
 	   		jQ("#case_title_<%=elt_case.public_id%>").show();

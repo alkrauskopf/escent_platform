@@ -57,36 +57,36 @@
 	      <li>
 			<%  tab_2_label = "All " + @current_organization.short_name + " Cases" %>
 	        <a href="#tabs-2"><span class="tab_label">
-			<center><%= tab_2_label %></center></span></a>	
+			<%= tab_2_label %></span></a>
 		  </li>
 	      <li>
 			<%  tab_3_label = (@current_organization.elt_provider.short_name  + " Community") -%>
 	        <a href="#tabs-3"><span class="tab_label">
-			<center><%= tab_3_label %></center></span></a>	
+			<%= tab_3_label %></span></a>
 		  </li>
 	      <li>
 			<%  tab_6_label = "Reports/Plans" %>
 	        <a href="#tabs-6"><span class="tab_label">
-			<center><%= tab_6_label %></center></span></a>	
+			<%= tab_6_label %></span></a>
 		  </li>
 
 			<% if @admin -%>
 		      <li>
 				<%  tab_9_label = "Options" %>
 		        <a href="#tabs-9"><span class="tab_label">
-				<center><%= tab_9_label %></center></span></a>	
+				<%= tab_9_label %></span></a>
 			  </li>
 			<% end -%>
 			<% if @admin && @current_organization.provider?(@current_application) -%>
 		      <li>
 				<%  tab_7_label = "Surveys" %>
 		        <a href="#tabs-7"><span class="tab_label">
-				<center><%= tab_7_label %></center></span></a>	
+				<%= tab_7_label %></span></a>
 			  </li>
 		      <li>
 				<%  tab_8_label = "Tool Maintenance" %>
 		        <a href="#tabs-8"><span class="tab_label">
-				<center><%= tab_8_label %></center></span></a>	
+				<%= tab_8_label %></span></a>
 			  </li>
 			<% end -%>
 	    </ul>
@@ -115,7 +115,7 @@
 	 	  		<%= render :partial => "/apps/shared/sumarize_surveys", :locals => {:admin => @admin, :org => @current_organization, :app => @current_application} %>
 		   	</div> 
 			<div id="tabs-8" class="favorite_organizations" style="width:900px">
-		    	<%= render :partial => "/apps/learning_time/maintain_frameworks", :locals=>{:app=>@current_application, :org => @current_organization} %>
+		    	<%= render :partial => "/apps/learning_time/maintain_tool", :locals=>{:org => @current_organization} %>
 		   	</div>   	
 	 	<% end -%> 
 	 </div>

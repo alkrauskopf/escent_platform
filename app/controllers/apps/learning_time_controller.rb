@@ -52,7 +52,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
   def manage_indicators
     initialize_parameters
     @framework = @current_organization.elt_framework
-    @activities_for = @framework.activities.all
+    @activities_for = @current_organization.elt_types.by_position
     @activities_from = []
   end
     
@@ -311,19 +311,33 @@ class Apps::LearningTimeController  < Site::ApplicationController
 
  def select_activity
     activity = EltType.find_by_id(params[:activity_id]) rescue nil
-    render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => activity.elt_framework, :to_activities => activity.elt_framework.activities, :from_activities => activities_from(@current_organization, @app), :activity => activity, :from_activity => nil, :to_element => nil, :app=>@app}
+    render :partial => "/apps/learning_time/manage_indicators",
+           :locals => {:framework => activity.elt_framework,
+                       :to_activities => activity.organization.elt_types,
+                       :from_activities => activities_from(@current_organization, @current_application),
+                       :activity => activity, :from_activity => nil, :to_element => nil, :app=>@current_application}
   end
 
  def select_source_activity
    to_activity = EltType.find_by_id(params[:activity_id]) rescue nil
    from_activity = EltType.find_by_id(params[:from_activity_id]) rescue nil
-   render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => to_activity.elt_framework, :to_activities => to_activity.elt_framework.activities, :from_activities => activities_from(@current_organization, @app), :activity => to_activity, :from_activity => from_activity, :to_element => nil, :app=>@app}
+   render :partial => "/apps/learning_time/manage_indicators",
+          :locals => {:framework => to_activity.elt_framework,
+                      :to_activities => to_activity.organization.elt_types,
+                      :from_activities => activities_from(@current_organization, @current_application),
+                      :activity => to_activity, :from_activity => from_activity,
+                      :to_element => nil, :app=>@current_application}
  end
 
  def select_element
    to_activity = EltType.find_by_id(params[:activity_id]) rescue nil
    from_activity = EltType.find_by_id(params[:from_activity_id]) rescue nil
-   render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => to_activity.elt_framework, :to_activities => to_activity.elt_framework.activities, :from_activities => activities_from(@current_organization, @app), :activity => to_activity, :from_activity => from_activity, :to_element => @element, :app=>@app}
+   render :partial => "/apps/learning_time/manage_indicators",
+          :locals => {:framework => to_activity.elt_framework,
+                      :to_activities => to_activity.organization.elt_types,
+                      :from_activities => activities_from(@current_organization, @current_application),
+                      :activity => to_activity, :from_activity => from_activity,
+                      :to_element => @element, :app=>@current_application}
  end
 
  def copy_activity_indicators
@@ -333,7 +347,12 @@ class Apps::LearningTimeController  < Site::ApplicationController
     if (to_activity && from_activity && to_element && @element)
       to_activity.copy_indicators(from_activity, @element, to_element)
     end
-    render :partial => "/apps/learning_time/manage_indicators", :locals => {:framework => to_activity.elt_framework, :to_activities => to_activity.elt_framework.activities, :from_activities => activities_from(@current_organization, @app), :activity => to_activity, :from_activity => from_activity, :to_element => nil, :app=>@app}
+    render :partial => "/apps/learning_time/manage_indicators",
+           :locals => {:framework => to_activity.elt_framework,
+                       :to_activities => to_activity.organization.elt_types,
+                       :from_activities => activities_from(@current_organization, @current_application),
+                       :activity => to_activity, :from_activity => from_activity,
+                       :to_element => nil, :app=>@current_application}
   end 
 
   def refresh_element_indicator
@@ -529,9 +548,8 @@ class Apps::LearningTimeController  < Site::ApplicationController
  def show_evidence_map
    initialize_parameters
    org = Organization.find_by_public_id(params[:org]) rescue @current_organization
-   @elements = @cycle.nil? ? [] : @cycle.elt_framework.elt_elements.active.all
-   @activities = @cycle.nil? ? [] : @cycle.activities.informing.active.all
-   @framework = @cycle.nil? ? nil : @cycle.elt_framework
+   @elements = @cycle.nil? ? [] : @cycle.elements.active.by_position
+   @activities = @cycle.nil? ? [] : @cycle.activities.informing.active.by_position
    @data_points ={}
    @element_totals = {}
    grand_total = 0
@@ -552,15 +570,15 @@ class Apps::LearningTimeController  < Site::ApplicationController
      end
      @element_totals[element] = element_total
    end
-   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @data_points, :framework => @framework, :element_totals => @element_totals, :map_label => (grand_total.to_s + ' Findings')}
+   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @data_points, :cycle => @cycle, :element_totals => @element_totals, :map_label => (grand_total.to_s + ' Findings')}
  end
 
  def show_activity_map
    initialize_parameters
    org = Organization.find_by_public_id(params[:org]) rescue @current_organization
-   @elements = org.active_elt_cycle.nil? ? [] : org.active_elt_cycle.elt_framework.elt_elements.active.all
-   @activities = org.active_elt_cycle.nil? ? [] : org.active_elt_cycle.activities.informing.active.all
-   @framework = org.active_elt_cycle.nil? ? nil : org.active_elt_cycle.elt_framework
+   @elements = org.active_elt_cycle.nil? ? [] : org.active_elt_cycle.elements.active.by_position
+   @activities = org.active_elt_cycle.nil? ? [] : org.active_elt_cycle.activities.informing.active.by_position
+   @cycle = org.active_elt_cycle
    @touches ={}
    @element_totals = {}
    grand_total = 0
@@ -575,7 +593,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
      end
      @element_totals[element] = element_total
    end
-   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @touches, :framework => @framework, :element_totals => @element_totals, :map_label => (grand_total.to_s + ' Informers')}
+   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @touches, :cycle => @cycle, :element_totals => @element_totals, :map_label => (grand_total.to_s + ' Informers')}
  end
 
   def abort_case
@@ -980,11 +998,11 @@ class Apps::LearningTimeController  < Site::ApplicationController
   end
 
   def  activities_from (org,app)
-    activities = app.owner.elt_framework ? app.owner.elt_framework.activities.all : []
+    activities = app.owner.elt_types
     if !org.appl_master?(app)
-        activities += org.elt_framework ? org.elt_framework.activities.all : []
+        activities += org.elt_types
     else
-      activities = EltType.all_by_framework.active
+      activities = EltType.all_by_organization.active
     end
     activities
   end

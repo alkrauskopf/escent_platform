@@ -8,37 +8,34 @@
   <% end %>
   <table  style="border:0px solid #ddd; width:99%; font-size:11px; padding-top:5px; padding-bottom:5px; color:#2061a5;">
     <tbody>
-      <% if edit %>
-        <tr style="border:0px solid #ddd; ">
-          <td colspan=2 style="border:0px solid #ddd;">
-              &nbsp;
-          </td>
-          <td style="border:0px solid #ddd;  width:18%;">
-            <span class="fsn-button ui-button ui-state-default ui-corner-all">
-              <%= link_to 'New Element', {:controller => "/apps/learning_time_standards", :action => :new_element, :elt_standard_id => standard, :organization_id => @current_organization} %>
-            </span>
-          </td>
-        </tr>
-      <% end %>
       <% elements.each do |element| -%>
         <% active_button = element.active? ? "button_enabled.png" : "button_disabled.png"-%>
         <tr style="border:0px solid #ddd; ">
           <% if edit %>
-            <td id="toggle_active_<%= element.public_id %>" style="border:0px solid #ddd;  width:4%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:top" >
+            <td style="border:0px solid #ddd;  width:16%;">
+                &nbsp;
+            </td>
+            <td id="toggle_active_e<%= element.public_id %>" style="border:0px solid #ddd;  width:4%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:top" >
               <%= (image_tag active_button,:width => 10) %>
             </td>
           <% else %>
+            <td style="border:0px solid #ddd;  width:16%;">
+              &nbsp;
+            </td>
             <td style="border:0px solid #ddd;  width:4%; padding-left:5px; padding-top:7px; vertical-align:top" >
               <%= (image_tag active_button,:width => 10) %>
             </td>
           <% end %>
           <td style="border:0px solid #ddd; text-align:left; font-weight:normal;">
-            <span style="color:<%=element.form_background%>; background:<%=element.e_font_color%>">
+            <span style="color:<%=element.e_font_color %>; background:<%=element.form_background%>">
               &nbsp;<%= element.abbrev %>&nbsp;
             </span>:&nbsp;&nbsp;<%= element.name%>
+            <span style="font-size:10px;">
+              &nbsp;&nbsp;(<%= pluralize(element.indicators.size, ' Indicator') %>)
+            </span>
           </td>
           <% if edit %>
-            <td style="border:0px solid #ddd;  width:18%;  padding-left:0px; padding-top:3px; vertical-align:top" >
+            <td style="border:0px solid #ddd;  width:8%;  padding-left:0px; padding-top:3px; vertical-align:top" >
               <span class="fsn-button ui-button ui-state-default ui-corner-all">
                 <%= link_to 'Edit', {:controller => "/apps/learning_time_standards", :action => :edit_element, :elt_element_id => element, :organization_id => @current_organization} %>
               </span>
@@ -50,17 +47,29 @@
           <% end %>
           <script type="text/javascript">
             jQ(document).ready(function() {
-              jQ("#toggle_active_<%= element.public_id %>").click(function() {
+              jQ("#toggle_active_e<%= element.public_id %>").click(function() {
                 var url = "<%= url_for :controller => "apps/learning_time_standards", :action => :toggle_element_active, :organization_id => @current_organization, :elt_element_id => element %>";
                 jQ.get(url,{},  function(data) {
-                  jQ("#manage_std_element_<%= standard.public_id%>").html(data);
-                  jQ("#manage_std_element_<%= standard.public_id%>").show();
+                  jQ("#manage_standards").html(data);
+                  jQ("#manage_standards").show();
                 });
               })
             });
           </script>
         </tr>
       <% end -%>
+      <% if edit %>
+        <tr style="border:0px solid #ddd; ">
+          <td style="border:0px solid #ddd;  width:16%;">
+            <span class="fsn-button ui-button ui-state-default ui-corner-all">
+              <%= link_to 'New Element', {:controller => "/apps/learning_time_standards", :action => :new_element, :elt_standard_id => standard, :organization_id => @current_organization} %>
+            </span>
+          </td>
+          <td colspan=3 style="border:0px solid #ddd;">
+            &nbsp;
+          </td>
+        </tr>
+    <% end -%>
     </tbody>
   </table>
 </div>

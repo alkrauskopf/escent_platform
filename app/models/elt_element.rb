@@ -18,6 +18,7 @@ class EltElement < ActiveRecord::Base
   
   scope :active, :conditions => ["is_active"], :order => 'position ASC'
   scope :all, :order => 'position ASC'
+  scope :by_position, :order => 'position ASC'
 
   def active?
     self.is_active
@@ -26,6 +27,7 @@ class EltElement < ActiveRecord::Base
   def siblings
     self.elt_framework ? (self.elt_framework.elt_elements.all.select{ |e| e!= self }): []
   end
+
 
   def supporting_comments(cycle, org)
     comments = []
@@ -43,11 +45,21 @@ class EltElement < ActiveRecord::Base
     self.elt_standard rescue nil
   end
 
+  def indicators
+    self.elt_indicators
+  end
+
   def self.for_standard(std)
     where('elt_standard_id = ?', std.id).order('position ASC')
   end
+
   def organization
     !self.standard.nil? ? self.standard.organization : nil
+  end
+
+  def self.org_available(org)
+    stds = EltStandard.org_available(org)
+    stds.collect{|s| s.elt_elements.active}.flatten.compact
   end
 
   def destroyable?(org)

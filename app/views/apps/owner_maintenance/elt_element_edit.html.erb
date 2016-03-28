@@ -67,6 +67,15 @@
 						<%= text_field :elt_element, :i_form_background,  :value => @element.i_form_background  , :size => 7 %>
 					</div>	
 				</div>
+          <div class="FormRow">
+            <div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
+						<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
+							<u>Standard</u>&nbsp;
+              <%= @element.standard ? @element.standard.abbrev : 'None' %>
+						</span>
+              <%=  select(:elt_element, :elt_standard_id,  EltStandard.all.collect{|s| [s.name, s.id]}, :default => @element.elt_standard_id,:prompt =>  "Assign Standard") %>
+            </div>
+          </div>
 				<div class="FormRow">	
 					<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
 						<%= f.submit "Save" %>&nbsp;&nbsp;

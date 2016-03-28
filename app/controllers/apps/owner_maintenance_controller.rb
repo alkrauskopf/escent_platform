@@ -351,11 +351,16 @@ class Apps::OwnerMaintenanceController < ApplicationController
      element.i_form_background = params[:elt_element][:i_form_background]
      element.e_font_color = params[:elt_element][:e_font_color]
      element.is_active = false
+     element.elt_standard_id = params[:elt_element][:elt_standard_id]
      element.save
     else
       @element = EltElement.find_by_id(params[:element_id])
       if @element && params[:commit]=="Save"
+        old_id = @element.elt_standard_id
         @element.update_attributes(params[:elt_element])
+        if params[:elt_element][:elt_standard_id] == ''
+          @element.update_attributes(:elt_standard_id => old_id)
+        end
       elsif @element && params[:commit]=="Destroy"
         @element.destroy
       end

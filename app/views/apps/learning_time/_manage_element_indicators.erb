@@ -1,23 +1,30 @@
 <div id="manage_element_indicators_<%=element.public_id%>">
 	<table  style="width:750px; width:fixed; border-top:0px solid #000; margin-top:10px; margin-bottom:0px; margin-left:0px">
-		<tbody>  
-			<tr style="background:<%= element.form_background%>;">
-				<td id="refresh_table_<%=element.public_id%>" style=" width:75px; width:fixed; font-size:9px; vertical-align:bottom; cursor:pointer" >
+		<tbody>
+    <tr style="background:<%= element.form_background%>;">
+
+      <td colspan="4"   style=" text-align:center; font-size:12px;  color:<%=element.e_font_color %>">
+        <span style="font-size:9px"><%= activity.master? ? ("(Master)&nbsp;&nbsp;&nbsp;&nbsp;").html_safe : ""%></span>
+        <%= element.abbrev %>:&nbsp;<%=element.name%>
+        <span style="font-size:9px"><%= element.active? ? "" : ("&nbsp;&nbsp;&nbsp;&nbsp;(Not Active)").html_safe%></span>
+        <span style="font-size:10px"><%= element.standard.nil? ? 'No Standard Defined' : element.standard.name.html_safe%></span>
+      </td>
+    </tr>
+    <tr style="background:<%= element.form_background%>;">
+				<td id="refresh_table_<%=element.public_id%>" style=" width:10%; font-size:9px; vertical-align:bottom; cursor:pointer" >
 					<span class="fsn-button ui-button ui-state-default ui-corner-all">
 						Refresh
 					</span>
 				</td>
-              <td id="destroy_disabled_<%=element.public_id%>" style=" width:115px; width:fixed; font-size:9px; vertical-align:bottom; cursor:pointer" >
+              <td id="destroy_disabled_<%=element.public_id%>" style=" width:15%; font-size:9px; vertical-align:bottom; cursor:pointer" >
 					<span class="fsn-button ui-button ui-state-default ui-corner-all">
 						Destroy Disabled
 					</span>
               </td>
 				<td style=" text-align:center; font-size:12px;  color:<%=element.e_font_color %>">
-					<span style="font-size:9px"><%= activity.master? ? ("(Master)&nbsp;&nbsp;&nbsp;&nbsp;").html_safe : ""%></span>
-					<%= element.abbrev %>:&nbsp;<%=element.name%>
-					<span style="font-size:9px"><%= element.active? ? "" : ("&nbsp;&nbsp;&nbsp;&nbsp;(Not Active)").html_safe%></span>
+            &nbsp;
 				</td>
-				<td  style=" width:115px; width:fixed; font-size:9px; vertical-align:bottom; cursor:pointer" >
+				<td  style=" width:15%; font-size:9px; vertical-align:bottom; cursor:pointer" >
 					<% button_label = activity.master? ? " Indicator" : " Look-for" %>
 					<span class="fsn-button ui-button ui-state-default ui-corner-all">
 						<%= link_to "New " + button_label, {:controller => "/apps/learning_time", :action => :maintain_indicator, :app_id=> app.id, :task=>"New", :elt_type_id=>activity, :elt_element_id=>element, :organization_id => @current_organization},{:target=>"_blank"}  %>
@@ -77,19 +84,19 @@ jQ(document).ready(function() {
 					</td>
                   <td id="move_indicator_<%=ind.public_id%>" style="width:50px; width:fixed; border:0px solid #ddd; font-size:9px;padding-top:3px; padding-left:0px;">
                     <% if !ind.active? %>
-                        <%=  select(ind.public_id, :id, element.siblings.collect{|e| [e.abbrev, e.public_id]}, :include_blank =>  "Move") %>
-                        <script type="text/javascript">
-                            jQ(document).ready(function() {
-                                jQ('#move_indicator_<%=ind.public_id%>').change(function() {
-                                    var new_element_id = jQ('#<%=ind.public_id%>_id').val();
-                                    var url = "<%= url_for :controller => "/apps/learning_time", :action => :move_indicator, :elt_indicator_id => ind.public_id, :organization_id => @current_organization, :elt_element_id => element, :elt_type_id=> activity, :app_id=> app.id %>";
-                                    jQ.get(url, {'new_element_id':new_element_id}, function(data) {
-                                        jQ("#manage_element_indicators_<%=element.public_id%>").html(data);
-                                        jQ("#manage_element_indicators_<%=element.public_id%>").show();
-                                    });
-                                })
+                      <%=  select(ind.public_id, :id, EltElement.org_available(@current_organization).collect{|e| [e.abbrev, e.public_id]}, :include_blank =>  "Move") %>
+                      <script type="text/javascript">
+                        jQ(document).ready(function() {
+                          jQ('#move_indicator_<%=ind.public_id%>').change(function() {
+                            var new_element_id = jQ('#<%=ind.public_id%>_id').val();
+                            var url = "<%= url_for :controller => "/apps/learning_time", :action => :move_indicator, :elt_indicator_id => ind.public_id, :organization_id => @current_organization, :elt_element_id => element, :elt_type_id=> activity%>";
+                            jQ.get(url, {'new_element_id':new_element_id}, function(data) {
+                                jQ("#manage_element_indicators_<%=element.public_id%>").html(data);
+                                jQ("#manage_element_indicators_<%=element.public_id%>").show();
                             });
-                        </script>
+                          })
+                        });
+                      </script>
                     <% else %>
                         &nbsp;
                     <% end %>

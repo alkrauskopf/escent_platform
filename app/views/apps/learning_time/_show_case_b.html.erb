@@ -1,6 +1,6 @@
 <div id="mainContent" style=" border:1px solid #ddd;">
   <div id="diagnostic_box" >
-    <%= render :partial => "/apps/learning_time/show_edit_case_title", :locals => {:elt_case => elt_case, :app => app} -%>
+    <%= render :partial => "/apps/learning_time/show_edit_case_title", :locals => {:elt_case => elt_case} -%>
     <% if elt_case.elt_type.rubric? -%>
       <table id="rubric_header" style="width:650px;margin-left:100px; border:0px solid #000000;">
         <tbody>
@@ -50,8 +50,8 @@
   });
   </script>
     <% end -%>
-
-    <%= render :partial => '/apps/learning_time/form_case_b', :locals=> {:elt_case => elt_case, :app => app} %>
-
+  <% if !elt_case.elt_cycle.nil? %>
+    <%= render :partial => '/apps/learning_time/form_case_b', :locals=> {:elt_case => elt_case} %>
+  <% end -%>
   </div>
 </div>

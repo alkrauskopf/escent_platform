@@ -1,6 +1,6 @@
 <div >
-  <% if form = 'new'%>
-    <%= render :partial => "/apps/learning_time/show_case_b", :locals => {:elt_case => @elt_case, :app => @app} -%>
+  <% if true %>  # New Form
+    <%= render :partial => "/apps/learning_time/show_case_b", :locals => {:elt_case => @elt_case} -%>
   <% else %>
    	<%= render :partial => "/apps/learning_time/show_case", :locals => {:elt_case => @elt_case, :app => @app} -%>
   <% end %>

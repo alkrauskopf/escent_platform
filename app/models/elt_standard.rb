@@ -40,4 +40,8 @@ class EltStandard < ActiveRecord::Base
     self.elt_elements
   end
 
+  def self.all_elements
+    self.collect{|s| s.elt_elements}.flatten.compact
+  end
+
 end

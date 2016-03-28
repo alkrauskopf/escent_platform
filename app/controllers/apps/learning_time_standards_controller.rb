@@ -78,7 +78,9 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
   def toggle_element_active
     element = set_element
     element.update_attributes(:is_active => !element.is_active )
-    render :partial => "manage_standard_elements", :locals=>{:standard => element.standard}
+  #  render :partial => "manage_standard_elements", :locals=>{:standard => element.standard}
+    @standards = EltStandard.org_available(@current_organization)
+    render :partial => "manage_standards"
   end
 
   def edit_element

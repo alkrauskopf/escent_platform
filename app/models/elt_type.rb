@@ -29,6 +29,7 @@ class EltType < ActiveRecord::Base
 
   scope :by_position, :order => "position"
   scope :all_by_framework, :order => "elt_framework_id"
+  scope :all_by_organization, :order => "organization_id"
 
   validates_presence_of :name
   validates_presence_of :elt_activity_type_id

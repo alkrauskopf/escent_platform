@@ -204,4 +204,8 @@ class EltCase < ActiveRecord::Base
   def reassign_it(new_org_id, new_cycle_id)
     self.update_attributes(:organization_id => new_org_id, :elt_cycle_id => new_cycle_id)
   end
+
+  def cycle_elements
+    self.elt_cycle.elements.active.by_position
+  end
 end

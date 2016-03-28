@@ -1,10 +1,10 @@
 <% unless @cycle.nil? -%>
 
-	<div style ="color: #C83A14; font-size:16px; margin-top:0px; font-weight:bold"> 
-			<br/><center><%= @cycle.name %></center>
+	<div style ="text-align:center; color: #C83A14; font-size:16px; margin-top:0px; font-weight:bold">
+			<br/><%= @cycle.name %>
 	</div>
-	<div style ="color: #2061a5; font-size:14px; margin-top:0px; font-weight:normal"> 
-			<br/><center><%= @activity.name %></center>
+	<div style ="text-align:center; color: #2061a5; font-size:14px; margin-top:0px; font-weight:normal">
+			<br/><%= @activity.name %>
 	</div>
 	<div id="case_form" class="Form clear">
 	    <%= render :partial => "/shared/error_and_notice" %>

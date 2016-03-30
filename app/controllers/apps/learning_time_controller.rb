@@ -548,10 +548,17 @@ class Apps::LearningTimeController  < Site::ApplicationController
  def show_evidence_map
    initialize_parameters
    org = Organization.find_by_public_id(params[:org]) rescue @current_organization
-   @elements = @cycle.nil? ? [] : @cycle.elements.active.by_position
-   @activities = @cycle.nil? ? [] : @cycle.activities.informing.active.by_position
+   @standards = []
+   @elements =[]
    @data_points ={}
    @element_totals = {}
+    @cycle.standards.each_with_idx each do |std, idx|
+      @standard[idx] = std
+      @elements[idx] = std.elements.active.by_position
+      @activities[idx] = @cycle.activities.informing.active.by_position
+
+    end
+
    grand_total = 0
    @elements.each do |element|
      @element_totals[element] ||= []
@@ -593,7 +600,10 @@ class Apps::LearningTimeController  < Site::ApplicationController
      end
      @element_totals[element] = element_total
    end
-   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @touches, :cycle => @cycle, :element_totals => @element_totals, :map_label => (grand_total.to_s + ' Informers')}
+   render :partial => "/apps/learning_time/show_activity_map",
+          :locals => {:activities => @activities, :elements => @elements,
+                      :touches => @touches, :cycle => @cycle, :element_totals => @element_totals,
+                      :map_label => (grand_total.to_s + ' Informers')}
  end
 
   def abort_case

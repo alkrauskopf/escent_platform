@@ -549,61 +549,72 @@ class Apps::LearningTimeController  < Site::ApplicationController
    initialize_parameters
    org = Organization.find_by_public_id(params[:org]) rescue @current_organization
    @standards = []
-   @elements =[]
+   @activities = {}
+   @elements ={}
+   @standard_totals = {}
    @data_points ={}
    @element_totals = {}
-    @cycle.standards.each_with_idx each do |std, idx|
-      @standard[idx] = std
-      @elements[idx] = std.elements.active.by_position
-      @activities[idx] = @cycle.activities.informing.active.by_position
-
-    end
-
    grand_total = 0
-   @elements.each do |element|
-     @element_totals[element] ||= []
-     element_total = 0
-     @activities.each do |activity|
-       @data_points[activity] ||= {} # Create a sub-hash unless it already exists
-       @data_points[activity][element] ||= []
-       cases = org.elt_cycle_activity_cases(@cycle, activity)
-       scores = []
-       cases.each do |c|
-         scores << c.scores_for(element)
-       end
-       @data_points[activity][element] = scores.flatten.compact.size
-       grand_total += scores.flatten.compact.size
-       element_total += scores.flatten.compact.size
-     end
-     @element_totals[element] = element_total
+   @cycle.standards.each_with_index do |std, idx|
+      @standard_totals[std] ||= []
+      standard_total = 0
+      @standards[idx] = std
+      @elements[std] = std.elements.active.by_position
+      @activities[std] = @cycle.activities.informing.active.by_position
+      @elements[std].each do |element|
+        @element_totals[element] ||= []
+        element_total = 0
+        @activities[std].each do |activity|
+           cases = org.elt_cycle_activity_cases(@cycle, activity)
+           scores = []
+           cases.each do |c|
+             scores << c.scores_for(element)
+           end
+           @data_points[activity] ||= {} # Create a sub-hash unless it already exists
+           @data_points[activity][element] = scores.flatten.compact.size
+           element_total += @data_points[activity][element]
+           standard_total += @data_points[activity][element]
+           grand_total += @data_points[activity][element]
+        end
+        @element_totals[element] = element_total
+      end
+     @standard_totals[std] = standard_total
    end
-   render :partial => "/apps/learning_time/show_activity_map", :locals => {:activities => @activities, :elements => @elements, :touches => @data_points, :cycle => @cycle, :element_totals => @element_totals, :map_label => (grand_total.to_s + ' Findings')}
+   render :partial => "/apps/learning_time/show_activity_map", :locals => {:map_label => ' Finding'}
  end
 
  def show_activity_map
    initialize_parameters
    org = Organization.find_by_public_id(params[:org]) rescue @current_organization
-   @elements = org.active_elt_cycle.nil? ? [] : org.active_elt_cycle.elements.active.by_position
-   @activities = org.active_elt_cycle.nil? ? [] : org.active_elt_cycle.activities.informing.active.by_position
-   @cycle = org.active_elt_cycle
-   @touches ={}
+   @standards = []
+   @activities = {}
+   @elements ={}
+   @standard_totals = {}
+   @data_points ={}
    @element_totals = {}
    grand_total = 0
-   @elements.each do |element|
-     @element_totals[element] ||= []
-     element_total = 0
-     @activities.each do |activity|
-       @touches[activity] ||= {} # Create a sub-hash unless it already exists
-       @touches[activity][element] = activity.informing_indicators(element).size
-       grand_total += activity.informing_indicators(element).size
-       element_total += activity.informing_indicators(element).size
-     end
-     @element_totals[element] = element_total
+   @cycle.standards.each_with_index do |std, idx|
+       @standard_totals[std] ||= []
+       standard_total = 0
+       @standards[idx] = std
+       @elements[std] = std.elements.active.by_position
+       @activities[std] = @cycle.activities.informing.active.by_position
+       @elements[std].each do |element|
+         @element_totals[element] ||= []
+         element_total = 0
+           @activities[std].each do |activity|
+             @data_points[activity] ||= {} # Create a sub-hash unless it already exists
+             @data_points[activity][element] = activity.informing_indicators(element).size
+             element_total += @data_points[activity][element]
+             standard_total += @data_points[activity][element]
+             grand_total += @data_points[activity][element]
+           end
+         @element_totals[element] = element_total
+       end
+       @standard_totals[std] = standard_total
    end
    render :partial => "/apps/learning_time/show_activity_map",
-          :locals => {:activities => @activities, :elements => @elements,
-                      :touches => @touches, :cycle => @cycle, :element_totals => @element_totals,
-                      :map_label => (grand_total.to_s + ' Informers')}
+          :locals => {:map_label => ' Informer'}
  end
 
   def abort_case

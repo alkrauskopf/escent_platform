@@ -1,14 +1,14 @@
 <div style ='padding-bottom:20px'>
   <div style ="text-align:center; color: #2061a5; font-size:16px; margin-top:0px; padding-top:20px; padding-bottom:20px; font-weight:bold">
-    <strong><%= @standard.name %>&nbsp;Element</strong>
+    <strong><%= @element.name %>&nbsp;Indicator</strong>
   </div>
   <%= render :partial => "/shared/error_and_notice" %>
-  <div class="Form clear">
+  <div class="Form clear" >
     <span class="fsn-button ui-button ui-state-default ui-corner-all" style ='margin:20px'>
-      <%= link_to ' Return ', :controller => "apps/learning_time_standards", :action => :index, :organization_id => @current_organization  %>
+      <%= link_to 'Return', {:controller => "/apps/learning_time_standards", :action => :edit_element, :elt_element_id => @element, :organization_id => @current_organization} %>
     </span>
-                    <% form_for(:elt_element, :url => {:controller => "/apps/learning_time_standards", :action => :update_element, :organization_id => @current_organization, :elt_element_id=>@element, :elt_standard_id => @standard}) do |f| %>
-        <%= render :partial => "/apps/learning_time_standards/form_element" %>
+     <% form_for(:elt_std_indicator, :url => {:controller => "/apps/learning_time_standards", :action => :update_indicator, :organization_id => @current_organization, :elt_std_indicator_id => @indicator}) do |f| %>
+        <%= render :partial => "/apps/learning_time_standards/form_indicator" %>
         <div class="FormRow">
           <div class="FormRowTitle">
           </div>
@@ -16,10 +16,11 @@
             <%= f.submit :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
           </div>
         </div>
+        </div>
     <% end -%>
-  </div>
-  <%= render :partial => "manage_element_indicators", :locals=>{:element => @element} %>
-</div>
+    <%= render :partial => "apps/learning_time_standards/indicator_descriptors", :locals=>{:indicator => @indicator} %>
+
+    </div>
 
 <style type="text/css" media="screen">
   .FormRowData { width: auto; }

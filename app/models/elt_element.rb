@@ -7,6 +7,7 @@ class EltElement < ActiveRecord::Base
   belongs_to :elt_standard
 
   has_many :elt_indicators, :dependent => :destroy
+  has_many :elt_std_indicators, :dependent => :destroy
   has_many :elt_case_notes, :dependent => :destroy
   has_many :elt_plan_actions, :as => :scope, :dependent => :destroy
   has_many :elt_cycle_elements, :dependent => :destroy
@@ -41,12 +42,17 @@ class EltElement < ActiveRecord::Base
     self
   end
 
+ def standard?
+   self.elt_standard.nil? ? false :true
+ end
+
   def standard
-    self.elt_standard rescue nil
+    self.standard? ? self.elt_standard : nil
   end
 
   def indicators
-    self.elt_indicators
+#    self.elt_indicators
+    self.elt_std_indicators
   end
 
   def self.for_standard(std)

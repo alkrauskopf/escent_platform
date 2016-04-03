@@ -7,7 +7,7 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
   before_filter :elt_allowed?, :except=>[]
   before_filter :current_org_current_app_provider?, :except=>[]
   before_filter :current_user_app_admin?, :except => []
-  before_filter :clear_notification, :except => [:index]
+  before_filter :clear_notification, :except => [:index, :edit_element]
 
   def index
     @standards = EltStandard.org_available(@current_organization)
@@ -25,10 +25,11 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
   end
 
   def update
-    if set_standard.update_attributes(:name => params[:name], :abbrev => params[:abbrev] )
+    set_standard
+    if @standard.update_attributes(:name => params[:name], :abbrev => params[:abbrev] )
       flash[:notice] = nil
     else
-      flash[:error] = set_standard.abbrev + ' Update Not Successful'
+      flash[:error] = @standard.abbrev + ' Update Not Successful'
     end
     @standards = EltStandard.org_available(@current_organization)
     render :partial => "manage_standards"
@@ -38,30 +39,33 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
   end
 
   def destroy
-    set_standard.destroy
+    set_standard
+    @standard.destroy
     @standards = EltStandard.org_available(@current_organization)
     render :partial => "manage_standards"
   end
 
   def toggle_active
-    set_standard.update_attributes(:is_active => !set_standard.is_active )
+    set_standard
+    @standard.update_attributes(:is_active => !@standard.is_active )
     @standards = EltStandard.org_available(@current_organization)
     render :partial => "manage_standards"
   end
 
   def toggle_public
-    set_standard.update_attributes(:is_public => !set_standard.is_public )
+    set_standard
+    @standard.update_attributes(:is_public => !@standard.is_public )
     @standards = EltStandard.org_available(@current_organization)
     render :partial => "manage_standards"
   end
 
   def new_element
-    @standard = set_standard
+    set_standard
     @element = EltElement.new
   end
 
   def create_element
-    @standard = set_standard
+    set_standard
     @element = EltElement.new(params[:elt_element])
     if !@standard.nil?
       if @standard.elements << @element
@@ -76,20 +80,21 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
   end
 
   def toggle_element_active
-    element = set_element
-    element.update_attributes(:is_active => !element.is_active )
+    set_element
+    @element.update_attributes(:is_active => !@element.is_active )
   #  render :partial => "manage_standard_elements", :locals=>{:standard => element.standard}
     @standards = EltStandard.org_available(@current_organization)
     render :partial => "manage_standards"
   end
 
   def edit_element
-    @element = set_element
+    set_element
     @standard = @element.standard
   end
 
   def update_element
-    if set_element.update_attributes(params[:elt_element])
+    set_element
+    if @element.update_attributes(params[:elt_element])
       flash[:notice] = nil
     else
       flash[:error] = set_element.abbrev + ' Update Not Successful'
@@ -97,7 +102,78 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
     redirect_to :action => :index, :organization_id=>@current_organization
   end
 
-  def maintain_element
+  def new_indicator
+    set_element
+    @indicator = EltStdIndicator.new
+    @indicator.position = @element.indicators.size + 1
+  end
+
+  def create_indicator
+    set_element
+    @indicator = EltStdIndicator.new(params[:elt_std_indicator])
+    if !@element.nil?
+      if @element.indicators << @indicator
+        flash[:notice] = "#{@element.abbrev} Indicator Created"
+      else
+        flash[:error] = @indicator.errors.full_messages
+      end
+    else
+      flash[:error] = 'Undefined Element'
+    end
+    redirect_to :action => :edit_element, :elt_element_id => @element, :organization_id => @current_organization
+  end
+
+  def toggle_indicator_active
+    set_indicator
+    @indicator.update_attributes(:is_active => !@indicator.is_active )
+    render :partial => "manage_element_indicators", :locals=>{:element => @indicator.element}
+  end
+
+  def edit_indicator
+    set_indicator
+    @element = @indicator.element
+  end
+
+  def update_indicator
+    set_indicator
+    if @indicator.update_attributes(params[:elt_std_indicator])
+      flash[:notice] = "#{@indicator.element.abbrev} Indicator Updated"
+    else
+      flash[:error] = "#{@indicator.element.abbrev} Indicator Not Updated"
+    end
+    redirect_to :action => :edit_element, :elt_element_id => @indicator.element, :organization_id => @current_organization
+  end
+
+  def update_descriptor
+    set_indicator
+    set_descriptor
+    if !@descriptor.nil?
+      if @descriptor.update_attributes(:position => params[:pos].to_i, :description => params[:descript])
+        flash[:notice] = "Descriptor #{@descriptor.position} Updated"
+      else
+        flash[:error] = @descriptor.errors.full_messages
+      end
+    else
+      @descriptor = EltStdDescriptor.new
+      @descriptor.position = params[:pos].to_i
+      @descriptor.description = params[:descript]
+      if @indicator.descriptors << @descriptor
+        flash[:notice] = "Descriptor #{@descriptor.position} Added"
+      else
+        flash[:error] = @descriptor.errors.full_messages
+      end
+    end
+    render :partial => "apps/learning_time_standards/indicator_descriptors", :locals=>{:indicator => @indicator}
+  end
+
+  def destroy_descriptor
+    set_descriptor
+    @indicator = @descriptor.indicator
+    @descriptor.destroy
+    render :partial => "apps/learning_time_standards/indicator_descriptors", :locals=>{:indicator => @indicator}
+  end
+
+  def maintain_element_x
     @task = params[:task]
     if @framework && params[:function] && params[:function] == "New"
       @element = EltElement.new(params[:elt_element])
@@ -164,6 +240,14 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
 
   def set_element
     @element = EltElement.find_by_public_id(params[:elt_element_id])
+  end
+
+  def set_indicator
+    @indicator = EltStdIndicator.find_by_public_id(params[:elt_std_indicator_id])
+  end
+
+  def set_descriptor
+    @descriptor = EltStdDescriptor.find_by_public_id(params[:elt_std_descriptor_id]) rescue nil
   end
 
 end

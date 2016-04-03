@@ -12,7 +12,7 @@
 						<td style = "width:90px; width:fixed; font-family:Helvetica; font-size:10px;  text-align:center; vertical-align:top; padding-top:15px;  color: #2061a5 ; font-weight:bold ">
 							<% indicator.support_indicators.each do |si|%>
 								<% id = indicator.id.to_s + si.id.to_s -%>
-                              <% si_label =  si.elt_element.position.to_s + '.' + letter_equivalent(si.position) %>
+                  <% si_label =  si.elt_element.position.to_s + '.' + letter_equivalent(si.position) %>
 								<a id="<%= id%>" href=""><%= si.elt_element.abbrev + "-" + si_label %></a>
 								<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :title=> si.elt_type.name, :blue=>(si.elt_element.name + ',   Indicator ' + si_label ), :body=> si.indicator, :height=> 200, :width=> 700 } %>
 								<br/>

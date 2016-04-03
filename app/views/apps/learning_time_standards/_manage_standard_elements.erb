@@ -31,7 +31,7 @@
               &nbsp;<%= element.abbrev %>&nbsp;
             </span>:&nbsp;&nbsp;<%= element.name%>
             <span style="font-size:10px;">
-              &nbsp;&nbsp;(<%= pluralize(element.indicators.size, ' Indicator') %>)
+              &nbsp;&nbsp;(<%= pluralize(element.indicators.active.size, ' Active Indicator')%>&nbsp;of&nbsp;<%= element.indicators.size %>)
             </span>
           </td>
           <% if edit %>

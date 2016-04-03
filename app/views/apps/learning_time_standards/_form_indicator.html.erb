@@ -1,0 +1,38 @@
+
+
+<div class="formBox">
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Description:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+	        <%= text_area :elt_std_indicator, :description, :value => @indicator.description, :rows => 2, :cols => 65  %>
+        </div>
+    </div>	
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Display Position:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+        	<%= text_field :elt_std_indicator, :position, :value => @indicator.position,  :size => 1, :maxlength => 2 %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">         
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+        	&nbsp;
+        </div>
+    </div>
+
+</div>
+
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>

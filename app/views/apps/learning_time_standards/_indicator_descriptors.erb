@@ -1,0 +1,96 @@
+<div id="indicator_descriptors<%= indicator.public_id%>">
+  <div style="float:none;width:96.7%;" class="mempro_box clear" style="margin-left:00px;">
+  <div style="text-align:left;"><%= render :partial => "/shared/error_and_notice" %></div>
+		<table  style="width:700px;margin-left:150px;color: #000000; font-size:11px; font-weight:normal">
+			<tbody>
+        <tr style="border:0px solid #ddd; ">
+          <td colspan=4 style="text-align:center; font-size:14px; color:<%=indicator.element.e_font_color %>; background:<%= indicator.element.form_background%>">
+            <%= pluralize(indicator.descriptors.size, ' Descriptor')%> for Indicator <%= indicator_tiered_label(indicator) %>
+          </td>
+        </tr>
+        <tr style="border:0px solid #ddd; ">
+          <td colspan=4 style="line-height:1em; ">
+            &nbsp;
+          </td>
+        </tr>
+				<% indicator.descriptors.by_position.each do |desc| -%>
+					<tr >
+						<td  id="edit_descriptor_<%=desc.id%>" style="width:7%; border:0px solid #ddd; cursor:pointer; font-size:11px; ">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all">
+								Update
+							</span>
+						</td>
+						<td  style="width:5%; border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+				 		     <%= text_field :desc_pos, desc.id, :value => desc.position, :size => 2 %>
+						</td>
+						<td  style="border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+				 		     <%= text_area :desc_descript, desc.id, :rows => 3, :cols => 85, :value => desc.description %>
+						</td>
+            <td  id="destroy_<%=desc.id%>" style="width:7%; border:0px solid #ddd; cursor:pointer; font-size:11px; ">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all">
+								Destroy
+							</span>
+            </td>
+					</tr>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#edit_descriptor_<%= desc.id %>').click(function() {
+		var pos = jQ('#desc_pos_<%=desc.id%>').val();
+		var descript = jQ('#desc_descript_<%=desc.id%>').val();
+		var url = "<%= url_for :controller => '/apps/learning_time_standards', :action => :update_descriptor, :organization_id => @current_organization, :elt_std_indicator_id=> indicator.public_id, :elt_std_descriptor_id =>desc.public_id %>";
+			jQ.get(url, {'pos':pos, 'descript':descript}, function(data) {
+			jQ("#indicator_descriptors<%= indicator.public_id%>").html(data);
+	   		jQ("#indicator_descriptors<%= indicator.public_id%>").show();
+			});
+	})
+});
+</script>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ('#destroy_<%= desc.id %>').click(function() {
+                var url = "<%= url_for :controller => '/apps/learning_time_standards', :action => :destroy_descriptor, :organization_id => @current_organization, :elt_std_descriptor_id =>desc.public_id %>";
+                jQ.get(url, {}, function(data) {
+                  jQ("#indicator_descriptors<%= indicator.public_id%>").html(data);
+                  jQ("#indicator_descriptors<%= indicator.public_id%>").show();
+                });
+              })
+            });
+          </script>
+
+				<% end -%>
+					<tr >
+						<td  id="add_descriptor" style="width:7%; border:0px solid #ddd; cursor:pointer; font-size:11px; ">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all">
+								add
+							</span>
+						</td>
+            <% d_position = indicator.descriptors.empty? ? 1 : (indicator.descriptors.by_position.last.position + 1) %>
+						<td  style="width:5%; border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+				 		     <%= text_field :elt_std_descriptor, :position, :value => d_position, :size => 2 %>
+						</td>
+						<td  style="border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+				 		     <%= text_area :elt_std_descriptor, :description, :rows => 3, :cols => 85 %>
+						</td>
+            <td   style="width:7%; border:0px solid #ddd; cursor:pointer; font-size:11px; ">
+              &nbsp;
+            </td>
+					</tr>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#add_descriptor').click(function() {
+		var pos = jQ('#elt_std_descriptor_position').val();
+		var descript = jQ('#elt_std_descriptor_description').val();
+		var url = "<%= url_for :controller => '/apps/learning_time_standards', :action => :update_descriptor, :organization_id => @current_organization, :elt_std_indicator_id=> indicator.public_id %>";
+			jQ.get(url, {'pos':pos, 'descript':descript}, function(data) {
+        jQ("#indicator_descriptors<%= indicator.public_id%>").html(data);
+        jQ("#indicator_descriptors<%= indicator.public_id%>").show();
+			});
+	})
+});
+</script>
+			</tbody>
+		</table>
+  </div>
+</div>

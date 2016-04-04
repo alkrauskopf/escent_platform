@@ -57,6 +57,22 @@ class CoopApp < ActiveRecord::Base
 
 ####    Apps
 
+  def app_name(option = {})
+    if option[:provider]
+      option[:provider].app_settings(self).alt_name == '' ? self.name : option[:provider].app_settings(self).alt_name
+    else
+      self.name
+    end
+  end
+
+  def app_abbrev(option = {})
+    if option[:provider]
+      option[:provider].app_settings(self).alt_abbrev == '' ? self.name : option[:provider].app_settings(self).alt_abbrev
+    else
+      self.abbrev
+    end
+  end
+
   def self.core
     self.cores.first
   end

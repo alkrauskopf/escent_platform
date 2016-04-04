@@ -22,10 +22,6 @@ class EltFramework < ActiveRecord::Base
     self.elt_types.masters.first rescue nil
   end
 
-  def master_activity
-    self.elt_types.first
-  end
-
   def elements
     self.elt_elements
   end

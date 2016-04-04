@@ -1,14 +1,14 @@
 <div id="supported_indicator_<%= indicator.public_id%>">
   <table  style="width:650px;margin-left:200px;color: #000000; font-size:11px; font-weight:normal">
-			<tbody> 
-				<% unless indicator.support_indicators.empty? -%> 
-					<% indicator.support_indicators.each do |ind| -%>
+			<tbody>
+        <% unless indicator.supported_std_indicators.empty? -%>
+					<% indicator.supported_std_indicators.sort_by{|i| i.position}.each do |s_ind| -%>
 						<tr>
-							<td style="width:100px; width:fixed; text-align:center; vertical-align:top; border:0px solid #ddd; ">
-								<%= ind.elt_element ? (ind.elt_element.abbrev + "-" + ind.position.to_s) : ""%>
+							<td style="width:12%; text-align:center; vertical-align:top; border:0px solid #ddd; ">
+								<%= indicator_tiered_label(s_ind)%>
 							</td>
 							<td  style=" color: #2061a5; font-size:11px; padding-bottom:8px; line-height:1.3em">
-								<%= ind.indicator %>				
+								<%= s_ind.description %>
 							</td>	
 						</tr>
 					<% end -%>
@@ -17,7 +17,7 @@
 							&nbsp;
 						</td>
 						<td id="remove_indicator" style=" font-size:normal; padding-bottom:10px; ">
-							<%= select(:remove_indicator, indicator.id, indicator.support_indicators.collect{|ind| [(ind.elt_element.abbrev + "-" + ind.position.to_s), ind.id]},{:include_blank =>'Remove Supported Indicator'}) %>
+							<%= select(:remove_indicator, indicator.id, indicator.supported_std_indicators.sort_by{|i| i.position}.collect{|s_ind| [(s_ind.element.abbrev + "-" + s_ind.position.to_s), s_ind.id]},{:include_blank =>'Remove Supported Standard'}) %>
 						</td>	
 					</tr>
 				<% end -%>
@@ -26,7 +26,7 @@
                         &nbsp;
                     </td>
                     <td id="add_indicator" style=" font-size:normal; padding-bottom:10px; ">
-                        <%= select(:add_indicator, indicator.id, (indicator.master_indicators_active(indicator.elt_element) - indicator.support_indicators).collect{|ind| [(ind.elt_element.abbrev + "-" + ind.position.to_s), ind.id]},{:include_blank =>'Add Supported Indicator'}) %>
+                        <%= select(:add_indicator, indicator.id, (indicator.standard_indicators - indicator.supported_std_indicators).sort_by{|i| i.position}.collect{|s_ind| [(s_ind.element.abbrev + "-" + s_ind.position.to_s), s_ind.id]},{:include_blank =>'Add Supported Standard'}) %>
                     </td>
                 </tr>
 			</tbody>
@@ -37,7 +37,7 @@ jQ(document).ready(function() {
 	jQ('#remove_indicator').change(function() {
 		var supported_indicator_id = jQ('#remove_indicator_<%= indicator.id%>').val();
 		var url = "<%= url_for :controller => '/apps/learning_time', :action => :assign_supported_indicator, :organization_id => @current_organization, :elt_indicator_id=> indicator.public_id %>";
-			jQ.get(url, {'supported_indicator_id':supported_indicator_id}, function(data) {
+			jQ.get(url, {'elt_std_indicator_id':supported_indicator_id}, function(data) {
 			jQ("#supported_indicator_<%= indicator.public_id%>").html(data); 
 	   		jQ("#supported_indicator_<%= indicator.public_id%>").show();
 			});
@@ -50,7 +50,7 @@ jQ(document).ready(function() {
 	jQ('#add_indicator').change(function() {
 		var supported_indicator_id = jQ('#add_indicator_<%= indicator.id%>').val();
 		var url = "<%= url_for :controller => '/apps/learning_time', :action => :assign_supported_indicator, :organization_id => @current_organization, :elt_indicator_id=> indicator.public_id %>";
-			jQ.get(url, {'supported_indicator_id':supported_indicator_id}, function(data) {
+			jQ.get(url, {'elt_std_indicator_id':supported_indicator_id}, function(data) {
 			jQ("#supported_indicator_<%= indicator.public_id%>").html(data); 
 	   		jQ("#supported_indicator_<%= indicator.public_id%>").show();
 			});

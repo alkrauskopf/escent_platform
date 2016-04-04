@@ -403,7 +403,7 @@ class Organization < ActiveRecord::Base
   end
   
   def app_provider(app)
-    (self.app_settings(app).nil? || self.app_settings(app).provider_id.nil? || !self.app_settings(app).app_provider || !self.app_settings(app).app_provider.provider?(app)) ? (app.owner ? app.owner : Organization.default) : self.app_settings(app).app_provider
+    (self.app_settings(app).nil? || !self.app_settings(app).app_provider ) ? (app.owner ? app.owner : nil) : self.app_settings(app).app_provider
   end
 
   def provider_app_name(app)

@@ -1,16 +1,16 @@
 
-<div id ="case_cycles_<%=org.public_id%>" style = "font-size:12px; color: #2061a5; padding-left:0px;">
+<div id ="case_cycles_<%=@current_organization.public_id%>" style = "font-size:12px; color: #2061a5; padding-left:0px;">
 	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:normal"> 
-		<center><%= org.elt_provider ? ("Active " + org.elt_provider.short_name) : "" %>&nbsp;Diagnostic Cycles</center>				
+		<center><%= !@current_provider.nil? ? ("Active " + @current_provider.short_name) : "" %>&nbsp;Diagnostic Cycles</center>
 	</div>
-	<% unless org.app_provider(app).nil? %>
-		<% unless org.provider?(app) %>
-			<% org.elt_all_cycles(org.app_provider(app)).each do |cycle| -%>
+	<% unless @current_provider.nil? %>
+		<% unless @current_organization == @current_provider %>
+			<% @current_organization.elt_all_cycles(@current_provider).each do |cycle| -%>
                 <div style ="color: #C73914; font-size:12px; margin-top:10px; font-weight:bold">
-                    <%=  cycle.name %><span style = "font-size:9px;font-weight:normal"><%= org.active_elt_cycle == cycle ? "&nbsp;&nbsp;(Current Cycle)" : ""%></span>
+                    <%=  cycle.name %><span style = "font-size:9px;font-weight:normal"><%= @current_organization.active_elt_cycle == cycle ? "&nbsp;&nbsp;(Current Cycle)" : ""%></span>
                 </div>
 
-              <%= render :partial => "/apps/learning_time/evidence_map", :locals => {:org => org, :cycle => cycle, :app => @app} %>
+              <%= render :partial => "/apps/learning_time/evidence_map", :locals => {:org => @current_organization, :cycle => cycle, :app => @app} %>
 
 
               <% cycle.activities.for_client.each do |activity| -%>
@@ -19,8 +19,8 @@
 							<tr>
 								<td class="resource_levels_close" style="width:950px;color: #2061a5;">
 				
-								<%= link_to '', :controller => "apps/learning_time", :action => :show_school_cycle_activity_cases, :organization_id => @current_organization, :school_id => org, :elt_cycle_id => cycle, :elt_type_id=>activity, :app_id=> app.id  %>
-								<%= activity.name %>&nbsp;<small><i>(<%= org.elt_cycle_activity_cases(cycle, activity).size %>)</i></small>
+								<%= link_to '', :controller => "apps/learning_time", :action => :show_school_cycle_activity_cases, :organization_id => @current_organization, :school_id => @current_organization, :elt_cycle_id => cycle, :elt_type_id=>activity, :app_id=> app.id  %>
+								<%= activity.name %>&nbsp;<small><i>(<%= @current_organization.elt_cycle_activity_cases(cycle, activity).size %>)</i></small>
 								<span></span>
 								</td>
 							</tr>
@@ -36,9 +36,9 @@
 			<% end -%>	
 	
 		<% else -%>	
-			<% org.elt_cycles.all.active.each do |cycle| -%>
+			<% @current_organization.elt_cycles.all.active.each do |cycle| -%>
 				<div style ="color: #2061a5; font-size:14px; margin-top:15px; margin-left:0px; font-weight:normal; border:0px solid #ddd;"> 
-					<%= render :partial => "/apps/learning_time/list_cycle_schools", :locals=>{:org=>org, :cycle=>cycle, :app=>app} %>
+					<%= render :partial => "/apps/learning_time/list_cycle_schools", :locals=>{:org=>@current_organization, :cycle=>cycle} %>
 				</div>
 			<% end -%>
 		<% end -%>

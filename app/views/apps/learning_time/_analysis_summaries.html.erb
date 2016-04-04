@@ -1,7 +1,7 @@
 
 <div id ="analysis_summaries" style = "font-size:12px; color: #2061a5; padding-left:0px;">
-	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:normal"> 
-		<center><%= app.name %>&nbsp;Analysis & Summary Reports</center>
+	<div style ="text-align:center; color: #2061a5; font-size:14px; margin-top:5px; font-weight:normal">
+		<%= @current_application.app_name(:provider => @current_provider) %>&nbsp;Analysis & Summary Reports
 	</div>	
 	<div>
 		<table style="margin-left:150px; font-size:16px; font-weight:bold;  color: #2061a5; width:600px">
@@ -9,7 +9,7 @@
 				<tr>
 					<td  style="width:40px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/app_report", :action => "elt_school_diag", :organization_id => @current_organization, :user_id => @current_user, :report_id => "SD", :app_id => app.id}, {:target => "_blank"} %>
+							 <%= link_to "Go" ,{:controller => "/apps/app_report", :action => "elt_school_diag", :organization_id => @current_organization, :user_id => @current_user, :report_id => "SD"}, {:target => "_blank"} %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
@@ -19,7 +19,7 @@
 				<tr>
 					<td  style="width:40px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/app_report", :action => "elt_school_diag", :organization_id => @current_organization, :user_id => @current_user, :report_id => "CD", :app_id => app.id}, {:target => "_blank"} %>
+							 <%= link_to "Go" ,{:controller => "/apps/app_report", :action => "elt_school_diag", :organization_id => @current_organization, :user_id => @current_user, :report_id => "CD"}, {:target => "_blank"} %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
@@ -29,7 +29,7 @@
 				<tr>
 					<td  style="width:40px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/app_report", :action => "elt_school_diag", :organization_id => @current_organization, :user_id => @current_user, :report_id => "ND", :app_id => app.id}, {:target => "_blank"} %>
+							 <%= link_to "Go" ,{:controller => "/apps/app_report", :action => "elt_school_diag", :organization_id => @current_organization, :user_id => @current_user, :report_id => "ND"}, {:target => "_blank"} %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
@@ -39,7 +39,7 @@
                 <tr>
                   <td  style="width:40px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/app_report", :action => "elt_school_diag", :organization_id => @current_organization, :user_id => @current_user, :report_id => "AC", :app_id => app.id}, {:target => "_blank"} %>
+							 <%= link_to "Go" ,{:controller => "/apps/app_report", :action => "elt_school_diag", :organization_id => @current_organization, :user_id => @current_user, :report_id => "AC"}, {:target => "_blank"} %>
 						</span>
                   </td>
                   <td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">

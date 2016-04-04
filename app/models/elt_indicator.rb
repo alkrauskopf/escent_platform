@@ -9,10 +9,11 @@ class EltIndicator < ActiveRecord::Base
 
   has_many :elt_case_indicators, :dependent => :destroy
   has_many :elt_related_indicators, :dependent => :destroy
-  has_many :lookfors, :through => :elt_related_indicators, :source=> :lookfor, :uniq=>true
+#  has_many :lookfors, :through => :elt_related_indicators, :source=> :lookfor, :uniq=>true
   has_many :elt_indicator_lookfors, :dependent => :destroy
   has_many :elt_cycle_summaries
   has_many :elt_plan_actions, :as => :scope, :dependent => :destroy
+  has_many :elt_std_indicators,:through => :elt_related_indicators, :uniq=>true
   
   validates_presence_of :indicator, :message => 'Must Define Indicator' 
   validates_numericality_of :position, :greater_than => 0, :message => 'must > 0.  '
@@ -26,6 +27,7 @@ class EltIndicator < ActiveRecord::Base
   scope :for_element, lambda{|element| {:conditions => ["elt_element_id = ? ", element.id]}}
   scope :by_position, :order => 'position ASC'
   scope :all_parents,   :conditions => ["parent_id IS NULL"], :order=>'name'
+
 
   def active?
     self.is_active
@@ -44,11 +46,12 @@ class EltIndicator < ActiveRecord::Base
   end
 
   def support_indicators
-    EltRelatedIndicator.find(:all, :conditions =>["related_indicator_id = ?", self.id]).collect{|i| i.elt_indicator}.sort_by{|i| [i.elt_element.abbrev, i.position]}
+   self.supported_std_indicators.sort_by{|i| i.position}
+ #   EltRelatedIndicator.find(:all, :conditions =>["related_indicator_id = ?", self.id]).collect{|i| i.elt_indicator}.sort_by{|i| [i.elt_element.abbrev, i.position]}
   end
 
-  def support_links
-    EltRelatedIndicator.find(:all, :conditions =>["related_indicator_id = ?", self.id])
+  def supported_std_indicators
+    self.elt_std_indicators.by_element
   end
 
   def self.destroy_disabled!(activity,element)
@@ -67,12 +70,12 @@ class EltIndicator < ActiveRecord::Base
     evidences.flatten.compact
   end
 
-  def master_indicators_active(element)
-    if element && self.master_activity_active
-      self.master_activity_active.elt_indicators.for_element(element).active
-    else
-      []
-    end
+  def element
+    self.elt_element.nil? ? nil : self.elt_element
+  end
+
+  def standard_indicators
+    self.element.nil? ? [] : self.element.indicators.active
   end
 
   def framework

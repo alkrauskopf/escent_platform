@@ -28,6 +28,10 @@ class EltStandard < ActiveRecord::Base
     where('organization_id = ? OR (is_active AND is_public)', org.id).order("created_at DESC")
   end
 
+  def self.org_available_elements(org)
+    org_available(org).collect{|s| s.elements.active}.compact.flatten
+  end
+
   def destroyable?(org)
     (self.organization == org && !self.active?)
   end

@@ -2,27 +2,32 @@
 		<table  style="width:700px;margin-left:150px;color: #000000; font-size:11px; font-weight:normal">
 			<tbody> 
 				<tr >
-					<td style="width:35px; width:fixed; border:0px solid #ddd; cursor:pointer; font-size:11px; ">
+					<td style="width:5%; border:0px solid #ddd; cursor:pointer; font-size:11px; ">
 						&nbsp;
 					</td>
-					<td  colspan=2 style=" border:0px solid #ddd; text-align:left; vertical-align:top; padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:13px; ">
+					<td  colspan=3 style=" border:0px solid #ddd; text-align:left; vertical-align:top; padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:13px; ">
 						Define Clarifying Lookfors  (Position,  Description)
 					</td>
 				</tr>
 				<% indicator.elt_indicator_lookfors.all.each do |lf| -%>
 					<tr >
-						<td  id="edit_lookfor_<%=lf.id%>" style="width:35px; width:fixed; border:0px solid #ddd; cursor:pointer; font-size:11px; ">
+						<td  id="edit_lookfor_<%=lf.id%>" style="width:5%; border:0px solid #ddd; cursor:pointer; font-size:11px; ">
 							<span class="fsn-button ui-button ui-state-default ui-corner-all">
 								Update
 							</span>
 						</td>
-						<td  style="width:35px; width:fixed; border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+						<td  style="width:5%; border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
 				 		     <%= text_field :lf_pos, lf.id, :value => lf.position, :size => 1 %>
 						</td>
-						<td  style="width:615px; width:fixed; border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+						<td  style=" border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
 				 		     <% lookfor = indicator.elt_indicator_lookfors.empty? ? "" : (indicator.elt_indicator_lookfors[0] ? "" : indicator.elt_indicator_lookfors[0].lookfor) %>
-				 		     <%= text_area :lf_descript, lf.id, :rows => 3, :cols => 65, :value => lf.lookfor %>
+				 		     <%= text_area :lf_descript, lf.id, :rows => 3, :cols => 85, :value => lf.lookfor %>
 						</td>
+            <td  id="destroy_lookfor_<%=lf.id%>" style="width:5%; border:0px solid #ddd; cursor:pointer; font-size:11px; ">
+							<span class="fsn-button ui-button ui-state-default ui-corner-all">
+								Destroy
+							</span>
+            </td>
 					</tr>
 
 <script type="text/javascript">
@@ -38,6 +43,17 @@ jQ(document).ready(function() {
 	})
 });
 </script>
+<script type="text/javascript">
+  jQ(document).ready(function() {
+    jQ('#destroy_lookfor_<%=lf.id%>').click(function() {
+      var url = "<%= url_for :controller => '/apps/learning_time', :action => :destroy_lookfor, :organization_id => @current_organization, :elt_indicator_id=> indicator.public_id, :elt_indicator_lookfor_id =>lf.id %>";
+      jQ.get(url, {}, function(data) {
+        jQ("#indicator_lookfors<%= indicator.public_id%>").html(data);
+        jQ("#indicator_lookfors<%= indicator.public_id%>").show();
+      });
+    })
+  });
+</script>
 
 				<% end -%>
 					<tr >
@@ -50,7 +66,7 @@ jQ(document).ready(function() {
 				 		     <%= text_field :lf_pos, :position, :size => 1 %>
 						</td>
 						<td  style="width:615px; width:fixed; border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
-				 		     <%= text_area :lf_descript, :descript, :rows => 3, :cols => 65 %>
+				 		     <%= text_area :lf_descript, :descript, :rows => 3, :cols => 85 %>
 						</td>
 					</tr>
 

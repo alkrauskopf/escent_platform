@@ -5,8 +5,15 @@ class EltStdIndicator < ActiveRecord::Base
   belongs_to :elt_element
 
   has_many :elt_std_descriptors, :dependent => :destroy
+  has_many :elt_related_indicators, :dependent => :destroy
+  has_many :elt_indicators, :through => :elt_related_indicators, :uniq=>true
+
   validates_presence_of :description, :message => 'Indicator Description Required'
   validates_numericality_of :position, :greater_than => 0, :message => 'must > 0.  '
+
+  def informing_indicators
+    self.elt_indicators
+  end
 
   def self.active
     where('is_active').by_position
@@ -32,7 +39,11 @@ class EltStdIndicator < ActiveRecord::Base
   end
 
   def self.by_position
-    order('position ASC')
+    sort_by{|i| i.position}
+  end
+
+  def self.by_element
+    self.sort_by{|i| [i.element.abbrev]}.by_position
   end
 
   def self.for_element(element)

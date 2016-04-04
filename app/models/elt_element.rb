@@ -38,10 +38,6 @@ class EltElement < ActiveRecord::Base
     evidences.flatten.compact
   end
 
-  def lookfors(activity)
-    self
-  end
-
  def standard?
    self.elt_standard.nil? ? false :true
  end

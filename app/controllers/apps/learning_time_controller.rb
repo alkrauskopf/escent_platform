@@ -372,9 +372,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
    end
    if !@indicator.nil? && !new_element.nil?
      if new_element.elt_indicators << @indicator
-       @indicator.support_links.each do|l|
-         l.destroy
-       end
+       @indicator.elt_related_indicators.destroy_all
      end
    end
    render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:org => @activity.organization, :element => @element, :activity => @activity, :app=>@app}
@@ -666,11 +664,12 @@ class Apps::LearningTimeController  < Site::ApplicationController
   end
 
  def assign_supported_indicator
-  sup_indicator = EltIndicator.find_by_id(params[:supported_indicator_id]) 
-  if sup_indicator.lookfors.include?(@indicator)
-    sup_indicator.elt_related_indicators.for_lookfor(@indicator).destroy_all
+  std_indicator = EltStdIndicator.find_by_id(params[:elt_std_indicator_id])
+  if std_indicator.informing_indicators.include?(@indicator)
+    std_indicator.elt_related_indicators.for_informing_indicator(@indicator).destroy_all
   else
-    sup_indicator.lookfors << @indicator
+    #std_indicator.lookfors << @indicator
+    std_indicator.informing_indicators << @indicator
   end
   render :partial => "apps/learning_time/related_indicators", :locals=>{:indicator => @indicator}
  end
@@ -686,6 +685,16 @@ class Apps::LearningTimeController  < Site::ApplicationController
    @indicator.elt_indicator_lookfors << lookfor
   end
   render :partial => "apps/learning_time/indicator_lookfors", :locals=>{:indicator => @indicator}
+ end
+
+ def destroy_lookfor
+   if params[:elt_indicator_lookfor_id]
+     lookfor = EltIndicatorLookfor.find_by_id(params[:elt_indicator_lookfor_id]) rescue nil
+     unless lookfor.nil?
+       lookfor.destroy
+     end
+   end
+   render :partial => "apps/learning_time/indicator_lookfors", :locals=>{:indicator => @indicator}
  end
 
  def school_cycle_plan
@@ -878,6 +887,8 @@ class Apps::LearningTimeController  < Site::ApplicationController
 
  def elt_allowed?
    @current_application = CoopApp.elt
+   @current_provider = @current_organization.app_provider(@current_application)
+   @current_cycle = @current_organization.active_elt_cycle.nil? ? nil : @current_organization.active_elt_cycle
    current_app_enabled_for_current_org?
  end
 

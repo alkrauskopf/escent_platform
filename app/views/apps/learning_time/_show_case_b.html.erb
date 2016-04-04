@@ -50,7 +50,7 @@
   });
   </script>
     <% end -%>
-  <% if !elt_case.elt_cycle.nil? %>
+  <% unless elt_case.elt_cycle.nil? %>
     <%= render :partial => '/apps/learning_time/form_case_b', :locals=> {:elt_case => elt_case} %>
   <% end -%>
   </div>

@@ -54,6 +54,14 @@ class EltIndicator < ActiveRecord::Base
     self.elt_std_indicators.by_element
   end
 
+  def case_findings(elt_case)
+    self.elt_case_indicators.for_case(elt_case)
+  end
+
+  def self.cycle_findings(cycle)
+    self.collect{|i| i.elt_case_indicators.for_cycle(cycle)}.flatten
+  end
+
   def self.destroy_disabled!(activity,element)
     EltIndicator.for_activity(activity).for_element(element).inactive.destroy_all
   end

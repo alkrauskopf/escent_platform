@@ -14,6 +14,7 @@ class EltCase < ActiveRecord::Base
 
   has_many :elt_case_notes, :dependent => :destroy
   has_many :elt_case_indicators, :dependent => :destroy
+  has_many :elt_case_analyses, :dependent => :destroy
 
   validates_presence_of :name
  

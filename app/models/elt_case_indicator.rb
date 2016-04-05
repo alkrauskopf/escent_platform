@@ -24,7 +24,6 @@ class EltCaseIndicator < ActiveRecord::Base
   scope :for_element_rubric, lambda{|element, rub| {:include => :elt_indicator, :conditions => ["elt_indicators.elt_element_id = ? && rubric.id = ?", element.id, rub.id]}}
 
 
-  
   def rubric?
     self.rubric
   end
@@ -37,4 +36,11 @@ class EltCaseIndicator < ActiveRecord::Base
     self.elt_indicator.elt_type
   end
 
+  def key_finding?
+    self.is_key
+  end
+
+  def self.key_findings
+    where('is_key')
+  end
 end

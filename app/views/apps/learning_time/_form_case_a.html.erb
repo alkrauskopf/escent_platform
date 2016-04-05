@@ -1,0 +1,12 @@
+<div class="Form clear">
+  <% form_for(:elt_case, :url => {:controller => "/apps/learning_time", :action => :update_analysis, :organization_id => @current_organization, :elt_case_id => elt_case}) do |form| %>
+      <%= render :partial => "/apps/learning_time/form_case_submit_buttons", :locals => {:elt_case => elt_case} -%>
+      <br/><% elt_case.cycle_elements.each do |element| -%>
+          <% unless element.elt_std_indicators.active.empty? %>
+            <%= render :partial => "/apps/learning_time/element_indicators_a", :locals => {:elt_case => elt_case, :element=> element} -%>
+          <% end %>
+        <% end %>
+      <br/>
+      <%= render :partial => "/apps/learning_time/form_case_submit_buttons", :locals => {:elt_case => elt_case} -%>
+  <% end %>
+</div>

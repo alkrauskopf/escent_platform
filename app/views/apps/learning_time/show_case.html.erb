@@ -1,7 +1,7 @@
 <div >
-  <% if true %>
+  <% unless @activity.master? %>
     <%= render :partial => "/apps/learning_time/show_case_b", :locals => {:elt_case => @elt_case} -%>
   <% else %>
-   	<%= render :partial => "/apps/learning_time/show_case", :locals => {:elt_case => @elt_case, :app => @app} -%>
+   	<%= render :partial => "/apps/learning_time/show_case_a", :locals => {:elt_case => @elt_case} -%>
   <% end %>
 </div>

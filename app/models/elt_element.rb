@@ -12,7 +12,8 @@ class EltElement < ActiveRecord::Base
   has_many :elt_plan_actions, :as => :scope, :dependent => :destroy
   has_many :elt_cycle_elements, :dependent => :destroy
   has_many :cycles, :through => :elt_cycle_elements, :source => :elt_cycle, :uniq=>true
-  
+  has_many :elt_case_analyses, :dependent => :destroy
+
   validates_presence_of :name
   validates_presence_of :abbrev
   validates_numericality_of :position, :greater_than => 0, :message => 'must > 0.  '

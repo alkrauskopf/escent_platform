@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  elt_case_id: 1
+  elt_element_id: 1
+  elt_std_indicator_id: 1
+  provider_id: 1
+  rubric_id: 1
+  strengths: MyText
+  considerations: MyText
+
+two:
+  elt_case_id: 1
+  elt_element_id: 1
+  elt_std_indicator_id: 1
+  provider_id: 1
+  rubric_id: 1
+  strengths: MyText
+  considerations: MyText

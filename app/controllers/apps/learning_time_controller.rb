@@ -477,15 +477,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
 
   def start_case
     @activity = EltType.find_by_public_id(params[:elt_type_id]) rescue nil
-    @case = EltCase.new
-    @case.is_final = false
-    @case.user_id = @current_user.id
-    @case.organization_id = @school.id
-    @case.user_name = @current_user.last_name_first
-    @case.submit_date = Date.today
-    @case.elt_cycle_id = @cycle.id
-    @case.name = @activity.name + ',   ' +  @current_user.last_name
-    @activity.elt_cases << @case
+    create_case(@activity)
     redirect_to :action => 'show_case', :organization_id => @current_organization, :school_id=> @school, :user_id => @current_user, :elt_case_id => @case, :form => 'new'
   end
 
@@ -1038,5 +1030,17 @@ class Apps::LearningTimeController  < Site::ApplicationController
     end
     activities
   end
-  
+
+  def create_case(activity)
+    @case = EltCase.new
+    @case.is_final = false
+    @case.user_id = @current_user.id
+    @case.organization_id = @school.id
+    @case.user_name = @current_user.last_name_first
+    @case.submit_date = Date.today
+    @case.elt_cycle_id = @cycle.id
+    @case.name = activity.name + ',   ' +  @current_user.last_name
+    activity.elt_cases << @case
+  end
+
 end

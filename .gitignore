@@ -11,5 +11,4 @@ public/system/*
 
 db/schema.rb
 .ruby-gemset
-Gemfile.lock
 /config/initializers/abstract_mysql_adapter.rb

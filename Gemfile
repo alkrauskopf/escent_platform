@@ -15,3 +15,4 @@ gem 'paperclip', '~> 3.3.1'
 gem 'jquery-rails'
 #
 gem 'hpricot'
+gem 'thin'

@@ -72,54 +72,6 @@ class Apps::LearningTimeController  < Site::ApplicationController
     initialize_parameters
   end
 
-  def maintain_element_x
-    @task = params[:task]
-    if @framework && params[:function] && params[:function] == "New"
-      @element = EltElement.new(params[:elt_element])
-      @element.is_active = false
-      @element.organization_id = @current_organization.id
-      @element.elt_framework_id = @framework.id
-      @element.form_background = (params[:elt_element][:form_background].empty? ? "#FFFFFF" : params[:elt_element][:form_background]).upcase
-      @element.i_form_background = (params[:elt_element][:i_form_background].empty? ? "#FFFFFF" : params[:elt_element][:i_form_background]).upcase
-      @element.e_font_color = (params[:elt_element][:e_font_color].empty? ? "#000000" : params[:elt_element][:e_font_color]).upcase
-      @element.abbrev = params[:elt_element][:abbrev].upcase
-      @element.position = params[:elt_element][:position].to_i
-      if @element.save
-        flash[:notice] = "Successfully created element.   CLOSE WINDOW"
-      else
-        flash[:error] = @element.errors.full_messages.to_sentence
-      end
-    elsif params[:task] == "Update"
-      @element = EltElement.find_by_public_id(params[:elt_element_id]) rescue nil
-      unless @element.nil?
-        if params[:function] && params[:function] == "Update"
-          params[:elt_element][:form_background] = params[:elt_element][:form_background].upcase
-          params[:elt_element][:i_form_background] = params[:elt_element][:i_form_background].upcase
-          params[:elt_element][:e_font_color] = params[:elt_element][:e_font_color].upcase
-          params[:elt_element][:abbrev] = params[:elt_element][:abbrev].upcase     
-          if @element.update_attributes(params[:elt_element])
-            flash[:notice] = "Successfully Updated.   CLOSE WINDOW"
-          else
-            flash[:error] = @element.errors.full_messages.to_sentence
-          end        
-        end
-        if !@element.nil? && params[:function] && params[:function] == "Destroy"      
-          if @element.destroy
-            flash[:notice] = "Element Destroyed.   CLOSE WINDOW"
-            @element = EltElement.new
-            @task = "New"
-          else
-            flash[:error] = @element.errors.full_messages.to_sentence
-          end        
-        end
-      else
-        @element = EltElement.new
-      end       
-    else
-      @element = EltElement.new
-    end
-  end 
-
   def maintain_cycle
     @task = params[:task]
     if @framework && params[:function] && params[:function] == "New"
@@ -492,6 +444,9 @@ class Apps::LearningTimeController  < Site::ApplicationController
         element.elt_indicators.active.each do |indicator|
           if params[:case_i]
             update_indicator_note(@case, indicator, (!params[:case_i][indicator.id.to_s].nil? ? params[:case_i][indicator.id.to_s]:''))
+            if params[:key_i]
+              update_indicator_key(@case, indicator, (params[:key_i][indicator.id.to_s].nil? ? false: params[:key_i][indicator.id.to_s]))
+            end
           end
           if params[:rating]
             update_indicator_rubric(@case, indicator, (!params[:rating][indicator.id.to_s].nil? ? params[:rating][indicator.id.to_s]:''))
@@ -988,6 +943,12 @@ class Apps::LearningTimeController  < Site::ApplicationController
       else
         elt_case.case_indicator(indicator).update_attributes(:note => note_text)
      end
+ end
+
+ def update_indicator_key(elt_case, indicator, is_key)
+   unless elt_case.case_indicator(indicator).nil?
+     elt_case.case_indicator(indicator).update_attributes(:is_key => is_key)
+   end
  end
 
  def update_indicator_rubric(elt_case, indicator, rubric_id)

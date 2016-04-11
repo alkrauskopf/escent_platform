@@ -1,6 +1,5 @@
 <div id ="note_<%=indicator.public_id%>">
 	<% family = "Helvetica, Arial, sans-serif" -%>
-	<% if elt_case.updatable?(@current_user) %>
 		<table style=" width:470px; width:fixed; margin-top:0px; font-size:11px; font-weight:normal; color:#2061a5; font-family:<%=family%>;">
 			<tbody>  
 				<style type="text/css" media="screen">
@@ -11,16 +10,19 @@
         </style>
 				<tr >
           <% if elt_case.updatable?(@current_user) %>
-              <td style="border:0px solid #ddd; vertical-align:top;padding-top:8px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+              <td style="width:15%; border:0px solid #ddd; vertical-align:top;padding-top:8px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+                Key<%= check_box :key_i, indicator.id, :checked=>elt_case.case_indicator(indicator).nil?  ? false : elt_case.case_indicator(indicator).is_key %>
+              </td>
+            <td style="width:85%; border:0px solid #ddd; vertical-align:top;padding-top:8px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
 			 		     <%= text_area :case_i, indicator.id, :rows => 2, :cols => 100, :value => elt_case.case_indicator(indicator).nil?  ? "": elt_case.case_indicator(indicator).note %>
 					  </td>
           <% else %>
-              <td style = "font-size:11px; font-weight:normal; text-align:left; color: #C73914; font-family:<%=family%>; border-top:1px dashed #000000; padding-top:5px; margin-top:10px; line-height:1.3em;">
-                <u>Evidence:</u>&nbsp;<%= elt_case.case_indicator(indicator).nil? || elt_case.case_indicator(indicator).note.nil? || elt_case.case_indicator(indicator).note.empty? ? '' : (simple_format elt_case.case_indicator(indicator).note) %>
+              <% key_color = (!elt_case.case_indicator(indicator).nil? && elt_case.case_indicator(indicator).key_finding?) ? '#C73914' : '#2061a5' %>
+              <td style = "font-size:12px; font-weight:normal; text-align:left; color: <%= key_color %>; font-family:<%=family%>; border-top:1px dashed #000000; padding-top:5px; margin-top:10px; line-height:1.3em;">
+                <%= elt_case.case_indicator(indicator).nil? || elt_case.case_indicator(indicator).note.nil? || elt_case.case_indicator(indicator).note.empty? ? 'No Evidence' : (simple_format ('Evidence: ' + elt_case.case_indicator(indicator).note)) %>
               </td>
           <% end %>
 				</tr>
 			</tbody>
 		</table>
-	<% end -%>
 </div>	

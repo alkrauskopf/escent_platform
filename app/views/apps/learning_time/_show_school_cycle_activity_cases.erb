@@ -51,7 +51,7 @@
 					<td  style="width:70px; width:fixed; border:0px solid #ddd; line-height:1.2em; padding-top:10px;padding-bottom:0px; color:#C73914; vertical-align:top;text-align:center; font-size:11px" >
 						<% if true-%>
 							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;padding-left:5px;">
-						  		<%= link_to "PDF",  {:controller =>"/apps/app_pdf", :action=> "elt_case", :elt_case_id => elt_case}, {:target => "_blank"} %>
+						  		<%= link_to "PDF",  {:controller =>"/apps/app_pdf", :action=> "elt_case", :elt_case_id => elt_case, :format => 'pdf'}, {:target => "_blank"} %>
 							</span>
 						<% else -%>
 							&nbsp;
@@ -61,7 +61,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#finalize_<%= elt_case.public_id %>").click(function() {
-		var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_finalize_case, :organization_id => @current_organization, :elt_case_id => elt_case, :app_id=> app.id %>";
+		var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_finalize_case, :organization_id => @current_organization, :elt_case_id => elt_case %>";
 		jQ.get(url,{},  function(data) {
 				jQ("#activity_cases_<%=org.public_id%><%=cycle.id%><%=activity.public_id%>").html(data);
 				jQ("#activity_cases_<%=org.public_id%><%=cycle.id%><%=activity.public_id%>").show();

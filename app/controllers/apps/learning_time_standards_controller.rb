@@ -176,7 +176,7 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
     set_indicator
     set_organization
     set_cycle
-    @findings = @indicator.org_cycle_findings(@org, @elt_cycle)
+    @findings = @indicator.org_cycle_findings(@org, @elt_cycle,:key_only=>true)
   end
 
   private

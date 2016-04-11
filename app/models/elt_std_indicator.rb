@@ -15,8 +15,13 @@ class EltStdIndicator < ActiveRecord::Base
     self.elt_indicators
   end
 
-  def org_cycle_findings(org,cycle)
-    self.elt_indicators.active.map{|i| i.elt_case_indicators.for_org_cycle(org,cycle)}.flatten
+  def org_cycle_findings(org,cycle,options={})
+   if options[:key_only]
+     findings = self.elt_indicators.active.map{|i| i.elt_case_indicators.for_org_cycle(org,cycle).key_findings}.flatten
+   else
+     findings = self.elt_indicators.active.map{|i| i.elt_case_indicators.for_org_cycle(org,cycle)}.flatten
+   end
+    findings
   end
 
   def cycle_findings(cycle)

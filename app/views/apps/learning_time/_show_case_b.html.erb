@@ -1,8 +1,8 @@
 <div id="mainContent" style=" border:1px solid #ddd;">
   <div id="diagnostic_box" >
     <%= render :partial => "/apps/learning_time/show_edit_case_title", :locals => {:elt_case => elt_case} -%>
-    <% if @activity.rubric? -%>
-        <%= render :partial => "/apps/learning_time/explain_rubric", :locals => {:activity => @activity} -%>
+    <% if elt_case.activity.rubric? -%>
+        <%= render :partial => "/apps/learning_time/explain_rubric", :locals => {:activity => elt_case.activity} -%>
     <% end -%>
   <% unless elt_case.elt_cycle.nil? %>
     <%= render :partial => '/apps/learning_time/form_case_b', :locals=> {:elt_case => elt_case} %>

@@ -20,6 +20,7 @@ class EltCaseIndicator < ActiveRecord::Base
   scope :final_for_cycle, lambda{|cycle| {:include => :elt_case, :conditions => ["elt_cases.elt_cycle_id = ? AND elt_cases.is_final = ?", cycle.id, true]}}
   scope :for_cycle, lambda{|cycle| {:include => :elt_case, :conditions => ["elt_cases.elt_cycle_id = ?", cycle.id]}}
   scope :for_org, lambda{|org| {:include => :elt_case, :conditions => ["elt_cases.organization_id = ?", org.id]}}
+  scope :for_org_cycle, lambda{|org,cycle| {:include => :elt_case, :conditions => ["elt_cases.elt_cycle_id = ? AND elt_cases.organization_id = ?", cycle.id, org.id]}}
   scope :with_note, :conditions => ["note != ? || note IS NOT NULL", '']
   scope :for_element_rubric, lambda{|element, rub| {:include => :elt_indicator, :conditions => ["elt_indicators.elt_element_id = ? && rubric.id = ?", element.id, rub.id]}}
 

@@ -1,20 +1,20 @@
 <div id="metric_search">
-	<% form_for "#" , :html => {:class => 'metric_ajax'} do %>
+	<%# form_for "#" , :html => {:class => 'metric_ajax'} do %>
 	<table style="width:500px;border:0px;">
 		<tr>
 			<td style="border:0px">
-			  <span>Start Date:</span><%= calendar_date_select "" , "start_date" , :value => @start_date , :size => "18px", :class => "text" %>
+			  <span>Start Date:</span>   Needs new Calendar Date Select Helper<%#= xalendar_date_select "" , "start_date" , :value => @start_date , :size => "18px", :class => "text" %>
 		    </td>
 			<td style="border:0px">
-				<span>End Date:</span><%= calendar_date_select "" , "end_date" , :value => @end_date , :size => "18px" , :class => "text"%>
+				<span>End Date:</span><%#= xalendar_date_select "" , "end_date" , :value => @end_date , :size => "18px" , :class => "text"%>
 			</td>
 			<td style="border:0px">
-				<span>&nbsp;</span><%= submit_tag "search" , :class => "metric_search_submit fsn-button ui-button ui-state-default ui-corner-all" %>
+				<span>&nbsp;</span><%#= submit_tag "search" , :class => "metric_search_submit fsn-button ui-button ui-state-default ui-corner-all" %>
 			</td>
 		</tr>
 
 	</table>
-	<% end %>
+	<%# end %>
 </div>
 <table id="roles" class="tablesorter">
    <thead>

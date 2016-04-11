@@ -14,7 +14,6 @@ class EltCase < ActiveRecord::Base
 
   has_many :elt_case_notes, :dependent => :destroy
   has_many :elt_case_indicators, :dependent => :destroy
-  has_many :elt_case_analyses, :dependent => :destroy
 
   validates_presence_of :name
  
@@ -140,7 +139,8 @@ class EltCase < ActiveRecord::Base
   end
 
   def indicators_rated
-    self.elt_type.rubric? ? self.elt_type.elt_indicators.active.collect{|i| i.elt_case_indicators.for_case(self).rated}.flatten.size : 0
+   # self.elt_type.rubric? ? self.elt_type.elt_indicators.active.collect{|i| i.elt_case_indicators.for_case(self).rated}.flatten.size : 0
+    self.elt_case_indicators.select{|ci| ci.rubric? && ci.elt_indicator.active? && ci.elt_indicator.element.active?}.size
   end
 
   def findings
@@ -154,7 +154,7 @@ class EltCase < ActiveRecord::Base
   def rateable_indicators
     rateables = 0
     if self.elt_type.rubric?
-     self.elt_type.active_elements.each do |element|
+     self.cycle_elements.each do |element|
       rateables +=  element.elt_indicators.active.for_activity(self.elt_type).size
      end
     end

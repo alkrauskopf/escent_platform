@@ -1,8 +1,7 @@
 <div id="tracking_form" class="Form clear">
-<div style ="color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold"> 
-
+<div style ="text-align:center; color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold">
 	<br/>
-	<strong><center><%= @app.name.titleize %>&nbsp;Observation Setup</center></strong>
+	<strong><%= @current_application.name.titleize %>&nbsp;Observation Setup</strong>
 </div>
 
     <%= render :partial => "/shared/error_and_notice" %>
@@ -12,11 +11,8 @@
 </div>
 
 <% unless @current_organization.useable_itl_templates.empty? %>
-
-
 	<div class="Form clear">
-	<% form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :setup_session, :organization_id => @current_organization, :user_id => @current_user, :classroom_id => @classroom,  :period_id => @period, :teacher_id => @teacher , :practice=>@practice, :function => "Track"}) do |form| -%>
-	
+	  <% form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :setup_session, :organization_id => @current_organization, :user_id => @current_user, :classroom_id => @classroom,  :period_id => @period, :teacher_id => @teacher , :practice=>@practice, :function => "Track"}) do |form| -%>
 		<div class="FormRow">
 			<br/>
 			<div class="FormRowTitle">Classroom:</div>
@@ -137,80 +133,22 @@
 	    <% end -%>
 		<div class="FormRow">
 			<div class="FormRowTitle"></div>
-	        <div class="FormRowData" id="topic_id" style= "margin-left:5px">
-				
-	      </div>
-	    </div>
+      <div class="FormRowData" id="topic_id" style= "margin-left:5px">
+      </div>
+    </div>
 		<div id="session_header">
 			<div style =" padding-left:160px; font-size:12px; font-weight:normal; cursor:pointer;">
 				<%= submit_tag (@practice ? "Begin Practice" : "Begin Observation"), :style=>"cursor:pointer", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
 			</div>
-		
-			<% no_manual_entry_allowed = true %>	
-		 	<div class="FormRow">
-				<br/>
-		 		<% unless @practice || !@admin || no_manual_entry_allowed %>
-				<span id = "session_show" style= "margin-left:150px; color:#2061a5;">Enter Past Session Data (<small><u>Click Here</u></small>)</span>
-				<br/><br/>
-				<% end -%>
-		    </div>
-	
 		</div>
-		<div id= "session_descript">
-		 	<div class="FormRow">
-				<span id = "session_hide" style= "margin-left:150px; color:#2061a5;">Return To Current Session (<small><u>Click Here</u></small>)</span>
-		    	<br/><br/>
-		    </div>
-			<div class="FormRow">
-				<div class="FormRowTitle">Enter Date Of<br/>Past Session:</div>
-				<div class="FormRowData" style= "margin-left:5px">
-					<%= calendar_date_select "" , "session_date" , :value=> Date.today, :size => "18px", :class => "text" %>
-					<br/>
-		 	    </div>
-		    </div>
-		
-			<div class="FormRow">
-				<div class="FormRowTitle">Overide Observer:</div>
-		        <div class="FormRowData" id="topic_id" style= "margin-left:5px">
-					<%=  select(:tlt_session, :tracker_id, @current_organization.itl_observers.collect{|t| [t.last_name, t.id]},{:prompt => @current_user.last_name}) %>
-		      </div>
-		    </div>
-		 	<div class="FormRow">
-				<br/>
-		    </div>
-			<div style =" padding-left:160px;font-size:12px;font-weight:normal">
-				<%= submit_tag "Enter Past Session", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
-			<br/>
-			</div>	
-		 	<div class="FormRow">
-				<br/>
-		    </div>
-	   </div>
+
 		<% end -%>
-
-<script type="text/javascript">
-	jQ(document).ready(function() {
-  		  jQ("#session_header").show();
-		  jQ("#session_descript").hide();		  
-
-	jQ("#session_show").click(function() {
-		  	jQ("#session_header").slideUp("slow");	 
-	   		jQ("#session_descript").slideDown("slow");
-	})
-
-	jQ("#session_hide").click(function() {
-	   		jQ("#session_descript").slideUp("slow");
-	   		jQ("#session_header").show();
-	})	
-});
-</script>
-
-<% else -%>
-	<div style ="color: #2061a5; font-size:14px; padding-top:25px; font-weight:normal"> 
-	
-		<br/>
-		<center>* * *  No&nbsp;Observation Templates Available For <%=@current_organization.short_name %>  * * *</center>
-		<br/><br/>
-	</div>
-<% end -%>
+  </div>
+  <% else -%>
+    <div style ="text-align:center; color: #2061a5; font-size:14px; padding-top:25px; font-weight:normal">
+      <br/>
+      * * *  No&nbsp;Observation Templates Available For <%=@current_organization.short_name %>  * * *
+      <br/><br/>
+    </div>
+  <% end -%>
 </div>

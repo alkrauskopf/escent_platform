@@ -66,13 +66,13 @@ class EltIndicator < ActiveRecord::Base
     EltIndicator.for_activity(activity).for_element(element).inactive.destroy_all
   end
 
-  def supporting_indicators(cycle)
+  def supporting_indicatorsx(cycle)
     self.lookfors.select{ |lf| cycle.activities.include?(lf.elt_type) }.compact
   end
 
   def supporting_evidences(cycle, org)
     evidences = []
-    self.supporting_indicators(cycle).each do |indicator|
+    self.supporting_indicatorsx(cycle).each do |indicator|
       evidences << indicator.elt_case_indicators.for_org(org).for_cycle(cycle).flatten
     end
     evidences.flatten.compact

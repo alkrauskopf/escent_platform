@@ -226,11 +226,9 @@ class Apps::LearningTimeController  < Site::ApplicationController
             flash[:error] = @indicator.errors.full_messages.to_sentence
           end        
         end
-        if !@indicator.nil? && params[:function] && params[:function] == "Destroy"      
-          EltRelatedIndicator.for_lookfor(@indicator.id).destroy_all
+        if !@indicator.nil? && params[:function] && params[:function] == "Destroy"
           if @indicator.destroy
             flash[:notice] = "Indicator Destoyed.   CLOSE WINDOW"
-            
             @indicator = EltIndicator.new
             @task = "New"
           else
@@ -523,7 +521,8 @@ class Apps::LearningTimeController  < Site::ApplicationController
   def list_case_evidences
     initialize_parameters
 #    @support_cases = @elt_case.organization.elt_cycle_cases(@elt_case.elt_cycle).select{|c| c!=@elt_case}
-  end
+ #   @support_cases = @element.finding_for_org_cycle(@elt_case.organization, @elt_case.elt_cycle)
+ end
 
  def list_case_comments
    initialize_parameters

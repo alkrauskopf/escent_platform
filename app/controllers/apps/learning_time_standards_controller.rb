@@ -1,8 +1,7 @@
 class Apps::LearningTimeStandardsController  < Site::ApplicationController
 
   helper :all  # include all helpers, all the time
-  layout "elt", :except =>[]
-
+  layout "elt", :except =>[:supporting_findings]
 
   before_filter :elt_allowed?, :except=>[]
   before_filter :current_org_current_app_provider?, :except=>[]
@@ -173,6 +172,13 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
     render :partial => "apps/learning_time_standards/indicator_descriptors", :locals=>{:indicator => @indicator}
   end
 
+  def supporting_findings
+    set_indicator
+    set_organization
+    set_cycle
+    @findings = @indicator.org_cycle_findings(@org, @elt_cycle)
+  end
+
   private
 
   def elt_allowed?
@@ -200,6 +206,22 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
 
   def set_descriptor
     @descriptor = EltStdDescriptor.find_by_public_id(params[:elt_std_descriptor_id]) rescue nil
+  end
+
+  def set_case
+    @elt_case = EltCase.find_by_public_id(params[:elt_case_id])
+  end
+
+  def set_case
+    @elt_case = EltCase.find_by_public_id(params[:elt_case_id])
+  end
+
+  def set_organization
+    @org = Organization.find_by_public_id(params[:org_id])
+  end
+
+  def set_cycle
+    @elt_cycle = EltCycle.find_by_public_id(params[:elt_cycle_id])
   end
 
 end

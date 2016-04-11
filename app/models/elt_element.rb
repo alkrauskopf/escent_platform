@@ -12,7 +12,6 @@ class EltElement < ActiveRecord::Base
   has_many :elt_plan_actions, :as => :scope, :dependent => :destroy
   has_many :elt_cycle_elements, :dependent => :destroy
   has_many :cycles, :through => :elt_cycle_elements, :source => :elt_cycle, :uniq=>true
-  has_many :elt_case_analyses, :dependent => :destroy
 
   validates_presence_of :name
   validates_presence_of :abbrev
@@ -50,6 +49,14 @@ class EltElement < ActiveRecord::Base
   def indicators
 #    self.elt_indicators
     self.elt_std_indicators
+  end
+
+  def active_indicators
+    self.elt_std_indicators.active.by_position
+  end
+
+  def findings_for_org_cycle(org, cycle)
+    self.indicators.collect{|i|i.ci.for_org_cycle(irg, cycle).final}.flatten
   end
 
   def self.for_standard(std)

@@ -7,13 +7,16 @@ class EltStdIndicator < ActiveRecord::Base
   has_many :elt_std_descriptors, :dependent => :destroy
   has_many :elt_related_indicators, :dependent => :destroy
   has_many :elt_indicators, :through => :elt_related_indicators, :uniq=>true
-  has_many :elt_case_analyses, :dependent => :destroy
 
   validates_presence_of :description, :message => 'Indicator Description Required'
   validates_numericality_of :position, :greater_than => 0, :message => 'must > 0.  '
 
   def informing_indicators
     self.elt_indicators
+  end
+
+  def org_cycle_findings(org,cycle)
+    self.elt_indicators.active.map{|i| i.elt_case_indicators.for_org_cycle(org,cycle)}.flatten
   end
 
   def cycle_findings(cycle)

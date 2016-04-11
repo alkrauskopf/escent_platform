@@ -18,6 +18,10 @@
 .section_selector div.last div.active { background: url('/images/section_selector_bg_last_h.png') no-repeat top right; }
 .section_selector div#active_section { background: url('/images/section_selector_bg.png') repeat-x top left; }
 
+/*
+ /* *= require jquery-ui/datepicker
+ */
+
 /* tables style for jquery table sort */
 table    { width:100%; border-collapse: collapse; border:1px solid #ccc; }
 thead th { background-color: #e6EEEE; }

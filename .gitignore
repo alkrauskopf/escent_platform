@@ -12,3 +12,4 @@ public/system/*
 db/schema.rb
 .ruby-gemset
 /config/initializers/abstract_mysql_adapter.rb
+*.pdf

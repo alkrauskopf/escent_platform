@@ -1,34 +1,29 @@
-<div id="case_indicators_<%= element.public_id %>">
-	
-	<table style="width:750px;border:1px solid #000;">
+<div id="case_indicators_<%= @element.public_id %>">
+	<table style="width:75%;border:1px solid #000;">
 		<tbody >
-			<tr style="background:<%=element.form_background%>; color: <%=element.e_font_color%>">
-				<td colspan=3 style= "vertical-align:middle; text-align:center; border:0px solid #000; border-bottom:1px solid #000; font-size:14px;font-weight:bold;">
-					<%= rubric.name %>&nbsp;<%= element.name %>
+			<tr style="background:<%=@element.form_background%>; color: <%=@element.e_font_color%>">
+				<td colspan=2 style= "vertical-align:middle; text-align:center; border:0px solid #000; border-bottom:1px solid #000; font-size:12px;font-weight:bold;">
+					<%= @element.name %>, <%= @rubric.name %>
 				</td>
 			</tr>
-			<% rubric.elt_case_indicators.for_element(element).final.select{|ci| ci.elt_case.organization.organization_type_id == org_type.id}.group_by(&:elt_indicator_id).each do |elt_indicator_id, evidences| -%>
-				<tr style="background:<%=element.form_background%>; color: <%=element.e_font_color%>; border-top:1px solid #000;">
-					<td style= "width:50px; width:fixed; font-size:13px; line-height:1.3em; vertical-align:top; text-align:right; padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:5px;">
-						 <%= element.abbrev %>-<%= EltIndicator.find(elt_indicator_id).position%>&nbsp;&nbsp;
+			<% @findings.group_by{|f| f.elt_indicator}.each do |indicator, evidences| -%>
+				<tr style="background:<%=@element.form_background%>; color: <%=@element.e_font_color%>; border-top:1px solid #000;">
+					<td style= "width:11%; font-size:13px; line-height:1.3em; vertical-align:top; text-align:right; padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:5px;">
+						 <%= @element.abbrev %>-<%= indicator.position%>&nbsp;&nbsp;
 					</td>
-					<td colspan=2 style= "font-size:13px; line-height:1.3em; vertical-align:top; text-align:left; padding-left:0px; padding-right:10px; padding-top:5px; padding-bottom:5px;">
-						 <%= EltIndicator.find(elt_indicator_id).indicator%>
+					<td style= "font-size:13px; line-height:1.3em; vertical-align:top; text-align:left; padding-left:0px; padding-right:10px; padding-top:5px; padding-bottom:5px;">
+						 <%= indicator.indicator%>
 					</td>
 				</tr>
 				<% evidences.each do |evid| -%>
-					<tr style="background:<%=element.i_form_background%>; color: #000000; border-top:0px solid #000;">
-						<td style= "width:50px; width:fixed; font-size:13px; line-height:1.3em; vertical-align:top; text-align:right; padding-left:0px; padding-right:0px; padding-top:15px; padding-bottom:15px;">
-							&nbsp;
+					<tr style="color: #000000; border-top:0px solid #000;">
+						<td style="width:11%; border:0px solid #ddd; line-height:1.3em; color: #2061a5; padding-top:8px;padding-bottom:8px; vertical-align:top;text-align:left; font-size:11px" >
+							<%= evid.elt_case.finalize_date.nil? ? "Date?" :evid.elt_case.finalize_date.strftime("%b %Y") %>
 						</td>
-						<td style="width:100px; width:fixed border:0px solid #ddd; line-height:1.3em; color: #2061a5; padding-top:8px;padding-bottom:8px; vertical-align:top;text-align:left; font-size:11px" >
-							<%= evid.elt_case.finalize_date.nil? ? "Date?" :evid.elt_case.finalize_date.strftime("%b %d, %Y") %>
-							</br/><%= evid.elt_case.user ? evid.elt_case.user.last_name : evid.elt_case.user_name %>
-						</td>
-						<td style=" border:0px solid #ddd; line-height:1.3em; color: #2061a5; padding-top:8px;padding-bottom:8px; vertical-align:top;text-align:left; font-size:12px" >
+						<td style=" border:0px solid #ddd; line-height:1.3em; color: #2061a5; padding-top:8px;padding-bottom:8px; vertical-align:top;text-align:left; font-size:11px" >
 							<strong><%= evid.elt_case.organization.name%></strong>
 							<% unless evid.note.nil? %>
-								 <span style="font-size:11px;color:#000000"><br/>
+								 <span style="font-size:11px;color:#000000">&nbsp;
 									 <%=evid.note -%>
 								 </span>
 							<% end -%>

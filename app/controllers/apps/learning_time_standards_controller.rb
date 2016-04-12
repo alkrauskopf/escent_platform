@@ -9,7 +9,7 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
   before_filter :clear_notification, :except => [:index, :edit_element]
 
   def index
-    @standards = EltStandard.org_available(@current_organization)
+    available_standards(@current_organization)
     @standard = EltStandard.new
   end
 
@@ -30,7 +30,7 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
     else
       flash[:error] = @standard.abbrev + ' Update Not Successful'
     end
-    @standards = EltStandard.org_available(@current_organization)
+    available_standards(@current_organization)
     render :partial => "manage_standards"
   end
 
@@ -40,21 +40,21 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
   def destroy
     set_standard
     @standard.destroy
-    @standards = EltStandard.org_available(@current_organization)
+    available_standards(@current_organization)
     render :partial => "manage_standards"
   end
 
   def toggle_active
     set_standard
     @standard.update_attributes(:is_active => !@standard.is_active )
-    @standards = EltStandard.org_available(@current_organization)
+    available_standards(@current_organization)
     render :partial => "manage_standards"
   end
 
   def toggle_public
     set_standard
     @standard.update_attributes(:is_public => !@standard.is_public )
-    @standards = EltStandard.org_available(@current_organization)
+    available_standards(@current_organization)
     render :partial => "manage_standards"
   end
 
@@ -82,7 +82,7 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
     set_element
     @element.update_attributes(:is_active => !@element.is_active )
   #  render :partial => "manage_standard_elements", :locals=>{:standard => element.standard}
-    @standards = EltStandard.org_available(@current_organization)
+    available_standards(@current_organization)
     render :partial => "manage_standards"
   end
 
@@ -224,4 +224,7 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
     @elt_cycle = EltCycle.find_by_public_id(params[:elt_cycle_id])
   end
 
+    def available_standards(org)
+      @standards = EltStandard.org_available(org)
+    end
 end

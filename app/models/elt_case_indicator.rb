@@ -44,4 +44,12 @@ class EltCaseIndicator < ActiveRecord::Base
   def self.key_findings
     where('is_key')
   end
+
+  def self.kb_findings(rubric, element, org_type, activity, options={})
+    findings = EltCaseIndicator.all(:include => [:elt_indicator, :elt_case => :organization], :conditions => ['elt_cases.elt_type_id = ? AND elt_indicators.elt_element_id = ? AND rubric_id = ?', activity.id, element.id, rubric.id]).select{|f| !f.elt_case.organization.nil? && f.elt_case.organization.organization_type_id == org_type.id}
+    if options[:key_only]
+      !findings.select{|f| f.key_finding?}
+    end
+    findings
+  end
 end

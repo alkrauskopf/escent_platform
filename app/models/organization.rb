@@ -466,6 +466,10 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def provided_app_org_types(app, ex_self)
+    self.provided_app_orgs(app, ex_self).collect{|o| o.organization_type}.compact.uniq
+  end
+
   def all_owned_apps
     (self.owned_apps + self.master_apps).uniq.sort_by{|app| [app.abbrev]} rescue []
   end
@@ -593,7 +597,11 @@ class Organization < ActiveRecord::Base
   def elt_summarized_cycles
     EltCycleSummary.for_provider(self).collect{|cs| cs.elt_cycle}.compact.uniq.sort{|a,b| b.begin_date <=> a.begin_date}
   end
-  
+
+  def elt_activities
+    self.elt_types
+  end
+
   def elt_master_activity
     self.elt_master_activities.first rescue nil
   end

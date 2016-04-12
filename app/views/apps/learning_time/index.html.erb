@@ -93,11 +93,10 @@
 		    	<%= render :partial => "/apps/learning_time/list_case_cycles", :locals=>{:org=>@current_organization} %>
 	   	</div>
 		<div id="tabs-3" class="favorite_organizations" style="width:900px">
-          <% org_type = @current_organization.provider?(@current_application) ? OrganizationType.k12.last : @current_organization.organization_type %>
-          <%# rubric = (framework.nil? || framework.master_activity.nil?) ? nil : framework.master_activity.shareable_rubrics.last %>
-          <%#= render :partial => "/apps/learning_time/share_rubric_data", :locals=>{:org_type => org_type,
-                                                                                      :framework => framework,
-                                                                                      :rubric => rubric} %>
+          <% org_type = (@current_organization == @current_provider) ? nil : @current_organization.organization_type %>
+          <%= render :partial => "/apps/learning_time/share_rubric_data", :locals=>{:org_type => org_type,
+                                                                                    :standard => nil,
+                                                                                    :rubric => nil, :activity => @current_provider.elt_master_activity} %>
 	   	</div>
 		<div id="tabs-6" class="favorite_organizations" style="width:900px">
 	    	<%= render :partial => "/apps/learning_time/analysis_summaries", :locals=>{ :org => @current_organization} %>

@@ -1,4 +1,4 @@
-<div id="manage_activities_<%=framework.public_id%>">
+<div id="manage_activities_<%=@current_organization.public_id%>">
 	
 	<table   style="width:700px; width:fixed; margin-top:10px; margin-left:30px">
 		<style type="text/css" media="screen">
@@ -15,7 +15,7 @@
 				</td>
 				<td style="width:170px; width:fixed; padding-left:20px; vertical-align:top ">
 					<span class="fsn-button ui-button ui-state-default ui-corner-all">
-						<%= link_to 'Create New Activity', {:controller => "/apps/learning_time", :action => :maintain_activity, :app_id=> app.id, :task=>"New", :elt_framework_id => framework, :organization_id => @current_organization},{:target=>"_blank"}  %>
+						<%= link_to 'Create New Activity', {:controller => "/apps/learning_time", :action => :maintain_activity, :task=>"New", :organization_id => @current_organization},{:target=>"_blank"}  %>
 					</span>
 				</td>
 			</tr>
@@ -42,7 +42,7 @@
 			</tr>
 		</thead>
 		<tbody>  
-			<% framework.activities.all.each do |activity| -%>
+			<% @current_organization.elt_activities.each do |activity| -%>
 				<tr style="border:1px solid #ddd; ">
 					<td  style="width:7px; width:fixed; font-size:10px; vertical-align:middle; text-align:right; ">
 						<%= activity.position %>)&nbsp;
@@ -53,7 +53,7 @@
 					</td>
 					<td  style="width:35px; width:fixed; padding-top:15px; padding-left:6px; line-height:1.2em; color:#2061a5;">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to 'Edit', {:controller => "/apps/learning_time", :action => :maintain_activity, :app_id=> app.id, :task=>"Update", :elt_type_id=>activity, :elt_framework_id=>framework, :organization_id => @current_organization},{:target=>"_blank"}  %>
+							<%= link_to 'Edit', {:controller => "/apps/learning_time", :action => :maintain_activity, :task=>"Update", :elt_type_id=>activity, :organization_id => @current_organization},{:target=>"_blank"}  %>
 						</span>
 					</td>
 					<% button_label = activity.master? ? "button_enabled.png" : "button_disabled.png"-%>
@@ -73,10 +73,10 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#toggle_active_<%= activity.public_id %>").click(function() {
-		var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_active_activity, :organization_id => @current_organization, :elt_type_id => activity, :app_id=> app.id %>";
+		var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_active_activity, :organization_id => @current_organization, :elt_type_id => activity%>";
 		jQ.get(url,{},  function(data) {
-				jQ("#manage_activities_<%= framework.public_id%>").html(data);
-				jQ("#manage_activities_<%= framework.public_id%>").show();
+      jQ("#manage_activities_<%= @current_organization.public_id%>").html(data);
+      jQ("#manage_activities_<%= @current_organization.public_id%>").show();
 					});
 	})
 });
@@ -84,10 +84,10 @@ jQ(document).ready(function() {
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#toggle_master_<%= activity.public_id %>").click(function() {
-		var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_master_activity, :organization_id => @current_organization, :elt_type_id => activity, :app_id=> app.id %>";
+		var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_master_activity, :organization_id => @current_organization, :elt_type_id => activity%>";
 		jQ.get(url,{},  function(data) {
-				jQ("#manage_activities_<%= framework.public_id%>").html(data);
-				jQ("#manage_activities_<%= framework.public_id%>").show();
+				jQ("#manage_activities_<%= @current_organization.public_id%>").html(data);
+				jQ("#manage_activities_<%= @current_organization.public_id%>").show();
 					});
 	})
 });

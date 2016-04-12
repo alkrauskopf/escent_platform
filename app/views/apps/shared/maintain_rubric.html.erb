@@ -1,13 +1,13 @@
 
-	<div style ="color: #2061a5; font-size:16px; margin-top:0px; padding-top:20px; font-weight:bold"> 
-		<strong><center>Maintain&nbsp;<%= @app.name %>&nbsp;Rubric</center></strong>
+	<div style ="text-align:center; color: #2061a5; font-size:16px; margin-top:0px; padding-top:20px; font-weight:bold">
+		<strong>Maintain&nbsp;<%= @current_application.name %>&nbsp;Rubric</strong>
 	</div>
 	
 	<%= render :partial => "/shared/error_and_notice" %>
 
 <% unless @entity.nil? %>	
 <div class="Form clear">
-	<% form_for(:rubric, :url => {:controller => "/apps/shared", :action => :maintain_rubric, :organization_id => @current_organization, :scope_id=>@entity.id, :scope_type=>@entity.class.to_s, :rubric_id=>@rubric, :app_id => @app, :function => @function}) do |form| %>
+	<% form_for(:rubric, :url => {:controller => "/apps/shared", :action => :maintain_rubric, :organization_id => @current_organization, :scope_id=>@entity.id, :scope_type=>@entity.class.to_s, :rubric_id=>@rubric, :function => @function}) do |form| %>
 	
 		<div class="FormRow submit_warp" style= "padding-left:25px">	
 			<%= submit_tag (@function + " Rubric"), :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>

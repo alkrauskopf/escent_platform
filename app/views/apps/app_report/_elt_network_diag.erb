@@ -1,7 +1,4 @@
-
-
 <div id="cycle_diag" >
-
 		<table   style="width:1170px;  margin-left:10px; border:0px solid black;">
 			<tbody>
 				<style type="text/css" media="screen">
@@ -11,24 +8,24 @@
 	 	     	}
 	 		   	</style>
 				<tr style=" border:0px solid white;">
-					<td style="width:260px; width:fixed;  text-align:left; padding-left:1px; border:0px solid black">
+					<td style="width:22%; text-align:left; padding-left:1px; border:0px solid black">
 						<div style="padding-bottom:0px;">
 							<%= image_tag(provider.logo.url, :alt => provider.name, :width => 140) if provider.logo.file? -%>
 						</div>						
 					</td>
-					<td  style="vertical-align:top;  padding-top:5px;  padding-left:0px; border:0px solid black;">
+					<td  style="text-align:center; vertical-align:top;  padding-top:5px;  padding-left:0px; border:0px solid black;">
 						<div class="blog_item">
 							<div class="app_report_title_2">
-								<center><%= activity.nil? || activity.elt_framework.nil? ? 'No Activity or Framework' : activity.elt_framework.name.upcase -%></center>
+								Community-Wide Analysis
 							</div>
 						</div>
 					</td>
-					<td  style="width:280px; width:fixed; vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
+					<td  style="width:25%; vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
 						&nbsp;
 					</td>
 				</tr>
 				<tr style="border:0px solid #000000;">
-					<td style="width:260px; width:fixed;  text-align:left; padding-left:1px; border:0px solid black">
+					<td style="width:22%; text-align:left; padding-left:1px; border:0px solid black">
 						&nbsp;
 					</td>
 					<td  style="vertical-align:top;  padding-top:5px;  text-align:center; border:0px solid black;">
@@ -36,8 +33,8 @@
 							<%= activity.nil? ? "No Activity Available" : activity.name %>
 						</div>
 					</td>
-					<td id = "select_activity" style="width:280px; width:fixed; vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
-						<%=  select(:activa, provider.id,  provider.elt_types.active.reportable.collect{|a| [("(" + a.elt_framework.abbrev + ") " + a.name), a.public_id]}, :prompt=> "Select Activity") %>
+					<td id = "select_activity" style="width:25%; vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
+						<%=  select(:activa, provider.id,  provider.elt_types.active.reportable.collect{|a| [a.name, a.public_id]}, :prompt=> "Select Activity") %>
 					</td>
 				</tr>
 	<script type="text/javascript">

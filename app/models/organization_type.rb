@@ -20,6 +20,7 @@ class OrganizationType < ActiveRecord::Base
  def k12?
    self.is_k12  
  end
+
    
   def self.affiliate
     @affliate ||= self.find_by_name("Affiliate")

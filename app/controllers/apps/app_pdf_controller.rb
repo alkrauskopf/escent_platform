@@ -1,7 +1,8 @@
 class Apps::AppPdfController < Site::ApplicationController
 
   helper :all # include all helpers, all the time  
-  layout "app_reports", :except =>[:elt_other_school_cycles]
+  require 'prawn'
+  layout "app_reports", :except =>[:elt_other_school_cycles,:elt_case]
 
   before_filter :initialize_parameters
   
@@ -26,7 +27,7 @@ class Apps::AppPdfController < Site::ApplicationController
     end 
   end
 
-  def elt_case
+  def elt_casex
     if !@case.nil?
       case_name = @case.name
       @cycle_name = @case.elt_cycle ? @case.elt_cycle.name : 'Undefined Cycle'
@@ -38,12 +39,25 @@ class Apps::AppPdfController < Site::ApplicationController
     respond_to do |format|
       format.pdf do
         render :pdf => "#{case_name}",
-               :template => "apps/app_pdf/elt_case.pdf.erb",
+               :template => "apps/app_pdf/elt_case.erb",
                :margin => { :top => 20, :bottom => 20, :left => 10, :right => 10},
                :page_height => 11,
                :page_width => 8.5,
                :footer => {:font_name=> 'Garamond', :font_size => 9, :line => true},
                :layout => false
+      end
+    end
+  end
+
+  def elt_case
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = Prawn::Document.new
+        pdf.text "Hello There"
+       send_data pdf.render, filename: "xample.pdf", type: 'application.pdf'
+        # pdf.render_file('prawn.pdf')
       end
     end
   end

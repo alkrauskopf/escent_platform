@@ -12,7 +12,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
  before_filter :current_user_app_authorized?, :except=>[]
 
  before_filter :clear_notification, :except =>[]
- before_filter :initialize_parameters, :except =>[]
+ before_filter :initialize_parameters, :except =>[:select_kb_filters, :case_indicators_element_rubric]
   
  def clear_notification
     flash[:notice] = nil
@@ -117,10 +117,9 @@ class Apps::LearningTimeController  < Site::ApplicationController
 
   def maintain_activity
     @task = params[:task]
-    if @framework && params[:function] && params[:function] == "New"
+    if  params[:function] && params[:function] == "New"
       @activity = EltType.new(params[:elt_type])
       @activity.is_active = false
-      @activity.elt_framework_id = @framework.id
       if @current_organization.elt_types << @activity
         flash[:notice] = "Successfully created activity.   CLOSE WINDOW"
       else
@@ -350,20 +349,20 @@ class Apps::LearningTimeController  < Site::ApplicationController
     unless @activity.nil?
       @activity.update_attributes(:is_active=> !@activity.is_active)
     end
-    render :partial => "/apps/learning_time/manage_activities", :locals => {:org => @current_organization, :framework => @activity.elt_framework, :app=>@app}
+    render :partial => "/apps/learning_time/manage_activities", :locals => {:org => @current_organization}
   end 
 
   def toggle_master_activity
     @activity = EltType.find_by_public_id(params[:elt_type_id]) rescue nil
-    unless @activity.nil? || @activity.elt_framework.nil?
+    unless @activity.nil?
       @activity.update_attributes(:is_master=> !@activity.is_master)
-      @activity.elt_framework.activities.each do |act|
+      @current_organization.elt_activities.each do |act|
         unless act==@activity
           act.update_attributes(:is_master => false)
         end
       end
     end
-    render :partial => "/apps/learning_time/manage_activities", :locals => {:org => @current_organization, :framework => @activity.elt_framework, :app=>@app}
+    render :partial => "/apps/learning_time/manage_activities", :locals => {:org => @current_organization}
   end
 
   def toggle_active_cycle
@@ -739,14 +738,36 @@ class Apps::LearningTimeController  < Site::ApplicationController
    render :partial => "/apps/learning_time/manage_frameworks", :locals => {:org => @current_organization, :app=>@app}
  end
   
-  def select_kb_filters
+  def select_kb_filtersx
     initialize_parameters
     @rubric = @rubric.activity.elt_framework == @framework ? @rubric : (@framework.master_activity ? @framework.master_activity.shareable_rubrics.last : nil)
     render :partial => "/apps/learning_time/share_rubric_data", :locals=>{:org_type => @org_type, :framework => @framework, :rubric => @rubric, :app=>@app}
   end
 
+ def select_kb_filters
+    set_standard
+    set_org_type
+    set_rubric
+    set_activity
+    unless  @activity.nil?
+      if @current_organization == @current_provider
+        @rubrics = @activity.active_rubrics
+      else
+        @rubrics = @activity.shareable_rubrics
+      end
+    else
+      @rubrics = []
+    end
+    @rubric = @rubrics.include?(@rubric) ? @rubric : nil
+    render :partial => "/apps/learning_time/share_rubric_data", :locals=>{:org_type => @org_type, :standard => @standard, :activity => @activity, :rubric => @rubric}
+ end
+
   def case_indicators_element_rubric
-    initialize_parameters
+    set_org_type
+    set_element
+    set_rubric
+    set_activity
+    @findings = EltCaseIndicator.kb_findings(@rubric, @element, @org_type, @activity, :key_only=>false)
   end
 
   def transfer_case_org
@@ -836,6 +857,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
    @current_provider = @current_organization.app_provider(@current_application)
    @current_cycle = @current_organization.active_elt_cycle.nil? ? nil : @current_organization.active_elt_cycle
    current_app_enabled_for_current_org?
+   available_standards(@current_provider)
  end
 
   def initialize_parameters 
@@ -1003,4 +1025,27 @@ class Apps::LearningTimeController  < Site::ApplicationController
     activity.elt_cases << @case
   end
 
+   def available_standards(org)
+     @standards = EltStandard.org_available(org)
+   end
+
+  def set_standard
+    @standard = EltStandard.find_by_public_id(params[:elt_standard_id]) rescue nil
+  end
+
+ def set_element
+   @element = EltElement.find_by_public_id(params[:elt_element_id]) rescue nil
+ end
+
+ def set_rubric
+   @rubric = Rubric.find_by_id(params[:rubric_id]) rescue nil
+ end
+
+ def set_activity
+   @activity = EltType.find_by_public_id(params[:elt_type_id]) rescue nil
+ end
+
+ def set_org_type
+   @org_type = OrganizationType.find_by_id(params[:organization_type_id]) rescue nil
+ end
 end

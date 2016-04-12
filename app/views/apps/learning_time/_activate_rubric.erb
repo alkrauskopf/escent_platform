@@ -24,7 +24,7 @@
 	<script type="text/javascript">
 	jQ(document).ready(function() {
 		jQ("#toggle_rubric_<%= entity.public_id %>").click(function() {
-			var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_rubric, :organization_id => @current_organization, :elt_type_id => entity, :app_id => app %>";
+			var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_rubric, :organization_id => @current_organization, :elt_type_id => entity%>";
 			jQ.get(url,{},  function(data) {
 					jQ("#activate_rubric_<%=entity.public_id%>").html(data);
 					jQ("#activate_rubric_<%=entity.public_id%>").show();
@@ -64,7 +64,7 @@
 	jQ(document).ready(function() {
 		jQ('#share_rubric').change(function() {
 			var rubric_id = jQ('#share_<%=entity.id%>').val();
-			var url = "<%= url_for :controller => "/apps/learning_time", :action => :share_rubric, :organization_id => @current_organization, :elt_type_id => entity, :app_id => app %>";
+			var url = "<%= url_for :controller => "/apps/learning_time", :action => :share_rubric, :organization_id => @current_organization, :elt_type_id => entity %>";
 				jQ.get(url, {'rubric_id':rubric_id}, function(data) {
 					jQ("#activate_rubric_<%=entity.public_id%>").html(data);
 					jQ("#activate_rubric_<%=entity.public_id%>").show();
@@ -73,7 +73,7 @@
 	});
 	</script>
 		<% end -%>
-		<%= render :partial => "/apps/learning_time/manage_rubrics", :locals=>{:entity => entity, :app => @app} %>
+		<%= render :partial => "/apps/learning_time/manage_rubrics", :locals=>{:entity => entity} %>
 	<% end -%>
 <% end -%>
 </div>

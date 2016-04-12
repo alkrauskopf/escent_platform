@@ -1,47 +1,52 @@
 
 <div id ="share_rubric_data" style = "font-size:12px; color: #2061a5; padding-left:0px;">
-	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:normal"> 
-		<strong><center><%= @current_organization.app_provider(app).short_name %>&nbsp;Community Knowledge Base</center></strong>
+	<div style ="text-align:center; color: #2061a5; font-size:14px; margin-top:5px; font-weight:normal">
+		<strong><%= @current_application.app_abbrev(:provider=>@current_provider) %> Community Knowledge Base</strong>
 	</div>
-  <% if !rubric.nil? -%>
 
-      <table style="width:880px; width:fixed; margin-left:15px; margin-top:10px;">
+  <% unless @standards.empty?-%>
+      <table style="width:90%; margin-left:15px; margin-top:10px;">
         <tbody>
             <tr  style="border:0px solid #ddd;" >
-              <td  style="width:50%; width:fixed;   border:0px solid #ddd;vertical-align:middle; text-align:right;  padding-left:0px; padding-right:5px;  color: #2061a5; font-size:10.5px; font-weight:bold">
-                <%= framework.nil? ? 'No Framework Assigned' : framework.name %>
+              <td  style="width:40%; border:0px solid #ddd;vertical-align:middle; text-align:right;  padding-left:0px; padding-right:5px;  color: #2061a5; font-size:10.5px; font-weight:bold">
+                <%= standard.nil? ? 'No Standard Selected' : standard.name %>
               </td>
-              <td  id = "select_framework"  style="width:50%; width:fixed;   border:0px solid #ddd;vertical-align:middle;  padding-left:5px; padding-right:0px; padding-top:5px; color: #2061a5; font-size:10.5px;">
-                <% if @current_organization.app_provider(app).active_frameworks.size > 1 %>
-                    <%=  select(:framework, :id,  @current_organization.app_provider(app).active_frameworks.collect{|f| [f.name, f.public_id]}, :include_blank => "Choose Framework") %>
-                <% else -%>
-                    &nbsp;
-                <% end -%>
+              <td  id = "select_standard"  style="width:50%; border:0px solid #ddd;vertical-align:middle;  padding-left:5px; padding-right:0px; padding-top:5px; color: #2061a5; font-size:10.5px;">
+                  <%=  select(:elt_standard, :id,  @standards.collect{|f| [f.name, f.public_id]}, :include_blank => "Select Standard") %>
               </td>
             </tr>
             <tr  style="border:0px solid #ddd;" >
-              <td  style="width:50%; width:fixed;  border:0px solid #ddd;vertical-align:middle; text-align:right; padding-left:0px; padding-right:5px; padding-top:2px; color: #2061a5; font-size:10.5px; font-weight:bold">
+              <td  style="width:50%; border:0px solid #ddd;vertical-align:middle; text-align:right; padding-left:0px; padding-right:5px; padding-top:2px; color: #2061a5; font-size:10.5px; font-weight:bold">
                 <%= org_type.nil? ? 'No School Type' : org_type.name.pluralize %>
               </td>
               <td id = "select_school_type"  style="width:50%; width:fixed;  border:0px solid #ddd;vertical-align:middle; padding-left:5px; padding-right:0px; padding-top:5px; color: #2061a5; font-size:10.5px;">
-                <%=  select(:school, :type_id,  OrganizationType.k12.collect{|t| [t.name, t.id]}, :include_blank => "Choose School Type") %>
+                <%=  select(:school, :type_id,  @current_provider.provided_app_org_types(@current_application,true).collect{|t| [t.name, t.id]}, :include_blank => "Choose School Type") %>
               </td>
             </tr>
+            <% if @current_organization == @current_provider %>
+              <tr  style="border:0px solid #ddd;" >
+                <td  style="width:50%; border:0px solid #ddd;vertical-align:middle; text-align:right;  padding-left:0px; padding-right:5px;  color: #2061a5; font-size:10.5px; font-weight:bold">
+                  <%= activity.nil? ? 'No Activity' : activity.name %>
+                </td>
+                <td  id = "select_activity"  style="width:50%; border:0px solid #ddd;vertical-align:middle;  padding-left:5px; padding-right:0px; padding-top:5px; color: #2061a5; font-size:10.5px;">
+                  <% if @current_provider.elt_activities.active.size > 1 %>
+                      <%=  select(:activity, :id,  @current_provider.elt_activities.active.collect{|a| [a.name, a.public_id]}, :include_blank => "Choose Activity") %>
+                  <% else -%>
+                      &nbsp;
+                  <% end -%>
+                </td>
+              </tr>
+            <% end %>
             <tr  style="border:0px solid #ddd;" >
-              <td  style="width:50%; width:fixed;   border:0px solid #ddd;vertical-align:middle; text-align:right;  padding-left:0px; padding-right:5px;  color: #2061a5; font-size:10.5px; font-weight:bold">
+              <td  style="width:50%; border:0px solid #ddd;vertical-align:middle; text-align:right;  padding-left:0px; padding-right:5px;  color: #2061a5; font-size:10.5px; font-weight:bold">
                 <%= rubric.nil? ? 'No Performance Rating' : rubric.name %>
               </td>
-              <td  id = "select_rubric"  style="width:50%; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:5px; padding-right:0px; padding-top:5px; color: #2061a5; font-size:10.5px;">
-                <% if framework && framework.master_activity %>
-                    <% rubric_list = @current_organization.app_provider(app) == @current_organization ? framework.master_activity.active_rubrics : framework.master_activity.shareable_rubrics %>
-                    <% if rubric_list.size > 1 %>
-                        <%=  select(:rubric, :id,  rubric_list.collect{|r| [r.name, r.id]}, :include_blank => "Choose Rating") %>
-                    <% else -%>
-                        &nbsp;
-                    <% end -%>
-                <% else -%>
+              <td  id = "select_rubric"  style="width:50%; border:0px solid #ddd;vertical-align:middle;  padding-left:5px; padding-right:0px; padding-top:5px; color: #2061a5; font-size:10.5px;">
+                <% if @rubrics && @rubrics.size > 1 %>
+                    <%=  select(:rubricx, :id,  @rubrics.collect{|r| [r.name, r.id]}, :include_blank => "Choose Rating") %>
+                  <% else -%>
                     &nbsp;
-                <% end -%>
+                  <% end -%>
               </td>
             </tr>
         </tbody>
@@ -49,22 +54,33 @@
 
       <script type="text/javascript">
           jQ(document).ready(function() {
-              jQ('#select_framework').change(function() {
-                  var framework_id = jQ('#framework_id').val();
-                  var url = "<%= url_for :controller => '/apps/learning_time', :action => :select_kb_filters, :organization_id => @current_organization, :rubric_id => rubric.id, :organization_type_id => org_type.id, :app_id => app.id  %>";
-                  jQ.get(url, {'elt_framework_id':framework_id}, function(data) {
+              jQ('#select_standard').change(function() {
+                  var standard_id = jQ('#elt_standard_id').val();
+                  var url = "<%= url_for :controller => '/apps/learning_time', :action => :select_kb_filters, :organization_id => @current_organization, :rubric_id => (rubric.nil? ? nil : rubric.id), :organization_type_id => (org_type.nil? ? nil : org_type.id), :elt_type_id => activity %>";
+                  jQ.get(url, {'elt_standard_id':standard_id}, function(data) {
                       jQ("#share_rubric_data").html(data);
                       jQ("#share_rubric_data").show();
                   });
               })
           });
       </script>
-
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ('#select_activity').change(function() {
+            var activity_id = jQ('#activity_id').val();
+            var url = "<%= url_for :controller => '/apps/learning_time', :action => :select_kb_filters, :organization_id => @current_organization, :rubric_id => (rubric.nil? ? nil : rubric.id), :organization_type_id => (org_type.nil? ? nil : org_type.id), :elt_standard_id => standard  %>";
+            jQ.get(url, {'elt_type_id':activity_id}, function(data) {
+              jQ("#share_rubric_data").html(data);
+              jQ("#share_rubric_data").show();
+            });
+          })
+        });
+      </script>
         <script type="text/javascript">
         jQ(document).ready(function() {
             jQ('#select_school_type').change(function() {
                 var type_id = jQ('#school_type_id').val();
-                var url = "<%= url_for :controller => '/apps/learning_time', :action => :select_kb_filters, :organization_id => @current_organization, :rubric_id => rubric.id, :elt_framework_id => framework, :app_id => app.id  %>";
+                var url = "<%= url_for :controller => '/apps/learning_time', :action => :select_kb_filters, :organization_id => @current_organization,:rubric_id => (rubric.nil? ? nil : rubric.id), :elt_standard_id => standard, :elt_type_id => activity  %>";
                     jQ.get(url, {'organization_type_id':type_id}, function(data) {
                     jQ("#share_rubric_data").html(data);
                     jQ("#share_rubric_data").show();
@@ -76,8 +92,8 @@
       <script type="text/javascript">
           jQ(document).ready(function() {
               jQ('#select_rubric').change(function() {
-                  var rubric_id = jQ('#rubric_id').val();
-                  var url = "<%= url_for :controller => '/apps/learning_time', :action => :select_kb_filters, :organization_id => @current_organization, :elt_framework_id => framework,:organization_type_id => org_type.id, :app_id => app.id  %>";
+                  var rubric_id = jQ('#rubricx_id').val();
+                  var url = "<%= url_for :controller => '/apps/learning_time', :action => :select_kb_filters, :organization_id => @current_organization, :elt_standard_id => standard, :organization_type_id => (org_type.nil? ? nil : org_type.id), :elt_type_id => activity  %>";
                   jQ.get(url, {'rubric_id':rubric_id}, function(data) {
                       jQ("#share_rubric_data").html(data);
                       jQ("#share_rubric_data").show();
@@ -85,12 +101,12 @@
               })
           });
       </script>
-
-        <%= render :partial => "/apps/learning_time/schools_by_rubric", :locals=>{:org_type => org_type, :rubric => rubric, :activity=> framework.master_activity, :app=>app} %>
-
-	<% else -%>
+      <% if (!rubric.nil? && !standard.nil?  && !org_type.nil? && !activity.nil?) %>
+        <%= render :partial => "/apps/learning_time/schools_by_rubric", :locals=>{:org_type => org_type, :rubric => rubric, :activity=> activity, :standard => standard} %>
+	    <% end %>
+  <% else -%>
 		<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold"> 
-			No Shareable Data For <%= @current_organization.app_provider(app).short_name %>&nbsp;Activities
+			No Standards Are Available To The <%= @current_provider.short_name %>&nbsp;Community
 		</div>	
 	<% end -%>
 

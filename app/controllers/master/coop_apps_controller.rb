@@ -146,35 +146,6 @@ class Master::CoopAppsController < Master::ApplicationController
   redirect_to :action => :index, :app_id => @app.id, :msg => count.to_s + " Organizations with Core Options"
   end
 
-  def core_map_authorizations
-    clear_notification
-    count = 0
-    AuthorizationLevel.all.each do |level|
-      user_auths = Authorization.find_all_by_old_level_id(level.old_level_id)
-      user_auths.each do |user_auth|
-        user_auth.authorization_level_id = level.id
-        if user_auth.save
-          count += 1
-        end
-      end
-    end
-    redirect_to :action => :index, :app_id=>CoopApp.core.id, :msg => count.to_s + " Authorizations Changed"
-  end
-
-  def core_map_appl_scopes
-    clear_notification
-    count = 0
-    AuthorizationLevel.all.each do |level|
-      appl_scopes = ApplicableScope.find_all_by_old_level_id(level.old_level_id)
-      appl_scopes.each do |appl_scope|
-        appl_scope.authorization_level_id = level.id
-        if appl_scope.save
-          count += 1
-        end
-      end
-    end
-    redirect_to :action => :index, :app_id=>CoopApp.core.id, :msg => count.to_s + " Applicables Scopes Changed"
-  end
 
   def assign_core_blogs
     clear_notification

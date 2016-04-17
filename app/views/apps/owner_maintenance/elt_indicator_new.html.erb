@@ -7,14 +7,14 @@
 
 	
 	<div class="Form clear">
-		<% form_for(:elt_indicator, :url => {:controller => "/apps/owner_maintenance", :action => :elt_indicator_new, :organization_id => @current_organization, :elt_type_id=>@activity, :elt_indicator_id => @indicator, :app_id => @app.id, :task=>@task, :function => @task}) do |form| %>
+		<%= form_for(:elt_indicator, :url => {:controller => "/apps/owner_maintenance", :action => :elt_indicator_new, :organization_id => @current_organization, :elt_type_id=>@activity, :elt_indicator_id => @indicator, :app_id => @app.id, :task=>@task, :function => @task}) do |form| %>
 		
 			<%= render :partial => "/apps/owner_maintenance/elt_indicator_form", :locals=>{:button_label=> (@task == "New" ? "Create Indicator" : "Update"), :org=>@current_organization, :indicator => @indicator} %>
 		
 		<% end -%>	
 		
 		<% unless @task == "New" || @indicator.active?%>
-			<% form_for(:elt_element, :url => {:controller => "/apps/owner_maintenance", :action => :elt_indicator_new, :organization_id => @current_organization, :elt_type_id=>@activity, :elt_indicator_id=>@indicator, :app_id => @app.id, :task=>@task, :function => "Destroy"}) do |form| %>
+			<%= form_for(:elt_element, :url => {:controller => "/apps/owner_maintenance", :action => :elt_indicator_new, :organization_id => @current_organization, :elt_type_id=>@activity, :elt_indicator_id=>@indicator, :app_id => @app.id, :task=>@task, :function => "Destroy"}) do |form| %>
 				<div class="FormRow submit_warp" style= "padding-left:25px; padding-bottom:20px">	
 					<br/>
 					<%= submit_tag "Destroy", :confirm => "Are you sure?", :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>

@@ -7,7 +7,7 @@
 	<% back_o_1 = "#" + IstaGroup.other[0].background_1%>
 	<% back_o_2 = "#" + IstaGroup.other[0].background_2%>
 
-	<% form_for(:ista_case_allocation, :url => {:controller => "/apps/school_time", :action => :step_update_mins, :organization_id => @current_organization, :step_id => step, :case_id => ista_case}) do |form| -%>
+	<%= form_for(:ista_case_allocation, :url => {:controller => "/apps/school_time", :action => :step_update_mins, :organization_id => @current_organization, :step_id => step, :case_id => ista_case}) do |form| -%>
 
 	<table style="width:810px;margin-left:50px">
 		<tbody> 

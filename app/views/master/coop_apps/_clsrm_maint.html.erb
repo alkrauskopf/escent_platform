@@ -35,7 +35,7 @@
 								Perform Mass Change To Classroom Offering Names<br/>
 						</td>
 					</tr>
-					<% form_for(:classroom, :url => {:controller => "master/coop_apps", :action => "clsrm_mass_name_change", :app_id => app.id }) do |form| -%>
+					<%= form_for(:classroom, :url => {:controller => "master/coop_apps", :action => "clsrm_mass_name_change", :app_id => app.id }) do |form| -%>
 						<tr style = " border-top:1px  solid #ddd;border-left:1px  solid #ddd;border-right:1px  solid #ddd;">
 							<td   style="width:110px; width:fixed; border-bottom:0px solid #ddd;vertical-align:bottom;  padding-left:0px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
 							&nbsp;

@@ -12,7 +12,7 @@
 
 <% unless @current_organization.useable_itl_templates.empty? %>
 	<div class="Form clear">
-	  <% form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :setup_session, :organization_id => @current_organization, :user_id => @current_user, :classroom_id => @classroom,  :period_id => @period, :teacher_id => @teacher , :practice=>@practice, :function => "Track"}) do |form| -%>
+	  <%= form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :setup_session, :organization_id => @current_organization, :user_id => @current_user, :classroom_id => @classroom,  :period_id => @period, :teacher_id => @teacher , :practice=>@practice, :function => "Track"}) do |form| -%>
 		<div class="FormRow">
 			<br/>
 			<div class="FormRowTitle">Classroom:</div>

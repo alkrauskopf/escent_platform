@@ -1,7 +1,7 @@
 
 <% if @current_user -%>
 	<div style = "font-size:12px; color: #000000;padding-left:10px;">
-		<% form_for(:purge, :url => {:controller => "/site/contents", :action => :destroy_selected, :organization_id => @current_organization, :function => "Destroy", :format => 'js'}, :html => { :multipart => true, :method => :put}) do |form| -%>
+		<%= form_for(:purge, :url => {:controller => "/site/contents", :action => :destroy_selected, :organization_id => @current_organization, :function => "Destroy", :format => 'js'}, :html => { :multipart => true, :method => :put}) do |form| -%>
 			<br/>
 			<span style ="color: #C83A14; font-size:15px">
 				<center><strong>Manageable Resources:&nbsp;<%= @current_organization.short_name%>/<%= @current_user.last_name %> </strong></center>

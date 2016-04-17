@@ -12,7 +12,7 @@
 </div>
 
 <div id="blog_form" class="Form clear">
-<% form_for(:blog, :url => {:controller => "/apps/blogs", :action => :add_blog, :organization_id => @current_organization, :user_id => @current_user, :function => "Create"}) do |form| -%>
+<%= form_for(:blog, :url => {:controller => "/apps/blogs", :action => :add_blog, :organization_id => @current_organization, :user_id => @current_user, :function => "Create"}) do |form| -%>
 
 	</div>	<div class="FormRow">
 		<div class="FormRowTitle"></div>

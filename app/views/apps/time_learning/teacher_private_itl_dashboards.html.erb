@@ -54,7 +54,7 @@ jQ(document).ready(function() {
 <% last_date = @current_user.tlt_diagnostics.for_subject(@subject_area).last.created_at  rescue nil%>
 <% if last_date.nil? || (Time.now - last_date > 5.days) %>
 
-	<% form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :diagnostics, :organization_id => @current_organization, :user_id => @current_user, :subject_area_id => @subject_area, :function => "submit"}) do |form| -%>
+	<%= form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :diagnostics, :organization_id => @current_organization, :user_id => @current_user, :subject_area_id => @subject_area, :function => "submit"}) do |form| -%>
 	
 		<%= render :partial => "diagnostic_template", :locals=> {:since => @since, :subject => @subject_area}%>
 		<%= render :partial => "/apps/shared/survey_template", :locals=> {:audience => @audience, :survey_type => @survey_type} %>

@@ -7,7 +7,7 @@
 
 	
 	<div class="Form clear">
-		<% form_for(:elt_type, :url => {:controller => "/apps/learning_time", :action => :maintain_activity, :organization_id => @current_organization, :elt_type_id=>@activity, :task=>@task, :function => @task}) do |form| %>
+		<%= form_for(:elt_type, :url => {:controller => "/apps/learning_time", :action => :maintain_activity, :organization_id => @current_organization, :elt_type_id=>@activity, :task=>@task, :function => @task}) do |form| %>
 		
 			<%= render :partial => "/apps/learning_time/form_activity", :locals=>{:org=>@current_organization, :button_label=> (@task == "New" ? "Create Activity" : "Update"), :activity => @activity} %>
 		
@@ -18,7 +18,7 @@
 		<% end -%>
 		
 		<% unless @task == "New" || @activity.active?%>
-			<% form_for(:elt_type, :url => {:controller => "/apps/learning_time", :action => :maintain_activity, :organization_id => @current_organization, :elt_type_id=>@activity, :task=>@task, :function => "Destroy"}) do |form| %>
+			<%= form_for(:elt_type, :url => {:controller => "/apps/learning_time", :action => :maintain_activity, :organization_id => @current_organization, :elt_type_id=>@activity, :task=>@task, :function => "Destroy"}) do |form| %>
 				<div class="FormRow submit_warp" style= "padding-left:25px; padding-bottom:20px">	
 					<br/>
 					<%= submit_tag "Destroy", :confirm => "Are you sure?", :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>

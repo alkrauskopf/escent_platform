@@ -6,7 +6,7 @@
     <%= render :partial => "/shared/error_and_notice" %>	
 	<% if @function == "Edit" %>	
 		<div class="Form clear">	
-			<% form_for(:coop_app_organization, :url => {:controller => "/master/coop_apps", :action => :edit_app_settings, :app_id => @app.id, :org_id => @org, :function=> @function }) do |form| %>
+			<%= form_for(:coop_app_organization, :url => {:controller => "/master/coop_apps", :action => :edit_app_settings, :app_id => @app.id, :org_id => @org, :function=> @function }) do |form| %>
 				<%= render :partial => "/master/coop_apps/form_coop_app_settings", :locals=>{:function=> @function, :app => @app, :org => @org} %>
 			<% end -%>	
 		</div>	

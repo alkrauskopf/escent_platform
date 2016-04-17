@@ -8,7 +8,7 @@
 </div>
 
 <div class="Form clear">
-<% form_for(:topic, :url => {:controller => "/site/site", :action => :assign_classroom_general, :organization_id => @current_organization, :classroom_id => @classroom,  :function => "Topic"}) do |form| %>
+<%= form_for(:topic, :url => {:controller => "/site/site", :action => :assign_classroom_general, :organization_id => @current_organization, :classroom_id => @classroom,  :function => "Topic"}) do |form| %>
 
 	<% button_label = "Create Unit" -%>
 	<div class="FormRow submit_warp" style= "padding-left:25px">	

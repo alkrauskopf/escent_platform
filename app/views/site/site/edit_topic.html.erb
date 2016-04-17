@@ -1,7 +1,7 @@
 
 
 <div class="Form clear">
-<% form_for(:topic, @topic, :url => {:controller => "/site/site", :action => :manage_topic, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :function => "Info"}) do |form| %>
+<%= form_for(:topic, @topic, :url => {:controller => "/site/site", :action => :manage_topic, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :function => "Info"}) do |form| %>
 
 
 	<table cellspacing="5" width=900px style="paddiing-left:0px" >

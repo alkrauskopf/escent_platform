@@ -12,7 +12,7 @@
 </div>
 
 <div class="Form clear">
-<% form_for(:act_bench, :url => {:controller => "/apps/assessment", :action => :add_benchmark, :organization_id => @current_organization, :classroom_id => @classroom , :function => "Submit"}) do |form| -%>
+<%= form_for(:act_bench, :url => {:controller => "/apps/assessment", :action => :add_benchmark, :organization_id => @current_organization, :classroom_id => @classroom , :function => "Submit"}) do |form| -%>
 
  	<input type="hidden" name="standard" value="<%= @benchmark.standard %>" />
  	<input type="hidden" name="bench[subj_id]" value="<%= @benchmark.act_subject_id %>" />

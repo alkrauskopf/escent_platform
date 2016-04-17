@@ -98,7 +98,7 @@
 		    <div class="normal_text">
 		        <% if survey -%>
 		        	<div >
-						<% form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :take_post_conf_survey, :organization_id => @current_organization, :schedule_id => survey, :tlt_session_id => session, :finalize=>true, :function => "submit"}) do |form| -%>
+						<%= form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :take_post_conf_survey, :organization_id => @current_organization, :schedule_id => survey, :tlt_session_id => session, :finalize=>true, :function => "submit"}) do |form| -%>
 							<span style="float:right; padding-right:60px; font-size:14px">
 								<%= link_to "No Thanks", {:controller => "/apps/time_learning", :action => :finalize_session, :organization_id => @current_organization, :user_id => @current_user, :tlt_session_id => session, :function => "observer"}, :confirm => "Finalizing Post Conference: Are You Sure?",:class => 'fsn-button ui-button ui-state-default ui-corner-all'  %>
 								

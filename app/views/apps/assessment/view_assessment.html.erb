@@ -1,6 +1,6 @@
 
 <div class="Form clear">
-<% form_for(:view_submission, :url => {:controller => "/apps/assessment", :action => :static_assessment, :organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment}) do |form| -%>
+<%= form_for(:view_submission, :url => {:controller => "/apps/assessment", :action => :static_assessment, :organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment}) do |form| -%>
 
     <%= render :partial => "/shared/error_and_notice" %>
 	

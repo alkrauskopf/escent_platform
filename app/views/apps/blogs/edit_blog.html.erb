@@ -50,7 +50,7 @@
   	<br/>
   	<% end -%>
   	
-<% form_for(:blog, :url => {:controller => "/apps/blogs", :action => :edit_blog, :organization_id => @current_organization, :blog_id => @blog, :user_id => @current_user, :function => "Update"}) do |form| -%>
+<%= form_for(:blog, :url => {:controller => "/apps/blogs", :action => :edit_blog, :organization_id => @current_organization, :blog_id => @blog, :user_id => @current_user, :function => "Update"}) do |form| -%>
 	<div class="FormRow">
 		<div class="FormRowTitle"></div>
 

@@ -1,7 +1,7 @@
 
 
 <div class="Form clear">
-<% form_for(:topic, @topic, :url => {:controller => "/site/site", :action => :manage_topic, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :function => "Assess"}) do |form| %>
+<%= form_for(:topic, @topic, :url => {:controller => "/site/site", :action => :manage_topic, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :function => "Assess"}) do |form| %>
 
 	<div style= "margin-left:30px; font-size=12px; font-weight:bold">	
 

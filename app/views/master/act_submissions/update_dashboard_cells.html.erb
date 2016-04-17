@@ -1,6 +1,6 @@
 <div class="formBox">
 	<h2>Enter Assessment ID Update</h2>
-	<% form_for (:q_log, :url => {:controller => "/master/act_submissions", :action => :dashboard_cells_recalc}) do |form|%>
+	<%= form_for (:q_log, :url => {:controller => "/master/act_submissions", :action => :dashboard_cells_recalc}) do |form|%>
 
 <p>
 	<%= label_tag 'begin_id', 'Assessment ID:' %>

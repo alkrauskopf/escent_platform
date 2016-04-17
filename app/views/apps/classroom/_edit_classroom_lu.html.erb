@@ -20,7 +20,7 @@
 
 		<% if @current_user.can_edit_offering?(lu.classroom)-%>
 			<div class="Form clear"></div>
-				<% form_for(:topic, lu, :url => {:controller => "apps/classroom", :action => :setup_classroom_lu, :organization_id => @current_organization, :topic_id => lu, :function => "Update"}) do |form| %>
+				<%= form_for(:topic, lu, :url => {:controller => "apps/classroom", :action => :setup_classroom_lu, :organization_id => @current_organization, :topic_id => lu, :function => "Update"}) do |form| %>
 					<div class="FormRow submit_warp" style= "padding-left:90px" >
 						<%= submit_tag "Update Info", :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
 					</div>	

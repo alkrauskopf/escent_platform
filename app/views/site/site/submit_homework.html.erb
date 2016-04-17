@@ -38,7 +38,7 @@
 
 
 <div class="Form clear">
-<% form_for(:homework, :url => {:controller => "/site/site", :action => :submit_homework,:organization_id => @current_organization, :topic_id => @topic, :classroom_id => @classroom}, :html => { :multipart => true, :method => :put}) do |form| %>
+<%= form_for(:homework, :url => {:controller => "/site/site", :action => :submit_homework,:organization_id => @current_organization, :topic_id => @topic, :classroom_id => @classroom}, :html => { :multipart => true, :method => :put}) do |form| %>
 
 <div class="formBox">
 

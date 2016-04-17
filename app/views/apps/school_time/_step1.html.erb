@@ -10,7 +10,7 @@
 	<% tot_teachers = ista_case ? ista_case.total_school_teachers : @current_organization.time_allocation.fte_teacher -%>
 	<% unless ista_case && ista_case.final? -%>
 	<div class="Form clear">
-		<% form_for(:ista_case, :url => {:controller => "/apps/school_time", :action => :maintain_ista_case, :organization_id => @current_organization, :user_id => @current_user, :step_id=>step, :case_id =>ista_case, :function=>function}) do |form| -%>
+		<%= form_for(:ista_case, :url => {:controller => "/apps/school_time", :action => :maintain_ista_case, :organization_id => @current_organization, :user_id => @current_user, :step_id=>step, :case_id =>ista_case, :function=>function}) do |form| -%>
 			<div >
 				<div style =" padding-left:60px; font-size:12px; font-weight:normal; padding-bottom:30px; cursor:pointer;">
 					<%= submit_tag submit_label, :style=>"cursor:pointer", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>

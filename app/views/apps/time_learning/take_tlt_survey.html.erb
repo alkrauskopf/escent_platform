@@ -4,7 +4,7 @@
 <div id="survey_page" >	
 
 
-<% form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :take_tlt_survey, :organization_id => @current_organization, :user_id => @current_user, :tlt_survey_audience_id => @audience, :tlt_session_id => @tlt_session, :classroom_id => @classroom, :function => "submit"}) do |form| -%>
+<%= form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :take_tlt_survey, :organization_id => @current_organization, :user_id => @current_user, :tlt_survey_audience_id => @audience, :tlt_session_id => @tlt_session, :classroom_id => @classroom, :function => "submit"}) do |form| -%>
 
 	<%= render :partial => "/apps/shared/survey_template", :locals=> {:audience => @audience, :survey_type => @survey_type} %>
 

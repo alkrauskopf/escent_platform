@@ -8,7 +8,7 @@
     <%= render :partial => "/shared/error_and_notice" %>
 
 <div class="Form clear">
-<% form_for(:tchr_option, :url => {:controller => "/apps/teacher_assess", :action => :edit_options, :organization_id => @current_organization, :classroom_id => @classroom }) do |form| -%>
+<%= form_for(:tchr_option, :url => {:controller => "/apps/teacher_assess", :action => :edit_options, :organization_id => @current_organization, :classroom_id => @classroom }) do |form| -%>
 
 <div >
 		<div class="FormRow submit_warp" style="padding-left:720px;" >

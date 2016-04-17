@@ -3,7 +3,7 @@
     Edit&nbsp;<%= @current_application.abbrev %>&nbsp;Element
 	</div>
 	<% if @element -%>
-		<% form_for :elt_element , @element , :url=>{:controller => "/apps/owner_maintenance" , :action => "elt_element_update" , :element_id => @element.id, :coop_app_id=>@current_application} do |f| %>
+		<%= form_for :elt_element , @element , :url=>{:controller => "/apps/owner_maintenance" , :action => "elt_element_update" , :element_id => @element.id, :coop_app_id=>@current_application} do |f| %>
 				<div class="FormRow">	
 					<div class="FormRowData" style="color:#C73914;  padding-left:180px; font-size: 12px;">
 						<span style="color:#C73914;  font-size: 14px; font-style: normal; font-weight: normal">

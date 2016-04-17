@@ -11,7 +11,7 @@
 <!--
 	<%# form_for :tl_strategy_desc , @strategy.tl_strategy_desc , :url=>{:controller => "/apps/owner_maintenance" , :action => "owner_strategy_update" , :strategy_id => @strategy.id, :app_id=>@app.id} do |f| %>
 -->
-  <% form_for :tl_strategy_desc, :url=>{:controller => "/apps/owner_maintenance" , :action => "owner_strategy_update" , :strategy_id => @strategy.id, :coop_app_id=>@current_application} do |f| %>
+  <%= form_for :tl_strategy_desc, :url=>{:controller => "/apps/owner_maintenance" , :action => "owner_strategy_update" , :strategy_id => @strategy.id, :coop_app_id=>@current_application} do |f| %>
     <div class="FormRow">
       <div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
         <span style="color:#2061a5;  font-size: 14px; font-style: normal; font-weight: bold">

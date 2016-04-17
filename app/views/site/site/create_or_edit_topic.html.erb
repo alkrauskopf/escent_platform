@@ -19,7 +19,7 @@
     <%= render :partial => "/shared/error_and_notice" %>
 
 <div class="Form clear">
-<% form_for(:topic, @topic, :url => {:controller => "/site/site", :action => :create_or_edit_topic,:organization_id => @current_organization, :topic_id => @return_topic, :classroom_id => @classroom}) do |form| %>
+<%= form_for(:topic, @topic, :url => {:controller => "/site/site", :action => :create_or_edit_topic,:organization_id => @current_organization, :topic_id => @return_topic, :classroom_id => @classroom}) do |form| %>
 
 <div class="formBox">
 

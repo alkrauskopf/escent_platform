@@ -5,7 +5,7 @@
 		<% key_visibility = @classroom.open? ? "hidden" : "visible" %>
     <% per_visibility = (@classroom.classroom_periods.size == 1) ? "hidden" : "visible" %>
       <div style="width:250px;margin-left:0px">
-        <% form_for(:registration, :url => {:controller => 'apps/classroom', :action => 'self_register_student', :organization_id => @current_organization, :student_id => @current_user, :classroom_id => @classroom}) do |form| -%>
+        <%= form_for(:registration, :url => {:controller => 'apps/classroom', :action => 'self_register_student', :organization_id => @current_organization, :student_id => @current_user, :classroom_id => @classroom}) do |form| -%>
           <div class="FormRow" style="position: relative; visibility:<%= per_visibility %>">
             <div class="FormRowData">
               <%=  select(:registration, :period_id, @classroom.classroom_periods.sort_by{|a| [a.name]}.collect{|t| [t.name, t.id]},{:include_blank =>'Select Your Period'}) %>

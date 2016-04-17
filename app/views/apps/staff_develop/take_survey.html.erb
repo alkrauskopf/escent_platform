@@ -1,5 +1,5 @@
 <div >
-	<% form_for(:tlt_session, :url => {:controller => "/apps/staff_develop", :action => :take_survey, :organization_id => @current_organization, :schedule_id => @schedule, :plan_id => @plan, :teacher_id => @plan.user, :function => "submit"}) do |form| -%>
+	<%= form_for(:tlt_session, :url => {:controller => "/apps/staff_develop", :action => :take_survey, :organization_id => @current_organization, :schedule_id => @schedule, :plan_id => @plan, :teacher_id => @plan.user, :function => "submit"}) do |form| -%>
 	<span style="margin:400px">
 		<br/>
 		<%= submit_tag "Submit Survey", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>

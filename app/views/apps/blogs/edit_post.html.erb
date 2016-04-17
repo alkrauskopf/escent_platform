@@ -48,7 +48,7 @@
 		</div>	
 	</div>	
 	<br style="clear:both" />	
-	<% form_for(:blog_post, :url => {:controller => '/apps/blogs', :action => "edit_post" , :blog_id => @blog.public_id, :user_id => @current_user, :blog_post_id => @blog_post.public_id, :function=>"Edit"}) do |form| -%>
+	<%= form_for(:blog_post, :url => {:controller => '/apps/blogs', :action => "edit_post" , :blog_id => @blog.public_id, :user_id => @current_user, :blog_post_id => @blog_post.public_id, :function=>"Edit"}) do |form| -%>
 	 	<%= render :partial => "apps/blogs/post_form", :locals=>{:blog => @blog, :blog_post => @blog_post, :function=>"Update"} %>
 		<div style ="margin-left:150px; cursor:pointer; padding-top:10px; padding-bottom:20px;">
 			<%= submit_tag "Update Post", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>

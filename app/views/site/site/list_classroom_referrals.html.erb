@@ -1,5 +1,5 @@
 <div style = "font-size:12px; color: #000000;padding-left:10px;">
-	<% form_for( :tpc_check, :url => {:controller => "/site/site", :action => :assign_classroom_general, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :function => "Links"}) do |form| %>
+	<%= form_for( :tpc_check, :url => {:controller => "/site/site", :action => :assign_classroom_general, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :function => "Links"}) do |form| %>
 
 	<div>
 

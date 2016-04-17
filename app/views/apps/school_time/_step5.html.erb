@@ -9,7 +9,7 @@
 	<% total_required = ((ista_case.hrsday_er * ista_case.daysyear_er) + (ista_case.hrsday_ls * ista_case.daysyear_ls) + (ista_case.daysyear_std * ista_case.hrsday_std)) -%>
 	<% total_required = total_required== 0 ? 1 : total_required -%>
 	<% total_allocated = ista_case.ista_case_allocations.for_step(step).collect{|a| a.hrsyear}.sum.to_i -%>
-<% form_for(:ista_case_allocation, :url => {:controller => "/apps/school_time", :action => :finalize_case, :organization_id => @current_organization, :case_id => ista_case}, :confirm => 'Are Your Sure') do |form| -%>
+<%= form_for(:ista_case_allocation, :url => {:controller => "/apps/school_time", :action => :finalize_case, :organization_id => @current_organization, :case_id => ista_case}, :confirm => 'Are Your Sure') do |form| -%>
 
 	<table style="width:810px;margin-left:50px">
 		<tbody> 

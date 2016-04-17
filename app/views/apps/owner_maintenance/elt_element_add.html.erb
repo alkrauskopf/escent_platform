@@ -2,7 +2,7 @@
   <div style="text-align:center;  word-wrap:break-word; color:#2061a5;  padding-top:20px; font-size: 16px; font-style: normal; font-weight: bold">
     Add&nbsp;<%= @current_application.abbrev %>&nbsp;Element
   </div>
-  <% form_for :elt_element, :url=>{:controller => "/apps/owner_maintenance" , :action => "elt_element_update" , :coop_app_id=>@current_application} do |f| %>
+  <%= form_for :elt_element, :url=>{:controller => "/apps/owner_maintenance" , :action => "elt_element_update" , :coop_app_id=>@current_application} do |f| %>
       <div class="FormRow">
         <div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
           <span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">

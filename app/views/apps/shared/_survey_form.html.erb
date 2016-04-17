@@ -1,7 +1,7 @@
 
 	<% unless schedule.organization.tlt_survey_questions.for_audience(schedule.tlt_survey_audience).for_type(schedule.tlt_survey_type).active.empty? %>
 
-		<% form_for(:survey_response, :url => {:controller => "/apps/shared", :action => :take_survey, :organization_id => @current_organization, :schedule_id => schedule, :function => "Submit"}) do |form| -%>
+		<%= form_for(:survey_response, :url => {:controller => "/apps/shared", :action => :take_survey, :organization_id => @current_organization, :schedule_id => schedule, :function => "Submit"}) do |form| -%>
 
 			<%= submit_tag "Submit Survey", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
 		

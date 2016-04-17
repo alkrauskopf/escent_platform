@@ -1,6 +1,6 @@
 <div >
 
-<% form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :take_survey, :organization_id => @current_organization, :schedule_id => @schedule, :tlt_session_id => @schedule.entity, :function => "submit"}) do |form| -%>
+<%= form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :take_survey, :organization_id => @current_organization, :schedule_id => @schedule, :tlt_session_id => @schedule.entity, :function => "submit"}) do |form| -%>
 <span style="margin:400px">
 	<br/>
 	<%= submit_tag "Submit Survey", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>

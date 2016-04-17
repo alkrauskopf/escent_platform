@@ -5,7 +5,7 @@
 	<strong>Assessment Repository</strong>
 	</span>
 	<div style = "padding-bottom:10px;padding-left:0px; ">
-	<% form_for(:act_assesment, :url => {:controller => "/apps/assessment", :action => :add_ifa_assessment, :organization_id => @current_organization, :classroom_id => @classroom}) do |form| -%>
+	<%= form_for(:act_assesment, :url => {:controller => "/apps/assessment", :action => :add_ifa_assessment, :organization_id => @current_organization, :classroom_id => @classroom}) do |form| -%>
 		<table  style="width:200px;margin-left:285px;">
 			<tbody>  
 				<tr>

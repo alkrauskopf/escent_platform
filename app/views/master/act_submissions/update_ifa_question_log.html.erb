@@ -1,6 +1,6 @@
 <div class="formBox">
 	<h2>Enter Record ID Range To Update</h2>
-	<% form_for (:q_log, :url => {:controller => "/master/act_submissions", :action => :q_log_student_csap}) do |form|%>
+	<%= form_for (:q_log, :url => {:controller => "/master/act_submissions", :action => :q_log_student_csap}) do |form|%>
 
 <p>
 	<%= label_tag 'begin_id', 'Begining ID:' %>

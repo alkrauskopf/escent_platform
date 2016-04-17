@@ -41,7 +41,7 @@
   
 
 
-			<% form_for :blog_post , @blog_post , :url=>{:controller => "site/blog_posts" , :action => "update" , :blog_id => @blog.public_id , :blog_post_id => @blog_post.public_id } do |@f| %>
+			<%= form_for :blog_post , @blog_post , :url=>{:controller => "site/blog_posts" , :action => "update" , :blog_id => @blog.public_id , :blog_post_id => @blog_post.public_id } do |@f| %>
 			  <%= render :partial => "site/blog_posts/form" %>
 			<% end %>
 		</div>	

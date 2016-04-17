@@ -45,7 +45,7 @@ class Content < ActiveRecord::Base
   validates_acceptance_of :terms_of_service, :message => "You must declare you are authorized to submit resource.", :allow_nil => false, :accept => true, :if => :terms_of_service_required?
   attr_accessor :except_terms_or_service_vaild
   #This is not working correctly because in the test environment RAILS_ENV == "devleopment"
-#  if RAILS_ENV == "development"
+#  if Rails.env == "development"
 #    has_attached_file :source_file
 #    has_attached_file :source_file_preview
 #  else

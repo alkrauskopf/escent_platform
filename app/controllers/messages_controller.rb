@@ -56,7 +56,7 @@ class MessagesController < ApplicationController
       
       unless sms_recipients.empty?
           from_line = @current_user.last_name + "@" + classrm.course_name.gsub(/[ ]/,'-')
-          fh = File.open(RAILS_ROOT + "/public/send_sms.log", "w")
+          fh = File.open(Rails.root + "/public/send_sms.log", "w")
           sms_recipients.each do|to_user|
           message = Message.new(params[:message])
           message.user = to_user

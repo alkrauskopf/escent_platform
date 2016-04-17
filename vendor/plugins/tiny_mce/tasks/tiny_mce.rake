@@ -9,7 +9,7 @@ namespace :tiny_mce do
 
   task :add_or_replace_tiny_mce do
     require 'fileutils'
-    dest = "#{RAILS_ROOT}/public/javascripts/tiny_mce"
+    dest = "#{Rails.root}/public/javascripts/tiny_mce"
     if File.exists?(dest)
       # upgrade
       begin
@@ -18,11 +18,11 @@ namespace :tiny_mce do
         puts "Recreating directory #{dest}..."
         FileUtils.mkdir_p dest
         puts "Installing TinyMCE version #{VERSION} to #{dest}..."
-        FileUtils.cp_r "#{RAILS_ROOT}/vendor/plugins/tiny_mce/public/javascripts/tiny_mce/.", dest
+        FileUtils.cp_r "#{Rails.root}/vendor/plugins/tiny_mce/public/javascripts/tiny_mce/.", dest
         puts "Successfully updated TinyMCE to version #{VERSION}."
       rescue
         puts "ERROR: Problem updating TinyMCE. Please manually copy "
-        puts "#{RAILS_ROOT}/vendor/plugins/tiny_mce/public/javascripts/tiny_mce"
+        puts "#{Rails.root}/vendor/plugins/tiny_mce/public/javascripts/tiny_mce"
         puts "to"
         puts "#{dest}"
       end
@@ -32,11 +32,11 @@ namespace :tiny_mce do
         puts "Creating directory #{dest}..."
         FileUtils.mkdir_p dest
         puts "Installing TinyMCE version #{VERSION} to #{dest}..."
-        FileUtils.cp_r "#{RAILS_ROOT}/vendor/plugins/tiny_mce/public/javascripts/tiny_mce/.", dest
+        FileUtils.cp_r "#{Rails.root}/vendor/plugins/tiny_mce/public/javascripts/tiny_mce/.", dest
         puts "Successfully installed TinyMCE version #{VERSION}."
       rescue
         puts "ERROR: Problem installing TinyMCE. Please manually copy "
-        puts "#{RAILS_ROOT}/vendor/plugins/tiny_mce/public/javascripts/tiny_mce"
+        puts "#{Rails.root}/vendor/plugins/tiny_mce/public/javascripts/tiny_mce"
         puts "to"
         puts "#{dest}"
       end

@@ -15,8 +15,8 @@ namespace :fixtures do
   desc "load all initial database fixtures (in db/bootstrap/*.yml) into the current environment's database.  Load specific fixtures using FIXTURES=x,y"
   task :load_all => :environment do
     require 'active_record/fixtures'
-    ActiveRecord::Base.establish_connection(RAILS_ENV.to_sym)
-    (ENV['FIXTURES'] ? ENV['FIXTURES'].split(/,/) : Dir.glob(File.join(RAILS_ROOT, 'db', 'migrate', 'dev_data', '*.{yml}'))).each do |fixture_file|
+    ActiveRecord::Base.establish_connection(Rails.env.to_sym)
+    (ENV['FIXTURES'] ? ENV['FIXTURES'].split(/,/) : Dir.glob(File.join(Rails.root, 'db', 'migrate', 'dev_data', '*.{yml}'))).each do |fixture_file|
       Fixtures.create_fixtures('db/migrate/dev_data', File.basename(fixture_file, '.*'))
     end
   end

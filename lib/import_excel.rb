@@ -4,7 +4,7 @@ module ImportExcel
     results = ActiveRecord::Base.connection.select_all(where)
     return if results.blank?
     file_name = "#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.xls"
-    file_path = "#{RAILS_ROOT}/public/selects/"
+    file_path = "#{Rails.root}/public/selects/"
     FileUtils.mkdir_p(file_path) if !File::exist?(file_path)
     file_dir = file_path + file_name
     workbook = Spreadsheet::Excel.new(file_dir)

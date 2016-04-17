@@ -43,7 +43,7 @@ class Metric < ActiveRecord::Base
   #get database about shares and other total
   def self.create_excel(org , start_date , end_date)
     file_name = "#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.xls"
-    file_path = "#{RAILS_ROOT}/public/metric/"
+    file_path = "#{Rails.root}/public/metric/"
     
     FileUtils.mkdir_p(file_path) if !File::exist?(file_path)
     file_dir = file_path + file_name

@@ -4,7 +4,7 @@ class Import
   def self.image_save(files , image_size = IMAGE_SIZE)
     return nil if files.blank?
     str_path = uuid_path
-    file_path = "#{RAILS_ROOT}/public" + str_path + "/"
+    file_path = "#{Rails.root}/public" + str_path + "/"
     mkdir_filepath(file_path)
     file_type = File.extname(files.original_filename).downcase
     return nil if !['.jpg','.png','.jpeg','.gif','.bmp','.png'].include?(file_type)  

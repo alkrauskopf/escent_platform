@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.0.20'
 
+gem 'eventmachine', '1.0.3'
+gem 'thin'
 gem 'mysql2', '~> 0.2.24'
 gem 'will_paginate'
 gem 'crypt'

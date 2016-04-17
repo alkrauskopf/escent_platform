@@ -5,7 +5,7 @@
 				<% if rc.viewable_by_user?(@current_user ? @current_user : nil)-%>
 	
 					<li style="font-size:10px; font-weight:normal; line-height:1.0em;text-align:middle">	
-					 	<button><%= link_to_remote "View", :update => ("folder_content_panel_"+ (folder.nil? ? "" : folder.id.to_s)), :url => url_for({:controller => "/apps/classroom", :action => :show_content, :organization_id => @current_organization, :folder_id => folder, :topic_id => lu, :id => rc}) -%></button>		 		
+					 	<button><%= link_to "View", :update => ("folder_content_panel_"+ (folder.nil? ? "" : folder.id.to_s)), :url => url_for({:controller => "/apps/classroom", :action => :show_content, :organization_id => @current_organization, :folder_id => folder, :topic_id => lu, :id => rc}), :remote => true -%></button>
 						&nbsp;<%=rc.title%>
 					</li>
 					<br/>

@@ -83,7 +83,7 @@
 
 	</div>
 	<div style="width:100%; text-align:left; padding:10px;">
-	<%= link_to_remote "Back", {:update => "topics_panel", :url => {:controller => :topics, :action => :index, :organization_id => @current_organization, :classroom_id => @classroom.id}} %>
+	<%= link_to "Back", {:update => "topics_panel", :url => {:controller => :topics, :action => :index, :organization_id => @current_organization, :classroom_id => @classroom.id}, :remote => true } %>
 	</div>
 </div>
 <script type="text/javascript" charset="utf-8">

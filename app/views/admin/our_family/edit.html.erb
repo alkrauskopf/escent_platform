@@ -8,5 +8,5 @@
 	<% end %>	
 </div>
 <div style="float:left; width:100%; padding:10px; text-align:center;">
-<%= link_to_remote "Back", :update => "our_family_panel", :url => {:controller => :our_family, :action => :roles, :organization_id => @current_organization}, :html => {:class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "padding:3px; text-decoration:none;", :method => :get} %>
+<%= link_to "Back", :update => "our_family_panel", :url => {:controller => :our_family, :action => :roles, :organization_id => @current_organization}, :remote => true, :html => {:class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "padding:3px; text-decoration:none;", :method => :get} %>
 </div>

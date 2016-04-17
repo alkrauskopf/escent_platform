@@ -30,7 +30,7 @@
                         <%= button_to_remote "Remove", {:update => "discussion_abuses", :url => {:controller => :topics, :action => :remove_discussion, :organization_id => @current_organization, :discussion_id => discussion.id, :id => @topic}, :method => :post}, :confirm => "Confirm Remove?", :class =>"fsn-button ui-button ui-state-default ui-corner-all remove" %>
                     </td>
                     <td id="<%= discussion.id %>">
-                        <%= link_to_remote :view, :update => "discussion_abuses", :url => {:controller => :topics, :action => :view_discussion_abuses, :organization_id => @current_organization, :discussion_id => discussion.id, :id => @topic}, :method => :post %>
+                        <%= link_to :view, :update => "discussion_abuses", :url => {:controller => :topics, :action => :view_discussion_abuses, :organization_id => @current_organization, :discussion_id => discussion.id, :id => @topic}, :remote => true, :method => :post %>
                     </td>
                 </tr>
                 <% end %>

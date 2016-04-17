@@ -33,6 +33,6 @@
         <%#= will_paginate @abuses %>
     </div>
     <div style="text-align:center;">
-		<%= link_to_remote :Back, {:update => "topics_panel", :url => {:controller => :topics, :action => :reported_abuses, :organization_id => @current_organization, :id => @topic}, :method => :get} %>		
+		<%= link_to :Back, {:update => "topics_panel", :url => {:controller => :topics, :action => :reported_abuses, :organization_id => @current_organization, :id => @topic}, :remote => true, :method => :get} %>
     </div>
 </div>

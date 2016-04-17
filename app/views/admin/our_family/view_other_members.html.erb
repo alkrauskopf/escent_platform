@@ -29,7 +29,7 @@
 
 </div>
 <div style="width:100%; text-align:center; padding:10px;">
-	<%= link_to_remote "Back", :update => "our_family_panel", :url => {:controller => :our_family, :action => :roles, :organization_id => @current_organization}, :method => :get, :html => { :class =>"fsn-button ui-button ui-state-default ui-corner-all", :style => "padding:3px; text-decoration:none;" } %>
+	<%= link_to "Back", :update => "our_family_panel", :url => {:controller => :our_family, :action => :roles, :organization_id => @current_organization}, :remote => true, :method => :get, :html => { :class =>"fsn-button ui-button ui-state-default ui-corner-all", :style => "padding:3px; text-decoration:none;" } %>
 </div>
 <script type="text/javascript" charset="utf-8">
 	jQ(document).ready(function() {

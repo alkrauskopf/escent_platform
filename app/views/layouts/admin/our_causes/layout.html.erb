@@ -7,7 +7,7 @@
 				</div>
 			<% else -%>
 				<div>
-					<%= link_to_remote section, :update => "iwing_panel", :url => {:controller => :iwing, :action => section, :organization_id => @current_organization}, :method => :get %>
+					<%= link_to section, :update => "iwing_panel", :url => {:controller => :iwing, :action => section, :organization_id => @current_organization}, :remote => true, :method => :get %>
 				</div>
 			<% end -%>
 		<% end -%>

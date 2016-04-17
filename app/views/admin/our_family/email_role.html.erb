@@ -35,7 +35,7 @@
     </div>
     <div style="width:890px; padding:10px; text-align:center; " class="clear">
 	<div style="width:200px; margin: 0 auto;">
-        <%= link_to_remote "Back", :update => "our_family_panel", :url => {:controller => :our_family, :action => :roles, :organization_id => @current_organization}, :html => {:class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "padding:3px; text-decoration:none; float:left; margin:3px; font-size:12px;", :method => :get} %>
+        <%= link_to "Back", :update => "our_family_panel", :url => {:controller => :our_family, :action => :roles, :organization_id => @current_organization}, :remote => true, :html => {:class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "padding:3px; text-decoration:none; float:left; margin:3px; font-size:12px;", :method => :get} %>
 		<input type="submit" value="Send Email" class = "fsn-button ui-button ui-state-default ui-corner-all" style="padding:3px; float:left; margin:3px;">
 	</div>
     </div>

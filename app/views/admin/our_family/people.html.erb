@@ -2,7 +2,7 @@
 	<strong>Friends </strong> are members of the network that have registered through your organization or have added your organization to their Favorites List. <br/>This lets them assume various <strong>Roles</strong> in your organziation. <br/>You, as the administrator, have the ability to remove this person from your organization's list of Friends.
 </div>
 <div style="margin-bottom: 20px; font-size: 11px; line-height:16px;">
-	<%= link_to_remote "back", :update => "our_family_panel", :url => {:controller => :our_family, :action => :roles, :organization_id => @current_organization}, :method => :get %>
+	<%= link_to "back", :update => "our_family_panel", :url => {:controller => :our_family, :action => :roles, :organization_id => @current_organization}, :remote => true, :method => :get %>
 </div>
 <div id="friends">
 	<table id="users" >

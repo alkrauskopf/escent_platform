@@ -15,5 +15,5 @@
 	<% end %>	
 </div>
 <div style="width:100%; text-align:center; border:1px solid black;">
-<%= link_to_remote "back", :update => "our_family_panel", :url => {:controller => :our_family, :action => :roles, :organization_id => @current_organization}, :method => :get, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>	
+<%= link_to "back", :update => "our_family_panel", :url => {:controller => :our_family, :action => :roles, :organization_id => @current_organization}, :remote => true, :method => :get, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
 </div>

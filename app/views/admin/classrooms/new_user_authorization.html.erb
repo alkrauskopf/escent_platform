@@ -15,5 +15,5 @@
 </div>
 <% end %>
 <div style="float:left; width:100%; padding:10px; text-align:center;">
-<%= link_to_remote "Back", :update => "classrooms_panel", :url => {:controller => :classrooms, :action => :authorization_assignments, :classroom_id => @classroom, :organization_id => @current_organization}, :html => {:class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "padding:3px; text-decoration:none;", :method => :get}%>
+<%= link_to "Back", :update => "classrooms_panel", :url => {:controller => :classrooms, :action => :authorization_assignments, :classroom_id => @classroom, :organization_id => @current_organization}, :html => {:class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "padding:3px; text-decoration:none;", :remote=>true, :method => :get}%>
 </div>

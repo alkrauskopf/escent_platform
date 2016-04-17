@@ -25,7 +25,7 @@
 		No users found.
 	<% end -%>
 
-	<%= link_to_remote "back", :update => "classrooms_panel", :url => {:controller => :classroom, :action => :authorization_assignments, :organization_id => @current_organization}, :method => :get, :html => {:class => "back_to_roles"} %>
+	<%= link_to "back", :update => "classrooms_panel", :url => {:controller => :classroom, :action => :authorization_assignments, :organization_id => @current_organization}, :remote => true, :method => :get, :html => {:class => "back_to_roles"} %>
 	<br/></div>
 <script type="text/javascript" charset="utf-8">
 jQ(document).ready(function() { 

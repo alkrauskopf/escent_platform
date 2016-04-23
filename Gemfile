@@ -11,7 +11,7 @@ gem 'crypt'
 gem 'activemerchant', '~> 1.7.1'
 gem 'rmagick'
 gem 'uuidtools'
-gem 'wicked_pdf', '~> 0.6.0'
+#gem 'wicked_pdf', '~> 0.6.0'
 gem 'paperclip', '~> 3.3.1'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

@@ -1200,9 +1200,6 @@ class Apps::TimeLearningController < Site::ApplicationController
     if params[:app_id]
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
-    unless @app
-      @app = CoopApp.itl rescue CoopApp.find(:first)
-    end
 
     if params[:hat]
       @hat = params[:hat]
@@ -1362,7 +1359,8 @@ class Apps::TimeLearningController < Site::ApplicationController
   end
 
   def create_summary_data(session)
-    summary = ItlSummary.find(:first, :conditions=>["classroom_id=? AND yr_mnth_of=? AND itl_belt_rank_id = ?", session.classroom_id,session.session_date.beginning_of_month, session.itl_belt_rank_id]) rescue nil
+     # summary = ItlSummary.find(:first, :conditions=>["classroom_id=? AND yr_mnth_of=? AND itl_belt_rank_id = ?", session.classroom_id,session.session_date.beginning_of_month, session.itl_belt_rank_id]) rescue nil
+    summary =  (session.classroom.nil? || session.itl_belt_rank.nil?) ? nil : session.classroom.itl_summary.for_belt(session.itl_belt_rank).for_month(session.session_date.beginning_of_month).first
     if summary
      summary.observation_count += 1
      summary.classroom_duration += session.duration

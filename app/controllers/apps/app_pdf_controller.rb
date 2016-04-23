@@ -50,13 +50,17 @@ class Apps::AppPdfController < Site::ApplicationController
   end
 
   def elt_case
-
     respond_to do |format|
       format.html
       format.pdf do
+        # pdf = ReportPdf.new(@current_organization)
+        # send_data pdf.render, filename: 'report.pdf', type: 'application/pdf'
         pdf = Prawn::Document.new
         pdf.text "Hello There"
-       send_data pdf.render, filename: "xample.pdf", type: 'application.pdf'
+       # pdf.image Organization.all.first.logo.url
+        # start_new_page
+        # pdf.text "now it is here:"
+        send_data pdf.render, filename: "xample.pdf", type: 'application.pdf'
         # pdf.render_file('prawn.pdf')
       end
     end

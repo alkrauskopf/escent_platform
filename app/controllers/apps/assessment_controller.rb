@@ -19,7 +19,7 @@
       @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first
       @master = ActMaster.find_standard('ACT')
       @co_master = ActMaster.find_standard('CO')
-      @readings = ActRelReading.find(:all) rescue []
+      @readings = ActRelReading.all
       @readings.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
       @assessments = ActAssessment.active rescue []
       @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}
@@ -41,9 +41,11 @@
     CoopApp.ifa.increment_views
     if @current_organization.ifa_org_option
       @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first
-      @master = ActMaster.find(:first, :condition=>["abbrev = ?", "ACT"]) rescue ActMaster.first
-      @co_master = ActMaster.find(:first, :conditions =>["abbrev = ?", "CO"])rescue ActMaster.first
-      @readings = ActRelReading.find(:all) rescue []
+  #    @master = ActMaster.find(:first, :condition=>["abbrev = ?", "ACT"]) rescue ActMaster.first
+      @master = ActMaster.act
+  #    @co_master = ActMaster.find(:first, :conditions =>["abbrev = ?", "CO"])rescue ActMaster.first
+      @co_master = ActMaster.co
+      @readings = ActRelReading.all
       @readings.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
       @assessments = ActAssessment.active rescue []
       @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}
@@ -100,9 +102,10 @@
     unless  @question
       redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization
     end
-    @rel_reading = ActRelReading.find(:first, :conditions => ["id = ?", @question.act_rel_reading_id]) rescue nil
+    @rel_reading = @question.act_rel_reading ? @question.act_rel_reading : nil
     @benchmark_list = @question.act_benches.sort_by{|b| [b.benchmark_type, b.description]} rescue []
-    @classroom_list = Classroom.find(:all, :conditions => ["act_subject_id = ? ",@question.act_subject_id]) rescue []
+ #   @classroom_list = Classroom.find(:all, :conditions => ["act_subject_id = ? ",@question.act_subject_id]) rescue []
+    @classroom_list = @question.act_subject.nil? ? [] : @question.act_subject.classrooms
     @assess_count = @question.act_assessments.count
     @answered_count = @question.ifa_question_logs.collect{|p| p.choices}.sum 
     @points = @question.ifa_question_logs.collect{|p| p.earned_points}.sum 
@@ -111,7 +114,8 @@
     else
       @pct_correct = 100*@points/@answered_count
     end
-    @topic_list = Topic.find(:all, :conditions => ["act_score_range_id = ? ", @question.score_range(@current_standard)]) rescue []
+ #   @topic_list = Topic.find(:all, :conditions => ["act_score_range_id = ? ", @question.score_range(@current_standard)]) rescue []
+    @topic_list = @question.score_range(@current_standard) ? @question.score_range(@current_standard).topics : []
     @rel_topics = []
     if @topic_list
       @topic_list.each do |tpc|
@@ -169,8 +173,8 @@
     @teacher_students = []
     @teacher_points = 0
     @teacher_pct_correct = 0    
-    @highschools = Organization.find(:all, :conditions =>["organization_type_id = ?", 2]).sort{|a,b| a.name <=> b.name} rescue nil
-    
+ #   @highschools = Organization.find(:all, :conditions =>["organization_type_id = ?", 2]).sort{|a,b| a.name <=> b.name} rescue nil
+    @highschools = Organization.highschools.sort{|a,b| a.name <=> b.name}
     if @bench_questions
       @bench_answers = @bench_questions.collect{|q| q.act_answers.selected}.flatten
       unless @bench_answers.empty?
@@ -264,8 +268,8 @@
   def edit_assessment
    initialize_parameters 
 
-   @avail_questions = ActQuestion.find(:all, :conditions => ["act_subject_id = ?", @assessment.act_subject_id])
-
+  # @avail_questions = ActQuestion.find(:all, :conditions => ["act_subject_id = ?", @assessment.act_subject_id])
+   @avail_questions = @assessment.act_subject ? @assessment.act_subject.act_questions : []
    if params[:function] == "Submit"
       
       if params[:position]
@@ -323,8 +327,8 @@
       else
       @assess_questions  = []
     end
-    @avail_questions = ActQuestion.find(:all, :conditions => ["act_subject_id = ?", @assessment.act_subject_id])
-
+ #   @avail_questions = ActQuestion.find(:all, :conditions => ["act_subject_id = ?", @assessment.act_subject_id])
+   @avail_questions = @assessment.act_subject ? @assessment.act_subject.act_questions : []
   end
 
   def add_ifa_assessment
@@ -399,8 +403,8 @@
       @new_assessment.organization_id = @current_organization.id
       @new_assessment.generation += 1
        if @new_assessment.save
-          ranges = ActAssessmentScoreRange.find(:all, :conditions => ["act_assessment_id = ?", @assessment.id])rescue nil
-          if ranges
+   #       ranges = ActAssessmentScoreRange.find(:all, :conditions => ["act_assessment_id = ?", @assessment.id])rescue nil
+        ranges = @assessment.act_assessment_score_ranges
             ranges.each do |r|
             new_range = ActAssessmentScoreRange.new
             new_range.act_assessment_id = @new_assessment.id
@@ -410,7 +414,6 @@
             new_range.upper_score = r.upper_score
             new_range.save
             end
-          end 
           flash[:notice] = "Assessment Copied Successfully"  
           assess_questions = @assessment.act_questions.collect{|q| q}
           assess_questions.each do |q| 
@@ -741,8 +744,10 @@
     @answer_list = @list.selected.select{|a| a.teacher_id == @current_user.id && a.created_at >= @start_time && a.created_at <= @end_time}   
     @submitted_assessments = @classroom.act_submissions.select{|s|s.teacher_id == @current_user.id && s.created_at >= @start_time && s.created_at.at_beginning_of_day <= @end_time}
     @current_subject = @classroom.act_subject
-    @standards_list = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id + ?", @classroom.act_subject_id, @current_standard.id], :order => "abbrev")
-    @range_list = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? && upper_score > ? && act_master_id + ?", @classroom.act_subject_id, 0, @current_standard.id], :order => "upper_score")
+ #   @standards_list = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id + ?", @classroom.act_subject_id, @current_standard.id], :order => "abbrev")
+    @standards_list = ActStandard.for_standard_and_standard(@current_standard, @classroom.act_subject)
+ #   @range_list = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? && upper_score > ? && act_master_id + ?", @classroom.act_subject_id, 0, @current_standard.id], :order => "upper_score")
+    @range_list = ActScoreRange.standard_subject_greater_than_upper(@current_standard, @classroom.act_subject, 0)
 
     @num_assessments = @submitted_assessments.size
     @num_qa = @answer_list.size
@@ -926,9 +931,10 @@
     @student_all_submissions = @student.act_submissions.final.sort{|a,b| b.id <=> a.id}
     @student_classroom_submissions = @student_all_submissions.select{|s| s.classroom_id == @classroom.id }.sort{|a,b| b.date_finalized<=> a.date_finalized}
     
-    @standards_list = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", @classroom.act_subject_id, @current_standard.id], :order => "abbrev")
-    @range_list = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? && upper_score > ? && act_master_id = ?", @classroom.act_subject_id, 0, @current_standard.id], :order => "upper_score")
-   
+  #  @standards_list = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", @classroom.act_subject_id, @current_standard.id], :order => "abbrev")
+    @standards_list = ActStandard.for_standard_and_standard(@current_standard, @classroom.act_subject)
+ # @range_list = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? && upper_score > ? && act_master_id = ?", @classroom.act_subject_id, 0, @current_standard.id], :order => "upper_score")
+    @range_list = ActScoreRange.standard_subject_greater_than_upper(@current_standard, @classroom.act_subject, 0)
     @current_subject = @classroom.act_subject
     @answer_list = @classroom.act_answers.selected.select{|a| a.teacher_id == @current_user.id && a.user_id == @student.id }
 
@@ -1037,10 +1043,10 @@
   
   initialize_parameters
   
-    @subjects = ActSubject.find(:all, :conditions =>["id < ?", 99], :order => 'name ASC') 
-    @repository_size = ActQuestion.find(:all).size
+    @subjects = ActSubject.all_subjects
+    @repository_size = ActQuestion.all.size
     @time_window = (Time.now - @options.months_for_questions.months).beginning_of_month
-    @answer_count = ActAnswer.find(:all, :conditions =>["created_at >= ? && was_selected", @time_window]).size 
+    @answer_count = ActAnswer.selected_and_after(@time_window).size
   end
   
  def question_analysis
@@ -1238,7 +1244,7 @@
   
   initialize_parameters
   
-    @readings = ActRelReading.find(:all, :conditions => ["act_subject_id = ?", @current_subject.id], :order => "label").collect{|r| [r.label,r.id]} 
+    @readings =@current_subject.act_rel_readings.sort_by{|r| r.label}.collect{|r| [r.label,r.id]}
 
     if params[:function]=="New"
       @question = ActQuestion.new
@@ -1320,7 +1326,8 @@
     @benchmark_list = []  
     @question.act_score_ranges.each do |sr|
       @question.act_standards.each do |std|
-        @benchmark_list += ActBench.find(:all, :conditions => ["act_subject_id = ? AND act_score_range_id = ? AND act_standard_id = ?", @question.act_subject_id, sr.id, std.id]) rescue nil
+     #   @benchmark_list += ActBench.find(:all, :conditions => ["act_subject_id = ? AND act_score_range_id = ? AND act_standard_id = ?", @question.act_subject_id, sr.id, std.id]) rescue nil
+        @benchmark_list += @question.act_subject.act_benches.for_scorerange_strand(sr, std)
       end
     end
      @benchmark_list.each do |bench|    
@@ -1338,7 +1345,8 @@
   
     initialize_parameters
 
-    @rel_readings = ActRelReading.find(:all, :conditions => ["act_subject_id = ?", @question.act_subject_id], :order => "label").collect{|r| [r.label,r.id]} 
+#    @rel_readings = ActRelReading.find(:all, :conditions => ["act_subject_id = ?", @question.act_subject_id], :order => "label").collect{|r| [r.label,r.id]}
+    @rel_readings = @question.act_subject.act_rel_readings.sort_by{|r| r.label}.collect{|r| [r.label,r.id]}
     if @question.act_rel_reading_id == 0
       @reading_label = "* * No Reading * *"
       @question_reading = " "
@@ -1445,8 +1453,9 @@
     end
   @benchmark_list = []
   @tagged_benches = @question.act_benches.sort_by{|b| [b.benchmark_type]}
-   @benchmark_list += ActBench.find(:all, :conditions => ["act_subject_id = ? AND act_score_range_id = ? AND act_standard_id = ?", @question.act_subject_id, @question.score_range(@current_standard).id, @question.standard(@current_standard).id]) rescue nil
-  @untagged_benches = (@benchmark_list - @tagged_benches)
+  # @benchmark_list += ActBench.find(:all, :conditions => ["act_subject_id = ? AND act_score_range_id = ? AND act_standard_id = ?", @question.act_subject_id, @question.score_range(@current_standard).id, @question.standard(@current_standard).id]) rescue nil
+    @benchmark_list += @question.act_subject.act_benches.for_scorerange_strand( @question.score_range(@current_standard), @question.standard(@current_standard))
+    @untagged_benches = (@benchmark_list - @tagged_benches)
   end
 
  
@@ -1460,8 +1469,9 @@
      else
       @question.act_subject_id = @current_subject.id
      end
-     @readings = ActRelReading.find(:all, :conditions => ["act_subject_id = ?", @question.act_subject_id], :order => "label").collect{|r| [r.label,r.id]} 
-     @question.act_rel_reading_id = 0
+   #  @readings = ActRelReading.find(:all, :conditions => ["act_subject_id = ?", @question.act_subject_id], :order => "label").collect{|r| [r.label,r.id]}
+      @readings = @question.act_subject.act_rel_readings.sort_by{|r| r.label}.collect{|r| [r.label,r.id]}
+  @question.act_rel_reading_id = 0
      @question.question_type = "SA"
      @question.question = "* * New Question * *"
      @question.is_active = false
@@ -1521,8 +1531,9 @@
            flash[:error] = "Updates Not Made. Question Locked."     
     end
    end
-   @rel_readings = ActRelReading.find(:all, :conditions => ["act_subject_id = ?", @question.act_subject_id], :order => "label").collect{|r| [r.label,r.id]} 
-   if @question.act_rel_reading_id == 0
+  # @rel_readings = ActRelReading.find(:all, :conditions => ["act_subject_id = ?", @question.act_subject_id], :order => "label").collect{|r| [r.label,r.id]}
+    @rel_readings = @question.act_subject.act_rel_readings.sort_by{|r| r.label}.collect{|r| [r.label,r.id]}
+    if @question.act_rel_reading_id == 0
      @reading_label = "* * No Related Content * *"
      @question_reading = " "
    else
@@ -1533,7 +1544,7 @@
    @resource_list = []
    @master = @current_organization.ifa_org_option.act_masters.first rescue nil
    unless @master
-     @master = ActMaster.find(:first, :conditions => ["abbrev = ?", "ACT"])
+     @master = ActMaster.default_std
    end 
  
  end
@@ -1620,7 +1631,8 @@
   
     initialize_parameters
   
-    @reading_list = ActRelReading.find(:all, :conditions => ["act_subject_id = ?", @current_subject.id]) rescue nil
+    # @reading_list = ActRelReading.find(:all, :conditions => ["act_subject_id = ?", @current_subject.id]) rescue nil
+    @reading_list = @current_subject.act_rel_readings
     @reading_list.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
     
   end
@@ -1629,7 +1641,8 @@
   
     initialize_parameters
   
-    @reading_list = ActRelReading.find(:all, :conditions => ["act_genre_id = ? AND act_subject_id =?", params[:genre_id], @current_subject.id]) rescue nil
+ #   @reading_list = ActRelReading.find(:all, :conditions => ["act_genre_id = ? AND act_subject_id =?", params[:genre_id], @current_subject.id]) rescue nil
+    @reading_list = @current_subject.act_rel_readings.where('act_genre_id = ?', params[:genre_id].to_i)
     @reading_list = @reading_list.sort_by{|a| [a.act_subject.name]}
   end
 
@@ -2066,7 +2079,7 @@ end
    @master = ActMaster.find(params[:master_id]) rescue nil
    @question = ActQuestion.find_by_public_id(params[:question_id]) rescue nil
    unless @master
-     @master = ActMaster.find(:first, :conditions => ["abbrev = ?", "ACT"])
+     @master = ActMaster.default_std
    end
      render :partial => "ifa_question_master_update"  
   end
@@ -2286,7 +2299,7 @@ end
     initialize_parameters
 
    @group = params[:group_type]
-   find_favorite_group_type_resources
+   find_fav_group_resources
    render :partial => "ifa_question_resource"  
  end              
 
@@ -2298,7 +2311,7 @@ end
     if @question
      @question.update_attributes(:content_id => params[:resource_id].to_i)
     end    
-    find_favorite_group_type_resources
+    find_fav_group_resources
     render :partial => "ifa_question_resource"  
  end
 
@@ -2310,7 +2323,7 @@ end
    if @question
      @question.update_attributes(:content_id => nil)
    end
-    if @group == "VIDEO"
+    if @group == 'VIDEO'
       @resource_list = @current_user.favorite_resources rescue []
     else
       @resource_list = @current_user.favorite_resources rescue []
@@ -2343,7 +2356,7 @@ end
     initialize_parameters
 
      if @question 
-      if @question.question_type == "SA" || (@question.question_type == "MC" && @question.act_choices.correct.size > 0)
+      if @question.question_type == 'SA' || (@question.question_type == 'MC' && @question.act_choices.correct.size > 0)
         @question.update_attributes(:is_locked =>!@question.is_locked)
       end
     end
@@ -2374,7 +2387,6 @@ end
   def edit_question_destroy_question
     
     initialize_parameters
-    
     if @question.act_answers.empty? && @question.act_assessments.empty? && !@question.is_locked
       if @current_user == @question.user || @current_user.ifa_admin_for_org?(@current_organization)
         @question.destroy
@@ -2387,9 +2399,7 @@ end
   end  
  
   def edit_question_toggle_choice
-   
     initialize_parameters
-
     @master = ActMaster.find_by_public_id(params[:master_id]) rescue nil
     @choice = ActChoice.find_by_id(params[:choice_id]) rescue nil
     if @choice && !@question.is_locked
@@ -2397,7 +2407,6 @@ end
     end
    render :partial => "ifa_question_choices_update"  
   end
-
 
   def add_remove_app_option_master
     @current_organization = Organization.find_by_public_id(params[:organization_id]) rescue nil
@@ -2482,39 +2491,47 @@ end
   @assessment_pool = []
   if @classroom.ifa_classroom_option
     if @classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered && @classroom.ifa_classroom_option.act_subject_id
-      @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND is_calibrated AND user_id = ? AND act_subject_id = ?", @current_user.id, @classroom.ifa_classroom_option.act_subject_id]) rescue []
+#      @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND is_calibrated AND user_id = ? AND act_subject_id = ?", @current_user.id, @classroom.ifa_classroom_option.act_subject_id]) rescue []
+      @assessment_pool = @current_user.act_assessments.where('is_active AND is_calibrated AND act_subject_id = ?', @classroom.ifa_classroom_option.act_subject.id)
     end
     if @classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered && !@classroom.ifa_classroom_option.act_subject_id
-      @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND is_calibrated AND user_id = ?", @current_user.id]) rescue []
+  #    @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND is_calibrated AND user_id = ?", @current_user.id]) rescue []
+      @assessment_pool = @current_user.act_assessments.active.calibrated
     end
     if !@classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered  && @classroom.ifa_classroom_option.act_subject_id
-      @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND user_id = ? AND act_subject_id = ?", @current_user.id, @classroom.ifa_classroom_option.act_subject_id]) rescue []
+  #    @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND user_id = ? AND act_subject_id = ?", @current_user.id, @classroom.ifa_classroom_option.act_subject_id]) rescue []
+      @assessment_pool = @current_user.act_assessments.active.where('act_subject_id = ?', @classroom.ifa_classroom_option.act_subject.id)
     end
     if @classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && @classroom.ifa_classroom_option.act_subject_id
-      @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND is_calibrated AND act_subject_id = ?", @classroom.ifa_classroom_option.act_subject_id]) rescue []
+  #    @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND is_calibrated AND act_subject_id = ?", @classroom.ifa_classroom_option.act_subject_id]) rescue []
+      @assessment_pool = @classroom.ifa_classroom_option.act_subject.act_assessments.where('is_active AND is_calibrated')
     end
     if @classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && !@classroom.ifa_classroom_option.act_subject_id
-      @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND is_calibrated"]) 
+  #    @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND is_calibrated"])
+      @assessment_pool = ActAssessment.active.calibrated
     end
     if !@classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && @classroom.ifa_classroom_option.act_subject_id
-      @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND act_subject_id = ?", @classroom.ifa_classroom_option.act_subject_id]) rescue []
+  #    @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND act_subject_id = ?", @classroom.ifa_classroom_option.act_subject_id]) rescue []
+      @assessment_pool = @classroom.ifa_classroom_option.act_subject.act_assessments.active
     end
     if !@classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered  && !@classroom.ifa_classroom_option.act_subject_id
-      @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND user_id = ?", @current_user.id]) rescue []
+    #  @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND user_id = ?", @current_user.id]) rescue []
+      @assessment_pool = @current_user.act_assessments.active
     end
     if !@classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && !@classroom.ifa_classroom_option.act_subject_id
-      @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active"])
+   #   @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active"])
+      @assessment_pool = ActAssessment.active
     end
     if @classroom.ifa_classroom_option.max_score_filter && @classroom.ifa_classroom_option.act_master_id
-      @assessment_pool = @assessment_pool.select{|ass| ass.act_assessment_score_ranges.for_standard(@classroom.ifa_classroom_option.act_master).first.upper_score == @classroom.ifa_classroom_option.max_score_filter.to_i} rescue []
-    end  
+      @assessment_pool = @assessment_pool.select{|ass| ass.act_assessment_score_ranges.for_standard(@classroom.ifa_classroom_option.act_master).first.upper_score == @classroom.ifa_classroom_option.max_score_filter.to_i} rescue [
+    end
   end
     @assessment_pool.sort!{|a,b| b.updated_at <=> a.updated_at}
  end
    
    
-  def find_favorite_group_type_resources
-    if @group == "VIDEO"
+  def find_fav_group_resources
+    if @group == 'VIDEO'
       @resource_list = @current_user.favorite_resources.select{|r| (r.content_object_type.content_object_type_group.name == "VIDEO") || (r.content_object_type.content_object_type_group.name == "EMBED CODE") } rescue []
     else
       @resource_list = @current_user.favorite_resources.select{|r| r.content_object_type.content_object_type_group.name == @group } rescue []
@@ -2671,8 +2688,8 @@ end
 
  
   def initialize_parameters 
-    @master_standards = ActMaster.find(:all)
-    @standards = ActStandard.find(:all).collect{|s|[s.standard]}.uniq.sort
+    @master_standards = ActMaster.all
+    @standards = ActStandard.all.collect{|s|[s.standard]}.uniq.sort
     if @current_user
       @current_standard = @current_user.act_master
     else
@@ -2690,7 +2707,7 @@ end
         user_option.is_colleague_filtered = false
         user_option.is_student_filtered = false
         user_option.beginning_period = @options.begin_school_year
-        user_option.act_master_id = ActMaster.find(:first, :conditions=>["abbrev = ?", "ACT"]).id rescue 1
+        user_option.act_master_id = ActMaster.default_std.id
         @current_user.ifa_user_option = user_option
     end
 
@@ -2718,17 +2735,14 @@ end
     if params[:submission_id]
        @submission = ActSubmission.find_by_public_id(params[:submission_id])rescue nil 
     end 
-     if params[:app_id]
+    if params[:app_id]
       @app = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
-    unless @app
-      @app = CoopApp.ifa rescue CoopApp.find(:first)
-    end 
   end
 
    def prepare_summary_dashboard
 
-     @subjects = ActSubject.find(:all, :conditions =>  ["id <> ?", 99], :order=> "name ASC") rescue []
+     @subjects = ActSubject.all_subjects
      @total_assessments = []
      @total_answers = []
      @total_points = []
@@ -2749,8 +2763,8 @@ end
      @subjects.each_with_index do |subj, idx|
        @assessments_column_header = calibration_filter ? "Calibrated<br/>Assessments" : "Finalized<br/>Assessments"
        @answers_column_header = calibration_filter ? "Calibrated<br/>Answers" : "Finalized<br/>Answers"
-       dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && ifa_dashboardable_id = ? && ifa_dashboardable_type = ?", subj.id, @current_organization.id, "Organization"],:order=> "period_end ASC") rescue nil
-
+  #     dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && ifa_dashboardable_id = ? && ifa_dashboardable_type = ?", subj.id, @current_organization.id, "Organization"],:order=> "period_end ASC") rescue nil
+       dashboards = @current_organization.ifa_dashboards.for_subject(subj).where('ifa_dashboardable_type = ?', 'Organization').sort_by{|d| d.period_end}
        unless dashboards.empty?
          @total_assessments[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_assessments}.sum : dashboards.collect{|d| d.finalized_assessments}.sum rescue 0
          @total_answers[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_answers}.sum : dashboards.collect{|d| d.finalized_answers}.sum rescue 0
@@ -2778,9 +2792,9 @@ end
              @high_bound[idx] = mastery_scores.score_range_max
 
            else
-             @current_mastery[idx] = ""
-             @low_bound[idx] = ""
-             @high_bound[idx] = ""
+             @current_mastery[idx] = ''
+             @low_bound[idx] = ''
+             @high_bound[idx] = ''
            end
            @current_period[idx] = @current_dashboard.period_end.strftime("%b, %Y")
          end
@@ -2789,7 +2803,7 @@ end
    end
 
    def prepare_summary_data
-     @subjects = ActSubject.find(:all, :conditions =>  ["id <> ?", 99], :order=> "name ASC") rescue []
+     @subjects = ActSubject.all_subjects
      @total_submissions = []
      calibration_filter = @current_user.calibrated_only
      @subjects.each_with_index do |subj, idx|
@@ -2802,8 +2816,10 @@ end
   @start_period = start_period.to_date
   @end_period = end_period.to_date
   calibration_filter = @current_user.calibrated_only
-  @dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && ifa_dashboardable_id = ? && ifa_dashboardable_type = ? && period_end >= ? && period_end <= ?", @current_subject.id, entity.id, entity.class.to_s, start_period, end_period.end_of_month],:order=> "period_end ASC") rescue nil
-    if @dashboards then
+ # @dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && ifa_dashboardable_id = ? && ifa_dashboardable_type = ? && period_end >= ? && period_end <= ?", @current_subject.id, entity.id, entity.class.to_s, start_period, end_period.end_of_month],:order=> "period_end ASC") rescue nil
+  @dashboards = entity.ifa_dashboards.for_subject_between(@current_subject, start_period, end_period.end_of_month)
+
+  if @dashboards then
     score_list = @dashboards.collect{|d| d.ifa_dashboard_sms_scores}.flatten.select{|s| s.act_master_id == @current_standard.id} rescue nil
     latest_dashboard_scores = @dashboards.last.ifa_dashboard_sms_scores.for_standard(@current_standard).first rescue nil
     @total_taken = @dashboards.collect{|d| d.assessments_taken}.sum
@@ -2834,7 +2850,6 @@ end
   @range_list.each_with_index do |r,rdx|
     @range_answers[rdx] = []
     @range_points[rdx] = []
-    
     @strand_list.each_with_index do |s,sdx|
       sdx_answers = 0
       sdx_points = 0      
@@ -2848,12 +2863,10 @@ end
         end # Dashboard for each period
        end  
 # Load stats for cell 
-    @range_answers[rdx] << sdx_answers
-    @range_points[rdx] << sdx_points
-    end   # End Strand Column   
-  
+      @range_answers[rdx] << sdx_answers
+      @range_points[rdx] << sdx_points
+    end   # End Strand Column
     end # End Range Row
-
   end
 
   def prepare_single_ifa_dashboard(dashboard)
@@ -3001,13 +3014,13 @@ end
 #  Comprehensive Updates Requested from Superuser CRUD    
     if params[:requester] == "CRUD"
       if entity_class == "User"
-        entity_list = User.find(:all)
+        entity_list = User.all
       end
       if entity_class == "Classroom"
-        entity_list = Classroom.find(:all)
+        entity_list = Classroom.all
       end      
       if entity_class == "Organization"
-        entity_list = Organization.find(:all)
+        entity_list = Organization.all
       end
       if params[:update_type] == "Full"
         full_update = true
@@ -3017,10 +3030,10 @@ end
 #  Organizational Updates Requested from IFA Admin Options    
     if params[:requester] == "Admin"
       if entity_class == "User"
-        entity_list = User.find(:all, :conditions => ["home_org_id = ? ", @current_organization.id]) rescue []
+        entity_list = @current_organization.users
       end
       if entity_class == "Classroom"
-        entity_list = Classroom.find(:all, :conditions => ["organization_id = ? ", @current_organization.id]) rescue []
+        entity_list = @current_organization.classrooms
       end      
       if entity_class == "Organization"
         entity_list << @current_organization
@@ -3053,7 +3066,7 @@ end
 
 
 #  Cycle Subjects    
-    ifa_subjects = ActSubject.find(:all)
+    ifa_subjects = ActSubject.all
     ifa_subjects.each do |subj|
 
  
@@ -3087,7 +3100,8 @@ end
           calibrated_answers = finalized_answers.select{|a| a.act_question.is_calibrated} rescue []
           calibrated_answers_for_sms_calc = finalized_answers_for_sms_calc.select{|a| a.act_question.is_calibrated} rescue []
 
-          entity_dashboards = IfaDashboard.find(:all, :conditions => ["ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ? AND act_subject_id = ? AND organization_id = ?", entity.id, entity.class.to_s,  month_end, subj.id, entity_org_id]) rescue []
+#          entity_dashboards = IfaDashboard.find(:all, :conditions => ["ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ? AND act_subject_id = ? AND organization_id = ?", entity.id, entity.class.to_s,  month_end, subj.id, entity_org_id]) rescue []
+          entity_dashboards = IfaDashboard.all.where("ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ? AND act_subject_id = ? AND organization_id = ?", entity.id, entity.class.to_s,  month_end, subj.id, entity_org_id) rescue []
            if entity_dashboards.size > 1
             entity_dashboards.each do |db|
               db.destroy
@@ -3147,7 +3161,7 @@ end
               min_score = 999999
               max_score = 0
               assessment_ids.each do |a|
-                ass_score_range = ActAssessmentScoreRange.find(:first, :conditions=>["act_assessment_id = ? AND act_master_id =?", a, mstr.id]) rescue nil
+                ass_score_range = ActAssessmentScoreRange.all.where("act_assessment_id = ? AND act_master_id =?", a, mstr.id).first rescue nil
                 if ass_score_range
                   if ass_score_range.lower_score < min_score then min_score = ass_score_range.lower_score end
                   if ass_score_range.upper_score > max_score then max_score = ass_score_range.upper_score end
@@ -3422,8 +3436,7 @@ end
         @min_score = 999999
         @max_score = 0
         assessment_ids.each do |a|
-          ass_score_range = ActAssessmentScoreRange.find(:first, :conditions=>["act_assessment_id = ? AND act_master_id =?", a, @current_standard.id])
-
+          ass_score_range = a.act_assessment_score_ranges.for_standard(@current_standard).first
           if ass_score_range
             if ass_score_range.lower_score < @min_score then @min_score = ass_score_range.lower_score end
             if ass_score_range.upper_score > @max_score then @max_score = ass_score_range.upper_score end
@@ -3491,8 +3504,7 @@ end
         @min_score = 999999
         @max_score = 0
         assessment_ids.each do |a|
-          ass_score_range = ActAssessmentScoreRange.find(:first, :conditions=>["act_assessment_id = ? AND act_master_id =?", a, @current_standard.id])
-
+          ass_score_range = a.act_assessment_score_ranges.for_standard(@current_standard).first
           if ass_score_range
             if ass_score_range.lower_score < @min_score then @min_score = ass_score_range.lower_score end
             if ass_score_range.upper_score > @max_score then @max_score = ass_score_range.upper_score end

@@ -197,7 +197,7 @@ class UsersController < ApplicationController
     
     @user = User.find_by_public_id params[:id]
     if @user.nil? 
-      then @user = User.find(:first)
+      then @user = User.all.first
     end
     @owned_classrooms = @user.owned_classrooms
     @classroom_favs = @user.favorite_classrooms

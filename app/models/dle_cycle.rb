@@ -12,7 +12,7 @@ class DleCycle < ActiveRecord::Base
 
 
 def for_org(org)
-  DleCycleOrg.find(:first, :conditions=>["dle_cycle_id = ? AND organization_id = ?", self.id, org.id]) rescue nil
+  org.dle_cycle_orgs.for_dle_cycle(self).first rescue nil
 end
 
 

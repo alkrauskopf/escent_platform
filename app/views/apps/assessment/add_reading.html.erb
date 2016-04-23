@@ -31,7 +31,8 @@
 		<div class="FormRow">
 			<div class="FormRowTitle"><strong><%= @current_standard.abbrev %> Mastery Level:</strong></div>
   	      <div class="FormRowData" style= "margin-left:25px">
-				<%=  select(:range, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @reading.act_subject_id, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_label}) %>
+	<!--			<%#=  select(:range, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @reading.act_subject_id, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_label}) %> -->
+            <%=  select(:range, :act_score_range_id, ActScoreRange.for_standard_and_subject( @current_standard, @reading.act_subject_id).collect{|s| [s.range, s.id]},{:prompt => prompt_label}) %>
   	      </div>
   	  </div>
 

@@ -74,11 +74,13 @@
 				<% [1,2,3,4,5,6,7,8,9,10].each do |bnch| -%>
 					<tr id="<%= bnch %>">
  						<td style="width:100px; vertical-align:top; padding-left:50px;">
-							<%=  select(:score, bnch,  ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND standard = ?", @benchmark.act_subject_id, @benchmark.standard],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => "Select Mastery Level"}) %>
+			<!--				<%#=  select(:score, bnch,  ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND standard = ?", @benchmark.act_subject_id, @benchmark.standard],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => "Select Mastery Level"}) %>  -->
+              <%=  select(:score, bnch,  ActScoreRange.for_standardstring_and_subject(@benchmark.standard, @benchmark.act_subject).collect{|s| [s.range, s.id]},{:prompt => "Select Mastery Level"}) %>
 							<br/>
 						<td>
 						<td style="width:100px; vertical-align:top; padding-left:0px;">
-							<%=  select( :type, bnch, ActBenchType.find(:all, :conditions => ["standard = ?", @benchmark.standard], :order => "name").collect{|b| [b.name.titleize, b.id]}) %>
+							<!--<%#=  select( :type, bnch, ActBenchType.find(:all, :conditions => ["standard = ?", @benchmark.standard], :order => "name").collect{|b| [b.name.titleize, b.id]}) %>-->
+              <%=  select( :type, bnch, @benchmark.act_master.act_bench_types.collect{|b| [b.name.titleize, b.id]}) %>
 							<br/>
 						<td>
  						<td style="width:550px; text-align:left;">

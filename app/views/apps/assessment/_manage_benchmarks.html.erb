@@ -13,7 +13,7 @@
 					<td style="width:120px; font-size:normal">
 						<%=  select( :bench,:subject_id, @current_standard.act_subjects.collect{|s| [s.name, s.id]}, {:prompt => "Select " + @current_standard.abbrev + " Subject"}) %>
 					</td>
-					<% master_list = (@current_organization.ifa_org_option.act_masters - ActMaster.find(:all, :conditions => ["abbrev = ?", "CO"])) & ActBenchType.all.collect{|m| m.act_master} -%>
+					<% master_list = (@current_organization.ifa_org_option.act_masters - ActMaster.all.where('abbrev = ?', 'CO')) & ActBenchType.all.collect{|m| m.act_master} -%>
 					<td style="width:120px; font-size:normal">
 <!--
 						<%#=  select(  :bench,:master_id, master_list.collect{|m| [m.abbrev, m.id]}, {:prompt => master_list.first.abbrev}) %>

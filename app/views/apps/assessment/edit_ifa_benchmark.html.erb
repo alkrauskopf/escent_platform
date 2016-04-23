@@ -34,7 +34,8 @@
 					<%= @benchmark.act_master.abbrev %> Level:
 				</td>
 				<td>
-					<%=  select( :bench, :range_id, ActScoreRange.find(:all, :conditions=>["act_master_id = ? AND act_subject_id = ? AND upper_score > ?", @benchmark.act_master_id, @benchmark.act_subject_id, 0]).collect{|s| [s.range, s.id]}, {:value => @benchmark.act_score_range_id, :prompt => @benchmark.act_score_range.range}) %>
+		<!--			<%#=  select( :bench, :range_id, ActScoreRange.find(:all, :conditions=>["act_master_id = ? AND act_subject_id = ? AND upper_score > ?", @benchmark.act_master_id, @benchmark.act_subject_id, 0]).collect{|s| [s.range, s.id]}, {:value => @benchmark.act_score_range_id, :prompt => @benchmark.act_score_range.range}) %>  -->
+          <%=  select( :bench, :range_id, ActScoreRange.standard_subject_greater_than_upper(@benchmark.act_master, @benchmark.act_subject, 0).collect{|s| [s.range, s.id]}, {:value => @benchmark.act_score_range_id, :prompt => @benchmark.act_score_range.range}) %>
 				</td>
 			</tr>
 		<% if @benchmark.co_gle.nil? -%>
@@ -43,7 +44,8 @@
 					<%= @benchmark.act_master.abbrev %> Strand:
 				</td>
 				<td>
-					<%=  select( :bench, :standard_id, ActStandard.find(:all, :conditions=>["act_master_id = ? AND act_subject_id = ?", @benchmark.act_master_id, @benchmark.act_subject_id]).collect{|s| [s.abbrev, s.id]}, {:value => @benchmark.act_standard_id, :prompt => @benchmark.act_standard.abbrev.upcase}) %>
+ <!--         <%#=  select( :bench, :standard_id, ActStandard.find(:all, :conditions=>["act_master_id = ? AND act_subject_id = ?", @benchmark.act_master_id, @benchmark.act_subject_id]).collect{|s| [s.abbrev, s.id]}, {:value => @benchmark.act_standard_id, :prompt => @benchmark.act_standard.abbrev.upcase}) %>  -->
+          <%=  select( :bench, :standard_id, ActStandard.for_standard_and_standard(@benchmark.act_master, @benchmark.act_subject).collect{|s| [s.abbrev, s.id]}, {:value => @benchmark.act_standard_id, :prompt => @benchmark.act_standard.abbrev.upcase}) %>
 				</td>
 			</tr>
 		<% else -%>
@@ -67,7 +69,8 @@
 			<% end -%>
 			<tr style="width:650px;padding-top:5px">
 				<td style="vertical-align:top; width:200px">
-					<%=  select( :bench, :type_id, ActBenchType.find(:all, :conditions=>["act_master_id = ? ", @benchmark.act_master_id, ]).collect{|t| [t.name.titleize, t.id]}, {:value => @benchmark.act_bench_type_id, :prompt => @benchmark.act_bench_type.name.titleize}) %>
+					<!--<%#=  select( :bench, :type_id, ActBenchType.find(:all, :conditions=>["act_master_id = ? ", @benchmark.act_master_id, ]).collect{|t| [t.name.titleize, t.id]}, {:value => @benchmark.act_bench_type_id, :prompt => @benchmark.act_bench_type.name.titleize}) %>-->
+          <%=  select( :bench, :type_id, @benchmark.act_master.act_bench_types.collect{|t| [t.name.titleize, t.id]}, {:value => @benchmark.act_bench_type_id, :prompt => @benchmark.act_bench_type.name.titleize}) %>
 				</td>
 				<td>
   				    <%= text_area :act_bench, :description, :rows => 7, :cols => 75, :maxlength => 255, :value => @benchmark.description  %>

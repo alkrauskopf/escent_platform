@@ -23,8 +23,12 @@ class ActAnswer < ActiveRecord::Base
   scope :for_submission, lambda{|submission| {:conditions => ["act_submission_id = ? ", submission.id]}}
   scope :for_question, lambda{|question| {:conditions => ["act_question_id = ? ", question.id]}}
   scope :calibrated, :conditions => { :is_calibrated => true }
-  
+
 end
+
+  def self.selected_and_after(after_date)
+    where('created_at >= ? AND was_selected', after_date)
+  end
 
   def cell_answers (answers, standard_id, range_id)
     act_standard = ActStandard.find_by_id(standard_id) rescue nil
@@ -187,8 +191,7 @@ end
     act_standard = ActStandard.find_by_id(standard_id) rescue nil
     
     if subject_id && answers
-      options = IfaOrgOption.find(:first, :conditions => ["organization_id = ?", org_id])
-
+      options = IfaOrgOption.for_org_id(org_id)
 # filter answer list  Limit to was_select 
     selected_answers = answers.select{|a| a.was_selected}
 
@@ -199,9 +202,11 @@ end
 
 # get score ranges
       unless score_range_id == 0
-        score_ranges = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? AND id = ? AND standard = ?", subject_id, score_range_id, standard])
-      else   
-        score_ranges = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? AND standard = ?", subject_id, standard])    
+    #    score_ranges = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? AND id = ? AND standard = ?", subject_id, score_range_id, standard])
+        score_ranges = ActScoreRange.for_subject_id(subject_id).select{|sr| (sr.standard == standard && sr.id == score_range_id)}
+      else
+   #     score_ranges = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? AND standard = ?", subject_id, standard])
+        score_ranges = ActScoreRange.for_subject_id(subject_id).select{|sr| (sr.standard == standard)}
         score_ranges.sort!{|a,b| a.upper_score <=> b.upper_score}
       end
 

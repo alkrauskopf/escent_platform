@@ -94,7 +94,7 @@ class Topic < ActiveRecord::Base
   end
   
   def discussion_setting_value_named(setting_name)
-    setting_value = self.setting_values.discussion_settings.find(:first, :conditions => ["settings.name = ?", setting_name])
+    setting_value = self.setting_values.discussion_settings.where('settings.name = ?', setting_name).first
     setting_value ? setting_value.value : DiscussionSetting.find_by_name(setting_name).default_value
   end
   
@@ -149,23 +149,24 @@ class Topic < ActiveRecord::Base
   
   def discusssion_by_same_author
     # discussion_users = self.organization.authorizations.find(:all , :conditions => ["authorization_level_id in (?)" , [5 , 2]]) 
-    discussion_users = self.classroom.organization.authorizations.find(:all , :conditions => ["authorization_level_id in (?)" , [5 , 2]])     
+    discussion_users = self.classroom.organization.authorizations.where('authorization_level_id in (?)' , [5 , 2])
     user_ids = discussion_users.collect(&:user_id) #discussion_moderator and administrator
-    Discussion.find(:all, :conditions => ["discussionable_id = ? AND discussionable_type = ? AND user_id in (?) AND suspended_at IS NULL", self.id, "Topic", user_ids] , :order => "created_at DESC" , :limit => 1)
+    Discussion.all.where('discussionable_id = ? AND discussionable_type = ? AND user_id in (?) AND suspended_at IS NULL', self.id, 'Topic', user_ids).order('created_at DESC').first
   end
 
   def self.features
     features = []
-    self.find(:all, :select => "featured_content", :conditions => "featured_content is not null").each {|topic| features << topic.featured_content} and return features
+    self.all.where('featured_content is not null').each {|topic| features << topic.featured_content} and return features
   end
 
   def featured_resource
     Content.find(self.featured_content) rescue nil
   end
   
-   def resources_used
-   Content.find(:all, :conditions => ["topic_contents.topic_id = ?", self.id], :include => "topic_contents")
-  end 
+  def resources_used
+   # Content.find(:all, :conditions => ["topic_contents.topic_id = ?", self.id], :include => "topic_contents")
+    self.contents
+  end
   
   def unfoldered_resources
     self.topic_contents.unfoldered.sort_by{|tc| tc.position}.collect{|tc| tc.content}.flatten.compact.select{|r| r.active?}

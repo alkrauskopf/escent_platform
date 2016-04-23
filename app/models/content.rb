@@ -75,6 +75,8 @@ class Content < ActiveRecord::Base
   scope :for_user, lambda{|user| {:conditions => ["user_id = ? ", user.id], :order => "updated_at DESC"}}
   scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id], :order => "updated_at DESC"}}
   scope :for_type, lambda{|type| {:conditions => ["content_resource_type_id = ? ", type.id], :order => "updated_at DESC"}}
+  scope :for_type_name, lambda{|name| {:include => :content_resource_type, :conditions => ["content_resource_types.name = ?", name], :order => "updated_at DESC"}}
+  scope :with_authorization, lambda{|user,auth| {:include => "authorizations", :conditions => ['authorizations.user_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ?', user.id, 'Content', auth.id], :order => 'title'}}
 
   scope :with_keywords_and_type, lambda { |keywords, type, options|
     condition_strings = []
@@ -443,23 +445,19 @@ class Content < ActiveRecord::Base
   def pending?
     self.pending
   end
- 
-  def content_contributions(user)
-    self.Content.active.find(:all, {:conditions => ["user_id = ?", user]}, :order => created_at)
-  end
 
   def embed_code?
     self.content_object_type.content_object_type_group.name == "EMBED CODE"
   end 
   
   def favorite_of
-#    self.authorizations.colleague.collect{|a| a.scope}
-     content_auths = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Content", AuthorizationLevel.favorite, self])
-     followers = []
-     content_auths.each do |ca|
-     followers << User.find(:first, :conditions => ["id= ?", ca.user_id])
-    end
-    followers
+#     content_auths = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Content", AuthorizationLevel.favorite, self])
+     content_auths = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Content', AuthorizationLevel.favorite, self)
+     # followers = []
+     # content_auths.each do |ca|
+     # followers << User.find(:first, :conditions => ["id= ?", ca.user_id])
+    # end
+    content_auths.map{|ca| ca.user}.compact.uniq
   end     
 
   def leaders_using
@@ -500,7 +498,7 @@ class Content < ActiveRecord::Base
   end  
   
   def valid_formats
-    format_groups = ContentObjectType.find(:all).group_by(&:content_object_type_group_id)
+    format_groups = ContentObjectType.all.group_by(&:content_object_type_group_id)
     format_string = "<center><strong><u>VALID FILE TYPES</u></strong></center><br/>"
     format_groups.each do |gi,formats|
     group_name = ContentObjectTypeGroup.find(gi).name

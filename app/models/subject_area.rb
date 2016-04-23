@@ -26,16 +26,12 @@ class SubjectArea < ActiveRecord::Base
   scope :academic, :conditions => ["is_academic"], :order => "name"
   
   def self.auto_complete_on(query)
-    SubjectArea.find(:all, :conditions => ["name LIKE ?", '%' + query + '%'], :order => "name")
+    where('name LIKE ?', '%' + query + '%').order('name')
   end
 
  
   def self.all_parents
-    SubjectArea.find(:all, :conditions => ["parent_id is NULL"], :order => "name")
-  end
-
-  def self.english
-    SubjectArea.find(:all, :conditions => ["parent_id is NULL AND name = ?", "English"])
+    where('parent_id is NULL').order('name')
   end
 
   def child?

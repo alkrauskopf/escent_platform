@@ -70,7 +70,8 @@
 						</td>
 					<% @current_subject.act_score_ranges.for_standard(@current_standard).each do |sr|%>
 					<% unless sr.upper_score == 0 %>
-						<% snapshots = ActSnapshot.find(:all, :conditions =>["current_sms_level <= ? AND current_sms_level >= ? AND act_subject_id = ? && act_master_id = ?", sr.upper_score, sr.lower_score, @current_subject.id, @current_standard.id]) -%>
+						<!--<%# snapshots = ActSnapshot.find(:all, :conditions =>["current_sms_level <= ? AND current_sms_level >= ? AND act_subject_id = ? && act_master_id = ?", sr.upper_score, sr.lower_score, @current_subject.id, @current_standard.id]) -%>-->
+            <% snapshots = @current_subject.act_snapshots.for_standard(@current_standard).where('current_sms_level <= ? AND current_sms_level >= ?', sr.upper_score, sr.lower_score) -%>
 						<% cell_ans = [] -%>
 						<% snapshots.each do |ss| -%>
 							<% cell_ans += q.act_answers.selected.select{|a| a.user_id == ss.user_id} -%>
@@ -81,8 +82,8 @@
 							<% color_string = "#6a6529" %>
 							<% if pct < 60 -%> <% color_string = "#C83A14" -%><% end -%>
 							<% if pct > 80 -%> <% color_string = "#279605" -%> <% end -%>
-						<td width = 90px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: <%= color_string %>; font-size:12px; margin-left:0px; font-weight:bold" >
-							<center><%= cell_ans.size %><br/><%=number_to_percentage(pct, :precision => 0) %></center>
+						<td width = 90px style="text-align:center; vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: <%= color_string %>; font-size:12px; margin-left:0px; font-weight:bold" >
+							<%= cell_ans.size %><br/><%=number_to_percentage(pct, :precision => 0) %>
 						</td>
 						<% else -%>
 						<td width = 90px style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-left:0px; font-weight:bold" >

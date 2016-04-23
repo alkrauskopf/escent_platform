@@ -3,7 +3,7 @@
 	<% unless @grade_level.nil? -%>
 	
 	<% unless @standards_list.empty? -%>
-		<% master = ActMaster.find(:first, :conditions => ["abbrev = ? ", "CO"]) -%>
+		<% master = ActMaster.co.first -%>
 	<table id="roles"  style="width:810px; margin-left:10px">
 		<tbody>
 
@@ -23,10 +23,12 @@
 				<td class="tip_std" title="<%= std.description %>"width = 280px style=" color: #000000; vertical-align:top;font-size:10px;" >
 					<strong><u><%= std.abbrev.upcase%></u><br/><%=std.name.titleize %></strong>
 				</td>	
-				<% gle_list = CoGle.find(:all, :conditions => ["act_standard_id = ? AND co_grade_level_id = ?", std.id, @grade_level.id ]) rescue nil %>
-				<td width = 530px style=" color: #000000; vertical-align:top; padding-left: 11px; font-size:10px" >
+				<!--<%# gle_list = CoGle.find(:all, :conditions => ["act_standard_id = ? AND co_grade_level_id = ?", std.id, @grade_level.id ]) rescue nil %>-->
+        <% gle_list = std.co_gles.for_grade_level(@grade_level) %>
+        <td width = 530px style=" color: #000000; vertical-align:top; padding-left: 11px; font-size:10px" >
 					<% for gle in gle_list do -%>	
-						<% evidence_list = ActBench.find(:all, :conditions => ["act_standard_id = ? AND co_gle_id = ?", std.id, gle.id ]) rescue nil %>
+						<!--<%# evidence_list = ActBench.find(:all, :conditions => ["act_standard_id = ? AND co_gle_id = ?", std.id, gle.id ]) rescue nil %>-->
+            <% evidence_list = std.act_benches.for_co_gle(gle) %>
 						<% evidence_list = evidence_list.sort_by{|b| [b.act_score_range.upper_score]}-%>
 						<strong><%= gle.skill.humanize %></strong><br/>
 						<% if @edit_authorized -%>

@@ -44,9 +44,10 @@
 			</tr>					
 			<tr>
 				<td> &nbsp; </td>
-				<td  style = "padding-left:280px;">
-					<center><%=  select(:c_range, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id =?", @current_subject.id, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => range_label}) %></center>
-  				</td>
+				<td  style = "text-align:center; padding-left:280px;">
+				<!--	<%#=  select(:c_range, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id =?", @current_subject.id, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => range_label}) %> -->
+          <%=  select(:c_range, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, @current_subject).collect{|s| [s.range, s.id]},{:prompt => range_label}) %>
+        </td>
 
 			</tr>
 		<% end -%>						
@@ -85,7 +86,8 @@
 	  </table>
 
    <% unless @current_subject.nil? %> 
-			<% standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", @current_subject.id, @current_standard.id]) %>
+<!--			<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", @current_subject.id, @current_standard.id]) %>  -->
+      <% standards = ActStandard.for_standard_and_standard(@current_standard, @current_subject) %>
    <br/>
     <table cellspacing="0" class= "layout" >
    	<tbody >

@@ -30,7 +30,8 @@ class UserDlePlan < ActiveRecord::Base
   end
 
   def package
-    UserDlePlan.find(:all, :conditions =>["user_id =? && plan = ?", self.user_id, self.plan])
+    # UserDlePlan.find(:all, :conditions =>["user_id =? && plan = ?", self.user_id, self.plan])
+    UserDlePlan.all.where('user_id =? && plan = ?', self.user_id, self.plan)
   end
 
   def plan_with_targets

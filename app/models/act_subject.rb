@@ -23,6 +23,34 @@ class ActSubject < ActiveRecord::Base
   has_many :co_csap_ranges
         
   scope :no_na, {:conditions => ["name != ?", "-na-"]}
-  
+
+
+  def self.all_subjects
+    where('id != ?', 99).order('name ASC')
+  end
+
+  def self.ew
+    where('name = ?', 'English & Writing').first
+  end
+
+  def self.math
+    where('name = ?', 'Mathematics').first
+  end
+
+  def self.rl
+    where('name = ?', 'Reading, Literature').first
+  end
+
+  def self.science
+    where('name = ?', 'Science').first
+  end
+
+  def self.ss
+    where('name = ?', 'Social Studies').first
+  end
+
+  def self.na
+    where('name = ?', '-na-').first
+  end
 end
 

@@ -6,4 +6,8 @@ class ContentStatus < ActiveRecord::Base
   def self.available
     @available ||= self.find_by_name("Available")
   end
+
+  def self.not_deleted
+    where('name != ?', 'Deleted')
+  end
 end

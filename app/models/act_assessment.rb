@@ -128,7 +128,7 @@ class ActAssessment < ActiveRecord::Base
   end
 
   def set_min_and_max
-    masters = ActMaster.find(:all)
+    masters = ActMaster.all
     masters.each do |mstr|
       min_score = self.min_question_score(mstr)
       max_score = self.max_question_score(mstr)

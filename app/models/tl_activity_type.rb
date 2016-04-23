@@ -24,8 +24,8 @@ class TlActivityType < ActiveRecord::Base
    end
 
   def stats_for_subject_org_since(subject, organization, since )
-
-    all_sessions = TltSession.find(:all, :conditions =>["subject_area_id =? AND session_date >= ? AND organization_id = ? AND is_final", subject.id, since, organization.id])
+     # all_sessions = TltSession.find(:all, :conditions =>["subject_area_id =? AND session_date >= ? AND organization_id = ? AND is_final", subject.id, since, organization.id])
+    all_sessions = organization.tlt_sessions.for_subject(subject).since_date(since).final
     num_sessions = all_sessions.size
     dashboards = all_sessions.collect{|s| s.tlt_dashboards}.flatten.select{ |d| d.tl_activity_type_id == self.id}
     sessions_duration = all_sessions.collect{|s| s.session_length}.sum
@@ -92,7 +92,8 @@ class TlActivityType < ActiveRecord::Base
 
   def stats_for_subject_org_between(subject, organization, start_date, end_date )
 
-    all_sessions = TltSession.find(:all, :conditions =>["subject_area_id =? AND session_date >= ? AND session_date <= ? AND organization_id = ? AND is_final", subject.id, start_date, end_date, organization.id])
+    # all_sessions = TltSession.find(:all, :conditions =>["subject_area_id =? AND session_date >= ? AND session_date <= ? AND organization_id = ? AND is_final", subject.id, start_date, end_date, organization.id])
+    all_sessions = organization.tlt_sessions.for_subject(subject).between_dates(start_date, end_date).final
     num_sessions = all_sessions.size
     dashboards = all_sessions.collect{|s| s.tlt_dashboards}.flatten.select{ |d| d.tl_activity_type_id == self.id}
     sessions_duration = all_sessions.collect{|s| s.session_length}.sum
@@ -109,9 +110,10 @@ class TlActivityType < ActiveRecord::Base
   end
 
   def stats_for_subject_since(subject, since,org_type_id )
-
-    all_dashboards = TltDashboard.find(:all, :conditions =>["subject_area_id =? AND created_at >= ?", subject.id, since]).select{|d| d.organization.organization_type_id == org_type_id}
-    dashboards = TltDashboard.find(:all, :conditions =>["tl_activity_type_id = ? AND subject_area_id =?  AND created_at >= ?", self.id, subject.id, since]).select{|d| d.organization.organization_type_id == org_type_id}    
+    # all_dashboards = TltDashboard.find(:all, :conditions =>["subject_area_id =? AND created_at >= ?", subject.id, since]).select{|d| d.organization.organization_type_id == org_type_id}
+    all_dashboards = subject.tlt_dashboards.since_date(since).select{|d| d.organization.organization_type_id == org_type_id}
+     # dashboards = TltDashboard.find(:all, :conditions =>["tl_activity_type_id = ? AND subject_area_id =?  AND created_at >= ?", self.id, subject.id, since]).select{|d| d.organization.organization_type_id == org_type_id}
+    dashboards = subject.tlt_dashboards.since_date(since).for_activity(self).select{|d| d.organization.organization_type_id == org_type_id}
     num_sessions = dashboards.collect{|d| d.tlt_session_id}.uniq.size
     total_duration = all_dashboards.collect{|d| d.duration_secs}.compact.sum
     duration = dashboards.collect{|d| d.duration_secs}.compact.sum
@@ -127,9 +129,10 @@ class TlActivityType < ActiveRecord::Base
   end
 
   def stats_for_user_since(user, since )
-
-    all_dashboards = TltDashboard.find(:all, :conditions =>["user_id =? AND created_at >= ?", user.id, since])
-    dashboards = TltDashboard.find(:all, :conditions =>["tl_activity_type_id = ? AND user_id =?  AND created_at >= ?", self.id, user.id, since])       
+    # all_dashboards = TltDashboard.find(:all, :conditions =>["user_id =? AND created_at >= ?", user.id, since])
+    all_dashboards = user.tlt_dashboards.since_date(since)
+    # dashboards = TltDashboard.find(:all, :conditions =>["tl_activity_type_id = ? AND user_id =?  AND created_at >= ?", self.id, user.id, since])
+    dashboards = user.tlt_dashboards.since_date(since).for_activity(self)
     num_sessions = dashboards.collect{|d| d.tlt_session_id}.uniq.size
     total_duration = all_dashboards.collect{|d| d.duration_secs}.compact.sum
     duration = dashboards.collect{|d| d.duration_secs}.compact.sum
@@ -145,9 +148,10 @@ class TlActivityType < ActiveRecord::Base
   end
 
   def stats_for_user_subject_since(user, subject, since )
-
-    all_dashboards = TltDashboard.find(:all, :conditions =>["user_id =? AND subject_area_id =? AND created_at >= ?", user.id, subject.id, since])
-    dashboards = TltDashboard.find(:all, :conditions =>["tl_activity_type_id = ? AND user_id =?  AND subject_area_id =? AND created_at >= ?", self.id, user.id, subject.id, since])       
+    # all_dashboards = TltDashboard.find(:all, :conditions =>["user_id =? AND subject_area_id =? AND created_at >= ?", user.id, subject.id, since])
+    all_dashboards = user.tlt_dashboards.for_subject(subject).since_date(since)
+    # dashboards = TltDashboard.find(:all, :conditions =>["tl_activity_type_id = ? AND user_id =?  AND subject_area_id =? AND created_at >= ?", self.id, user.id, subject.id, since])
+    dashboards = user.tlt_dashboards.for_subject(subject).since_date(since).for_activity(self)
     num_sessions = dashboards.collect{|d| d.tlt_session_id}.uniq.size
     total_duration = all_dashboards.collect{|d| d.duration_secs}.compact.sum
     duration = dashboards.collect{|d| d.duration_secs}.compact.sum

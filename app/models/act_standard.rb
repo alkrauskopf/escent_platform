@@ -18,7 +18,8 @@ class ActStandard < ActiveRecord::Base
 
  
   scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id]}}
-  scope :for_standard_and_subject, lambda{|standard, subject| {:conditions => ["act_subject_id = ? && act_master_id = ? ", subject.id, standard.id]}}
+  scope :for_standard_and_subject, lambda{|standard, subject| {:conditions => ["act_subject_id = ? && act_master_id = ? ", subject.id, standard.id], :order => "abbrev"}}
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ?", subject.id]}}
+
     
 end

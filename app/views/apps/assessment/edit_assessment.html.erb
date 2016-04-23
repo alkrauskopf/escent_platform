@@ -185,7 +185,8 @@
 			</thead>
 			<tbody> 
 				<% std = @current_standard -%>
-					<% ranges = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? AND upper_score > ? AND act_master_id = ?", @assessment.act_subject_id, 0, std.id]) rescue nil -%>
+		<!--	<%# ranges = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? AND upper_score > ? AND act_master_id = ?", @assessment.act_subject_id, 0, std.id]) rescue nil -%> -->
+        <% ranges = ActScoreRange.standard_subject_greater_than_upper(std, @assessment.act_subject, 0) -%>
 					<% ranges.each do |r| -%>
 					<% col_label = std.abbrev + ": " + r.range + "&nbsp;&nbsp;" + r.act_questions.size.to_s + " Questions Defined" -%>
 					<tr>

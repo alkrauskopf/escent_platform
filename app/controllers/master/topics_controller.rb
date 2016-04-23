@@ -3,7 +3,7 @@ class Master::TopicsController < Master::ApplicationController
   before_filter :current_topic, :only => [:suspend, :unsuspend, :discussion_abuses, :discussion_abuse_details, :remove_abuse]
   
   def topic_abuses
-    @topics = Topic.find(:all).paginate :per_page => 10, :page => params[:page]
+    @topics = Topic.all.paginate :per_page => 10, :page => params[:page]
   end
   
   def discussion_abuses

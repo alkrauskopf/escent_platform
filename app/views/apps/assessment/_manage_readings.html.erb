@@ -10,8 +10,9 @@
 			<tbody>  
 				<tr>
 					<td style="width:120px; font-size:normal">
-						<%=  select( :read, :subject_id, ActSubject.find(:all, :conditions=>["id <> ?", 99], :order => "name").collect{|s| [s.name, s.id]}, {:prompt => ActSubject.first.name}) %>
-					</td>
+						<!--<%#=  select( :read, :subject_id, ActSubject.find(:all, :conditions=>["id <> ?", 99], :order => "name").collect{|s| [s.name, s.id]}, {:prompt => ActSubject.first.name}) %>-->
+            <%=  select( :read, :subject_id, ActSubject.all_subjects.collect{|s| [s.name, s.id]}, {:prompt => ActSubject.first.name}) %>
+          </td>
         			<td>
           				<%= form.submit 'Create New Reading',:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
         			</td>			

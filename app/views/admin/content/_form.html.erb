@@ -209,7 +209,7 @@
 -->
 <p>
     <%= label_tag 'content_status_id', 'Status:' %>
-    <%= select("content", "content_status_id", ContentStatus.find(:all, :conditions => "name <> 'Deleted'").collect {|p|  [ p.name, p.id ] }, :prompt => "Select a status") %>
+    <%= select("content", "content_status_id", ContentStatus.all.not_deleted.collect {|p|  [ p.name, p.id ] }, :prompt => "Select a status") %>
 </p>
 
 <p> 
@@ -231,7 +231,7 @@
 		<br/></div>
 	</div>
 </div>
-
+</div>
 <!-- ALK Auto complete for Subject & Resource Type -->
 
 <script type="text/javascript" charset="utf-8">

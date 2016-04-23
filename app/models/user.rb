@@ -335,19 +335,18 @@ class User < ActiveRecord::Base
   end
     
   def followers
-#    self.authorizations.colleague.collect{|a| a.scope}
-     fol_auths = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "User", AuthorizationLevel.colleague, self])
-     followers = []
-     fol_auths.each do |ca|
-     followers << User.find(:first, :conditions => ["id= ?", ca.user_id])
-    end
-    followers
+     fol_auths = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'User', AuthorizationLevel.colleague, self)
+     # followers = []
+     # fol_auths.each do |ca|
+     # followers << User.find(:first, :conditions => ["id= ?", ca.user_id])
+    # end
+     fol_auths.map{|ca| ca.user}.compact.uniq
   end
 
   def favorite_classrooms
     favorites = []
     authorization_level = AuthorizationLevel.find_by_name("favorite")
-    favorites += Classroom.find(:all, :conditions => ["(authorizations.user_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ?)", self.id, "Classroom", authorization_level.id], :include => "authorizations", :order => "course_name")
+    favorites += Classroom.with_authorization(self, authorization_level)
     favorites.compact.select{ |c| c.organization}.uniq
   end
 
@@ -356,29 +355,29 @@ class User < ActiveRecord::Base
   def lead_classrooms
 #   Classroom.active.find(:all)
 #   Classroom.active.find(:all, :include => :authorizations, :conditions => ["users.id != ? AND authorizations.authorization_level_id = ? AND (authorizations.user_id = ? OR authorizations.scope_id = ?)", self, AuthorizationLevel.favorite, self, self])
-    favs = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND user_id = ?", "Classroom", AuthorizationLevel.leader, self])
+    favs = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND user_id = ?', 'Classroom', AuthorizationLevel.leader, self)
     rooms = []
     favs.each do |fc|
-    rooms << Classroom.find(:first, :conditions => ["id= ?", fc.scope_id])
+    rooms << Classroom.active.where('id= ?', fc.scope_id).first
    end
-  rooms
+  room
   end
 
   def participate_classrooms
 #   Classroom.active.find(:all)
 #   Classroom.active.find(:all, :include => :authorizations, :conditions => ["users.id != ? AND authorizations.authorization_level_id = ? AND (authorizations.user_id = ? OR authorizations.scope_id = ?)", self, AuthorizationLevel.favorite, self, self])
-    favs = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND user_id = ?", "Classroom", AuthorizationLevel.participant, self])
+    favs = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND user_id = ?', 'Classroom', AuthorizationLevel.participant, self)
     rooms = []
     favs.each do |fc|
-    rooms << Classroom.find(:first, :conditions => ["id= ?", fc.scope_id])
-   end
-  rooms
+      rooms << Classroom.active.where('id= ?', fc.scope_id).first
+    end
+    rooms
   end
 
 
   def favorite_resources
     authorization_level = AuthorizationLevel.find_by_name("favorite")
-    Content.find(:all, :conditions => ["(authorizations.user_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ? AND !is_delete)", self.id, "Content", authorization_level.id], :include => "authorizations", :order => "title")
+    Content.with_authorization(self, authorization_level)
   end
 
   def viewable_favorite_resources(user)
@@ -481,66 +480,63 @@ class User < ActiveRecord::Base
 #  Messages Sent
 #
   def ms(start_date, end_date)
-    ms = Message.find(:all, :conditions=>["sender_id = ? && created_at >= ? && created_at <= ?", self.id, start_date, end_date]).size rescue 0
+    Message.all.where('sender_id = ? && created_at >= ? && created_at <= ?', self.id, start_date, end_date).size rescue 0
   end   
 #
 #  Messages Received
 #
   def mr(start_date, end_date)
-     mr = Message.find(:all, :conditions=>["user_id = ? && created_at >= ? && created_at <= ?", self.id, start_date, end_date]).size rescue 0
+     self.messages.where('created_at >= ? && created_at <= ?', start_date, end_date).size rescue 0
   end   
 #
 #  Assessments Taken By User's Students
 #
   def sat(start_date, end_date)
-    a_count = 0
-    teacher_assessments = ActSubmission.find(:all, :conditions => ["teacher_id = ? && created_at >= ? && created_at <= ?", self.id, start_date, end_date]) rescue nil
-    if teacher_assessments
-       a_count = teacher_assessments.size
-   end
-   a_count
+    teacher_assessments = ActSubmission.all.where('teacher_id = ? && created_at >= ? && created_at <= ?', self.id, start_date, end_date) rescue []
+    teacher_assessments.size
   end   
 #
 #  Assessments Reviewed By User's Students
 #
   def sar(start_date, end_date)
-    a_count = 0
-    teacher_assessments = ActSubmission.find(:all, :conditions => ["teacher_id = ? && created_at >= ? && created_at <= ?", self.id, start_date, end_date]) rescue nil
-    if teacher_assessments
-       a_count = teacher_assessments.select{|ass| ass.date_finalized}.size rescue 0
-   end
-   a_count
+    self.sat(start_date, end_date)
+    # a_count = 0
+    # teacher_assessments = ActSubmission.find(:all, :conditions => ["teacher_id = ? && created_at >= ? && created_at <= ?", self.id, start_date, end_date]) rescue nil
+    # if teacher_assessments
+    #    a_count = teacher_assessments.select{|ass| ass.date_finalized}.size rescue 0
+   # end
+   # a_count
   end
 #
 #  Average Student Mastery Level
 #
   def asml(subject_id,start_date, end_date, current_standard, org)
-    answer_list = ActAnswer.find(:all, :conditions=>["teacher_id = ? && organization_id = ?  && created_at >= ? && created_at <= ?&& was_selected", self.id, org.id, start_date, end_date]) rescue nil
+    answer_list = ActAnswer.all.where('teacher_id = ? && organization_id = ?  && created_at >= ? && created_at <= ?&& was_selected', self.id, org.id, start_date, end_date)
     sms_level = current_standard.sms(answer_list, subject_id, 0,0, org.id)
   end
 #
 #  Locked Assessment Questions Created by Teacher
 #
   def lqc(start_date, end_date)
-    question_list = ActQuestion.find(:all, :conditions=>["user_id = ? && updated_at >= ? && updated_at <= ? && is_locked", self.id, start_date, end_date]) rescue nil
+    question_list = self.act_answers.locked.where('updated_at >= ? && updated_at <= ?', start_date, end_date)
   end  
 #
 #  Calibrated Assessment Questions Created by Teacher
 #
   def cqc(start_date, end_date)
-    question_list = ActQuestion.find(:all, :conditions=>["user_id = ? && updated_at >= ? && updated_at <= ? && is_calibrated", self.id, start_date, end_date]) rescue nil
+    question_list = self.act_questions.calibrated.where('updated_at >= ? && updated_at <= ?',  start_date, end_date)
   end   
 #
 #  Locked Assessment Created by Teacher
 #
   def lac(start_date, end_date)
-    assess_list = ActAssessment.find(:all, :conditions=>["user_id = ? && updated_at >= ? && updated_at <= ? && is_locked", self.id, start_date, end_date]) rescue nil
+    assess_list = self.act_assessments.locked.where('updated_at >= ? && updated_at <= ?',  start_date, end_date)
   end  
 #
 #  Calibrated Assessments Created by Teacher
 #
   def cac(start_date, end_date)
-    assess_list = ActAssessment.find(:all, :conditions=>["user_id = ? && updated_at >= ? && updated_at <= ? && is_calibrated", self.id, start_date, end_date]) rescue nil
+    assess_list = self.act_assessments.calibrated.where('updated_at >= ? && updated_at <= ?',  start_date, end_date)
   end  
   
   def set_default_registration_values(org_id)
@@ -549,7 +545,7 @@ class User < ActiveRecord::Base
     self.is_suspended = false
     self.Provider_of_Texting_Service = "No Texting Wanted" if self.Provider_of_Texting_Service.nil?
     self.preferred_email = email_address
-    self.act_master_id = ActMaster.find(:first).id
+    self.act_master_id = ActMaster.default_std.id
 
  #
  #  ALK: TEMPORARY for Pilot Program, Immediately Validate User Record
@@ -657,7 +653,7 @@ class User < ActiveRecord::Base
   end
   
   def authorized_for?(scope, action, options={})
-    self.authorizations.find(:all, :conditions => ["(scope_id = ? AND scope_type = ?) OR authorization_level_id = ?", scope, scope.class.to_s, AuthorizationLevel.superuser]).any? do |authorization|
+    self.authorizations.where('scope_id = ? AND scope_type = ?) OR authorization_level_id = ?', scope, scope.class.to_s, AuthorizationLevel.superuser).any? do |authorization|
       authorization.authorization_level.authorized_for_action?(action.to_s)
     end
   end
@@ -676,15 +672,15 @@ class User < ActiveRecord::Base
   def has_authorization_level?(authorization_level, options={})
     authorization_level = authorization_level.is_a?(AuthorizationLevel) ? authorization_level : AuthorizationLevel.find_by_name(authorization_level)
     if options[:ignore_superuser]
-      self.authorizations.find(:first, :conditions => ["(authorization_level_id = ?)", authorization_level])
+      self.authorizations.where('authorization_level_id = ?', authorization_level).first
     else
-      self.authorizations.find(:first, :conditions => ["((authorization_level_id = ?) OR authorization_level_id = ?)", authorization_level, AuthorizationLevel.superuser])
+      self.authorizations.where('authorization_level_id = ? OR authorization_level_id = ?', authorization_level, AuthorizationLevel.superuser).first
     end
   end
  
   def has_favorite?(scope)
     authorization_level = AuthorizationLevel.find_by_name("favorite")
-    self.authorizations.find(:first, :conditions => ["(scope_id = ? AND scope_type = ? AND authorization_level_id = ?)", scope, scope.class.to_s, authorization_level])
+    self.authorizations.where('scope_id = ? AND scope_type = ? AND authorization_level_id = ?', scope, scope.class.to_s, authorization_level).first
   end
 
 #
@@ -754,8 +750,8 @@ class User < ActiveRecord::Base
     self.add_as_favorite_to(classroom) unless self.has_authorization_level_for?(classroom, "favorite")
   end
   
-  def classrooms
-    Classroom.find(:all, :conditions => ["organization_id in (?) AND status = 'active'", [1, self.home_organization.id] + self.organizations.collect{|o| o.id}])  
+  def classrooms_x
+    Classroom.active.where('organization_id in (?)', [1, self.organization_id] + self.organizations.collect{|o| o.id})
   end
 
   def offerings
@@ -792,9 +788,9 @@ class User < ActiveRecord::Base
 
   def itl_summaries_between_dates_subject_belt(subj, month1, month2, belt)
        if subj
-         TltSession.find(:all, :conditions => ["user_id = ? AND subject_area_id = ? AND session_date >= ? AND session_date <= ? AND is_final", self.id, subj.id, month1, month2]).select{|s| !s.itl_belt_rank.nil? && s.itl_belt_rank.rank_score >= belt.rank_score}
+         self.tlt_sessions.for_subject(subj).between_dates(month1, month2).final.select{|s| !s.itl_belt_rank.nil? && s.itl_belt_rank.rank_score >= belt.rank_score}
        else
-         TltSession.find(:all, :conditions => ["user_id = ? AND session_date >= ? AND session_date <= ? AND is_final", self.id, month1, month2]).select{|s| !s.itl_belt_rank.nil? && s.itl_belt_rank.rank_score >= belt.rank_score}
+         self.tlt_sessions.between_dates(month1, month2).final.select{|s| !s.itl_belt_rank.nil? && s.itl_belt_rank.rank_score >= belt.rank_score}
        end
   end
 
@@ -840,10 +836,10 @@ class User < ActiveRecord::Base
        stat = self.contents.active.collect{|c| c.views}.sum
      end
      if metric.abbrev == "SMS"
-       stat = Message.find(:all, :conditions=>["sender_id = ?", self.id]).size rescue 0
+       stat = Message.all.where('sender_id = ?', self.id).size
      end
      if metric.abbrev == "SMR"
-       stat = Message.find(:all, :conditions=>["user_id = ? ", self.id]).size rescue 0
+       stat = self.messages.size
      end
      if metric.abbrev == "SAT"
        stat = ActSubmission.for_teacher(self).size
@@ -1231,7 +1227,7 @@ class User < ActiveRecord::Base
   def has_authorization_level_for?(scope, authorization_level)
     authorization_level = authorization_level.is_a?(AuthorizationLevel) ? authorization_level : AuthorizationLevel.find_by_name(authorization_level)
     # self.authorizations.find(:conditions => ["((scope_id = ? AND scope_type = ? AND authorization_level_id = ?) OR authorization_level_id = ?)", scope, scope.class.to_s, authorization_level.id, AuthorizationLevel.superuser]).first
-    self.authorizations.find(:first, :conditions => ["((scope_id = ? AND scope_type = ? AND authorization_level_id = ?) OR authorization_level_id = ?)", scope, scope.class.to_s, authorization_level, AuthorizationLevel.superuser])
+    self.authorizations.where('((scope_id = ? AND scope_type = ? AND authorization_level_id = ?) OR authorization_level_id = ?)', scope, scope.class.to_s, authorization_level, AuthorizationLevel.superuser).first
   end
 
 ###################################
@@ -1315,15 +1311,15 @@ class User < ActiveRecord::Base
   end
   
   def self.auto_complete_on(query, org)
-    org.users.find(:all, :conditions => ["last_name LIKE ?", '%' + query + '%'], :order => "last_name").collect{|ra| [ra, ra.all_children]}.flatten.uniq.sort_by(&:name)
+    org.users.where('last_name LIKE ?', '%' + query + '%').order('last_name').collect{|ra| [ra, ra.all_children]}.flatten.uniq.sort_by(&:name)
   end
   
   def self.org_contact(contact_email)
-    User.find(:first, :conditions => ["(email_address = ?)", contact_email]) rescue nil
+    User.all.where('(email_address = ?)', contact_email).first
   end
  
   def owned_classrooms
-    Classroom.active.find(:all, :conditions => ["(user_id = ? )", self.id], :order => "course_name")
+    self.classrooms.active.order('course_name')
   end
 
   def all_talents
@@ -1331,7 +1327,7 @@ class User < ActiveRecord::Base
   end
   
   def all_authorities_and_roles
-    roles = self.roles.find(:all).compact
+    roles = self.roles.compact
     role_names = roles.collect {|ro| ro.name}.uniq
     omissions = ["friend", "superuser"]
     (self.authorizations.collect {|auth| auth.authorization_level.name}.uniq ) + role_names - omissions
@@ -1339,13 +1335,13 @@ class User < ActiveRecord::Base
   
   
   def all_roles
-    roles = self.roles.find(:all).compact
+    roles = self.roles.compact
     role_names = roles.collect {|ro| ro.name}.uniq
   end  
   
   
   def self.unverified_users
-    users = User.find(:all, :conditions => ["religious_affiliation_id is null and verified_at is null and id <> 1"])
+    users = User.all.where('verified_at is null')
   end
   
   def actived?

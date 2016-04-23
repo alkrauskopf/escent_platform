@@ -44,7 +44,7 @@ class Site::SiteController < Site::ApplicationController
     end    
     @content_org = Organization.find_by_id(@content.organization_id)
     if @content_org.nil?
-      @content_org = Organization.find(:first)
+      @content_org = Organization.ep_default.first
     end
   end
 
@@ -140,7 +140,7 @@ class Site::SiteController < Site::ApplicationController
 
      if params[:function] == "Add" 
        added_topic = Topic.find_by_public_id(params[:link_topic_id])
-       if ClassroomReferral.find(:first, :conditions => ["classroom_id = ? AND topic_id =?", @classroom.id, added_topic.id])
+       if @classroom.classroom_referrals.where('topic_id =?',  added_topic.id).empty?
        then flash[:error] = "#{added_topic.title} already a referral for #{@classroom.course_name}."  
        else
         referral = ClassroomReferral.new
@@ -155,7 +155,7 @@ class Site::SiteController < Site::ApplicationController
      end
      if params[:function] == "Remove"        
        removed_topic = Topic.find_by_public_id(params[:link_topic_id])
-       referral = ClassroomReferral.find(:first, :conditions => ["classroom_id = ? AND topic_id =?", @classroom.id, removed_topic.id])
+       referral = @classroom.classroom_referrals.where('topic_id =?', removed_topic.id).first
        unless referral.nil?
          referral.destroy
          flash[:error] = "Notice: #{removed_topic.title} was removed as a Referral for #{@classroom.course_name}."
@@ -236,7 +236,7 @@ class Site::SiteController < Site::ApplicationController
       @topic.user = @current_user 
       @topic.is_open = true
       @topic.should_notify = true
-      @topic.act_score_range_id = ActScoreRange.find(:first, :conditions => ["act_subject_id = ? AND upper_score = ?", @classroom.act_subject_id, 0]).id
+      @topic.act_score_range_id = @classroom.act_subject.nil? ? nil : @classroom.act_subject.act_score_ranges.where('upper_score = ?', 0).first.id
       if @topic.save
          unless @classroom.featured_topic
           @classroom.update_attributes(:featured_topic => @topic)
@@ -277,7 +277,7 @@ class Site::SiteController < Site::ApplicationController
       params[:tpc_check] ||= []
       tpc_list = []
       params[:tpc_check].each do |t|
-        referral= ClassroomReferral.find(:first, :conditions => ["classroom_id = ? AND topic_id =?", @classroom.id, t]) rescue nil
+        referral= @classroom,classroom_referrals.where('topic_id =?', t.to_i).first rescue nil
         unless referral
           referral = ClassroomReferral.new
           referral.classroom_id = @classroom.id
@@ -459,7 +459,7 @@ class Site::SiteController < Site::ApplicationController
     @avail_resources = []
     @col_resources = []
     @current_user.colleagues.each do |col|
-    @col_resources += Content.active.find(:all, :conditions => ["user_id = ?", col.id])rescue nil
+    @col_resources += col.contents.active
     end
 #    @classroom_resources = []
 #    @current_user.favorite_classrooms.each do |clsrm|
@@ -496,7 +496,7 @@ class Site::SiteController < Site::ApplicationController
     @topic = Topic.find_by_public_id(params[:topic_id])rescue nil
     first_range = @topic.act_score_ranges.first rescue nil
     @topic_subject = first_range ? first_range.act_subject : @classroom.act_subject
-    @master = first_range ? first_range.act_master : ActMaster.find(:first, :conditions => ["abbrev = ?", "ACT"])
+    @master = first_range ? first_range.act_master : ActMaster.default_std
    render :partial => "ifa_topic_update"  
   end
 
@@ -516,7 +516,7 @@ class Site::SiteController < Site::ApplicationController
    @master = ActMaster.find(params[:master_id]) rescue nil
    @topic_subject = ActSubject.find(params[:subject_id]) rescue nil
    unless @master
-     @master = ActMaster.find(:first, :conditions => ["abbrev = ?", "ACT"]) rescue nil
+     @master = ActMaster.default_std
    end
    score_range = ActScoreRange.find_by_public_id(params[:range_id]) rescue nil
    strand = ActStandard.find_by_public_id(params[:strand_id]) rescue nil   
@@ -727,7 +727,7 @@ class Site::SiteController < Site::ApplicationController
      else
       referral_topic = Topic.find_by_public_id(params[:ref_topic_id]) rescue nil
       if referral_topic
-         referral = ClassroomReferral.find(:first, :conditions => ["classroom_id = ? AND topic_id =?", @classroom.id, referral_topic.id]) rescue nil
+         referral = @classroom.classroom_referrals.where('topic_id =?', referral_topic.id).first rescue nil
         if referral
           @classroom.classroom_referrals.delete referral
         else
@@ -956,7 +956,7 @@ class Site::SiteController < Site::ApplicationController
       order_by ||= "last_name, first_name"
       @filter_type = "People"
       if @keywords.blank?
-         items_found = User.find(:all, :conditions => ["users.id != ? and verified_at IS NOT NULL", 1], :order => order_by)
+         items_found = User.all.where('users.id != ? and verified_at IS NOT NULL"', 1).order(order_by)
       else
         if @search_field == "Role"
           items_found = User.with_roles @keywords, :order => order_by
@@ -980,7 +980,7 @@ class Site::SiteController < Site::ApplicationController
           people = items_found
           items_found = []
           people.each do |u|
-            auth = Authorization.find(:first, :conditions => ["authorization_level_id = ? AND user_id = ?", @filter, u.id]) rescue nil
+            auth = u.authorizations.where('authorization_level_id = ?', @filter).first rescue nil
             if auth
               items_found << u
             end
@@ -1074,13 +1074,17 @@ class Site::SiteController < Site::ApplicationController
     load_search_fields
     text = ""
     if @search_field == "Person's Name"
-      text = User.find(:all, :conditions => ["(last_name LIKE ? OR last_name LIKE ?)", "#{params[:q]}%","% #{params[:q]}%"], :order => "last_name").collect{|o| o.last_name}.join("\n")
+  #    text = User.find(:all, :conditions => ["(last_name LIKE ? OR last_name LIKE ?)", "#{params[:q]}%","% #{params[:q]}%"], :order => "last_name").collect{|o| o.last_name}.join("\n")
+      text = User.all.where('last_name LIKE ? OR last_name LIKE ?', "#{params[:q]}%","% #{params[:q]}%").order('last_name').collect{|o| o.last_name}.join("\n")
     elsif @search_field == "Name"
-      text = Organization.find(:all, :conditions => ["(name LIKE ? OR name LIKE ?)", "#{params[:q]}%","% #{params[:q]}%"], :order => "name").collect{|o| o.name}.join("\n")
+  #    text = Organization.find(:all, :conditions => ["(name LIKE ? OR name LIKE ?)", "#{params[:q]}%","% #{params[:q]}%"], :order => "name").collect{|o| o.name}.join("\n")
+      text = Organization.all.where('name LIKE ? OR name LIKE ?', "#{params[:q]}%","% #{params[:q]}%").order('name').collect{|o| o.name}.join("\n")
     elsif @search_field == "Auth"
-      text = User.find(:all, :conditions => ["(last_name LIKE ? OR last_name LIKE ?)", "#{params[:q]}%","% #{params[:q]}%"], :order => "last_name").collect{|o| o.last_name}.join("\n")
+  #    text = User.find(:all, :conditions => ["(last_name LIKE ? OR last_name LIKE ?)", "#{params[:q]}%","% #{params[:q]}%"], :order => "last_name").collect{|o| o.last_name}.join("\n")
+      text = User.all.where('(last_name LIKE ? OR last_name LIKE ?)', "#{params[:q]}%","% #{params[:q]}%").order('last_name').collect{|o| o.last_name}.join("\n")
     elsif @search_field == "Subject Area"
-      text = SubjectArea.find(:all, :conditions => ["(name LIKE ? OR name LIKE ?)", "#{params[:q]}%","% #{params[:q]}%"], :order => "name").collect{|o| o.name}.join("\n")
+      text = SubjectArea.all.where('(name LIKE ? OR name LIKE ?)', "#{params[:q]}%","% #{params[:q]}%").order('name').collect{|o| o.name}.join("\n")
+  #    text = SubjectArea.find(:all, :conditions => ["(name LIKE ? OR name LIKE ?)", "#{params[:q]}%","% #{params[:q]}%"], :order => "name").collect{|o| o.name}.join("\n")
     end
     
     render :text => text
@@ -1355,9 +1359,6 @@ class Site::SiteController < Site::ApplicationController
      if params[:app_id]
         @app = CoopApp.find_by_id(params[:app_id]) rescue nil
       end
-      unless @app
-        @app = CoopApp.classroom rescue CoopApp.find(:first)
-      end
   end
 
   def initialize_classroom_parameters
@@ -1409,13 +1410,13 @@ class Site::SiteController < Site::ApplicationController
   end
   
   def initialize_std_parameters 
-    @standards = ActStandard.find(:all).collect{|s|[s.standard]}.uniq.sort
+    @standards = ActStandard.all.collect{|s|[s.standard]}.uniq.sort
     if @current_user
       @std_view = @current_user.std_view.to_s
       @current_standard = @current_user.act_master
     else
       @std_view = "act"
-      @current_standard = ActMaster.find(:first)
+      @current_standard = ActMaster.all.first
     end
     
       

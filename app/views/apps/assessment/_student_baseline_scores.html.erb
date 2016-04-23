@@ -32,10 +32,10 @@
 			<% @current_organization.ifa_org_option.act_masters.each do|@mstr| -%>
 				<% score = @student.ifa_user_baseline_scores.for_subject(@subj).for_standard(@mstr).first ? @student.ifa_user_baseline_scores.for_subject(@subj).for_standard(@mstr).first.score.to_s: "Not Defined" -%>
 				<% @score_id = @subj.public_id + @mstr.public_id -%>
-				<td id="s_<%= @score_id %>" style = "width:200px; padding-top:10px;border:1px solid #ddd;color: #C83A14; font-size:12px">
-					<center><%= score -%>&nbsp;&nbsp;
-						<%=  select(@score_id, :score, ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @subj.id, @mstr.id],:order => "lower_score").collect{|s| [s.range, s.lower_score]},{:prompt => "Assign Score"}) %>
-					</center>
+				<td id="s_<%= @score_id %>" style = "text-align:center; width:200px; padding-top:10px;border:1px solid #ddd;color: #C83A14; font-size:12px">
+					<%= score -%>&nbsp;&nbsp;
+		<!--		<%#=  select(@score_id, :score, ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @subj.id, @mstr.id],:order => "lower_score").collect{|s| [s.range, s.lower_score]},{:prompt => "Assign Score"}) %>   -->
+            <%=  select(@score_id, :score, ActScoreRange.for_standard_and_subject(@mstr, @subj).sort_by{|sr| sr.lower_score}.collect{|s| [s.range, s.lower_score]},{:prompt => "Assign Score"}) %>
 				</td>
 					<% if @mstr.abbrev == "CO" %>
 						<% unless @student.student_subject_demographics.for_subject(@subj).empty? -%>
@@ -43,10 +43,9 @@
 						<% else -%>
 							<% csap = "No CSAP" -%>
 						<% end -%>
-				<td id="c_<%= @subj.public_id %>" style = "width:200px; padding-top:10px;border:1px solid #ddd;color: #C83A14; font-size:12px">
-						<center><%= csap -%>&nbsp;&nbsp;
-							<%=  select(@subj.public_id, :csap, CoCsapRange.find(:all, :conditions => ["act_subject_id =? ", @subj.id],:order => "lower_score").collect{|s| [s.range, s.lower_score]},{:prompt => "Assign Score"}) %>
-						</center>
+				<td id="c_<%= @subj.public_id %>" style = "text-align:center; width:200px; padding-top:10px;border:1px solid #ddd;color: #C83A14; font-size:12px">
+						<%= csap -%>&nbsp;&nbsp;
+							<%=  select(@subj.public_id, :csap, @subj.co_csap_ranges.order('lower_score').collect{|s| [s.range, s.lower_score]},{:prompt => "Assign Score"}) %>
 					<% end -%>
 				</td>					
 

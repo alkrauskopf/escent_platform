@@ -262,7 +262,7 @@
         <div class="FormRowData" style= "margin-left:25px">
    		<br/>
     	<%#= label_tag 'content_status_id', 'Status:' %>
-    	<%= select("content", "content_status_id", ContentStatus.find(:all, :conditions => "name <> 'Deleted'").collect {|p|  [ p.name, p.id ] }) %>
+    	<%= select("content", "content_status_id", ContentStatus.not_deleted.collect {|p|  [ p.name, p.id ] }) %>
         </div>
     </div>
 

@@ -4,7 +4,7 @@ class Site::ContentsController < Site::ApplicationController
   layout "site", :except =>[:user_resources, :edit_assess, :show_group_content]
 
   before_filter :clear_notification
-
+  before_filter :current_user_km_authorized?, :except=>[]
   
   def clear_notification
 #    flash[:notice] = nil
@@ -17,10 +17,7 @@ class Site::ContentsController < Site::ApplicationController
     initialize_std_parameters
     content_groupings   
     @current_group = params[:current_group] ? params[:current_group].titleize : "Folder"
-   if params[:organization_id]
-    @current_organization = Organization.find_by_public_id(params[:organization_id]) 
-   end
-   @resources = @current_user.administrator_of?(@current_organization) ? @current_organization.contents : Content.find(:all, :conditions => ["user_id = ? AND organization_id = ?", @current_user.id, @current_organization.id])
+   @resources = @current_user.content_admin_for_org?(@current_organization) ? @current_organization.contents : @current_user.contents.where('organization_id = ?', @current_organization.id)
    @resources.sort!{|a,b| a.content_resource_type.name <=> b.content_resource_type.name}
   end  
 
@@ -403,7 +400,8 @@ class Site::ContentsController < Site::ApplicationController
     
     initialize_std_parameters
 
-   @resource_list = @current_user.administrator_of?(@current_organization) ? Content.find(:all, :include => :content_resource_type, :conditions => ["organization_id = ? AND content_resource_types.name = ?", @current_organization.id, params[:type]]) : Content.find(:all, :include => :content_resource_type, :conditions => ["user_id = ? AND organization_id = ? AND content_resource_types.name = ?", @current_user.id, @current_organization.id, params[:type]])
+ #  @resource_list = @current_user.administrator_of?(@current_organization) ? Content.find(:all, :include => :content_resource_type, :conditions => ["organization_id = ? AND content_resource_types.name = ?", @current_organization.id, params[:type]]) : Content.find(:all, :include => :content_resource_type, :conditions => ["user_id = ? AND organization_id = ? AND content_resource_types.name = ?", @current_user.id, @current_organization.id, params[:type]])
+   @resource_list = @current_user.content_admin_for_org?(@current_organization) ? @current_organization.contents.for_type_name(params[:type]) : @current_user.contents.for_org(@current_organization).for_type_name(params[:type])
    @resource_list.sort!{|a,b| b.updated_at <=> a.updated_at}
   end
  
@@ -421,16 +419,19 @@ class Site::ContentsController < Site::ApplicationController
  
   protected
 
- def initialize_parameters 
+  def current_user_km_authorized?
+      if (@current_user.nil? || !(@current_user.content_admin_for_org?(@current_organization) || self.content_manager_for_org?(@current_organization)))
+        redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
+      end
+    end
+  end
+
+  def initialize_parameters
        
  end
   
- def initialize_std_parameters 
-    if @current_user
-      @current_standard = @current_user.act_master
-    else
-      @current_standard = ActMaster.find(:first)
-    end     
+ def initialize_std_parameters
+    @current_standard = @current_user ? @current_user.act_master : ActMaster.all.first
  end
 
   def content_groupings

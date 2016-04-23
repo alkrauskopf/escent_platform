@@ -122,8 +122,8 @@ class Apps::TeacherAssessController < Site::ApplicationController
     end      
   end
   end  
-  @avail_tchr_metrics = TchrMetric.find(:all, :conditions=>["for_teacher"]) - @current_user.tchr_option.tchr_metrics.for_teacher rescue nil
-  @avail_clsrm_metrics = TchrMetric.find(:all, :conditions=>["for_classroom"]) - @current_user.tchr_option.tchr_metrics.for_classroom rescue nil
+  @avail_tchr_metrics = TchrMetric.all.for_teacher - @current_user.tchr_option.tchr_metrics.for_teacher
+  @avail_clsrm_metrics = TchrMetric.all.for_classroom - @current_user.tchr_option.tchr_metrics.for_classroom rescue nil
   end
 
   def teacher_dashboard
@@ -138,12 +138,12 @@ class Apps::TeacherAssessController < Site::ApplicationController
   @teacher_resources = @teacher.contents 
   @teacher_period_resources =  @teacher_resources.select{|rsrc| rsrc.created_at >= @start_date && rsrc.created_at <= @end_date}
   @teacher_classrooms = @teacher.lead_classrooms.select{|clsrm| clsrm.organization == @current_organization}
-  @assessments_taken = ActSubmission.find(:all, :conditions => ["organization_id = ? && created_at >= ? && created_at <= ?", @current_organization.id, @start_date, @end_date]) rescue nil
+  @assessments_taken = @current_organization.act_submission.submission_period(@start_date, @end_date)
   @assessment_teachers = @assessments_taken.collect{|a| a.teacher_id}.uniq.size
   @assessments_per_teacher = @assessments_taken.size/@assessment_teachers
-  @teacher_assessments = ActSubmission.find(:all, :conditions => ["teacher_id = ? && created_at >= ? && created_at <= ?", @teacher.id, @start_date, @end_date]) rescue nil
-  @teacher_msgs_sent = Message.find(:all, :conditions=>["sender = ? && created_at >= ? && created_at <= ?", @teacher.full_name, @start_date, @end_date]) rescue nil
-  @teacher_msgs_received = Message.find(:all, :conditions=>["user_id = ? && created_at >= ? && created_at <= ?", @teacher.id, @start_date, @end_date])rescue nil
+  @teacher_assessments = ActSubmission.all.where('teacher_id = ? && created_at >= ? && created_at <= ?', @teacher.id, @start_date, @end_date)
+  @teacher_msgs_sent = Message.all.where('sender = ? && created_at >= ? && created_at <= ?', @teacher.full_name, @start_date, @end_date)
+  @teacher_msgs_received = Message.all.where('user_id = ? && created_at >= ? && created_at <= ?', @teacher.id, @start_date, @end_date)
   @teacher_assessments_finalized = @teacher_assessments.select{|ass| ass.date_finalized >= @start_date && ass.date_finalized <= @end_date} rescue nil
   @teacher_students = @teacher.sc(@current_organization).size rescue 0
   @teacher_observers = @teacher.oc(@current_organization).size rescue 0
@@ -158,7 +158,7 @@ class Apps::TeacherAssessController < Site::ApplicationController
   @m_name = []
   @w_metrics =[]
   @metric_header_hover = []
-  @tchr_metrics = TchrMetric.find(:all, :conditions=>["for_teacher && by_month"]) rescue nil
+  @tchr_metrics = TchrMetric.for_teacher.by_month
   if @tchr_metrics 
 
     @tchr_metrics.each_with_index do |var,vdx|

@@ -137,10 +137,12 @@
 				
  					<tr>
 						<td colspan=2>
-							<%=  select(:eng, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 2, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
-  						</td>
+					<!--		<%#=  select(:eng, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 2, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>  -->
+              <%=  select(:eng, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, ActSubject.es).collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
+            </td>
  					</tr>
-					<% standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 2, @current_standard.id]) rescue nil %>
+				<!--	<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 2, @current_standard.id]) rescue nil %>  -->
+          <% standards = ActStandard.for_standard_and_standard(@current_standard, ActSubject.ew) %>
 					<% unless standards.empty? -%>
 					<tr><td colspan=2 style="color:#C73914;"><u>    Please Select Applicable Knowledge Strands</u></td></tr>
 					<% end -%>
@@ -170,11 +172,13 @@
 				
  					<tr>
 						<td colspan=2>
-							<%=  select(:math, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 1, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
+  <!--				<%#=  select(:math, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 1, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>  -->
+              <%=  select(:math, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, ActSubject.math).collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
   						</td>
  					</tr>
-					<% standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 1, @current_standard.id]) rescue nil %>
-					<% unless standards.empty? -%>
+			<!--		<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 1, @current_standard.id]) rescue nil %>  -->
+          <% standards = ActStandard.for_standard_and_standard(@current_standard, ActSubject.math) %>
+							<% unless standards.empty? -%>
 					<tr><td colspan=2 style="color:#C73914;"><u>    Please Select Applicable Knowledge Strands</u></td></tr>
 					<% end -%>
 					<% for std in standards do -%>
@@ -203,11 +207,13 @@
 				
  					<tr>
 						<td colspan=2>
-							<%=  select(:read, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 3, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
+  <!--				<%#=  select(:read, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 3, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>  -->
+              <%=  select(:read, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, ActSubject.rl).collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
   						</td>
  					</tr>
-					<% standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 3, @current_standard.id]) rescue nil%>
-					<% unless standards.empty? -%>
+			<!--		<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 3, @current_standard.id]) rescue nil%>  -->
+        <% standards = ActStandard.for_standard_and_standard(@current_standard, ActSubject.rl)%>
+        <% unless standards.empty? -%>
 					<tr><td colspan=2 style="color:#C73914;"><u>    Please Select Applicable Knowledge Strands</u></td></tr>
 					<% end -%>
 					<% for std in standards do -%>
@@ -236,11 +242,13 @@
 				
  					<tr>
 						<td colspan=2>
-							<%=  select(:sci, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 4, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
+				<!--	<%#=  select(:sci, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 4, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>  -->
+              <%=  select(:sci, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, ActSubject.science).collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
   						</td>
  					</tr>
-					<% standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 4, @current_standard.id])rescue nil %>
-					<% unless standards.empty? -%>
+			<!--		<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 4, @current_standard.id])rescue nil %> -->
+        <% standards = ActStandard.for_standard_and_standard(@current_standard, ActSubject.science) %>
+        <% unless standards.empty? -%>
 					<tr><td colspan=2 style="color:#C73914;"><u>    Please Select Applicable Knowledge Strands</u></td></tr>
 					<% end -%>
 					<% for std in standards do -%>
@@ -270,11 +278,13 @@
 				
  					<tr>
 						<td colspan=2>
-							<%=  select(:wrt, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 5, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
-  						</td>
+		<!--			<%#=  select(:wrt, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 5, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %> -->
+              <%=  select(:wrt, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, ActSubject.ss).collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
+            </td>
  					</tr>
-					<% standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 5, @current_standard.id]) rescue nil %>
-					<% unless standards.empty? -%>
+				<!--	<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 5, @current_standard.id]) rescue nil %> -->
+        <% standards = ActStandard.for_standard_and_standard(@current_standard, ActSubject.ss) %>
+        <% unless standards.empty? -%>
 					<tr><td colspan=2 style="color:#C73914;"><u>    Please Select Applicable Knowledge Strands</u></td></tr>
 					<% end -%>
 					<% for std in standards do -%>
@@ -378,7 +388,7 @@
         <div class="FormRowData" style= "margin-left:25px">
    		<br/>
     	<%#= label_tag 'content_status_id', 'Status:' %>
-    	<%= select("content", "content_status_id", ContentStatus.find(:all, :conditions => "name <> 'Deleted'").collect {|p|  [ p.name, p.id ] }, :prompt => "Select a status") %>
+    	<%= select("content", "content_status_id", ContentStatus.not_deleted.collect {|p|  [ p.name, p.id ] }, :prompt => "Select a status") %>
         </div>
     </div>
 

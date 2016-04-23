@@ -34,7 +34,7 @@ class Master::ActSubmissionsController < Master::ApplicationController
 
   def update_sms_in_org_dashboards
     if false
-      all_dashboards = IfaDashboard.find(:all, :conditions => ["ifa_dashboardable_type = ?", "Organization"])
+      all_dashboards = IfaDashboard.all.where('ifa_dashboardable_type = ?', 'Organization')
       all_dashboards.each do |db|
          org = db.organization
          subject = ActSubject.find_by_id(db.act_subject_id)
@@ -55,7 +55,7 @@ class Master::ActSubmissionsController < Master::ApplicationController
 
   def update_sms_in_classroom_dashboards
     if false
-      all_dashboards = IfaDashboard.find(:all, :conditions => ["ifa_dashboardable_type = ?", "Classroom"])
+      all_dashboards = IfaDashboard.all.where('ifa_dashboardable_type = ?', 'Classroom')
       all_dashboards.each do |db|
          org = Organization.find_by_id(db.organization_id) rescue nil
          subject = ActSubject.find_by_id(db.act_subject_id)
@@ -76,7 +76,7 @@ class Master::ActSubmissionsController < Master::ApplicationController
 
   def update_sms_in_user_dashboards
     if false
-      all_dashboards = IfaDashboard.find(:all, :conditions => ["ifa_dashboardable_type = ?", "User"])
+      all_dashboards = IfaDashboard.all.where('ifa_dashboardable_type = ?', 'User')
       all_dashboards.each do |db|
          org = Organization.find_by_id(db.organization_id) rescue nil
          org = Organization.find_by_id(db.organization_id) rescue nil
@@ -102,7 +102,7 @@ class Master::ActSubmissionsController < Master::ApplicationController
 
   def assign_students
     if false
-      users = User.find(:all)
+      users = User.all
       users.each do |user|
         if user.has_authorization_level?("participant")
           user.update_attributes(:is_student => true)
@@ -120,7 +120,7 @@ class Master::ActSubmissionsController < Master::ApplicationController
   
   def add_grade_csap_to_ifa_question_log
     if false
-      questions = IfaQuestionLog.find(:all)
+      questions = IfaQuestionLog.all
       questions.each do |q|
         grade_level = q.user.current_grade_level
         csap = q.user.student_subject_demographics.for_subject(q.act_subject).first.latest_csap rescue nil
@@ -395,7 +395,7 @@ class Master::ActSubmissionsController < Master::ApplicationController
 
   def assessment_calibrations
     if false
-      all_assessments = ActAssessment.find(:all)
+      all_assessments = ActAssessment.all
       all_assessments.each do |ass|
         ass.calibrate
       end
@@ -405,7 +405,7 @@ class Master::ActSubmissionsController < Master::ApplicationController
 
   def destroy_question_readings
     if false
-      all_q_readings = ActQuestionReading.find(:all)
+      all_q_readings = ActQuestionReading.all
       all_q_readings.each do |qr|
         qr.destroy
       end
@@ -415,10 +415,10 @@ class Master::ActSubmissionsController < Master::ApplicationController
 
   def related_readings_to_questions
    if false
-    all_readings = ActRelReading.find(:all)
+    all_readings = ActRelReading.all
     all_readings.each do |rd|
       rd.act_questions.each do |q|
-        existing_reading = ActQuestionReading.find(:first, :condition => ["act_question_id =?", q.id]) rescue nil
+        existing_reading = q.act_question_reading
         if existing_reading.nil?
           q_reading = ActQuestionReading.new
           q_reading.act_question_id = q.id

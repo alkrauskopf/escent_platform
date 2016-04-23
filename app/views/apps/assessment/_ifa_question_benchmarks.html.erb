@@ -108,7 +108,8 @@ jQ(document).ready(function() {
     			</style>	
 				<% @current_organization.ifa_org_option.act_masters.sort_by{|m| [m.abbrev]}.each do |mstr| -%>
 
-				<% benches = ActBench.find(:all, :conditions => ["act_subject_id = ? AND act_score_range_id = ? AND act_standard_id = ?", @question.act_subject_id, @question.score_range(mstr).id, @question.standard(mstr).id]) rescue [] -%>
+				<!--<%# benches = ActBench.find(:all, :conditions => ["act_subject_id = ? AND act_score_range_id = ? AND act_standard_id = ?", @question.act_subject_id, @question.score_range(mstr).id, @question.standard(mstr).id]) rescue [] -%>-->
+          <% benches = @question.act_subject.for_scorerange_strand(@question.score_range(mstr), @question.standard(mstr)) -%>
 				<% benches.each do|b| %>
 					<% unless @question.act_benches.include?(b) -%>
 					<tr style="border:1px solid #ddd;">

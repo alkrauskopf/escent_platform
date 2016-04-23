@@ -53,6 +53,7 @@ class Classroom < ActiveRecord::Base
   scope :active, :conditions => ["status = ? ", "active"], :order => "course_name"
   scope :open, :conditions => ["is_open = ? ", true]
   scope :closed, :conditions => ["is_open = ? ", false]
+  scope :with_authorization, lambda{|user,auth| {:include => "authorizations", :conditions => ['authorizations.user_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ?', user.id, 'Classroom', auth.id], :order => 'course_name'}}
  
   scope :with_course_names, lambda { |keywords, options|
     condition_strings = []
@@ -135,7 +136,7 @@ class Classroom < ActiveRecord::Base
       ifa_option.is_ifa_notify = true
       ifa_option.is_ifa_auto_finalize = false
       ifa_option.act_subject_id = self.act_subject_id
-      ifa_option.act_master_id = self.organization.ifa_standards.first ? self.organization.ifa_standards.first.id : ActMaster.find(:all).first.id rescue nil
+      ifa_option.act_master_id = self.organization.ifa_standards.first ? self.organization.ifa_standards.first.id : ActMaster.all.first.id rescue nil
       ifa_option.is_calibrated = false
       ifa_option.is_user_filtered = false
       ifa_option.days_til_repeat = self.organization.ifa_org_option.days_til_repeat
@@ -190,10 +191,10 @@ class Classroom < ActiveRecord::Base
 
    def reference_topics
 #   self.authorizations.colleague.collect{|a| a.scope}
-     topics = ClassroomReferral.find(:all, :conditions => ["classroom_id = ? ", self.id])
+     topics = self.classroom_referrals
      topic_list = []
      topics.each do |tpc|
-     topic_list << Topic.find(:first, :conditions => ["id= ?", tpc.topic_id])
+     topic_list << Topic.first.where('id= ?', tpc.topic_id)
     end
     topic_list
   end 
@@ -266,42 +267,21 @@ class Classroom < ActiveRecord::Base
 
   
   def observers
-#    self.authorizations.colleague.collect{|a| a.scope}
-     clssrm_auths = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Classroom", AuthorizationLevel.favorite, self])
+     clssrm_auths = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Classroom', AuthorizationLevel.favorite, self)
      obs = []
      clssrm_auths.each do |ob|
-     obs << User.find(:first, :conditions => ["id= ?", ob.user_id])
+     obs << User.all.where('id= ?', ob.user_id).first
     end
     obs
   end 
  
   def leaders
     self.teachers
-  end  
-  def leaders_old
-#    self.authorizations.colleague.collect{|a| a.scope}
-     clssrm_auths = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Classroom", AuthorizationLevel.leader, self])
-     ldrs = []
-     clssrm_auths.each do |l|
-     ldrs << User.find(:first, :conditions => ["id= ?", l.user_id])
-    end
-    ldrs
-  end   
+  end
 
   def participants
     self.students
   end
-
-  
-  def participants_old
-#    self.authorizations.colleague.collect{|a| a.scope}
-     clssrm_auths = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Classroom", AuthorizationLevel.participant, self])
-     prts = []
-     clssrm_auths.each do |l|
-     prts << User.find(:first, :conditions => ["id= ?", l.user_id])
-    end
-    prts
-  end   
 
 #
 #  Resources Of Others Used in Classroom
@@ -323,19 +303,16 @@ class Classroom < ActiveRecord::Base
   def cml(start_date, end_date, current_standard)
     answer_list = self.act_answers.selected.select{|ans| ans.created_at >= start_date && ans.created_at <= end_date}
     sms_level = current_standard.sms(answer_list, self.act_subject_id, 0,0, self.organization.id)
-  end 
- 
- def resources
-     resource_list = self.contents.flatten.uniq
-     resource_list += self.topics.collect{|tpc| tpc.contents}.flatten.uniq
-     resource_list.uniq
-  end      
-   
-  def discussion_comments
-     comment_list = self.topics.collect{|tpc| tpc.discussions}.flatten
-  end      
- 
-  def reference_name
-    "#{organization.name} - #{course_name} (#{self.leader.last_name})"
   end
+
+  def resources
+    resource_list = self.contents.flatten.uniq
+    resource_list += self.topics.collect{|tpc| tpc.contents}.flatten.uniq
+    resource_list.uniq
+  end
+
+  def discussion_comments
+    comment_list = self.topics.collect{|tpc| tpc.discussions}.flatten
+  end
+
 end

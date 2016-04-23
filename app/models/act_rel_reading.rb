@@ -31,4 +31,8 @@ class ActRelReading < ActiveRecord::Base
       name = "No Mastery Level"
     end
   end
+
+  def self.by_label
+    self.order('label')
+  end
 end

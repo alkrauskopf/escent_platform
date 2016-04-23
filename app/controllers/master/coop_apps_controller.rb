@@ -341,7 +341,8 @@ class Master::CoopAppsController < Master::ApplicationController
       sumry_count= 0
       sumry_strat_count = 0      
       TltSession.final.each do |session|
-        summary = ItlSummary.find(:first, :conditions=>["classroom_id=? AND yr_mnth_of=?", session.classroom_id,session.session_date.beginning_of_month]) rescue nil
+        # summary = ItlSummary.find(:first, :conditions=>["classroom_id=? AND yr_mnth_of=?", session.classroom_id,session.session_date.beginning_of_month]) rescue nil
+        summary = session.classroom.nil? ? nil : session.classroom.itl_summaries.for_month(session.session_date.beginning_of_month).first
         if summary
          summary.observation_count += 1
          summary.classroom_duration += session.duration

@@ -21,7 +21,8 @@
 						<%=  select(:org, :master_id, @current_organization.ifa_org_option.act_masters.collect{|m| [m.abbrev,m.id]},{:prompt => master_tag}) %>
 					</td>
 					<td  id="range_change" width=400px style="vertical-align:middle;  padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:bold">
-						<%=  select(:range, :range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @question.act_subject_id, @master.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => mastery_tag}) %>
+		<!--		<%#=  select(:range, :range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @question.act_subject_id, @master.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => mastery_tag}) %>  -->
+            <%=  select(:range, :range_id, ActScoreRange.for_standard_and_subject(@master, @question.act_subject).collect{|s| [s.range, s.id]},{:prompt => mastery_tag}) %>
 					</td>
 				</tr>
 				<tr >
@@ -29,9 +30,9 @@
 						&nbsp;
 					</td>						
 					<td  id="strand_change" colspan=2 width=470px style="vertical-align:middle;  padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-						<%=  select(:strand, :strand_id, ActStandard.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @question.act_subject_id, @master.id],:order => "name").collect{|s| [s.name, s.id]},{:prompt => strand_tag}) %>
-					</td>						
-
+			<!--	<%#=  select(:strand, :strand_id, ActStandard.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @question.act_subject_id, @master.id],:order => "name").collect{|s| [s.name, s.id]},{:prompt => strand_tag}) %> -->
+            <%=  select(:strand, :strand_id, ActStandard.for_standard_and_standard(@master, @question.act_subject).sort_by{|s| s.name}.collect{|s| [s.name, s.id]},{:prompt => strand_tag}) %>
+					</td>
 				</tr>
 		</tbody>
 	</table>

@@ -14,5 +14,9 @@ class IfaOrgOption < ActiveRecord::Base
   validates_presence_of :pct_correct_green
  
   validates_numericality_of :days_til_repeat, :greater_than_or_equal_to => 0
-  
+
+  def self.for_org_id(id)
+    where.('organization_id = ?', id).first
+  end
+
 end

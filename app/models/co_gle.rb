@@ -9,5 +9,10 @@ class CoGle < ActiveRecord::Base
   
   
   scope :for_strand, lambda{|strand| {:conditions => ["act_standard_id = ? ", strand.id]}}
-  
+
+
+  def self.for_grade_level(level)
+    where('co_grade_level_id = ?', level.id)
+  end
+
 end

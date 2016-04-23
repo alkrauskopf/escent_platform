@@ -76,7 +76,7 @@ class Master::ContentController < Master::ApplicationController
             if organizations.include?(:"#{element.elements['OrganizationID'].get_text}")
               @content.organization_id = organizations[:"#{element.elements['OrganizationID'].get_text}"]
             else
-              @content.organization_id = Organization.find(:first, :conditions => "name like '%#{element.elements['OrganizationID'].get_text}%'") rescue 0              
+              @content.organization_id = Organization.all.where("name like '%#{element.elements['OrganizationID'].get_text}%'").first rescue 0
               organizations[:"#{element.elements['OrganizationID'].get_text}"] = @content.organization_id
             end
             

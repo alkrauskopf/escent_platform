@@ -40,13 +40,15 @@
 		<div class="FormRow">
 			<div class="FormRowTitle"><strong><%= @current_standard.abbrev %> Knowledge Strand:</strong></div>
  	 	     <div class="FormRowData" style= "margin-left:5px">
-				<%=  select(:q_std, :act_standard_id, ActStandard.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @question.act_subject_id, @current_standard.id],:order => "name").collect{|s| [s.name, s.id]},{:prompt => strand_label}) %>
+		<!--		<%#=  select(:q_std, :act_standard_id, ActStandard.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @question.act_subject_id, @current_standard.id],:order => "name").collect{|s| [s.name, s.id]},{:prompt => strand_label}) %> -->
+           <%=  select(:q_std, :act_standard_id, ActStandard.for_standard_and_standard(@current_standard, @question.act_subject).sort_by{|s| s.name}.collect{|s| [s.name, s.id]},{:prompt => strand_label}) %>
  	 	  </div>
   		  </div>
 			<div class="FormRow">
 				<div class="FormRowTitle"><strong><%= @current_standard.abbrev %> Mastery Level:</strong></div>
   		      <div class="FormRowData" style= "margin-left:5px">
-					<%=  select(:q_range, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @question.act_subject_id, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => range_label}) %>
+    <!--					<%#=  select(:q_range, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @question.act_subject_id, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => range_label}) %>  -->
+              <%=  select(:q_range, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, @question.act_subject).collect{|s| [s.range, s.id]},{:prompt => range_label}) %>
   		      </div>
   		  </div>
 

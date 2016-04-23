@@ -16,6 +16,9 @@ class ItlSummary < ActiveRecord::Base
   scope :for_belt, lambda{|belt| {:conditions => ["itl_belt_rank.id = ? ", belt.id], :order => "yr_mnth_of ASC"}}
   scope :belt_score_min, lambda{|score| {:conditions => ["itl_belt_rank.rank_score >= ? ", score], :include => "itl_belt_rank", :order => "yr_mnth_of ASC"}}
 
+ def self.for_month(mth)
+   where('yr_mnth_of =?', mth)
+ end
 
 
 def itl_sessions

@@ -19,12 +19,23 @@ class ActScoreRange < ActiveRecord::Base
   has_many :act_score_range_topics, :dependent => :destroy
   has_many :topics, :through => :act_score_range_topics
 
-  scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id]}}
+  scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id],:order => "upper_score"}}
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
   scope :for_subject_no_na, lambda{|subject| {:conditions => ["act_subject_id = ? && upper_score > ?", subject.id, 0]}}
   scope :na, {:conditions => ["upper_score = ? ", 0]}
   scope :no_na, {:conditions => ["upper_score > ?", 0]}
   scope :for_subject_sms, lambda{|subject, sms| {:conditions => ["act_subject_id = ? AND upper_score >= ? AND lower_score <= ?", subject.id, sms, sms]}}
 
-  scope :for_standard_and_subject, lambda{|standard, subject| {:conditions => ["act_subject_id = ? && act_master_id = ? ", subject.id, standard.id]}}
+  scope :for_standard_and_subject, lambda{|standard, subject| {:conditions => ["act_subject_id = ? && act_master_id = ? ", subject.id, standard.id],:order => "upper_score"}}
+  scope :for_standardstring_and_subject, lambda{|standard, subject| {:conditions => ["act_subject_id = ? && standard = ? ", subject.id, standard],:order => "upper_score"}}
+
+  def self.standard_subject_greater_than_upper(standard, subject, upper)
+    where('act_subject_id = ? AND act_master_is = ? AND upper_score > ?', subject.id, standard.id, upper).order('upper_score')
+  end
+
+  def self.for_subject_id(subject_id)
+    where('act_subject_id = ?', subject_id)
+  end
+
+
 end

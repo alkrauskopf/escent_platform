@@ -59,7 +59,7 @@ class Master::TltSessionController < Master::ApplicationController
    end 
 
   def add_classroom_names_to_sessions
-    sessions = TltSession.find(:all)
+    sessions = TltSession.clsrm_dashboard
     sessions.each do |session|
       duration = session.duration < 900 ? 900 : session.duration
       classroom_name = session.classroom ?  session.classroom.course_name : "* Removed Classroom *"
@@ -75,7 +75,8 @@ class Master::TltSessionController < Master::ApplicationController
       
       TltSession.final.each do |session|
         yr_month = session.session_date.year.to_i*100 + session.session_date.month.to_i
-        summary = ItlSummary.find(:first, :conditions=>["classroom_id=? AND yr_mnth=?", session.classroom_period.classroom_id,yr_month]) rescue nil
+         # summary = ItlSummary.find(:first, :conditions=>["classroom_id=? AND yr_mnth=?", session.classroom_period.classroom_id,yr_month]) rescue nil
+        summary = (session.classroom_period.nil? || session.classroom_period.classroom.nil?) ? nil :session.classroom_period.classroom.itl_summaries.for_month(yr_month).first
         if summary
          summary.observation_count += 1
          summary.classroom_duration += session.duration
@@ -162,7 +163,7 @@ class Master::TltSessionController < Master::ApplicationController
    end 
  
    def create_class_periods
-    sessions = TltSession.find(:all)
+    sessions = TltSession.all
     sessions.each do |ses|
  
       if ses.classroom.classroom_periods.size == 0
@@ -179,7 +180,7 @@ class Master::TltSessionController < Master::ApplicationController
           end
       end
      
-      period = ClassroomPeriod.find(:first, :conditions=>["classroom_id = ?", ses.classroom_id])
+      period = ses.classroom.classroom_periods.first
       ses.update_attributes(:classroom_period_id => period.id)
      end
     redirect_to :action => :completed_crud_conversion
@@ -305,7 +306,7 @@ class Master::TltSessionController < Master::ApplicationController
  end 
   
   def adjust_involve_col
-    sessions = TltSession.find(:all)
+    sessions = TltSession.all
     sessions.each do |ses|
  
     ses.tlt_session_logs.each do |log|

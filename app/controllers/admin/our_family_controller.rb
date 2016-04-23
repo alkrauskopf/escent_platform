@@ -84,7 +84,8 @@ class Admin::OurFamilyController < Admin::ApplicationController
   def export
     @role = @current_organization.roles.find(params[:id]) 
     
-    @users = @role.users.find(:all, :select => "first_name, last_name, preferred_email, postal_code")
+#    @users = @role.users.find(:all, :select => "first_name, last_name, preferred_email, postal_code")
+    @users = @role.users
     respond_to do |format|
       format.html
       format.xml { render :xml => @users }

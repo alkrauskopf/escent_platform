@@ -3,13 +3,13 @@
 <div class="Form clear">
 <%= form_for(:topic, @topic, :url => {:controller => "/site/site", :action => :manage_topic, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :function => "Assess"}) do |form| %>
 
-	<div style= "margin-left:30px; font-size=12px; font-weight:bold">	
+	<div style= "margin-left:30px; font-size:12px; font-weight:bold">
 
-	<div class="FormRow submit_warp" style= "padding-left:0px" >
-	<% tag_name = "UPDATE INFORMATION"%>
-	<%= submit_tag tag_name, :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
-	</div>
-	<br/>
+    <div class="FormRow submit_warp" style= "padding-left:0px" >
+    <% tag_name = "UPDATE INFORMATION"%>
+    <%= submit_tag tag_name, :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
+    </div>
+    <br/>
 	</div>
 	
     <table cellspacing="5" class= "layout" >
@@ -17,46 +17,40 @@
 
 	<% if @current_subject.nil? -%>
       <tr>
-        <td width = 60% style = "margin:right; text-align:left;vertical-align:top; padding-left:20px; font-size:11px">
-			<span style = "color:#C83A14; font-size:12px">
-			<center>
-			This Classroom Has No <%= @current_standard.abbrev %> Standards-based Subject Defined.<br/>
-			Please Select <i>Manage Classroom Option</i> To Define A Subject Area For <i>"<%= @classroom.course_name %>"</i>
-			</center>
+        <td width = 60% style = "margin-right: 0px; text-align:left;vertical-align:top; padding-left:20px; font-size:11px">
+			<span style = "text-align:center; color:#C83A14; font-size:12px">
+        This Classroom Has No <%= @current_standard.abbrev %> Standards-based Subject Defined.<br/>
+        Please Select <i>Manage Classroom Option</i> To Define A Subject Area For <i>"<%= @classroom.course_name %>"</i>
 			</span>		
 		</td>
 		</tr>
 		<% else -%>
 		<tr>
-			<td width = 60% style = "margin:right; text-align:left;vertical-align:top; padding-left:20px; font-size:11px">
-				<span style = "color:#C83A14; font-size:12px">
-				<center>
-				<strong><%= @current_standard.abbrev %> Standards Subject For <i>"<%= @classroom.course_name%>"</i> Is:  <%= @current_subject.name.upcase %></strong>
-				</center>
-			</span>
+			<td width = 60% style = "margin-right: 0px; text-align:left;vertical-align:top; padding-left:20px; font-size:11px">
+				<span style = "text-align:center; color:#C83A14; font-size:12px">
+			  	<strong><%= @current_standard.abbrev %> Standards Subject For <i>"<%= @classroom.course_name%>"</i> Is:  <%= @current_subject.name.upcase %></strong>
+			  </span>
 			</td>
-		</tr>					
-     	 <tr>
+		</tr>
+    <tr>
  			<% score_range = @topic.act_score_ranges.for_standard(@current_standard).first rescue nil -%>
-			 <td width = 60% style = "margin:right; text-align:left;vertical-align:top; padding-left:20px; font-size:11px">
-				<span style = "color:#C83A14; font-size:12px">
-				<center>
-				<% if score_range.nil? %>
-					<strong>No <%= @current_standard.abbrev %> Mastery Level Assigned To <i>"<%= @topic.title.titleize %>"</i></strong><br/>
-					<% range_label = "Select Mastery Level" -%>					
-					<% else -%>
-					<strong>Update <%= @current_standard.abbrev %> Mastery Level Below</strong><br/>
-					<% range_label = score_range.range -%>
+			 <td width = 60% style = "margin-right: 0px; text-align:left;vertical-align:top; padding-left:20px; font-size:11px">
+				<span style = "text-align:center; color:#C83A14; font-size:12px">
+          <% if score_range.nil? %>
+            <strong>No <%= @current_standard.abbrev %> Mastery Level Assigned To <i>"<%= @topic.title.titleize %>"</i></strong><br/>
+            <% range_label = "Select Mastery Level" -%>
+            <% else -%>
+            <strong>Update <%= @current_standard.abbrev %> Mastery Level Below</strong><br/>
+            <% range_label = score_range.range -%>
 					<% end -%>
-				</center>
-			</span>			  
+			  </span>
 			  </td>
 			</tr>
-					
-     	 	<tr>
-				<td  style = "padding-left:410px;">
-					<center><%=  select(:t_range, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id =?", @current_subject.id, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => range_label}) %></center>
-  				</td>
+      <tr>
+				<td  style = "text-align:center; padding-left:410px;">
+		<!--			<%#=  select(:t_range, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id =?", @current_subject.id, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => range_label}) %>  -->
+          <%=  select(:t_range, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, @current_subject).collect{|s| [s.range, s.id]},{:prompt => range_label}) %>
+        </td>
 			</tr>
 		<% end -%>						
 	 	 </tbody>
@@ -67,24 +61,21 @@
 
 		<tr>
 								
-		<td colspan=3 style="color:#C73914; padding-left:10px;">
-		 		<center>
+		<td colspan=3 style="text-align:center; color:#C73914; padding-left:10px;">
 		 		<% if @topic.act_standards.for_standard(@current_standard).size == 0 -%>
 					<strong>No <%= @current_standard.abbrev %> Knowledge Strands Assigned To <i>"<%= @topic.title.titleize %>"</i></strong><br/>
 				<% else -%>
 					<strong><u><%= @current_standard.abbrev %> Knowledge Strands Currently Assigned To <%= @topic.title.titleize %></u></strong><br/>
 				<% end -%>
-			  	</center>
 		 	</td>
 		</tr>
 
 				<% @topic.act_standards.for_standard(@current_standard).each do |s| -%>
 		<tr>
           <td style ="width:34%"> &nbsp; </td>	
-		  <td style="width:5px;">
-			<center><%=  check_box_tag "del_check[]", value = s.id ,checked = false %>
-			<%= label_tag "Rem" %> 
-		 	</center> 
+		  <td style="text-align:center;width:5px;">
+        <%=  check_box_tag "del_check[]", value = s.id ,checked = false %>
+        <%= label_tag "Rem" %>
 		 	</td>
 		  <td style="width:200px ;color:#000000; text-align:left; vertical-align:middle;">
 			<%=  s.name %>
@@ -94,44 +85,39 @@
 
 	  </tbody>
 	  </table>
-
-	   <% unless @current_subject.nil? %> 
-			<% standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", @current_subject.id, @current_standard.id]) %>
+	   <% unless @current_subject.nil? %>
+			<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", @current_subject.id, @current_standard.id]) %>
+      <% standards = ActStandard.for_standard_and_standard(@current_standard, @current_subject) %>
    <br/>
     <table cellspacing="0" class= "layout" >
-   	<tbody >
-
-		<tr>
-								
-		<td colspan=3 style="color:#C73914; padding-left:10px;">
-		 		<center>
-		 		<% if @topic.act_standards.for_standard(@current_standard).size == standards.size -%>
-					<i>* * No More <%= @current_subject.name %>&nbsp;<%= @current_standard.abbrev%> Knowledge Strands Can Be Assigned To "<%= @topic.title.titleize %>" * *</i><br/>
-				<% else -%>
-					<strong><u>Assign <%= @current_subject.name.upcase %>&nbsp;<%= @current_standard.abbrev%> Knowledge Strands To <i>"<%= @topic.title.titleize %>"</i></u></strong><br/>
-				<% end -%>
-			  	</center>
-		 	</td>
-		</tr>
-		<% for std in standards do -%>
-			<% unless @topic.act_standards.for_standard(@current_standard).include?(std)%>
-			<tr>
-	          <td style ="width:34%"> &nbsp; </td>	
-			  <td style="width:5px; text-align:left;">
-				<center><%=  check_box_tag "add_check[]", value = std.id ,checked = false %>
-				<%= label_tag "Add" %> 
-		 		</center> 
-		 		</td>
-		 	 <td style="width:200px; color:#000000; text-align:left; vertical-align:middle;">
-				<%=  std.name %>
-		  	</td>
-		 	</tr>
-			<% end -%>
-		<% end -%>
+    	<tbody >
+        <tr>
+          <td colspan=3 style="text-align:center; color:#C73914; padding-left:10px;">
+            <% if @topic.act_standards.for_standard(@current_standard).size == standards.size -%>
+              <i>* * No More <%= @current_subject.name %>&nbsp;<%= @current_standard.abbrev%> Knowledge Strands Can Be Assigned To "<%= @topic.title.titleize %>" * *</i><br/>
+            <% else -%>
+              <strong><u>Assign <%= @current_subject.name.upcase %>&nbsp;<%= @current_standard.abbrev%> Knowledge Strands To <i>"<%= @topic.title.titleize %>"</i></u></strong><br/>
+            <% end -%>
+          </td>
+        </tr>
+        <% for std in standards do -%>
+          <% unless @topic.act_standards.for_standard(@current_standard).include?(std)%>
+            <tr>
+              <td style ="width:34%"> &nbsp; </td>
+              <td style="text-align:center; width:5px; text-align:left;">
+                <%=  check_box_tag "add_check[]", value = std.id ,checked = false %>
+                <%= label_tag "Add" %>
+              </td>
+              <td style="width:200px; color:#000000; text-align:left; vertical-align:middle;">
+                <%=  std.name %>
+              </td>
+            </tr>
+          <% end -%>
+        <% end -%>
+      </tbody>
+    </table>
 	<% end -%>
-<span>	<br/>
-
-</span>
+<span>	<br/></span>
 <% end -%>	
 </div>
 

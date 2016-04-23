@@ -432,7 +432,7 @@ class Apps::OwnerMaintenanceController < ApplicationController
   end
 
   def remove_summary_data(session)
-    summary = ItlSummary.find(:first, :conditions=>["classroom_id=? AND yr_mnth_of=? AND itl_belt_rank_id = ?", session.classroom_id,session.session_date.beginning_of_month, session.itl_belt_rank_id]) rescue nil
+    summary = session.classroom ? session.classroom.itl_summaries.where('yr_mnth_of=? AND itl_belt_rank_id = ?',session.session_date.beginning_of_month, session.itl_belt_rank_id).first : nil
     sumrys_destroyed = 0
     sumrys_mod = 0
     smry_strats_destroyed = 0

@@ -29,10 +29,10 @@ class Master::IfaDashboardsController < Master::ApplicationController
 
 
 #  Cycle Subjects    
-    ifa_subjects = ActSubject.find(:all)
+    ifa_subjects = ActSubject.all
     ifa_subjects.each do |subj|
     
-    usr_list = User.find(:all)
+    usr_list = User.all
  
 #  Cycle Users
         usr_list.each do |usr|
@@ -51,7 +51,8 @@ class Master::IfaDashboardsController < Master::ApplicationController
           calibrated_answers = finalized_answers.select{|a| a.act_question.is_calibrated} rescue []
           calibrated_answers_for_sms_calc = finalized_answers_for_sms_calc.select{|a| a.act_question.is_calibrated} rescue []
 
-          user_dashboard = IfaDashboard.find(:first, :conditions => ["ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ? AND act_subject_id = ? AND organization_id = ?", usr.id, usr.class.to_s,  month_end, subj.id, usr.home_org_id]) rescue nil
+          # user_dashboard = IfaDashboard.find(:first, :conditions => ["ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ? AND act_subject_id = ? AND organization_id = ?", usr.id, usr.class.to_s,  month_end, subj.id, usr.home_org_id]) rescue nil
+          user_dashboard = usr.organization.ifa_dashboards.for_subject(subj).where('ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ?', usr.id, usr.class.to_s,  month_end).first
           if user_dashboard
             unless submissions.empty?
               user_dashboard.assessments_taken = submissions.size rescue 0
@@ -94,16 +95,16 @@ class Master::IfaDashboardsController < Master::ApplicationController
 
         unless submissions.empty?
 #  SMS for each Master Standard
-            master_standards = ActMaster.find(:all) rescue nil
+            master_standards = ActMaster.all
             master_standards.each do |mstr|
               master_sms_finalized = 0
               master_sms_calibrated = 0
-              assessment_ids = finalized_submissions.collect{|s| s.act_assessment_id}.uniq rescue []
+              assessments = finalized_submissions.collect{|s| s.act_assessment}.compact.uniq rescue []
 #    collect. act_assessments from submissions won't work
               min_score = 999999
               max_score = 0
-              assessment_ids.each do |a|
-                ass_score_range = ActAssessmentScoreRange.find(:first, :conditions=>["act_assessment_id = ? AND act_master_id =?", a, mstr.id]) rescue nil
+              assessments.each do |a|
+                ass_score_range = a.act_assessment_score_range.for_standard(mstr).first
                 if ass_score_range
                   if ass_score_range.lower_score < min_score then min_score = ass_score_range.lower_score end
                   if ass_score_range.upper_score > max_score then max_score = ass_score_range.upper_score end
@@ -175,7 +176,7 @@ class Master::IfaDashboardsController < Master::ApplicationController
                     end  # End cell Update
                   end  #  End Column Cycle
                   else
-                    range_cells = IfaDashboardCell.find(:all, :conditions =>["ifa_dashboard_id =? && act_master_id = ? && act_score_range_id = ?", user_dashboard.id, mstr.id, range.id]) rescue []
+                    range_cells = user_dashboard.ifa_dashboard_cells.where('act_master_id = ? && act_score_range_id = ?', mstr.id, range.id) rescue []
                     range_cells.each do |cell|
                       cell.destroy
                     end
@@ -207,10 +208,10 @@ class Master::IfaDashboardsController < Master::ApplicationController
 
 
 #  Cycle Subjects    
-    ifa_subjects = ActSubject.find(:all)
+    ifa_subjects = ActSubject.all
     ifa_subjects.each do |subj|
     
-    org_list = Organization.find(:all)
+    org_list = Organization.all
  
 #  Cycle Organizations
         org_list.each do |org|
@@ -230,7 +231,8 @@ class Master::IfaDashboardsController < Master::ApplicationController
           calibrated_answers = finalized_answers.select{|a| a.act_question.is_calibrated} rescue []
           calibrated_answers_for_sms_calc = finalized_answers_for_sms_calc.select{|a| a.act_question.is_calibrated} rescue []
            
-          org_dashboard = IfaDashboard.find(:first, :conditions => ["ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ? AND act_subject_id = ? ", org.id, org.class.to_s,  month_end, subj.id]) rescue nil
+          # org_dashboard = IfaDashboard.find(:first, :conditions => ["ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ? AND act_subject_id = ? ", org.id, org.class.to_s,  month_end, subj.id]) rescue nil
+          org_dashboard = subj.ifa_dashboards.where('ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ?', org.id, org.class.to_s,  month_end).first rescue nil
           if org_dashboard
             unless submissions.empty?
               org_dashboard.assessments_taken = submissions.size rescue 0
@@ -273,16 +275,16 @@ class Master::IfaDashboardsController < Master::ApplicationController
 
         unless submissions.empty?
 #  SMS for each Master Standard
-            master_standards = ActMaster.find(:all) rescue nil
+            master_standards = ActMaster.all
             master_standards.each do |mstr|
               master_sms_finalized = 0
               master_sms_calibrated = 0
-              assessment_ids = finalized_submissions.collect{|s| s.act_assessment_id}.uniq rescue []
+              assessments = finalized_submissions.collect{|s| s.act_assessment}.compact.uniq rescue []
 #    collect. act_assessments from submissions won't work
               min_score = 999999
               max_score = 0
-              assessment_ids.each do |a|
-                ass_score_range = ActAssessmentScoreRange.find(:first, :conditions=>["act_assessment_id = ? AND act_master_id =?", a, mstr.id]) rescue nil
+              assessments.each do |a|
+                ass_score_range = a.act_assessment_score_ranges.for_standard(mstr).first rescue nil
                 if ass_score_range
                   if ass_score_range.lower_score < min_score then min_score = ass_score_range.lower_score end
                   if ass_score_range.upper_score > max_score then max_score = ass_score_range.upper_score end
@@ -354,7 +356,7 @@ class Master::IfaDashboardsController < Master::ApplicationController
                     end  # End cell Update
                   end  #  End Column Cycle
                   else
-                    range_cells = IfaDashboardCell.find(:all, :conditions =>["ifa_dashboard_id =? && act_master_id = ? && act_score_range_id = ?", org_dashboard.id, mstr.id, range.id]) rescue []
+                    range_cells = org_dashboard.ifa_dashboard_cells.where('act_master_id = ? && act_score_range_id = ?',  mstr.id, range.id) rescue []
                     range_cells.each do |cell|
                       cell.destroy
                     end
@@ -386,10 +388,10 @@ class Master::IfaDashboardsController < Master::ApplicationController
 
 
 #  Cycle Subjects    
-    ifa_subjects = ActSubject.find(:all)
+    ifa_subjects = ActSubject.all
     ifa_subjects.each do |subj|
     
-    clsrm_list = Classroom.find(:all)
+    clsrm_list = Classroom.all
  
 #  Cycle Classrooms
         clsrm_list.each do |clsrm|
@@ -409,7 +411,8 @@ class Master::IfaDashboardsController < Master::ApplicationController
           calibrated_answers = finalized_answers.select{|a| a.act_question.is_calibrated} rescue []
           calibrated_answers_for_sms_calc = finalized_answers_for_sms_calc.select{|a| a.act_question.is_calibrated} rescue []
 
-          clsrm_dashboard = IfaDashboard.find(:first, :conditions => ["ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ? AND act_subject_id = ? AND organization_id = ?", clsrm.id, clsrm.class.to_s,  month_end, subj.id, clsrm.organization.id]) rescue nil
+          # clsrm_dashboard = IfaDashboard.find(:first, :conditions => ["ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ? AND act_subject_id = ? AND organization_id = ?", clsrm.id, clsrm.class.to_s,  month_end, subj.id, clsrm.organization.id]) rescue nil
+          clsrm_dashboard = clsrm.organization.nil? ? nil : clsrm.organization.ifa_dashboards.for_subject(subj).where('ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ?', clsrm.id, clsrm.class.to_s,  month_end) rescue nil
           if clsrm_dashboard
             unless submissions.empty?
               clsrm_dashboard.assessments_taken = submissions.size rescue 0
@@ -452,16 +455,16 @@ class Master::IfaDashboardsController < Master::ApplicationController
 
         unless submissions.empty?
 #  SMS for each Master Standard
-            master_standards = ActMaster.find(:all) rescue nil
+            master_standards = ActMaster.all
             master_standards.each do |mstr|
               master_sms_finalized = 0
               master_sms_calibrated = 0
-              assessment_ids = finalized_submissions.collect{|s| s.act_assessment_id}.uniq rescue []
+              assessments = finalized_submissions.collect{|s| s.act_assessment}.compact.uniq rescue []
 #    collect. act_assessments from submissions won't work
               min_score = 999999
               max_score = 0
-              assessment_ids.each do |a|
-                ass_score_range = ActAssessmentScoreRange.find(:first, :conditions=>["act_assessment_id = ? AND act_master_id =?", a, mstr.id]) rescue nil
+              assessments.each do |a|
+                ass_score_range = a.act_assessment_score_ranges.for_standard(mst).first rescue nil
                 if ass_score_range
                   if ass_score_range.lower_score < min_score then min_score = ass_score_range.lower_score end
                   if ass_score_range.upper_score > max_score then max_score = ass_score_range.upper_score end
@@ -533,7 +536,7 @@ class Master::IfaDashboardsController < Master::ApplicationController
                     end  # End cell Update
                   end  #  End Column Cycle
                   else
-                    range_cells = IfaDashboardCell.find(:all, :conditions =>["ifa_dashboard_id =? && act_master_id = ? && act_score_range_id = ?", clsrm_dashboard.id, mstr.id, range.id]) rescue []
+                    range_cells = clsrm_dashboard.ifa_dashboard_cells.where('act_master_id = ? && act_score_range_id = ?',  mstr.id, range.id) rescue []
                     range_cells.each do |cell|
                       cell.destroy
                     end

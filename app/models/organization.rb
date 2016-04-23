@@ -189,6 +189,10 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def self.highschools
+    self.where('organization_type_id = ?', OrganizationType.highschool)
+  end
+
   def self.all_authorization_levels
     AuthorizationLevel.organizations
   end
@@ -259,7 +263,7 @@ class Organization < ActiveRecord::Base
   end
 
   def non_clients
-     Organization.find(:all, :include => :status,  :conditions => ["id!= ? AND status_id = ? AND !is_default", self.id, 1], :order => "name" ) - self.clients
+     (Organization.all.active.where('id!= ? AND !is_default', self.id) - self.clients).order('name')
   end
  
   def client_active?(client)
@@ -668,7 +672,7 @@ class Organization < ActiveRecord::Base
         options.months_for_questions = 3
         options.begin_school_year = Date.today
         self.ifa_org_option = options
-        self.ifa_org_option.act_masters<<ActMaster.find(:first, :conditions=>["abbrev = ?", "ACT"])
+        self.ifa_org_option.act_masters<<ActMaster.default_std
         self.ifa_org_option.ifa_org_option_act_masters.first.update_attributes(:is_default => true)
        end
   end   
@@ -765,38 +769,44 @@ class Organization < ActiveRecord::Base
   end
 
   def subjects_with_tlt_sessions_since(yr_mnth_day)
-    ItlSummary.find(:all, :conditions => ["organization_id = ? AND yr_mnth_of >= ?", self.id, yr_mnth_day.beginning_of_month]).collect{|s| s.subject_area}.compact.uniq.sort_by{|s| s.name}
+    self.itl_summaries.where('yr_mnth_of >= ?', yr_mnth_day.beginning_of_month).collect{|s| s.subject_area}.compact.uniq.sort_by{|s| s.name}
   end
 
   def itl_summaries_for_month_subject(subj, month)
        if subj
-         ItlSummary.find(:all, :conditions => ["organization_id = ? AND subject_area_id = ? AND yr_mnth_of = ? ", self.id, subj.id, month.beginning_of_month])
+         # ItlSummary.find(:all, :conditions => ["organization_id = ? AND subject_area_id = ? AND yr_mnth_of = ? ", self.id, subj.id, month.beginning_of_month])
+         self.itl_summaries.for_subject(subj).for_month( month.beginning_of_month)
        else
-         ItlSummary.find(:all, :conditions => ["organization_id = ? AND yr_mnth_of = ? ", self.id,  month.beginning_of_month])       
+         # ItlSummary.find(:all, :conditions => ["organization_id = ? AND yr_mnth_of = ? ", self.id,  month.beginning_of_month])
+         self.itl_summaries.for_month(month.beginning_of_month)
        end
   end
 
   def itl_summaries_since_date_subject(subj, month)
        if subj
-         ItlSummary.find(:all, :conditions => ["organization_id = ? AND subject_area_id = ? AND yr_mnth_of >= ? ", self.id, subj.id, month.beginning_of_month])
+         # ItlSummary.find(:all, :conditions => ["organization_id = ? AND subject_area_id = ? AND yr_mnth_of >= ? ", self.id, subj.id, month.beginning_of_month])
+         self.itl_summaries.for_subject(subj).since_date(month.beginning_of_month)
        else
-         ItlSummary.find(:all, :conditions => ["organization_id = ? AND yr_mnth_of >= ? ", self.id, month.beginning_of_month])
+         # ItlSummary.find(:all, :conditions => ["organization_id = ? AND yr_mnth_of >= ? ", self.id, month.beginning_of_month])
+         self.itl_summaries.since_date(month.beginning_of_month)
        end
   end
   
   def itl_summaries_between_dates_subject(subj, month1, month2)
        if subj
-         ItlSummary.find(:all, :conditions => ["organization_id = ? AND subject_area_id = ?  AND yr_mnth_of >= ? AND yr_mnth_of <= ?", self.id, subj.id, month1.beginning_of_month, month2.end_of_month])
+         # ItlSummary.find(:all, :conditions => ["organization_id = ? AND subject_area_id = ?  AND yr_mnth_of >= ? AND yr_mnth_of <= ?", self.id, subj.id, month1.beginning_of_month, month2.end_of_month])
+         self.itl_summaries.for_subject(subj).between_dates(month1.beginning_of_month, month2.beginning_of_month)
        else
-         ItlSummary.find(:all, :conditions => ["organization_id = ? AND yr_mnth_of >= ? AND yr_mnth_of <= ?", self.id, month1.beginning_of_month, month2.end_of_month])
+         # ItlSummary.find(:all, :conditions => ["organization_id = ? AND yr_mnth_of >= ? AND yr_mnth_of <= ?", self.id, month1.beginning_of_month, month2.end_of_month])
+         self.itl_summaries.between_dates(month1.beginning_of_month, month2.beginning_of_month)
        end
   end
 
   def itl_summaries_between_dates_subject_belt(subj, month1, month2, belt)
        if subj
-         ItlSummary.find(:all, :conditions => ["organization_id = ? AND subject_area_id = ? AND yr_mnth_of >= ? AND yr_mnth_of <= ?", self.id, subj.id, month1, month2]).select{|s| !s.itl_belt_rank.nil? && s.itl_belt_rank.rank_score >= belt.rank_score}
+         self.itl_summaries.for_subject(subj).between_dates(month1.beginning_of_month, month2.beginning_of_month).select{|s| !s.itl_belt_rank.nil? && s.itl_belt_rank.rank_score >= belt.rank_score}
        else
-         ItlSummary.find(:all, :conditions => ["organization_id = ? AND yr_mnth_of >= ? AND yr_mnth_of <= ?", self.id, month1, month2]).select{|s| !s.itl_belt_rank.nil? && s.itl_belt_rank.rank_score >= belt.rank_score}
+         self.itl_summaries.between_dates(month1.beginning_of_month, month2.beginning_of_month).select{|s| !s.itl_belt_rank.nil? && s.itl_belt_rank.rank_score >= belt.rank_score}
        end
   end
   
@@ -875,7 +885,7 @@ class Organization < ActiveRecord::Base
       setting_value.update_attributes! :value => value
     elsif (match_data = method_name.match(getter_re))
       setting_name = args.first
-      setting_value = self.setting_values.send(match_data[1].tableize).find(:first, :conditions => ["settings.name = ?", setting_name])
+      setting_value = self.setting_values.send(match_data[1].tableize).where('settings.name = ?', setting_name).first
       setting_value ? setting_value.value : Object.const_get(match_data[1].classify).find_by_name(setting_name).default_value
     elsif (match_data = method_name.match(partner_re))
       if self.instance_variable_get("@#{match_data[1]}")
@@ -940,10 +950,10 @@ class Organization < ActiveRecord::Base
  
  
   def self_resources_used_by_others_not_uniq
-     classrooms = Classroom.active.find(:all, :conditions => ["organization_id != ?", self.id])
+     classrooms = self.classrooms.active
      topics = classrooms.collect{|c| c.topics}.flatten
      used_resources = topics.collect{|t| t.contents}.flatten
-     self_resources = Content.find(:all, :conditions => ["organization_id = ?", self.id])
+     self_resources = self.contents
      resources = []
      used_resources.each do |r|
      if self_resources.include?(r) then
@@ -995,7 +1005,7 @@ class Organization < ActiveRecord::Base
 
   
   def uniq_resource_subjects
-    all = Content.active.find(:all, :conditions => ["organization_id = ?", self.id])
+    all = self.contents.active
     subjects = all.collect{|rsrc| rsrc.subject_area_old}.uniq
   end
 
@@ -1071,11 +1081,11 @@ class Organization < ActiveRecord::Base
 
 
   def org_followers 
-      fol_auths = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.friend, self]).collect{|a| a.user}
+      fol_auths = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.friend, self).collect{|a| a.user}
   end
   
   def administrators 
-      admins = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.administrator, self]).collect{|a| a.user}
+      admins = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.administrator, self).collect{|a| a.user}
   end
 
   def administrator_list
@@ -1087,11 +1097,11 @@ class Organization < ActiveRecord::Base
   end
 
   def bloggers 
-      bloggers = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.blogger, self]).collect{|a| a.user}.sort_by{|u| u.last_name}
+      bloggers = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.blogger, self).collect{|a| a.user}.sort_by{|u| u.last_name}
   end
 
   def blog_admins 
-    Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.blog_admin, self]).collect{|a| a.user}
+    Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.blog_admin, self).collect{|a| a.user}
   end
 
   def blogger_list
@@ -1103,7 +1113,7 @@ class Organization < ActiveRecord::Base
   end
 
   def teachers 
-      teachers = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.teacher, self]).collect{|a| a.user}
+      teachers = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.teacher, self).collect{|a| a.user}
   end
 
   def teacher_list
@@ -1115,7 +1125,7 @@ class Organization < ActiveRecord::Base
   end
 
   def staff_consultants 
-      consultants = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.consultant, self]).collect{|a| a.user}
+      consultants = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.consultant, self).collect{|a| a.user}
   end
 
   def consultants_for_client(client) 
@@ -1131,27 +1141,27 @@ class Organization < ActiveRecord::Base
   end
   
   def content_admins 
-      content_admins = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.content_administrator, self]).collect{|a| a.user}
+      content_admins = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.content_administrator, self).collect{|a| a.user}
   end
   
   def cm_admins 
-      cm_admins = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.cm_admin, self]).collect{|a| a.user}
+      cm_admins = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.cm_admin, self).collect{|a| a.user}
   end
   
   def cm_kms 
-      kms = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.km, self]).collect{|a| a.user}
+      kms = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.km, self).collect{|a| a.user}
   end
 
   def elt_admins 
-      elt_admins = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.elt_admin, self]).collect{|a| a.user}
+      elt_admins = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.elt_admin, self).collect{|a| a.user}
   end
   
   def elt_team 
-      elt_team = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.elt_team, self]).collect{|a| a.user}
+      elt_team = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.elt_team, self).collect{|a| a.user}
   end
 
   def elt_reviewers 
-      elt_reviewers = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.elt_reviewer, self]).collect{|a| a.user}
+      elt_reviewers = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.elt_reviewer, self).collect{|a| a.user}
   end
   
   def active_pd_plan_count
@@ -1159,7 +1169,7 @@ class Organization < ActiveRecord::Base
   end
 
   def itl_observers 
-      trackers = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Organization", AuthorizationLevel.itl_observer, self]).collect{|a| a.user}
+      trackers = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.itl_observer, self).collect{|a| a.user}
   end
 
   def itl_observer_list

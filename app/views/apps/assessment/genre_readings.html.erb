@@ -41,7 +41,7 @@
 					</span>
 					</center>
 				</td>
-				<% quest_use = ActQuestion.find(:all, :conditions => ["act_rel_reading_id = ?", rsrc.id]) -%>
+				<% quest_use = rsrc.act_questions -%>
 				<% exposed = quest_use.collect{|q| q.act_answers.selected}.flatten -%>
 				<td width = 130px style=" color: #000000; vertical-align:top; font-size:11px" >
 					<center><%= pluralize(quest_use.size, ' Question') %><br/>

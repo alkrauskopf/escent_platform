@@ -25,11 +25,18 @@ class ActMaster < ActiveRecord::Base
   scope :national, :conditions => { :is_national => true}  
   scope :act, :conditions => { :abbrev => "ACT"}  
   scope :all, :order => "abbrev"
-  scope       :co,  :conditions => { :abbrev => "CO"}
+  scope  :co,  :conditions => { :abbrev => "CO"}
 
 
+  def self.default_std
+   ActMaster.act.first
+  end
   def self.find_standard(std)
-    self.find(:first, :conditions =>["abbrev = ?", std]) rescue nil
+    self.where('abbrev = ?', std).first
+  end
+
+  def self.by_abbrev
+    order('abbrev')
   end
 
   def lowest_upper_score(subject)
@@ -110,12 +117,12 @@ class ActMaster < ActiveRecord::Base
     
   end
 
-  def sms(answers,subject_id, standard_id, score_range_id, org_id)
+  def sms(answers, subject_id, standard_id, score_range_id, org_id)
     
     act_standard = ActStandard.find_by_id(standard_id) rescue nil
     
     if subject_id && answers
-      options = IfaOrgOption.find(:first, :conditions => ["organization_id = ?", org_id])
+      options = IfaOrgOption.for_org_id(org_id)
 
 # filter anwer list  Limit to was_select 
     selected_answers = answers.select{|a| a.was_selected}
@@ -127,9 +134,11 @@ class ActMaster < ActiveRecord::Base
 
 # get score ranges
       unless score_range_id == 0
-        score_ranges = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? AND id = ? AND act_master_id = ?", subject_id, score_range_id, self.id])
-      else   
-        score_ranges = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? AND act_master_id = ?", subject_id, self.id])    
+    #    score_ranges = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? AND id = ? AND act_master_id = ?", subject_id, score_range_id, self.id])
+        score_ranges = self.for_subject_id(subject_id).select{|sr| (sr.id == score_range_id)}
+      else
+ #      score_ranges = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? AND act_master_id = ?", subject_id, self.id])
+        score_ranges = self.for_subject_id(subject_id)
         score_ranges.sort!{|a,b| a.upper_score <=> b.upper_score}
       end
 
@@ -276,7 +285,8 @@ class ActMaster < ActiveRecord::Base
     
     if types 
       types.each do |t|
-        benches = ActBench.find(:all, :conditions => ["act_subject_id =? AND act_standard_id = ? AND act_score_range_id = ? AND act_bench_type_id = ?", subject_id, standard_id, range_id, t.id]) rescue nil
+   #     benches = ActBench.find(:all, :conditions => ["act_subject_id =? AND act_standard_id = ? AND act_score_range_id = ? AND act_bench_type_id = ?", subject_id, standard_id, range_id, t.id]) rescue nil
+        benches = t.act_benches.where('act_subject_id =? AND act_standard_id = ? AND act_score_range_id = ?', subject_id, standard_id, range_id)
         if benches.size > 0
           cell_benchmarks += "<strong>" +   t.name.upcase + "</strong><br/>"
           benches.each_with_index do |b, idx|

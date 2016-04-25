@@ -18,8 +18,6 @@
   <b>Organization:</b>
   <%=h @classroom.organization_id %>
 </p>
-<%#= button_to_remote 'Edit Topics', {:url => {:controller => 'admin/topics',:action => 'index',:classroom_id => @classroom.id, :organization_id => @current_organization},:method => 'get', :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
-
+ Function Now Under Classroom App
 <br />
-<%#= button_to_remote 'Edit', {:url => {:controller => 'admin/classrooms',:action => 'edit',:id => @classroom.id, :organization_id => @current_organization},:method => 'get', :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
-<%= button_to_remote 'Back', {:url => {:controller => 'admin/classrooms',:action => 'index', :organization_id => @current_organization},:method => 'get', :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
+<%= button_to 'Back', {:url => {:controller => 'admin/classrooms',:action => 'index', :organization_id => @current_organization},:remote => true,:method => 'get', :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>

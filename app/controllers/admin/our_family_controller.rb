@@ -10,7 +10,7 @@ class Admin::OurFamilyController < Admin::ApplicationController
   end
   
 
-  def new
+  def new_x
     @role = @current_organization.roles.new
     if request.post?
       @role = @current_organization.roles.new(params[:role])
@@ -32,7 +32,7 @@ class Admin::OurFamilyController < Admin::ApplicationController
     end
   end
   
-  def edit
+  def edit_x
     @role = @current_organization.roles.find(params[:id])
     if request.post?
       if @role.update_attributes(params[:role])
@@ -44,7 +44,7 @@ class Admin::OurFamilyController < Admin::ApplicationController
     end
   end
   
-  def delete_user_from_role
+  def delete_user_from_role_x
     if request.post?
       role = @current_organization.roles.find(params[:role_id])
       user = User.find_by_public_id(params[:user_id])
@@ -56,7 +56,7 @@ class Admin::OurFamilyController < Admin::ApplicationController
     end
   end
   
-  def delete
+  def delete_x
     if request.post?
       @role = @current_organization.roles.find(params[:id])
       if @role.can_be_deleted?
@@ -69,7 +69,7 @@ class Admin::OurFamilyController < Admin::ApplicationController
     end
   end
   
-  def send_email
+  def send_email_x
     @role = @current_organization.roles.find(params[:id])    
     if params[:email][:subject].empty? || params[:email][:message].empty?
       flash[:error] = "Subject and Message are required."
@@ -81,7 +81,7 @@ class Admin::OurFamilyController < Admin::ApplicationController
     end
   end
   
-  def export
+  def export_x
     @role = @current_organization.roles.find(params[:id]) 
     
 #    @users = @role.users.find(:all, :select => "first_name, last_name, preferred_email, postal_code")
@@ -94,17 +94,17 @@ class Admin::OurFamilyController < Admin::ApplicationController
     
   end
   
-  def email_role
+  def email_role_x
     @role = @current_organization.roles.find(params[:id])
   end
   
-  def view_members
+  def view_members_x
     @role = @current_organization.roles.find params[:id]
   rescue ActiveRecord::RecordNotFound => e
     render :text => "<div>No users found.</div>" and return
   end
   
-  def view_other_members
+  def view_other_members_x
     @role = @current_organization.roles.find params[:id]
      @users_in_role = User.with_role(@role.id)
      @friends = @current_organization.friends_of_org
@@ -127,7 +127,6 @@ class Admin::OurFamilyController < Admin::ApplicationController
   rescue ActiveRecord::RecordNotFound => e
     render :text => "<div>No users found.</div>" and return
   end
-
   
   def remove_authentication_level
     user = User.find_by_public_id(params[:user_id])
@@ -170,50 +169,28 @@ class Admin::OurFamilyController < Admin::ApplicationController
     redirect_to :action => :people, :organization_id => @current_organization
   end
   
-  def contact
-    @user = User.find_by_public_id params[:id]
-
-    if request.post?
-      Notifier.deliver_contact @current_user.preferred_email, params[:email_archive].merge(:user => @user)
-      @people = User.find :all, :include => [:authorizations, :roles], :conditions => ["(authorizations.scope_id = ? AND authorizations.scope_type = ?) OR (roles.id IN (?))", @current_organization, "Organization", @current_organization.roles.collect{|r| r.id}]      
-      respond_to do |format|
-        format.js do
-          responds_to_parent do
-            render :update do |page|
-              page.replace_html "our_family_panel", :file => 'admin/our_family/people', :object => @current_organization
-            end
-          end          
-        end
-      end
-    end
+  def contact_x
+    # @user = User.find_by_public_id params[:id]
+    #
+    # if request.post?
+    #   Notifier.deliver_contact @current_user.preferred_email, params[:email_archive].merge(:user => @user)
+    #   @people = User.find :all, :include => [:authorizations, :roles], :conditions => ["(authorizations.scope_id = ? AND authorizations.scope_type = ?) OR (roles.id IN (?))", @current_organization, "Organization", @current_organization.roles.collect{|r| r.id}]
+    #   respond_to do |format|
+    #     format.js do
+    #       responds_to_parent do
+    #         render :update do |page|
+    #           page.replace_html "our_family_panel", :file => 'admin/our_family/people', :object => @current_organization
+    #         end
+    #       end
+    #     end
+    #   end
+    # end
   end
   
   def authorization_levels
     #@authorization_levels = AuthorizationLevel.all(:conditions => ["id NOT IN (1, 3)"])
  #   @authorization_levels = AuthorizationLevel.all(:include => :applicable_scopes, :conditions => ["authorization_levels.name NOT IN ('superuser', 'friend') AND applicable_scopes.name = ?", "Organization"])
     @authorization_levels = Organization.authorization_levels
-  end
-  
-  def new_user_authorization_old
-    #@authorization_levels = AuthorizationLevel.all(:conditions => ["id NOT IN (1, 3)"])
-    @authorization_levels = AuthorizationLevel.all(:include => :applicable_scopes, :conditions => ["authorization_levels.name NOT IN ('superuser', 'friend') AND applicable_scopes.name = ?", "Organization"])  
-     @people = @current_organization.friends_of_org
-    if request.post?
-      user = User.find(params[:user])
-      authorization_level = AuthorizationLevel.find(params[:authorization_level])
-    if (user.authorizations.find_by_scope_id_and_scope_type_and_authorization_level_id(@current_organization, @current_organization.class.to_s, authorization_level))
-      redirect_to :action => :authorization_levels, :organization_id => @current_organization
-      else
-        if user.authorizations.create :authorization_level => authorization_level, :scope => @current_organization                      
-        Notifier.deliver_new_authorization(:user => user, :current_organization => @current_organization, :admin => @current_user, :authorization_level => authorization_level, :fsn_host => request.host_with_port)          
-        flash[:notice] = "Successfully added the user to authorization level: #{authorization_level.name}."
-        redirect_to :action => :authorization_levels, :organization_id => @current_organization
-        else
-        flash[:notice] = "error"
-        redirect_to :action => :authorization_levels, :organization_id => @current_organization
-        end
-      end
-    end
   end
 
   def new_user_authorization
@@ -231,8 +208,9 @@ class Admin::OurFamilyController < Admin::ApplicationController
     unless user.nil? || authorization_level.nil?
       if !user.has_authority?(@current_organization, authorization_level)
         if user.authorizations.create :authorization_level => authorization_level, :scope => @current_organization                      
-          Notifier.deliver_new_authorization(:user => user, :current_organization => @current_organization, :admin => @current_user, :authorization_level => authorization_level, :fsn_host => request.host_with_port)          
-        end     
+        #  Notifier.deliver_new_authorization(:user => user, :current_organization => @current_organization, :admin => @current_user, :authorization_level => authorization_level, :fsn_host => request.host_with_port)
+          UserMailer.new_authorization(user, @current_organization, @current_user, authorization_level, request.host_with_port).deliver
+        end
       else
         user_level = user.authorizations.for_level(authorization_level).for_entity(@current_organization).first rescue nil
         user_level.destroy unless user_level.nil?

@@ -25,7 +25,7 @@ class Admin::ContentController < Admin::ApplicationController
     end  
   end
   
-  def list_pending
+  def list_pending_x
     content_upload_source = ContentUploadSource.find_by_name("call to action")
     @contents = (@current_organization.contents.active.with_content_upload_source content_upload_source.id).paginate :per_page => 10, :page => params[:page]
     render :template => "/admin/content/list_pending_page" if params[:page]
@@ -190,7 +190,7 @@ class Admin::ContentController < Admin::ApplicationController
     redirect_to :action => :index
   end
   
-  def destroy
+  def destroy_x
     @content = Content.find_by_public_id(params[:content_id])
     @content.destroy if @content.pending?
     content_upload_source = ContentUploadSource.find_by_name("call to action")

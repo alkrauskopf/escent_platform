@@ -1,37 +1,4 @@
  
 <div id="topics_panel">
-         <%= button_to_remote 'Back', {:url => {:controller => 'admin/classrooms',:action => 'index', :organization_id => @current_organization},:method => 'get', :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
-          <div style="margin-left:800px"><%= button_to_remote "Create New Topic", {:update => "topics_panel", :url => {:controller => :topics, :action => :new, :organization_id => @current_organization, :classroom_id => @classroom.id}, :method => :get}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %><br/></div>
-	<div style="text-align:center;  word-wrap:break-word; overflow:hidden; color: #C83A14;  font-size: 16px; font-weight: bold">
-		<center><u><%= @classroom.course_name %>&nbsp;Topics</u></center>
-	</div>
-
-	<% local = "All Topics" -%>
-
-        <br />
-        <%= button_to_remote 'Back', {:url => {:controller => 'admin/classrooms',:action => 'index', :organization_id => @current_organization},:method => 'get', :update => "classrooms_panel"},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
-		<br/>
+  Removed Function
 </div>
-<script type="text/javascript" charset="utf-8">
-  jQ(document).ready(function() {
-    jQ(".dialog").remove();
-    
-		/*  KEEP: streaming will use later
-		if ( jQ("#topics_panel :radio:checked") == "cause_partner" ) {
-		  jQ("#cause_partner_select").show();
-	  }
-	  else {
-		  jQ("#cause_partner_select").hide();
-	  };
-
-	  jQ("#topics_panel :radio").click(function() {
-      if(jQ(this).val() == "cause_partner"){
-	      jQ("#cause_partner_select").show();
-		  }else{
-		    jQ("#cause_partner_select").hide();
-		  };
-    });
-    */
-
-  })
-</script>

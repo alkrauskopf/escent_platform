@@ -1,16 +1,18 @@
 <tr id="<%= content.public_id %>" class="content-list-item">
-	<td><input id="featured_content" name="featured_content" type="radio" value="<%=content.public_id%>" <%= @topic.featured_content == content.id ? 'checked' : ''%> />
-	</td>
-	<th><%= content.title %><br/>
-		<%=content.subject_area.name %>&nbsp;<%=content.content_resource_type.name.humanize%>
-	</th>
-	<th><%= content.organization.name %></th>
-	<th><%= content.content_object_type.content_object_type_group.name %><br/>
-		<%= content.content_status.name.upcase %>
-	</th>
-
-	<td>
-		<button class="fsn-button ui-button ui-state-default ui-corner-all view">View</button>
-		<%= button_to_remote "Remove", {:update => "topic_content", :url => {:controller => :topics, :action => :remove_content, :classroom_id => @classroom, :organization_id => @current_organization, :id => @topic, :content_id => content.public_id}, :confirm => "Are you sure?"}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>	</td>
+  <td > Function Removed</td>
+  <!--<td><input id="featured_content" name="featured_content" type="radio" value="<%=content.public_id%>" <%= @topic.featured_content == content.id ? 'checked' : ''%> />-->
+	<!--</td>-->
+	<!--<th><%#= content.title %><br/>-->
+		<!--<%#=content.subject_area.name %>&nbsp;<%=content.content_resource_type.name.humanize%>-->
+	<!--</th>-->
+	<!--<th><%= content.organization.name %></th>-->
+	<!--<th><%#= content.content_object_type.content_object_type_group.name %><br/>-->
+		<!--<%#= content.content_status.name.upcase %>-->
+	<!--</th>-->
+<!---->
+	<!--<td>-->
+		<!--<button class="fsn-button ui-button ui-state-default ui-corner-all view">View</button>
+		<%#= button_to "Remove", {:update => "topic_content", :url => {:controller => :topics, :action => :remove_content, :classroom_id => @classroom, :organization_id => @current_organization, :id => @topic, :content_id => content.public_id}, :remote => true, :confirm => "Are you sure?"}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+		</td> -->
 </tr>
 

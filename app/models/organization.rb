@@ -1081,11 +1081,11 @@ class Organization < ActiveRecord::Base
 
 
   def org_followers 
-      fol_auths = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.friend, self).collect{|a| a.user}
+      fol_auths = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.friend, self).collect{|a| a.user}
   end
   
   def administrators 
-      admins = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.administrator, self).collect{|a| a.user}
+      admins = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.administrator, self).collect{|a| a.user}
   end
 
   def administrator_list
@@ -1096,12 +1096,19 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def administrator_email_list
+    unless self.administrators.empty?
+      self.administrators.sort_by{|u| u.last_name}.collect{|t| t.preferred_email}.uniq.join(", ")
+    else
+      ""
+    end
+  end
   def bloggers 
-      bloggers = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.blogger, self).collect{|a| a.user}.sort_by{|u| u.last_name}
+      bloggers = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.blogger, self).collect{|a| a.user}.sort_by{|u| u.last_name}
   end
 
   def blog_admins 
-    Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.blog_admin, self).collect{|a| a.user}
+    Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.blog_admin, self).collect{|a| a.user}
   end
 
   def blogger_list
@@ -1113,7 +1120,7 @@ class Organization < ActiveRecord::Base
   end
 
   def teachers 
-      teachers = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.teacher, self).collect{|a| a.user}
+      teachers = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.teacher, self).collect{|a| a.user}
   end
 
   def teacher_list
@@ -1125,7 +1132,7 @@ class Organization < ActiveRecord::Base
   end
 
   def staff_consultants 
-      consultants = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.consultant, self).collect{|a| a.user}
+      consultants = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.consultant, self).collect{|a| a.user}
   end
 
   def consultants_for_client(client) 
@@ -1141,27 +1148,27 @@ class Organization < ActiveRecord::Base
   end
   
   def content_admins 
-      content_admins = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.content_administrator, self).collect{|a| a.user}
+      content_admins = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.content_administrator, self).collect{|a| a.user}
   end
   
   def cm_admins 
-      cm_admins = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.cm_admin, self).collect{|a| a.user}
+      cm_admins = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.cm_admin, self).collect{|a| a.user}
   end
   
   def cm_kms 
-      kms = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.km, self).collect{|a| a.user}
+      kms = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.km, self).collect{|a| a.user}
   end
 
   def elt_admins 
-      elt_admins = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.elt_admin, self).collect{|a| a.user}
+      elt_admins = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.elt_admin, self).collect{|a| a.user}
   end
   
   def elt_team 
-      elt_team = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.elt_team, self).collect{|a| a.user}
+      elt_team = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.elt_team, self).collect{|a| a.user}
   end
 
   def elt_reviewers 
-      elt_reviewers = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.elt_reviewer, self).collect{|a| a.user}
+      elt_reviewers = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.elt_reviewer, self).collect{|a| a.user}
   end
   
   def active_pd_plan_count
@@ -1169,7 +1176,7 @@ class Organization < ActiveRecord::Base
   end
 
   def itl_observers 
-      trackers = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.itl_observer, self).collect{|a| a.user}
+      trackers = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.itl_observer, self).collect{|a| a.user}
   end
 
   def itl_observer_list

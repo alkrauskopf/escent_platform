@@ -335,7 +335,7 @@ class User < ActiveRecord::Base
   end
     
   def followers
-     fol_auths = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'User', AuthorizationLevel.colleague, self)
+     fol_auths = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'User', AuthorizationLevel.colleague, self)
      # followers = []
      # fol_auths.each do |ca|
      # followers << User.find(:first, :conditions => ["id= ?", ca.user_id])
@@ -355,7 +355,7 @@ class User < ActiveRecord::Base
   def lead_classrooms
 #   Classroom.active.find(:all)
 #   Classroom.active.find(:all, :include => :authorizations, :conditions => ["users.id != ? AND authorizations.authorization_level_id = ? AND (authorizations.user_id = ? OR authorizations.scope_id = ?)", self, AuthorizationLevel.favorite, self, self])
-    favs = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND user_id = ?', 'Classroom', AuthorizationLevel.leader, self)
+    favs = Authorization.where('scope_type = ? AND authorization_level_id = ? AND user_id = ?', 'Classroom', AuthorizationLevel.leader, self)
     rooms = []
     favs.each do |fc|
     rooms << Classroom.active.where('id= ?', fc.scope_id).first
@@ -366,7 +366,7 @@ class User < ActiveRecord::Base
   def participate_classrooms
 #   Classroom.active.find(:all)
 #   Classroom.active.find(:all, :include => :authorizations, :conditions => ["users.id != ? AND authorizations.authorization_level_id = ? AND (authorizations.user_id = ? OR authorizations.scope_id = ?)", self, AuthorizationLevel.favorite, self, self])
-    favs = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND user_id = ?', 'Classroom', AuthorizationLevel.participant, self)
+    favs = Authorization.where('scope_type = ? AND authorization_level_id = ? AND user_id = ?', 'Classroom', AuthorizationLevel.participant, self)
     rooms = []
     favs.each do |fc|
       rooms << Classroom.active.where('id= ?', fc.scope_id).first
@@ -480,7 +480,7 @@ class User < ActiveRecord::Base
 #  Messages Sent
 #
   def ms(start_date, end_date)
-    Message.all.where('sender_id = ? && created_at >= ? && created_at <= ?', self.id, start_date, end_date).size rescue 0
+    Message.where('sender_id = ? && created_at >= ? && created_at <= ?', self.id, start_date, end_date).size rescue 0
   end   
 #
 #  Messages Received
@@ -492,7 +492,7 @@ class User < ActiveRecord::Base
 #  Assessments Taken By User's Students
 #
   def sat(start_date, end_date)
-    teacher_assessments = ActSubmission.all.where('teacher_id = ? && created_at >= ? && created_at <= ?', self.id, start_date, end_date) rescue []
+    teacher_assessments = ActSubmission.where('teacher_id = ? && created_at >= ? && created_at <= ?', self.id, start_date, end_date) rescue []
     teacher_assessments.size
   end   
 #
@@ -511,7 +511,7 @@ class User < ActiveRecord::Base
 #  Average Student Mastery Level
 #
   def asml(subject_id,start_date, end_date, current_standard, org)
-    answer_list = ActAnswer.all.where('teacher_id = ? && organization_id = ?  && created_at >= ? && created_at <= ?&& was_selected', self.id, org.id, start_date, end_date)
+    answer_list = ActAnswer.where('teacher_id = ? && organization_id = ?  && created_at >= ? && created_at <= ?&& was_selected', self.id, org.id, start_date, end_date)
     sms_level = current_standard.sms(answer_list, subject_id, 0,0, org.id)
   end
 #
@@ -836,7 +836,7 @@ class User < ActiveRecord::Base
        stat = self.contents.active.collect{|c| c.views}.sum
      end
      if metric.abbrev == "SMS"
-       stat = Message.all.where('sender_id = ?', self.id).size
+       stat = Message.where('sender_id = ?', self.id).size
      end
      if metric.abbrev == "SMR"
        stat = self.messages.size
@@ -1315,7 +1315,7 @@ class User < ActiveRecord::Base
   end
   
   def self.org_contact(contact_email)
-    User.all.where('(email_address = ?)', contact_email).first
+    User.where('(email_address = ?)', contact_email).first
   end
  
   def owned_classrooms
@@ -1341,7 +1341,7 @@ class User < ActiveRecord::Base
   
   
   def self.unverified_users
-    users = User.all.where('verified_at is null')
+    users = User.where('verified_at is null')
   end
   
   def actived?

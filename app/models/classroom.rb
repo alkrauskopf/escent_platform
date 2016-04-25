@@ -267,10 +267,10 @@ class Classroom < ActiveRecord::Base
 
   
   def observers
-     clssrm_auths = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Classroom', AuthorizationLevel.favorite, self)
+     clssrm_auths = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Classroom', AuthorizationLevel.favorite, self)
      obs = []
      clssrm_auths.each do |ob|
-     obs << User.all.where('id= ?', ob.user_id).first
+     obs << User.where('id= ?', ob.user_id).first
     end
     obs
   end 

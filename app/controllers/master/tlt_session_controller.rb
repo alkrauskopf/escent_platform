@@ -5,7 +5,7 @@ class Master::TltSessionController < Master::ApplicationController
   before_filter :find_session
   
   def index
-    @sessions = TltSession.find :all, :order => "session_date DESC"
+    @sessions = TltSession.all.order('session_date DESC')
   end
 
   def completed_crud_conversion

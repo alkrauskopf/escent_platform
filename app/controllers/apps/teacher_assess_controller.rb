@@ -141,9 +141,9 @@ class Apps::TeacherAssessController < Site::ApplicationController
   @assessments_taken = @current_organization.act_submission.submission_period(@start_date, @end_date)
   @assessment_teachers = @assessments_taken.collect{|a| a.teacher_id}.uniq.size
   @assessments_per_teacher = @assessments_taken.size/@assessment_teachers
-  @teacher_assessments = ActSubmission.all.where('teacher_id = ? && created_at >= ? && created_at <= ?', @teacher.id, @start_date, @end_date)
-  @teacher_msgs_sent = Message.all.where('sender = ? && created_at >= ? && created_at <= ?', @teacher.full_name, @start_date, @end_date)
-  @teacher_msgs_received = Message.all.where('user_id = ? && created_at >= ? && created_at <= ?', @teacher.id, @start_date, @end_date)
+  @teacher_assessments = ActSubmission.where('teacher_id = ? && created_at >= ? && created_at <= ?', @teacher.id, @start_date, @end_date)
+  @teacher_msgs_sent = Message.where('sender = ? && created_at >= ? && created_at <= ?', @teacher.full_name, @start_date, @end_date)
+  @teacher_msgs_received = Message.where('user_id = ? && created_at >= ? && created_at <= ?', @teacher.id, @start_date, @end_date)
   @teacher_assessments_finalized = @teacher_assessments.select{|ass| ass.date_finalized >= @start_date && ass.date_finalized <= @end_date} rescue nil
   @teacher_students = @teacher.sc(@current_organization).size rescue 0
   @teacher_observers = @teacher.oc(@current_organization).size rescue 0

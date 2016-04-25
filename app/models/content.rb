@@ -452,7 +452,7 @@ class Content < ActiveRecord::Base
   
   def favorite_of
 #     content_auths = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Content", AuthorizationLevel.favorite, self])
-     content_auths = Authorization.all.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Content', AuthorizationLevel.favorite, self)
+     content_auths = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Content', AuthorizationLevel.favorite, self)
      # followers = []
      # content_auths.each do |ca|
      # followers << User.find(:first, :conditions => ["id= ?", ca.user_id])

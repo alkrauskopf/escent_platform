@@ -5,7 +5,7 @@ class Master::ActSubmissionsController < Master::ApplicationController
   before_filter :find_submission, :only => [:edit, :show, :delete]
   
   def index
-    @submissions = ActSubmission.find :all
+    @submissions = ActSubmission.all
   end
  
   def completed_crud_conversion
@@ -34,7 +34,7 @@ class Master::ActSubmissionsController < Master::ApplicationController
 
   def update_sms_in_org_dashboards
     if false
-      all_dashboards = IfaDashboard.all.where('ifa_dashboardable_type = ?', 'Organization')
+      all_dashboards = IfaDashboard.where('ifa_dashboardable_type = ?', 'Organization')
       all_dashboards.each do |db|
          org = db.organization
          subject = ActSubject.find_by_id(db.act_subject_id)
@@ -55,7 +55,7 @@ class Master::ActSubmissionsController < Master::ApplicationController
 
   def update_sms_in_classroom_dashboards
     if false
-      all_dashboards = IfaDashboard.all.where('ifa_dashboardable_type = ?', 'Classroom')
+      all_dashboards = IfaDashboard.where('ifa_dashboardable_type = ?', 'Classroom')
       all_dashboards.each do |db|
          org = Organization.find_by_id(db.organization_id) rescue nil
          subject = ActSubject.find_by_id(db.act_subject_id)
@@ -76,7 +76,7 @@ class Master::ActSubmissionsController < Master::ApplicationController
 
   def update_sms_in_user_dashboards
     if false
-      all_dashboards = IfaDashboard.all.where('ifa_dashboardable_type = ?', 'User')
+      all_dashboards = IfaDashboard.where('ifa_dashboardable_type = ?', 'User')
       all_dashboards.each do |db|
          org = Organization.find_by_id(db.organization_id) rescue nil
          org = Organization.find_by_id(db.organization_id) rescue nil

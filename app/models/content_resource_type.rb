@@ -12,7 +12,7 @@ class ContentResourceType < ActiveRecord::Base
 
   
   def self.auto_complete_on(query)
-    ContentResourceType.all.where('name LIKE ?', '%' + query + '%').order('name')
+    ContentResourceType.where('name LIKE ?', '%' + query + '%').order('name')
   end
 
 end

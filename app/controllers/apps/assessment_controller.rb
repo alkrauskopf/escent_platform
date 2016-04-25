@@ -3101,7 +3101,7 @@ end
           calibrated_answers_for_sms_calc = finalized_answers_for_sms_calc.select{|a| a.act_question.is_calibrated} rescue []
 
 #          entity_dashboards = IfaDashboard.find(:all, :conditions => ["ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ? AND act_subject_id = ? AND organization_id = ?", entity.id, entity.class.to_s,  month_end, subj.id, entity_org_id]) rescue []
-          entity_dashboards = IfaDashboard.all.where("ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ? AND act_subject_id = ? AND organization_id = ?", entity.id, entity.class.to_s,  month_end, subj.id, entity_org_id) rescue []
+          entity_dashboards = IfaDashboard.where("ifa_dashboardable_id = ? AND ifa_dashboardable_type = ?  AND period_end = ? AND act_subject_id = ? AND organization_id = ?", entity.id, entity.class.to_s,  month_end, subj.id, entity_org_id) rescue []
            if entity_dashboards.size > 1
             entity_dashboards.each do |db|
               db.destroy
@@ -3161,7 +3161,7 @@ end
               min_score = 999999
               max_score = 0
               assessment_ids.each do |a|
-                ass_score_range = ActAssessmentScoreRange.all.where("act_assessment_id = ? AND act_master_id =?", a, mstr.id).first rescue nil
+                ass_score_range = ActAssessmentScoreRange.where("act_assessment_id = ? AND act_master_id =?", a, mstr.id).first rescue nil
                 if ass_score_range
                   if ass_score_range.lower_score < min_score then min_score = ass_score_range.lower_score end
                   if ass_score_range.upper_score > max_score then max_score = ass_score_range.upper_score end

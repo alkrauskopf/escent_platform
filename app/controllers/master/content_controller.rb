@@ -3,7 +3,7 @@ class Master::ContentController < Master::ApplicationController
   before_filter :find_content, :only => [:edit, :show, :delete]
   require "rexml/document"
   def index
-    @contents = Content.find :all
+    @contents = Content.all
   end
 
   def trash
@@ -76,7 +76,7 @@ class Master::ContentController < Master::ApplicationController
             if organizations.include?(:"#{element.elements['OrganizationID'].get_text}")
               @content.organization_id = organizations[:"#{element.elements['OrganizationID'].get_text}"]
             else
-              @content.organization_id = Organization.all.where("name like '%#{element.elements['OrganizationID'].get_text}%'").first rescue 0
+              @content.organization_id = Organization.where("name like '%#{element.elements['OrganizationID'].get_text}%'").first rescue 0
               organizations[:"#{element.elements['OrganizationID'].get_text}"] = @content.organization_id
             end
             

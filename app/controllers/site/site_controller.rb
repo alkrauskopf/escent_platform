@@ -956,7 +956,7 @@ class Site::SiteController < Site::ApplicationController
       order_by ||= "last_name, first_name"
       @filter_type = "People"
       if @keywords.blank?
-         items_found = User.all.where('users.id != ? and verified_at IS NOT NULL"', 1).order(order_by)
+         items_found = User.where('users.id != ? and verified_at IS NOT NULL"', 1).order(order_by)
       else
         if @search_field == "Role"
           items_found = User.with_roles @keywords, :order => order_by
@@ -1075,15 +1075,15 @@ class Site::SiteController < Site::ApplicationController
     text = ""
     if @search_field == "Person's Name"
   #    text = User.find(:all, :conditions => ["(last_name LIKE ? OR last_name LIKE ?)", "#{params[:q]}%","% #{params[:q]}%"], :order => "last_name").collect{|o| o.last_name}.join("\n")
-      text = User.all.where('last_name LIKE ? OR last_name LIKE ?', "#{params[:q]}%","% #{params[:q]}%").order('last_name').collect{|o| o.last_name}.join("\n")
+      text = User.where('last_name LIKE ? OR last_name LIKE ?', "#{params[:q]}%","% #{params[:q]}%").order('last_name').collect{|o| o.last_name}.join("\n")
     elsif @search_field == "Name"
   #    text = Organization.find(:all, :conditions => ["(name LIKE ? OR name LIKE ?)", "#{params[:q]}%","% #{params[:q]}%"], :order => "name").collect{|o| o.name}.join("\n")
-      text = Organization.all.where('name LIKE ? OR name LIKE ?', "#{params[:q]}%","% #{params[:q]}%").order('name').collect{|o| o.name}.join("\n")
+      text = Organization.where('name LIKE ? OR name LIKE ?', "#{params[:q]}%","% #{params[:q]}%").order('name').collect{|o| o.name}.join("\n")
     elsif @search_field == "Auth"
   #    text = User.find(:all, :conditions => ["(last_name LIKE ? OR last_name LIKE ?)", "#{params[:q]}%","% #{params[:q]}%"], :order => "last_name").collect{|o| o.last_name}.join("\n")
-      text = User.all.where('(last_name LIKE ? OR last_name LIKE ?)', "#{params[:q]}%","% #{params[:q]}%").order('last_name').collect{|o| o.last_name}.join("\n")
+      text = User.where('(last_name LIKE ? OR last_name LIKE ?)', "#{params[:q]}%","% #{params[:q]}%").order('last_name').collect{|o| o.last_name}.join("\n")
     elsif @search_field == "Subject Area"
-      text = SubjectArea.all.where('(name LIKE ? OR name LIKE ?)', "#{params[:q]}%","% #{params[:q]}%").order('name').collect{|o| o.name}.join("\n")
+      text = SubjectArea.where('(name LIKE ? OR name LIKE ?)', "#{params[:q]}%","% #{params[:q]}%").order('name').collect{|o| o.name}.join("\n")
   #    text = SubjectArea.find(:all, :conditions => ["(name LIKE ? OR name LIKE ?)", "#{params[:q]}%","% #{params[:q]}%"], :order => "name").collect{|o| o.name}.join("\n")
     end
     

@@ -66,7 +66,7 @@ class Folder < ActiveRecord::Base
   end
 
   def classrooms
-      FolderFolderable.all.where('folderable_type = ? AND folder_id = ?', 'Classroom', self.id,).collect{|ff| ff.folderable}.flatten.compact.uniq
+      FolderFolderable.where('folderable_type = ? AND folder_id = ?', 'Classroom', self.id,).collect{|ff| ff.folderable}.flatten.compact.uniq
   end
 
   def includes_entity?(entity)

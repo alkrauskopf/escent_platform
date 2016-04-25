@@ -151,12 +151,12 @@ class Topic < ActiveRecord::Base
     # discussion_users = self.organization.authorizations.find(:all , :conditions => ["authorization_level_id in (?)" , [5 , 2]]) 
     discussion_users = self.classroom.organization.authorizations.where('authorization_level_id in (?)' , [5 , 2])
     user_ids = discussion_users.collect(&:user_id) #discussion_moderator and administrator
-    Discussion.all.where('discussionable_id = ? AND discussionable_type = ? AND user_id in (?) AND suspended_at IS NULL', self.id, 'Topic', user_ids).order('created_at DESC').first
+    Discussion.where('discussionable_id = ? AND discussionable_type = ? AND user_id in (?) AND suspended_at IS NULL', self.id, 'Topic', user_ids).order('created_at DESC').first
   end
 
   def self.features
     features = []
-    self.all.where('featured_content is not null').each {|topic| features << topic.featured_content} and return features
+    self.where('featured_content is not null').each {|topic| features << topic.featured_content} and return features
   end
 
   def featured_resource

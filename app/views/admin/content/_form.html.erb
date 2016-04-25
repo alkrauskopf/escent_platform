@@ -11,7 +11,7 @@
 	  <% if params[:from_front] == "true" %>
 	  <%= link_to "Back", :controller => "/site/site", :action => "static_resource", :organization_id => @content.organization.public_id, :content_id => @content.public_id %>
 	  <% else %>
-		<%= button_to_remote "Back", {:update => "content_panel", :url => {:controller => :content, :action => :index, :organization_id => @current_organization}},{:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
+		<%= button_to "Back", {:update => "content_panel", :url => {:controller => :content, :action => :index, :organization_id => @current_organization}, :remote => true},{:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
 		<% end %>
 		<div style=margin-left:244px>
       	<%= label_tag 'content_title', 'Title:' %>
@@ -224,7 +224,7 @@
   <% if params[:from_front] == "true" %>
 	  <%= link_to "Back", :controller => "/site/site", :action => "static_resource", :organization_id => @content.organization.public_id, :content_id => @content.public_id %>
 	  <% else %>
-		<%= button_to_remote "Back", {:update => "content_panel", :url => {:controller => :content, :action => :index, :organization_id => @current_organization}},{:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
+		<%= button_to "Back", {:update => "content_panel", :url => {:controller => :content, :action => :index, :organization_id => @current_organization}, :remote => true},{:class => "fsn-button ui-button ui-state-default ui-corner-all" } %>
 	  <% end %>
 		<div style="margin-left:80px;">
 		<%= submit_tag "Save Resource", :id => "save_button", :class => "fsn-button ui-button ui-state-default ui-corner-all" %>

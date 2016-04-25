@@ -24,19 +24,19 @@
 			<tr>
 
 				<td class="button" width=60px style="padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px">
-					<%= button_to_remote "Send message", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :contact, :organization_id => @current_organization, :id => person }, :method => :get}, :class =>"fsn-button ui-button ui-state-default ui-corner-all"  %>
+					<%= button_to "Send message", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :contact, :organization_id => @current_organization, :id => person },:remote => true, :method => :get}, :class =>"fsn-button ui-button ui-state-default ui-corner-all"  %>
 				</td>					
 				<td class="button" width=60px style="padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px">					
-					<%= button_to_remote "Dis-Associate", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :remove_association, :organization_id => @current_organization, :id => person}, :confirm => "Are you sure?"}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+					<%= button_to "Dis-Associate", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :remove_association, :organization_id => @current_organization, :id => person}, :confirm => "Are you sure?", :remote => true}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
 				</td>
 				<% if person.home_organization == @current_organization %>
 					<% if person.is_suspended %>
 					<td class="button" width=60px style="padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px">					
-						<%= button_to_remote "Un-Suspend", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :edit_user_toggle_suspended, :organization_id => @current_organization, :id => person}, :confirm => "Are you sure?"}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+						<%= button_to "Un-Suspend", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :edit_user_toggle_suspended, :organization_id => @current_organization, :id => person}, :confirm => "Are you sure?",:remote => true}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
 					</td>
 					<% else %>
 					<td class="button" width=60px style="padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px">					
-						<%= button_to_remote "Suspend Login", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :edit_user_toggle_suspended, :organization_id => @current_organization, :id => person}, :confirm => "Are you sure?"}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+						<%= button_to "Suspend Login", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :edit_user_toggle_suspended, :organization_id => @current_organization, :id => person}, :confirm => "Are you sure?", :remote => true}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
 					</td>				
 					<% end %>
 				<% else %>

@@ -51,7 +51,7 @@
 	</div>	
 	<div class="FormRow" style="text-align:center;padding-top:20px;">
 		<%= submit_tag "Send Email", :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
-		<%= button_to_remote "Cancel", {:update => "associates_panel", :url => {:controller => :associates, :action => :index, :organization_id => @current_organization}}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+		<%= button_to "Cancel", {:update => "associates_panel", :url => {:controller => :associates, :action => :index, :organization_id => @current_organization}, :remote => true}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
 	</div>
 </div>
 <% end -%>

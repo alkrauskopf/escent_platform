@@ -15,7 +15,7 @@
 				</td>
 				<td><%= user.preferred_email %>
 			<td class="button" style="width:100px;">					
-					<%= button_to_remote "Remove", {:update => "classrooms_panel", :url => {:controller => :classrooms, :action => :remove_authorization_level, :organization_id => @current_organization, :classroom_id => @classroom, :user_id => user, :authorization_level_id => @al}, :confirm => "Are you sure?"}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+					<%= button_to "Remove", {:update => "classrooms_panel", :url => {:controller => :classrooms, :action => :remove_authorization_level, :organization_id => @current_organization, :classroom_id => @classroom, :user_id => user, :authorization_level_id => @al}, :confirm => "Are you sure?"},:remote => true, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
 				</td>
 			</tr>
 			<% end -%>

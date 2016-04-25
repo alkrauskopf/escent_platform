@@ -39,7 +39,7 @@
 	</div>	
 	<div class="FormRow" style="text-align:center;padding-top:20px;" >
 		<%= submit_tag "Send Email", :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
-		<%= button_to_remote "Cancel", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :friends, :organization_id => @current_organization}}, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+		<%= button_to "Cancel", {:update => "our_family_panel", :url => {:controller => :our_family, :action => :friends, :organization_id => @current_organization}}, :remote => true, :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
 	</div>
 </div>
 <% end -%>

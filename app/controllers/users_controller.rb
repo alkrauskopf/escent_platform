@@ -31,21 +31,12 @@ class UsersController < ApplicationController
               end
 
               @user.add_as_friend_to(@user.organization)
-              #   temp omit Notifier.deliver_user_registration(:user => @user,:current_organization => @current_organization, :fsn_host => request.host_with_port)
-              #            Notifier.deliver_user_registration @user, @current_organization, request.host_with_port
-              #            Notifier.deliver_user_activate @user , url_for(:action => "activate" , :email => @user.email_address)
-
-              if @user.organization.register_notify?
-                # @user.organization.administrators.each do |adm|
-                #   Notifier.deliver_admin_notice(:user => @user, :admn => adm, :user_organization => @user.organization, :fsn_host => request.host_with_port)
-                # end
+             if @user.organization.register_notify?
                 UserMailer.admin_notice(@user, @user.organization, request.host_with_port).deliver
               end
               redirect_to :action => :registration_successful, :organization_id => @current_organization,:user => @user
               return
             else
-             # create_test_org
-            #  @user.errors.add_to_base("REGISTRATION FAILED. ")
               @user.errors.add_to_base(@user.errors.full_messages.to_sentence)
             end
           else
@@ -62,16 +53,6 @@ class UsersController < ApplicationController
     @home_organization_list = Organization.active.sort_by{|o| o.name}
     render :layout => "registration"
   end
-  
-  #  def activate
-  #    @user = User.find_by_email_address(params[:email]) if params[:email].present?
-  #    if @user.present?
-  #      @user.status = "actived"
-  #      @user.save
-  #      Notifier.deliver_user_registration @user, request.host_with_port
-  #    end
-  #    render :layout => "fsn"
-  #  end
   
   def registration_successful
     @user = User.find_by_public_id(params[:user])
@@ -368,7 +349,6 @@ end
         new_pass = user.reset_password
       end
       if new_pass
-        # Notifier.deliver_reset_password(:user => user, :password => new_pass, :fsn_host => request.host_with_port)
         UserMailer.reset_password(user, new_pass, request.host_with_port).deliver
         flash[:notice]  = ("New password sent to <strong>" + user.preferred_email + "</strong>. Give it a few minutes. Check SPAM.").html_safe
       else

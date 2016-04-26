@@ -95,13 +95,13 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def share_app_blog(organization, sender, blog_id, recipient, message, subject, ep_host )
+  def share_app_blog(organization, sender, blog_id, recipients, message, subject, ep_host )
     @sender = sender
     @message = message
     @blog = Blog.find_by_public_id(blog_id) rescue nil
     @ep_host = ep_host
     @subject_line = subject
-    @recipients = recipient
+    @recipients = recipients
     @organization = organization
     @from = 'escent_discussion_share<noreply@escentpartners.com>'
     sent_on  Time.now

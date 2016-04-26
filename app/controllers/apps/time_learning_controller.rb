@@ -236,7 +236,6 @@ class Apps::TimeLearningController < Site::ApplicationController
     sender = User.find_by_public_id(params[:sender]) rescue @current_user   
     recipient = User.find_by_public_id(params[:recipient]) rescue @current_user
     if sender && recipient
-       # Notifier.deliver_observation_invite(:user => recipient, :sender => @current_user, :arrange => params[:arrangement], :message=>params[:invite_text], :fsn_host => request.host_with_port)
        UserMailer.observation_invite(recipient, @current_user, params[:arrangement], params[:invite_text]).delver
        flash[:notice]  = "Invitation Sent To " + recipient.first_name
     else
@@ -1250,7 +1249,6 @@ class Apps::TimeLearningController < Site::ApplicationController
       new_user_belt.grantor_name = grantor.last_name_first
       new_user_belt.justification = note
       if new_user_belt.save
-        # Notifier.deliver_itl_belt_change(:user => user, :sender => grantor, :rank => belt_id,:message => note, :fsn_host => request.host_with_port)
         UserMailer.itl_belt_change(user, grantor, belt_id, note, request.host_with_port).deliver
         flash[:notice] =  user.first_name + " Has Been Notified"
       else

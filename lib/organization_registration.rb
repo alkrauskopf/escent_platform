@@ -17,7 +17,6 @@ module OrganizationRegistration
     if @organization.present? && params[:email].present?
       @organization.status = Status.approved 
       @organization.save
-      # Notifier.deliver_organization_registration @organization, @current_user, params[:email], request.host_with_port
     end
 #    render :layout => "fsn"
   end
@@ -39,9 +38,7 @@ module OrganizationRegistration
                 @address.organization = @organization
                 if @current_user then @current_user.add_as_administrator_to(@organization) end
                 if @current_user then  @current_user.add_as_friend_to(@organization) end
-#               Notifier.deliver_organization_activate(params["user"]["organization_email"] , url_for(:action => "activate" , :public_id => @organization.public_id , :email => params["user"]["organization_email"]))
-#                Notifier.deliver_organization_registration @organization, @current_user, params["user"]["organization_email"], request.host_with_port
-                @organization.set_default_style_settings     
+                @organization.set_default_style_settings
                 @address.organization_id = Organization.with_type_id(@organization.organization_type_id).select{|o| o.name == @organization.name}.last.id
                 @address.save
                 redirect_to :action => :registration_successful, :organization_id => @organization

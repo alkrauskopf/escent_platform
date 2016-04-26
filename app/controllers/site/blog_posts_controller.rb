@@ -96,7 +96,6 @@ class Site::BlogPostsController < Site::ApplicationController
     @comment.user_name = @current_user.full_name
     @comment.valid?
     if @comment.save
-      # Notifier.deliver_inform_blogger(:blog => @blog, :blog_post => @blog_post, :user => @comment.user, :comment => @comment.body, :fsn_host => request.host_with_port)
       UserMailer.inform_blogger(@blog, @blog_post, @comment.user, @comment.body, request.host_with_port).deliver
     end
    render :partial => "show_make_comments"  

@@ -711,7 +711,6 @@
        end
        if @classroom.ifa_classroom_option.is_ifa_notify
          teacher = User.find(@submission.teacher_id)
-         # Notifier.deliver_assessment_submission(:user => teacher, :admin => @current_user, :classroom => @classroom, :current_organization => @current_organization, :need_review => teacher_must_review, :fsn_host => request.host_with_port)
          UserMailer.assessment_submission(teacher, @current_user,@classroom, @current_organization, teacher_must_review, request.host_with_port).deliver
        end
        redirect_to :action => 'take_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment,:submission_id => @submission, :function => "Success"

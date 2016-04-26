@@ -197,12 +197,7 @@ class Site::ContentsController < Site::ApplicationController
         if res.destroy
           @destroy_count +=1
           unless !@current_organization.content_notify?        
-            # user_list.each do |ldr|
-            #   if ldr || ldr != @current_user
-                # Notifier.deliver_resource_destroyed(:user => ldr,:current_user=>@current_user,:current_organization => @current_organization, :title => res.title, :content => res, :fsn_host => request.host_with_port)
-                UserMailer.resource_changed(email_list, @current_user, res.title, 'D').deliver
-              # end
-            # end
+            UserMailer.resource_changed(email_list, @current_user, res.title, 'D').deliver
           end
         end
      end
@@ -354,13 +349,7 @@ class Site::ContentsController < Site::ApplicationController
         if @content.update_attributes(params[:content]) then
           @content.update_attribute("updated_by", @current_user.id)
           # usr_count = 0
-          if @content.organization.content_notify?        
-            # user_list.each do |ldr|
-            #   if ldr || ldr != @current_user
-            #     Notifier.deliver_resource_updated(:user => ldr,:current_user=>@current_user,:current_organization => @current_organization, :title => @content.title, :content => @content, :fsn_host => request.host_with_port)
-            #   usr_count += @content.leaders_using.size
-              # end
-            # end
+          if @content.organization.content_notify?
             UserMailer.resource_changed(email_list, @current_user, res.title, 'U').deliver
           end
           flash[:notice] = "#{@content.title.upcase} Updated, #{@content.leaders_using.size.to_s} Users Notified "

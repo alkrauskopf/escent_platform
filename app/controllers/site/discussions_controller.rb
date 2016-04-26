@@ -21,10 +21,6 @@ class Site::DiscussionsController < Site::ApplicationController
     
       if @topic.should_notify
         classroom = @topic.classroom
-        # discussion = params[:new_discussion]
-        # classroom.leaders.each do |cl|
-        #   Notifier.deliver_topic_comment(:user => cl,:current_user=>@current_user,:current_organization => @current_organization, :topic => @topic, :new_discussion => discussion, :fsn_host => request.host_with_port)
-        # end
         discussion = params[:new_discussion][:comment]
         UserMailer.topic_comment(classroom.leaders.preferred_email_list, @current_user, @topic, discussion, request.host_with_port).deliver
       end
@@ -42,7 +38,6 @@ class Site::DiscussionsController < Site::ApplicationController
     owner = User.find_by_id(@content.user_id)
     discussion = params[:new_discussion][:comment]
     if owner
-      # Notifier.deliver_resource_comment(:user => owner,:current_user=>@current_user,:content => @content, :new_discussion => discussion, :fsn_host => request.host_with_port)
       UserMailer.resource_comment(owner, @current_user, @content, discussion, request.host_with_port).deliver
     end
     render :partial => "discussions_for_resource"

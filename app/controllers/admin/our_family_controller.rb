@@ -75,8 +75,7 @@ class Admin::OurFamilyController < Admin::ApplicationController
       flash[:error] = "Subject and Message are required."
       render :template => "admin/our_family/email_role"           
     else
-    #  @role.users.each {|user| Notifier.deliver_email_role(user.preferred_email, params[:email][:subject], params[:email][:message])}
-      flash[:notice] = "Message Sent"
+      flash[:notice] = "Message Not Sent: Roles Not Supported"
       render :template => "admin/our_family/roles"           
     end
   end
@@ -169,24 +168,6 @@ class Admin::OurFamilyController < Admin::ApplicationController
     redirect_to :action => :people, :organization_id => @current_organization
   end
   
-  def contact_x
-    # @user = User.find_by_public_id params[:id]
-    #
-    # if request.post?
-    #   Notifier.deliver_contact @current_user.preferred_email, params[:email_archive].merge(:user => @user)
-    #   @people = User.find :all, :include => [:authorizations, :roles], :conditions => ["(authorizations.scope_id = ? AND authorizations.scope_type = ?) OR (roles.id IN (?))", @current_organization, "Organization", @current_organization.roles.collect{|r| r.id}]
-    #   respond_to do |format|
-    #     format.js do
-    #       responds_to_parent do
-    #         render :update do |page|
-    #           page.replace_html "our_family_panel", :file => 'admin/our_family/people', :object => @current_organization
-    #         end
-    #       end
-    #     end
-    #   end
-    # end
-  end
-  
   def authorization_levels
     #@authorization_levels = AuthorizationLevel.all(:conditions => ["id NOT IN (1, 3)"])
  #   @authorization_levels = AuthorizationLevel.all(:include => :applicable_scopes, :conditions => ["authorization_levels.name NOT IN ('superuser', 'friend') AND applicable_scopes.name = ?", "Organization"])
@@ -208,7 +189,6 @@ class Admin::OurFamilyController < Admin::ApplicationController
     unless user.nil? || authorization_level.nil?
       if !user.has_authority?(@current_organization, authorization_level)
         if user.authorizations.create :authorization_level => authorization_level, :scope => @current_organization                      
-        #  Notifier.deliver_new_authorization(:user => user, :current_organization => @current_organization, :admin => @current_user, :authorization_level => authorization_level, :fsn_host => request.host_with_port)
           UserMailer.new_authorization(user, @current_organization, @current_user, authorization_level, request.host_with_port).deliver
         end
       else
@@ -243,7 +223,6 @@ class Admin::OurFamilyController < Admin::ApplicationController
     @user = User.find params[:user_id]
     @user.set_verified
     unverified_users
-   # Notifier.deliver_user_registration @user, request.host_with_port, true
     render :layout => false
   end
 

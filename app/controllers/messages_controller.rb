@@ -8,7 +8,6 @@ class MessagesController < ApplicationController
       from_user = @current_user
       to_user = message.user
       options = {:user => to_user, :subject => "Escent", :html_body => message.content}
-      # Notifier.deliver_contact(from_user.preferred_email, options)
       UserMailer.contact(from_user.preferred_email, options).deliver
     end
   end
@@ -51,7 +50,6 @@ class MessagesController < ApplicationController
       message.user = to_user
         if message.save
          options = {:user => to_user, :subject => subj_line, :html_body => message.content}
-         # Notifier.deliver_contact(from_user.preferred_email, options)
          UserMailer.contact(from_user.preferred_email, options).deliver
         end
       end  
@@ -85,7 +83,6 @@ class MessagesController < ApplicationController
        message.user = to_user
         if message.save
          options = {:user => to_user, :subject => subj_line, :html_body => message.content}
-         # Notifier.deliver_contact(from_user.preferred_email, options)
          UserMailer.contact(from_user.preferred_email, options).deliver
         end
        end

@@ -32,7 +32,6 @@ class Admin::AssociatesController < Admin::ApplicationController
   def contact
     @user = User.find_by_public_id params[:id]
     if request.post?
-      # Notifier.deliver_contact params[:email_archive].merge(:user => @user)
       options = {:user => to_user, :subject => params[:email_archive][:subject], :html_body => params[:email_archive][:html_body]}
       UserMailer.contact(@current_user.preferred_email, options).deliver
       respond_to do |format|

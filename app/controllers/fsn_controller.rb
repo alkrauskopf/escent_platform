@@ -54,7 +54,6 @@ class FsnController < ApplicationController
   def contact_us
     initalialize_parameters
     if true  #simple_captcha_valid?
-      # Notifier.deliver_contact_us(params)
       UserMailer.contact_us(params).deliver
       render  :template => "fsn/contact_us_complete"
     else

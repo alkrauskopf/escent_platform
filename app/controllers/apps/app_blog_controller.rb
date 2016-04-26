@@ -27,9 +27,6 @@ class Apps::AppBlogController < ApplicationController
     @comment.body = params[:comment]
     @comment.user_name = @current_user.full_name
     @comment.valid?
-    if @comment.save
- #       Notifier.deliver_inform_blogger(:blog => @blog, :blog_post => @blog_post, :user => @comment.user, :comment => @comment.body, :fsn_host => request.host_with_port)
-    end
     render :partial => "show_make_comments", :locals=>{:blog_post => @blog_post, :app=>@blog_app} 
   end
 
@@ -43,16 +40,14 @@ class Apps::AppBlogController < ApplicationController
     if @blog 
      # if simple_captcha_valid? || @current_user
       if  @current_user
-      sender_emails = params[:email_to].split(/, */)
-      sender_emails.each do |sender_email|
+        recipient_emails = params[:email_to].split(/, */)
         @blog.increment_shares
-        # Notifier.deliver_share_app_blog(:organization => @current_organization, :user_name => params[:from_name], :blog_id => @blog.public_id, :recipient => params[:email_to], :message => params[:message], :subject_line => params[:from_name] + ": Discussion Link", :fsn_host => request.host_with_port)
-        UserMailer.share_app_blog(@current_organization, params[:from_name], @blog.public_id, :params[:email_to], params[:message], (params[:from_name] + ': Discussion Link'), request.host_with_port).deliver
+        UserMailer.share_app_blog(@current_organization, params[:from_name], @blog.public_id, recipient_emails, params[:message], (params[:from_name] + ': Discussion Link'), request.host_with_port).deliver
+        render :text => ''
+        flash[:notice] = " Email Sent"
+      else
+        flash[:error] = "Captcha String Incorrect"
       end
-      flash[:notice] = sender_emails.size.to_s + " Email" + (sender_emails.size == 1 ? " ":"s ") + "Sent"
-    else
-      flash[:error] = "Captcha String Incorrect"
-    end
     else
       flash[:error] = "Invalid Post Please Close Window"
     end

@@ -238,51 +238,6 @@
 </style>
 
 
-<script type="text/javascript" charset="utf-8">
-	jQ(document).ready(function() {
-	  if(jQ("#user_country").val == "US") {
-	    jQ("#user_state_warp").show()
-	  }
-	  jQ("#user_country").change(function() {
-	    if(jQ(this).val() == "US") {
-	      jQ("#user_state_warp").show()
-	    } else {
-	      jQ("#user_state_warp").hide()
-	    }
-	  })
-
-		jQ('a.delete').click(function() {
-			var $this = jQ(this);
-			var url = $this.attr("href");
-			jQ.post(url, function(data) {
-				if (data == "successful") {
-					$this.parents("div.FormRow").remove();
-				}
-			})
-			return false;
-		})
-		var removeFormRow = function() {
-			jQ('a.remove').click(function() {
-				var $this = jQ(this);
-				$this.parents("div.FormRow").remove();
-				return false;
-			})		
-		}
-		jQ('a.add').click(function() {
-			var $this = jQ(this);
-			var $content = $this.parents("div.FormRow").clone();
-			$content.find("img").attr("src", "/images/delete.png").end()
-				.find("a").removeClass().addClass('remove');
-			$this.parents("div.FormRow").before($content).find("input[name='talents[name][]']").val("");
-			removeFormRow();
-			return false;
-		})
-		var sort_url = "<%= url_for(:controller => '/users', :action => 'sort_authorizations') %>"
-		headerSortUp(sort_url);			
-	})
-</script>
-
-
 <script type="text/javascript">
         jQuery(document).ready(function(){
         

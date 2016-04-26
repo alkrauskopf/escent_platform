@@ -364,7 +364,7 @@ class User < ActiveRecord::Base
     favs.each do |fc|
     rooms << Classroom.active.where('id= ?', fc.scope_id).first
    end
-  room
+  rooms
   end
 
   def participate_classrooms

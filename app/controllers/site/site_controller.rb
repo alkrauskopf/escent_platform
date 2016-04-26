@@ -954,18 +954,13 @@ class Site::SiteController < Site::ApplicationController
       order_by ||= "last_name, first_name"
       @filter_type = "People"
       if @keywords.blank?
-         items_found = User.where('users.id != ? and verified_at IS NOT NULL"', 1).order(order_by)
+         items_found = User.where('users.id != ? and verified_at IS NOT NULL', 1).order(order_by)
       else
-        if @search_field == "Role"
-          items_found = User.with_roles @keywords, :order => order_by
-        elsif @search_field == "Person's Name"
+        if @search_field == "Person's Name"
           items_found = User.with_names @keywords, :order => order_by
         elsif @search_field == "Organization"
-
-          items_found = User.with_organizations @keywords, :order => order_by 
-#
+          items_found = User.with_organizations @keywords, :order => order_by
          else
- #          items_found = User.with_talent @keywords, :order => order_by
            items_found = User.with_names @keywords, :order => order_by
         end
      end

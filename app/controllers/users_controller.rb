@@ -2,8 +2,8 @@ class UsersController < ApplicationController
   layout "site"
   
   before_filter :current_organization
-  before_filter :current_user, :only => [:edit_user_bio, :member_public_profile, :remove_this_organization, :add_this_organization, :toggle_favorite_organization, :add_this_colleague, :remove_this_colleague, :add_this_favorite_resource, :remove_this_favorite_resource, :add_this_favorite_classroom, :toggle_favorite_classroom, :edit_picture, :edit_profile, :change_home_org ,:sort_authorizations, :change_password, :remove_association, :edit_talents, :favorite_of]
-  protect_from_forgery :except => [:sort_authorizations, :login]
+  before_filter :current_user, :only => [:edit_user_bio, :member_public_profile, :remove_this_organization, :add_this_organization, :toggle_favorite_organization, :add_this_colleague, :remove_this_colleague, :add_this_favorite_resource, :remove_this_favorite_resource, :add_this_favorite_classroom, :toggle_favorite_classroom, :edit_picture, :edit_profile, :change_home_org , :change_password, :remove_association, :edit_talents, :favorite_of]
+  protect_from_forgery :except => [ :login]
  
   before_filter :clear_notification
   
@@ -159,15 +159,6 @@ class UsersController < ApplicationController
        flash[:error] = @user.errors.full_messages.to_sentence 
      end
   redirect_to :controller => 'users', :action => 'edit_profile', :organization_id => @current_organization
-  end
-  
-  def sort_authorizations
-    @user = @current_user    
-    if request.xhr?
-      order_by = params[:sort] || "headerSortUp"
-      @authorizations = Authorization.friend_with_org_name(@user, order_by).paginate :page => params[:page], :per_page => 10
-      render :partial => "associations", :locals => {:show_remove => true, :header => order_by}, :layout => false and return
-    end
   end
   
   def show

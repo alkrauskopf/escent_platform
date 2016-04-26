@@ -1,7 +1,0 @@
-Dear <%= @prayer_pledge.first_name %>,
-
-As per your request, this is a gentle reminder about your pledge to pray for peace for one minute at noon on Monday, September 21.  You’ll be pleased that your name was included in our list which was presented to Mrs. Ban Ki-moon, wife of the Secretary General of the United Nations at a UN Ceremony on Friday.  
-
-Thanks again for joining us.
-
-Odyssey Networks

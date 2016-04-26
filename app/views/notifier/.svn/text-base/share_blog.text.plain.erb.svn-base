@@ -1,7 +1,0 @@
-<%= @user.full_name %> thinks you will be interested in the article “<%= simple_format @blog.title.humanize %>” by leaders at <%= @blog.organization.name %>.
-
-<%= @message %>
-
-Click <%= link_to "here", url_for(:action => "show", :controller => "site/blogs", :blog_id => @blog.public_id, :only_path => false, :host => "tcpj.riverwatcher.com") %> to read the article.
-
-Feel free to forward this email to others.

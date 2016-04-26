@@ -1,7 +1,0 @@
-Dear <%= @user.first_name %>,
-<br/><br/>
-<%= @arrange %><br/>
-<%= @message %><br/></br/>
-Please contact <%= @sender.first_name -%> at your earliest convenience.<br/>
-<%= @sender.preferred_email -%><br/>
-

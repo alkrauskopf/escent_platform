@@ -1,8 +1,0 @@
-Thank you for registering your organization with the Escent Community. 
-Please click the link below to verify your registration. Once you are verified, you can start to set up 
-your network page.
- 
-http://<%= @fsn_host %>/site/<%= @organization.public_id %>
-
-
-The Escent Support Team

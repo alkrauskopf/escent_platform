@@ -1,7 +1,0 @@
-<p><%= @user.full_name %> thinks you will be interested in the article <i><%= simple_format @blog.title %></i> by leaders at <%= @blog.organization.name %>.</p>
-<br />
-<%= simple_format @message %>
-<br /><br />
-<p>Click <%= link_to "here", url_for(:action => "show", :controller => "site/blogs", :blog_id => @blog.public_id, :only_path => false,:host => @fsn_host) %> to read the article.</p>
-<br />
-<p>Feel free to forward this email.</p>

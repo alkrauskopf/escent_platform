@@ -193,15 +193,16 @@ class Site::ContentsController < Site::ApplicationController
    params[:res_check].each do |r|
      res = Content.find_by_id(r)rescue nil
      unless res.nil?
-        user_list = res.leaders_using
+        email_list = res.leaders_using.preferred_email_list
         if res.destroy
           @destroy_count +=1
           unless !@current_organization.content_notify?        
-            user_list.each do |ldr|
-              if ldr || ldr != @current_user
-                Notifier.deliver_resource_destroyed(:user => ldr,:current_user=>@current_user,:current_organization => @current_organization, :title => res.title, :content => res, :fsn_host => request.host_with_port)
-              end
-            end
+            # user_list.each do |ldr|
+            #   if ldr || ldr != @current_user
+                # Notifier.deliver_resource_destroyed(:user => ldr,:current_user=>@current_user,:current_organization => @current_organization, :title => res.title, :content => res, :fsn_host => request.host_with_port)
+                UserMailer.resource_changed(email_list, @current_user, res.title, 'D').deliver
+              # end
+            # end
           end
         end
      end
@@ -348,19 +349,21 @@ class Site::ContentsController < Site::ApplicationController
        
        @content.except_terms_or_service_vaild = true
        @content.title = params[:new_title][:title]
-       user_list = @content.leaders_using       
+       # user_list = @content.leaders_using
+        email_list = @content.leaders_using.preferred_email_list
         if @content.update_attributes(params[:content]) then
           @content.update_attribute("updated_by", @current_user.id)
-          usr_count = 0
+          # usr_count = 0
           if @content.organization.content_notify?        
-            user_list.each do |ldr|
-              if ldr || ldr != @current_user
-                Notifier.deliver_resource_updated(:user => ldr,:current_user=>@current_user,:current_organization => @current_organization, :title => @content.title, :content => @content, :fsn_host => request.host_with_port)
-                usr_count += 1
-              end
-            end
+            # user_list.each do |ldr|
+            #   if ldr || ldr != @current_user
+            #     Notifier.deliver_resource_updated(:user => ldr,:current_user=>@current_user,:current_organization => @current_organization, :title => @content.title, :content => @content, :fsn_host => request.host_with_port)
+            #   usr_count += @content.leaders_using.size
+              # end
+            # end
+            UserMailer.resource_changed(email_list, @current_user, res.title, 'U').deliver
           end
-          flash[:notice] = "#{@content.title.upcase} Updated, #{usr_count.to_s} Users Notified "
+          flash[:notice] = "#{@content.title.upcase} Updated, #{@content.leaders_using.size.to_s} Users Notified "
           updated = true
         else
           flash[:error] = @content.errors.full_messages.to_sentence
@@ -420,9 +423,8 @@ class Site::ContentsController < Site::ApplicationController
   protected
 
   def current_user_km_authorized?
-      if (@current_user.nil? || !(@current_user.content_admin_for_org?(@current_organization) || self.content_manager_for_org?(@current_organization)))
-        redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
-      end
+    if (@current_user.nil? || !(@current_user.content_admin_for_org?(@current_organization) || self.content_manager_for_org?(@current_organization)))
+      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
     end
   end
 

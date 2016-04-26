@@ -75,8 +75,8 @@ class Admin::OurFamilyController < Admin::ApplicationController
       flash[:error] = "Subject and Message are required."
       render :template => "admin/our_family/email_role"           
     else
-      @role.users.each {|user| Notifier.deliver_email_role(user.preferred_email, params[:email][:subject], params[:email][:message])}   
-      flash[:notice] = "Message Sent"      
+    #  @role.users.each {|user| Notifier.deliver_email_role(user.preferred_email, params[:email][:subject], params[:email][:message])}
+      flash[:notice] = "Message Sent"
       render :template => "admin/our_family/roles"           
     end
   end
@@ -243,8 +243,8 @@ class Admin::OurFamilyController < Admin::ApplicationController
     @user = User.find params[:user_id]
     @user.set_verified
     unverified_users
-    Notifier.deliver_user_registration @user, request.host_with_port, true
-    render :layout => false 
+   # Notifier.deliver_user_registration @user, request.host_with_port, true
+    render :layout => false
   end
 
 end

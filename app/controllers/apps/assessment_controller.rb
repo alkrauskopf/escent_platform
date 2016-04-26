@@ -711,7 +711,8 @@
        end
        if @classroom.ifa_classroom_option.is_ifa_notify
          teacher = User.find(@submission.teacher_id)
-         Notifier.deliver_assessment_submission(:user => teacher, :admin => @current_user, :classroom => @classroom, :current_organization => @current_organization, :need_review => teacher_must_review, :fsn_host => request.host_with_port)
+         # Notifier.deliver_assessment_submission(:user => teacher, :admin => @current_user, :classroom => @classroom, :current_organization => @current_organization, :need_review => teacher_must_review, :fsn_host => request.host_with_port)
+         UserMailer.assessment_submission(teacher, @current_user,@classroom, @current_organization, teacher_must_review, request.host_with_port).deliver
        end
        redirect_to :action => 'take_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment,:submission_id => @submission, :function => "Success"
      else
@@ -2768,10 +2769,10 @@ end
        unless dashboards.empty?
          @total_assessments[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_assessments}.sum : dashboards.collect{|d| d.finalized_assessments}.sum rescue 0
          @total_answers[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_answers}.sum : dashboards.collect{|d| d.finalized_answers}.sum rescue 0
-         @total_points [idx] = calibration_filter ? dashboards.collect{|d| d.cal_points}.sum : dashboards.collect{|d| d.fin_points}.sum rescue 0.0
+         @total_points[idx] = calibration_filter ? dashboards.collect{|d| d.cal_points}.sum : dashboards.collect{|d| d.fin_points}.sum rescue 0.0
          @total_duration[idx] = calibration_filter ? dashboards.collect{|d| d.calibrated_duration}.sum : dashboards.collect{|d| d.finalized_duration}.sum rescue 0
 
-         duration_points = calibration_filter ? dashboards.collect{|d| d.cal_submission_points}.sum : @total_points [idx] rescue 0
+         duration_points = calibration_filter ? dashboards.collect{|d| d.cal_submission_points}.sum : @total_points[idx] rescue 0
          @total_efficiency[idx] = duration_points == 0 ? "-" : (@total_duration[idx].to_f/duration_points.to_f).round
          @total_proficiency[idx] = @total_answers[idx] == 0 ? "" : (100*@total_points[idx].to_f/@total_answers[idx].to_f).round
 

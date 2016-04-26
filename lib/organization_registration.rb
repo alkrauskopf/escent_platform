@@ -17,7 +17,7 @@ module OrganizationRegistration
     if @organization.present? && params[:email].present?
       @organization.status = Status.approved 
       @organization.save
-      Notifier.deliver_organization_registration @organization, @current_user, params[:email], request.host_with_port 
+      # Notifier.deliver_organization_registration @organization, @current_user, params[:email], request.host_with_port
     end
 #    render :layout => "fsn"
   end

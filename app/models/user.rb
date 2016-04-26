@@ -249,6 +249,7 @@ class User < ActiveRecord::Base
   def after_initialize_method
   end
 
+
 # Upgrade
   validate :validate_method
   def validate_method
@@ -259,6 +260,9 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.preferred_email_list
+    self.collect{|u| u.preferred_email}.compact.uniq.join(", ")
+  end
   def home_organization
     Organization.find_by_id(self.home_org_id) rescue nil
   end
@@ -611,13 +615,6 @@ class User < ActiveRecord::Base
       self.salt = self.class.generate_password unless self.salt?
       self.crypted_password = self.class.encrypt(@password, self.salt)      
     end
-  end
-
-  def send_new_password
-    new_pass = User.generate_password
-    self.password = self.password_confirmation = new_pass
-    self.save
-    Notifier.deliver_forgot_password(self, new_pass)
   end
 
   def reset_password

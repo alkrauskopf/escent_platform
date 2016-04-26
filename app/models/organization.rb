@@ -1098,7 +1098,7 @@ class Organization < ActiveRecord::Base
 
   def administrator_email_list
     unless self.administrators.empty?
-      self.administrators.sort_by{|u| u.last_name}.collect{|t| t.preferred_email}.uniq.join(", ")
+      self.administrators.sort_by{|u| u.last_name}.collect{|t| t.preferred_email}.compact.uniq.join(", ")
     else
       ""
     end

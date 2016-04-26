@@ -21,10 +21,12 @@ class Site::DiscussionsController < Site::ApplicationController
     
       if @topic.should_notify
         classroom = @topic.classroom
-        discussion = params[:new_discussion]
-        classroom.leaders.each do |cl|
-        Notifier.deliver_topic_comment(:user => cl,:current_user=>@current_user,:current_organization => @current_organization, :topic => @topic, :new_discussion => discussion, :fsn_host => request.host_with_port)
-        end
+        # discussion = params[:new_discussion]
+        # classroom.leaders.each do |cl|
+        #   Notifier.deliver_topic_comment(:user => cl,:current_user=>@current_user,:current_organization => @current_organization, :topic => @topic, :new_discussion => discussion, :fsn_host => request.host_with_port)
+        # end
+        discussion = params[:new_discussion][:comment]
+        UserMailer.topic_comment(classroom.leaders.preferred_email_list, @current_user, @topic, discussion, request.host_with_port).deliver
       end
     end
 
@@ -38,9 +40,10 @@ class Site::DiscussionsController < Site::ApplicationController
     @content.add_comment(params[:new_discussion].merge(:user => @current_user)) if params[:new_discussion]
     @discussions = @content.discussions.active.parent_id_blank(:order_by =>  "created_at #{params[:parent_id] ? 'ASC' : 'DESC'}")
     owner = User.find_by_id(@content.user_id)
-    discussion = params[:new_discussion]
+    discussion = params[:new_discussion][:comment]
     if owner
-          Notifier.deliver_resource_comment(:user => owner,:current_user=>@current_user,:content => @content, :new_discussion => discussion, :fsn_host => request.host_with_port)
+      # Notifier.deliver_resource_comment(:user => owner,:current_user=>@current_user,:content => @content, :new_discussion => discussion, :fsn_host => request.host_with_port)
+      UserMailer.resource_comment(owner, @current_user, @content, discussion, request.host_with_port).deliver
     end
     render :partial => "discussions_for_resource"
   end
@@ -90,49 +93,18 @@ class Site::DiscussionsController < Site::ApplicationController
   def share_content
     if request.xhr?
       @content = Content.find_by_public_id params[:id]
-      sender_emails = params[:email_archive][:sender_email].split(/, */)
-      sender_emails.each do |sender_email|
-        @current_organization.metrics << Metric.new(2 , @current_user.id)
-        Notifier.deliver_share_content(:current_organization => @current_organization, :content => @content, :user => @current_user, :sender_email => sender_email, :message => params[:email_archive][:plain_body], :fsn_host => request.host_with_port)
-      end
-      render :text => ""
-    end
-  end
-
-  def share_pilot_feedback2
-    if request.xhr?
-     @user = User.find_by_public_id params[:id]
-     @current_organization = Organization.find_by_public_id params[:organization_id]
-     sender_emails = params[:email_archive][:sender_email].split(/, */)
-     sender_emails.each do |sender_email|
-       @current_organization.metrics << Metric.new(2 , @user.id)
-       Notifier.deliver_share_pilot_feedback(:current_organization => @current_organization, :user => @user, :sender_email => sender_email, :message => params[:email_archive][:plain_body], :fsn_host => request.host_with_port)
-     end
-     render :text => ""
-    end
-  end  
-  
-  def share_pilot_feedback
-    if request.xhr?
-     @user = User.find_by_public_id params[:id]
-     sender_emails = params[:email_archive][:sender_email].split(/, */)
-     sender_emails.each do |sender_email|
-       @current_organization.metrics << Metric.new(2 , @user.id)
-       Notifier.deliver_share_pilot_feedback(:current_organization => @current_organization, :user => @user, :sender_email => sender_email, :message => params[:email_archive][:plain_body], :fsn_host => request.host_with_port)
-     end
-     render :text => ""
+      recipient_emails = params[:email_archive][:sender_email].split(/, */)
+      UserMailer.share_content((@content.organization.nil? ? @current_organization : @content.organization), @content, @current_user, recipient_emails, params[:email_archive][:plain_body],request.host_with_port).deliver
+      render :text => ''
     end
   end
   
   def share_discussion
     if request.xhr?
       @topic = Topic.find_by_public_id params[:id]
-      sender_emails = params[:email_archive][:sender_email].split(/, */)
-      sender_emails.each do |sender_email|
-        @current_organization.metrics << Metric.new(1 , @current_user.id)
-        Notifier.deliver_share_discussion(:current_organization => @current_organization, :topic => @topic, :user => @current_user, :sender_email => sender_email, :message => params[:email_archive][:plain_body], :fsn_host => request.host_with_port)
-      end
-      render :text => ""
+      recipient_emails = params[:email_archive][:sender_email].split(/, */)
+      UserMailer.share_discussion((@topic.classroom.nil? || @topic.classroom.organization.nil?) ? @current_organization : @topic.classroom.organization, @topic, @current_user, recipient_emails, params[:email_archive][:plain_body],request.host_with_port).deliver
+      render :text => ''
     end
   end  
 end

@@ -46,8 +46,9 @@ class Apps::AppBlogController < ApplicationController
       sender_emails = params[:email_to].split(/, */)
       sender_emails.each do |sender_email|
         @blog.increment_shares
-        Notifier.deliver_share_app_blog(:organization => @current_organization, :user_name => params[:from_name], :blog_id => @blog.public_id, :recipient => params[:email_to], :message => params[:message], :subject_line => params[:from_name] + ": Discussion Link", :fsn_host => request.host_with_port)
-      end   
+        # Notifier.deliver_share_app_blog(:organization => @current_organization, :user_name => params[:from_name], :blog_id => @blog.public_id, :recipient => params[:email_to], :message => params[:message], :subject_line => params[:from_name] + ": Discussion Link", :fsn_host => request.host_with_port)
+        UserMailer.share_app_blog(@current_organization, params[:from_name], @blog.public_id, :params[:email_to], params[:message], (params[:from_name] + ': Discussion Link'), request.host_with_port).deliver
+      end
       flash[:notice] = sender_emails.size.to_s + " Email" + (sender_emails.size == 1 ? " ":"s ") + "Sent"
     else
       flash[:error] = "Captcha String Incorrect"

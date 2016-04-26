@@ -6,11 +6,11 @@ class Site::BlogsController < Site::ApplicationController
   before_filter :load_data , :except => [:index]
   layout "blog", :except =>[:share_blog] 
 
-  def index
+  def index_x
     @blogs = @current_organization.blogs.active.paginate(:page => params[:page], :order => "created_at DESC")
   end
   
-  def create
+  def create_x
     #pp request.get?
     return if request.get?
     @blog.organization_id = @current_organization.id
@@ -21,18 +21,18 @@ class Site::BlogsController < Site::ApplicationController
     end
   end
   
-  def show
+  def show_x
     @blogs = @current_organization.blogs.paginate(:page => params[:page], :order => "created_at DESC")    
     @blog_posts = @blog.blog_posts.active
 
   end  
   
-  def share_blog
+  def share_blog_x
     if request.xhr?
       sender_emails = params[:email_archive][:sender_email].split(/, */)
       sender_emails.each do |sender_email|
         @current_organization.metrics << Metric.new(3 , @current_user.id)
-        Notifier.deliver_share_blog(:blog => @blog, :user => @current_user, :sender_email => sender_email, :message => params[:email_archive][:plain_body], :fsn_host => request.host_with_port)
+        # Notifier.deliver_share_blog(:blog => @blog, :user => @current_user, :sender_email => sender_email, :message => params[:email_archive][:plain_body], :fsn_host => request.host_with_port)
       end
       render :text => ""
     end

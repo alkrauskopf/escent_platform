@@ -16,6 +16,25 @@ EscentPartners::Application.configure do
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
+  # No. We do care
+  # config.action_mailer.raise_delivery_errors = true
+  # config.action_mailer.delivery_method = :letter_opener
+  #  config.action_mailer.delivery_method = :smtp
+  #  config.action_mailer.smtp_settings = {
+  #      :address => "localhost",
+  #      :port => 1025
+  #  }
+  #
+  #   - or -
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      :address => "smtp.sendgrid.net",
+      :port => 587,
+      :domain => "precisionschoolimprovement.com",
+      :authenication => :plain,
+      :user_name => "alkrauskopf",
+      :password => "florentin0"
+  }
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log

@@ -36,9 +36,10 @@ class UsersController < ApplicationController
               #            Notifier.deliver_user_activate @user , url_for(:action => "activate" , :email => @user.email_address)
 
               if @user.organization.register_notify?
-                @user.organization.administrators.each do |adm|
-                  Notifier.deliver_admin_notice(:user => @user, :admn => adm, :user_organization => @user.organization, :fsn_host => request.host_with_port)
-                end
+                # @user.organization.administrators.each do |adm|
+                #   Notifier.deliver_admin_notice(:user => @user, :admn => adm, :user_organization => @user.organization, :fsn_host => request.host_with_port)
+                # end
+                UserMailer.admin_notice(@user, @user.organization, request.host_with_port).deliver
               end
               redirect_to :action => :registration_successful, :organization_id => @current_organization,:user => @user
               return
@@ -367,8 +368,9 @@ end
         new_pass = user.reset_password
       end
       if new_pass
-        Notifier.deliver_reset_password(:user => user, :password => new_pass, :fsn_host => request.host_with_port)
-        flash[:notice]  = "New password sent to <strong>" + user.preferred_email + "</strong>. Give it a few minutes. Check SPAM."
+        # Notifier.deliver_reset_password(:user => user, :password => new_pass, :fsn_host => request.host_with_port)
+        UserMailer.reset_password(user, new_pass, request.host_with_port).deliver
+        flash[:notice]  = ("New password sent to <strong>" + user.preferred_email + "</strong>. Give it a few minutes. Check SPAM.").html_safe
       else
         flash[:error]  = "Couldn't Generate Password. Correct ID? <strong>" + params[:user][:email_address].to_s + "</strong>"  
       end

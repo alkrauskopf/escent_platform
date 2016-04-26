@@ -315,7 +315,7 @@ class Site::SiteController < Site::ApplicationController
           else
             person.authorizations.create :authorization_level => authorization_level, :scope => @classroom
             person.add_as_favorite_to(@classroom) unless person.has_authorization_level_for?(@classoom, "favorite")
-            Notifier.deliver_classroom_authorization(:user => person, :admin => @current_user, :classroom => @classroom, :current_organization => @current_organization, :authorization_level => authorization_level, :fsn_host => request.host_with_port)          
+            # Notifier.deliver_classroom_authorization(:user => person, :admin => @current_user, :classroom => @classroom, :current_organization => @current_organization, :authorization_level => authorization_level, :fsn_host => request.host_with_port)
             add_count += 1
         end
       end

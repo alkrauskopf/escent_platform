@@ -34,12 +34,12 @@ class Apps::BlogsController < ApplicationController
    
   def share_blog
     if request.xhr?
-      sender_emails = params[:email_archive][:sender_email].split(/, */)
-      sender_emails.each do |sender_email|
-        @current_organization.metrics << Metric.new(3 , @current_user.id)
-        Notifier.deliver_share_blog(:blog => @blog, :user => @current_user, :sender_email => sender_email, :message => params[:email_archive][:plain_body])
+      recipient_emails = params[:email_archive][:sender_email].split(/, */)
+      recipient_emails.each do |rec|
+        # Notifier.deliver_share_blog(:blog => @blog, :user => @current_user, :sender_email => sender_email, :message => params[:email_archive][:plain_body])
+        UserMailer.share_blog(@blog, @current_user, rec, params[:email_archive][:plain_body], request.host_with_port).deliver
       end
-      render :text => ""
+      render :text => ''
     end
   end
 

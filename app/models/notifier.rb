@@ -295,10 +295,10 @@ class Notifier < ActionMailer::Base
     recipients   user.preferred_email
     sent_on      Time.now
     if options[:html_body].blank? || options[:html_body] == '<p>&nbsp;</p>'
-      part(:content_type => "text/html", :body => render_message("contact.text.html.erb", :html_body => options[:html_body], :recipient_email => user.preferred_email)) unless options[:html_body].blank? || options[:html_body] == '<p>&nbsp;</p>'
+      part(:content_type => "text/html", :body => render_message("contact_us.text.html.erb", :html_body => options[:html_body], :recipient_email => user.preferred_email)) unless options[:html_body].blank? || options[:html_body] == '<p>&nbsp;</p>'
     else
       part 'multipart/alternative' do |p|
-        p.part :content_type => "text/html", :body => render_message("contact.text.html.erb", :html_body => options[:html_body], :recipient_email => user.preferred_email)
+        p.part :content_type => "text/html", :body => render_message("contact_us.text.html.erb", :html_body => options[:html_body], :recipient_email => user.preferred_email)
       end
   end
 # Daniel - Removed for now because the attachment is not working. If you attach a file it only attaches part the file.  
@@ -388,18 +388,12 @@ class Notifier < ActionMailer::Base
     @sent_on = Time.now
     
     part(:content_type => "text/html",
-    :body => render_message("contact.text.html.erb",
+    :body => render_message("contact_us.text.html.erb",
     :html_body => params[:contact_info][:body],
     :first_name => params[:contact_info][:first_name],
     :last_name => params[:contact_info][:last_name],
     :title => params[:contact_info][:title])) unless params[:contact_info][:body].blank?
-    
-    #		part(:content_type => "text/plain",
-    #			:body => render_message("contact_us.text.plain.erb",
-    #				:plain_body => params[:contact_info][:body],
-    #				:first_name => params[:contact_info][:first_name],
-    #				:last_name => params[:contact_info][:last_name],
-    #				:title => params[:contact_info][:title])) unless params[:contact_info][:body].blank?
+
   end
   
 end

@@ -100,7 +100,7 @@ class ApplicationController < ActionController::Base
         end
         if schedule.is_notify
           schedule.takers.each do |taker|
-           Notifier.deliver_survey_notification(:user => taker, :anon => schedule.is_anon, :subject => schedule.subject_line, :admin => @current_user, :current_organization => organization, :fsn_host => request.host_with_port)          
+         #  Notifier.deliver_survey_notification(:user => taker, :anon => schedule.is_anon, :subject => schedule.subject_line, :admin => @current_user, :current_organization => organization, :fsn_host => request.host_with_port)
           end
         end
       end

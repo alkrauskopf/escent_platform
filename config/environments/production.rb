@@ -46,4 +46,16 @@ EscentPartners::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  # Don't care if the mailer can't send
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      :address => "smtp.sendgrid.net",
+      :port => 587,
+      :domain => "precisionschoolimprovement.com",
+      :authenication => :plain,
+      :user_name => "alkrauskopf",
+      :password => "florentin0"
+  }
 end

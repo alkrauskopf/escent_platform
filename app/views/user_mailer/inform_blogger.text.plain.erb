@@ -1,0 +1,14 @@
+
+
+	<%= @user.full_name %> posted a comment to your blog post  "<%= simple_format @blog_post.title %>."
+
+
+
+<%= @user.first_name %> said:
+
+  "<%= simple_format @comment %>"
+
+
+
+Click <%= link_to "here", url_for(:action => "show", :controller => "site/blogs", :blog_id => @blog.public_id, :only_path => false,:host => @ep_host) %> to see.
+

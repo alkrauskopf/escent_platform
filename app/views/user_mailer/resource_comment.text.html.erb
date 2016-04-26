@@ -1,0 +1,14 @@
+Dear <%= @user.first_name%>,
+<br /><br />
+<%= @commenter.full_name %>
+&nbsp;just commented on your contribution to the Resource Library, entitled <i><strong> <%= @content.title %></strong></i>.
+<br/><br>
+<%= @current_user.first_name%>&nbsp; said:&nbsp;<i>"<%= @resource_comment %>"</i>
+<br/><br/>
+<% unless @organization.nil? %>
+Review comments for <%= link_to @content.title, url_for(:controller => "site/site", :action => "static_resource", :organization_id => @organization, :id => @content,:host => ep_host )%>.
+ <br/>
+<% end %>
+
+
+				

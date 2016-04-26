@@ -1,0 +1,9 @@
+<p><%= @user.full_name %> thinks you will be interested in <%= @organization.name %>'s&nbsp;<strong> <%= @topic.classroom.course_name%></strong> lesson on <strong> <%= @topic.title %></strong>.
+</p>
+<% unless @message.empty? %> <%= @user.first_name %> says: <em>"<%=@message%>"</em>
+<br/> 
+<% end %>
+<br/>
+Check out <%= link_to @topic.classroom.course_name, url_for(:controller => "site/site", :action => "static_classroom", :organization_id => @organization, :topic_id => @topic, :id => @topic.classroom,:host => @ep_host )%>&nbsp;
+at <%= @current_organization.name%>!
+<br/>

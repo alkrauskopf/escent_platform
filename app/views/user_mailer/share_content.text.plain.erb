@@ -1,0 +1,17 @@
+
+<%= @user.full_name %> thinks you will be interested in the Escent resource entitled "<%= @content.title %>."
+
+<% unless @message.empty? %>
+    <%= @user.first_name %> says:
+
+    "<%=@message%>"
+<% end %>
+
+
+Check out <%= link_to @content.title, url_for(:controller => "site/site", :action => "static_resource", :organization_id => @organization, :id => @content, :host => @ep_host )%>.
+
+
+Contributed by <%=@content.user.full_name%>&nbsp;of&nbsp;<%=@content.organization.name%>.
+
+
+

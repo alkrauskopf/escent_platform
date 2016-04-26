@@ -1,0 +1,19 @@
+Dear <%= @recipient.first_name %>,
+
+
+
+<%= @sender.full_name -%> just updated your classroom observation level to <%=@belt.rank.upcase %>BELT.
+
+
+<%= @belt.rank.upcase %> generally implies the following:   <%=@belt.criteria %>
+
+
+
+<%= @sender.first_name %> noted:   <%= @message %>.
+
+
+
+Please contact <%= @sender.first_name %> if you have any questions.
+
+
+Thank you.

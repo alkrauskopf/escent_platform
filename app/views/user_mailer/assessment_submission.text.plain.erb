@@ -1,0 +1,19 @@
+Dear <%= @recipient.first_name %>,
+
+
+<%= @sender.full_name %> has just submitted an assessment from your <%= @classroom.nil? ? 'Unknown' : @classroom.course_name %> classroom.
+
+
+<%= @review_msg %>
+
+
+
+<% unless @classroom.nil? %>
+    <%= link_to "Click Here", url_for(:controller => "site/site", :action => "static_classroom", :organization_id => @organization, :id => @classroom, :host => @ep_host )%>
+    for <%=@classroom.course_name%>.
+<% end %>
+
+
+
+
+

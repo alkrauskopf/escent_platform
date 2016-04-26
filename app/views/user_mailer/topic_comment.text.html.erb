@@ -1,0 +1,13 @@
+Discussion Comment Notification,
+<br /><br />
+<%= @user.full_name %>&nbsp;just made a discussion comment on <strong><%= @topic.title %></strong>, in&nbsp; <strong><%= @topic.classroom.course_name %></strong>.
+
+<br/><br>
+<%= @user.first_name%>&nbsp; said:&nbsp;<i>"<%= @topic_comment %>"</i>
+
+<br/><br/>
+ Review the discussion for <%= link_to @topic.title, url_for(:controller => "site/site", :action => "static_classroom", :organization_id => @organization, :topic_id => @topic, :id => @topic.classroom,:host => @ep_host )%>&nbsp;
+ in <%=@topic.classroom.course_name%>.
+ <br/><br/>
+
+	

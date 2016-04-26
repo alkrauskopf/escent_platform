@@ -1,0 +1,13 @@
+Dear <%= @user.first_name %>,
+<br /><br />
+<%= @authorizer.full_name %> has granted you <strong><%= @auth_level.name.titleize %></strong> authorization for <%= @organization.name %>.
+<br/>
+<br/>
+If you have any questions regarding your <%= @auth_level.name.titleize.upcase %> privileges and responsibilities, please contact <%= @authorizer.first_name %>.<br/>
+<br/>
+Email:  <%=@user.preferred_email%><br/>
+<% unless @user.phone.nil? || @user.phone.empty?%>
+  Phone: <%= @user.phone %>
+<% end -%>
+
+

@@ -1,0 +1,11 @@
+
+<%= @sender.full_name %> thinks you will be interested in the article <i><%= simple_format @blog.title %></i> by leaders at <%= @blog.organization.name %>.
+
+
+<%= simple_format @message %>
+
+
+Click <%= link_to "here", url_for(:action => "show", :controller => "site/blogs", :blog_id => @blog.public_id, :only_path => false,:host => @ep_host) %> to read the article.
+
+
+Feel free to forward this email.

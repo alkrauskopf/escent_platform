@@ -1,0 +1,22 @@
+Dear <%= @user.first_name %>,
+
+
+
+<%= @administrator.full_name %> is interested in your<%= @anon_text %> feedback.
+
+
+
+Would you please complete a <%= @subject_line %>?
+
+
+
+You can do this by Signing-In at your personal <%= link_to (@user.last_name + " Survey Page"), url_for(:controller => "/apps/shared", :action => :my_surveys, :organization_id => @organization, :host => @ep_host )%>.
+
+
+
+
+Thank You Very Much!
+
+
+
+

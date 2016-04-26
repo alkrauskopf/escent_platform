@@ -8,24 +8,22 @@ class UserMailer < ApplicationMailer
     @organization = !@user.organization.nil? ? @user.organization : Organization.ep_default.first
     @subject_line = 'Escent Password Reset'
     @recipients = @user.preferred_email
-    @from = "escent_passwords<noreply@escentpartners.com>"
-    sent_on  Time.now
+    @from = 'escent_passwords<noreply@escentpartners.com>'
     unless @recipients.blank? || @organization.nil?
-      mail(to: @recipients, subject: @subject_line, from: @from)
+      mail(to: @recipients, subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
   def new_authorization(user, organization, authorizer, authorization, ep_host)
-    @from = "escent_authorization<noreply@escentpartners.com>"
+    @from = 'escent_authorization<noreply@escentpartners.com>'
     @auth_level = authorization
     @organization = organization
     @authorizer = authorizer
     @user = user
     @send_to = @user.preferred_email.nil? ? @user.email_address : @user.preferred_email
     @ep_host = ep_host
-    @subject_line =  organization.medium_name + ' ' + @auth_level.name.humanize + " Authorization"
-    sent_on  Time.now
-    mail(to: @send_to, subject: @subject_line, from: @from)
+    @subject_line =  organization.medium_name + ' ' + @auth_level.name.humanize + ' Authorization'
+    mail(to: @send_to, subject: @subject_line, from: @from, date: DateTime.now)
   end
 
   def survey_notification(user, anon, subject_line, administrator, organization, ep_host)
@@ -36,35 +34,30 @@ class UserMailer < ApplicationMailer
     @subject_line = subject_line
     @user = user
     @send_to = @user.preferred_email.nil? ? @user.email_address : @user.preferred_email
-    @from = "escent_survey<noreply@escentpartners.com>"
-    sent_on  Time.now
-    mail(to: @send_to, subject: @subject_line, from: @from)
+    @from = 'escent_survey<noreply@escentpartners.com>'
+    mail(to: @send_to, subject: @subject_line, from: @from, date: DateTime.now)
   end
 
   def contact_us(params)
-    @subject = "Escent Contact Us/Feedback Message"
+    @subject = 'Escent Contact Us/Feedback Message'
     @recipients = Organization.default.administrator_email_list
     @from = params[:contact_info][:email]
-    @sent_on = Time.now
     @body = params[:contact_info][:body].html_safe
-    @contactee = params[:contact_info][:last_name] + ", " +
-        params[:contact_info][:first_name]
+    @contactee = params[:contact_info][:last_name] + ', ' + params[:contact_info][:first_name]
     @title = params[:contact_info][:title]
-    sent_on  Time.now
     unless @recipients.empty?
-      mail(to: @recipients, subject: @subject, from: @from)
+      mail(to: @recipients, subject: @subject, from: @from, date: DateTime.now)
     end
   end
 
   def contact(sender_email, options = {})
-    sent_on      Time.now
     @recipients = user.preferred_email
     @subject_line = options[:subject]
     @user = options[:user]
     @send_to = @user.preferred_email.nil? ? @user.email_address : @user.preferred_email
     @from = sender_email
     @body = options[:html_body]
-    mail(to: @recipients, subject: @subject_line, from: @from)
+    mail(to: @recipients, subject: @subject_line, from: @from, date: DateTime.now)
   end
 
   def admin_notice(user, organization, ep_host)
@@ -74,9 +67,8 @@ class UserMailer < ApplicationMailer
     @ep_host = ep_host
     @subject_line = @organization.short_name + ' Escent Registration'
     @from = 'escent_registration<noreply@escentpartners.com>'
-    sent_on  Time.now
     unless @recipients.empty?
-      mail(to: @recipients, subject: @subject_line, from: @from)
+      mail(to: @recipients, subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
@@ -85,13 +77,12 @@ class UserMailer < ApplicationMailer
     @classroom = classroom
     @sender = sender
     @recipient = recipient
-    @subject_line = @sender.full_name + " Submitted An Assessment"
+    @subject_line = @sender.full_name + ' Submitted An Assessment'
     @ep_host = ep_host
-    @review_msg = must_review ? "Your Review Of The Assessment Is Required." : "Assessment Results Have Been Automatically Finalized."
+    @review_msg = must_review ? 'Your Review Of The Assessment Is Required.' : 'Assessment Results Have Been Automatically Finalized.'
     @from = 'escent_assessment<noreply@escentpartners.com>'
-    sent_on  Time.now
     unless @recipients.blank? || @sender.blank?
-      mail(to: @recipient, subject: @subject_line, from: @from)
+      mail(to: @recipient, subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
@@ -104,9 +95,8 @@ class UserMailer < ApplicationMailer
     @recipients = recipients
     @organization = organization
     @from = 'escent_discussion_share<noreply@escentpartners.com>'
-    sent_on  Time.now
     unless @recipients.blank? || @organization.nil? || @blog.nil? || @sender.blank?
-      mail(to: @recipients, subject: @subject_line, from: @from)
+      mail(to: @recipients, subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
@@ -118,9 +108,8 @@ class UserMailer < ApplicationMailer
     @blog = blog
     @subject_line = "Invitation From #{user.first_name}"
     @from = 'escent_blog_share<noreply@escentpartners.com>'
-    sent_on  Time.now
     unless @recipient.blank? || @organization.nil? || @blog.nil? || @sender.blank?
-      mail(to: @recipient, subject: @subject_line, from: @from)
+      mail(to: @recipient, subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
@@ -133,9 +122,8 @@ class UserMailer < ApplicationMailer
     @subject_line  = 'Blog Comment Notification'
     @recipient = @blog_post.user.preferred_email
     @from = 'escent_blogging<noreply@escentpartners.com>'
-    sent_on    Time.now
     unless @recipient.blank? || @sender.blank?
-      mail(to: @recipient, subject: @subject_line, from: @from)
+      mail(to: @recipient, subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
@@ -146,14 +134,13 @@ class UserMailer < ApplicationMailer
     @arrangement = arrangement
     @subject_line = "Invitation From #{@sender.first_name}"
     if params[:arrange].blank?
-      @arrange = @sender.full_name + " invites you to arrange a classroom observation."
+      @arrange = @sender.full_name + ' invites you to arrange a classroom observation.'
     else
-      @arrange = params[:arrange] == "1" ? (@sender.full_name + " would like to observe your classroom.") : ("Would you be willing to be a classroom observer of " + @sender.full_name + "?" )
+      @arrange = params[:arrange] == '1' ? (@sender.full_name + ' would like to observe your classroom.') : ('Would you be willing to be a classroom observer of ' + @sender.full_name + '?' )
     end
     @from = 'escent_time_learning<noreply@escentpartners.com>'
-    sent_on  Time.now
     unless @recipient.blank? || @sender.blank?
-      mail(to: @recipient, subject: @subject_line, from: @from)
+      mail(to: @recipient, subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
@@ -166,9 +153,8 @@ class UserMailer < ApplicationMailer
       @message = message
       @subject_line = 'Observation Proficieny Level Change'
       @from = 'escent_time_learning<noreply@escentpartners.com>'
-      sent_on  Time.now
       unless @recipient.blank? || @sender.blank?
-        mail(to: @recipient, subject: @subject_line, from: @from)
+        mail(to: @recipient, subject: @subject_line, from: @from, date: DateTime.now)
       end
     end
   end
@@ -182,9 +168,8 @@ class UserMailer < ApplicationMailer
     @organization = organization
     @subject_line = "Invitation From #{@user.full_name}"
     @from = 'escent_resource_share<noreply@escentpartners.com>'
-    sent_on  Time.now
     unless @recipients.blank?
-      mail(to: @recipients, subject: @subject_line, from: @from)
+      mail(to: @recipients, subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
@@ -193,11 +178,10 @@ class UserMailer < ApplicationMailer
     @change_text = change == 'D' ? 'removed from the Resource Library' : ' updated'
     @user = user
     @orig_title = title
-    @subject_line = "Classroom Resource Removal Notification"
+    @subject_line = 'Classroom Resource Removal Notification'
     @from =  'escent_resource_library<noreply@escentpartners.com>'
-    sent_on    Time.now
     unless @recipients.blank?
-      mail(to: @recipients, subject: @subject_line, from: @from)
+      mail(to: @recipients, subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
@@ -209,11 +193,10 @@ class UserMailer < ApplicationMailer
     @user = user
     @content = resource
     @resource_comment = discussion
-    @subject_line = "Resource Comment Notification"
+    @subject_line = 'Resource Comment Notification'
     @from  = 'escent_resource_library<noreply@escentpartners.com>'
-    sent_on    Time.now
     unless @recipient.blank?
-      mail(to: @recipient, subject: @subject_line, from: @from)
+      mail(to: @recipient, subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
@@ -226,9 +209,8 @@ class UserMailer < ApplicationMailer
     @organization = @topic.classroom.organization rescue nil
     @subject_line =  "Discussion Comment Notification"
     @from = 'escent_classroom<noreply@escentpartners.com>'
-    sent_on    Time.now
     unless @recipients.blank? || @organization.nil?
-      mail(to: @recipients, subject: @subject_line, from: @from)
+      mail(to: @recipients, subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
@@ -241,9 +223,8 @@ class UserMailer < ApplicationMailer
     @organization = organization
     @subject_line = "Invitation From #{@user.full_name}"
     @from = 'escent_offering<noreply@escentpartners.com>'
-    sent_on  Time.now
     unless @recipients.blank? || @topic.classroom.nil?
-      mail(to: @recipients, subject: @subject_line, from: @from)
+      mail(to: @recipients, subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 

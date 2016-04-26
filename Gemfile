@@ -19,3 +19,5 @@ gem 'jquery-rails'
 #
 gem 'hpricot'
 gem 'prawn', '~> 1.3'
+gem 'sendgrid'
+gem 'letter_opener'

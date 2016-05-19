@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
   has_many :leading_classrooms, :class_name => "Classroom"
   has_many :classroom_period_users, :dependent => :destroy
   has_many :classroom_periods, :through => :classroom_period_users
-
+  has_many  :classrooms
 
   has_many :act_benches  
   has_many :act_rel_readings 

@@ -1,6 +1,7 @@
 class Classroom < ActiveRecord::Base
   include PublicPersona
     
+  belongs_to :user
   scope :active, :conditions => {:status=> "active"}
   scope :archived, :conditions => {:status=> "archived"}
 

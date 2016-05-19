@@ -20,4 +20,9 @@ gem 'jquery-rails'
 gem 'hpricot'
 gem 'prawn', '~> 1.3'
 gem 'sendgrid'
-gem 'letter_opener'
+
+
+group :development, :test do
+  gem 'letter_opener'
+  gem 'dotenv'
+end

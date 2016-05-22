@@ -3,11 +3,7 @@ class Site::ApplicationController < ApplicationController
   helper :all # include all helpers, all the time
   layout "site"
 #  before_filter :filter_not_active
-  before_filter :current_organization
-  before_filter :current_user
-  before_filter :current_application
-  before_filter :core_enabled_for_current_org?
- # before_filter :current_app_enabled_for_current_org?
+
   
   protected
 

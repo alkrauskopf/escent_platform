@@ -1,7 +1,8 @@
-   class Apps::AssessmentController < Site::ApplicationController
-
- layout "site", :except =>[:manual_ifa_dashboard_update, :student_list, :student_baseline_scores, :static_assess_question_analysis, :list_user_questions, :list_subject_assessments, :subject_benchmarks, :subject_standard_benchmarks, :assign_classroom_assessment, :question_analysis, :entity_dashboard, :growth_dashboards, :student_dashboard, :student_subject_history, :classroom_dashboard,  :assign_classroom_assessment_view, :list_classroom_assessments, :subject_readings, :genre_readings, :list_standard_questions ,:subject_questions, :assign_assessment_question_view, :subject_assessments, :list_user_assessments]
-  
+class Apps::AssessmentController < ApplicationController
+  layout "site", :except =>[:manual_ifa_dashboard_update, :student_list, :student_baseline_scores, :static_assess_question_analysis, :list_user_questions, :list_subject_assessments, :subject_benchmarks, :subject_standard_benchmarks, :assign_classroom_assessment, :question_analysis, :entity_dashboard, :growth_dashboards, :student_dashboard, :student_subject_history, :classroom_dashboard,  :assign_classroom_assessment_view, :list_classroom_assessments, :subject_readings, :genre_readings, :list_standard_questions ,:subject_questions, :assign_assessment_question_view, :subject_assessments, :list_user_assessments]
+  before_filter :ifa_allowed?, :except=>[]
+  before_filter :current_user_app_authorized?, :except=>[]
+  before_filter :current_user_app_admin?, :only=>[]
   before_filter :clear_notification
   
  def clear_notification
@@ -14,7 +15,7 @@
 #   MAIN ASSESSMENT MANAGEMENT CONTROLLERS
   def index
     initialize_parameters
-    CoopApp.ifa.first.increment_views
+    @current_application.increment_views
     if @current_organization.ifa_org_option
       @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first
       @master = ActMaster.find_standard('ACT')
@@ -2485,6 +2486,11 @@ end
      end
 
    private
+
+   def ifa_allowed?
+     @current_application = CoopApp.ifa
+     current_app_enabled_for_current_org?
+   end
  
  def get_assessments_from_repository
  
@@ -2523,7 +2529,7 @@ end
       @assessment_pool = ActAssessment.active
     end
     if @classroom.ifa_classroom_option.max_score_filter && @classroom.ifa_classroom_option.act_master_id
-      @assessment_pool = @assessment_pool.select{|ass| ass.act_assessment_score_ranges.for_standard(@classroom.ifa_classroom_option.act_master).first.upper_score == @classroom.ifa_classroom_option.max_score_filter.to_i} rescue [
+      @assessment_pool = @assessment_pool.select{|ass| ass.act_assessment_score_ranges.for_standard(@classroom.ifa_classroom_option.act_master).first.upper_score == @classroom.ifa_classroom_option.max_score_filter.to_i} rescue []
     end
   end
     @assessment_pool.sort!{|a,b| b.updated_at <=> a.updated_at}
@@ -2690,12 +2696,14 @@ end
   def initialize_parameters 
     @master_standards = ActMaster.all
     @standards = ActStandard.all.collect{|s|[s.standard]}.uniq.sort
+
+    @admin = @current_user.ifa_admin_for_org?(@current_organization)
+
     if @current_user
       @current_standard = @current_user.act_master
     else
       @current_standard = @master_standards.first
     end
-    @current_organization = Organization.find_by_public_id(params[:organization_id])rescue nil
     @options = @current_organization.ifa_org_option rescue nil
 
     unless @current_user.ifa_user_option
@@ -2735,9 +2743,9 @@ end
     if params[:submission_id]
        @submission = ActSubmission.find_by_public_id(params[:submission_id])rescue nil 
     end 
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
+   # if params[:app_id]
+    #  @app = CoopApp.find_by_id(params[:app_id]) rescue nil
+   # end
   end
 
    def prepare_summary_dashboard

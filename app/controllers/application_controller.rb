@@ -5,6 +5,19 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  before_filter :current_organization
+  before_filter :current_user
+  before_filter :current_application
+  before_filter :core_enabled_for_current_org?
+
+
+  def core_enabled_for_current_org?
+    unless(@current_user && @current_user.superuser? || @current_organization.nil? || @current_organization == Organization.default)
+      if !@current_organization.allowed?(CoopApp.core)
+        redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => Organization.default
+      end
+    end
+  end
   # Accesses the current registrant from the session.
   def current_user
     @current_user ||= (session[:user_id] && User.find(session[:user_id]) rescue nil) || nil
@@ -17,15 +30,6 @@ class ApplicationController < ActionController::Base
   def current_application
     @current_application ||= CoopApp.find_by_public_id(params[:coop_app_id]) rescue CoopApp.core
   end
-
-  def core_enabled_for_current_org?
-    unless(@current_user && @current_user.superuser? || @current_organization.nil? || @current_organization == Organization.default)
-      if !@current_organization.allowed?(CoopApp.core)
-        redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => Organization.default
-      end
-    end
-  end
-
   #
   #    ELT Instance Variables
   #

@@ -9,7 +9,6 @@ development:
   host: localhost
  
 test:
-  development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
@@ -20,7 +19,6 @@ test:
   host: localhost
 
 production:
-  development:
   adapter: mysql2
   encoding: utf8
   reconnect: false

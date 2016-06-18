@@ -30,6 +30,12 @@ EscentPartners::Application.configure do
   # like if you have constraints or database-specific column types
   # config.active_record.schema_format = :sql
 
+  # Configure static asset server for tests with Cache-Control for performance
+  config.public_file_server.enabled = true
+  config.public_file_server.headers = {
+      'Cache-Control' => 'public, max-age=3600'
+  }
+
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 end

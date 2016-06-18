@@ -6,7 +6,7 @@ require 'public_persona'
 require 'core_ext'      # escent specific core extensions
 require 'prawn'
 
-require './lib/organization_reistration.rb'
+require './lib/organization_registration.rb'
 require './lib/authorization_requirement.rb'
 require './lib/finder_helper.rb'
 require './lib/core_ext.rb'

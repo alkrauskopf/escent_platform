@@ -12,6 +12,21 @@ EscentPartners::Application.routes.draw do |map|
   #
   # get "apps/learning_time_standards/indexx"
 
+  # Allen to do:
+  # Hover over My Profile
+  #   Edit => '/profile/edit'
+  #   View => '/profile'
+
+  # <%= link_to 'Edit Profile', profile_edit_path %>
+  #     <a href="/profile/edit">Edit Profile</a>
+
+  # <%= link_to 'Edit Profile', profile_edit_url %>
+  #     <a href="http://localhost:3000/profile/edit">Edit Profile</a>
+  #   *** USE THIS IN ANY MAILERS ***
+
+  get "profile/edit" => "controller#action"
+
+
   # Victor add next two line just for test
   map.connect '/static_organization/:organization_id/:id', :controller => 'site/site', :action => 'static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}
   map.connect '/static_resource/:organization_id/:id', :controller => 'site/site', :action => 'static_resource', :requirements => {:organization_id => /[a-f\d]{16}/}

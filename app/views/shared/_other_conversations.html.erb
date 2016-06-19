@@ -1,11 +1,11 @@
 	<% other_blogs = @current_organization.blogs.active.for_app(app).select{|b| b.id != blog.id}  rescue []  -%>
 	<a href="#" > <%= pluralize(other_blogs.size, " Other Discussion")%></a>
 	<% if app && @current_organization.can_be_displayed?(@current_user)-%>
-      <ul style="width: 250%;" class="hdr-dropdown-content">
+    <ul style="width: 250%;" class="hdr-dropdown-content">
 			<% unless other_blogs.empty? -%>
 				<% other_blogs.each do |blog| -%>
 					<% label = blog.title + " (" + (pluralize blog.blog_posts.active.size, " POV").to_s + ")" -%>
-					<li style="width: 350px;"><%= link_to (label), {:controller => "apps/app_blog", :action => "show_app_blog", :organization_id=> @current_organization, :blog_id => blog, :blog_app=> app}%></li>
+					<li style="width: 350px;"><%= link_to (label), app_blog_view_path(:organization_id=> @current_organization, :blog_id => blog, :blog_app=> app) %></li>
 				<% end -%>
 			<% end -%>
 		</ul>

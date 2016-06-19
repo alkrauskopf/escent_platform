@@ -25,13 +25,13 @@
       </li>
       <li style="width: 5%;" class="hdr-dropdown">
         <% if  user && (user.administrator_of?(org) || user.superuser?) -%>
-          <span><%= link_to 'Admin', :controller => "/admin/application", :action => :index, :organization_id => org %></span>
+          <span><%= link_to 'Admin', admin_path(:organization_id => org) %></span>
         <% else %>
           &nbsp;
         <% end -%>
       </li>
       <li style="width:8%; text-align:right;" class="hdr-dropdown">
-        <%= link_to "Sign Out", :controller => "/users", :action => :logout, :organization_id => org %>
+        <%= link_to 'Sign Out', user_signout_path(:organization_id => org) %>
       </li>
     </ul>
   </div>

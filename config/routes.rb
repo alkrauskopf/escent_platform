@@ -1,31 +1,75 @@
 EscentPartners::Application.routes.draw do |map|
 
-  # get "apps/learning_time_standards/new"
-  #
-  # get "apps/learning_time_standards/create"
-  #
-  # get "apps/learning_time_standards/update"
-  #
-  # get "apps/learning_time_standards/edit"
-  #
-  # get "apps/learning_time_standards/destroy"
-  #
-  # get "apps/learning_time_standards/indexx"
+  # You can have the root of your site routed with "root"
+ # root 'fsn#index'
 
-  # Allen to do:
-  # Hover over My Profile
-  #   Edit => '/profile/edit'
-  #   View => '/profile'
 
-  # <%= link_to 'Edit Profile', profile_edit_path %>
+  # <%= link_to 'Edit Profile', user_edit_path %>
   #     <a href="/profile/edit">Edit Profile</a>
 
   # <%= link_to 'Edit Profile', profile_edit_url %>
   #     <a href="http://localhost:3000/profile/edit">Edit Profile</a>
   #   *** USE THIS IN ANY MAILERS ***
 
-  get "profile/edit" => "controller#action"
+  #  CORE Main Page
+    get '/ep' => 'fsn#index'
+    get '/ep/blog/view' => 'fsn#select_blog'
 
+  # CORE User
+    get '/user/edit' => 'users#edit_profile'
+    post '/user/edit' => 'users#edit_profile'
+    get '/user/view' => 'users#member_public_profile'
+    post '/user/edit_home' => 'users#change_home_org'
+    post '/user/edit_password' => 'users#change_password'
+    get '/user/assign_std' => 'users#assign_standard_view'
+    get '/user/toggle_org' => 'users#toggle_favorite_organization'
+    get '/user/toggle_offering' => 'users#toggle_favorite_classroom'
+    get '/user/remove_colleague' => 'users#remove_this_colleague'
+    get '/user/tag_colleague' => 'users#add_this_colleague'
+    get '/user/remove_resource' => 'users#remove_this_favorite_resource'
+    get '/user/tag_resource' => 'users#add_this_favorite_resource'
+    get '/user/signout' => 'users#logout'
+    post '/user/signin' => 'users#login'
+    get '/user/register' => 'users#register'
+    get '/user/forgot_password' => 'users#forgot_password'
+    post '/user/forgot_password' => 'users#forgot_password'
+
+  # CORE Offering  (Classroom)
+    get '/offering/view' => 'site/site#static_classroom'
+    get '/offering/setup' => 'apps/classroom#setup_classroom'
+    get '/offering/lu/setup' => 'apps/classroom#setup_classroom_lu'
+    get '/offering/toggle_favorite' => 'apps/classroom#toggle_favorite_classroom'
+
+  # CORE Resource (Content)
+    get '/resource/view' => 'site/site#static_resource'
+    get '/resource/new' => 'site/contents#submit_resource'
+    get '/resource/edit' => 'site/contents#index'
+
+  # CORE Blog
+    get '/app_blog/view' => 'apps/app_blog#show_app_blog'
+
+  # CORE Organization
+    get '/organization/view' => 'site/site#static_organization'
+
+  # CORE Admin
+    get '/search' => 'site/site#search'
+
+  # CORE Search
+    post '/admin' => 'admin/application#index'
+
+  # CORE Master
+    get '/master/users/show' => 'master/users#index'
+    get '/master/organizations/show' => 'master/organizations#index'
+    get '/master/organizations/app_owners' => 'master/organizations#ownership'
+    get '/master/organizations/app_usage' => 'master/organizations#app_useability'
+    get '/master/organizations/new' => 'master/organizations#new'
+    get '/master/apps/new' => 'master/coop_apps#edit_app'
+    get '/master/apps/view' => 'master/coop_apps#index'
+
+  # APPS Shared
+    get '/my_survey/view' => 'apps/shared#my_surveys'
+
+  #=======================================================
 
   # Victor add next two line just for test
   map.connect '/static_organization/:organization_id/:id', :controller => 'site/site', :action => 'static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}

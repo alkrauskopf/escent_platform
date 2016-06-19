@@ -1,5 +1,5 @@
 
 	<% if org.who_we_are_featured %>
-		<%= link_to "Our Purpose", :controller => "fsn", :action => :index, :organization_id => org, :blog_id => org.who_we_are_featured.public_id %>
+		<%= link_to "Our Purpose", ep_path(:organization_id => org, :blog_id => org.who_we_are_featured.public_id) %>
 	<% end -%>
 

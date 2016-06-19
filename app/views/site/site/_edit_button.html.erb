@@ -2,7 +2,7 @@
 <% unless @current_user.nil? %>
   <% if @current_user.administrator_of?(@current_organization) || @current_user.superuser? -%>
     <span class="normal_text">
-      <%= link_to "Edit", :controller => "/admin/application", :action => :index, :organization_id => @current_organization %>
+      <%= link_to 'Edit', admin_path(:organization_id => @current_organization) %>
     </span>
   <% end %>
 <% end %>

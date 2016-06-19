@@ -3,7 +3,6 @@
     position: relative;
     display: inline-block;
   }
-
   .hdr-dropdown-content {
     display: none;
     position: absolute;
@@ -13,7 +12,6 @@
     z-index: 1;
     color:<%= @current_organization ? @current_organization.style_setting_value_named("Header and Footer Text") : '000' %>;
   }
-
   .hdr-dropdown:hover .hdr-dropdown-content {
     display: block;
   }
@@ -26,10 +24,10 @@
           <% unless @current_user -%>
             <div style="float:left; width:25%;vertical-align:bottom" class="header_footer_text">
               <span style="font-size:12px; vertical-align:bottom; margin-left:10px;">
-                <%= link_to "Register Here", {:controller => "/users", :action => :register, :organization_id => @current_organization}, {:target => "_blank"},  :class => "join" %>
+                <%= link_to 'Register Here', user_register_path(:organization_id => @current_organization), {:target => "_blank"},  :class => "join" %>
               </span>
             </div>
-            <%= form_tag :controller => @in_admin ? "/admin/application" : "/users", :action => :login, :organization_id => @current_organization do -%>
+            <%= form_tag user_signin_path(:organization_id => @current_organization) do -%>
 
             <div style="float:left; width:55%; "  class="content form">
               <script type="text/javascript">
@@ -69,7 +67,7 @@
                 </div>
                 <div class="forgot_password">
                   <div style="font-size:11px; vertical-align:top; " class="header_footer_text">
-                       <%= link_to "Forgot Password?",  {:controller => "/users", :action => :forgot_password, :organization_id => @current_organization}, :class => "login_forgot_password" %>
+                       <%= link_to 'Forgot Password?', user_forgot_password_path(:organization_id => @current_organization), :class => "login_forgot_password" %>
                   </div>
                 </div>
               </div>
@@ -78,27 +76,21 @@
             <div style="float:right;text-align:center; width:20%; " class="header_footer_text">
               <span style="font-size:12px; margin-right:10px; vertical-align:bottom;">
                 &nbsp;
-                <!--
-                <%#= link_to "Contact Us", {:controller => "/fsn", :action => "contact", :organization_id => @current_organization}, {:target => "_blank"} %>
-                -->
               </span>
             </div>
           <% else -%>
               <div style="float:left; width:35%; vertical-align:middle" class="header_footer_text">
                 Welcome, <%= @current_user.full_name %>
                 <% if @current_user.created_at == @current_user.updated_at -%>
-                  &nbsp;<%= link_to "Setup Your Profile!", :controller => "/users", :action => :edit_profile, :organization_id => @current_organization, :id => @current_user %>
+                  &nbsp;<%= link_to "Setup Your Profile!", user_edit_path(:organization_id => @current_organization, :id => @current_user) %>
                 <% end -%>
               </div>
               <div style="float:left; text-align:center; width:30%; " class="header_footer_text">
-                  <%= link_to @current_organization.name, :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization %>
+                  <%= link_to @current_organization.name, organization_view_path(:organization_id => @current_organization) %>
               </div>
               <div style="float:right;text-align:right; width:35%; " class="header_footer_text">
-                <%= link_to "Sign Out", :controller => "/users", :action => :logout, :organization_id => @current_organization %>
+                <%= link_to 'Sign Out', user_signout_path(:organization_id => @current_organization) %>
                 &nbsp;|&nbsp;
-                  <!--
-                  <%#= link_to "Contact Us", {:controller => "/fsn", :action => "contact", :organization_id => @current_organization}, {:target => "_blank"} %>
-                  -->
               </div>
           <% end -%>
         </div>
@@ -135,7 +127,7 @@
                 </li>
                 <li style="width: 5%;" class="hdr-dropdown">
                   <% if  @current_user && (@current_user.administrator_for_org?(@current_organization) || @current_user.superuser?) -%>
-                    <span><%= link_to 'Admin', :controller => "/admin/application", :action => :index, :organization_id => @current_organization %></span>
+                    <span><%= link_to 'Admin', admin_path(:organization_id => @current_organization) %></span>
                   <% end -%>
                 </li>
               </ul>

@@ -343,11 +343,11 @@ end
         UserMailer.reset_password(user, new_pass, request.host_with_port).deliver
         flash[:notice]  = ("New password sent to <strong>" + user.preferred_email + "</strong>. Give it a few minutes. Check SPAM.").html_safe
       else
-        flash[:error]  = "Couldn't Generate Password. Correct ID? <strong>" + params[:user][:email_address].to_s + "</strong>"  
+        flash[:error]  = Couldn't Generate Password. Correct ID?' + params[:user][:email_address].to_s
       end
     @user = user
     end
-    render :layout => "fsn"
+    render :layout => 'fsn'
   end
   
   def change_password

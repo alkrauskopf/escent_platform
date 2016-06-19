@@ -1,31 +1,31 @@
-
-<!--	<a href="#" >My Offerings</a>  -->
 	<span>My Offerings</span>
   <% if org.can_be_displayed?(user)-%>
     <ul style="width: 250%;" class="hdr-dropdown-content">
-		<% unless classroom.nil? -%>
-			<% if classroom.status == "active" -%>
-				<% if user.classroom_manager_for_offering?(classroom) then -%>
-					<% link_string = truncate("MANAGE OFFERING: " + classroom.course_name, :omission => "...", :length => 35) -%>
-					<li ><%= link_to link_string, {:controller => "apps/classroom", :action => :setup_classroom, :organization_id => org,  :classroom_id => classroom}, :target => '_blank' %></li>
+      <% unless classroom.nil? -%>
+        <% if classroom.status == "active" -%>
+          <% if user.classroom_manager_for_offering?(classroom) then -%>
+            <% link_string = truncate("MANAGE OFFERING: " + classroom.course_name, :omission => "...", :length => 35) -%>
+            <li ><%= link_to link_string, offering_setup_path(:organization_id => org,  :classroom_id => classroom), :target => '_blank' %></li>
 
-					<% if topic -%>
-						<% link_string = truncate("MANAGE UNIT: " + topic.title, :omission => "...", :length => 30)  -%>
-						<li ><%= link_to link_string, {:controller => 'apps/classroom', :action => :setup_classroom_lu, :organization_id => org, :topic_id => topic}, {:target=> '_blank'} %></li>
-					<% end -%>
-				<% end -%>
-				
-				<% tag_label = user.has_favorite?(classroom) ? "UnTag " : "Tag " -%>
-				<% link_string = truncate(tag_label + classroom.course_name, :omission => "...", :length => 35)  -%>
-				<li ><strong><%= link_to link_string, :controller => "/users", :action => :toggle_favorite_classroom, :organization_id => org, :classroom_id => classroom.id %></strong></li>
-			<% end -%>
-		<% end -%>
-		<% for room in user.favorite_classrooms.sort_by{|c| c.course_name.upcase} do -%>
-			<% unless room.nil? || room.organization.nil? -%>
-				<% link_string = truncate(room.course_name, :omission => "...", :length => 24) + ", " +  truncate(room.organization.short_name, :omission => "...", :length => 15) + ":&nbsp;" + truncate(room.teacher_list, :omission => "...", :length => 20) -%>
-				<li ><%= link_to simple_format(link_string), {:controller => "/site/site", :action => :static_classroom, :organization_id => room.organization, :id => room} %>
-				</li>
-			<% end -%>
-		<% end %>
-	</ul>
+            <% if topic -%>
+              <% link_string = truncate("MANAGE UNIT: " + topic.title, :omission => "...", :length => 30)  -%>
+              <li ><%= link_to link_string, offering_lu_setup_path(:organization_id => org, :topic_id => topic), {:target=> '_blank'} %></li>
+            <% end -%>
+          <% end -%>
+          <% tag_label = user.has_favorite?(classroom) ? "UnTag " : "Tag " -%>
+          <% link_string = truncate(tag_label + classroom.course_name, :omission => "...", :length => 35)  -%>
+          <li >
+            <strong><%= link_to link_string, user_toggle_offering_path(:organization_id => org, :classroom_id => classroom.id) %></strong>
+          </li>
+        <% end -%>
+      <% end -%>
+      <% for room in user.favorite_classrooms.sort_by{|c| c.course_name.upcase} do -%>
+        <% unless room.nil? || room.organization.nil? -%>
+          <% link_string = truncate(room.course_name, :omission => "...", :length => 24) + ", " +  truncate(room.organization.short_name, :omission => "...", :length => 15) + ":&nbsp;" + truncate(room.teacher_list, :omission => "...", :length => 20) -%>
+          <li >
+            <%= link_to simple_format(link_string), organization_view_path(:organization_id => room.organization, :id => room) %>
+          </li>
+        <% end -%>
+      <% end %>
+    </ul>
 	<% end -%>

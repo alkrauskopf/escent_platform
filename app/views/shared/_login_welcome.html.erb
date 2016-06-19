@@ -2,7 +2,7 @@
     <div style="float:left; width:40%;" class="header_footer_text">
       Welcome, <%= user.full_name %>&nbsp;
       <% if user.created_at == user.updated_at -%>
-        &nbsp;<%= link_to "Setup Your Profile!", :controller => "/users", :action => :edit_profile, :organization_id => org, :id => user %>
+        &nbsp;<%= link_to "Setup Your Profile!", user_edit_path(:organization_id => org, :id => user) %>
       <% end %>
     </div>
     <div style="float:left; width:30%;" class="header_footer_text">

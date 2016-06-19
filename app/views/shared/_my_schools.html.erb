@@ -1,9 +1,7 @@
-
-<!--	<a href="#" >My Schools</a>  -->
-  <span>My Schools</span>
+ <span>My Schools</span>
     <ul style="width: 200%; overflow:auto; max-height:500px;" class="hdr-dropdown-content">
       <% if user.organization  %>
-        <li ><%= link_to user.organization.short_name,{:controller => "/site/site", :action => :static_organization, :organization_id => user.organization} -%></li>
+        <li ><%= link_to user.organization.short_name, organization_view_path(:organization_id => user.organization) %></li>
 
         <% unless user.organization == org %>
           <% if user.favorite_organizations.include?(org)-%>
@@ -11,12 +9,12 @@
           <% else -%>
             <% link_string = truncate("Tag " + org.short_name, :omission => "...", :length => 35)  -%>
           <% end -%>
-          <li ><strong><%= link_to link_string, :controller => "/users", :action => :toggle_favorite_organization, :organization_id => org %></strong></li>
+          <li ><strong><%= link_to link_string, user_toggle_org_path(:organization_id => org) %></strong></li>
         <% end -%>
       <% end -%>
       <% user.my_schools.sort_by{|s| s.short_name.upcase}.each do |org| -%>
         <% unless org == user.organization -%>
-          <li ><%= link_to org.short_name,{:controller => "/site/site", :action => :static_organization, :organization_id => org} -%></li>
+          <li ><%= link_to org.short_name, organization_view_path(:organization_id => org) %></li>
         <% end -%>
       <% end -%>
     </ul>

@@ -1,14 +1,18 @@
 
 	<% if org.assets_featured  %>
-		<%= link_to "Our Technology", :controller => "fsn", :action => :index, :organization_id => org, :blog_id => org.assets_featured.public_id%>
+		<%= link_to "Our Technology", ep_path(:organization_id => org, :blog_id => org.assets_featured.public_id) %>
 	<% else -%>
 		<span>Our Technology</span>
 	<% end -%>
   <ul style="width: 200%;" class="hdr-dropdown-content">
 		<% if org.assets_featured  %>
-			<li ><%= link_to org.assets_featured.title, :controller => "fsn", :action => :index, :organization_id => org, :blog_id => org.assets_featured.public_id%></li><br/>
+			<li >
+        <%= link_to org.assets_featured.title, ep_path(:organization_id => org, :blog_id => org.assets_featured.public_id) %>
+      </li><br/>
 		<% end -%>
 		<% org.active_nonfeatured_assets.each do |blog| -%>
-			<li ><%= link_to blog.title, :controller => "fsn", :action => :index, :organization_id => org, :blog_id => blog.public_id%></li><br/>
+			<li >
+        <%= link_to blog.title, ep_path(:organization_id => org, :blog_id => blog.public_id) %>
+      </li><br/>
 		<% end -%>
 	</ul>

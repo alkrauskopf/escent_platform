@@ -163,7 +163,7 @@ class Admin::OurOrganizationController < Admin::ApplicationController
           @current_organization.new_setting!(setting)
         end
         if setting == target_setting
-          if @current_organization.setting_values.for_setting(setting).first.update_attributes(:value => params[:color])
+          if @current_organization.setting_values.for_setting(setting).first.update_attributes(:value => params[:color].upcase)
             flash[:normal] = 'Setting Updated'
           else
             flash[:error] = 'Setting Not Updated'

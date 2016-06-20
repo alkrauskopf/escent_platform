@@ -56,12 +56,17 @@ EscentPartners::Application.routes.draw do |map|
   # CORE Admin
     post '/admin' => 'admin/application#index'
     get '/admin/notify' => 'admin/our_organization#toggle_notification'
-    post '/admin/org_edit' => 'admin/our_organization#update_profile'
+    post '/admin/org/profile' => 'admin/our_organization#update_profile'
+    post '/admin/org/logo' => 'admin/our_organization#update_logo'
+    get '/admin/org/colors' => 'admin/our_organization#change_style_setting'
+    get '/admin/org/apps' => 'admin/our_organization#coop_app_enable_disable'
     get '/admin/family/authorizations' => 'admin/our_family#new_user_authorization'
     get '/admin/family/show' => 'admin/our_family#view_auth_members'
     get '/admin/family/user_authorizations' => 'admin/our_family#authorize_user'
     get '/admin/family/authorize' => 'admin/our_family#toggle_authorization'
     get '/admin/family/owner_authorize' => 'admin/our_family#toggle_app_authorization'
+    get '/admin/provider/app/name' => 'admin/our_organization#edit_app_alt_name'
+    get '/admin/provider/app/enable' => 'admin/our_organization#provider_app_enable'
 
   # CORE Master
     get '/master/index' => 'master/application#index'

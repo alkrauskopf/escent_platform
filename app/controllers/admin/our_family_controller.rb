@@ -1,5 +1,5 @@
 class Admin::OurFamilyController < Admin::ApplicationController
-  layout "admin/our_family/layout", :except =>[:view_members, :people, :view_auth_members, :new_user_authorization]
+  layout "admin/our_family/layout", :except =>[ :people, :view_auth_members, :new_user_authorization]
 
   def index
 
@@ -9,74 +9,12 @@ class Admin::OurFamilyController < Admin::ApplicationController
      @people = @current_organization.friends_of_org
   end
   
-
-  def new_x
-    @role = @current_organization.roles.new
-    if request.post?
-      @role = @current_organization.roles.new(params[:role])
-      if @role.save
-        flash[:notice] = "Successfully created role #{@role.name}."
-        redirect_to :action => :roles, :organization_id => @current_organization
-      else
-        flash[:error] = @role.errors.full_messages.to_sentence
-      end
-    end
-  end
-  
   def add_user_to_role
     if request.xhr?
       role = @current_organization.roles.find(params[:role_id])
       user = User.find_by_public_id(params[:user_id])
       user.roles << role unless role.users.include?(user)
       render :text => "#{user.full_name} successfully added to role #{role.name}."
-    end
-  end
-  
-  def edit_x
-    @role = @current_organization.roles.find(params[:id])
-    if request.post?
-      if @role.update_attributes(params[:role])
-        flash[:notice] = "Successfully updated role #{@role.name}."
-        redirect_to :action => :roles, :organization_id => @current_organization
-      else
-        flash[:error] = @role.errors.full_messages.to_sentence
-      end
-    end
-  end
-  
-  def delete_user_from_role_x
-    if request.post?
-      role = @current_organization.roles.find(params[:role_id])
-      user = User.find_by_public_id(params[:user_id])
-      user.role_memberships.each do |rm|
-        rm.destroy if rm.role == role
-      end
-      flash[:notice] = "#{user.full_name} successfully removed role #{role.name}."
-      redirect_to :action => :roles, :organization_id => @current_organization
-    end
-  end
-  
-  def delete_x
-    if request.post?
-      @role = @current_organization.roles.find(params[:id])
-      if @role.can_be_deleted?
-        @role.destroy
-        flash[:notice] = "Successfully removed role #{@role.name}."
-      else
-        flash[:error] = "Role #{@role.name} cannot be deleted!"
-      end
-      redirect_to :action => :roles, :organization_id => @current_organization
-    end
-  end
-  
-  def send_email_x
-    @role = @current_organization.roles.find(params[:id])    
-    if params[:email][:subject].empty? || params[:email][:message].empty?
-      flash[:error] = "Subject and Message are required."
-      render :template => "admin/our_family/email_role"           
-    else
-      flash[:notice] = "Message Not Sent: Roles Not Supported"
-      render :template => "admin/our_family/roles"           
     end
   end
   
@@ -92,26 +30,7 @@ class Admin::OurFamilyController < Admin::ApplicationController
     end
     
   end
-  
-  def email_role_x
-    @role = @current_organization.roles.find(params[:id])
-  end
-  
-  def view_members_x
-    @role = @current_organization.roles.find params[:id]
-  rescue ActiveRecord::RecordNotFound => e
-    render :text => "<div>No users found.</div>" and return
-  end
-  
-  def view_other_members_x
-    @role = @current_organization.roles.find params[:id]
-     @users_in_role = User.with_role(@role.id)
-     @friends = @current_organization.friends_of_org
-     @users = @friends - @users_in_role
-   
-  rescue ActiveRecord::RecordNotFound => e
-    render :text => "<div>No users found.</div>" and return
-  end
+
 
 #
 # ALk This method returns Users for an Authorization for a particular Organization
@@ -185,6 +104,7 @@ class Admin::OurFamilyController < Admin::ApplicationController
 
   def toggle_authorization
     user = User.find_by_public_id(params[:user_id]) rescue nil
+    app = CoopApp.find_by_id(params[:app_id]) rescue nil
     authorization_level = AuthorizationLevel.find(params[:authorization_level]) rescue nil
     unless user.nil? || authorization_level.nil?
       if !user.has_authority?(@current_organization, authorization_level)

@@ -10,7 +10,7 @@
 		<p style="color:#c73914;"> Your Sign-in ID has been activated.</p>	<br/>	
 		<p style="color:#c73914;"> Close This Browser Window and Sign-in From Your Original Window</p><br/>			
 		<p style="color:#c73914;"> Or</p></br/>
-		<p style="color:#c73914;"> Click <%= link_to "Here", {:controller => "/site/site", :action => :static_organization, :organization_id => @user.organization} %> and Sign-in using your email address.</p>  	<br/>	
+		<p style="color:#c73914;"> Click <%= link_to "Here", organization_view_path(:organization_id => @user.organization) %> and Sign-in using your email address.</p>  	<br/>
 
 	</div>
 	<div style="color:#c73914;">

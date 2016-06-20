@@ -24,7 +24,7 @@
 	      <p class="name" style="width:630px; word-wrap:break-word; overflow:hidden; font-size:16px" > Student: <%= @current_user.full_name %> <br/></p>
 
 		  <p class="homeorginfo_label"> 
-			<br/><%= link_to (image_tag @current_organization.logo.url :med_thumb), :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization -%></br>
+			<br/><%= link_to (image_tag @current_organization.logo.url :med_thumb), organization_view_path(:organization_id => @current_organization) -%></br>
 			<% @current_organization.name %> 
 		  </p>
 					

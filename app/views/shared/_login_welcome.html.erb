@@ -14,7 +14,7 @@
     </div>
     <% unless org.nil? || org.disallowed?(CoopApp.core)%>
       <div style="float:left; width:30%; text-align:right;" class="header_footer_text">
-          <%= link_to org.name, :controller => "/site/site", :action => :static_organization, :organization_id => org %>
+          <%= link_to org.name, organization_view_path(:organization_id => org) %>
       </div>
     <% else %>
       <div style="float:left; width:25%; text-align:right;" class="header_footer_text">

@@ -1,5 +1,5 @@
 <div style="padding-bottom:10px;">
-	<%= link_to (image_tag(@current_organization.logo.url, {:controller => "/site/site", :action => :static_organization, :organization_id => @current_organization})) if @current_organization.logo.file? -%>
+	<%= link_to (image_tag(@current_organization.logo.url, organization_view_path(:organization_id => @current_organization)) if @current_organization.logo.file? -%>
 </div>
 <div class="affiliate_information_title" style="word-wrap:break-word;">
 <span class="normal_text"><%= to_br(@current_organization.body) %></span>

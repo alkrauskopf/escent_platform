@@ -6,7 +6,7 @@
 	<%= render :partial => "/shared/error_and_notice" %>
 	<div style="float:left; padding-left:000px;width:730px;">
 	      <p class="name" style="width:730px; padding-top:15px; word-wrap:break-word; overflow:hidden; font-weight:bold; font-size:16px" > 
-		  	<%= link_to (image_tag @current_organization.logo.url :thumb), :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization -%>
+		  	<%= link_to (image_tag @current_organization.logo.url :thumb), organization_view_path(:organization_id => @current_organization) -%>
 			<br/>
 			<span style="padding-left:50px">
 				<%= @current_user.full_name %>

@@ -19,7 +19,7 @@
               </div>
 
               <div class="affiliate_information_title" style="font-size:14px; text-align:center; font-weight:bold; width: 230px; color:#000000;">
-                <%= link_to @assessment.organization.name, {:controller => "/site/site", :action => :static_organization, :organization_id => @assessment.organization}, :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
+                <%= link_to @assessment.organization.name, organization_view_path(:organization_id => @assessment.organization), :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
                 <br/>
 
                 <span class="normal_text" style="font-size:12px; text-align:center; font-weight:normal; color:#000000;">

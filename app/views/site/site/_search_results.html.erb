@@ -62,7 +62,7 @@
 					<!-- ALK Include User Name of Submitter with Org Name -->
 					<td width=200 style="vertical-align:middle;font-size:11px; border:1px solid #ddd;" class="<%= params[:order_by] == 'organization_provider' ? 'order' : '' %>"> 
 					<small><center><% unless item_found.user.nil?%>
-					<%= link_to item_found.user.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => item_found.user}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>	
+					<%= link_to item_found.user.full_name, user_view_path(:organization_id => @current_organization, :id => item_found.user), :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
 					<% end %> 
 					<% unless item_found.organization.nil?%>
 						<br/><%= link_to item_found.organization.name, {:controller => "/site/site", :action => :static_organization, :organization_id => item_found.organization}, :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
@@ -93,9 +93,9 @@
 				<td width=140 style="vertical-align:middle; padding-top:10px; border:1px solid #ddd;" class="<%= params[:order_by] == 'people_name' ? 'order' : '' %>">
 					<center>
 					<% unless item_found.picture.url.split("/").last == "missing.png" %>
-                    	<%= link_to (image_tag item_found.picture.url :small_thumb), {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => item_found}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"}%> 
+                    	<%= link_to (image_tag item_found.picture.url :small_thumb), user_view_path(:organization_id => @current_organization, :id => item_found), :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"}%>
 					<% end %>
-					<%= link_to item_found.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => item_found}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>	
+					<%= link_to item_found.full_name, user_view_path(:organization_id => @current_organization, :id => item_found), :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
 					<% unless item_found.home_organization.nil? %><br/>
 						<span style= "font-size:10px; font-weight:bold;">
 						<%= item_found.home_organization.name %>
@@ -162,13 +162,7 @@
 					<% end %>			
 				</span>
 				</td>
-				</tr>				
-
-				<!-- ALK Take out View Button Column and replace with Link on Name 
-				<td>
-				  <%#= link_to "View", {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => item_found}, {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
-				</td> 
-				-->   
+				</tr>
 				<% elsif @items_found.first.is_a?(Classroom) -%>
 				<tr>				
 				<td width=190 style=" vertical-align:middle;text-align:center; word-wrap:normal; border:1px solid #ddd;" class="<%= params[:order_by] == 'course_name' ? 'order' : '' %>">
@@ -196,7 +190,7 @@
 					<% if item_found.leaders.size > 1 %><strong>Teachers:</strong> &nbsp; <% end %>
 					<% item_found.leaders.each_with_index do |ldr,i|%>
 						<% unless ldr.nil? %>
-							<%= link_to ldr.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => ldr}%>
+							<%= link_to ldr.full_name, user_view_path(:organization_id => @current_organization, :id => ldr) %>
 						<% unless i+1 == item_found.leaders.size%>, &nbsp;
 						<%end%>
 						<% end %>
@@ -236,8 +230,8 @@
 					<% contact_user = User.org_contact(item_found.contact_email)%>
 					<% if contact_user && item_found.contact_name %> 
 	  					<% unless contact_user.picture.url.split("/").last == "missing.png" %>
-            			<%= link_to (image_tag contact_user.picture.url :small_thumb), {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => contact_user}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"}%> <% end %>
-						<center><%= link_to item_found.contact_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => contact_user}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>	</center>
+            			<%= link_to (image_tag contact_user.picture.url :small_thumb), user_view_path(:organization_id => @current_organization, :id => contact_user), :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"}%> <% end %>
+						<center><%= link_to item_found.contact_name, user_view_path(:organization_id => @current_organization, :id => contact_user), :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>	</center>
       				<% else %>
 					<strong><%= item_found.contact_name if item_found.contact_name %></strong><br />					
 					<% end %>

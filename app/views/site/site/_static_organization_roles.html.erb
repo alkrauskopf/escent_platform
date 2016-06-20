@@ -28,7 +28,7 @@
 				<td  style="width:370px; text-align:left;padding-left:10px">
 					<%= pluralize(role.users.size, " " + role.name) -%><br/>
 					<% role.users.sort_by{|u| [u.last_name, u.first_name]}.each do |usr| %>
-					<%= link_to usr.full_name, :controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => usr %>
+					<%= link_to usr.full_name, user_view_path(:organization_id => @current_organization, :id => usr) %>
 					&nbsp;
 					<% end -%>
 				</td>

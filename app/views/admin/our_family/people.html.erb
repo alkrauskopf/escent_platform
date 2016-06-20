@@ -42,7 +42,7 @@
 				<% else %>
 					<td>&nbsp;</td>
 				<% end %>				
-				<td ><%= link_to person.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => person}, {:target => "_blank"} %></td>
+				<td ><%= link_to person.full_name, user_view_path(:organization_id => @current_organization, :id => person), {:target => "_blank"} %></td>
 
 				<td><%= person.roles.find_all_by_scope_id_and_scope_type(@current_organization, "Organization").collect{|r| r.name}.to_sentence %></td>
 

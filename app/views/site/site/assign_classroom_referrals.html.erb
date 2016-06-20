@@ -47,7 +47,7 @@
 						<% if tpc.classroom.leaders.size > 1 %>Teachers: &nbsp; <% end %>
 						<% tpc.classroom.leaders.each_with_index do |ldr,i|%>
 							<% unless ldr.nil? %>
-								<%= link_to ldr.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => ldr}, {:target => "_blank"}%>
+								<%= link_to ldr.full_name, user_view_path(:organization_id => @current_organization, :id => ldr), {:target => "_blank"}%>
 								<% unless i+1 == tpc.classroom.leaders.size%>, &nbsp;
 								<%end%>
 							<% end %>
@@ -80,7 +80,7 @@
 						<% if tpc.classroom.leaders.size > 1 %>Teachers: &nbsp; <% end %>
 						<% tpc.classroom.leaders.each_with_index do |ldr,i|%>
 							<% unless ldr.nil? %>
-								<%= link_to ldr.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => ldr}, {:target => "_blank"}%>
+								<%= link_to ldr.full_name, user_view_path(:organization_id => @current_organization, :id => ldr), {:target => "_blank"}%>
 								<% unless i+1 == tpc.classroom.leaders.size%>, &nbsp;
 								<%end%>
 							<% end %>

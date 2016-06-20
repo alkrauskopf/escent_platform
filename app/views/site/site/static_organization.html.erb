@@ -49,11 +49,11 @@
           <% if !contact_user.nil? && @current_organization.contact_name && @current_organization.display_contact?-%>
             <td style =" width:11%; border:0px solid #ddd; text-align:center; vertical-align:top; line-height:1.5em; padding-top:10px; padding-left:00px; padding-bottom:0px">
               <% unless contact_user.picture.url.split("/").last == "missing.png" %>
-                    <%= link_to (image_tag contact_user.picture.url :med_thumb), {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => contact_user}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"}%>
+                    <%= link_to (image_tag contact_user.picture.url :med_thumb), user_view_path(:organization_id => @current_organization, :id => contact_user), :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"}%>
                   <% end %>
               </td>
             <td style =" border:0px solid #ddd; vertical-align:middle; line-height:1.5em; padding-top:0px; padding-left:00px; padding-bottom:0px">
-              <%= link_to @current_organization.contact_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => contact_user}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
+              <%= link_to @current_organization.contact_name, user_view_path(:organization_id => @current_organization, :id => contact_user), :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
               <span style="font-size:10.5px; line-height:1.3em;">
                   <br/><%= @current_organization.contact_role if @current_organization.contact_role %>
               </span>

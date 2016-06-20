@@ -16,7 +16,7 @@
       <% if @current_user.picture.url.split("/").last == "missing.png" %>
         <%= image_tag "member_ico.gif" %>
  		<br/>
-		<%= link_to "Please Add Your Picture", {:controller => "/users", :action => :edit_profile, :organization_id => @current_organization, :id => @current_user} %>
+		<%= link_to "Please Add Your Picture", user_edit_path(:organization_id => @current_organization, :id => @current_user) %>
 
       <% else %>
         <%= image_tag @current_user.picture.url(:thumb) %>

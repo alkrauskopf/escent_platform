@@ -55,7 +55,7 @@
 
 					<td align="left" style="width:250px; color: #000000; vertical-align:top;">
 						<% name_link = person.last_name.upcase + ", " + person.first_name.titleize -%>
-						<strong><%= link_to name_link,{:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => person}, {:target => "_blank"} %></strong>,&nbsp;
+						<strong><%= link_to name_link, user_view_path(:organization_id => @current_organization, :id => person), {:target => "_blank"} %></strong>,&nbsp;
 					</td>
 
 						<% grade = person.current_grade_level ? person.current_grade_level.to_s : "None" %>

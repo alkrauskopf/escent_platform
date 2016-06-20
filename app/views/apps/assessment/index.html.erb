@@ -3,7 +3,7 @@
   <div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
     <br/>Integrated Formative Assessment Methodology
   </div>
-  <%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@app} %>
+  <%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@current_application} %>
   <%= render :partial => "/shared/error_and_notice" %>
 
   <div style="float:none;width:97%;" class="mempro_box clear">
@@ -66,7 +66,7 @@
 		<%= tab_8_label %></span></a>
       </li>
 
-      <% if @current_user.ifa_admin?(@current_organization) -%>
+      <% if @admin -%>
           <li>
             <%  tab_7_label = "Student Baseline Scores" %>
             <a href="#tabs-7"><span class="tab_label">
@@ -113,7 +113,7 @@
 
     </div>
 
-    <% if @current_user.ifa_admin?(@current_organization) -%>
+    <% if @admin -%>
 
         <div id="tabs-7" class="favorite_organizations" style="width:900px">
           <table id="people_levels" class="tablesorter" style="width:99%;">

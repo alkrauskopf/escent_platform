@@ -2,8 +2,7 @@ EscentPartners::Application.routes.draw do |map|
 
   # You can have the root of your site routed with "root"
  # root 'fsn#index'
-
-
+  
   # <%= link_to 'Edit Profile', user_edit_path %>
   #     <a href="/profile/edit">Edit Profile</a>
 

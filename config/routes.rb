@@ -2,7 +2,7 @@ EscentPartners::Application.routes.draw do |map|
 
   # You can have the root of your site routed with "root"
  # root 'fsn#index'
-  
+
   # <%= link_to 'Edit Profile', user_edit_path %>
   #     <a href="/profile/edit">Edit Profile</a>
 
@@ -50,13 +50,21 @@ EscentPartners::Application.routes.draw do |map|
   # CORE Organization
     get '/organization/view' => 'site/site#static_organization'
 
-  # CORE Admin
+  # CORE Search
     get '/search' => 'site/site#search'
 
-  # CORE Search
+  # CORE Admin
     post '/admin' => 'admin/application#index'
+    get '/admin/notify' => 'admin/our_organization#toggle_notification'
+    post '/admin/org_edit' => 'admin/our_organization#update_profile'
+    get '/admin/family/authorizations' => 'admin/our_family#new_user_authorization'
+    get '/admin/family/show' => 'admin/our_family#view_auth_members'
+    get '/admin/family/user_authorizations' => 'admin/our_family#authorize_user'
+    get '/admin/family/authorize' => 'admin/our_family#toggle_authorization'
+    get '/admin/family/owner_authorize' => 'admin/our_family#toggle_app_authorization'
 
   # CORE Master
+    get '/master/index' => 'master/application#index'
     get '/master/users/show' => 'master/users#index'
     get '/master/organizations/show' => 'master/organizations#index'
     get '/master/organizations/app_owners' => 'master/organizations#ownership'

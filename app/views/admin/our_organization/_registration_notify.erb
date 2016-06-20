@@ -6,7 +6,7 @@
         <% button_label2 = @current_organization.register_notify? ? "ON" : "OFF" %>
         <tr>
           <td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:4px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-            <%= link_to (image_tag button_label1, :width => 15), {:controller => "admin/our_organization", :action => "toggle_notification", :organization_id => @current_organization, :registration=>true}, :class => "toggle_note" %>
+            <%= link_to (image_tag button_label1, :width => 15), admin_notify_path(:organization_id => @current_organization, :registration=>true), :class => "toggle_note" %>
           </td>
           <td width=225px style="vertical-align:top;  padding-left:0px; padding-right:0px; vertical-align:middle; text-align:left; color: #000000; font-size:11px; font-weight:normal">
             Registration Notifications <%= button_label2 %>
@@ -20,10 +20,10 @@
         <% button_label2 = @current_organization.content_notify? ? "ON" : "OFF" %>
         <tr>
           <td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:4px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-            <%= link_to (image_tag button_label1, :width => 15), {:controller => "admin/our_organization", :action => "toggle_notification", :organization_id => @current_organization, :content=>true}, :class => "toggle_note" %>
+            <%= link_to (image_tag button_label1, :width => 15), admin_notify_path(:organization_id => @current_organization, :content=>true), :class => "toggle_note" %>
           </td>
           <td width=225px style="vertical-align:top;  padding-left:0px; padding-right:0px; vertical-align:middle; text-align:left; color: #000000; font-size:11px; font-weight:normal">
-            Resource Change Notifications <%#= button_label2 %>
+            Resource Change Notifications <%= button_label2 %>
           </td>
         </tr>
       </tbody>

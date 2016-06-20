@@ -13,7 +13,7 @@
 		<tbody>
 				<tr>
 					<td class="authorization_levels_close">
-						<%= link_to '', :controller => :our_family, :action => :new_user_authorization, :organization_id => @current_organization %>
+						<%= link_to '', admin_family_authorizations_path(:organization_id => @current_organization) %>
 						Grant More Authorizations
 						<span></span>
 					</td>
@@ -34,7 +34,7 @@
 			<% auth_string =   authorization_level.coop_app.abbrev + ": " + authorization_level.name.titleize -%>
 			<tr>
 				<td class="authorization_levels_close">
-					<%= link_to '', :controller => :our_family, :action => :view_auth_members, :organization_id => @current_organization, :scope=>"o", :id => authorization_level, :hide_back_button => true %>
+					<%= link_to '', admin_family_show_path(:organization_id => @current_organization, :scope=>"o", :id => authorization_level, :hide_back_button => true) %>
 					<%= auth_string %>
 					<span></span>
 				</td>
@@ -45,7 +45,7 @@
 				<% auth_string =   app.abbrev + ": " + authorization_level.name.titleize -%>
 				<tr>
 					<td class="authorization_levels_close">
-						<%= link_to '', :controller => :our_family, :action => :view_auth_members, :organization_id => @current_organization, :app_id=>app.id, :scope=>"a", :id => authorization_level, :hide_back_button => true %>
+						<%= link_to '', admin_family_show_path(:organization_id => @current_organization, :app_id=>app.id, :scope=>"a", :id => authorization_level, :hide_back_button => true) %>
 						<%= auth_string %>
 						<span></span>
 					</td>

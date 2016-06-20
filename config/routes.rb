@@ -49,6 +49,9 @@ EscentPartners::Application.routes.draw do |map|
 
   # CORE Organization
     get '/organization/view' => 'site/site#static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}
+    get '/organization/view/app' => 'site/site#summarize_org_app'
+    get '/organization/view/offering' => 'site/site#summarize_org_subject_offerings'
+    get '/organization/view/resources' => 'site/site#summarize_org_resources'
 
   # CORE Search
     get '/search' => 'site/site#search'

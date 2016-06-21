@@ -1,6 +1,6 @@
 <% if @current_user -%>
 	<% unless @current_user.has_authority?(@current_organization, AuthorizationLevel.app_administrator(CoopApp.blog), :superuser=>true) -%>
-		<% display_value = "none;" %>
+		<% display_value = 'none;' %>
 	<% end -%>	
-Report as: <a href="javascript:void(0)" class="spam report">spam</a> / <a href="javascript:void(0)" class="offensive report">offensive</a>
+  Report as: <a href="javascript:void(0)" class="spam report">spam</a> / <a href="javascript:void(0)" class="offensive report">offensive</a>
 <% end -%>

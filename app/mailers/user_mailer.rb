@@ -189,9 +189,9 @@ class UserMailer < ApplicationMailer
     @ep_host = ep_host
     @recipient = user.preferred_email
     @commenter = commenter
+    @content = resource
     @organization = @content.organization rescue nil
     @user = user
-    @content = resource
     @resource_comment = discussion
     @subject_line = 'Resource Comment Notification'
     @from  = 'escent_resource_library<noreply@escentpartners.com>'

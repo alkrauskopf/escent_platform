@@ -86,6 +86,11 @@ EscentPartners::Application.routes.draw do |map|
     get '/master/apps/new' => 'master/coop_apps#edit_app'
     get '/master/apps/view' => 'master/coop_apps#index'
 
+
+  # CORE Discussions
+    get '/discussion/resource/comment/delete' => 'site/discussions#delete_resource_comment'
+    post '/discussion/resource/comment/new' => 'site/discussions#add_comment_for_resource'
+
   # APPS Shared
     get '/my_survey/view' => 'apps/shared#my_surveys'
 

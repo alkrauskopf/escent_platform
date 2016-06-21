@@ -42,7 +42,12 @@ EscentPartners::Application.routes.draw do |map|
   # CORE Resource (Content)
     get '/resource/view' => 'site/site#static_resource'
     get '/resource/new' => 'site/contents#submit_resource'
-    get '/resource/edit' => 'site/contents#index'
+    put '/resource/new' => 'site/contents#submit_resource'
+    get '/resource/show' => 'site/contents#index'
+    get '/resource/edit' => 'site/contents#edit_resource'
+    get '/resource/subjects' => 'site/contents#select_subject_areas'
+    get '/resource/types' => 'site/contents#select_resource_types'
+    get '/resource/share' => 'site/discussions#share_content'
 
   # CORE Blog
     get '/app_blog/view' => 'apps/app_blog#show_app_blog'

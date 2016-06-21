@@ -1,8 +1,8 @@
 
-<div style ="color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold"> 
+<div style ="text-align:center; color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold">
 
 	<br/>
-	<strong><center> <%= @current_organization.medium_name %>&nbsp;Resource Library Submission</center></strong>
+	<strong><%= @current_organization.medium_name %>&nbsp;Resource Library Submission</strong>
 </div>
 
 	
@@ -10,14 +10,14 @@
 	<%= render :partial => "/shared/error_and_notice" %>
 
 <div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	  <%= link_to "Select RETURN Destination From Header Bar", :controller => "/site/site", :action => "static_organization", :organization_id => @current_organization %>
+	  <%= link_to "Select RETURN Destination From Header Bar", organization_view_path(:organization_id => @current_organization) %>
 </div>
 
 
 
 <div class="Form clear">
 <%# form_for(:homework, :url => {:controller => "/site/site", :action => :submit_homework,:organization_id => @current_organization, :topic_id => @topic, :classroom_id => @classroom}, :html => { :multipart => true, :method => :put}) do |form| %>
-<%= form_for(:content, :url => {:controller => "/site/contents", :action => :submit_resource, :organization_id => @current_organization, :function => "Submit", :format => 'js'}, :html => { :multipart => true, :method => :put}) do |form| -%>
+<%= form_for(:content, :url => resource_new_path(:organization_id => @current_organization, :function => "Submit", :format => 'js'), :html => { :multipart => true, :method => :put}) do |form| -%>
 
 
 
@@ -114,7 +114,7 @@
     </div>
 
 	<div class="FormRow">
-		<div class="FormRowTitle"><strong><%=@current_standard.abbrev %> ASSESSMENT INFO</strong></div>
+		<div class="FormRowTitle"><%=@current_standard.abbrev %> ASSESSMENT INFO</div>
 
 			<div class="FormRowData" style= "margin-left:25px">
 
@@ -138,14 +138,12 @@
  					<tr>
 						<td colspan=2>
 					<!--		<%#=  select(:eng, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 2, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>  -->
-              <%=  select(:eng, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, ActSubject.es).collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
+              <%=  select(:eng, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, ActSubject.ew).collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
             </td>
  					</tr>
 				<!--	<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 2, @current_standard.id]) rescue nil %>  -->
-          <% standards = ActStandard.for_standard_and_standard(@current_standard, ActSubject.ew) %>
-					<% unless standards.empty? -%>
-					<tr><td colspan=2 style="color:#C73914;"><u>    Please Select Applicable Knowledge Strands</u></td></tr>
-					<% end -%>
+          <% standards = ActStandard.for_standard_and_subject(@current_standard, ActSubject.ew) %>
+
 					<% for std in standards do -%>
  					<tr>
 						<td style="width:15px">
@@ -177,10 +175,8 @@
   						</td>
  					</tr>
 			<!--		<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 1, @current_standard.id]) rescue nil %>  -->
-          <% standards = ActStandard.for_standard_and_standard(@current_standard, ActSubject.math) %>
-							<% unless standards.empty? -%>
-					<tr><td colspan=2 style="color:#C73914;"><u>    Please Select Applicable Knowledge Strands</u></td></tr>
-					<% end -%>
+          <% standards = ActStandard.for_standard_and_subject(@current_standard, ActSubject.math) %>
+
 					<% for std in standards do -%>
  					<tr>
 						<td style="width:15px">
@@ -212,10 +208,8 @@
   						</td>
  					</tr>
 			<!--		<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 3, @current_standard.id]) rescue nil%>  -->
-        <% standards = ActStandard.for_standard_and_standard(@current_standard, ActSubject.rl)%>
-        <% unless standards.empty? -%>
-					<tr><td colspan=2 style="color:#C73914;"><u>    Please Select Applicable Knowledge Strands</u></td></tr>
-					<% end -%>
+        <% standards = ActStandard.for_standard_and_subject(@current_standard, ActSubject.rl)%>
+
 					<% for std in standards do -%>
  					<tr>
 						<td style="width:15px">
@@ -247,10 +241,8 @@
   						</td>
  					</tr>
 			<!--		<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 4, @current_standard.id])rescue nil %> -->
-        <% standards = ActStandard.for_standard_and_standard(@current_standard, ActSubject.science) %>
-        <% unless standards.empty? -%>
-					<tr><td colspan=2 style="color:#C73914;"><u>    Please Select Applicable Knowledge Strands</u></td></tr>
-					<% end -%>
+        <% standards = ActStandard.for_standard_and_subject(@current_standard, ActSubject.science) %>
+
 					<% for std in standards do -%>
  					<tr>
 						<td style="width:15px">
@@ -283,10 +275,8 @@
             </td>
  					</tr>
 				<!--	<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 5, @current_standard.id]) rescue nil %> -->
-        <% standards = ActStandard.for_standard_and_standard(@current_standard, ActSubject.ss) %>
-        <% unless standards.empty? -%>
-					<tr><td colspan=2 style="color:#C73914;"><u>    Please Select Applicable Knowledge Strands</u></td></tr>
-					<% end -%>
+        <% standards = ActStandard.for_standard_and_subject(@current_standard, ActSubject.ss) %>
+
 					<% for std in standards do -%>
  					<tr>
 						<td style="width:15px">
@@ -417,7 +407,7 @@
 <br/>
 	
 <div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	  <%= link_to "Select RETURN Destination From Header Bar", :controller => "/site/site", :action => "static_organization", :organization_id => @current_organization %>
+	  <%= link_to "Select RETURN Destination From Header Bar", organization_view_path(:organization_id => @current_organization) %>
 </div>
 
 <style type="text/css" media="screen">
@@ -432,13 +422,13 @@
 
 <script type="text/javascript" charset="utf-8">
     jQ(document).ready(function() {
-		var url = "<%= url_for :controller => '/site/contents', :action => :select_subject_areas, :organization_id => @current_organization %>";
+		var url = "<%= resource_subjects_url(:organization_id => @current_organization) %>";
 		jQ("#select_subject_area").autocomplete(url, {
                                         				autoFill: false,
                                         				mustMatch: true,
                                         				matchContains: false
                                         		});			
-		var url = "<%= url_for :controller => '/site/contents', :action => :select_resource_types, :organization_id => @current_organization %>";
+		var url = "<%= resource_types_url(:organization_id => @current_organization) %>";
 		jQ("#select_resource_type").autocomplete(url, {
                                         				autoFill: true,
                                         				mustMatch: false,

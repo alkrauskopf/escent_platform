@@ -20,7 +20,7 @@
 		<div>
 			<%= show_discussion_is_delete?(discussion.comment, discussion.is_delete) %>
 			<% if @current_user && @content -%>
-				<% unless @current_user.has_authority?(@content.organization, AuthorizationLevel.app_knowledge_manager(CoopApp.core)) -%>
+				<% unless @current_user.has_authority?(@content.organization, AuthorizationLevel.app_knowledge_manager(CoopApp.core), :superuser=>true) -%>
 					<% display_value = "none;" %>
 				<% end -%>	
 			<% else -%>

@@ -1,9 +1,9 @@
 <span>Library</span>
 	<% if org.can_be_displayed?(user)-%>
     <ul style="width: 250%;" class="hdr-dropdown-content">
-      <% if user.has_authority?(org, AuthorizationLevel.app_knowledge_manager(CoopApp.core)) -%>
+      <% if user.has_authority?(org, AuthorizationLevel.app_knowledge_manager(CoopApp.core), :superuser=>true) -%>
           <li ><%= link_to "ADD Resource To Library", resource_new_path(:organization_id => org, :function => "New"), {:target => "_blank"}  %></li>
-          <li ><%= link_to "MANAGE Your Library Resources", resource_edit_path(:organization_id => org, :function => "New"), {:target => "_blank"}  %></li>
+          <li ><%= link_to "MANAGE Your Library Resources", resource_show_path(:organization_id => org, :function => "New"), {:target => "_blank"}  %></li>
       <% end %>
       <% unless content.nil? -%>
         <% unless content.id.nil? -%>  <!-- in process of being created -->

@@ -12,7 +12,7 @@
 				<% else -%>
 						<% display_value = "none;" %>		
 				<% end -%>
-				<%= (link_to "Delete", {:controller => "site/discussions", :action => "delete_reply", :id => discussion, :organization_id => @current_organization}, :class => "delete", :style => "display:#{display_value}") unless discussion.is_delete %>
+				<%= (link_to "Delete", discussion_reply_delete_path(:id => discussion, :organization_id => @current_organization), :class => "delete", :style => "display:#{display_value}") unless discussion.is_delete %>
 			</div>
 		</div>
 	</div>

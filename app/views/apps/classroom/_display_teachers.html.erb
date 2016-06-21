@@ -1,6 +1,5 @@
 
 <div id="display_teacher">
-
 	<table class="tablesorter"> 
 		<tbody>
 			<% if !@classroom.active_for?(@current_user) || classroom.student_period(@current_user).nil? -%>
@@ -8,50 +7,45 @@
 		  			<% unless cl.nil? -%><br/>
 						<tr>
 							<td width = 100px style ="padding-top:0px; padding-left:20px; padding-bottom:5px">
-		               			<% unless cl.picture.url.split("/").last == "missing.png" -%>
-		                    	<%= image_tag cl.picture.url(:med_thumb) %>
+                <% unless cl.picture.url.split("/").last == "missing.png" -%>
+                  <%= image_tag cl.picture.url(:med_thumb) %>
 								<% end %>
 							</td>
-		
 							<td width = 190px style="font-size:11px; text-align:left; vertical-align:top; padding-left: 0px; padding-top:0px; padding-bottom:0px">
-		               			<strong><%= link_to cl.full_name, user_view_path(:organization_id => @current_organization, :id => cl) %></strong>
+                <strong><%= link_to cl.full_name, user_view_path(:organization_id => @current_organization, :id => cl) %></strong>
 								<% if classroom.classroom_periods.size > 1 -%>
 									<span style = "color: #2061a5;">
-									<% classroom.teacher_periods(cl).each do |per| -%>
+									  <% classroom.teacher_periods(cl).each do |per| -%>
 										<br/><%= per.name %>
-									<% end %>
+									  <% end %>
 									</span>	
 								<% end -%>
 							</td>
-				    	</tr>
+            </tr>
 					<% end %>
 				<% end %>
 			<% else -%>
 				<% classroom.teachers_for_student(@current_user).sort_by{|t| t.last_name}.each do |cl|%>	
-		  			<% unless cl.nil? -%><br/>
-						<tr>
-							<td width = 100px style ="padding-top:0px; padding-left:20px; padding-bottom:5px">
-		               			<% unless cl.picture.url.split("/").last == "missing.png" -%>
-		                    	<%= image_tag cl.picture.url(:med_thumb) %>
-								<% end %>
-							</td>
-		
-							<td width = 190px style="font-size:11px; text-align:left; vertical-align:top; padding-left: 0px; padding-top:0px; padding-bottom:0px">
-		               			<strong><%= link_to cl.full_name, user_view_path(:organization_id => @current_organization, :id => cl) %></strong>
-								<% if classroom.classroom_periods.size > 1 -%>
-									<span style = "color: #2061a5;">
-										<br/><%= classroom.period_for_student(@current_user).name %>
-									</span>
-								<% end -%>	
-							</td>
-				    	</tr>
-					<% end %>
-				<% end %>
-			<% end -%>
-		</tbody>
-	</table>
-
-
-
+          <% unless cl.nil? -%><br/>
+            <tr>
+              <td width = 100px style ="padding-top:0px; padding-left:20px; padding-bottom:5px">
+                <% unless cl.picture.url.split("/").last == "missing.png" -%>
+                  <%= image_tag cl.picture.url(:med_thumb) %>
+                <% end %>
+              </td>
+              <td width = 190px style="font-size:11px; text-align:left; vertical-align:top; padding-left: 0px; padding-top:0px; padding-bottom:0px">
+                <strong><%= link_to cl.full_name, user_view_path(:organization_id => @current_organization, :id => cl) %></strong>
+                <% if classroom.classroom_periods.size > 1 -%>
+                  <span style = "color: #2061a5;">
+                    <br/><%= classroom.period_for_student(@current_user).name %>
+                  </span>
+                <% end -%>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end -%>
+    </tbody>
+  </table>
 </div>
 

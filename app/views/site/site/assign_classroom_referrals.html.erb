@@ -10,7 +10,7 @@
 	 If you would like to add a Link to a Classroom that is not listed below, first go to that Classroom page and TAG it.
 	<br/>
 	<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	Back To: <%= link_to @classroom.course_name, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @return_topic, :id => @classroom%>
+	Back To: <%= link_to @classroom.course_name, offering_view_path(:organization_id => @current_organization, :topic_id => @return_topic, :id => @classroom) %>
 	</div>
 	<br/> <%= render :partial => "/shared/error_and_notice" %>
 	<div class="flash_notice" style="display:none;"></div>
@@ -101,7 +101,7 @@
 
 	</div>
 	<div style="width:100%; text-align:left;   font-size:12px; padding:10px;">
-	Back To: <%= link_to @classroom.course_name, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @return_topic, :id => @classroom%>
+	Back To: <%= link_to @classroom.course_name, offering_view_path(:organization_id => @current_organization, :topic_id => @return_topic, :id => @classroom) %>
 	</div>
 </div>
 <script type="text/javascript" charset="utf-8">

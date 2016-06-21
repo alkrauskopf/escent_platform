@@ -12,7 +12,7 @@
 			<%= link_to "Manage Offerings", {:controller => '/apps/classroom', :action => :index, :organization_id => @current_organization,:user_id => @current_user, :teacher_id => @current_user}%>
 		</span>
 		<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;float:right">
-			<%= classroom.organization ?  (link_to "View Offering", {:controller => "/site/site", :action => :static_classroom, :organization_id => classroom.organization, :id => classroom}, {:target=> 'blank'}) : ""%>
+			<%= classroom.organization ?  (link_to "View Offering", offering_view_path(:organization_id => classroom.organization, :id => classroom), {:target=> 'blank'}) : ""%>
 		</span>
 	</div>
 	<div id="classroom_edit_box">

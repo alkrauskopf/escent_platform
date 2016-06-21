@@ -168,7 +168,7 @@
 				<td width=190 style=" vertical-align:middle;text-align:center; word-wrap:normal; border:1px solid #ddd;" class="<%= params[:order_by] == 'course_name' ? 'order' : '' %>">
 					<span style="font-weight:bold; font-size:12px">
 					<% room_org = Organization.find_by_id(item_found.organization_id) %>
-					<%= link_to h(item_found.course_name), :controller => :site, :action => :static_classroom, :id => item_found, :organization_id => room_org  %>
+					<%= link_to h(item_found.course_name), offering_view_path(:id => item_found, :organization_id => room_org) %>
 					<br/></span> 
 					<%= item_found.subject_area.name %>
 					<% unless item_found.observers.size == 0 %><br/><span style = "font-size:10px"> Observed By <%= pluralize(item_found.observers.size, 'Person')%></span><% end %>
@@ -201,7 +201,7 @@
 					<% if item_found.topics.size > 1 %><strong>Units:</strong> &nbsp; <% end %>
 					<% item_found.topics.each_with_index do |t,i| %>
 						<% unless t.nil? %>
-        					<%= link_to t.title, :controller => "/site/site", :action => :static_classroom, :organization_id => item_found.organization, :topic_id => t, :id => t.classroom %>
+        					<%= link_to t.title, offering_view_path(:organization_id => item_found.organization, :topic_id => t, :id => t.classroom) %>
 						<% unless i+1 == item_found.topics.size%>, &nbsp;
 						<%end%>
 						<% end %>
@@ -248,7 +248,7 @@
 						<% else %>
 							<% item_found.classrooms.active.each_with_index do |c,i| %>
 								<% room_org = Organization.find_by_id(c.organization_id) %>
-        						<%= link_to h(c.course_name), :controller => :site, :action => :static_classroom, :id => c,:organization_id => room_org %>
+        						<%= link_to h(c.course_name), offering_view_path(:id => c,:organization_id => room_org) %>
 								<% unless i+1 == item_found.classrooms.active.size%>, &nbsp; 
 								<% end %>
 						<% end %>

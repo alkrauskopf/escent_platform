@@ -44,8 +44,8 @@
 	</thead><tbody>
 		<% @classroom_list.each_with_index do |c, idx| -%>
 		<tr>
-			<td style="width:120px;font-size:10px;"><u><%= link_to @c_name[idx], {:controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :id => c},{:target=>"_blank"} %></u></td>
-			<td style="width:80px;font-size:10px;"> <center><%= @c_tchrs[idx] %></center></td>
+			<td style="width:120px;font-size:10px;"><u><%= link_to @c_name[idx], offering_view_path(:organization_id => @current_organization, :id => c),{:target=>"_blank"} %></u></td>
+			<td style="text-align:center; width:80px;font-size:10px;"> <%= @c_tchrs[idx] %></td>
 			<% @c_metrics[idx].each do |met| -%>
 				<td style="width:60px; text-align:center;font-size:10px;"><%= met %></td>
 			<% end -%>	 	

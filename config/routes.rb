@@ -38,6 +38,12 @@ EscentPartners::Application.routes.draw do |map|
     get '/offering/setup' => 'apps/classroom#setup_classroom'
     get '/offering/lu/setup' => 'apps/classroom#setup_classroom_lu'
     get '/offering/toggle_favorite' => 'apps/classroom#toggle_favorite_classroom'
+    get '/offering/unjoin' => 'apps/classroom#self_unregister_student'
+    get '/offering/register' => 'apps/classroom#register_classroom'
+    get '/offering/homework' => 'site/site#submit_homework'
+    get '/offering/lu/resources/featured' => 'site/site#featured_content'
+    get '/offering/lu/resources/related' => 'site/site#related_content'
+    get '/offering/lu/resources/show' => 'apps/classroom#show_lu_resources'
 
   # CORE Resource (Content)
     get '/resource/view' => 'site/site#static_resource'
@@ -90,9 +96,19 @@ EscentPartners::Application.routes.draw do |map|
   # CORE Discussions
     get '/discussion/resource/comment/delete' => 'site/discussions#delete_resource_comment'
     post '/discussion/resource/comment/new' => 'site/discussions#add_comment_for_resource'
+    get '/discussion/share' => 'site/discussions#share_discussion'
+    get '/discussion/reply' => 'site/discussions#add_reply'
+    get '/discussion/reply/delete' => 'site/discussions#delete_reply'
+    post '/discussion/comment/new' => 'site/discussions#add_comment'
+    get '/discussion/report/abuse' => 'site/discussions#report_abuse'
 
   # APPS Shared
     get '/my_survey/view' => 'apps/shared#my_surveys'
+
+  # APPS IFA
+    get '/ifa/teacher/review' => 'apps/assessment#teacher_review'
+    get '/ifa/assessment/take' => 'apps/assessment#take_assessment'
+    get '/ifa/lu/standards/show' => 'apps/assessment#topic_standards_benchmarks'
 
   #=======================================================
 

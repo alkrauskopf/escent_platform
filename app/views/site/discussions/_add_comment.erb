@@ -2,7 +2,7 @@
 	<% if @current_user-%>
 		<% if topic.is_open%>
 		<div class="discussion_root_form">
-			<% form_tag(:controller => "/site/discussions", :action => :add_comment, :organization_id => @current_organization, :id => @discussion) do -%>		
+			<% form_tag(discussion_comment_new_path(:organization_id => @current_organization, :id => @discussion)) do -%>
 				<%= render(:partial => "/site/discussions/discussion_form") %>
 				<div class="discussion_root_form_submit clear">
 					<%= submit_tag "Submit Comment", :class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "cursor:pointer"%>
@@ -42,9 +42,9 @@
 	<% else -%>
 		<div class="discussion_root_login">
 			<div class="discussion_root_form_title">
-				Please login or <%= link_to "register", :controller=>"/users", :action=>"register"%> first.
+				Please login or <%= link_to "register", user_register_path %> first.
 			</div>
-			<% form_tag :controller => "/users", :action => :login, :organization_id => @current_organization, :admin => defined?(admin) && admin do -%>		
+			<% form_tag user_signin_path(:organization_id => @current_organization, :admin => defined?(admin) && admin) do -%>
 				<p class="clear">
 					<%= text_field_tag "user[email_address]", "", :size=> 20, :class => "text" %>
 					<%= password_field_tag "user[password]", "", :size=> 20, :class => "text" %>

@@ -26,7 +26,7 @@
 </div>
 
 <div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	Back To: <%= link_to @classroom.course_name, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @topic, :id => @classroom%>
+	Back To: <%= link_to @classroom.course_name, offering_view_path(:organization_id => @current_organization, :topic_id => @topic, :id => @classroom) %>
 </div>
 
 <% if @topic.nil?%> 
@@ -90,7 +90,7 @@
 <br/>
 	
 <div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	Back To: <%= link_to @classroom.course_name, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @topic, :id => @classroom%>
+	Back To: <%= link_to @classroom.course_name, offering_view_path(:organization_id => @current_organization, :topic_id => @topic, :id => @classroom) %>
 </div>
 <% end -%>
 <style type="text/css" media="screen">

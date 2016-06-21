@@ -5,7 +5,7 @@
 			<tbody>
 				<tr>
 					<td style="width:60px; width:fixed;  text-align:right; font-size:9px; color:#878787">
-							<%= link_to "Un-Join", {:controller => "apps/classroom", :action => :self_unregister_student, :organization_id => @current_organization, :student_id=>@current_user, :classroom_id => classroom}, :class => "unjoin_offering" %>
+							<%= link_to "Un-Join", offering_unjoin_path(:organization_id => @current_organization, :student_id=>@current_user, :classroom_id => classroom), :class => "unjoin_offering" %>
 					</td>
 					<td style="font-size:10px; color:#878787">
 						<%= @current_user.last_name %>
@@ -36,7 +36,7 @@ jQ(document).ready(function() {
         <tbody>
           <tr>
             <td class="ifa_levels_close" style=" color: #C83A14; font-weight:normal; font-size:10.5px">
-              <%= link_to '', :controller => "apps/classroom", :action => :register_classroom, :organization_id => @current_organization, :classroom_id => classroom %>
+              <%= link_to '', offering_register_path(:organization_id => @current_organization, :classroom_id => classroom) %>
               Join Offering
               <span></span>
             </td>

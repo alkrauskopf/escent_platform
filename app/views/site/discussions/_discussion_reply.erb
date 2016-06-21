@@ -9,7 +9,7 @@
 		<% else -%>
 				<% display_value = "none;" %>		
 		<% end -%>
-		<%= (link_to "Delete", {:controller => "site/discussions", :action => "delete_reply", :id => discussion_reply, :organization_id => @current_organization}, :class => "delete", :style => "display:#{display_value}") unless discussion_reply.is_delete %>
+		<%= (link_to "Delete", discussion_reply_delete(:id => discussion_reply, :organization_id => @current_organization), :class => "delete", :style => "display:#{display_value}") unless discussion_reply.is_delete %>
 	</div>
 	<div class="discussion_reply_info">
 		<span><% if discussion_reply.user %> <%= discussion_reply.user.full_name %>

@@ -10,7 +10,7 @@
 	 <p style="float:right; word-wrap:break-word; overflow:hidden;">
       <br />
 			<% return_link = "Return To " + @classroom.course_name.upcase %>
-			<%= link_to return_link, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @topic, :id => @classroom%>
+			<%= link_to return_link, offering_view_path(:organization_id => @current_organization, :topic_id => @topic, :id => @classroom) %>
 	</p>
     <div id="member_ico">
       <% if @current_user.picture.url.split("/").last == "missing.png" %>
@@ -65,7 +65,7 @@
 						<%= @classroom.course_name %> Units you should be concentrating on.<br/>
 						<% @suggested_topics.each do |tpc| -%>
 							<span style ="width:630px; word-wrap:break-word; overflow:hidden; font-size:12px; padding-left:200px; font-weight:normal; color:#000000;">
-								-&nbsp;&nbsp;&nbsp;<%= link_to tpc.title, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => tpc, :id => @classroom %><br>
+								-&nbsp;&nbsp;&nbsp;<%= link_to tpc.title, offering_view_path(:organization_id => @current_organization, :topic_id => tpc, :id => @classroom) %><br>
 							</span>
 						<% end -%>
 						<br/>

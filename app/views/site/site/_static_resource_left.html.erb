@@ -101,7 +101,7 @@
  						<% content.topics.active.collect{|lu| lu.classroom}.compact.uniq.sort_by{|o| [o.organization.name, o.course_name]}.each do |o| -%>
 							<tr  style="border:0px solid #ddd;" >
 								<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:10.5px; text-align:left; font-weight:normal; color:#000000; vertical-align:middle;">
-									<%= o.organization ? o.organization.short_name + ": " : ""%><%= link_to o.course_name, {:controller => "/site/site", :action => :static_classroom, :organization_id => o.organization, :id => o}, :target=> '_blank' %>
+									<%= o.organization ? o.organization.short_name + ": " : ""%><%= link_to o.course_name, offering_view_path(:organization_id => o.organization, :id => o), :target=> '_blank' %>
 	 							</td>
 	 						</tr> 						
  						<% end -%>

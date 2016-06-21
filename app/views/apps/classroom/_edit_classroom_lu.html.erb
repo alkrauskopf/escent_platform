@@ -12,7 +12,7 @@
 			<%= link_to "Edit Offering", {:controller => "apps/classroom", :action => :setup_classroom, :organization_id => @current_organization,  :classroom_id => lu.classroom}%>
 		</span>
 		<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;float:right">
-			<%= lu.classroom.organization ?  (link_to "View Learning Unit", {:controller => "/site/site", :action => :static_classroom, :organization_id => lu.classroom.organization, :id => lu.classroom, :topic_id=>lu}, {:target=> 'blank'}) : ""%>
+			<%= lu.classroom.organization ?  (link_to "View Learning Unit", offering_view_path(:organization_id => lu.classroom.organization, :id => lu.classroom, :topic_id=>lu), {:target=> 'blank'}) : ""%>
 		</span>
 	</div>
 	<%= render :partial => "/shared/error_and_notice" %>

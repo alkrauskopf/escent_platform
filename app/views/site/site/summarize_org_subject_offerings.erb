@@ -16,7 +16,7 @@
 					<% @current_organization.unfoldered_active_offerings.select{|c| c.featured_topic && (c.subject_area.id == @subject.id || c.subject_area.parent_id == @subject.id)}.sort_by{|c| [c.subject_area.name, c.course_name]}.each do |clsrm| %>
 						<tr >
 							<td width=100% align="left" style="vertical-align:top;  padding-left:0px; word-wrap:break-word;">
-								<%= clsrm.course_name %>:&nbsp;<u><%= link_to clsrm.featured_topic.title.titleize, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization,  :id => clsrm %></u>
+								<%= clsrm.course_name %>:&nbsp;<u><%= link_to clsrm.featured_topic.title.titleize, offering_view_path(:organization_id => @current_organization,  :id => clsrm) %></u>
 							</td>
 						</tr>
 					<% end -%>
@@ -40,7 +40,7 @@
 					<% @current_organization.active_offerings_in_folder(@folder).select{|c| c.featured_topic}.each do |clsrm| %>
 						<tr >
 							<td width=100% align="left" style="vertical-align:top;  padding-left:0px; word-wrap:break-word;">
-								<%= clsrm.course_name %>:&nbsp;<u><%= link_to clsrm.featured_topic.title.titleize, :controller => "/site/site", :action => :static_classroom,  :id => clsrm %></u>
+								<%= clsrm.course_name %>:&nbsp;<u><%= link_to clsrm.featured_topic.title.titleize, offering_view_path(:id => clsrm) %></u>
 							</td>
 						</tr>
 					<% end -%>

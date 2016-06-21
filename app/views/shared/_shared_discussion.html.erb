@@ -39,7 +39,7 @@
 			var discussion_public_id = $discussion_public_id.val();
 			var sender_email = $sender_email.val();
 			var plain_body = $plain_body.val();
-			share_url = '<%= url_for :controller => "/site/discussions", :action => :share_discussion, :organization_id => @current_organization %>';
+			share_url = '<%= discussion_share_url(:organization_id => @current_organization) %>';
 			jQ.post(share_url, {
 				'id':discussion_public_id,
 				'email_archive[sender_email]':sender_email, 

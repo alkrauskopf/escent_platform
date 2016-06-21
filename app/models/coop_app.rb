@@ -96,6 +96,7 @@ class CoopApp < ActiveRecord::Base
   def self.ifa
     self.ifas.first
   end
+
   def self.pd
     self.pds.first
   end
@@ -144,43 +145,52 @@ class CoopApp < ActiveRecord::Base
 
   def app_link
     if self.ifa?
-      controller = "/apps/assessment"
-   #   action = "manage"
-      action = "index"
+      controller = 'apps/assessment'
+   #   action = 'manage'
+      action = 'index'
+      route = 'ifa'
     end
     if self.ita? 
-      controller = "/apps/teacher_assess"
-      action = "index"
+      controller = 'apps/teacher_assess'
+      action = 'index'
+      route = 'ita'
     end     
     if self.blogs?
-      controller = "/apps/blogs"
-      action = "index"
+      controller = 'apps/blogs'
+      action = 'index'
+      route = 'blogs'
     end
     if self.ctl?
-      controller = "/apps/time_learning"
-      action = "index"
+      controller = 'apps/time_learning'
+      action = 'index'
+      route = 'ctl'
     end
     if self.classroom?
-      controller = "/apps/classroom"
-      action = "index"
+      controller = 'apps/classroom'
+      action = 'index'
+      route = 'offering'
     end               
     if self.pd?
-      controller = "/apps/staff_develop"
-      action = "index"
+      controller = 'apps/staff_develop'
+      action = 'index'
+      route = 'pd'
     end   
     if self.ista?
-      controller = "/apps/school_time"
-      action = "index"
+      controller = 'apps/school_time'
+      action = 'index'
+      route = 'stat'
     end    
     if self.cm?
-      controller = "/apps/client_manager"
-      action = "index"
+      controller = 'apps/client_manager'
+      action = 'index'
+      route = 'cm'
     end
     if self.elt?
-      controller = "/apps/learning_time"
-      action = "index"
+      controller = 'apps/learning_time'
+      action = 'index'
+      route = 'pm'
     end
-   links = [controller, action]
+    links = [controller, action, route]
   end
 
   def self.ifa_app

@@ -33,18 +33,6 @@ EscentPartners::Application.routes.draw do |map|
     get '/user/forgot_password' => 'users#forgot_password'
     post '/user/forgot_password' => 'users#forgot_password'
 
-  # CORE Offering  (Classroom)
-    get '/offering/view' => 'site/site#static_classroom'
-    get '/offering/setup' => 'apps/classroom#setup_classroom'
-    get '/offering/lu/setup' => 'apps/classroom#setup_classroom_lu'
-    get '/offering/toggle_favorite' => 'apps/classroom#toggle_favorite_classroom'
-    get '/offering/unjoin' => 'apps/classroom#self_unregister_student'
-    get '/offering/register' => 'apps/classroom#register_classroom'
-    get '/offering/homework' => 'site/site#submit_homework'
-    get '/offering/lu/resources/featured' => 'site/site#featured_content'
-    get '/offering/lu/resources/related' => 'site/site#related_content'
-    get '/offering/lu/resources/show' => 'apps/classroom#show_lu_resources'
-
   # CORE Resource (Content)
     get '/resource/view' => 'site/site#static_resource'
     get '/resource/new' => 'site/contents#submit_resource'
@@ -54,9 +42,6 @@ EscentPartners::Application.routes.draw do |map|
     get '/resource/subjects' => 'site/contents#select_subject_areas'
     get '/resource/types' => 'site/contents#select_resource_types'
     get '/resource/share' => 'site/discussions#share_content'
-
-  # CORE Blog
-    get '/app_blog/view' => 'apps/app_blog#show_app_blog'
 
   # CORE Organization
     get '/organization/view' => 'site/site#static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}
@@ -92,7 +77,6 @@ EscentPartners::Application.routes.draw do |map|
     get '/master/apps/new' => 'master/coop_apps#edit_app'
     get '/master/apps/view' => 'master/coop_apps#index'
 
-
   # CORE Discussions
     get '/discussion/resource/comment/delete' => 'site/discussions#delete_resource_comment'
     post '/discussion/resource/comment/new' => 'site/discussions#add_comment_for_resource'
@@ -102,13 +86,42 @@ EscentPartners::Application.routes.draw do |map|
     post '/discussion/comment/new' => 'site/discussions#add_comment'
     get '/discussion/report/abuse' => 'site/discussions#report_abuse'
 
+  # Main Application Route Paths
+    get '/' + CoopApp.classroom.app_link[2] => CoopApp.classroom.app_link[0] + '#' + CoopApp.classroom.app_link[1]
+    get '/' + CoopApp.ifa.app_link[2] => CoopApp.ifa.app_link[0] + '#' + CoopApp.ifa.app_link[1]
+    get '/' + CoopApp.ctl.app_link[2] => CoopApp.ctl.app_link[0] + '#' + CoopApp.ctl.app_link[1]
+    get '/' + CoopApp.pd.app_link[2] => CoopApp.pd.app_link[0] + '#' + CoopApp.pd.app_link[1]
+    get '/' + CoopApp.ita.app_link[2] => CoopApp.ita.app_link[0] + '#' + CoopApp.ita.app_link[1]
+    get '/' + CoopApp.stat.app_link[2] => CoopApp.stat.app_link[0] + '#' + CoopApp.stat.app_link[1]
+    get '/' + CoopApp.cm.app_link[2] => CoopApp.cm.app_link[0] + '#' + CoopApp.cm.app_link[1]
+    get '/' + CoopApp.elt.app_link[2] => CoopApp.elt.app_link[0] + '#' + CoopApp.elt.app_link[1]
+    get '/' + CoopApp.blog.app_link[2] => CoopApp.blog.app_link[0] + '#' + CoopApp.blog.app_link[1]
+
   # APPS Shared
     get '/my_survey/view' => 'apps/shared#my_surveys'
+
+  # APP Offering  (Classroom)
+
+    get '/offering/view' => 'site/site#static_classroom'
+    get '/offering/setup' => 'apps/classroom#setup_classroom'
+    get '/offering/lu/setup' => 'apps/classroom#setup_classroom_lu'
+    get '/offering/toggle_favorite' => 'apps/classroom#toggle_favorite_classroom'
+    get '/offering/unjoin' => 'apps/classroom#self_unregister_student'
+    get '/offering/register' => 'apps/classroom#register_classroom'
+    get '/offering/homework' => 'site/site#submit_homework'
+    get '/offering/lu/resources/featured' => 'site/site#featured_content'
+    get '/offering/lu/resources/related' => 'site/site#related_content'
+    get '/offering/lu/resources/show' => 'apps/classroom#show_lu_resources'
+
+  # APP Blogs
+
+    get '/app_blog/view' => 'apps/app_blog#show_app_blog'
 
   # APPS IFA
     get '/ifa/teacher/review' => 'apps/assessment#teacher_review'
     get '/ifa/assessment/take' => 'apps/assessment#take_assessment'
     get '/ifa/lu/standards/show' => 'apps/assessment#topic_standards_benchmarks'
+
 
   #=======================================================
 

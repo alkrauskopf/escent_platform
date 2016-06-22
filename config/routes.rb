@@ -187,6 +187,23 @@ EscentPartners::Application.routes.draw do |map|
     get '/ctl/maint/sessions/month/delete' => 'apps/owner_maintenance#destroy_open_session'
     get '/ctl/maint/session/delete' => 'apps/owner_maintenance#ctl_destroy_session'
 
+  # APP ELT
+    get '/elt/maint/element/add' => 'apps/owner_maintenance#elt_element_add'
+    get '/elt/maint/element/new' => 'apps/owner_maintenance#elt_element_new'
+    post '/elt/maint/element/new' => 'apps/owner_maintenance#elt_element_new'
+    get '/elt/maint/element/edit' => 'apps/owner_maintenance#elt_element_edit'
+    post '/elt/maint/element/update' => 'apps/owner_maintenance#elt_element_update'
+    get '/elt/maint/element/toggle' => 'apps/owner_maintenance#elt_toggle_active_element' # Is this as real link?
+    get '/elt/maint/element/activate' => 'apps/owner_maintenance#toggle_element'
+    get '/elt/maint/indicator/add' => 'apps/owner_maintenance#elt_indicator_add'
+    get '/elt/maint/indicator/edit' => 'apps/owner_maintenance#elt_indicator_elt'
+    post '/elt/maint/indicator/update' => 'apps/owner_maintenance#elt_indicator_update'
+    get '/elt/maint/indicator/toggle' => 'apps/owner_maintenance#toggle_indicator'  # Is this a real link?
+    get '/elt/maint/indicator/activate' => 'apps/owner_maintenance#elt_toggle_indicator'
+    get '/elt/maint/indicator/new' => 'apps/owner_maintenance#elt_indicator_new'
+    post '/elt/maint/indicator/new' => 'apps/owner_maintenance#elt_indicator_new'
+    get '/elt/maint/indicators' => 'apps/owner_maintenance#elt_manage_indicators'
+    get '/elt/maint/activity/select' => 'apps/owner_maintenance#elt_select_type'
   #=======================================================
 
   # Victor add next two line just for test

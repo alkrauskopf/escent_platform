@@ -19,7 +19,7 @@
 					</td>
 					<td  style="width:45px; width:fixed; padding-top:5px; padding-left:0px; line-height:1.2em; color:#2061a5;">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to 'Edit', {:controller => "/apps/owner_maintenance", :action => :elt_element_new, :app_id=> app.id, :task=>"Update", :elt_element_id=>element, :organization_id => @current_organization},{:target=>"_blank"}  %>
+							<%= link_to 'Edit', elt_maint_element_new_path(:app_id=> app.id, :task=>"Update", :elt_element_id=>element, :organization_id => @current_organization),{:target=>"_blank"}  %>
 						</span>
 					</td>
 					<td style=" text-align:left; font-size:14px; padding-left:3px; color:<%=element.e_font_color %>">
@@ -29,7 +29,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#toggle_active_<%= element.public_id %>").click(function() {
-		var url = "<%= url_for :controller => "apps/owner_maintenance", :action => :elt_toggle_active_element, :organization_id => @current_organization, :elt_element_id => element, :app_id=> app.id %>";
+		var url = "<%= elt_maint_element_toggle_url(:organization_id => @current_organization, :elt_element_id => element, :app_id=> app.id) %>";
 		jQ.get(url,{},  function(data) {
 				jQ("#elt_table_rows_<%=org.public_id%>").html(data);
 				jQ("#elt_table_rows_<%=org.public_id%>").show();

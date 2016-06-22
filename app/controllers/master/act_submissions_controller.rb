@@ -24,75 +24,18 @@ class Master::ActSubmissionsController < Master::ApplicationController
   end
   
   def delete
-    # if request.post?
-    #   @submission.destroy
-    #   flash[:notice] = "Successfully removed submission #{@submission.id}."
-    #   redirect_to :action => :index
-    # end
     redirect_to :action => :index
   end
 
   def update_sms_in_org_dashboards
-    if false
-      all_dashboards = IfaDashboard.where('ifa_dashboardable_type = ?', 'Organization')
-      all_dashboards.each do |db|
-         org = db.organization
-         subject = ActSubject.find_by_id(db.act_subject_id)
-         if org && (db.period_end > Date.today - 2.months)
-           entity = Organization.find_by_id(db.ifa_dashboardable_id) rescue nil
-           if entity
-           db.ifa_dashboard_sms_scores.each do |scores|
-                fin_sms = scores.act_master.sms_for_period(entity,  subject, db.period_end, org.ifa_org_option.sms_h_threshold, false)
-                cal_sms = scores.act_master.sms_for_period(entity,  subject, db.period_end, org.ifa_org_option.sms_h_threshold, true)
-                scores.update_attributes(:sms_finalized => fin_sms, :sms_calibrated => cal_sms)
-              end
-            end
-          end
-      end
-    end
     redirect_to :action => :completed_crud_conversion
   end
 
   def update_sms_in_classroom_dashboards
-    if false
-      all_dashboards = IfaDashboard.where('ifa_dashboardable_type = ?', 'Classroom')
-      all_dashboards.each do |db|
-         org = Organization.find_by_id(db.organization_id) rescue nil
-         subject = ActSubject.find_by_id(db.act_subject_id)
-         if org && (db.period_end > Date.today - 2.months)
-           entity = Classroom.find_by_id(db.ifa_dashboardable_id)
-           if entity
-              db.ifa_dashboard_sms_scores.each do |scores|
-                fin_sms = scores.act_master.sms_for_period(entity, subject, db.period_end, org.ifa_org_option.sms_h_threshold, false)
-                cal_sms = scores.act_master.sms_for_period(entity, subject, db.period_end, org.ifa_org_option.sms_h_threshold, true)
-                scores.update_attributes(:sms_finalized => fin_sms, :sms_calibrated => cal_sms)
-              end
-            end
-           end
-      end
-    end
     redirect_to :action => :completed_crud_conversion
   end
 
   def update_sms_in_user_dashboards
-    if false
-      all_dashboards = IfaDashboard.where('ifa_dashboardable_type = ?', 'User')
-      all_dashboards.each do |db|
-         org = Organization.find_by_id(db.organization_id) rescue nil
-         org = Organization.find_by_id(db.organization_id) rescue nil
-         subject = ActSubject.find_by_id(db.act_subject_id)
-         if org && (db.period_end > Date.today - 2.months)
-           entity = User.find_by_id(db.ifa_dashboardable_id) rescue nil
-           if entity
-              db.ifa_dashboard_sms_scores.each do |scores|
-                fin_sms = scores.act_master.sms_for_period(entity, subject, db.period_end, org.ifa_org_option.sms_h_threshold, false)
-                cal_sms = scores.act_master.sms_for_period(entity, subject, db.period_end, org.ifa_org_option.sms_h_threshold, true)
-                scores.update_attributes(:sms_finalized => fin_sms, :sms_calibrated => cal_sms)
-              end
-            end
-          end
-      end
-    end
     redirect_to :action => :completed_crud_conversion
   end
 
@@ -101,16 +44,6 @@ class Master::ActSubmissionsController < Master::ApplicationController
   end
 
   def assign_students
-    if false
-      users = User.all
-      users.each do |user|
-        if user.has_authorization_level?("participant")
-          user.update_attributes(:is_student => true)
-        else
-          user.update_attributes(:is_student => false)
-        end
-      end
-    end
     redirect_to :action => :completed_crud_conversion
   end
 
@@ -119,36 +52,14 @@ class Master::ActSubmissionsController < Master::ApplicationController
   end
   
   def add_grade_csap_to_ifa_question_log
-    if false
-      questions = IfaQuestionLog.all
-      questions.each do |q|
-        grade_level = q.user.current_grade_level
-        csap = q.user.student_subject_demographics.for_subject(q.act_subject).first.latest_csap rescue nil
-        q.update_attributes(:grade_level=>grade_level, :csap => csap)
-      end
-    end
     redirect_to :action => :completed_crud_conversion
   end
 
   def q_log_student_csap
-   if false
-    begin_id = params[:q_log][:b_id].empty? ? IfaQuestionLog.first.id : params[:q_log][:b_id].to_i
-    end_id = params[:q_log][:e_id].empty? ? IfaQuestionLog.last.id : params[:q_log][:e_id].to_i
-    IfaQuestionLog.between_these(begin_id, end_id).each do |q|
-      grade_level = q.user.current_grade_level
-      csap = q.user.student_subject_demographics.for_subject(q.act_subject).first.latest_csap rescue nil
-      q.update_attributes(:grade_level=>grade_level, :csap => csap)
-    end
-   end
    redirect_to :action => :completed_crud_conversion
   end
 
   def q_log_grade_0_to_nil
-  if false
-    IfaQuestionLog.grade_zero.each do |q|
-      q.update_attributes(:grade_level=>nil)
-    end
-  end
     redirect_to :action => :completed_crud_conversion
   end
   
@@ -438,7 +349,6 @@ class Master::ActSubmissionsController < Master::ApplicationController
   def system_id_conversion
     redirect_to :action => :completed_crud_conversion
   end
-
 
  def eo_import
     @evidences = []

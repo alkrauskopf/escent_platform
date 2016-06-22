@@ -77,7 +77,9 @@ EscentPartners::Application.routes.draw do |map|
     get '/core/maint/parent/assign' => 'apps/owner_maintenance#core_assign_parent'
 
   # CORE Master
+    get '/ep/tos' => 'fsn#terms'
     get '/master/index' => 'master/application#index'
+    post '/master/signin' => 'master/application#login'
     get '/master/users/show' => 'master/users#index'
     get '/master/users/delete' => 'master/users#delete'
     get '/master/users/suspend' => 'master/users#toggle_suspend'
@@ -103,6 +105,7 @@ EscentPartners::Application.routes.draw do |map|
     get '/master/ctl/video/show' => 'master/coop_apps#show_user_video_session'
     post '/master/ctl/strategies/edit' => 'master/coop_apps#ctl_strategy_update'
     get '/master/ctl/strategies' => 'master/coop_apps#ctl_strategies_maintain'
+    get '/master/ctl/session' => 'master/coop_apps#ctl_strategies_maintain'
     # get '/master/ifa/maintenance_1' => 'master/coop_apps#maint_action'
     # get '/master/blog/maintenance_1' => 'master/coop_apps#maint_action'
     # get '/master/offering/maintenance_1' => 'master/coop_apps#maint_action'

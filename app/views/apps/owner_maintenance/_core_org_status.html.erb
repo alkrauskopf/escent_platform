@@ -26,7 +26,7 @@
 jQ(document).ready(function() {
 	jQ('#<%=org.public_id%>_new_stat').change(function() {
 		var status = jQ('#status_<%=org.id%>').val();
-		var url = "<%= url_for :controller => "/apps/owner_maintenance", :action => :core_assign_status, :organization_id => @current_organization, :app_id=> app.id, :org => org %>";
+		var url = "<%= core_maint_status_assign_url(:organization_id => @current_organization, :app_id=> app.id, :org => org) %>";
 			jQ.get(url, {'status_id':status}, function(data) {
 			jQ("#<%=org.public_id%>_status").html(data); 
 	   		jQ("#<%=org.public_id%>_status").show();

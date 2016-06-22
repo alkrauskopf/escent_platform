@@ -1,26 +1,24 @@
 <div id="main_content">
 	<% if @app -%>
-	  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
-				<br/><%= @app.name %>&nbsp; Maintenance
-				<span style= "color: #2061a5;  font-size: 12px; font-weight:normal;">
-					<br/>Owner:&nbsp;<%=@app.owner ? @app.owner.short_name : "Not Defined" %>
-				</span>
-				<span style= "color: #2061a5;  font-size: 12px; font-weight:normal;">
-					<%=@app.available? ?  "Available": "Unavailable" %>,&nbsp;<%=@app.folderable? ?  "Folderable": "Not Folderable" %><%=@app.blogable? ?  ", Blogs ": ", No Blogs" %><%=@app.enableable? ?  ", User Enabled ": ", Provider Enables" %><%=@app.beta? ?  ", Beta ": "" %>
-				</span>
-			 	<span style="font-size:12px; font-weight:normal;text-align:center;color:#2061a5;">
-					<br/><%= pluralize( @app.views, " View")%>&nbsp;Since&nbsp;<%= @app.first_view_date.strftime("%b %e, %Y")%>
-				</span>	
+    <div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
+      <br/><%= @app.name %>&nbsp; Maintenance
+      <span style= "color: #2061a5;  font-size: 12px; font-weight:normal;">
+        <br/>Owner:&nbsp;<%=@app.owner ? @app.owner.short_name : "Not Defined" %>
+      </span>
+      <span style= "color: #2061a5;  font-size: 12px; font-weight:normal;">
+        <%=@app.available? ?  "Available": "Unavailable" %>,&nbsp;<%=@app.folderable? ?  "Folderable": "Not Folderable" %><%=@app.blogable? ?  ", Blogs ": ", No Blogs" %><%=@app.enableable? ?  ", User Enabled ": ", Provider Enables" %><%=@app.beta? ?  ", Beta ": "" %>
+      </span>
+      <span style="font-size:12px; font-weight:normal;text-align:center;color:#2061a5;">
+        <br/><%= pluralize( @app.views, " View")%>&nbsp;Since&nbsp;<%= @app.first_view_date.strftime("%b %e, %Y")%>
+      </span>
 		</div>
 		<div id="app_edit" style='text-align:center' >
-				<span class="fsn-button ui-button ui-state-default ui-corner-all">
-					<%= link_to ('Edit ' + @app.abbrev), {:controller => "master/coop_apps", :action => :edit_app, :app_id => @app.id, :function=>"Maintain"},{:target=>"_blank"}  %>
-				</span>
+      <span class="fsn-button ui-button ui-state-default ui-corner-all">
+        <%= link_to ('Edit ' + @app.abbrev), master_apps_edit_path(:app_id => @app.id, :function=>"Maintain"),{:target=>"_blank"}  %>
+      </span>
 			<%= render :partial => "master/coop_apps/manage_coop_apps", :locals => {:group => "provider", :app=>@app}%>
-		
 		</div>
-	
-	    <%= render :partial => "/shared/error_and_notice" %>	
+    <%= render :partial => "/shared/error_and_notice" %>
 		<% if @app.core? -%>
 			<%= render :partial => "master/coop_apps/core_maint", :locals => {:app => @app} %>
 			<% elsif @app.ctl? -%>
@@ -38,16 +36,14 @@
 									<% elsif @app.elt? -%>
 										<%= render :partial => "master/coop_apps/elt_maint", :locals => {:app => @app}  %>
 										<% else -%>
-										<span style="text-align:center;font-size:12px; color: #2061a5;" >
-											<br/><br/>No <%= @app.abbrev.upcase %>&nbsp;Maintenance Functions<br/><br/><br/><br/>
-										</span>
-										<% end -%>
+                      <span style="text-align:center;font-size:12px; color: #2061a5;" >
+                        <br/><br/>No <%= @app.abbrev.upcase %>&nbsp;Maintenance Functions<br/><br/><br/><br/>
+                      </span>
+    <% end -%>
 	<% else -%>
 		<span style="text-align:center; font-size:12px; color: #2061a5;" >
 			<br/><br/>Application Not Found<br/><br/><br/><br/>
 		</span>
 	<% end -%>
-
-
 </div>
 

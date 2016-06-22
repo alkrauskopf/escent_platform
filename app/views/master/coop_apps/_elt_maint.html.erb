@@ -1,56 +1,27 @@
 <div id="elt_maintenance">
   <%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>app} %>
-			<table style="margin-left:150px; font-size:16px; font-weight:bold; color: #2061a5; width:600px">
-				<thead>
-					<tr>
-						<th colspan=2>One-Time&nbsp;<%= app.abbrev %>&nbsp;Maintenance Functions</th>											
-					</tr>
-				</thead>
-				<tbody style="font-size:14px; color: #2061a5; width:600px">
-                <tr>
-                  <td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
-                    <span class="fsn-button ui-button ui-state-default ui-corner-all">
-                     Go  <%#= link_to "Go" ,{:controller => "master/coop_apps", :action => 'elt_remove_null_notes', :app_id => app.id} %>
-                    </span>
-                  </td>
-                  <td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-                    Replace Case Indicators Note = NULL to Note = ''  (Disabled)
-                  </td>
-                </tr>
-				<!--
-				    <tr>
-                  <td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
-							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								 <%#= link_to "Go" ,{:controller => "master/coop_apps", :action => "elt_copy_indicators_select", :app_id => app.id} %>
-							</span>
-                  </td>
-                  <td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-                    Mass Copy Indicators Utilities
-                  </td>
-                </tr>
-                    <tr>
-						<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
-							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								 <%#= link_to "Go" ,{:controller => "master/coop_apps", :action => "elt_destroy_nil_activity_cases", :app_id => app.id} %>
-							</span>
-						</td>
-						<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-								Destroy ELT Cases With No EltType  (Activity)  
-						</td>
-					</tr>
-					<tr>
-						<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
-							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								 <%#= link_to "Go" ,{:controller => "master/coop_apps", :action => "elt_cycle_summaries", :app_id => app.id} %>
-							</span>
-						</td>
-						<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-								Initialize Cycle Summaries  
-						</td>
-					</tr>
-					-->
-				</tbody>
-			</table>
-<br/>
+  <% if @current_user.superuser?%>
+    <table style="margin-left:150px; font-size:16px; font-weight:bold; color: #2061a5; width:600px">
+      <thead>
+        <tr>
+          <th colspan=2>One-Time&nbsp;<%= app.abbrev %>&nbsp;Maintenance Functions</th>
+        </tr>
+      </thead>
+      <tbody style="font-size:14px; color: #2061a5; width:600px">
+        <tr>
+          <td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
+              <span class="fsn-button ui-button ui-state-default ui-corner-all">
+                 Go
+                <!--   <%#= link_to "Go" master_elt_maintence_1_path( :app_id => app.id)  %> -->
+              </span>
+          </td>
+          <td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
+            ELT Maintenance Function Name
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end -%>
+  <br/>
 </div>
 

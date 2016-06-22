@@ -5,7 +5,7 @@
 				<tbody>  
 					<tr>
 						<td class="resource_levels_close">
-  						<%= link_to '', :controller => "/apps/owner_maintenance", :action => :app_ctl_school_month_opens, :org_id => @school, :session_month => month, :coop_app_id=> @current_application %>
+  						<%= link_to '', ctl_maint_sessions_school_month_path(:org_id => @school, :session_month => month, :coop_app_id=> @current_application) %>
 							<%= @school.tlt_sessions.between_dates(month.at_beginning_of_month, month.at_end_of_month ).backlog.completed.size %>&nbsp;<%= month.strftime("%B %Y") %>
 	  					<span></span>
 						</td>

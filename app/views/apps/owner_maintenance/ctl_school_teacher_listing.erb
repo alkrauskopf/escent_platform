@@ -10,7 +10,7 @@
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close">
-						<%= link_to '', :controller => "/apps/owner_maintenance", :action => :ctl_teacher_sessions, :organization_id => @org, :user_id=> user, :app_id=> @app.id %>
+						<%= link_to '', ctl_maint_schools_teacher_sessions_path(:organization_id => @org, :user_id=> user, :app_id=> @app.id) %>
 						<%= user.last_name_first -%>
 						<span></span>
 					</td>

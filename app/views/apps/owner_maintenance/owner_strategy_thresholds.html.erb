@@ -43,7 +43,7 @@
 					</td>
 					<td  style="width:80px;padding-bottom:10px;  color:#2061a5;">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to 'Edit', :controller => "/apps/owner_maintenance", :action => :owner_thresholds_edit, :strategy_id=> strategy.id, :coop_app_id=>@current_application %>
+							<%= link_to 'Edit', ctl_maint_thresholds_edit_path(:strategy_id=> strategy.id, :coop_app_id=>@current_application) %>
 						</span>
 					</td>
 				</tr>

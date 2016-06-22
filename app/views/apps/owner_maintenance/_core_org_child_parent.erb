@@ -40,7 +40,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#<%=org.public_id%>_parent').click(function() {
-		var url = "<%= url_for :controller => '/apps/owner_maintenance', :action => :core_make_parent, :organization_id => @current_organization, :coop_app_id => @current_application, :org => org %>";
+		var url = "<%= core_maint_parent_create_url(:organization_id => @current_organization, :coop_app_id => @current_application, :org => org) %>";
 			jQ.get(url, {}, function(data) {
 			jQ("#<%=org.public_id%>_childparent").html(data); 
 	   		jQ("#<%=org.public_id%>_childparent").show();
@@ -52,7 +52,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#<%=org.public_id%>_child').change(function() {
 		var parent = jQ('#parent_<%=org.id%>').val();
-		var url = "<%= url_for :controller => "/apps/owner_maintenance", :action => :core_assign_parent, :organization_id => @current_organization, :coop_app_id => @current_application, :org => org %>";
+		var url = "<%= core_maint_parent_assign_url(:organization_id => @current_organization, :coop_app_id => @current_application, :org => org) %>";
 			jQ.get(url, {'parent_id':parent}, function(data) {
 			jQ("#<%=org.public_id%>_childparent").html(data); 
 	   		jQ("#<%=org.public_id%>_childparent").show();

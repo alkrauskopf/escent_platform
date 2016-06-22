@@ -9,7 +9,7 @@
 				<tr>
 					<td  style="width:350px; vertical-align:middle; text-align:left;padding-bottom:0px; padding-top:0px; padding-left:0px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to button_label ,{:controller => "apps/owner_maintenance", :action => :index, :organization_id => @current_organization, :coop_app_id => @current_application}, {:target => "_blank"} %>
+							 <%= link_to button_label, app_owner_maintenance_path(:organization_id => @current_organization, :coop_app_id => @current_application), {:target => "_blank"} %>
 						</span>
 					</td>
 				</tr>

@@ -287,7 +287,7 @@ class Organization < ActiveRecord::Base
   end
   
   def can_be_deleted?
-    !self.default?
+    !self.default? && !self.active?
   end
 
   def display_contact?

@@ -5,7 +5,7 @@
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "owner_strategies", :coop_app_id => @current_application} %>
+							 <%= link_to 'Go', ctl_maint_strategies_path(:coop_app_id => @current_application) %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
@@ -15,7 +15,7 @@
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "owner_strategy_thresholds", :coop_app_id => @current_application} %>
+							 <%= link_to 'Go', ctl_maint_thresholds_path(:coop_app_id => @current_application) %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
@@ -25,7 +25,7 @@
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "owner_blackbelt_maint", :coop_app_id => @current_application} %>
+							 <%= link_to 'Go', ctl_maint_blackbelts_path(:coop_app_id => @current_application) %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
@@ -35,7 +35,7 @@
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "ctl_school_listing", :coop_app_id => @current_application} %>
+							 <%= link_to 'Go', ctl_maint_schools_path(:coop_app_id => @current_application) %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
@@ -45,7 +45,7 @@
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "app_discussion_forum", :coop_app_id => @current_application} %>
+							 <%= link_to 'Go', ctl_maint_discussion_path(:coop_app_id => @current_application) %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
@@ -55,7 +55,7 @@
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "app_ctl_dashboards", :coop_app_id => @current_application} %>
+							 <%= link_to 'Go', ctl_maint_dashboards_path(:coop_app_id => @current_application) %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
@@ -65,7 +65,7 @@
 				<tr>
 					<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to "Go" ,{:controller => "/apps/owner_maintenance", :action => "app_ctl_open_sessions", :coop_app_id => @current_application} %>
+							 <%= link_to 'Go', ctl_maint_sessions_path(:coop_app_id => @current_application) %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">

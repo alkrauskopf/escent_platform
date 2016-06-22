@@ -27,12 +27,12 @@
 					</td>
 					<td   style=" width:60px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle;padding-left:10px; padding-right:10px; font-size:11px" >
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to "View", {:controller =>  "/apps/time_learning", :action => "static_itl_session", :organization_id => sess.organization, :tlt_session_id => sess}, {:target => "_blank"}  %>
+							<%= link_to "View", ctl_session_show_path(:organization_id => sess.organization, :tlt_session_id => sess), {:target => "_blank"}  %>
 						</span>	
 					</td> 			
 					<td   style=" width:60px; width:fixed; border:1px solid #ddd; color: #000000; vertical-align:middle;padding-left:10px; padding-right:10px; font-size:11px" >
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to "Destroy", {:controller =>  "/apps/owner_maintenance", :action => "ctl_destroy_session", :tlt_session_id => sess}, :confirm => "Are You Sure?", :class => "destroy_session"  %>
+							<%= link_to "Destroy", ctl_maint_session_delete_path(:tlt_session_id => sess), :confirm => "Are You Sure?", :class => "destroy_session"  %>
 						</span>	
 					</td> 
  			</tr>

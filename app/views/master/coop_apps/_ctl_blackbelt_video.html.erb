@@ -7,8 +7,8 @@
 				<tr>
 					<th colspan=3 style="width:800px; vertical-align:middle; text-align:center; font-size:16px; padding-left:0px">
 							<%= video.title -%></br/>
-							<span style="font-size:12px;font-weight:normal">
-								<center><%=video.organization ? video.organization.medium_name : ""%>&nbsp;
+							<span style="text-align:center; font-size:12px;font-weight:normal">
+								<%=video.organization ? video.organization.medium_name : ""%>&nbsp;
 								Contribution&nbsp;From&nbsp;<%= time_ago_in_words(video.created_at.to_s, include_seconds = false).titleize%> ago </br/>
 							</span>
 					</th>											
@@ -23,7 +23,7 @@
 						</td>
 						<td style="width:50px; border:0px solid #ddd; vertical-align:middle; text-align:left;padding-top:5px;padding-bottom:5px">
 							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								<%= link_to "View", {:controller =>  "/apps/time_learning", :action => "static_itl_session", :organization_id => @current_organization, :tlt_session_id => video.itl_blackbelt.tlt_session}, {:target => "_blank"}  %>		
+								<%= link_to "View", ctl_session_show_path( :organization_id => @current_organization, :tlt_session_id => video.itl_blackbelt.tlt_session), {:target => "_blank"}  %>
 							</span>
 						</td>
 						<td style="width:670px; vertical-align:middle; font-size:14px; border:0px solid #ddd; text-align:left;padding-left:5px;padding-top:5px; padding-bottom:10px;">
@@ -40,7 +40,7 @@
 									<tr>
 										<td class="resource_levels_close">
 						
-										<%= link_to '', :controller => "master/coop_apps", :action => :show_user_video_session, :organization_id => @current_organization, :observer_id=> trckr, :video_id=> video,:app_id=> app.id %>
+										<%= link_to '', master_ctl_video_show_path(:organization_id => @current_organization, :observer_id=> trckr, :video_id=> video,:app_id=> app.id) %>
 											<%= trckr.last_name -%>&nbsp;Sessions
 										<span></span>
 										</td>

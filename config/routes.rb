@@ -67,15 +67,49 @@ EscentPartners::Application.routes.draw do |map|
     get '/admin/provider/app/name' => 'admin/our_organization#edit_app_alt_name'
     get '/admin/provider/app/enable' => 'admin/our_organization#provider_app_enable'
 
+  # CORE Maintenance
+    get '/core/maint/status' => 'apps/owner_maintenance#core_maintain_statuses'
+    get '/core/maint/org/status' => 'apps/owner_maintenance#core_org_status'
+    get '/core/maint/status/assign' => 'apps/owner_maintenance#core_assign_status'
+    get '/core/maint/children' => 'apps/owner_maintenance#core_maintain_child_parent'
+    get '/core/maint/org/children' => 'apps/owner_maintenance#core_org_child_parent'
+    get '/core/maint/parent/create' => 'apps/owner_maintenance#core_make_parent'
+    get '/core/maint/parent/assign' => 'apps/owner_maintenance#core_assign_parent'
+
   # CORE Master
     get '/master/index' => 'master/application#index'
     get '/master/users/show' => 'master/users#index'
+    get '/master/users/delete' => 'master/users#delete'
+    get '/master/users/suspend' => 'master/users#toggle_suspend'
+    get '/master/users/super' => 'master/users#toggle_su'
     get '/master/organizations/show' => 'master/organizations#index'
+    get '/master/organizations/delete' => 'master/organizations#delete'
     get '/master/organizations/app_owners' => 'master/organizations#ownership'
+    get '/master/organizations/app/owner' => 'master/organizations#change_app_master'
+    get '/master/organizations/discussion/owner' => 'master/organizations#change_app_discussion_owner'
+    get '/master/organizations/app/provider' => 'master/organizations#toggle_co_owner'
     get '/master/organizations/app_usage' => 'master/organizations#app_useability'
+    get '/master/organizations/app/enable' => 'master/organizations#change_app_useability'
     get '/master/organizations/new' => 'master/organizations#new'
+    post '/master/organizations/new' => 'master/organizations#new'
     get '/master/apps/new' => 'master/coop_apps#edit_app'
     get '/master/apps/view' => 'master/coop_apps#index'
+    get '/master/apps/edit' => 'master/coop_apps#edit_app'
+    post '/master/apps/edit' => 'master/coop_apps#edit_app'
+    get '/master/apps/settings/edit' => 'master/coop_apps#edit_app_settings'
+    post '/master/apps/settings/edit' => 'master/coop_apps#edit_app_settings'
+    # get '/master/core/maintenance_1' => 'master/coop_apps#maint_action'
+    # get '/master/ctl/maintenance_1' => 'master/coop_apps#maint_action'
+    get '/master/ctl/video/show' => 'master/coop_apps#show_user_video_session'
+    post '/master/ctl/strategies/edit' => 'master/coop_apps#ctl_strategy_update'
+    get '/master/ctl/strategies' => 'master/coop_apps#ctl_strategies_maintain'
+    # get '/master/ifa/maintenance_1' => 'master/coop_apps#maint_action'
+    # get '/master/blog/maintenance_1' => 'master/coop_apps#maint_action'
+    # get '/master/offering/maintenance_1' => 'master/coop_apps#maint_action'
+    # get '/master/pd/maintenance_1' => 'master/coop_apps#maint_action'
+    # get '/master/ita/maintenance_1' => 'master/coop_apps#maint_action'
+    # get '/master/elt/maintenance_1' => 'master/coop_apps#maint_action'
+
 
   # CORE Discussions
     get '/discussion/resource/comment/delete' => 'site/discussions#delete_resource_comment'
@@ -99,9 +133,9 @@ EscentPartners::Application.routes.draw do |map|
 
   # APPS Shared
     get '/my_survey/view' => 'apps/shared#my_surveys'
+    get '/app/owner/maintenance' => 'apps/owner_maintenance#index'
 
   # APP Offering  (Classroom)
-
     get '/offering/view' => 'site/site#static_classroom'
     get '/offering/setup' => 'apps/classroom#setup_classroom'
     get '/offering/lu/setup' => 'apps/classroom#setup_classroom_lu'
@@ -114,7 +148,6 @@ EscentPartners::Application.routes.draw do |map|
     get '/offering/lu/resources/show' => 'apps/classroom#show_lu_resources'
 
   # APP Blogs
-
     get '/app_blog/view' => 'apps/app_blog#show_app_blog'
 
   # APPS IFA
@@ -122,13 +155,41 @@ EscentPartners::Application.routes.draw do |map|
     get '/ifa/assessment/take' => 'apps/assessment#take_assessment'
     get '/ifa/lu/standards/show' => 'apps/assessment#topic_standards_benchmarks'
 
+  # APP CTL
+    get '/ctl/session/show' => 'apps/time_learning#static_itl_session'
+
+    get '/ctl/maint/strategies' => 'apps/owner_maintenance#owner_strategies'
+    get '/ctl/maint/strategies/edit' => 'apps/owner_maintenance#owner_strategy_edit'
+    post '/ctl/maint/strategies/edit' => 'apps/owner_maintenance#owner_strategy_update'
+    get '/ctl/maint/strategies/evidence' => 'apps/owner_maintenance#owner_strategy_evidence'
+    get '/ctl/maint/thresholds' => 'apps/owner_maintenance#owner_strategy_thresholds'
+    get '/ctl/maint/thresholds/edit' => 'apps/owner_maintenance#owner_thresholds_edit'
+    post '/ctl/maint/thresholds/edit' => 'apps/owner_maintenance#owner_thresholds_edit'
+    get '/ctl/maint/blackbelts' => 'apps/owner_maintenance#owner_blackbelt_maint'
+    get '/ctl/maint/blackbelts/video' => 'apps/owner_maintenance#owner_show_video_session'
+    get '/ctl/maint/blackbelts/session' => 'apps/owner_maintenance#toggle_blackbelt_session'
+    get '/ctl/maint/schools' => 'apps/owner_maintenance#ctl_school_listing'
+    get '/ctl/maint/schools/teachers' => 'apps/owner_maintenance#ctl_school_teacher_listing'
+    get '/ctl/maint/schools/teacher/sessions' => 'apps/owner_maintenance#ctl_teacher_sessions'
+    get '/ctl/maint/discussion' => 'apps/owner_maintenance#app_discussion_forum'
+    get '/ctl/maint/discussion/update' => 'apps/owner_maintenance#update_app_discussion_parameters'
+    get '/ctl/maint/dashboards' => 'apps/owner_maintenance#app_ctl_dashboards'
+    get '/ctl/maint/dashboards/school' => 'apps/owner_maintenance#app_ctl_school_dashboard'
+    get '/ctl/maint/dashboards/subject' => 'apps/owner_maintenance#app_ctl_school_subject_dashboards'
+    get '/ctl/maint/dashboards/recalc' => 'apps/time_learning#recalc_itl_summary'
+    get '/ctl/maint/sessions' => 'apps/owner_maintenance#app_ctl_open_sessions'
+    get '/ctl/maint/sessions/school' => 'apps/owner_maintenance#app_ctl_school_opens'
+    get '/ctl/maint/sessions/school/month' => 'apps/owner_maintenance#app_ctl_school_month_opens'
+    get '/ctl/maint/sessions/month/deletes' => 'apps/owner_maintenance#destroy_open_sessions'
+    get '/ctl/maint/sessions/month/delete' => 'apps/owner_maintenance#destroy_open_session'
+    get '/ctl/maint/session/delete' => 'apps/owner_maintenance#ctl_destroy_session'
 
   #=======================================================
 
   # Victor add next two line just for test
-  map.connect '/static_organization/:organization_id/:id', :controller => 'site/site', :action => 'static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}
-  map.connect '/static_resource/:organization_id/:id', :controller => 'site/site', :action => 'static_resource', :requirements => {:organization_id => /[a-f\d]{16}/}
-  map.connect '/static_classroom/:organization_id/:id', :controller => 'site/site', :action => 'static_classroom', :requirements => {:organization_id => /[a-f\d]{16}/}
+ # map.connect '/static_organization/:organization_id/:id', :controller => 'site/site', :action => 'static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}
+ # map.connect '/static_resource/:organization_id/:id', :controller => 'site/site', :action => 'static_resource', :requirements => {:organization_id => /[a-f\d]{16}/}
+ # map.connect '/static_classroom/:organization_id/:id', :controller => 'site/site', :action => 'static_classroom', :requirements => {:organization_id => /[a-f\d]{16}/}
 
 #  map.connect  '/users/edit_picture/:organization_id', :controller => 'users/assessment', :action => 'edit_picture'
   map.resources :classrooms
@@ -161,7 +222,7 @@ EscentPartners::Application.routes.draw do |map|
 
 # Sample of regular route:
 #   map.connect 'products/:id', :controller => 'catalog', :action => 'view'
-  map.connect 'NCTL', :controller => 'site/site', :action => 'static_organization', :organization_id => 'e9826fddf20737fd'
+#  map.connect 'NCTL', :controller => 'site/site', :action => 'static_organization', :organization_id => 'e9826fddf20737fd'
 
 # Keep in mind you can assign values other than :controller and :action
 

@@ -16,7 +16,7 @@
         </td>
         <td  style="border:0px solid #ddd;width:60px; width:fixed; vertical-align:middle; padding-top:0px; text-align:center">
           <span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-            <%= link_to "Update", {:controller => "/apps/owner_maintenance",:action => "update_app_discussion_parameters", :organization_id => @current_organization, :app_id=> app.id }, :class => "color_button" %>
+            <%= link_to "Update", ctl_maint_discussion_update_path(:organization_id => @current_organization, :app_id=> app.id), :class => "color_button" %>
           </span>
         </td>
         <td style="padding-top:10px;">

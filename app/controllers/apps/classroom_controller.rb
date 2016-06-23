@@ -296,7 +296,7 @@ class Apps::ClassroomController < Site::ApplicationController
     if @period && @student
       if (@classroom.open? || params[:registration][:key]==@classroom.registration_key)
         @student.add_to_period(@period)
-        set_classroom_favorite(@student, @period.classroom, "add")
+        @student.set_classroom_favorite(@period.classroom, "add")
       end
     end
     redirect_to :controller => '/site/site',:action => :static_classroom, :organization_id => @current_organization, :id => @classroom
@@ -485,7 +485,7 @@ class Apps::ClassroomController < Site::ApplicationController
       remove_student_from_period(@student, @period)
     else
       @student.add_to_period(@period)
-      set_classroom_favorite(@student, @period.classroom, "add")
+      @student.set_classroom_favorite(@period.classroom, "add")
     end
     refresh_period
     render :partial => "manage_period_students", :locals=> {:period => @period, :return_action => params[:redirect_act]}

@@ -16,7 +16,7 @@
 				</td>					
 			</tr>
 			<tr >
-				<td   id = "add_lu" style="width:100px;width:fixed; vertical-align:middle;  padding-left:2px; padding-right:2px; padding-top:6px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+				<td   id = "add_lu" style="width:17%; vertical-align:middle;  padding-left:2px; padding-right:2px; padding-top:6px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
 					<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
 						Create
 					</span>
@@ -26,7 +26,7 @@
 				</td>					
 			</tr>
 			<tr >
-				<td  style="width:100px;width:fixed; vertical-align:middle;  padding-left:2px; padding-right:2px; padding-top:6px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+				<td  style="width:17%; vertical-align:middle;  padding-left:2px; padding-right:2px; padding-top:6px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
 					&nbsp;
 				</td>
 				<td style=" width:250px; border:0px solid #ddd; padding-top:0px; vertical-align:bottom; text-align:left; font-size:10px">
@@ -37,7 +37,7 @@
 				</td>
 			</tr>
 			<tr >
-				<td  style="width:100px;width:fixed; vertical-align:middle;  padding-left:2px; padding-right:2px; padding-top:6px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+				<td  style="width:17%; vertical-align:middle;  padding-left:2px; padding-right:2px; padding-top:6px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
 					&nbsp;
 				</td>
 				<td style=" width:250px; border:0px solid #ddd; padding-top:0px; vertical-align:middle; text-align:center; font-size:12px">
@@ -61,7 +61,7 @@ jQ(document).ready(function() {
 		var end_m = jQ('#end_date_estimate_2i').val();
 		var end_d = jQ('#end_date_estimate_3i').val();
 		var end_y = jQ('#end_date_estimate_1i').val();
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :add_lu, :organization_id => @current_organization, :classroom_id => offering %>";
+		var url = "<%= offering_admin_lu_add_url(:organization_id => @current_organization, :classroom_id => offering) %>";
 			jQ.get(url, {'topic_name':topic_name, 'start_d':start_d, 'start_m':start_m, 'start_y':start_y, 'end_d':end_d, 'end_m':end_m, 'end_y':end_y }, function(data) {
 			jQ("#offering_lus_<%=offering.public_id%>").html(data); 
 	   		jQ("#offering_lus_<%=offering.public_id%>").show();

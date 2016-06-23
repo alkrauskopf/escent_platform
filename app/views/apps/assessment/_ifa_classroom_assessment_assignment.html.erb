@@ -33,14 +33,14 @@
 					<% end -%>
 					<td width = 15px style=" color: #C83A14; vertical-align:bottom;text-align:center; padding-top:5px;font-size:10px" >
 						<% if @classroom.act_assessments.include?(ass) -%>
-							<%= link_to (image_tag "delete.png"), {:action => "update_classroom_assessment_pool", :organization_id => @current_organization, :tagged_classroom_id => @tagged_classroom, :classroom_id => @classroom, :assessment_id => ass}, :class => "toggle_tagged" %>
+							<%= link_to (image_tag "delete.png"), offering_admin_assessment_pool_update_path(:organization_id => @current_organization, :tagged_classroom_id => @tagged_classroom, :classroom_id => @classroom, :assessment_id => ass), :class => "toggle_tagged" %>
 						<% else -%>
-							<%= link_to (image_tag "add.png"), {:action => "update_classroom_assessment_pool", :organization_id => @current_organization,  :tagged_classroom_id => @tagged_classroom, :classroom_id => @classroom, :assessment_id => ass}, :class => "toggle_tagged" %>
+							<%= link_to (image_tag "add.png"), offering_admin_assessment_pool_update_path(:organization_id => @current_organization, :tagged_classroom_id => @tagged_classroom, :classroom_id => @classroom, :assessment_id => ass), :class => "toggle_tagged" %>
 
 						<% end -%>
 					</td>
 					<td width=380px, style="color: #000000; vertical-align:middle; padding-top:3px;padding-left:5px;">
-						<u><%= link_to "View & Analyze",{:controller => "apps/assessment", :action => "static_assessment", :organization_id => @current_organization, :assessment_id => ass}, {:target => "_blank"} %></u> &nbsp;&nbsp;
+						<u><%= link_to 'View & Analyze', ifa_assessment_view_path(:organization_id => @current_organization, :assessment_id => ass), {:target => "_blank"} %></u> &nbsp;&nbsp;
 						<strong><% unless ass.is_active %> <span style="color:#C83A14;"> <i>INACTIVE: </i></span> <% end -%>
 						<%= ass.name.titleize%></strong>
 						<% unless ass.user.nil?%>&nbsp;&nbsp;<%= ass.user.full_name%><%end%>

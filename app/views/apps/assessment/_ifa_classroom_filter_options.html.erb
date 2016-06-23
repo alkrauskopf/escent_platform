@@ -103,7 +103,7 @@ jQ(document).ready(function() {
 	jQ("#calibrate_toggle").click(function() {
 		var organization = "<%= @current_organization.public_id %>";
 		var classroom = "<%= @classroom.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :classroom_option_toggle_calibrate %>";
+		var url = "<%= ifa_classroom_option_calibrate_url %>";
 		jQ.get(url,{'organization_id': organization,'classroom_id': classroom},  function(data) {
 			jQ("#filter_options").html(data); 
 	   		jQ("#filter_options").show();
@@ -117,7 +117,7 @@ jQ(document).ready(function() {
 	jQ("#user_filter_toggle").click(function() {
 		var organization = "<%= @current_organization.public_id %>";
 		var classroom = "<%= @classroom.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :classroom_option_toggle_user_filter %>";
+		var url = "<%= ifa_classroom_option_filter_url %>";
 		jQ.get(url,{'organization_id': organization,'classroom_id': classroom},  function(data) {
 			jQ("#filter_options").html(data); 
 	   		jQ("#filter_options").show();
@@ -131,7 +131,7 @@ jQ(document).ready(function() {
  	jQ("#subject_id").change(function(){
 		var subject_id = jQ('#ass_subject_id').val();
 		var classroom = "<%= @classroom.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :classroom_options_update, :organization_id => @current_organization  %>";
+		var url = "<%= ifa_classroom_option_filter_url(:organization_id => @current_organization) %>";
 			jQ.get(url, {'classroom_id':classroom, 'subject_id': subject_id}, function(data) {
 			jQ("#filter_options").html(data); 
 	   		jQ("#filter_options").show();
@@ -146,7 +146,7 @@ jQ(document).ready(function() {
  	jQ("#master_id").change(function(){
 		var master_id = jQ('#ass_master_id').val();
 		var classroom = "<%= @classroom.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :classroom_options_update, :organization_id => @current_organization  %>";
+		var url = "<%= ifa_classroom_option_filter_url(:organization_id => @current_organization)  %>";
 			jQ.get(url, {'classroom_id':classroom, 'master_id': master_id}, function(data) {
 			jQ("#filter_options").html(data); 
 	   		jQ("#filter_options").show();
@@ -160,7 +160,7 @@ jQ(document).ready(function() {
  	jQ("#upper_score").change(function(){
 		var score = jQ('#ass_upper_score').val();
 		var classroom = "<%= @classroom.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :classroom_options_update, :organization_id => @current_organization  %>";
+		var url = "<%= ifa_classroom_option_filter_url(:organization_id => @current_organization)  %>";
 			jQ.get(url, {'classroom_id':classroom, 'score': score}, function(data) {
 			jQ("#filter_options").html(data); 
 	   		jQ("#filter_options").show();

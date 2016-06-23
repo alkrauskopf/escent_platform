@@ -9,7 +9,7 @@
 	</div>
 	<div id="back_button" style = "font-size:9px; color: #000000;padding-left:0px;">
 		<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-			<%= link_to "Manage Offerings", {:controller => '/apps/classroom', :action => :index, :organization_id => @current_organization,:user_id => @current_user, :teacher_id => @current_user}%>
+			<%= link_to "Manage Offerings", offering_path(:organization_id => @current_organization,:user_id => @current_user, :teacher_id => @current_user)%>
 		</span>
 		<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;float:right">
 			<%= classroom.organization ?  (link_to "View Offering", offering_view_path(:organization_id => classroom.organization, :id => classroom), {:target=> 'blank'}) : ""%>
@@ -48,7 +48,7 @@
 							</td>
 							<td   style="width:80px; width:fixed; border:0px solid #ddd; vertical-align:top;  padding-left:12px; padding-right:2px; padding-top:2px; font-size:11px; ">
 								<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-									<%= link_to "Destroy", {:controller => '/apps/classroom', :action => :destroy_classroom, :organization_id => @current_organization, :classroom_id => classroom, :app_id=>app}, :confirm => "Are you sure?" %>
+									<%= link_to "Destroy", offering_admin_destroy_path(:organization_id => @current_organization, :classroom_id => classroom, :app_id=>app), :confirm => "Are you sure?" %>
 								</span>
 							</td>
 							<td   colspan=2 style="border:0px solid #ddd; vertical-align:top;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #C83A14; font-size:13px; font-weight:normal">
@@ -93,7 +93,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#toggle_status').click(function() {
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :toggle_active, :organization_id => @current_organization, :classroom_id => classroom, :app_id => app.id  %>";
+		var url = "<%= offering_admin_activate_url(:organization_id => @current_organization, :classroom_id => classroom, :app_id => app.id) %>";
 			jQ.get(url, { }, function(data) {
 			jQ("#classroom_edit").html(data); 
 	   		jQ("#classroom_edit").show();
@@ -106,7 +106,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#edit_classroom_name').click(function() {
 		var classroom = jQ('#classroom_course_name').val();
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :change_classroom_name, :organization_id => @current_organization, :classroom_id => classroom, :app_id => app.id %>";
+		var url = "<%= offering_admin_name_update_url(:organization_id => @current_organization, :classroom_id => classroom, :app_id => app.id) %>";
 			jQ.get(url, {'classroom_name':classroom}, function(data) {
 			jQ("#classroom_edit").html(data); 
 	   		jQ("#classroom_edit").show();
@@ -119,7 +119,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#edit_classroom_subject').click(function() {
 		var child_id = jQ('#child_child_subject').val();
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :change_classroom_subject, :organization_id => @current_organization, :classroom_id => classroom, :parent_subject_id=>parent.id, :app_id => app.id %>";
+		var url = "<%= offering_admin_subject_update_url(:organization_id => @current_organization, :classroom_id => classroom, :parent_subject_id=>parent.id, :app_id => app.id) %>";
 			jQ.get(url, { 'child_subject_id': child_id}, function(data) {
 			jQ("#classroom_edit").html(data); 
 	   		jQ("#classroom_edit").show();
@@ -132,7 +132,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#select_subject').change(function() {
 		var parent_id = jQ('#parent_parent_subject').val();
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :change_parent_subject, :organization_id => @current_organization, :classroom_id => classroom, :app_id => app.id %>";
+		var url = "<%= offering_admin_parent_subject_url(:organization_id => @current_organization, :classroom_id => classroom, :app_id => app.id) %>";
 			jQ.get(url, {'parent_subject_id': parent_id}, function(data) {
 			jQ("#classroom_edit").html(data); 
 	   		jQ("#classroom_edit").show();
@@ -150,7 +150,7 @@ jQ(document).ready(function() {
 			<tbody> 
 					<tr>
 						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal;  padding-bottom:0px; font-size:12px">	
-							<%= link_to '', :controller => "apps/classroom", :action => "offering_periods", :organization_id => @current_organization, :classroom_id => classroom %>
+							<%= link_to '', offering_admin_periods_path(:organization_id => @current_organization, :classroom_id => classroom) %>
 							Periods <i>(<%=classroom.classroom_periods.size %>)</i>
 							<span></span>
 						</td>
@@ -165,10 +165,6 @@ jQ(document).ready(function() {
 	});
 	</script>
 
-	<% else -%>
-<!--
-		<%#= render :partial => "list_periods", :locals => {:admin => admin, :classroom=>classroom, :app=>app}%>
--->
 	<% end -%>
 
 	<% if @current_user.can_edit_offering?(classroom)-%>
@@ -178,7 +174,7 @@ jQ(document).ready(function() {
 					<tr>
 						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal;  padding-bottom:0px; font-size:12px">
 						
-						<%= link_to '', :controller => "apps/classroom", :action => "offering_lus", :organization_id => @current_organization, :classroom_id => classroom %>
+						<%= link_to '', offering_admin_lus_path(:organization_id => @current_organization, :classroom_id => classroom) %>
 						Learning Units <i>(<%=classroom.learning_units.size %>)</i>
 						<span></span>
 						</td>
@@ -199,7 +195,7 @@ jQ(document).ready(function() {
 					<tr>
 						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal;  padding-bottom:0px; font-size:12px">
 						
-						<%= link_to '', :controller => "apps/classroom", :action => "offering_resources", :organization_id => @current_organization, :classroom_id => classroom, :topic_id => nil %>
+						<%= link_to '', offering_admin_resources_path(:organization_id => @current_organization, :classroom_id => classroom, :topic_id => nil) %>
 						General Resources <i>(<%=classroom.contents.active.size %>)</i>
 						<span></span>
 						</td>
@@ -220,7 +216,7 @@ jQ(document).ready(function() {
 					<tr>
 						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal;  padding-bottom:0px; font-size:12px">
 						
-						<%= link_to '', :controller => "apps/classroom", :action => "offering_referrals", :organization_id => @current_organization, :classroom_id => classroom %>
+						<%= link_to '', offering_admin_referrals_path(:organization_id => @current_organization, :classroom_id => classroom) %>
 						Related Offerings <i>(<%=classroom.classroom_referrals.size %>)</i>
 						<span></span>
 						</td>
@@ -241,7 +237,7 @@ jQ(document).ready(function() {
 					<tr>
 						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal;  padding-bottom:0px; font-size:12px">
 						
-						<%= link_to '', :controller => "apps/classroom", :action => "offering_students", :organization_id => @current_organization, :classroom_id => classroom %>
+						<%= link_to '', offering_admin_students_path(:organization_id => @current_organization, :classroom_id => classroom) %>
 						Students <i>(<%=classroom.students.size %>)</i>
 						<span></span>
 						</td>
@@ -263,7 +259,7 @@ jQ(document).ready(function() {
 				<% col_label = "IFA Assessment Pool" -%>
 				<tr>
 				<td class="ifa_levels_close" style=" color: #2061a5;">
-					<%= link_to '', :controller => "apps/assessment", :action => :assign_classroom_assessment, :organization_id => @current_organization, :classroom_id => classroom, :id => @current_user %>
+					<%= link_to '', offering_admin_assessments_path(:organization_id => @current_organization, :classroom_id => classroom, :id => @current_user) %>
 					<%= col_label %>
 					<span></span>
 				</td>
@@ -284,13 +280,11 @@ jQ(document).ready(function() {
 			<tbody> 
 					<tr>
 						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal;  padding-bottom:0px; font-size:12px">
-						
-						<%= link_to '', :controller => "apps/classroom", :action => "offering_surveys", :organization_id => @current_organization, :classroom_id => classroom %>
-						Student Surveys
-						<span></span>
+              <%= link_to '', offering_admin_surveys_path(:organization_id => @current_organization, :classroom_id => classroom) %>
+              Student Surveys
+              <span></span>
 						</td>
 					</tr>
-	
 			</tbody>
 		</table>
 	

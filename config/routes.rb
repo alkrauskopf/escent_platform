@@ -118,45 +118,96 @@ EscentPartners::Application.routes.draw do |map|
     get '/discussion/resource/comment/delete' => 'site/discussions#delete_resource_comment'
     post '/discussion/resource/comment/new' => 'site/discussions#add_comment_for_resource'
     get '/discussion/share' => 'site/discussions#share_discussion'
+    post '/discussion/share' => 'site/discussions#share_discussion'
     get '/discussion/reply' => 'site/discussions#add_reply'
+    post '/discussion/reply' => 'site/discussions#add_reply'
     get '/discussion/reply/delete' => 'site/discussions#delete_reply'
     post '/discussion/comment/new' => 'site/discussions#add_comment'
     get '/discussion/report/abuse' => 'site/discussions#report_abuse'
+    post '/discussion/report/abuse' => 'site/discussions#report_abuse'
 
   # Main Application Route Paths
-    get '/' + CoopApp.classroom.app_link[2] => CoopApp.classroom.app_link[0] + '#' + CoopApp.classroom.app_link[1]
-    get '/' + CoopApp.ifa.app_link[2] => CoopApp.ifa.app_link[0] + '#' + CoopApp.ifa.app_link[1]
-    get '/' + CoopApp.ctl.app_link[2] => CoopApp.ctl.app_link[0] + '#' + CoopApp.ctl.app_link[1]
-    get '/' + CoopApp.pd.app_link[2] => CoopApp.pd.app_link[0] + '#' + CoopApp.pd.app_link[1]
-    get '/' + CoopApp.ita.app_link[2] => CoopApp.ita.app_link[0] + '#' + CoopApp.ita.app_link[1]
-    get '/' + CoopApp.stat.app_link[2] => CoopApp.stat.app_link[0] + '#' + CoopApp.stat.app_link[1]
-    get '/' + CoopApp.cm.app_link[2] => CoopApp.cm.app_link[0] + '#' + CoopApp.cm.app_link[1]
-    get '/' + CoopApp.elt.app_link[2] => CoopApp.elt.app_link[0] + '#' + CoopApp.elt.app_link[1]
-    get '/' + CoopApp.blog.app_link[2] => CoopApp.blog.app_link[0] + '#' + CoopApp.blog.app_link[1]
+    get CoopApp.classroom.route_url => CoopApp.classroom.route_action
+    get CoopApp.ifa.route_url => CoopApp.ifa.route_action
+    get CoopApp.ctl.route_url => CoopApp.ctl.route_action
+    get CoopApp.pd.route_url => CoopApp.pd.route_action
+    get CoopApp.ita.route_url => CoopApp.ita.route_action
+    get CoopApp.stat.route_url => CoopApp.stat.route_action
+    get CoopApp.cm.route_url => CoopApp.cm.route_action
+    get CoopApp.elt.route_url => CoopApp.elt.route_action
+    get CoopApp.blog.route_url => CoopApp.blog.route_action
 
   # APPS Shared
     get '/my_survey/view' => 'apps/shared#my_surveys'
     get '/app/owner/maintenance' => 'apps/owner_maintenance#index'
 
   # APP Offering  (Classroom)
+  # site/site
     get '/offering/view' => 'site/site#static_classroom'
+    get '/offering/homework' => 'site/site#submit_homework'
+    put '/offering/homework' => 'site/site#submit_homework'
+    get '/offering/lu/resources/featured' => 'site/site#featured_content'
+    get '/offering/lu/resources/related' => 'site/site#related_content'
+  # apps
     get '/offering/setup' => 'apps/classroom#setup_classroom'
     get '/offering/lu/setup' => 'apps/classroom#setup_classroom_lu'
     get '/offering/toggle_favorite' => 'apps/classroom#toggle_favorite_classroom'
     get '/offering/unjoin' => 'apps/classroom#self_unregister_student'
     get '/offering/register' => 'apps/classroom#register_classroom'
-    get '/offering/homework' => 'site/site#submit_homework'
-    get '/offering/lu/resources/featured' => 'site/site#featured_content'
-    get '/offering/lu/resources/related' => 'site/site#related_content'
     get '/offering/lu/resources/show' => 'apps/classroom#show_lu_resources'
+    get '/offering/admin/assign_subject' => 'apps/classroom#identify_parent_subject'
+    get '/offering/admin/add' => 'apps/classroom#add_classroom'
+    get '/offering/admin/subjects' => 'apps/classroom#subject_offerings'
+    get '/offering/admin/setup' => 'apps/classroom#setup_classroom'
+    get '/offering/admin/destroy' => 'apps/classroom#destroy_classroom'
+    get '/offering/admin/activate' => 'apps/classroom#toggle_active'
+    get '/offering/admin/name/update' => 'apps/classroom#change_classroom_name'
+    get '/offering/admin/subject/update' => 'apps/classroom#change_classroom_subject'
+    get '/offering/admin/parent/subject' => 'apps/classroom#change_parent_subject'
+    get '/offering/admin/periods' => 'apps/classroom#offering_periods'
+    get '/offering/admin/period/add' => 'apps/classroom#add_period'
+    get '/offering/admin/period/edit' => 'apps/classroom#edit_period'
+    get '/offering/admin/period/teachers' => 'apps/classroom#manage_period_teachers'
+    get '/offering/admin/period/destroy' => 'apps/classroom#destroy_period'
+    get '/offering/admin/lus' => 'apps/classroom#offering_lus'
+    get '/offering/admin/lu/add' => 'apps/classroom#add_lu'
+    get '/offering/admin/lu/setup' => 'apps/classroom#setup_classroom_lu'
+    get '/offering/admin/resources' => 'apps/classroom#offering_resources'
+    get '/offering/admin/resource/assign' => 'apps/classroom#add_remove_resource'
+    get '/offering/admin/resource/feature' => 'apps/classroom#toggle_lu_featured_resource'
+    get '/offering/admin/resource/folder' => 'apps/classroom#lu_resource_folder'
+    get '/offering/admin/resource/copy' => 'apps/classroom#copy_lu_resources'
+    get '/offering/admin/resource/pool' => 'apps/classroom#resource_pool'
+    get '/offering/admin/referrals' => 'apps/classroom#offering_referrals'
+    get '/offering/admin/referral/assign' => 'apps/classroom#add_remove_referral'
+    get '/offering/admin/students' => 'apps/classroom#offering_students'
+    get '/offering/admin/students/period' => 'apps/classroom#manage_period_students'
+    get '/offering/admin/students/remove/all' => 'apps/classroom#remove_all_students'
+    get '/offering/admin/student/assign' => 'apps/classroom#add_remove_student'
+    get '/offering/admin/assessments' => 'apps/assessment#assign_classroom_assessment'
+    get '/offering/admin/assessment/view' => 'apps/assessment#assign_classroom_assessment_view'
+    get '/offering/admin/assessment/pool/update' => 'apps/assessment#update_classroom_assessment_pool'
+    get '/offering/admin/surveys' => 'apps/classroom#offering_surveys'
+    get '/offering/admin/survey/on' => 'apps/classroom#period_survey_activate'
+    get '/offering/admin/survey/off' => 'apps/classroom#period_survey_deactivate'
+
+    get '/offering/admin/homeworks' => 'apps/classroom#offering_homeworks'
+    get '/offering/admin/option/activate' => 'apps/classroom#offering_options'
+    get '/offering/admin/homework/delete' => 'apps/classroom#delete_homework'
 
   # APP Blogs
     get '/app_blog/view' => 'apps/app_blog#show_app_blog'
 
   # APPS IFA
+    get '/ifa/assessment/view' => 'apps/assessment#static_assessment'
     get '/ifa/teacher/review' => 'apps/assessment#teacher_review'
     get '/ifa/assessment/take' => 'apps/assessment#take_assessment'
     get '/ifa/lu/standards/show' => 'apps/assessment#topic_standards_benchmarks'
+    get '/ifa/classroom/option/calibrate' => 'apps/assessment#classroom_option_toggle_calibrate'
+    get '/ifa/classroom/option/filter' => 'apps/assessment#classroom_option_toggle_user_filter'
+    get '/ifa/classroom/option/update' => 'apps/assessment#classroom_options_update'
+    get '/ifa/classroom/assessment/pool/update' => 'apps/assessment#update_classroom_assessment_pool_from_repository'
+    get '/ifa/classroom/assessments/filtered' => 'apps/assessment#classroom_get_filtered_assessments'
 
   # APP CTL
     get '/ctl/session/show' => 'apps/time_learning#static_itl_session'
@@ -290,7 +341,7 @@ EscentPartners::Application.routes.draw do |map|
   map.connect  '/apps/client_manager', :controller => 'apps/client_manager'
   map.connect  '/apps/learning_time', :controller => 'apps/learning_time'
   map.connect  '/apps/panel', :controller => 'apps/panel'
-  map.connect  '/apps/classroom', :controller => 'apps/classroom'
+#  map.connect  '/apps/classroom', :controller => 'apps/classroom'
   map.connect  '/apps/staff_develop', :controller => 'apps/staff_develop'
   map.connect  '/apps/shared', :controller => 'apps/shared'
   map.connect  '/site/blog_posts', :controller => 'site/blog_posts'
@@ -299,13 +350,13 @@ EscentPartners::Application.routes.draw do |map|
   map.connect  '/site/site', :controller => 'fsn', :action => 'index'
   map.connect '/site/', :controller => 'site/site', :action => 'index'
 
-  map.connect '/admin/', :controller => 'admin/application', :action => 'index'
-  map.connect '/admin/application/index/:organization_id',  :controller => 'admin/application', :action => 'index', :requirements => {:organization_id => /[a-f\d]{16}/}
-  map.connect '/admin/:organization_id',  :controller => 'admin/application', :action => 'index', :requirements => {:organization_id => /[a-f\d]{16}/}
-  map.connect '/admin/:controller/:action/:organization_id', :requirements => {:organization_id => /[a-f\d]{16}/}
-  map.connect '/admin/:controller/:action/:organization_id/:id', :requirements => {:organization_id => /[a-f\d]{16}/}
+#  map.connect '/admin/', :controller => 'admin/application', :action => 'index'
+#  map.connect '/admin/application/index/:organization_id',  :controller => 'admin/application', :action => 'index', :requirements => {:organization_id => /[a-f\d]{16}/}
+##  map.connect '/admin/:organization_id',  :controller => 'admin/application', :action => 'index', :requirements => {:organization_id => /[a-f\d]{16}/}
+ # map.connect '/admin/:controller/:action/:organization_id', :requirements => {:organization_id => /[a-f\d]{16}/}
+ # map.connect '/admin/:controller/:action/:organization_id/:id', :requirements => {:organization_id => /[a-f\d]{16}/}
 
-  map.connect '/master/', :controller => 'master/application', :action => 'index'
+ # map.connect '/master/', :controller => 'master/application', :action => 'index'
 
   map.connect ':controller/:action/:organization_id', :requirements => {:organization_id => /[a-f\d]{16}/}
   map.connect ':controller/:action/:organization_id/:id', :requirements => {:organization_id => /[a-f\d]{16}/}

@@ -84,7 +84,7 @@
 		<tbody> 
 				<tr>
 					<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal;  padding-bottom:0px; font-size:12px">	
-						<%= link_to '', :controller => "apps/classroom", :action => "offering_homeworks", :organization_id => @current_organization, :classroom_id => offering %>
+						<%= link_to '', offering_admin_homeworks_path(:organization_id => @current_organization, :classroom_id => offering) %>
 						Manage <%= @current_user.last_name %>&nbsp;Homeworks
 						<span></span>
 					</td>
@@ -106,7 +106,7 @@ jQ(document).ready(function() {
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#toggle_homework").click(function() {
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :offering_options,:organization_id => @current_organization, :classroom_id=> offering, :option=>"homework" %>";
+		var url = "<%= offering_admin_option_activate_url(:organization_id => @current_organization, :classroom_id=> offering, :option=>'homework') %>";
 		jQ.get(url,{},  function(data) {
 			jQ("#offering_options_<%=offering.public_id%>").html(data); 
 	   		jQ("#offering_options_<%=offering.public_id%>").show();
@@ -118,7 +118,7 @@ jQ(document).ready(function() {
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#toggle_open").click(function() {
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :offering_options,:organization_id => @current_organization, :classroom_id=> offering, :option=>"viewing" %>";
+		var url = "<%= offering_admin_option_activate_url(:organization_id => @current_organization, :classroom_id=> offering, :option=>'viewing') %>";
 		jQ.get(url,{},  function(data) {
 			jQ("#offering_options_<%=offering.public_id%>").html(data); 
 	   		jQ("#offering_options_<%=offering.public_id%>").show();
@@ -129,7 +129,7 @@ jQ(document).ready(function() {
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#toggle_ifa").click(function() {
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :offering_options,:organization_id => @current_organization, :classroom_id=> offering, :option=>"ifa" %>";
+		var url = "<%= offering_admin_option_activate_url(:organization_id => @current_organization, :classroom_id=> offering, :option=>'ifa') %>";
 		jQ.get(url,{},  function(data) {
 			jQ("#offering_options_<%=offering.public_id%>").html(data); 
 	   		jQ("#offering_options_<%=offering.public_id%>").show();
@@ -140,7 +140,7 @@ jQ(document).ready(function() {
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#toggle_ifa_notify").click(function() {
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :offering_options,:organization_id => @current_organization, :classroom_id=> offering, :option=>"ifa_notify" %>";
+		var url = "<%= offering_admin_option_activate_url(:organization_id => @current_organization, :classroom_id=> offering, :option=>'ifa_notify') %>";
 		jQ.get(url,{},  function(data) {
 			jQ("#offering_options_<%=offering.public_id%>").html(data); 
 	   		jQ("#offering_options_<%=offering.public_id%>").show();
@@ -151,7 +151,7 @@ jQ(document).ready(function() {
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#toggle_ifa_finalize").click(function() {
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :offering_options,:organization_id => @current_organization, :classroom_id=> offering, :option=>"ifa_finalize" %>";
+		var url = "<%= offering_admin_option_activate_url(:organization_id => @current_organization, :classroom_id=> offering, :option=>'ifa_finalize') %>";
 		jQ.get(url,{},  function(data) {
 			jQ("#offering_options_<%=offering.public_id%>").html(data); 
 	   		jQ("#offering_options_<%=offering.public_id%>").show();
@@ -163,7 +163,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ("#days_repeat").change(function() {
 		var days = jQ('#ifa_dtr').val();
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :offering_options,:organization_id => @current_organization, :classroom_id=> offering, :option=>"retake" %>";
+		var url = "<%= offering_admin_option_activate_url(:organization_id => @current_organization, :classroom_id=> offering, :option=>'retake') %>";
 		jQ.get(url,{'days': days},  function(data) {
 			jQ("#offering_options_<%=offering.public_id%>").html(data); 
 	   		jQ("#offering_options_<%=offering.public_id%>").show();

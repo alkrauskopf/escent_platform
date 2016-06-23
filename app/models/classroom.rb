@@ -284,6 +284,10 @@ class Classroom < ActiveRecord::Base
     self.students
   end
 
+  def leaders_and_students
+    (self.teachers + self.students).compact.uniq
+  end
+
 #
 #  Resources Of Others Used in Classroom
 #

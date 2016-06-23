@@ -193,6 +193,18 @@ class CoopApp < ActiveRecord::Base
     links = [controller, action, route]
   end
 
+  def link_path
+    self.app_link[2] + '_path'
+  end
+  def link_url
+    self.app_link[2] + '_url'
+  end
+  def route_url
+    '/' + self.app_link[2]
+  end
+  def route_action
+    self.app_link[0] + '#' + self.app_link[1]
+  end
   def self.ifa_app
     self.ifa.first
   end

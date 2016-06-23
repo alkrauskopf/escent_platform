@@ -12,7 +12,7 @@
 	   			</style>
 				<tbody> 
 					<tr>
-						<td   id = "new_period" style="width:90px; width:fixed; border:0px solid #ddd; vertical-align:middle;  padding-left:12px; padding-right:2px; padding-top:2px; font-size:11px; ">
+						<td   id = "new_period" style="width:15%; border:0px solid #ddd; vertical-align:middle;  padding-left:12px; padding-right:2px; padding-top:2px; font-size:11px; ">
 							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
 								Create Period
 							</span>
@@ -27,7 +27,7 @@
 						   		</style>
 								<tbody>
 									<tr>
-										<td  style="width:50px; width:fixed; border:0px solid #ddd; line-height:2.5em; vertical-align:bottom;  padding-left:0px; padding-right:1px; padding-top:0px; text-align:right; font-size:10px; ">
+										<td  style="width:10%; border:0px solid #ddd; line-height:2.5em; vertical-align:bottom;  padding-left:0px; padding-right:1px; padding-top:0px; text-align:right; font-size:10px; ">
 											Name:
 										</td>									
 										<td  style="border:0px solid #ddd; vertical-align:bottom;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #C83A14; font-size:13px; font-weight:normal">
@@ -35,7 +35,7 @@
 										</td>								
 									</tr>
 									<tr>
-										<td  style="width:50px; width:fixed; border:0px solid #ddd; line-height:2.5em; vertical-align:top;  padding-left:0px; padding-right:1px; padding-top:0px; text-align:right; font-size:10px; ">
+										<td  style="width:10%; border:0px solid #ddd; line-height:2.5em; vertical-align:top;  padding-left:0px; padding-right:1px; padding-top:0px; text-align:right; font-size:10px; ">
 											Duration:
 										</td>									
 										<td  style="border:0px solid #ddd; vertical-align:top;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10px; font-weight:normal">
@@ -54,7 +54,7 @@ jQ(document).ready(function() {
 	jQ('#new_period').click(function() {
 		var period = jQ('#classroom_period_period_name').val();
 		var duration = jQ('#classroom_period_duration').val();
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :add_period, :organization_id => @current_organization, :classroom_id => offering %>";
+		var url = "<%= offering_admin_period_add_url(:organization_id => @current_organization, :classroom_id => offering) %>";
 			jQ.get(url, {'period_name':period, 'duration': duration }, function(data) {
 			jQ("#offering_periods_<%=offering.public_id%>").html(data); 
 	   		jQ("#offering_periods_<%=offering.public_id%>").show();
@@ -72,7 +72,7 @@ jQ(document).ready(function() {
 				<tbody>  
 					<% offering.classroom_periods.sort_by{|p| p.name.upcase}.each do |period| %>
 						<tr  style="border:0px solid #ddd;" >
-							<td style="width:500px; width;fixed;border:0px solid #ddd; vertical-align:middle;  padding-top:0px; padding-bottom:10px; color: #000000; text-align:left; font-weight:normal; font-size:10.5px">
+							<td style="width:77%; border:0px solid #ddd; vertical-align:middle;  padding-top:0px; padding-bottom:10px; color: #000000; text-align:left; font-weight:normal; font-size:10.5px">
 								<table style="margin-top:0px; width:490px;">
 									<tbody>
 										<tr  style="border:0px solid #ddd;" >
@@ -86,7 +86,7 @@ jQ(document).ready(function() {
 											</td>
 										</tr>
 										<tr  style="border:0px solid #ddd;" >
-											<td   id = "edit_period_<%= period.public_id%>" style="width:75px; width:fixed; border:0px solid #ddd; vertical-align:middle;  padding-left:20px; padding-right:0px; padding-top:0px; font-size:11px; ">
+											<td   id = "edit_period_<%= period.public_id%>" style="width:15%; border:0px solid #ddd; vertical-align:middle;  padding-left:20px; padding-right:0px; padding-top:0px; font-size:11px; ">
 												<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
 													Change
 												</span>
@@ -98,7 +98,7 @@ jQ(document).ready(function() {
 										</tr>
 										<% if period.teachers.empty? -%>
 											<tr  style="border:0px solid #ddd;" >
-												<td id = "destroy_period_<%= period.public_id%>"  style="width:75px; width:fixed; border:0px solid #ddd; vertical-align:middle;  padding-left:20px; padding-right:0px; padding-top:0px; font-size:11px; ">
+												<td id = "destroy_period_<%= period.public_id%>"  style="width:15%; border:0px solid #ddd; vertical-align:middle;  padding-left:20px; padding-right:0px; padding-top:0px; font-size:11px; ">
 													<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
 														Destroy
 													</span>
@@ -109,7 +109,7 @@ jQ(document).ready(function() {
 											</tr>
 										<% else -%>
 											<tr  style="border:0px solid #ddd;" >
-												<td   style="width:75px; width:fixed; border:0px solid #ddd; vertical-align:middle;  padding-left:20px; padding-right:0px; padding-top:0px; color: #C83A14; font-size:11px; ">
+												<td   style="width:15%; border:0px solid #ddd; vertical-align:middle;  padding-left:20px; padding-right:0px; padding-top:0px; color: #C83A14; font-size:11px; ">
 														Destroy?
 												</td>
 												<td style="border:0px solid #ddd; padding-left:0px; padding-bottom:0px; vertical-align:middle; text-align:left; color: #C83A14; font-size:11px;">
@@ -144,7 +144,7 @@ jQ(document).ready(function() {
 					jQ('#edit_period_<%= period.public_id %>').click(function() {
 						var period = jQ('#classroom_name_<%= period.public_id %>').val();
 						var duration = jQ('#classroom_duration_<%= period.public_id %>').val();
-						var url = "<%= url_for :controller => '/apps/classroom', :action => :edit_period, :organization_id => @current_organization, :classroom_id => offering, :period_id => period %>";
+						var url = "<%= offering_admin_period_edit_url(:organization_id => @current_organization, :classroom_id => offering, :period_id => period) %>";
 							jQ.get(url, {'period_name':period, 'duration': duration }, function(data) {
 							jQ("#offering_periods_<%=offering.public_id%>").html(data); 
 					   		jQ("#offering_periods_<%=offering.public_id%>").show();
@@ -157,7 +157,7 @@ jQ(document).ready(function() {
 				jQ(document).ready(function() {
 					jQ('#assign_teacher_<%= period.public_id %>').change(function() {
 						var teacher_id = jQ('#teacher_assign_<%= period.public_id %>').val();
-						var url = "<%= url_for :controller => '/apps/classroom', :action => :manage_period_teachers, :organization_id => @current_organization, :classroom_id => offering, :period_id => period  %>";
+						var url = "<%= offering_admin_period_teachers_url(:organization_id => @current_organization, :classroom_id => offering, :period_id => period)  %>";
 							jQ.get(url, {'teacher_id':teacher_id}, function(data) {
 							jQ("#offering_periods_<%=offering.public_id%>").html(data); 
 					   		jQ("#offering_periods_<%=offering.public_id%>").show();
@@ -170,7 +170,7 @@ jQ(document).ready(function() {
 				jQ(document).ready(function() {
 					jQ('#remove_teacher_<%= period.public_id %>').change(function() {
 						var teacher_id = jQ('#teacher_remove_<%= period.public_id %>').val();
-						var url = "<%= url_for :controller => '/apps/classroom', :action => :manage_period_teachers, :organization_id => @current_organization, :classroom_id => offering, :period_id => period  %>";
+						var url = "<%= offering_admin_period_teachers_url(:organization_id => @current_organization, :classroom_id => offering, :period_id => period) %>";
 							jQ.get(url, {'teacher_id':teacher_id}, function(data) {
 							jQ("#offering_periods_<%=offering.public_id%>").html(data); 
 					   		jQ("#offering_periods_<%=offering.public_id%>").show();
@@ -181,7 +181,7 @@ jQ(document).ready(function() {
 				<script type="text/javascript">
 				jQ(document).ready(function() {
 					jQ('#destroy_period_<%= period.public_id %>').click(function() {
-						var url = "<%= url_for :controller => '/apps/classroom', :action => :destroy_period, :organization_id => @current_organization, :classroom_id => offering, :period_id => period  %>";
+						var url = "<%= offering_admin_period_destroy_url(:organization_id => @current_organization, :classroom_id => offering, :period_id => period) %>";
 							jQ.get(url, {}, function(data) {
 							jQ("#offering_periods_<%=offering.public_id%>").html(data); 
 					   		jQ("#offering_periods_<%=offering.public_id%>").show();

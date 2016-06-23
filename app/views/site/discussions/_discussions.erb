@@ -24,8 +24,10 @@
 			    	</div>
 				<% end %>    		
 				<div class="module_body">
-					<%= render :partial => "/site/discussions/discussion_by_same_author", :locals => {:topic => topic} if !topic.nil? %>
-		   		</div>
+          <% if !topic.nil? %>
+            <%= render :partial => "/site/discussions/discussion_by_same_author", :locals => {:topic => topic}  %>
+          <% end %>
+        </div>
 			   	<input name="report_url" type="hidden" value="<%= discussion_report_abuse_url(:organization_id => @current_organization) %>" />
 		<% else %>
 			<div class="module_header">

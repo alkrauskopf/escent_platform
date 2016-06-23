@@ -1,5 +1,7 @@
 <div id="show_comment_list">
-<% topic.discusssion_by_same_author.each do |discussion| -%>
+ <!-- <%# topic.active_discussions.each do |discussion| -%> -->
+      <% unless topic.last_leader_comment.nil? %>
+      <% discussion = topic.last_leader_comment %>
 <div class="discusssion_by_same_author_box">
 	<div class="discusssion_by_same_author_warp">
 		<div class="discusssion_by_same_author">

@@ -77,10 +77,8 @@ class Apps::BlogsController < ApplicationController
    end  
 
   def edit_blog
-    if @admin    
-
+    if @admin
       if params[:function] == "Update"
-
          unless @blog.blog_type_id == params[:blog][:blog_type_id].to_i
            check_for_dup_feature
          end

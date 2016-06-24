@@ -7,10 +7,10 @@
 		<tbody>
 			<% panelist.posted_blogs.select{|b| b.organization_id == org.id}.each do |blog| -%>
 				<tr style="">
-					<td style="width 50px; width:fixed; padding-left:5px; padding-top:10px; padding-bottom:10px;">
+					<td style="width:7%; padding-left:5px; padding-top:10px; padding-bottom:10px;">
 						&nbsp;
 					</td>
-					<td style="width:730px; vertical-align:top; border:0px solid #ddd;  padding-top:10px; padding-bottom:10px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+					<td style="vertical-align:top; border:0px solid #ddd;  padding-top:10px; padding-bottom:10px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
 						<span style = "color: #2061a5; font-size:12px; font-weight:bold"> 
 							<%= blog.title -%>
 						</span>
@@ -19,10 +19,10 @@
 				</tr>
 				<% panelist.blog_posts.for_blog(blog).each do |post| -%>
 					<tr>
-						<td style="width 50px; width:fixed; vertical-align:top; padding-left:5px; padding-top:10px; padding-bottom:0px;">
+						<td style="width:7%; vertical-align:top; padding-left:5px; padding-top:10px; padding-bottom:0px;">
 					 		<u><%= link_to "View" ,{:controller => "apps/app_blog", :action => "show_app_blog", :blog_id => blog,  :blog_post_id => post.public_id, :blog_app=> blog.coop_app}, {:target => "_blank"}%></u>
 						</td>
-						<td style="width:730px; vertical-align:top; border:0px solid #ddd;  padding-left:0px; padding-right:0px; padding-top:10px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+						<td style="vertical-align:top; border:0px solid #ddd;  padding-left:0px; padding-right:0px; padding-top:10px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
 							<%= post.created_at.strftime("%b %d, %Y") %>&nbsp;
 							<span style = " font-weight:bold"> 
 								<%= post.title -%>&nbsp;

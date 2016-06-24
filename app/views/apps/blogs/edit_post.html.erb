@@ -3,7 +3,7 @@
 		<div class="mempro_box">	
 			<h3>Update Blog Post</h3>
 
-	<% form_tag({:controller => "apps/blogs", :action => :add_post_picture, :organization_id => @current_organization, :blog_id => @blog.public_id, :blog_post_id => @blog_post.public_id , :user_id => @current_user, :function => "Update"}, :multipart => true) do -%>
+	<% form_tag(blog_admin_post_image_add_path(:organization_id => @current_organization, :blog_id => @blog.public_id, :blog_post_id => @blog_post.public_id , :user_id => @current_user, :function => "Update"), :multipart => true) do -%>
 	<div class="FormRow">
 		<div class="FormRowTitle">Optional Image or Flash</div>
         <div class="FormRowData" style= "margin-left:0px">
@@ -12,15 +12,15 @@
 	 </div>
 	<div class="FormRow">
         <div class="FormRowData" style= "margin-left:205px">
-		<%= submit_tag "Save File", :class => "fsn-button ui-button ui-state-default ui-corner-all", :onclick => "this.form.submit();"%>
+		<%= submit_tag 'Save Image', :class => "fsn-button ui-button ui-state-default ui-corner-all", :onclick => "this.form.submit();"%>
 		</div>
 	</div>
   <% end -%>
 	<% unless @blog_post.picture_file_name.nil? %>
-		<% form_tag({:controller => "apps/blogs", :action => :remove_post_flash, :organization_id => @current_organization, :blog_id => @blog.public_id, :blog_post_id => @blog_post.public_id , :user_id => @current_user, :function => "Remove"}) do -%>
+		<% form_tag(blog_admin_post_image_remove_path(:organization_id => @current_organization, :blog_id => @blog.public_id, :blog_post_id => @blog_post.public_id , :user_id => @current_user, :function => 'Remove')) do -%>
 		<div class="FormRow">
 	        <div class="FormRowData" style= "margin-left:205px">
-			<%= submit_tag "Remove File", :class => "fsn-button ui-button ui-state-default ui-corner-all", :onclick => "this.form.submit();"%>
+			<%= submit_tag 'Remove Image', :class => "fsn-button ui-button ui-state-default ui-corner-all", :onclick => "this.form.submit();"%>
 			</div>
 		</div>
 	  	<% end -%>
@@ -29,10 +29,10 @@
         <div class="FormRowData" style= "margin-left:25px">
   	<table id="post_pic" style="width:200px;margin-left:170px">
 		<tbody>
-			<% pic_label = " Show File" -%>
+			<% pic_label = ' Show File' -%>
 			<tr>
 				<td class="resource_levels_close">
-				<%= link_to '', :controller => "apps/blogs", :action => :show_blog_post_flash, :organization_id => @current_organization, :blog_id => @blog, :blog_post_id => @blog_post.public_id, :user_id => @current_user  %>
+				<%= link_to '', blog_admin_post_image_show_path(:organization_id => @current_organization, :blog_id => @blog, :blog_post_id => @blog_post.public_id, :user_id => @current_user)  %>
 				<%= pic_label %>
 					<br/>  	<br/>
 				<span></span>
@@ -48,7 +48,7 @@
 		</div>	
 	</div>	
 	<br style="clear:both" />	
-	<%= form_for(:blog_post, :url => {:controller => '/apps/blogs', :action => "edit_post" , :blog_id => @blog.public_id, :user_id => @current_user, :blog_post_id => @blog_post.public_id, :function=>"Edit"}) do |form| -%>
+	<%= form_for(:blog_post, :url => blog_admin_post_edit_path(:blog_id => @blog.public_id, :user_id => @current_user, :blog_post_id => @blog_post.public_id, :function=>"Edit")) do |form| -%>
 	 	<%= render :partial => "apps/blogs/post_form", :locals=>{:blog => @blog, :blog_post => @blog_post, :function=>"Update"} %>
 		<div style ="margin-left:150px; cursor:pointer; padding-top:10px; padding-bottom:20px;">
 			<%= submit_tag "Update Post", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>

@@ -38,7 +38,7 @@
 jQ(document).ready(function() {
 	jQ('#remove_post').change(function() {
 		var related_post_id = jQ('#remove_post_<%= blog_post.id%>').val();
-		var url = "<%= url_for :controller => '/apps/blogs', :action => :assign_related_post, :organization_id => @current_organization, :blog_post_id=> blog_post.public_id %>";
+		var url = "<%= blog_admin_post_related_url(:organization_id => @current_organization, :blog_post_id=> blog_post.public_id) %>";
 			jQ.get(url, {'related_post_id':related_post_id}, function(data) {
 			jQ("#related_post_<%=blog_post.public_id%>").html(data); 
 	   		jQ("#related_post_<%=blog_post.public_id%>").show();
@@ -51,7 +51,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#add_post').change(function() {
 		var related_post_id = jQ('#add_post_<%= blog_post.id%>').val();
-		var url = "<%= url_for :controller => '/apps/blogs', :action => :assign_related_post, :organization_id => @current_organization, :blog_post_id=> blog_post.public_id %>";
+		var url = "<%= blog_admin_post_related_url(:organization_id => @current_organization, :blog_post_id=> blog_post.public_id) %>";
 			jQ.get(url, {'related_post_id':related_post_id}, function(data) {
 			jQ("#related_post_<%=blog_post.public_id%>").html(data); 
 	   		jQ("#related_post_<%=blog_post.public_id%>").show();

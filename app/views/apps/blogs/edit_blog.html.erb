@@ -6,7 +6,7 @@
 	<br/>
 </div>
 	<%= render :partial => "/shared/error_and_notice" %>
-	<% form_tag({:controller => "apps/blogs", :action => :add_blog_flash, :organization_id => @current_organization, :blog_id => @blog.public_id,  :user_id => @current_user, :function => "Update"}, :multipart => true) do -%>
+	<% form_tag(blog_admin_blog_image_add_path(:organization_id => @current_organization, :blog_id => @blog.public_id,  :user_id => @current_user, :function => "Update"), :multipart => true) do -%>
 	<div class="FormRow">
 		<div class="FormRowTitle">Optional Image or Flash</div>
         <div class="FormRowData" style= "margin-left:25px">
@@ -15,15 +15,15 @@
 	 </div>
 	<div class="FormRow">
         <div class="FormRowData" style= "margin-left:305px">
-		<%= submit_tag "Save File", :class => "fsn-button ui-button ui-state-default ui-corner-all", :onclick => "this.form.submit();"%>
+		<%= submit_tag 'Save File', :class => "fsn-button ui-button ui-state-default ui-corner-all", :onclick => "this.form.submit();"%>
 		</div>
 	</div>
   <% end -%>
 	<% unless @blog.picture_file_name.nil? %>
-		<% form_tag({:controller => "apps/blogs", :action => :remove_blog_flash, :organization_id => @current_organization, :blog_id => @blog.public_id, :user_id => @current_user, :function => "Remove"}) do -%>
+		<% form_tag(blog_admin_blog_image_remove_path(:organization_id => @current_organization, :blog_id => @blog.public_id, :user_id => @current_user, :function => "Remove")) do -%>
 		<div class="FormRow">
 	        <div class="FormRowData" style= "margin-left:305px">
-			<%= submit_tag "Remove File", :class => "fsn-button ui-button ui-state-default ui-corner-all", :onclick => "this.form.submit();"%>
+			<%= submit_tag 'Remove File', :class => "fsn-button ui-button ui-state-default ui-corner-all", :onclick => "this.form.submit();"%>
 			</div>
 		</div>
 	  	<% end -%>
@@ -35,7 +35,7 @@
 			<% pic_label = " Show File" -%>
 			<tr>
 				<td class="resource_levels_close">
-				<%= link_to '', :controller => "apps/blogs", :action => :show_blog_flash, :organization_id => @current_organization, :blog_id => @blog, :user_id => @current_user  %>
+				<%= link_to '', blog_admin_blog_image_show_path(:organization_id => @current_organization, :blog_id => @blog, :user_id => @current_user)  %>
 				<%= pic_label %>
 					<br/>  	<br/>
 				<span></span>
@@ -50,7 +50,7 @@
   	<br/>
   	<% end -%>
   	
-<%= form_for(:blog, :url => {:controller => "/apps/blogs", :action => :edit_blog, :organization_id => @current_organization, :blog_id => @blog, :user_id => @current_user, :function => "Update"}) do |form| -%>
+<%= form_for(:blog, :url => blog_admin_edit_url(:organization_id => @current_organization, :blog_id => @blog, :user_id => @current_user, :function => "Update")) do |form| -%>
 	<div class="FormRow">
 		<div class="FormRowTitle"></div>
 
@@ -113,18 +113,18 @@
 
 		<div class="FormRow submit_warp">
 			<br/>
-			<%= submit_tag "Update Info", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+			<%= submit_tag 'Update Info', :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
 		</div>	
 <% end -%>
 <div id="panel_enable_table" class="FormRow">
 	
-	<%= render :partial => "add_to_panel" %>
+	<%= render :partial => 'add_to_panel' %>
 
 </div>
 
 <div id="blog_posting_summary" class="FormRow">
 	
-	<%= render :partial => "blog_post_listings" %>
+	<%= render :partial => 'blog_post_listings' %>
 
 </div>
 </div>

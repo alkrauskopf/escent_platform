@@ -5,7 +5,7 @@
 				<% comment_string = (com_num + 1).to_s + ". " + comment.body -%>
 				<%= simple_format comment_string %>
 				<% if @current_user && @current_user.app_superuser?(app) -%>
-					<%= link_to "[Remove]", {:controller => "/apps/app_blog", :action => "delete_comment", :id => comment.id, :app=>app}, :confirm => "Are you sure?" %>
+					<%= link_to '[Remove]', blog_comment_remove_path(:id => comment.id, :app=>app) %>
 				<% end -%>
 			</div>
 		</div>
@@ -55,5 +55,6 @@
     });
 </script>				
 			<% end -%>
+    </span>
 	</div>
 </div>		

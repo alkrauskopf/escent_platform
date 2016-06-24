@@ -2,13 +2,13 @@
       <%= user.full_name %>
     </div>
     <div class="normal_text" >
-	<table style="width:550px; width:fixed; border:0px solid #ddd; font-size:11px; line-height:1.2em">
+	<table style="width:100%; border:0px solid #ddd; font-size:11px; line-height:1.2em">
 		<tbody>
 			<tr >
-				<td style="width:50px; width:fixed; border:0px solid #ddd;" >
+				<td style="width:9%; border:0px solid #ddd;" >
 					<%= user.picture && pic ? (image_tag user.picture.url(:small_thumb) ): ("&nbsp;").html_safe %>
 				</td>
-				<td style="width:400px; width:fixed; vertical-align:top; border:0px solid #ddd;padding-bottom:0px; line-height:1.2em" >
+				<td style="width:73%; vertical-align:top; border:0px solid #ddd;padding-bottom:0px; line-height:1.2em" >
 				  	<% if user.display_emai_and_phone == true %>
 				  		<%= user.preferred_email %> <br />
 						<%= user.phone.nil? ? "" : (user.phone + "<br/>").html_safe %>

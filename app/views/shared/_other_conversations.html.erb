@@ -5,7 +5,7 @@
 			<% unless other_blogs.empty? -%>
 				<% other_blogs.each do |blog| -%>
 					<% label = blog.title + " (" + (pluralize blog.blog_posts.active.size, " POV").to_s + ")" -%>
-					<li style="width: 350px;"><%= link_to (label), app_blog_view_path(:organization_id=> @current_organization, :blog_id => blog, :blog_app=> app) %></li>
+					<li style="width: 350px;"><%= link_to (label), blog_view_path(:organization_id=> @current_organization, :blog_id => blog, :blog_app=> app) %></li>
 				<% end -%>
 			<% end -%>
 		</ul>

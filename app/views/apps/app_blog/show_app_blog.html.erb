@@ -22,7 +22,7 @@
 	 	     	}
 	 		   	</style>
 				<tr style=" border:0px solid white;">
-					<td style="width:260px; width:fixed;  text-align:left; padding-left:1px; border:0px solid black">
+					<td style="width:22%;  text-align:left; padding-left:1px; border:0px solid black">
 						<div style="padding-bottom:0px;">
 							<%= image_tag(@current_organization.logo.url, :alt => @current_organization.name, :width => 140) if @current_organization.logo.file? -%>
 						</div>	
@@ -89,18 +89,18 @@
 					</td>
 					<td  style="vertical-align:top;  padding-top:5px;  padding-left:0px; border:0px solid black;">
 						<div class="blog_item">
-							<div class="app_blog_title">
-								<center><%= h @blog.title %></center>
+							<div class="app_blog_title" style="text-align:center">
+								<%= h @blog.title %>
 							</div>
-							<div class="app_blog_panelists" >
-								<center><%= h @blog.panel_list_with_posts %></center>
+							<div class="app_blog_panelists" style="text-align:center" >
+								<%= h @blog.panel_list_with_posts %>
 							</div>
 							<div class="app_blog_description_text" >
 								<%= simple_format @blog.description %>
 							</div>
 						</div>
 					</td>
-					<td style="width:280px; width:fixed; vertical-align:top; text-align:left; padding-top:10px; padding-left:10px; border:0px solid black;font-size:12px; font-family: Calibri; color:<%= @heading_color %>">
+					<td style="width:24%; vertical-align:top; text-align:left; padding-top:10px; padding-left:10px; border:0px solid black;font-size:12px; font-family: Calibri; color:<%= @heading_color %>">
 		 				<% if @blog.picture_file_name.nil? -%>
 		 					&nbsp;
 		 				<% else-%>	
@@ -155,7 +155,7 @@
 			var $plain_body = $share_blog_warp.find("textarea");
 			var sender_email = $sender_email.val();
 			var plain_body = $plain_body.val();
-			share_url = '<%= url_for :controller => "/site/blogs", :action => :share_blog, :blog_id => @blog.public_id %>';
+			share_url = '<%= blog_share_url(:blog_id => @blog.public_id) %>';
 			jQ.post(share_url, {'email_archive[sender_email]':sender_email, 'email_archive[plain_body]':plain_body}, function() {
 				$share_blog_warp.hide();
 			})

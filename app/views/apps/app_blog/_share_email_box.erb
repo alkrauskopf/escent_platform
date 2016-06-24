@@ -3,7 +3,7 @@
     <div class="title_large_blue" style="margin-bottom:5px;">
       <%= blog.title %>
     </div>
-	<%= render :partial => "/shared/error_and_notice" %>
+	  <%= render :partial => "/shared/error_and_notice" %>
     <div class="normal_text" >
 	<% form_tag do %>
 	<div class="FormRow">
@@ -65,7 +65,7 @@ jQ(document).ready(function() {
 		var from_name = jQ('#from_name_<%= blog.public_id %>').val();
 		var message = jQ('#body_<%= blog.public_id %>').val();
 		var captcha = jQ('#captcha').val();
-		var url = "<%= url_for :controller => '/apps/app_blog', :action => :share_email, :organization_id => @current_organization, :blog_id => blog.public_id %>";
+		var url = "<%= blog_email_url(:organization_id => @current_organization, :blog_id => blog.public_id) %>";
 			jQ.get(url, {'email_to':email_to, 'from_name':from_name, 'message':message, 'captcha':captcha }, function(data) {
 			jQ("#share_email_<%= blog.public_id %>").html(data); 
 	   		jQ("#share_email_<%= blog.public_id %>").show();

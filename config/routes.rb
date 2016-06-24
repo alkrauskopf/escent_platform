@@ -13,6 +13,7 @@ EscentPartners::Application.routes.draw do |map|
   #  CORE Main Page
     get '/ep' => 'fsn#index'
     get '/ep/blog/view' => 'fsn#select_blog'
+    get '/ep/tos' => 'fsn#terms'
 
   # CORE User
     get '/user/edit' => 'users#edit_profile'
@@ -79,7 +80,6 @@ EscentPartners::Application.routes.draw do |map|
     get '/core/maint/parent/assign' => 'apps/owner_maintenance#core_assign_parent'
 
   # CORE Master
-    get '/ep/tos' => 'fsn#terms'
     get '/master/index' => 'master/application#index'
     post '/master/signin' => 'master/application#login'
     get '/master/users/show' => 'master/users#index'
@@ -212,7 +212,12 @@ EscentPartners::Application.routes.draw do |map|
     get '/offering/admin/student/teacher/select' => 'apps/classroom#select_teacher'
 
   # APP Blogs
-    get '/app_blog/view' => 'apps/app_blog#show_app_blog'
+    get '/blog/view' => 'apps/app_blog#show_app_blog'
+    get '/blog/show' => 'site/blogs#show'
+    post '/blog/share' => 'site/blogs#share_blog'
+    get '/blog/email' => 'apps/app_blog#share_email'
+    get '/blog/comment/add' => 'apps/app_blog#new_add_comment'
+    get '/blog/comment/remove' => 'apps/app_blog#delete_comment'
 
   # APPS IFA
     get '/ifa/assessment/view' => 'apps/assessment#static_assessment'

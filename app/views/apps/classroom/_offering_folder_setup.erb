@@ -1,5 +1,4 @@
 
-
 <div id="offering_folder_setup_<%=app.id%>" >
 	<% if admin && lu-%>
 		<table style="width:500px; margin-left:0px; border:0px solid #ddd;">
@@ -16,11 +15,10 @@
 						<span style ="font-size:11px; color:#C73914;">
 							Folders Must Be Emptied Before They Can Be Removed From LU
 						</span>
-							
 					</td>
 				</tr>
 				<tr  style="border:0px solid #ddd;" >
-					<td id = "assign_folder_<%= lu.public_id %>" style="border:0px solid #ddd; padding-top:7px; padding-bottom:7px; vertical-align:top text-align:left; font-size:12px">
+					<td id = "assign_folder_<%= lu.public_id %>" style="border:0px solid #ddd; padding-top:7px; padding-bottom:7px; vertical-align:top; text-align:left; font-size:12px">
 						<%=  select(:folder_assign, lu.public_id, (@current_organization.folders - lu.positioned_folders).sort_by{|f| f.name}.collect{|f| [truncate(f.name, :omission => "...", :length => 40), f.public_id]},{:include_blank =>'Add ' + @current_organization.short_name + ' Folder'}) %>
 					</td>
 					<td id = "remove_folder_<%= lu.public_id %>" style="border:0px solid #ddd; padding-top:7px; padding-bottom:7px; vertical-align:top; text-align:left; font-size:12px">
@@ -34,7 +32,7 @@
 		jQ(document).ready(function() {
 			jQ('#assign_folder_<%= lu.public_id %>').change(function() {
 				var folder_id = jQ('#folder_assign_<%= lu.public_id %>').val();
-				var url = "<%= url_for :controller => '/apps/shared', :action => :assign_lu_folder, :organization_id => @current_organization, :topic_id => lu, :app_id=> app.id %>";
+				var url = "<%= offering_admin_lu_folder_url(:organization_id => @current_organization, :topic_id => lu, :app_id=> app.id) %>";
 					jQ.get(url, {'folder_id':folder_id}, function(data) {
 					jQ("#offering_folder_setup_<%=app.id%>").html(data); 
 			   		jQ("#offering_folder_setup_<%=app.id%>").show();
@@ -46,7 +44,7 @@
 		jQ(document).ready(function() {
 			jQ('#remove_folder_<%= lu.public_id %>').change(function() {
 				var folder_id = jQ('#folder_remove_<%= lu.public_id %>').val();
-				var url = "<%= url_for :controller => '/apps/shared', :action => :assign_lu_folder, :organization_id => @current_organization, :topic_id => lu, :app_id=> app.id %>";
+				var url = "<%= offering_admin_lu_folder_url(:organization_id => @current_organization, :topic_id => lu, :app_id=> app.id) %>";
 					jQ.get(url, {'folder_id':folder_id}, function(data) {
 					jQ("#offering_folder_setup_<%=app.id%>").html(data); 
 			   		jQ("#offering_folder_setup_<%=app.id%>").show();
@@ -62,7 +60,7 @@
 					</th>
 				</tr>
 				<tr>
-					<th style = "width:100px; width:fixed; border:0px solid #ddd; font-size:11px; text-align:center; padding-top:0px; padding-bottom:0px;">
+					<th style = "width:20%; border:0px solid #ddd; font-size:11px; text-align:center; padding-top:0px; padding-bottom:0px;">
 							Position
 					</th>
 					<th style = " border:0px solid #ddd; font-size:11px; text-align:left; padding-top:0px; padding-bottom:0px;">
@@ -80,8 +78,8 @@
 			<tbody>
 				<% lu.positioned_folders.by_position.each do |folder| %>
 					<tr  style="border:1px solid #ddd;" >
-						<td id = "assign_position_<%= folder.public_id %>" style="width:100px; width;fixed;border:0px solid #ddd; padding-left:10px; padding-top:0px; padding-bottom:0px; vertical-align:top; text-align:left; font-size:12px">
-							<%=  select(:folder_position, folder.public_id, [*1...lu.folder_positions.size + 1], {:include_blank =>'Position (' + lu.folder_position(folder).to_s + ")"}) %>
+						<td id = "assign_position_<%= folder.public_id %>" style="width:20%; border:0px solid #ddd; padding-left:10px; padding-top:0px; padding-bottom:0px; vertical-align:top; text-align:left; font-size:12px">
+							<%=  select(:folder_position, folder.public_id, [*1...lu.folder_positions.size + 1], {:include_blank =>'Position (' + lu.folder_position(folder).to_s + ')'}) %>
 						</td>
 						<td style=" border:0px solid #ddd; vertical-align:top;  padding-top:0px; padding-bottom:0px; color:#2061a5; text-align:left; font-weight:normal; font-size:12px">
 							<%= folder.parent ? ('<u>' + folder.parent.name + ':</u> ' + folder.name).html_safe : folder.name  %>
@@ -94,7 +92,7 @@
 	jQ(document).ready(function() {
 		jQ('#assign_position_<%= folder.public_id %>').change(function() {
 			var pos = jQ('#folder_position_<%=folder.public_id%>').val();
-			var url = "<%= url_for :controller => '/apps/shared', :action => :assign_lu_folder_position, :organization_id => @current_organization, :topic_id => lu, :folder_id => folder, :app_id=> app.id %>";
+			var url = "<%= offering_admin_lu_folder_position_url(:organization_id => @current_organization, :topic_id => lu, :folder_id => folder, :app_id=> app.id) %>";
 				jQ.get(url, {'position':pos}, function(data) {
 					jQ("#offering_folder_setup_<%=app.id%>").html(data); 
 			   		jQ("#offering_folder_setup_<%=app.id%>").show();

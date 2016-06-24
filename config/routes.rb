@@ -42,6 +42,7 @@ EscentPartners::Application.routes.draw do |map|
     get '/resource/subjects' => 'site/contents#select_subject_areas'
     get '/resource/types' => 'site/contents#select_resource_types'
     get '/resource/share' => 'site/discussions#share_content'
+    post '/resource/share' => 'site/discussions#share_content'
 
   # CORE Organization
     get '/organization/view' => 'site/site#static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}
@@ -51,6 +52,7 @@ EscentPartners::Application.routes.draw do |map|
 
   # CORE Search
     get '/search' => 'site/site#search'
+    get '/site/content/search' => 'site/site#search'
 
   # CORE Admin
     post '/admin' => 'admin/application#index'
@@ -113,7 +115,6 @@ EscentPartners::Application.routes.draw do |map|
     # get '/master/ita/maintenance_1' => 'master/coop_apps#maint_action'
     # get '/master/elt/maintenance_1' => 'master/coop_apps#maint_action'
 
-
   # CORE Discussions
     get '/discussion/resource/comment/delete' => 'site/discussions#delete_resource_comment'
     post '/discussion/resource/comment/new' => 'site/discussions#add_comment_for_resource'
@@ -140,6 +141,10 @@ EscentPartners::Application.routes.draw do |map|
   # APPS Shared
     get '/my_survey/view' => 'apps/shared#my_surveys'
     get '/app/owner/maintenance' => 'apps/owner_maintenance#index'
+    get '/surveys/show' => 'apps/shared#list_surveys'
+    get '/app/folder/edit' => 'apps/shared#edit_folder'
+    get '/app/folder/new' => 'apps/shared#create_folder'
+    get '/app/folder/destroy' => 'apps/shared#destroy_folder'
 
   # APP Offering  (Classroom)
   # site/site
@@ -149,8 +154,9 @@ EscentPartners::Application.routes.draw do |map|
     get '/offering/lu/resources/featured' => 'site/site#featured_content'
     get '/offering/lu/resources/related' => 'site/site#related_content'
   # apps
+    get '/offering/content/show' => 'apps/classroom#show_content'
     get '/offering/setup' => 'apps/classroom#setup_classroom'
-    get '/offering/lu/setup' => 'apps/classroom#setup_classroom_lu'
+    get '/offering/lu/edit' => 'apps/classroom#setup_classroom_lu'
     get '/offering/toggle_favorite' => 'apps/classroom#toggle_favorite_classroom'
     get '/offering/unjoin' => 'apps/classroom#self_unregister_student'
     get '/offering/register' => 'apps/classroom#register_classroom'
@@ -171,10 +177,17 @@ EscentPartners::Application.routes.draw do |map|
     get '/offering/admin/period/destroy' => 'apps/classroom#destroy_period'
     get '/offering/admin/lus' => 'apps/classroom#offering_lus'
     get '/offering/admin/lu/add' => 'apps/classroom#add_lu'
-    get '/offering/admin/lu/setup' => 'apps/classroom#setup_classroom_lu'
+    get '/offering/admin/lu/edit' => 'apps/classroom#setup_classroom_lu'
+    post '/offering/admin/lu/edit' => 'apps/classroom#setup_classroom_lu'
+    get '/offering/admin/lu/destroy' => 'apps/classroom#destroy_lu'
+    get '/offering/admin/lu/options' => 'apps/classroom#toggle_lu_options'
+    get '/offering/admin/lu/folder' => 'apps/shared#assign_lu_folder'
+    get '/offering/admin/lu/folder/position' => 'apps/shared#assign_lu_folder_position'
     get '/offering/admin/resources' => 'apps/classroom#offering_resources'
     get '/offering/admin/resource/assign' => 'apps/classroom#add_remove_resource'
     get '/offering/admin/resource/feature' => 'apps/classroom#toggle_lu_featured_resource'
+    get '/offering/admin/folders' => 'apps/classroom#offering_folders'
+    get '/offering/admin/folder/setup' => 'apps/classroom#offering_folder_setup'
     get '/offering/admin/resource/folder' => 'apps/classroom#lu_resource_folder'
     get '/offering/admin/resource/copy' => 'apps/classroom#copy_lu_resources'
     get '/offering/admin/resource/pool' => 'apps/classroom#resource_pool'
@@ -190,10 +203,13 @@ EscentPartners::Application.routes.draw do |map|
     get '/offering/admin/surveys' => 'apps/classroom#offering_surveys'
     get '/offering/admin/survey/on' => 'apps/classroom#period_survey_activate'
     get '/offering/admin/survey/off' => 'apps/classroom#period_survey_deactivate'
-
     get '/offering/admin/homeworks' => 'apps/classroom#offering_homeworks'
     get '/offering/admin/option/activate' => 'apps/classroom#offering_options'
     get '/offering/admin/homework/delete' => 'apps/classroom#delete_homework'
+    get '/offering/admin/teacher' => 'apps/classroom#manage_teacher'
+    get '/offering/admin/teacher/subject' => 'apps/classroom#assign_for_subject'
+    get '/offering/admin/teacher/period/assign' => 'apps/classroom#assign_period_teacher_1'
+    get '/offering/admin/student/teacher/select' => 'apps/classroom#select_teacher'
 
   # APP Blogs
     get '/app_blog/view' => 'apps/app_blog#show_app_blog'

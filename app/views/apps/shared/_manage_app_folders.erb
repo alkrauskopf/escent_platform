@@ -29,19 +29,19 @@
 	   			</style>
 				<tbody>  
 					<tr>
-						<td   id = "create_hide" style="width:50px; width:fixed; border:0px solid #ddd; vertical-align:top;  padding-left:0px; padding-right:0px; padding-top:0px; font-size:11px; ">
+						<td   id = "create_hide" style="width:7%; border:0px solid #ddd; vertical-align:top;  padding-left:0px; padding-right:0px; padding-top:0px; font-size:11px; ">
 							<u>Cancel</u>
 						</td>
-						<td   id = "create_folder" style="width:80px; width:fixed; border:0px solid #ddd; vertical-align:top;  padding-left:10px; padding-right:2px; padding-top:0px; font-size:11px; ">
+						<td   id = "create_folder" style="width:11%; border:0px solid #ddd; vertical-align:top;  padding-left:10px; padding-right:2px; padding-top:0px; font-size:11px; ">
 							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
 								Create
 							</span>
 						</td>
-						<td   style="width:300px; width:fixed; border:0px solid #ddd; line-height:1.3em; vertical-align:top;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+						<td   style="width:40%; border:0px solid #ddd; line-height:1.3em; vertical-align:top;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
 						     Name<br/>
 						     <%= text_field :folder, :name, :value => "", :size => 30, :maxlength => 30 %>			
 						</td>
-						<td   style="width:320px; width:fixed; border:0px solid #ddd; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+						<td   style="width:43%; border:0px solid #ddd; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
 							<%=  select(:parent, :id,  [["Not A Sub-Folder", 0]] + @current_organization.folders.for_app(app).all_parents.sort_by{|f| [f.name]}.collect{|f| [f.name, f.id]},{:prompt =>"Sub-Folder Of..."}) %>
 						</td>
 					</tr>
@@ -82,19 +82,19 @@
 	   			</style>
 				<tbody>  
 					<tr>
-						<td style="width:50px; width:fixed; border:0px solid #ddd; vertical-align:top;  padding-left:0px; padding-right:0px; padding-top:0px; font-size:11px; ">
-							<%= link_to "Cancel", {:controller => '/apps/shared', :action => "edit_folder", :organization_id => @current_organization,  :app_id=>app.id, :folder_id => nil}, :class => "cancel_edit" %>
+						<td style="width:8%; border:0px solid #ddd; vertical-align:top;  padding-left:0px; padding-right:0px; padding-top:0px; font-size:11px; ">
+							<%= link_to 'Cancel', app_folder_edit_path(:organization_id => @current_organization,  :app_id=>app.id, :folder_id => nil), :class => "cancel_edit" %>
 						</td>
-						<td   id = "create_folder" style="width:80px; width:fixed; border:0px solid #ddd; vertical-align:top;  padding-left:10px; padding-right:2px; padding-top:0px; font-size:11px; ">
+						<td   id = "create_folder" style="width:11%; border:0px solid #ddd; vertical-align:top;  padding-left:10px; padding-right:2px; padding-top:0px; font-size:11px; ">
 							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
 								Update
 							</span>
 						</td>
-						<td   style="width:300px; width:fixed; border:0px solid #ddd; line-height:1.3em; vertical-align:top;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+						<td   style="width:40%; border:0px solid #ddd; line-height:1.3em; vertical-align:top;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
 						     Name<br/>
 						     <%= text_field :folder, :name, :value => folder.name, :size => 30, :maxlength => 30 %>			
 						</td>
-						<td   style="width:320px; width:fixed; border:0px solid #ddd; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+						<td   style="width:41%; border:0px solid #ddd; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
 							<%=  select(:parent, :id, [["Not A Sub-Folder", 0]] + app.folders.for_org(@current_organization).all_parents.sort_by{|f| [f.name.upcase]}.collect{|f| [f.name, f.id]}, {:include_blank =>folder.parent_folder.name}) %>
 						</td>
 					</tr>
@@ -115,7 +115,7 @@
 				<tbody> 
 						<tr>
 							<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal;  padding-bottom:4px; font-size:12px">							
-								<%= link_to '', :controller => "apps/classroom", :action => "offering_folders", :organization_id => @current_organization %>
+								<%= link_to '', offering_admin_resource_folder_path(:organization_id => @current_organization) %>
 								Assign Offerings To Folders
 								<span></span>
 							</td>
@@ -134,8 +134,8 @@
 		<%= render :partial => "/apps/shared/edit_folders", :locals => {:app => app, :org => @current_organization}  %>
 
 	<% else -%>
-		<span style="font-size:12.5px;  color: #C83A14;">
-			<center>Not Authorized</center>
+		<span style="text-align:center; font-size:12.5px;  color: #C83A14;">
+			Not Authorized
 		</span>
 	<% end -%>
 
@@ -145,7 +145,7 @@ jQ(document).ready(function() {
 		var parent_id = jQ('#parent_id').val();
 		var folder_name = jQ('#folder_name').val();
 		var folder_description = jQ('#folder_descript').val();
-		var url = "<%= url_for :controller => '/apps/shared', :action => :create_folder, :organization_id => @current_organization, :app_id => app.id, :folder_id=> folder %>";
+		var url = "<%= app_folder_new_url(:organization_id => @current_organization, :app_id => app.id, :folder_id=> folder) %>";
 			jQ.get(url, { 'parent_id': parent_id, 'name':folder_name, 'description':folder_description}, function(data) {
 			jQ("#manage_folders").html(data); 
 	   		jQ("#manage_folder").show();

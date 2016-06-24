@@ -60,7 +60,7 @@ class Apps::ClassroomController < Site::ApplicationController
   def show_content
     @topic = Topic.find_by_public_id(params[:topic_id])rescue nil
     if params[:folder_id]
-      @folder = Folder.find_by_public_id params[:folder_id] rescue nil
+      @folder = Folder.find_by_public_id params[:folder_id]
     else
       @folder = nil
     end

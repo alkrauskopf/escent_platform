@@ -9,7 +9,7 @@
 
             <% if topic -%>
               <% link_string = truncate("MANAGE UNIT: " + topic.title, :omission => "...", :length => 30)  -%>
-              <li ><%= link_to link_string, offering_lu_setup_path(:organization_id => org, :topic_id => topic), {:target=> '_blank'} %></li>
+              <li ><%= link_to link_string, offering_lu_edit_path(:organization_id => org, :topic_id => topic), {:target=> '_blank'} %></li>
             <% end -%>
           <% end -%>
           <% tag_label = user.has_favorite?(classroom) ? "UnTag " : "Tag " -%>

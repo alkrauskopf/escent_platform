@@ -23,7 +23,7 @@
 					<% lu.folders.by_position.each do |folder| -%>
 						<tr>
 							<th  colspan=7 style=" border:0px solid #ddd; font-size:13px; padding-top:4px; padding-bottom:4px; vertical-align:middle; text-align:left; line-height:1.4em; color:#C73914; font-weight:normal;">
-								<%= folder.parent ? ("<u>" + folder.parent.name + "</u>: " + folder.name) : folder.name  %>
+								<%= folder.parent ? (folder.parent.name + ': ' + folder.name) : folder.name  %>
 							</th>
 						</tr>						
 						<% lu.resources_for_folder(folder).each do |rsrc| -%>

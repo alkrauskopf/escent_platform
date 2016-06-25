@@ -165,7 +165,7 @@
 					<td  width = <%= col_width %>px style="border:1px solid #ddd; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px; background:<%=back_color%>; color:<%= cell_color %>; font-size:11px; margin-top:0px; font-weight:bold" >
 							<%=  points.round.to_i %> of <%=  answers %><br>
 							<a id="<%= id %>" href=""><%=  pct_correct %></a>
-							<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :title=> (@dashboard_name.nil? ? "" : (@dashboard_name + " => " )) + pct_correct, :blue=>  s.name.titleize, :body=> hover_text, :height=> 300, :width=> 650 } %>
+							<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :titl=> (@dashboard_name.nil? ? "" : (@dashboard_name + " => " )) + pct_correct, :blue=>  s.name.titleize, :body=> hover_text, :height=> 300, :width=> 650 } %>
 
 					</td>	
 						<%else -%>

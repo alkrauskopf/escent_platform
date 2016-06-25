@@ -188,7 +188,7 @@ class CoopApp < ActiveRecord::Base
     if self.elt?
       controller = 'apps/learning_time'
       action = 'index'
-      route = 'pm'
+      route = 'elt'
     end
     links = [controller, action, route]
   end

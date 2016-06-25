@@ -4,7 +4,7 @@
 	</div>
 	<%= render :partial => "/shared/error_and_notice" %>
   <div class="Form clear">
-    <%= form_for(:elt_std_indicator, :url => {:controller => "/apps/learning_time_standards", :action => :create_indicator, :organization_id => @current_organization, :elt_element_id=>@element, :elt_std_indicator_id => @indicator}) do |f| %>
+    <%= form_for(:elt_std_indicator, :url => elt_config_standard_element_indicator_add_path(:organization_id => @current_organization, :elt_element_id=>@element, :elt_std_indicator_id => @indicator)) do |f| %>
       <%= render :partial => "/apps/learning_time_standards/form_indicator" %>
       <div class="FormRow">
         <div class="FormRowTitle">

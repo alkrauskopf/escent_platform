@@ -24,22 +24,22 @@
 					</td>
 				</tr>
 					<tr>
-						<td id="change_title" style="width:90px; width:fixed; font-size:normal;  vertical-align:top; padding-bottom:0px; ">
+						<td id="change_title" style="width:11%; font-size:10px;  vertical-align:top; padding-bottom:0px; ">
 							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
 							  Change
 							</span>	
 						</td>
-						<td style="font-size:normal; padding-bottom:10px; ">
+						<td style="font-size:11px; padding-bottom:10px; ">
 				          	<%= text_field :elt_case, :name, :value => elt_case.name,  :size => 40, :maxlength => 75 %>
 						</td>
-						<td style="font-size:normal; padding-bottom:10px; ">
+						<td style="font-size:10px; padding-bottom:10px; ">
 					        <% if elt_case.elt_type.collect_subject?-%>
 					        	<%=  select(:elt_case_subject, elt_case.id, SubjectArea.top.academic.collect{|s| [s.name, s.id]}, :prompt =>  (elt_case.elt_type.collect_subject? && elt_case.subject_area) ? elt_case.subject_area.name : "Select Subject") %>
 							<% else -%>
 								&nbsp;
 							<% end -%>
 						</td>
-						<td style="font-size:normal; padding-bottom:10px; ">
+						<td style="font-size:10px; padding-bottom:10px; ">
 					        <% if elt_case.organization.grade_levels? && elt_case.elt_type.collect_grade?-%>
 					        	<%=  select(:elt_case_grade, elt_case.id, elt_case.organization.organization_type.grade_levels.collect{|gl| [gl.name, gl.id]}, :prompt =>  (elt_case.organization.grade_levels? && elt_case.elt_type.collect_grade? && elt_case.grade_level) ? elt_case.grade_level.name : "Grade Level") %>
 							<% else -%>
@@ -71,7 +71,7 @@ jQ(document).ready(function() {
 		var title = jQ('#elt_case_name').val();
 		var subject_id = jQ('#elt_case_subject_<%=elt_case.id%>').val();
 		var grade_id = jQ('#elt_case_grade_<%=elt_case.id%>').val();
-		var url = "<%= url_for :controller => '/apps/learning_time', :action => :assign_case_header, :organization_id => @current_organization, :case_id => elt_case.id %>";
+		var url = "<%= elt_case_header_update_url(:organization_id => @current_organization, :case_id => elt_case.id) %>";
 			jQ.get(url, {'case_name':title, 'subject_area_id':subject_id,'grade_level_id':grade_id}, function(data) {
 			jQ("#case_title_<%=elt_case.public_id%>").html(data); 
 	   		jQ("#case_title_<%=elt_case.public_id%>").show();
@@ -80,6 +80,4 @@ jQ(document).ready(function() {
 });
 </script>
 	<% end -%>
-
-
 </div>

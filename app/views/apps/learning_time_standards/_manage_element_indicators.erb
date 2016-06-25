@@ -17,7 +17,7 @@
         <tr style="border:0px solid #ddd; ">
           <td style="border:0px solid #ddd;  width:10%; padding-left:7%">
               <span class="fsn-button ui-button ui-state-default ui-corner-all">
-                <%= link_to 'Edit', {:controller => "/apps/learning_time_standards", :action => :edit_indicator, :elt_std_indicator_id => indicator, :organization_id => @current_organization} %>
+                <%= link_to 'Edit', elt_config_standard_element_indicator_edit_path(:elt_std_indicator_id => indicator, :organization_id => @current_organization) %>
               </span>
           </td>
           <td id="toggle_active_i<%= indicator.public_id %>" style="border:0px solid #ddd;  width:2%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:top" >
@@ -35,7 +35,7 @@
           <script type="text/javascript">
             jQ(document).ready(function() {
               jQ("#toggle_active_i<%= indicator.public_id %>").click(function() {
-                var url = "<%= url_for :controller => "apps/learning_time_standards", :action => :toggle_indicator_active, :organization_id => @current_organization, :elt_std_indicator_id => indicator %>";
+                var url = "<%= elt_config_standard_element_indicator_activate_url(:organization_id => @current_organization, :elt_std_indicator_id => indicator) %>";
                 jQ.get(url,{},  function(data) {
                   jQ("#manage_elmnt_indicator_<%= element.public_id%>").html(data);
                   jQ("#manage_elmnt_indicator_<%= element.public_id%>").show();
@@ -48,7 +48,7 @@
         <tr style="border:0px solid #ddd; ">
           <td style="border:0px solid #ddd;  padding-top:10px;width:16%;">
             <span class="fsn-button ui-button ui-state-default ui-corner-all">
-              <%= link_to 'New Indicator', {:controller => "/apps/learning_time_standards", :action => :new_indicator, :elt_element_id => element, :organization_id => @current_organization} %>
+              <%= link_to 'New Indicator', elt_config_standard_element_indicator_add_path(:elt_element_id => element, :organization_id => @current_organization) %>
             </span>
           </td>
           <td colspan=3 style="border:0px solid #ddd;">
@@ -59,11 +59,3 @@
   </table>
   </div>
 </div>
-
-
-
-
-
-
-
-

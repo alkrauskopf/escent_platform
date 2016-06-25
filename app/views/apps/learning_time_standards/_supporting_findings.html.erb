@@ -9,7 +9,7 @@
             </tr>
             <% findings.each do |finding| %>
                 <tr>
-                  <td style=" width:60px; width:fixed; border:0px solid #ddd; line-height:1.2em; color: #2061a5; padding-left:5px; padding-top:2px; padding-bottom:3px; vertical-align:top;text-align:left; font-size:10px" >
+                  <td style=" width:10%; border:0px solid #ddd; line-height:1.2em; color: #2061a5; padding-left:5px; padding-top:2px; padding-bottom:3px; vertical-align:top;text-align:left; font-size:10px" >
                     <%= finding.elt_case.submit_date.nil? ? "Date?" : finding.elt_case.submit_date.strftime("%m-%d-%y") %>
                     <br/><%= finding.elt_case.user ? finding.elt_case.user.last_name : "" %>
                   </td>

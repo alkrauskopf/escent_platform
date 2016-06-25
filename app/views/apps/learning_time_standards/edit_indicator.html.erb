@@ -5,9 +5,9 @@
   <%= render :partial => "/shared/error_and_notice" %>
   <div class="Form clear" >
     <span class="fsn-button ui-button ui-state-default ui-corner-all" style ='margin:20px'>
-      <%= link_to 'Return', {:controller => "/apps/learning_time_standards", :action => :edit_element, :elt_element_id => @element, :organization_id => @current_organization} %>
+      <%= link_to 'Return', elt_config_standard_element_edit_path(:elt_element_id => @element, :organization_id => @current_organization) %>
     </span>
-     <%= form_for(:elt_std_indicator, :url => {:controller => "/apps/learning_time_standards", :action => :update_indicator, :organization_id => @current_organization, :elt_std_indicator_id => @indicator}) do |f| %>
+     <%= form_for(:elt_std_indicator, :url => elt_config_standard_element_indicator_update_path(:organization_id => @current_organization, :elt_std_indicator_id => @indicator)) do |f| %>
         <%= render :partial => "/apps/learning_time_standards/form_indicator" %>
         <div class="FormRow">
           <div class="FormRowTitle">

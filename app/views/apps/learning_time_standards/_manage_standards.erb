@@ -1,6 +1,6 @@
 <div id="manage_standards" style="padding-bottom:30px;">
   <div style="text-align:left;"><%= render :partial => "/shared/error_and_notice" %></div>
-  <table  style="border:1px solid #ddd; width:700px; width:fixed; font-size: 13px; margin-top:20px; margin-bottom:20px; margin-left:130px; color:#2061a5;">
+  <table  style="border:1px solid #ddd; width:700px; font-size: 13px; margin-top:20px; margin-bottom:20px; margin-left:130px; color:#2061a5;">
     <thead>
         <tr style="border:1px solid #ddd; ">
           <th  style=" border:0px solid #ddd; font-size:10px; font-weight:normal; text-align:center; ">
@@ -38,7 +38,7 @@
           <td style="border:0px solid #ddd; text-align:left; font-size:12px; padding-left:3px;padding-bottom:7px; font-weight:bold; color: <%=color_text%>">
             <%= standard.abbrev %>:&nbsp;&nbsp;<%= standard.name%>
             <% if standard.editable?(@current_organization) %><br/>
-              <table style="width:500px; width:fixed">
+              <table style="width:500px;">
                 <tbody>
                     <tr>
                       <td  id="edit_<%= standard.public_id %>" style=" border:0px solid #ddd; font-size:10px; vertical-align:top; text-align:left">
@@ -58,20 +58,20 @@
             <% end %>
           </td>
           <% if standard.destroyable?(@current_organization) %>
-            <td id="destroy_<%= standard.public_id %>" style="border:0px solid #ddd;  width:70px;  width:fixed; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
+            <td id="destroy_<%= standard.public_id %>" style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
               <span class="fsn-button ui-button ui-state-default ui-corner-all">
                 Destroy
               </span>
             </td>
           <% else %>
-            <td style="border:0px solid #ddd;  width:70px;  width:fixed; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
+            <td style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
               &nbsp;
             </td>
           <% end %>
           <script type="text/javascript">
               jQ(document).ready(function() {
                   jQ("#destroy_<%= standard.public_id %>").click(function() {
-                      var url = "<%= url_for :controller => "apps/learning_time_standards", :action => :destroy, :organization_id => @current_organization, :elt_standard_id => standard %>";
+                      var url = "<%= elt_config_standard_destroy_url(:organization_id => @current_organization, :elt_standard_id => standard) %>";
                       jQ.get(url,{},  function(data) {
                           jQ("#manage_standards").html(data);
                           jQ("#manage_standards").show();
@@ -82,7 +82,7 @@
           <script type="text/javascript">
             jQ(document).ready(function() {
               jQ("#toggle_active_<%= standard.public_id %>").click(function() {
-                var url = "<%= url_for :controller => "apps/learning_time_standards", :action => :toggle_active, :organization_id => @current_organization, :elt_standard_id => standard %>";
+                var url = "<%= elt_config_standard_activate_url(:organization_id => @current_organization, :elt_standard_id => standard) %>";
                 jQ.get(url,{},  function(data) {
                   jQ("#manage_standards").html(data);
                   jQ("#manage_standards").show();
@@ -93,7 +93,7 @@
           <script type="text/javascript">
             jQ(document).ready(function() {
               jQ("#toggle_public_<%= standard.public_id %>").click(function() {
-                var url = "<%= url_for :controller => "apps/learning_time_standards", :action => :toggle_public, :organization_id => @current_organization, :elt_standard_id => standard %>";
+                var url = "<%= elt_config_standard_public_url(:organization_id => @current_organization, :elt_standard_id => standard) %>";
                 jQ.get(url,{},  function(data) {
                   jQ("#manage_standards").html(data);
                   jQ("#manage_standards").show();
@@ -106,7 +106,7 @@
                   jQ("#edit_<%= standard.public_id %>").click(function() {
                       var name = jQ('#name_<%= standard.public_id%>').val();
                       var abbrev = jQ('#abbrev_<%= standard.public_id%>').val();
-                      var url = "<%= url_for :controller => "apps/learning_time_standards", :action => :update, :organization_id => @current_organization, :elt_standard_id => standard %>";
+                      var url = "<%= elt_config_standard_update_url(:organization_id => @current_organization, :elt_standard_id => standard) %>";
                       jQ.get(url,{'name':name, 'abbrev':abbrev},  function(data) {
                           jQ("#manage_standards").html(data);
                           jQ("#manage_standards").show();

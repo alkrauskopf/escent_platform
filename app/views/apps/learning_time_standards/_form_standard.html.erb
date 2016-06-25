@@ -1,5 +1,5 @@
 
-<%= form_for(:elt_standard, @standard, :url => {:controller => :learning_time_standards, :action => :create, :organization_id => @current_organization}) do |f| %>
+<%= form_for(:elt_standard, @standard, :url => elt_config_standard_add_path(:organization_id => @current_organization)) do |f| %>
   <div class="formBox">
     <div class="FormRow">
       <div class="FormRowTitle">

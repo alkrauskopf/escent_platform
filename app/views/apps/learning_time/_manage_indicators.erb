@@ -14,7 +14,7 @@
                     jQ(document).ready(function() {
                       jQ('#source_activity').change(function() {
                         var source_id = jQ('#elt_activity').val();
-                        var url = "<%= url_for :controller => "/apps/learning_time", :action => :select_source_activity, :organization_id => @current_organization, :activity_id => activity.id%>";
+                        var url = "<%= elt_config_indicator_activity_source_url(:organization_id => @current_organization, :activity_id => activity.id) %>";
                         jQ.get(url, {'from_activity_id':source_id}, function(data) {
                             jQ("#manage_indicators_<%= @current_application.public_id%>").html(data);
                             jQ("#manage_indicators_<%= @current_application.public_id%>").show();
@@ -34,7 +34,7 @@
       jQ(document).ready(function() {
         jQ('#indicators_activity').change(function() {
           var activity_id = jQ('#elt_type').val();
-          var url = "<%= url_for :controller => "/apps/learning_time", :action => :select_activity, :organization_id => @current_organization%>";
+          var url = "<%= elt_config_indicator_activity_target_url(:organization_id => @current_organization) %>";
             jQ.get(url, {'activity_id':activity_id}, function(data) {
             jQ("#manage_indicators_<%= @current_application.public_id%>").html(data);
             jQ("#manage_indicators_<%= @current_application.public_id%>").show();
@@ -50,19 +50,16 @@
               <tbody>
                 <tr  style="border:0px solid #ddd;" >
                   <td   id = "from_element" style="border:0px solid #ddd; vertical-align:middle; width:305px;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
-   <!--                 <%#=  select(:elt, :to_element,  activity.elt_framework.elt_elements.collect{|e| [e.name, e.public_id]}, :prompt => to_element.nil? ? "Select Element" : to_element.name) %> -->
                     <%=  select(:elt, :to_element,  EltElement.org_available(@current_organization).collect{|e| [e.name, e.public_id]}, :prompt => to_element.nil? ? "Select Element" : to_element.name) %>
-
                   </td>
                   <td   id = "copy_activity" style="border:0px solid #ddd; vertical-align:middle;  width:420px; padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
                     <% if to_element %>
-     <!--                 <%#=  select(:elt, :from_element,  from_activity.elt_framework.elt_elements.collect{|e| [e.name, e.public_id]}, :prompt =>  "Copy From Selected Element") %> -->
                         <%=  select(:elt, :from_element,  from_activity.elements.collect{|e| [e.name, e.public_id]}, :prompt =>  "Copy From Selected Element") %>
                         <script type="text/javascript">
                           jQ(document).ready(function() {
                               jQ('#copy_activity').change(function() {
                                   var elt_element_id = jQ('#elt_from_element').val();
-                                  var url = "<%= url_for :controller => "/apps/learning_time", :action => :copy_activity_indicators, :organization_id => @current_organization, :activity_id => activity.id, :from_activity_id => from_activity.id, :to_element_id => to_element.id, :app_id=> app.id %>";
+                                  var url = "<%= elt_config_indicator_copy_url(:organization_id => @current_organization, :activity_id => activity.id, :from_activity_id => from_activity.id, :to_element_id => to_element.id, :app_id=> app.id) %>";
                                   jQ.get(url, {'elt_element_id':elt_element_id}, function(data) {
                                     jQ("#manage_indicators_<%= @current_application.public_id%>").html(data);
                                     jQ("#manage_indicators_<%= @current_application.public_id%>").show();
@@ -82,7 +79,7 @@
               jQ(document).ready(function() {
                   jQ('#from_element').change(function() {
                       var elt_element_id = jQ('#elt_to_element').val();
-                      var url = "<%= url_for :controller => "/apps/learning_time", :action => :select_element, :organization_id => @current_organization, :activity_id => activity.id, :from_activity_id => from_activity.id, :app_id=> app.id %>";
+                      var url = "<%= elt_config_indicator_element_select_url(:organization_id => @current_organization, :activity_id => activity.id, :from_activity_id => from_activity.id, :app_id=> app.id) %>";
                       jQ.get(url, {'elt_element_id':elt_element_id}, function(data) {
                         jQ("#manage_indicators_<%= @current_application.public_id%>").html(data);
                         jQ("#manage_indicators_<%= @current_application.public_id%>").show();
@@ -93,8 +90,7 @@
 
         <% end %>
         <% if activity && activity.organization %>
-
-          <table  style="width:750px; width:fixed; border-top:0px solid #000; margin-top:10px; margin-bottom:0px; margin-left:0px">
+          <table  style="width:750px; border-top:0px solid #000; margin-top:10px; margin-bottom:0px; margin-left:0px">
             <tbody>
               <tr>
                 <td style=" text-align:center; color: #2061a5;; font-size:14px; font-weight:bold; ">
@@ -110,11 +106,3 @@
     </div>
 	<% end -%>
 </div>
-
-
-
-
-
-
-
-

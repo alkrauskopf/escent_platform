@@ -1,33 +1,31 @@
 <div id="manage_plan_types_<%=org.public_id%>">
-	
-	<table   style="width:700px; width:fixed; margin-top:10px; margin-left:30px">
+	<table   style="width:700px; margin-top:10px; margin-left:30px">
 		<style type="text/css" media="screen">
 	    table,tr,td { border:medium}
 		table tr:hover{
         background-color: transparent;
       }
     	</style>
-		<tbody>  
-
+		<tbody>
 			<tr style="border:0px solid #ddd; ">
-				<td style="width:530px; width:fixed;">
+				<td style="width:76%;">
 					&nbsp;
 				</td>
-				<td style="width:170px; width:fixed; padding-left:20px; vertical-align:top ">
+				<td style="width:24%; padding-left:20px; vertical-align:top ">
 					<span class="fsn-button ui-button ui-state-default ui-corner-all">
-						<%= link_to 'Create New Plan Type', {:controller => "/apps/learning_time", :action => :maintain_plan_type, :app_id=> app.id, :task=>"New", :organization_id => @current_organization},{:target=>"_blank"}  %>
+						<%= link_to 'Create New Plan Type', elt_config_plan_edit_path(:app_id=> app.id, :task=>"New", :organization_id => @current_organization),{:target=>"_blank"}  %>
 					</span>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-	<table  style="width:690px; width:fixed; margin-top:0px; margin-bottom:20px; margin-left:10px">
+	<table  style="width:690px; margin-top:0px; margin-bottom:20px; margin-left:10px">
 		<thead>
 			<tr style="border:1px solid #ddd; ">
-				<th style="35px; width:fixed; border:0px solid #ddd; font-size:11px; text-align:left; ">
+				<th style="width:5%; border:0px solid #ddd; font-size:11px; text-align:left; ">
 					Active
 				</th>
-				<th  style="width:35px; width:fixed; border:0px solid #ddd; font-size:11px; text-align:left; ">
+				<th  style="width:5%; border:0px solid #ddd; font-size:11px; text-align:left; ">
 					&nbsp;
 				</th>
 				<th  style="border:0px solid #ddd; font-size:13px; text-align:left; padding-left:7px ">
@@ -39,18 +37,18 @@
 			<% org.elt_plan_types.all.each do |plan| -%>
 				<tr style="border:1px solid #ddd; ">
 					<% button_label = plan.active? ? "button_enabled.png" : "button_disabled.png"-%>
-					<td id="toggle_plan_<%= plan.public_id %>" style=" width:35px;  width:fixed; cursor:pointer; padding-left:10px; padding-top:15px; vertical-align:top" >
+					<td id="toggle_plan_<%= plan.public_id %>" style=" width:5%; cursor:pointer; padding-left:10px; padding-top:15px; vertical-align:top" >
 						<%= (image_tag button_label,:width => 15) %>
 					</td>
-					<td  style="width:45px; width:fixed; padding-top:15px; padding-left:6px; line-height:1.2em; color:#2061a5;">
+					<td  style="width:6%; padding-top:15px; padding-left:6px; line-height:1.2em; color:#2061a5;">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to 'Edit', {:controller => "/apps/learning_time", :action => :maintain_plan_type, :app_id=> app.id, :task=>"Update", :elt_plan_type_id=>plan, :organization_id => @current_organization},{:target=>"_blank"}  %>
+							<%= link_to 'Edit', elt_config_plan_edit_path(:app_id=> app.id, :task=>'Update', :elt_plan_type_id=>plan, :organization_id => @current_organization),{:target=>"_blank"}  %>
 						</span>
 					</td>
 					<td style=" text-align:left; font-size:12px; padding-left:0px;font-weight:bold;">
 						<%=plan.abbrev %>:&nbsp;<%=plan.name%><br/>
 						<span style ="font-size:11px;font-weight:normal; color:#2061a5;">
-							Rubric:&nbsp;<%=plan.rubrics.empty? ? "None" : plan.rubric_names %></br>	
+							Rubric:&nbsp;<%=plan.rubrics.empty? ? 'None' : plan.rubric_names %></br>
 						</span>
 						<span style ="font-size:12px;font-weight:normal">
 							<%=plan.name%>	
@@ -60,7 +58,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#toggle_plan_<%= plan.public_id %>").click(function() {
-		var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_active_plan_type, :organization_id => @current_organization, :elt_plan_type_id => plan, :app_id=> app.id %>";
+		var url = "<%= elt_config_plan_activate_url(:organization_id => @current_organization, :elt_plan_type_id => plan, :app_id=> app.id) %>";
 		jQ.get(url,{},  function(data) {
 				jQ("#manage_plan_types_<%=org.public_id%>").html(data);
 				jQ("#manage_plan_types_<%=org.public_id%>").show();
@@ -72,11 +70,3 @@ jQ(document).ready(function() {
 		</tbody>
 	</table>
 </div>
-
-
-
-
-
-
-
-

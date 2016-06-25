@@ -35,7 +35,7 @@ jQ(document).ready(function() {
 	jQ('#edit_lookfor_<%=lf.id%>').click(function() {
 		var pos = jQ('#lf_pos_<%=lf.id%>').val();
 		var lf_descript = jQ('#lf_descript_<%=lf.id%>').val();
-		var url = "<%= url_for :controller => '/apps/learning_time', :action => :assign_clarifying_lookfor, :organization_id => @current_organization, :elt_indicator_id=> indicator.public_id, :elt_indicator_lookfor_id =>lf.id %>";
+		var url = "<%= elt_config_indicator_clarifier_assign_url(:organization_id => @current_organization, :elt_indicator_id=> indicator.public_id, :elt_indicator_lookfor_id =>lf.id) %>";
 			jQ.get(url, {'pos':pos, 'descript':lf_descript}, function(data) {
 			jQ("#indicator_lookfors<%= indicator.public_id%>").html(data); 
 	   		jQ("#indicator_lookfors<%= indicator.public_id%>").show();
@@ -46,7 +46,7 @@ jQ(document).ready(function() {
 <script type="text/javascript">
   jQ(document).ready(function() {
     jQ('#destroy_lookfor_<%=lf.id%>').click(function() {
-      var url = "<%= url_for :controller => '/apps/learning_time', :action => :destroy_lookfor, :organization_id => @current_organization, :elt_indicator_id=> indicator.public_id, :elt_indicator_lookfor_id =>lf.id %>";
+      var url = "<%= elt_config_indicator_destroy_url(:organization_id => @current_organization, :elt_indicator_id=> indicator.public_id, :elt_indicator_lookfor_id =>lf.id) %>";
       jQ.get(url, {}, function(data) {
         jQ("#indicator_lookfors<%= indicator.public_id%>").html(data);
         jQ("#indicator_lookfors<%= indicator.public_id%>").show();
@@ -56,26 +56,26 @@ jQ(document).ready(function() {
 </script>
 
 				<% end -%>
-					<tr >
-						<td  id="add_lookfor" style="width:35px; width:fixed; border:0px solid #ddd; cursor:pointer; font-size:11px; ">
-							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								add
-							</span>
-						</td>
-						<td  style="width:35px; width:fixed; border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
-				 		     <%= text_field :lf_pos, :position, :size => 1 %>
-						</td>
-						<td  style="width:615px; width:fixed; border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
-				 		     <%= text_area :lf_descript, :descript, :rows => 3, :cols => 85 %>
-						</td>
-					</tr>
+        <tr >
+          <td  id="add_lookfor" style="width:5%; border:0px solid #ddd; cursor:pointer; font-size:11px; ">
+            <span class="fsn-button ui-button ui-state-default ui-corner-all">
+              add
+            </span>
+          </td>
+          <td  style="width:5%; border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+               <%= text_field :lf_pos, :position, :size => 1 %>
+          </td>
+          <td  style=" border:0px solid #ddd; vertical-align:top;padding-top:0px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+               <%= text_area :lf_descript, :descript, :rows => 3, :cols => 85 %>
+          </td>
+        </tr>
 
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#add_lookfor').click(function() {
 		var pos = jQ('#lf_pos_position').val();
 		var lf_descript = jQ('#lf_descript_descript').val();
-		var url = "<%= url_for :controller => '/apps/learning_time', :action => :assign_clarifying_lookfor, :organization_id => @current_organization, :elt_indicator_id=> indicator.public_id %>";
+		var url = "<%= elt_config_indicator_clarifier_assign_url(:organization_id => @current_organization, :elt_indicator_id=> indicator.public_id) %>";
 			jQ.get(url, {'pos':pos, 'descript':lf_descript}, function(data) {
 			jQ("#indicator_lookfors<%= indicator.public_id%>").html(data); 
 	   		jQ("#indicator_lookfors<%= indicator.public_id%>").show();
@@ -85,6 +85,4 @@ jQ(document).ready(function() {
 </script>
 			</tbody>
 		</table>
-
-
 </div>

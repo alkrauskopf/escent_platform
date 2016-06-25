@@ -34,7 +34,7 @@
 										<% indicator.support_indicators.each do |si|%>
 											<% id = indicator.id.to_s + si.id.to_s -%>
 											<a id="<%= id%>" href=""><%= si.elt_element.abbrev + "-" + si.position.to_s %></a>
-											<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :title=> si.standard.name, :blue=>("Indicator " + si.position.to_s + ",   " + si.elt_element.name), :body=> si.description, :height=> 200, :width=> 700 } %>
+											<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :titl=> si.standard.name, :blue=>("Indicator " + si.position.to_s + ",   " + si.elt_element.name), :body=> si.description, :height=> 200, :width=> 700 } %>
 											&nbsp;
 										<% end -%>
 									</div>

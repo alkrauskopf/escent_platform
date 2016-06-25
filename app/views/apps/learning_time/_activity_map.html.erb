@@ -5,7 +5,7 @@
       <tbody>
         <tr>
           <td class="resource_levels_close" style="width:480px;">
-                      <%= link_to '', :controller => "apps/learning_time", :action => :show_activity_map, :org => @current_organization, :organization_id => @current_organization, :elt_cycle_id => @current_organization.active_elt_cycle %>
+                      <%= link_to '', elt_map_activity_show_path(:org => @current_organization, :organization_id => @current_organization, :elt_cycle_id => @current_organization.active_elt_cycle) %>
                           <%=org.app_provider(@current_application).short_name %> Activity Map
                       <span></span>
           </td>

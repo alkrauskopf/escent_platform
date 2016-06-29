@@ -1,10 +1,10 @@
 
 <div>
-	<table id="evidence_map_<%=org.public_id%>_<%=cycle.id%>" style="margin-top:0px; width:490px; width:fixed; border:0px solid #ddd;">
+	<table id="evidence_map_<%=org.public_id%>_<%=cycl.id%>" style="margin-top:0px; width:490px; border:0px solid #ddd;">
 		<tbody>  
 			<tr>
-				<td class="resource_levels_close" style="width:480px;">
-                    <%= link_to '', :controller => "apps/learning_time", :action => :show_evidence_map, :org => org, :organization_id => @current_organization, :elt_cycle_id => cycle %>
+				<td class="resource_levels_close" style="width:98%;">
+                    <%= link_to '', elt_map_evidence_show_path(:org => org, :organization_id => @current_organization, :elt_cycle_id => cycl) %>
                     Evidence Map
                     <span></span>
 				</td>

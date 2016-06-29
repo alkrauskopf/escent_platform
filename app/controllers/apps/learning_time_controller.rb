@@ -651,7 +651,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
  
   def toggle_finalize_case
     @elt_case.final? ? @elt_case.unfinalize_it : @elt_case.finalize_it
-    render :partial => "/apps/learning_time/show_school_cycle_activity_cases", :locals => {:activity => @elt_case.elt_type, :org => @elt_case.organization, :cycle=>@elt_case.elt_cycle, :app => @app}
+    render :partial => "/apps/learning_time/show_school_cycle_activity_cases", :locals => {:activity => @elt_case.elt_type, :org => @elt_case.organization, :cycl=>@elt_case.elt_cycle, :app => @app}
   end
 
   def submit_case
@@ -793,7 +793,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     if @cycle && !@cycle.school_survey_active?
       school_survey(@cycle)  
     end
-    render :partial => "/apps/learning_time/survey_client_schools", :locals=>{:cycle=>@cycle, :app=>@app}
+    render :partial => "/apps/learning_time/survey_client_schools", :locals=>{:cycl=>@cycle, :app=>@app}
   end
 
   def stop_school_cycle_surveys
@@ -801,7 +801,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     @cycle.survey_schedules.active.each do |schedule|
       stop_survey(schedule) 
     end
-    render :partial => "/apps/learning_time/survey_client_schools", :locals=>{:cycle=>@cycle, :app=>@app}
+    render :partial => "/apps/learning_time/survey_client_schools", :locals=>{:cycl=>@cycle, :app=>@app}
   end
  
   def update_action_plan

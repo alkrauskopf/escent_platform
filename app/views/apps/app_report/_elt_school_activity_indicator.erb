@@ -24,8 +24,8 @@
 				&nbsp;
 			</td>
 		</tr>
-		<% unless school.elt_cases.final.for_activity(activity).for_cycle(cycle).empty?%>
-			<% school.elt_cases.final.for_activity(activity).for_cycle(cycle).each do |elt_case| -%>
+		<% unless school.elt_cases.final.for_activity(activity).for_cycle(cycl).empty?%>
+			<% school.elt_cases.final.for_activity(activity).for_cycle(cycl).each do |elt_case| -%>
 				<% font_color = "#C73914" -%>
 				<tr style="border:0px  solid #000000; border:0px solid #000000">
 					<td style = "width:20px; width:fixed; ">
@@ -51,7 +51,7 @@
 		<% end -%>		
 	</tbody>
 </table>
-<% unless school.elt_cases.final.for_activity(activity).for_other_cycles(cycle).empty? -%>
+<% unless school.elt_cases.final.for_activity(activity).for_other_cycles(cycl).empty? -%>
 <% font_color = "#2061a5;" -%>
 
 <table  style="width:<%=table_width%>; width:fixed; margin-top:0px;">
@@ -65,10 +65,9 @@
 					<tbody>  
 						<tr>
 							<td class="resource_levels_close" style="font-size:10px; color:<%=font_color%>">
-			
-							<%= link_to '', :controller => "apps/app_report", :action => :elt_other_school_cycles, :organization_id => @current_organization, :school_id => school, :activity_id => activity, :indicator_id => indicator, :elt_cycle_id => cycle, :app_id=> @app.id  %>
-							View History
-							<span></span>
+  							<%= link_to '', elt_report_school_other_cycles_path(:organization_id => @current_organization, :school_id => school, :activity_id => activity, :indicator_id => indicator, :elt_cycle_id => cycl, :app_id=> @app.id)  %>
+	  						View History
+		  					<span></span>
 							</td>
 						</tr>
 					</tbody>

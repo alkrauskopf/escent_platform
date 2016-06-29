@@ -1,7 +1,4 @@
-
-
 <% if admin -%>
-
 	<table  style="width:800px;margin-left:20px">
 		<style type="text/css" media="screen">
 	    		table,tr,td { border:none }
@@ -11,10 +8,10 @@
    			</style>
 			<tbody>  
 				<tr  style="width:800px; border:0px solid #ddd;" >
-					<td   colspan=2 style="vertical-align:left;  padding-left:40px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:12px; font-weight:normal">
+					<td   colspan=2 style="text-align:left;  padding-left:40px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:12px; font-weight:normal">
 						#
 					</td>
-					<td    style="vertical-align:left;  padding-left:10px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:12px; font-weight:normal">
+					<td    style="text-align:left;  padding-left:10px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:12px; font-weight:normal">
 						Type Question For&nbsp;<%= instruction.tlt_survey_audience.audience.pluralize.titleize %>&nbsp;Below
 					</td>
 					<td  style=" border:0px solid #ddd; padding-top:0px; padding-left:70px; vertical-align:middle; text-align:left; color: #000000; font-size:12px">
@@ -44,7 +41,7 @@ jQ(document).ready(function() {
 		var question = jQ('#tlt_survey_question_question').val();
 		var position = jQ('#tlt_survey_question_position').val();
 		var range_type_id = jQ('#tlt_survey_question_range').val();
-		var url = "<%= url_for :controller => '/apps/shared', :action => :add_survey_question, :organization_id => @current_organization, :admin => admin, :survey_instruction => instruction, :app_id => app.id  %>";
+		var url = "<%= survey_question_add_url(:organization_id => @current_organization, :admin => admin, :survey_instruction => instruction, :app_id => app.id)  %>";
 			jQ.get(url, {'question':question, 'position':position, 'range_type_id': range_type_id}, function(data) {
 			jQ("#surv_list_<%= instruction.public_id %>").html(data); 
 	   		jQ("#surv_list_<%= instruction.public_id %>").show();

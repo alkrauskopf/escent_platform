@@ -83,7 +83,7 @@
 			var duration = jQ('#survey_<%=@sched %>').val();
 			var notify = jQ('#survey_notify').val();			
 			var anon = jQ('#survey_anon').val();
-			var url = "<%= url_for :controller =>"apps/shared", :action => "app_survey_activate", :organization_id => @current_organization , :admin => admin, :survey_instruction => instruction, :app_id=> app  %>";
+			var url = "<%= survey_app_activate_url(:organization_id => @current_organization , :admin => admin, :survey_instruction => instruction, :app_id=> app) %>";
 				jQ.get(url, {'duration':duration, 'is_notify':notify, 'is_anon':anon}, function(data) {
 					jQ("#app_survey").html(data);
 					jQ("#app_survey").show();
@@ -95,7 +95,7 @@
 	<script type="text/javascript">
 	jQ(document).ready(function() {
 		jQ('#c_<%= instruction.public_id %>').click(function() {
-			var url = "<%= url_for :controller =>"apps/shared", :action => "app_survey_deactivate", :organization_id => @current_organization, :admin => admin, :schedule_id => survey, :app_id => app %>";
+			var url = "<%= survey_app_deactivate_url(:organization_id => @current_organization, :admin => admin, :schedule_id => survey, :app_id => app) %>";
 				jQ.get(url, {}, function(data) {
 					jQ("#app_survey").html(data);
 					jQ("#app_survey").show();

@@ -142,9 +142,30 @@ EscentPartners::Application.routes.draw do |map|
     get CoopApp.blog.route_url => CoopApp.blog.route_action
 
   # APPS Shared
-    get '/my_survey/view' => 'apps/shared#my_surveys'
     get '/app/owner/maintenance' => 'apps/owner_maintenance#index'
+    get '/survey/take' => 'apps/shared#take_survey'
+    post '/survey/take' => 'apps/shared#take_survey'
+    post '/survey/submit' => 'apps/shared#submit_survey'
+    get '/my_survey/view' => 'apps/shared#my_surveys'
+    get '/my_survey/taken' => 'apps/shared#my_taken_surveys'
+    get '/my_survey/broadcast' => 'apps/shared#my_broadcast_surveys'
+    get '/my_survey/self' => 'apps/shared#my_self_surveys'
     get '/surveys/show' => 'apps/shared#list_surveys'
+    get '/surveys/others/show' => 'apps/shared#list_surveys_others'
+    get '/surveys/copy' => 'apps/shared#copy_survey'
+    get '/survey/activate' => 'apps/shared#toggle_survey'
+    get '/survey/app/activate' => 'apps/shared#app_survey_activate'
+    get '/survey/app/deactivate' => 'apps/shared#app_survey_deactivate'
+    get '/survey/position' => 'apps/shared#position_survey'
+    get '/survey/question/new' => 'apps/shared#create_survey_question'
+    get '/survey/question/add' => 'apps/shared#add_survey_question'
+    get '/survey/question/destroy' => 'apps/shared#destroy_survey_question'
+    get '/survey/question/analyze' => 'apps/shared#analyze_question'
+    get '/survey/question/history' => 'apps/shared#question_history'
+    get '/survey/broadcast' => 'apps/shared#broadcast_app_survey'
+    get '/survey/results/show' => 'apps/shared#show_results'
+    get '/surveys/results/show' => 'apps/shared#show_aggregated_results'
+
     get '/app/folder/edit' => 'apps/shared#edit_folder'
     get '/app/folder/new' => 'apps/shared#create_folder'
     get '/app/folder/destroy' => 'apps/shared#destroy_folder'
@@ -310,6 +331,9 @@ EscentPartners::Application.routes.draw do |map|
 
     get '/elt/case/add' => 'apps/learning_time#start_case'
     post '/elt/case/add' => 'apps/learning_time#start_case'
+    get '/elt/case/show' => 'apps/learning_time#show_case'
+    get '/elt/case/finalize' => 'apps/learning_time#toggle_finalize_case'
+    get '/elt/map/evidence/show' => 'apps/learning_time#show_evidence_map'
     get '/elt/map/activity/show' => 'apps/learning_time#show_activity_map'
     get '/elt/case/header/update' => 'apps/learning_time#assign_case_header'
     post '/elt/case/update' => 'apps/learning_time#update_case_b'
@@ -368,8 +392,27 @@ EscentPartners::Application.routes.draw do |map|
     get '/elt/config/case/organization' => 'apps/learning_time#transfer_case_org'
     get '/elt/config/plans/xfer' => 'apps/learning_time#transfer_plans'
     get '/elt/config/plan/organization' => 'apps/learning_time#transfer_plan_org'
+    get '/elt/activity/cycle/school/cases' => 'apps/learning_time#show_school_cycle_activity_cases' #
+    get '/elt/activity/cycle/school/activities' => 'apps/learning_time#list_school_cycle_activities'#
 
+    get '/elt/survey/start' => 'apps/learning_time#send_school_cycle_survey'
+    get '/elt/survey/stop' => 'apps/learning_time#stop_school_cycle_surveys'
+    get '/elt/community/filters' => 'apps/learning_time#select_kb_filters'
+    get '/elt/community/indicator/rubric' => 'apps/learning_time#case_indicators_element_rubric'
+    get '/elt/report' => 'apps/app_report#elt_school_diag'
+    get '/elt/report/school/plan' => 'apps/app_report#elt_school_plan'
+    get '/elt/report/school/cycle/plan' => 'apps/learning_time#school_cycle_plan'
+    get '/elt/report/school/select' => 'apps/app_report#elt_select_school_for_diag'
+    get '/elt/report/school/cycle/select' => 'apps/app_report#elt_select_cycle_for_school'
+    get '/elt/report/school/activity/select' => 'apps/app_report#elt_select_activity_for_school'
+    get '/elt/report/school/plan/destroy' => 'apps/app_report#elt_destroy_plan'
+    get '/elt/report/school/plan/update' => 'apps/learning_time#update_action_plan'
+    get '/elt/report/school/other/cycles' => 'apps/app_report#elt_other_school_cycles'
 
+    get '/elt/option/cycle' => 'apps/learning_time#assign_option_cycle'
+
+  # PDF
+    get '/pdf/elt/case' => 'apps/app_pdf#elt_case'
   #=======================================================
 
   # Victor add next two line just for test

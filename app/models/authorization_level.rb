@@ -16,6 +16,10 @@ class AuthorizationLevel < ActiveRecord::Base
     self.where('name = ?', role )
   end
 
+  def self.for_app(app)
+    self.where('coop_app_id = ?', app.id )
+  end
+
   def self.organizations
     ApplicableScope.for_organizations.collect{|as| as.authorization_level}.compact
   end

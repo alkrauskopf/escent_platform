@@ -5,18 +5,18 @@
 	</div>
 	<% unless @current_provider.nil? %>
 		<% unless @current_organization == @current_provider %>
-			<% @current_organization.elt_all_cycles(@current_provider).each do |cycle| -%>
+			<% @current_organization.elt_all_cycles(@current_provider).each do |cycl| -%>
         <div style ="color: #C73914; font-size:12px; margin-top:10px; font-weight:bold">
-            <%=  cycle.name %><span style = "font-size:9px;font-weight:normal"><%= @current_organization.active_elt_cycle == cycle ? "&nbsp;&nbsp;(Current Cycle)" : ""%></span>
+            <%=  cycl.name %><span style = "font-size:9px;font-weight:normal"><%= @current_organization.active_elt_cycle == cycl ? "&nbsp;&nbsp;(Current Cycle)" : ""%></span>
         </div>
-          <%= render :partial => "/apps/learning_time/evidence_map", :locals => {:org => @current_organization, :cycle => cycle, :app => @app} %>
-          <% cycle.activities.for_client.each do |activity| -%>
-					<table id="activity_list_<%=cycle.id%><%=activity.public_id%>" style="width:950px;margin-top:0px;">
+          <%= render :partial => "/apps/learning_time/evidence_map", :locals => {:org => @current_organization, :cycl => cycl, :app => @app} %>
+          <% cycl.activities.for_client.each do |activity| -%>
+					<table id="activity_list_<%=cycl.id%><%=activity.public_id%>" style="width:950px;margin-top:0px;">
 						<tbody>  
 							<tr>
                   <td class="resource_levels_close" style="width:950px;color: #2061a5;">
-                  <%= link_to '', elt_activity_cycle_school_cases_path(:organization_id => @current_organization, :school_id => @current_organization, :elt_cycle_id => cycle, :elt_type_id=>activity) %>
-                  <%= activity.name %>&nbsp;<small><i>(<%= @current_organization.elt_cycle_activity_cases(cycle, activity).size %>)</i></small>
+                  <%= link_to '', elt_activity_cycle_school_cases_path(:organization_id => @current_organization, :school_id => @current_organization, :elt_cycle_id => cycl, :elt_type_id=>activity) %>
+                  <%= activity.name %>&nbsp;<small><i>(<%= @current_organization.elt_cycle_activity_cases(cycl, activity).size %>)</i></small>
                   <span></span>
 								</td>
 							</tr>
@@ -24,8 +24,8 @@
 					</table>
 				<script type="text/javascript" charset="utf-8">
 				jQ(document).ready(function() {
-					jQ('#activity_list_<%=cycle.id%><%=activity.public_id%> .resource_levels_close').toggleResourceLevels();
-					jQ('#activity_list_<%=cycle.id%><%=activity.public_id%> .resource_levels_open').toggleResourceLevels();	
+					jQ('#activity_list_<%=cycl.id%><%=activity.public_id%> .resource_levels_close').toggleResourceLevels();
+					jQ('#activity_list_<%=cycl.id%><%=activity.public_id%> .resource_levels_open').toggleResourceLevels();
 				});
 				</script>
 				<% end -%>

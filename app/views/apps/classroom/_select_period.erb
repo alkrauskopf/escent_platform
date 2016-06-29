@@ -3,36 +3,32 @@
 	<% if @current_user.classroom_admin_for_org?(@current_organization) -%>
 		<div id="teacher_selection" style = "padding-bottom:10px;padding-left:0px; ">
 			<table  style="width:600px;margin-left:230px;">
-				<tbody>  
-	
+				<tbody>
 						<tr>
-							<td style="width:180px; text-align:right; vertical-align:middle; padding-right:6px; font-size:12px">
+							<td style="width:30%; text-align:right; vertical-align:middle; padding-right:6px; font-size:12px">
 								Students For:
 							</td>
-							<td id="for_teacher" style="width:420px; font-size:normal">
+							<td id="for_teacher" style="width:70%; font-size:11px">
 								<%=  select(:teacher, :id, @current_organization.teachers.sort_by{|a| [a.last_name]}.collect{|t| [t.full_name, t.id]},{:include_blank =>'Select Teacher'}) %>
 							</td>	
 						</tr>
 				</tbody>
 			</table>
 		</div>
-	<% end -%>		
-
+	<% end -%>
 	<% if @teacher %>
 		<% period_list = @teacher.classroom_periods.select{ |p| p.classroom.organization_id == @current_organization.id} -%>
 		<div style = "padding-bottom:10px;padding-left:0px; ">
 			<table  style="width:600px;margin-left:230px;">
 				<tbody>  
 					<tr>
-						<td style="width:180px; text-align:right; vertical-align:middle; padding-right:6px; font-size:normal">
+						<td style="width:30%; text-align:right; vertical-align:middle; padding-right:6px; font-size:11px">
 							<%= @teacher.last_name %>&nbsp;Periods: 
 						</td>
-	
-						<td id="for_period" style="width:420px; font-size:normal">
+						<td id="for_period" style="width:70%; font-size:11px">
 							<%=  select(:period, :id, period_list.collect{|p| [p.classroom.course_name.upcase + ": " + p.name, p.id]},{:include_blank =>'Select Class Period'}) %>
 						</td>	
 					</tr>
-						
 				</tbody>
 			</table>
 		</div>
@@ -42,7 +38,7 @@ jQ(document).ready(function() {
 	jQ('#for_period').change(function() {
 		var period_id = jQ('#period_id').val();
 		var teacher_id = "<%= @teacher.id %>";
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :select_teacher, :organization_id => @current_organization %>";
+		var url = "<%= offering_admin_student_teacher_select_url(:organization_id => @current_organization) %>";
 			jQ.get(url, {'teacher_id':teacher_id, 'period_id':period_id}, function(data) {
 			jQ("#period_selection").html(data); 
 	   		jQ("#period_selection").show();
@@ -53,26 +49,18 @@ jQ(document).ready(function() {
 	<% end -%>
 
 	<% if @teacher  && @period%>
-
-
-<div style = "font-size:14px; margin-left:120px; color: #000000;">
-
-	<%= render :partial => "manage_period_students", :locals=> {:period => @period, :return_action=>"index"}-%>
-
-</div>
-
-<br/><br/>
-
-
+    <div style = "font-size:14px; margin-left:120px; color: #000000;">
+    	<%= render :partial => "manage_period_students", :locals=> {:period => @period, :return_action=>"index"}-%>
+    </div>
+    <br/><br/>
 	<% end -%>
-
 </div>
 
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#for_teacher').change(function() {
 		var teacher_id = jQ('#teacher_id').val();
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :select_teacher, :organization_id => @current_organization %>";
+		var url = "<%= offering_admin_student_teacher_select_url(:organization_id => @current_organization) %>";
 			jQ.get(url, {'teacher_id':teacher_id}, function(data) {
 			jQ("#period_selection").html(data); 
 	   		jQ("#period_selection").show();

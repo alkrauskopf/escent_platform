@@ -29,7 +29,7 @@
 						</td>
 						<td align="left" style="width:550px; color: #2061a5; vertical-align:middle;">
 							<% name_link = stud.last_name_first -%>
-							<strong><%= link_to name_link,{:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => stud}, {:target => "_blank"} %></strong>,&nbsp;
+							<strong><%= link_to name_link, user_view_path(:organization_id => @current_organization, :id => stud), {:target => "_blank"} %></strong>,&nbsp;
 							&nbsp;&nbsp;
 							<span style="color: #000000; vertical-align:middle;">
 							<% if stud.home_organization.nil? %> ** Home Organization Removed **

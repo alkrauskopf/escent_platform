@@ -14,9 +14,9 @@
 				<tr>
 					<td  width=50px style="vertical-align:middle; border:1px solid #ddd;  padding-left:22px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
 						<% if @blog.users.include?(blogger) %>
-							<%= link_to (image_tag "button_enabled.png",:width => 12), {:action => "add_remove_blogger", :organization_id => @current_organization, :blog_id => @blog, :panelist_id => blogger.public_id, :user_id => @current_user}, :class => "toggle_blogger" %>
+							<%= link_to (image_tag "button_enabled.png",:width => 12), blog_admin_panel_assign_path(:organization_id => @current_organization, :blog_id => @blog, :panelist_id => blogger.public_id, :user_id => @current_user), :class => "toggle_blogger" %>
 						<% else -%>
-							<%= link_to (image_tag "button_disabled.png",:width => 12), {:action => "add_remove_blogger", :organization_id => @current_organization, :blog_id => @blog, :panelist_id => blogger.public_id, :user_id => @current_user}, :class => "toggle_blogger" %>
+							<%= link_to (image_tag "button_disabled.png",:width => 12), blog_admin_panel_assign_path(:organization_id => @current_organization, :blog_id => @blog, :panelist_id => blogger.public_id, :user_id => @current_user), :class => "toggle_blogger" %>
 						<% end -%>
 					</td>
 					<td width=180px style="vertical-align:middle; border:1px solid #ddd;  padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
@@ -25,8 +25,8 @@
 				</tr>				
 			<% end -%>
 			<% else -%>
-					<td colspan=2 style="vertical-align:middle; border:1px solid #ddd;  padding-right:3px; padding-top:0px; text-align:center; color: #C83A14; font-size:11px; font-weight:normal">
-						<center>* * * No Authorized Blogger * * *<br/> Administrator Must First Authorize The People Who Can Blog For <%= @current_organization.medium_name %>  </center>
+					<td colspan=2 style="text-align:center; vertical-align:middle; border:1px solid #ddd;  padding-right:3px; padding-top:0px; text-align:center; color: #C83A14; font-size:11px; font-weight:normal">
+						* * * No Authorized Blogger * * *<br/> Administrator Must First Authorize The People Who Can Blog For <%= @current_organization.medium_name %>
 					</td>
 			<% end -%>
 			</tbody>

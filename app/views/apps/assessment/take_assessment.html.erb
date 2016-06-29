@@ -10,13 +10,13 @@
 	 <p style="float:right; word-wrap:break-word; overflow:hidden;">
       <br />
 			<% return_link = "Return To " + @classroom.course_name.upcase %>
-			<%= link_to return_link, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @topic, :id => @classroom%>
+			<%= link_to return_link, offering_view_path(:organization_id => @current_organization, :topic_id => @topic, :id => @classroom) %>
 	</p>
     <div id="member_ico">
       <% if @current_user.picture.url.split("/").last == "missing.png" %>
         <%= image_tag "member_ico.gif" %>
  		<br/>
-		<%= link_to "Please Add Your Picture", {:controller => "/users", :action => :edit_profile, :organization_id => @current_organization, :id => @current_user} %>
+		<%= link_to "Please Add Your Picture", user_edit_path(:organization_id => @current_organization, :id => @current_user) %>
 
       <% else %>
         <%= image_tag @current_user.picture.url(:thumb) %>
@@ -27,7 +27,7 @@
 	      <p class="name" style="width:630px; word-wrap:break-word; overflow:hidden; font-size:16px" > <%= @current_user.full_name %> <br/></p>
 
 		  <p class="homeorginfo_label"> 
-			<br/><%= link_to (image_tag @current_organization.logo.url :med_thumb), :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization -%></br>
+			<br/><%= link_to (image_tag @current_organization.logo.url :med_thumb), organization_view_path(:organization_id => @current_organization) -%></br>
 		  </p>
 					
         <% if @submission && @success%>
@@ -65,7 +65,7 @@
 						<%= @classroom.course_name %> Units you should be concentrating on.<br/>
 						<% @suggested_topics.each do |tpc| -%>
 							<span style ="width:630px; word-wrap:break-word; overflow:hidden; font-size:12px; padding-left:200px; font-weight:normal; color:#000000;">
-								-&nbsp;&nbsp;&nbsp;<%= link_to tpc.title, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => tpc, :id => @classroom %><br>
+								-&nbsp;&nbsp;&nbsp;<%= link_to tpc.title, offering_view_path(:organization_id => @current_organization, :topic_id => tpc, :id => @classroom) %><br>
 							</span>
 						<% end -%>
 						<br/>

@@ -1,5 +1,7 @@
 <div id="show_comment_list">
-<% topic.discusssion_by_same_author.each do |discussion| -%>
+ <!-- <%# topic.active_discussions.each do |discussion| -%> -->
+      <% unless topic.last_leader_comment.nil? %>
+      <% discussion = topic.last_leader_comment %>
 <div class="discusssion_by_same_author_box">
 	<div class="discusssion_by_same_author_warp">
 		<div class="discusssion_by_same_author">
@@ -12,7 +14,7 @@
 				<% else -%>
 						<% display_value = "none;" %>		
 				<% end -%>
-				<%= (link_to "Delete", {:controller => "site/discussions", :action => "delete_reply", :id => discussion, :organization_id => @current_organization}, :class => "delete", :style => "display:#{display_value}") unless discussion.is_delete %>
+				<%= (link_to "Delete", discussion_reply_delete_path(:id => discussion, :organization_id => @current_organization), :class => "delete", :style => "display:#{display_value}") unless discussion.is_delete %>
 			</div>
 		</div>
 	</div>

@@ -1,89 +1,28 @@
 <div id="clsrm_maintenance">
 
 	<%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>app} %>
-
-		<% if @current_user.superuser?%>
-			<table style="margin-left:150px; font-size:16px; font-weight:bold; color: #2061a5; width:600px">
-				<thead>
-					<tr>
-						<th colspan=2>One-Time&nbsp;<%= app.abbrev %>&nbsp;Maintenance Functions</th>											
-					</tr>
-				</thead>
-				<tbody style="font-size:14px; color: #2061a5; width:600px">
-					<tr>
-						<td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
-							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								 <%= link_to "Go" ,{:controller => "master/coop_apps", :action => "clsrm_lu_folder_position_init", :app_id => app.id} %>
-							</span>
-						</td>
-						<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-								Inititialize All LU Folder Positions  
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<table style="margin-left:100px; font-size:16px; font-weight:bold; color: #2061a5; width:700px">
-				<tbody >
-				<style type="text/css" media="screen">
-					table,tr,td { border:none; }
-					table tr:hover{
-					background-color: transparent;
-					}
-				</style>
-					<tr>
-						<td colspan=4 style=" vertical-align:middle;border:1px solid #ddd; text-align:center;padding-left:0px">
-								Perform Mass Change To Classroom Offering Names<br/>
-						</td>
-					</tr>
-					<%= form_for(:classroom, :url => {:controller => "master/coop_apps", :action => "clsrm_mass_name_change", :app_id => app.id }) do |form| -%>
-						<tr style = " border-top:1px  solid #ddd;border-left:1px  solid #ddd;border-right:1px  solid #ddd;">
-							<td   style="width:110px; width:fixed; border-bottom:0px solid #ddd;vertical-align:bottom;  padding-left:0px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
-							&nbsp;
-							</td>
-							<td    style="width:190px; width:fixed; border-bottom:0px  solid #ddd; vertical-align:middle;  line-height: 1.5em;  padding-left:0px; font-size:12px; text-align:center">
-								Select School
-							</td>
-							<td   style="width:200px; width:fixed; border-bottom:0px solid #ddd; vertical-align:middle;  line-height: 1.5em;  padding-left:0px; font-size:12px; text-align:center">
-								Original Text String
-							</td>
-							<td   style="width:200px; width:fixed; border-bottom:0px  solid #ddd; vertical-align:middle;  line-height: 1.5em;  padding-left:0px; font-size:12px; text-align:center">
-								New Text String
-							</td>
-						</tr>
-						<tr style = " border-bottom:1px  solid #ddd;border-left:1px  solid #ddd;border-right:1px  solid #ddd;">
-							<td   style="width:110px; width:fixed; border-top:0px  solid #ddd;vertical-align:bottom;  padding-left:15px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
-<!--
-								<%#= submit_tag "Go", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
--->								--
-							</td>
-							<td    style="width:190px; width:fixed; border-top:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  padding-left:0px; font-size:11px; text-align:left">
-								<%=  select(:org, :id,   Organization.all.sort_by{|o| o.name}.collect{|o| [o.short_name, o.id]}) %>
-							</td>
-							<td   style="width:200px; width:fixed; border-top:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  padding-left:0px; font-size:11px; text-align:left">
-								<%= text_field :text, :from , :size => "40" %>
-							</td>
-							<td   style="width:200px; width:fixed; border-top:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  padding-left:0px; font-size:11px; text-align:left">
-								<%= text_field :text, :to , :size => "40" %>
-							</td>
-						</tr>
-					<% end -%>
-				</tbody>
-			</table>
-		<% end -%>
-<br/>
-<script type="text/javascript">
-jQ(document).ready(function() {
-	jQ('#clsrm_name_change').click(function() {
-		var org = jQ('#org_id').val();
-		var text_from = jQ('#text_from').val();
-		var text_to = jQ('#text_to').val();
-		var url = "<%= url_for :controller => "master/coop_apps", :action => "clsrm_mass_name_change", :app_id => app.id %>";
-			jQ.get(url, {'org_id':org,'text_from':text_from,'text_to':text_to}, function(data) {
-			jQ("#clsrm_maintenance").html(data); 
-	   		jQ("#clsrm_maintenance").show();
-			});
-	})
-});
-</script>
+  <% if @current_user.superuser?%>
+    <table style="margin-left:150px; font-size:16px; font-weight:bold; color: #2061a5; width:600px">
+      <thead>
+        <tr>
+          <th colspan=2>One-Time&nbsp;<%= app.abbrev %>&nbsp;Maintenance Functions</th>
+        </tr>
+      </thead>
+      <tbody style="font-size:14px; color: #2061a5; width:600px">
+        <tr>
+          <td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
+            <span class="fsn-button ui-button ui-state-default ui-corner-all">
+               Go
+              <!--   <%#= link_to "Go" master_offering_maintence_1_path( :app_id => app.id)  %> -->
+            </span>
+          </td>
+          <td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
+            Offering Maintenance Function Name
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end -%>
+  <br/>
 </div>
 

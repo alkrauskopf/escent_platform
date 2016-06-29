@@ -1,27 +1,27 @@
-<div id="list_cycle_schools_<%=cycle.public_id%>">
+<div id="list_cycle_schools_<%=cycl.public_id%>">
 
 	<table  style="width:900px; margin-top:0px; border:0px solid #ddd; ">
 		<tbody>  
 			<tr>
-				<td style ="width:440px; width:fixed; color: #C73914; vertical-align:middle; font-size:12px; margin-top:0px; font-weight:bold">
-					<%=  cycle.name %>&nbsp;
-					<span style = "font-size:10px;font-weight:normal">&nbsp;<%= cycle.begin_date.strftime("%m/%y")%>&nbsp;&nbsp;-&nbsp;&nbsp;<%= cycle.end_date.strftime("%m/%y")%></span>
+				<td style ="width:49%; color: #C73914; vertical-align:middle; font-size:12px; margin-top:0px; font-weight:bold">
+					<%=  cycl.name %>&nbsp;
+					<span style = "font-size:10px;font-weight:normal">&nbsp;<%= cycl.begin_date.strftime("%m/%y")%>&nbsp;&nbsp;-&nbsp;&nbsp;<%= cycl.end_date.strftime("%m/%y")%></span>
 				</td>
 				<td>			
-					<%= @current_user.elt_admin_for_org?(cycle.organization) ? (render :partial => "/apps/learning_time/survey_client_schools", :locals=>{:cycle=>cycle}) : "" %>
+					<%= @current_user.elt_admin_for_org?(cycl.organization) ? (render :partial => "/apps/learning_time/survey_client_schools", :locals=>{:cycl=>cycl}) : "" %>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 
-	<% unless cycle.schools.empty? %>
-		<% cycle.schools.sort_by{|s| s.name}.each do |school| -%>
-          <table id="resource_list_<%=cycle.id%><%=school.public_id%>" style="width:900px;margin-left:10px; border:0px solid #ddd; margin-top:0px;">
+	<% unless cycl.schools.empty? %>
+		<% cycl.schools.sort_by{|s| s.name}.each do |school| -%>
+          <table id="resource_list_<%=cycl.id%><%=school.public_id%>" style="width:900px;margin-left:10px; border:0px solid #ddd; margin-top:0px;">
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close" style="width:900px;">
-					<%= link_to '', :controller => "apps/learning_time", :action => :list_school_cycle_activities, :organization_id => @current_organization, :school_id=> school, :elt_cycle_id => cycle  %>
-					<%= school.name %>&nbsp;(<%=school.elt_cycle_cases(cycle).size%>)
+					<%= link_to '', elt_activity_cycle_school_activities_path(:organization_id => @current_organization, :school_id=> school, :elt_cycle_id => cycl)  %>
+					<%= school.name %>&nbsp;(<%=school.elt_cycle_cases(cycl).size%>)
 					<span></span>
 					</td>
 				</tr>
@@ -29,8 +29,8 @@
 		</table>
 	<script type="text/javascript" charset="utf-8">
 	jQ(document).ready(function() {
-		jQ('#resource_list_<%=cycle.id%><%=school.public_id%> .resource_levels_close').toggleResourceLevels();
-		jQ('#resource_list_<%=cycle.id%><%=school.public_id%> .resource_levels_open').toggleResourceLevels();	
+		jQ('#resource_list_<%=cycl.id%><%=school.public_id%> .resource_levels_close').toggleResourceLevels();
+		jQ('#resource_list_<%=cycl.id%><%=school.public_id%> .resource_levels_open').toggleResourceLevels();
 	});
 	</script>
 
@@ -46,13 +46,13 @@
 			</tbody>
 		</table>	
 	<% end -%>	
-	<% unless cycle.client_feedback_surveys.empty? -%>
-		<table id="<%= cycle.id %>_client_feedback"   style="width:700px;  font-size:8px; margin-top:0px; margin-left:10px; font-weight:normal">
+	<% unless cycl.client_feedback_surveys.empty? -%>
+		<table id="<%= cycl.id %>_client_feedback"   style="width:700px;  font-size:8px; margin-top:0px; margin-left:10px; font-weight:normal">
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close" >
-						<%= link_to '', :controller => "apps/shared", :action => :show_aggregated_results, :organization_id => @current_organization, :schedule_id => cycle.client_feedback_surveys.last  %>
-						<small><%= cycle.survey_school_date.nil? ? "" : cycle.survey_school_date.strftime("%b %d, %Y ") %>Survey Results (<%= cycle.client_feedback_surveys.last.respondants.size %>)</small>
+						<%= link_to '', surveys_results_show_path(:organization_id => @current_organization, :schedule_id => cycl.client_feedback_surveys.last)  %>
+						<small><%= cycl.survey_school_date.nil? ? "" : cycl.survey_school_date.strftime("%b %d, %Y ") %>Survey Results (<%= cycl.client_feedback_surveys.last.respondants.size %>)</small>
 						<span></span>
 					</td>
 				</tr>
@@ -60,8 +60,8 @@
 		</table>	
 		<script type="text/javascript" charset="utf-8">
 		jQ(document).ready(function() {
-			jQ('#<%= cycle.id %>_client_feedback .resource_levels_close').toggleResourceLevels();
-			jQ('#<%= cycle.id %>_client_feedback .resource_levels_open').toggleResourceLevels();	
+			jQ('#<%= cycl.id %>_client_feedback .resource_levels_close').toggleResourceLevels();
+			jQ('#<%= cycl.id %>_client_feedback .resource_levels_open').toggleResourceLevels();
 		});
 		</script>	
 	<% end%>

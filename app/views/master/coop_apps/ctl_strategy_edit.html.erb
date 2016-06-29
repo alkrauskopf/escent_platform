@@ -8,7 +8,7 @@
   <div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 14px; font-style: normal; font-weight: normal">
     <%= @strategy.is_enabled ? "Enabled":"Disabled" %>;&nbsp;&nbsp;Panel Position:&nbsp;<%=@strategy.position %>;&nbsp;&nbsp;Impact Score:&nbsp;<%=@strategy.research %>
 	</div>
-	<%= form_for :tl_strategy_desc , @strategy.tl_strategy_desc , :url=>{:controller => "master/coop_apps" , :action => "ctl_strategy_update" , :strategy_id => @strategy.id, :app_id=>@app.id} do |f| %>
+	<%= form_for :tl_strategy_desc , @strategy.tl_strategy_desc , :url=> master_ctl_strategies_edit_url(:strategy_id => @strategy.id, :app_id=>@app.id) do |f| %>
 		<div class="FormRow">	
 			<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
 				<span style="color:#2061a5;  font-size: 14px; font-style: normal; font-weight: bold">
@@ -27,8 +27,8 @@
 		</div>
 		<div class="FormRow">	
 			<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
-				<%= f.submit "Save" %>&nbsp;&nbsp;
-				<%= link_to "Cancel" ,  {:controller => "master/coop_apps", :action => "ctl_strategies_maintain", :app_id => @app.id} %>
+				<%= f.submit 'Save' %>&nbsp;&nbsp;
+				<%= link_to 'Cancel', master_ctl_strategies_path(:app_id => @app.id) %>
 			</div>	
 		</div>
 	<% end %>

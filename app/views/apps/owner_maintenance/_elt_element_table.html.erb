@@ -29,7 +29,7 @@
         </td>
         <td  style="width:80px;padding-top:5px; padding-left:40px; line-height:1.2em; color:#2061a5;">
           <span class="fsn-button ui-button ui-state-default ui-corner-all">
-            <%= link_to 'Edit', :controller => "/apps/owner_maintenance", :action => :elt_element_edit, :element_id=> element.id, :coop_app_id=>@current_application, :organization_id => @current_organization  %>
+            <%= link_to 'Edit', elt_maint_element_edit_path(:element_id=> element.id, :coop_app_id=>@current_application, :organization_id => @current_organization)  %>
           </span>
         </td>
       </tr>
@@ -48,7 +48,7 @@
         </td>
         <td  style="width:80px;padding-top:5px; padding-left:15px; line-height:1.2em; color:#2061a5;">
           <span class="fsn-button ui-button ui-state-default ui-corner-all">
-            <%= link_to 'Add Indicator', :controller => "/apps/owner_maintenance", :action => :elt_indicator_add, :element_id=> element.id, :coop_app_id=>@current_application, :organization_id => @current_organization  %>
+            <%= link_to 'Add Indicator', elt_maint_indicator_add_path(:element_id=> element.id, :coop_app_id=>@current_application, :organization_id => @current_organization)  %>
           </span>
         </td>
       </tr>
@@ -57,7 +57,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#toggle_element_<%= element.public_id %>').click(function() {
-		var url = "<%= url_for :controller =>"apps/owner_maintenance", :action => "toggle_element", :element_id => element.id, :coop_app_id=>@current_application, :organization_id => @current_organization  %>";
+		var url = "<%= elt_maint_element_activate_url(:element_id => element.id, :coop_app_id=>@current_application, :organization_id => @current_organization)  %>";
 			jQ.get(url, {}, function(data) {
 				jQ("#elt_<%=element.public_id%>").html(data);
 				jQ("#elt_<%=element.public_id%>").show();
@@ -94,14 +94,14 @@ jQ(document).ready(function() {
 					</td>
 					<td  style="width:80px;padding-top:5px; padding-left:15px; line-height:1.5em; color:#2061a5;">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to 'Edit', :controller => "/apps/owner_maintenance", :action => :elt_indicator_edit, :indicator_id=> indicator.id, :coop_app_id=>@current_application, :organization_id => @current_organization  %>
+							<%= link_to 'Edit', elt_maint_indicator_edit_path(:indicator_id=> indicator.id, :coop_app_id=>@current_application, :organization_id => @current_organization)  %>
 						</span>
 					</td>
 				</tr>
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#toggle_indicator_<%= indicator.id %>').click(function() {
-		var url = "<%= url_for :controller =>"apps/owner_maintenance", :action => "toggle_indicator", :indicator_id => indicator.id, :coop_app_id=>@current_application, :organization_id => @current_organization  %>";
+		var url = "<%= elt_maint_indicator_toggle_url(:indicator_id => indicator.id, :coop_app_id=>@current_application, :organization_id => @current_organization) %>";
 			jQ.get(url, {}, function(data) {
 				jQ("#elt_<%=element.public_id%>").html(data);
 				jQ("#elt_<%=element.public_id%>").show();

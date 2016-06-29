@@ -71,7 +71,7 @@
 						<% if t_status && s_status -%> Teacher & Student:&nbsp;<% end -%>
 						</span>
 						<% name_link = person.last_name.upcase + ", " + person.first_name.titleize -%>
-						<strong><%= link_to name_link,{:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => person}, {:target => "_blank"} %></strong>,&nbsp;
+						<strong><%= link_to name_link, user_view_path(:organization_id => @current_organization, :id => person), {:target => "_blank"} %></strong>,&nbsp;
 						<% if person.home_organization.nil? %> ** Home Organization Removed **
 							<%else %> <strong><%= person.home_organization.name %></strong>
 							<% person.roles.each_with_index do|r,i| -%>

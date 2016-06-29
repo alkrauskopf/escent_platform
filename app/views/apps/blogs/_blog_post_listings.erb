@@ -32,16 +32,16 @@
 
 				<td  width=50px style="vertical-align:middle; border:1px solid #ddd;  padding-left:17px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
 					<% if post.is_active %>
-						<%= link_to (image_tag "button_enabled.png",:width => 12), {:action => "toggle_blog_post_activate", :organization_id => @current_organization, :blog_id => @blog, :blog_post_id => post.public_id, :user_id => @current_user}, :class => "toggle_post_activate" %>
+						<%= link_to (image_tag "button_enabled.png",:width => 12), blog_admin_post_activate_path(:organization_id => @current_organization, :blog_id => @blog, :blog_post_id => post.public_id, :user_id => @current_user), :class => "toggle_post_activate" %>
 					<% else -%>
-						<%= link_to (image_tag "button_disabled.png",:width => 12), {:action => "toggle_blog_post_activate", :organization_id => @current_organization, :blog_id => @blog, :blog_post_id => post.public_id, :user_id => @current_user}, :class => "toggle_post_activate" %>
+						<%= link_to (image_tag "button_disabled.png",:width => 12), blog_admin_post_activate_path(:organization_id => @current_organization, :blog_id => @blog, :blog_post_id => post.public_id, :user_id => @current_user), :class => "toggle_post_activate" %>
 					<% end -%>
 				</td>
 				<td width=50px style="vertical-align:middle; border:1px solid #ddd;  padding-left:17px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
 					<% if post.is_featured %>
-							<%= link_to (image_tag "button_enabled.png",:width => 12), {:action => "toggle_blog_post_feature", :organization_id => @current_organization, :blog_id => @blog, :blog_post_id => post.public_id, :user_id => @current_user}, :class => "toggle_post_feature" %>
+							<%= link_to (image_tag "button_enabled.png",:width => 12), blog_admin_post_feature_path(:organization_id => @current_organization, :blog_id => @blog, :blog_post_id => post.public_id, :user_id => @current_user), :class => "toggle_post_feature" %>
 					<% else -%>
-							<%= link_to (image_tag "button_disabled.png",:width => 12), {:action => "toggle_blog_post_feature", :organization_id => @current_organization, :blog_id => @blog, :blog_post_id => post.public_id, :user_id => @current_user}, :class => "toggle_post_feature" %>
+							<%= link_to (image_tag "button_disabled.png",:width => 12), blog_admin_post_feature_path(:organization_id => @current_organization, :blog_id => @blog, :blog_post_id => post.public_id, :user_id => @current_user), :class => "toggle_post_feature" %>
 					<% end -%>
 				</td>
 				<td width=15px style="border:1px solid #ddd;vertical-align:middle;  padding-top:0px; padding-left:0px; padding-right:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
@@ -49,11 +49,11 @@
 				</td>			
 				<td width=250px style="vertical-align:middle; border:1px solid #ddd;   padding-left:5px; padding-right:5px; padding-top:5px; text-align:left; color: #000000; font-size:11px; line-height: 1.3em; font-weight:normal">
 					<% unless post.is_active %>
-						<%= link_to "Delete", {:action => "delete_blog_post", :organization_id => @current_organization, :blog_id => @blog, :blog_post_id => post.public_id, :user_id => @current_user}, :class => "delete_post" %>
+						<%= link_to 'Delete', blog_admin_post_destroy_path(:organization_id => @current_organization, :blog_id => @blog, :blog_post_id => post.public_id, :user_id => @current_user), :class => "delete_post" %>
 						<br/><br/>
 					<% end -%>					
 					<span style="color:#1b5698;"><center><%= post.title -%></center></span>
-					<center><%= pluralize(post.comments.size, " Comment") %></center><br/>
+					<center><%= pluralize(post.comments.size, ' Comment') %></center><br/>
 				</td>					
 				<td width=180px style="vertical-align:middle; border:1px solid #ddd;  padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
 					<% if post.user -%>

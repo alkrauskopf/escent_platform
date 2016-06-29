@@ -5,12 +5,12 @@
   <%= render :partial => "/shared/error_and_notice" %>
 	<% unless @function == "Destroyed" %>	
 		<div class="Form clear">	
-      <%= form_for(:coop_app, :url => {:controller => "/master/coop_apps", :action => :edit_app, :app_id => (@function == "New" ? nil : @app.id), :function=>(@function == "New" ? "Create" : @function)}) do |form| %>
+      <%= form_for(:coop_app, :url => master_apps_edit_path(:app_id => (@function == "New" ? nil : @app.id), :function=>(@function == "New" ? "Create" : @function))) do |form| %>
         <%= render :partial => "/master/coop_apps/form_coop_app", :locals=>{:function=> @function, :app => @app} %>
       <% end -%>
 
       <% if @function == "Edit" && !@current_application.available?%>
-        <%= form_for(:coop_app, :url => {:controller => "/master/coop_apps", :action => :edit_app,:app_id => @app.id, :function=>"Destroy"}) do |form| %>
+        <%= form_for(:coop_app, :url => master_apps_edit_path(:app_id => @app.id, :function=>"Destroy")) do |form| %>
           <div class="FormRow submit_warp" style= "padding-left:25px; padding-bottom:20px">
             <%= submit_tag "Destroy", :confirm => "Are you sure?", :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
             <br/>

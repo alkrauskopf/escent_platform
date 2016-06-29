@@ -5,8 +5,8 @@
 		<div class="module_header" style=" text-align:left; ">
 	      	<span class="content_area_title" >  <%= topic.title %></span>
 			<div id="shared_discussion_warp" style="float:right; width:160px;">
-	   			<%= render :partial => "site/discussions/share_discussion_btn" %>
-	  		</div>
+        <%= render :partial => "site/discussions/share_discussion_btn" %>
+      </div>
 		</div>
 	</div>
 	
@@ -22,17 +22,17 @@
 	<% unless topic.contents.empty? %>
 	
 	<% if !topic.positioned_folders.empty? -%>
-	    <div class="module2" style= "width:570px; width:fixed; margin: 15px 10px 0px 10px;">
-	        <div class="module_header" style=" text-align:left; ">
-	            <span class="content_area_title" > Resource Folders</span>
-	        </div>
-	        <div class="module_body2">
-	            <div class="page_text" >
-					<%= render :partial => "apps/classroom/list_topic_folders", :locals => {:topic => topic}%>
-		            <br style="clear:both" />
-	            </div>
-	        </div>
-	    </div>
+    <div class="module2" style= "width:570px; width:fixed; margin: 15px 10px 0px 10px;">
+      <div class="module_header" style=" text-align:left; ">
+          <span class="content_area_title" > Resource Folders</span>
+      </div>
+      <div class="module_body2">
+        <div class="page_text" >
+          <%= render :partial => "apps/classroom/list_topic_folders", :locals => {:topic => topic}%>
+          <br style="clear:both" />
+        </div>
+      </div>
+    </div>
 	<% end -%>
 	
 	<div class="module_body" style = "margin-top:-5px; ">
@@ -43,22 +43,22 @@
 	 	    <%= hidden_field_tag "control_panel_ul_" , topic.public_id %>
 	 	    <% topic_name = " " + topic.title.titleize -%>
 		    <ul>
-				<% if !featured_resource.nil? && featured_resource.viewable_by_classroom_user?(@current_user, topic.classroom) %>
-		     		<li>
-			       		 <strong><%= link_to truncate(featured_resource.title.titleize, :omission=>"...", :length=>25), :action => :featured_content, :organization_id => @current_organization, :topic_id => topic %></strong>	
-		      		</li>
-		    	<% end -%>
-		     	<% unless topic.unfoldered_resources.empty? || (topic.unfoldered_resources.size == 1 && topic.unfoldered_resources.include?(featured_resource))%>
-		      	 	<li>
-		 	      		<strong><%= link_to "Other Resources", :action => :related_content, :organization_id => @current_organization, :folder_id => nil, :topic_id => topic %></strong>
-		      	 	</li>
-		      	<% end -%>
-		 		<% if topic.act_score_ranges && topic.classroom.ifa_classroom_option-%>
-		      		<li>
-		      			<strong><%= link_to "Strands & Benchmarks" , :controller => "apps/assessment", :action => :topic_standards_benchmarks, :organization_id => @current_organization, :classroom_id => topic.classroom, :topic_id => topic %></strong>
-				 	</li>
-				<% end -%>			
-			</ul>
+          <% if !featured_resource.nil? && featured_resource.viewable_by_classroom_user?(@current_user, topic.classroom) %>
+            <li>
+              <strong><%= link_to truncate(featured_resource.title.titleize, :omission=>"...", :length=>25), offering_lu_resources_featured_path(:organization_id => @current_organization, :topic_id => topic) %></strong>
+            </li>
+          <% end -%>
+          <% unless topic.unfoldered_resources.empty? || (topic.unfoldered_resources.size == 1 && topic.unfoldered_resources.include?(featured_resource))%>
+            <li>
+              <strong><%= link_to "Other Resources", offering_lu_resources_related_path(:organization_id => @current_organization, :folder_id => nil, :topic_id => topic) %></strong>
+            </li>
+          <% end -%>
+          <% if topic.act_score_ranges && topic.classroom.ifa_classroom_option-%>
+            <li>
+              <strong><%= link_to "Strands & Benchmarks" , ifa_lu_standards_show_path(:organization_id => @current_organization, :classroom_id => topic.classroom, :topic_id => topic) %></strong>
+            </li>
+          <% end -%>
+			  </ul>
 		  </div>
 		
 		  <script type="text/javascript" charset="utf-8">
@@ -72,7 +72,7 @@
 	
 	<% else -%>
 	<!-- Blank Resource Folder for display purposes only  -->
-	    <div class="module2" style= "width:570px; width:fixed; margin: 15px 10px 0px 10px;">
+	    <div class="module2" style= "width:570px; margin: 15px 10px 0px 10px;">
 	        <div class="module_header" style=" text-align:left; ">
 	            <span class="content_area_title" > Resource Folders</span>
 	        </div>
@@ -103,7 +103,7 @@
 <% else -%>
 	<div class="module2" style= "width:570px; width:fixed; margin: 15px 10px 0px 10px;">
 		<div class="module_header" style=" text-align:left; ">
-	      	<span class="content_area_title" >  <%= !topic.nil? ? topic.title : "No Learning Unit At This Time" %> </span>
+      <span class="content_area_title" >  <%= !topic.nil? ? topic.title : "No Learning Unit At This Time" %> </span>
 		</div>
 	</div>
 	<div class="module2" style= "width:570px; width:fixed; margin: 15px 10px 0px 10px;">
@@ -117,7 +117,7 @@
 				 <li>
 					<%= !topic.nil? ? "Resource Panel <i><small>- Not Viewable</small></i>" : "Resource Panel Empty" %>
 				</li>
-			</u>
+			</ul>
 		</div>	
 	</div>
 	  <div id="discussions_panel" style="float:left; width:570px;">

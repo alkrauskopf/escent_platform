@@ -6,7 +6,7 @@
 					<% offering.homeworks.for_teacher(@current_user).active.each do |homework|-%>
 						<tr >
 							<td   style="width:60px; width:fixed; border:0px solid white; font-size:11px; padding-top:5px; padding-left:40px; cursor:pointer; vertical-align:top; text-align:right;color: #C83A14;font-weight:normal;">
-								<%= link_to (image_tag "delete.png"), {:controller => "apps/classroom", :action => "delete_homework",:organization_id => @current_organization, :classroom_id => offering, :homework_id => homework}, :class => "homework_button"%>
+								<%= link_to (image_tag "delete.png"),offering_admin_homework_delete_path(:organization_id => @current_organization, :classroom_id => offering, :homework_id => homework), :class => "homework_button"%>
 							</td>
 							<td   style="width:590px; width:fixed; border:0px solid white; font-size:11px; padding-top:0px; padding-bottom:10px; vertical-align:top; text-align:left; line-height:1.5em;">
 								<strong><%= homework.user ? homework.user.last_name_first : "Undefined User" -%>:&nbsp;

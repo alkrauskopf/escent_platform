@@ -10,7 +10,7 @@
 	 <p style="float:right; word-wrap:break-word; overflow:hidden;">
       <br />
 			<% return_link = "Return To " + @classroom.course_name.upcase %>
-			<%= link_to return_link, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @topic, :id => @classroom%>
+			<%= link_to return_link, offering_view_path(:organization_id => @current_organization, :topic_id => @topic, :id => @classroom) %>
 	</p>    
 		<br/>
 		  <span style="width:630px; padding-left:40px; word-wrap:break-word; overflow:hidden; font-size:18px; font-weight:bold" >

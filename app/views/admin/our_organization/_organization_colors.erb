@@ -26,7 +26,7 @@
             jQ(document).ready(function() {
               jQ('#change_color_<%=setting.id.to_s%>').click(function() {
                 var color = jQ('#style_color_<%= setting.id.to_s%>').val();
-                var url = "<%= url_for :controller => '/admin/our_organization', :action => :change_style_setting, :organization_id => organization, :setting_id => setting.id %>";
+                var url = "<%= url_for admin_org_colors_path(:organization_id => organization, :setting_id => setting.id) %>";
                 jQ.get(url, {'color':color}, function(data) {
                   jQ("#colors_<%=organization.public_id%>").html(data);
                   jQ("#colors_<%=organization.public_id%>").show();

@@ -19,7 +19,7 @@
       <% @subjects.each_with_index do |subj, idx|%>
         <tr>
           <td style="vertical-align:middle; width:80px;  font-size:10px;  padding-top:0px;" >
-            <% if @current_user.ifa_admin?(@current_organization) -%>
+            <% if @admin -%>
               <!-- <%#= button_to  "Dashboards", {:controller => "/apps/assessment", :action => :org_analysis, :organization_id => @current_organization,:classroom_id => @classroom, :topic_id => @topic, :subject_id => subj.id}, :class => "fsn-button ui-button ui-state-default ui-corner-all" %> -->
                 <%= button_to  "Dashboards", {:controller => "/apps/assessment", :action => :org_analysis, :organization_id => @current_organization,:subject_id => subj.id}, :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
             <% end -%>

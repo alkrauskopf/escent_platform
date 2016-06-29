@@ -260,9 +260,10 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.preferred_email_list
-    self.collect{|u| u.preferred_email}.compact.uniq.join(", ")
+  def self.preferred_email_list(users)
+    users.collect{|u| u.preferred_email}.compact.uniq.join(", ")
   end
+
   def home_organization
     Organization.find_by_id(self.home_org_id) rescue nil
   end

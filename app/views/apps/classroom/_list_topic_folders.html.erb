@@ -6,7 +6,7 @@
 				<% unless folder.no_lu_contents?(topic)%>
 					<tr>
 						<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal; padding-bottom:0px; font-size:12px">
-						<%= link_to '', :controller => "apps/classroom", :action => "show_lu_resources", :organization_id => @current_organization, :topic_id => topic, :folder_id => folder.id %>
+						<%= link_to '', offering_lu_resources_show_path(:organization_id => @current_organization, :topic_id => topic, :folder_id => folder.id) %>
 							<%= folder.name%>&nbsp;<i>(<%= folder.resources_for_lu(topic).size%>)</i>
 						<span></span>
 						</td>

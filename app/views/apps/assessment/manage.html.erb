@@ -3,7 +3,7 @@
   	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
 			<br/>Integrated Formative Assessment Methodology
 	</div>
-	<%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@app} %>	
+	<%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@current_application} %>
 	<%= render :partial => "/shared/error_and_notice" %>
 		
 	<div style="float:none;width:97%;" class="mempro_box clear">
@@ -20,7 +20,7 @@
 	      <p class="name" style="width:730px; padding-left:00px; word-wrap:break-word; overflow:hidden; font-size:16px" > <%= @current_user.full_name %> <br/></p>
 
 		  <p class="homeorginfo_label"> 
-			<br/><%= link_to (image_tag @current_organization.logo.url :med_thumb), :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization -%></br>
+			<br/><%= link_to (image_tag @current_organization.logo.url :med_thumb), organization_view_path(:organization_id => @current_organization) -%></br>
 		  </p>
 
       <div style="text-align:center;  width:730px;margin-left:0px; word-wrap:break-word; color: #C83A14;  font-size: 16px; font-style: normal; font-weight: bold">

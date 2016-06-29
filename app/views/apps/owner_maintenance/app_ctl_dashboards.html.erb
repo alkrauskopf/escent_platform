@@ -19,7 +19,7 @@
 					<tr>
 						<td class="resource_levels_close">
 		
-						<%= link_to '', :controller => "/apps/owner_maintenance", :action => :app_ctl_school_dashboards, :org_id => org, :coop_app_id=> @current_application %>
+						<%= link_to '', ctl_maint_dashboards_school_path(:org_id => org, :coop_app_id=> @current_application) %>
 							<%= pluralize(org.itl_summaries.size, org.name + " Dashboard") -%>
 						<span></span>
 						</td>

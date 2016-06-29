@@ -20,40 +20,19 @@
 		<div>
 			<%= show_discussion_is_delete?(discussion.comment, discussion.is_delete) %>
 			<% if @current_user && @content -%>
-				<% unless @current_user.has_authority?(@content.organization, AuthorizationLevel.app_knowledge_manager(CoopApp.core)) -%>
+				<% unless @current_user.has_authority?(@content.organization, AuthorizationLevel.app_knowledge_manager(CoopApp.core), :superuser=>true) -%>
 					<% display_value = "none;" %>
 				<% end -%>	
 			<% else -%>
 					<% display_value = "none;" %>		
 			<% end -%>
-			<%= (link_to "Delete", {:controller => "site/discussions", :action => "delete_resource_comment", :id => discussion, :content_id => @content, :organization_id => @current_organization}, :class => "delete", :style => "display:#{display_value}") unless discussion.is_delete %>		
+			<%= (link_to "Delete", discussion_resource_comment_delete_path(:id => discussion, :content_id => @content, :organization_id => @current_organization), :class => "delete", :style => "display:#{display_value}") unless discussion.is_delete %>
 		</div>
 		<div class="discussion_warp">
 			<input name="discussion_public_id" type="hidden" value="<%= discussion.public_id %>" />
 			<span class="change_status" style="display:none;"><%= render(:partial => "/shared/report_as") %></span>
 		</div>
-	</div>		
-
-<!--  Remove REPLY ability
-	<div class="discussion_replys" style="display:none;">
-		<%#= render :partial => "/site/discussions/discussion_reply", :collection => discussion.children %>
 	</div>
-	<div class="reply_or_login_warp" style="display:none;">
-		<input name="public_id" type="hidden" value="<%= discussion.public_id %>" />
-		<div>
-			<%#= render(:partial => "/shared/reply_or_login") %>	
-		</div>
-	</div>
-	
- 	
-	<div class="reply_discussion_trigger clear" style="display:none;">
- 	 <%# unless @current_user.nil?%>
-	 	<%# if @current_topic.is_open && (@current_user.has_authorization_level_for?(@current_topic.classroom, "leader") || @current_user.has_authorization_level_for?(@current_topic.classroom, "participant"))%>
-			  <button class="fsn-button ui-button ui-state-default ui-corner-all">reply to this comment</button>
-	  	<%# end -%>
-	<%# end %>
-	</div>
--->
 </div>
 <script type="text/javascript">
 	jQ().ready(function(){

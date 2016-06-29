@@ -1,12 +1,10 @@
-
-<!--	<a href="#" >Apps</a>  -->
-  <span><%= org.enabled_apps.empty? ? '' : 'Tools' %></span>
+ <span><%= org.enabled_apps.empty? ? '' : 'Tools' %></span>
 	<% if org.can_be_displayed?(user)-%>
     <ul style="width: 200%;" class="hdr-dropdown-content">
 			<% org.enabled_apps.sort_by{|a| org.provider_app_name(a)}.each do |app| %>
           <% if user.app_authorized?(app, org) -%>
             <% app_label = org.provider_app_name(app)-%>
-					<li ><%= link_to app_label, :controller => app.app_link[0], :action => app.app_link[1], :organization_id => org,:user_id => user, :coop_app_id => app, :teacher_id => user   %></li>
+					<li ><%= link_to app_label, self.send(app.link_path, {:organization_id => org, :user_id => user, :coop_app_id => app, :teacher_id => user})   %></li>
 				<% end %>
 			<% end %>
 		</ul>

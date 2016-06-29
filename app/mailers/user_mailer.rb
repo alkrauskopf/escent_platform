@@ -51,13 +51,12 @@ class UserMailer < ApplicationMailer
   end
 
   def contact(sender_email, options = {})
-    @recipients = user.preferred_email
     @subject_line = options[:subject]
     @user = options[:user]
     @send_to = @user.preferred_email.nil? ? @user.email_address : @user.preferred_email
     @from = sender_email
-    @body = options[:html_body]
-    mail(to: @recipients, subject: @subject_line, from: @from, date: DateTime.now)
+    @message_text = options[:html_body]
+    mail(to: @send_to, subject: @subject_line, from: @from, date: DateTime.now)
   end
 
   def admin_notice(user, organization, ep_host)
@@ -189,9 +188,9 @@ class UserMailer < ApplicationMailer
     @ep_host = ep_host
     @recipient = user.preferred_email
     @commenter = commenter
+    @content = resource
     @organization = @content.organization rescue nil
     @user = user
-    @content = resource
     @resource_comment = discussion
     @subject_line = 'Resource Comment Notification'
     @from  = 'escent_resource_library<noreply@escentpartners.com>'
@@ -203,7 +202,7 @@ class UserMailer < ApplicationMailer
   def topic_comment(recipient_list, user, topic, discussion, ep_host)
     @ep_host = ep_host
     @recipients = recipient_list
-    @sender = user
+    @user = user
     @topic = topic
     @topic_comment = discussion
     @organization = @topic.classroom.organization rescue nil

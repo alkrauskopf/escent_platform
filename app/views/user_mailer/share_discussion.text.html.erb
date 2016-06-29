@@ -5,5 +5,5 @@
 <% end %>
 <br/>
 Check out <%= link_to @topic.classroom.course_name, url_for(:controller => "site/site", :action => "static_classroom", :organization_id => @organization, :topic_id => @topic, :id => @topic.classroom,:host => @ep_host )%>&nbsp;
-at <%= @current_organization.name%>!
+at <%= @organization.name%>!
 <br/>

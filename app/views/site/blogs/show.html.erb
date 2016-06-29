@@ -62,7 +62,7 @@
 					<br/>
 				</td>
 				<td style="width:120px;  vertical-align:top; text-align:left; padding-left:0px; border:0px solid black">
-					<%= link_to "Return", {:controller => "site/site" , :action => :static_organization, :organization_id => @current_organization}, :class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "padding:0 4px" %>	
+					<%= link_to "Return", organization_view_path(:organization_id => @current_organization), :class => "fsn-button ui-button ui-state-default ui-corner-all", :style => "padding:0 4px" %>
 					<br/>
 
 					<% if @current_user -%>

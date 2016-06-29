@@ -1,12 +1,12 @@
 <div id="main_content">
 
-  	<div style="text-align:center; word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
-			<br/><%= @org.short_name %>:&nbsp;<%= @app.name %>&nbsp;Settings
+  <div style="text-align:center; word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
+    <br/><%= @org.short_name %>:&nbsp;<%= @app.name %>&nbsp;Settings
 	</div>
     <%= render :partial => "/shared/error_and_notice" %>	
 	<% if @function == "Edit" %>	
 		<div class="Form clear">	
-			<%= form_for(:coop_app_organization, :url => {:controller => "/master/coop_apps", :action => :edit_app_settings, :app_id => @app.id, :org_id => @org, :function=> @function }) do |form| %>
+			<%= form_for(:coop_app_organization, :url =>  master_apps_settings_edit_path(:app_id => @app.id, :org_id => @org, :function=> @function )) do |form| %>
 				<%= render :partial => "/master/coop_apps/form_coop_app_settings", :locals=>{:function=> @function, :app => @app, :org => @org} %>
 			<% end -%>	
 		</div>	

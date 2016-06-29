@@ -8,7 +8,7 @@
 				<tbody>  
 					<tr>
 						<td class="resource_levels_close" style="width:700px;">
-							<%= link_to '', :controller => "apps/learning_time", :action => :case_indicators_element_rubric, :organization_id => @current_organization, :organization_type_id => org_type.id, :rubric_id=>rubric.id, :elt_type_id => activity, :elt_element_id=>element %>
+							<%= link_to '', elt_community_indicator_rubric_path(:organization_id => @current_organization, :organization_type_id => org_type.id, :rubric_id=>rubric.id, :elt_type_id => activity, :elt_element_id=>element) %>
 							<%= element.name %>
 							<span></span>
 						</td>

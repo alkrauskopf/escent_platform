@@ -204,7 +204,7 @@
             &nbsp;
         </div>
         <div class="FormRowData">
-            <%= check_box_tag "accept_tos", 1, checked = params[:accept_tos] %>I have read and understand the Escent <%= link_to 'Terms of Service', {:controller => 'fsn', :action => 'terms'}, :target => '_blank' %> AND I am authorized to 
+            <%= check_box_tag "accept_tos", 1, checked = params[:accept_tos] %>I have read and understand the Escent <%= link_to 'Terms of Service', ep_tos_path, :target => '_blank' %> AND I am authorized to
             register my organization. 
 			<br/><br/>
         </div>

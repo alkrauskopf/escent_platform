@@ -24,9 +24,11 @@
 			    	</div>
 				<% end %>    		
 				<div class="module_body">
-					<%= render :partial => "/site/discussions/discussion_by_same_author", :locals => {:topic => topic} if !topic.nil? %>
-		   		</div>
-			   	<input name="report_url" type="hidden" value="<%= url_for :controller => :discussions, :action => :report_abuse, :organization_id => @current_organization %>" />
+          <% if !topic.nil? %>
+            <%= render :partial => "/site/discussions/discussion_by_same_author", :locals => {:topic => topic}  %>
+          <% end %>
+        </div>
+			   	<input name="report_url" type="hidden" value="<%= discussion_report_abuse_url(:organization_id => @current_organization) %>" />
 		<% else %>
 			<div class="module_header">
 		      <div class="iwing_module_title">
@@ -115,7 +117,7 @@
     			jQ(".share_content_login_submit button:even").lgoinFormSubmit("/shared/share_login", "<%= topic.public_id %>");
     			<% end %>
     			// add a new reply by ajax.
-    			var reply_url = '<%= url_for :controller => "discussions", :action => :add_reply, :organization_id => @current_organization %>'
+    			var reply_url = '<%= discussion_reply_url(:organization_id => @current_organization) %>'
     			jQ(".discussion_reply_form_submit button:odd").addNewReply(reply_url);
     			// delete a reply or comment by ajax.
 					jQ("a.delete").deleteCommentAndReply();

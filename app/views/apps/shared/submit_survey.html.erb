@@ -32,7 +32,7 @@
 
 	<% unless @current_organization.tlt_survey_questions.for_audience(@audience).for_type(@survey_type).active.empty? %>
 
-		<%= form_for(:survey_response, :url => {:controller => "/apps/shared", :action => :submit_survey, :organization_id => @current_organization, :plan_id => @plan, :app_id => @app.id, :audience_id => @audience,:survey_type => @survey_type, :function => "Submit"}) do |form| -%>
+		<%= form_for(:survey_response, :url => submit_survey_path(:organization_id => @current_organization, :plan_id => @plan, :app_id => @app.id, :audience_id => @audience,:survey_type => @survey_type, :function => "Submit")) do |form| -%>
 		
 		    <%= render :partial => "/shared/error_and_notice" %>
 			

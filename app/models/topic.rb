@@ -148,10 +148,33 @@ class Topic < ActiveRecord::Base
   end  
   
   def discusssion_by_same_author
+
+    #  This is screwed up.  Don't know what it's for
+
     # discussion_users = self.organization.authorizations.find(:all , :conditions => ["authorization_level_id in (?)" , [5 , 2]]) 
-    discussion_users = self.classroom.organization.authorizations.where('authorization_level_id in (?)' , [5 , 2])
-    user_ids = discussion_users.collect(&:user_id) #discussion_moderator and administrator
-    Discussion.where('discussionable_id = ? AND discussionable_type = ? AND user_id in (?) AND suspended_at IS NULL', self.id, 'Topic', user_ids).order('created_at DESC').first
+    if false
+      discussion_users = self.classroom.organization.authorizations.where('authorization_level_id in (?)' , [5 , 2])
+      user_ids = discussion_users.collect(&:user_id) #discussion_moderator and administrator
+      Discussion.where('discussionable_id = ? AND discussionable_type = ? AND user_id in (?) AND suspended_at IS NULL', self.id, 'Topic', user_ids).order('created_at DESC').first
+
+      user_ids = (!self.classroom.nil? && !self.classroom.leaders.empty?) ? self.classroom.leaders.collect{|u| u.id} : [] #classroom_leaders
+      discussions = []
+      unless user_ids.empty?
+        discussions = Discussion.all
+            # Discussion.all.where('discussionable_id = ? AND discussionable_type = ? AND user_id in (?) AND suspended_at IS NULL', self.id, 'Topic', user_ids).order('created_at DESC').first
+      end
+    end
+    self.discussions
+  end
+
+  def active_discussions
+    self.discussions.where('suspended_at IS NULL').order('created_at DESC')
+  end
+
+  def last_leader_comment
+    leader_ids = self.classroom.leaders.collect{|l| l.id}.uniq
+    discussions = self.discussions.where('suspended_at IS NULL AND user_id in(?) AND parent_id IS NULL', leader_ids).order('created_at DESC')
+    discussions.empty? ? nil : discussions.first
   end
 
   def self.features

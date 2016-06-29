@@ -8,7 +8,7 @@
 							<% indicator.support_indicators.each do |si|%>
 								<% id = indicator.id.to_s + si.id.to_s -%>
 								<a id="<%= id%>" href=""><%= indicator_tiered_label(si) %></a>
-								<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :title=> si.elt_type.name, :blue=>(si.elt_element.name + ',   Indicator ' + si_label ), :body=> si.indicator, :height=> 200, :width=> 700 } %>
+								<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :titl=> si.elt_type.name, :blue=>(si.elt_element.name + ',   Indicator ' + si_label ), :body=> si.indicator, :height=> 200, :width=> 700 } %>
 								<br/>
 							<% end -%>
 						</td>

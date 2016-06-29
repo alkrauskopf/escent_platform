@@ -10,19 +10,19 @@
 <table id="rubric_descript" style="width:650px; margin-left:100px; border:0px solid #000000;">
   <tbody>
     <tr style="border:1px solid #000000;">
-      <td id="rubric_hide" style = " width:150px; width:fixed; border-right:0px solid #000000; background: #2061a5; color: #FFFFFF; vertical-align:middle; text-align:left; padding-left:5px; font-size:11px ">
+      <td id="rubric_hide" style = " width:23%; border-right:0px solid #000000; background: #2061a5; color: #FFFFFF; vertical-align:middle; text-align:left; padding-left:5px; font-size:11px ">
         > <u>Hide Rubric</u>
       </td>
-      <td  style = " width:500px; width:fixed; border-right:0px solid #000000; background: #2061a5; color: #FFFFFF; padding-bottom:0px; vertical-align:middle; text-align:left; padding-left:5px; font-weight:bold; font-size:15px ">
+      <td  style = " width:77%; border-right:0px solid #000000; background: #2061a5; color: #FFFFFF; padding-bottom:0px; vertical-align:middle; text-align:left; padding-left:5px; font-weight:bold; font-size:15px ">
         Rating Rubric
       </td>
     </tr>
     <% activity.rubrics.all.each do |rubric| -%>
       <tr style="border:1px solid #000000;">
-        <td  style = " width:170px; width:fixed; color: #2061a5; padding-top:5px; padding-bottom:5px; vertical-align:middle; text-align:center;  font-weight:normal; font-size:13px ">
+        <td  style = " width:23%; color: #2061a5; padding-top:5px; padding-bottom:5px; vertical-align:middle; text-align:center;  font-weight:normal; font-size:13px ">
           <%= rubric.name %>
         </td>
-        <td  style = " width:500px; width:fixed; color: #000000; line-height:1.3em; padding-top:5px; padding-bottom:5px; vertical-align:middle; text-align:left;  font-weight:normal; font-size:13px; font-family:Garamond; ">
+        <td  style = " width:77%; color: #000000; line-height:1.3em; padding-top:5px; padding-bottom:5px; vertical-align:middle; text-align:left;  font-weight:normal; font-size:13px; font-family:Garamond; ">
           <%= simple_format rubric.criteria %>
         </td>
       </tr>

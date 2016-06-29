@@ -4,7 +4,7 @@
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close">
-					<%= link_to '', :controller => "site/site", :action => :summarize_org_subject_offerings, :organization_id => @current_organization, :display=>display, :folder_id=>folder %>
+					<%= link_to '', organization_view_offering_path(:organization_id => @current_organization, :display=>display, :folder_id=>folder) %>
 							<%= folder.name %>
 					<span></span>
 					</td>
@@ -25,7 +25,7 @@ jQ(document).ready(function() {
 				<tbody>  
 					<tr>
 						<td class="resource_levels_close">
-						<%= link_to '', :controller => "site/site", :action => :summarize_org_subject_offerings, :organization_id => @current_organization, :display=>display, :subject_area_id => sub %>
+						<%= link_to '', organization_view_offering_path(:organization_id => @current_organization, :display=>display, :subject_area_id => sub) %>
 								<%= sub.name %>
 						<span></span>
 						</td>

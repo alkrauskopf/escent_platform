@@ -1,11 +1,13 @@
 
 	<% if org.projects_featured  %>
-		<%= link_to "Our Projects", :controller => "fsn", :action => :index, :organization_id => org, :blog_id => org.projects_featured.public_id %>
+		<%= link_to "Our Projects", ep_path(:organization_id => org, :blog_id => org.projects_featured.public_id) %>
 	<% else -%>
 		<span>Our Projects</span>
 	<% end -%>
   <ul style="width: 200%;" class="hdr-dropdown-content">
 		<% org.projects.each do |blog| -%>
-			<li><%= link_to blog.title, :controller => "fsn", :action => :index, :organization_id => org, :blog_id => blog.public_id%></li>
+			<li>
+        <%= link_to blog.title, ep_path(:organization_id => org, :blog_id => blog.public_id)%>
+      </li>
 		<% end -%>
 	</ul>

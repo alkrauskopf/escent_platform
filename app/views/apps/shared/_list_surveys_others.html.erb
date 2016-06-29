@@ -54,7 +54,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#o_<%= question.id %>').click(function() {
-		var url = "<%= url_for :controller =>"apps/shared", :action => "copy_survey", :organization_id => @current_organization, :survey_question_id => question, :survey_instruction => instruction, :user_id => @current_user, :admin => admin, :app_id => app.id %>";
+		var url = "<%= surveys_copy_url(:organization_id => @current_organization, :survey_question_id => question, :survey_instruction => instruction, :user_id => @current_user, :admin => admin, :app_id => app.id) %>";
 			jQ.get(url, {}, function(data) {
 				jQ("#surv_list_<%= instruction.public_id %>").html(data); 
 		   		jQ("#surv_list_<%= instruction.public_id %>").show();

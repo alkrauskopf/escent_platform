@@ -21,7 +21,7 @@
 				<tbody>  
 					<tr>
 						<td class="resource_levels_close">
-						<%= link_to '', :controller => "site/site", :action => :summarize_org_app, :organization_id => @current_organization, :app_id => app %>
+						<%= link_to '', organization_view_app_path(:organization_id => @current_organization, :app_id => app) %>
 								<%= app.abbrev%>:&nbsp;&nbsp;<%= app.name %>
 						<span></span>
 						</td>

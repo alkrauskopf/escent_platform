@@ -1,20 +1,22 @@
-
-						
-<!--	<a href="#">Library</a> -->
 <span>Library</span>
 	<% if org.can_be_displayed?(user)-%>
     <ul style="width: 250%;" class="hdr-dropdown-content">
-      <% if user.has_authority?(org, AuthorizationLevel.app_knowledge_manager(CoopApp.core)) -%>
-          <li ><%= link_to "ADD Resource To Library", {:controller => "/site/contents", :action => :submit_resource, :organization_id => org, :function => "New"}, {:target => "_blank"}  %></li>
-          <li ><%= link_to "MANAGE Your Library Resources", {:controller => "/site/contents", :action => :index, :organization_id => org, :function => "New"}, {:target => "_blank"}  %></li>
+      <% if user.has_authority?(org, AuthorizationLevel.app_knowledge_manager(CoopApp.core), :superuser=>true) -%>
+          <li ><%= link_to "ADD Resource To Library", resource_new_path(:organization_id => org, :function => "New"), {:target => "_blank"}  %></li>
+          <li ><%= link_to "MANAGE Your Library Resources", resource_show_path(:organization_id => org, :function => "New"), {:target => "_blank"}  %></li>
       <% end %>
       <% unless content.nil? -%>
         <% unless content.id.nil? -%>  <!-- in process of being created -->
           <% if user.has_authorization_level_for?(content, "favorite") -%>
-            <% link_string = truncate("UnTag " + content.title, :omission => "...", :length => 25) -%><li ><strong><%= link_to link_string, :controller => "/users", :action => :remove_this_favorite_resource, :organization_id => org, :content_id => content.id %></strong></li>
+            <% link_string = truncate("UnTag " + content.title, :omission => "...", :length => 25) -%>
+            <li >
+              <strong><%= link_to link_string, user_remove_resource_path(:organization_id => org, :content_id => content.id) %></strong>
+            </li>
           <% else -%>
             <% link_string = truncate("Tag " + content.title, :omission => "...", :length => 23) -%>
-            <li ><strong><%= link_to link_string, :controller => "/users", :action => :add_this_favorite_resource, :organization_id => org, :content_id => content.id %></strong></li>
+            <li >
+              <strong><%= link_to link_string, user_tag_resource_path(:organization_id => org, :content_id => content.id) %></strong>
+            </li>
           <% end %>
         <% end %>
       <% end %>

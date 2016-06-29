@@ -8,10 +8,7 @@
   <div style="text-align:center;  word-wrap:break-word; color:#2061a5;  font-size: 14px; font-style: normal; font-weight: normal">
     <%= @strategy.is_enabled ? "Enabled":"Disabled" %>;&nbsp;&nbsp;Panel Position:&nbsp;<%=@strategy.position %>;&nbsp;&nbsp;Impact Score:&nbsp;<%=@strategy.research ? @strategy.research : "none" %>
 	</div>
-<!--
-	<%# form_for :tl_strategy_desc , @strategy.tl_strategy_desc , :url=>{:controller => "/apps/owner_maintenance" , :action => "owner_strategy_update" , :strategy_id => @strategy.id, :app_id=>@app.id} do |f| %>
--->
-  <%= form_for :tl_strategy_desc, :url=>{:controller => "/apps/owner_maintenance" , :action => "owner_strategy_update" , :strategy_id => @strategy.id, :coop_app_id=>@current_application} do |f| %>
+  <%= form_for :tl_strategy_desc, :url=> ctl_maint_strategies_edit_path(:strategy_id => @strategy.id, :coop_app_id=>@current_application) do |f| %>
     <div class="FormRow">
       <div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
         <span style="color:#2061a5;  font-size: 14px; font-style: normal; font-weight: bold">
@@ -30,8 +27,8 @@
     </div>
     <div class="FormRow">
       <div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
-        <%= f.submit "Save" %>&nbsp;&nbsp;
-        <%= link_to "Cancel" ,  {:controller => "/apps/owner_maintenance", :action => "owner_strategies", :coop_app_id=>@current_application} %>
+        <%= f.submit 'Save' %>&nbsp;&nbsp;
+        <%= link_to 'Cancel', ctl_maint_strategies_path(:coop_app_id=>@current_application) %>
       </div>
     </div>
 	<% end %>

@@ -14,7 +14,7 @@
 										<tbody>  
 											<tr>
 												<td class="resource_levels_close">
-                          <%= link_to '', :controller => "apps/blogs", :action => :list_blogs, :organization_id => @current_organization, :blog_type_id => b_type, :blog_app => app  %>
+                          <%= link_to '', blog_admin_show_path(:organization_id => @current_organization, :blog_type_id => b_type, :blog_app => app) %>
                           <%= app.abbrev -%>:&nbsp;<%= b_type.label %>
                           <span></span>
 												</td>

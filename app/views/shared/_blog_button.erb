@@ -6,9 +6,10 @@
 					&nbsp;
 				</td>
 				<td  style = " width:350px; vertical-align:middle; padding-top:0px; padding-bottom:0px; font-weight:bold; font-size:10px;">
-				    <div id="select_blog_<%= blog.id %>" class="module_header" style = "cursor:pointer; margin-left:13px; margin-right:13px; vertical-align:top; margin-bottom:0px;font-weight:<%=weight%>">
-				      	<span class="content_area_title", style=" font-size:13px; color: <%= color %>;">
-						<center><%= name %></center></span>
+          <div id="select_blog_<%= blog.id %>" class="module_header" style = "cursor:pointer; margin-left:13px; margin-right:13px; vertical-align:top; margin-bottom:0px;font-weight:<%=weight%>">
+            <span class="content_area_title", style="text-align:center; font-size:13px; color: <%= color %>;">
+              <%= name %>
+            </span>
 					</div>
 				</td>
 			</tr>
@@ -17,7 +18,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#select_blog_<%= blog.id %>').click(function() {
-		var url = "<%= url_for :controller => 'fsn', :action => :select_blog, :organization_id => @current_organization, :blog_id => blog.public_id %>";
+		var url = "<%= url_for ep_blog_view_path(:organization_id => @current_organization, :blog_id => blog.public_id) %>";
 			jQ.get(url, {}, function(data) {
 			jQ("#body_main_ep").html(data); 
 	   		jQ("#body_main_ep").show();

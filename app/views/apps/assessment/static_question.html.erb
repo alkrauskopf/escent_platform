@@ -19,7 +19,7 @@
               </div>
 
               <div class="affiliate_information_title" style="font-size:14px; text-align:center; font-weight:bold; width: 230px; color:#000000;">
-                <%= link_to @question.organization.name, {:controller => "/site/site", :action => :static_organization, :organization_id => @question.organization}, :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
+                <%= link_to @question.organization.name, organization_view_path(:organization_id => @question.organization), :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
                 <br/>
 
                 <span class="normal_text" style="font-size:12px; text-align:center; font-weight:normal; color:#000000;">
@@ -40,7 +40,7 @@
                 <% if @question.user.nil?%>
 					<i> * * Unknown Author * * </i>
 				<% else %>
-                  By: <strong><%= link_to @question.user.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => @question.user}, :html => {:style => "text-decoration:none;padding:1px;margin-top:5px; margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
+                  By: <strong><%= link_to @question.user.full_name, user_view_path(:organization_id => @current_organization, :id => @question.user), :html => {:style => "text-decoration:none;padding:1px;margin-top:5px; margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
                   </strong><br/> <br/>
 				<% end -%>
 

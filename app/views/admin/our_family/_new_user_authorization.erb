@@ -29,19 +29,19 @@
 				<tbody>  
 					<% for authorization_level in @current_organization.enabled_app_authorizations do -%>
             <!--
-            <%# if user.has_authority?(authorization_level, @current_organization,:superuser=>true )-%>
-							-->
+              <%# if user.has_authority?(authorization_level, @current_organization,:superuser=>true )-%>
+						-->
 							<tr>
 								<td width=40px style="vertical-align:bottom;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; color: #C73914; font-size:9px; font-weight:normal">
 									<i><%= authorization_level.coop_app.beta? ? "(Beta)" : "" %></i>
 								</td>
 								<% if user.has_authority?(@current_organization, authorization_level) %>
 									<td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:15px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-										<%= link_to (image_tag "button_enabled.png", :width => 15), {:controller => "admin/our_family",:action => "toggle_authorization", :organization_id => @current_organization, :user_id=> user, :authorization_level=>authorization_level.id}, :class => "toggle_auth" %>
+										<%= link_to (image_tag "button_enabled.png", :width => 15), admin_family_authorize_path(:organization_id => @current_organization, :user_id=> user, :authorization_level=>authorization_level.id), :class => "toggle_auth" %>
 									</td>					
 								<% else -%>
 									<td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:15px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-										<%= link_to (image_tag "button_disabled.png", :width => 15), {:controller => "admin/our_family",:action => "toggle_authorization", :organization_id => @current_organization, :user_id=> user, :authorization_level=>authorization_level.id}, :class => "toggle_auth" %>
+										<%= link_to (image_tag "button_disabled.png", :width => 15), admin_family_authorize_path(:organization_id => @current_organization, :user_id=> user, :authorization_level=>authorization_level.id), :class => "toggle_auth" %>
 									</td>
 								<% end -%>
 								<td style="width:585px; font-size:normal; vertical-align:top">
@@ -93,11 +93,11 @@ jQ(document).ready(function() {
 									</td>
 									<% if user.has_authorization_level_for?(app, authorization_level) %>
 										<td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:15px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-											<%= link_to (image_tag "button_enabled.png", :width => 15), {:controller => "admin/our_family",:action => "toggle_app_authorization", :organization_id => @current_organization, :app_id=> app.id, :user_id=> user, :authorization_level=>authorization_level.id}, :class => "toggle_auth" %>
+											<%= link_to (image_tag "button_enabled.png", :width => 15), admin_family_authorize_path(:organization_id => @current_organization, :app_id=> app.id, :user_id=> user, :authorization_level=>authorization_level.id), :class => "toggle_auth" %>
 										</td>					
 									<% else -%>
 										<td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:15px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-											<%= link_to (image_tag "button_disabled.png", :width => 15), {:controller => "admin/our_family",:action => "toggle_app_authorization", :organization_id => @current_organization, :app_id=> app.id, :user_id=> user, :authorization_level=>authorization_level.id}, :class => "toggle_auth" %>
+											<%= link_to (image_tag "button_disabled.png", :width => 15), admin_family_authorize_path(:organization_id => @current_organization, :app_id=> app.id, :user_id=> user, :authorization_level=>authorization_level.id), :class => "toggle_auth" %>
 										</td>
 									<% end -%>
 									<td style="width:585px; font-size:normal; vertical-align:top">
@@ -163,7 +163,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#for_user').change(function() {
 		var user_id = jQ('#user_id').val();
-		var url = "<%= url_for :controller => '/admin/our_family', :action => :authorize_user, :organization_id => @current_organization %>";
+		var url = "<%= url_for admin_family_user_authorizations_path(:organization_id => @current_organization) %>";
 			jQ.get(url, {'user_id':user_id}, function(data) {
 			jQ("#user_selection").html(data); 
 	   		jQ("#user_selection").show();

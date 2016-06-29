@@ -4,7 +4,7 @@
 				<tbody>  
 					<tr>
 						<td class="resource_levels_close">
-  						<%= link_to '', :controller => "/apps/owner_maintenance", :action => :app_ctl_school_subject_dashboards, :org_id => @school, :subject_id=> subj, :coop_app_id=> @current_application %>
+  						<%= link_to '', ctl_maint_dashboards_subject_path(:org_id => @school, :subject_id=> subj, :coop_app_id=> @current_application) %>
 							<%= @school.itl_summaries.for_subject(subj).size %>&nbsp;<%= subj.name %>
 	  					<span></span>
 						</td>

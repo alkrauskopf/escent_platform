@@ -241,7 +241,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
         @cycle.activities<<activity
       end
     end
-    render :partial => "/apps/learning_time/assign_cycle_activities", :locals=>{:org=>@current_organization, :cycle => @cycle, :app => @app}
+    render :partial => "/apps/learning_time/assign_cycle_activities", :locals=>{:org=>@current_organization, :cycl => @cycle, :app => @app}
   end
 
  def assign_cycle_element
@@ -255,14 +255,13 @@ class Apps::LearningTimeController  < Site::ApplicationController
        @cycle.elements<<element
      end
    end
-   render :partial => "/apps/learning_time/assign_cycle_elements", :locals=>{:cycle => @cycle}
+   render :partial => "/apps/learning_time/assign_cycle_elements", :locals=>{:cycl => @cycle}
  end
 
  def select_activity
     activity = EltType.find_by_id(params[:activity_id]) rescue nil
     render :partial => "/apps/learning_time/manage_indicators",
-           :locals => {:framework => activity.elt_framework,
-                       :to_activities => activity.organization.elt_types,
+           :locals => {:to_activities => activity.organization.elt_types,
                        :from_activities => activities_from(@current_organization, @current_application),
                        :activity => activity, :from_activity => nil, :to_element => nil, :app=>@current_application}
   end
@@ -271,8 +270,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
    to_activity = EltType.find_by_id(params[:activity_id]) rescue nil
    from_activity = EltType.find_by_id(params[:from_activity_id]) rescue nil
    render :partial => "/apps/learning_time/manage_indicators",
-          :locals => {:framework => to_activity.elt_framework,
-                      :to_activities => to_activity.organization.elt_types,
+          :locals => {:to_activities => to_activity.organization.elt_types,
                       :from_activities => activities_from(@current_organization, @current_application),
                       :activity => to_activity, :from_activity => from_activity,
                       :to_element => nil, :app=>@current_application}
@@ -282,8 +280,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
    to_activity = EltType.find_by_id(params[:activity_id]) rescue nil
    from_activity = EltType.find_by_id(params[:from_activity_id]) rescue nil
    render :partial => "/apps/learning_time/manage_indicators",
-          :locals => {:framework => to_activity.elt_framework,
-                      :to_activities => to_activity.organization.elt_types,
+          :locals => {:to_activities => to_activity.organization.elt_types,
                       :from_activities => activities_from(@current_organization, @current_application),
                       :activity => to_activity, :from_activity => from_activity,
                       :to_element => @element, :app=>@current_application}
@@ -297,8 +294,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
       to_activity.copy_indicators(from_activity, @element, to_element)
     end
     render :partial => "/apps/learning_time/manage_indicators",
-           :locals => {:framework => to_activity.elt_framework,
-                       :to_activities => to_activity.organization.elt_types,
+           :locals => {:to_activities => to_activity.organization.elt_types,
                        :from_activities => activities_from(@current_organization, @current_application),
                        :activity => to_activity, :from_activity => from_activity,
                        :to_element => nil, :app=>@current_application}
@@ -655,7 +651,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
  
   def toggle_finalize_case
     @elt_case.final? ? @elt_case.unfinalize_it : @elt_case.finalize_it
-    render :partial => "/apps/learning_time/show_school_cycle_activity_cases", :locals => {:activity => @elt_case.elt_type, :org => @elt_case.organization, :cycle=>@elt_case.elt_cycle, :app => @app}
+    render :partial => "/apps/learning_time/show_school_cycle_activity_cases", :locals => {:activity => @elt_case.elt_type, :org => @elt_case.organization, :cycl=>@elt_case.elt_cycle, :app => @app}
   end
 
   def submit_case
@@ -797,7 +793,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     if @cycle && !@cycle.school_survey_active?
       school_survey(@cycle)  
     end
-    render :partial => "/apps/learning_time/survey_client_schools", :locals=>{:cycle=>@cycle, :app=>@app}
+    render :partial => "/apps/learning_time/survey_client_schools", :locals=>{:cycl=>@cycle, :app=>@app}
   end
 
   def stop_school_cycle_surveys
@@ -805,7 +801,7 @@ class Apps::LearningTimeController  < Site::ApplicationController
     @cycle.survey_schedules.active.each do |schedule|
       stop_survey(schedule) 
     end
-    render :partial => "/apps/learning_time/survey_client_schools", :locals=>{:cycle=>@cycle, :app=>@app}
+    render :partial => "/apps/learning_time/survey_client_schools", :locals=>{:cycl=>@cycle, :app=>@app}
   end
  
   def update_action_plan

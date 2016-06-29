@@ -23,7 +23,7 @@
 						<% col_label = pluralize(surveys, " Survey") + " Taken By " + @current_user.first_name   %>
 							<tr>
 								<td class="resource_levels_close" style="color: #2061a5;  font-size:12px; font-weight:normal">
-									<%= link_to '', :controller => "apps/shared", :action => :my_taken_surveys, :organization_id => @current_organization %>
+									<%= link_to '', my_surveys_taken_path(:organization_id => @current_organization) %>
 								<%= col_label %>
 								<span></span>
 								</td>
@@ -57,7 +57,7 @@
 					<% col_label = pluralize(surveys.size,  " Broadcast Survey") + " Sent By " + @current_user.first_name  -%>
 					<tr>
 						<td class="resource_levels_close" style="color: #2061a5;  font-size:12px; font-weight:normal">
-							<%= link_to '', :controller => "apps/shared", :action => :my_broadcast_surveys, :organization_id => @current_organization %>
+							<%= link_to '', my_surveys_broadcast_path(:organization_id => @current_organization) %>
 						<%= col_label %>
 						<span></span>
 						</td>
@@ -79,7 +79,7 @@
 					<% col_label = pluralize(surveys.size,  " Individual Survey")  + " Sent By " + @current_user.first_name -%>
 					<tr>
 						<td class="resource_levels_close" style="color: #2061a5;  font-size:12px; font-weight:normal">
-							<%= link_to '', :controller => "apps/shared", :action => :my_self_surveys, :organization_id => @current_organization %>
+							<%= link_to '', my_surveys_self_path(:organization_id => @current_organization) %>
 						<%= col_label %>
 						<span></span>
 						</td>

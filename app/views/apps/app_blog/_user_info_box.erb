@@ -2,13 +2,13 @@
       <%= user.full_name %>
     </div>
     <div class="normal_text" >
-	<table style="width:550px; width:fixed; border:0px solid #ddd; font-size:11px; line-height:1.2em">
+	<table style="width:100%; border:0px solid #ddd; font-size:11px; line-height:1.2em">
 		<tbody>
 			<tr >
-				<td style="width:50px; width:fixed; border:0px solid #ddd;" >
+				<td style="width:9%; border:0px solid #ddd;" >
 					<%= user.picture && pic ? (image_tag user.picture.url(:small_thumb) ): ("&nbsp;").html_safe %>
 				</td>
-				<td style="width:400px; width:fixed; vertical-align:top; border:0px solid #ddd;padding-bottom:0px; line-height:1.2em" >
+				<td style="width:73%; vertical-align:top; border:0px solid #ddd;padding-bottom:0px; line-height:1.2em" >
 				  	<% if user.display_emai_and_phone == true %>
 				  		<%= user.preferred_email %> <br />
 						<%= user.phone.nil? ? "" : (user.phone + "<br/>").html_safe %>
@@ -28,7 +28,7 @@
 						<br/><br/><u>Teaches:</u>&nbsp;<%= user.offerings.collect{|o| o.course_name}.join(", ") -%>
 					<% end -%>
 					<% unless user.credentials.nil? -%>
-						<br/><br/><%= simple_format user.credentials %>
+						<br/><br/><%= simple_format user.credentials.html_safe %>
 					<% end -%>					
 				</td>
 			</tr>
@@ -36,14 +36,14 @@
 			<% unless user.bio.job_title.nil? %>
 				<tr >
 					<td colspan=2 style="border:0px solid #ddd; font-size:11px; vertical-align:top; padding-top:10px;padding-bottom:5px; padding-left:25px;  font-weight:bold" >
-						<%= user.bio.job_title %>					
+						<%= user.bio.job_title.html_safe %>
 					</td>
 				</tr>
 			<% end -%>
 			<% unless user.bio.description.nil? %>
 				<tr >
 					<td colspan=2 style="border:0px solid #ddd; margin-top:0px; vertical-align:top; padding-top:0px; padding-bottom:0px; font-weight:normal; line-height:1.2em" >
-						<%= user.bio.description -%>					
+						<%= user.bio.description.html_safe -%>
 					</td>
 				</tr>
 			<% end -%>				

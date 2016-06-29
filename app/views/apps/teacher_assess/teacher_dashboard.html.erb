@@ -23,7 +23,7 @@
 					<%= pluralize(@teacher_observers, ' Online Observer')%>   <br/>
 					<% @teacher_classrooms.each do |cl| -%>
 						<% room_org = cl.organization -%>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;<u> <%= link_to cl.course_name,{:controller => "/site/site", :action => :static_classroom, :organization_id => room_org, :id => cl}, {:target => "_blank"} %> </u>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;<u> <%= link_to cl.course_name, offering_view_path(:organization_id => room_org, :id => cl), {:target => "_blank"} %> </u>
 						&nbsp;-&nbsp;Using <%= pluralize(cl.resources.size, ' Library Resource') %><br/>
 					<% end -%>
 			<br/>

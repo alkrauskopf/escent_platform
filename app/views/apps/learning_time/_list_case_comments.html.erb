@@ -1,24 +1,24 @@
 
 <table style="width:480px;margin-top:0px; background-color: #ffffff ;color: #2061a5;border:0px solid #ddd;">
-    <tbody>
+  <tbody>
     <% comments.group_by{|c| c.elt_case.activity}.each do |activity, evidences| -%>
-            <tr style="border-top:1px solid #ddd; ">
-              <td colspan=2 style=" border:0px solid #ddd; font-weight:bold; vertical-align:bottom;text-align:left; font-size:10px" >
-                <%= activity.name %>
-              </td>
-            </tr>
-            <% evidences.each do |evidence| %>
-                <tr>
-                  <td style=" width:60px; width:fixed; border:0px solid #ddd; line-height:1.2em; padding-left:5px; padding-top:2px; padding-bottom:3px; vertical-align:top;text-align:left; font-size:10px" >
-                    <%= evidence.elt_case.submit_date.nil? ? "Date?" : evidence.elt_case.submit_date.strftime("%m-%d-%y") %>
-                    <br/><%= evidence.elt_case.user ? evidence.elt_case.user.last_name : "" %>
-                  </td>
-                  <td style=" border:0px solid #ddd; line-height:1.2em;  padding-left:1px; padding-top:2px; padding-bottom:3px; vertical-align:top;text-align:left; font-size:10px" >
-                    <%= evidence.note %>
-                  </td>
-                </tr>
-            <% end -%>
-        <% end -%>
-    </tbody>
+      <tr style="border-top:1px solid #ddd; ">
+        <td colspan=2 style=" border:0px solid #ddd; font-weight:bold; vertical-align:bottom;text-align:left; font-size:10px" >
+          <%= activity.name %>
+        </td>
+      </tr>
+      <% evidences.each do |evidence| %>
+        <tr>
+          <td style=" width:13%; border:0px solid #ddd; line-height:1.2em; padding-left:5px; padding-top:2px; padding-bottom:3px; vertical-align:top;text-align:left; font-size:10px" >
+            <%= evidence.elt_case.submit_date.nil? ? "Date?" : evidence.elt_case.submit_date.strftime("%m-%d-%y") %>
+            <br/><%= evidence.elt_case.user ? evidence.elt_case.user.last_name : "" %>
+          </td>
+          <td style=" border:0px solid #ddd; line-height:1.2em;  padding-left:1px; padding-top:2px; padding-bottom:3px; vertical-align:top;text-align:left; font-size:10px" >
+            <%= evidence.note %>
+          </td>
+        </tr>
+      <% end -%>
+    <% end -%>
+  </tbody>
 </table>
 

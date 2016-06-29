@@ -1,15 +1,15 @@
-<div  id="client_cycle_survey_<%=cycle.public_id %>">
+<div  id="client_cycle_survey_<%=cycl.public_id %>">
 	<table style= "width:450px; margin-top:5px ">
 		<tbody>
 			<tr>
-			<% if  cycle.school_survey_available? && !cycle.school_survey_active?-%>
-				<td   id = "send_survey_<%= cycle.id %>" style="border:0px solid #ddd; font-size:9px;vertical-align:middle;  padding-top:0px; padding-bottom:0px; padding-left:0px; vertical-align:bottom; ">
+			<% if  cycl.school_survey_available? && !cycl.school_survey_active?-%>
+				<td   id = "send_survey_<%= cycl.id %>" style="border:0px solid #ddd; font-size:9px;vertical-align:middle;  padding-top:0px; padding-bottom:0px; padding-left:0px; vertical-align:bottom; ">
 					<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
 						Survey Schools
 					</span>
 				</td>
-			<% elsif cycle.school_survey_active?-%>
-				<td   id = "cancel_survey_<%= cycle.id %>" style="border:0px solid #ddd; font-size:9px;vertical-align:middle;  padding-top:0px; padding-bottom:0px; padding-left:0px; vertical-align:bottom; ">
+			<% elsif cycl.school_survey_active?-%>
+				<td   id = "cancel_survey_<%= cycl.id %>" style="border:0px solid #ddd; font-size:9px;vertical-align:middle;  padding-top:0px; padding-bottom:0px; padding-left:0px; vertical-align:bottom; ">
 					<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
 						Cancel Survey
 					</span>
@@ -21,22 +21,22 @@
 			<% end -%>	
 			<script type="text/javascript">
 			jQ(document).ready(function() {
-				jQ('#send_survey_<%= cycle.id %>').click(function() {
-					var url = "<%= url_for :controller => '/apps/learning_time', :action => :send_school_cycle_survey, :organization_id => @current_organization, :elt_cycle_id => cycle  %>";
+				jQ('#send_survey_<%= cycl.id %>').click(function() {
+					var url = "<%= elt_survey_start_url(:organization_id => @current_organization, :elt_cycle_id => cycl)  %>";
 						jQ.get(url, {}, function(data) {
-						jQ("#client_cycle_survey_<%=cycle.public_id %>").html(data); 
-				   		jQ("#client_cycle_survey_<%=cycle.public_id %>").show();
+						jQ("#client_cycle_survey_<%=cycl.public_id %>").html(data);
+				   		jQ("#client_cycle_survey_<%=cycl.public_id %>").show();
 						});
 				})
 			});
 			</script>
 			<script type="text/javascript">
 			jQ(document).ready(function() {
-				jQ('#cancel_survey_<%= cycle.id %>').click(function() {
-					var url = "<%= url_for :controller => '/apps/learning_time', :action => :stop_school_cycle_surveys, :organization_id => @current_organization, :elt_cycle_id => cycle  %>";
+				jQ('#cancel_survey_<%= cycl.id %>').click(function() {
+					var url = "<%= elt_survey_stop_url(:organization_id => @current_organization, :elt_cycle_id => cycl)  %>";
 						jQ.get(url, {}, function(data) {
-						jQ("#client_cycle_survey_<%=cycle.public_id %>").html(data); 
-				   		jQ("#client_cycle_survey_<%=cycle.public_id %>").show();
+						jQ("#client_cycle_survey_<%=cycl.public_id %>").html(data);
+				   		jQ("#client_cycle_survey_<%=cycl.public_id %>").show();
 						});
 				})
 			});

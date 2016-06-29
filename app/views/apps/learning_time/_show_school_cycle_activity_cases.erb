@@ -1,10 +1,10 @@
-<div id="activity_cases_<%=org.public_id%><%=cycle.id%><%=activity.public_id%>" style="width:95%; border:0px solid #ddd;">
+<div id="activity_cases_<%=org.public_id%><%=cycl.id%><%=activity.public_id%>" style="width:95%; border:0px solid #ddd;">
 			
-	<table style="width:770px; width:fixed;  border:1px solid #ddd;">
+	<table style="width:770px; border:1px solid #ddd;">
 		<thead style="border:1px solid #ddd;">
 			<tr style=" border:1px solid #ddd;">
 				<th colspan=6 style = "text-align:center; color:#2061a5; font-size:12px; font-weight:bold;">
-					<%= pluralize(org.elt_cycle_activity_cases(cycle, activity).size, activity.name) %>
+					<%= pluralize(org.elt_cycle_activity_cases(cycl, activity).size, activity.name) %>
 				</th>
 			</tr>
 		</thead>
@@ -16,15 +16,15 @@
       			}
    			</style>
 		
-			<% org.elt_cycle_activity_cases(cycle, activity).each do |elt_case| -%>
+			<% org.elt_cycl_activity_cases(cycl, activity).each do |elt_case| -%>
 				<tr style="border:1px solid #ddd;">
-					<td style="width:100px; width:fixed border:0px solid #ddd; line-height:1.3em; color: #2061a5; padding-top:5px;padding-bottom:5px; vertical-align:top;text-align:left; font-size:11px" >
+					<td style="width:13%; border:0px solid #ddd; line-height:1.3em; color: #2061a5; padding-top:5px;padding-bottom:5px; vertical-align:top;text-align:left; font-size:11px" >
 						<%= elt_case.submit_date.nil? ? "Date?" :elt_case.submit_date.strftime("%b %d, %Y") %>
 						<br/><%= elt_case.user ? elt_case.user.last_name : "" %>
 					</td>
 					<td style=" border:0px solid #ddd; color: #2061a5;line-height:1.3em; padding-top:5px;padding-bottom:5px; vertical-align:top;text-align:left; font-size:10px" >
 						<% if elt_case.viewable?(@current_user) %>
-							<u><%= link_to "View", {:controller =>  "/apps/learning_time", :action => "show_case", :organization_id => @current_organization, :elt_case_id => elt_case}, {:target => "_blank"}  %></u>
+							<u><%= link_to 'View', elt_case_show_path(:organization_id => @current_organization, :elt_case_id => elt_case), {:target => "_blank"}  %></u>
 							&nbsp;
 						<% end -%>
 						<span style= "font-size:12px;">
@@ -33,13 +33,13 @@
 						<%= elt_case.subject_area ? (elt_case.subject_area.name + "&nbsp;&nbsp;").html_safe: ""%>
 						<%= elt_case.grade_level ? elt_case.grade_level.name : "" %>
 					</td>
-					<td style="width:70px; width:fixed; border:0px solid #ddd; line-height:1.2em; padding-top:0px;padding-bottom:0px; color:#C73914; vertical-align:middle;text-align:center; font-size:11px" >
+					<td style="width:9%; border:0px solid #ddd; line-height:1.2em; padding-top:0px;padding-bottom:0px; color:#C73914; vertical-align:middle;text-align:center; font-size:11px" >
 						<%= elt_case.final? ? "Finalized" : (elt_case.elt_type.rubric? ? (elt_case.indicators_rated.to_s + " of " + elt_case.rateable_indicators.to_s + "<br\>Rated").html_safe: "") -%>
 					</td>
-					<td style="width:80px; width:fixed border:0px solid #ddd; line-height:1.3em; color:#C73914; padding-top:10px;padding-bottom:0px; vertical-align:top;text-align:left; font-size:11px" >
+					<td style="width:10%; border:0px solid #ddd; line-height:1.3em; color:#C73914; padding-top:10px;padding-bottom:0px; vertical-align:top;text-align:left; font-size:11px" >
 							<%= elt_case.final? && !elt_case.finalize_date.nil? ? elt_case.finalize_date.strftime("%b %d, %Y"):"" %>						
 					</td>
-					<td  id="finalize_<%= elt_case.public_id %>" style = " width:70px; width:fixed;  border:0px solid #ddd; color: #C73914; vertical-align:middle; text-align:left; padding-left:0px; font-size:11px ">
+					<td  id="finalize_<%= elt_case.public_id %>" style = " width:9%; border:0px solid #ddd; color: #C73914; vertical-align:middle; text-align:left; padding-left:0px; font-size:11px ">
 						<% if elt_case.finalizable?(@current_user) || elt_case.reopenable?(@current_user)%>
 							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;padding-left:5px;">
 								<%= elt_case.finalizable?(@current_user) ? "Finalize" : "Re-Open" %>
@@ -48,10 +48,10 @@
 							&nbsp;
 						<% end -%>
 					</td>
-					<td  style="width:70px; width:fixed; border:0px solid #ddd; line-height:1.2em; padding-top:10px;padding-bottom:0px; color:#C73914; vertical-align:top;text-align:center; font-size:11px" >
+					<td  style="width:9%; border:0px solid #ddd; line-height:1.2em; padding-top:10px;padding-bottom:0px; color:#C73914; vertical-align:top;text-align:center; font-size:11px" >
 						<% if true-%>
 							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;padding-left:5px;">
-						  		<%= link_to "PDF",  {:controller =>"/apps/app_pdf", :action=> "elt_case", :elt_case_id => elt_case, :format => 'pdf'}, {:target => "_blank"} %>
+						  		<%= link_to 'PDF', pdf_elt_case_path(:elt_case_id => elt_case, :format => 'pdf'), {:target => "_blank"} %>
 							</span>
 						<% else -%>
 							&nbsp;
@@ -61,10 +61,10 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#finalize_<%= elt_case.public_id %>").click(function() {
-		var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_finalize_case, :organization_id => @current_organization, :elt_case_id => elt_case %>";
+		var url = "<%= elt_case_finalize_url( :organization_id => @current_organization, :elt_case_id => elt_case) %>";
 		jQ.get(url,{},  function(data) {
-				jQ("#activity_cases_<%=org.public_id%><%=cycle.id%><%=activity.public_id%>").html(data);
-				jQ("#activity_cases_<%=org.public_id%><%=cycle.id%><%=activity.public_id%>").show();
+				jQ("#activity_cases_<%=org.public_id%><%=cycl.id%><%=activity.public_id%>").html(data);
+				jQ("#activity_cases_<%=org.public_id%><%=cycl.id%><%=activity.public_id%>").show();
 					});
 	})
 });

@@ -180,7 +180,7 @@
 							<% unless row[7].nil? -%>
 								<% id = "strat_" + idx.to_s + row[9].to_s-%>
 								<a id="<%= id%>" href=""><%= image_tag "button_warning.png",:width => 15%></a>
-								<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :title=> row[0], :blue=>row[7], :body=> row[8], :height=> 300, :width=> 600 } %>
+								<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :titl=> row[0], :blue=>row[7], :body=> row[8], :height=> 300, :width=> 600 } %>
 							<% else -%>
 								&nbsp;						
 							<% end -%>

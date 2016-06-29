@@ -10,7 +10,7 @@
 					<tbody>  
 						<tr>
 							<td class="resource_levels_close">
-                <%= link_to '', :controller => "apps/blogs", :action => :panelist_activity, :organization_id => @current_organization, :panelist_id => panelist  %>
+                <%= link_to '', blog_admin_panel_activity_path(:organization_id => @current_organization, :panelist_id => panelist) %>
                 <%= panelist.last_name %>&nbsp;<small>(<%= @current_organization.blog_posts.for_user(panelist).size%>)</small>
                 <span></span>
 							</td>

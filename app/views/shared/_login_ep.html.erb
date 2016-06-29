@@ -2,7 +2,7 @@
 <div class="login_bar">
     <div class="iwing_header_and_footer_bars clear">
 
-        <% form_tag :controller => @in_admin ? "/admin/application" : "/users", :action => :login, :organization_id => @current_organization do -%>
+        <% form_tag user_signin_path(:organization_id => @current_organization) do -%>
         <div class="content form">
             <div class="header_row clear">
             	<div class="header_footer_text">
@@ -18,7 +18,7 @@
             	</div>
             	<div class="forgot_password">
                 	<div class="header_footer_text">
-                    <%= link_to "Forgot Password?",  {:controller => "/users", :action => :forgot_password, :organization_id => @current_organization}, :class => "login_forgot_password" %>
+                    <%= link_to 'Forgot Password?', user_forgot_password_path(:organization_id => @current_organization), :class => "login_forgot_password" %>
             			</div>
             	</div>
             </div>

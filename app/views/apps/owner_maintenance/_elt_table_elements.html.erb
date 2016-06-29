@@ -1,6 +1,6 @@
 <div id="elt_tables_<%=org.public_id%>">
 
-	<table id="1_header_<%= org.public_id %>" style="width:650px; width:fixed; margin-left:250px">
+	<table id="1_header_<%= org.public_id %>" style="width:650px; margin-left:250px">
 		<tbody>
 			<tr>
 				<td id="1_show_<%= org.public_id %>" style="padding-top:0px; padding-left:0px;">
@@ -11,7 +11,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<table   id="1_descript_<%= org.public_id %>" style="width:650px; width:fixed; margin-top:10px; margin-left:250px">
+	<table   id="1_descript_<%= org.public_id %>" style="width:650px; margin-top:10px; margin-left:250px">
 		<style type="text/css" media="screen">
 	    table,tr,td { border:medium}
 		table tr:hover{
@@ -31,9 +31,9 @@
 				<td style="vertical-align:top ">
 	    			<%= render :partial => "/apps/owner_maintenance/elt_element_rows", :locals=>{:org=>@current_organization, :app=>app} %>
 				</td>
-				<td style="width:200px; width:fixed; padding-left:20px; vertical-align:top ">
+				<td style="width:33%; padding-left:20px; vertical-align:top ">
 					<span class="fsn-button ui-button ui-state-default ui-corner-all">
-						<%= link_to 'Create New Element', {:controller => "/apps/owner_maintenance", :action => :elt_element_new, :app_id=> app.id, :task=>"New", :organization_id => @current_organization},{:target=>"_blank"}  %>
+						<%= link_to 'Create New Element', elt_maint_element_new_path(:app_id=> app.id, :task=>"New", :organization_id => @current_organization),{:target=>"_blank"}  %>
 					</span>
 				</td>
 			</tr>

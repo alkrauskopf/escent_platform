@@ -28,7 +28,7 @@
 jQ(document).ready(function() {
 	jQ('#<%=strategy.id%>_add_evidence').change(function() {
 		var evidence_id = jQ('#evidencea_strategy_id').val();
-		var url = "<%= url_for :controller => "/apps/owner_maintenance", :action => :owner_strategy_evidence, :organization_id => @current_organization, :coop_app_id=>@current_application, :strategy_id => strategy.id %>";
+		var url = "<%= ctl_maint_strategies_evidence_url(:organization_id => @current_organization, :coop_app_id=>@current_application, :strategy_id => strategy.id) %>";
 			jQ.get(url, {'evidence_id':evidence_id}, function(data) {
 			jQ("#<%=strategy.id%>_evidence").html(data); 
 	   		jQ("#<%=strategy.id%>_evidence").show();
@@ -40,7 +40,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#<%=strategy.id%>_del_evidence').change(function() {
 		var evidence_id = jQ('#evidencer_strategy_id').val();
-		var url = "<%= url_for :controller => "/apps/owner_maintenance", :action => :owner_strategy_evidence, :organization_id => @current_organization, :coop_app_id=>@current_application, :strategy_id => strategy.id %>";
+		var url = "<%= ctl_maint_strategies_evidence_url(:organization_id => @current_organization, :coop_app_id=>@current_application, :strategy_id => strategy.id) %>";
 			jQ.get(url, {'evidence_id':evidence_id}, function(data) {
 			jQ("#<%=strategy.id%>_evidence").html(data); 
 	   		jQ("#<%=strategy.id%>_evidence").show();

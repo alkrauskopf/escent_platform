@@ -3,7 +3,6 @@
     position: relative;
     display: inline-block;
   }
-
   .hdr-dropdown-content {
     display: none;
     position: absolute;
@@ -13,7 +12,6 @@
     z-index: 1;
     color:<%= Organization.default.style_setting_value_named("Header and Footer Text") %>;
   }
-
   .hdr-dropdown:hover .hdr-dropdown-content {
     display: block;
   }
@@ -27,10 +25,10 @@
                 CRUD MAINTENANCE: <%= @current_user.full_name %>
               </div>
               <div style="float:left; text-align:center; width:30%; " class="header_footer_text">
-                  <%= link_to Organization.default.name, :controller => "/site/site", :action => :static_organization, :organization_id => Organization.default %>
+                  <%= link_to Organization.default.name, organization_view_path(:organization_id => Organization.default) %>
               </div>
               <div style="float:right;text-align:right; width:35%; " class="header_footer_text">
-                <%= link_to "Sign Out", :controller => "/users", :action => :logout, :organization_id => Organization.default %>
+                <%= link_to 'Sign Out', user_signout_path(:organization_id => Organization.default) %>
                 &nbsp;|&nbsp;
               </div>
         </div>
@@ -43,24 +41,24 @@
                <li style="width: 15%;" class="hdr-dropdown">
                   <span>Users</span>
                   <ul style="width: 80%;" class="hdr-dropdown-content">
-                    <li ><%= link_to "List", :controller => "/master/users", :action => :index %></li>
+                    <li ><%= link_to 'List', master_users_show_path %></li>
                   </ul>
                 </li>
                <li style="width: 15%;" class="hdr-dropdown">
                  <span>Organizations</span>
                  <ul style="width: 80%;" class="hdr-dropdown-content">
-                   <li><%= link_to "List", {:controller=>"/master/organizations", :action => :index} %></li>
-                   <li><%= link_to"App Ownership", {:controller=>"/master/organizations", :action =>  :ownership} %></li>
-                   <li><%= link_to"App Useability", {:controller=>"/master/organizations", :action =>  :app_useability} %></li>
-                   <li><%= link_to "Create New", {:controller=>"/master/organizations", :action => :new},  :target => '_blank' %></li>
+                   <li><%= link_to "List", master_organizations_show_path %></li>
+                   <li><%= link_to"App Ownership", master_organizations_app_owners_path %></li>
+                   <li><%= link_to"App Useability", master_organizations_app_usage_path %></li>
+                   <li><%= link_to "Create New", master_organizations_new_path,  :target => '_blank' %></li>
                  </ul>
                </li>
                <li style="width: 15%;" class="hdr-dropdown">
                  <span>Applications</span>
                  <ul style="width: 80%;" class="hdr-dropdown-content">
-                   <li><%= link_to "Create App", {:controller => "master/coop_apps", :action => :edit_app, :function=>"New"} %></li>
+                   <li><%= link_to "Create App", master_apps_new_path(:function=>"New") %></li>
                    <% CoopApp.all.each do |app| %>
-                         <li><%= link_to app.abbrev, {:controller => "master/coop_apps", :action => :index, :app_id=> app.id} %></li>
+                     <li><%= link_to app.abbrev, master_apps_view_path(:app_id=> app.id) %></li>
                    <% end %>
                  </ul>
                </li>
@@ -69,9 +67,6 @@
                  <ul class="hdr-dropdown-content">
                    <li><%= "CTL: List Sessions"%></li>
                    <li><%="IFA: List Submissions" %></li>
-                   <!--
-                   <%#= link"IFA: Calibrate Assessments", :act_submissions, :assessment_calibrations %>
-                   -->
                   </ul>
                </li>
                <li style="width: 15%;" class="hdr-dropdown">

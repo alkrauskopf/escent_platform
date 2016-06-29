@@ -4,8 +4,8 @@
 			<div class="blog_font">
 				<% comment_string = (@com_num + 1).to_s + ". " + @comment.body -%>
 				<%= simple_format comment_string %>
-				<% if @current_user && (@current_user == @blog_post.user || @current_user.has_authority?(@current_organization, AuthorizationLevel.app_administrator(CoopApp.core)) -%>
-				<%= link_to "[X]", {:controller => "blog_posts", :action => "delete_comment", :id => @comment.id}, :confirm => "Are you sure?" %>
+				<% if @current_user && (@current_user == @blog_post.user || @current_user.has_authority?(@current_organization, AuthorizationLevel.app_administrator(CoopApp.core), :superuser=>true)) -%>
+				  <%= link_to '[X]', {:controller => "blog_posts", :action => "delete_comment", :id => @comment.id}, :confirm => "Are you sure?" %>
 				<% end -%>
 			</div>
 		</div>
@@ -15,7 +15,7 @@
 			<% if @comment.user%>
 				<% if @comment.user_name.blank? -%>
 					<%= @comment.user.full_name %>
-					<%= link_to @comment.user.full_name, :controller => "/users", :action => :member_public_profile, :organization_id => @comment.blog_post.blog.organization, :id => @comment.user %>
+					<%= link_to @comment.user.full_name, user_view_path(:organization_id => @comment.blog_post.blog.organization, :id => @comment.user) %>
 				<% else -%>
 					<%= @comment.user_name %> <% end %>
 			<% else -%> Former Member

@@ -13,7 +13,7 @@
 
     <%= render :partial => "/shared/error_and_notice" %>
 
-	<%= form_for :itl_strategy_threshold , @strategy.itl_strategy_threshold , :url=>{:controller => "/apps/owner_maintenance" , :action => "owner_thresholds_edit" , :strategy_id => @strategy.id, :coop_app_id=>@current_application} do |f| %>
+	<%= form_for :itl_strategy_threshold , @strategy.itl_strategy_threshold, :url=> ctl_maint_thresholds_edit_path(:strategy_id => @strategy.id, :coop_app_id=>@current_applicatio) do |f| %>
 		<div class="FormRow">	
 			<div class="FormRowData" style="color:#000000;  padding-left:180px; font-size: 12px;">
 				<span style="color:#2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
@@ -56,8 +56,8 @@
 		</div>
 		<div class="FormRow">	
 			<div class="FormRowData" style="color:#000000;  padding-left:200px; font-size: 12px;" >
-				<%= f.submit "Save" %>&nbsp;&nbsp;
-				<%= link_to "Cancel" ,  {:controller => "/apps/owner_maintenance", :action => "owner_strategy_thresholds", :coop_app_id => @current_application} %>
+				<%= f.submit 'Save' %>&nbsp;&nbsp;
+				<%= link_to 'Cancel',  ctl_maint_thresholds_path(:coop_app_id => @current_application) %>
 			</div>	
 		</div>
 	<% end %>

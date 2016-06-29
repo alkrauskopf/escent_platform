@@ -5,7 +5,7 @@
 			<tr>
 				<td class="resource_levels_close" style="width:480px;">
   				<%#= link_to '', :controller => "apps/learning_time", :action => :list_case_evidences, :organization_id => @current_organization, :elt_case_id => elt_case, :elt_std_indicator_id => std  %>
-          <%= link_to '', :controller => "apps/learning_time_standards", :action => :supporting_findings, :organization_id => @current_organization, :org_id => elt_case.organization,:elt_cycle_id=> elt_case.elt_cycle, :elt_std_indicator_id => std  %>
+          <%= link_to '', elt_case_support_findings_path(:organization_id => @current_organization, :org_id => elt_case.organization,:elt_cycle_id=> elt_case.elt_cycle, :elt_std_indicator_id => std)  %>
 				<%=std.description %>
 				<span></span>
 				</td>

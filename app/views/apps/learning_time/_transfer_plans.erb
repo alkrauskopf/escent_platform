@@ -6,7 +6,7 @@
 			<table style="width:750px;margin-left:0px; border:0px solid #ddd;">
 				<tbody>  
 					<tr  style="border:0px solid #ddd;" >
-						<td  id='<%=org.id%>_plan_xfer' style="width:200px; width:fixed; color:#000000; font-weight:normal; font-size:12px; padding-left:40px; padding-bottom:0px;">
+						<td  id='<%=org.id%>_plan_xfer' style="width:27%; color:#000000; font-weight:normal; font-size:12px; padding-left:40px; padding-bottom:0px;">
 							<%=  select(:plan_org, org.id, (org.provided_app_orgs(app,false)).sort_by{|o| o.name}.collect{|o| [truncate(o.medium_name, :omission => "...", :length => 18), o.public_id]}, :prompt => "Organization With Plan") %>
 						</td>
 					</tr>
@@ -18,7 +18,7 @@
 jQ(document).ready(function() {
 	jQ("#<%=org.id%>_plan_xfer").change(function() {
 		var base_org_id = jQ("#plan_org_<%=org.id%>").val();
-		var url = "<%= url_for :controller => "/apps/learning_time", :action => :transfer_plan_org, :organization_id => @current_organization, :elt_framework_id => framework, :org_id => org, :app_id=> app %>";
+		var url = "<%= elt_config_plan_organization_url(:organization_id => @current_organization, :elt_framework_id => framework, :org_id => org, :app_id=> app) %>";
 			jQ.get(url, {'base_org_id':base_org_id}, function(data) {
 			jQ("#transfer_plans_<%= framework.public_id%>").html(data);
 			jQ("#transfer_plans_<%= framework.public_id%>").show();
@@ -36,25 +36,25 @@ jQ(document).ready(function() {
                             </td>
                         </tr>
                         <tr  style="border:0px solid #ddd;" >
-                            <td  style="width:350px; width:fixed; color:#000000; font-weight:normal; font-size:12px; padding-left:0px; padding-bottom:0px;">
+                            <td  style="width:50%; color:#000000; font-weight:normal; font-size:12px; padding-left:0px; padding-bottom:0px;">
                                 &nbsp;
                             </td>
-                            <td  style="width:350px; width:fixed; color:#000000; font-weight:normal; font-size:12px; padding-left:0px; padding-bottom:0px;">
+                            <td  style="width:50%; color:#000000; font-weight:normal; font-size:12px; padding-left:0px; padding-bottom:0px;">
                                 <%=  select(:plan_cycle, org.id, (framework.elt_cycles.all).sort_by{|c| c.name}.collect{|c| [truncate(c.name, :omission => "...", :length => 18), c.id]}, :prompt => "Transfer To Cycle") %>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <table  style="width:750px; width:fixed; border-top:0px solid #000; margin-top:10px; margin-bottom:0px; margin-left:0px">
+                <table  style="width:750px; border-top:0px solid #000; margin-top:10px; margin-bottom:0px; margin-left:0px">
                     <tbody>
                         <% base_org.elt_plans.for_framework(framework).each do |elt_plan| %>
                             <tr style="border:1px solid #ddd;">
-                                <td id="xfer_<%= elt_plan.public_id %>" style=" width:100px; width:fixed; text-align:left; color: #2061a5;; font-size:11px; font-weight:normal; ">
+                                <td id="xfer_<%= elt_plan.public_id %>" style=" width:13%; text-align:left; color: #2061a5;; font-size:11px; font-weight:normal; ">
                                     <span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;padding-left:5px;">
                                         Transfer
                                     </span>
                                 </td>
-                                <td style=" width:150px; width:fixed; text-align:left; color: #2061a5; line-height:1.3em; font-size:11px; font-weight:normal; ">
+                                <td style=" width:20%; text-align:left; color: #2061a5; line-height:1.3em; font-size:11px; font-weight:normal; ">
                                     <%= elt_plan.created_at.strftime("%m-%d-%y") %>
                                 </td>
                                 <td style="  text-align:left; color: #2061a5; line-height:1.3em; font-size:12px; font-weight:normal; ">
@@ -66,7 +66,7 @@ jQ(document).ready(function() {
     jQ(document).ready(function() {
     jQ("#xfer_<%= elt_plan.public_id %>").click(function() {
         var xfer_cycle_id = jQ('#plan_cycle_<%=org.id%>').val();
-        var url = "<%= url_for :controller => "/apps/learning_time", :action => :transfer_plan_org, :organization_id => @current_organization, :org_id => org, :base_org_id => base_org, :elt_plan_id => elt_plan, :app_id=> app %>";
+        var url = "<%= elt_config_plan_organization_url(:organization_id => @current_organization, :org_id => org, :base_org_id => base_org, :elt_plan_id => elt_plan, :app_id=> app) %>";
         jQ.get(url,{'xfer_cycle_id':xfer_cycle_id},  function(data) {
             jQ("#transfer_plans_<%= framework.public_id%>").html(data);
             jQ("#transfer_plans_<%= framework.public_id%>").show();

@@ -1,6 +1,5 @@
 
 <div id="surv_list_<%= instruction.public_id %>" style = "font-size:12px; color: #000000;padding-left:0px;">
-
 	<table  style="width:800px; margin-left:0px;border:1px solid #ddd;">
 		<style type="text/css" media="screen">
 	    		table,tr,td { border:none }
@@ -10,8 +9,8 @@
    			</style>
 		<thead>
 			<tr  style=" border:1px solid #ddd;" >
-				<th colspan=3 style=" vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-weight:normal; font-size:12px">
-					<center> <%=instruction.description %></center>
+				<th colspan=3 style=" text-align:center; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-weight:normal; font-size:12px">
+					<%=instruction.description %>
 				</th>				
 			</tr>
 		</thead>		
@@ -45,7 +44,7 @@
 			<tbody>
 				<tr>
 					<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal;  font-size:10.5px">
-						<%= link_to '', :controller => "apps/shared", :action => :create_survey_question, :organization_id => @current_organization, :admin => admin, :app_id => app, :survey_instruction => instruction %>
+						<%= link_to '', survey_question_new_path(:organization_id => @current_organization, :admin => admin, :app_id => app, :survey_instruction => instruction) %>
 						Create New Question
 						<span></span>
 					</td>
@@ -64,7 +63,7 @@
 				<tbody>
 					<tr>
 						<td class="resource_levels_close" style=" color: #2061a5;font-weight:normal;  font-size:10.5px">
-							<%= link_to '', :controller => "apps/shared", :action => :list_surveys_others, :organization_id => @current_organization, :admin => admin, :app_id => app, :survey_instruction => instruction %>
+							<%= link_to '', surveys_others_show_path(:organization_id => @current_organization, :admin => admin, :app_id => app, :survey_instruction => instruction) %>
 							View Questions Used By Other Schools
 							<span></span>
 						</td>
@@ -89,8 +88,8 @@
 			<table  style="width:800px;">
 				<thead>
 						<tr>
-							<th colspan=5 style=" vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #C73914; font-weight:normal; font-size:12px">
-								<center>CAUTION: Altering A Question May Invalidate Its Historical Data</center>
+							<th colspan=5 style=" text-aling:center; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #C73914; font-weight:normal; font-size:12px">
+								CAUTION: Altering A Question May Invalidate Its Historical Data
 							</th>				
 						</tr>
 				</thead>
@@ -178,7 +177,7 @@
 									<tbody>
 										<tr>
 											<td class="resource_levels_close" style=" border:0px solid #ddd; color: #C73914; font-weight:normal;  font-size:9.5px">
-												<%= link_to '', :controller => "apps/shared", :action => :analyze_question, :organization_id => @current_organization,:admin => admin, :app_id => app, :survey_question_id => question %>
+												<%= link_to '', survey_question_analyze_path(:organization_id => @current_organization,:admin => admin, :app_id => app, :survey_question_id => question) %>
 												Analyze Question
 												<span></span>
 											</td>
@@ -240,7 +239,7 @@ jQ(document).ready(function() {
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#q_<%= question.id %>').click(function() {
-		var url = "<%= url_for :controller =>"apps/shared", :action => "toggle_survey", :organization_id => @current_organization, :survey_question_id => question, :user_id => @current_user, :admin => admin, :survey_instruction => instruction, :app_id => app.id %>";
+		var url = "<%= survey_activate_url(:organization_id => @current_organization, :survey_question_id => question, :user_id => @current_user, :admin => admin, :survey_instruction => instruction, :app_id => app.id) %>";
 			jQ.get(url, {}, function(data) {
 				jQ("#surv_list_<%= instruction.public_id %>").html(data);
 				jQ("#surv_list_<%= instruction.public_id %>").show();
@@ -254,7 +253,7 @@ jQ(document).ready(function() {
 		var position = jQ('#position_<%=@q_id%>').val();
 		var question = jQ('#question_<%=@q_id%>').val();
 		var range = jQ('#range_<%=@q_id%>').val();
-		var url = "<%= url_for :controller =>"apps/shared", :action => "position_survey", :organization_id => @current_organization, :survey_question_id => question, :user_id => @current_user, :admin => admin, :survey_instruction => instruction, :app_id => app.id %>";
+		var url = "<%= survey_position_url(:organization_id => @current_organization, :survey_question_id => question, :user_id => @current_user, :admin => admin, :survey_instruction => instruction, :app_id => app.id) %>";
 			jQ.get(url, {'question':question, 'position':position, 'range_type_id': range}, function(data) {
 				jQ("#surv_list_<%= instruction.public_id %>").html(data);
 				jQ("#surv_list_<%= instruction.public_id %>").show();
@@ -265,7 +264,7 @@ jQ(document).ready(function() {
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#d_<%= question.id %>').click(function() {
-		var url = "<%= url_for :controller =>"apps/shared", :action => "destroy_survey_question", :organization_id => @current_organization, :survey_question_id => question, :user_id => @current_user, :admin => admin, :survey_instruction => instruction, :app_id => app.id %>";
+		var url = "<%= survey_question_destroy_url(:organization_id => @current_organization, :survey_question_id => question, :user_id => @current_user, :admin => admin, :survey_instruction => instruction, :app_id => app.id) %>";
 			jQ.get(url, {}, function(data) {
 				jQ("#surv_list_<%= instruction.public_id %>").html(data);
 				jQ("#surv_list_<%= instruction.public_id %>").show();
@@ -290,8 +289,8 @@ jQ(document).ready(function() {
    			</style>
 		<tbody>
 			<tr  style=" border:0px solid #ddd;" >
-				<td style=" vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #C73914; font-weight:normal; font-size:12px">
-					<center>No Questions For <%=instruction.display_name %></center>
+				<td style="text-align:center; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #C73914; font-weight:normal; font-size:12px">
+					No Questions For <%=instruction.display_name %>
 				</td>				
 			</tr>
 		</tbody>

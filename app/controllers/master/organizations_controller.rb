@@ -6,6 +6,13 @@ class Master::OrganizationsController < Master::ApplicationController
     @organizations = Organization.all
   end
 
+  def delete
+    unless @organizaiton.nil?
+      # @organization.destroy
+      flash[:notice] = "Successfully removed organization #{@organization.name}."
+    end
+    redirect_to :action => :index
+  end
 
   def new
     if request.post?
@@ -58,36 +65,9 @@ class Master::OrganizationsController < Master::ApplicationController
   end
 
   def update
-    @organization = @current_organization
-    @address = @organization.addresses.first || @organization.addresses.new
-    flash[:notice] = nil
-    if request.post?
-
-      if @organization.update_attributes params[:organization]
-        @address.organization = @organization
-
-        if !@address.update_attributes params[:address]
-          flash[:error] = @address.errors.full_messages.to_sentence
-        else
-          flash[:notice] = "Organization Information Updated:  ", @organization.name
-        end
-      else
-        flash[:error] = @organization.errors.full_messages.to_sentence
-      end
-    end
   end
-
   def edit
-    if request.post?
-      if @organization.update_attributes(params[:organization])
-          flash[:notice] = "Successfully updated organization #{@organization.name}."
-          redirect_to :action => :index
-      else
-        flash[:error] = @organization.errors.full_messages.to_sentence
-      end
-    end
   end
-
   def show
   end
   def list
@@ -121,7 +101,7 @@ class Master::OrganizationsController < Master::ApplicationController
     else
       app_discuss = AppDiscussion.new
       app_discuss.organization_id = params[:owner_id].to_i
-      @app.app_discussion = app_discuss
+      @app.app_discussions << app_discuss
     end
       render :partial => "master/organizations/owner_maintenance", :locals => {:app => @app}
   end
@@ -155,19 +135,12 @@ class Master::OrganizationsController < Master::ApplicationController
   def owner_maintenace
     @app = CoopApp.find_by_id(params[:app_id]) rescue nil
   end 
-  
-  def delete
-    if request.post?
-     @organization.destroy
-      flash[:notice] = "Successfully removed organization #{@organization.name}."
-      redirect_to :action => :index
-    end
-  end
+
 
   
   protected
   
   def find_organization
-    @organization = Organization.find(params[:id])
+    @organization = Organization.find_by_id(params[:id])
   end
 end

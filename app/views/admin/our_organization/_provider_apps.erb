@@ -29,7 +29,7 @@
 					<tr style=" border:1px solid #ddd; background: #FFFFFF; ">
 						<td style=" width:55px; width:fixed; font-size:9px; vertical-align:middle;" >
 							<span class="fsn-button ui-button ui-state-default ui-corner-all" style=" cursor:pointer">
-								<%= link_to "Change", {:controller => "admin/our_organization",:action => "edit_app_alt_name", :organization_id => @current_organization, :app_id => app}, :class => "edit_alt_name_" + app.id.to_s %>
+								<%= link_to "Change", admin_provider_app_name_path(:organization_id => @current_organization, :app_id => app), :class => "edit_alt_name_" + app.id.to_s %>
 							</span>
 						</td>
 						<td   style="width:80px; width:fixed; border:0px solid #ddd; vertical-align:middle; padding-right:5px; padding-bottom:5px; padding-top:5px; color:#2061a5; font-size:11px; ">
@@ -79,7 +79,7 @@
 jQ(document).ready(function() {
 	jQ('#<%=app.id%>_enable').change(function() {
 		var org_id = jQ('#app_enable_<%=app.id%>').val();
-		var url = "<%= url_for :controller => "admin/our_organization", :action => :provider_app_enable, :organization_id => @current_organization, :app_id=> app %>";
+		var url = "<%= url_for admin_provider_app_enable_path(:organization_id => @current_organization, :app_id=> app) %>";
 			jQ.get(url, {'org_id':org_id}, function(data) {
 			jQ("#provider_apps").html(data);
 			jQ("#provider_apps").show();
@@ -91,7 +91,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#<%=app.id%>_disable').change(function() {
 		var org_id = jQ('#app_disable_<%=app.id%>').val();
-		var url = "<%= url_for :controller => "admin/our_organization", :action => :provider_app_enable, :organization_id => @current_organization, :app_id=> app %>";
+		var url = "<%= url_for admin_provider_app_enable_path(:organization_id => @current_organization, :app_id=> app) %>";
 			jQ.get(url, {'org_id':org_id}, function(data) {
 			jQ("#provider_apps").html(data);
 			jQ("#provider_apps").show();

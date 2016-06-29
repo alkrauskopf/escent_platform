@@ -9,7 +9,7 @@
 					<tbody>  
 						<tr>
 							<td class="resource_levels_close">		
-							<%= link_to '', :controller => "apps/owner_maintenance", :action => :core_org_status, :organization_id => @current_organization, :org=> org, :coop_app_id => @current_application %>
+							<%= link_to '', core_maint_org_status_path(:organization_id => @current_organization, :org=> org, :coop_app_id => @current_application) %>
 							<%= org.name%>
 							<span></span>
 							</td>

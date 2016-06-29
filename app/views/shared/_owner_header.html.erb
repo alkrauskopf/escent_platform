@@ -24,7 +24,7 @@
           <div style="float:left; width:42%;" class="header_footer_text">
             Welcome, <%= @current_user.full_name %>&nbsp;
             <% if @current_user.created_at == @current_user.updated_at -%>
-              &nbsp;<%= link_to "Setup Your Profile!", :controller => "/users", :action => :edit_profile, :organization_id => @current_organization, :id => @current_user %>
+              &nbsp;<%= link_to "Setup Your Profile!", user_edit_path(:organization_id => @current_organization, :id => @current_user) %>
             <% end %>
           </div>
           <div style="float:left; width:33%;" class="header_footer_text">
@@ -32,7 +32,7 @@
           </div>
           <% unless @current_organization.nil? %>
             <div style="float:left; width:25%; text-align:right;" class="header_footer_text">
-              <%= link_to @current_organization.name, :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization %>
+              <%= link_to @current_organization.name, organization_view_path(:organization_id => @current_organization) %>
             </div>
           <% else %>
             <div style="float:left; width:25%; text-align:right;" class="header_footer_text">
@@ -50,7 +50,7 @@
                     Close Window When Done
               </li>
               <li style="width:10%; text-align:center;" class="header_footer_text">
-                  <%= link_to "Sign Out", :controller => "/users", :action => :logout, :organization_id => @current_organization %>
+                  <%= link_to 'Sign Out', user_signout_path(:organization_id => @current_organization) %>
               </li>
             </ul>
           </div>

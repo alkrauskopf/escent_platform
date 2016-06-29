@@ -20,7 +20,7 @@
 						</td>					
 					<% else -%>
 						<td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:5px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-							<%= link_to (image_tag button_image, :width => 15), {:controller => "admin/our_organization",:action => "coop_app_enable_disable", :organization_id => @current_organization,  :app_id => app}, :confirm => "Are You Sure?", :class => "toggle_button" %>
+							<%= link_to (image_tag button_image, :width => 15), admin_org_apps_path(:organization_id => @current_organization,  :app_id => app), :confirm => "Are You Sure?", :class => "toggle_button" %>
 						</td>
 					<% end -%>						
 
@@ -48,7 +48,7 @@
 									<% app.providers.each do |prov| -%>
 										<tr style = "margin-top:0px;">
 											<td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:5px;">
-												<%= link_to (image_tag button_image, :width => 12), {:controller => "admin/our_organization",:action => "coop_app_enable_disable", :organization_id => @current_organization, :provider_id => prov.id, :app_id => app}, :confirm => "Are You Sure?", :class => "toggle_button" %>
+												<%= link_to (image_tag button_image, :width => 12), admin_org_apps_path(:organization_id => @current_organization, :provider_id => prov.id, :app_id => app), :confirm => "Are You Sure?", :class => "toggle_button" %>
 											</td>
 											<td   style="width:475px; width:fixed; color:#2061a5; vertical-align:top; font-weight:normal; padding-top:0px; text-align:left;">
 												<u>Provider:</u>&nbsp;<%=  prov.short_name %>,&nbsp;<%=prov.app_settings(app).alt_name %> 

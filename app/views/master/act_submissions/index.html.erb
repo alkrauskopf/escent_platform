@@ -1,5 +1,5 @@
 <h2>ACT Submission</h2>
-<%= link_to "Add", :action => :new %>
+
 <table>
 	<thead>
 		<tr>
@@ -29,9 +29,7 @@
 			
 			<td class="edit_and_remove">
 				<button title="<%= sub.id %>" class="show fsn-button ui-button ui-state-default ui-corner-all">Show</button>
-				<button title="<%= sub.id %>" class="edit fsn-button ui-button ui-state-default ui-corner-all">Edit</button>				
-				<%= button_to "remove", {:action => :delete, :id => sub.id}, :confirm => 'Are you sure?', :class => "fsn-button ui-button ui-state-default ui-corner-all"  %>
-
+				<button title="<%= sub.id %>" class="edit fsn-button ui-button ui-state-default ui-corner-all">Edit</button>
 			</td>
 		</tr>		
 		<% end -%>

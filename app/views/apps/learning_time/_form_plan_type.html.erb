@@ -6,37 +6,36 @@
 
 <div class="formBox">
 	<div class="FormRow">
-      <div class="FormRowTitle">
-            Name:
-        </div>
-        <div class="FormRowData" style= "margin-left:25px">
-        <%= text_field :elt_plan_type, :name, :value => @plan_type.name, :size => 32 %>
-        </div>
-    </div>	
-	<div class="FormRow">
-      <div class="FormRowTitle">
-            Abbrev:
-        </div>
-        <div class="FormRowData" style= "margin-left:25px">
-        	<%= text_field :elt_plan_type, :abbrev, :value =>  @plan_type.abbrev,  :size => 8, :maxlength => 8 %>
-        </div>
+    <div class="FormRowTitle">
+        Name:
     </div>
-	<div class="FormRow">
-      <div class="FormRowTitle">
-            Description:
-        </div>
-        <div class="FormRowData" style= "margin-left:25px">
-        <%= text_area :elt_plan_type, :description, :value => @plan_type.description, :cols => 40, :rows => 3 %>
-        </div>
+    <div class="FormRowData" style= "margin-left:25px">
+    <%= text_field :elt_plan_type, :name, :value => @plan_type.name, :size => 32 %>
     </div>
+  </div>
 	<div class="FormRow">
-      <div class="FormRowTitle">
-           
-        </div>
-        <div class="FormRowData" style= "margin-left:25px">
-        	&nbsp;
-        </div>
+    <div class="FormRowTitle">
+        Abbrev:
     </div>
+    <div class="FormRowData" style= "margin-left:25px">
+      <%= text_field :elt_plan_type, :abbrev, :value =>  @plan_type.abbrev,  :size => 8, :maxlength => 8 %>
+    </div>
+  </div>
+	<div class="FormRow">
+    <div class="FormRowTitle">
+        Description:
+    </div>
+    <div class="FormRowData" style= "margin-left:25px">
+    <%= text_area :elt_plan_type, :description, :value => @plan_type.description, :cols => 40, :rows => 3 %>
+    </div>
+  </div>
+	<div class="FormRow">
+    <div class="FormRowTitle">
+    </div>
+    <div class="FormRowData" style= "margin-left:25px">
+      &nbsp;
+    </div>
+  </div>
 </div>
 
 <style type="text/css" media="screen">

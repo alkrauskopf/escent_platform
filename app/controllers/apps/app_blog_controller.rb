@@ -10,8 +10,6 @@ class Apps::AppBlogController < ApplicationController
     flash[:error] = nil
   end
 
-
-
   def index
   end
 
@@ -26,7 +24,7 @@ class Apps::AppBlogController < ApplicationController
     @comment.user = @current_user
     @comment.body = params[:comment]
     @comment.user_name = @current_user.full_name
-    @comment.valid?
+    @comment.save
     render :partial => "show_make_comments", :locals=>{:blog_post => @blog_post, :app=>@blog_app} 
   end
 
@@ -113,11 +111,7 @@ class Apps::AppBlogController < ApplicationController
 
   def possible_bloggers
     @people = @blog ? (@current_organization.bloggers - @blog.users): @current_organization.bloggers
-  end  
-  
-  
-
-
+  end
   
   def authorization_check
     unless @admin || @blogger

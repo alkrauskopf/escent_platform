@@ -62,10 +62,10 @@
 					<!-- ALK Include User Name of Submitter with Org Name -->
 					<td width=200 style="vertical-align:middle;font-size:11px; border:1px solid #ddd;" class="<%= params[:order_by] == 'organization_provider' ? 'order' : '' %>"> 
 					<small><center><% unless item_found.user.nil?%>
-					<%= link_to item_found.user.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => item_found.user}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>	
+					<%= link_to item_found.user.full_name, user_view_path(:organization_id => @current_organization, :id => item_found.user), :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
 					<% end %> 
 					<% unless item_found.organization.nil?%>
-						<br/><%= link_to item_found.organization.name, {:controller => "/site/site", :action => :static_organization, :organization_id => item_found.organization}, :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
+						<br/><%= link_to item_found.organization.name, organization_view_path(:organization_id => item_found.organization), :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
  					<% end %></center></small></td>
 					<!-- ALK Include Resource Type in Description Field   -->
 					<td style="vertical-align:middle;font-size:11px; border:1px solid #ddd;" class="<%= params[:order_by] == 'description' ? 'order' : '' %>">
@@ -93,9 +93,9 @@
 				<td width=140 style="vertical-align:middle; padding-top:10px; border:1px solid #ddd;" class="<%= params[:order_by] == 'people_name' ? 'order' : '' %>">
 					<center>
 					<% unless item_found.picture.url.split("/").last == "missing.png" %>
-                    	<%= link_to (image_tag item_found.picture.url :small_thumb), {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => item_found}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"}%> 
+                    	<%= link_to (image_tag item_found.picture.url :small_thumb), user_view_path(:organization_id => @current_organization, :id => item_found), :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"}%>
 					<% end %>
-					<%= link_to item_found.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => item_found}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>	
+					<%= link_to item_found.full_name, user_view_path(:organization_id => @current_organization, :id => item_found), :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
 					<% unless item_found.home_organization.nil? %><br/>
 						<span style= "font-size:10px; font-weight:bold;">
 						<%= item_found.home_organization.name %>
@@ -162,27 +162,21 @@
 					<% end %>			
 				</span>
 				</td>
-				</tr>				
-
-				<!-- ALK Take out View Button Column and replace with Link on Name 
-				<td>
-				  <%#= link_to "View", {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => item_found}, {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
-				</td> 
-				-->   
+				</tr>
 				<% elsif @items_found.first.is_a?(Classroom) -%>
 				<tr>				
 				<td width=190 style=" vertical-align:middle;text-align:center; word-wrap:normal; border:1px solid #ddd;" class="<%= params[:order_by] == 'course_name' ? 'order' : '' %>">
 					<span style="font-weight:bold; font-size:12px">
 					<% room_org = Organization.find_by_id(item_found.organization_id) %>
-					<%= link_to h(item_found.course_name), :controller => :site, :action => :static_classroom, :id => item_found, :organization_id => room_org  %>
+					<%= link_to h(item_found.course_name), offering_view_path(:id => item_found, :organization_id => room_org) %>
 					<br/></span> 
 					<%= item_found.subject_area.name %>
 					<% unless item_found.observers.size == 0 %><br/><span style = "font-size:10px"> Observed By <%= pluralize(item_found.observers.size, 'Person')%></span><% end %>
 				</td>
 				<td width=190 style=" text-algn:center; vertical-align:middle;padding-top:10px; padding-left:0px; word-wrap:normal; border:1px solid #ddd;" class="<%= params[:order_by] == 'organization_name' ? 'order' : '' %>">
 					<% if item_found.organization %>
-					<%= link_to (image_tag item_found.organization.logo.url :small_thumb), {:controller => "/site/site", :action => :static_organization, :organization_id => item_found.organization}, :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} if item_found.organization.logo.file? -%>
-					<%= link_to item_found.organization.name, {:controller => "/site/site", :action => :static_organization, :organization_id => item_found.organization}, :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %><br/>
+					<%= link_to (image_tag item_found.organization.logo.url :small_thumb), organization_view_path(:organization_id => item_found.organization), :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} if item_found.organization.logo.file? -%>
+					<%= link_to item_found.organization.name, organization_view_path(:organization_id => item_found.organization), :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %><br/>
 					<% address = item_found.organization.default_address ? item_found.organization.default_address : item_found.organization.addresses.first -%>
 					<%=  address.city if address.city %>
 					<%= ',' if address.city and address.state %>
@@ -196,7 +190,7 @@
 					<% if item_found.leaders.size > 1 %><strong>Teachers:</strong> &nbsp; <% end %>
 					<% item_found.leaders.each_with_index do |ldr,i|%>
 						<% unless ldr.nil? %>
-							<%= link_to ldr.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => ldr}%>
+							<%= link_to ldr.full_name, user_view_path(:organization_id => @current_organization, :id => ldr) %>
 						<% unless i+1 == item_found.leaders.size%>, &nbsp;
 						<%end%>
 						<% end %>
@@ -207,7 +201,7 @@
 					<% if item_found.topics.size > 1 %><strong>Units:</strong> &nbsp; <% end %>
 					<% item_found.topics.each_with_index do |t,i| %>
 						<% unless t.nil? %>
-        					<%= link_to t.title, :controller => "/site/site", :action => :static_classroom, :organization_id => item_found.organization, :topic_id => t, :id => t.classroom %>
+        					<%= link_to t.title, offering_view_path(:organization_id => item_found.organization, :topic_id => t, :id => t.classroom) %>
 						<% unless i+1 == item_found.topics.size%>, &nbsp;
 						<%end%>
 						<% end %>
@@ -220,9 +214,9 @@
 				<tr>				
 				<td width=220 style=" vertical-align:middle;word-wrap:normal; border:1px solid #ddd;" class="<%= params[:order_by] == 'organization_name' ? 'order' : '' %>">
 					<center>
-					<%= link_to (image_tag item_found.logo.url :thumb), {:controller => "/site/site", :action => :static_organization, :organization_id => item_found}, :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} if item_found.logo.file? -%><br/>
+					<%= link_to (image_tag item_found.logo.url :thumb), organization_view_path(:organization_id => item_found), :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} if item_found.logo.file? -%><br/>
 						
-						<span style="font-weight:bold; font-size:12px"> <%= link_to item_found.name, {:controller => "/site/site", :action => :static_organization, :organization_id => item_found}, :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
+						<span style="font-weight:bold; font-size:12px"> <%= link_to item_found.name, organization_view_path(:organization_id => item_found), :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
 					<br /></span>
 					<%=  address.city if address.city %>
 					<%= ',' if address.city and address.state %>
@@ -236,8 +230,8 @@
 					<% contact_user = User.org_contact(item_found.contact_email)%>
 					<% if contact_user && item_found.contact_name %> 
 	  					<% unless contact_user.picture.url.split("/").last == "missing.png" %>
-            			<%= link_to (image_tag contact_user.picture.url :small_thumb), {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => contact_user}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"}%> <% end %>
-						<center><%= link_to item_found.contact_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => contact_user}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>	</center>
+            			<%= link_to (image_tag contact_user.picture.url :small_thumb), user_view_path(:organization_id => @current_organization, :id => contact_user), :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"}%> <% end %>
+						<center><%= link_to item_found.contact_name, user_view_path(:organization_id => @current_organization, :id => contact_user), :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>	</center>
       				<% else %>
 					<strong><%= item_found.contact_name if item_found.contact_name %></strong><br />					
 					<% end %>
@@ -254,7 +248,7 @@
 						<% else %>
 							<% item_found.classrooms.active.each_with_index do |c,i| %>
 								<% room_org = Organization.find_by_id(c.organization_id) %>
-        						<%= link_to h(c.course_name), :controller => :site, :action => :static_classroom, :id => c,:organization_id => room_org %>
+        						<%= link_to h(c.course_name), offering_view_path(:id => c,:organization_id => room_org) %>
 								<% unless i+1 == item_found.classrooms.active.size%>, &nbsp; 
 								<% end %>
 						<% end %>
@@ -264,7 +258,7 @@
 				<td width=80 style=" vertical-align:middle; font-size:9px; font-weight:bold;; border:1px solid #ddd;"><center><%= item_found.organization_type.name if item_found.organization_type %></center></td>
 <!-- ALK Take out View Button.  Replace with Link on Org Name 
 				<td>
-					<%= link_to item_found.name, {:controller => "/site/site", :action => :static_organization, :organization_id => item_found}, {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
+					<%= link_to item_found.name, organization_view_path(:organization_id => item_found), {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
 				</td>
 				-->
 				</tr>

@@ -2,7 +2,7 @@
 	<div style="margin-left:40px; overflow:scroll; max-width:1100px;">
 	<% ind_count = 0 -%>
 	<% unless activity.active_elements.empty? -%>
-		<% table_width = (school.elt_cycle_plan(cycle).nil? ? 600 : 1050).to_s + "px" -%>
+		<% table_width = (school.elt_cycle_plan(cycl).nil? ? 600 : 1050).to_s + "px" -%>
 		<% activity.active_elements.each do |element| -%>
 			<table style="width:<%=table_width%>; width:fixed; margin-left:20px; margin-top:2px; border:2px solid <%=element.form_background%>;">
 				<tbody> 
@@ -13,10 +13,10 @@
 						<td  style = " width:80px; width:fixed; background:<%=element.form_background%>; color: <%=element.e_font_color%>; line-height:2.0em; vertical-align:middle; text-align:center; padding-left:0px; font-size:12px ">
 							&nbsp;
 						</td>
-						<% unless school.elt_cycle_plan(cycle).nil? %>
+						<% unless school.elt_cycle_plan(cycl).nil? %>
 							<td style = " width:450px; width:fixed; background:<%=element.form_background%>; color: <%=element.e_font_color%>; line-height:2.0em; vertical-align:middle; text-align:center; padding-bottom:10px; font-size:14px ">
 								ACTION PLAN
-									<%= render :partial => "/apps/learning_time/school_cycle_plan", :locals => {:table_width => "450px",:cycle=> cycle, :school => school, :plan => school.elt_cycle_plan(cycle), :entity => element} -%>					
+									<%= render :partial => "/apps/learning_time/school_cycle_plan", :locals => {:table_width => "450px",:cycl=> cycl, :school => school, :plan => school.elt_cycle_plan(cycl), :entity => element} -%>
 							</td>
 						<% end -%>
 					</tr>
@@ -24,11 +24,11 @@
 						<% ind_count += 1 -%>
 						<tr style ="border:1px solid <%=element.form_background%>">
 							<td colspan=3 style ="border:1px solid <%=element.form_background%>">
-								<%= render :partial => "/apps/app_report/elt_school_activity_indicator", :locals => {:table_width => 600, :seq_num => ind_count, :cycle=> cycle, :school => school, :activity => activity, :indicator => indicator} -%>					
+								<%= render :partial => "/apps/app_report/elt_school_activity_indicator", :locals => {:table_width => 600, :seq_num => ind_count, :cycl=> cycl, :school => school, :activity => activity, :indicator => indicator} -%>
 							</td>
-							<% unless school.elt_cycle_plan(cycle).nil? %>
+							<% unless school.elt_cycle_plan(cycl).nil? %>
 								<td style = " width:450px; width:fixed;  text-align:center; vertical-align:middle; padding-top:0px;  color: #00000 ; font-weight:normal ">
-									<%= render :partial => "/apps/learning_time/school_cycle_plan", :locals => {:table_width => "450px",:cycle=> cycle, :school => school, :plan => school.elt_cycle_plan(cycle), :entity => indicator} -%>					
+									<%= render :partial => "/apps/learning_time/school_cycle_plan", :locals => {:table_width => "450px",:cycl=> cycl, :school => school, :plan => school.elt_cycle_plan(cycl), :entity => indicator} -%>
 								</td>
 							<% end -%>
 						</tr>

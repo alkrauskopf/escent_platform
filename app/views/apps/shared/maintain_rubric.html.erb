@@ -7,7 +7,7 @@
 
 <% unless @entity.nil? %>	
 <div class="Form clear">
-	<%= form_for(:rubric, :url => {:controller => "/apps/shared", :action => :maintain_rubric, :organization_id => @current_organization, :scope_id=>@entity.id, :scope_type=>@entity.class.to_s, :rubric_id=>@rubric, :function => @function}) do |form| %>
+	<%= form_for(:rubric, :url => app_rubric_add_path(:organization_id => @current_organization, :scope_id=>@entity.id, :scope_type=>@entity.class.to_s, :rubric_id=>@rubric, :function => @function)) do |form| %>
 	
 		<div class="FormRow submit_warp" style= "padding-left:25px">	
 			<%= submit_tag (@function + " Rubric"), :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>

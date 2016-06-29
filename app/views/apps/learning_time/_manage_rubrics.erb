@@ -4,7 +4,7 @@
 	<% if entity.rubrics.active.size < 6%>		
 		<br/>
 		<span id="add_rubric" style="margin-left:214px;" class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer; ">
-			<%= link_to  "Add Rubric",{:controller => "/apps/shared", :action => :maintain_rubric, :organization_id => @current_organization, :scope_id => entity.id, :scope_type => entity.class.to_s,  :function=>"", :rubric_id => nil}, {:target => "_blank"} %>
+			<%= link_to  'Add Rubric', app_rubric_add_path(:organization_id => @current_organization, :scope_id => entity.id, :scope_type => entity.class.to_s,  :function=>"", :rubric_id => nil), {:target => "_blank"} %>
 		</span>
 	<% else -%>
 		<span style="color:#C73914; margin-left:200px">
@@ -12,19 +12,19 @@
 		</span>
 	<% end-%>
 	
-	<table  style="width:650px; width:fixed; margin-top:10px; margin-bottom:10px; margin-left:200px">
+	<table  style="width:650px; margin-top:10px; margin-bottom:10px; margin-left:200px">
 		<thead>
 			<tr style="border:1px solid #ddd; ">
-				<th  style="width:60px; width:fixed; border:0px solid #ddd; padding-top:0px; padding-left:0px; vertical-align:middle; color:#2061a5;">
+				<th  style="width:9%; border:0px solid #ddd; padding-top:0px; padding-left:0px; vertical-align:middle; color:#2061a5;">
 					&nbsp;
 				</th>
-				<th  style="width:60px; width:fixed; border:0px solid #ddd; padding-top:0px; padding-left:0px; vertical-align:middle; color:#2061a5;">
+				<th  style="width:9%; border:0px solid #ddd; padding-top:0px; padding-left:0px; vertical-align:middle; color:#2061a5;">
 					&nbsp;
 				</th>
-				<th  style="width:40px; width:fixed; border:0px solid #ddd; ;text-align:center; vertical-align:middle; font-size:11px">
+				<th  style="width:6%; border:0px solid #ddd; ;text-align:center; vertical-align:middle; font-size:11px">
 					Pos
 				</th>
-				<th  style="width:40px; width:fixed; border:0px solid #ddd; ;text-align:center; vertical-align:middle; font-size:11px">
+				<th  style="width:6%; border:0px solid #ddd; ;text-align:center; vertical-align:middle; font-size:11px">
 					Score
 				</th>
 				<th  style=" border:0px solid #ddd; ;text-align:center; vertical-align:middle; font-size:11px">
@@ -35,20 +35,20 @@
 		<tbody>
 			<% entity.rubrics.each do |rub| -%>
 				<tr style="border:1px solid #ddd; ">
-					<td  style="width:60px; width:fixed; border:0px solid #ddd; padding-top:0px; padding-left:5px; vertical-align:middle; color:#2061a5;">
+					<td  style="width:9%; border:0px solid #ddd; padding-top:0px; padding-left:5px; vertical-align:middle; color:#2061a5;">
 						<span id="delete_rubric_<%=rub.id%>" class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer; ">
 							 Delete
 						</span>
 					</td>
-					<td  style="width:60px; width:fixed; border:0px solid #ddd; padding-top:0px; padding-left:0px; vertical-align:middle; color:#2061a5;">
+					<td  style="width:9%; border:0px solid #ddd; padding-top:0px; padding-left:0px; vertical-align:middle; color:#2061a5;">
 						<span  class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer; ">
-							<%= link_to  "Change",{:controller => "/apps/shared", :action => :maintain_rubric, :organization_id => @current_organization, :scope_id => entity.id, :scope_type => entity.class.to_s,  :function=>"Update", :rubric_id => rub}, {:target => "_blank"} %>
+							<%= link_to  'Change', app_rubric_add_path(:organization_id => @current_organization, :scope_id => entity.id, :scope_type => entity.class.to_s,  :function=>'Update', :rubric_id => rub), {:target => "_blank"} %>
 						</span>
 					</td>
-					<td  style="width:40px; width:fixed; border:0px solid #ddd; ;text-align:center; vertical-align:middle; color:#000000; font-size:11px">
+					<td  style="width:6%; border:0px solid #ddd; ;text-align:center; vertical-align:middle; color:#000000; font-size:11px">
 						<%= rub.position %>
 					</td>
-					<td  style="width:40px; width:fixed; border:0px solid #ddd;;text-align:center; vertical-align:middle; color:#000000; font-size:11px ">
+					<td  style="width:6%; border:0px solid #ddd;;text-align:center; vertical-align:middle; color:#000000; font-size:11px ">
 						<%= rub.score %>
 					</td>
 					<td  style="border:0px solid #ddd; font-size:11px; font-weight:normal; background:<%= rub.color_background %>; color:<%= rub.color_font %>; padding-top:4px; text-align:left; ">
@@ -64,7 +64,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#delete_rubric_<%=rub.id%>").click(function() {			
-		var url = "<%= url_for :controller => "apps/learning_time", :action => :delete_rubric, :organization_id => @current_organization, :elt_type_id => entity, :rubric_id => rub %>";
+		var url = "<%= elt_config_activity_rubric_delete_url(:organization_id => @current_organization, :elt_type_id => entity, :rubric_id => rub) %>";
 		jQ.get(url,{},  function(data) {
 				jQ("#manage_rubrics_<%=entity.public_id%>").html(data);
 				jQ("#manage_rubrics_<%=entity.public_id%>").show();
@@ -77,11 +77,3 @@ jQ(document).ready(function() {
 	</table>
 <% end -%>
 </div>
-
-
-
-
-
-
-
-

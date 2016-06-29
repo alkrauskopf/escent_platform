@@ -1,0 +1,18 @@
+Dear <%= @user.first_name%>,
+
+
+
+<%= @commenter.full_name %> just commented on your contribution to the Resource Library, entitled  "<%= @content.title %>."
+
+
+
+<%= @commenter.first_name%> said: "<%= @resource_comment %>"
+
+
+<% unless @organization.nil? %>
+Review comments for <%= link_to @content.title, resource_view_url(:organization_id => @organization, :id => @content,:host => @ep_host )%>.
+
+<% end %>
+
+
+				

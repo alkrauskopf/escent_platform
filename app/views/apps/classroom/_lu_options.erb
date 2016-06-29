@@ -6,21 +6,21 @@
 		<tbody>
 			<tr style=" border:0px;">
 				<% featured_button = lu.featured? ? "button_enabled.png" : "button_disabled.png" -%>				
-				<td   id="toggle_feature" style="width:30px; width:fixed; border:0px solid #ddd; font-size:11px; cursor:pointer; vertical-align:middle; text-align:left; color: #C83A14;font-weight:normal;">
+				<td   id="toggle_feature" style="width:4%; border:0px solid #ddd; font-size:11px; cursor:pointer; vertical-align:middle; text-align:left; color: #C83A14;font-weight:normal;">
 						<%= (image_tag featured_button,:width => 12) -%>
 				</td>			
-				<td  style="width:220px; width:fixed; border:0px solid #ddd; font-size:12px; padding-left:0px; vertical-align:middle; text-align:left;color: #2061a5;font-weight:normal;">
+				<td  style="width:30%; border:0px solid #ddd; font-size:12px; padding-left:0px; vertical-align:middle; text-align:left;color: #2061a5;font-weight:normal;">
 						Unit&nbsp;<%= lu.featured? ? "Currently Featured" : "Not Currently Featured" %>
 				</td>		
 				<% open_button = lu.open? ? "button_enabled.png" : "button_disabled.png" -%>				
-				<td   id="toggle_discussion" style="width:30px; width:fixed; border:0px solid #ddd; font-size:11px; cursor:pointer; vertical-align:middle; text-align:left; color: #C83A14;font-weight:norm;">
+				<td   id="toggle_discussion" style="width:4%; border:0px solid #ddd; font-size:11px; cursor:pointer; vertical-align:middle; text-align:left; color: #C83A14;font-weight:normal;">
 						<%= (image_tag open_button,:width => 12) -%>
 				</td>			
-				<td  style="width:220px; width:fixed; border:0px solid #ddd; font-size:12px; padding-left:0px; vertical-align:middle; text-align:left;color: #2061a5;font-weight:normal;">
+				<td  style="width:30%; border:0px solid #ddd; font-size:12px; padding-left:0px; vertical-align:middle; text-align:left;color: #2061a5;font-weight:normal;">
 						Discussion Forum&nbsp;<%= lu.open? ? "Open" : "Closed" %>
 				</td>
 				<% notify_button = lu.notify? ? "button_enabled.png" : "button_disabled.png" -%>				
-				<td   id="toggle_notify" style="width:30px; width:fixed; border:0px solid #ddd; font-size:11px; cursor:pointer; vertical-align:middle; text-align:left; color: #C83A14;font-weight:normal;">
+				<td   id="toggle_notify" style="width:4%; border:0px solid #ddd; font-size:11px; cursor:pointer; vertical-align:middle; text-align:left; color: #C83A14;font-weight:normal;">
 						<%= (image_tag notify_button,:width => 12) -%>
 				</td>			
 				<td  style=" border:0px solid #ddd; font-size:12px; padding-left:0px; vertical-align:middle; text-align:left;color: #2061a5;font-weight:normal;">
@@ -30,26 +30,26 @@
 		</tbody>					
 	</table>
 	<table style="width:750px; border:0px solid #ddd;">
-		<tbody
+		<tbody>
 			<tr style=" border:0px solid #ddd;">
-				<td  id="clear_discussion" style="width:50px; width:fixed; border:0px solid #ddd; font-size:11px; padding-left:5px; vertical-align:middle; text-align:left; color: #2061a5;font-weight:normal;">
+				<td  id="clear_discussion" style="width:7%; border:0px solid #ddd; font-size:11px; padding-left:5px; vertical-align:middle; text-align:left; color: #2061a5;font-weight:normal;">
 					<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
 						Clear
 					</span>
 				</td>			
-				<td  style="width:200px; width:fixed; border:0px solid #ddd; font-size:12px; padding-left:0px; vertical-align:middle; text-align:left;color:#2061a5;font-weight:normal;">
+				<td  style="width:27%; border:0px solid #ddd; font-size:12px; padding-left:0px; vertical-align:middle; text-align:left;color:#2061a5;font-weight:normal;">
 					<%= pluralize(lu.discussions.active.size.to_s, "Discussion Comment") %>
 				</td>
-				<td   style="width:50px; width:fixed; border:0px solid #ddd; font-size:11px; padding-left:0px; vertical-align:middle; text-align:left; color: #2061a5;font-weight:normal;">
+				<td   style="width:7%; border:0px solid #ddd; font-size:11px; padding-left:0px; vertical-align:middle; text-align:left; color: #2061a5;font-weight:normal;">
 					&nbsp;
 				</td>			
-				<td  style="width:200px; width:fixed; border:0px solid #ddd; font-size:11px; padding-left:0px; vertical-align:middle; text-align:left;color: #2061a5;font-weight:normal;">
+				<td  style="width:27%; border:0px solid #ddd; font-size:11px; padding-left:0px; vertical-align:middle; text-align:left;color: #2061a5;font-weight:normal;">
 					&nbsp;
 				</td>
-				<td   style="width:50px; width:fixed; border:0px solid #ddd; font-size:11px; padding-left:0px; vertical-align:middle; text-align:left; color: #2061a5;font-weight:normal;">
+				<td   style="width:7%; border:0px solid #ddd; font-size:11px; padding-left:0px; vertical-align:middle; text-align:left; color: #2061a5;font-weight:normal;">
 					&nbsp;
 				</td>			
-				<td  style="width:200px; width:fixed; border:0px solid #ddd; font-size:11px; padding-left:0px; vertical-align:middle; text-align:left;color:#2061a5;font-weight:normal;">
+				<td  style="border:0px solid #ddd; font-size:11px; padding-left:0px; vertical-align:middle; text-align:left;color:#2061a5;font-weight:normal;">
 					&nbsp;
 				</td>
 			</tr>
@@ -60,7 +60,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#toggle_feature').click(function() {
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :toggle_lu_options, :organization_id => @current_organization, :topic_id => lu, :option=>"feature" %>";
+		var url = "<%= offering_admin_lu_options_url(:organization_id => @current_organization, :topic_id => lu, :option=>'feature') %>";
 			jQ.get(url, { }, function(data) {
 			jQ("#lu_options_<%=lu.public_id%>").html(data); 
 	   		jQ("#lu_options_<%=lu.public_id%>").show();
@@ -72,7 +72,7 @@ jQ(document).ready(function() {
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#toggle_discussion').click(function() {
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :toggle_lu_options, :organization_id => @current_organization, :topic_id => lu, :option=>"discussion" %>";
+		var url = "<%= offering_admin_lu_options_url(:organization_id => @current_organization, :topic_id => lu, :option=>'discussion') %>";
 			jQ.get(url, { }, function(data) {
 			jQ("#lu_options_<%=lu.public_id%>").html(data); 
 	   		jQ("#lu_options_<%=lu.public_id%>").show();
@@ -84,7 +84,7 @@ jQ(document).ready(function() {
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#toggle_notify').click(function() {
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :toggle_lu_options, :organization_id => @current_organization, :topic_id => lu, :option=>"notify" %>";
+		var url = "<%= offering_admin_lu_options_url(:organization_id => @current_organization, :topic_id => lu, :option=>'notify') %>";
 			jQ.get(url, { }, function(data) {
 			jQ("#lu_options_<%=lu.public_id%>").html(data); 
 	   		jQ("#lu_options_<%=lu.public_id%>").show();
@@ -96,7 +96,7 @@ jQ(document).ready(function() {
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#clear_discussion').click(function() {
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :toggle_lu_options, :organization_id => @current_organization, :topic_id => lu, :option=>"suspend" %>";
+		var url = "<%= offering_admin_lu_options_url(:organization_id => @current_organization, :topic_id => lu, :option=>'suspend') %>";
 			jQ.get(url, { }, function(data) {
 			jQ("#lu_options_<%=lu.public_id%>").html(data); 
 	   		jQ("#lu_options_<%=lu.public_id%>").show();

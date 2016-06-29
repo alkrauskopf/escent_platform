@@ -14,7 +14,7 @@
       <% end %>
     </div>
     <div  style="margin:20px 0px 10px 0px;">
-      <%= form_tag({:controller => 'our_organization',:action => :update_logo, :organization_id => @current_organization, :format => 'js'}, :multipart => true, :target => 'upload_frame') do -%>
+      <%= form_tag(admin_org_logo_path(:organization_id => @current_organization, :format => 'js'), :multipart => true, :target => 'upload_frame') do -%>
           <%= file_field_tag "organization[logo]" %>
           <%= submit_tag "Save" %>
           <iframe id='upload_frame' name="upload_frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>

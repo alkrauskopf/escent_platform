@@ -1,9 +1,9 @@
 <% unless @current_user -%>
 <div class="share_content_login">
 	<div class="share_content_form_title">
-		Please login or <%= link_to "register", :controller=>"/users", :action=>"register"%> first.
+		Please login or <%= link_to "register", user_register_path %> first.
 	</div>
-	<% form_tag :controller => "/users", :action => :login, :organization_id => @current_organization, :admin => defined?(admin) && admin do -%>		
+	<% form_tag user_signin_path(:organization_id => @current_organization, :admin => defined?(admin) && admin) do -%>
 		<p class="clear">
 			<%= text_field_tag "user[email_address]", "", :size=> 20, :class => "text" %>
 			<%= password_field_tag "user[password]", "", :size=> 20, :class => "text" %>

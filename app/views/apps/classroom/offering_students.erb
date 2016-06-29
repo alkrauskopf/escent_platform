@@ -5,7 +5,7 @@
 					<tbody>
 						<tr>
 						<td class="ifa_levels_close" style=" color: #2061a5;">
-							<%= link_to '', :controller => "apps/classroom", :action => :manage_period_students, :organization_id => @current_organization, :period_id => period, :classroom_id => @classroom %>
+							<%= link_to '', offering_admin_students_period_path(:organization_id => @current_organization, :period_id => period, :classroom_id => @classroom) %>
 							<%= period.name %>&nbsp;&nbsp;<i>(<%=period.teacher_list %>)</i>
 							<span></span>
 						</td>

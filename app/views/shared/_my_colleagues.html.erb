@@ -1,21 +1,25 @@
-
-<!--	<a href="#" >Colleagues</a> -->
 <span>Colleagues</span>
 <ul style="width: 200%;" class="hdr-dropdown-content">
   <% unless member.nil?%>
     <% unless user == member -%>
       <% if user.colleagues.include?(member) -%>
         <% link_string = "UnTag " + member.last_name -%>
-        <li ><strong><%= link_to link_string, :controller => "/users", :action => :remove_this_colleague, :organization_id => org, :user_id => member.id%></strong></li>
+        <li >
+          <strong><%= link_to link_string, user_remove_colleague_path(:organization_id => org, :user_id => member.id) %></strong>
+        </li>
       <% else -%>
         <% link_string = "Tag " + member.last_name -%>
-        <li ><strong><%= link_to link_string, :controller => "/users", :action => :add_this_colleague, :organization_id => org, :user_id => member.id%></strong></li>
+        <li >
+          <strong><%= link_to link_string, user_tag_colleague_path(:organization_id => org, :user_id => member.id) %></strong>
+        </li>
       <% end -%>
     <% end %>
   <% end %>
   <% user.colleagues.each do|col| -%>
     <% unless col.nil?%>
-      <li ><%= link_to col.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => org, :id => col}, :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %></li>
+      <li >
+        <%= link_to col.full_name, user_view_path(:organization_id => org, :id => col), :html => {:style => "text-decoration:none;padding:1px 5px;margin-top:5px;margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
+      </li>
     <% end %>
   <% end -%>
 </ul>

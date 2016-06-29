@@ -10,18 +10,18 @@
 			</style>
 			<tr >
 				<td colspan=4 style="text-align:center; padding-top:10px; vertical-align:top; color:#2061a5;font-weight:bold;font-size:13px;">
-					<center><%= app.name%></center>
+					<%= app.name%>
 				</td>
 			</tr>
 			<tr >
-				<th style="width:210px; width:fixed; text-align:center; padding-top:10px; vertical-align:top; color:#2061a5;font-weight:normal;font-size:12px;">
-					<center>Master<br/><%= app.owner ? app.owner.name : app.owner_id.to_s + " Invalid Owner ID"%></center>
+				<th style="width:25%; text-align:center; padding-top:10px; vertical-align:top; color:#2061a5;font-weight:normal;font-size:12px;">
+					Master<br/><%= app.owner ? app.owner.name : app.owner_id.to_s + " Invalid Owner ID"%>
 				</th>
-				<th style="width:210px; width:fixed; text-align:center; padding-top:10px; vertical-align:top; color:#2061a5;font-weight:normal;font-size:12px;">
-					<center>Discussion Owner<br/><%= app.discussion_owner ? app.discussion_owner.name : "Not Defined" %></center>
+				<th style="width:25%; text-align:center; padding-top:10px; vertical-align:top; color:#2061a5;font-weight:normal;font-size:12px;">
+					Discussion Owner<br/><%= app.discussion_owner ? app.discussion_owner.name : "Not Defined" %>
 				</th>
 				<th colspan=2 style="text-align:center; padding-top:10px; vertical-align:top; color:#2061a5;font-weight:normal;font-size:12px;">
-					<center>Co-Owners Can Assign App Owner-Admins</center>
+					Co-Owners Can Assign App Owner-Admins
 				</th>
 			</tr>
 			<tr >
@@ -44,7 +44,7 @@
 jQ(document).ready(function() {
 	jQ('#<%=app.id%>_master').change(function() {
 		var master_id = jQ('#app_master_<%=app.id%>').val();
-		var url = "<%= url_for :controller => "/master/organizations", :action => :change_app_master, :organization_id => @current_organization, :app_id=> app.id %>";
+		var url = "<%= master_organizations_app_owner_url(:organization_id => @current_organization, :app_id=> app.id) %>";
 			jQ.get(url, {'master_id':master_id}, function(data) {
 			jQ("#<%= app.public_id%>_ownership").html(data); 
 	   		jQ("#<%= app.public_id%>_ownership").show();
@@ -56,7 +56,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#<%=app.id%>_discussion').change(function() {
 		var owner_id = jQ('#app_discussion_<%=app.id%>').val();
-		var url = "<%= url_for :controller => "/master/organizations", :action => :change_app_discussion_owner, :organization_id => @current_organization, :app_id=> app.id %>";
+		var url = "<%= master_organizations_discussion_owner_url(:organization_id => @current_organization, :app_id=> app.id) %>";
 			jQ.get(url, {'owner_id':owner_id}, function(data) {
 			jQ("#<%= app.public_id%>_ownership").html(data); 
 	   		jQ("#<%= app.public_id%>_ownership").show();
@@ -68,7 +68,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#<%=app.id%>_del_co_owner').change(function() {
 		var owner_id = jQ('#remove_co_owner_<%=app.id%>').val();
-		var url = "<%= url_for :controller => "/master/organizations", :action => :toggle_co_owner, :organization_id => @current_organization, :app_id=> app.id %>";
+		var url = "<%= master_organizations_app_provider_url(:organization_id => @current_organization, :app_id=> app.id) %>";
 			jQ.get(url, {'owner_id':owner_id}, function(data) {
 			jQ("#<%= app.public_id%>_ownership").html(data); 
 	   		jQ("#<%= app.public_id%>_ownership").show();
@@ -80,7 +80,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#<%=app.id%>_add_co_owner').change(function() {
 		var owner_id = jQ('#add_co_owner_<%=app.id%>').val();
-		var url = "<%= url_for :controller => "/master/organizations", :action => :toggle_co_owner, :organization_id => @current_organization, :app_id=> app.id %>";
+		var url = "<%= master_organizations_app_provider_url(:organization_id => @current_organization, :app_id=> app.id) %>";
 			jQ.get(url, {'owner_id':owner_id}, function(data) {
 			jQ("#<%= app.public_id%>_ownership").html(data); 
 	   		jQ("#<%= app.public_id%>_ownership").show();

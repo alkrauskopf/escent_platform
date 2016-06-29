@@ -56,7 +56,7 @@
           jQ(document).ready(function() {
               jQ('#select_standard').change(function() {
                   var standard_id = jQ('#elt_standard_id').val();
-                  var url = "<%= url_for :controller => '/apps/learning_time', :action => :select_kb_filters, :organization_id => @current_organization, :rubric_id => (rubric.nil? ? nil : rubric.id), :organization_type_id => (org_type.nil? ? nil : org_type.id), :elt_type_id => activity %>";
+                  var url = "<%= elt_community_filters_url(:organization_id => @current_organization, :rubric_id => (rubric.nil? ? nil : rubric.id), :organization_type_id => (org_type.nil? ? nil : org_type.id), :elt_type_id => activity) %>";
                   jQ.get(url, {'elt_standard_id':standard_id}, function(data) {
                       jQ("#share_rubric_data").html(data);
                       jQ("#share_rubric_data").show();
@@ -68,7 +68,7 @@
         jQ(document).ready(function() {
           jQ('#select_activity').change(function() {
             var activity_id = jQ('#activity_id').val();
-            var url = "<%= url_for :controller => '/apps/learning_time', :action => :select_kb_filters, :organization_id => @current_organization, :rubric_id => (rubric.nil? ? nil : rubric.id), :organization_type_id => (org_type.nil? ? nil : org_type.id), :elt_standard_id => standard  %>";
+            var url = "<%= elt_community_filters_url(:organization_id => @current_organization, :rubric_id => (rubric.nil? ? nil : rubric.id), :organization_type_id => (org_type.nil? ? nil : org_type.id), :elt_standard_id => standard)  %>";
             jQ.get(url, {'elt_type_id':activity_id}, function(data) {
               jQ("#share_rubric_data").html(data);
               jQ("#share_rubric_data").show();
@@ -80,7 +80,7 @@
         jQ(document).ready(function() {
             jQ('#select_school_type').change(function() {
                 var type_id = jQ('#school_type_id').val();
-                var url = "<%= url_for :controller => '/apps/learning_time', :action => :select_kb_filters, :organization_id => @current_organization,:rubric_id => (rubric.nil? ? nil : rubric.id), :elt_standard_id => standard, :elt_type_id => activity  %>";
+                var url = "<%= elt_community_filters_url(:organization_id => @current_organization,:rubric_id => (rubric.nil? ? nil : rubric.id), :elt_standard_id => standard, :elt_type_id => activity)  %>";
                     jQ.get(url, {'organization_type_id':type_id}, function(data) {
                     jQ("#share_rubric_data").html(data);
                     jQ("#share_rubric_data").show();
@@ -93,7 +93,7 @@
           jQ(document).ready(function() {
               jQ('#select_rubric').change(function() {
                   var rubric_id = jQ('#rubricx_id').val();
-                  var url = "<%= url_for :controller => '/apps/learning_time', :action => :select_kb_filters, :organization_id => @current_organization, :elt_standard_id => standard, :organization_type_id => (org_type.nil? ? nil : org_type.id), :elt_type_id => activity  %>";
+                  var url = "<%= elt_community_filters_url(:organization_id => @current_organization, :elt_standard_id => standard, :organization_type_id => (org_type.nil? ? nil : org_type.id), :elt_type_id => activity)  %>";
                   jQ.get(url, {'rubric_id':rubric_id}, function(data) {
                       jQ("#share_rubric_data").html(data);
                       jQ("#share_rubric_data").show();

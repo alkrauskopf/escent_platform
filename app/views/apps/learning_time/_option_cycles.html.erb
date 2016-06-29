@@ -9,7 +9,7 @@
 						<td style="text-align:right; padding-right:10px; vertical-align:middle; font-size:12px; color: #CC0000;">
 							<%= @current_cycle.nil? ? ("No Active Cycle For " + @current_organization.short_name)  : (("<strong>" + @current_cycle.name + "</strong>").html_safe) %>
 						</td>	
-						<td id="select_cycle_<%=@current_organization.public_id %>" style="width:350px; width:fixed; font-weight:normal">
+						<td id="select_cycle_<%=@current_organization.public_id %>" style="width:44%; font-weight:normal">
 							<%= select(:select_cycle, @current_organization.id, @current_provider.elt_cycles.active.collect{|c| [c.name, c.id]}<<["No Cycle", 0],{:include_blank =>'Choose ' + @current_provider.short_name + ' Cycle'}) %>
 						</td>	
 					</tr>
@@ -20,7 +20,7 @@
 jQ(document).ready(function() {
 	jQ('#select_cycle_<%=@current_organization.public_id %>').change(function() {
 		var cycle_id = jQ('#select_cycle_<%=@current_organization.id%>').val();
-		var url = "<%= url_for :controller => '/apps/learning_time', :action => :assign_option_cycle, :org_id => @current_organization, :organization_id => @current_organization %>";
+		var url = "<%= elt_option_cycle_url(:org_id => @current_organization, :organization_id => @current_organization) %>";
 			jQ.get(url, {'cycle_id':cycle_id}, function(data) {
 			jQ("#option_cycles_<%=@current_organization.public_id%>").html(data);
 	   		jQ("#option_cycles_<%=@current_organization.public_id%>").show();

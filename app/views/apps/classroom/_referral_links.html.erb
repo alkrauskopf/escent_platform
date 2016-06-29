@@ -23,15 +23,15 @@
 						<% @current_user.favorite_classrooms.each do |clsrm| -%>
 							<% unless (clsrm.topics.open - offering.referenced_topics).compact.empty?%>
 								<tr style="border:1px solid #ddd;">
-									<td style="width:220px; width:fixed; border:0px solid #ddd; line-height:1.3em; text-align:right; vertical-align:top; padding-top:8px; font-size:12px; font-weight:normal; padding-right:0px; color: #2061a5;">
+									<td style="width:34%;; border:0px solid #ddd; line-height:1.3em; text-align:right; vertical-align:top; padding-top:8px; font-size:12px; font-weight:normal; padding-right:0px; color: #2061a5;">
 										<%= clsrm.course_name.upcase + (clsrm.organization ? ("<br/>" + clsrm.organization.medium_name) : "")%>
 									</td>
-									<td style="width:430px; width:fixed; border:0px solid #ddd; line-height:1.3em; text-align:left; vertical-align:top; padding-top:0px; font-size:12px; font-weight:normal; padding-right:0px; color: #2061a5;">
-										<table style="width:420px;">
+									<td style="width:66%; border:0px solid #ddd; line-height:1.3em; text-align:left; vertical-align:top; padding-top:0px; font-size:12px; font-weight:normal; padding-right:0px; color: #2061a5;">
+										<table style="width:100%;">
 											<tbody>
 												<% (clsrm.topics.open - offering.referenced_topics).compact.each do |lu| -%>
 													<tr>										
-														<td   id="add_referral_<%=lu.public_id%>" style="width:40px; width:fixed; border:0px solid white; font-size:11px; padding-top:0px; padding-left:15px; cursor:pointer; vertical-align:top;">
+														<td   id="add_referral_<%=lu.public_id%>" style="width:11%; border:0px solid white; font-size:11px; padding-top:0px; padding-left:15px; cursor:pointer; vertical-align:top;">
 															<%= image_tag "add.png" %>
 														</td>
 														<td   style=" border:0px solid white; font-size:12px; padding-bottom:10px; padding-left:0px; line-height:1.3em; vertical-align:top; text-align:left; color: #000000;font-weight:normal;">
@@ -42,7 +42,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#add_referral_<%=lu.public_id%>').click(function() {
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :add_remove_referral, :organization_id => @current_organization, :classroom_id=>offering, :topic_id=> lu %>";
+		var url = "<%= offering_admin_referral_assign_url(:organization_id => @current_organization, :classroom_id=>offering, :topic_id=> lu) %>";
 			jQ.get(url, {}, function(data) {
 				jQ("#offering_referrals_<%=offering.public_id%>").html(data);
 				jQ("#offering_referrals_<%=offering.public_id%>").show();

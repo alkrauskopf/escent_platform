@@ -15,10 +15,9 @@
 			</td>
 			<td style="width:20%"><%= organization.classrooms.active.size %> &nbsp;</td>
 			<td style="width:40%" class="edit_and_remove">
-				<button title="<%= organization.id %>" class="show fsn-button ui-button ui-state-default ui-corner-all">Show</button>
-				<button title="<%= organization.id %>" class="edit fsn-button ui-button ui-state-default ui-corner-all">Edit</button>				
-				<% if organization.can_be_deleted? -%>
-				<%= button_to "remove", {:action => :delete, :id => organization.id}, :confirm => 'Are you sure?', :class => "fsn-button ui-button ui-state-default ui-corner-all"  %>
+				<%= organization.status.nil? ? 'No Status' : organization.status.name %>&nbsp;
+        <% if organization.can_be_deleted? -%>
+				  <%= link_to "Destroy", master_organizations_delete_path(:id => organization.id), :class => "fsn-button ui-button ui-state-default ui-corner-all"  %>
 				<% end -%>
 			</td>
 		</tr>		

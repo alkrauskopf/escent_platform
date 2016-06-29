@@ -22,7 +22,7 @@ class Site::DiscussionsController < Site::ApplicationController
       if @topic.should_notify
         classroom = @topic.classroom
         discussion = params[:new_discussion][:comment]
-        UserMailer.topic_comment(classroom.leaders.preferred_email_list, @current_user, @topic, discussion, request.host_with_port).deliver
+        UserMailer.topic_comment(User.preferred_email_list(classroom.leaders), @current_user, @topic, discussion, request.host_with_port).deliver
       end
     end
 

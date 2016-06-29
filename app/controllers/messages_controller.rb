@@ -82,8 +82,8 @@ class MessagesController < ApplicationController
        message = Message.new(params[:message])
        message.user = to_user
         if message.save
-         options = {:user => to_user, :subject => subj_line, :html_body => message.content}
-         UserMailer.contact(from_user.preferred_email, options).deliver
+          options = {:user => to_user, :subject => subj_line, :html_body => message.content}
+          UserMailer.contact(from_user.preferred_email, options).deliver
         end
        end
        end   

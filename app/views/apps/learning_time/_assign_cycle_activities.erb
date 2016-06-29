@@ -1,18 +1,17 @@
 
-<div id="assign_activities_<%=cycle.public_id%>"> 
-	
-	<% unless cycle.elt_framework.activities.empty? -%>
+<div id="assign_activities_<%=cycl.public_id%>">
+	<% unless cycl.elt_framework.activities.empty? -%>
 		<div style = "padding-bottom:10px;padding-left:0px; ">
 			<table  style="width:400px;margin-left:300px;">
 				<thead>  
 					<tr>
 						<th style="text-align:center; vertical-align:middle; line-height:1.3em; padding-right:0px; font-size:12px">
-							<span style="font-size:11px;">Involves&nbsp;<%= pluralize(cycle.activities.size, " Activity")%></span>
+							<span style="font-size:11px;">Involves&nbsp;<%= pluralize(cycl.activities.size, " Activity")%></span>
 						</th>	
 					</tr>
 				</thead>
 				<tbody>
-					<% cycle.activities.all.each do |activity|-%>
+					<% cycl.activities.all.each do |activity|-%>
 						<tr>
 							<td style="text-align:left; vertical-align:middle; padding-left:30px;  line-height:1.3em; font-size:11px; color:#000000">
 								<%= activity.name %>
@@ -30,7 +29,7 @@
 							&nbsp;
 						</td>
 						<td id="remove_activity" style='font-weight: normal'>
-							<%= select(:remove_activity, cycle.id, cycle.activities.all.collect{|a| [a.name, a.id]},{:include_blank =>'Remove Activity'}) %>
+							<%= select(:remove_activity, cycl.id, cycl.activities.all.collect{|a| [a.name, a.id]},{:include_blank =>'Remove Activity'}) %>
 						</td>	
 					</tr>
 					<tr>
@@ -38,7 +37,7 @@
 							&nbsp;
 						</td>
 						<td id="add_activity" style='font-weight:normal'>
-							<%= select(:add_activity, cycle.id, (cycle.elt_framework.activities.all - cycle.activities).collect{|a| [a.name, a.id]},{:include_blank =>'Add Activity'}) %>
+							<%= select(:add_activity, cycl.id, (cycl.elt_framework.activities.all - cycl.activities).collect{|a| [a.name, a.id]},{:include_blank =>'Add Activity'}) %>
 						</td>	
 					</tr>
 				</tbody>
@@ -48,11 +47,11 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#remove_activity').change(function() {
-		var activity_id = jQ('#remove_activity_<%=cycle.id%>').val();
-		var url = "<%= url_for :controller => '/apps/learning_time', :action => :assign_cycle_activity, :organization_id => @current_organization, :elt_cycle_id=> cycle %>";
+		var activity_id = jQ('#remove_activity_<%=cycl.id%>').val();
+		var url = "<%= elt_config_cycle_activity_assign_url(:organization_id => @current_organization, :elt_cycle_id=> cycl) %>";
 			jQ.get(url, {'activity_id':activity_id}, function(data) {
-			jQ("#assign_activities_<%=cycle.public_id%>").html(data); 
-	   		jQ("#assign_activities_<%=cycle.public_id%>").show();
+			jQ("#assign_activities_<%=cycl.public_id%>").html(data);
+	   		jQ("#assign_activities_<%=cycl.public_id%>").show();
 			});
 	})
 });
@@ -61,11 +60,11 @@ jQ(document).ready(function() {
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#add_activity').change(function() {
-		var activity_id = jQ('#add_activity_<%=cycle.id%>').val();
-		var url = "<%= url_for :controller => '/apps/learning_time', :action => :assign_cycle_activity, :organization_id => @current_organization, :elt_cycle_id=> cycle %>";
+		var activity_id = jQ('#add_activity_<%=cycl.id%>').val();
+		var url = "<%= elt_config_cycle_activity_assign_url(:organization_id => @current_organization, :elt_cycle_id=> cycl) %>";
 			jQ.get(url, {'activity_id':activity_id}, function(data) {
-			jQ("#assign_activities_<%=cycle.public_id%>").html(data); 
-	   		jQ("#assign_activities_<%=cycle.public_id%>").show();
+			jQ("#assign_activities_<%=cycl.public_id%>").html(data);
+	   		jQ("#assign_activities_<%=cycl.public_id%>").show();
 			});
 	})
 });

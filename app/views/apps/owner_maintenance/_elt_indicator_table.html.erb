@@ -1,32 +1,32 @@
 <div id="elt_indicators_<%=element.public_id%>">
 	<% unless element.nil? || activity.nil? -%>
-	<table   style="width:700; width:fixed; border:3px solid #ddd;word-wrap:break-word;">
+	<table   style="width:700px; border:3px solid #ddd;word-wrap:break-word;">
 		<style type="text/css" media="screen">
 	    table,tr,td { border:medium}
 		table tr:hover{
       }
     	</style>
 		<tbody>  
-			<tr style="font-size;14px; color:<%=element.e_font_color %>; background:<%= element.form_background%>;">
+			<tr style="font-size:14px; color:<%=element.e_font_color %>; background:<%= element.form_background%>;">
 				<td colspan=5 style="text-align:center; vertical-align:middle" >
 					<%= element.name %>
 				</td>
 			</tr>
 			<% element.elt_indicators.all.for_activity(activity).each do |ind| %>
 				<tr style="font-size:12px; color:#000000; background:<%= element.i_form_background%>;">
-					<td  style="width:10px;width:fixed; border:1px solid #ddd; font-size:12px;  text-align:center; vertical-align:middle; line-height:1.5em;">
+					<td  style="width:2%; border:1px solid #ddd; font-size:12px;  text-align:center; vertical-align:middle; line-height:1.5em;">
 						<%=ind.ind_num %>)
 					</td>
-					<td  style="width:10px;width:fixed; border:1px solid #ddd; font-size:12px;  text-align:center; vertical-align:middle; line-height:1.5em;">
+					<td  style="width:2%; border:1px solid #ddd; font-size:12px;  text-align:center; vertical-align:middle; line-height:1.5em;">
 						(<%= ind.position %>)
 					</td>
 					<% button_color = ind.active? ? "button_enabled.png" : "button_disabled.png"-%>
-					<td id="toggle_indicator_<%= ind.public_id %>" style=" width:20px; width:fixed; border:1px solid #ddd; cursor:pointer; padding-left:5px; padding-top:14px; vertical-align:top" >
+					<td id="toggle_indicator_<%= ind.public_id %>" style=" width:3%; border:1px solid #ddd; cursor:pointer; padding-left:5px; padding-top:14px; vertical-align:top" >
 						<%= (image_tag button_color,:width => 15) %>
 					</td>
-					<td  style="width:30px; width:fixed; border:1px solid #ddd; padding-top:12px; line-height:1.5em;">
+					<td  style="width:4%; border:1px solid #ddd; padding-top:12px; line-height:1.5em;">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to 'Edit', {:controller => "/apps/owner_maintenance", :action => :elt_indicator_new, :coop_app_id=> @current_application, :elt_indicator_id => ind, :elt_type_id => ind.elt_type, :task=>"Update", :organization_id => @current_organization},{:target=>"_blank"}  %>
+							<%= link_to 'Edit', elt_maint_indicator_new_path(:coop_app_id=> @current_application, :elt_indicator_id => ind, :elt_type_id => ind.elt_type, :task=>"Update", :organization_id => @current_organization),{:target=>"_blank"}  %>
 						</span>
 					</td>
 					<td  style=" border:1px solid #ddd; line-height:1.5em;">
@@ -38,7 +38,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#toggle_indicator_<%= ind.public_id %>').click(function() {
-		var url = "<%= url_for :controller =>"apps/owner_maintenance", :action => "elt_toggle_indicator", :elt_indicator_id => ind, :coop_app_id=>@current_application, :organization_id => @current_organization  %>";
+		var url = "<%= elt_maint_indicator_activate_url(:elt_indicator_id => ind, :coop_app_id=>@current_application, :organization_id => @current_organization)  %>";
 			jQ.get(url, {}, function(data) {
 				jQ("#elt_indicators_<%=element.public_id%>").html(data);
 				jQ("#elt_indicators_<%=element.public_id%>").show();

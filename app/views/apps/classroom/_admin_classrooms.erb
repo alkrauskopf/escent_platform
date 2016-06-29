@@ -52,7 +52,7 @@ jQ(document).ready(function() {
 	jQ('#add_classroom').click(function() {
 		var classroom = jQ('#classroom_course_name').val();
 		var child_id = jQ('#child_child_subject').val();
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :add_classroom, :organization_id => @current_organization, :parent_subject_id => parent_id  %>";
+		var url = "<%= offering_admin_add_url(:organization_id => @current_organization, :parent_subject_id => parent_id) %>";
 			jQ.get(url, {'classroom_name':classroom, 'child_subject_id': child_id }, function(data) {
 			jQ("#classroom_add").html(data); 
 	   		jQ("#classroom_add").show();
@@ -65,7 +65,7 @@ jQ(document).ready(function() {
 	jQ('#select_subject').change(function() {
 		var classroom = jQ('#classroom_course_name').val();
 		var parent_id = jQ('#parent_parent_subject').val();
-		var url = "<%= url_for :controller => '/apps/classroom', :action => :identify_parent_subject, :organization_id => @current_organization  %>";
+		var url = "<%= offering_admin_assign_subject_url(:organization_id => @current_organization) %>";
 			jQ.get(url, {'classroom_name':classroom, 'parent_subject_id': parent_id}, function(data) {
 			jQ("#classroom_add").html(data); 
 	   		jQ("#classroom_add").show();

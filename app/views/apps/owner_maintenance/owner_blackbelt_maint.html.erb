@@ -25,7 +25,7 @@
         <tr>
           <td class="resource_levels_close">
 
-          <%= link_to '', :controller => "apps/owner_maintenance", :action => :owner_show_video_session, :organization_id => @current_organization, :video_id=>vid, :coop_app_id=> @current_application %>
+          <%= link_to '', ctl_maint_blackbelts_video_path(:organization_id => @current_organization, :video_id=>vid, :coop_app_id=> @current_application) %>
           Video: <strong><%= vid.title -%></strong>
           <span></span>
           </td>

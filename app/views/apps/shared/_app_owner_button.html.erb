@@ -1,6 +1,6 @@
 <div style='text-align:center'>
   <% button_label = app.abbrev + " Owner Maintenance"%>
   <span  class="fsn-button ui-button ui-state-default ui-corner-all">
-     <%= link_to button_label ,{:controller => "apps/owner_maintenance", :action => :index, :organization_id => @current_organization, :coop_app_id => app}%>
+     <%= link_to button_label , app_owner_maintenance_path(:organization_id => @current_organization, :coop_app_id => app) %>
   </span>
 </div>

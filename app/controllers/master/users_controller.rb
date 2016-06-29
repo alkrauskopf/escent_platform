@@ -33,7 +33,7 @@ class Master::UsersController < Master::ApplicationController
   end
 
   def toggle_su
-    if request.post?
+    unless @user.nil?
       if @user.superuser?
         su_auths = @user.authorizations.superuser
         su_auths.destroy_all
@@ -49,48 +49,39 @@ class Master::UsersController < Master::ApplicationController
  
  
   def toggle_suspend
-    if request.post?
-      unless @user.superuser?
+      unless @user.nil? || @user.superuser?
         @user.suspend(!@user.suspended?)  
       end
-    end
     redirect_to :action => :index
   end
   
   def edit
-    if request.post?
-      if @user.update_attributes(params[:user])
-          flash[:notice] = "Successfully updated user #{@user.full_name}."
-          redirect_to :action => :index
-      else
-        flash[:error] = @user.errors.full_messages.to_sentence
-      end
-    end
+
   end
   
   def show
   end
   
   def delete
-    if request.post?
+    unless @user.nil?
       Authorization.destroy_all( ["scope_type = ? AND scope_id = ?", "User", @user.id])
       @user.destroy
       flash[:notice] = "Successfully removed user #{@user.full_name}."
-      redirect_to :action => :index
     end
+    redirect_to :action => :index
   end
 
   def reset_emails
     User.all.each do |user|
       user.update_attributes(:preferred_email =>"alkrauskopf@gmail.com", :Phone_for_Texting => nil)
     end
-     redirect_to :action => :index
+    redirect_to :action => :index
   end
 
   
   protected
   
   def find_user
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
   end  
 end

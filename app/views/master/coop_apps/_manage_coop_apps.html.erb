@@ -2,10 +2,10 @@
 	<table  style="width:800px; width:fixed; margin-top:20px; margin-bottom:20px; margin-left:10px">
 		<style type="text/css" media="screen">
 	    table,tr,td {border:0px solid #ddd;}
-		table tr:hover{
+		  table tr:hover{
         background-color: transparent;
       }
-    	</style>
+    </style>
 		<thead>
 			<tr style="border:1px solid #ddd; ">
 				<th  colspan=2 style="border:0px solid #ddd; font-size:11px; text-align:center; font-weight:bold;">
@@ -29,25 +29,25 @@
 			<% orgs = group == "provider" ? app.providers : (group = "disallowed" ? app.disallowed_orgs : app.selected_orgs) %>
 			<% orgs.each do |org| -%>
 				<tr style="border:1px solid #ddd; ">
-					<td style=" width:30px; width:fixed; border:0px solid #ddd; cursor:pointer; padding-left:5px; padding-top:0px; vertical-align:middle" >
+					<td style=" width:4%; border:0px solid #ddd; cursor:pointer; padding-left:5px; padding-top:0px; vertical-align:middle" >
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to 'Edit ', {:controller => "master/coop_apps", :action => :edit_app_settings, :app_id => app.id, :org_id => org, :function => "Maintain"},{:target=>"_blank"}  %>
+							<%= link_to 'Edit ', master_apps_settings_edit_path(:app_id => app.id, :org_id => org, :function => "Maintain"),{:target=>"_blank"}  %>
 						</span>
 					</td>
-					<td  style=" width:200px; width:fixed;font-size:11px; border:1px solid #ddd; text-align:center; vertical-align:middle; font-weight:bold ">
+					<td  style=" width:25%; font-size:11px; border:1px solid #ddd; text-align:center; vertical-align:middle; font-weight:bold ">
 						<%= truncate(org.name, :length=>30) %><br/>
-                        <%= pluralize(org.provided_app_orgs(app, true).size, 'User Org')%>
+            <%= pluralize(org.provided_app_orgs(app, true).size, 'User Org')%>
 					</td>
 					<% button_label = org.provider?(app) ? "button_enabled.png" : "button_disabled.png"-%>
-					<td  style=" width:40px; width:fixed; border:1px solid #ddd;  padding-left:30px; padding-top:0px; vertical-align:middle" >
+					<td  style=" width:5%; border:1px solid #ddd;  padding-left:10px; padding-top:0px; vertical-align:middle" >
 						<%= (image_tag button_label,:width => 13) %>
 					</td>
 					<% button_label = org.selected?(app) ? "button_enabled.png" : "button_disabled.png"-%>
-					<td  style=" width:40px; width:fixed; border:1px solid #ddd; padding-left:30px; padding-top:0px; vertical-align:middle" >
+					<td  style=" width:5%; border:1px solid #ddd; padding-left:10px; padding-top:0px; vertical-align:middle" >
 						<%= (image_tag button_label,:width => 13) %>
 					</td>
 					<% button_label = org.allowed?(app) ? "button_enabled.png" : "button_disabled.png"-%>
-					<td  style=" width:40px; width:fixed; border:1px solid #ddd; padding-left:30px; padding-top:0px; vertical-align:middle" >
+					<td  style=" width:5%; border:1px solid #ddd; padding-left:10px; padding-top:0px; vertical-align:middle" >
 						<%= (image_tag button_label,:width => 13) %>
 					</td>
 					<td  style=" border:1px solid #ddd; padding-left:10px; padding-top:10px; padding-bottom:10px; vertical-align:middle">

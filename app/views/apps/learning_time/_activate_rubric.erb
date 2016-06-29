@@ -1,30 +1,28 @@
 <div id="activate_rubric_<%=entity.public_id%>">
-
-<% unless entity.nil? -%>	
-	<table   style="width:300px; width:fixed; margin-top:10px; margin-left:300px">
-		<style type="text/css" media="screen">
-	    table,tr,td { border:medium}
-		table tr:hover{
-        background-color: transparent;
-      }
-    	</style>
-		<tbody>  
-
-			<tr style="border:0px solid #ddd; ">
-				<% button_label = entity.rubric? ? "button_enabled.png" : "button_disabled.png"-%>
-				<td id="toggle_rubric_<%= entity.public_id %>" style=" width:20px;  width:fixed; cursor:pointer; float:left; padding-left:10px; padding-top:5px; vertical-align:middle" >
-					<%= (image_tag button_label,:width => 15) %>
-				</td>
-				<td style="width:280px; width:fixed; padding-left:20px; vertical-align:top ">
-					<%= entity.rubric? ? "Rubric Used" : "No Rubric"%>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+  <% unless entity.nil? -%>
+	  <table   style="width:300px; margin-top:10px; margin-left:300px">
+      <style type="text/css" media="screen">
+        table,tr,td { border:medium}
+      table tr:hover{
+          background-color: transparent;
+        }
+        </style>
+      <tbody>
+        <tr style="border:0px solid #ddd; ">
+          <% button_label = entity.rubric? ? "button_enabled.png" : "button_disabled.png"-%>
+          <td id="toggle_rubric_<%= entity.public_id %>" style=" width:7%; cursor:pointer; float:left; padding-left:10px; padding-top:5px; vertical-align:middle" >
+            <%= (image_tag button_label,:width => 15) %>
+          </td>
+          <td style="width:93%; padding-left:20px; vertical-align:top ">
+            <%= entity.rubric? ? "Rubric Used" : "No Rubric"%>
+          </td>
+        </tr>
+		  </tbody>
+	  </table>
 	<script type="text/javascript">
 	jQ(document).ready(function() {
 		jQ("#toggle_rubric_<%= entity.public_id %>").click(function() {
-			var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_rubric, :organization_id => @current_organization, :elt_type_id => entity%>";
+			var url = "<%= elt_config_activity_rubric_activate_url(:organization_id => @current_organization, :elt_type_id => entity) %>";
 			jQ.get(url,{},  function(data) {
 					jQ("#activate_rubric_<%=entity.public_id%>").html(data);
 					jQ("#activate_rubric_<%=entity.public_id%>").show();
@@ -32,13 +30,12 @@
 		})
 	});
 	</script>
-	<% unless !entity.rubric? -%>	
-
+	<% unless !entity.rubric? -%>
 		<% unless entity.rubrics.active.empty? -%>	
 			<table style="width:600px;margin-left:210px; border:0px solid #ddd;">
 				<tbody>  
 					<tr  style="border:0px solid #ddd;" >
-						<td   style="border:0px solid #ddd; width:120px; width:fixed; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
+						<td   style="border:0px solid #ddd; width:20%; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
 							&nbsp;
 						</td>
 						<td   style="border:0px solid #ddd; vertical-align:middle;   color:#000000; padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; font-size:10.5px; font-weight:normal">
@@ -50,7 +47,7 @@
 					</tr>
 				<tbody>  
 					<tr  style="border:0px solid #ddd;" >
-						<td   id = "share_rubric" style="border:0px solid #ddd; width:120px; width:fixed; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
+						<td   id = "share_rubric" style="border:0px solid #ddd; width:20%; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
 							<%=  select(:share, entity.id,   entity.rubrics.active.by_score.collect{|r| [r.name, r.id]}<<["No Sharing", 0], :prompt => "Share Level") %>
 						</td>
 						<td   style="border:0px solid #ddd; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; font-size:10.5px; font-weight:normal">
@@ -64,7 +61,7 @@
 	jQ(document).ready(function() {
 		jQ('#share_rubric').change(function() {
 			var rubric_id = jQ('#share_<%=entity.id%>').val();
-			var url = "<%= url_for :controller => "/apps/learning_time", :action => :share_rubric, :organization_id => @current_organization, :elt_type_id => entity %>";
+			var url = "<%= elt_config_activity_rubric_share_url(:organization_id => @current_organization, :elt_type_id => entity) %>";
 				jQ.get(url, {'rubric_id':rubric_id}, function(data) {
 					jQ("#activate_rubric_<%=entity.public_id%>").html(data);
 					jQ("#activate_rubric_<%=entity.public_id%>").show();
@@ -77,11 +74,3 @@
 	<% end -%>
 <% end -%>
 </div>
-
-
-
-
-
-
-
-

@@ -118,7 +118,7 @@ jQ(document).ready(function() {
 		var comment_text = jQ('#post_comment_<%= blog_post.public_id %>').val();
 		var blog_post_id = '<%= blog_post.public_id %>';
 		var blog_id = '<%= blog_post.blog.public_id %>';
-		var url = "<%= url_for :controller => '/apps/app_blog', :action => :new_add_comment, :organization_id => @current_organization, :app=>app  %>";
+		var url = "<%= blog_comment_add_url(:organization_id => @current_organization, :app=>app) %>";
 			jQ.get(url, {'blog_post_id':blog_post_id, 'comment': comment_text, 'blog_id': blog_id}, function(data) {
 			jQ("#app_blog_comments_<%= blog_post.public_id %>").html(data); 
 	   		jQ("#app_blog_comments_<%= blog_post.public_id %>").show();

@@ -7,11 +7,11 @@
 			<table style="width:810px; margin-left:0px; font-size:16px; margin-left:10px; border:0px solid #ddd; padding-bottom:0px; font-weight:bold; color: #2061a5; ">	
 				<thead>
 					<tr>
-						<th  colspan=6 style=" color:#000000; font-weight:normal; font-size:12px; padding-bottom:10px;">
-							<center><%= school.short_name %>&nbsp;<%= month.strftime("%B %Y") %> Open Observations</center>
+						<th  colspan=6 style="text-align:center; color:#000000; font-weight:normal; font-size:12px; padding-bottom:10px;">
+							<%= school.short_name %>&nbsp;<%= month.strftime("%B %Y") %> Open Observations
 								<% if @current_user.superuser? -%>
 									<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-										<%= link_to "Destroy All", {:controller => "/apps/owner_maintenance",:action => "destroy_open_sessions", :organization_id => @current_organization, :org_id=>school,  :session_month=> month, :app_id=> app.id }, :class => "destroy_sessions" %>
+										<%= link_to "Destroy All", ctl_maint_sessions_monh_deletes_path(:organization_id => @current_organization, :org_id=>school,  :session_month=> month, :app_id=> app.id), :class => "destroy_sessions" %>
 									</span>
 								<% end -%>
 						</th>	
@@ -22,12 +22,12 @@
 						<tr>
 							<td  style="border:1px solid #ddd; width:60px; width:fixed; vertical-align:top; padding-top:0px; text-align:center">
 									<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-										<%= link_to "Destroy", {:controller => "/apps/owner_maintenance",:action => "destroy_open_session", :organization_id => @current_organization, :org_id=>school,  :session_month=> month, :tlt_session_id=>session, :app_id=> app.id }, :class => "destroy_sessions" %>
+										<%= link_to "Destroy", ctl_maint_sessions_monh_delete_path(:organization_id => @current_organization, :org_id=>school, :session_month=> month, :tlt_session_id=>session, :app_id=> app.id), :class => "destroy_sessions" %>
 									</span>
 							</td>
 							<td  style="border:1px solid #ddd; width:40px; width:fixed; vertical-align:top; padding-top:0px; text-align:center">
 								<u>
-									<%= link_to "View", {:controller =>  "/apps/time_learning", :action => "static_itl_session", :organization_id => @current_organization, :tlt_session_id => session}, {:target => "_blank"}  %>
+									<%= link_to "View", ctl_session_show_path(:organization_id => @current_organization, :tlt_session_id => session), {:target => "_blank"}  %>
 								</u>
 							</td>		
 							<td style="border:1px solid #ddd; width:100px; width:fixed; color:#000000; text-align:left; font-weight:normal; font-size:11px; padding-bottom:0px;">

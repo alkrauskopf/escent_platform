@@ -5,13 +5,9 @@
 
 <div style="width:97%;" class="mempro_box">
 		<div style="float:right">
-    	<%= link_to "View Public Profile", :controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => @current_user %>
+    	<%= link_to "View Public Profile", user_view_path(:organization_id => @current_organization, :id => @current_user) %>
 		</div>
-  <%= form_tag({:controller => "/users", :action => :edit_profile, :organization_id => @current_organization},  :multipart => true  )  do -%>
-
- <!--
-      <%# form_tag(:url => {:controller => "/users", :action => :edit_picture, :organization_id => @current_organization}, :html => { :multipart => true } )  do -%>
--->
+  <%= form_tag({:organization_id => @current_organization},  :multipart => true  )  do -%>
 	    <div class="FormRow">
 				<div class="FormRowTitle">First Name:</div>
 				<div class="FormRowData"><%= text_field :user, :first_name, :class=>"text", :size=>"50" %></div>
@@ -112,7 +108,7 @@
 
 <div style="width:97%;" class="mempro_box">
 	<% home_org = @current_user.organization ? @current_user.organization.name : "Former Institution"%>
-    <%= form_tag :action => :change_home_org, :organization_id => @current_organization do -%>
+    <%= form_tag user_edit_home_path(:organization_id => @current_organization) do -%>
 		<h3 class="title_large_blue">Change Your Affiliation: <%= home_org %></h3>
 		<div class="FormRow" style="position: relative;">
 				<div class="FormRowTitle">Institutions:</div>
@@ -126,7 +122,7 @@
 	<% end -%>
 </div>
 <div style="width:97%;" class="mempro_box">
-	<%= form_tag :action => :change_password, :organization_id => @current_organization do -%>
+	<%= form_tag user_edit_password_path(:organization_id => @current_organization) do -%>
 		<h3 class="title_large_blue">CHANGE PASSWORD</h3>
 		<div class="FormRow">
 			<div class="FormRowTitle">New Password:</div>

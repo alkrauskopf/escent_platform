@@ -13,8 +13,7 @@
         </div>
         <div class="Form clear" >
             <% unless @activity.nil? || @activity.elt_indicators.active.empty? %>
-                <%= form_for(:elt_case, :url => {:controller => "/apps/learning_time", :action => :start_case, :organization_id => @current_organization, :school_id=>@school, :user_id => @current_user, :elt_cycle_id => @cycle, :elt_type_id => @activity, :elt_case_id => @case, :function => (@step == "Begin" ? "Track" : "Update")}) do |form| -%>
-
+                <%= form_for(:elt_case, :url => elt_case_add_path(:organization_id => @current_organization, :school_id=>@school, :user_id => @current_user, :elt_cycle_id => @cycle, :elt_type_id => @activity, :elt_case_id => @case, :function => (@step == 'Begin' ? 'Track' : 'Update'))) do |form| -%>
                     <div class="formBox" >
                         <div class="FormRow" >
                           <div class="FormRowTitle">
@@ -61,10 +60,9 @@
                     </div>
                 <% end -%>
             <% else -%>
-                <div style ="color: #2061a5; font-size:14px; padding-top:25px; font-weight:normal">
-
+                <div style ="text-align:center; color: #2061a5; font-size:14px; padding-top:25px; font-weight:normal">
                     <br/>
-                    <center>* * *  <%= @activity.activity_type %>&nbsp;Template Is Empty  * * *</center>
+                    * * *  <%= @activity.activity_type %>&nbsp;Template Is Empty  * * *
                     <br/><br/>
                 </div>
             <% end -%>

@@ -1,27 +1,20 @@
 
-	<div style ="color: #2061a5; font-size:16px; margin-top:0px; padding-top:20px; font-weight:bold"> 
-		<strong><center><%=@task %>&nbsp;<%= @current_organization.short_name %>&nbsp;<%= @app.abbrev %>&nbsp;Plan Type</center></strong>
+	<div style ="text-align:center;color: #2061a5; font-size:16px; margin-top:0px; padding-top:20px; font-weight:bold">
+		<strong><%=@task %>&nbsp;<%= @current_organization.short_name %>&nbsp;<%= @app.abbrev %>&nbsp;Plan Type</strong>
 	</div>
-	
 	<%= render :partial => "/shared/error_and_notice" %>
-
-	
 	<div class="Form clear">
-		<%= form_for(:elt_plan_type, :url => {:controller => "/apps/learning_time", :action => :maintain_plan_type, :organization_id => @current_organization, :elt_plan_type_id=>@plan_type, :app_id => @app.id, :task=>@task, :function => @task}) do |form| %>
-		
-			<%= render :partial => "/apps/learning_time/form_plan_type", :locals=>{:org=>@current_organization, :button_label=> (@task == "New" ? "Create Plan Type" : "Update"), :plan_type => @plan_type} %>
-		
-		<% end -%>	
-
+		<%= form_for(:elt_plan_type, :url => elt_config_plan_edit_path(:organization_id => @current_organization, :elt_plan_type_id=>@plan_type, :app_id => @app.id, :task=>@task, :function => @task)) do |form| %>
+			<%= render :partial => "/apps/learning_time/form_plan_type", :locals=>{:org=>@current_organization, :button_label=> (@task == "New" ? "Create Plan Type" : 'Update'), :plan_type => @plan_type} %>
+		<% end -%>
 		<% unless @task == "New"%>
 			<%= render :partial => "/apps/learning_time/manage_rubrics", :locals=>{:entity => @plan_type, :app => @app} %>
 		<% end -%>
-		
 		<% unless @task == "New" || @plan_type.active?%>
-			<%= form_for(:elt_type, :url => {:controller => "/apps/learning_time", :action => :maintain_plan_type, :organization_id => @current_organization, :elt_plan_type_id=>@plan_type, :app_id => @app.id, :task=>@task, :function => "Destroy"}) do |form| %>
+			<%= form_for(:elt_type, :url => elt_config_plan_edit_path(:organization_id => @current_organization, :elt_plan_type_id=>@plan_type, :app_id => @app.id, :task=>@task, :function => 'Destroy')) do |form| %>
 				<div class="FormRow submit_warp" style= "padding-left:25px; padding-bottom:20px">	
 					<br/>
-					<%= submit_tag "Destroy", :confirm => "Are you sure?", :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
+					<%= submit_tag 'Destroy', :confirm => "Are you sure?", :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
 					<br/>
 				</div>			
 			<% end -%>	

@@ -2,11 +2,11 @@
 	<div style = "font-size:12px; color: #000000;padding-left:10px;">
 
 	<br/>
-	<span style ="color: #C83A14; font-size:20px">
-	<strong><center><%= @classroom.course_name.upcase%>:&nbsp;<%=@topic.title.upcase %></center></strong>
+	<span style ="text-align:center; color: #C83A14; font-size:20px">
+	<strong><%= @classroom.course_name.upcase%>:&nbsp;<%=@topic.title.upcase %></strong>
 	</span>
 	<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	Back To: <%= link_to @classroom.course_name, :controller => "/site/site", :action => :static_classroom, :organization_id => @current_organization, :topic_id => @return_topic, :id => @classroom%>
+	Back To: <%= link_to @classroom.course_name, offering_view_path(:organization_id => @current_organization, :topic_id => @return_topic, :id => @classroom) %>
 	</div>
 	<%= render :partial => "/shared/error_and_notice" %>
 	<div class="flash_notice" style="display:none;"></div>

@@ -23,7 +23,7 @@
         <% end %>
 		 
 	<div style="color:#c73914;">
-		<strong><p>Click on <%= link_to @saved_org.name, {:controller => "/site/site", :action => :static_organization, :organization_id => @saved_org} %> and setup your place in the community.</p></strong> 	<br/>
+		<strong><p>Click on <%= link_to @saved_org.name, organization_view_path(:organization_id => @saved_org) %> and setup your place in the community.</p></strong> 	<br/>
 	</div>
 	
     </div>

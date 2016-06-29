@@ -1,7 +1,7 @@
-<div id="list_activities_<%=org.public_id%><%= cycle.id%>">
-	<% if @current_organization == cycle.organization -%>
-      <%= render :partial => "/apps/learning_time/evidence_map", :locals => {:org => org, :cycle => cycle} %>
-      <% unless cycle.activities.provider_only.active.empty? %>
+<div id="list_activities_<%=org.public_id%><%= cycl.id%>">
+	<% if @current_organization == cycl.organization -%>
+      <%= render :partial => "/apps/learning_time/evidence_map", :locals => {:org => org, :cycl => cycl} %>
+      <% unless cycl.activities.provider_only.active.empty? %>
 			<table style="width:600px; text-align:left;font-size:12px; margin-top:0px">
 				<tbody>  
 					<style type="text/css" media="screen">
@@ -10,12 +10,12 @@
 		        		background-color: transparent;
 		      			}
 		   			</style>
-					<% cycle.activities.provider_only.active.each do |activity| -%>
+					<% cycl.activities.provider_only.active.each do |activity| -%>
 						<% if activity.has_active_indicators?%>
 							<tr >
-								<td  style="width:45px; width:fixed; border:0px solid #ddd; vertical-align:middle; text-align:left;padding-left:0px">
+								<td  style="width:8%; border:0px solid #ddd; vertical-align:middle; text-align:left;padding-left:0px">
 									<span class="fsn-button ui-button ui-state-default ui-corner-all">
-										 <%= link_to "Begin" ,{:controller => "apps/learning_time", :action => "start_case", :organization_id => @current_organization, :elt_cycle_id => cycle, :school_id=> org, :elt_type_id => activity, :step=>"Begin"}%>
+										 <%= link_to 'Begin' , elt_case_add_path(:organization_id => @current_organization, :elt_cycle_id => cycl, :school_id=> org, :elt_type_id => activity, :step=>'Begin')%>
 									</span>
 								</td>
 								<td  style="border:0px solid #ddd; vertical-align:middle; text-align:left;padding-left:0px">
@@ -29,9 +29,9 @@
 		<% end -%>	
 	<% end -%>
 
-    <% unless org.elt_cases.for_cycle(cycle).empty? -%>
-        <% org.elt_cycle_activities(cycle).each do |activity| -%>
-            <%= render :partial => "/apps/learning_time/show_school_cycle_activity_cases", :locals => {:activity => activity, :org => org, :cycle=>cycle} -%>
+    <% unless org.elt_cases.for_cycle(cycl).empty? -%>
+        <% org.elt_cycle_activities(cycl).each do |activity| -%>
+            <%= render :partial => "/apps/learning_time/show_school_cycle_activity_cases", :locals => {:activity => activity, :org => org, :cycl=>cycl} -%>
         <% end -%>
     <br/>
     <% end -%>

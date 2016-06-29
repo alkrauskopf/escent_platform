@@ -11,7 +11,7 @@
 					<tr style="border:0px solid #ddd;">
 						<td  style="  width:40px; width:fixed; border:0px solid #ddd; vertical-align:top; text-align:left;padding-top:5px">
 							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								 <%= link_to "Edit" ,{:controller => "apps/classroom", :action => :setup_classroom, :organization_id => @current_organization,  :classroom_id => offering}%>
+								 <%= link_to 'Edit', offering_admin_setup_path(:organization_id => @current_organization, :classroom_id => offering) %>
 							</span>
 						</td>
 						<td  style="color: #2061a5;  border:0px solid #ddd; font-size:12px; line-height:1.4em; font-weight:bold; vertical-align:bottom; text-align:left;padding-bottom:5px;padding-top:5px">

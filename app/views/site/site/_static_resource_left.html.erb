@@ -12,7 +12,7 @@
               </div>
 
               <div class="affiliate_information_title" style="font-size:12px; text-align:center; font-weight:bold; color:#000000;">
-                <%= link_to content.organization.name, {:controller => "/site/site", :action => :static_organization, :organization_id => content.organization}, :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
+                <%= link_to content.organization.name, organization_view_path(:organization_id => content.organization), :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
               </div>
             <% end %>
             <div class="affiliate_information_title" style="padding-top:10px; font-weight:normal; border:0px solid #ddd; color:#000000;">
@@ -30,9 +30,9 @@
 							  	<% end -%>
  							</td>
 							<td style="width:80%;  margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; vertical-align:top;">
-				                 <%unless content.user.nil? %>
-					             	<span style="font-size:12px; text-align:center; font-weight:bold; color:#000000;">
-					                	<%= link_to content.user.full_name, {:controller => "/users", :action => :member_public_profile, :organization_id => @current_organization, :id => content.user}, :html => {:style => "text-decoration:none;padding:1px;margin-top:5px; margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
+                <%unless content.user.nil? %>
+                  <span style="font-size:12px; text-align:center; font-weight:bold; color:#000000;">
+                    <%= link_to content.user.full_name, user_view_path(:organization_id => @current_organization, :id => content.user), :html => {:style => "text-decoration:none;padding:1px;margin-top:5px; margin-bottom: 5px;", :class =>"view-member fsn-button ui-button ui-state-default ui-corner-all"} %>
 										<br/>
 									</span>
 								<% end -%>
@@ -49,7 +49,7 @@
 						<% if content.editable_by_user?(@current_user ? @current_user : nil)-%>
 							<tr  style="border:0px solid #ddd;" >
 								<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:12px; text-align:left; vertical-align:top;">
-									<button><%= link_to  "Edit", {:controller => "/site/contents", :action => :edit_resource, :organization_id => content.organization, :content_id => content, :function => "Edit"} %></button>
+									<button><%= link_to  "Edit", resource_edit_path(:organization_id => content.organization, :content_id => content, :function => "Edit") %></button>
 	 							</td>
 	 						</tr>
 	 					<% end -%>
@@ -101,7 +101,7 @@
  						<% content.topics.active.collect{|lu| lu.classroom}.compact.uniq.sort_by{|o| [o.organization.name, o.course_name]}.each do |o| -%>
 							<tr  style="border:0px solid #ddd;" >
 								<td colspan=2 style=" margin-left:0px; border:0px solid #ddd;font-size:10.5px; text-align:left; font-weight:normal; color:#000000; vertical-align:middle;">
-									<%= o.organization ? o.organization.short_name + ": " : ""%><%= link_to o.course_name, {:controller => "/site/site", :action => :static_classroom, :organization_id => o.organization, :id => o}, :target=> '_blank' %>
+									<%= o.organization ? o.organization.short_name + ": " : ""%><%= link_to o.course_name, offering_view_path(:organization_id => o.organization, :id => o), :target=> '_blank' %>
 	 							</td>
 	 						</tr> 						
  						<% end -%>

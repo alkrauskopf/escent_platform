@@ -1,13 +1,12 @@
 <div id="reflect_lists">
-	<% unless teacher.nil? || !@current_organization.app_enabled?(CoopApp.ctl) %>
+	<% unless teacher.nil? || !@current_organization.app_enabled?(@current_application) %>
 		<% if admin || (teacher == @current_user)%>
 			<% unless teacher.tlt_sessions.final.empty? -%>
-
 				<table id="<%=teacher.public_id %>_thenow"   style="width:650px; color: #2061a5;">
 					<tbody>  
 						<tr>
 							<td class="resource_levels_close">
-								<%= link_to '', :controller => "apps/time_learning", :action => :then_now, :type => "teacher", :teacher_id => teacher, :organization_id => @current_organization, :l_entity => teacher.id, :r_entity => teacher.id, :new_r_entity=> "T", :new_subject => teacher.tlt_sessions.last.subject_area_id %>
+								<%= link_to '', ctl_analyse_period_path(:type => "teacher", :teacher_id => teacher, :organization_id => @current_organization, :l_entity => teacher.id, :r_entity => teacher.id, :new_r_entity=> "T", :new_subject => teacher.tlt_sessions.last.subject_area_id) %>
 								<%= teacher.last_name %> Strategy Comparisons
 								<span></span>
 							</td>
@@ -31,7 +30,7 @@ jQ(document).ready(function() {
 									<th>
 										<strong><%= pluralize( teacher.tlt_sessions.for_subject(subject).final.size.to_s, subject.name + " Observation") -%></strong>
 										<span style="float:right; font-size:10.5px;padding-right:10px">
-										<%= link_to "Self-Reflect", {:controller => "/apps/time_learning", :action => :teacher_private_itl_dashboards, :organization_id => @current_organization,:subject_area_id => subject, :teacher_id => @current_user}, {:target => "_blank"}%>
+										<%= link_to 'Self-Reflect', ctl_reflection_path(:organization_id => @current_organization,:subject_area_id => subject, :teacher_id => @current_user), {:target => '_blank'}%>
 										</span>
 									</th>											
 								</tr>

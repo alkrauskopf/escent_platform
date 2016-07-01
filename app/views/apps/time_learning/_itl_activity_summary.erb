@@ -1,9 +1,9 @@
 <div  id="activity_summary">
-	<div style-"">
+	<div style=''>
 		<u>Observation Summary Data</u>&nbsp;
 		<% if update %>
 			<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-				<%= link_to "Refresh", {:controller => "apps/time_learning", :action => :refresh_activity_summary, :organization_id => @current_organization, :tlt_session_id => @tlt_session, :update=>update}, :class => "refresh_button" %>
+				<%= link_to 'Refresh', ctl_observation_activities_path(:organization_id => @current_organization, :tlt_session_id => @tlt_session, :update=>update), :class => 'refresh_button' %>
 			</span>
 		<% end -%>
 	</div>
@@ -155,4 +155,3 @@ jQ(document).ready(function() {
 	})
 });
 </script>
-

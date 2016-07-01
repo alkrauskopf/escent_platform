@@ -17,7 +17,7 @@
 						<tbody>  
 							<tr>
 								<td class="resource_levels_close">
-                  <%= link_to '', :controller => "apps/time_learning", :action => :observation_subject_list, :organization_id => @current_organization, :subject_area_id => subj  %>
+                  <%= link_to '', ctl_subjects_path(:organization_id => @current_organization, :subject_area_id => subj) %>
                   Observe&nbsp;<%= subj.name -%>
                   <span></span>
 								</td>
@@ -37,12 +37,12 @@
 	
 			<% if @current_organization.itl_org_option.classroom_period && @current_user.ctl_observer_for_org?(@current_organization) %>
 			 	<span style = "margin:10px; padding-top:10px; font-size:12px">
-			 		<%= link_to "Practice" ,{:controller => "apps/time_learning", :action => "setup_session", :organization_id => @current_organization, :period_id => @current_organization.itl_org_option.classroom_period, :teacher_id => @currnet_user, :practice=>true, :classroom_id => @current_organization.itl_org_option.classroom_period.classroom},:class => 'fsn-button ui-button ui-state-default ui-corner-all'%>
+			 		<%= link_to 'Practice', ctl_observation_add_path(:organization_id => @current_organization, :period_id => @current_organization.itl_org_option.classroom_period, :teacher_id => @current_user, :practice=>true, :classroom_id => @current_organization.itl_org_option.classroom_period.classroom),:class => 'fsn-button ui-button ui-state-default ui-corner-all'%>
 				</span>
 			<% end -%>
 			<% if !@current_organization.app_enabled?(CoopApp.classroom) && @admin -%>
 			 		<span style = "float:right; padding-top:10px; font-size:12px">		
-						<%= link_to "Classroom Admin", {:controller => "/apps/classroom", :action => :index, :organization_id => @current_organization, :user_id => @current_user},:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
+						<%= link_to 'Classroom Admin', self.send(CoopApp.classroom.link_path, {:organization_id => @current_organization, :user_id => @current_user}),:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
 					</span>
 			<% end -%>
 		</div>
@@ -52,45 +52,45 @@
    <ul>
 
       <li>
-		    <%  tab_2_label = @current_user.last_name + " Backlog" %>
-        <a href="#tabs-2"><span class="tab_label">
+		    <%  tab_2_label = @current_user.last_name + ' Backlog' %>
+        <a href="#tabs-2"><span class='tab_label'>
 		    <%= tab_2_label %>
         </span></a>
 	    </li>
       <li>
-        <%  tab_3_label =  @current_user.last_name + " Reflections" %>
-        <a href="#tabs-3"><span class="tab_label">
-		    <%= tab_3_label %>
+        <%  tab_3_label =  @current_user.last_name + ' Reflections' %>
+        <a href="#tabs-3"><span class='tab_label'>
+        <%= tab_3_label %>
         </span></a>
       </li>
       <li>
-		    <%  tab_6_label = "Observation History" %>
-        <a href="#tabs-6"><span class="tab_label">
+		    <%  tab_6_label = 'Observation History' %>
+        <a href="#tabs-6"><span class='tab_label'>
 		    <%= tab_6_label %>
         </span></a>
 	    </li>
       <li>
-      	<%  tab_1_label = @current_organization.organization_type.name + " Analysis" %>
-        <a href="#tabs-1"><span class="tab_label">
+      	<%  tab_1_label = @current_organization.organization_type.name + ' Analysis' %>
+        <a href="#tabs-1"><span class='tab_label'>
 		    <%= tab_1_label %>
         </span></a>
 	    </li>
       <li>
-		    <%  tab_4_label = "Resources" %>
-        <a href="#tabs-4"><span class="tab_label">
+		    <%  tab_4_label = 'Resources' %>
+        <a href="#tabs-4"><span class='tab_label'>
 		    <%= tab_4_label %>
         </span></a>
 	    </li>
 		  <% if @admin -%>
 	      <li>
-	   		  <%  tab_5_label = "Surveys" %>
-	        <a href="#tabs-5"><span class="tab_label">
+	   		  <%  tab_5_label = 'Surveys' %>
+	        <a href="#tabs-5"><span class='tab_label'>
 			    <%= tab_5_label %>
           </span></a>
 		    </li>
 	      <li>
-			    <%  tab_9_label = "Options" %>
-	        <a href="#tabs-9"><span class="tab_label">
+			    <%  tab_9_label = 'Options' %>
+	        <a href="#tabs-9"><span class='tab_label'>
 			    <%= tab_9_label %>
           </span></a>
 		    </li>
@@ -98,19 +98,19 @@
     </ul>
 
 	  <div id="tabs-2" class="favorite_organizations" style="width:900px">
-	   <%= render :partial => "/apps/time_learning/list_backlogs", :locals => {:admin => @admin, :user => @current_user, :app => @current_application}%>
+	   <%= render :partial => "/apps/time_learning/list_backlogs", :locals => {:admin => @admin, :user => @current_user}%>
    	</div>
 	  <div id="tabs-3" class="favorite_organizations" style="width:900px">
     	<%= render :partial => "/apps/staff_develop/teacher_itl_reflections", :locals => {:teacher => @teacher,  :admin => @admin, :subject => nil } %>
    	</div> 
 	  <div id="tabs-6" class="favorite_organizations" style="width:900px">
-	    <%= render :partial => "/apps/time_learning/manage_tlt_sessions", :locals => {:admin => @admin, :group => "month", :app => @current_application, :tab=>"finalized"} %>
+	    <%= render :partial => "/apps/time_learning/manage_tlt_sessions", :locals => {:admin => @admin, :group => 'month', :tab=>'finalized'} %>
    	</div>
 	  <div id="tabs-1" class="favorite_organizations" style="width:900px">
-	    <%= render :partial => "/apps/time_learning/list_school_utilizations", :locals => {:app => @current_application}  %>
+	    <%= render :partial => "/apps/time_learning/list_school_utilizations"  %>
     </div>
 	  <div id="tabs-4" class="favorite_organizations" style="width:900px">
-      <%= render :partial => "/apps/time_learning/list_resources", :locals => {:admin => @admin, :app => @current_application}  %>
+      <%= render :partial => "/apps/time_learning/list_resources", :locals => {:admin => @admin}  %>
     </div>
     <% if @admin -%>
       <div id="tabs-5" class="favorite_organizations" style="width:900px">
@@ -129,33 +129,6 @@ jQ(document).ready(function() {
 	jQ('#authorization_levels .authorization_levels_open').toggleAuthorizationLevels();	
   jQ("#roles").tablesorter({ headers: { 1: { sorter: false }} });
 });
-</script>
-<script type="text/javascript">
-	jQ(document).ready(function() {
-		function showDialogContent(title, content_id) {
-			$dialog = jQ("#view-content");
-			// next line is broken.		
-			$dialog.attr("title", title);
-			jQ.post('<%= url_for :controller => :content, :action => :show, :organization_id => @current_organization %>', {'id':content_id}, function(data) {
-				$dialog.html(data);
-				$dialog.dialog('open');
-			})
-		}
-
-		var addButtonAction = function() {
-			jQ("button", jQ("#topic_content")).each(function() {
-				jQ(this).click(function() {
-					var title = jQ(this).parent("td").parent("tr").children("td").eq(0).text();
-					var content_id = jQ(this).parent("td").parent("tr").attr("id");
-					showDialogContent(title, content_id)
-					return false;
-				})
-			})
-		}
-		jQ('.dialog').dialog('close');
-		addButtonAction();
-
-	})
 </script>
 
 <script type="text/javascript" charset="utf-8">

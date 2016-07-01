@@ -1,4 +1,4 @@
-class Apps::TimeLearningController < Site::ApplicationController
+class Apps::TimeLearningController < ApplicationController
   helper :all # include all helpers, all the time  
  layout "tlt", :except =>[:log_summary, :activity_summary, :show_template, :show_not_timed_tasks, :owner_show_video_session,
                           :manage_template, :create_training_video, :manage_belt_user, :manage_belt_rankings,
@@ -17,45 +17,32 @@ class Apps::TimeLearningController < Site::ApplicationController
     flash[:notice] = nil
     flash[:error] = nil
   end
-  
-
-
 
   def index
-
     initialize_parameters
     CoopApp.ctl.increment_views
     itl_groupings
-
     clean_unresolved_observer_sessions
-
   end
 
   def list_backlog_for
-
     initialize_parameters
-
   end
 
   def observation_subject_list
-
     initialize_parameters
-
   end
 
  
    def setup_session
-
     initialize_parameters
-
     @practice = params[:practice] ? true:false
-    @video_list = @practice ? @current_organization.coop_app_resources.for_app(@app).collect{|app_res| app_res.content}.select{|c| c.embed_code?} : []
+    @video_list = @practice ? @current_organization.coop_app_resources.for_app(@current_application).collect{|app_res| app_res.content}.select{|c| c.embed_code?} : []
     @video_list.each do|vid|
       vid.title = vid.irr_resource? ? "** " + vid.title : vid.title
     end
     !@video_list.sort{|a,b| b.title<=> a.title}
-    
-    if params[:function] == "Track"
+    if params[:function] == 'Track'
       @tlt_session = TltSession.new
       @tlt_session.classroom_id = @classroom.id
       @tlt_session.classroom_period_id = @period.id
@@ -92,7 +79,7 @@ class Apps::TimeLearningController < Site::ApplicationController
       @tlt_session.itl_belt_rank_id = belt_id
       if !params[:coop_app]
         @tlt_session.itl_template = @current_organization.useable_itl_templates.first rescue nil
-       elsif params[:coop_app][:meth] == ""
+       elsif params[:coop_app][:meth] == ''
         @tlt_session.itl_template = @current_organization.useable_default_template 
        else 
         @tlt_session.itl_template = ItlTemplate.find_by_id(params[:coop_app][:meth].to_i)   
@@ -100,7 +87,7 @@ class Apps::TimeLearningController < Site::ApplicationController
       if @tlt_session.itl_template 
         @tlt_session.app_methods << @tlt_session.itl_template.app_methods
       end
-      if params[:commit] == "Enter Past Session"
+      if params[:commit] == 'Enter Past Session'
         @tlt_session.is_manual = true
         if params[:session_date] 
           @tlt_session.session_date = params[:session_date]
@@ -127,7 +114,7 @@ class Apps::TimeLearningController < Site::ApplicationController
         end
 #        redirect_to :action => 'track_session', :organization_id => @current_organization, :tlt_session_id => @tlt_session
         redirect_to :controller => 'apps/panel', :action => 'track_session', :user_id=> @current_user, :organization_id => @current_organization, :tlt_session_id => @tlt_session, :suspended => false
-      else
+     else
         flash[:error] = @tlt_session.errors.full_messages.to_sentence 
       end
     end   
@@ -157,7 +144,7 @@ class Apps::TimeLearningController < Site::ApplicationController
       @current_organization.itl_org_option.update_attributes(:classroom_period_id => nil)
     end
     
-    render :partial => "/apps/time_learning/manage_options_training", :locals => {:app=>@app}
+    render :partial => "/apps/time_learning/manage_options_training", :locals => {:app=>@current_application}
   end
 
 
@@ -228,7 +215,7 @@ class Apps::TimeLearningController < Site::ApplicationController
          @sessions = @current_organization.tlt_sessions.between_dates(begin_day, begin_day.at_end_of_month).practice.completed.sort{|a,b| b.session_date <=> a.session_date}
        end
     end
-  render :partial => "/apps/time_learning/list_sessions", :locals => {:admin => @admin, :group=> @group, :sessions=>@sessions, :user => @user, :tab=> @tab, :tab_id=>tab_id, :app_methods=> @sessions.collect{|s| s.app_methods}.flatten.uniq.sort_by{|a| a.position}, :app => @app}
+  render :partial => "/apps/time_learning/list_sessions", :locals => {:admin => @admin, :group=> @group, :sessions=>@sessions, :user => @user, :tab=> @tab, :tab_id=>tab_id, :app_methods=> @sessions.collect{|s| s.app_methods}.flatten.uniq.sort_by{|a| a.position}}
   end
   
   def send_invite
@@ -282,7 +269,7 @@ class Apps::TimeLearningController < Site::ApplicationController
   def compare_school
     initialize_parameters
     compare = Organization.find_by_id(params[:compare_id]) rescue @school 
-    render :partial => "/apps/time_learning/school_itl_dashboard", :locals => {:school => @school, :app => @app, :compare => compare}
+    render :partial => "/apps/time_learning/school_itl_dashboard", :locals => {:school => @school, :app => @current_application, :compare => compare}
   end
 
   def subject_dashboard
@@ -293,7 +280,7 @@ class Apps::TimeLearningController < Site::ApplicationController
   def session_history
     initialize_parameters
     itl_groupings
-    render :partial => "/apps/time_learning/manage_tlt_sessions", :locals => {:admin => @admin, :group => params[:grouping], :tab=>params[:tab], :app => @app}
+    render :partial => "/apps/time_learning/manage_tlt_sessions", :locals => {:admin => @admin, :group => params[:grouping], :tab=>params[:tab]}
   end
 
   def take_survey
@@ -364,7 +351,7 @@ class Apps::TimeLearningController < Site::ApplicationController
       video.subject_area = SubjectArea.pd.first      
       video.subject_area_old = SubjectArea.pd.first.name
       video.content_status = ContentStatus.find_by_name("Available")
-      video.title = @app.abbrev + " Observation: " + @tlt_session.classroom_name + ", "+ @tlt_session.organization.medium_name   
+      video.title = @current_application.abbrev + " Observation: " + @tlt_session.classroom_name + ", "+ @tlt_session.organization.medium_name
       video.description = @tlt_session.session_date.strftime("%b %d, %Y") + " observation of " +  @tlt_session.user.full_name + " by observer " + @tlt_session.tracker.full_name + ". The " + @tlt_session.organization.short_name + " " + @tlt_session.classroom_name + " class was observed for " +  (@tlt_session.session_length/60).round.to_s + " minutes"
       video.publish_start_date = Time.now
       video.publish_end_date = Time.now.advance(:years=>20)
@@ -408,7 +395,7 @@ class Apps::TimeLearningController < Site::ApplicationController
     if @tlt_session && @tlt_session.student_survey.nil? && !@tlt_session.student_survey_expired?
       student_itl_survey(@tlt_session)   
     end
-    render :partial => "list_hat_backlog", :locals => {:admin => @admin, :hat=> @hat, :user => @current_user, :app => @app}
+    render :partial => "list_hat_backlog", :locals => {:admin => @admin, :hat=> @hat, :user => @current_user, :app => @current_application}
   end
 
   def send_student_survey_from_static_page
@@ -428,8 +415,8 @@ class Apps::TimeLearningController < Site::ApplicationController
     @teacher_full_name = @tlt_session.user.nil? ? "Former User" : @tlt_session.user.full_name
     @teacher_last_name = @tlt_session.user.nil? ? "Former User" : @tlt_session.user.last_name
     @teacher_update = teacher_update?(@tlt_session)
-    obsrvr = @app.tlt_survey_audiences.observer.first
-    post_conf = @app.tlt_survey_types.post_conference.first
+    obsrvr = @current_application.tlt_survey_audiences.observer.first
+    post_conf = @current_application.tlt_survey_types.post_conference.first
     @survey = @observer_update && !@tlt_session.survey_schedules.for_type(post_conf).for_audience(obsrvr).active.empty? ? @tlt_session.survey_schedules.for_type(post_conf).for_audience(obsrvr).active.first : nil
  end 
 
@@ -715,7 +702,7 @@ class Apps::TimeLearningController < Site::ApplicationController
         create_summary_data(session)
       end      
     end
-    render :partial => "/apps/owner_maintenance/app_ctl_school_subject_dashboards", :locals => {:app => @app, :school=>summary.organization, :subject=>summary.subject_area}
+    render :partial => "/apps/owner_maintenance/app_ctl_school_subject_dashboards", :locals => {:app => @current_application, :school=>summary.organization, :subject=>summary.subject_area}
    end  
 
   def add_survey_question
@@ -725,15 +712,15 @@ class Apps::TimeLearningController < Site::ApplicationController
       @question = TltSurveyQuestion.new
       @question.organization_id = @current_organization.id
       @question.user_id = @current_user.id
-      @question.tlt_survey_audience_id = @audience.nil? ? @app.tlt_survey_audiences.first.id : @audience.id
+      @question.tlt_survey_audience_id = @audience.nil? ? @current_application.tlt_survey_audiences.first.id : @audience.id
       @question.tlt_survey_type_id = @survey_type.nil? ? TltSurveyType.first.id : @survey_type.id
       @question.question = params[:question]
       @question.tlt_survey_range_type_id = params[:range_type_id].empty? ? 1 : params[:range_type_id]   
       @question.is_active = true
-      @question.coop_app_id = @app.id
+      @question.coop_app_id = @current_application.id
       @question.save
     end
-   render :partial => "/apps/shared/sumarize_surveys", :locals => {:admin => @admin, :org => @current_organization, :app => @app} 
+   render :partial => "/apps/shared/sumarize_surveys", :locals => {:admin => @admin, :org => @current_organization, :app => @current_application}
  end
 
   def diagnostics
@@ -764,8 +751,8 @@ class Apps::TimeLearningController < Site::ApplicationController
         @diagnostic_complete = true
         flash[:notice] = "Analysis Saved" 
         if @current_user.tlt_diagnostics.last.survey_schedules.empty?
-          audience = @app.tlt_survey_audiences.teacher.first
-          type = @app.tlt_survey_types.reflective.first
+          audience = @current_application.tlt_survey_audiences.teacher.first
+          type = @current_application.tlt_survey_types.reflective.first
           schedule_survey_app(@current_user.tlt_diagnostics.last, @current_organization, diagnostic.subject_area_id, audience, type, nil, nil, type.notify_default(audience), type.anon_default(audience))
         end
         store_survey_responses_app(@current_user.tlt_diagnostics.last.survey_schedules.last)
@@ -788,7 +775,7 @@ class Apps::TimeLearningController < Site::ApplicationController
 
     initialize_parameters
 
-    @audience = @app.tlt_survey_audiences.student.first
+    @audience = @current_application.tlt_survey_audiences.student.first
 
   end
 
@@ -811,7 +798,7 @@ class Apps::TimeLearningController < Site::ApplicationController
     else
        flash[:error] = @current_organization.itl_org_option.errors.full_messages.to_sentence 
     end
-    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@app}  
+    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@current_application}
   end
 
   def edit_schedule_url
@@ -823,7 +810,7 @@ class Apps::TimeLearningController < Site::ApplicationController
     else
        flash[:error] = @current_organization.itl_org_option.errors.full_messages.to_sentence 
     end
-    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@app}  
+    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@current_application}
   end
 
   def toggle_school_dashboard_details
@@ -896,7 +883,7 @@ class Apps::TimeLearningController < Site::ApplicationController
         template.app_methods<<app_method
       end
     end
-    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@app}   
+    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@current_application}
   end
 
   def toggle_template
@@ -995,41 +982,41 @@ class Apps::TimeLearningController < Site::ApplicationController
     else
       @current_organization.itl_org_option.tl_activity_type_tasks<<@task
     end
-    render :partial => "/apps/time_learning/manage_filters", :locals=>{:app=>@app, :app_method => @task.tl_activity_type.app_method}   
+    render :partial => "/apps/time_learning/manage_filters", :locals=>{:app=>@current_application, :app_method => @task.tl_activity_type.app_method}
   end
 
   def toggle_concurrent
     initialize_parameters
 
     @current_organization.itl_org_option.update_attributes(:is_concurrent => !@current_organization.itl_org_option.is_concurrent)
-    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@app}   
+    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@current_application}
   end
 
   def toggle_finalize
     initialize_parameters
 
     @current_organization.itl_org_option.update_attributes(:is_teacher_finalize => !@current_organization.itl_org_option.is_teacher_finalize)
-    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@app}   
+    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@current_application}
   end
   def toggle_conversation
     initialize_parameters
 
     @current_organization.itl_org_option.update_attributes(:is_conversations => !@current_organization.itl_org_option.is_conversations)
-    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@app}   
+    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@current_application}
   end
   
   def toggle_thresholds
     initialize_parameters
 
     @current_organization.itl_org_option.update_attributes(:is_thresholds => !@current_organization.itl_org_option.is_thresholds)
-    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@app}   
+    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@current_application}
   end
 
   def toggle_belt_ranking
     initialize_parameters
 
     @current_organization.itl_org_option.update_attributes(:is_belt_ranking => !@current_organization.itl_org_option.is_belt_ranking)
-    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@app}   
+    render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@current_application}
   end
 
   def manage_belt_rankings
@@ -1072,22 +1059,19 @@ class Apps::TimeLearningController < Site::ApplicationController
 
   def update_user_belt
     initialize_parameters
-    
     if params[:rank_id] == "99"
       if @user.user_itl_belt_rank then @user.user_itl_belt_rank.destroy end
-        
     elsif params[:rank_id]==""  
       if @user.user_itl_belt_rank && params[:justify]!="" 
          unless @user.user_itl_belt_rank.update_attributes(:justification => params[:justify])    
           flash[:error] = @user.user_itl_belt_rank.errors.full_messages.to_sentence
         end       
-      end 
-      
+      end
     else  
       if @user.user_itl_belt_rank && params[:justify]!="" then @user.user_itl_belt_rank.destroy end
       create_belt_for(@user, params[:rank_id].to_i, params[:justify], @current_user)
     end
-    render :partial => "/apps/time_learning/manage_belt_user", :locals => {:observer=> User.find_by_public_id(params[:user_id]), :app=>@app}  
+    render :partial => "/apps/time_learning/manage_belt_user", :locals => {:observer=> User.find_by_public_id(params[:user_id]), :app=>@current_application}
   end
 
 
@@ -1095,14 +1079,15 @@ class Apps::TimeLearningController < Site::ApplicationController
 
   def ctl_allowed?
     @current_application = CoopApp.ctl
+    @current_provider = @current_organization.app_provider(@current_application)
     current_app_enabled_for_current_org?
   end
 
 
   def student_itl_survey(session)
       session.update_attributes(:student_survey_date => Date.today)
-      audience = @app.tlt_survey_audiences.student.first
-      type = @app.tlt_survey_types.observation.first
+      audience = @current_application.tlt_survey_audiences.student.first
+      type = @current_application.tlt_survey_types.observation.first
       schedule_survey_app(session, session.organization, session.subject_area_id, audience, type, nil, nil, type.notify_default(audience), type.anon_default(audience))
       refresh_session
   end
@@ -1140,7 +1125,7 @@ class Apps::TimeLearningController < Site::ApplicationController
       @school = Organization.find_by_public_id(params[:school_id]) rescue nil
     end
     if params[:user_id]
-      @user = User.find_by_public_id(params[:user_id]) rescue nil
+      @user = User.find_by_public_id(params[:user_id])
     end
     if params[:tlt_session_id]
       @tlt_session = TltSession.find_by_public_id(params[:tlt_session_id]) rescue nil
@@ -1198,7 +1183,7 @@ class Apps::TimeLearningController < Site::ApplicationController
     end
 
     if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
+      @appx = CoopApp.find_by_id(params[:app_id]) rescue nil
     end
 
     if params[:hat]
@@ -1360,7 +1345,7 @@ class Apps::TimeLearningController < Site::ApplicationController
 
   def create_summary_data(session)
      # summary = ItlSummary.find(:first, :conditions=>["classroom_id=? AND yr_mnth_of=? AND itl_belt_rank_id = ?", session.classroom_id,session.session_date.beginning_of_month, session.itl_belt_rank_id]) rescue nil
-    summary =  (session.classroom.nil? || session.itl_belt_rank.nil?) ? nil : session.classroom.itl_summary.for_belt(session.itl_belt_rank).for_month(session.session_date.beginning_of_month).first
+    summary =  (session.classroom.nil? || session.itl_belt_rank.nil? || session.classroom.itl_summary.nil?) ? nil : session.classroom.itl_summary.for_belt(session.itl_belt_rank).for_month(session.session_date.beginning_of_month).first
     if summary
      summary.observation_count += 1
      summary.classroom_duration += session.duration

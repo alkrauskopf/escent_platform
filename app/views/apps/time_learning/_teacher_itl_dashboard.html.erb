@@ -12,7 +12,6 @@
 			</tbody>
 		</table>
 
-
 	<% columns = [0,1,2,3,4,5,6]-%>
 	<% teacher_sessions.in_groups_of(7).each_with_index do |session, index| -%>			
 	<% group = "dashboard_" + teacher.public_id + subject.public_id + index.to_s -%>
@@ -26,130 +25,128 @@
       			}
    			</style>
 				<tr style="border:0px solid #ddd;">
-					<th style="border:0px solid #ddd; " >
-	<table  style="width:890px; border:0px solid #ddd;">
-		<tbody>
-			<style type="text/css" media="screen">
-	    		table,tr,td { border:medium }
-				table tr:hover{
-        		background-color: transparent;
-      			}
-   			</style>
-
-			<tr style="border:0px solid #ddd;">
-				<th style="  border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
-						&nbsp;
-				</th>
-
-				<% columns.each do |idx| -%>	
-					<% hover = session[idx] ? "<center>" + session[idx].classroom_name  + "</center>" : "" -%>	
-					<% hover_class = session[idx] ? "tip_overview" : ""%>
-					<th class="<%= hover_class %>" title= "<%= hover %>"  style=" width:90px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:middle;text-align:center; font-weight:normal; font-size:10px" >
-						<% if session[idx] -%>
-							<%= session[idx].session_date.strftime("%b %d, %Y") %><br/>
-							<u>
-								<%= link_to "View", {:controller =>  "/apps/time_learning", :action => "static_itl_session", :organization_id => @current_organization, :tlt_session_id => session[idx]}, {:target => "_blank"}  %>
-							</u>
-						<% else%>
-							&nbsp;
-						<% end -%>
-					</th>
-				<% end -%>
-			</tr>
-			<tr style="border:0px solid #ddd;">
-				<th style="  border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
-						Observer
-				</th>
-				<% columns.each do |idx| -%>	
-				<% if session[idx] -%>
-					<% hover = session[idx].tracker ? ("<center>" + session[idx].tracker.full_name  + "</center>") : ""-%>	
-				<% end -%>
-					<th  class="tip_overview" title= "<%= hover %>"  style="width:90px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
-						<% if session[idx] -%>
-							<% observer = session[idx].tracker ? session[idx].tracker.last_name : "Former User" -%>
-							<%= truncate(observer, :length => 10) %>
-						<% else%>
-							&nbsp;
-						<% end -%>
-					</th>
-				<% end -%>
-			</tr>
-			<tr style="border:0px solid #ddd;">
-				<th style="  border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
-						Method(s)
-				</th>
-				<% columns.each do |idx| -%>	
-					<th  style="width:90px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
-						<% if session[idx] -%>
-							<%= session[idx].app_methods.by_position.collect{|m| m.abbrev}.join(", ") -%>
-						<% else%>
-							&nbsp;
-						<% end -%>
-					</th>
-				<% end -%>
-			</tr>
-			<tr style="border:0px solid #ddd;">
-				<th style=" border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
-						Attendance
-				</th>
-				<% columns.each do |idx| -%>	
-					<th  style="width:90px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
-						<% if session[idx] -%>
-							<%= session[idx].students %>
-						<% else%>
-							&nbsp;
-						<% end -%>
-					</th>
-				<% end -%>
-			</tr>
-			<!--
-			<tr style="border:0px solid #ddd;">
-				<th style="  border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
-						Student Feedbacks
-				</th>
-				<% columns.each do |idx| -%>	
-					<th  style="width:90px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
-						<% if session[idx] -%>
-							<%#= session[idx].tlt_survey_responses.empty? ? 0 :  session[idx].tlt_survey_responses.for_audience(@app.tlt_survey_audiences.student.first).size -%>
-						<% else%>
-							&nbsp;
-						<% end -%>
-					</th>
-				<% end -%>
-			</tr>
-			-->
-			<tr style="border:0px solid #ddd;">
-				<th style="  border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
-						Class Time (Min)
-				</th>
-				<% columns.each do |idx| -%>	
-					<th  style="width:90px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
-						<% if session[idx] -%>
-							<% duration_mins = number_with_precision(session[idx].duration/60.0, :precision => 1) rescue 0%>
-							<%=  duration_mins -%>
-						<% else%>
-							&nbsp;
-						<% end -%>
-					</th>
-				<% end -%>
-			</tr>
-			<tr style="border:0px solid #ddd;">
-				<th style="  border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
-						Observation (Min)
-				</th>
-				<% columns.each do |idx| -%>	
-					<th style="width:90px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-size:10px" >
-						<% if session[idx] -%>
-							<% duration_mins = number_with_precision(session[idx].session_length/60.0, :precision => 1) rescue 0%>
-							<%=  duration_mins -%>
-						<% else%>
-							&nbsp;
-						<% end -%>
-					</th>
-				<% end -%>
-			</tr>
-		</tbody>
-	</table>
+					<th style="widht:99%; border:0px solid #ddd; " >
+          	<table  style="width:100%; border:0px solid #ddd;">
+              <tbody>
+                <style type="text/css" media="screen">
+                    table,tr,td { border:medium }
+                  table tr:hover{
+                      background-color: transparent;
+                      }
+                </style>
+                <tr style="border:0px solid #ddd;">
+                  <th style="  border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
+                      &nbsp;
+                  </th>
+                  <% columns.each do |idx| -%>
+                    <% hover = session[idx] ? "<center>" + session[idx].classroom_name  + "</center>" : "" -%>
+                    <% hover_class = session[idx] ? "tip_overview" : ""%>
+                    <th class="<%= hover_class %>" title= "<%= hover %>"  style=" width:10%; border:0px solid #ddd; color: #000000; vertical-align:middle;text-align:center; font-weight:normal; font-size:10px" >
+                      <% if session[idx] -%>
+                        <%= session[idx].session_date.strftime("%b %d, %Y") %><br/>
+                        <u>
+                          <%= link_to 'View', ctl_session_show_path(:organization_id => @current_organization, :tlt_session_id => session[idx]), {:target => '_blank'}  %>
+                        </u>
+                      <% else%>
+                        &nbsp;
+                      <% end -%>
+                    </th>
+                  <% end -%>
+                </tr>
+                <tr style="border:0px solid #ddd;">
+                  <th style="  border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
+                      Observer
+                  </th>
+                  <% columns.each do |idx| -%>
+                  <% if session[idx] -%>
+                    <% hover = session[idx].tracker ? ("<center>" + session[idx].tracker.full_name  + "</center>") : ""-%>
+                  <% end -%>
+                    <th  class="tip_overview" title= "<%= hover %>"  style="width:10%; border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
+                      <% if session[idx] -%>
+                        <% observer = session[idx].tracker ? session[idx].tracker.last_name : "Former User" -%>
+                        <%= truncate(observer, :length => 10) %>
+                      <% else%>
+                        &nbsp;
+                      <% end -%>
+                    </th>
+                  <% end -%>
+                </tr>
+                <tr style="border:0px solid #ddd;">
+                  <th style="  border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
+                      Method(s)
+                  </th>
+                  <% columns.each do |idx| -%>
+                    <th  style="width:10%; border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
+                      <% if session[idx] -%>
+                        <%= session[idx].app_methods.by_position.collect{|m| m.abbrev}.join(", ") -%>
+                      <% else%>
+                        &nbsp;
+                      <% end -%>
+                    </th>
+                  <% end -%>
+                </tr>
+                <tr style="border:0px solid #ddd;">
+                  <th style=" border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
+                      Attendance
+                  </th>
+                  <% columns.each do |idx| -%>
+                    <th  style="width:10%; border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
+                      <% if session[idx] -%>
+                        <%= session[idx].students %>
+                      <% else%>
+                        &nbsp;
+                      <% end -%>
+                    </th>
+                  <% end -%>
+                </tr>
+                <!--
+                <tr style="border:0px solid #ddd;">
+                  <th style="  border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
+                      Student Feedbacks
+                  </th>
+                  <%# columns.each do |idx| -%>
+                    <th  style="width:90px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
+                      <%# if session[idx] -%>
+                        <%#= session[idx].tlt_survey_responses.empty? ? 0 :  session[idx].tlt_survey_responses.for_audience(@app.tlt_survey_audiences.student.first).size -%>
+                      <%# else%>
+                        &nbsp;
+                      <%# end -%>
+                    </th>
+                  <%# end -%>
+                </tr>
+                -->
+                <tr style="border:0px solid #ddd;">
+                  <th style="  border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
+                      Class Time (Min)
+                  </th>
+                  <% columns.each do |idx| -%>
+                    <th  style="width:10%; border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:10px" >
+                      <% if session[idx] -%>
+                        <% duration_mins = number_with_precision(session[idx].duration/60.0, :precision => 1) rescue 0%>
+                        <%=  duration_mins -%>
+                      <% else%>
+                        &nbsp;
+                      <% end -%>
+                    </th>
+                  <% end -%>
+                </tr>
+                <tr style="border:0px solid #ddd;">
+                  <th style="  border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:center; font-size:11px" >
+                      Observation (Min)
+                  </th>
+                  <% columns.each do |idx| -%>
+                    <th style="width:10%; border:0px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-size:10px" >
+                      <% if session[idx] -%>
+                        <% duration_mins = number_with_precision(session[idx].session_length/60.0, :precision => 1) rescue 0%>
+                        <%=  duration_mins -%>
+                      <% else%>
+                        &nbsp;
+                      <% end -%>
+                    </th>
+                  <% end -%>
+                </tr>
+              </tbody>
+	          </table>
 					</th>
 				</tr>
 		</tbody>
@@ -163,7 +160,7 @@
 				table tr:hover{
         		background-color: transparent;
       			}
-   			</style>
+      </style>
 			<% backgrnd = "#"+ method.dashboard_color -%>
 			<% method.tl_activity_types.by_position.each do |activity| -%>
 				<% db_activity = [] -%>

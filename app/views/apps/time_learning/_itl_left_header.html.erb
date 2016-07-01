@@ -7,47 +7,47 @@
       			}
    			</style>
 			<% unless session.user.nil? || session.is_training -%>
-			  	<% unless session.user.picture.url.split("/").last == "missing.png" %>
-					<tr  style="border:0px solid #ddd;" >
-						<td  colspan=2 style="border:0px solid #ddd; vertical-align:top; padding-left:50px; padding-bottom:8px; padding-top:3px; font-size:12px; text-align:left; font-weight:normal; color:#000000;">
-			                 <%= image_tag session.user.picture.url(:thumb) %> 
-						</td>
-					</tr>
-			  	<% end -%>
-				<tr  style="border:0px solid #ddd;" >
-	              	<td class="normal_text" colspan=2 style=" border:0px solid #ddd; font-size:13px; text-align:center; font-weight:normal; color: #2061a5;">
-				        	<%= session.user.full_name %>
-				        <br/>
-					</td>
-				</tr>
-	        <% end -%>
+        <% unless session.user.picture.url.split("/").last == "missing.png" %>
+          <tr  style="border:0px solid #ddd;" >
+            <td  colspan=2 style="border:0px solid #ddd; vertical-align:top; padding-left:50px; padding-bottom:8px; padding-top:3px; font-size:12px; text-align:left; font-weight:normal; color:#000000;">
+              <%= image_tag session.user.picture.url(:thumb) %>
+            </td>
+          </tr>
+        <% end -%>
+        <tr  style="border:0px solid #ddd;" >
+          <td class="normal_text" colspan=2 style=" border:0px solid #ddd; font-size:13px; text-align:center; font-weight:normal; color: #2061a5;">
+            <%= session.user.full_name %>
+            <br/>
+          </td>
+        </tr>
+      <% end -%>
 			<tr  style="border:0px solid #ddd;" >
-              	<td class="normal_text" colspan=2 style="border:0px solid #ddd; font-size:11px; text-align:center; font-weight:normal; color:#C73914;">
-					 &nbsp;
+        <td class="normal_text" colspan=2 style="border:0px solid #ddd; font-size:11px; text-align:center; font-weight:normal; color:#C73914;">
+          &nbsp;
 				</td>
 			</tr>
-	        <% unless session.tracker.nil?%>
-			  	<% unless session.tracker.picture.url.split("/").last == "missing.png" %>
+      <% unless session.tracker.nil?%>
+        <% unless session.tracker.picture.url.split("/").last == "missing.png" %>
 					<tr  style="border:0px solid #ddd;" >
 						<td  colspan=2 style="border:0px solid #ddd;  padding-left:80px; padding-top:8px; padding-bottom:8px; font-size:12px; text-align:left; font-weight:normal; color: #2061a5;">
-		                    	<%= image_tag session.tracker.picture.url(:small_thumb) %> 
+              <%= image_tag session.tracker.picture.url(:small_thumb) %>
 						</td>
 					</tr>			  		
 			  	<% end -%>
 			<% end -%>
 			<tr  style="border:0px solid #ddd;" >
-              	<td class="normal_text" colspan=2 style="border:0px solid #ddd; font-size:12px; text-align:center; font-weight:normal; color: #2061a5;">
-	                <% if  session.tracker.nil?%>
+        <td class="normal_text" colspan=2 style="border:0px solid #ddd; font-size:12px; text-align:center; font-weight:normal; color: #2061a5;">
+          <% if  session.tracker.nil?%>
 						<i> * * Former Observer * * </i>
 					<% else %>
-	                  	<%= session.tracker.full_name %>
-			        <% end -%>
+              <%= session.tracker.full_name %>
+          <% end -%>
 				</td>
 			</tr>
 			<% if session.methods? %>
 				<tr  style="border:0px solid #ddd;">
-		           	<% label = session.app_methods.size == 1 ? "Observation Method" : "Observation Methods" -%>
-		           	<td class="normal_text" colspan=2 style="border:0px solid #ddd; line-height:1.4em; padding-top:20px; padding-bottom:10px; font-size:11px; text-align:center; font-weight:normal; color:#2061a5;">
+          <% label = session.app_methods.size == 1 ? "Observation Method" : "Observation Methods" -%>
+          <td class="normal_text" colspan=2 style="border:0px solid #ddd; line-height:1.4em; padding-top:20px; padding-bottom:10px; font-size:11px; text-align:center; font-weight:normal; color:#2061a5;">
 						<span style="line-height:1.5em;font-size:12px;"><u><%= label %></u><br/></span>
 						<% session.app_methods.each do |method| -%>
 							<%= method.name %></br/>
@@ -55,26 +55,24 @@
 					</td>
 				</tr>
 			<% end -%>
-
 			<% if session.template? %>
 				<tr  style="border:0px solid #ddd;">
-		           	<td class="normal_text" colspan=2 style="border:0px solid #ddd; line-height:1.4em; padding-top:0px; padding-bottom:10px; font-size:11px; text-align:center; font-weight:normal; color:#2061a5;">
+          <td class="normal_text" colspan=2 style="border:0px solid #ddd; line-height:1.4em; padding-top:0px; padding-bottom:10px; font-size:11px; text-align:center; font-weight:normal; color:#2061a5;">
 						<span style="line-height:1.5em;font-size:12px;"><u>Template</u><br/></span>
 						<%= session.itl_template.name %>									
 					</td>
 				</tr>
 			<% end -%>
-
 			<% unless session.training? -%>
 				<tr  style="border:0px solid #ddd" >
 					<% if session.is_final -%>
-		              	<td class="normal_text" colspan=2 style="border:0px solid #ddd; padding-top:10px; font-size:11px; text-align:center; font-weight:normal; color:#C73914;">
+            <td class="normal_text" colspan=2 style="border:0px solid #ddd; padding-top:10px; font-size:11px; text-align:center; font-weight:normal; color:#C73914;">
 							Finalized:&nbsp;<%= session.finalize_date.strftime("%b %d, %Y") %>
 						</td>
 					<% else -%>
-		              	<td class="normal_text" colspan=2 style="border:0px solid #ddd; padding-top:10px; font-size:11px; text-align:center; font-weight:normal; color:#C73914;">
-							 Not Final
-						</td>
+            <td class="normal_text" colspan=2 style="border:0px solid #ddd; padding-top:10px; font-size:11px; text-align:center; font-weight:normal; color:#C73914;">
+              Not Final
+            </td>
 					<% end -%>
 				</tr>
 			<% end -%>				
@@ -82,15 +80,15 @@
 	</table>
 	<% unless session.training? || session.irr?-%>
 		<% if session.finalizable?(@current_user) && survey %>
-		    <div style="width:150px; text-align:center; padding-left:65px; padding-top:10px;">
-		            <a id="pc-survey" href=""><%= (image_tag "button_finalize.png",:width => 85)%></a>
-		    </div>	
+      <div style="width:150px; text-align:center; padding-left:65px; padding-top:10px;">
+        <a id="pc-survey" href=""><%= (image_tag "button_finalize.png",:width => 85)%></a>
+      </div>
 		<% elsif session.finalizable?(@current_user) -%>
-		    <div style="width:150px; text-align:center; padding-left:65px; padding-top:10px;">
-				<%= link_to (image_tag "button_finalize.png",:width => 85), {:controller => "/apps/time_learning", :action => :finalize_session, :organization_id => @current_organization, :user_id => @current_user, :tlt_session_id => session, :function => "observer"}, :confirm => "Finalizing Post Conference: Are You Sure?" %>
-		    </div>	
+      <div style="width:150px; text-align:center; padding-left:65px; padding-top:10px;">
+				<%= link_to (image_tag "button_finalize.png",:width => 85), ctl_observation_finalize_path(:organization_id => @current_organization, :user_id => @current_user, :tlt_session_id => session, :function => 'observer') %>
+      </div>
 		<% end -%>
-	
+
 		<div id="pc-survey-dialog" title= "<%= survey && survey.survey_instruction.is_anon ? "Post Conference Survey - Anonymous" : "Post Conference Survey" %>" style="text-align:left;">
 		    <div class="title_large_blue" style="margin-bottom:15px;">
 		        <%= session.user ? session.user.last_name: "teacher" %>/<%= session.tracker.last_name %>
@@ -98,15 +96,14 @@
 		    <div class="normal_text">
 		        <% if survey -%>
 		        	<div >
-						<%= form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :take_post_conf_survey, :organization_id => @current_organization, :schedule_id => survey, :tlt_session_id => session, :finalize=>true, :function => "submit"}) do |form| -%>
+						<%= form_for(:tlt_session, :url => ctl_observation_survey_path(:organization_id => @current_organization, :schedule_id => survey, :tlt_session_id => session, :finalize=>true, :function => "submit")) do |form| -%>
 							<span style="float:right; padding-right:60px; font-size:14px">
-								<%= link_to "No Thanks", {:controller => "/apps/time_learning", :action => :finalize_session, :organization_id => @current_organization, :user_id => @current_user, :tlt_session_id => session, :function => "observer"}, :confirm => "Finalizing Post Conference: Are You Sure?",:class => 'fsn-button ui-button ui-state-default ui-corner-all'  %>
-								
+								<%= link_to 'No Thanks', ctl_observation_finalize_path(:organization_id => @current_organization, :user_id => @current_user, :tlt_session_id => session, :function => 'observer'),:class => 'fsn-button ui-button ui-state-default ui-corner-all'  %>
 							</span>
 								<%= render :partial => "/apps/shared/survey_template", :locals=> {:audience => survey.tlt_survey_audience, :survey_type => survey.tlt_survey_type} %>
 							<span style="float:left; padding-left:30px;">
 						
-								<%= submit_tag "Submit Survey", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+								<%= submit_tag 'Submit Survey', :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
 							</span>	
 							<br/>
 						<% end -%>
@@ -119,7 +116,7 @@
 	<% end-%>
 	<br/></br/>
 
-	<%= render :partial => "apps/app_blog/app_blog_list", :locals=>{:app=>@app} %>									
+	<%= render :partial => "apps/app_blog/app_blog_list", :locals=>{:app => @current_application} %>
 
 <script type="text/javascript" charset="utf-8">
     	jQ(document).ready(function() {

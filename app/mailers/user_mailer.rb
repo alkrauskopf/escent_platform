@@ -145,17 +145,18 @@ class UserMailer < ApplicationMailer
 
   def itl_belt_change(recipient, sender, belt_id, message, ep_host)
     @belt = ItlBeltRank.find_by_id(belt_id) rescue nil
-    unless @belt.nil?
+   # unless @belt.nil?
       @ep_host = ep_host
       @sender = sender
       @recipient = recipient
       @message = message
       @subject_line = 'Observation Proficieny Level Change'
       @from = 'escent_time_learning<noreply@escentpartners.com>'
-      unless @recipient.blank? || @sender.blank?
-        mail(to: @recipient, subject: @subject_line, from: @from, date: DateTime.now)
+      unless @recipient.nil? || @sender.nil?
+        mail(to: (@recipient.preferred_email.nil? ? @recipient.email_address : @recipient.preferred_email),
+             subject: @subject_line, from: @from, date: DateTime.now)
       end
-    end
+    # end
   end
 
   def share_content(organization, resource, user, recipients, message, ep_host)

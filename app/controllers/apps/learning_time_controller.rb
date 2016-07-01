@@ -1,4 +1,4 @@
-class Apps::LearningTimeController  < Site::ApplicationController
+class Apps::LearningTimeController  < ApplicationController
   
  helper :all  # include all helpers, all the time
  layout "elt", :except =>[:manage_frameworks, :manage_plan_types, :export_case, :report_school_diag, :report_community_diag,

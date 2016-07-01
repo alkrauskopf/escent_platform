@@ -67,7 +67,7 @@
 												<% else -%>
 													<td style="width:70px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-bottom:0px; padding-left:0px; padding-right:0px; text-align:center; color: #000000; font-size:11px">
 														<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-															<%= link_to "Delete", {:controller=>'/apps/panel', :action => "remove_log", :organization_id => @current_organization, :tlt_session_id => tl_session, :tlt_log_id => log}, :class => "purge_button" %>
+															<%= link_to 'Delete', ctl_observe_evidence_delete_path(:organization_id => @current_organization, :tlt_session_id => tl_session, :tlt_log_id => log), :class => 'purge_button' %>
 														</span>
 													</td>
 												<% end -%>
@@ -83,7 +83,7 @@
 					var note_text = jQ('#log_notes_<%=log.public_id%>').val();
 					var log_id = '<%= log.public_id %>';
 					var session_id = '<%= tl_session.public_id %>';
-					var url = "<%= url_for :controller => '/apps/panel', :action => :update_log_note, :user_id => @current_user, :organization_id => @current_organization  %>";
+					var url = "<%= ctl_observe_evidence_note_url(:user_id => @current_user, :organization_id => @current_organization) %>";
 						jQ.get(url, {'tlt_log_id':log_id, 'note':note_text, 'tlt_session_id': session_id}, function(data) {
 							jQ("#tracker_log").html(data);
 							jQ("#tracker_log").show();
@@ -99,7 +99,7 @@
 					var note_text = jQ('#log_notes_<%=log.public_id%>').val();
 					var log_id = '<%= log.public_id %>';
 					var session_id = '<%= tl_session.public_id %>';
-					var url = "<%= url_for :controller => '/apps/panel', :action => :update_log_note, :user_id => @current_user, :organization_id => @current_organization %>";
+					var url = "<%= ctl_observe_evidence_note_url(:user_id => @current_user, :organization_id => @current_organization) %>";
 						jQ.get(url, {'tlt_log_id':log_id, 'involve_id': involve_id, 'note': note_text, 'tlt_session_id': session_id}, function(data) {
 							jQ("#tracker_log").html(data);
 							jQ("#tracker_log").show();
@@ -159,7 +159,7 @@
 													</td>
 													<td style="width:75px; width:fixed; border:0px solid #ddd;vertical-align:bottom;  padding-bottom:0px; padding-left:0px; padding-right:0px; text-align:center; color: #000000; font-size:10px">
 														<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-															<%= link_to "Delete", {:controller=>'/apps/panel', :action => "remove_log", :user_id => @current_user, :organization_id => @current_organization, :tlt_session_id => tl_session, :tlt_log_id => log}, :class => "purge_button" %>
+															<%= link_to 'Delete', ctl_observe_evidence_delete_path(:user_id => @current_user, :organization_id => @current_organization, :tlt_session_id => tl_session, :tlt_log_id => log), :class => 'purge_button' %>
 														</span>
 													</td>
 												</tr>							
@@ -200,7 +200,7 @@
 					var note_text = jQ('#log_notes_<%=log.public_id%>').val();
 					var log_id = '<%= log.public_id %>';
 					var session_id = '<%= tl_session.public_id %>';
-					var url = "<%= url_for :controller => '/apps/panel', :action => :update_log_note, :user_id => @current_user, :organization_id => @current_organization  %>";
+					var url = "<%= ctl_observe_evidence_note_url(:user_id => @current_user, :organization_id => @current_organization) %>";
 						jQ.get(url, {'tlt_log_id':log_id, 'note':note_text, 'tlt_session_id': session_id}, function(data) {
 							jQ("#tracker_log").html(data);
 							jQ("#tracker_log").show();
@@ -216,7 +216,7 @@
 					var note_text = jQ('#log_notes_<%=log.public_id%>').val();
 					var log_id = '<%= log.public_id %>';
 					var session_id = '<%= tl_session.public_id %>';
-					var url = "<%= url_for :controller => '/apps/panel', :action => :update_log_note, :user_id => @current_user, :organization_id => @current_organization %>";
+					var url = "<%= ctl_observe_evidence_note_url(:user_id => @current_user, :organization_id => @current_organization) %>";
 						jQ.get(url, {'tlt_log_id':log_id, 'involve_id': involve_id, 'note': note_text, 'tlt_session_id': session_id}, function(data) {
 							jQ("#tracker_log").html(data);
 							jQ("#tracker_log").show();

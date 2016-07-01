@@ -7,7 +7,7 @@
 				<tbody>  
 					<tr>
 						<td class="resource_levels_close" style=" color:#1b5698;  font-weight:normal; font-size:10.5px">
-							<%= link_to '', :controller => "apps/shared", :action => :show_aggregated_results, :organization_id => @current_organization, :schedule_id => ses  %>
+							<%= link_to '', surveys_results_show_path(:organization_id => @current_organization, :schedule_id => ses) %>
 							<%= ses.entity.session_date.strftime("%b %d, %Y") %> Session
 							<span></span>
 						</td>
@@ -30,10 +30,9 @@
 					table tr:hover{
 	        		background-color: transparent;
 	      			}
-	   			</style>
-	
+        </style>
 				<tr  style="border:0px solid #ddd;">
-					<td  style=" border:0px solid #ddd;  color: #C83A14; vertical-align:top;text-align:center; font-weight:normald; font-size:11px" >
+					<td  style=" border:0px solid #ddd;  color: #C83A14; vertical-align:top;text-align:center; font-weight:normal; font-size:11px" >
 							 * * No <%= @teacher.last_name %> <%= @tlt_subject.name %> Student Feedback * *
 					</td>
 				</tr>

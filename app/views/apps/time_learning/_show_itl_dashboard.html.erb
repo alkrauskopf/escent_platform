@@ -5,7 +5,7 @@
 			<% col_label = teacher.last_name + subj_label -%>
 			<tr>
 				<td class="resource_levels_close">
-				<%= link_to '', :controller => "apps/time_learning", :action => :teacher_itl_dashboards, :organization_id => @current_organization, :teacher_id => teacher, :subject_id => subject %>
+				<%= link_to '', ctl_reflection_dashboard_teacher_path(:organization_id => @current_organization, :teacher_id => teacher, :subject_id => subject) %>
 				<%= col_label %> Dashboard
 				<span></span>
 				</td>

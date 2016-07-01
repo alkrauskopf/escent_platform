@@ -1,13 +1,12 @@
 <div id="backlog_lists" style = "font-size:12px; color: #2061a5; padding-left:10px;">
-	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold"> 
-		<strong><center>Pending Post-Conferences</center></strong>
+	<div style ="text-align:center; color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold">
+		<strong>Pending Post-Conferences</strong>
 	</div>
-	
 		<table id="observer_back_list"   style="width:850px; ">
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close">
-						<%= link_to '', :controller => "apps/time_learning", :action => :subject_tlt_sessions, :organization_id => @current_organization,:app_id=> app.id, :group => "observer", :user_id => @current_user, :tab=>"open"   %>
+						<%= link_to '', ctl_backlog_path(:organization_id => @current_organization, :group => 'observer', :user_id => @current_user, :tab=>'open') %>
 						<%= @current_user.last_name%>&nbsp;=> As Observer
 						<span></span>
 					</td>
@@ -25,7 +24,7 @@
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close">
-						<%= link_to '', :controller => "apps/time_learning", :action => :subject_tlt_sessions, :organization_id => @current_organization,:app_id=> app.id, :group => "teacher", :user_id => @current_user, :tab=>"open"   %>
+						<%= link_to '', ctl_backlog_path(:organization_id => @current_organization, :group => 'teacher', :user_id => @current_user, :tab=>'open') %>
 						<%= @current_user.last_name%>&nbsp;=> As Teacher
 						<span></span>
 					</td>

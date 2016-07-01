@@ -1,5 +1,5 @@
 <div  id="post_conf_notes_<%= session.public_id %>">						
-	<table style=" width:645px; width:fixed; font-size:11px; border:0px solid #ddd; font-weight:normal; color:#000000;">
+	<table style=" width:645px; font-size:11px; border:0px solid #ddd; font-weight:normal; color:#000000;">
 		<tbody>  
 			<style type="text/css" media="screen">
 	    		table,tr,td { border:none; }
@@ -26,7 +26,7 @@
 			</tr>		
 		</tbody>
 	</table>
-	<table style=" width:645px; width:fixed; font-size:11px; border:0px solid #ddd; font-weight:normal; color:#000000;">
+	<table style=" width:645px; font-size:11px; border:0px solid #ddd; font-weight:normal; color:#000000;">
 		<tbody>  
 			<style type="text/css" media="screen">
 	    		table,tr,td { border:none; }
@@ -53,7 +53,7 @@
 			</tr>		
 		</tbody>
 	</table>
-	<table style=" width:645px; width:fixed; font-size:11px; border:0px solid #ddd; font-weight:normal; color:#000000;">
+	<table style=" width:645px; font-size:11px; border:0px solid #ddd; font-weight:normal; color:#000000;">
 		<tbody>  
 			<style type="text/css" media="screen">
 	    		table,tr,td { border:none; }
@@ -80,7 +80,7 @@
 			</tr>		
 		</tbody>
 	</table>
-	<table style=" width:645px; width:fixed; font-size:11px; border:0px solid #ddd; font-weight:normal; color:#000000;">
+	<table style=" width:645px; font-size:11px; border:0px solid #ddd; font-weight:normal; color:#000000;">
 		<tbody>  
 			<style type="text/css" media="screen">
 	    		table,tr,td { border:none; }
@@ -107,10 +107,8 @@
 			</tr>		
 		</tbody>
 	</table>
-
 	<% if observer || teacher -%>
-
-		<table style=" width:565px; width:fixed; font-size:11px; border:0px solid #ddd; font-weight:normal; color:#000000;">
+		<table style=" width:565px; font-size:11px; border:0px solid #ddd; font-weight:normal; color:#000000;">
 			<tbody>  
 				<style type="text/css" media="screen">
 		    		table,tr,td { border:none; }
@@ -125,19 +123,18 @@
 							</span>										
 					</td>
 					<td   style=" border:0px solid #ddd; line-height:1.5em; padding-left:10px; padding-top:3px; text-align:left; ">
-						    <%= render :partial => "/shared/error_and_notice" %>	
+            <%= render :partial => "/shared/error_and_notice" %>
 					</td>
 				</tr>		
 			</tbody>
 		</table>
-
 	<% end -%>
 </div>
 
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#notes_<%= session.public_id %>').click(function() {
-		var url = "<%= url_for :controller => "/apps/time_learning", :action => :edit_session_comments, :organization_id => @current_organization, :user_id => @current_user, :tlt_session_id => session %>";
+		var url = "<%= ctl_observation_comments_edit_path(:organization_id => @current_organization, :user_id => @current_user, :tlt_session_id => session) %>";
 		var pre_conf = jQ('#tlt_session_pre_conf').val();
 		var teacher_note = jQ('#tlt_session_teacher_note').val();
 		var observer_note = jQ('#tlt_session_observer_note').val();
@@ -149,4 +146,3 @@ jQ(document).ready(function() {
 	})
 });
 </script>
-

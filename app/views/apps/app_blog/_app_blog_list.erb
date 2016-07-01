@@ -1,7 +1,7 @@
 <% unless app.blogs.active.not_featured.empty? || !@current_organization.conversation_for?(app)%>
 	<% back_color = (!app.app_discussions.for_org(@current_organization).empty? && !app.app_discussions.for_org(@current_organization).first.background_color.nil?) ?  ("#" + app.app_discussions.for_org(@current_organization).first.background_color) : "#000000" -%>
 
-	<div id="blog_box" style="width:220px; width:fixed; border:8px solid #ddd; border-style:groove; background:<%=back_color%>">	
+	<div id="blog_box" style="width:220px; border:8px solid #ddd; border-style:groove; background:<%=back_color%>">
 
 	<table id="app_blog_header" style=" width:220px; margin-top:0px; margin-left:0px; border:0px solid #ddd; ">
 		<tbody>  
@@ -36,7 +36,7 @@
 				<tr>
 					<td colspan=2 style = "font-size:11px; line-height 1.0em; font-weight:bold; color: #2061a5; padding-top:5px; padding-left:10px;">
 					 	<span style = "font-size:10px; font-weight:normal; color: #2061a5; cursor:pointer">
-					 		<%= link_to "Read" ,{:controller => "apps/app_blog", :action => "show_app_blog", :blog_id => blog, :app=> app}, {:target => "_blank"}%>
+					 		<%= link_to 'Read' , blog_view_path(:blog_id => blog, :app=> app), {:target => "_blank"}%>
 						</span>
 						<%= blog.title %>
 					</td>											

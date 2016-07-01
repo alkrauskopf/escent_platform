@@ -1,5 +1,4 @@
 <div  id="video_attach">
-
 	<% if observer == true && !session.training? && !session.content -%>
 		<% embed = session.tlt_session_video ? session.tlt_session_video.embed_code : nil -%>
 		<% show_label = embed.nil? ? "Add" : "Edit" -%>
@@ -20,7 +19,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td   id = "attachment_del" style="width:100px; width:fixed; border:0px solid #ddd; font-size:10px;vertical-align:middle;  padding-top:0px; padding-bottom:0px; padding-left:3px; vertical-align:top; ">
+					<td   id = "attachment_del" style="width:15%; border:0px solid #ddd; font-size:10px;vertical-align:middle;  padding-top:0px; padding-bottom:0px; padding-left:3px; vertical-align:top; ">
 						<button>Delete</button>
 					</td>
 					<td  style=" border:0px solid #ddd; padding-left:0px; padding-top:0px; vertical-align:bottom; text-align:center; font-size:10.5px">
@@ -28,7 +27,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td   id = "attachment" style="width:100px; width:fixed; border:0px solid #ddd; font-size:10px;vertical-align:middle;  padding-top:10px; padding-bottom:0px; padding-left:3px; vertical-align:top; ">
+					<td   id = "attachment" style="width:15%; border:0px solid #ddd; font-size:10px;vertical-align:middle;  padding-top:10px; padding-bottom:0px; padding-left:3px; vertical-align:top; ">
 						<button>Attach</button>
 					</td>
 					<td  style=" border:0px solid #ddd; padding-left:0px; padding-top:10px; vertical-align:top; text-align:left; font-size:11px">
@@ -60,7 +59,7 @@
 		jQ('#attachment').click(function() {
 			var session_id = '<%= @tlt_session.public_id %>';
 			var embed = jQ('#embed_code').val();
-			var url = "<%= url_for :controller => '/apps/time_learning', :action => :attach_embed_code, :organization_id => @current_organization  %>";
+			var url = "<%= ctl_observation_video_attach_url(:organization_id => @current_organization) %>";
 				jQ.get(url, {'embed_code':embed,'tlt_session_id': session_id}, function(data) {
 				jQ("#video_attach").html(data); 
 		   		jQ("#video_attach").show();
@@ -73,7 +72,7 @@
 	jQ(document).ready(function() {
 		jQ('#attachment_del').click(function() {
 			var session_id = '<%= @tlt_session.public_id %>';
-			var url = "<%= url_for :controller => '/apps/time_learning', :action => :remove_embed_code, :organization_id => @current_organization  %>";
+			var url = "<%= ctl_observation_video_remove_url(:organization_id => @current_organization) %>";
 				jQ.get(url, {'tlt_session_id': session_id}, function(data) {
 				jQ("#video_attach").html(data); 
 		   		jQ("#video_attach").show();

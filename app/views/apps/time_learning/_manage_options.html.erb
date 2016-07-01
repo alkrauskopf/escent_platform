@@ -1,37 +1,25 @@
 <div id="options">
-	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold"> 
-		<strong><center> <%= @current_organization.medium_name %> <%= @app.name.titleize %> Options</center></strong>
+	<div style ="text-align:center; color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold">
+		<strong><%= @current_organization.medium_name %> <%= @current_application.name.titleize %> Options</strong>
 	</div>
-
-
-    <%= render :partial => "/shared/error_and_notice" %>
-
-
-	
-<br/>			
-
-
-    <%= render :partial => "/apps/time_learning/manage_options_params", :locals=>{:app=>@app} %>
-
-		<table id="training_classroom"   style="width:750px; margin-left:50px; color: #2061a5; ">
-			<tbody>  
-				<tr>
-					<td class="resource_levels_close">
-	
-					<%= link_to '', :controller => "apps/time_learning", :action => :training_classroom, :organization_id => @current_organization, :app_id=> @app.id %>
-					Assign&nbsp;<%=@app.abbrev%>&nbsp;Training Classroom
-					<span></span>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+  <%= render :partial => "/shared/error_and_notice" %>
+  <br/>
+  <%= render :partial => "/apps/time_learning/manage_options_params"%>
+  <table id="training_classroom"   style="width:750px; margin-left:50px; color: #2061a5; ">
+    <tbody>
+      <tr>
+        <td class="resource_levels_close">
+          <%= link_to '', ctl_options_training_path(:organization_id => @current_organization) %>
+          Assign&nbsp;<%=@current_application.abbrev%>&nbsp;Training Classroom
+          <span></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 	<script type="text/javascript" charset="utf-8">
 	jQ(document).ready(function() {
 		jQ('#training_classroom .resource_levels_close').toggleResourceLevels();
 		jQ('#training_classroom .resource_levels_open').toggleResourceLevels();	
 	});
 	</script>
-	
-
-
 </div>

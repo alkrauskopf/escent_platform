@@ -1,9 +1,8 @@
 <div id="template_filters_<%=template.public_id%>">
-	
-	<% @app.app_methods.by_position.each do |method| -%>
+	<% @current_application.app_methods.by_position.each do |method| -%>
 		<% bckgrnd = "#" + method.dashboard_color %>
 		<% if template.app_methods.include?(method)%>
-			<table   style="width:700px;width:fixed; margin-left:0px; border:1px solid #ddd;">
+			<table   style="width:700px; margin-left:0px; border:1px solid #ddd;">
 				<style type="text/css" media="screen">
 			    table,tr,td { border:medium}
 				table tr:hover{
@@ -12,15 +11,15 @@
 		    	</style>
 				<tbody>  
 					<tr style="border:1px solid #ddd;border-bottom:0px solid #ddd;">
-						<td  style="width:30px; width:fixed; background:<%=bckgrnd%>; vertical-align:top; padding-bottom:0px; padding-top:5px; padding-left:15px">
+						<td  style="width:4%; background:<%=bckgrnd%>; vertical-align:top; padding-bottom:0px; padding-top:5px; padding-left:15px">
 							&nbsp;
 						</td>
-						<td  style="width:540px; width:fixed; background:<%=bckgrnd%> ;color:#2061a5; text-align:left; font-size:14px;  vertical-align:middle; padding-bottom:0px; padding-top:5px; padding-left:160px">
+						<td  style="width:77%;; background:<%=bckgrnd%> ;color:#2061a5; text-align:left; font-size:14px;  vertical-align:middle; padding-bottom:0px; padding-top:5px; padding-left:160px">
 							<%=method.name%>
 						</td>
-						<td  id= "toggle_template_method<%= method.id.to_s%>" style="width:130px; width:fixed; background:<%=bckgrnd%>; vertical-align:top; padding-bottom:0px; padding-top:5px; padding-right:10px">
+						<td  id= "toggle_template_method<%= method.id.to_s%>" style="width:19%; background:<%=bckgrnd%>; vertical-align:top; padding-bottom:0px; padding-top:5px; padding-right:10px">
 							<span class="fsn-button ui-button ui-state-default ui-corner-all", style ="cursor:pointer">
-								<%= link_to "Remove Method", { :controller =>"apps/time_learning", :action => "toggle_template_method", :itl_template_id=> template.id, :app_method_id=> method.id, :organization_id => @current_organization}, :class => "toggle_template_method" + method.id.to_s %>
+								<%= link_to 'Remove Method', ctl_options_method_template_activate_path(:itl_template_id=> template.id, :app_method_id=> method.id, :organization_id => @current_organization), :class => 'toggle_template_method' + method.id.to_s %>
 							</span>
 						</td>
 					</tr>
@@ -29,16 +28,16 @@
 							<table>
 								<tbody>
 									<tr style="line-height:1.5em; vertical-align:middle">
-										<td style="width:15px; width:fixed; padding-left:0px; padding-top:0px;">
+										<td style="width:2%; padding-left:0px; padding-top:0px;">
 											<%= (image_tag "button_enabled.png",:width => 12)%>
 										</td>
-										<td style="width:150px; width:fixed; text-align:left;">
+										<td style="width:21%; text-align:left;">
 											 => Selected <%= method.task_name.pluralize %>
 										</td>
-										<td style="width:15px; width:fixed; padding-left:0px; padding-top:0px;">
+										<td style="width:2%; padding-left:0px; padding-top:0px;">
 											<%= (image_tag "button_disabled.png",:width => 12)%>
 										</td>
-										<td style="width:150px; width:fixed; text-align:left;">
+										<td style="width:21%; text-align:left;">
 											 => Excluded <%= method.task_name.pluralize %>
 										</td>
 										<td >
@@ -52,14 +51,14 @@
 					<% method.tl_activity_types.by_position.each do |activity| %>
 						<% activity.tl_activity_type_tasks.enabled.by_position.each do |task|%>
 							<tr style="border:1px solid #ddd;">
-								<td  style="width:30px; width:fixed; padding-top:8px; padding-left:15px; color:#2061a5;">
+								<td  style="width:4%; padding-top:8px; padding-left:15px; color:#2061a5;">
 									<% if !template.tl_activity_type_tasks.include?(task)-%>
 										<span style ="cursor:pointer">
-											<%= link_to (image_tag "button_enabled.png",:width => 12), { :controller =>"apps/time_learning", :action => "toggle_template_filter", :itl_template_id=> template.id, :tlt_task_id=> task.id, :organization_id => @current_organization}, :class => "toggle_template_filter" + task.id.to_s %>
+											<%= link_to (image_tag "button_enabled.png",:width => 12), ctl_options_template_filter_activate_path(:itl_template_id=> template.id, :tlt_task_id=> task.id, :organization_id => @current_organization), :class => 'toggle_template_filter' + task.id.to_s %>
 										</span>
 									<% else -%>
 										<span style ="cursor:pointer">
-											<%= link_to (image_tag "button_disabled.png",:width => 12), { :controller =>"apps/time_learning", :action => "toggle_template_filter", :itl_template_id=> template.id, :tlt_task_id=> task.id, :organization_id => @current_organization}, :class => "toggle_template_filter" + task.id.to_s %>
+											<%= link_to (image_tag "button_disabled.png",:width => 12), ctl_options_template_filter_activate_path(:itl_template_id=> template.id, :tlt_task_id=> task.id, :organization_id => @current_organization), :class => 'toggle_template_filter' + task.id.to_s %>
 										</span>
 									<% end -%>
 								</td>
@@ -86,24 +85,24 @@
 				</tbody>
 			</table>
 		<% else-%>
-			<table   style="width:700px;width:fixed; margin-left:0px; border:1px solid #ddd;">
+			<table   style="width:700px; margin-left:0px; border:1px solid #ddd;">
 				<style type="text/css" media="screen">
 			    table,tr,td { border:medium}
 				table tr:hover{
 		        background-color: transparent;
 		      }
-		    	</style>
+        </style>
 				<tbody>  
 					<tr style="border:1px solid #ddd;">
-						<td  style="width:30px; width:fixed; background:<%=bckgrnd%>; vertical-align:top; padding-bottom:5px; padding-top:5px; padding-left:15px">
+						<td  style="width:4%; background:<%=bckgrnd%>; vertical-align:top; padding-bottom:5px; padding-top:5px; padding-left:15px">
 							&nbsp;
 						</td>
-						<td  style="width:540px; width:fixed; background:<%=bckgrnd%> ;color:#2061a5;  text-align:left; font-size:14px;  vertical-align:top; padding-bottom:5px; padding-top:5px; padding-left:160px">
+						<td  style="width:77%; background:<%=bckgrnd%> ;color:#2061a5;  text-align:left; font-size:14px;  vertical-align:top; padding-bottom:5px; padding-top:5px; padding-left:160px">
 							<%=method.name%>
 						</td>
-						<td  id= "toggle_template_method<%= method.id.to_s%>" style="width:130px; width:fixed; background:<%=bckgrnd%>; vertical-align:top; padding-bottom:5px; padding-top:5px; padding-right:10px">
+						<td  id= "toggle_template_method<%= method.id.to_s%>" style="width:19%; background:<%=bckgrnd%>; vertical-align:top; padding-bottom:5px; padding-top:5px; padding-right:10px">
 							<span class="fsn-button ui-button ui-state-default ui-corner-all", style ="cursor:pointer">
-								<%= link_to "Include Method", { :controller =>"apps/time_learning", :action => "toggle_template_method", :itl_template_id=> template.id, :app_method_id=> method.id, :organization_id => @current_organization}, :class => "toggle_template_method" + method.id.to_s %>
+								<%= link_to 'Include Method', ctl_options_method_template_activate_path(:itl_template_id=> template.id, :app_method_id=> method.id, :organization_id => @current_organization), :class => 'toggle_template_method' + method.id.to_s %>
 							</span>
 						</td>
 					</tr>

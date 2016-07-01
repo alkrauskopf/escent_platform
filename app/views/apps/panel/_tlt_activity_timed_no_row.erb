@@ -13,7 +13,7 @@
 						<% if task[0] -%>
 							<td  id="no_time_log_<%= task[0].id.to_s %>" style="border:0px solid #ddd;width:30px; width:fixed; vertical-align:middle; padding-top:0px; text-align:center">
 								<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-									<%= link_to "Log", {:controller => "apps/panel",:action => "log_no_time_session_task", :user_id => @current_user, :organization_id => @current_organization, :tlt_task_id => task[0].id,:tlt_session_id => tl_session}, :class => "task_button"%>
+									<%= link_to 'Log', ctl_observe_evidence_add_path(:user_id => @current_user, :organization_id => @current_organization, :tlt_task_id => task[0].id,:tlt_session_id => tl_session), :class => 'task_button' %>
 								</span>
 							</td>
 							<td    id="c0a_<%=task[0].id %>" href="" style="border:0px solid #ddd; width:165px; cursor:help; width:fixed; font-size:11px; vertical-align:middle; padding-top:0px; line-height: 1.2em; text-align:left">
@@ -65,7 +65,7 @@
 						<% if task[1] -%>
 							<td  id="no_time_log_<%= task[1].id.to_s %>" style="border:0px solid #ddd;width:30px; width:fixed; vertical-align:middle; padding-top:0px; text-align:center">
 								<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-									<%= link_to "Log", {:controller => "apps/panel",:action => "log_no_time_session_task", :user_id => @current_user, :organization_id => @current_organization, :tlt_task_id => task[1].id,:tlt_session_id => tl_session }, :class => "task_button" %>
+									<%= link_to 'Log', ctl_observe_evidence_add_path(:user_id => @current_user, :organization_id => @current_organization, :tlt_task_id => task[1].id,:tlt_session_id => tl_session), :class => 'task_button' %>
 								</span>
 							</td>
 							<td    id="c1a_<%=task[1].id %>" href="" style="border:0px solid #ddd; width:165px; width:fixed; cursor:help; font-size:11px; vertical-align:middle; padding-top:0px; line-height: 1.2em; text-align:left">
@@ -117,7 +117,7 @@
 						<% if task[2] -%>
 							<td  id="no_time_log_<%= task[2].id.to_s %>" style="border:0px solid #ddd;width:30px; width:fixed; vertical-align:middle; padding-top:0px; text-align:center">
 								<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-									<%= link_to "Log", {:controller => "apps/panel",:action => "log_no_time_session_task", :user_id => @current_user, :organization_id => @current_organization, :tlt_task_id => task[2].id,:tlt_session_id => tl_session }, :class => "task_button" %>
+									<%= link_to 'Log', ctl_observe_evidence_add_path(:user_id => @current_user, :organization_id => @current_organization, :tlt_task_id => task[2].id,:tlt_session_id => tl_session), :class => 'task_button' %>
 								</span>
 							</td>
 							<td    id="c2a_<%=task[2].id %>" href="" style="border:0px solid #ddd; width:165px; width:fixed; cursor:help;  font-size:11px; vertical-align:middle; padding-top:0px; line-height: 1.2em; text-align:left">
@@ -171,5 +171,3 @@
 			<% end -%>
 			</tbody>
 		</table>
-
-

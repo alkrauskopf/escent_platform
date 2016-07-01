@@ -4,15 +4,13 @@
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close">
-						<%= link_to '', :controller => "apps/time_learning", :action => :create_training_video, :organization_id => @current_organization, :tlt_session_id => session %>
+						<%= link_to '', ctl_observation_video_create_path(:organization_id => @current_organization, :tlt_session_id => session) %>
 						Create Training Video
-					<span></span>
+					  <span></span>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-
-
 	<% end -%>
 <script type="text/javascript" charset="utf-8">
 jQ(document).ready(function() {
@@ -20,8 +18,6 @@ jQ(document).ready(function() {
 	jQ('#train_video .resource_levels_open').toggleResourceLevels();	
 });
 </script>
-
-
 </div>
 
 

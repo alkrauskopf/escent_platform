@@ -19,25 +19,22 @@
 						<%= render :partial => "itl_session_student_survey", :locals => {:session => @tlt_session, :observer => @observer_update}%>
 					<% end -%>
 					<% if @tlt_session.app_methods.include?(AppMethod.rs.first)%>
-						<%= render :partial => "research", :locals => {:session => @tlt_session, :irr=> false, :label => "Observation Graphs"}%>
+						<%= render :partial => "research", :locals => {:session => @tlt_session, :irr=> false, :graph_label => 'Observation Graphs'}%>
 					<% end -%>
 					<% if @tlt_session.blackbelt_available? %>
-						<%= render :partial => "research", :locals => {:session => @tlt_session.irr_session, :irr=> true, :label => "Calibration Graphs"}%>
+						<%= render :partial => "research", :locals => {:session => @tlt_session.irr_session, :irr=> true, :graph_label => 'Calibration Graphs'}%>
 					<% end -%>
 	
 					<div style="margin-left:20px; padding-top:10px; padding-bottom:10px;">
 						<%= render :partial => "itl_activity_summary", :locals => {:session => @tlt_session, :update=>@observer_update} %>	
 					</div>
-
-
 					<table id="<%=@tlt_session.public_id %>_log"   style="width:650px;  color:#000000;">
 						<tbody>  
 							<tr>
 								<td class="resource_levels_close">
-				
-								<%= link_to '', :controller => "apps/time_learning", :action => :log_summary, :organization_id => @current_organization, :tlt_session_id => @tlt_session, :update=> @observer_update %>
-								Log&nbsp;&nbsp;(<%= pluralize(@tlt_session.tlt_session_logs.size, " Observation")%>)
-								<span></span>
+                  <%= link_to '', ctl_observation_log_path(:organization_id => @current_organization, :tlt_session_id => @tlt_session, :update=> @observer_update) %>
+                  Log&nbsp;&nbsp;(<%= pluralize(@tlt_session.tlt_session_logs.size, " Observation")%>)
+                  <span></span>
 								</td>
 							</tr>
 						</tbody>
@@ -49,7 +46,7 @@
 				});
 				</script>
 				</td>
-				<td style= "width:45px; width:fixed; border:0px solid #ddd; padding-left:0px;">
+				<td style= "width:7%; border:0px solid #ddd; padding-left:0px;">
 					&nbsp;&nbsp;&nbsp;
 				</td>	
 			</tr>

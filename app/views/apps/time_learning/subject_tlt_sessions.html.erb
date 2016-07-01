@@ -25,10 +25,9 @@
 					<% teacher = tlt.user ? tlt.user.full_name : "Former User" -%>
 					<% observer = tlt.tracker ? tlt.tracker.last_name : "Former User" -%>
 					<tr style="border:1px solid #ddd;">
-		
 							<td width = 200px style=" border:1px solid #ddd; color: #000000; vertical-align:top;text-align:left; font-size:11px" >
 								<u>
-									<%= link_to "View Session", {:controller =>  "/apps/time_learning", :action => "static_itl_session", :organization_id => @current_organization, :tlt_session_id => tlt}, {:target => "_blank"}  %>
+									<%= link_to 'View Session', ctl_session_show_path(:organization_id => @current_organization, :tlt_session_id => tlt), {:target => '_blank'} %>
 								</u><br/>
 								<%= tlt.session_date.strftime("%b %d, %Y") %><br/>
 								Duration:&nbsp;<%= number_with_precision(tlt.session_length/60.0, :precision => 1) %>&nbsp;Minutes<br/>
@@ -53,8 +52,8 @@
 									<strong><%= teacher %></strong>;&nbsp;&nbsp;
 									
 									<% if tlt.classroom -%>
-										<% link_string = "View " + tlt.classroom_name -%>
-										<u><%= link_to link_string,{:controller => "site/site", :action => "static_classroom", :organization_id => @current_organization, :id => tlt.classroom}, :target => '_blank' %></u>
+										<% link_string = 'View ' + tlt.classroom_name -%>
+										<u><%= link_to link_string, offering_view_path(:organization_id => @current_organization, :id => tlt.classroom), :target => '_blank' %></u>
 									<% else -%>
 										<u><%= tlt.classroom_name %></u>
 									<% end -%>
@@ -72,13 +71,14 @@
 									<%= method.name %><br/>
 									<% if method.rs? %>
 										<% method.tl_activity_types.by_position.each do |activity| %>
-										<%= activity.activity_pct(tlt) %>%&nbsp;<%= activity.activity %></br/>
-									<% end -%>
-								<% end -%>
+										  <%= activity.activity_pct(tlt) %>%&nbsp;<%= activity.activity %></br/>
+									  <% end -%>
+								  <% end -%>
+                <% end -%>
 							</td> 			
 							<td width = 50px style=" border:1px solid #ddd; color: #000000; vertical-align:top;text-align:left; font-size:10px" >
 								<% if tlt.user && tlt.user == @current_user && !tlt.finalized?-%>
-									<%= link_to "Destroy", {:controller =>  "/apps/time_learning", :action => "destroy_session", :organization_id => @current_organization, :hat=> hat, :tlt_session_id => tlt, :user_id => @current_user}, :confirm => "Are You Sure?", :class => "destroy_session"  %>
+									<%= link_to 'Destroy', ctl_observation_destroy_path(:organization_id => @current_organization, :hat=> hat, :tlt_session_id => tlt, :user_id => @current_user), :confirm => 'Are You Sure?', :class => 'destroy_session' %>
 								<% else -%>
 									&nbsp;
 								<% end -%>

@@ -1,5 +1,4 @@
 
-
 	<% unless @current_organization.teachers_in_subject(subject_area).empty? || !@current_user.ctl_observer_for_org?(@current_organization)-%>
 		<table style="width:600px; text-align:left;">
 			<tbody>  
@@ -12,9 +11,10 @@
 				<% @current_organization.teachers_in_subject(subject_area).sort_by{|t| t.last_name}.each do|teacher| -%>
 					<% @current_organization.periods_in_subject_teacher(subject_area, teacher).each do |period| -%>
 						<tr >
-							<td  style="width:80px; width:fixed; vertical-align:middle; text-align:left;padding-left:0px">
+							<td  style="width:13%; vertical-align:middle; text-align:left;padding-left:0px">
 								<span class="fsn-button ui-button ui-state-default ui-corner-all">
-									 <%= !period.ctl_training? ? (link_to "Observe" ,{:controller => "apps/time_learning", :action => "setup_session", :organization_id => @current_organization, :period_id => period, :teacher_id => teacher, :classroom_id => period.classroom}) : (link_to "Practice" ,{:controller => "apps/time_learning", :action => "setup_session", :organization_id => @current_organization, :period_id => period, :teacher_id => teacher, :practice=>true, :classroom_id => period.classroom})%>
+									 <%= !period.ctl_training? ? (link_to 'Observe' , ctl_observation_add_path(:organization_id => @current_organization, :period_id => period, :teacher_id => teacher, :classroom_id => period.classroom))
+                       : (link_to 'Practice',ctl_observation_add_path(:organization_id => @current_organization, :period_id => period, :teacher_id => teacher, :practice=>true, :classroom_id => period.classroom))%>
 								</span>
 							</td>
 							<td  style="width:500px; vertical-align:middle; text-align:left;padding-left:0px">

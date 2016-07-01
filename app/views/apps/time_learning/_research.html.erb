@@ -1,16 +1,15 @@
 
-	<table id="<%=session.public_id %>_research"   style="width:650px;  color:#000000;">
-		<tbody>  
-			<tr>
-				<td class="resource_levels_close">
-
-				<%= link_to '', :controller => "apps/time_learning", :action => :research_summary, :organization_id => @current_organization, :irr => irr, :session_id => session, :display_type=>"a" %>
-				<%= label %>
-				<span></span>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+<table id="<%=session.public_id %>_research"   style="width:650px;  color:#000000;">
+  <tbody>
+    <tr>
+      <td class="resource_levels_close">
+        <%= link_to '', ctl_observation_research_path(:organization_id => @current_organization, :irr => irr, :session_id => session, :display_type=>'a') %>
+        <%= graph_label %>
+        <span></span>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <script type="text/javascript" charset="utf-8">
 jQ(document).ready(function() {
 	jQ('#<%=session.public_id %>_research .resource_levels_close').toggleResourceLevels();

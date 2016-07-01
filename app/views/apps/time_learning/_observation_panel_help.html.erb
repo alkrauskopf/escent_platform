@@ -1,13 +1,10 @@
 <div  id="activity_update">
-
 	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:normal"> 
 		<u><center>Observation Panel</center></u>
 	</div>
 	<div style ="color: #2061a5; font-size:12px; margin-top:5px; font-weight:normal"> 
 		<center>Click on the <span style="color:#C83A14; font-weight:bold">Red</span> button to learn more about the strategy.</center>
 	</div>
-
-	
 	<% text_color = "#59637f" -%>
 	<% family = "Garamond, Time New Roman, Helvitica,sans-serif" -%>
 	<% background = "#f6f9f9" -%>
@@ -19,7 +16,7 @@
 				table tr:hover{
         		background-color: transparent;
       			}
-   			</style>
+      </style>
 			<% AppMethod.rs.first.tl_activity_types.by_position.each do |activity| -%>
 				<tr  style="border-top:0px solid #ddd; ">
 					<td  colspan = 9 style="border:0px solid #ddd; color: <%= text_color %>; vertical-align:bottom;  padding-left:0px; padding-top:0px; font-size:16px; text-align:center">
@@ -32,16 +29,16 @@
 					<tr  style="border:0px solid #ddd;">
 						<% t1 = activity.tl_activity_type_tasks.enabled.for_position(panel_position + 1).first rescue nil -%>
 						<% if t1 -%>
-							<td style="border:0px solid #ddd; width:20px; width:fixed; vertical-align:middle; font-size:11px; line-height: 1.7em; text-align:left">
+							<td style="border:0px solid #ddd; width:2%; vertical-align:middle; font-size:11px; line-height: 1.7em; text-align:left">
 								&nbsp;
 							</td>
-							<td  style="border:0px solid #ddd;width:20px; width:fixed; vertical-align:top; padding-top:5px; text-align:center">
+							<td  style="border:0px solid #ddd;width:2%; vertical-align:top; padding-top:5px; text-align:center">
 								<a id="<%= t1.id%>_help" href=""><%= image_tag "button_disabled.png",:width => 12%></a>
 								<div id="<%= t1.id%>_help-dialog" title= "Strategy Description" style="text-align:left;">
-								    <div class="title_large_blue" style="margin-bottom:15px;">
-								        <%= t1.name %>
-								    </div>
-								    <div class="normal_text" style=" font-size:12px;">
+                  <div class="title_large_blue" style="margin-bottom:15px;">
+                      <%= t1.name %>
+                  </div>
+                  <div class="normal_text" style=" font-size:12px;">
 										<table  style="width:620px; margin-left:30px;border:0px solid #ddd;"  >
 											<tbody>  
 												<style type="text/css" media="screen">
@@ -317,18 +314,8 @@
 						&nbsp;
 					</td>
 				</tr>
-
-
-
 			<% end -%>
 		</tbody>
 	</table>
-
-
-
-
-
-
-
 </div>
 

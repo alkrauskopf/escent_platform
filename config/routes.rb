@@ -172,6 +172,8 @@ EscentPartners::Application.routes.draw do |map|
     get '/app/rubric/add' => 'apps/shared#maintain_rubric'
     post '/app/rubric/add' => 'apps/shared#maintain_rubric'
 
+    get '/app/resource/assign' => 'apps/shared#add_remove_resource'
+
   # APP Offering  (Classroom)
   # site/site
     get '/offering/view' => 'site/site#static_classroom'
@@ -284,6 +286,64 @@ EscentPartners::Application.routes.draw do |map|
 
   # APP CTL
     get '/ctl/session/show' => 'apps/time_learning#static_itl_session'
+    get '/ctl/subjects' => 'apps/time_learning#observation_subject_list'
+    get '/ctl/observation/add' => 'apps/time_learning#setup_session'
+    post '/ctl/observation/add' => 'apps/time_learning#setup_session'
+    get '/ctl/observation/destroy' => 'apps/time_learning#destroy_session'
+    get '/ctl/observation/log' => 'apps/time_learning#log_summary'
+    get '/ctl/observation/finalize' => 'apps/time_learning#finalize_session'
+    post '/ctl/observation/survey' => 'apps/time_learning#take_post_conf_survey'
+    get '/ctl/observation/comments/edit' => 'apps/time_learning#edit_session_comments'
+    get '/ctl/observation/video/attach' => 'apps/time_learning#attach_embed_code'
+    get '/ctl/observation/video/remove' => 'apps/time_learning#remove_embed_code'
+    get '/ctl/observation/video/create' => 'apps/time_learning#create_training_video'
+    get '/ctl/observation/video/show' => 'apps/shared#show_video'
+
+    get '/ctl/observation/research' => 'apps/time_learning#research_summary'
+    get '/ctl/observation/activities' => 'apps/time_learning#refresh_activity_summary'
+
+    get '/ctl/observe/begin' => 'apps/panel#track_session'
+    get '/ctl/observe/end' => 'apps/panel#end_session'
+    get '/ctl/observe/abort' => 'apps/panel#abort_session'
+    get '/ctl/observe/task/start' => 'apps/panel#start_session_task'
+    get '/ctl/observe/task/stop' => 'apps/panel#stop_session_task'
+    get '/ctl/observe/evidence/add' => 'apps/panel#log_no_time_session_task'
+    get '/ctl/observe/evidence/delete' => 'apps/panel#remove_log'
+    get '/ctl/observe/evidence/note' => 'apps/panel#update_log_note'
+
+    get '/ctl/backlog' => 'apps/time_learning#subject_tlt_sessions'
+    get '/ctl/invite/send' => 'apps/time_learning#send_invite'
+    get '/ctl/analyze/period' => 'apps/time_learning#then_now'
+    get '/ctl/analyze/utlization' => 'apps/time_learning#school_utilization'
+    get '/ctl/reflection' => 'apps/time_learning#teacher_private_itl_dashboards'
+    get '/ctl/reflection/dashboard/teacher' => 'apps/time_learning#teacher_itl_dashboards'
+    get '/ctl/reflection/dashboard/toggle' => 'apps/time_learning#toggle_school_dashboard_details'
+    get '/ctl/reflection/population' => 'apps/time_learning#population_stats'
+    post '/ctl/reflection/diagnostics' => 'apps/time_learning#diagnostics'
+    get '/ctl/reflection/diagnostics/history' => 'apps/time_learning#diagnostic_history'
+    get '/ctl/reflection/feedback' => 'apps/time_learning#student_feedback'
+    get '/ctl/history' => 'apps/time_learning#session_history'
+    get '/ctl/resources/panel_help' => 'apps/time_learning#observation_panel_help'
+    get '/ctl/resources/app' => 'apps/shared#show_app_resources'
+    get '/ctl/resources/app/admin' => 'apps/shared#admin_app_resources'
+
+    get '/ctl/options/training' => 'apps/time_learning#training_classroom'
+    get '/ctl/options/training/assign' => 'apps/time_learning#define_training_room'
+    get '/ctl/options/method/activate' => 'apps/time_learning#toggle_method'
+    get '/ctl/options/method/template/activate' => 'apps/time_learning#toggle_template_method'
+    get '/ctl/options/template/filter/activate' => 'apps/time_learning#toggle_template_filter'
+    get '/ctl/options/templates' => 'apps/time_learning#manage_filters'
+    get '/ctl/options/finalize' => 'apps/time_learning#toggle_finalize'
+    get '/ctl/options/concurrent' => 'apps/time_learning#toggle_concurrent'
+    get '/ctl/options/discussion' => 'apps/time_learning#toggle_conversation'
+    get '/ctl/options/scheduling' => 'apps/time_learning#edit_schedule_url'
+    get '/ctl/options/thresholds' => 'apps/time_learning#toggle_thresholds'
+    get '/ctl/options/belts' => 'apps/time_learning#toggle_belt_ranking'
+    get '/ctl/options/belts/manage' => 'apps/time_learning#manage_belt_rankings'
+    get '/ctl/options/belts/manage/user' => 'apps/time_learning#manage_belt_user'
+    get '/ctl/options/belts/user/update' => 'apps/time_learning#update_user_belt'
+
+    get '/ctl/options/stats/window' => 'apps/time_learning#edit_option_window'
 
     get '/ctl/maint/strategies' => 'apps/owner_maintenance#owner_strategies'
     get '/ctl/maint/strategies/edit' => 'apps/owner_maintenance#owner_strategy_edit'

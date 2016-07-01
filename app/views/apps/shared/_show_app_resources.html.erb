@@ -5,13 +5,13 @@
 		    <table style="width:350px;margin-left:235px">
 				<tbody >
 					<tr style=" border:0px solid #ddd;">
-						<td   style="width:50px;  border:0px solid #ddd; padding-top:7px; padding-bottom:0px; padding-left:15px; line-height: 1.5em; vertical-align:top; text-align:left; color:#2061a5; font-weight:normal;">
+						<td   style="width:14%;  border:0px solid #ddd; padding-top:7px; padding-bottom:0px; padding-left:15px; line-height: 1.5em; vertical-align:top; text-align:left; color:#2061a5; font-weight:normal;">
 							<%= (image_tag ItlBeltRank.black.image,:width => 30) %>
 						</td>
-						<td   style="width:230px; width:fixed; border:0px solid #ddd; padding-top:3px; padding-bottom:0px; padding-left:0px; line-height: 1.5em; vertical-align:top; text-align:left; color:#2061a5; font-size:12px; font-weight:normal;">
+						<td   style="width:66%; border:0px solid #ddd; padding-top:3px; padding-bottom:0px; padding-left:0px; line-height: 1.5em; vertical-align:top; text-align:left; color:#2061a5; font-size:12px; font-weight:normal;">
 							A Calibration Resource
 						</td>
-						<td   style="width:70px;  border:0px solid #ddd; padding-top:3px; padding-bottom:0px; padding-left:0px; line-height: 1.5em; vertical-align:top; text-align:left; color:#2061a5; font-size:12px; font-weight:normal;">
+						<td   style="width:20%;  border:0px solid #ddd; padding-top:3px; padding-bottom:0px; padding-left:0px; line-height: 1.5em; vertical-align:top; text-align:left; color:#2061a5; font-size:12px; font-weight:normal;">
 							<span style = "font-size:9px">
 								<u><i><a id="irr_1" href="">What's This?</a></i></u>
 							</span>
@@ -62,13 +62,13 @@
 	    <table style="width:800px;">
 	        <thead>
 	            <tr style=" border:1px solid #ddd;">
-	                <th  style="width:100px; width:fixed;" >
+	                <th  style="width:14%;" >
 	                    Contributor
 	                </th>
-	                <th style="width:450px; width:fixed;">
+	                <th style="width:56%;">
 	                   Description
 	                </th>												
-	                <th  colspan=2 style="width:150px; width:fixed;" >
+	                <th  colspan=2 style="" >
 	                   Format
 	                </th>	            
 	            </tr>
@@ -77,12 +77,12 @@
 					<% pool.each do |rsrc| -%>
 					<% unless !(rsrc.available? || rsrc.restricted? || rsrc.active?)%>
 						<tr id="<%= rsrc.public_id %>" style=" border:1px solid #ddd;">
-							<td   style="width:100px; font-size:11px; border:1px solid #ddd; padding-top:3px; padding-bottom:3px; padding-left:5px; line-height: 1.5em; vertical-align:top; text-align:left; color:#2061a5; font-weight:normal;">
+							<td   style="width:14%; font-size:11px; border:1px solid #ddd; padding-top:3px; padding-bottom:3px; padding-left:5px; line-height: 1.5em; vertical-align:top; text-align:left; color:#2061a5; font-weight:normal;">
 								<%= rsrc.organization.nil? ? "Former Organization" : rsrc.organization.medium_name -%></br>
 								<%= rsrc.user.nil? ? "Former User": rsrc.user.last_name %></br>
 								<%= rsrc.updated_at.strftime("%m-%d-%y")%>
 							</td>
-							<td   style="width:450px;  font-size:11.5px; border:1px solid #ddd; padding-top:3px; padding-bottom:3px; padding-left:5px; vertical-align:top; text-align:left;color:#2061a5; font-weight:normal;">
+							<td   style="width:56%;  font-size:11.5px; border:1px solid #ddd; padding-top:3px; padding-bottom:3px; padding-left:5px; vertical-align:top; text-align:left;color:#2061a5; font-weight:normal;">
 								<span style="color: #2061a5;font-weight:bold;">
 									<%= rsrc.title %></br>
 								</span>
@@ -90,20 +90,20 @@
 									<%= simple_format rsrc.description%>
 								</span>													
 							</td>						
-							<td  style="width:150px; font-size:10px; border:1px solid #ddd; padding-left:5px; padding-top:0px; vertical-align:top; ">
+							<td  style="width:30%; font-size:10px; border:1px solid #ddd; padding-left:5px; padding-top:0px; vertical-align:top; ">
 								<table >
 									<tbody>
 										<tr>
-											<td style="color: #2061a5;width:115px; width:fixed; font-weight:normal;font-size:10px;">
+											<td style="color: #2061a5;width:77%; font-weight:normal;font-size:10px;">
 												<%= rsrc.embed_code? ? "TRAINING VIDEO  " : rsrc.content_object_type.content_object_type_group.name %>								
 											</td>
-											<td style="color: #2061a5;width:35px; width:fixed; font-weight:normal;font-size:10px;">
+											<td style="color: #2061a5;width:23%; font-weight:normal;font-size:10px;">
 												<%= app.ctl? && rsrc.irr_resource? ? (image_tag ItlBeltRank.black.image,:width => 20) : ""%>
 											</td>
 										</tr>
 										<% if rsrc.embed_code? -%>
 											<tr>
-												<td colspan=2 style="color: #2061a5;width:115px; width:fixed; font-weight:normal;font-size:10px;">
+												<td colspan=2 style="color: #2061a5;width:77%; font-weight:normal;font-size:10px;">
 													Used In <%= pluralize(rsrc.tlt_sessions.size, "Observation Session")%></br/>
 												</td>
 											</tr>

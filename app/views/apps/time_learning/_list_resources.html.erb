@@ -1,16 +1,14 @@
 <div id="resource_lists" style = "font-size:12px; color: #2061a5; padding-left:10px;">
-	<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold"> 
-		<strong><center><%= app.abbrev %>&nbsp;Resource Repository</center></strong>
+	<div style ="text-align:center; color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold">
+		<strong><%= @current_application.abbrev %>&nbsp;Resource Repository</strong>
 	</div>
-	
 		<table id="observation_panel"   style="width:850px; ">
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close">
-	
-					<%= link_to '', :controller => "apps/time_learning", :action => :observation_panel_help, :organization_id => @current_organization, :app_id=> app.id  %>
-					<%= app.abbrev -%> Strategies Explained
-					<span></span>
+            <%= link_to '', ctl_resources_panel_help_path(:organization_id => @current_organization)  %>
+            <%= @current_application.abbrev -%> Strategies Explained
+            <span></span>
 					</td>
 				</tr>
 			</tbody>
@@ -26,10 +24,9 @@
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close">
-	
-					<%= link_to '', :controller => "apps/shared", :action => :show_app_resources, :organization_id => @current_organization, :app_id=> app.id  %>
-					<%= app.abbrev %>&nbsp;Resources
-					<span></span>
+            <%= link_to '', ctl_resources_app_path(:organization_id => @current_organization, :app_id=> @current_application.id)  %>
+            <%= @current_application.abbrev %>&nbsp;Resources
+            <span></span>
 					</td>
 				</tr>
 			</tbody>
@@ -46,10 +43,9 @@
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close">
-	
-					<%= link_to '', :controller => "apps/shared", :action => :admin_app_resources, :organization_id => @current_organization, :admin=> admin, :app_id=> app.id  %>
-					Administer&nbsp;<%= app.abbrev %>&nbsp;Resources
-					<span></span>
+            <%= link_to '', ctl_resources_app_admin_path(:organization_id => @current_organization, :admin=> admin, :app_id=> @current_application.id) %>
+            Administer&nbsp;<%= @current_application.abbrev %>&nbsp;Resources
+            <span></span>
 					</td>
 				</tr>
 			</tbody>

@@ -3,20 +3,20 @@
 	<% backgrnd = "#"+ method.dashboard_color -%>	
 	<% activity_weight = task_details ? "bold" : "normal"%>
 	<% family = "Garamond, Time New Roman, Helvitica,sans-serif" -%>
-	<table  style="width:870px; border:0px solid #ddd;font-family:<%=family%>">
+	<table  style="width:100%; border:0px solid #ddd;font-family:<%=family%>">
 		<tbody>
 			<style type="text/css" media="screen">
 	    		table,tr,td { border:medium }
 				table tr:hover{
         		background-color: transparent;
       			}
-   			</style>
+      </style>
 			<tr style="border:0px solid #ddd; background:<%=backgrnd%>;">						
-				<td style=" width:43px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:middle; font-size:9px" >
+				<td style=" width:5%; border:0px solid #ddd; color: #000000; vertical-align:middle; font-size:9px" >
 					<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
 						<% label = task_details ? "Hide" : "Show" -%>
 						<% toggle = task_details ? 0 : 1 -%>
-						<%= link_to label, { :controller =>"apps/time_learning", :action => "toggle_school_dashboard_details", :organization_id => @current_organization, :task_details=>toggle, :school_id => school, :start_date=> start_date, :group=>group, :subj=>subj, :duration=>duration, :tl_sessions=>tl_sessions, :activity_id=>activity.id, :columns=>columns}, :class => "toggle_task" + group + activity.id.to_s  %>
+						<%= link_to label, ctl_reflection_dashboard_toggle_path(:organization_id => @current_organization, :task_details=>toggle, :school_id => school, :start_date=> start_date, :group=>group, :subj=>subj, :duration=>duration, :tl_sessions=>tl_sessions, :activity_id=>activity.id, :columns=>columns), :class => 'toggle_task' + group + activity.id.to_s  %>
 					</span>		
 				</td>
 				<td style=" border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:left; font-weight:<%=activity_weight%>; font-size:12px" >
@@ -29,7 +29,7 @@
 					<% school_activity_pct =[] %>
 					<%columns.each do |idx| -%>	
 						<% school_stats = subj[idx].nil? ? [] : activity.sumry_stats_for_subject_org_since(subj[idx], school, start_date.to_date, false ) -%>
-						<td  style="width:105px; width:fixed; line-height:1.2em; border:0px solid #ddd; color: #000000; vertical-align:middle;text-align:center; font-weight:<%=activity_weight%>; font-size:12px" >
+						<td  style="width:12%; line-height:1.2em; border:0px solid #ddd; color: #000000; vertical-align:middle;text-align:center; font-weight:<%=activity_weight%>; font-size:12px" >
 							<% school_activity_hrs[idx] = subj[idx].nil? ? "" : duration[idx]*school_stats[1].to_f/100.0 -%>								
 							<% school_activity_pct[idx] = subj[idx].nil? ? "" : school_stats[1] -%>	
 							<% unless subj[idx].nil? -%>
@@ -49,13 +49,9 @@
 					<% end -%>
 				<% else -%>
 					<% subj_summaries =[] %>
-					<%columns.each do |idx| -%>	
-<!--
-						<%# subj_summaries[idx] = subj[idx].nil? ? [] : school.itl_summaries.for_subject(subj[idx]).since_date(start_date).collect{|s| s.itl_summary_strategies}.flatten.select{|ss| ss.tl_activity_type_task.tl_activity_type_id == activity.id} -%>
--->
+					<%columns.each do |idx| -%>
 						<% subj_summaries[idx] = subj[idx].nil? ? [] : school.itl_summaries_since_date_subject( subj[idx], start_date.to_date).collect{|s| s.itl_summary_strategies}.flatten.select{|ss| ss.tl_activity_type_task.tl_activity_type_id == activity.id} -%>
-
-						<td  style="width:105px; width:fixed; line-height:1.2em; border:0px solid #ddd; color: #000000; vertical-align:middle;text-align:center; font-weight:<%=activity_weight%>; font-size:12px" >									
+						<td  style="width:12%; line-height:1.2em; border:0px solid #ddd; color: #000000; vertical-align:middle;text-align:center; font-weight:<%=activity_weight%>; font-size:12px" >
 							<% unless subj[idx].nil? %>
 								<% unless tl_sessions[idx]  == 0 %>
 									<%= subj_summaries[idx].empty? ? "-":subj_summaries[idx].collect{|ss| ss.segments}.sum %>
@@ -77,7 +73,7 @@
 				<% activity.tl_activity_type_tasks.enabled.each do |task| -%>
 					<% hover = "<center>" + task.name + "</center>" -%>
 					<tr style="border-top:1px dashed #ddd;border-bottom:1px dashed #ddd;">
-						<td style=" width:43px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:middle; font-size:9px" >
+						<td style="width:5%; border:0px solid #ddd; color: #000000; vertical-align:middle; font-size:9px" >
 							&nbsp;	
 						</td>
 						<td  class="tip_2_<%=task.id%>" title= "<%= hover %>" style="border:0px solid #ddd; padding-top:4px; color: #000000; vertical-align:top;text-align:center; font-weight:normal; font-size:12px" >
@@ -85,7 +81,7 @@
 						</td>
 						<% if method.timed? -%>
 							<%columns.each do |idx| -%>	
-								<td  style="width:105px; width:fixed; border:0px solid #ddd; padding-top:4px; padding-bottom:4px; color:#000000;  line-height:1.2em; padding-top:5px;padding-bottom:5px; vertical-align:middle;text-align:center; font-weight:normal; font-size:12px" >
+								<td  style="width:12%; border:0px solid #ddd; padding-top:4px; padding-bottom:4px; color:#000000;  line-height:1.2em; padding-top:5px;padding-bottom:5px; vertical-align:middle;text-align:center; font-weight:normal; font-size:12px" >
 									<% unless subj[idx].nil? %>
 										<% unless tl_sessions[idx]  == 0 %>
 											<% school_stats_task = task.sumry_stats_for_subject_org_since(subj[idx], school, start_date.to_date, false ) -%>
@@ -104,7 +100,7 @@
 							<% end -%>	
 						<% else -%>
 							<%columns.each do |idx| -%>	
-								<td  style="width:105px; width:fixed; border:0px solid #ddd padding-top:4px; padding-bottom:4px;; color:#000000;  line-height:1.2em; padding-top:5px;padding-bottom:5px; vertical-align:middle;text-align:center; font-weight:bold; font-size:10px" >									
+								<td  style="width:12%; border:0px solid #ddd; padding-top:4px; padding-bottom:4px;; color:#000000;  line-height:1.2em; padding-top:5px;padding-bottom:5px; vertical-align:middle;text-align:center; font-weight:bold; font-size:10px" >
 									<% unless subj[idx].nil? %>
 										<% subj_tasks_sumries = subj_summaries[idx].select{|ss| ss.tl_activity_type_task_id == task.id} -%>
 										<%= subj_tasks_sumries.empty? ? "-":subj_tasks_sumries.collect{|ss| ss.segments}.sum %>

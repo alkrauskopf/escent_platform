@@ -1,5 +1,4 @@
 <div id="options_params">
-
 	<table style="width:750px; margin-left:50px; color: #2061a5;">
 		<tbody>
 			<style type="text/css" media="screen">
@@ -7,31 +6,25 @@
 				table tr:hover{
         		background-color: transparent;
       			}
-    			</style>
-			<thead>
-				<tr>
-					<th colspan =2><strong><center>Preference</center></strong></th>			
-					<th><strong>Description</strong></th>
-				</tr>
-			</thead>
+      </style>
 			<tr>
 				<td colspan=3>
-					<center>&nbsp;</center>
+					&nbsp;
 				</td>
 			</tr>
 			<tr>
-				<td   id = "update_window" width=20px style="vertical-align:top;  padding-left:12px; padding-right:2px; padding-top:8px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+				<td id = "update_window" style="width:3%; vertical-align:top;  padding-left:12px; padding-right:2px; padding-top:8px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
 					<%= (image_tag "add.png") -%>
 				</td>
-				<td width =50px style=" color: #000000; padding-left:15px; padding-top:8px; vertical-align:top" >
+				<td style="width:8%; color: #000000; padding-left:15px; padding-top:8px; vertical-align:top" >
 		 		     <%= text_field :itl_org_option, :stat_window, :size => 3, :maxlength => 3, :value => @current_organization.itl_org_option.stat_window  %>
 				</td>
-				<td width = 680px style=" color: #000000; vertical-align:top; font-size:11px" >
+				<td style="width:89%; color: #000000; vertical-align:top; font-size:11px" >
 					<span style="color: #2061a5;font-size:12px; font-weight:bold">
 						Weeks Back For Statistics Calculations
 					<br/>
 					</span>	
-					This is the number of weeks back that <%=app.abbrev %> aggregated statistics are calculated from.
+					This is the number of weeks back that <%=@current_application.abbrev %> aggregated statistics are calculated from.
 					<br/> 
 				</td>
  			</tr>
@@ -40,22 +33,22 @@
 					<center> - - - - - - - -</center>
 				</td>
 			</tr>
-			<% app.app_methods.by_position.each do |method| -%>
+			<% @current_application.app_methods.by_position.each do |method| -%>
 				<tr>
-					<td width = 20px style=" color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
+					<td style="width:3%; color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
 						&nbsp;
 					</td>
 					<% if @current_organization.itl_org_option.app_methods.include?(method) -%>
-						<td id="toggle_method_<%= method.id %>" width = 70px style=" color: #000000; cursor:pointer; padding-left:25px; padding-top:10px; vertical-align:top" >
+						<td id="toggle_method_<%= method.id %>" style="width:8%; color: #000000; cursor:pointer; padding-left:25px; padding-top:10px; vertical-align:top" >
 								<%= (image_tag "button_enabled.png",:width => 12) %>
 						</td>
 						<% else -%>
-						<td id="toggle_method_<%= method.id %>" width = 70px style=" color: #000000; cursor:pointer; padding-left:25px; padding-top:10px; vertical-align:top" >
+						<td id="toggle_method_<%= method.id %>" style="width:8%; color: #000000; cursor:pointer; padding-left:25px; padding-top:10px; vertical-align:top" >
 								<%= (image_tag "button_disabled.png",:width => 12) %>
 						</td>
 						<% end -%>
 					</td>
-					<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
+					<td style="width:89%; color: #000000; vertical-align:top; font-size:11px" >
 						<span style="color: #2061a5;;font-size:12px; font-weight:bold">
 							<%=method.name %> Method
 						<br/>
@@ -68,7 +61,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ('#toggle_method_<%= method.id %>').click(function() {
-		var url = "<%= url_for :controller =>"apps/time_learning", :action => "toggle_method", :app_method_id => method.id, :organization_id => @current_organization  %>";
+		var url = "<%= ctl_options_method_activate_url(:app_method_id => method.id, :organization_id => @current_organization)  %>";
 			jQ.get(url, {}, function(data) {
 				jQ("#options_params").html(data);
 				jQ("#options_params").show();
@@ -79,15 +72,15 @@ jQ(document).ready(function() {
 			<% end -%>
 			<% unless @current_organization.itl_org_option.app_methods.empty? -%>
 				<tr>
-					<td width = 20px style=" color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
+					<td style="width:3%; color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
 						&nbsp;
 					</td>
-					<td width = 70px style=" color: #000000; cursor:pointer; padding-left:25px; padding-top:5px; vertical-align:top" >
+					<td style="width:8%; color: #000000; cursor:pointer; padding-left:25px; padding-top:5px; vertical-align:top" >
 						<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-						 <%= link_to "Go" ,{:controller => "/apps/time_learning", :action => "manage_filters", :organization_id => @current_organization}, {:target => "_blank"}  %>
+						 <%= link_to 'Go' ,ctl_options_templates_path(:organization_id => @current_organization), {:target => '_blank'}  %>
 						</span>
 					</td>
-					<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
+					<td style="width:89%; color: #000000; vertical-align:top; font-size:11px" >
 						<span style="color: #2061a5;;font-size:12px; font-weight:bold">
 							Manage Observation Templates
 						<br/>
@@ -103,18 +96,17 @@ jQ(document).ready(function() {
 				</td>
 			</tr>
 			<tr>
-			
-				<td width = 20px style=" color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
+				<td style="width:3%; color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
 					&nbsp;
 				</td>
-				<td width = 70px style=" color: #000000; padding-left:25px; padding-top:10px; vertical-align:top" >
+				<td style="width:8%; color: #000000; padding-left:25px; padding-top:10px; vertical-align:top" >
 					<% if @current_organization.itl_org_option.is_teacher_finalize -%>
-							<%= link_to (image_tag "button_enabled.png",:width => 12), { :controller =>"apps/time_learning", :action => "toggle_finalize", :organization_id => @current_organization}, :class => "toggle_finalize" %>
+							<%= link_to (image_tag "button_enabled.png",:width => 12), ctl_options_finalize_path(:organization_id => @current_organization), :class => 'toggle_finalize' %>
 					<% else -%>
-							<%= link_to (image_tag "button_disabled.png",:width => 12), { :controller =>"apps/time_learning", :action => "toggle_finalize", :organization_id => @current_organization}, :class => "toggle_finalize" %>
+							<%= link_to (image_tag "button_disabled.png",:width => 12), ctl_options_finalize_path(:organization_id => @current_organization), :class => 'toggle_finalize' %>
 					<% end -%>
 				</td>
-				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
+				<td style="width:89%; color: #000000; vertical-align:top; font-size:11px" >
 					<span style="color: #2061a5;;font-size:12px; font-weight:bold">
 						Allow Teachers To Finalize Post-Conference
 					<br/>
@@ -131,24 +123,23 @@ jQ(document).ready(function() {
 				</td>
 			</tr>
 			<tr>
-			
-				<td width = 20px style=" color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
+				<td style="width:3%; color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
 					&nbsp;
 				</td>
-				<td width = 70px style=" color: #000000; padding-left:25px; padding-top:10px; vertical-align:top" >
+				<td style="width:8%; color: #000000; padding-left:25px; padding-top:10px; vertical-align:top" >
 					<% if @current_organization.itl_org_option.is_concurrent -%>
-							<%= link_to (image_tag "button_enabled.png",:width => 12), { :controller =>"apps/time_learning", :action => "toggle_concurrent", :organization_id => @current_organization}, :class => "toggle_concurrent" %>
+							<%= link_to (image_tag "button_enabled.png",:width => 12), ctl_options_concurrent_path(:organization_id => @current_organization), :class => 'toggle_concurrent' %>
 					<% else -%>
-							<%= link_to (image_tag "button_disabled.png",:width => 12), { :controller =>"apps/time_learning", :action => "toggle_concurrent", :organization_id => @current_organization}, :class => "toggle_concurrent" %>
+							<%= link_to (image_tag "button_disabled.png",:width => 12), ctl_options_concurrent_path(:organization_id => @current_organization), :class => 'toggle_concurrent' %>
 					<% end -%>
 				</td>
-				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
+				<td style="width:89%; color: #000000; vertical-align:top; font-size:11px" >
 					<span style="color: #2061a5;;font-size:12px; font-weight:bold">
 						Concurrent Strategy Measurement
 					<br/>
 					</span>
-					Enabled (Green) allows <%=app.abbrev %> strategies to be measured concurrently.(More Precise)<br/>
-					Disabled (Red) causes all <%=app.abbrev %> strategies to be measured serially. (Easier) 
+					Enabled (Green) allows <%=@current_application.abbrev %> strategies to be measured concurrently.(More Precise)<br/>
+					Disabled (Red) causes all <%=@current_application.abbrev %> strategies to be measured serially. (Easier)
 					<br/> 
 				</td>
  			</tr>
@@ -159,24 +150,24 @@ jQ(document).ready(function() {
 			</tr>
 			<tr>
 			
-				<td width = 20px style=" color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
+				<td style="width:3%; color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
 					&nbsp;
 				</td>
-				<td width = 70px style=" color: #000000; padding-left:25px; padding-top:10px; vertical-align:top" >
+				<td style="width:8%; color: #000000; padding-left:25px; padding-top:10px; vertical-align:top" >
 					<% if @current_organization.itl_org_option.is_conversations -%>
-							<%= link_to (image_tag "button_enabled.png",:width => 12), { :controller =>"apps/time_learning", :action => "toggle_conversation", :organization_id => @current_organization}, :class => "toggle_conversation" %>
+							<%= link_to (image_tag "button_enabled.png",:width => 12), ctl_options_discussion_path(:organization_id => @current_organization), :class => 'toggle_conversation' %>
 					<% else -%>
-							<%= link_to (image_tag "button_disabled.png",:width => 12), { :controller =>"apps/time_learning", :action => "toggle_conversation", :organization_id => @current_organization}, :class => "toggle_conversation" %>
+							<%= link_to (image_tag "button_disabled.png",:width => 12), ctl_options_discussion_path(:organization_id => @current_organization), :class => 'toggle_conversation' %>
 					<% end -%>
 				</td>
-				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
+				<td style="width:89%; color: #000000; vertical-align:top; font-size:11px" >
 					<span style="color: #2061a5;;font-size:12px; font-weight:bold">
-						<%=app.abbrev %> Discussions
+						<%=@current_application.abbrev %> Discussions
 					<br/>
 					</span>
-					<%=app.abbrev %> discussions relate to <i><%=app.name %></i> issues of interest. These are universally accessible professional discussion forums.<br/>
-					Enabled (Green) makes <%=app.abbrev %> discussion forums directly accesible from the main <%=app.abbrev %> page.<br/>
-					Disabled (Red) will not provide access to <%=app.abbrev %> discussion forums from the  main <%=app.abbrev %> page.
+					<%=@current_application.abbrev %> discussions relate to <i><%=@current_application.name %></i> issues of interest. These are universally accessible professional discussion forums.<br/>
+					Enabled (Green) makes <%=@current_application.abbrev %> discussion forums directly accesible from the main <%=@current_application.abbrev %> page.<br/>
+					Disabled (Red) will not provide access to <%=@current_application.abbrev %> discussion forums from the  main <%=@current_application.abbrev %> page.
 					<br/> 
 				</td>
  			</tr>
@@ -186,13 +177,13 @@ jQ(document).ready(function() {
 				</td>
 			</tr>
 			<tr>
-				<td width = 20px style=" color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
+				<td style="width:3%; color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
 					&nbsp;
 				</td>
-				<td   id = "update_sched_url" width=50px style="vertical-align:top;  padding-left:12px; padding-right:2px; padding-top:8px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+				<td   id = "update_sched_url" style="width:8%; vertical-align:top;  padding-left:12px; padding-right:2px; padding-top:8px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
 					<%= (image_tag "add.png") -%>
 				</td>
-				<td width = 680px style=" color: #000000; vertical-align:top; font-size:11px" >
+				<td style="width:89%; color: #000000; vertical-align:top; font-size:11px" >
 					<span style="color: #2061a5;font-size:12px; font-weight:bold">
 						Observation Scheduling Link
 					<br/>
@@ -208,7 +199,7 @@ jQ(document).ready(function() {
 				<td colspan=2 style=" color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
 					URL:&nbsp;
 				</td>
-				<td width = 680px style=" color: #000000; vertical-align:top; font-size:11px" >	
+				<td style="width:89%; color: #000000; vertical-align:top; font-size:11px" >
 		 		     <%= text_field :itl_org_option, :schedule_url, :size => 60, :maxlength => 250, :value => @current_organization.itl_org_option.schedule_url  %>
 					 &nbsp;<i>Format: http://www.thedomain.com</i> 
 				</td>
@@ -217,7 +208,7 @@ jQ(document).ready(function() {
 				<td colspan=2 style=" color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
 					URL Label:&nbsp;
 				</td>
-				<td width = 680px style=" color: #000000; vertical-align:top; font-size:11px" >	
+				<td style="width:89%; color: #000000; vertical-align:top; font-size:11px" >
 		 		     <%= text_field :itl_org_option, :schedule_label, :size => 60, :maxlength => 250, :value => @current_organization.itl_org_option.schedule_label  %>
 					<br/> 
 				</td>
@@ -228,18 +219,17 @@ jQ(document).ready(function() {
 				</td>
 			</tr>
 			<tr>
-			
-				<td width = 20px style=" color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
+				<td style="width:3%; color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
 					&nbsp;
 				</td>
-				<td width = 70px style=" color: #000000; padding-left:25px; padding-top:10px; vertical-align:top" >
+				<td style="width:8%; color: #000000; padding-left:25px; padding-top:10px; vertical-align:top" >
 					<% if @current_organization.itl_thresholds? -%>
-							<%= link_to (image_tag "button_enabled.png",:width => 12), { :controller =>"apps/time_learning", :action => "toggle_thresholds", :organization_id => @current_organization}, :class => "toggle_thresholds" %>
+							<%= link_to (image_tag "button_enabled.png",:width => 12), ctl_options_thresholds_path(:organization_id => @current_organization), :class => 'toggle_thresholds' %>
 					<% else -%>
-							<%= link_to (image_tag "button_disabled.png",:width => 12), { :controller =>"apps/time_learning", :action => "toggle_thresholds", :organization_id => @current_organization}, :class => "toggle_thresholds" %>
+							<%= link_to (image_tag "button_disabled.png",:width => 12), ctl_options_thresholds_path(:organization_id => @current_organization), :class => 'toggle_thresholds' %>
 					<% end -%>
 				</td>
-				<td width = 650px style=" color: #000000; vertical-align:top; font-size:11px" >
+				<td style="width:89%; color: #000000; vertical-align:top; font-size:11px" >
 					<span style="color: #2061a5;;font-size:12px; font-weight:bold">
 						Strategy Threshold Monitoring
 					<br/>
@@ -256,24 +246,24 @@ jQ(document).ready(function() {
 			</tr>
 			<tr>
 			<tr>
-				<td width = 20px style=" color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
+				<td style="width:3%; color: #000000; vertical-align:middle;text-align:right; font-size:12px" >
 					&nbsp;
 				</td>
-				<td width = 70px style=" color: #000000; padding-left:25px; padding-top:10px; vertical-align:top" >
+				<td style="width:8%; color: #000000; padding-left:25px; padding-top:10px; vertical-align:top" >
 					<% if @current_organization.itl_belt_ranking? -%>
-							<%= link_to (image_tag "button_enabled.png",:width => 12), { :controller =>"apps/time_learning", :action => "toggle_belt_ranking", :organization_id => @current_organization}, :class => "toggle_belt_rank" %>
+							<%= link_to (image_tag "button_enabled.png",:width => 12), ctl_options_belts_path(:organization_id => @current_organization), :class => 'toggle_belt_rank' %>
 					<% else -%>
-							<%= link_to (image_tag "button_disabled.png",:width => 12), { :controller =>"apps/time_learning", :action => "toggle_belt_ranking", :organization_id => @current_organization}, :class => "toggle_belt_rank" %>
+							<%= link_to (image_tag "button_disabled.png",:width => 12), ctl_options_belts_path(:organization_id => @current_organization), :class => 'toggle_belt_rank' %>
 					<% end -%>
 				</td>
-				<td width = 680px style=" color: #000000; vertical-align:top; font-size:11px" >
+				<td style="width:89%; color: #000000; vertical-align:top; font-size:11px" >
 					<span style="color: #2061a5;font-size:12px; font-weight:bold">
 						Observer Proficiency Levels
 					<br/>
 					</span>	
 					<%= @current_organization.short_name %>&nbsp;can manage each teacher's ability to conduct reliably accurate observations. This is done in a non-threatening way as in Judo, where a "White Belt"
 					indicates the beginning level and a "Black Belt" is for reliably accomplished observers.
-					<table id="belt_header" style=" width:650px; margin-left:0px; font-size:11px; font-weight:normal; color:#000000;">
+					<table id="belt_header" style=" width:100%; margin-left:0px; font-size:11px; font-weight:normal; color:#000000;">
 						<tbody>  
 						<style type="text/css" media="screen">
 				    		table,tr,td { border:none; }
@@ -288,7 +278,7 @@ jQ(document).ready(function() {
 							</tr>
 						</tbody>
 					</table>
-					<table id="belt_descript" style=" width:670px; margin-left:0px; font-size:11px; font-weight:normal; color:#000000;">
+					<table id="belt_descript" style=" width:100%; margin-left:0px; font-size:11px; font-weight:normal; color:#000000;">
 						<tbody>  
 							<style type="text/css" media="screen">
 					    		table,tr,td { border:none; }
@@ -297,17 +287,17 @@ jQ(document).ready(function() {
 				      			}
 				   			</style>
 							<tr style="margin-left:00px">
-								<td  colspan=3 id="belt_hide" style=" width:fixed;  border:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  color: #000000; padding-bottom:10px; font-size:11px; text-align:left">
+								<td  colspan=3 id="belt_hide" style=" border:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  color: #000000; padding-bottom:10px; font-size:11px; text-align:left">
 									<u>Hide Levels</u>	<br/><br/>
 														Levels are managed according to practices determined by <%= @current_organization.medium_name -%>.						
 								</td>
 							</tr>
 							<% ItlBeltRank.all_colors.sort_by{|r| r.rank_score}.each do |rank| -%>
 								<tr style="margin-left:00px">
-									<td style="width:40px; width:fixed; border:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  padding-top:8px; font-size:10px; text-align:left">
+									<td style="width:7%; border:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  padding-top:8px; font-size:10px; text-align:left">
 										<%= (image_tag rank.image,:width => 30)%>
 									</td>
-									<td style="width:65px; width:fixed; border:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  padding-top:8px; font-size:10px; text-align:left">
+									<td style="width:10%; border:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  padding-top:8px; font-size:10px; text-align:left">
 										<i><%= rank.rank.titleize -%>&nbsp;Belt</i>
 									</td>
 									<td style="border:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  padding-bottom:10px; padding-top:8px; font-size:10px; text-align:left">
@@ -318,7 +308,7 @@ jQ(document).ready(function() {
 						</tbody>
 					</table>
 					This is an important <strong>Data Quality Management</strong> discipline because it allows aggregated data to be filtered by these levels, thereby insulating reliable data from the less reliable data that inexperienced observers naturally produce.<br/>
-				<br/>
+				  <br/>
 				</td>
  			</tr>
 			<tr>
@@ -328,15 +318,14 @@ jQ(document).ready(function() {
 			</tr>
 		</tbody>
 	</table>
-	<% if @current_organization.itl_belt_ranking? -%>
+	<% if !@current_organization.provider?(@current_application) -%>
 		<table id="manage_belt_ranking"   style="width:750px; margin-left:50px; color: #2061a5; ">
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close">
-	
-					<%= link_to '', :controller => "apps/time_learning", :action => :manage_belt_rankings, :organization_id => @current_organization, :app_id=> @app.id %>
-					Manage <%= app.abbrev %>&nbsp;Observer Proficiencies
-					<span></span>
+            <%= link_to '', ctl_options_belts_manage_path(:organization_id => @current_organization) %>
+            Manage <%= @current_application.abbrev %>&nbsp;Observer Proficiencies
+            <span></span>
 					</td>
 				</tr>
 			</tbody>
@@ -348,7 +337,6 @@ jQ(document).ready(function() {
 		});
 		</script>
 	<% end -%>
-
 </div>
 
 	<script type="text/javascript">
@@ -426,7 +414,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#update_window').click(function() {
 		var window = jQ('#itl_org_option_stat_window').val();
-		var url = "<%= url_for :controller => '/apps/time_learning', :action => :edit_option_window, :organization_id => @current_organization  %>";
+		var url = "<%= ctl_options_stats_window_url(:organization_id => @current_organization)  %>";
 			jQ.get(url, {'window':window}, function(data) {
 				jQ("#options_params").html(data);
 				jQ("#options_params").show();
@@ -440,7 +428,7 @@ jQ(document).ready(function() {
 	jQ('#update_sched_url').click(function() {
 		var schedule_url = jQ('#itl_org_option_schedule_url').val();
 		var schedule_label = jQ('#itl_org_option_schedule_label').val();
-		var url = "<%= url_for :controller => '/apps/time_learning', :action => :edit_schedule_url, :organization_id => @current_organization  %>";
+		var url = "<%= ctl_options_scheduling_url(:organization_id => @current_organization)  %>";
 			jQ.get(url, {'schedule_url':schedule_url, 'schedule_label':schedule_label}, function(data) {
 				jQ("#options_params").html(data);
 				jQ("#options_params").show();

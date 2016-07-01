@@ -1,31 +1,28 @@
 <div id="<%= observer.public_id%>_manage_belts">
-		
-	    <%= render :partial => "/shared/error_and_notice" %>
-	    	
+  <%= render :partial => "/shared/error_and_notice" %>
 		<table style="width:700px; margin-left:50px; color: #2061a5;">
-
 			<tbody>  
 				<% if observer.itl_belt_rank -%>
 					<tr  style="border:0px solid #ddd;" >
-						<td   width=50px style=" vertical-align:top;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; color:#2061a5; font-size:10.5px; font-weight:normal">
+						<td style=" width:7%; vertical-align:top;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; color:#2061a5; font-size:10.5px; font-weight:normal">
 							<%= observer.user_itl_belt_rank.created_at.strftime("%m-%e-%y")%>
 						</td>
-						<td   style="width:70px; width:fixed; vertical-align:middle;  padding-left:30px; padding-right:0px; padding-top:5px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
+						<td  style=" width:10%; vertical-align:middle;  padding-left:30px; padding-right:0px; padding-top:5px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:normal">
 							<%= observer.itl_belt_rank.image.empty? ? "" : (image_tag observer.itl_belt_rank.image,:width => 35)%>
 						</td>
-						<td    style="  vertical-align:top;  padding-left:2px; padding-right:0px; padding-top:0px; color: #2061a5; font-size:10.5px; font-weight:bnormal">
+						<td style=" vertical-align:top;  padding-left:2px; padding-right:0px; padding-top:0px; color: #2061a5; font-size:10.5px; font-weight:normal">
 		  					<%= observer.user_itl_belt_rank.grantor_name  %><% unless observer.user_itl_belt_rank.justification.empty? %>:&nbsp;<i><%=observer.user_itl_belt_rank.justification %></i><% end-%>
 						</td>
 					</tr>
 				<% end -%>
 				<tr  style="border:0px solid #ddd;" >
-					<td   id = "<%= observer.public_id%>_update_belt" width=50px style=" vertical-align:top;  padding-left:20px; padding-right:0px; padding-top:15px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+					<td   id = "<%= observer.public_id%>_update_belt" style=" width:7%; vertical-align:top;  padding-left:20px; padding-right:0px; padding-top:15px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
 						<%= (image_tag "add.png") -%>
 					</td>
-					<td   style="width:70px; width:fixed; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:bold">
+					<td   style=" width:10%; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:bold">
 						<%=  select(:belt, observer.id, (ItlBeltRank.all.sort_by{|b| b.rank_score}.collect{|r| [r.rank.titleize, r.id]}), :prompt => "Select Level") %>
 					</td>
-					<td    style="  vertical-align:middle;  padding-left:2px; padding-right:0px; padding-top:0px; color: #2061a5; font-size:10.5px; font-weight:bold">
+					<td    style=" vertical-align:middle;  padding-left:2px; padding-right:0px; padding-top:0px; color: #2061a5; font-size:10.5px; font-weight:bold">
 	  					<%= text_area :justify, observer.id, :rows => 2, :cols => 55, :maxlength => 455  %>
 					</td>
 				</tr>
@@ -41,10 +38,10 @@
 	   			</style>
 				<% ItlBeltRank.all_colors.sort_by{|r| r.rank_score}.each do |rank| -%>
 					<tr style="margin-left:00px">
-						<td style="width:30px; width:fixed; border:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  padding-top:5px; font-size:11px; text-align:left">
+						<td style="width:4%; border:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  padding-top:5px; font-size:11px; text-align:left">
 							<%= (image_tag rank.image,:width => 25)%>
 						</td>
-						<td style="width:60px; width:fixed; border:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  padding-top:5px; font-size:9.5px; text-align:left">
+						<td style=" width:9%; border:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  padding-top:5px; font-size:9.5px; text-align:left">
 							<i><%= rank.rank.titleize -%>&nbsp;Belt</i>
 						</td>
 						<td style="border:0px solid #ddd; vertical-align:top;  line-height: 1.5em;  padding-bottom:10px; padding-top:5px; font-size:9.5px; text-align:left">
@@ -60,7 +57,7 @@ jQ(document).ready(function() {
 		var rank = jQ('#belt_<%=observer.id%>').val();
 		var justify = jQ('#justify_<%=observer.id%>').val();
 
-		var url = "<%= url_for :controller => '/apps/time_learning', :action => :update_user_belt, :organization_id => @current_organization, :user_id=> observer, :app_id => app.id  %>";
+		var url = "<%= ctl_options_belts_user_update_url(:organization_id => @current_organization, :user_id=> observer)  %>";
 			jQ.get(url, {'rank_id':rank, 'justify':justify}, function(data) {
 			jQ("#<%= observer.public_id%>_manage_belts").html(data); 
 	   		jQ("#<%= observer.public_id%>_manage_belts").show();
@@ -68,8 +65,6 @@ jQ(document).ready(function() {
 	})
 });
 </script>
-
-
 </div>
 
 

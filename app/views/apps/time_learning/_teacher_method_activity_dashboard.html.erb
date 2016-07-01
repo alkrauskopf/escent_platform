@@ -7,7 +7,7 @@
 	<% columns.each do |idx| -%>
 		<% session_ids[idx] = sessions[idx].nil? ? nil:sessions[idx].id -%>	
 	<% end -%>
-	<table  style="width:890px; border:<%=task_border%> solid #ddd;">
+	<table  style="width:99%; border:<%=task_border%> solid #ddd;">
 		<tbody>
 			<style type="text/css" media="screen">
 	    		table,tr,td { border:medium }
@@ -16,7 +16,7 @@
       			}
    			</style>
 			<tr style="border:0px solid #ddd; background:<%=backgrnd%>;">						
-				<td style=" width:43px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:middle; font-size:9px" >
+				<td style=" width:5%; border:0px solid #ddd; color: #000000; vertical-align:middle; font-size:9px" >
 					<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
 						<% label = task_details ? "Hide" : "Show" -%>
 						<% toggle = task_details ? 0 : 1 -%>
@@ -28,7 +28,7 @@
 					<%= activity.activity %>
 				</td>	
 				<% columns.each do |idx| -%>	
-					<td  style="width:90px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:middle;text-align:center;  font-weight:<%=activity_weight%>; font-size:10px" >
+					<td  style="width:10%; border:0px solid #ddd; color: #000000; vertical-align:middle;text-align:center;  font-weight:<%=activity_weight%>; font-size:10px" >
 						<% if sessions[idx] && sessions[idx].app_methods.include?(method) && method.timed? -%>
 							<% secs = sessions[idx].tlt_dashboards.for_activity(activity).collect{|d| d.duration_secs}.sum -%>
 							<% session_duration = sessions[idx].duration -%>
@@ -69,7 +69,7 @@
 					<% if task_row -%>
 						<% hover = "<center>" + task.name + "</center>" -%>
 						<tr style="border-top:1px dashed #ddd;">
-							<td style=" width:43px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:middle; font-size:9px" >
+							<td style=" width:5%; border:0px solid #ddd; color: #000000; vertical-align:middle; font-size:9px" >
 								&nbsp;	
 							</td>
 							<td  class="tip_2_<%=group%><%=task.id%>" title= "<%= hover %>" style=" border:0px solid #ddd;  color: #000000; padding-top:4px;vertical-align:top;text-align:center; font-weight:normal; font-size:12px" >
@@ -79,7 +79,7 @@
 								<% columns.each do |idx| -%>	
 									<% if sessions[idx] && sessions[idx].app_methods.include?(method)-%>
 										<% session_duration = sessions[idx].duration -%>
-												<td style="width:90px; width:fixed; border:0px solid #ddd; color: #000000;  padding-top:4px; padding-bottom:4px; vertical-align:top;text-align:center; font-weight:normal; font-size:10px" >
+												<td style="width:10%; border:0px solid #ddd; color: #000000;  padding-top:4px; padding-bottom:4px; vertical-align:top;text-align:center; font-weight:normal; font-size:10px" >
 	
 													<% if db_task[idx] && session_duration > 0 -%>
 														 <% if method.timed? -%>
@@ -129,11 +129,9 @@
 													<% else -%>
 														&nbsp;
 													<% end -%>
-												</td>							
-
+												</td>
 <script type="text/javascript" charset="utf-8">
     	jQ(document).ready(function() {
-
     	    jQ("#dash_2_<%=group%><%=task.id%><%=idx.to_s%>").dialog({
     	            bgiframe: true,
     	            autoOpen: false,
@@ -146,25 +144,20 @@
     		                    }
     				}
         	    }
-    		);					
-			
+    		);
     		jQ('#dash_1_<%=group%><%=task.id%><%=idx.to_s%>').click(function(event){
     		    jQ("#dash_2_<%=group%><%=task.id%><%=idx.to_s%>").dialog('open');
     			 event.preventDefault();
-    		})							
-
+    		})
     });
 </script>
-						
 										<% else -%>
-											<td  style="width:90px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-weight:normal; font-size:10px" >
+											<td  style="width:10%; border:0px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-weight:normal; font-size:10px" >
 												&nbsp;
 											</td>							
 										<% end -%>
-								<% end -%>	
-	
+								<% end -%>
 						</tr>
-	
 	<script>
 	jQ(function(){
 	jQ('td.tip_2_<%=group%><%=task.id%>').qtip({
@@ -217,4 +210,3 @@ jQ(document).ready(function() {
 	})
 });
 </script>
-

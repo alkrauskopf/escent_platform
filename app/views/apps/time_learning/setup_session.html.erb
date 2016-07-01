@@ -12,7 +12,7 @@
 
 <% unless @current_organization.useable_itl_templates.empty? %>
 	<div class="Form clear">
-	  <%= form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :setup_session, :organization_id => @current_organization, :user_id => @current_user, :classroom_id => @classroom,  :period_id => @period, :teacher_id => @teacher , :practice=>@practice, :function => "Track"}) do |form| -%>
+	  <%= form_for(:tlt_session, :url => ctl_observation_add_path(:organization_id => @current_organization, :user_id => @current_user, :classroom_id => @classroom,  :period_id => @period, :teacher_id => @teacher , :practice=>@practice, :function => 'Track')) do |form| -%>
 		<div class="FormRow">
 			<br/>
 			<div class="FormRowTitle">Classroom:</div>
@@ -36,26 +36,28 @@
 	
 		<div class="FormRow"  >
 			<br/>
-			<div class="FormRowTitle">Class Duration<span style="text-align:center; font-size:9px"><br/><i>(Minutes)</i></div>
-	      	<div class="FormRowData" style= "margin-left:5px">
-	           	<%= text_field :tlt_session, :duration, :value => "", :size => 2 %> 
-	        </div>
+			<div class="FormRowTitle">Class Duration
+        <span style="text-align:center; font-size:9px"><br/><i>(Minutes)</i></span>
+      </div>
+      <div class="FormRowData" style= "margin-left:5px">
+          <%= text_field :tlt_session, :duration, :value => "", :size => 2 %>
+      </div>
 		</div>			
 		<% unless @classroom.topics.empty? -%>
 			<div class="FormRow">
 				<br/>
 				<div class="FormRowTitle">Learning Unit:</div>
-		        <div class="FormRowData" id="topic_id" style= "margin-left:5px">
-					<%=  select(:tlt_session, :topic_id, @classroom.topics.collect{|lu| [lu.title.titleize, lu.id]},{:prompt => "Select Unit"}) %>
+          <div class="FormRowData" id="topic_id" style= "margin-left:5px">
+					  <%=  select(:tlt_session, :topic_id, @classroom.topics.collect{|lu| [lu.title.titleize, lu.id]},{:prompt => "Select Unit"}) %>
 		      </div>
 		    </div>
 		<% end -%>
 		<div class="FormRow" >
 			<br/>
 			<div class="FormRowTitle">Lesson</div>
-	      	<div class="FormRowData" style= "margin-left:5px">
-	           	<%= text_field :tlt_session, :lesson, :size => 55, :maxlength => 150 %>
-	       	</div>
+        <div class="FormRowData" style= "margin-left:5px">
+            <%= text_field :tlt_session, :lesson, :size => 55, :maxlength => 150 %>
+        </div>
 		</div>
 	
 		<div class="FormRow"  >
@@ -138,7 +140,7 @@
     </div>
 		<div id="session_header">
 			<div style =" padding-left:160px; font-size:12px; font-weight:normal; cursor:pointer;">
-				<%= submit_tag (@practice ? "Begin Practice" : "Begin Observation"), :style=>"cursor:pointer", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+				<%= submit_tag (@practice ? 'Begin Practice' : 'Begin Observation'), :style=>"cursor:pointer", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
 			</div>
 		</div>
 

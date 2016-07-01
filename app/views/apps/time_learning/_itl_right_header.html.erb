@@ -8,13 +8,13 @@
    			</style>
 			<% if session.irr?%>
 				<tr style=" border:0px solid #ddd;" >
-					<td colspan=3 style="border:0x solid #ddd; vertical-align:top;  padding-top:0px; font-size:9px; text-align:center;">
+					<td colspan=3 style="border:0px solid #ddd; vertical-align:top;  padding-top:0px; font-size:9px; text-align:center;">
 						<center><%=image_tag("black_belt.png", :width => 50)%></center>
 					</td>
 				</tr>
 			<% end -%>
 			<tr style=" border:0px solid #ddd;" >
-				<td colspan=3 style="border:0x solid #ddd; line-height:1.5em; vertical-align:top;  padding-bottom:10px; font-size:16px; text-align:center; font-weight:bold; color:#C73914;">
+				<td colspan=3 style="border:0px solid #ddd; line-height:1.5em; vertical-align:top;  padding-bottom:10px; font-size:16px; text-align:center; font-weight:bold; color:#C73914;">
 					<%= session.classroom_name %>,&nbsp;<%= session.class_period_name %></br/>
 					<span style = "font-size:12px; font-weight:normal; line-height:1.2em;">
 						<%= session.session_date.strftime("%b %d, %Y") %>

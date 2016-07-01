@@ -1,14 +1,12 @@
 
 <% unless teacher.nil?%>
 	<div id ="teacher_diagnostic">
-
-
 	<% unless teacher.tlt_sessions.for_subject(subject).final.empty? || (!admin && teacher != @current_user)-%>
 		<table id="<%=teacher.public_id %><%= subject.id %>_history"   style="width:650px; color: #2061a5;">
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close">
-						<%= link_to '', :controller => "apps/time_learning", :action => :diagnostic_history, :teacher_id => teacher, :organization_id => @current_organization, :subject_area_id => subject  %>
+						<%= link_to '', ctl_reflection_diagnostics_history_path(:teacher_id => teacher, :organization_id => @current_organization, :subject_area_id => subject)  %>
 						<%= subject.name %> Reflection History
 						<span></span>
 					</td>
@@ -20,7 +18,7 @@
 			<tbody>  
 				<tr>
 					<td class="resource_levels_close">
-						<%= link_to '', :controller => "apps/time_learning", :action => :student_feedback, :teacher_id => teacher, :organization_id => @current_organization, :subject_area_id => subject  %>
+						<%= link_to '', ctl_reflection_feedback_path(:teacher_id => teacher, :organization_id => @current_organization, :subject_area_id => subject) %>
 						<%= subject.name %> Student Feedback
 						<span></span>
 					</td>

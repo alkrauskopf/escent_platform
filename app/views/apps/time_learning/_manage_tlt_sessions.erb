@@ -24,10 +24,10 @@
       <table style="width:350px;margin-left:325px">
         <tbody>
           <tr  style="border:0px solid #ddd;" >
-            <td   id = "itl_disposition" style="width:200px; width:fixed;  border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:bold">
+            <td   id = "itl_disposition" style="width:54%;  border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:bold">
               <%=  select(:itl, :tab, [["Finalized Observations",disposition[0]],["Pending Post-Conference",disposition[1]],["Practice Observations",disposition[2]]], :prompt => header.pluralize) %>
             </td>
-            <td   id = "itl_grouping" style="width:150px; width:fixed; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:bold">
+            <td   id = "itl_grouping" style="width:46%; border:0px solid #ddd;vertical-align:middle;  padding-left:10px; padding-right:0px; padding-top:2px; text-align:center; color: #2061a5; font-size:10.5px; font-weight:bold">
               <%=  select(:itl, :group, @itl_groups, :prompt => "By "+ group.titleize) %>
             </td>
           </tr>
@@ -59,7 +59,7 @@
           <% end -%>
             <tr>
               <td class="resource_levels_close">
-              <%= link_to '', :controller => "apps/time_learning", :action => :subject_tlt_sessions, :organization_id => @current_organization, :group => group, :subject_area_id => subject, :tab=> tab %>
+              <%= link_to '', ctl_backlog_path(:organization_id => @current_organization, :group => group, :subject_area_id => subject, :tab=> tab) %>
                   <strong><%= count %></strong>&nbsp;&nbsp;<%= subject.name %>
               <span></span>
               </td>
@@ -87,7 +87,7 @@
 
               <tr>
                 <td class="resource_levels_close">
-                <%= link_to '', :controller => "apps/time_learning", :action => :subject_tlt_sessions, :organization_id => @current_organization, :group => group, :user_id => user, :tab=> tab   %>
+                <%= link_to '', ctl_backlog_path(:organization_id => @current_organization, :group => group, :user_id => user, :tab=> tab)   %>
                   <strong><%= count %></strong>&nbsp;&nbsp;<%= user.last_name_first %>
                 <span></span>
                 </td>
@@ -116,7 +116,7 @@
                 <tr>
                   <td class="resource_levels_close">
 
-                  <%= link_to '', :controller => "apps/time_learning", :action => :subject_tlt_sessions, :organization_id => @current_organization, :group => group, :user_id => user, :tab=> tab %>
+                  <%= link_to '', ctl_backlog_path(:organization_id => @current_organization, :group => group, :user_id => user, :tab=> tab) %>
                   <strong><%= count%></strong>&nbsp;&nbsp;<%= user.last_name_first %>
                   <span></span>
                   </td>
@@ -146,7 +146,7 @@
                 <tr>
                   <td class="resource_levels_close">
 
-                  <%= link_to '', :controller => "apps/time_learning", :action => :subject_tlt_sessions, :organization_id => @current_organization, :group => group, :session_month => month, :tab=> tab %>
+                  <%= link_to '', ctl_backlog_path(:organization_id => @current_organization, :group => group, :session_month => month, :tab=> tab) %>
                   <strong><%= count%></strong>&nbsp;&nbsp;<%= month.strftime("%B %Y") %>
                   <span></span>
                   </td>
@@ -156,8 +156,7 @@
             </tbody>
           <% end -%>
       </table>
-    <br/>
-
+      <br/>
     </div>
   <% else -%>
     <br/>
@@ -177,7 +176,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#itl_grouping').change(function() {
 		var grouping = jQ('#itl_group').val();
-		var url = "<%= url_for :controller => '/apps/time_learning', :action => :session_history, :organization_id => @current_organization, :tab=>tab, :app_id => app.id  %>";
+		var url = "<%= ctl_history_url(:organization_id => @current_organization, :tab=>tab) %>";
 			jQ.get(url, {'grouping':grouping}, function(data) {
 			jQ("#session_history").html(data); 
 	   		jQ("#session_history").show();
@@ -189,7 +188,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#itl_disposition').change(function() {
 		var tab = jQ('#itl_tab').val();
-		var url = "<%= url_for :controller => '/apps/time_learning', :action => :session_history, :organization_id => @current_organization, :grouping=>group, :app_id => app.id  %>";
+		var url = "<%= ctl_history_url(:organization_id => @current_organization, :grouping=>group) %>";
 			jQ.get(url, {'tab':tab}, function(data) {
 			jQ("#session_history").html(data); 
 	   		jQ("#session_history").show();

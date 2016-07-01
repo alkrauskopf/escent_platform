@@ -1,4 +1,4 @@
-class Apps::PanelController < ApplicationController
+class Apps::PanelController < Apps::TimeLearningController
 
   helper :all # include all helpers, all the time  
   layout "observation_panel"
@@ -124,7 +124,7 @@ class Apps::PanelController < ApplicationController
 
    private
 
-  def ctl_allowed?
+  def xctl_allowed?
     @current_application = CoopApp.ctl
     current_app_enabled_for_current_org?
   end

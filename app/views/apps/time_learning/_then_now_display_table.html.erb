@@ -7,17 +7,17 @@
 	</style>
 	<%  table.each do |row| -%>
 		<tr  style="margin-left:00px">
-			<td  style="width:10px; width:fixed; border-top:1px solid #ddd; border-left:1px solid #ddd; background-color: <%=background%>;  vertical-align:middle;  line-height: 1.75em; font-weight:<%=font_weight%>; color:<%=color%>; padding-right:0px; font-size:11px; text-align:center">
+			<td  style="width:1%; border-top:1px solid #ddd; border-left:1px solid #ddd; background-color: <%=background%>;  vertical-align:middle;  line-height: 1.75em; font-weight:<%=font_weight%>; color:<%=color%>; padding-right:0px; font-size:11px; text-align:center">
 				<%=row[1]%>%			
 			</td>
-			<td  style="width:300px; width:fixed; border-bottom:1px solid #ddd; border-right:1px solid #ddd; background-color: <%=background%>; vertical-align:middle;  line-height: 1.750em; color:#2061a5; padding-top:0px; font-size:11px; text-align:center">
-				<table style=" width:300px; width:fixed; border:0px solid #ddd; font-size:11px; font-weight:normal; color:#000000;">
+			<td  style="width:37%; border-bottom:1px solid #ddd; border-right:1px solid #ddd; background-color: <%=background%>; vertical-align:middle;  line-height: 1.750em; color:#2061a5; padding-top:0px; font-size:11px; text-align:center">
+				<table style=" width:100%; border:0px solid #ddd; font-size:11px; font-weight:normal; color:#000000;">
 					<tbody>				
 						<tr  style="margin-left:00px">
 							<% ridx = 1 -%>
 							<% until ridx > 30 -%>
 								<% color_key = ridx > (30-row[3]) ? row[5]: background%>
-								<td  style=" width:7px; width:fixed; border-bottom:1px solid <%=background%>; line-height: 5.750em; font-size:2px; background-color:<%=color_key %>; padding-right:0px; text-align:right">
+								<td  style=" width:2%; border-bottom:1px solid <%=background%>; line-height: 5.750em; font-size:2px; background-color:<%=color_key %>; padding-right:0px; text-align:right">
 									&nbsp;
 								</td>
 								<% ridx += 1 -%>
@@ -27,7 +27,7 @@
 							<% ridx = 1 -%>
 							<% until ridx > 30 -%>
 								<% color_key = ridx > (30-row[3]) ? row[6]: background%>
-								<td  style=" width:7px; width:fixed;  border-bottom:3px solid <%=background%>; line-height: 5.750em; font-size:2px; background-color:<%=color_key %>; padding-right:0px; text-align:right">
+								<td  style=" width:2%;  border-bottom:3px solid <%=background%>; line-height: 5.750em; font-size:2px; background-color:<%=color_key %>; padding-right:0px; text-align:right">
 									&nbsp;
 								</td>
 								<% ridx += 1 -%>
@@ -36,18 +36,17 @@
 					</tbody>
 				</table>
 			</td>
-
-			<td  style="width:200px; width:fixed; border:1px solid #ddd; background-color: <%=background%>; vertical-align:middle;  line-height: 1.750em; font-weight:<%=font_weight%>; color:<%=color%>; padding-top:0px; font-size:11px; text-align:center">
+			<td  style="width:24%; border:1px solid #ddd; background-color: <%=background%>; vertical-align:middle;  line-height: 1.750em; font-weight:<%=font_weight%>; color:<%=color%>; padding-top:0px; font-size:11px; text-align:center">
 				<%= row[0] %>				
 			</td>
-			<td  style="width:300px; width:fixed; border-bottom:1px solid #ddd; border-right:0px solid #ddd; background-color: <%=background%>; vertical-align:middle;  line-height: 1.750em; color:#2061a5; padding-top:0px; font-size:11px; text-align:center">
-				<table style=" width:300px; width:fixed; border:0px solid #ddd; font-size:11px; font-weight:normal; color:#000000;">
+			<td  style="width:37%; border-bottom:1px solid #ddd; border-right:0px solid #ddd; background-color: <%=background%>; vertical-align:middle;  line-height: 1.750em; color:#2061a5; padding-top:0px; font-size:11px; text-align:center">
+				<table style=" width:100%; border:0px solid #ddd; font-size:11px; font-weight:normal; color:#000000;">
 					<tbody>				
 						<tr  style="margin-left:00px">
 							<% ridx = 1 -%>
 							<% until ridx > 30 -%>
 								<% color_key = ridx <= row[4] ? row[5]: background%>
-								<td  style=" width:7px; width:fixed; border-bottom:1px solid <%=background%>; line-height: 5.750em; font-size:2px; background-color:<%=color_key %>; padding-right:0px; text-align:right">
+								<td  style=" width:2%; border-bottom:1px solid <%=background%>; line-height: 5.750em; font-size:2px; background-color:<%=color_key %>; padding-right:0px; text-align:right">
 									&nbsp;
 								</td>
 								<% ridx += 1 -%>
@@ -57,7 +56,7 @@
 							<% ridx = 1 -%>
 							<% until ridx > 30 -%>
 								<% color_key = ridx <= row[4] ? row[7]: background%>
-								<td  style=" width:7px; width:fixed;  border-bottom:3px solid <%=background%>; line-height: 5.750em; font-size:2px; background-color:<%=color_key %>; padding-right:0px; text-align:right">
+								<td  style=" width:2%; border-bottom:3px solid <%=background%>; line-height: 5.750em; font-size:2px; background-color:<%=color_key %>; padding-right:0px; text-align:right">
 									&nbsp;
 								</td>
 								<% ridx += 1 -%>
@@ -66,7 +65,7 @@
 					</tbody>
 				</table>
 			</td>
-			<td  style="width:10px; width:fixed; border-top:1px solid #ddd; border-left:0px solid #ddd; background-color: <%=background%>;   vertical-align:middle;  line-height: 1.75em; font-weight:<%=font_weight%>; color:<%=color%>; padding-right:0px; font-size:11px; text-align:center">
+			<td  style="width:1%; border-top:1px solid #ddd; border-left:0px solid #ddd; background-color: <%=background%>;   vertical-align:middle;  line-height: 1.75em; font-weight:<%=font_weight%>; color:<%=color%>; padding-right:0px; font-size:11px; text-align:center">
 				<%=row[2]%>%				
 			</td>
 		</tr>	

@@ -154,7 +154,7 @@
 	   	</div>
 	<% end -%>
 	<div id="tabs-3" class="favorite_organizations" style="width:900px">
-	  <%= render :partial => "/apps/staff_develop/list_resources", :locals => {:admin => @admin, :app => @app} %>
+	  <%= render :partial => "/apps/staff_develop/list_resources", :locals => {:admin => @admin} %>
    	</div>
  	<% if @current_user.pd_authorized?(@current_organization) || @current_user.pd_coach_for?(@current_organization)-%>
 		<div id="tabs-6" class="favorite_organizations" style="width:900px">

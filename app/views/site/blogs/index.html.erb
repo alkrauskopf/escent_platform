@@ -1,7 +1,7 @@
 <div class="blog_box_warp">
 	<%= image_tag "peace-blog-hdr-soft.jpg", :alt => 'Day of peace' %>
 	
-	<div style="position: relative;background-image:url('/images/BLOGGINFORPEACE.jpg');width:950px;height:176px;">
+	<div style="position: relative;background-image:url(<%= asset_path('BLOGGINFORPEACE.jpg') %>);width:950px;height:176px;">
 	 <%= link_to "Escent Partners", "http://www.escentpartners.com", :target => "blank", :style => "text-indent:-999em;outline:none;position:absolute; top:0; left:0; width:170px;height:80px;cursor:pointer" %>
 	</div>
 

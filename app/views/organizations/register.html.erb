@@ -6,13 +6,13 @@
 	<! -- Registration Form -->
 	<p style="color:#c73914; text-align:right;">* Required Field</p><br /> <br />
 	<%= render :partial => "/shared/error_and_notice" %>
-  <% form_tag({:controller => "/organizations", :action => :update_profile, :organization_id => @organization}) do %>
+  <%= form_tag({:controller => "/organizations", :action => :update_profile, :organization_id => @organization}) do %>
       <%= render(:partial => "/organizations/profile") %>
       <br style="clear:both" />
       <%= submit_tag "Save" %>
   <% end -%>
 
-	<% form_tag :action => :register do %>
+	<%= form_tag :action => :register do %>
 		<div style="width:600px; text-align:right;">
 			<%= render :partial => "profile" %>
 		</div>

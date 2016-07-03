@@ -244,7 +244,7 @@ class UsersController < ApplicationController
     session.delete(:user_id)
     session[:viewed] = nil
     flash[:notice] = 'Logged out'
-    redirect_to :controller => "site/site", :action => "static_organization", :organization_id => return_org
+    redirect_to organization_view_path(:organization_id => return_org)
   end
   
   def add_this_organization
@@ -343,7 +343,7 @@ end
         UserMailer.reset_password(user, new_pass, request.host_with_port).deliver
         flash[:notice]  = ("New password sent to <strong>" + user.preferred_email + "</strong>. Give it a few minutes. Check SPAM.").html_safe
       else
-        flash[:error]  = Couldn't Generate Password. Correct ID?' + params[:user][:email_address].to_s
+        flash[:error]  = 'Could Not Generate Password. Correct ID?' + params[:user][:email_address].to_s
       end
     @user = user
     end

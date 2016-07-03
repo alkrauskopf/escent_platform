@@ -21,7 +21,7 @@
 <script type="text/javascript">
 	jQ(document).ready(function() {
 		jQ(".section_selector").segmentedControl();
-		jQ("#keywords").autocomplete("<%= url_for :controller => '/site/site', :action => :keywords_autocomplete, :organization_id => @current_organization %>", 
+		jQ("#keywords").autocomplete("<%= search_autocomplete_path(:organization_id => @current_organization) %>",
 			{extraParams : {
 				search_type : '<%= @search_type %>',
 				search_field : function() { var search_field_value;
@@ -43,7 +43,7 @@
 </script>
 <div id="search_section_selector_option" style=" margin-left:350px; width:550 px; font-weight:normal; text-align:center;">
 <br/>
-	<% form_tag({:action => :search, :organization_id => @current_organization}, :method => :get) do -%>
+	<%= form_tag({:action => :search, :organization_id => @current_organization}, :method => :get) do -%>
 		<% for search_field in @search_fields do -%>
 			<span><%= radio_button_tag "search_field", search_field, @search_field == search_field %> <%= search_field %></span>
 		<% end -%>
@@ -52,7 +52,7 @@
 		<!-- ALK: Reset search field to "nil" so previous search criteria doesn't remain. -->
 		<%= text_field_tag "keywords", @keywords, :value => nil, :class => "text", :size => 25 %>
 
-		<input type="submit" style="background:url(/images/searchbutton.png) top left no-repeat; width:80px; height:25px; border:0;" name="" value="" />
+		<input type="submit" style="background:url(<%= asset_path('searchbutton.png') %>) top left no-repeat; width:80px; height:25px; border:0;" name="" value="" />
       <br style="clear:both" />
       <!-- Eliminate Search Results Filters for now
       <%#= render :partial => "search_filters" %>

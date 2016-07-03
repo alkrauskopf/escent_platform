@@ -22,7 +22,7 @@ class TltSession < ActiveRecord::Base
   has_many :survey_schedules, :as => :entity, :dependent => :destroy  
 
   scope :final, :conditions => { :is_final => true}
-  scope :open, :conditions => { :is_final => false}
+  scope :opened, :conditions => { :is_final => false}
   scope :backlog, :conditions => { :is_final => false}
   scope :observer_done, :conditions => { :is_observer_done => true}
   scope :teacher_done, :conditions => { :is_teacher_done => true}

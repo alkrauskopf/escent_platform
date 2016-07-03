@@ -40,7 +40,7 @@ jQ(document).ready(function() {
 							<%=  select(:xfer_org, org.id, (org.provided_app_orgs(app,false)).sort_by{|o| o.name}.collect{|o| [truncate(o.medium_name, :omission => "...", :length => 18), o.id]}, :prompt => "Transfer To Org") %>				
 						</td>
 						<td  style="width:50%; color:#000000; font-weight:normal; font-size:12px; padding-left:0px; padding-bottom:0px;">
-							<%=  select(:xfer_cycle, org.id, (framework.elt_cycles.all).sort_by{|c| c.name}.collect{|c| [truncate(c.name, :omission => "...", :length => 18), c.id]}, :prompt => "Transfer To Cycle") %>
+							<%=  select(:xfer_cycle, org.id, (framework.elt_cycles.available).sort_by{|c| c.name}.collect{|c| [truncate(c.name, :omission => "...", :length => 18), c.id]}, :prompt => "Transfer To Cycle") %>
 						</td>
 					</tr>
 				</tbody>

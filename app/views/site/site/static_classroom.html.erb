@@ -166,12 +166,12 @@
                 <% if @classroom.viewable_by?(@current_user)-%>
                   <table class="tablesorter" style = "margin-left:5px">
                     <tbody>
-                      <% for topic in @classroom.reference_topics do -%>
+                      <% for topic in @classroom.referenced_topics do -%>
                         <% unless topic.nil? -%>
                           <tr>
                             <td width = 25% style=" font-size:9px; vertical-align:middle; padding-left: 0px; padding-top:0px; padding-bottom:5px">
                               <% if topic.classroom.organization.logo.file? %>
-                                <%= image_tag topic.classroom.organization.logo.url, :small_thumb %>
+                                <%= image_tag topic.classroom.organization.logo.url(:small_thumb) %>
                               <% end %>
                             </td>
                             <td width = 75% style="font-size:10px;vertical-align:middle; line-height:1.2em;padding-bottom:10px">

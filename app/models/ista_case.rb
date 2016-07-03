@@ -17,7 +17,7 @@ class IstaCase < ActiveRecord::Base
   scope :active, :conditions => ["is_active"], :order => 'final_date DESC'
   scope :final, :conditions => ["is_final"], :order => 'final_date DESC'
   scope :archived, :conditions => ["is_archived"], :order => 'final_date DESC'
-  scope :open, :conditions => ["!is_final"], :order => 'created_at DESC'
+  scope :opened, :conditions => ["!is_final"], :order => 'created_at DESC'
   scope :last_first, :order => 'created_at DESC'
   
   def final?

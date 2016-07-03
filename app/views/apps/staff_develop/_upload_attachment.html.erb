@@ -1,5 +1,5 @@
 
-<% form_tag({:controller => "apps/staff_develop", :action => :submit_attachment, :organization_id => @current_organization, :plan_id => @plan, :teacher_id => @plan.user}, :multipart => true) do -%>
+<%= form_tag({:controller => "apps/staff_develop", :action => :submit_attachment, :organization_id => @current_organization, :plan_id => @plan, :teacher_id => @plan.user}, :multipart => true) do -%>
 <% attach_label = @plan.preferences(@current_organization).attach_label == "" ? "Document": @plan.preferences(@current_organization).attach_label %>
 <% show_label = @plan.attach_file_name.nil? ? "Upload " +  attach_label  : "Replace"-%>
 

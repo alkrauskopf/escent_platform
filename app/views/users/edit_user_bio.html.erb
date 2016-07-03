@@ -1,7 +1,7 @@
 <div id="mainContent">
   <h3>User Bio Update</h3>
   <% if @user -%>
-    <% form_tag(user_bio_edit_path(:organization_id => @current_organization, :user_id => @user, :update => 'Update')) do -%>
+    <%= form_tag(user_bio_edit_path(:organization_id => @current_organization, :user_id => @user, :update => 'Update')) do -%>
       <br style="clear:both" />
       <%= render :partial => "users/user_bio", :locals=>{:user => @user, :bio=> @bio, :function=>'Update'} %>
       <div class="FormRow">

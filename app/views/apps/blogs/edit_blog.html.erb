@@ -6,7 +6,7 @@
 	<br/>
 </div>
 	<%= render :partial => "/shared/error_and_notice" %>
-	<% form_tag(blog_admin_blog_image_add_path(:organization_id => @current_organization, :blog_id => @blog.public_id,  :user_id => @current_user, :function => "Update"), :multipart => true) do -%>
+	<%= form_tag(blog_admin_blog_image_add_path(:organization_id => @current_organization, :blog_id => @blog.public_id,  :user_id => @current_user, :function => "Update"), :multipart => true) do -%>
 	<div class="FormRow">
 		<div class="FormRowTitle">Optional Image or Flash</div>
         <div class="FormRowData" style= "margin-left:25px">
@@ -20,7 +20,7 @@
 	</div>
   <% end -%>
 	<% unless @blog.picture_file_name.nil? %>
-		<% form_tag(blog_admin_blog_image_remove_path(:organization_id => @current_organization, :blog_id => @blog.public_id, :user_id => @current_user, :function => "Remove")) do -%>
+		<%= form_tag(blog_admin_blog_image_remove_path(:organization_id => @current_organization, :blog_id => @blog.public_id, :user_id => @current_user, :function => "Remove")) do -%>
 		<div class="FormRow">
 	        <div class="FormRowData" style= "margin-left:305px">
 			<%= submit_tag 'Remove File', :class => "fsn-button ui-button ui-state-default ui-corner-all", :onclick => "this.form.submit();"%>

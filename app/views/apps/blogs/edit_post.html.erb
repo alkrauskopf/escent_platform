@@ -3,7 +3,7 @@
 		<div class="mempro_box">	
 			<h3>Update Blog Post</h3>
 
-	<% form_tag(blog_admin_post_image_add_path(:organization_id => @current_organization, :blog_id => @blog.public_id, :blog_post_id => @blog_post.public_id , :user_id => @current_user, :function => "Update"), :multipart => true) do -%>
+	<%= form_tag(blog_admin_post_image_add_path(:organization_id => @current_organization, :blog_id => @blog.public_id, :blog_post_id => @blog_post.public_id , :user_id => @current_user, :function => "Update"), :multipart => true) do -%>
 	<div class="FormRow">
 		<div class="FormRowTitle">Optional Image or Flash</div>
         <div class="FormRowData" style= "margin-left:0px">
@@ -17,7 +17,7 @@
 	</div>
   <% end -%>
 	<% unless @blog_post.picture_file_name.nil? %>
-		<% form_tag(blog_admin_post_image_remove_path(:organization_id => @current_organization, :blog_id => @blog.public_id, :blog_post_id => @blog_post.public_id , :user_id => @current_user, :function => 'Remove')) do -%>
+		<%= form_tag(blog_admin_post_image_remove_path(:organization_id => @current_organization, :blog_id => @blog.public_id, :blog_post_id => @blog_post.public_id , :user_id => @current_user, :function => 'Remove')) do -%>
 		<div class="FormRow">
 	        <div class="FormRowData" style= "margin-left:205px">
 			<%= submit_tag 'Remove Image', :class => "fsn-button ui-button ui-state-default ui-corner-all", :onclick => "this.form.submit();"%>

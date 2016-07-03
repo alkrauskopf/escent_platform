@@ -32,7 +32,7 @@
 			<% end -%>	
 	
 		<% else -%>	
-			<% @current_organization.elt_cycles.all.active.each do |cycl| -%>
+			<% @current_organization.elt_cycles.available.active.each do |cycl| -%>
 				<div style ="color: #2061a5; font-size:14px; margin-top:15px; margin-left:0px; font-weight:normal; border:0px solid #ddd;"> 
 					<%= render :partial => "/apps/learning_time/list_cycle_schools", :locals=>{:org=>@current_organization, :cycl=>cycl} %>
 				</div>

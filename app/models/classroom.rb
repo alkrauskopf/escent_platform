@@ -52,7 +52,7 @@ class Classroom < ActiveRecord::Base
   
   scope :on_subject, lambda{|subject| {:conditions => ["subject_area_id = ? ", subject.id], :order => "course_name"}}
   scope :active, :conditions => ["status = ? ", "active"], :order => "course_name"
-  scope :open, :conditions => ["is_open = ? ", true]
+  scope :opened, :conditions => ["is_open = ? ", true]
   scope :closed, :conditions => ["is_open = ? ", false]
   scope :with_authorization, lambda{|user,auth| {:include => "authorizations", :conditions => ['authorizations.user_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ?', user.id, 'Classroom', auth.id], :order => 'course_name'}}
  

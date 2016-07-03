@@ -26,12 +26,12 @@
 					&nbsp;
 				</th>
 				<th  colspan=2 style=" border:0px solid #ddd; font-size:12px; text-align:left; ">
-					<%= pluralize(framework.elt_cycles.all.size, framework.name + " Cycle") %>
+					<%= pluralize(framework.elt_cycles.available.size, framework.name + " Cycle") %>
 				</th>
 			</tr>
 		</thead>
 		<tbody>  
-			<% framework.elt_cycles.all.each do |cycle| -%>
+			<% framework.elt_cycles.available.each do |cycle| -%>
 				<% button_label = cycle.active? ? "button_enabled.png" : "button_disabled.png"-%>
 				<tr style="border:1px solid #ddd; ">
 					<td id="toggle_active_<%= cycle.public_id %>" style=" width:5%; cursor:pointer; padding-left:10px; padding-top:8px; vertical-align:top" >

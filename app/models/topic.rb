@@ -31,7 +31,7 @@ class Topic < ActiveRecord::Base
   scope :estimated_active,  :conditions => ["estimated_end_date >= ?", Time.now], :order => "title"
   scope :estimated_closed,  :conditions => ["estimated_end_date <= ?", Time.now], :order => "title"
   scope :searchable, :conditions => {:searchable => true}
-  scope :open,  :conditions => ["is_open = ?", true], :order => "estimated_start_date"
+  scope :opened,  :conditions => ['is_open = ?', true], :order => 'estimated_start_date'
 
   validates_presence_of :title
   validates_presence_of :estimated_start_date, :message => "Please Define An Estimated Start & End Date."
@@ -65,7 +65,11 @@ class Topic < ActiveRecord::Base
     order_by = (options[:order] || "title")    
     {:conditions => conditions, :include => :organization, :order => order_by}
   }
- 
+
+  def self.open
+ #   where('is_open')
+  end
+
   def sequence_resources(folder)
     resources = folder.nil? ? self.topic_contents.unfoldered.sort_by{|tc|tc.position} : self.topic_contents.for_folder(folder).sort_by{|tc|tc.position}
     resources.each_with_index do |rsrc,idx|

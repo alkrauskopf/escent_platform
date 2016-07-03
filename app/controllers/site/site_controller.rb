@@ -18,7 +18,7 @@ class Site::SiteController < Site::ApplicationController
     unless @current_organization.default?
     initialize_std_parameters
     else
-      redirect_to  :controller => "//fsn", :action => "index"
+      redirect_to  root_path
     end
   end
   

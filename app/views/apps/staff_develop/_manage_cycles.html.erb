@@ -14,7 +14,7 @@
 			<tbody>  
 				<tr>
 					<td  style="border:0px solid #ddd; vertical-align:middle;  padding-left:390px; padding-bottom:0px; color:#1b5698; text-align:center; font-weight:normal; font-size:9.5px">
-						<% form_tag(:controller =>"apps/staff_develop", :action => "start_plan", :organization_id => @current_organization, :teacher_id => teacher) do -%>
+						<%= form_tag(:controller =>"apps/staff_develop", :action => "start_plan", :organization_id => @current_organization, :teacher_id => teacher) do -%>
 						<br/>
 						<%= submit_tag "Start A Plan", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
 						<% end -%>

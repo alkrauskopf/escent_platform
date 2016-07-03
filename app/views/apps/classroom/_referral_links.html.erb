@@ -21,21 +21,27 @@
 		   			</style>
 					<tbody>  
 						<% @current_user.favorite_classrooms.each do |clsrm| -%>
-							<% unless (clsrm.topics.open - offering.referenced_topics).compact.empty?%>
+							<% if clsrm.open? && clsrm.active? && (!clsrm.topics.empty?)%>
 								<tr style="border:1px solid #ddd;">
 									<td style="width:34%;; border:0px solid #ddd; line-height:1.3em; text-align:right; vertical-align:top; padding-top:8px; font-size:12px; font-weight:normal; padding-right:0px; color: #2061a5;">
-										<%= clsrm.course_name.upcase + (clsrm.organization ? ("<br/>" + clsrm.organization.medium_name) : "")%>
-									</td>
+										<%= (clsrm.course_name.upcase + (clsrm.organization ? ("<br/>" + clsrm.organization.medium_name) : '')).html_safe%>
+                  </td>
 									<td style="width:66%; border:0px solid #ddd; line-height:1.3em; text-align:left; vertical-align:top; padding-top:0px; font-size:12px; font-weight:normal; padding-right:0px; color: #2061a5;">
 										<table style="width:100%;">
 											<tbody>
-												<% (clsrm.topics.open - offering.referenced_topics).compact.each do |lu| -%>
-													<tr>										
-														<td   id="add_referral_<%=lu.public_id%>" style="width:11%; border:0px solid white; font-size:11px; padding-top:0px; padding-left:15px; cursor:pointer; vertical-align:top;">
-															<%= image_tag "add.png" %>
-														</td>
+												<% clsrm.topics.compact.each do |lu| -%>
+													<tr>
+                            <% if !offering.referenced_topics.include?(lu) %>
+                              <td id="add_referral_<%=lu.public_id%>" style="width:11%; border:0px solid white; font-size:11px; padding-top:0px; padding-left:15px; cursor:pointer; vertical-align:top;">
+                                <%= image_tag "add.png" %>
+                              </td>
+                            <% else %>
+                              <td style="width:11%; border:0px solid white; text-align:center; font-size:9px; padding-top:0px; padding-left:15px; cursor:pointer; vertical-align:top;">
+                                -
+                              </td>
+                            <% end %>
 														<td   style=" border:0px solid white; font-size:12px; padding-bottom:10px; padding-left:0px; line-height:1.3em; vertical-align:top; text-align:left; color: #000000;font-weight:normal;">
-															<u><%= clsrm.organization ? (link_to lu.title.titleize,{:controller => "site/site", :action => "static_classroom", :organization_id => clsrm.organization, :topic_id => lu, :id => clsrm}, {:target => "_blank"}) : "" %></u>
+															<u><%= clsrm.organization ? (link_to lu.title.titleize, offering_view_path(:organization_id => clsrm.organization, :topic_id => lu, :id => clsrm), {:target => '_blank'}) : "" %></u>
 															<br/><%= clsrm.leaders.collect{|l| l.last_name}.join("/") %>
 														</td>													
 													</tr>

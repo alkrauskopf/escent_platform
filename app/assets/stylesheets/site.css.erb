@@ -135,7 +135,7 @@ body
 
 .FSNMasterWrapper #MasterNavPane 
 	{
-		background:url(/images/hfshim.jpg) repeat-x top left;
+		background:url(<%= asset_path('hfshim.jpg') %>) repeat-x top left;
 		background-color:#BBDDFF;
 		color:#9B0B56;
 		display:inline-block; 
@@ -226,7 +226,7 @@ padding-bottom:10px;
 /*-- Input Elements --*/
 input.text {
   border: none;
-  background: url('/images/bg_input_field_shadow.gif') top left no-repeat;
+  background: url(<%= asset_path('bg_input_field_shadow.gif') %>) top left no-repeat;
   overflow: hidden;
   height: 15px;
   margin-top: -2px;

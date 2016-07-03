@@ -13,7 +13,7 @@ label { font-size: 11px; float: left; padding-right: 3px; line-height: 1.8em; }
 input              { float: left; }
 input.text {
   border: none;
-  background: url('/images/bg_input_field_shadow.gif') top left no-repeat;
+  background: url(<%= asset_path('bg_input_field_shadow.gif') %>) top left no-repeat;
   overflow: hidden;
   height: 15px;
   margin-top: -2px;
@@ -29,13 +29,13 @@ input.text {
 .share_pilot_feedback_login input.disabled_email,
 .discussion_root_login input.disabled_email,
 .discussion_reply_login input.disabled_email {
-  background-image: url('/images/bg_input_field_disabled_email_shadow.gif');
+  background-image: url(<%= asset_path('bg_input_field_disabled_email_shadow.gif') %>);
 }
 .share_content_login input.disabled_password,
 .share_pilot_feedback_login input.disabled_password,
 .discussion_root_login input.disabled_password,
 .discussion_reply_login input.disabled_password { 
-	background-image: url('/images/bg_input_field_disabled_password_shadow.gif');
+	background-image: url(<%= asset_path('bg_input_field_disabled_password_shadow.gif') %>);
 }
 
 input#keywords { margin-top: 2px; }

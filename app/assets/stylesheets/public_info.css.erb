@@ -19,7 +19,7 @@
 #sideContent { float: left; margin-left: 20px; padding-top: 50px; }
 input.text { width: 138px; margin-top: 2px; }
 input.search_submit { width:41px; height:30px; }
-input.search_submit { background:url(/images/button_go_blue.png) no-repeat top left; border: none; }
+input.search_submit { background:url(<%= asset_path('button_go_blue.png') %>) no-repeat top left; border: none; }
 .title_find img { margin-left: 70px; }	
 #sideContent { width: 225px; }
 #search { padding-bottom: 10px; border-bottom: 1px dashed #999; }
@@ -30,7 +30,7 @@ input.search_submit { background:url(/images/button_go_blue.png) no-repeat top l
 .keyword_warp { padding-top: 10px; padding-left: 10px; }
 .title_visit img { margin: 10px 0 0 10px; }
 #visit ul li { 
-	background:url(/images/bullet_grey.gif) no-repeat center left;
+	background:url(<%= asset_path('bullet_grey.gif') %>) no-repeat center left;
 	padding-left: 15px; font-size: 13px;
 }
 

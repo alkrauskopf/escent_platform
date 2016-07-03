@@ -12,8 +12,8 @@ width:950px;
 	margin-bottom:10px;
 */
 
-@import url("blue/style.css");
-@import url("application.css");
+@import url(<%= asset_path('blue/style.css.erb') %>);
+@import url(<%= asset_path('application.css.erb') %>);
 
 
 .header a{
@@ -115,12 +115,12 @@ a img {
 
 body {
   line-height: 13px;
-  background: #999999 url('/images/bg_main_dots_gradient.jpg') top left repeat-x;
+  background: #999999 url(<%= asset_path('bg_main_dots_gradient.jpg') %>) top left repeat-x;
   text-align: center;
 }
 
 .header {
-  background: url('/images/bg_nav_header.jpg') top left repeat-x;
+  background: url(<%= asset_path('bg_nav_header.jpg') %>) top left repeat-x;
   height: 43px;
   width: 100%;
   text-align: center;
@@ -155,12 +155,12 @@ body {
   width: 935px;
   padding: 0 10px 0 10px;
   margin: 0 auto;
-  background: transparent url('/images/bg_main_container_shadow.png') top left repeat-y;
+  background: transparent url(<%= asset_path('bg_main_container_shadow.png') %>) top left repeat-y;
   text-align: left;
 }
 
 #container #home_header {
-	background: transparent url(/images/header_public_member_layout.jpg) no-repeat scroll left top;
+	background: transparent url(<%= asset_path('header_public_member_layout.jpg') %>) no-repeat scroll left top;
 	height: 176px;
 	position: relative;
 	width:915px;	
@@ -179,7 +179,7 @@ body {
   left: 50px;
   width:246px;
   height:55px;
-  background:url(/images/EP_logo.png) no-repeat top left;
+  background:url(<%= asset_path('EP_logo.png') %>) no-repeat top left;
   text-indent:-9999px;
 }
 
@@ -187,12 +187,12 @@ body {
   width: 935px;
   padding: 0 10px 0 10px;
   margin: 0 auto;
-  background: transparent url('/images/bg_main_container_shadow.png') top left repeat-y;
+  background: transparent url(<%= asset_path('bg_main_container_shadow.png') %>) top left repeat-y;
   text-align: left;
 }
 
 #container_ep #home_header {
-	background: transparent url(/images/header_public_member_layout.jpg) no-repeat scroll left top;
+	background: transparent url(<%= asset_path('header_public_member_layout.jpg') %>) no-repeat scroll left top;
 	height: 176px;
 	position: relative;
 	width:915px;	
@@ -211,13 +211,13 @@ body {
   left: 50px;
   width:246px;
   height:55px;
-  background:url(/images/EP_logo.png) no-repeat top left;
+  background:url(<%= asset_path('EP_logo.png') %>) no-repeat top left;
   text-indent:-9999px;
 }
 
 
 h1#congregation_header {
-	background: url('/images/header_congregation.jpg') top left no-repeat;
+	background: url(<%= asset_path('header_congregation.jpg') %>) top left no-repeat;
 	text-indent:-999px;
 	margin-bottom:17px;
 	padding-bottom:8px;
@@ -253,41 +253,41 @@ height:45px;
 #sidebar_nav #congregations a {
 width:203px;
 height:45px;
-background:#ffffff url(/images/sidebar_nav_bg.jpg) no-repeat -29px 0;
+background:#ffffff url(<%= asset_path('sidebar_nav_bg.jpg') %>) no-repeat -29px 0;
 }
 
 #sidebar_nav #congregations a:hover, #sidebar_nav #congregations a.active {
 width:234px;
 height:45px;
-background:#ffffff url(/images/sidebar_nav_bg.jpg) no-repeat 0 0;
+background:#ffffff url(<%= asset_path('sidebar_nav_bg.jpg') %>) no-repeat 0 0;
 }
 
 #sidebar_nav #individual a {
 width:203px;
 height:45px;
 margin-top:0;
-background: #ffffff url(/images/sidebar_nav_bg.jpg) no-repeat -29px -45px;
+background: #ffffff url(<%= asset_path('sidebar_nav_bg.jpg') %>) no-repeat -29px -45px;
 }
 
 #sidebar_nav #individual a:hover, #sidebar_nav #individual a.active {
 width:234px;
 height:45px;
 margin-top:0;
-background:#ffffff url(/images/sidebar_nav_bg.jpg) no-repeat 0 -45px;
+background:#ffffff url(<%= asset_path('sidebar_nav_bg.jpg') %>) no-repeat 0 -45px;
 }
 
 #sidebar_nav #solution a {
 width:203px;
 height:45px;
 margin-top:5px;
-background:#ffffff url(/images/sidebar_nav_bg.jpg) no-repeat -29px -99px;
+background:#ffffff url(<%= asset_path('sidebar_nav_bg.jpg') %>) no-repeat -29px -99px;
 }
 
 #sidebar_nav #solution a:hover,#sidebar_nav #solution a.active {
 width:234px;
 height:45px;
 margin-top:5px;
-background:#ffffff url(/images/sidebar_nav_bg.jpg) no-repeat 0 -99px;
+background:#ffffff url(<%= asset_path('sidebar_nav_bg.jpg') %>) no-repeat 0 -99px;
 }
 
 #sidebar #search {
@@ -296,7 +296,7 @@ background:#ffffff url(/images/sidebar_nav_bg.jpg) no-repeat 0 -99px;
   padding: 10px 0 20px;
   margin:50px 12px 0;
 	clear:left;
-  background:url('/images/dotted_border_horizontal.jpg') repeat-x bottom left;
+  background:url(<%= asset_path('dotted_border_horizontal.jpg') %>) repeat-x bottom left;
 }
 
 #sidebar #search h2 {
@@ -323,7 +323,7 @@ background:#ffffff url(/images/sidebar_nav_bg.jpg) no-repeat 0 -99px;
 #sidebar #search form button.go {
 	text-indent: -9999px;
             border: none;
-                background: url('/images/fsn_home/button_go_blue.png') top left no-repeat;
+                background: url(<%= asset_path('fsn_home/button_go_blue.png') %>) top left no-repeat;
                 width: 41px;
                 height: 30px;
                 position: relative;
@@ -340,7 +340,7 @@ background:#ffffff url(/images/sidebar_nav_bg.jpg) no-repeat 0 -99px;
 
 #sidebar #communities h2 {
   text-indent: -9999px;
-  background: url('/images/header_visit_faithstreams_comm.jpg') top left no-repeat;
+  background: url(<%= asset_path('header_visit_faithstreams_comm.jpg') %>) top left no-repeat;
   height: 30px;
 }
 
@@ -391,7 +391,7 @@ font-weight:bold;
 font-style:italic;
 padding-left:15px;
 margin-left:39px;
-background:url(/images/bullet_grey.gif) no-repeat left 3px;
+background:url(<%= asset_path('bullet_grey.gif') %>) no-repeat left 3px;
 }
 
 #main_content dd {
@@ -404,7 +404,7 @@ margin-bottom:17px;
 	font-style:italic;}
 	
 #footer {
-  background: url('/images/main_container_bottom_secondary_3.jpg') top left no-repeat;
+  background: url(<%= asset_path('main_container_bottom_secondary_3.jpg') %>) top left no-repeat;
   width: 935px;
   margin-top: 30px ;
   padding: 140px 10px 0;
@@ -429,7 +429,7 @@ margin-bottom:17px;
 }	
 
 .iwing_footer {
-	background: url('/images/bg_site_footer.jpg') top left repeat-x;
+	background: url(<%= asset_path('bg_site_footer.jpg') %>) top left repeat-x;
 	padding:0;	
 	width:950px;
 	height:44px;
@@ -500,7 +500,7 @@ margin-bottom:17px;
 }
 
 .login_button{
-	background: transparent url(/images/button_login.png) no-repeat scroll left top;
+	background: transparent url(<%= asset_path('button_login.png') %>) no-repeat scroll left top;
 	text-indent: -9999px;
 	width:54px;
 	border: medium none;

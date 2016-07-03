@@ -60,7 +60,7 @@ label .feedback {
 	font-weight: bold;
 	color:#760000;
 	padding-left: 18px;
-	background: url(images/error.png) no-repeat left top;
+	background: url(<%= asset_path('error.png') %>) no-repeat left top;
 }
 
 /* :KLUDGE: Explicitly set the width for IE6- */
@@ -134,9 +134,8 @@ col {
   border-right: 1px solid #ccc;
 }
 
-
 thead {
-  background: #ccc url(/images/bar.gif) repeat-x left center;
+  background: #ccc url(<%= asset_path('bar.gif') %>) repeat-x left center;
   border-top: 1px solid #a5a5a5;
   border-bottom: 1px solid #a5a5a5;
 }

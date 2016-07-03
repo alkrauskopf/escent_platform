@@ -15,7 +15,7 @@ input              { float: left; }
 input.text         { width: 200px; }
 input.text {
   border: none;
-  background: url('/images/bg_input_field_shadow.gif') top left no-repeat;
+  background: url(<%= asset_path('bg_input_field_shadow.gif') %>) top left no-repeat;
   overflow: hidden;
   height: 15px;
   margin-top: -2px;
@@ -28,7 +28,7 @@ input.text {
   border-right:1px solid #CCCCCC;
 }
 
-input.money 		   { width: 60px; padding-left: 10px; background: #fff url(../../images/ico_money.gif) no-repeat 3px center; }
+input.money 		   { width: 60px; padding-left: 10px; background: #fff url(<%= asset_path('ico_money.gif') %>) no-repeat 3px center; }
 input.search       { margin-right: 5px; }
 input.print        { float: left; margin-left: 10px; }
 input.text:focus   {}

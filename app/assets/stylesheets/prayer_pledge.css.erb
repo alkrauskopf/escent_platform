@@ -2,10 +2,10 @@ body { background-color: #ece9d8; font-family: "Lucida Grande", Verdana, Arial, 
 #container { margin: 20px auto 0; width:780px; background-color: #fff; padding: 3em 0 2em 0; margin-bottom: 2em; }
 #logo img { display: block; margin: 0 0 20px 5px; }
 #register_step_1, #register_step_2, #register_step_3 { 
-	background: url("/images/Religions_icons_left.jpg") no-repeat left 30px; 
+	background: url(<%= asset_path('Religions_icons_left.jpg') %>) no-repeat left 30px;
 }
 #register_step_1 #warp, #register_step_2 #warp, #register_step_3 #warp { 
-	background: url("/images/Religious_icons_right.jpg") no-repeat right 30px; 
+	background: url(<%= asset_path('Religious_icons_right.jpg') %>) no-repeat right 30px;
 	height: 600px;
 }
 #phone, #password, #invite { border-top: 1px dashed #999; border-bottom: 1px dashed #999; }

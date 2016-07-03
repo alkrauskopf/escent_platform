@@ -4,8 +4,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="description" content="" />
         <meta name="keywords" content="" />
-        <%= stylesheet_link_tag "screen.css" %>		
-        <%= stylesheet_link_tag "fsn.css" %>
+        <%= stylesheet_link_tag "screen.css.erb.erb" %>
+        <%= stylesheet_link_tag "fsn.css.erb" %>
 
 				<%= stylesheet_link_tag 'fsn/jquery-ui-1.7.1.custom.css' %>
         <%= stylesheet_link_tag "jquery.autocomplete" %>		
@@ -38,7 +38,7 @@
 				text-decoration: underline;
             } #ep_bottom {
                 width: 900px;
-                background: url('/images/main_container_bottom_secondary.jpg') top left no-repeat;
+                background: url(<%= asset_path('main_container_bottom_secondary.jpg') %>) top left no-repeat;
                 top: 0px;
                 left: 0x;
               	height: auto;

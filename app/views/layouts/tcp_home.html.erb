@@ -4,8 +4,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="description" content="" />
         <meta name="keywords" content="" />
-        <%= stylesheet_link_tag "screen.css" %>
-        <%= stylesheet_link_tag "fsn.css" %>
+        <%= stylesheet_link_tag "screen.css.erb.erb" %>
+        <%= stylesheet_link_tag "fsn.css.erb" %>
 		<%= stylesheet_link_tag "jquery.ui.potato.menu.css" %>
         <%= stylesheet_link_tag 'fsn/jquery-ui-1.7.1.custom.css' %>
         <%= stylesheet_link_tag url_for(:controller => "/stylesheets", :action => :iwing, :organization_id => @current_organization, :format => "css") %>
@@ -36,12 +36,12 @@
            a.continue:hover {
                 text-decoration: underline;
             } #container {
-                background: transparent url('/images/fsn_home/bg_main_container_shadow.png') top left repeat-y;
+                background: transparent url(<%= asset_path('fsn_home/bg_main_container_shadow.png') %>) top left repeat-y;
             } #container #home_header {
                 margin-top: 0px;
                 width: 915px;
                 height: 440px;
-                background: url('/images/fsn_home/tcp_main_header3.png') top left no-repeat;
+                background: url(<%= asset_path('fsn_home/tcp_main_header3.png') %>) top left no-repeat;
                 position: relative;
             } #container #home_header #tcp_logo {
                 margin-top: 160px;
@@ -85,7 +85,7 @@
                 position: absolute;
             } #container #home_body {
                 width: 915px;
-                background: url('/images/fsn_home/bg_canvas.jpg') top left no-repeat;
+                background: url(<%= asset_path('fsn_home/bg_canvas.jpg') %>) top left no-repeat;
                 top: 270px;
                 height: 993px;
                 position: absolute;             
@@ -102,11 +102,11 @@
                 left: 20px;            
             } #container #home_body div#left_side #left_header {
                 width: 255px;
-                background: url('/images/fsn_home/Sidebar_background.png') left repeat-y; 
+                background: url(<%= asset_path('fsn_home/Sidebar_background.png') %>) left repeat-y;
                 position: relative;
                 
             } #container #home_body div#flash_content {
-                background: transparent url('/images/fsn_home/bg_flash_shadow.png') top left no-repeat;
+                background: transparent url(<%= asset_path('fsn_home/bg_flash_shadow.png') %>) top left no-repeat;
                 width: 355px;
                 height: 235px;
                 position: absolute;
@@ -122,7 +122,7 @@
                 top: 155px;
                 left: 00px;
                 width: 914px;
-                background: url('/images/fsn_home/bg_canvas3.jpg') top left repeat-y;
+                background: url(<%= asset_path('fsn_home/bg_canvas3.jpg') %>) top left repeat-y;
                 position: absolute;
             } #container #home_body #highlights div#service_modules div#thought{
                 margin-top: 20px;
@@ -130,7 +130,7 @@
                 width: 475px;
                 position: relative;
             } #container #home_body #highlights #service_modules div#thought div#model_flash {
-                background: transparent url('/images/fsn_home/bg_flash_shadow.png') top left no-repeat;
+                background: transparent url(<%= asset_path('fsn_home/bg_flash_shadow.png') %>) top left no-repeat;
                 width: 475;
                 height: 345px;
                 position: absolute;
@@ -239,7 +239,7 @@
                 position: relative;
             } #home_bottom {
                 width: 795px;
-                background: url('/images/fsn_home/dotted_border_horizontal.jpg') top left repeat-x;
+                background: url(<%= asset_path('fsn_home/dotted_border_horizontal.jpg') %>) top left repeat-x;
                 margin: 0 auto;
                 padding: 12px 20px 0;
             } #home_bottom #communities {
@@ -251,7 +251,7 @@
                 font-weight: bold;
             } #home_bottom #communities ul {
                 margin-left: 17px;
-                list-style-image: url(/images/fsn_home/bullet_grey.gif);
+                list-style-image: url(<%= asset_path('fsn_home/bullet_grey.gif') %>);
                 list-style-position: outside;
             } #home_bottom #communities ul li {
                 margin-bottom: 15px;
@@ -264,7 +264,7 @@
                 text-align: center;
                 width: 393px;
                 padding: 10px 0 20px;
-                background: url('/images/fsn_home/dotted_border_vertical.jpg') top right repeat-y;
+                background: url(<%= asset_path('fsn_home/dotted_border_vertical.jpg') %>) top right repeat-y;
             } #home_bottom #search h2 {
                 font-family: Times New Roman;
                 font-size: 14px;
@@ -282,7 +282,7 @@
             } #home_bottom #search form button.go {
                 text-indent: -9999px;
                 border: none;
-                background: url('/images/fsn_home/button_go_blue.png') top left no-repeat;
+                background: url(<%= asset_path('fsn_home/button_go_blue.png') %>) top left no-repeat;
                 width: 41px;
                 height: 30px;
                 position: relative;

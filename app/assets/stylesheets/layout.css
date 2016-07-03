@@ -26,7 +26,7 @@
 .FormRow { width:100%; padding:0px; float:left; padding-top:5px; }
 .FormRowTitle { padding:0px; float:left; width:28%; padding-right:10px; }
 .FormRowData { float:left; width:70%; }
-.FormRowFull { width:400px; padding:0px; float:left; padding-left:270px; padding-top; 3px; padding-bottom:5px; }
+.FormRowFull { width:400px; padding:0px; float:left; padding-left:270px; padding-top: 3px; padding-bottom:5px; }
 .FormRow .small_notice { display: block; width: 70%; }
 .submit_warp { padding-left: 29%; }
 

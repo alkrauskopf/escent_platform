@@ -39,13 +39,18 @@ EscentPartners::Application.routes.draw do |map|
   # CORE Resource (Content)
   get '/resource/view' => 'site/site#static_resource'
   get '/resource/new' => 'site/contents#submit_resource'
-  put '/resource/new' => 'site/contents#submit_resource'
+  post '/resource/new' => 'site/contents#submit_resource'
   get '/resource/show' => 'site/contents#index'
   get '/resource/edit' => 'site/contents#edit_resource'
+  post '/resource/edit' => 'site/contents#edit_resource'
+  get '/resource/assess/edit' => 'site/contents#edit_assess'
   get '/resource/subjects' => 'site/contents#select_subject_areas'
   get '/resource/types' => 'site/contents#select_resource_types'
   get '/resource/share' => 'site/discussions#share_content'
   post '/resource/share' => 'site/discussions#share_content'
+  get '/resource/group/show' => 'site/contents#show_group_content'
+  get '/resource/group/select' => 'site/contents#select_content_group'
+  put '/resource/destroy' => 'site/contents#destroy_selected'
 
   # CORE Organization
   get '/organization/view' => 'site/site#static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}
@@ -185,13 +190,13 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/lu/resources/related' => 'site/site#related_content'
   get '/offering/lu/resources/sequence' => 'apps/classroom#offering_resource_sequence'
   # apps
-  get '/offering/content/show' => 'apps/classroom#show_content'
+  get '/offering/content/show_xxxx' => 'apps/classroom#show_content'   #  should no longer be needed
   get '/offering/setup' => 'apps/classroom#setup_classroom'
   get '/offering/lu/edit' => 'apps/classroom#setup_classroom_lu'
   get '/offering/toggle_favorite' => 'apps/classroom#toggle_favorite_classroom'
   get '/offering/unjoin' => 'apps/classroom#self_unregister_student'
   get '/offering/register' => 'apps/classroom#register_classroom'
-  get '/offering/lu/resources/show' => 'apps/classroom#show_lu_resources'
+  get '/offering/lu/resources/show' => 'apps/classroom#show_lu_resources'   # offering_lu_resources_show
   get '/offering/admin/assign_subject' => 'apps/classroom#identify_parent_subject'
   get '/offering/admin/add' => 'apps/classroom#add_classroom'
   get '/offering/admin/subjects' => 'apps/classroom#subject_offerings'

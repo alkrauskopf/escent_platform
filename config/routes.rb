@@ -183,6 +183,7 @@ EscentPartners::Application.routes.draw do |map|
   put '/offering/homework' => 'site/site#submit_homework'
   get '/offering/lu/resources/featured' => 'site/site#featured_content'
   get '/offering/lu/resources/related' => 'site/site#related_content'
+  get '/offering/lu/resources/sequence' => 'apps/classroom#offering_resource_sequence'
   # apps
   get '/offering/content/show' => 'apps/classroom#show_content'
   get '/offering/setup' => 'apps/classroom#setup_classroom'

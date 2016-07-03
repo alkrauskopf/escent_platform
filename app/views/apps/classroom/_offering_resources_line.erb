@@ -6,25 +6,28 @@
 									&nbsp;
 								</td>
 							<% else -%>
-								<% feature_button = rsrc == lu.featured_resource ? "button_enabled.png" : "button_disabled.png"%>
+								<% feature_button = rsrc == lu.featured_resource ? 'button_enabled.png' : "button_disabled.png"%>
 								<td   id="feature_toggle_<%=key%>" style="width:3%; border:0px solid #ddd; cursor:pointer; font-size:11px; padding-top:20px; padding-left:3px; vertical-align:top; text-align:right;color: #C83A14;font-weight:normal;">
 									<%= (image_tag feature_button,:width => 12) -%>
 								</td>
 							<% end -%>
 							<td  style="width:3%; border:0px solid #ddd; font-size:11px; padding-top:20px; padding-left:02px; vertical-align:top; text-align:right;color: #C83A14;font-weight:normal;">
-								<%= rsrc.position_for_classroom((lu.nil? ? offering : lu), folder) <= 1 ? "" : (link_to (image_tag "button_arrow_up.png", :width=>15), {:controller =>  "apps/classroom", :action => "offering_resource_sequence", :organization_id => @current_organization, :classroom_id => offering, :topic_id=>lu, :folder_id=>folder_id, :pool_filter=>pool_filter, :pool_class=>pool_class, :resource_id => rsrc, :direction=>"up"}, :class => "resequence") %>
+								<%= rsrc.position_for_classroom((lu.nil? ? offering : lu), folder) <= 1 ? "" :
+                        (link_to (image_tag 'button_arrow_up.png', :width=>15), offering_lu_resources_sequence_path(:organization_id => @current_organization, :classroom_id => offering, :topic_id=>lu, :folder_id=>folder_id, :pool_filter=>pool_filter, :pool_class=>pool_class, :resource_id => rsrc, :direction=>'up'), :class => 'resequence') %>
 							</td>
 							<td  style="width:3%; border:0px solid #ddd; font-size:11px; padding-top:17px; padding-left:0px; vertical-align:top; text-align:center; color: #C83A14; font-weight:normal;">
-								<u><%= rsrc.position_for_classroom((lu.nil? ? offering : lu), folder) <= 1 ? "" : (link_to "top",  {:controller =>  "apps/classroom", :action => "offering_resource_sequence", :organization_id => @current_organization,  :classroom_id => offering, :topic_id=> lu, :folder_id=>folder_id, :pool_filter=>pool_filter, :pool_class=>pool_class, :resource_id => rsrc, :direction=>"top"}, :class => "resequence") %></u>
+								<u><%= rsrc.position_for_classroom((lu.nil? ? offering : lu), folder) <= 1 ? "" :
+                         (link_to "top",  offering_lu_resources_sequence_path(:organization_id => @current_organization,  :classroom_id => offering, :topic_id=> lu, :folder_id=>folder_id, :pool_filter=>pool_filter, :pool_class=>pool_class, :resource_id => rsrc, :direction=>'top'), :class => 'resequence') %></u>
 							</td>
 							<td  style="width:3%; border:0px solid #ddd; font-size:11px; padding-top:20px; padding-left:02px; vertical-align:top; text-align:right;color: #C83A14;font-weight:normal;">
-								<%= rsrc.position_for_classroom((lu.nil? ? offering : lu), folder) >= (lu.nil? ? offering.contents.active.compact.size : lu.resources_for_folder(folder).size)  ? "" : (link_to (image_tag "button_arrow_down.png", :width=>15), {:controller =>  "apps/classroom", :action => "offering_resource_sequence", :organization_id => @current_organization,  :classroom_id => offering, :topic_id=> lu, :folder_id=>folder_id, :pool_filter=>pool_filter, :pool_class=>pool_class, :resource_id => rsrc, :direction=>"down"}, :class => "resequence") %>
+								<%= rsrc.position_for_classroom((lu.nil? ? offering : lu), folder) >= (lu.nil? ? offering.contents.active.compact.size : lu.resources_for_folder(folder).size)  ? "" :
+                        (link_to (image_tag 'button_arrow_down.png', :width=>15), offering_lu_resources_sequence_path(:organization_id => @current_organization,  :classroom_id => offering, :topic_id=> lu, :folder_id=>folder_id, :pool_filter=>pool_filter, :pool_class=>pool_class, :resource_id => rsrc, :direction=>'down'), :class => 'resequence') %>
 							</td>
 							<td   style="width:3%; border:0px solid #ddd; font-size:11px; padding-top:17px; padding-left:3px; vertical-align:top;">
-								<%= link_to (image_tag "delete.png"), offering_admin_resource_assign_path(:organization_id => @current_organization, :classroom_id=>offering, :topic_id=> lu, :pool_filter=>pool_filter, :pool_class=>pool_class, :resource_id=>rsrc), :class => "remove_button"%>
+								<%= link_to (image_tag 'delete.png'), offering_admin_resource_assign_path(:organization_id => @current_organization, :classroom_id=>offering, :topic_id=> lu, :pool_filter=>pool_filter, :pool_class=>pool_class, :resource_id=>rsrc), :class => 'remove_button'%>
 							</td>
 							<td   style=" border:0px solid #ddd; font-size:11px; padding-top:13px; padding-left:0px; vertical-align:top; text-align:left; line-height:1.4em; color: #000000;font-weight:normal;">
-								<u><%= link_to rsrc.title.titleize, resource_view_path(:organization_id => @current_organization, :id => rsrc), {:target => "_blank"} %></u>
+								<u><%= link_to rsrc.title.titleize, resource_view_path(:organization_id => @current_organization, :id => rsrc), {:target => '_blank'} %></u>
 								<span  style= "color:#C73914; font-size:10px;">
 									<%= rsrc.content_status.name == "Restricted" ? " <i>(Restricted)</i>" : "" %>						
 								</span>

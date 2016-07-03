@@ -31,7 +31,7 @@
             <%= link_to 'Register Here', user_register_path(:organization_id => @current_organization), {:target => "_blank"}, :class => "join" %>
         	</div>
         </div>
-        <% form_tag user_signin_path(:organization_id => @current_organization) do -%>
+        <%= form_tag user_signin_path(:organization_id => @current_organization) do -%>
           <div class="content form">
             <div class="header_row clear">
               <div class="header_footer_text">

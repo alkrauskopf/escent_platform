@@ -26,7 +26,7 @@
 	            		<%= link_to 'Register Here', user_register_path(:organization_id => @current_organization),  {:target => "_blank"}, :class => "join" %>
             		</span>
               </div>
-		          <% form_tag user_signin_path(:organization_id => @current_organization) do -%>
+		          <%= form_tag user_signin_path(:organization_id => @current_organization) do -%>
 		            <div style="float:left; width:55%; "  class="content form">
                   <div id= "log_header" style="font-size:12px; margin-left:250px; padding-bottom:2px; vertical-align:top; " class="header_row clear">
                     <div  id= "log_show" class="header_footer_text">

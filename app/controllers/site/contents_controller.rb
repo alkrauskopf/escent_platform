@@ -134,7 +134,7 @@ class Site::ContentsController < Site::ApplicationController
           @content.content_object_type = ContentObjectType.find_by_content_object_type("HTML")
             if params[:object][:embed].empty?
               ready = false
-              @content.errors.add_to_base("NO EMBED CODE")
+              @content.errors[:base] << ('NO EMBED CODE')
             else
               new_embed = params[:object][:embed]
               @content.content_object = new_embed.gsub(/width="\d+/, 'width="500').gsub(/height="\d+/, 'height="405')
@@ -144,7 +144,7 @@ class Site::ContentsController < Site::ApplicationController
             @content.content_object_type = ContentObjectType.find_by_content_object_type("LINK")
             if @content.content_object.empty? || !@content.content_object.match(/^((http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?)*$/)
               ready = false
-              @content.errors.add_to_base("INVALID LINK")
+              @content.errors[:base] << ('INVALID LINK')
             end
           elsif !@content.source_file_file_name.blank?
 
@@ -152,7 +152,7 @@ class Site::ContentsController < Site::ApplicationController
           else
               ready = false
               @content.content_object_type = nil
-              @content.errors.add_to_base("No Source File File Name ")          
+              @content.errors[:base] << ('No Source File File Name ')
         end
         if @content_object_group == 2
           @content.source_file_preview = params[:content][:source_file]
@@ -162,11 +162,11 @@ class Site::ContentsController < Site::ApplicationController
           if @content.content_object_type then
             if @content_object_group != @content.content_object_type.content_object_type_group_id then 
               ready = false
-              @content.errors.add_to_base("Invalid File Type ") 
+              @content.errors[:base] << ('Invalid File Type ')
             end
           else
               ready = false
-              @content.errors.add_to_base("Invalid File Type ")         
+              @content.errors[:base] << ('Invalid File Type ')
           end
         end
         
@@ -177,7 +177,7 @@ class Site::ContentsController < Site::ApplicationController
             redirect_to  :controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => @content
           end
         end
-        @content.errors.add_to_base("  RESELECT YOUR RESOURCE")
+        @content.errors[:base] << ('  RESELECT YOUR RESOURCE')
         flash[:error] = @content.errors.full_messages.to_sentence       
       end
     end
@@ -193,10 +193,10 @@ class Site::ContentsController < Site::ApplicationController
    params[:res_check].each do |r|
      res = Content.find_by_id(r)rescue nil
      unless res.nil?
-        email_list = res.leaders_using.preferred_email_list
         if res.destroy
           @destroy_count +=1
-          unless !@current_organization.content_notify?        
+          if @current_organization.content_notify? && !@content.leaders_using.empty?
+            email_list = User.preferred_email_list(res.leaders_using)
             UserMailer.resource_changed(email_list, @current_user, res.title, 'D').deliver
           end
         end
@@ -220,7 +220,7 @@ class Site::ContentsController < Site::ApplicationController
     ready = true
     updated = false     
     @content = Content.find_by_public_id(params[:content_id])rescue nil
-    orig_title = @content.title
+    orig_title = @content ? @content.title : ''
     if @content then
       if params[:function] == "Submit"
         @new_resource = @current_organization.contents.new(params[:content])
@@ -232,10 +232,10 @@ class Site::ContentsController < Site::ApplicationController
           @new_resource.content_object_type = ContentObjectType.find_by_content_object_type(@new_resource.source_file_file_name.match(/\.[\w]+/).to_s.match(/\w+/).to_s) rescue nil
           if @new_resource.content_object_type.nil?
             ready = false
-            @content.errors.add_to_base("New File Type Invalid")
+            @content.errors[:base] << ('New File Type Invalid')
           elsif @new_resource.content_object_type.content_object_type_group_id != @content.content_object_type.content_object_type_group_id then
             ready = false
-            @content.errors.add_to_base("New File Type Invalid") 
+            @content.errors[:base] << ('New File Type Invalid')
           else
             @content.content_object_type_id = @new_resource.content_object_type_id
             if @content.content_object_type.content_object_type_group_id == 2
@@ -253,13 +253,13 @@ class Site::ContentsController < Site::ApplicationController
         if object_type then 
           if object_type.content_object_type_group_id != 2
             ready = false
-            @content.errors.add_to_base("New Preview File Type Invalid")
+            @content.errors[:base] << ('New Preview File Type Invalid')
           else
             #preview File Type OK
           end  
         else
           ready = false
-          @content.errors.add_to_base("New Preview File Type Invalid")            
+          @content.errors[:base] << ('New Preview File Type Invalid')
         end
       else
       # No Preview File
@@ -270,7 +270,7 @@ class Site::ContentsController < Site::ApplicationController
       if @content.content_object_type.content_object_type_group_id == 4
         if params[:object][:embed].empty?
           ready = false
-          @content.errors.add_to_base("NO EMBED CODE")
+          @content.errors[:base] << ('NO EMBED CODE')
         else
           new_embed = params[:object][:embed]
           @content.content_object = new_embed.gsub(/width="\d+/, 'width="500').gsub(/height="\d+/, 'height="405')
@@ -282,7 +282,7 @@ class Site::ContentsController < Site::ApplicationController
       if @content.content_object_type.content_object_type_group_id == 5
         if @new_resource.content_object.empty? || !@new_resource.content_object.match(/^((http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?)*$/)
           ready = false
-          @content.errors.add_to_base("INVALID LINK")
+          @content.errors[:base] << ('INVALID LINK')
         end 
       end            
       
@@ -339,26 +339,25 @@ class Site::ContentsController < Site::ApplicationController
           unless std.nil?
            @content.act_standards.delete std rescue nil
             end
-          end              
-
-       
+          end
        @content.except_terms_or_service_vaild = true
        @content.title = params[:new_title][:title]
        # user_list = @content.leaders_using
-        email_list = @content.leaders_using.preferred_email_list
         if @content.update_attributes(params[:content]) then
           @content.update_attribute("updated_by", @current_user.id)
           # usr_count = 0
           if @content.organization.content_notify?
-            UserMailer.resource_changed(email_list, @current_user, res.title, 'U').deliver
-          end
+            unless @content.leaders_using.empty?
+              email_list = User.preferred_email_list(@content.leaders_using)
+              UserMailer.resource_changed(email_list, @current_user, res.title, 'U').deliver
+            end
+            end
           flash[:notice] = "#{@content.title.upcase} Updated, #{@content.leaders_using.size.to_s} Users Notified "
           updated = true
         else
           flash[:error] = @content.errors.full_messages.to_sentence
         end
       else
-
         flash[:error] = @content.errors.full_messages.to_sentence
       end
     else

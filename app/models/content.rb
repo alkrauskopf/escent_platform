@@ -468,7 +468,7 @@ class Content < ActiveRecord::Base
   
   leaders = []
   @clsrms.each do |c|
-    leaders += c.teachers
+    leaders << c.leaders
     end
   leaders.uniq
   end 

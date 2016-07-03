@@ -468,7 +468,7 @@ class Apps::ClassroomController < Site::ApplicationController
 
   def show_lu_resources
     initialize_parameters
-    if @folder
+    if !@folder.nil?
       @folder.increment_views
     end
   end

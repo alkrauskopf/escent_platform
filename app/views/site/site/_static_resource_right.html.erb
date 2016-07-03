@@ -1,6 +1,4 @@
-
-
- 	<table style="width:100%;  border:0px solid #ddd;vertical-align:top;word-wrap:break-word;">
+	<table style="width:100%;  border:0px solid #ddd;vertical-align:top;word-wrap:break-word;">
 		<tbody>  
 			<tr  style="border:0px solid #ddd;" >
 				<td colspan = 3 style="border:0px solid #ddd;vertical-align:top; font-size:14px; word-wrap:break-word; text-align:center; font-weight:bold; color:#C73914;">
@@ -9,7 +7,7 @@
 			</tr>
 			<tr  style="border:0px solid #ddd;" >
 				<td style=" width:130px; border:0px solid #ddd; vertical-align:top; line-height:1.3em; padding-left:10px; padding-right:0px; font-weight:normal; color:#000000;">
-          <%= render :partial => "apps/shared/resource_view_box", :locals => {:resource => content, :key => (content.class.to_s + content.public_id.to_s), :title=>'', :label=>'View', :button=>true}%>
+          <%= render :partial => "apps/shared/resource_view_box", :locals => {:resource => content, :key => (content.class.to_s + content.public_id.to_s), :rsrc_title=>'', :btn_label=>'View', :button=>true}%>
 				</td>
 				<td style=" border:0px solid #ddd;vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
 					<%= content.subject_area ? content.subject_area.name : "No Subject" %>,&nbsp;<%= content.content_resource_type ? content.content_resource_type.name : 'Undefined Type' %>

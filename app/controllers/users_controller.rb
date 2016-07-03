@@ -37,15 +37,15 @@ class UsersController < ApplicationController
               redirect_to :action => :registration_successful, :organization_id => @current_organization,:user => @user
               return
             else
-              @user.errors.add_to_base(@user.errors.full_messages.to_sentence)
+              @user.errors[:base] << (@user.errors.full_messages.to_sentence)
             end
           else
             flash[:error] = @user.errors.full_messages.to_sentence
          #   flash[:error] << "  CAPTCHA Failed" if !simple_captcha_valid?
-             @user.errors.add_to_base("CAPTCHA Mis-match. ")
+             @user.errors[:base] << 'CAPTCHA Mis-match. '
           end
         else
-           @user.errors.add_to_base("A user exists for " + @user.email_address)        
+           @user.errors[:base] << ('A user exists for ' + @user.email_address)
 #          flash[:error] = "A user exists for " + @user.email_address  
          end 
      flash[:error] = @user.errors.full_messages.to_sentence
@@ -97,7 +97,7 @@ class UsersController < ApplicationController
       other_user = User.find_by_alt_login(alias_id)rescue nil
       unless alias_id.blank? || other_user.nil? || other_user == @user 
         valid_input = false
-       @user.errors.add_to_base("A user exists for alias: " + alias_id)
+       @user.errors[:base] << ('A user exists for alias: ' + alias_id)
       end
  
       phil_words = params[:user][:philosophy].split
@@ -105,13 +105,13 @@ class UsersController < ApplicationController
       phil_words.each do |w|
         if w.length > 50 then
           valid_input = false
-          @user.errors.add_to_base("A Philosophy Word Is Too Long")
+          @user.errors[:base] << ('A Philosophy Word Is Too Long')
         end
       end
       cred_words.each do |w|
         if w.length > 50 then
           valid_input = false
-          @user.errors.add_to_base("A Credential Word Is Too Long")
+          @user.errors[:base] << ('A Credential Word Is Too Long')
         end
       end
       if valid_input

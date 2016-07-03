@@ -20,9 +20,9 @@
 							<%=  check_box_tag "res_check[]", value = rsrc.id ,checked = false %>
 							<%= label_tag "Destroy" %>
 						</td> 
-		                 <td  style="width:8%;width:fixed; padding-top:5px;padding-left:20px;vertical-align:middle">
-		                   <u><%= link_to  "Edit", {:controller => "/site/contents", :action => :edit_resource, :organization_id => @current_organization, :content_id => rsrc, :function => "Edit"},{:target=>"_blank"} %></u>
-		                 </td>
+             <td  style="width:8%;width:fixed; padding-top:5px;padding-left:20px;vertical-align:middle">
+               <u><%= link_to  "Edit", resource_edit_path(:organization_id => @current_organization, :content_id => rsrc, :function => 'Edit'),{:target=>'_blank'} %></u>
+             </td>
 					</tr>
 				<% end -%>
 			<% end -%>

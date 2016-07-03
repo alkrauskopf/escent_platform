@@ -48,11 +48,13 @@
               <strong><%= link_to truncate(featured_resource.title.titleize, :omission=>"...", :length=>25), offering_lu_resources_featured_path(:organization_id => @current_organization, :topic_id => topic) %></strong>
             </li>
           <% end -%>
-          <% unless topic.unfoldered_resources.empty? || (topic.unfoldered_resources.size == 1 && topic.unfoldered_resources.include?(featured_resource))%>
-            <li>
-              <strong><%= link_to "Other Resources", offering_lu_resources_related_path(:organization_id => @current_organization, :folder_id => nil, :topic_id => topic) %></strong>
-            </li>
-          <% end -%>
+          <% if false %>
+            <% unless topic.unfoldered_resources.empty? || (topic.unfoldered_resources.size == 1 && topic.unfoldered_resources.include?(featured_resource))%>
+              <li>
+                <strong><%= link_to "Other Resources", offering_lu_resources_related_path(:organization_id => @current_organization, :folder_id => nil, :topic_id => topic) %></strong>
+              </li>
+            <% end -%>
+          <% end %>
           <% if topic.act_score_ranges && topic.classroom.ifa_classroom_option-%>
             <li>
               <strong><%= link_to "Strands & Benchmarks" , ifa_lu_standards_show_path(:organization_id => @current_organization, :classroom_id => topic.classroom, :topic_id => topic) %></strong>

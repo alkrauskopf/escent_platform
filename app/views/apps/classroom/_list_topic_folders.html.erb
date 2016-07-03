@@ -1,5 +1,4 @@
 
-
 	<table id="folder_levels"  style="margin-left:0px; width:500px; border:0px solid #ddd;">
 		<tbody> 
 		 	<% topic.positioned_folders.by_position.each do |folder| %>
@@ -13,6 +12,13 @@
 					</tr>
 				<% end -%>
 			<% end -%>
+      <% unless topic.unfoldered_resources.empty? %>
+        <tr>
+          <td style=" color: #2061a5; font-weight:normal; padding-bottom:0px; font-size:12px">
+            <%= render :partial => 'apps/classroom/show_lu_resources', :locals => {:lu => topic, :folder => nil}%>
+          </td>
+        </tr>
+      <% end %>
 		</tbody>
 	</table>
 

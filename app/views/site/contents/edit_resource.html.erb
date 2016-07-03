@@ -7,7 +7,7 @@
 
 
 <div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	  <%= link_to "Resource Page", {:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => @content}%>
+	  <%= link_to 'Resource Page', resource_view_path(:organization_id => @current_organization, :id => @content)%>
 </div>
 
 
@@ -15,11 +15,9 @@
 
 
 <div class="Form clear">
-<%# form_for(:homework, :url => {:controller => "/site/site", :action => :submit_homework,:organization_id => @current_organization, :topic_id => @topic, :classroom_id => @classroom}, :html => { :multipart => true, :method => :put}) do |form| %>
-<%= form_for(:content, :url => {:controller => "/site/contents", :action => :edit_resource, :organization_id => @current_organization, :function => "Submit", :content_id => @content, :format => 'js'}, :html => { :multipart => true, :method => :put}) do |form| -%>
+  <%= form_for(:content, :url => resource_edit_path(:organization_id => @current_organization, :function => 'Submit', :content_id => @content), :html => { :multipart => true}) do |form| -%>
 
-<div class="formBox">
-
+  <div class="formBox">
 	<div class="FormRow">
       <div class="FormRowTitle">
             Title:
@@ -170,7 +168,7 @@
 			<% topic_label = "Click Here For " + @current_standard.abbrev + " Assessment Information" -%>
 					<tr>
 						<td class="authorization_levels_close" style = "margin-left:300px;padding-left:20px" >
-						<%= link_to '', :controller => "/site/contents", :action => :edit_assess, :organization_id => @current_organization, :content_id => @content %>
+						<%= link_to '', resource_assess_edit_path(:organization_id => @current_organization, :content_id => @content) %>
 						<u><%= topic_label %></u>
 						<span></span>
 						</td>
@@ -274,7 +272,7 @@
  
 		<%= check_box :content, :terms_of_service %>
  	    Yes, I am authorized to make this submission according to the 
-		<%= link_to 'Terms of Service', {:controller => "../fsn", :action => 'terms'}, :target => '_blank' %> .
+		<%= link_to 'Terms of Service', ep_tos_path, :target => '_blank' %> .
          </div>
     </div>
 
@@ -302,13 +300,13 @@
 
 <script type="text/javascript" charset="utf-8">
     jQ(document).ready(function() {
-		var url = "<%= url_for :controller => '/site/contents', :action => :select_subject_areas, :organization_id => @current_organization %>";
+		var url = "<%= resource_subjects_path(:organization_id => @current_organization) %>";
 		jQ("#select_subject_area").autocomplete(url, {
                                         				autoFill: false,
                                         				mustMatch: true,
                                         				matchContains: false
                                         		});			
-		var url = "<%= url_for :controller => '/site/contents', :action => :select_resource_types, :organization_id => @current_organization %>";
+		var url = "<%= resource_subjects_path(:organization_id => @current_organization) %>";
 		jQ("#select_resource_type").autocomplete(url, {
                                         				autoFill: true,
                                         				mustMatch: false,
@@ -467,131 +465,7 @@ jQ(document).ready(function() {
 		});		
 	})
 </script>
-<script type="text/javascript">
-jQ(document).ready(function() {
-		
-	// var $resultsBox = jQ("#search-results");	
-	
-	var $resultsBox = jQ("#result-box-dialog");		
-	
-	function search_content(keywords, type) {
-	  search_url = "<%= url_for :controller => :content, :action => :search_with_type, :organization_id => @current_organization %>";
-		jQ.get(search_url, {'keywords': keywords, 'type':type, 'render_html':'search_results_for_topics'}, function(data) {
-			$resultsBox.html(data)
-		});
-	}
-	
-	jQ("#search_button").click(function() {
-		var keywords = jQ("input[name='keywords']", jQ(this).parent("p")).val();
-		var type = "";
-		jQ("input[name='content_search_type']", jQ(this).parents("div.dialog")).each(function() {
-       if(jQ(this).attr('checked')) {
-         type = jQ(this).val();
-       }
-		})
-		search_content(keywords, type);
-	});
-	
-	jQ("#dialog_keywords").keyup(function(event){
-	    if (event.keyCode == 13) {
-			var keywords = jQ(this).val();
-	        search_content(keywords);
-	    }
-	});
-	
-	var save_contents = function() {
-    var items = jQ(".content-list-item");
-       var content_ids = new Array();
-    var $topic_content = jQ("#topic_content");
-    items.each(function() {
-     content_ids.push(this.id);
-    })
-		jQ.post('<%= url_for :controller => :topics, :action => :sort_content, :id => @topic, :organization_id => @current_organization %>', {'content_ids[]':content_ids}, function(data) {
-			$topic_content.css('background', '#f0f0e8')
-			.fadeTo('slow', 0.5, function() {
-				$topic_content.css('background', '#fff')
-				$topic_content.fadeTo("slow", 1)
-				$topic_content.parent("table").parent("div").html(data)
-				$topic_content.css("padding", "0")
-			})						
-		})
-	}
 
-	jQ('#add_content').click(function() {
-		jQ('.dialog').dialog('open');
-		return false;
-	})
-
-  var addActionToPaginationCouldCheck = function() {
-    jQ(".result-box-dialog :checkbox").click(function() {
-      var $this = jQ(this);
-      var id = $this.val();
-      if($this.attr("checked")) {
-        jQ("p:eq(0)", $this.parents(".dialog")).append("<input id='"+id+"' name='hidden_content_ids' type='hidden' value='"+id+"' />")
-      } else {
-        jQ("input#"+id).remove();
-      }
-    })
-  }
-	
-	jQ(".dialog").dialog({
-		bgiframe: true,
-		autoOpen: false,
-		width: 800,
-		height: 400,
-		modal: true,
-		buttons: {
-
-		}
-	});
-
-	function showDialogContent(title, content_id) {
-		$dialog = jQ("#view-content");
-		// next line is broken.		
-		$dialog.attr("title", title);
-		jQ.post('<%= url_for :controller => :content, :action => :show, :organization_id => @current_organization %>', {'id':content_id}, function(data) {
-			$dialog.html(data);
-			$dialog.dialog('open');
-		})
-	}
-	
-	var addButtonAction = function(parent_elem) {
-		jQ("button", parent_elem).each(function() {
-			jQ(this).click(function() {
-				var title = jQ(this).parent("td").parent("tr").children("td").eq(0).text();
-				var content_id = jQ(this).parent("td").parent("tr").attr("id");
-				showDialogContent(title, content_id)
-				return false;
-			})
-		})
-	}
-
-	addButtonAction(jQ("#topic_content"));
-	addButtonAction(jQ("#search-results-dialog"));	
-	addActionToPaginationCouldCheck();
-
-	jQ("#view-content").dialog({
-		bgiframe: true,
-		autoOpen: false,
-		width: 500,
-		modal: true,
-		buttons: {
-			Close: function() {
-				jQ(this).dialog('close');
-			}
-		}
-	});	
-	
-	jQ('div#result-box-dialog div.pagination a').live('click', function() {
-		jQ(this).parents('.result-box-dialog').load(this.href, function() {addActionToPaginationCouldCheck();addButtonAction(jQ("#search-results-dialog"));});
-		return false
-	})	
-	// Set a content as Featured.
-	// var topic_id = "<%#=@topic.public_id%>";
-	// var set_featured_url = "/site/site/set_featured_resource/<%=@current_organization.public_id%>";
-	// jQ('#topic_content input[type=radio]').setFeatured(set_featured_url, topic_id)
-});
-</script>
 <script>
 jQ(function(){
 jQ('div.tip_format').qtip({
@@ -617,17 +491,3 @@ jQ('div.tip_format').qtip({
 });
 });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

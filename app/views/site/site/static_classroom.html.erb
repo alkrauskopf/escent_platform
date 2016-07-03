@@ -43,12 +43,12 @@
                     </style>
                     <%= render :partial => "apps/classroom/register_student", :locals=> {:classroom => @classroom} %>
                     <%= render :partial => "apps/classroom/display_teachers", :locals=> {:classroom => @classroom} %>
-                    <!-- Messaging Table -->
+                        <!-- Messaging Table -->
                     <% unless !@classroom.active_for?(@current_user) || !@classroom.viewable_by?(@current_user)-%>
                       <br/>
                       <!-- Leader Message to Participants -->
                       <% if @classroom.leaders.include?(@current_user) then -%>
-                        <%= render :partial => "apps/classroom/display_user_is_teacher", :locals=> {:classroom => @classroom} %>
+                            <%= render :partial => "apps/classroom/display_user_is_teacher", :locals=> {:classroom => @classroom} %>
                       <% elsif @current_user.student_of_classroom?(@classroom) && @classroom.leaders.size > 0 -%>
                         <%= render :partial => "apps/classroom/display_user_is_student", :locals=> {:classroom => @classroom, :topic=> @topic} %>
                       <% end -%>
@@ -210,8 +210,10 @@
                 </span>
               <% end %>
             <% end -%>
+            <% if false %>
             <%= render(:partial => "new_topic", :locals => {:topic => @current_topic ? @current_topic : nil, :featured_resource => @content ? @content : nil}) %>
-          </div>
+            <% end -%>
+            </div>
 				</td>
 			</tr>
 		</tbody>

@@ -1,8 +1,12 @@
-class Apps::SchoolTimeController < Site::ApplicationController
+class Apps::SchoolTimeController < ApplicationController
 
  helper :all # include all helpers, all the time  
- layout "ista", :except =>[:options_baselines, :ista_dashboard, :ista_case_show]
+ layout "stat", :except =>[:options_baselines, :ista_dashboard, :ista_case_show]
 
+ before_filter :current_organization, :except => []
+ before_filter :current_user, :except => []
+ before_filter :stat_allowed?, :except=>[]
+ before_filter :current_user_app_authorized?, :except=>[]
  before_filter :clear_notification, :except =>[]
   
  def clear_notification
@@ -11,12 +15,9 @@ class Apps::SchoolTimeController < Site::ApplicationController
   end
   
   def index
-
     initialize_parameters
     CoopApp.stat.increment_views
   end
-
-
 
  def start_ista_case
     initialize_parameters
@@ -60,9 +61,7 @@ class Apps::SchoolTimeController < Site::ApplicationController
       flash[:error] = @ista_case.errors.full_messages.to_sentence
     end  
   end
- 
  end 
-
 
  def options_baselines
     initialize_parameters
@@ -73,11 +72,9 @@ class Apps::SchoolTimeController < Site::ApplicationController
     @school = @current_organization
  end
 
-
  def ista_case_show
     initialize_parameters
  end
-
 
  def maintain_baselines
     initialize_parameters
@@ -110,7 +107,6 @@ class Apps::SchoolTimeController < Site::ApplicationController
     render :partial => "/apps/school_time/manage_options_baselines", :locals=>{:app=>@app}   
  end 
 
-
  def step_2_update
     initialize_parameters
 
@@ -122,7 +118,7 @@ class Apps::SchoolTimeController < Site::ApplicationController
         end
       end
     end
-    redirect_to :action=>'maintain_ista_case', :organization_id => @current_organization, :app_id=> @app.id, :case_id =>@ista_case, :function=>"Pass"
+    redirect_to stat_case_path(:organization_id => @current_organization, :case_id =>@ista_case, :function=>'Pass')
  end
 
  def step_update_mins
@@ -136,7 +132,7 @@ class Apps::SchoolTimeController < Site::ApplicationController
         end
       end
     end
-    redirect_to :action=>'maintain_ista_case', :organization_id => @current_organization, :app_id=> @app.id, :case_id =>@ista_case, :function=>"Pass"
+    redirect_to stat_case_path(:organization_id => @current_organization,:case_id =>@ista_case, :function=>'Pass')
  end
  
  def step_update_hours
@@ -150,8 +146,9 @@ class Apps::SchoolTimeController < Site::ApplicationController
         end
       end
     end
-    redirect_to :action=>'maintain_ista_case', :organization_id => @current_organization, :app_id=> @app.id, :case_id =>@ista_case, :function=>"Pass"
+    redirect_to stat_case_path(:organization_id => @current_organization, :case_id =>@ista_case, :function=>'Pass')
  end
+
  def finish_step
     initialize_parameters
         if @ista_case && @ista_case.ista_step
@@ -162,21 +159,19 @@ class Apps::SchoolTimeController < Site::ApplicationController
               end
             end
         end
-    redirect_to :action=>'maintain_ista_case', :organization_id => @current_organization, :app_id=> @app.id, :case_id =>@ista_case, :function=>"Pass"
+    redirect_to stat_case_path(:organization_id => @current_organization, :case_id =>@ista_case, :function=>'Pass')
  end
-
 
  def finalize_case
     initialize_parameters
     @ista_case.update_attributes(:is_final=>true, :final_date=>Date.today)
-    redirect_to :action=>'index', :organization_id => @current_organization, :app_id=> @app.id
+    redirect_to self.send(CoopApp.stat.link_path, {:organization_id => @current_organization})
  end 
 
 
  def select_school_dashboard
     initialize_parameters
-    render :partial => "/apps/school_time/school_ista_dashboard", :locals => {:school => @school, :app => @app}
-
+    render :partial => "/apps/school_time/school_ista_dashboard", :locals => {:school => @school}
  end
 
  def destroy_case
@@ -189,6 +184,12 @@ class Apps::SchoolTimeController < Site::ApplicationController
 
    private
 
+ def stat_allowed?
+   @current_application = CoopApp.stat
+   @current_provider = @current_organization.app_provider(@current_application)
+   current_app_enabled_for_current_org?
+ end
+
   def initialize_parameters 
     if  params[:organization_id]
       @current_organization = Organization.find_by_public_id(params[:organization_id])rescue nil
@@ -196,18 +197,11 @@ class Apps::SchoolTimeController < Site::ApplicationController
     if  params[:school_id]
       @school = Organization.find_by_id(params[:school_id])rescue nil
     end
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
     if params[:step_id]
       @step = IstaStep.find_by_public_id(params[:step_id]) rescue nil
     end
     
     @ista_case = params[:case_id] ? IstaCase.find_by_public_id(params[:case_id]): nil
-
-    unless @app
-      @app = CoopApp.stat
-    end
 
     @admin = @current_user.stat_admin_for_org?(@current_organization)
   end
@@ -251,6 +245,4 @@ class Apps::SchoolTimeController < Site::ApplicationController
       end  
     end
   end
-
-
 end

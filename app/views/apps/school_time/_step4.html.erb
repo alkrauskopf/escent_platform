@@ -8,7 +8,7 @@
 	<% back_o_1 = "#" + IstaGroup.other[0].background_1%>
 	<% back_o_2 = "#" + IstaGroup.other[0].background_2%>
 	<% total_required = ((ista_case.hrsday_er * ista_case.daysyear_er) + (ista_case.hrsday_ls * ista_case.daysyear_ls) + (ista_case.daysyear_std * ista_case.hrsday_std)) -%>
-	<%= form_for(:ista_case_allocation, :url => {:controller => "/apps/school_time", :action => :step_update_hours, :organization_id => @current_organization, :step_id => step, :case_id => ista_case}) do |form| -%>
+	<%= form_for(:ista_case_allocation, :url => stat_case_step_hours_path(:organization_id => @current_organization, :step_id => step, :case_id => ista_case)) do |form| -%>
 
 	<table style="width:810px;margin-left:50px">
 		<tbody> 
@@ -22,7 +22,7 @@
 					</td>
 					<% if ista_case.ista_step == IstaStep.step_4.first -%>
 						<td  colspan=2 style="vertical-align:middle;  padding-top:0px; text-align:left; color: #000000; font-size:10px; font-weight:normal">
-							<center><%= link_to "Next Step ", {:controller => "/apps/school_time", :action => :finish_step, :organization_id => @current_organization, :step_id => step, :case_id => ista_case }, { :class => "fsn-button ui-button ui-state-default ui-corner-all"} %></center>
+							<center><%= link_to 'Next Step ', stat_case_step_finish_path(:organization_id => @current_organization, :step_id => step, :case_id => ista_case), { :class => "fsn-button ui-button ui-state-default ui-corner-all"} %></center>
 						</td>
 					<% else -%>
 						<td colspan=2 style = "color: #2061a5; font-weight:bold;">

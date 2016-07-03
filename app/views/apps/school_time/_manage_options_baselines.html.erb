@@ -141,7 +141,7 @@ jQ(document).ready(function() {
 		var fte_teacher = jQ('#fte_teacher').val();
 		var fte_admin = jQ('#fte_admin').val();
 		var total_students = jQ('#total_students').val();
-		var url = "<%= url_for :controller => "apps/school_time", :action => :maintain_baselines, :organization_id => @current_organization, :app_id=> app.id %>";
+		var url = "<%= stat_options_baseline_maintain_path(:organization_id => @current_organization)%>";
 			jQ.get(url, {'hrsday_std':hrsday_std,'weekday_std':daysweek_std, 'daysyear_std':daysyear_std, 'hrsday_er':hrsday_er, 'daysyear_er':daysyear_er,  'hrsday_ls':hrsday_ls, 'daysyear_ls':daysyear_ls, 'fte_teacher':fte_teacher,  'fte_admin':fte_admin, 'total_students':total_students}, function(data) {
 			jQ("#options_baseline").html(data); 
 	   		jQ("#options_baseline").show();

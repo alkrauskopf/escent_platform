@@ -482,6 +482,22 @@ EscentPartners::Application.routes.draw do |map|
 
   get '/elt/option/cycle' => 'apps/learning_time#assign_option_cycle'
 
+
+  # APP STAT
+  scope 'stat/', as: 'stat' do
+    get '/case' => 'apps/school_time#maintain_ista_case'
+    post '/case' => 'apps/school_time#maintain_ista_case'
+    post '/case/step/mins' => 'apps/school_time#step_update_mins'
+    post '/case/step/hours' => 'apps/school_time#step_update_hours'
+    get '/case/show' => 'apps/school_time#ista_case_show'
+    get '/case/step/finish' => 'apps/school_time#finish_step'
+    post '/case/finalize' => 'apps/school_time#finalize_case'
+    get '/case/destroy' => 'apps/school_time#destroy_case'
+    get '/dashboard' => 'apps/school_time#ista_dashboard'
+    get '/dashboard/select' => 'apps/school_time#select_school_dashboard'
+    get '/options/baseline' => 'apps/school_time#options_baselines'
+    get '/options/baseline/maintain' => 'apps/school_time#maintain_baselines'
+  end
   # PDF
   get '/pdf/elt/case' => 'apps/app_pdf#elt_case'
   #=======================================================

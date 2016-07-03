@@ -34,10 +34,10 @@
 							<% unless !cases[idx] -%>
 								<%= cases[idx].user ? cases[idx].user.last_name : "Former User" %>,&nbsp;<%= cases[idx].final_date.strftime("%b %d, %Y") %><br/>
 								<u>
-					 				<%= link_to "View Case" ,{:controller => "apps/school_time", :action => :maintain_ista_case, :organization_id => @current_organization,:case_id => cases[idx], :app_id=> app.id, :function=>"Pass"} , {:target => "_blank"}  %>
+					 				<%= link_to 'View Case', stat_case_path(:organization_id => @current_organization,:case_id => cases[idx], :function=>'Pass') , {:target => '_blank'}  %>
 								</u>&nbsp;&nbsp;&nbsp;&nbsp;					
 								<u>
-					 				<%= link_to "View Plan" ,{:controller => "apps/school_time", :action => :maintain_ista_case, :organization_id => @current_organization,:case_id => cases[idx], :app_id=> app.id, :function=>"Pass"} , {:target => "_blank"}  %>
+					 				<%= link_to 'View Plan', stat_case_path(:organization_id => @current_organization,:case_id => cases[idx], :function=>'Pass') , {:target => '_blank'}  %>
 								</u>
 							<% end -%>
 						</th>
@@ -51,7 +51,7 @@
 						<th   style=" width:160px; width:fixed; border:1px solid #ddd; border-top:0px solid #ddd; color: #000000; line-height: 1.5em; padding-left:3px;vertical-align:top;text-align:left; font-weight:normal; font-size:10.5px" >
 							<% unless !cases[idx] -%>
 								<%= cases[idx].title%><br/>
-								<center><%=pluralize(cases[idx].case_students, " Student") %>,&nbsp;&nbsp;<%=pluralize(cases[idx].case_teachers, " Teacher") %></center>				
+								<center><%=pluralize(cases[idx].case_students, ' Student') %>,&nbsp;&nbsp;<%=pluralize(cases[idx].case_teachers, " Teacher") %></center>
 							<% end -%>
 						</th>
 					<% end -%>
@@ -90,7 +90,7 @@
 		</table>
 	<% else -%>
 	  	<div style="text-align:center;  word-wrap:break-word; color: #2061a5;  font-size: 12px; font-style: normal; font-weight: normal">
-				<br/><center>There are no <%= @app.name %>&nbsp;Cases Defined for <%= school.short_name %></center>
+				<br/><center>There are no <%= @current_application.name %>&nbsp;Cases Defined for <%= school.short_name %></center>
 		</div>
 	<% end -%>
 </div>
@@ -98,7 +98,7 @@
 jQ(document).ready(function() {
  	jQ("#select_school").change(function(){
 		var school_id = jQ('#org_school').val();
-		var url = "<%= url_for :controller => '/apps/school_time', :action => :select_school_dashboard, :organization_id => @current_organization, :app_id => app.id  %>";
+		var url = "<%= stat_dashboard_select_url(:organization_id => @current_organizatio) %>";
 			jQ.get(url, {'school_id': school_id}, function(data) {
 				jQ("#school_ista_dashboard_<%=school.public_id%>").html(data);
 				jQ("#school_ista_dashboard_<%=school.public_id%>").show();

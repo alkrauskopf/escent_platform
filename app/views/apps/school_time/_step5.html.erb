@@ -9,14 +9,14 @@
 	<% total_required = ((ista_case.hrsday_er * ista_case.daysyear_er) + (ista_case.hrsday_ls * ista_case.daysyear_ls) + (ista_case.daysyear_std * ista_case.hrsday_std)) -%>
 	<% total_required = total_required== 0 ? 1 : total_required -%>
 	<% total_allocated = ista_case.ista_case_allocations.for_step(step).collect{|a| a.hrsyear}.sum.to_i -%>
-<%= form_for(:ista_case_allocation, :url => {:controller => "/apps/school_time", :action => :finalize_case, :organization_id => @current_organization, :case_id => ista_case}, :confirm => 'Are Your Sure') do |form| -%>
+<%= form_for(:ista_case_allocation, :url => stat_case_finalize_path(:organization_id => @current_organization, :case_id => ista_case), :confirm => 'Are Your Sure') do |form| -%>
 
 	<table style="width:810px;margin-left:50px">
 		<tbody> 
 			<% unless ista_case.final? -%>
 				<tr style=" border:0px solid #ddd;">
 					<td  style="vertical-align:middle;  padding-top:0px; text-align:left; color: #000000; font-size:10px; font-weight:normal">
-					 	<center><%= submit_tag "Finalize", :class =>"fsn-button ui-button ui-state-default ui-corner-all save"%></center>
+					 	<center><%= submit_tag 'Finalize', :class =>"fsn-button ui-button ui-state-default ui-corner-all save"%></center>
 					</td>
 					<td colspan=8 style = "color: #2061a5; font-weight:bold;">
 						&nbsp;

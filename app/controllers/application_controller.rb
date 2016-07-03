@@ -167,7 +167,7 @@ class ApplicationController < ActionController::Base
   def current_app_enabled_for_current_org?
     unless(@current_user && @current_user.superuser?) || @current_application.nil?
       if !@current_organization.allowed?(@current_application) || !@current_organization.app_enabled?(@current_application)
-        redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
+        redirect_to offering_view_path(:organization_id => @current_organization, :coop_app_id => CoopApp.core)
       end
     end
   end

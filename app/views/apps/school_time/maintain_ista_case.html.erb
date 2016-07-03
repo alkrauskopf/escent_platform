@@ -1,7 +1,7 @@
 <div id="main_content" class="Form clear">
 <div style ="color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold"> 
 	<br/>
-	<strong><center>Setup&nbsp;<%= @app.name.titleize %>&nbsp;Case </center></strong>
+	<strong><center>Setup&nbsp;<%= @current_application.name.titleize %>&nbsp;Case </center></strong>
 </div>
 <% if @ista_case -%>
 	<div style ="color: #C83A14; font-size:14px; margin-top:5px; font-weight:bold"> 
@@ -16,35 +16,35 @@
 	<% if @current_organization.time_allocation %>
 
 		<% if @ista_case.nil? -%>
-				<%= render :partial => "apps/school_time/step1", :locals=>{:app=>@app, :step=> IstaStep.step_1.first, :ista_case=>@ista_case} %>		
+				<%= render :partial => "apps/school_time/step1", :locals=>{:step=> IstaStep.step_1.first, :ista_case=>@ista_case} %>
 		<% elsif !@ista_case.final? -%>
 			<% IstaStep.active.each do |step| -%>
 				<% break if step.step_number > @ista_case.ista_step.step_number -%>
 				<% if step.step_number == 1 -%>
-					<%= render :partial => "apps/school_time/step1", :locals=>{:app=>@app, :step=> step, :ista_case=>@ista_case} %>		
+					<%= render :partial => "apps/school_time/step1", :locals=>{:step=> step, :ista_case=>@ista_case} %>
 				<% end -%> <!-- end Step 1 -->
 				<% if step.step_number == 2 && @ista_case -%>
-					<%= render :partial => "apps/school_time/step2", :locals=>{:app=>@app, :step=> step, :ista_case=>@ista_case} %>		
+					<%= render :partial => "apps/school_time/step2", :locals=>{:step=> step, :ista_case=>@ista_case} %>
 				<% end -%> <!-- end Step 2 -->
 				<% if step.step_number == 3 && @ista_case -%>
-					<%= render :partial => "apps/school_time/step3", :locals=>{:app=>@app, :step=> step, :ista_case=>@ista_case} %>		
+					<%= render :partial => "apps/school_time/step3", :locals=>{:step=> step, :ista_case=>@ista_case} %>
 				<% end -%> <!-- end Step 3 -->
 				<% if step.step_number == 4 && @ista_case -%>
-					<%= render :partial => "apps/school_time/step4", :locals=>{:app=>@app, :step=> step, :ista_case=>@ista_case} %>		
+					<%= render :partial => "apps/school_time/step4", :locals=>{:step=> step, :ista_case=>@ista_case} %>
 				<% end -%> <!-- end Step 4 -->
 				<% if step.step_number == 5 && @ista_case -%>
-					<%= render :partial => "apps/school_time/step5", :locals=>{:app=>@app, :step=> step, :ista_case=>@ista_case} %>		
+					<%= render :partial => "apps/school_time/step5", :locals=>{:step=> step, :ista_case=>@ista_case} %>
 				<% end -%> <!-- end Step 5 -->
 			<% end -%>
 		<% else %>
-			<%= render :partial => "apps/school_time/step1", :locals=>{:app=>@app, :step=> IstaStep.step_1.first, :ista_case=>@ista_case} %>		
+			<%= render :partial => "apps/school_time/step1", :locals=>{:step=> IstaStep.step_1.first, :ista_case=>@ista_case} %>
 
 			<table id="case_step_2"   style="width:900px; margin-left:15px; color: #2061a5; ">
 				<tbody>  
 					<tr>
 						<td class="resource_levels_close">
 		
-						<%= link_to '', :controller => "apps/school_time", :action => :ista_case_show, :organization_id => @current_organization, :case_id=>@ista_case, :step_id=>IstaStep.step_2.first, :app_id=> @app.id %>
+						<%= link_to '', stat_case_show_path(:organization_id => @current_organization, :case_id=>@ista_case, :step_id=>IstaStep.step_2.first) %>
 							Show Step 2: <%=IstaStep.step_2.first.name %>
 						<span></span>
 						</td>
@@ -63,7 +63,7 @@
 					<tr>
 						<td class="resource_levels_close">
 		
-						<%= link_to '', :controller => "apps/school_time", :action => :ista_case_show, :organization_id => @current_organization, :case_id=>@ista_case,  :step_id=>IstaStep.step_3.first, :app_id=> @app.id %>
+						<%= link_to '', stat_case_show_path(:organization_id => @current_organization, :case_id=>@ista_case,  :step_id=>IstaStep.step_3.first) %>
 							Show Step 3: <%=IstaStep.step_3.first.name %>
 						<span></span>
 						</td>
@@ -82,7 +82,7 @@
 					<tr>
 						<td class="resource_levels_close">
 		
-						<%= link_to '', :controller => "apps/school_time", :action => :ista_case_show, :organization_id => @current_organization, :case_id=>@ista_case,  :step_id=>IstaStep.step_4.first, :app_id=> @app.id %>
+						<%= link_to '', stat_case_show_path(:organization_id => @current_organization, :case_id=>@ista_case,  :step_id=>IstaStep.step_4.first) %>
 							Show Step 4: <%=IstaStep.step_4.first.name %>
 						<span></span>
 						</td>
@@ -96,7 +96,7 @@
 	});
 	</script>
 		<div style="margin-left:35px">
-			<%= render :partial => "apps/school_time/step5", :locals=>{:app=>@app, :step=> IstaStep.step_5.first, :ista_case=>@ista_case} %>		
+			<%= render :partial => "apps/school_time/step5", :locals=>{:step=> IstaStep.step_5.first, :ista_case=>@ista_case} %>
 		</div>
 		<% end -%>
 	<% else -%>

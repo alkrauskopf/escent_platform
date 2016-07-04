@@ -1,5 +1,5 @@
 <div>
-  <% form_tag(admin_org_profile_path(:organization_id => @organization)) do %>
+  <%= form_tag(admin_org_profile_path(:organization_id => @organization)) do %>
       <%= render(:partial => "/master/organizations/profile") %>
       <br style="clear:both" />
       <%= submit_tag "Save" %>

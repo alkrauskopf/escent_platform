@@ -30,10 +30,8 @@ class Admin::OurOrganizationController < Admin::ApplicationController
     @address = @organization.addresses.first || @organization.addresses.new
     flash[:notice] = nil
     if request.post?
-
       if @organization.update_attributes params[:organization]
         @address.organization = @organization
-
         if !@address.update_attributes params[:address]
           flash[:error] = @address.errors.full_messages.to_sentence
         else

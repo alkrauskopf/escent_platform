@@ -32,12 +32,17 @@ class Master::ApplicationController < ApplicationController
   end
   def superuser_authorize
     if (@current_user.nil? || !@current_user.superuser?)
-      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => Organization.default
+      redirect_to organization_view_path(:organization_id => Organization.default)
     end
   end
 
   def access_denied(message=nil)
-    @login_url = url_for(:controller => "/master/application", :action => :login, "user[email_address]" => self.current_user ? @current_user.email_address : '', :organization_id => @current_organization)
+    redirect_to organization_view_path(:organization_id => Organization.default)
+  end
+
+  def access_denied_old(message=nil)
+ #   @login_url = url_for(:controller => "/master/application", :action => :login, "user[email_address]" => self.current_user ? @current_user.email_address : '', :organization_id => @current_organization)
+    @login_url = organization_view_url(:organization_id => Organization.default)
     #untrack_administrator
     self.current_user = nil
     

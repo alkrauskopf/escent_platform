@@ -1,4 +1,4 @@
-class OrganizationsController < ApplicationController
+class OrganizationsControllerOld < ApplicationController
   layout "registration"
   include OrganizationRegistration
   

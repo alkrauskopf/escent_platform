@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   def core_enabled_for_current_org?
     unless(@current_user && @current_user.superuser? || @current_organization.nil? || @current_organization == Organization.default)
       if !@current_organization.allowed?(CoopApp.core)
-        redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => Organization.default
+        redirect_to organization_view_path(:organization_id => Organization.default)
       end
     end
   end
@@ -46,35 +46,35 @@ class ApplicationController < ActionController::Base
   def current_org_current_app_provider?
     unless (!@current_organization.nil? && !@current_application.nil? && @current_organization.provider?(@current_application))
       org = @current_organization.nil? ? Organization.default : @current_organization
-      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => org
+      redirect_to organization_view_path(:organization_id => org)
     end
   end
 
   def current_user_app_authorized?
     unless(@current_user && @current_user.superuser?)
       if (@current_user.nil? || !@current_user.app_authorized?(@current_application, @current_organization))
-        redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
+        redirect_to organization_view_path(:organization_id => @current_organization, :coop_app_id => CoopApp.core)
       end
     end
   end
 
   def current_user_app_superuser?
     unless(@current_user && @current_user.app_superuser?(@current_application))
-      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
+      redirect_to organization_view_path(:organization_id => @current_organization, :coop_app_id => CoopApp.core)
     end
   end
 
   def current_user_app_admin?
     unless(@current_user && @current_application && @current_organization && @current_user.has_authority?(AuthorizationLevel.app_administrator(@current_application), @current_organization, :superuser => true))
       org = @current_organization.nil? ? Organization.default : @current_organization
-      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => org
+      redirect_to organization_view_path(:organization_id => org)
     end
   end
 
   def user_authorize(auth_level)
     if @current_user.nil? || @current_organization.nil? || !@current_user.has_authority?(auth_level, @current_organization, :superuser=>true)
       organization = !@current_user.nil? ? @current_user.organization : Organization.default
-      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => organization
+      redirect_to organization_view_path(:organization_id => organization)
     end
   end
 

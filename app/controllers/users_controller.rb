@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   layout "site"
   
   before_filter :current_organization
-  before_filter :current_user, :only => [:edit_user_bio, :member_public_profile, :remove_this_organization, :add_this_organization, :toggle_favorite_organization, :add_this_colleague, :remove_this_colleague, :add_this_favorite_resource, :remove_this_favorite_resource, :add_this_favorite_classroom, :toggle_favorite_classroom, :edit_picture, :edit_profile, :change_home_org , :change_password, :remove_association, :edit_talents, :favorite_of]
+  before_filter :current_user, :only => [:edit_user_bio, :member_public_profile, :remove_this_organization, :add_this_organization, :toggle_favorite_organization, :add_this_colleague, :remove_this_colleague, :add_this_favorite_resource, :remove_this_favorite_resource, :add_this_favorite_classroom, :toggle_favorite_classroom, :edit_picture, :edit_profile, :change_home_org , :change_password, :edit_talents, :favorite_of]
   protect_from_forgery :except => [ :login]
  
   before_filter :clear_notification
@@ -11,7 +11,6 @@ class UsersController < ApplicationController
     flash[:notice] = nil
     flash[:error] = nil
   end
-  
   
   def register
     if request.get?
@@ -31,7 +30,7 @@ class UsersController < ApplicationController
               end
 
               @user.add_as_friend_to(@user.organization)
-             if @user.organization.register_notify?
+              if @user.organization.register_notify?
                 UserMailer.admin_notice(@user, @user.organization, request.host_with_port).deliver
               end
               redirect_to :action => :registration_successful, :organization_id => @current_organization,:user => @user
@@ -56,21 +55,7 @@ class UsersController < ApplicationController
   
   def registration_successful
     @user = User.find_by_public_id(params[:user])
-    render :layout => "fsn"    
-  end
-  
-  def verify
-    @user = User.find_by_verification_code(params[:id])
-
-    
-    if @user
-      @user.set_verified
- #    self.current_user = @user if @user.verified?
- #      redirect_to :action => :verified, :organization_id => @current_organization
-      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @user.home_organization
-    else
-      flash[:error] = "Verification code is not valid."      
-    end
+    render :layout => 'fsn'
   end
   
   def edit_profile
@@ -158,7 +143,7 @@ class UsersController < ApplicationController
     else
        flash[:error] = @user.errors.full_messages.to_sentence 
      end
-  redirect_to :controller => 'users', :action => 'edit_profile', :organization_id => @current_organization
+  redirect_to user_edit_path(:organization_id => @current_organization)
   end
   
   def show
@@ -363,58 +348,10 @@ end
       else
         flash[:error] = "Please enter a new password"
       end
-      redirect_to :controller => "users",  :action => "edit_profile", :organization_id => @current_organization                        
+      redirect_to user_edit_path(:organization_id => @current_organization)
     end   
   end
-  
-  def remove_association
-    # should we also delete the roles?
-    #role = @current_user.roles.find params[:id]
-    # @current_user.roles.delete(role)
-    
-    @organization = Organization.find params[:org_to_delete]
-    @current_user.remove_as_friend_from @organization 
-    flash[:notice] = "#{@current_user.full_name} has been removed from this organization"
-    redirect_to :controller => "users", :action => "edit_profile", :organization_id => @current_organization
-  end
-  
-  def view
-    redirect_to :controller => "site",  :action => params[:organization_id]
-  end
-  
-  def check_talent_name
-    talents = Talent.auto_complete_on params[:q]
-    render :text => talents.empty? ? "" : talents.collect{|talent| "#{talent.name}\n"}
-  end
-  
-  def edit_talents
-    if request.post?
-      update_talents(params[:talents]) if params[:talents]
-      flash[:notice] = "Successfully saved talents."
-      redirect_to :controller => "users",  :action => "edit_profile", :organization_id => @current_organization
-    end
-  end
-  
-  def remove_talent
-    talent = Talent.find(params[:id])
-    Talent.destroy(talent)
-    render :text => "successful"
-  end
 
-  def edit_picture
-    if params[:user].present? && params[:user][:picture].present?
-      @current_user.picture = params[:user][:picture]
-      if @current_user.save
-        flash[:notice] = 'Uploaded picture successfully'
-      else
-        flash[:notice] = 'Upload failed'
-      end
-    else
-      flash[:error] = "Picture can't be blank"
-    end
-    redirect_to :controller => 'users', :action => 'edit_profile', :organization_id => @current_organization
-  end
-  
   private
   
   def find_featured_topic

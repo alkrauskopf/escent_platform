@@ -27,7 +27,7 @@ class Admin::ApplicationController < ApplicationController
       else
         flash[:error] = "Sign-in Unsuccessful"
       end
-      redirect_back_or_default :controller => "/admin/application", :action => :index, :organization_id => @current_organization
+      redirect_back_or_default admin_path(:organization_id => @current_organization)
     end
   end
 
@@ -38,7 +38,12 @@ class Admin::ApplicationController < ApplicationController
   end
 
   def access_denied(message=nil)
-    @login_url = url_for(:controller => "/admin/application", :action => :login, "user[email_address]" => self.current_user ? @current_user.email_address : '', :organization_id => @current_organization)
+    redirect_to organization_view_path(:organization_id => @current_organization)
+  end
+
+
+  def access_denied_old(message=nil)
+    @login_url = organization_view_url(:organization_id => @current_organization)
     #untrack_administrator
     self.current_user = nil
     

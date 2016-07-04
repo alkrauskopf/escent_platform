@@ -1,87 +1,77 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="description" content="" />
-        <meta name="keywords" content="" />
-        <%= stylesheet_link_tag "screen.css.erb.erb" %>
-        <%= stylesheet_link_tag "fsn.css.erb" %>
-
-				<%= stylesheet_link_tag 'fsn/jquery-ui-1.7.1.custom.css' %>
-        <%= stylesheet_link_tag "jquery.autocomplete" %>		
-		
-        <%= javascript_include_tag 'prototype' %>
-        <%= javascript_include_tag 'jquery-1.3.2.min.js' %>
-        <script type="text/javascript" charset="utf-8">
-            jQ = jQuery.noConflict();
-        </script>
-        <%= javascript_include_tag 'jquery-ui-1.7.1.custom.min' %>
-		<%= javascript_include_tag 'jquery.tablesorter.min' %>
-        <%= javascript_include_tag 'jquery.validate.min' %>
-				<%= javascript_include_tag "jquery.autocomplete.min" %>
-		<%= javascript_include_tag 'application' %>
-        
-        <title>Escent Partners, LLC</title>
-    
-		<style type="text/css">
-			a.continue {
-				text-transform: uppercase;
-				text-decoration: none;
-				color: #ffffff;
-				display: block;
-				text-align: right;
-				font-weight: bold;
-				font-size: 12px;
-				font-family: Helvetica, Arial;
-			}
-			a.continue:hover {
-				text-decoration: underline;
-            } #ep_bottom {
-                width: 900px;
-                background: url(<%= asset_path('main_container_bottom_secondary.jpg') %>) top left no-repeat;
-                top: 0px;
-                left: 0x;
-              	height: auto;
-                position: relative;
-			}
-		</style>    
-    
-    </head>
-    <body>
-
-
-        <div id="container">
-            <div id="home_header">
-          
-            </div>
-		
-            <div id="home_body">
-                <div id="main_content">
-                    <%= yield %>
-                </div>
-
-	<div style="clear:both">
-		<div id="ep_bottom">
-		 	<table   style="width:950px; border:0px ">
-				<tbody>
-				<style type="text/css" media="screen">
-			    table,tr,td {border:0px ;}
-				table tr:hover{
-		        background-color: transparent;
-		      }
-		    	</style>
-					<tr style=" border:0px ">
-						<td  style="width:900px; height:130px; border:0px; vertical-align:bottom; text-align:center">
-			            	&copy; <%= Time.now.year %> ESCENT PARTNERS, LLC
-			            </td>
-					</tr>
-				</tbody>					
-			</table>
-		</div>	
-	</div>
-            </div>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <%= stylesheet_link_tag asset_path('screen.css.erb.erb') %>
+    <%= stylesheet_link_tag asset_path('fsn.css.erb') %>
+    <%= stylesheet_link_tag asset_path('fsn/jquery-ui-1.7.1.custom.css') %>
+    <%= stylesheet_link_tag asset_path('jquery.autocomplete') %>
+    <%= javascript_include_tag asset_path('prototype') %>
+    <%= javascript_include_tag asset_path('jquery-1.3.2.min.js') %>
+    <script type="text/javascript" charset="utf-8">
+        jQ = jQuery.noConflict();
+    </script>
+    <%= javascript_include_tag asset_path('jquery-ui-1.7.1.custom.min') %>
+    <%= javascript_include_tag asset_path('jquery.tablesorter.min') %>
+    <%= javascript_include_tag asset_path('jquery.validate.min') %>
+    <%= javascript_include_tag asset_path('jquery.autocomplete.min') %>
+    <%= javascript_include_tag asset_path('application') %>
+    <title>Escent Partners, LLC</title>
+    <style type="text/css">
+      a.continue {
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #ffffff;
+        display: block;
+        text-align: right;
+        font-weight: bold;
+        font-size: 12px;
+        font-family: Helvetica, Arial;
+      }
+      a.continue:hover {
+        text-decoration: underline;
+            }
+        #ep_bottom {
+          width: 900px;
+          background: url(<%= asset_path('main_container_bottom_secondary.jpg') %>) top left no-repeat;
+          top: 0px;
+          left: 0px;
+          height: auto;
+          position: relative;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="home_header">
+      </div>
+      <div id="home_body">
+        <div id="main_content">
+            <%= yield %>
         </div>
-
-    </body>
+        <div style="clear:both">
+          <div id="ep_bottom">
+            <table   style="width:950px; border:0px ">
+              <tbody>
+              <style type="text/css" media="screen">
+                table,tr,td {border:0px ;}
+              table tr:hover{
+                  background-color: transparent;
+                }
+                </style>
+                <tr style=" border:0px ">
+                  <td  style="width:900px; height:130px; border:0px; vertical-align:bottom; text-align:center">
+                    &copy; <%= Time.now.year %> ESCENT PARTNERS, LLC
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
 

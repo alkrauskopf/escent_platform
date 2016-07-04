@@ -30,7 +30,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/user/tag_resource' => 'users#add_this_favorite_resource'
   get '/user/signout' => 'users#logout'
   post '/user/signin' => 'users#login'
-  get '/user/register' => 'users#register'
+  get '/user/register' => 'users#register'  # user_register
+  post '/user/register' => 'users#register'  # user_register
   get '/user/forgot_password' => 'users#forgot_password'
   post '/user/forgot_password' => 'users#forgot_password'
   get '/user/bio/edit' => 'users#edit_user_bio'

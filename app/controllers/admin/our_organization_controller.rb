@@ -21,7 +21,6 @@ class Admin::OurOrganizationController < Admin::ApplicationController
   end
   
   def information
-
   end
 
   def update_profile

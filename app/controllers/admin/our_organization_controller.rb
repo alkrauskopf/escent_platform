@@ -1,8 +1,7 @@
 class Admin::OurOrganizationController < Admin::ApplicationController
-  layout "admin/our_organization/layout"
+  layout "admin/our_organization/layout", :except =>[:update_logo]
   include ApplicationHelper
   include SimpleCaptcha::ControllerHelpers
-  protect_from_forgery :except => [ :update_style_setting_value ]
   
 #  include OrganizationRegistration
   
@@ -66,22 +65,15 @@ class Admin::OurOrganizationController < Admin::ApplicationController
     render :partial => "registration_notify"
   end
   
-  def update_logo
+  def update_logo_x
     @current_organization.logo = params[:organization][:logo]
-    
     if @current_organization.save then
       flash[:notice] = "Logo Saved"      
     else
       flash[:error] = @current_organization.errors.full_messages.to_sentence
     end
-#    redirect_to :controller => 'admin/application', :action => :index, :organization_id => @current_organization
-#    render :partial => "/admin/our_organization/organization_logo"
-   responds_to_parent do
-     render :update do |page|
-       page.replace_html "organization_logo_container", :partial => 'organization_logo', :object => @current_organization
- #       page.replace_html "organization_logo_container_preview", :partial => 'organization_logo', :object => @current_organization
-       end
-     end
+ #   redirect_to admin_path(:organization_id => @current_organization)
+    render :partial => "/admin/our_organization/organization_logo"
   end
   
   def update_body
@@ -173,7 +165,18 @@ class Admin::OurOrganizationController < Admin::ApplicationController
       flash[:error] = 'Invalid Setting ID'
     end
     render :partial => 'organization_colors', :locals => {:organization => @current_organization}
+  end
 
+  def update_logo
+    @current_organization.logo = params[:organization][:logo]
+    if @current_organization.save then
+      flash[:notice] = "Logo Saved"
+    else
+      flash[:error] = @current_organization.errors.full_messages.to_sentence
+    end
+       redirect_to admin_path(:organization_id => @current_organization)
+#    render :partial => "organization_logo"
+  #  redirect_to :controller=> 'admin/application',  :action => :index, :organization_id => @current_organization
   end
 
   def app_subscriptions

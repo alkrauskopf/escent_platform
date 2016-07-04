@@ -107,6 +107,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/master/organizations/app/enable' => 'master/organizations#change_app_useability'
   get '/master/organizations/new' => 'master/organizations#new'
   post '/master/organizations/new' => 'master/organizations#new'
+  get '/master/organizations/new/success' => 'master/organizations#registration_successful'
   get '/master/apps/new' => 'master/coop_apps#edit_app'
   get '/master/apps/view' => 'master/coop_apps#index'
   get '/master/apps/edit' => 'master/coop_apps#edit_app'

@@ -15,7 +15,9 @@ class Admin::OurOrganizationController < Admin::ApplicationController
     :theme_advanced_buttons3 => "",
     :theme_advanced_resizing => true,
     :theme_advanced_resize_horizontal => false})
-  
+
+  before_filter :clear_notification
+
   def index
   #  redirect_to :action => :profile, :organization_id => @current_organization
   end

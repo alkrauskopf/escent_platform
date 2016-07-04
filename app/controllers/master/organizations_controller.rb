@@ -34,7 +34,7 @@ class Master::OrganizationsController < Master::ApplicationController
               @organization.set_default_style_settings
               @address.organization_id = Organization.with_type_id(@organization.organization_type_id).select{|o| o.name == @organization.name}.last.id
               @address.save
-              redirect_to :action => :registration_successful, :organization_id => @organization
+              redirect_to master_organizations_new_success_path(:organization_id => @organization)
             else
               @address.destroy
               flash[:error] = @organization.errors.full_messages.to_sentence
@@ -45,7 +45,6 @@ class Master::OrganizationsController < Master::ApplicationController
         end
       end
     else
-
       @organization = Organization.new()
       @organization.organization_type_id = nil
       @address = @organization.addresses.empty? ? @organization.addresses.new : @organization.addresses.physical.first
@@ -61,7 +60,7 @@ class Master::OrganizationsController < Master::ApplicationController
     else
      flash[:error] = @saved_org.name + ' Created. But Setting & Options were not.  - Problem'
     end
-    redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @saved_org
+    redirect_to organization_view_path(:organization_id => @saved_org)
   end
 
   def update

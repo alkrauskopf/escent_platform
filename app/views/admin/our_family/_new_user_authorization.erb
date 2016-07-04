@@ -31,41 +31,42 @@
             <!--
               <%# if user.has_authority?(authorization_level, @current_organization,:superuser=>true )-%>
 						-->
-            <tr>
-              <td width=40px style="vertical-align:bottom;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; color: #C73914; font-size:9px; font-weight:normal">
-                <i><%= authorization_level.coop_app.beta? ? "(Beta)" : "" %></i>
-              </td>
-              <% if user.has_authority?(@current_organization, authorization_level) %>
-                <td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:15px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-                  <%= link_to (image_tag "button_enabled.png", :width => 15), admin_family_authorize_path(:organization_id => @current_organization, :user_id=> user, :authorization_level=>authorization_level.id), :class => "toggle_auth" %>
+            <% unless (authorization_level.coop_app.beta? && !user.beta_user_for_org?(@current_organization) && !user.has_authority?(@current_organization, authorization_level)) %>
+              <tr>
+                <td width=40px style="vertical-align:bottom;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; color: #C73914; font-size:9px; font-weight:normal">
+                  <i><%= authorization_level.coop_app.beta? ? "(Beta)" : "" %></i>
                 </td>
-              <% else -%>
-                <td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:15px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-                  <%= link_to (image_tag "button_disabled.png", :width => 15), admin_family_authorize_path(:organization_id => @current_organization, :user_id=> user, :authorization_level=>authorization_level.id), :class => "toggle_auth" %>
+                <% if user.has_authority?(@current_organization, authorization_level) %>
+                  <td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:15px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+                    <%= link_to (image_tag "button_enabled.png", :width => 15), admin_family_authorize_path(:organization_id => @current_organization, :user_id=> user, :authorization_level=>authorization_level.id), :class => "toggle_auth" %>
+                  </td>
+                <% else -%>
+                  <td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:15px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+                    <%= link_to (image_tag "button_disabled.png", :width => 15), admin_family_authorize_path(:organization_id => @current_organization, :user_id=> user, :authorization_level=>authorization_level.id), :class => "toggle_auth" %>
+                  </td>
+                <% end -%>
+                <td style="width:585px; font-size:normal; vertical-align:top">
+                  <table id="auth_header_<%= authorization_level.id%>" style="width:575px; vertical-align:top; margin-left:0px; border:0px solid white;">
+                    <tbody>
+                      <tr>
+                        <td id="auth_show_<%= authorization_level.id%>"  >
+                          <%= authorization_level.coop_app.abbrev + ": " + authorization_level.name.titleize %>&nbsp;<span style="font-size:10px"><i>(<u>Show Description</u>)</i></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table id="auth_descript_<%= authorization_level.id%>" style="width:575px; vertical-align:top; margin-left:0px; border:0px solid white;">
+                    <tbody>
+                      <tr>
+                        <td id="auth_hide_<%= authorization_level.id%>"  >
+                          <%= authorization_level.coop_app.abbrev + ": " + authorization_level.name.titleize %>&nbsp;<span style="font-size:10px"><i>(<u>Hide Description</u>)</i></span>
+                          <br/> <span style="color:#000000"><i><%= authorization_level.explanation  %></i></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </td>
-              <% end -%>
-              <td style="width:585px; font-size:normal; vertical-align:top">
-                <table id="auth_header_<%= authorization_level.id%>" style="width:575px; vertical-align:top; margin-left:0px; border:0px solid white;">
-                  <tbody>
-                    <tr>
-                      <td id="auth_show_<%= authorization_level.id%>"  >
-                        <%= authorization_level.coop_app.abbrev + ": " + authorization_level.name.titleize %>&nbsp;<span style="font-size:10px"><i>(<u>Show Description</u>)</i></span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <table id="auth_descript_<%= authorization_level.id%>" style="width:575px; vertical-align:top; margin-left:0px; border:0px solid white;">
-                  <tbody>
-                    <tr>
-                      <td id="auth_hide_<%= authorization_level.id%>"  >
-                        <%= authorization_level.coop_app.abbrev + ": " + authorization_level.name.titleize %>&nbsp;<span style="font-size:10px"><i>(<u>Hide Description</u>)</i></span>
-                        <br/> <span style="color:#000000"><i><%= authorization_level.explanation  %></i></span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
-            </tr>
+              </tr>
 <script type="text/javascript">
 jQ(document).ready(function() {
   		  jQ("#auth_header_<%= authorization_level.id%>").show();
@@ -83,7 +84,8 @@ jQ(document).ready(function() {
 });
 </script>
 		<!--				<%# end -%>  -->
-					<% end -%>
+				    	<% end %>
+            <% end -%>
 				</tbody>
 			</table>
 		</div>

@@ -9,7 +9,9 @@ class Admin::ApplicationController < ApplicationController
 
 # This doesn't work. Only Superusers pass through this filter 
 #  require_authorization "administrator", :except => [:login , :show]
-  
+
+
+
   def index
     @organization = @current_organization
     @address = @organization.addresses.first || @organization.addresses.new

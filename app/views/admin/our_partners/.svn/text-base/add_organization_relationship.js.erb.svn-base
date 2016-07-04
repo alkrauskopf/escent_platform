@@ -1,6 +1,0 @@
-var post_url = '<%= url_for :controller => :our_partners, :action => :remove_organization_relationship, :relationship_type => params[:relationship_type], :organization_id => @current_organization %>';
-var url = "<%= url_for :controller => :our_partners, :action => :update_relationship_inclusive, :relationship_type => params[:relationship_type], :organization_id => @current_organization %>"
-jQ("#<%= params[:html_id] %>_results").html('<%= escape_javascript(render :partial => "organization_relationships_table", :locals => {:relationship_type => params[:relationship_type], :collection => @organization_relationships}) %>')
-jQ("#form_content_5_trusted_topic_sources").html('<%= escape_javascript(render :partial => "/admin/our_causes/cause_parthner", :collection => @current_organization.cause_partners) %>')
-jQ("#organization-search-dialog").dialog('close');
-addButtonActionForOurPartners(jQ("#<%= params[:html_id] %>_results"), post_url, url);

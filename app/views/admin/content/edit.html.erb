@@ -1,4 +1,0 @@
-<h2 style="text-align:center; font-size:20px; font-weight:bold; margin-top: 0px; color:#000000; padding-bottom:0px;"></h2>
-<%= form_for :content, @content, :url => {:controller => "content", :action => "update", :organization_id => @current_organization, :content_id => @content, :format => 'js'}, :html => { :multipart => true, :method => :put, :target => 'upload_frame' } do |f| %>
-	<%= render :partial => "form" %>
-<% end %>

@@ -8,6 +8,7 @@ class Apps::SchoolTimeController < ApplicationController
  before_filter :stat_allowed?, :except=>[]
  before_filter :current_user_app_authorized?, :except=>[]
  before_filter :clear_notification, :except =>[]
+ before_filter :increment_app_views, :only=>[:index]
   
  def clear_notification
     flash[:notice] = nil
@@ -16,7 +17,6 @@ class Apps::SchoolTimeController < ApplicationController
   
   def index
     initialize_parameters
-    CoopApp.stat.increment_views
   end
 
  def start_ista_case

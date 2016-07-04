@@ -10,25 +10,19 @@ class Apps::LearningTimeController  < ApplicationController
 
  before_filter :elt_allowed?, :except=>[]
  before_filter :current_user_app_authorized?, :except=>[]
-
  before_filter :clear_notification, :except =>[]
  before_filter :initialize_parameters, :except =>[:select_kb_filters, :case_indicators_element_rubric]
-  
- def clear_notification
-    flash[:notice] = nil
-    flash[:error] = nil
- end
+ before_filter :increment_app_views, :only=>[:index]
   
   def index
     initialize_parameters
-    CoopApp.elt.increment_views
     if params[:function] && params[:function] == "New"
       new_case = EltCase.new
       new_case.user_id = @current_user.id
       new_case.organization_id = @current_organization.id
       new_case.user_name = @current_user.last_name_first
       if new_case.save
-        redirect_to :action => :start_case, :elt_case_id => @current_user.elt_cases.last, :organization_id=>@current_organization, :app_id=>@app  
+        redirect_to elt_case_add_path(:elt_case_id => @current_user.elt_cases.last, :organization_id=>@current_organization)
       end    
     end
   end
@@ -423,7 +417,7 @@ class Apps::LearningTimeController  < ApplicationController
   def start_case
     @activity = EltType.find_by_public_id(params[:elt_type_id]) rescue nil
     create_case(@activity)
-    redirect_to :action => 'show_case', :organization_id => @current_organization, :school_id=> @school, :user_id => @current_user, :elt_case_id => @case, :form => 'new'
+    redirect_to elt_case_show_path(:organization_id => @current_organization, :school_id=> @school, :user_id => @current_user, :elt_case_id => @case, :form => 'new')
   end
 
  def update_case_b

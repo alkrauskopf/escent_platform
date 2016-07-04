@@ -11,7 +11,8 @@ class Apps::TimeLearningController < ApplicationController
   before_filter :current_user, :except => []
   before_filter :ctl_allowed?, :except=>[]
   before_filter :current_user_app_authorized?, :except=>[]
- before_filter :clear_notification, :except =>[:teacher_private_itl_dashboards]
+  before_filter :clear_notification, :except =>[:teacher_private_itl_dashboards]
+  before_filter :increment_app_views, :only=>[:index]
   
  def clear_notification
     flash[:notice] = nil
@@ -20,7 +21,6 @@ class Apps::TimeLearningController < ApplicationController
 
   def index
     initialize_parameters
-    CoopApp.ctl.increment_views
     itl_groupings
     clean_unresolved_observer_sessions
   end

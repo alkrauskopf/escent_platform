@@ -4,6 +4,7 @@ class Apps::AssessmentController < ApplicationController
   before_filter :current_user_app_authorized?, :except=>[]
   before_filter :current_user_app_admin?, :only=>[]
   before_filter :clear_notification
+  before_filter :increment_app_views, :only=>[:index]
   
  def clear_notification
     flash[:notice] = nil
@@ -15,7 +16,6 @@ class Apps::AssessmentController < ApplicationController
 #   MAIN ASSESSMENT MANAGEMENT CONTROLLERS
   def index
     initialize_parameters
-    @current_application.increment_views
     if @current_organization.ifa_org_option
       @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first
       @master = ActMaster.find_standard('ACT')

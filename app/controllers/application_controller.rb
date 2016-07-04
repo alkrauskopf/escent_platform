@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
   def current_application
     @current_application ||= CoopApp.find_by_public_id(params[:coop_app_id]) rescue CoopApp.core
   end
+
+  def increment_app_views
+    @current_application.increment_views
+  end
   #
   #    ELT Instance Variables
   #

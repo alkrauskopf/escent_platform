@@ -40,7 +40,7 @@ class Admin::OurOrganizationController < Admin::ApplicationController
         flash[:error] = @organization.errors.full_messages.to_sentence
       end
     end
-    redirect_to :controller => 'admin/application', :action => :index, :organization_id => @current_organization
+    redirect_to admin_path(:organization_id => @current_organization)
   end
 
 

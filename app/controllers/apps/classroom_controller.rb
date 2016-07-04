@@ -4,6 +4,7 @@ class Apps::ClassroomController < Site::ApplicationController
  before_filter :classroom_allowed?, :except=>[]
  before_filter :current_user_app_authorized?, :except=>[]
  before_filter :clear_notification
+ before_filter :increment_app_views, :only=>[:index]
   
  def clear_notification
     flash[:notice] = nil
@@ -12,7 +13,6 @@ class Apps::ClassroomController < Site::ApplicationController
 
   def index
     initialize_parameters
-    CoopApp.classroom.increment_views
     unless @current_user.classroom_admin_for_org?(@current_organization)
       @teacher = @current_user
     end 
@@ -299,7 +299,7 @@ class Apps::ClassroomController < Site::ApplicationController
         @student.set_classroom_favorite(@period.classroom, "add")
       end
     end
-    redirect_to :controller => '/site/site',:action => :static_classroom, :organization_id => @current_organization, :id => @classroom
+    redirect_to offering_view_path(:organization_id => @current_organization, :id => @classroom)
   #  render :partial => "apps/classroom/register_student", :locals=> {:classroom => @classroom}
   end
   

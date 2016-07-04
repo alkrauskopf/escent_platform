@@ -112,12 +112,7 @@ class Apps::AppBlogController < ApplicationController
   def possible_bloggers
     @people = @blog ? (@current_organization.bloggers - @blog.users): @current_organization.bloggers
   end
-  
-  def authorization_check
-    unless @admin || @blogger
-      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => Organization.ep_default.first
-    end
-  end
+
 
   def check_for_dup_feature
      dup_blogs = @current_organization.blogs.select{|b| b.feature && b.blog_type_id == params[:blog][:blog_type_id].to_i}

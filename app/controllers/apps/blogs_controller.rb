@@ -7,6 +7,7 @@ class Apps::BlogsController < ApplicationController
   before_filter :blog_allowed?, :except=>[]
   before_filter :current_user_app_authorized?, :except=>[]
   before_filter :initialize_parameters
+  before_filter :increment_app_views, :only=>[:index]
   
  def clear_notification
     flash[:notice] = nil
@@ -15,7 +16,6 @@ class Apps::BlogsController < ApplicationController
   
 
   def index
-    CoopApp.blog.increment_views
     authorization_check
   end
 

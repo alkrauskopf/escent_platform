@@ -66,7 +66,7 @@ class Apps::AppReportController < Site::ApplicationController
 
   def elt_destroy_plan  
     @plan.destroy
-    redirect_to :action => :elt_school_diag, :organization_id => @current_organization, :user_id => @current_user, :report_id => "SD", :app_id => CoopApp.elt.id
+    redirect_to elt_report_path(:organization_id => @current_organization, :user_id => @current_user, :report_id => "SD")
   end
 
   def elt_other_school_cycles  

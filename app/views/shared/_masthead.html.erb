@@ -1,5 +1,5 @@
 <div class="masthead clear">
-  <% master_org = @app ? @current_organization.app_provider(@app) : (Organization.default rescue @current_organization) -%>
+  <% master_org = @app ? @current_organization.app_provider(@app) : (Organization.default) -%>
   <% unless master_org.web_site_url.nil? %>
     <%=  link_to (image_tag(master_org.logo.url, :class => "logo", :alt => master_org.name, :height => 10)), master_org.web_site_url, :target => "_blank"  %>
   <% else -%>

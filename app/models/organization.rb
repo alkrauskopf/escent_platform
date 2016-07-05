@@ -279,11 +279,11 @@ class Organization < ActiveRecord::Base
   end
   
   def self.default
-    find Organization.default rescue nil
+    find Organization.ep_default.first rescue nil
   end
   
   def default?
-    self.id == Organization.ep_default.first.id
+    self.id == Organization.default.id
   end
   
   def can_be_deleted?

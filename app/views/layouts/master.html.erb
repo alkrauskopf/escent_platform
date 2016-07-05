@@ -6,7 +6,7 @@
         <meta name="keywords" content="" />	
 		<title>Escent Partners, LLC</title>			
 		<%= stylesheet_link_tag 'screen' %>
-		<%= stylesheet_link_tag url_for(:controller => "/stylesheets", :action => :iwing, :organization_id => @current_organization, :format => "css") %>
+		<%= stylesheet_link_tag iwing_stylesheet_url(:organization_id => @current_organization, :format => "css") %>
 		<%= stylesheet_link_tag "public_info", :media => "screen" %>
 
 		<%= stylesheet_link_tag "master/screen", :media => "screen" %>

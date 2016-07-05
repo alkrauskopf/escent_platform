@@ -4,6 +4,6 @@ class HelpController < ApplicationController
   before_filter :current_user
     
   def index
-    render :layout => "tcp_home"
+    render :layout => "ep_site2"
   end
 end

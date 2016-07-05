@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		 <title>Escent Partners, LLC</title>
 		<%= stylesheet_link_tag 'screen' %>
-		<%= stylesheet_link_tag url_for(:controller => "/stylesheets", :action => :iwing, :organization_id => @current_organization, :format => "css") %>
+		<%= stylesheet_link_tag iwing_stylesheet_url(:organization_id => @current_organization, :format => "css") %>
 
 		<%= stylesheet_link_tag "public_info", :media => "screen" %>
 		<%= stylesheet_link_tag "fsn/jquery-ui-1.7.1.custom.css", :media => "screen" %>

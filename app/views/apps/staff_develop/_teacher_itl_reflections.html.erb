@@ -6,7 +6,7 @@
 					<tbody>  
 						<tr>
 							<td class="resource_levels_close">
-								<%= link_to '', ctl_analyse_period_path(:type => "teacher", :teacher_id => teacher, :organization_id => @current_organization, :l_entity => teacher.id, :r_entity => teacher.id, :new_r_entity=> "T", :new_subject => teacher.tlt_sessions.last.subject_area_id) %>
+								<%= link_to '', ctl_analyze_period_path(:type => "teacher", :teacher_id => teacher, :organization_id => @current_organization, :l_entity => teacher.id, :r_entity => teacher.id, :new_r_entity=> "T", :new_subject => teacher.tlt_sessions.last.subject_area_id) %>
 								<%= teacher.last_name %> Strategy Comparisons
 								<span></span>
 							</td>
@@ -29,9 +29,11 @@ jQ(document).ready(function() {
 								<tr>
 									<th>
 										<strong><%= pluralize( teacher.tlt_sessions.for_subject(subject).final.size.to_s, subject.name + " Observation") -%></strong>
+										<!--
 										<span style="float:right; font-size:10.5px;padding-right:10px">
-										<%= link_to 'Self-Reflect', ctl_reflection_path(:organization_id => @current_organization,:subject_area_id => subject, :teacher_id => @current_user), {:target => '_blank'}%>
+										<%#= link_to 'Self-Reflect', ctl_reflection_path(:organization_id => @current_organization,:subject_area_id => subject, :teacher_id => @current_user), {:target => '_blank'}%>
 										</span>
+                    -->
 									</th>											
 								</tr>
 							</thead>

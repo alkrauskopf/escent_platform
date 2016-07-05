@@ -196,6 +196,7 @@ class CoopApp < ActiveRecord::Base
   def link_path
     self.app_link[2] + '_path'
   end
+
   def link_url
     self.app_link[2] + '_url'
   end

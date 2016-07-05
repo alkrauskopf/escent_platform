@@ -42,7 +42,7 @@
 	jQ(document).ready(function() {
 		jQ('#send_survey').click(function() {
 			var session_id = '<%= session.public_id %>';
-			var url = "<%= url_for :controller => '/apps/time_learning', :action => :send_student_survey_from_static_page, :organization_id => @current_organization  %>";
+			var url = "<%= ctl_observation_survey_send_url(:organization_id => @current_organization)  %>";
 				jQ.get(url, {'tlt_session_id': session_id}, function(data) {
 				jQ("#student_survey").html(data); 
 		   		jQ("#student_survey").show();

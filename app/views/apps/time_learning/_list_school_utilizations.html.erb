@@ -25,7 +25,7 @@
     });
     </script>
     <% end -%>
-    <% unless @current_organization.itl_summaries.empty? || @current_organization.itl_org_option.nil? || !@current_organization.app_enabled?(app) -%>
+    <% unless @current_organization.itl_summaries.empty? || @current_organization.itl_org_option.nil?-%>
       <% none_found =  false -%>
         <table id="<%=@current_organization.public_id %>_analyze"   style="width:650px; ">
           <tbody>

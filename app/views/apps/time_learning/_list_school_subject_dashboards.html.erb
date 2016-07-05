@@ -19,7 +19,7 @@
 					<% school.subjects_with_tlt_sessions.each do |subject| %>
 						<tr style="border:0px">
 							<td class="resource_levels_close" style="border:0px">
-							<%= link_to '', :controller => "apps/time_learning", :action => :subject_dashboard, :organization_id => @current_organization, :school_id => school, :subject_area_id => subject %>
+							<%= link_to '', ctl_reflection_dashboard_subject_path(:organization_id => @current_organization, :school_id => school, :subject_area_id => subject) %>
 							<%= subject.name %>
 							<span></span>
 							</td>

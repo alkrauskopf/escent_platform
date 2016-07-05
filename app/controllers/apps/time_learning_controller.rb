@@ -36,7 +36,7 @@ class Apps::TimeLearningController < ApplicationController
  
    def setup_session
     initialize_parameters
-    @practice = params[:practice] ? true:false
+    @practice = params[:practice] == 'false' ? false:true
     @video_list = @practice ? @current_organization.coop_app_resources.for_app(@current_application).collect{|app_res| app_res.content}.select{|c| c.embed_code?} : []
     @video_list.each do|vid|
       vid.title = vid.irr_resource? ? "** " + vid.title : vid.title
@@ -113,7 +113,7 @@ class Apps::TimeLearningController < ApplicationController
           end
         end
 #        redirect_to :action => 'track_session', :organization_id => @current_organization, :tlt_session_id => @tlt_session
-        redirect_to :controller => 'apps/panel', :action => 'track_session', :user_id=> @current_user, :organization_id => @current_organization, :tlt_session_id => @tlt_session, :suspended => false
+        redirect_to ctl_observe_begin_path(:user_id=> @current_user, :organization_id => @current_organization, :tlt_session_id => @tlt_session, :suspended => false)
      else
         flash[:error] = @tlt_session.errors.full_messages.to_sentence 
       end
@@ -288,7 +288,7 @@ class Apps::TimeLearningController < ApplicationController
     
     if params[:function] == "submit"
         store_survey_responses_app(@schedule)
-        redirect_to :action => 'static_itl_session', :organization_id => @current_organization, :tlt_session_id => @tlt_session
+        redirect_to ctl_session_show_path(:organization_id => @current_organization, :tlt_session_id => @tlt_session)
     end
   end
  
@@ -301,7 +301,7 @@ class Apps::TimeLearningController < ApplicationController
         store_survey_responses(@tlt_session)
 
       end # end of Check if Survey Already Taken
-    redirect_to :controller => "/site/site",:action => :static_classroom, :organization_id => @current_organization,  :id => @classroom 
+    redirect_to offering_view_path(:organization_id => @current_organization,  :id => @classroom)
     end
   end
 
@@ -690,7 +690,7 @@ class Apps::TimeLearningController < ApplicationController
         create_summary_data(@tlt_session) 
       end
     end
-    redirect_to :action => 'static_itl_session', :organization_id => @current_organization, :tlt_session_id => @tlt_session
+    redirect_to ctl_session_show_path(:organization_id => @current_organization, :tlt_session_id => @tlt_session)
   end 
   
   def recalc_itl_summary
@@ -757,7 +757,7 @@ class Apps::TimeLearningController < ApplicationController
         end
         store_survey_responses_app(@current_user.tlt_diagnostics.last.survey_schedules.last)
       end  # diagnostic Save Condition
-      redirect_to :action => :teacher_private_itl_dashboards, :organization_id => @current_organization,  :subject_area_id => @subject_area, :teacher_id => @current_user
+      redirect_to ctl_reflection_path(:organization_id => @current_organization,  :subject_area_id => @subject_area, :teacher_id => @current_user)
     end # end of Check Submission
 
     @audience = CoopApp.itl.tlt_survey_audiences.teacher.first
@@ -786,7 +786,7 @@ class Apps::TimeLearningController < ApplicationController
         store_survey_responses_app(@schedule)
       end 
     end
-    redirect_to :action => 'finalize_session', :organization_id => @current_organization, :user_id => @current_user, :tlt_session_id => @tlt_session, :function => "observer"
+    redirect_to ctl_observation_finalize_path(:organization_id => @current_organization, :user_id => @current_user, :tlt_session_id => @tlt_session, :function => 'observer')
   end
 
 
@@ -933,7 +933,7 @@ class Apps::TimeLearningController < ApplicationController
         new_template.tl_activity_type_tasks << template.tl_activity_type_tasks
       end
     end
-    redirect_to :action => 'manage_filters', :organization_id => @current_organization
+    redirect_to ctl_options_templates_path(:organization_id => @current_organization)
   end
 
   def destroy_template
@@ -1204,7 +1204,7 @@ class Apps::TimeLearningController < ApplicationController
     end  
     open_sessions = TltSession.for_observer(@current_user).select{|s| !s.logs_are_closed} 
     unless open_sessions.empty?
-      redirect_to :controller => 'apps/panel', :action => 'track_session', :user_id=> @current_user, :organization_id => @current_organization, :tlt_session_id => open_sessions.last, :suspended => true
+      redirect_to ctl_observe_begin_path(:user_id=> @current_user, :organization_id => @current_organization, :tlt_session_id => open_sessions.last, :suspended => true)
     end   
   end
 
@@ -1345,7 +1345,7 @@ class Apps::TimeLearningController < ApplicationController
 
   def create_summary_data(session)
      # summary = ItlSummary.find(:first, :conditions=>["classroom_id=? AND yr_mnth_of=? AND itl_belt_rank_id = ?", session.classroom_id,session.session_date.beginning_of_month, session.itl_belt_rank_id]) rescue nil
-    summary =  (session.classroom.nil? || session.itl_belt_rank.nil? || session.classroom.itl_summary.nil?) ? nil : session.classroom.itl_summary.for_belt(session.itl_belt_rank).for_month(session.session_date.beginning_of_month).first
+    summary =  (session.classroom.nil? || session.itl_belt_rank.nil? || session.classroom.itl_summaries.empty?) ? nil : session.classroom.itl_summaries.for_belt(session.itl_belt_rank).for_month(session.session_date.beginning_of_month).first
     if summary
      summary.observation_count += 1
      summary.classroom_duration += session.duration

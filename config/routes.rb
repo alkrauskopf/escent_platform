@@ -2,7 +2,7 @@ EscentPartners::Application.routes.draw do |map|
 
   # You can have the root of your site routed with "root"
  # root to: 'fsn#index'
-  get '/root' => 'fsn#index'
+  get '/' => 'fsn#index'
   # <%= link_to 'Edit Profile', user_edit_path %>
   #     <a href="/profile/edit">Edit Profile</a>
 
@@ -114,18 +114,10 @@ EscentPartners::Application.routes.draw do |map|
   post '/master/apps/edit' => 'master/coop_apps#edit_app'
   get '/master/apps/settings/edit' => 'master/coop_apps#edit_app_settings'
   post '/master/apps/settings/edit' => 'master/coop_apps#edit_app_settings'
-  # get '/master/core/maintenance_1' => 'master/coop_apps#maint_action'
-  # get '/master/ctl/maintenance_1' => 'master/coop_apps#maint_action'
   get '/master/ctl/video/show' => 'master/coop_apps#show_user_video_session'
   post '/master/ctl/strategies/edit' => 'master/coop_apps#ctl_strategy_update'
   get '/master/ctl/strategies' => 'master/coop_apps#ctl_strategies_maintain'
   get '/master/ctl/session' => 'master/coop_apps#ctl_strategies_maintain'
-  # get '/master/ifa/maintenance_1' => 'master/coop_apps#maint_action'
-  # get '/master/blog/maintenance_1' => 'master/coop_apps#maint_action'
-  # get '/master/offering/maintenance_1' => 'master/coop_apps#maint_action'
-  # get '/master/pd/maintenance_1' => 'master/coop_apps#maint_action'
-  # get '/master/ita/maintenance_1' => 'master/coop_apps#maint_action'
-  # get '/master/elt/maintenance_1' => 'master/coop_apps#maint_action'
 
   # CORE Discussions
   get '/discussion/resource/comment/delete' => 'site/discussions#delete_resource_comment'
@@ -305,22 +297,15 @@ EscentPartners::Application.routes.draw do |map|
     get 'log' => 'apps/time_learning#log_summary'
     get 'finalize' => 'apps/time_learning#finalize_session'
     post 'survey' => 'apps/time_learning#take_post_conf_survey'
+    get 'survey/send' => 'apps/time_learning#send_student_survey_from_static_page'
   end
-  # get '/ctl/observation/add' => 'apps/time_learning#setup_session'
-  # post '/ctl/observation/add' => 'apps/time_learning#setup_session'
-  # get '/ctl/observation/destroy' => 'apps/time_learning#destroy_session'
-  # get '/ctl/observation/log' => 'apps/time_learning#log_summary'
-  # get '/ctl/observation/finalize' => 'apps/time_learning#finalize_session'
-  # post '/ctl/observation/survey' => 'apps/time_learning#take_post_conf_survey'
   get '/ctl/observation/comments/edit' => 'apps/time_learning#edit_session_comments'
   get '/ctl/observation/video/attach' => 'apps/time_learning#attach_embed_code'
   get '/ctl/observation/video/remove' => 'apps/time_learning#remove_embed_code'
   get '/ctl/observation/video/create' => 'apps/time_learning#create_training_video'
   get '/ctl/observation/video/show' => 'apps/shared#show_video'
-
   get '/ctl/observation/research' => 'apps/time_learning#research_summary'
   get '/ctl/observation/activities' => 'apps/time_learning#refresh_activity_summary'
-
   get '/ctl/observe/begin' => 'apps/panel#track_session'
   get '/ctl/observe/end' => 'apps/panel#end_session'
   get '/ctl/observe/abort' => 'apps/panel#abort_session'
@@ -329,14 +314,16 @@ EscentPartners::Application.routes.draw do |map|
   get '/ctl/observe/evidence/add' => 'apps/panel#log_no_time_session_task'
   get '/ctl/observe/evidence/delete' => 'apps/panel#remove_log'
   get '/ctl/observe/evidence/note' => 'apps/panel#update_log_note'
-
+  get '/ctl/observe/evidence/strategy' => 'apps/panel#update_log_strategy'
   get '/ctl/backlog' => 'apps/time_learning#subject_tlt_sessions'
   get '/ctl/invite/send' => 'apps/time_learning#send_invite'
   get '/ctl/analyze/period' => 'apps/time_learning#then_now'
   get '/ctl/analyze/utlization' => 'apps/time_learning#school_utilization'
   get '/ctl/reflection' => 'apps/time_learning#teacher_private_itl_dashboards'
   get '/ctl/reflection/dashboard/teacher' => 'apps/time_learning#teacher_itl_dashboards'
+  get '/ctl/reflection/dashboard/teacher/toggle' => 'apps/time_learning#toggle_teacher_dashboard_details'
   get '/ctl/reflection/dashboard/toggle' => 'apps/time_learning#toggle_school_dashboard_details'
+  get '/ctl/reflection/dashboard/subject' => 'apps/time_learning#subject_dashboard'
   get '/ctl/reflection/population' => 'apps/time_learning#population_stats'
   post '/ctl/reflection/diagnostics' => 'apps/time_learning#diagnostics'
   get '/ctl/reflection/diagnostics/history' => 'apps/time_learning#diagnostic_history'
@@ -345,7 +332,6 @@ EscentPartners::Application.routes.draw do |map|
   get '/ctl/resources/panel_help' => 'apps/time_learning#observation_panel_help'
   get '/ctl/resources/app' => 'apps/shared#show_app_resources'
   get '/ctl/resources/app/admin' => 'apps/shared#admin_app_resources'
-
   get '/ctl/options/training' => 'apps/time_learning#training_classroom'
   get '/ctl/options/training/assign' => 'apps/time_learning#define_training_room'
   get '/ctl/options/method/activate' => 'apps/time_learning#toggle_method'
@@ -361,9 +347,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ctl/options/belts/manage' => 'apps/time_learning#manage_belt_rankings'
   get '/ctl/options/belts/manage/user' => 'apps/time_learning#manage_belt_user'
   get '/ctl/options/belts/user/update' => 'apps/time_learning#update_user_belt'
-
   get '/ctl/options/stats/window' => 'apps/time_learning#edit_option_window'
-
   get '/ctl/maint/strategies' => 'apps/owner_maintenance#owner_strategies'
   get '/ctl/maint/strategies/edit' => 'apps/owner_maintenance#owner_strategy_edit'
   post '/ctl/maint/strategies/edit' => 'apps/owner_maintenance#owner_strategy_update'
@@ -407,7 +391,6 @@ EscentPartners::Application.routes.draw do |map|
   post '/elt/maint/indicator/new' => 'apps/owner_maintenance#elt_indicator_new'
   get '/elt/maint/indicators' => 'apps/owner_maintenance#elt_manage_indicators'
   get '/elt/maint/activity/select' => 'apps/owner_maintenance#elt_select_type'
-
   get '/elt/case/add' => 'apps/learning_time#start_case'
   post '/elt/case/add' => 'apps/learning_time#start_case'
   get '/elt/case/show' => 'apps/learning_time#show_case'
@@ -418,7 +401,6 @@ EscentPartners::Application.routes.draw do |map|
   post '/elt/case/update' => 'apps/learning_time#update_case_b'
   get '/elt/case/comments' => 'apps/learning_time#list_case_comments'
   get '/elt/case/support/findings' => 'apps/learning_time_standards#supporting_findings'
-
   get '/elt/config/standards' => 'apps/learning_time_standards#index'
   post '/elt/config/standard/add' => 'apps/learning_time_standards#create'
   get '/elt/config/standard/destroy' => 'apps/learning_time_standards#destroy'
@@ -473,7 +455,6 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/config/plan/organization' => 'apps/learning_time#transfer_plan_org'
   get '/elt/activity/cycle/school/cases' => 'apps/learning_time#show_school_cycle_activity_cases' #
   get '/elt/activity/cycle/school/activities' => 'apps/learning_time#list_school_cycle_activities' #
-
   get '/elt/survey/start' => 'apps/learning_time#send_school_cycle_survey'
   get '/elt/survey/stop' => 'apps/learning_time#stop_school_cycle_surveys'
   get '/elt/community/filters' => 'apps/learning_time#select_kb_filters'
@@ -487,9 +468,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/report/school/plan/destroy' => 'apps/app_report#elt_destroy_plan'
   get '/elt/report/school/plan/update' => 'apps/learning_time#update_action_plan'
   get '/elt/report/school/other/cycles' => 'apps/app_report#elt_other_school_cycles'
-
   get '/elt/option/cycle' => 'apps/learning_time#assign_option_cycle'
-
 
   # APP STAT
   scope 'stat/', as: 'stat' do
@@ -516,19 +495,18 @@ EscentPartners::Application.routes.draw do |map|
   # map.connect '/static_classroom/:organization_id/:id', :controller => 'site/site', :action => 'static_classroom', :requirements => {:organization_id => /[a-f\d]{16}/}
 
   #  map.connect  '/users/edit_picture/:organization_id', :controller => 'users/assessment', :action => 'edit_picture'
-  map.resources :classrooms
+#  map.resources :classrooms
 
-  map.resources :content_resource_types
+#  map.resources :content_resource_types
 
-
-  map.resources :messages
-  map.resources :contact_fs_ns
-  map.resources :organization_types, :controller => "master/organization_types"
-  map.resources :organization_sizes, :controller => "master/organization_sizes"
-  map.resources :address_types, :controller => "master/address_types"
-  map.resources :act_submissions, :controller => "master/act_submissions"
-  map.resources :act_submissions, :controller => "master/trt_session"
-  map.resources :coop_apps, :controller => "master/coop_apps"
+#  map.resources :messages
+#  map.resources :contact_fs_ns
+#  map.resources :organization_types, :controller => "master/organization_types"
+#  map.resources :organization_sizes, :controller => "master/organization_sizes"
+#  map.resources :address_types, :controller => "master/address_types"
+#  map.resources :act_submissions, :controller => "master/act_submissions"
+#  map.resources :act_submissions, :controller => "master/trt_session"
+#  map.resources :coop_apps, :controller => "master/coop_apps"
 
   #  map.admin_classroom_archive '/admin/classrooms/archive/:id',:controller => 'admin/classrooms',:action => 'archive'
   #  map.admin_classroom_restore '/admin/classrooms/restore/:id',:controller => 'admin/classrooms',:action => 'restore'
@@ -538,9 +516,9 @@ EscentPartners::Application.routes.draw do |map|
   #    admin.resources :classrooms
   #end
 
-  map.namespace :master do |master|
-    master.resources :merchant_accounts
-  end
+#  map.namespace :master do |master|
+#    master.resources :merchant_accounts
+#  end
 
   # The priority is based upon order of creation: first created -> highest priority.
 
@@ -584,24 +562,24 @@ EscentPartners::Application.routes.draw do |map|
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing the them or commenting them out if you're using named routes and resources.
-  map.connet '/site/prayer_pledges/register', :controller => 'site/prayer_pledges', :action => 'index'
+#  map.connet '/site/prayer_pledges/register', :controller => 'site/prayer_pledges', :action => 'index'
   # ALK
-  map.connect '/apps/assessment', :controller => 'apps/assessment'
-  map.connect '/apps/blogs', :controller => 'apps/blogs'
-  map.connect '/apps/app_blog', :controller => 'apps/app_blog'
-  map.connect '/apps/time_learning', :controller => 'apps/time_learning'
-  map.connect '/apps/school_time', :controller => 'apps/school_time'
-  map.connect '/apps/client_manager', :controller => 'apps/client_manager'
-  map.connect '/apps/learning_time', :controller => 'apps/learning_time'
-  map.connect '/apps/panel', :controller => 'apps/panel'
-  #  map.connect  '/apps/classroom', :controller => 'apps/classroom'
-  map.connect '/apps/staff_develop', :controller => 'apps/staff_develop'
-  map.connect '/apps/shared', :controller => 'apps/shared'
-  map.connect '/site/blog_posts', :controller => 'site/blog_posts'
-  map.connect '/site/contents', :controller => 'site/contents'
-  map.connect '/site/:organization_id', :controller => 'site/site', :action => 'index', :requirements => {:organization_id => /[a-f\d]{16}/}
-  map.connect '/site/site', :controller => 'fsn', :action => 'index'
-  map.connect '/site/', :controller => 'site/site', :action => 'index'
+#  map.connect '/apps/assessment', :controller => 'apps/assessment'
+#  map.connect '/apps/blogs', :controller => 'apps/blogs'
+#  map.connect '/apps/app_blog', :controller => 'apps/app_blog'
+#  map.connect '/apps/time_learning', :controller => 'apps/time_learning'
+#  map.connect '/apps/school_time', :controller => 'apps/school_time'
+#  map.connect '/apps/client_manager', :controller => 'apps/client_manager'
+#  map.connect '/apps/learning_time', :controller => 'apps/learning_time'
+#  map.connect '/apps/panel', :controller => 'apps/panel'
+#  #  map.connect  '/apps/classroom', :controller => 'apps/classroom'
+#  map.connect '/apps/staff_develop', :controller => 'apps/staff_develop'
+#  map.connect '/apps/shared', :controller => 'apps/shared'
+#  map.connect '/site/blog_posts', :controller => 'site/blog_posts'
+#  map.connect '/site/contents', :controller => 'site/contents'
+#  map.connect '/site/:organization_id', :controller => 'site/site', :action => 'index', :requirements => {:organization_id => /[a-f\d]{16}/}
+#  map.connect '/site/site', :controller => 'fsn', :action => 'index'
+#  map.connect '/site/', :controller => 'site/site', :action => 'index'
 
   #  map.connect '/admin/', :controller => 'admin/application', :action => 'index'
   #  map.connect '/admin/application/index/:organization_id',  :controller => 'admin/application', :action => 'index', :requirements => {:organization_id => /[a-f\d]{16}/}
@@ -611,12 +589,12 @@ EscentPartners::Application.routes.draw do |map|
 
   # map.connect '/master/', :controller => 'master/application', :action => 'index'
 
-  map.connect ':controller/:action/:organization_id', :requirements => {:organization_id => /[a-f\d]{16}/}
-  map.connect ':controller/:action/:organization_id/:id', :requirements => {:organization_id => /[a-f\d]{16}/}
-  map.connect ':controller/:action/:organization_id.:format', :requirements => {:organization_id => /[a-f\d]{16}/}
-  map.connect ':id/blog/:year/:month/:day/:title', :controller => 'site/blog_posts', :action => 'show', :id => :id
+ # map.connect ':controller/:action/:organization_id', :requirements => {:organization_id => /[a-f\d]{16}/}
+ # map.connect ':controller/:action/:organization_id/:id', :requirements => {:organization_id => /[a-f\d]{16}/}
+ # map.connect ':controller/:action/:organization_id.:format', :requirements => {:organization_id => /[a-f\d]{16}/}
+ # map.connect ':id/blog/:year/:month/:day/:title', :controller => 'site/blog_posts', :action => 'show', :id => :id
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action.:format'
-  map.simple_captcha '/simple_captcha/:action', :controller => 'simple_captcha'
+ # map.simple_captcha '/simple_captcha/:action', :controller => 'simple_captcha'
 end

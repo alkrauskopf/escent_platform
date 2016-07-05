@@ -23,7 +23,7 @@ class FsnController < ApplicationController
     if params[:organization_id]
       @current_organization = Organization.find_by_public_id(params[:organization_id])
     else
-     @current_organization = Organization.ep_default.first 
+     @current_organization = Organization.default
     end
   end
 end

@@ -230,7 +230,7 @@
 					var task_id = jQ('#new_task_<%= log.public_id%>').val();
 					var log_id = '<%= log.public_id %>';
 					var session_id = '<%= tl_session.public_id %>';
-					var url = "<%= url_for :controller => '/apps/panel', :action => :update_log_strategy, :user_id => @current_user, :organization_id => @current_organization %>";
+					var url = "<%= ctl_observe_evidence_strategy_url(:user_id => @current_user, :organization_id => @current_organization) %>";
 						jQ.get(url, {'tlt_log_id':log_id, 'task_id':task_id, 'tlt_session_id': session_id}, function(data) {
 							jQ("#tracker_log").html(data);
 							jQ("#tracker_log").show();

@@ -279,7 +279,7 @@ class Organization < ActiveRecord::Base
   end
   
   def self.default
-    find Organization.ep_default.first rescue nil
+    find Organization.default rescue nil
   end
   
   def default?

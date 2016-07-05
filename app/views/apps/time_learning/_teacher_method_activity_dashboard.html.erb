@@ -18,10 +18,9 @@
 			<tr style="border:0px solid #ddd; background:<%=backgrnd%>;">						
 				<td style=" width:5%; border:0px solid #ddd; color: #000000; vertical-align:middle; font-size:9px" >
 					<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-						<% label = task_details ? "Hide" : "Show" -%>
+						<% label_hs = task_details ? 'Hide' : 'Show' -%>
 						<% toggle = task_details ? 0 : 1 -%>
-						<%= link_to label, { :controller =>"apps/time_learning", :action => "toggle_teacher_dashboard_details", :organization_id => @current_organization, :task_details=>toggle, :teacher_id => teacher, :subject_id=> subject, :session_ids => session_ids, :group=>group, :activity_id=>activity.id, :columns=>columns}, :class => "toggle_task" + group + activity.id.to_s  %>
-
+						<%= link_to label_hs, ctl_reflection_dashboard_teacher_toggle_path(:organization_id => @current_organization, :task_details=>toggle, :teacher_id => teacher, :subject_id=> subject, :session_ids => session_ids, :group=>group, :activity_id=>activity.id, :columns=>columns), :class => 'toggle_task' + group + activity.id.to_s  %>
 					</span>		
 				</td>
 				<td style=" border:0px solid #ddd; color: #000000; vertical-align:middle; text-align:left; font-weight:<%=activity_weight%>; font-size:10px" >
@@ -43,7 +42,6 @@
 							<% else -%>
 								&nbsp;
 							<% end -%>
-
 						<% elsif sessions[idx] && sessions[idx].app_methods.include?(method) && !method.timed? -%>
 							<%= sessions[idx].tlt_dashboards.for_activity(activity).empty? ? nil : sessions[idx].tlt_dashboards.for_activity(activity).collect{|d| d.segments}.sum  -%>								
 							<% avg_rating =  sessions[idx].tlt_dashboards.for_activity(activity).collect{|ss| ss.involve_count}.sum == 0 ? nil : (sessions[idx].tlt_dashboards.for_activity(activity).collect{|ss| ss.involve_total.to_f}.sum/sessions[idx].tlt_dashboards.for_activity(activity).collect{|ss| ss.involve_count.to_f}.sum).to_f -%>

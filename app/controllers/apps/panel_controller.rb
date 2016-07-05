@@ -14,19 +14,16 @@ class Apps::PanelController < Apps::TimeLearningController
     flash[:notice] = nil
     flash[:error] = nil
   end
-  
-
 
   def track_session
     initialize_parameters
-    @suspended = params[:suspended]
+    @suspended = params[:suspended] == 'true' ? true : false
   end 
 
   def abort_session
-
     initialize_parameters
     @tlt_session.destroy
-    redirect_to :controller => 'apps/time_learning', :action => 'index', :user_id=> @current_user, :organization_id => @current_organization
+    redirect_to self.send(@current_application.link_path, {:user_id=> @current_user, :organization_id => @current_organization})
   end 
 
   def end_session
@@ -37,7 +34,7 @@ class Apps::PanelController < Apps::TimeLearningController
       refresh_session
       resolve_session(@tlt_session)
     end
-      redirect_to :controller => 'apps/time_learning', :action => 'index', :organization_id => @current_organization
+      redirect_to self.send(@current_application.link_path, {:organization_id => @current_organization})
   end 
 
   def stop_session_task

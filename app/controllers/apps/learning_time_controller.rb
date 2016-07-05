@@ -444,7 +444,7 @@ class Apps::LearningTimeController  < ApplicationController
       end
     end
    end
-   redirect_to :action => 'index', :organization_id => @current_organization, :user_id => @current_user
+   redirect_to self.send(@current_application.link_path, {:organization_id => @current_organization, :user_id => @current_user})
  end
 
  def assign_case_header
@@ -553,7 +553,7 @@ class Apps::LearningTimeController  < ApplicationController
   def abort_case
     initialize_parameters  
     @elt_case.destroy
-    redirect_to :action => 'index', :organization_id => @current_organization, :user_id => @current_user
+    redirect_to self.send(@current_application.link_path, {:organization_id => @current_organization, :user_id => @current_user})
   end
 
   def show_activity_cases
@@ -655,7 +655,7 @@ class Apps::LearningTimeController  < ApplicationController
     if @elt_case
       @elt_case.update_attributes(:submit_date=>Date.today, :is_submitted=>true, :finalize_date=>Date.today, :is_final=>true)
     end
-       redirect_to :action => :index, :organization_id=>@current_organization, :app_id=>@app 
+       redirect_to self.send(@current_application.link_path, {:organization_id=>@current_organization})
   end
 
   def select_indicator_map

@@ -531,7 +531,7 @@ class Apps::ClassroomController < Site::ApplicationController
     if @classroom
       @classroom.destroy
     end
-   redirect_to :action => index, :organization_id => @current_organization
+   redirect_to self.send(@current_application.link_path, {:organization_id => @current_organization})
  end
 
  def destroy_period
@@ -569,7 +569,7 @@ class Apps::ClassroomController < Site::ApplicationController
     initialize_parameters
     classroom = @topic.classroom
     @topic.destroy
-    redirect_to :action => 'setup_classroom', :organization_id => @current_organization,  :classroom_id => classroom 
+    redirect_to offering_setup_path(:organization_id => @current_organization,  :classroom_id => classroom)
   end
 
   def change_lu_dates

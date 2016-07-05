@@ -68,7 +68,7 @@ class Apps::BlogsController < ApplicationController
         end
         @blog.position = @current_organization.blogs.size + 1
         if @blog.save
-          redirect_to :action => 'index', :organization_id => @current_organization, :user_id => @current_user
+          redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :user_id => @current_use))
         else 
           flash[:error] = @blog.errors.full_messages.to_sentence 
         end
@@ -410,7 +410,7 @@ class Apps::BlogsController < ApplicationController
   
   def authorization_check
     unless @admin || @blogger
-      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => Organization.ep_default.first
+      redirect_to organization_view_path(:organization_id => Organization.default)
     end
   end
   

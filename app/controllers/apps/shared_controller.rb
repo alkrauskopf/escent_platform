@@ -121,7 +121,7 @@ class Apps::SharedController < Site::ApplicationController
  def take_survey
    if params[:function] == "Submit"
      store_survey_responses_app(@schedule)
-     redirect_to :action => :my_surveys, :organization_id => @current_organization
+     redirect_to my_survey_view_path(:organization_id => @current_organization)
    end
   
   get_survey_headings(@schedule)

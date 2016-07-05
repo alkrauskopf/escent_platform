@@ -8,29 +8,6 @@ class Admin::OurFamilyController < Admin::ApplicationController
   def people
      @people = @current_organization.friends_of_org
   end
-  
-  def add_user_to_role
-    if request.xhr?
-      role = @current_organization.roles.find(params[:role_id])
-      user = User.find_by_public_id(params[:user_id])
-      user.roles << role unless role.users.include?(user)
-      render :text => "#{user.full_name} successfully added to role #{role.name}."
-    end
-  end
-  
-  def export_x
-    @role = @current_organization.roles.find(params[:id]) 
-    
-#    @users = @role.users.find(:all, :select => "first_name, last_name, preferred_email, postal_code")
-    @users = @role.users
-    respond_to do |format|
-      format.html
-      format.xml { render :xml => @users }
-      format.xls { send_data @users.to_xls }
-    end
-    
-  end
-
 
 #
 # ALk This method returns Users for an Authorization for a particular Organization

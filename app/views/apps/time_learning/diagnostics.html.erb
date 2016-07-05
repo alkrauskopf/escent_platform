@@ -18,13 +18,13 @@
 							&nbsp;
 						</span>
 					</td>
-					<td colspan=3 style="width:240px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:11px">
+					<td colspan=3 style="width:240px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:11px">
 						<strong><%= @current_organization.organization_type.name %>&nbsp;<%= @subject_area.name.titleize %> Teacher Population</strong><br/>
 						<span style=" font-weight:normal;  font-size:10.5px; color: #2061a5;  padding-left:0px; text-align:center">
 							<%= pluralize(TltSession.for_subject(@subject_area).since_date(@since).select{|s| s.organization.organization_type_id == @current_organization.organization_type_id}.size, " Session") %> 
 						</span>
 					</td>
-					<td colspan=3 style="width:240px; vertical-align:middle; text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:11px">
+					<td colspan=3 style="width:240px; vertical-align:middle; text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:11px">
 						<strong><%= @current_organization.short_name %>&nbsp;<%= @subject_area.name.titleize %>&nbsp;Teachers</strong><br/>
 						<span style=" font-weight:normal;  font-size:10.5px; color: #2061a5;  padding-left:0px; text-align:center">
 							<%= pluralize(@current_organization.tlt_sessions.for_subject(@subject_area).since_date(@since).size, " Session") %> 
@@ -42,19 +42,19 @@
 	<table id="dash_header_<%= activity.id %>" style="width:700px; margin-left:0px;border:1px solid #ddd;">
 		<thead>
 			<tr>
-					<th id="dash_show_<%= activity.id %>" style=" width:220px; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th id="dash_show_<%= activity.id %>" style=" width:220px; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						<u>Show <%= activity.abbrev %> Details</u></th>
-					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						Min/Pct</th>
-					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						Involve</th>
-					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						Impact</th>
-					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						Min/Pct</th>
-					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						Involve</th>
-					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						Impact</th>
 			</tr>
 		</thead>
@@ -107,19 +107,19 @@
 	<table id="dash_descript_<%= activity.id %>" style="width:700px; margin-left:0px;border:1px solid #ddd;">
 		<thead>
 			<tr>
-					<th id="dash_hide_<%= activity.id %>" style=" width:220px; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th id="dash_hide_<%= activity.id %>" style=" width:220px; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						<u>Hide <%= activity.abbrev %> Details</u></th>
-					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						Min/Pct</th>
-					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						Involve</th>
-					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						Impact</th>
-					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						Min/Pct</th>
-					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						Involve</th>
-					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:strong; font-size:10px">
+					<th style="width:80px; vertical-align:middle;  text-align:center; padding-top:3px; padding-bottom:3px; color: #000000; font-weight:bold; font-size:10px">
 						Impact</th>
 			</tr>
 		</thead>
@@ -228,15 +228,11 @@
 	   		jQ("#dash_header_<%= activity.id %>").show();
 	})	
 });
-</script>				
-
-
-<% end -%>	
-
+</script>
+<% end -%>
 <br/>
-
 <% else -%>
-	<table style=" width=600px; margin-left:20px;border:0px solid #ddd;">
+	<table style=" width:600px; margin-left:20px;border:0px solid #ddd;">
 		<tbody>  
 			<style type="text/css" media="screen">
 	    		table,tr,td { border:medium }
@@ -245,7 +241,7 @@
       			}
    			</style>
 			<tr  style=" border:0px solid #ddd;">   			
- 				<td  style="width=500px; border:0px solid #ddd;vertical-align:top; color:#000000; font-size:11px; padding-top:0px; padding-left:60px; padding-right:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+ 				<td  style="width:500px; border:0px solid #ddd;vertical-align:top; color:#000000; font-size:11px; padding-top:0px; padding-left:60px; padding-right:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
 					<%= @current_user.first_name -%>,<br/>
 					You have no Time & Learning Session on record.
 				</td>
@@ -257,12 +253,12 @@
 
 <br/>
 
-<%= form_for(:tlt_session, :url => {:controller => "/apps/time_learning", :action => :diagnostics, :organization_id => @current_organization, :user_id => @current_user, :subject_area_id => @subject_area, :function => "submit"}) do |form| -%>
+<%= form_for(:tlt_session, :url => ctl_reflection_diagnostics_path(:organization_id => @current_organization, :user_id => @current_user, :subject_area_id => @subject_area, :function => 'submit')) do |form| -%>
 
 	<%= render :partial => "diagnostic_template"%>
 	<%= render :partial => "/apps/shared/survey_template", :locals=> {:audience => @audience, :survey_type => @survey_type} %>
 
-<%= submit_tag "Submit Analysis", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+<%= submit_tag 'Submit Analysis', :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
 <% end -%>
 
 </div>
@@ -280,9 +276,7 @@
 		  jQ.post(action, post_data, function(data) {
 				jQ("#diagnostic_form").html(data);
 			});
-
 	    return false;
 	  });
-
 	})
 </script>

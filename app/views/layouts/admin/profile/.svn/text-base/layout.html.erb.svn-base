@@ -1,4 +1,0 @@
-<div id="profile_panel">
-	<%= render :partial => "/shared/error_and_notice" %>
-	<%= yield %>
-</div>

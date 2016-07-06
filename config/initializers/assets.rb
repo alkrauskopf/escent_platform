@@ -19,5 +19,22 @@ Rails.application.config.assets.precompile += [
     'site.css',
     'style.css',
     'tiny_mce.css',
-    'typography.css'
+    'typography.css',
+    'blue/style.css',
+    'calendar_date_select/blue.css',
+    'calendar_date_select/default.css',
+    'calendar_date_select/plain.css',
+    'calendar_date_select/red.css',
+    'calendar_date_select/silver.css',
+    'fsn/jquery-ui-1.7.1.custom.css',
+    'master/font.css',
+    'master/form.css',
+    'master/general.css',
+    'master/ie.css',
+    'master/layout.css',
+    'master/print.css',
+    'master/reset.css',
+    'master/screen.css',
+    'master/style.css',
+    'master/typography.css'
       ]

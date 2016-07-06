@@ -1,0 +1,23 @@
+Rails.application.config.assets.precompile += [
+    'colorpicker.css.erb',
+    'font.css',
+    'form.css',
+    'general.css',
+    'ie.css',
+    'ie6.css',
+    'ie7.css',
+    'iwing.css',
+    'jquery.autocomplete.css',
+    'jquery.rating.css',
+    'jquery.ui.potato.menu.css',
+    'layout.css',
+    'prayer_pledge.css',
+    'print.css',
+    'public_info.css',
+    'reset.css',
+    'screen.css',
+    'site.css',
+    'style.css',
+    'tiny_mce.css',
+    'typography.css'
+      ]

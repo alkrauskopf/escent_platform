@@ -1,6 +1,6 @@
 <div id="manage_activities_<%=@current_organization.public_id%>">
 	
-	<table   style="width:700px; width:fixed; margin-top:10px; margin-left:30px">
+	<table   style="width:700px; margin-top:10px; margin-left:30px">
 		<style type="text/css" media="screen">
 	    table,tr,td { border:medium}
 		table tr:hover{
@@ -10,30 +10,30 @@
 		<tbody>  
 
 			<tr style="border:0px solid #ddd; ">
-				<td style="width:530px; width:fixed;">
+				<td style="width:76%;">
 					&nbsp;
 				</td>
-				<td style="width:170px; width:fixed; padding-left:20px; vertical-align:top ">
+				<td style="width:24%; padding-left:20px; vertical-align:top ">
 					<span class="fsn-button ui-button ui-state-default ui-corner-all">
-						<%= link_to 'Create New Activity', {:controller => "/apps/learning_time", :action => :maintain_activity, :task=>"New", :organization_id => @current_organization},{:target=>"_blank"}  %>
+						<%= link_to 'Create New Activity', elt_config_activity_edit_path(:task=>'New', :organization_id => @current_organization),{:target=>'_blank'}  %>
 					</span>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-	<table  style="width:690px; width:fixed; margin-top:0px; margin-bottom:20px; margin-left:10px">
+	<table  style="width:690px; margin-top:0px; margin-bottom:20px; margin-left:10px">
 		<thead>
 			<tr style="border:1px solid #ddd; ">
-				<th  style="width:7px; width:fixed; border:0px solid #ddd; font-size:10px; text-align:left; ">
+				<th  style="width:1%; border:0px solid #ddd; font-size:10px; text-align:left; ">
 					&nbsp;
 				</th>
-				<th style="35px; width:fixed; border:0px solid #ddd; font-size:10px; text-align:left; ">
+				<th style="width:5%; border:0px solid #ddd; font-size:10px; text-align:left; ">
 					Active
 				</th>
-				<th  style="width:35px; width:fixed; border:0px solid #ddd; font-size:10px; text-align:left; ">
+				<th  style="width:5%; border:0px solid #ddd; font-size:10px; text-align:left; ">
 					&nbsp;
 				</th>
-				<th  style=" width:35px; width:fixed; border:0px solid #ddd; font-size:10px; text-align:left; ">
+				<th  style=" width:5%; border:0px solid #ddd; font-size:10px; text-align:left; ">
 					Master
 				</th>
 				<th  style="border:0px solid #ddd; font-size:10px; text-align:left; padding-left:20px ">
@@ -44,20 +44,20 @@
 		<tbody>  
 			<% @current_organization.elt_activities.each do |activity| -%>
 				<tr style="border:1px solid #ddd; ">
-					<td  style="width:7px; width:fixed; font-size:10px; vertical-align:middle; text-align:right; ">
+					<td  style="width:1%; font-size:10px; vertical-align:middle; text-align:right; ">
 						<%= activity.position %>)&nbsp;
 					</td>
 					<% button_label = activity.active? ? "button_enabled.png" : "button_disabled.png"-%>
-					<td id="toggle_active_<%= activity.public_id %>" style=" width:35px;  width:fixed; cursor:pointer; padding-left:10px; padding-top:0px; vertical-align:middle" >
+					<td id="toggle_active_<%= activity.public_id %>" style="width:5%; cursor:pointer; padding-left:10px; padding-top:0px; vertical-align:middle" >
 						<%= (image_tag button_label,:width => 15) %>
 					</td>
-					<td  style="width:35px; width:fixed; padding-top:15px; padding-left:6px; line-height:1.2em; color:#2061a5;">
+					<td  style="width:5%; padding-top:15px; padding-left:6px; line-height:1.2em; color:#2061a5;">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to 'Edit', {:controller => "/apps/learning_time", :action => :maintain_activity, :task=>"Update", :elt_type_id=>activity, :organization_id => @current_organization},{:target=>"_blank"}  %>
+							<%= link_to 'Edit', elt_config_activity_edit_path(:task=>'Update', :elt_type_id=>activity, :organization_id => @current_organization),{:target=>'_blank'}  %>
 						</span>
 					</td>
 					<% button_label = activity.master? ? "button_enabled.png" : "button_disabled.png"-%>
-					<td  id="toggle_master_<%= activity.public_id %>" style=" width:35px;  width:fixed; cursor:pointer; padding-left:10px; padding-top:0px; vertical-align:middle">
+					<td  id="toggle_master_<%= activity.public_id %>" style="width:5%; cursor:pointer; padding-left:10px; padding-top:0px; vertical-align:middle">
 						<%= (image_tag button_label,:width => 15) %>
 					</td>
 					<% weight = activity.master? ? "bold" : "normal"-%>
@@ -73,7 +73,7 @@
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#toggle_active_<%= activity.public_id %>").click(function() {
-		var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_active_activity, :organization_id => @current_organization, :elt_type_id => activity%>";
+		var url = "<%= elt_config_activity_activate_url(:organization_id => @current_organization, :elt_type_id => activity) %>";
 		jQ.get(url,{},  function(data) {
       jQ("#manage_activities_<%= @current_organization.public_id%>").html(data);
       jQ("#manage_activities_<%= @current_organization.public_id%>").show();
@@ -84,7 +84,7 @@ jQ(document).ready(function() {
 <script type="text/javascript">
 jQ(document).ready(function() {
 	jQ("#toggle_master_<%= activity.public_id %>").click(function() {
-		var url = "<%= url_for :controller => "apps/learning_time", :action => :toggle_master_activity, :organization_id => @current_organization, :elt_type_id => activity%>";
+		var url = "<%= elt_config_activity_master_url(:organization_id => @current_organization, :elt_type_id => activity) %>";
 		jQ.get(url,{},  function(data) {
 				jQ("#manage_activities_<%= @current_organization.public_id%>").html(data);
 				jQ("#manage_activities_<%= @current_organization.public_id%>").show();
@@ -96,11 +96,3 @@ jQ(document).ready(function() {
 		</tbody>
 	</table>
 </div>
-
-
-
-
-
-
-
-

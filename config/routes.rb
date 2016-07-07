@@ -286,6 +286,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/classroom/option/update' => 'apps/assessment#classroom_options_update'
   get '/ifa/classroom/assessment/pool/update' => 'apps/assessment#update_classroom_assessment_pool_from_repository'
   get '/ifa/classroom/assessments/filtered' => 'apps/assessment#classroom_get_filtered_assessments'
+  get '/ifa/students' => 'apps/assessment#student_list'
 
   # APP CTL
   get '/ctl/session/show' => 'apps/time_learning#static_itl_session'
@@ -432,6 +433,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/config/activity/rubric/activate' => 'apps/learning_time#toggle_rubric'
   get '/elt/config/activity/rubric/share' => 'apps/learning_time#share_rubric'
   get '/elt/config/activity/rubric/delete' => 'apps/learning_time#delete_rubric'
+  get '/elt/config/activity/activate' => 'apps/learning_time#toggle_active_activity'
+  get '/elt/config/activity/master' => 'apps/learning_time#toggle_master_activity'
   get '/elt/config/indicators' => 'apps/learning_time#manage_indicators'
   get '/elt/config/indicator/activity/source' => 'apps/learning_time#select_source_activity'
   get '/elt/config/indicator/activity/target' => 'apps/learning_time#select_activity'
@@ -486,6 +489,9 @@ EscentPartners::Application.routes.draw do |map|
     get '/options/baseline' => 'apps/school_time#options_baselines'
     get '/options/baseline/maintain' => 'apps/school_time#maintain_baselines'
   end
+
+
+
   # PDF
   get '/pdf/elt/case' => 'apps/app_pdf#elt_case'
   #=======================================================

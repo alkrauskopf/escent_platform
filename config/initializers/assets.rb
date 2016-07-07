@@ -1,5 +1,5 @@
 Rails.application.config.assets.precompile += [
-    'colorpicker.css.erb',
+    'colorpicker.css',
     'font.css',
     'form.css',
     'general.css',
@@ -37,4 +37,34 @@ Rails.application.config.assets.precompile += [
     'master/screen.css',
     'master/style.css',
     'master/typography.css'
+      ]
+
+Rails.application.config.assets.precompile += [
+    'audio-player.js',
+    'prototype.js',
+    'jquery-1.3.2.min.js',
+    'jquery.qtip-1.0.0.min.js',
+    'jquery-ui-1.7.1.custom.min.js',
+    'jquery.tablesorter.min.js',
+    'jquery.MetaData.js',
+    'jquery.rating.js',
+    'jquery.validate.min.js',
+    'colorpicker.js',
+    'iColorPicker.js',
+    'jquery.corner.js',
+    'jquery.bgiframe.js',
+    'jquery.ajaxQueue.js',
+    'jquery.autocomplete.min.js',
+    'player/swfobject.js',
+    'wforms_core.js',
+    'wforms_sync.js',
+    'wforms_validation.js',
+    'wforms_switch.js',
+    'wforms_repeat_rails.js',
+    'jquery.tools.min.js',
+    'jquery.ui.potato.menu.js',
+    'swfobject.js',
+    'jquery.jtree.1.0.min.js',
+    'jquery.jtree.1.0.js',
+    'tiny_mce/tiny_mce.js'
       ]

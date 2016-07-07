@@ -1,3 +1,4 @@
+#  Stylesheets
 Rails.application.config.assets.precompile += [
     'colorpicker.css',
     'font.css',
@@ -39,6 +40,7 @@ Rails.application.config.assets.precompile += [
     'master/typography.css'
       ]
 
+# Javascript
 Rails.application.config.assets.precompile += [
     'audio-player.js',
     'prototype.js',
@@ -67,4 +69,10 @@ Rails.application.config.assets.precompile += [
     'jquery.jtree.1.0.min.js',
     'jquery.jtree.1.0.js',
     'tiny_mce/tiny_mce.js'
+      ]
+
+# Images
+Rails.application.config.assets.precompile += [
+    'discussion_ico.gif',
+    'discussion_ico_h.gif'
       ]

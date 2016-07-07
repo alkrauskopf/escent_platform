@@ -410,6 +410,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/config/standard/public' => 'apps/learning_time_standards#toggle_public'
   get '/elt/config/standard/update' => 'apps/learning_time_standards#update'
   get '/elt/config/standard/element/add' => 'apps/learning_time_standards#new_element'
+  post '/elt/config/standard/element/add' => 'apps/learning_time_standards#create_element'
   get '/elt/config/standard/element/activate' => 'apps/learning_time_standards#toggle_element_active'
   get '/elt/config/standard/element/edit' => 'apps/learning_time_standards#edit_element'
   post '/elt/config/standard/element/update' => 'apps/learning_time_standards#update_element'

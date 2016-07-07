@@ -44,7 +44,7 @@ Rails.application.config.assets.precompile += [
     'prototype.js',
     'jquery-1.3.2.min.js',
     'jquery.qtip-1.0.0.min.js',
-    'jquery-ui-1.7.1.custom.min.js',
+    'jquery-ui-1.7.1.custom.min',
     'jquery.tablesorter.min.js',
     'jquery.MetaData.js',
     'jquery.rating.js',

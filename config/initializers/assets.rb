@@ -40,7 +40,7 @@
 #     'master/typography.css'
 #       ]
 #
-Javascript
+#Javascript
 # Rails.application.config.assets.precompile += [
 #     'audio-player.js',
 #     'prototype.js',

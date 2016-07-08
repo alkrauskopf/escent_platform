@@ -143,6 +143,14 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
     redirect_to :action => :edit_element, :elt_element_id => @indicator.element, :organization_id => @current_organization
   end
 
+  def destroy_indicator
+    set_indicator
+    unless @indicator.nil?
+      @indicator.destroy
+    end
+    render :partial => "manage_element_indicators", :locals=>{:element => @indicator.element}
+  end
+
   def update_descriptor
     set_indicator
     set_descriptor

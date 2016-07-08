@@ -29,13 +29,32 @@
               &nbsp;&nbsp;(<%= pluralize(indicator.descriptors.size, ' Descriptor') %>)
             </span>
           </td>
-            <td style="border:0px solid #ddd;  width:5%;  padding-left:0px; padding-top:3px; vertical-align:top" >
+          <% if indicator.active? %>
+            <td style="border:0px solid #ddd;  width:15%;  padding-left:0px; padding-top:3px; vertical-align:top" >
               &nbsp;
             </td>
+          <% else %>
+            <td  style="border:0px solid #ddd; width:15%;" >
+              <span id="destroy_i<%= indicator.public_id %>" class="fsn-button ui-button ui-state-default ui-corner-all" style ="cursor:pointer">
+                Destroy
+              </span>
+            </td>
+          <% end %>
           <script type="text/javascript">
             jQ(document).ready(function() {
               jQ("#toggle_active_i<%= indicator.public_id %>").click(function() {
                 var url = "<%= elt_config_standard_element_indicator_activate_url(:organization_id => @current_organization, :elt_std_indicator_id => indicator) %>";
+                jQ.get(url,{},  function(data) {
+                  jQ("#manage_elmnt_indicator_<%= element.public_id%>").html(data);
+                  jQ("#manage_elmnt_indicator_<%= element.public_id%>").show();
+                });
+              })
+            });
+          </script>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ("#destroy_i<%= indicator.public_id %>").click(function() {
+                var url = "<%= elt_config_standard_element_indicator_destroy_url(:organization_id => @current_organization, :elt_std_indicator_id => indicator) %>";
                 jQ.get(url,{},  function(data) {
                   jQ("#manage_elmnt_indicator_<%= element.public_id%>").html(data);
                   jQ("#manage_elmnt_indicator_<%= element.public_id%>").show();

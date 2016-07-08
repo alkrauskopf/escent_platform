@@ -418,6 +418,7 @@ EscentPartners::Application.routes.draw do |map|
   post '/elt/config/standard/element/update' => 'apps/learning_time_standards#update_element'
   get '/elt/config/standard/element/indicator/edit' => 'apps/learning_time_standards#edit_indicator'
   get '/elt/config/standard/element/indicator/activate' => 'apps/learning_time_standards#toggle_indicator_active'
+  get '/elt/config/standard/element/indicator/destroy' => 'apps/learning_time_standards#destroy_indicator'
   get '/elt/config/standard/element/indicator/add' => 'apps/learning_time_standards#new_indicator'
   post '/elt/config/standard/element/indicator/add' => 'apps/learning_time_standards#create_indicator'
   post '/elt/config/standard/element/indicator/update' => 'apps/learning_time_standards#update_indicator'

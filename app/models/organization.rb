@@ -603,7 +603,7 @@ class Organization < ActiveRecord::Base
   end
 
   def elt_activities
-    self.elt_types
+    self.elt_types.by_position
   end
 
   def elt_master_activity

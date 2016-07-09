@@ -2,16 +2,16 @@
   <tbody>
     <tr style="border:0px solid #ddd; ">
       <td  colspan=2 style=" border:0px solid #ddd; text-decoration: underline; vertical-align:middle; color:#2061a5; font-size:11px; text-align:left">
-        <%= pluralize(cycle.standards.size, ' Standard')%>,  <%= pluralize(cycle.elements.size, ' Element')%>
+        <%= pluralize(cycl.standards.size, ' Standard')%>,  <%= pluralize(cycl.elements.size, ' Element')%>
       </td>
     </tr>
-    <% cycle.standards.each do |standard| %>
+    <% cycl.standards.each do |standard| %>
       <tr style="border:0px solid #ddd;font-size:11px; color:#2061a5; ">
         <td style=" width:15%; text-align:left; padding-right:0px; vertical-align:top; line-height:1.3em; font-size:11px;" >
           <%= standard.abbrev %>:
         </td>
         <td style=" text-align:left; padding-right:0px; vertical-align:top; line-height:1.3em; font-size:10px;">
-          <% cycle.elements.for_standard(standard).each do |element| %>
+          <% cycl.elements.for_standard(standard).each do |element| %>
             <%= element.position %>)&nbsp;<%= element.abbrev%>:&nbsp;<%= element.name %><br/>
           <% end %>
         </td>

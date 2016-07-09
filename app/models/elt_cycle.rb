@@ -2,7 +2,6 @@ class EltCycle < ActiveRecord::Base
   include PublicPersona
 
   belongs_to :organization
-  belongs_to :elt_framework
 
   has_many :elt_cases, :dependent => :destroy
   has_many :schools, :through=> :elt_cases, :source=>:organization, :uniq=>true
@@ -27,6 +26,10 @@ class EltCycle < ActiveRecord::Base
 
   def active?
     self.is_active
+  end
+
+  def deletable?
+    !self.active? && self.current_schools.empty?
   end
 
   def provider

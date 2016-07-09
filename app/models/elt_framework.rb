@@ -1,13 +1,13 @@
 class EltFramework < ActiveRecord::Base
   include PublicPersona
 
-  belongs_to :organization
+  # belongs_to :organization
 
-  has_many :elt_org_options
-  has_many :elt_cycles, :dependent => :destroy
-  has_many :elt_types, :dependent => :destroy
-  has_many :elt_elements
-  has_many :elt_cases, :through => :elt_types
+  # has_many :elt_org_options
+  # has_many :elt_cycles, :dependent => :destroy
+  # has_many :elt_types, :dependent => :destroy
+  # has_many :elt_elements
+  # has_many :elt_cases, :through => :elt_types
 
 
   def cycles

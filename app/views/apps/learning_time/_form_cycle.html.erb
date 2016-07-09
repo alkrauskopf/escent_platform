@@ -10,7 +10,7 @@
             Name:
         </div>
         <div class="FormRowData" style= "margin-left:25px">
-            <%= text_field :elt_cycle, :name, :value => @cycle.name, :size => 40, :maxlength => 60 %>
+            <%= text_field :elt_cycle, :name, :value => cycl.name, :size => 40, :maxlength => 60 %>
         </div>
     </div>	
 	<div class="FormRow">
@@ -18,33 +18,32 @@
             Abbreviation:
         </div>
         <div class="FormRowData" style= "margin-left:25px">
-          <%= text_field :elt_cycle, :abbrev, :value => @cycle.abbrev, :size => 6 %>
+          <%= text_field :elt_cycle, :abbrev, :value => cycl.abbrev, :size => 6 %>
         </div>
     </div>
 	<div class="FormRow">
       <div class="FormRowTitle">
-          Start:&nbsp;<%= @cycle.begin_date.nil? ? "" : @cycle.begin_date.strftime("%B %Y")%> 
+          Start:&nbsp;<%= cycl.begin_date.nil? ? "" : cycl.begin_date.strftime("%B %Y")%>
         </div>
         <div class="FormRowData" style= "margin-left:25px">
-        	<%= date_select(:begin_date, @cycle.id, :use_short_month=>true, :default => (@cycle.begin_date.nil? ? Date.today : @cycle.begin_date), :order=>[:month, :year], :start_year => Time.now.year - 1, :end_year => Time.now.year + 1) %></td>
+        	<%= date_select(:begin_date, cycl.id, :use_short_month=>true, :default => (cycl.begin_date.nil? ? Date.today : cycl.begin_date), :order=>[:month, :year], :start_year => Time.now.year - 1, :end_year => Time.now.year + 1) %></td>
         </div>
     </div>
 	<div class="FormRow">
       <div class="FormRowTitle">
-          End:&nbsp;<%= @cycle.end_date.nil? ? "" : @cycle.end_date.strftime("%B %Y")%> 
+          End:&nbsp;<%= cycl.end_date.nil? ? "" : cycl.end_date.strftime("%B %Y")%>
         </div>
         <div class="FormRowData" style= "margin-left:25px">
-        	<%= date_select(:end_date, @cycle.id, :use_short_month=>true, :default => (@cycle.end_date.nil? ? Date.today : @cycle.end_date), :order=>[:month, :year], :start_year => Time.now.year - 1, :end_year => Time.now.year + 1) %></td>
+        	<%= date_select(:end_date, cycl.id, :use_short_month=>true, :default => (cycl.end_date.nil? ? Date.today : cycl.end_date), :order=>[:month, :year], :start_year => Time.now.year - 1, :end_year => Time.now.year + 1) %></td>
         </div>
     </div>
 	<div class="FormRow">
-      <div class="FormRowTitle">
-          
-        </div>
-        <div class="FormRowData" style= "margin-left:25px">
-			&nbsp;
-        </div>
+    <div class="FormRowTitle">
     </div>
+    <div class="FormRowData" style= "margin-left:25px">
+      &nbsp;
+    </div>
+  </div>
 </div>	
 
 

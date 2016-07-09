@@ -1,24 +1,23 @@
 
-	<div style ="color: #2061a5; font-size:16px; margin-top:0px; padding-top:20px; font-weight:bold"> 
-		<strong><center><%=@task %>&nbsp;<%= @framework.name %>&nbsp;Cycle</center></strong>
+	<div style ="text-align:center;color: #2061a5; font-size:16px; margin-top:0px; padding-top:20px; font-weight:bold">
+		<strong><%=@task %>&nbsp;<%= @current_organization.short_name %>&nbsp;Cycle</strong>
 	</div>
 	
 	<%= render :partial => "/shared/error_and_notice" %>
 
-	
 	<div class="Form clear">
-		<%= form_for(:elt_type, :url => elt_config_cycle_edit_path(:organization_id => @current_organization, :elt_cycle_id=>@cycle, :elt_framework_id => @framework, :app_id => @app.id, :task=>@task, :function => @task)) do |form| %>
-			<%= render :partial => "/apps/learning_time/form_cycle", :locals=>{:org=>@current_organization, :button_label=> (@task == "New" ? "Create Cycle" : "Update"), :framework => @framework, :cycle => @cycle} %>
+		<%= form_for(:elt_type, :url => elt_config_cycle_edit_path(:organization_id => @current_organization, :elt_cycle_id=>@cycle, :task=>@task, :function => @task)) do |form| %>
+			<%= render :partial => "/apps/learning_time/form_cycle", :locals=>{:org=>@current_organization, :button_label=> (@task == "New" ? "Create Cycle" : "Update"), :cycl => @cycle} %>
 		<% end -%>	
 		<% unless @task == "New"%>
-			<%= render :partial => "/apps/learning_time/assign_cycle_activities", :locals=>{:framework => @framework, :cycl => @cycle, :app => @app} %>
+			<%= render :partial => "/apps/learning_time/assign_cycle_activities", :locals=>{:cycl => @cycle} %>
       <%= render :partial => "/apps/learning_time/assign_cycle_elements", :locals=>{:cycl => @cycle} %>
     <% end -%>
-		<% unless @task == "New" || @cycle.active?%>
-			<%= form_for(:elt_type, :url => elt_config_cycle_edit_path(:organization_id => @current_organization, :elt_cycle_id=>@cycle, :elt_framework_id => @framework, :app_id => @app.id, :task=>@task, :function => "Delete")) do |form| %>
+		<% unless @task == "New" || !@cycle.deletable?%>
+			<%= form_for(:elt_type, :url => elt_config_cycle_edit_path(:organization_id => @current_organization, :elt_cycle_id=>@cycle, :task=>@task, :function => "Delete")) do |form| %>
 				<div class="FormRow submit_warp" style= "padding-left:25px; padding-bottom:20px">	
 					<br/>
-					<%= submit_tag "Delete", :confirm => "Are you sure?", :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
+					<%= submit_tag "Destroy", :confirm => "Are you sure?", :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
 					<br/>
 				</div>			
 			<% end -%>	

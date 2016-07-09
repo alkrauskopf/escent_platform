@@ -1,12 +1,10 @@
-
 <div id="assign_activities_<%=cycl.public_id%>">
-	<% unless cycl.elt_framework.activities.empty? -%>
 		<div style = "padding-bottom:10px;padding-left:0px; ">
 			<table  style="width:400px;margin-left:300px;">
 				<thead>  
 					<tr>
 						<th style="text-align:center; vertical-align:middle; line-height:1.3em; padding-right:0px; font-size:12px">
-							<span style="font-size:11px;">Involves&nbsp;<%= pluralize(cycl.activities.size, " Activity")%></span>
+							<span style="font-size:11px;">Involves&nbsp;<%= pluralize(cycl.activities.size, ' Activity')%></span>
 						</th>	
 					</tr>
 				</thead>
@@ -15,7 +13,7 @@
 						<tr>
 							<td style="text-align:left; vertical-align:middle; padding-left:30px;  line-height:1.3em; font-size:11px; color:#000000">
 								<%= activity.name %>
-								<span style='font-size:9px;'><%= activity.active? ? "" : ("&nbsp;&nbsp;(Not Active)").html_safe%></span>
+								<span style='font-size:9px;'><%= activity.active? ? '' : ('&nbsp;&nbsp;(Not Active)').html_safe%></span>
 								<span style='font-size:9px;'><%= activity.master? ? ('&nbsp;&nbsp;(Master)').html_safe : ''%></span>
 							</td>	
 						</tr>
@@ -29,7 +27,7 @@
 							&nbsp;
 						</td>
 						<td id="remove_activity" style='font-weight: normal'>
-							<%= select(:remove_activity, cycl.id, cycl.activities.all.collect{|a| [a.name, a.id]},{:include_blank =>'Remove Activity'}) %>
+							<%= select(:remove_activity, cycl.id, cycl.activities.collect{|a| [a.name, a.id]},{:include_blank =>'Remove Activity'}) %>
 						</td>	
 					</tr>
 					<tr>
@@ -37,7 +35,7 @@
 							&nbsp;
 						</td>
 						<td id="add_activity" style='font-weight:normal'>
-							<%= select(:add_activity, cycl.id, (cycl.elt_framework.activities.all - cycl.activities).collect{|a| [a.name, a.id]},{:include_blank =>'Add Activity'}) %>
+							<%= select(:add_activity, cycl.id, (@current_organization.elt_types.active - cycl.activities).collect{|a| [a.name, a.id]},{:include_blank =>'Add Activity'}) %>
 						</td>	
 					</tr>
 				</tbody>
@@ -69,5 +67,4 @@ jQ(document).ready(function() {
 	})
 });
 </script>
-	<% end -%>		
 </div>	

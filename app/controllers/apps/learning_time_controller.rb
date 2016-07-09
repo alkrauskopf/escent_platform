@@ -68,7 +68,7 @@ class Apps::LearningTimeController  < ApplicationController
 
   def maintain_cycle
     @task = params[:task]
-    if @framework && params[:function] && params[:function] == "New"
+    if params[:function] && params[:function] == "New"
       @cycle = EltCycle.new(params[:elt_cycle])
       @cycle.is_active = false
       @cycle.begin_date = Date.new(params[:begin_date]['(1i)'].to_i, params[:begin_date]['(2i)'].to_i, 1).beginning_of_month
@@ -92,9 +92,9 @@ class Apps::LearningTimeController  < ApplicationController
             flash[:error] = @cycle.errors.full_messages.to_sentence
           end        
         end
-        if !@cycle.nil? && params[:function] && params[:function] == "Delete"      
-          if @cycle.update_attributes(:is_active=>false, :is_delete=>true)
-            flash[:notice] = "Diagnostic Cycle Deleted.   CLOSE WINDOW"
+        if !@cycle.nil? && params[:function] && (params[:function] == 'Delete') && @cycle.deletable?
+          if @cycle.destroy
+            flash[:notice] = 'Cycle Destroyed.   CLOSE WINDOW'
             @cycle = EltCycle.new
             @task = "New"
           else
@@ -369,7 +369,7 @@ class Apps::LearningTimeController  < ApplicationController
     render :partial => "/apps/learning_time/manage_plan_types", :locals => {:org => @current_organization, :app=>@app} 
   end 
   
-  def assign_framework_cycle
+  def assign_school_cycle
     unless @cycle.nil? || @school.nil?
       if @school.elt_org_option
         @school.elt_org_option.update_attributes(:elt_cycle_id=> @cycle.id)
@@ -379,10 +379,10 @@ class Apps::LearningTimeController  < ApplicationController
         @school.elt_org_option = org_option
       end
     end
-    render :partial => "/apps/learning_time/manage_cycles", :locals => {:org => @current_organization, :framework => @framework, :app=>@app}
-  end 
-  
-  def toggle_rubric
+    render :partial => "/apps/learning_time/manage_cycles", :locals => {:org => @current_organization}
+  end
+
+ def toggle_rubric
     @activity = EltType.find_by_public_id(params[:elt_type_id]) rescue nil
     unless @activity.nil?
       @activity.update_attributes(:use_rubric=> !@activity.use_rubric)

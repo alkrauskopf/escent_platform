@@ -1,4 +1,4 @@
-<div id="manage_cycles_<%=framework.public_id%>">
+<div id="manage_cycles">
 	<table   style="width:700px; margin-top:10px; margin-left:30px">
 		<style type="text/css" media="screen">
 	    table,tr,td { border:medium}
@@ -13,7 +13,7 @@
 				</td>
 				<td style="width:26%; padding-left:20px; vertical-align:top ">
 					<span class="fsn-button ui-button ui-state-default ui-corner-all">
-						<%= link_to 'Create New Cycle', elt_config_cycle_edit_path(:app_id=> app.id, :task=>"New", :elt_framework_id => framework, :organization_id => @current_organization),{:target=>"_blank"}  %>
+						<%= link_to 'Create New Cycle', elt_config_cycle_edit_path(:task=>'New', :organization_id => @current_organization),{:target=>'_blank'}  %>
 					</span>
 				</td>
 			</tr>
@@ -26,42 +26,41 @@
 					&nbsp;
 				</th>
 				<th  colspan=2 style=" border:0px solid #ddd; font-size:12px; text-align:left; ">
-					<%= pluralize(framework.elt_cycles.available.size, framework.name + " Cycle") %>
+					<%= pluralize(@current_organization.elt_cycles.available.size, @current_organization.short_name + " Cycle") %>
 				</th>
 			</tr>
 		</thead>
 		<tbody>  
-			<% framework.elt_cycles.available.each do |cycle| -%>
-				<% button_label = cycle.active? ? "button_enabled.png" : "button_disabled.png"-%>
+			<% @current_organization.elt_cycles.available.each do |cycl| -%>
+				<% button_label = cycl.active? ? "button_enabled.png" : "button_disabled.png"-%>
 				<tr style="border:1px solid #ddd; ">
-					<td id="toggle_active_<%= cycle.public_id %>" style=" width:5%; cursor:pointer; padding-left:10px; padding-top:8px; vertical-align:top" >
+					<td id="toggle_active_<%= cycl.public_id %>" style=" width:5%; cursor:pointer; padding-left:10px; padding-top:8px; vertical-align:top" >
 						<%= (image_tag button_label,:width => 13) %>
 					</td>
 					<td  style="width:5%; padding-top:5px; padding-left:0px; line-height:1.2em; color:#2061a5;">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							<%= link_to 'Edit', elt_config_cycle_edit_path(:app_id=> app.id, :task=>"Update", :elt_cycle_id=>cycle,  :elt_framework_id => framework, :organization_id => @current_organization),{:target=>"_blank"}  %>
+							<%= link_to 'Edit', elt_config_cycle_edit_path(:task=>'Update', :elt_cycle_id=>cycl, :organization_id => @current_organization),{:target=>'_blank'}  %>
 						</span>
 					</td>
 					<td style=" text-align:left; font-size:13px; padding-left:3px;font-weight:normal;">
-						<%= cycle.name%> &nbsp;<span style="font-size:9px;"><%= cycle.begin_date ? cycle.begin_date.strftime("%m/%y") : "No Begin Date"%>&nbsp;-&nbsp;<%= cycle.end_date ? cycle.end_date.strftime("%m/%y") : "No End Date"%>&nbsp;&nbsp;(<%= pluralize(cycle.activities.size, " Activity") %>)</span><br/>
-						<span style="font-size:10px; color:#C73914;"><%= cycle.current_schools.empty? ? "No Participating Schools" : cycle.current_schools.collect{|s| s.short_name}.join(", ")%></span>
-						<% unless cycle.activities.empty?%>
-							<%= render :partial => "/apps/learning_time/list_cycle_activities", :locals=>{:cycle => cycle} %>
-              <%= render :partial => "/apps/learning_time/list_cycle_elements", :locals=>{:cycle => cycle} %>
-
-          <% end -%>
+						<%= cycl.name%> &nbsp;<span style="font-size:9px;"><%= cycl.begin_date ? cycl.begin_date.strftime("%m/%y") : "No Begin Date"%>&nbsp;-&nbsp;<%= cycl.end_date ? cycl.end_date.strftime("%m/%y") : "No End Date"%>&nbsp;&nbsp;(<%= pluralize(cycl.activities.size, ' Activity') %>)</span><br/>
+						<span style="font-size:10px; color:#C73914;"><%= cycl.current_schools.empty? ? 'No Participating Schools' : cycl.current_schools.collect{|s| s.short_name}.join(", ")%><%=cycl.deletable? ? ' DELETABLE' : ''%></span>
+						<% unless cycl.activities.empty?%>
+							<%= render :partial => "/apps/learning_time/list_cycle_activities", :locals=>{:cycl => cycl} %>
+            <% end -%>
+            <%= render :partial => "/apps/learning_time/list_cycle_elements", :locals=>{:cycl => cycl} %>
 					</td>
-					<td  id="<%=cycle.id%>_org_assign" style="width:23%; color:#000000; font-weight:normal; font-size:10px; padding-left:10px; padding-top:10px;">
-						<%=  select(:cycle_org, cycle.id, (@current_organization.provided_app_orgs(app,false) - cycle.current_schools).sort_by{|o| o.name}.collect{|o| [truncate(o.medium_name, :omission => "...", :length => 18), o.public_id]}, :prompt => "Assign Org To Cycle") %>
+					<td  id="<%=cycl.id%>_org_assign" style="width:23%; color:#000000; font-weight:normal; font-size:10px; padding-left:10px; padding-top:10px;">
+						<%=  select(:cycle_org, cycl.id, (@current_organization.provided_app_orgs(@current_application,false) - cycl.current_schools).sort_by{|o| o.name}.collect{|o| [truncate(o.medium_name, :omission => "...", :length => 18), o.public_id]}, :prompt => 'Assign Org To Cycle') %>
 					</td>
 				</tr>
 <script type="text/javascript">
 jQ(document).ready(function() {
-	jQ("#toggle_active_<%= cycle.public_id %>").click(function() {
-		var url = "<%= elt_config_cycle_activate_url(:organization_id => @current_organization, :elt_framework_id => framework, :elt_cycle_id => cycle, :app_id=> app.id) %>";
+	jQ("#toggle_active_<%= cycl.public_id %>").click(function() {
+		var url = "<%= elt_config_cycle_activate_url(:organization_id => @current_organization, :elt_cycle_id => cycl) %>";
 		jQ.get(url,{},  function(data) {
-            jQ("#manage_cycles_<%=framework.public_id%>").html(data);
-            jQ("#manage_cycles_<%=framework.public_id%>").show();
+            jQ("#manage_cycles").html(data);
+            jQ("#manage_cycles").show();
 					});
 	})
 });
@@ -69,12 +68,12 @@ jQ(document).ready(function() {
 
 <script type="text/javascript">
 jQ(document).ready(function() {
-	jQ('#<%=cycle.id%>_org_assign').change(function() {
-		var school_id = jQ('#cycle_org_<%=cycle.id%>').val();
-		var url = "<%= elt_config_cycle_framework_assign_url(:organization_id => @current_organization, :elt_framework_id => framework, :elt_cycle_id => cycle, :app_id=> app.id) %>";
+	jQ('#<%=cycl.id%>_org_assign').change(function() {
+		var school_id = jQ('#cycle_org_<%=cycl.id%>').val();
+		var url = "<%= elt_config_cycle_school_assign_url(:organization_id => @current_organization, :elt_cycle_id => cycl) %>";
 			jQ.get(url, {'school_id':school_id}, function(data) {
-				jQ("#manage_cycles_<%=framework.public_id%>").html(data);
-				jQ("#manage_cycles_<%=framework.public_id%>").show();
+				jQ("#manage_cycles").html(data);
+				jQ("#manage_cycles").show();
 			});
 	})
 });

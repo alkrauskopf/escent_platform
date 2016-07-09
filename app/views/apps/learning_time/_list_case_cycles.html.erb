@@ -5,9 +5,9 @@
 	</div>
 	<% unless @current_provider.nil? %>
 		<% unless @current_organization == @current_provider %>
-			<% @current_organization.elt_all_cycles(@current_provider).each do |cycl| -%>
+			<% @current_organization.elt_active_cycles(@current_provider).each do |cycl| -%>
         <div style ="color: #C73914; font-size:12px; margin-top:10px; font-weight:bold">
-            <%=  cycl.name %><span style = "font-size:9px;font-weight:normal"><%= @current_organization.active_elt_cycle == cycl ? "&nbsp;&nbsp;(Current Cycle)" : ""%></span>
+            <%=  cycl.name %><span style = "font-size:9px;font-weight:normal"><%= (@current_organization.active_elt_cycle == cycl ? '&nbsp;&nbsp;(Current Cycle)' : '').html_safe%></span>
         </div>
           <%= render :partial => "/apps/learning_time/evidence_map", :locals => {:org => @current_organization, :cycl => cycl, :app => @app} %>
           <% cycl.activities.for_client.each do |activity| -%>

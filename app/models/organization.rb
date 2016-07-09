@@ -598,6 +598,11 @@ class Organization < ActiveRecord::Base
     self.elt_cases.for_provider(provider).all.collect{|c| c.elt_cycle}.uniq.sort{|a,b| b.begin_date <=> a.begin_date }
   end
 
+
+  def elt_active_cycles(provider)
+    self.elt_all_cycles(provider).select{|c| c.active?}
+  end
+
   def elt_summarized_cycles
     EltCycleSummary.for_provider(self).collect{|cs| cs.elt_cycle}.compact.uniq.sort{|a,b| b.begin_date <=> a.begin_date}
   end

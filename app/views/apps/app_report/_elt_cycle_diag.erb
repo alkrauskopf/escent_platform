@@ -24,7 +24,7 @@
 						</div>
 					</td>
 					<td id = "select_cycle" style="width:280px; width:fixed; vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
-						<%=  select(:cycla, provider.id,  (@current_organization == provider ? provider.elt_summarized_cycles : @current_organization.elt_all_cycles(provider)).collect{|c| [c.name, c.public_id]}, :prompt=> "Select Diagnostic Cycle") %>
+						<%=  select(:cycla, provider.id,  (@current_organization == provider ? provider.elt_summarized_cycles : @current_organization.elt_active_cycles(provider)).collect{|c| [c.name, c.public_id]}, :prompt=> "Select Diagnostic Cycle") %>
 					</td>
 				</tr>
 	<script type="text/javascript">

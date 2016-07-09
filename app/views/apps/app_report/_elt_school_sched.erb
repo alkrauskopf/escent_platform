@@ -71,7 +71,7 @@
 					</td>
 						<% unless school.nil? -%>
 							<td colspan=2 id = "select_cycle" style=" vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
-								<%=  select(:cycla, provider.id,  school.elt_all_cycles(provider).collect{|c| [c.name, c.public_id]}, :prompt=> "Select Diagnostic Cycle") %>
+								<%=  select(:cycla, provider.id,  school.elt_active_cycles(provider).collect{|c| [c.name, c.public_id]}, :prompt=> "Select Diagnostic Cycle") %>
 							</td>
 						<% end -%>
 					</tr>

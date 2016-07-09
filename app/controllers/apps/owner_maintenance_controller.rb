@@ -8,13 +8,12 @@ class Apps::OwnerMaintenanceController < ApplicationController
   before_filter :current_application
   before_filter :current_user_app_superuser?
 
-  before_filter :clear_notification, :except =>[]
+  before_filter :clear_notification, :except =>[:index]
   
  def clear_notification
     flash[:notice] = nil
     flash[:error] = nil
   end
-
 
   def index
     @app = @current_application
@@ -333,12 +332,6 @@ class Apps::OwnerMaintenanceController < ApplicationController
       @indicator = EltIndicator.new
     end
   end
-  
-  def elt_element_edit
-    if params[:element_id]
-      @element = EltElement.find_by_id(params[:element_id])
-    end
-  end
 
   def elt_element_update
     if params[:commit] == "Add"
@@ -367,7 +360,13 @@ class Apps::OwnerMaintenanceController < ApplicationController
     end
     redirect_to :action=>'index', :organization_id => @current_organization, :coop_app_id=> @current_application
   end
-  
+
+  def elt_element_edit
+    if params[:element_id]
+      @element = EltElement.find_by_id(params[:element_id])
+    end
+  end
+
   def elt_element_add
 
   end

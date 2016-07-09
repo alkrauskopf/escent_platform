@@ -12,6 +12,10 @@ class EltStandard < ActiveRecord::Base
     where('is_public').order("abbrev ASC")
   end
 
+  def self.for_orphans
+    where('is_active = ?', false).select{|s| s.elt_elements.empty?}.first rescue nil
+  end
+
   def public?
     self.is_public
   end

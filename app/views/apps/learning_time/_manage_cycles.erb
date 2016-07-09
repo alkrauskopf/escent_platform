@@ -30,7 +30,7 @@
 				</th>
 			</tr>
 		</thead>
-		<tbody>  
+    <tbody>
 			<% @current_organization.elt_cycles.available.each do |cycl| -%>
 				<% button_label = cycl.active? ? "button_enabled.png" : "button_disabled.png"-%>
 				<tr style="border:1px solid #ddd; ">
@@ -43,8 +43,8 @@
 						</span>
 					</td>
 					<td style=" text-align:left; font-size:13px; padding-left:3px;font-weight:normal;">
-						<%= cycl.name%> &nbsp;<span style="font-size:9px;"><%= cycl.begin_date ? cycl.begin_date.strftime("%m/%y") : "No Begin Date"%>&nbsp;-&nbsp;<%= cycl.end_date ? cycl.end_date.strftime("%m/%y") : "No End Date"%>&nbsp;&nbsp;(<%= pluralize(cycl.activities.size, ' Activity') %>)</span><br/>
-						<span style="font-size:10px; color:#C73914;"><%= cycl.current_schools.empty? ? 'No Participating Schools' : cycl.current_schools.collect{|s| s.short_name}.join(", ")%><%=cycl.deletable? ? ' DELETABLE' : ''%></span>
+						<%= cycl.name%> &nbsp;<span style="font-size:9px;"><%= cycl.begin_date ? cycl.begin_date.strftime("%m/%y") : "No Begin Date"%>&nbsp;-&nbsp;<%= cycl.end_date ? cycl.end_date.strftime("%m/%y") : 'No End Date'%>&nbsp;&nbsp;(<%= pluralize(cycl.activities.size, ' Activity') %>)</span><br/>
+						<span style="font-size:10px; color:#C73914;"><%= cycl.deletable? ? 'DELETABLE' : (cycl.current_schools.empty? ? 'No Participating Schools' : cycl.current_schools.collect{|s| s.short_name}.join(", "))%></span>
 						<% unless cycl.activities.empty?%>
 							<%= render :partial => "/apps/learning_time/list_cycle_activities", :locals=>{:cycl => cycl} %>
             <% end -%>

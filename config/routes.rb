@@ -121,6 +121,7 @@ EscentPartners::Application.routes.draw do |map|
   post '/master/ctl/strategies/edit' => 'master/coop_apps#ctl_strategy_update'
   get '/master/ctl/strategies' => 'master/coop_apps#ctl_strategies_maintain'
   get '/master/ctl/session' => 'master/coop_apps#ctl_strategies_maintain'
+  get '/master/elt/orphan_elements' => 'master/coop_apps#elt_orphan_elements'
 
   # CORE Discussions
   get '/discussion/resource/comment/delete' => 'site/discussions#delete_resource_comment'

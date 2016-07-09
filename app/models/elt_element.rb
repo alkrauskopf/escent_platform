@@ -29,6 +29,15 @@ class EltElement < ActiveRecord::Base
     self.elt_framework ? (self.elt_framework.elt_elements.all.select{ |e| e!= self }): []
   end
 
+  def self.orphans
+    orphans = []
+    EltElement.all.each do |element|
+      if element.standard.nil?
+       orphans << element
+      end
+    end
+    orphans
+  end
 
   def supporting_comments(cycle, org)
     comments = []

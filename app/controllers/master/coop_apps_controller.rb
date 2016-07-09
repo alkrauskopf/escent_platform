@@ -160,6 +160,22 @@ class Master::CoopAppsController < Master::ApplicationController
   redirect_to :action => :index, :app_id => @app.id, :msg => count.to_s + " Blogs Assigned To Core"
   end
 
+  def elt_orphan_elements
+    # Empty & Inactive Standard to put all orphaned element in
+    standard = EltStandard.for_orphans
+    o_count = 0
+    unless standard.nil?
+      orphans = EltElement.orphans
+      orphans.each do |o|
+        standard.elt_elements << o
+        o_count += 1
+      end
+      orphan_message = "#{o_count.to_s} Element Orphans Assigned to Standard: #{standard.abbrev}"
+    else
+      orphan_message = 'No Available Standard For Orphan Elements'
+    end
+    redirect_to :action=>'index', :app_id=> @app.id, :msg => orphan_message
+  end
 
   def elt_copy_indicators_select
     clear_notification

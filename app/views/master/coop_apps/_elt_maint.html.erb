@@ -11,12 +11,12 @@
         <tr>
           <td  style="width:50px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
               <span class="fsn-button ui-button ui-state-default ui-corner-all">
-                 Go
-                <!--   <%#= link_to "Go" master_elt_maintence_1_path( :app_id => app.id)  %> -->
+               <!--  Go -->
+                   <%= link_to "Go", master_elt_orphan_elements_path(:app_id => app.id)  %>
               </span>
           </td>
           <td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">
-            ELT Maintenance Function Name
+            Assign Unassigned Elements to Empty Standard
           </td>
         </tr>
       </tbody>

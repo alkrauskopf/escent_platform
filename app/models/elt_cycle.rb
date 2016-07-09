@@ -4,7 +4,7 @@ class EltCycle < ActiveRecord::Base
   belongs_to :organization
   belongs_to :elt_framework
 
-  has_many :elt_cases
+  has_many :elt_cases, :dependent => :destroy
   has_many :schools, :through=> :elt_cases, :source=>:organization, :uniq=>true
   has_many :elt_org_options
   has_many :elt_cycle_summaries

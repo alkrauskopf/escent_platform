@@ -75,9 +75,10 @@ EscentPartners::Application.configure do
       :port => 587,
       :domain => "precisionschoolimprovement.com",
       :authenication => :plain,
-      :user_name => 'alkrauskopf',
-      :password => 'florentin0'
-   #   :user_name => ENV['SENDGRID_USER'],
-   #   :password => ENV['SENDGRID_PASSWORD']
+ #     :user_name => sendgrid_accnt_name,
+ #     :password => sendgrid_password
+      #    or   defined as server enviroment variables
+     :user_name => ENV['SENDGRID_USER'],
+     :password => ENV['SENDGRID_PASSWORD']
   }
 end

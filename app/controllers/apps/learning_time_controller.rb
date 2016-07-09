@@ -372,7 +372,11 @@ class Apps::LearningTimeController  < ApplicationController
   def assign_school_cycle
     unless @cycle.nil? || @school.nil?
       if @school.elt_org_option
-        @school.elt_org_option.update_attributes(:elt_cycle_id=> @cycle.id)
+        if @cycle.current_schools.include?(@school)
+          @school.elt_org_option.update_attributes(:elt_cycle_id=> nil)
+        else
+          @school.elt_org_option.update_attributes(:elt_cycle_id=> @cycle.id)
+        end
       else
         org_option = EltOrgOption.new
         org_option.elt_cycle_id = @cycle.id

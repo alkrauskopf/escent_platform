@@ -25,7 +25,7 @@
 				<th  colspan=2 style=" border:0px solid #ddd; font-size:12px; text-align:left; ">
 					&nbsp;
 				</th>
-				<th  colspan=2 style=" border:0px solid #ddd; font-size:12px; text-align:left; ">
+				<th  colspan=3 style=" border:0px solid #ddd; font-size:12px; text-align:left; ">
 					<%= pluralize(@current_organization.elt_cycles.available.size, @current_organization.short_name + " Cycle") %>
 				</th>
 			</tr>
@@ -50,9 +50,12 @@
             <% end -%>
             <%= render :partial => "/apps/learning_time/list_cycle_elements", :locals=>{:cycl => cycl} %>
 					</td>
-					<td  id="<%=cycl.id%>_org_assign" style="width:23%; color:#000000; font-weight:normal; font-size:10px; padding-left:10px; padding-top:10px;">
-						<%=  select(:cycle_org, cycl.id, (@current_organization.provided_app_orgs(@current_application,false) - cycl.current_schools).sort_by{|o| o.name}.collect{|o| [truncate(o.medium_name, :omission => "...", :length => 18), o.public_id]}, :prompt => 'Assign Org To Cycle') %>
+					<td  id="<%=cycl.id%>_org_remove" style="width:23%; color:#000000; font-weight:normal; font-size:10px; padding-left:5px; padding-top:10px;">
+						<%=  select(:cycle_del, cycl.id, cycl.current_schools.sort_by{|o| o.name}.collect{|o| [truncate(o.short_name, :omission => "...", :length => 18), o.public_id]}, :prompt => 'Remove Org') %>
 					</td>
+          <td  id="<%=cycl.id%>_org_assign" style="width:23%; color:#000000; font-weight:normal; font-size:10px; padding-left:5px; padding-top:10px;">
+            <%=  select(:cycle_add, cycl.id, (@current_organization.provided_app_orgs(@current_application,false) - cycl.current_schools).sort_by{|o| o.name}.collect{|o| [truncate(o.short_name, :omission => "...", :length => 18), o.public_id]}, :prompt => 'Assign Org') %>
+          </td>
 				</tr>
 <script type="text/javascript">
 jQ(document).ready(function() {
@@ -68,8 +71,8 @@ jQ(document).ready(function() {
 
 <script type="text/javascript">
 jQ(document).ready(function() {
-	jQ('#<%=cycl.id%>_org_assign').change(function() {
-		var school_id = jQ('#cycle_org_<%=cycl.id%>').val();
+	jQ('#<%=cycl.id%>_org_remove').change(function() {
+		var school_id = jQ('#cycle_del_<%=cycl.id%>').val();
 		var url = "<%= elt_config_cycle_school_assign_url(:organization_id => @current_organization, :elt_cycle_id => cycl) %>";
 			jQ.get(url, {'school_id':school_id}, function(data) {
 				jQ("#manage_cycles").html(data);
@@ -77,6 +80,18 @@ jQ(document).ready(function() {
 			});
 	})
 });
+</script>
+<script type="text/javascript">
+  jQ(document).ready(function() {
+    jQ('#<%=cycl.id%>_org_assign').change(function() {
+      var school_id = jQ('#cycle_add_<%=cycl.id%>').val();
+      var url = "<%= elt_config_cycle_school_assign_url(:organization_id => @current_organization, :elt_cycle_id => cycl) %>";
+      jQ.get(url, {'school_id':school_id}, function(data) {
+        jQ("#manage_cycles").html(data);
+        jQ("#manage_cycles").show();
+      });
+    })
+  });
 </script>
 			<% end -%>
 		</tbody>

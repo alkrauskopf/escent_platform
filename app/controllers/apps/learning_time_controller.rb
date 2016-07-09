@@ -73,7 +73,6 @@ class Apps::LearningTimeController  < ApplicationController
       @cycle.is_active = false
       @cycle.begin_date = Date.new(params[:begin_date]['(1i)'].to_i, params[:begin_date]['(2i)'].to_i, 1).beginning_of_month
       @cycle.end_date = Date.new(params[:end_date]['(1i)'].to_i, params[:end_date]['(2i)'].to_i, 1).end_of_month
-      @cycle.elt_framework_id = @framework.id
       if @current_organization.elt_cycles << @cycle
         flash[:notice] = "Successfully created diagnostic cycle.   CLOSE WINDOW or CREATE ANOTHER"
         @cycle = EltCycle.new

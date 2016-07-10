@@ -37,6 +37,7 @@
           <% end %>
           <td style="border:0px solid #ddd; text-align:left; font-size:12px; padding-left:3px;padding-bottom:7px; font-weight:bold; color: <%=color_text%>">
             <%= standard.abbrev %>:&nbsp;&nbsp;<%= standard.name%>
+            <span style="font-size:9px">&nbsp;(<%= standard.organization.short_name %>)</span>
             <% if standard.editable?(@current_organization) %><br/>
               <table style="width:500px;">
                 <tbody>
@@ -65,7 +66,7 @@
             </td>
           <% else %>
             <td style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
-              &nbsp;
+              <%= pluralize(standard.cases.size, 'Case') %>
             </td>
           <% end %>
           <script type="text/javascript">

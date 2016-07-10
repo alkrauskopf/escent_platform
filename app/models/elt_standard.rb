@@ -36,8 +36,20 @@ class EltStandard < ActiveRecord::Base
     org_available(org).collect{|s| s.elements.active}.compact.flatten
   end
 
+  def indicators
+    self.elt_elements.empty? ? [] : self.elt_elements.collect{|e| e.elt_indicators}.flatten
+  end
+
+  def case_indicators
+    self.indicators.empty? ? [] : self.indicators.collect{|i| i.elt_case_indicators}.flatten
+  end
+
+  def cases
+    self.case_indicators.empty? ? [] : self.case_indicators.collect{|ci| ci.elt_case}.uniq
+  end
+
   def destroyable?(org)
-    (self.organization == org && !self.active?)
+    (self.organization == org && !self.active? && self.case_indicators.empty?)
   end
 
   def editable?(org)

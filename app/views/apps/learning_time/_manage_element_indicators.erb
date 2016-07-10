@@ -105,7 +105,7 @@ jQ(document).ready(function() {
 						<% unless ind.elt_indicator_lookfors.empty? -%>
 							<% ind.elt_indicator_lookfors.all.each do |lf| -%>						
 								<div class = "app_elt_lookfor" style="padding-left:10px;">
-									<br/><%= letter_equivalent(lf.position) %>)&nbsp;<%= simple_format lf.lookfor %>
+									<br/><%= simple_format (letter_equivalent(lf.position) + ') ' + lf.lookfor) %>
 								</div>
 							<% end -%>
 						<% end %>

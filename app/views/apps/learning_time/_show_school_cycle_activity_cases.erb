@@ -24,7 +24,7 @@
 					</td>
 					<td style=" border:0px solid #ddd; color: #2061a5;line-height:1.3em; padding-top:5px;padding-bottom:5px; vertical-align:top;text-align:left; font-size:10px" >
 						<% if elt_case.viewable?(@current_user) %>
-							<u><%= link_to 'View', elt_case_show_path(:organization_id => @current_organization, :elt_case_id => elt_case), {:target => "_blank"}  %></u>
+							<u><%= link_to 'View', elt_case_show_path(:organization_id => @current_organization, :elt_case_id => elt_case), {:target => '_blank'}  %></u>
 							&nbsp;
 						<% end -%>
 						<span style= "font-size:12px;">

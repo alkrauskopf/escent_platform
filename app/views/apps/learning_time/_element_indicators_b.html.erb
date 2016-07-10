@@ -13,12 +13,12 @@
       <% if elt_case.updatable?(@current_user) -%>
           <td  colspan=2 style = "vertical-align:top;padding-top:5px;padding-bottom:5px; ">
             <%= text_area :notes, element.public_id, :rows => 2, :cols => 100, :value => elt_case.element_note(element).nil? ? "": elt_case.element_note(element).note %>
-            <br/><%= elt_case.activity.master? ? (render :partial => "/apps/learning_time/supporting_summary_comments", :locals => {:elt_case => elt_case, :element=> element}) : "" -%>
+            <br/><%= elt_case.activity.master? ? (render :partial => "/apps/learning_time/supporting_summary_comments", :locals => {:elt_case => elt_case, :element=> element}) : '' -%>
           </td>
       <% else %>
-          <td  colspan=2 style = "background:#ffffff; color: #2061a5; vertical-align:top;padding-top:5px;padding-bottom:5px; ">
-            <%= elt_case.element_note(element).nil? ? "": (simple_format elt_case.element_note(element).note) %>
-            <br/><%= elt_case.activity.master? ? (render :partial => "/apps/learning_time/supporting_summary_comments", :locals => {:elt_case => elt_case, :element=> element}) : "" -%>
+          <td  colspan=2 style = "background:#ffffff; color: #2061a5; vertical-align:top;padding-top:5px;padding-bottom:5px; line-height:1.5em;">
+            <%= elt_case.element_note(element).nil? ? '': (simple_format elt_case.element_note(element).note) %>
+            <br/><%= elt_case.activity.master? ? (render :partial => "/apps/learning_time/supporting_summary_comments", :locals => {:elt_case => elt_case, :element=> element}) : '' -%>
           </td>
       <% end -%>
     </tr>
@@ -52,7 +52,7 @@
 						<% end %>
             <%= render :partial => "/apps/learning_time/element_indicator_note_b", :locals => {:elt_case => elt_case, :indicator=> indicator} %>
           </td>
-					<td style = "width:12%; vertical-align:top; padding-top:8px; padding-left:5px; ">
+					<td style = "width:11%; vertical-align:top; padding-top:8px; padding-left:5px; ">
 					   	<%= render :partial => "/apps/learning_time/element_indicator_rubric_b", :locals => {:elt_case => elt_case, :indicator=> indicator} -%>
 					</td>
 				</tr>

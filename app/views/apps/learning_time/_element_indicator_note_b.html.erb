@@ -18,8 +18,9 @@
 					  </td>
           <% else %>
               <% key_color = (!elt_case.case_indicator(indicator).nil? && elt_case.case_indicator(indicator).key_finding?) ? '#C73914' : '#2061a5' %>
-              <td style = "font-size:12px; font-weight:normal; text-align:left; color: <%= key_color %>; font-family:<%=family%>; border-top:1px dashed #000000; padding-top:5px; margin-top:10px; line-height:1.3em;">
-                <%= elt_case.case_indicator(indicator).nil? || elt_case.case_indicator(indicator).note.nil? || elt_case.case_indicator(indicator).note.empty? ? 'No Evidence' : (simple_format ('Evidence: ' + elt_case.case_indicator(indicator).note)) %>
+              <% key_label = (!elt_case.case_indicator(indicator).nil? && elt_case.case_indicator(indicator).key_finding?) ? 'KEY: ' : 'Finding: ' %>
+              <td style = "font-size:12px; font-weight:normal; text-align:left; color: <%= key_color %>; font-family:<%=family%>; border-top:1px dashed #000000; padding-top:5px; margin-top:10px; line-height:1.5em;">
+                <%= elt_case.case_indicator(indicator).nil? || elt_case.case_indicator(indicator).note.nil? || elt_case.case_indicator(indicator).note.empty? ? (key_label + '- - -') : (simple_format (key_label + elt_case.case_indicator(indicator).note)) %>
               </td>
           <% end %>
 				</tr>

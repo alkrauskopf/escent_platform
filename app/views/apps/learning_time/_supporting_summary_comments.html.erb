@@ -1,9 +1,9 @@
 
 <div id ="supporting_comments<%=element.public_id%>" style = "font-size:12px; padding-left:0px;">
-	<table id="comments_<%=element.public_id%>" style="margin-top:0px; width:100%; border:0px solid #ddd;">
+	<table id="comments_<%=element.public_id%>" style="margin-top:0px; width:90%; border:0px solid #ddd;">
 		<tbody>  
 			<tr>
-				<td class="resource_levels_close" style="width:99%;">
+				<td class="resource_levels_close" style="width:100%; line-height:1.5em;">
             <%= link_to '', elt_case_comments_path(:organization_id => @current_organization, :elt_case_id => elt_case, :elt_element_id => element)  %>
             Summary Comments
             <span></span>

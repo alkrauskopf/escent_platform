@@ -2,31 +2,40 @@
 	<table style="width:100%; border:1px solid #000000; margin-top:10px; margin-left:-5px;">
 		<tbody>
       <tr>
-        <td colspan=3 style = "background:<%=element.form_background%>; color: <%=element.e_font_color%>; vertical-align:middle; text-align:center; font-size:16px ">
+        <td style = "width:13%; background:<%=element.form_background%>; color: <%=element.e_font_color%>; vertical-align:middle; text-align:center; font-size:13px ">
+          <%= element.rubric? ? elt_case.element_rubric(element).name : '' %>
+        </td>
+        <td style = "background:<%=element.form_background%>; color: <%=element.e_font_color%>; vertical-align:middle; text-align:center; font-size:16px ">
           <%= element.name %>
+        </td>
+        <td style = "width:10%; background:<%=element.form_background%>; color: <%=element.e_font_color%>; vertical-align:middle; text-align:center; font-size:13px ">
+          <%= element.rubric? ? elt_case.element_rubric(element).name : 'No Rating' %>
         </td>
       </tr>
       <tr style = "background:<%=element.form_background%>; color: <%=element.e_font_color%>;">
-        <td style = "border-left:1px solid #000000;width:17%; vertical-align:top; text-align:center; padding-top:5px; padding-left:5px; font-size:12px; padding-bottom:5px; ">
+        <td style = "border-left:1px solid #000000;width:13%; vertical-align:top; text-align:center; padding-top:5px; padding-left:5px; font-size:12px; padding-bottom:5px; ">
           <%= render :partial => "/apps/learning_time/element_rubric", :locals => {:elt_case => elt_case, :element=> element} -%>
         </td>
         <% if elt_case.updatable?(@current_user) -%>
-          <td style = "width:83%; border-right:1px solid #000000; vertical-align:top;padding-top:5px;padding-bottom:5px; ">
-            <%= text_area :notes, element.public_id, :rows => 2, :cols => 100, :value => elt_case.element_note(element).nil? ? 'Explain Rating': elt_case.element_note(element).note %>
+          <td style = "vertical-align:top;padding-top:5px;padding-bottom:5px;">
+              <%= text_area :notes, element.public_id, :rows => 2, :cols => 100, :value => elt_case.element_note(element).nil? ? 'Explain Rating': elt_case.element_note(element).note %>
           </td>
         <% else %>
-          <td style = "width:83%; border-right:1px solid #000000; vertical-align:top;padding-top:5px;padding-bottom:5px; line-height:1.5em;">
-            <%= elt_case.element_note(element).nil? ? '': (simple_format elt_case.element_note(element).note) %>
+          <td style = "vertical-align:top;padding-top:5px;padding-bottom:5px; line-height:1.5em;">
+              <%= elt_case.element_note(element).nil? ? '': (simple_format elt_case.element_note(element).note) %>
           </td>
         <% end -%>
+        <td style = "width:10%; border-right:1px solid #000000; ">
+          &nbsp;
+        </td>
       </tr>
       <tr style="border:0px  solid #000000;">
-        <td style = "width:17%; vertical-align:top; text-align:left; padding-top:5px; padding-left:20px; font-size:12px; padding-bottom:0px; color: #2061a5; line-height:1.4em">
+        <td style = "width:13%; vertical-align:top; text-align:left; padding-top:5px; padding-left:20px; font-size:12px; padding-bottom:0px; color: #2061a5; line-height:1.4em">
           <% elt_case.cycle_ratings_for_element(element).group_by{|r| r.name}.each do |name, rubs| -%>
             <br/><%= rubs.size.to_s + ' ' + name %>
           <%end%>
         </td>
-        <td style = "border-right:1px solid #000000; width:83%; vertical-align:top; font-size:16px; font-family:Garamond; padding-top:8px;padding-bottom:8px;font-weight:normal; line-height:1.2em; ">
+        <td colspan=2 style = "border-right:1px solid #000000; vertical-align:top; font-size:16px; font-family:Garamond; padding-top:8px;padding-bottom:8px;font-weight:normal; line-height:1.2em; ">
           <% element.elt_indicators.active.for_activity(elt_case.elt_type).each do |indicator| -%>
             <%= indicator.indicator %><br/>
             <% unless indicator.elt_indicator_lookfors.empty? -%>
@@ -53,24 +62,24 @@
         <td style = "width:17%; vertical-align:top; text-align:left; padding-top:5px; padding-left:5px; font-size:12px; padding-bottom:5px; ">
           &nbsp;
         </td>
-        <td style = "width:83%; border-right:1px solid #000000; color: #2061a5; vertical-align:top;padding-top:5px;padding-bottom:5px; ">
+        <td colspan=2 style = "border-right:1px solid #000000; color: #2061a5; vertical-align:top;padding-top:5px;padding-bottom:5px; ">
           <%= render :partial => "/apps/learning_time/supporting_summary_comments", :locals => {:elt_case => elt_case, :element=> element} -%>
         </td>
       </tr>
       <tr>
-        <td style = "width:17%; vertical-align:top; text-align:left; padding-top:5px; padding-left:5px; font-size:12px; padding-bottom:5px; ">
+        <td style = "width:13%; vertical-align:top; text-align:left; padding-top:5px; padding-left:5px; font-size:12px; padding-bottom:5px; ">
           &nbsp;
         </td>
-        <td style = "width:83%; border-right:1px solid #000000; border-top:1px solid #dddddd; color: #2061a5; text-decoration:underline; vertical-align:top;padding-top:5px;padding-bottom:5px; ">
+        <td colspan=2 style = " border-right:1px solid #000000; border-top:1px solid #dddddd; color: #2061a5; text-decoration:underline; vertical-align:top;padding-top:5px;padding-bottom:5px; ">
           Key Findings
         </td>
       </tr>
       <% element.active_indicators.each do |std| %>
         <tr style="border:0px  solid #000000;">
-          <td style = "width:17%;">
+          <td style = "width:13%;">
             &nbsp;
           </td>
-          <td style = "width:83%; border-right:1px solid #000000; border-right:1px solid #000000; color: #2061a5; vertical-align:top;padding-top:5px;padding-bottom:5px;">
+          <td colspan=2 style = "border-right:1px solid #000000; border-right:1px solid #000000; color: #2061a5; vertical-align:top;padding-top:5px;padding-bottom:5px;">
             <%= render :partial => "/apps/learning_time/supporting_indicators", :locals => {:elt_case => elt_case, :std=> std}%>
           </td>
         </tr>

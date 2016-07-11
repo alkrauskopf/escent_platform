@@ -4,9 +4,6 @@
 			<tr>
 				<td style = "vertical-align:top; padding-bottom:5px; padding-left:2px; ">
 					<% if element.rubric? %>
-            <span style = "font-size:14px; font-weight:normal; text-align:center; padding-left:10px;">
-              <%= rating = !elt_case.element_rubric(element).nil? ? truncate(elt_case.element_rubric(element).name, :omission=>"", :length=>12) : 'Overall Rating' %>
-            </span><br/>
             <% if elt_case.updatable?(@current_user)-%>
               <span style = "font-weight:normal; color:#000000; text-align:center;  font-size:12px">
                 <%=  select(:e_rating, element.id,  element.rubrics.active.all.collect{|r| [truncate(r.name, :omission=>"", :length=>12), r.id]}<<['No Rating',0], :prompt=> (rating == '' ? 'No Rating' : rating )) %>

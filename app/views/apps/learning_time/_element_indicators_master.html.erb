@@ -12,7 +12,7 @@
         </td>
         <% if elt_case.updatable?(@current_user) -%>
           <td style = "width:83%; border-right:1px solid #000000; vertical-align:top;padding-top:5px;padding-bottom:5px; ">
-            <%= text_area :notes, element.public_id, :rows => 6, :cols => 100, :value => elt_case.element_note(element).nil? ? 'Explain Rating': elt_case.element_note(element).note %>
+            <%= text_area :notes, element.public_id, :rows => 2, :cols => 100, :value => elt_case.element_note(element).nil? ? 'Explain Rating': elt_case.element_note(element).note %>
           </td>
         <% else %>
           <td style = "width:83%; border-right:1px solid #000000; vertical-align:top;padding-top:5px;padding-bottom:5px; line-height:1.5em;">

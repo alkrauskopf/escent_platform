@@ -13,12 +13,14 @@
           <td style="width:15%; border:0px solid #ddd; vertical-align:top;padding-top:8px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
             <% unless elt_case.master? -%>
              Key<%= check_box :key_i, indicator.id, :checked=>elt_case.case_indicator(indicator).nil?  ? false : elt_case.case_indicator(indicator).is_key %>
+              <% text_box_rows = 2 %>
             <% else %>
-              &nbsp;
+                <% text_box_rows = 6 %>
+                &nbsp;
             <% end %>
           </td>
           <td style="width:85%; border:0px solid #ddd; vertical-align:top;padding-top:8px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
-             <%= text_area :case_i, indicator.id, :rows => 2, :cols => 100, :value => elt_case.case_indicator(indicator).nil?  ? "": elt_case.case_indicator(indicator).note %>
+             <%= text_area :case_i, indicator.id, :rows => text_box_rows, :cols => 100, :value => elt_case.case_indicator(indicator).nil?  ? "": elt_case.case_indicator(indicator).note %>
           </td>
         <% else %>
             <% key_color = (!elt_case.case_indicator(indicator).nil? && elt_case.case_indicator(indicator).key_finding?) ? '#C73914' : '#2061a5' %>

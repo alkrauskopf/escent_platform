@@ -26,7 +26,7 @@ class EltCaseIndicator < ActiveRecord::Base
 
 
   def rubric?
-    self.rubric
+    self.rubric.nil? ? false:true
   end
   
   def score

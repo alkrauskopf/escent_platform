@@ -9,7 +9,7 @@
           <th  style=" border:0px solid #ddd; font-size:10px; font-weight:normal; text-align:center; ">
             Active
           </th>
-          <th  colspan=2 style=" border:0px solid #ddd; font-size:12px; font-weight:bold; text-align:center; ">
+          <th  colspan=3 style=" border:0px solid #ddd; font-size:12px; font-weight:bold; text-align:center; ">
             <%= pluralize(@standards.size,  " Available Standard") %>
           </th>
         </tr>
@@ -20,43 +20,24 @@
         <% active_button = standard.active? ? "button_enabled.png" : "button_disabled.png"-%>
         <% public_button = standard.public? ? "button_enabled.png" : "button_disabled.png"-%>
         <tr style="border-bottom:0px solid #ddd; border-top:1px solid #ddd;">
-          <% if standard.organization == @current_organization %>
-            <td id="toggle_public_<%= standard.public_id %>" style="border:0px solid #ddd;  width:7%; cursor:pointer; padding-left:9px; padding-top:8px; vertical-align:top" >
-              <%= (image_tag public_button,:width => 12) %>
-            </td>
-            <td id="toggle_active_<%= standard.public_id %>" style="border:0px solid #ddd;  width:7%; cursor:pointer; padding-left:9px; padding-top:8px; vertical-align:top" >
-              <%= (image_tag active_button,:width => 12) %>
-            </td>
-          <% else %>
-            <td style="border:0px solid #ddd;  width:7%; padding-left:9px; padding-top:8px; vertical-align:top" >
-              <%= (image_tag public_button,:width => 12) %>
-            </td>
-            <td style="border:0px solid #ddd;  width:7%; padding-left:9px; padding-top:8px; vertical-align:top" >
-              <%= (image_tag active_button,:width => 12) %>
-            </td>
-          <% end %>
+          <td style="border:0px solid #ddd;  width:7%; padding-left:9px; padding-top:8px; vertical-align:top" >
+            <%= (image_tag public_button,:width => 12) %>
+          </td>
+          <td style="border:0px solid #ddd;  width:7%; padding-left:9px; padding-top:8px; vertical-align:top" >
+            <%= (image_tag active_button,:width => 12) %>
+          </td>
+          <td style="border:0px solid #ddd;  width:7%; padding-left:9px; padding-top:3px; vertical-align:top" >
+            <% if standard.editable?(@current_organization) %>
+              <span class="fsn-button ui-button ui-state-default ui-corner-all">
+                <%= link_to 'Edit', elt_config_standard_edit_path(:organization_id => @current_organization,:task=>'Update', :elt_standard_id=>standard.public_id ),{:target=>'_blank'}  %>
+              </span>
+            <% else%>
+              &nbsp;
+            <% end %>
+          </td>
           <td style="border:0px solid #ddd; text-align:left; font-size:12px; padding-left:3px;padding-bottom:7px; font-weight:bold; color: <%=color_text%>">
             <%= standard.abbrev %>:&nbsp;&nbsp;<%= standard.name%>
             <span style="font-size:9px">&nbsp;(<%= standard.organization.short_name %>)</span>
-            <% if standard.editable?(@current_organization) %><br/>
-              <table style="width:500px;">
-                <tbody>
-                    <tr>
-                      <td  id="edit_<%= standard.public_id %>" style=" border:0px solid #ddd; font-size:10px; vertical-align:top; text-align:left">
-                        <span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-                          Update
-                        </span>
-                      </td>
-                      <td  style=" border:0px solid #ddd; font-size:10px; text-align:left">
-                        <%= text_field :name, standard.public_id, :value => standard.name, :size => 50, :maxlength => 60 %>
-                      </td>
-                      <td  style=" border:0px solid #ddd; font-size:10px; text-align:left">
-                        <%= text_field :abbrev, standard.public_id, :value => standard.abbrev, :size => 6 %>
-                      </td>
-                    </tr>
-                </tbody>
-              </table>
-            <% end %>
           </td>
           <% if standard.destroyable?(@current_organization) %>
             <td id="destroy_<%= standard.public_id %>" style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >

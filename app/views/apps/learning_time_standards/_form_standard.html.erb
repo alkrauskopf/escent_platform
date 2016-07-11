@@ -1,5 +1,5 @@
-
-<%= form_for(:elt_standard, :url => elt_config_standard_add_path(:organization_id => @current_organization)) do |f| %>
+<%= form_for(:elt_standard, :url => elt_config_standard_edit_path(:organization_id => @current_organization,
+                                  :elt_standard_id=>@standard.public_id, :task=>@task, :function => @task)) do |f| %>
   <div class="formBox">
     <div class="FormRow">
       <div class="FormRowTitle">

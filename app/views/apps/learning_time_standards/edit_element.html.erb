@@ -17,6 +17,7 @@
           </div>
         </div>
     <% end -%>
+    <%= render :partial => "/apps/learning_time/activate_rubric", :locals=>{:entity => @element} %>
   </div>
   <%= render :partial => "manage_element_indicators", :locals=>{:element => @element} %>
 </div>

@@ -29,4 +29,8 @@ class Rubric < ActiveRecord::Base
   def activity
     self.scope
   end
+
+  def element
+    self.scope
+  end
 end

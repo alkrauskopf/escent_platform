@@ -22,7 +22,7 @@
 	<script type="text/javascript">
 	jQ(document).ready(function() {
 		jQ("#toggle_rubric_<%= entity.public_id %>").click(function() {
-			var url = "<%= elt_config_activity_rubric_activate_url(:organization_id => @current_organization, :elt_type_id => entity) %>";
+			var url = "<%= elt_config_rubric_activate_url(:organization_id => @current_organization, :entity_id => entity.public_id, :scope => entity.class.to_s) %>";
 			jQ.get(url,{},  function(data) {
 					jQ("#activate_rubric_<%=entity.public_id%>").html(data);
 					jQ("#activate_rubric_<%=entity.public_id%>").show();
@@ -61,7 +61,7 @@
 	jQ(document).ready(function() {
 		jQ('#share_rubric').change(function() {
 			var rubric_id = jQ('#share_<%=entity.id%>').val();
-			var url = "<%= elt_config_activity_rubric_share_url(:organization_id => @current_organization, :elt_type_id => entity) %>";
+			var url = "<%= elt_config_activity_rubric_share_url(:organization_id => @current_organization, :entity_id => entity.public_id, :scope => entity.class.to_s) %>";
 				jQ.get(url, {'rubric_id':rubric_id}, function(data) {
 					jQ("#activate_rubric_<%=entity.public_id%>").html(data);
 					jQ("#activate_rubric_<%=entity.public_id%>").show();

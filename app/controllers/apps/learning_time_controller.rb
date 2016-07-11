@@ -386,18 +386,18 @@ class Apps::LearningTimeController  < ApplicationController
   end
 
  def toggle_rubric
-    @activity = EltType.find_by_public_id(params[:elt_type_id]) rescue nil
-    unless @activity.nil?
-      @activity.update_attributes(:use_rubric=> !@activity.use_rubric)
+   rubric_entity
+    unless @entity.nil?
+      @entity.update_attributes(:use_rubric=> !@entity.use_rubric)
     end
-    render :partial => "/apps/learning_time/activate_rubric", :locals => {:entity => @activity, :app => @app} 
+    render :partial => "/apps/learning_time/activate_rubric", :locals => {:entity => @entity}
   end
 
   def share_rubric
-    @activity = EltType.find_by_public_id(params[:elt_type_id]) rescue nil
+    rubric_entity
     rubric_id = params[:rubric_id] == 0 ? nil : params[:rubric_id].to_i
-    @activity.update_attributes(:rubric_id => rubric_id)
-    render :partial => "/apps/learning_time/activate_rubric", :locals => {:entity => @activity, :app => @app} 
+    @entity.update_attributes(:rubric_id => rubric_id)
+    render :partial => "/apps/learning_time/activate_rubric", :locals => {:entity => @entity}
   end    
 
   def delete_rubric
@@ -432,6 +432,9 @@ class Apps::LearningTimeController  < ApplicationController
       @case.elt_type.active_elements.each do |element|
         if params[:notes]
           update_notes(@case, element, (!params[:notes][element.public_id].nil? ? params[:notes][element.public_id] : ''))
+        end
+        if params[:e_rating]
+          update_element_rubric(@case, element, (!params[:e_rating][element.id.to_s].nil? ? params[:e_rating][element.id.to_s]:''))
         end
         element.elt_indicators.active.each do |indicator|
           if params[:case_i]
@@ -987,6 +990,27 @@ class Apps::LearningTimeController  < ApplicationController
    end
  end
 
+ def update_element_rubric(elt_case, element, rubric_id)
+   if elt_case.element_note(element).nil?
+     unless (rubric_id == '' || rubric_id == 0)
+       case_note = EltCaseNote.new
+       case_note.elt_element_id = element.id
+       case_note.user_name = @current_user.last_name_first
+       case_note.note = ''
+       case_note.rubric_id = rubric_id
+       elt_case.elt_case_notes << case_note
+     end
+   else
+     if rubric_id == '0'
+       new_id = nil
+     elsif rubric_id == ''
+       new_id = elt_case.element_note(element).rubric_id
+     else
+       new_id = rubric_id.to_i
+     end
+     elt_case.element_note(element).update_attributes(:rubric_id => new_id)
+   end
+ end
 
   def school_survey(cycle)
       cycle.update_attributes(:survey_school_date => Date.today)
@@ -1032,6 +1056,16 @@ class Apps::LearningTimeController  < ApplicationController
 
  def set_rubric
    @rubric = Rubric.find_by_id(params[:rubric_id]) rescue nil
+ end
+
+ def rubric_entity
+   if params[:scope] == 'EltType'
+     @entity = EltType.find_by_public_id(params[:entiy_id]) rescue nil
+   elsif params[:scope] == 'EltElement'
+     @entity = EltElement.find_by_public_id(params[:entity_id]) rescue nil
+   else
+     @entity = nil
+   end
  end
 
  def set_activity

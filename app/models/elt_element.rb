@@ -5,6 +5,7 @@ class EltElement < ActiveRecord::Base
   belongs_to  :organization
   belongs_to :elt_framework
   belongs_to :elt_standard
+  belongs_to :share_rubric, :class_name=> 'Rubric', :foreign_key => :rubric_id
 
   has_many :elt_indicators, :dependent => :destroy
   has_many :elt_std_indicators, :dependent => :destroy
@@ -12,6 +13,7 @@ class EltElement < ActiveRecord::Base
   has_many :elt_plan_actions, :as => :scope, :dependent => :destroy
   has_many :elt_cycle_elements, :dependent => :destroy
   has_many :cycles, :through => :elt_cycle_elements, :source => :elt_cycle, :uniq=>true
+  has_many :rubrics, :as => :scope, :order => "position", :dependent => :destroy
 
   validates_presence_of :name
   validates_presence_of :abbrev
@@ -25,6 +27,21 @@ class EltElement < ActiveRecord::Base
     self.is_active
   end
 
+  def rubric?
+    self.use_rubric
+  end
+
+  def max_rubric
+    self.rubric? ? self.rubrics.active.by_score.last : nil
+  end
+
+  def shareable_rubrics
+    self.share_rubric ? self.active_rubrics.select{|r| self.share_rubric.score <= r.score} : []
+  end
+
+  def active_rubrics
+    self.rubric? ? self.rubrics.active : []
+  end
   def siblings
     self.elt_framework ? (self.elt_framework.elt_elements.all.select{ |e| e!= self }): []
   end

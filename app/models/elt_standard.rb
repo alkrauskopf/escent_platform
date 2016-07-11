@@ -53,7 +53,7 @@ class EltStandard < ActiveRecord::Base
   end
 
   def editable?(org)
-    (self.organization == org && !self.active?)
+    (self.organization == org)
   end
 
   def elements

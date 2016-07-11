@@ -1,7 +1,3 @@
 <div >
-  <% unless false %>
-    <%= render :partial => "/apps/learning_time/show_case_b", :locals => {:elt_case => @elt_case} -%>
-  <% else %>
-   	<%= render :partial => "/apps/learning_time/show_case_a", :locals => {:elt_case => @elt_case} -%>
-  <% end %>
+  <%= render :partial => "/apps/learning_time/show_case_b", :locals => {:elt_case => @elt_case} -%>
 </div>

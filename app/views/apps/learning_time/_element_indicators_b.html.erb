@@ -13,12 +13,10 @@
       <% if elt_case.updatable?(@current_user) -%>
           <td  colspan=2 style = "vertical-align:top;padding-top:5px;padding-bottom:5px; ">
             <%= text_area :notes, element.public_id, :rows => 2, :cols => 100, :value => elt_case.element_note(element).nil? ? "": elt_case.element_note(element).note %>
-            <br/><%= elt_case.activity.master? ? (render :partial => "/apps/learning_time/supporting_summary_comments", :locals => {:elt_case => elt_case, :element=> element}) : '' -%>
           </td>
       <% else %>
           <td  colspan=2 style = "background:#ffffff; color: #2061a5; vertical-align:top;padding-top:5px;padding-bottom:5px; line-height:1.5em;">
             <%= elt_case.element_note(element).nil? ? '': (simple_format elt_case.element_note(element).note) %>
-            <br/><%= elt_case.activity.master? ? (render :partial => "/apps/learning_time/supporting_summary_comments", :locals => {:elt_case => elt_case, :element=> element}) : '' -%>
           </td>
       <% end -%>
     </tr>
@@ -57,18 +55,6 @@
 					</td>
 				</tr>
 			<% end -%>
-      <% if elt_case.activity.master? %>
-        <% element.active_indicators.each do |std| %>
-          <tr style="border:0px  solid #000000;">
-            <td style = "width:11%; font-family:Helvetica; font-size:10px;  text-align:center; vertical-align:top; padding-top:15px;  color: #2061a5 ; font-weight:bold ">
-              &nbsp;
-            </td>
-            <td colspan=2 style = " vertical-align:top; font-size:16px; font-family:Garamond; padding-top:8px;padding-bottom:8px;font-weight:normal; line-height:1.2em; ">
-              <%= render :partial => "/apps/learning_time/supporting_indicators", :locals => {:elt_case => elt_case, :std=> std}%>
-            </td>
-          </tr>
-        <% end %>
-      <% end %>
 		</tbody>
 	</table>
 </div>

@@ -4,7 +4,7 @@
 	<% if entity.rubrics.active.size < 6%>		
 		<br/>
 		<span id="add_rubric" style="margin-left:214px;" class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer; ">
-			<%= link_to  'Add Rubric', app_rubric_add_path(:organization_id => @current_organization, :scope_id => entity.id, :scope_type => entity.class.to_s,  :function=>"", :rubric_id => nil), {:target => "_blank"} %>
+			<%= link_to  'Add Rubric', app_rubric_add_path(:organization_id => @current_organization, :scope_id => entity.id, :scope_type => entity.class.to_s,  :function=>"", :rubric_id => nil), {:target => '_blank'} %>
 		</span>
 	<% else -%>
 		<span style="color:#C73914; margin-left:200px">

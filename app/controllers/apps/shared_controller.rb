@@ -306,49 +306,51 @@ class Apps::SharedController < Site::ApplicationController
   
   def maintain_rubric
     if params[:scope_type] == "EltType"
-      @entity = EltType.find_by_id(params[:scope_id]) 
+      @entity = EltType.find_by_id(params[:scope_id])
+    elsif params[:scope_type] == "EltElement"
+      @entity = EltElement.find_by_id(params[:scope_id])
     elsif params[:scope_type] == "EltPlanType"
       @entity = EltPlanType.find_by_id(params[:scope_id]) 
     else
       @entity = nil
     end
     @function = params[:function]
-    if @function == "New" && params[:commit]
+    if @function == 'New' && params[:commit]
       @rubric = Rubric.new(params[:rubric])
       unless @entity.rubrics.active.size > 4 && params[:rubric][:is_active] == '1'
         if @entity.rubrics << @rubric
-          flash[:notice] = "Rubric Created.   CLOSE WINDOW or Create Another"
+          flash[:notice] = 'Rubric Created.Create Another'
         else
           flash[:error] = @rubric.errors.full_messages.to_sentence
         end 
       else
-        flash[:error] = "Maximum Number Of ACTIVE Rubrics Reached."
+        flash[:error] = 'Maximum Number Of ACTIVE Rubrics Reached.'
       end
-    elsif @function == "Update"
+    elsif @function == 'Update'
       @rubric = Rubric.find_by_public_id(params[:rubric_id]) rescue nil      
       unless @rubric.nil? || !params[:commit]
         if @rubric.update_attributes(params[:rubric])
-          flash[:notice] = "Successfully Updated.   CLOSE WINDOW"
+          flash[:notice] = 'Successfully Updated.   CLOSE WINDOW'
         else
           flash[:error] = @rubric.errors.full_messages.to_sentence
         end
       end
-    elsif @function == "Destroy" && params[:commit]      
+    elsif @function == 'Destroy' && params[:commit]
       @rubric = Rubric.find_by_public_id(params[:rubric_id]) rescue nil
       unless @rubric.nil?  
           if @rubric.destroy
-            flash[:notice] = "Rubric Destoyed.   CLOSE WINDOW"
-            @function = "New"
+            flash[:notice] = 'Rubric Destoyed.   CLOSE WINDOW'
+            @function = 'New'
             @rubric = Rubric.new
           else
             flash[:error] = @rubric.errors.full_messages.to_sentence
           end
       else
-        @function = "New"     
+        @function = 'New'
         @rubric = Rubric.new
       end       
     else
-      @function = "New"
+      @function = 'New'
       @rubric = Rubric.new
     end
   end

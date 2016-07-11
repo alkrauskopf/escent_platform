@@ -1,0 +1,15 @@
+<div style ="text-align:center; color: #2061a5; font-size:16px; margin-top:0px; padding-top:20px; font-weight:bold">
+		<strong><%= @current_organization.short_name %>&nbsp;Standardsxx</strong>
+</div>
+	<%= render :partial => "/shared/error_and_notice" %>
+
+  <div class="Form clear">
+			<%= render :partial => "/apps/learning_time_standards/form_standard", :locals=>{:org=>@current_organization} %>
+	</div>	
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>

@@ -70,9 +70,12 @@ class EltCase < ActiveRecord::Base
   end
   
   def element_note(elt_element)
-    note = self.elt_case_notes.for_element(elt_element).empty? ? nil : self.elt_case_notes.for_element(elt_element).first
+    self.elt_case_notes.for_element(elt_element).empty? ? nil : self.elt_case_notes.for_element(elt_element).first
   end
 
+  def element_rubric(elt_element)
+    self.element_note(elt_element).nil? ? nil : (self.element_note(elt_element).rubric)
+  end
 
   def cycle_case_indicators_for_element(element)
     self.organization.elt_cases.for_cycle(self.elt_cycle).collect{|c| c.elt_case_indicators.for_element(element)}.compact.flatten
@@ -117,7 +120,11 @@ class EltCase < ActiveRecord::Base
   def viewable?(user)
     (self.final? && self.elt_type.reportable?) || (self.user_id == user.id) || user.elt_reviewer?(self.elt_cycle.organization)
   end
-  
+
+  def master?
+    self.activity.master?
+  end
+
   def deletable?(user)
     self.updatable?(user) || (!self.final? && user.elt_admin_for_org?(self.elt_cycle.organization))
   end

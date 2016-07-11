@@ -1,29 +1,33 @@
 <div id ="note_<%=indicator.public_id%>">
 	<% family = "Helvetica, Arial, sans-serif" -%>
-		<table style=" width:470px; margin-top:0px; font-size:11px; font-weight:normal; color:#2061a5; font-family:<%=family%>;">
-			<tbody>  
-				<style type="text/css" media="screen">
-          table,tr,td { border:none; }
-					table tr:hover{
-            background-color: transparent;
-          }
-        </style>
-				<tr >
-          <% if elt_case.updatable?(@current_user) %>
-              <td style="width:15%; border:0px solid #ddd; vertical-align:top;padding-top:8px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
-                Key<%= check_box :key_i, indicator.id, :checked=>elt_case.case_indicator(indicator).nil?  ? false : elt_case.case_indicator(indicator).is_key %>
-              </td>
-            <td style="width:85%; border:0px solid #ddd; vertical-align:top;padding-top:8px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
-			 		     <%= text_area :case_i, indicator.id, :rows => 2, :cols => 100, :value => elt_case.case_indicator(indicator).nil?  ? "": elt_case.case_indicator(indicator).note %>
-					  </td>
-          <% else %>
-              <% key_color = (!elt_case.case_indicator(indicator).nil? && elt_case.case_indicator(indicator).key_finding?) ? '#C73914' : '#2061a5' %>
-              <% key_label = (!elt_case.case_indicator(indicator).nil? && elt_case.case_indicator(indicator).key_finding?) ? 'KEY: ' : 'Finding: ' %>
-              <td style = "font-size:12px; font-weight:normal; text-align:left; color: <%= key_color %>; font-family:<%=family%>; border-top:1px dashed #000000; padding-top:5px; margin-top:10px; line-height:1.5em;">
-                <%= elt_case.case_indicator(indicator).nil? || elt_case.case_indicator(indicator).note.nil? || elt_case.case_indicator(indicator).note.empty? ? (key_label + '- - -') : (simple_format (key_label + elt_case.case_indicator(indicator).note)) %>
-              </td>
-          <% end %>
-				</tr>
-			</tbody>
-		</table>
+  <table style=" width:90%; margin-top:0px; font-size:11px; font-weight:normal; color:#2061a5; font-family:<%=family%>;">
+    <tbody>
+      <style type="text/css" media="screen">
+        table,tr,td { border:none; }
+        table tr:hover{
+          background-color: transparent;
+        }
+      </style>
+      <tr >
+        <% if elt_case.updatable?(@current_user) %>
+          <td style="width:15%; border:0px solid #ddd; vertical-align:top;padding-top:8px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+            <% unless elt_case.master? -%>
+             Key<%= check_box :key_i, indicator.id, :checked=>elt_case.case_indicator(indicator).nil?  ? false : elt_case.case_indicator(indicator).is_key %>
+            <% else %>
+              &nbsp;
+            <% end %>
+          </td>
+          <td style="width:85%; border:0px solid #ddd; vertical-align:top;padding-top:8px;padding-bottom:5px;color:#2061a5; font-size:11px; ">
+             <%= text_area :case_i, indicator.id, :rows => 2, :cols => 100, :value => elt_case.case_indicator(indicator).nil?  ? "": elt_case.case_indicator(indicator).note %>
+          </td>
+        <% else %>
+            <% key_color = (!elt_case.case_indicator(indicator).nil? && elt_case.case_indicator(indicator).key_finding?) ? '#C73914' : '#2061a5' %>
+            <% key_label = (!elt_case.case_indicator(indicator).nil? && elt_case.case_indicator(indicator).key_finding?) ? 'KEY: ' : 'Finding: ' %>
+            <td colspan = 2 style = "font-size:12px; font-weight:normal; text-align:left; color: <%= key_color %>; font-family:<%=family%>; border-top:1px dashed #000000; padding-top:5px; margin-top:10px; line-height:1.5em;">
+              <%= elt_case.case_indicator(indicator).nil? || elt_case.case_indicator(indicator).note.nil? || elt_case.case_indicator(indicator).note.empty? ? (key_label + '- - -') : (simple_format (key_label + elt_case.case_indicator(indicator).note)) %>
+            </td>
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
 </div>	

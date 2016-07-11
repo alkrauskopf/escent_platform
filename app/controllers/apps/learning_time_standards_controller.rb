@@ -6,21 +6,32 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
   before_filter :elt_allowed?, :except=>[]
   before_filter :current_org_current_app_provider?, :except=>[]
   before_filter :current_user_app_admin?, :except => []
-  before_filter :clear_notification, :except => [:index, :edit_element]
+  before_filter :clear_notification, :except => [:edit_element]
 
   def index
     available_standards(@current_organization)
     @standard = EltStandard.new
   end
 
-  def create
-    @standard = EltStandard.new(params[:elt_standard])
-    if @current_organization.elt_standards << @standard
-      flash[:notice] = "#{@standard.abbrev} Created"
+  def maintain_standard
+    @task = params[:task]
+    if  params[:function] && params[:function] == 'New'
+      @standard = EltStandard.new(params[:elt_standard])
+      if @current_organization.elt_standards << @standard
+        flash[:notice] = "#{@standard.abbrev} Created"
+      else
+        flash[:error] = @standard.errors.full_messages
+      end
+    elsif params[:task] == 'Update'
+      set_standard
+      if @standard.update_attributes(params[:elt_standard])
+        flash[:notice] = 'Updated'
+      else
+        flash[:error] = @standard.abbrev + ' Update Not Successful'
+      end
     else
-      flash[:error] = @standard.errors.full_messages
+      @standard = EltStandard.new
     end
-    redirect_to :action => :index, :organization_id=>@current_organization
   end
 
   def update
@@ -184,7 +195,8 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
     set_indicator
     set_organization
     set_cycle
-    @findings = @indicator.org_cycle_findings(@org, @elt_cycle,:key_only=>true)
+    @key_only = true
+    @findings = @indicator.org_cycle_findings(@org, @elt_cycle,:key_only=>@key_only)
   end
 
   private

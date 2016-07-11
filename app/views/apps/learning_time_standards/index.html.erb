@@ -4,12 +4,12 @@
   </div>
   <div style="float:none;width:96.7%;" class="mempro_box clear" style="margin-left:00px;">
     <div id="centerpane_appl">
-      <div >
-        <%= render :partial => "form_standard" %>
-      </div>
+      <span class="fsn-button ui-button ui-state-default ui-corner-all">
+        <%= link_to 'Create New Standard', elt_config_standard_edit_path(:organization_id => @current_organization,:task=>'New' ),{:target=>'_blank'}  %>
+      </span>
     </div>
-  </div>
-  <div style="width:780px; border:0px solid #ddd; ">
-    <%= render :partial => "manage_standards" %>
+    <div style="width:780px; border:0px solid #ddd; ">
+      <%= render :partial => "manage_standards" %>
+    </div>
   </div>
 </div>

@@ -24,8 +24,7 @@
 							<strong><%= cas.organization.name%></strong>
 							<% unless cas.elt_case_notes.for_element(@element).first.nil? %>
 								 <span style="font-size:11px;color:#000000">&nbsp;
-									 <%= cas.elt_case_notes.for_element(@element).first.note -%>&nbsp;---&nbsp;
-                   <%= cas.organization.organization_type ? cas.organization.organization_type.name : 'No Rubric'%>
+									 <%= cas.elt_case_notes.for_element(@element).first.note -%>
 								 </span>
 							<% end -%>
 						</td>

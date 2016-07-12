@@ -31,7 +31,8 @@
               &nbsp;<%= element.abbrev %>&nbsp;
             </span>:&nbsp;&nbsp;<%= element.name%>
             <span style="font-size:10px;">
-              &nbsp;&nbsp;(<%= pluralize(element.indicators.active.size, ' Active Indicator')%>&nbsp;of&nbsp;<%= element.indicators.size %>)
+              &nbsp;&nbsp;(<%= pluralize(element.indicators.active.size, ' Active Indicator')%>&nbsp;of&nbsp;<%= element.indicators.size %>,
+              &nbsp;<%= element.use_rubric? ? (pluralize(element.active_rubrics.size, ' Rubric')) : 'No Rubric'%>)
             </span>
           </td>
           <% if edit %>

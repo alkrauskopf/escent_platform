@@ -37,7 +37,11 @@
           </td>
           <td style="border:0px solid #ddd; text-align:left; font-size:12px; padding-left:3px;padding-bottom:7px; font-weight:bold; color: <%=color_text%>">
             <%= standard.abbrev %>:&nbsp;&nbsp;<%= standard.name%>
-            <span style="font-size:9px">&nbsp;(<%= standard.organization.short_name %>)</span>
+            <span style="font-size:9px">&nbsp;(<%= standard.organization.short_name %>)</span><br/>
+            <span style="font-size:9px">
+              <%= standard.use_rubric? ? (pluralize(standard.active_rubrics.size, ' Rubric')) : 'No Rubric'%>,&nbsp;
+              <%= pluralize(standard.cases.size, 'Case') %>
+            </span>
           </td>
           <% if standard.destroyable?(@current_organization) %>
             <td id="destroy_<%= standard.public_id %>" style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
@@ -47,7 +51,7 @@
             </td>
           <% else %>
             <td style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
-              <%= pluralize(standard.cases.size, 'Case') %>
+              &nbsp;
             </td>
           <% end %>
           <script type="text/javascript">
@@ -98,7 +102,7 @@
           </script>
         </tr>
         <tr style="border-top:0px solid #ddd; ">
-          <td colspan="4">
+          <td colspan=5>
             <%= render :partial => "manage_standard_elements", :locals=>{:standard => standard} %>
           </td>
         </tr>

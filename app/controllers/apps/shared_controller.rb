@@ -305,12 +305,14 @@ class Apps::SharedController < Site::ApplicationController
   end
   
   def maintain_rubric
-    if params[:scope_type] == "EltType"
+    if params[:scope_type] == 'EltType'
       @entity = EltType.find_by_id(params[:scope_id])
-    elsif params[:scope_type] == "EltElement"
+    elsif params[:scope_type] == 'EltElement'
       @entity = EltElement.find_by_id(params[:scope_id])
-    elsif params[:scope_type] == "EltPlanType"
-      @entity = EltPlanType.find_by_id(params[:scope_id]) 
+    elsif params[:scope_type] == 'EltPlanType'
+      @entity = EltPlanType.find_by_id(params[:scope_id])
+    elsif params[:scope_type] == 'EltStandard'
+      @entity = EltStandard.find_by_id(params[:scope_id])
     else
       @entity = nil
     end

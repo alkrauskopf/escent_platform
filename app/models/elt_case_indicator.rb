@@ -24,7 +24,6 @@ class EltCaseIndicator < ActiveRecord::Base
   scope :with_note, :conditions => ["note != ? || note IS NOT NULL", '']
   scope :for_element_rubric, lambda{|element, rub| {:include => :elt_indicator, :conditions => ["elt_indicators.elt_element_id = ? && rubric.id = ?", element.id, rub.id]}}
 
-
   def rubric?
     self.rubric.nil? ? false:true
   end

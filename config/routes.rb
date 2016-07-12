@@ -174,7 +174,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/folder/edit' => 'apps/shared#edit_folder'
   get '/app/folder/new' => 'apps/shared#create_folder'
   get '/app/folder/destroy' => 'apps/shared#destroy_folder'
-  get '/app/rubric/add' => 'apps/shared#maintain_rubric'
+  get '/app/rubric/add' => 'apps/shared#maintain_rubric'  #app_rubric_add
   post '/app/rubric/add' => 'apps/shared#maintain_rubric'
 
   get '/app/resource/assign' => 'apps/shared#add_remove_resource'
@@ -440,7 +440,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/config/activity/rubric/activate' => 'apps/learning_time#toggle_rubric'
   get '/elt/config/activity/rubric/share' => 'apps/learning_time#share_rubric'
   get '/elt/config/activity/rubric/delete' => 'apps/learning_time#delete_rubric'
-  get '/elt/config/rubric/activate' => 'apps/learning_time#toggle_rubric'
+  get '/elt/config/rubric/activate' => 'apps/learning_time#toggle_rubric'  #config_rubric_activate
   get '/elt/config/activity/activate' => 'apps/learning_time#toggle_active_activity'
   get '/elt/config/activity/master' => 'apps/learning_time#toggle_master_activity'
   get '/elt/config/indicators' => 'apps/learning_time#manage_indicators'
@@ -465,7 +465,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/config/case/organization' => 'apps/learning_time#transfer_case_org'
   get '/elt/config/plans/xfer' => 'apps/learning_time#transfer_plans'
   get '/elt/config/plan/organization' => 'apps/learning_time#transfer_plan_org'
-  get '/elt/activity/cycle/school/cases' => 'apps/learning_time#show_school_cycle_activity_cases' #
+  get '/elt/activity/cycle/school/cases' => 'apps/learning_time#show_school_cycle_activity_cases' # elt_activity_cycle_school_cases
   get '/elt/activity/cycle/school/activities' => 'apps/learning_time#list_school_cycle_activities' #
   get '/elt/survey/start' => 'apps/learning_time#send_school_cycle_survey'
   get '/elt/survey/stop' => 'apps/learning_time#stop_school_cycle_surveys'

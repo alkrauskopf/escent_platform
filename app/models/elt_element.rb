@@ -27,8 +27,12 @@ class EltElement < ActiveRecord::Base
     self.is_active
   end
 
-  def rubric?
+  def use_rubric?
     self.use_rubric
+  end
+
+  def rubric?
+    !self.active_rubrics.empty?
   end
 
   def max_rubric
@@ -40,8 +44,9 @@ class EltElement < ActiveRecord::Base
   end
 
   def active_rubrics
-    self.rubric? ? self.rubrics.active : []
+    self.use_rubric? ? self.rubrics.active : []
   end
+
   def siblings
     self.elt_framework ? (self.elt_framework.elt_elements.all.select{ |e| e!= self }): []
   end

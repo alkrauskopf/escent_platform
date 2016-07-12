@@ -2,7 +2,10 @@ class EltStandard < ActiveRecord::Base
   include PublicPersona
 
   belongs_to :organization
+  belongs_to :share_rubric, :class_name=> 'Rubric', :foreign_key => :rubric_id
+
   has_many :elt_elements, :dependent => :destroy
+  has_many :rubrics, :as => :scope, :order => "position", :dependent => :destroy
 
   validates_presence_of :name
   validates_presence_of :abbrev
@@ -62,6 +65,26 @@ class EltStandard < ActiveRecord::Base
 
   def self.all_elements
     self.collect{|s| s.elt_elements}.flatten.compact
+  end
+
+  def use_rubric?
+    self.use_rubric
+  end
+
+  def rubric?
+    !self.active_rubrics.empty?
+  end
+
+  def max_rubric
+    self.rubric? ? self.rubrics.active.by_score.last : nil
+  end
+
+  def shareable_rubrics
+    self.share_rubric ? self.active_rubrics.select{|r| self.share_rubric.score <= r.score} : []
+  end
+
+  def active_rubrics
+    self.use_rubric? ? self.rubrics.active : []
   end
 
 end

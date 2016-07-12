@@ -1063,6 +1063,8 @@ class Apps::LearningTimeController  < ApplicationController
      @entity = EltType.find_by_public_id(params[:entiy_id]) rescue nil
    elsif params[:scope] == 'EltElement'
      @entity = EltElement.find_by_public_id(params[:entity_id]) rescue nil
+   elsif params[:scope] == 'EltStandard'
+     @entity = EltStandard.find_by_public_id(params[:entity_id]) rescue nil
    else
      @entity = nil
    end

@@ -74,7 +74,11 @@ class EltCase < ActiveRecord::Base
   end
 
   def element_rubric(elt_element)
-    self.element_note(elt_element).nil? ? nil : (self.element_note(elt_element).rubric)
+    (self.element_note(elt_element).nil? || self.element_note(elt_element).rubric.nil?) ? nil : (self.element_note(elt_element).rubric)
+  end
+
+  def element_rating(elt_element)
+    self.element_rubric(elt_element).nil? ? 'No Rating' : self.element_rubric(elt_element).name
   end
 
   def cycle_case_indicators_for_element(element)
@@ -112,7 +116,7 @@ class EltCase < ActiveRecord::Base
   def rubric?
     self.elt_type ? self.elt_type.rubric? : false
   end
-    
+
   def updatable?(user)
     !self.final? && (self.user == user || user.elt_admin_for_org?(self.elt_cycle.organization))
   end
@@ -146,8 +150,12 @@ class EltCase < ActiveRecord::Base
   end
 
   def indicators_rated
-   # self.elt_type.rubric? ? self.elt_type.elt_indicators.active.collect{|i| i.elt_case_indicators.for_case(self).rated}.flatten.size : 0
-    self.elt_case_indicators.select{|ci| ci.rubric? && ci.elt_indicator.active? && ci.elt_indicator.element.active?}.size
+    if self.master?
+      ind = self.elt_case_notes.select{|cn| cn.rubric?}.size
+    else
+      ind = self.elt_case_indicators.select{|ci| ci.rubric? && ci.elt_indicator.active? && ci.elt_indicator.element.active?}.size
+    end
+    ind
   end
 
   def findings
@@ -160,11 +168,17 @@ class EltCase < ActiveRecord::Base
 
   def rateable_indicators
     rateables = 0
+    if self.master?
+      self.cycle_elements.each do |element|
+        rateables +=  (element.rubric? ? 1:0)
+      end
+    else
     if self.elt_type.rubric?
      self.cycle_elements.each do |element|
       rateables +=  element.elt_indicators.active.for_activity(self.elt_type).size
      end
     end
+  end
    rateables
   end
 

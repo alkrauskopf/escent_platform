@@ -2,9 +2,9 @@
 	<table style="width:100%; border:1px solid #000000; margin-top:10px; margin-left:-5px;">
 		<tbody>
       <tr>
-        <% rubric_name = element.rubric? ? elt_case.element_rubric(element).name : 'No Rating'%>
-        <% rubric_background = element.rubric? ? elt_case.element_rubric(element).color_background : element.form_background%>
-        <% rubric_text = element.rubric? ? elt_case.element_rubric(element).color_font : element.e_font_color %>
+        <% rubric_name = element.rubric? ? elt_case.element_rating(element) : 'No Rubric'%>
+        <% rubric_background = (element.rubric? && !elt_case.element_rubric(element).nil?) ? elt_case.element_rubric(element).color_background : element.form_background%>
+        <% rubric_text = (element.rubric? && !elt_case.element_rubric(element).nil?) ? elt_case.element_rubric(element).color_font : element.e_font_color %>
         <td style = "width:13%; background:<%=element.form_background%>; color: <%=element.e_font_color%>;">
           &nbsp;
         </td>
@@ -17,7 +17,7 @@
       </tr>
       <tr style = "background:<%=element.form_background%>; color: <%=element.e_font_color%>;">
         <td style = "border-left:1px solid #000000;width:13%; vertical-align:top; text-align:center; padding-top:5px; padding-left:5px; font-size:12px; padding-bottom:5px; ">
-          <%= render :partial => "/apps/learning_time/element_rubric", :locals => {:elt_case => elt_case, :element=> element} -%>
+          <%= render :partial => "/apps/learning_time/element_rubric", :locals => {:elt_case => elt_case, :element=> element, :std_rubric => true} -%>
         </td>
         <% if elt_case.updatable?(@current_user) -%>
           <td style = "vertical-align:top;padding-top:5px;padding-bottom:5px;">

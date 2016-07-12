@@ -54,8 +54,12 @@ class EltType < ActiveRecord::Base
     self.elt_activity_type_id == 3
   end
 
-  def rubric?
+  def use_rubric?
     self.use_rubric
+  end
+
+  def rubric?
+    !self.active_rubrics.empty?
   end
 
   def provider_only?
@@ -101,9 +105,9 @@ class EltType < ActiveRecord::Base
   def shareable_rubrics
     self.share_rubric ? self.active_rubrics.select{|r| self.share_rubric.score <= r.score} : []
   end
-  
+
   def active_rubrics
-    self.rubric? ? self.rubrics.active : []
+    self.use_rubric? ? self.rubrics.active : []
   end
 
   def copy_indicators(source_activity, element, to_element)

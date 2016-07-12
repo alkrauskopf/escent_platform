@@ -4,7 +4,7 @@
 		<strong><%= @current_application.app_abbrev(:provider=>@current_provider) %> Community Knowledge Base</strong>
 	</div>
 
-  <% unless @standards.empty?-%>
+  <% unless @rubric_standards.empty?-%>
       <table style="width:90%; margin-left:15px; margin-top:10px;">
         <tbody>
             <tr  style="border:0px solid #ddd;" >
@@ -12,28 +12,27 @@
                 <%= standard.nil? ? 'No Standard Selected' : standard.name %>
               </td>
               <td  id = "select_standard"  style="width:50%; border:0px solid #ddd;vertical-align:middle;  padding-left:5px; padding-right:0px; padding-top:5px; color: #2061a5; font-size:10.5px;">
-                  <%=  select(:elt_standard, :id,  @standards.collect{|f| [f.name, f.public_id]}, :include_blank => "Select Standard") %>
+                  <%=  select(:elt_standard, :id,  @rubric_standards.collect{|f| [f.name, f.public_id]}, :include_blank => "Select Standard") %>
               </td>
             </tr>
             <tr  style="border:0px solid #ddd;" >
               <td  style="width:50%; border:0px solid #ddd;vertical-align:middle; text-align:right; padding-left:0px; padding-right:5px; padding-top:2px; color: #2061a5; font-size:10.5px; font-weight:bold">
                 <%= org_type.nil? ? 'No School Type' : org_type.name.pluralize %>
               </td>
-              <td id = "select_school_type"  style="width:50%; width:fixed;  border:0px solid #ddd;vertical-align:middle; padding-left:5px; padding-right:0px; padding-top:5px; color: #2061a5; font-size:10.5px;">
+              <td id = "select_school_type"  style="width:50%; border:0px solid #ddd;vertical-align:middle; padding-left:5px; padding-right:0px; padding-top:5px; color: #2061a5; font-size:10.5px;">
                 <%=  select(:school, :type_id,  @current_provider.provided_app_org_types(@current_application,true).collect{|t| [t.name, t.id]}, :include_blank => "Choose School Type") %>
               </td>
             </tr>
-            <% if @current_organization == @current_provider %>
               <tr  style="border:0px solid #ddd;" >
                 <td  style="width:50%; border:0px solid #ddd;vertical-align:middle; text-align:right;  padding-left:0px; padding-right:5px;  color: #2061a5; font-size:10.5px; font-weight:bold">
                   <%= activity.nil? ? 'No Activity' : activity.name %>
                 </td>
                 <td  id = "select_activity"  style="width:50%; border:0px solid #ddd;vertical-align:middle;  padding-left:5px; padding-right:0px; padding-top:5px; color: #2061a5; font-size:10.5px;">
-                  <% if @current_provider.elt_activities.active.size > 1 %>
-                      <%=  select(:activity, :id,  @current_provider.elt_activities.active.collect{|a| [a.name, a.public_id]}, :include_blank => "Choose Activity") %>
-                  <% else -%>
-                      &nbsp;
-                  <% end -%>
+                  <%# if @current_provider.elt_master_activities.active.size > 1 %>
+                      <%=  select(:activity, :id,  @current_provider.elt_master_activities.active.collect{|a| [a.name, a.public_id]}, :include_blank => "Choose Activity") %>
+                  <%# else -%>
+                   <!--   &nbsp; -->
+                  <%# end -%>
                 </td>
               </tr>
             <% end %>
@@ -104,10 +103,5 @@
       <% if (!rubric.nil? && !standard.nil?  && !org_type.nil? && !activity.nil?) %>
         <%= render :partial => "/apps/learning_time/schools_by_rubric", :locals=>{:org_type => org_type, :rubric => rubric, :activity=> activity, :standard => standard} %>
 	    <% end %>
-  <% else -%>
-		<div style ="color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold"> 
-			No Standards Are Available To The <%= @current_provider.short_name %>&nbsp;Community
-		</div>	
-	<% end -%>
 
 </div>

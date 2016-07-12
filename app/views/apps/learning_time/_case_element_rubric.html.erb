@@ -1,0 +1,39 @@
+<div id="case_indicators_<%= @element.public_id %>">
+	<table style="width:75%;border:1px solid #000;">
+		<tbody >
+			<tr style="background:<%=@element.form_background%>; color: <%=@element.e_font_color%>">
+				<td colspan=2 style= "vertical-align:middle; text-align:center; border:0px solid #000; border-bottom:1px solid #000; font-size:12px;font-weight:bold;">
+					<%= @element.name %>,  <%= pluralize(@kb_cases.size, ' ' +  @rubric.name + ' Case') %>
+				</td>
+			</tr>
+			<% @kb_cases.group_by{|f| f.elt_cycle}.each do |cycl, cases| -%>
+				<tr style="background:<%=@element.form_background%>; color: <%=@element.e_font_color%>; border-top:1px solid #000;">
+					<td style= "width:11%; font-size:13px; line-height:1.3em; vertical-align:top; text-align:right; padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:5px;">
+
+					</td>
+					<td style= "font-size:13px; line-height:1.3em; vertical-align:top; text-align:left; padding-left:0px; padding-right:10px; padding-top:5px; padding-bottom:5px;">
+						 <%= cycl.name %>
+					</td>
+				</tr>
+				<% cases.each do |cas| -%>
+					<tr style="color: #000000; border-top:0px solid #000;">
+						<td style="width:11%; border:0px solid #ddd; line-height:1.3em; color: #2061a5; padding-top:8px;padding-bottom:8px; vertical-align:top;text-align:left; font-size:11px" >
+							<%= cas.finalize_date.nil? ? "Date?" : cas.finalize_date.strftime("%b %Y") %>
+						</td>
+						<td style=" border:0px solid #ddd; line-height:1.3em; color: #2061a5; padding-top:8px;padding-bottom:8px; vertical-align:top;text-align:left; font-size:11px" >
+							<strong><%= cas.organization.name%></strong>
+							<% unless cas.elt_case_notes.for_element(@element).first.nil? %>
+								 <span style="font-size:11px;color:#000000">&nbsp;
+									 <%= cas.elt_case_notes.for_element(@element).first.note -%>&nbsp;---&nbsp;
+                   <%= cas.organization.organization_type ? cas.organization.organization_type.name : 'No Rubric'%>
+								 </span>
+							<% end -%>
+						</td>
+					</tr>
+				<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+<br/>
+</div>
+

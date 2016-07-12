@@ -3,7 +3,7 @@
     <%= render :partial => "/apps/learning_time/form_case_submit_buttons", :locals => {:elt_case => elt_case} -%>
     <br/>
     <% elt_case.cycle_elements.each do |element| -%>
-      <% unless element.elt_indicators.active.for_activity(elt_case.elt_type).empty? %>
+      <% unless element.elt_indicators.active.for_activity(elt_case.elt_type).empty? && false %>
         <%= elt_case.activity.master? ? (render :partial => "/apps/learning_time/element_indicators_master", :locals => {:elt_case => elt_case, :element=> element}) :
                 (render :partial => "/apps/learning_time/element_indicators_b", :locals => {:elt_case => elt_case, :element=> element})-%>
       <% end %>

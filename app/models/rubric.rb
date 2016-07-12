@@ -5,6 +5,7 @@ class Rubric < ActiveRecord::Base
 
   has_many :elt_case_indicators
   has_many :elt_plans
+  has_many :elt_case_notes
 
   scope :active, :conditions => ["is_active"], :order => "position"
   scope :lacking, :conditions => ["abbrev = ?", "L"]

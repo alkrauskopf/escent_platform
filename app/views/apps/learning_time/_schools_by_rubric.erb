@@ -3,12 +3,12 @@
 	    <div style = "margin-left:50px; font-size:13px; font-weight:normal">
          <u><%= (rubric.name + " " + org_type.name.pluralize).upcase %></u>
         </div>
-      <% standard.elements.select{|e| e.active?}.sort_by{|e| e.position}.each do |element| -%>
+      <% standard.active_elements.sort_by{|e| e.position}.each do |element| -%>
 			<table id="list_<%=standard.id%>_<%=element.id%>" style="margin-left:40px; width:800px;">
 				<tbody>  
 					<tr>
 						<td class="resource_levels_close" style="width:700px;">
-							<%= link_to '', elt_community_indicator_rubric_path(:organization_id => @current_organization, :organization_type_id => org_type.id, :rubric_id=>rubric.id, :elt_type_id => activity, :elt_element_id=>element) %>
+							<%= link_to '', elt_community_case_rubric_path(:organization_id => @current_organization, :organization_type_id => org_type.id, :rubric_id=>rubric.id, :elt_type_id => activity, :elt_element_id=>element) %>
 							<%= element.name %>
 							<span></span>
 						</td>

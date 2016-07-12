@@ -170,7 +170,7 @@ class EltCase < ActiveRecord::Base
     rateables = 0
     if self.master?
       self.cycle_elements.each do |element|
-        rateables +=  (element.rubric? ? 1:0)
+        rateables +=  (element.elt_standard.rubric? ? 1:0)
       end
     else
     if self.elt_type.rubric?
@@ -230,4 +230,12 @@ class EltCase < ActiveRecord::Base
   def cycle_elements
     self.elt_cycle.elements.active.by_position
   end
+
+  def self.kb_findings(rubric, element, org_type, activity)
+ #   cases = rubric.elt_case_notes.collect{|cn| cn.elt_case}.compact.uniq
+  #  cases.select{!c.organization.nil? && c.organization.organization_type_id == org_type.id && c.elt_type_id == activity.id}
+    cases = rubric.elt_case_notes.for_element(element).collect{|cn| cn.elt_case}.compact.uniq
+    cases.select{|c| c.final? && !c.organization.nil? && c.organization.organization_type_id == org_type.id && c.elt_type_id == activity.id}
+  end
+
 end

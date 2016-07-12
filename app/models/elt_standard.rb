@@ -63,6 +63,10 @@ class EltStandard < ActiveRecord::Base
     self.elt_elements
   end
 
+  def active_elements
+    self.elt_elements.active
+  end
+
   def self.all_elements
     self.collect{|s| s.elt_elements}.flatten.compact
   end

@@ -6,7 +6,7 @@ class Apps::LearningTimeController  < ApplicationController
                           :show_school_cycle_activity_cases, :list_school_cycle_activities, :list_case_evidences, :show_activity_cases,
                           :manage_cycles, :manage_activities, :manage_elements, :manage_indicators,
                           :view_latest_submitted, :show_case_summary, :case_indicators_element_rubric, :list_case_comments,
-                          :show_activity_map, :show_evidence_map]
+                          :show_activity_map, :show_evidence_map, :case_element_rubric]
 
  before_filter :elt_allowed?, :except=>[]
  before_filter :current_user_app_authorized?, :except=>[]
@@ -16,6 +16,7 @@ class Apps::LearningTimeController  < ApplicationController
   
   def index
     initialize_parameters
+    standards_with_rubric
     if params[:function] && params[:function] == "New"
       new_case = EltCase.new
       new_case.user_id = @current_user.id
@@ -429,7 +430,7 @@ class Apps::LearningTimeController  < ApplicationController
     if params[:commit] == 'Destroy'
       @case.destroy
     else
-      @case.elt_type.active_elements.each do |element|
+      @case.cycle_elements.each do |element|
         if params[:notes]
           update_notes(@case, element, (!params[:notes][element.public_id].nil? ? params[:notes][element.public_id] : ''))
         end
@@ -733,23 +734,21 @@ class Apps::LearningTimeController  < ApplicationController
    end
    render :partial => "/apps/learning_time/manage_frameworks", :locals => {:org => @current_organization, :app=>@app}
  end
-  
-  def select_kb_filtersx
-    initialize_parameters
-    @rubric = @rubric.activity.elt_framework == @framework ? @rubric : (@framework.master_activity ? @framework.master_activity.shareable_rubrics.last : nil)
-    render :partial => "/apps/learning_time/share_rubric_data", :locals=>{:org_type => @org_type, :framework => @framework, :rubric => @rubric, :app=>@app}
-  end
 
  def select_kb_filters
     set_standard
     set_org_type
     set_rubric
     set_activity
-    unless  @activity.nil?
+    standards_with_rubric
+    # unless  @activity.nil?
+    unless @standard.nil?
       if @current_organization == @current_provider
-        @rubrics = @activity.active_rubrics
+    #     @rubrics = @activity.active_rubrics
+        @rubrics = @standard.active_rubrics
       else
-        @rubrics = @activity.shareable_rubrics
+    #     @rubrics = @activity.shareable_rubrics
+        @rubrics = @standard.shareable_rubrics
       end
     else
       @rubrics = []
@@ -763,8 +762,18 @@ class Apps::LearningTimeController  < ApplicationController
     set_element
     set_rubric
     set_activity
+    standards_with_rubric
     @findings = EltCaseIndicator.kb_findings(@rubric, @element, @org_type, @activity, :key_only=>false)
   end
+
+ def case_element_rubric
+   set_org_type
+   set_element
+   set_rubric
+   set_activity
+   standards_with_rubric
+   @kb_cases = EltCase.kb_findings(@rubric, @element, @org_type, @activity)
+ end
 
   def transfer_case_org
     initialize_parameters
@@ -1045,6 +1054,10 @@ class Apps::LearningTimeController  < ApplicationController
    def available_standards(org)
      @standards = EltStandard.org_available(org)
    end
+
+  def standards_with_rubric
+    @rubric_standards = @standards.select{|s| s.rubric? && s.active?}
+  end
 
   def set_standard
     @standard = EltStandard.find_by_public_id(params[:elt_standard_id]) rescue nil

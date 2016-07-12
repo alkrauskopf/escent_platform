@@ -469,8 +469,9 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/activity/cycle/school/activities' => 'apps/learning_time#list_school_cycle_activities' #
   get '/elt/survey/start' => 'apps/learning_time#send_school_cycle_survey'
   get '/elt/survey/stop' => 'apps/learning_time#stop_school_cycle_surveys'
-  get '/elt/community/filters' => 'apps/learning_time#select_kb_filters'
-  get '/elt/community/indicator/rubric' => 'apps/learning_time#case_indicators_element_rubric'
+  get '/elt/community/filters' => 'apps/learning_time#select_kb_filters'   # elt_community_filters
+  get '/elt/community/indicator/rubric' => 'apps/learning_time#case_indicators_element_rubric'   # elt_community_indicator_rubric
+  get '/elt/community/case/rubric' => 'apps/learning_time#case_element_rubric'   # elt_community_case_rubric
   get '/elt/report' => 'apps/app_report#elt_school_diag'
   get '/elt/report/school/plan' => 'apps/app_report#elt_school_plan'
   get '/elt/report/school/cycle/plan' => 'apps/learning_time#school_cycle_plan'

@@ -2,9 +2,9 @@
 	<table style="width:100%; border:1px solid #000000; margin-top:10px; margin-left:-5px;">
 		<tbody>
       <tr>
-        <% rubric_name = element.rubric? ? elt_case.element_rating(element) : 'No Rubric'%>
-        <% rubric_background = (element.rubric? && !elt_case.element_rubric(element).nil?) ? elt_case.element_rubric(element).color_background : element.form_background%>
-        <% rubric_text = (element.rubric? && !elt_case.element_rubric(element).nil?) ? elt_case.element_rubric(element).color_font : element.e_font_color %>
+        <% rubric_name = element.elt_standard.rubric? ? elt_case.element_rating(element) : 'No Rubric'%>
+        <% rubric_background = (element.elt_standard.rubric? && !elt_case.element_rubric(element).nil?) ? elt_case.element_rubric(element).color_background : element.form_background%>
+        <% rubric_text = (element.elt_standard.rubric? && !elt_case.element_rubric(element).nil?) ? elt_case.element_rubric(element).color_font : element.e_font_color %>
         <td style = "width:13%; background:<%=element.form_background%>; color: <%=element.e_font_color%>;">
           &nbsp;
         </td>

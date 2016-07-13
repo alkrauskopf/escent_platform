@@ -52,7 +52,7 @@ class EltStandard < ActiveRecord::Base
   end
 
   def destroyable?(org)
-    (self.organization == org && !self.active? && self.case_indicators.empty?)
+    (self.organization == org && !self.active? && self.elt_elements.active.empty?)
   end
 
   def editable?(org)

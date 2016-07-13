@@ -168,18 +168,14 @@ class EltCase < ActiveRecord::Base
 
   def rateable_indicators
     rateables = 0
-    if self.master?
-      self.cycle_elements(:not_empty=>true).each do |element|
+    self.cycle_elements.each do |element|
+      if self.master?
         rateables +=  (element.elt_standard.rubric? ? 1:0)
+      else
+        rateables +=  (self.elt_type.rubric? ? element.elt_indicators.active.for_activity(self.elt_type).size : 0)
       end
-    else
-    if self.elt_type.rubric?
-     self.cycle_elements.each do |element|
-      rateables +=  element.elt_indicators.active.for_activity(self.elt_type).size
-     end
     end
-  end
-   rateables
+    rateables
   end
 
   def finalize_it
@@ -227,16 +223,10 @@ class EltCase < ActiveRecord::Base
     self.update_attributes(:organization_id => new_org_id, :elt_cycle_id => new_cycle_id)
   end
 
-  def cycle_elements(option = {})
-    if option[:not_empty] == true
-      self.elt_type.active_elements
-    else
-      self.elt_cycle.elements.active.by_position
-    end
-  end
-
-  def cycle_elementsx
-    self.elt_cycle.elements.active.by_position
+  def cycle_elements
+    activity_elements = self.elt_type.active_elements
+    cycle_elements = self.elt_cycle.elements.active
+    (activity_elements & cycle_elements).sort_by{ |e| e.position}
   end
 
   def self.kb_findings(rubric, element, org_type, activity)

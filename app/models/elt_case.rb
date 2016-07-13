@@ -169,7 +169,7 @@ class EltCase < ActiveRecord::Base
   def rateable_indicators
     rateables = 0
     if self.master?
-      self.cycle_elements.each do |element|
+      self.cycle_elements(:not_empty=>true).each do |element|
         rateables +=  (element.elt_standard.rubric? ? 1:0)
       end
     else
@@ -227,7 +227,15 @@ class EltCase < ActiveRecord::Base
     self.update_attributes(:organization_id => new_org_id, :elt_cycle_id => new_cycle_id)
   end
 
-  def cycle_elements
+  def cycle_elements(option = {})
+    if option[:not_empty] == true
+      self.elt_type.active_elements
+    else
+      self.elt_cycle.elements.active.by_position
+    end
+  end
+
+  def cycle_elementsx
     self.elt_cycle.elements.active.by_position
   end
 

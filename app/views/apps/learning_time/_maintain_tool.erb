@@ -3,15 +3,19 @@
   <div style ="text-align:center; color: #2061a5; font-size:14px; margin-top:5px; font-weight:bold">
     <%= @current_organization.provider_app_abbrev(@current_application) %>&nbsp;Configuration
   </div>
+  <div style="margin-left:10%">
+    <span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer; font-size:11px; padding-left:5px;">
+      <%= link_to 'Standards', elt_config_standards_path(:organization_id => @current_organization)  %>
+    </span>
+  </div>
   <div>
-    <%= link_to 'Maintain Standards', elt_config_standards_path(:organization_id => @current_organization)  %>
     <% org_abbrev = @current_organization.app_provider(@current_application).short_name  + ' ' %>
     <table id="cycle_<%=org.public_id%>" style="margin-left:80px; width:810px; border:0px solid #ddd;">
         <tbody>
             <tr>
                 <td class="resource_levels_close" style="width:800px;">
                     <%= link_to '', elt_config_cycles_path(:organization_id => @current_organization) %>
-                    <%= org_abbrev %>Diagnostic Cycles
+                    Maintain Diagnostic Cycles
                 <span></span>
                 </td>
             </tr>
@@ -28,7 +32,7 @@
         <tr>
           <td class="resource_levels_close" style="width:800px;">
             <%= link_to '', elt_config_activities_path(:organization_id => @current_organization) %>
-            <%= org_abbrev %>Activities
+            Maintain Diagnostic Activities
             <span></span>
           </td>
         </tr>
@@ -45,7 +49,7 @@
         <tr>
           <td class="resource_levels_close" style="width:800px;">
             <%= link_to '', elt_config_indicators_path(:organization_id => @current_organization) %>
-            <%= org_abbrev %>Indicators & Look-fors
+            Maintain Activity Look-fors
             <span></span>
           </td>
         </tr>
@@ -57,12 +61,13 @@
         jQ('#indicator_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();
     });
     </script>
-    <table id="plan_<%=org.public_id%>" style="margin-left:80px; width:810px; border:0px solid #ddd;">
+   <!-- Temp Remove
+    <table id="plan_<%#=org.public_id%>" style="margin-left:80px; width:810px; border:0px solid #ddd;">
       <tbody>
         <tr>
           <td class="resource_levels_close" style="width:800px;">
-            <%= link_to '', elt_config_plans_path(:organization_id => @current_organization) %>
-            <%= org_abbrev %>Action Plan Settings
+            <%#= link_to '', elt_config_plans_path(:organization_id => @current_organization) %>
+            Action Plan Settings
             <span></span>
           </td>
         </tr>
@@ -70,16 +75,17 @@
     </table>
     <script type="text/javascript" charset="utf-8">
     jQ(document).ready(function() {
-        jQ('#plan_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
-        jQ('#plan_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();
+        jQ('#plan_<%#=org.public_id%> .resource_levels_close').toggleResourceLevels();
+        jQ('#plan_<%#=org.public_id%> .resource_levels_open').toggleResourceLevels();
     });
     </script>
+    -->
     <table id="case_xfers_<%=org.public_id%>" style="margin-left:80px; width:810px; border:0px solid #ddd;">
       <tbody>
         <tr>
           <td class="resource_levels_close" style="width:800px;">
             <%= link_to '', elt_config_cases_xfer_path(:organization_id => @current_organization) %>
-            <%= org_abbrev %>Move Cases To Other Schools or Cycles
+            Move Cases To Other Schools or Cycles
             <span></span>
           </td>
         </tr>
@@ -96,7 +102,7 @@
         <tr>
           <td class="resource_levels_close" style="width:800px;">
             <%= link_to '', elt_config_plans_xfer_path(:organization_id => @current_organization) %>
-            <%= org_abbrev %>Move A School Plan  To Another Cycle
+            Move A School Plan  To Another Cycle
             <span></span>
           </td>
         </tr>

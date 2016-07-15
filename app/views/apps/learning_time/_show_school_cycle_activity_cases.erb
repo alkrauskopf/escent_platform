@@ -1,24 +1,23 @@
-<div id="activity_cases_<%=org.public_id%><%=cycl.id%><%=activity.public_id%>" style="width:95%; border:0px solid #ddd;">
+<div id="activity_cases_<%=org.public_id%><%=cycl.id%><%=activity.public_id%>" style="width:100%; border:0px solid #ddd;">
 			
-	<table style="width:770px; border:1px solid #ddd;">
+	<table style="width:95%; border:1px solid #ddd;">
 		<thead style="border:1px solid #ddd;">
 			<tr style=" border:1px solid #ddd;">
-				<th colspan=6 style = "text-align:center; color:#2061a5; font-size:12px; font-weight:bold;">
+				<th colspan=7 style = "text-align:center; color:#2061a5; font-size:12px; font-weight:bold;">
 					<%= pluralize(org.elt_cycle_activity_cases(cycl, activity).size, activity.name) %>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
 			<style type="text/css" media="screen">
-	    		table,tr,td { border:medium }
+        table,tr,td { border:medium }
 				table tr:hover{
-        		background-color: transparent;
-      			}
-   			</style>
-		
+          background-color: transparent;
+        }
+      </style>
 			<% org.elt_cycle_activity_cases(cycl, activity).each do |elt_case| -%>
 				<tr style="border:1px solid #ddd;">
-					<td style="width:13%; border:0px solid #ddd; line-height:1.3em; color: #2061a5; padding-top:5px;padding-bottom:5px; vertical-align:top;text-align:left; font-size:11px" >
+					<td style="width:11%; border:0px solid #ddd; line-height:1.3em; color: #2061a5; padding-top:5px;padding-bottom:5px; vertical-align:top;text-align:left; font-size:11px" >
 						<%= elt_case.submit_date.nil? ? "Date?" :elt_case.submit_date.strftime("%b %d, %Y") %>
 						<br/><%= elt_case.user ? elt_case.user.last_name : "" %>
 					</td>
@@ -37,7 +36,7 @@
 						<%= elt_case.final? ? "Finalized" : (elt_case.elt_type.rubric? ? (elt_case.indicators_rated.to_s + " of " + elt_case.rateable_indicators.to_s + "<br\>Rated").html_safe: "") -%>
 					</td>
 					<td style="width:10%; border:0px solid #ddd; line-height:1.3em; color:#C73914; padding-top:10px;padding-bottom:0px; vertical-align:top;text-align:left; font-size:11px" >
-							<%= elt_case.final? && !elt_case.finalize_date.nil? ? elt_case.finalize_date.strftime("%b %d, %Y"):"" %>						
+							<%= elt_case.final? && !elt_case.finalize_date.nil? ? elt_case.finalize_date.strftime("%b-%d-%y"):"" %>
 					</td>
 					<td  id="finalize_<%= elt_case.public_id %>" style = " width:9%; border:0px solid #ddd; color: #C73914; vertical-align:middle; text-align:left; padding-left:0px; font-size:11px ">
 						<% if elt_case.finalizable?(@current_user) || elt_case.reopenable?(@current_user)%>
@@ -48,8 +47,13 @@
 							&nbsp;
 						<% end -%>
 					</td>
+          <td  style="width:9%; border:0px solid #ddd; line-height:1.2em; padding-top:10px;padding-bottom:0px; color:#C73914; vertical-align:top;text-align:center; font-size:11px" >
+            <span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer; font-size:9px; padding-left:5px;">
+                <%= link_to pluralize(elt_case.images.size, ' Image'), elt_case_evidence_add_path(:elt_case_id => elt_case), {:target => '_blank'} %>
+            </span>
+          </td>
 					<td  style="width:9%; border:0px solid #ddd; line-height:1.2em; padding-top:10px;padding-bottom:0px; color:#C73914; vertical-align:top;text-align:center; font-size:11px" >
-						<% if true-%>
+						<% if false-%>
 							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;padding-left:5px;">
 						  		<%= link_to 'PDF', pdf_elt_case_path(:elt_case_id => elt_case, :format => 'pdf'), {:target => "_blank"} %>
 							</span>

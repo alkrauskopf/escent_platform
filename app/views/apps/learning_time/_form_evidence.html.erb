@@ -1,0 +1,35 @@
+ <%= form_tag(elt_case_evidence_add_path(:organization_id => @current_organization,:elt_case_id=>elt_case.public_id,  :format => 'js'), :multipart => true) do -%>
+  <div class="formBox">
+    <div class="FormRow" style="margin-top:3em;">
+      <div class="FormRowTitle">
+        Description:
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+        <%= text_area :elt_case_evidence, :description, :rows => 2, :cols => 80, :value => evidence.description %>
+      </div>
+    </div>
+    <div class="FormRow" style="margin-top:2em;">
+      <div class="FormRowTitle">
+        Image:
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+        <%= file_field_tag "elt_case_evidence[elt_evidence]" %>
+      </div>
+    </div>
+    <div class="FormRow" style="margin-top:2em;">
+      <div class="FormRowTitle">
+        &nbsp;
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+        <%= submit_tag 'Save Image', :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+      </div>
+    </div>
+
+  </div>
+<% end %>
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>

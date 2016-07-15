@@ -6,7 +6,8 @@ class Apps::LearningTimeController  < ApplicationController
                           :show_school_cycle_activity_cases, :list_school_cycle_activities, :list_case_evidences, :show_activity_cases,
                           :manage_cycles, :manage_activities, :manage_elements, :manage_indicators,
                           :view_latest_submitted, :show_case_summary, :case_indicators_element_rubric, :list_case_comments,
-                          :show_activity_map, :show_evidence_map, :case_element_rubric]
+                          :show_activity_map, :show_evidence_map, :case_element_rubric, :case_evidence_change, :case_evidence_destroy,
+                          :manage_case_evidence]
 
  before_filter :elt_allowed?, :except=>[]
  before_filter :current_user_app_authorized?, :except=>[]
@@ -430,6 +431,9 @@ class Apps::LearningTimeController  < ApplicationController
     if params[:commit] == 'Destroy'
       @case.destroy
     else
+      if params[:elt_case]
+        @case.update_attributes(params[:elt_case])
+      end
       @case.cycle_elements.each do |element|
         if params[:notes]
           update_notes(@case, element, (!params[:notes][element.public_id].nil? ? params[:notes][element.public_id] : ''))
@@ -854,8 +858,64 @@ class Apps::LearningTimeController  < ApplicationController
       end
     end 
   end
-    
+
+  def case_evidence_add
+    set_case
+    if request.post? && @elt_case
+      @evidence = @elt_case.elt_case_evidences.new(params[:elt_case_evidence])
+      @evidence.user_id = @current_user.id
+      if @evidence.save then
+        flash[:notice] = "Evidence Saved - Upload Another"
+      else
+        flash[:error] = @evidence.errors.full_messages.to_sentence
+      end
+    end
+    @evidence = EltCaseEvidence.new
+  end
+
+ def case_evidence_change
+   set_case_evidence
+     if @evidence.update_attributes(:description => params[:description])
+       flash[:notice] = "Evidence Updated"
+     else
+       flash[:error] = @evidence.errors.full_messages.to_sentence
+     end
+   render :partial => "/apps/learning_time/manage_case_evidence", :locals => {:elt_case => @evidence.elt_case, :updateable => @evidence.elt_case.updatable?(@current_user)}
+ end
+
+ def case_evidence_destroy
+   set_case_evidence
+   @elt_case = @evidence.elt_case
+   if @evidence.destroy
+     flash[:notice] = "Evidence Destroyed"
+   else
+     flash[:error] = @evidence.errors.full_messages.to_sentence
+   end
+   render :partial => "/apps/learning_time/manage_case_evidence", :locals => {:elt_case => @elt_case, :updateable => @elt_case.updatable?(@current_user)}
+ end
+
+ def manage_case_evidence
+ set_case
+  if params[:updateable]
+    @updateable = params[:updateable] == 'false' ? false:true
+  else
+    @updateable = @elt_case.updateable?(@current_user)
+  end
+ end
+
    private
+
+ def set_case
+   if params[:elt_case_id]
+     @elt_case = EltCase.find_by_public_id(params[:elt_case_id]) rescue nil
+   end
+ end
+
+ def set_case_evidence
+   if params[:elt_case_evidence_id]
+     @evidence = EltCaseEvidence.find_by_public_id(params[:elt_case_evidence_id]) rescue nil
+   end
+ end
 
  def elt_allowed?
    @current_application = CoopApp.elt
@@ -865,7 +925,10 @@ class Apps::LearningTimeController  < ApplicationController
    available_standards(@current_provider)
  end
 
-  def initialize_parameters 
+  def initialize_parameters
+
+    @new_evidence = EltCaseEvidence.new
+
     if  params[:organization_id]
       @current_organization = Organization.find_by_public_id(params[:organization_id]) rescue nil
     end

@@ -1,47 +1,24 @@
 <div id="case_title_<%=elt_case.public_id%>">
-  <div style="text-align:center;  word-wrap:break-word; color: #2061a5;  font-size: 15px; font-style: normal; font-weight: normal">
-    <%= elt_case.elt_cycle ? elt_case.elt_cycle.name: "Removed Diagnostic Cycle" -%>:&nbsp;<%= elt_case.name %>
-  </div>
-  <div style="text-align:center;  word-wrap:break-word; color: #2061a5;  font-size: 13px; font-style: normal; font-weight: normal">
-		<%= !elt_case.elt_type.collect_subject? ? "" : (elt_case.subject_area ? (elt_case.subject_area.name ) : 'No Subject') -%>
-		<%= !(elt_case.organization.grade_levels? && elt_case.elt_type.collect_grade?) ? "" : (elt_case.grade_level ? (", " + elt_case.grade_level.name  ) : ", No Grade Level") -%>
-	</div>
-  <% if elt_case.updatable?(@current_user)%>
-		<table id="case_header" style = "width:590px; margin-left:140px; margin-top:0px">
+  <% if updateable%>
+		<table style = "width:70%; margin-left:15%; margin-top:0px">
 			<tbody>
-				<tr>
-					<td  id="case_show" style = "font-size:12px; text-align:center; padding-left:0px; font-weight:normal; font-family: Calibri">
-						>&nbsp;&nbsp;<span style="cursor:pointer"><u>Change Title Information</u></span>										
-					</td>
-				</tr>
-			</tbody>
-		</table>	
-		<table id="case_descript"style = "width:800px; margin-left:140px; margin-top:0px">
-			<tbody>
-				<tr>
-					<td  id="case_hide" colspan=4 style = "font-size:12px; vertical-align:top; text-align:left;  padding-left:0px; font-weight:normal; font-family: Calibri">
-						>&nbsp;&nbsp;<span style="cursor:pointer;"><u>Cancel</u></span>										
-					</td>
-				</tr>
 					<tr>
-						<td id="change_title" style="width:11%; font-size:10px;  vertical-align:top; padding-bottom:0px; ">
-							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-							  Change
-							</span>	
+						<td style="font-size:11px;  vertical-align:top; padding-bottom:0px; ">
+              Title:
 						</td>
-						<td style="font-size:11px; padding-bottom:10px; ">
-				          	<%= text_field :elt_case, :name, :value => elt_case.name,  :size => 40, :maxlength => 75 %>
+						<td style="width:50%; font-size:11px; padding-bottom:10px; ">
+              <%= text_field :elt_case, :name, :value => elt_case.name,  :size => 40, :maxlength => 75 %>
 						</td>
-						<td style="font-size:10px; padding-bottom:10px; ">
-					        <% if elt_case.elt_type.collect_subject?-%>
-					        	<%=  select(:elt_case_subject, elt_case.id, SubjectArea.top.academic.collect{|s| [s.name, s.id]}, :prompt =>  (elt_case.elt_type.collect_subject? && elt_case.subject_area) ? elt_case.subject_area.name : "Select Subject") %>
+						<td style="width:20%; font-size:10px; padding-bottom:10px; ">
+              <% if elt_case.elt_type.collect_subject?-%>
+                <%=  select(:elt_case, :subject_area_id, SubjectArea.top.academic.collect{|s| [s.name, s.id]}, :prompt =>  (elt_case.elt_type.collect_subject? && elt_case.subject_area) ? elt_case.subject_area.name : "Select Subject") %>
 							<% else -%>
 								&nbsp;
 							<% end -%>
 						</td>
-						<td style="font-size:10px; padding-bottom:10px; ">
-					        <% if elt_case.organization.grade_levels? && elt_case.elt_type.collect_grade?-%>
-					        	<%=  select(:elt_case_grade, elt_case.id, elt_case.organization.organization_type.grade_levels.collect{|gl| [gl.name, gl.id]}, :prompt =>  (elt_case.organization.grade_levels? && elt_case.elt_type.collect_grade? && elt_case.grade_level) ? elt_case.grade_level.name : "Grade Level") %>
+						<td style="width:20%; font-size:10px; padding-bottom:10px; ">
+              <% if elt_case.elt_type.collect_grade?-%>
+                <%=  select(:elt_case, :grade_level_id, GradeLevel.pre_university.collect{|gl| [gl.name, gl.id]}, :prompt =>  (elt_case.grade_level) ? elt_case.grade_level.name : "Grade Level") %>
 							<% else -%>
 								&nbsp;
 							<% end -%>
@@ -49,35 +26,5 @@
 					</tr>
 			</tbody>
 		</table>
-<script type="text/javascript">
-jQ(document).ready(function() {
-  		  jQ("#case_header").show();
-		  jQ("#case_descript").hide();		  
-
-	jQ("#case_show").click(function() {
-		  	jQ("#case_header").hide();	 
-	   		jQ("#case_descript").slideDown("slow");
-	})
-
-	jQ("#case_hide").click(function() {
-	   		jQ("#case_descript").slideUp("slow");
-	   		jQ("#case_header").show();
-	})	
-});
-</script>
-<script type="text/javascript">
-jQ(document).ready(function() {
-	jQ('#change_title').click(function() {
-		var title = jQ('#elt_case_name').val();
-		var subject_id = jQ('#elt_case_subject_<%=elt_case.id%>').val();
-		var grade_id = jQ('#elt_case_grade_<%=elt_case.id%>').val();
-		var url = "<%= elt_case_header_update_url(:organization_id => @current_organization, :case_id => elt_case.id) %>";
-			jQ.get(url, {'case_name':title, 'subject_area_id':subject_id,'grade_level_id':grade_id}, function(data) {
-			jQ("#case_title_<%=elt_case.public_id%>").html(data); 
-	   		jQ("#case_title_<%=elt_case.public_id%>").show();
-			});
-	})
-});
-</script>
 	<% end -%>
 </div>

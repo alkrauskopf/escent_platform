@@ -113,7 +113,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/master/organizations/new/success' => 'master/organizations#registration_successful'
   get '/master/apps/new' => 'master/coop_apps#edit_app'
   get '/master/apps/view' => 'master/coop_apps#index'
-  get '/master/apps/edit' => 'master/coop_apps#edit_app'
+  get '/master/apps/edit' => 'master/coop_apps#edit_app'  # master_apps_edit_path
   post '/master/apps/edit' => 'master/coop_apps#edit_app'
   get '/master/apps/settings/edit' => 'master/coop_apps#edit_app_settings'
   post '/master/apps/settings/edit' => 'master/coop_apps#edit_app_settings'
@@ -405,10 +405,15 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/case/header/update' => 'apps/learning_time#assign_case_header'
   post '/elt/case/update' => 'apps/learning_time#update_case_b'
   get '/elt/case/comments' => 'apps/learning_time#list_case_comments'
-  get '/elt/case/support/findings' => 'apps/learning_time_standards#supporting_findings'
+  get '/elt/case/support/findings' => 'apps/learning_time_standards#supporting_findings'   # elt_case_support_findings
+  get '/elt/case/evidence/add' => 'apps/learning_time#case_evidence_add'   # elt_case_evidence_add
+  post '/elt/case/evidence/add' => 'apps/learning_time#case_evidence_add'   # elt_case_evidence_add
+  get '/elt/case/evidence/change' => 'apps/learning_time#case_evidence_change'   # elt_case_evidence_change
+  get '/elt/case/evidence/destroy' => 'apps/learning_time#case_evidence_destroy'   # elt_case_evidence_destroy
+  get '/elt/case/evidence/show' => 'apps/learning_time#manage_case_evidence'   # elt_case_evidence_show
   get '/elt/config/standards' => 'apps/learning_time_standards#index'
   get '/elt/config/standard/edit' => 'apps/learning_time_standards#maintain_standard'
-  post '/elt/config/standard/edit' => 'apps/learning_time_standards#maintain_standard'
+  post '/elt/config/standard/edit' => 'apps/learning_time_standards#maintain_standard' # elt_config_standard_edit
   get '/elt/config/standard/destroy' => 'apps/learning_time_standards#destroy'
   get '/elt/config/standard/activate' => 'apps/learning_time_standards#toggle_active'
   get '/elt/config/standard/public' => 'apps/learning_time_standards#toggle_public'

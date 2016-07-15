@@ -1,0 +1,28 @@
+<div id="main_content" style="padding-bottom:20px;">
+  <div style ="text-align:center; color: #C83A14; font-size:16px; margin-top:0px; padding-top:20px; font-weight:normal">
+    <%= @current_user.last_name %>&nbsp;Evidence Image
+  </div>
+  <div style ="text-align:center; color: #2061a5; font-size:14px; margin-top:0px; padding-top:0px; font-weight:normal">
+    <%= @elt_case.name %><br/>
+    <span style="font-size:12px">
+      <%= @elt_case.activity.collect_subject? ? (@elt_case.subject_area ? (@elt_case.subject_area.name ) : 'No Subject') : '' -%>
+      <%= @elt_case.activity.collect_grade? ? ( @elt_case.grade_level ? " " + @elt_case.grade_level.name : "  No Grade Level") : '' -%>
+    </span>
+  </div>
+
+
+  <% if @elt_case.updatable?(@current_user) %>
+    <div class="Form clear">
+      <%= render :partial => "/apps/learning_time/form_evidence", :locals=>{:elt_case=>@elt_case, :evidence => @evidence} %>
+    </div>
+  <% end %>
+  <div style = 'width:80%; padding-left:10%'>
+    <%= render :partial => "/apps/learning_time/manage_case_evidence", :locals => {:elt_case => @elt_case, :updateable => @elt_case.updatable?(@current_user)} -%>
+  </div>
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>
+</div>

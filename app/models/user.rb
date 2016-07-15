@@ -69,6 +69,7 @@ class User < ActiveRecord::Base
  
   has_many :ista_cases
   has_many :elt_cases
+  has_many :elt_case_evidences
   has_many :elt_cases_reviewed, :class_name => 'EltCase', :foreign_key => "reviewer_id"
   
   has_many :user_dle_plans, :dependent => :destroy

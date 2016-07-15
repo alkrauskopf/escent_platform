@@ -1,0 +1,20 @@
+
+<div>
+  <table id="evidence_image_<%=elt_case.public_id%>" style="margin-top:0px; width:95%; border:0px solid #ddd;">
+    <tbody>
+    <tr>
+      <td class="resource_levels_close" style="width:90%;">
+        <%= link_to '', elt_case_evidence_show_path(:organization_id => @current_organization, :elt_case_id => elt_case.public_id, :updateable=>updateable) %>
+        <%= pluralize(elt_case.images.size, ' Evidence Image')%>
+        <span></span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+      jQ('#evidence_image_<%=elt_case.public_id%>" .resource_levels_close').toggleResourceLevels();
+      jQ('#evidence_image_<%=elt_case.public_id%>" .resource_levels_open').toggleResourceLevels();
+    });
+  </script>
+</div>

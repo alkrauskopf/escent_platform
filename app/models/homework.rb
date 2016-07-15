@@ -4,8 +4,9 @@ class Homework < ActiveRecord::Base
   belongs_to :classroom
   belongs_to :content_object_type
 
-  has_attached_file :homework, :path => ":rails_root/public/homeworklibrary/:id/:basename.:extension", :url => "/homeworklibrary/:id/:basename.:extension"
-
+  has_attached_file :homework,
+                    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+                    :url => "/system/:attachment/:id/:style/:filename"
   validates_presence_of :title, :message => "(You Must Have A Title)"
   validates_presence_of :teacher_id, :message => "(You Must Identify Teacher)"
   validates_presence_of :content_object_type_id, :message => "(The File Type Is Not Allowed)"

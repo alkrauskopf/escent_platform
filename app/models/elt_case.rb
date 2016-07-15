@@ -14,6 +14,7 @@ class EltCase < ActiveRecord::Base
 
   has_many :elt_case_notes, :dependent => :destroy
   has_many :elt_case_indicators, :dependent => :destroy
+  has_many :elt_case_evidences, :dependent => :destroy
 
   validates_presence_of :name
  
@@ -39,6 +40,10 @@ class EltCase < ActiveRecord::Base
 
   def provider
     self.elt_cycle ? self.elt_cycle.provider : nil
+  end
+
+  def images
+    self.elt_case_evidences
   end
 
   def elements

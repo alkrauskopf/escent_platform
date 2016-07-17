@@ -79,7 +79,7 @@ class EltElement < ActiveRecord::Base
 
   def indicators
 #    self.elt_indicators
-    self.elt_std_indicators
+    self.elt_std_indicators.by_position
   end
 
   def active_indicators

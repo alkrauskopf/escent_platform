@@ -32,7 +32,7 @@ class EltStandard < ActiveRecord::Base
   end
 
   def self.org_available(org)
-    where('organization_id = ? OR (is_active AND is_public)', org.id).order("created_at DESC")
+    where('organization_id = ? OR (is_active AND is_public)', org.id).order("abbrev DESC")
   end
 
   def self.org_available_elements(org)
@@ -60,11 +60,11 @@ class EltStandard < ActiveRecord::Base
   end
 
   def elements
-    self.elt_elements
+    self.elt_elements.order("position ASC")
   end
 
   def active_elements
-    self.elt_elements.active
+    self.elt_elements.active.order("position ASC")
   end
 
   def self.all_elements

@@ -11,6 +11,8 @@ class EltStdIndicator < ActiveRecord::Base
   validates_presence_of :description, :message => 'Indicator Description Required'
   validates_numericality_of :position, :greater_than => 0, :message => 'must > 0.  '
 
+  scope :by_position, :order => ('position ASC')
+
   def informing_indicators
     self.elt_indicators
   end
@@ -49,10 +51,6 @@ class EltStdIndicator < ActiveRecord::Base
   end
   def standard
     self.standard? ? self.element.standard : nil
-  end
-
-  def self.by_position
-    sort_by{|i| i.position}
   end
 
   def self.by_element

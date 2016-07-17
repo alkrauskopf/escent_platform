@@ -83,7 +83,7 @@ class EltType < ActiveRecord::Base
   end
  
   def elements
-    self.elt_indicators.collect{|i| i.elt_element}.compact.uniq
+    self.elt_indicators.collect{|i| i.elt_element}.compact.uniq.sort_by{ |e| e.position}
   end
  
   def active_elements

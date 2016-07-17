@@ -89,6 +89,19 @@ class ApplicationController < ActionController::Base
     flash[:notice] = nil
     flash[:error] = nil
   end
+
+  #
+  # Vanity URL
+  #
+  def vanity
+    orgs = Organization.where('alt_short_name = ?',params[:vanity])
+    if orgs.empty?
+      org = Organization.default
+    else
+      org = orgs.first
+    end
+    redirect_to organization_view_path(:organization_id => org.public_id)
+  end
   #
   # Surveys
   #

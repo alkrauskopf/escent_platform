@@ -2,62 +2,66 @@
   <%= render :partial => "/shared/error_and_notice" %>
   <div style="border:1px solid #ddd; width:100%; margin-left:0%; font-size:14px; text-align:center; margin-top:1em; padding-bottom:1em; color:#2061a5;">
     <%= pluralize(elt_case.elt_case_evidences.size, ' Evidence Image') %>
-    <div style= "overflow:auto; max-height:40em;">
-    <table  style="border:0px solid #ddd; width:100%; margin-left:0%; font-size:11px;">
-    <tbody>
-      <% elt_case.elt_case_evidences.each do |evidence| -%>
-        <tr style=" border-bottom:1px solid #ddd;">
-          <td style="width:17%; border:0px solid #ddd; padding-top:1em; padding-bottom:1em; text-align:center; font-weight:normal;">
-            <%= image_tag evidence.elt_evidence.url(:thumb)%>
-          </td>
-          <% if updateable %>
-            <td style="border:0px solid #ddd; vertical-align:middle; text-align:left; padding-left:5px; color:#000000; font-size:14px; line-height:1.3em; font-family:'Times New Roman';font-weight:normal;">
-              <%= text_area :elt_case_evidence, evidence.id, :rows => 2, :cols => 60, :value => evidence.description %>
-              </br><span style= 'font-size:10px'>(<%= evidence.submitter_name %>)</span>
-            </td>
-            <td id="change_<%= evidence.public_id %>" style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:middle" >
-              <span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;padding-left:5px;">
-                  Change
-              </span>
-            </td>
-            <td id="destroy_<%= evidence.public_id %>" style="border-right:1px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:middle" >
-              <span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;padding-left:5px;">
-                  Delete
-              </span>
-            </td>
-          <% else %>
-            <td colpsan=3 style="border-right:1px solid #ddd; vertical-align:middle; text-align:left; padding-left:5px; color:#000000; font-size:14px; line-height:1.3em; font-family:'Times New Roman';font-weight:normal;">
-              <%= evidence.description %><br/>
-              <span style= 'font-size:10px'>(<%= evidence.submitter_name %>)</span>
-            </td>
-          <% end %>
-          <script type="text/javascript">
-            jQ(document).ready(function() {
-              jQ("#change_<%= evidence.public_id %>").click(function() {
-                var description = jQ('#elt_case_evidence_<%=evidence.id%>').val();
-                var url = "<%= elt_case_evidence_change_path(:organization_id => @current_organization, :elt_case_evidence_id => evidence.public_id) %>";
-                jQ.get(url,{'description':description,},  function(data) {
-                  jQ("#manage_case_evidence<%= elt_case.public_id%>").html(data);
-                  jQ("#manage_case_evidence<%= elt_case.public_id%>").show();
-                });
-              })
-            });
-          </script>
-          <script type="text/javascript">
-            jQ(document).ready(function() {
-              jQ("#destroy_<%= evidence.public_id %>").click(function() {
-                var url = "<%= elt_case_evidence_destroy_path(:organization_id => @current_organization, :elt_case_evidence_id => evidence.public_id) %>";
-                jQ.get(url,{},  function(data) {
-                  jQ("#manage_case_evidence<%= elt_case.public_id%>").html(data);
-                  jQ("#manage_case_evidence<%= elt_case.public_id%>").show();
-                });
-              })
-            });
-          </script>
-        </tr>
-      <% end -%>
-    </tbody>
-  </table>
+      <div style= "overflow:auto; max-height:40em;">
+        <table  style="border:0px solid #ddd; width:100%; margin-left:0%; font-size:11px;">
+          <tbody>
+            <% elt_case.elt_case_evidences.each do |evidence| -%>
+              <% if updateable %>
+                <tr style=" border-bottom:1px solid #ddd;">
+                  <td style="width:20%; border:0px solid #ddd; padding-top:1em; padding-bottom:1em; text-align:center; font-weight:normal;">
+                    <%= image_tag evidence.elt_evidence.url(:med_thumb)%>
+                  </td>
+                  <td style="border:0px solid #ddd; vertical-align:middle; text-align:left; padding-left:5px; color:#000000; font-size:14px; line-height:1.3em; font-family:'Times New Roman';font-weight:normal;">
+                    <%= text_area :elt_case_evidence, evidence.id, :rows => 2, :cols => 60, :value => evidence.description %>
+                    </br><span style= 'font-size:10px'>(<%= evidence.submitter_name %>)</span>
+                  </td>
+                  <td id="change_<%= evidence.public_id %>" style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:middle" >
+                    <span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;padding-left:5px;">
+                        Change
+                    </span>
+                  </td>
+                  <td id="destroy_<%= evidence.public_id %>" style="border-right:1px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:middle" >
+                    <span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;padding-left:5px;">
+                        Delete
+                    </span>
+                  </td>
+                </tr>
+                <script type="text/javascript">
+                  jQ(document).ready(function() {
+                    jQ("#change_<%= evidence.public_id %>").click(function() {
+                      var description = jQ('#elt_case_evidence_<%=evidence.id%>').val();
+                      var url = "<%= elt_case_evidence_change_path(:organization_id => @current_organization, :elt_case_evidence_id => evidence.public_id) %>";
+                      jQ.get(url,{'description':description,},  function(data) {
+                        jQ("#manage_case_evidence<%= elt_case.public_id%>").html(data);
+                        jQ("#manage_case_evidence<%= elt_case.public_id%>").show();
+                      });
+                    })
+                  });
+                </script>
+                <script type="text/javascript">
+                  jQ(document).ready(function() {
+                    jQ("#destroy_<%= evidence.public_id %>").click(function() {
+                      var url = "<%= elt_case_evidence_destroy_path(:organization_id => @current_organization, :elt_case_evidence_id => evidence.public_id) %>";
+                      jQ.get(url,{},  function(data) {
+                        jQ("#manage_case_evidence<%= elt_case.public_id%>").html(data);
+                        jQ("#manage_case_evidence<%= elt_case.public_id%>").show();
+                      });
+                    })
+                  });
+                </script>
+              <% else %>
+                <tr style=" border-bottom:1px solid #ddd;">
+                  <td style="width:60%; border:0px solid #ddd; padding-top:1em; padding-bottom:1em; text-align:center; font-weight:normal;">
+                    <%= image_tag evidence.elt_evidence.url, :width =>'430'%>
+                  </td>
+                  <td style="border-right:1px solid #ddd; vertical-align:middle; text-align:left; padding-left:2%; color:#000000; font-size:12px; line-height:1.3em; font-family:'Times New Roman';font-weight:normal;">
+                    <%= evidence.description %><br/><br/>
+                    <span style= 'font-size:11px; font-weight:bold;'><%= evidence.submitter_name %></span>
+                  </td>
+              <% end %>
+            <% end -%>
+          </tbody>
+        </table>
       </div>
   </div>
 </div>

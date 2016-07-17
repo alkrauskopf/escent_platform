@@ -47,7 +47,7 @@ class Apps::LearningTimeController  < ApplicationController
     
   def manage_indicators
     initialize_parameters
-    @framework = @current_organization.elt_framework
+    set_standard
     @activities_for = @current_organization.elt_types.by_position
     @activities_from = []
   end
@@ -254,45 +254,49 @@ class Apps::LearningTimeController  < ApplicationController
  end
 
  def select_activity
-    activity = EltType.find_by_id(params[:activity_id]) rescue nil
-    render :partial => "/apps/learning_time/manage_indicators",
-           :locals => {:to_activities => activity.organization.elt_types,
-                       :from_activities => activities_from(@current_organization, @current_application),
-                       :activity => activity, :from_activity => nil, :to_element => nil, :app=>@current_application}
-  end
+   set_standard
+   activity = EltType.find_by_id(params[:activity_id]) rescue nil
+   render :partial => "/apps/learning_time/manage_indicators",
+          :locals => {:to_activities => activity.organization.elt_types,
+                      :from_activities => activities_from(@current_organization, @current_application),
+                      :activity => activity, :from_activity => nil, :to_element => nil, :standard => @standard}
+ end
 
  def select_source_activity
+   set_standard
    to_activity = EltType.find_by_id(params[:activity_id]) rescue nil
    from_activity = EltType.find_by_id(params[:from_activity_id]) rescue nil
    render :partial => "/apps/learning_time/manage_indicators",
           :locals => {:to_activities => to_activity.organization.elt_types,
                       :from_activities => activities_from(@current_organization, @current_application),
                       :activity => to_activity, :from_activity => from_activity,
-                      :to_element => nil, :app=>@current_application}
+                      :to_element => nil, :standard => @standard}
  end
 
  def select_element
+   set_standard
    to_activity = EltType.find_by_id(params[:activity_id]) rescue nil
    from_activity = EltType.find_by_id(params[:from_activity_id]) rescue nil
    render :partial => "/apps/learning_time/manage_indicators",
           :locals => {:to_activities => to_activity.organization.elt_types,
                       :from_activities => activities_from(@current_organization, @current_application),
                       :activity => to_activity, :from_activity => from_activity,
-                      :to_element => @element, :app=>@current_application}
+                      :to_element => @element, :standard => @standard}
  end
 
  def copy_activity_indicators
-    to_activity = EltType.find_by_id(params[:activity_id])
-    from_activity = EltType.find_by_id(params[:from_activity_id])
-    to_element = EltElement.find_by_id(params[:to_element_id])
-    if (to_activity && from_activity && to_element && @element)
-      to_activity.copy_indicators(from_activity, @element, to_element)
-    end
-    render :partial => "/apps/learning_time/manage_indicators",
-           :locals => {:to_activities => to_activity.organization.elt_types,
-                       :from_activities => activities_from(@current_organization, @current_application),
-                       :activity => to_activity, :from_activity => from_activity,
-                       :to_element => nil, :app=>@current_application}
+   set_standard
+   to_activity = EltType.find_by_id(params[:activity_id])
+   from_activity = EltType.find_by_id(params[:from_activity_id])
+   to_element = EltElement.find_by_id(params[:to_element_id])
+   if (to_activity && from_activity && to_element && @element)
+     to_activity.copy_indicators(from_activity, @element, to_element)
+   end
+   render :partial => "/apps/learning_time/manage_indicators",
+          :locals => {:to_activities => to_activity.organization.elt_types,
+                      :from_activities => activities_from(@current_organization, @current_application),
+                      :activity => to_activity, :from_activity => from_activity,
+                      :to_element => nil, :standard => @standard}
   end 
 
   def refresh_element_indicator

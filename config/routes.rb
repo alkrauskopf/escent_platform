@@ -448,11 +448,11 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/config/rubric/activate' => 'apps/learning_time#toggle_rubric'  #config_rubric_activate
   get '/elt/config/activity/activate' => 'apps/learning_time#toggle_active_activity'
   get '/elt/config/activity/master' => 'apps/learning_time#toggle_master_activity'
-  get '/elt/config/indicators' => 'apps/learning_time#manage_indicators'
+  get '/elt/config/indicators' => 'apps/learning_time#manage_indicators'   # elt_config_indicators
   get '/elt/config/indicator/activity/source' => 'apps/learning_time#select_source_activity'
-  get '/elt/config/indicator/activity/target' => 'apps/learning_time#select_activity'
-  get '/elt/config/indicator/copy' => 'apps/learning_time#copy_activity_indicators'
-  get '/elt/config/indicator/element/select' => 'apps/learning_time#select_element'
+  get '/elt/config/indicator/activity/target' => 'apps/learning_time#select_activity'  # elt_config_indicator_activity_target
+  get '/elt/config/indicator/copy' => 'apps/learning_time#copy_activity_indicators'  # elt_config_indicator_copy
+  get '/elt/config/indicator/element/select' => 'apps/learning_time#select_element'  # elt_config_indicator_element_select
   get '/elt/config/indicator/edit' => 'apps/learning_time#maintain_indicator'
   post '/elt/config/indicator/edit' => 'apps/learning_time#maintain_indicator'
   get '/elt/config/indicator/refresh' => 'apps/learning_time#refresh_element_indicator'

@@ -10,10 +10,10 @@
   </div>
   <div>
     <% org_abbrev = @current_organization.app_provider(@current_application).short_name  + ' ' %>
-    <table id="cycle_<%=org.public_id%>" style="margin-left:80px; width:810px; border:0px solid #ddd;">
+    <table id="cycle_<%=org.public_id%>" style="margin-left:80px; width:90%; border:0px solid #ddd;">
         <tbody>
             <tr>
-                <td class="resource_levels_close" style="width:800px;">
+                <td class="resource_levels_close" style="width:95%">
                     <%= link_to '', elt_config_cycles_path(:organization_id => @current_organization) %>
                     Maintain Diagnostic Cycles
                 <span></span>
@@ -27,10 +27,10 @@
         jQ('#cycle_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();
     });
     </script>
-    <table id="activity_<%=org.public_id%>" style="margin-left:80px; width:810px; border:0px solid #ddd;">
+    <table id="activity_<%=org.public_id%>" style="margin-left:80px; width:90%; border:0px solid #ddd;">
       <tbody>
         <tr>
-          <td class="resource_levels_close" style="width:800px;">
+          <td class="resource_levels_close" style="width:95%">
             <%= link_to '', elt_config_activities_path(:organization_id => @current_organization) %>
             Maintain Diagnostic Activities
             <span></span>
@@ -44,23 +44,25 @@
         jQ('#activity_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();
     });
     </script>
-    <table id="indicator_<%=org.public_id%>" style="margin-left:80px; width:810px; border:0px solid #ddd;">
-      <tbody>
-        <tr>
-          <td class="resource_levels_close" style="width:800px;">
-            <%= link_to '', elt_config_indicators_path(:organization_id => @current_organization) %>
-            Maintain Activity Look-fors
-            <span></span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <script type="text/javascript" charset="utf-8">
-    jQ(document).ready(function() {
-        jQ('#indicator_<%=org.public_id%> .resource_levels_close').toggleResourceLevels();
-        jQ('#indicator_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();
-    });
-    </script>
+    <% @standards.each do |std| %>
+      <table id="indicator_<%=org.public_id%><%=std.id%>" style="margin-left:80px; width:90%; border:0px solid #ddd;">
+        <tbody>
+          <tr>
+            <td class="resource_levels_close" style="width:95%;">
+              <%= link_to '', elt_config_indicators_path(:organization_id => @current_organization, :elt_standard_id => std.public_id) %>
+              Maintain Activity Look-fors: <%= std.abbrev %>
+              <span></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <script type="text/javascript" charset="utf-8">
+      jQ(document).ready(function() {
+          jQ('#indicator_<%=org.public_id%><%=std.id%> .resource_levels_close').toggleResourceLevels();
+          jQ('#indicator_<%=org.public_id%><%=std.id%> .resource_levels_open').toggleResourceLevels();
+      });
+      </script>
+        <% end %>
    <!-- Temp Remove
     <table id="plan_<%#=org.public_id%>" style="margin-left:80px; width:810px; border:0px solid #ddd;">
       <tbody>
@@ -80,10 +82,10 @@
     });
     </script>
     -->
-    <table id="case_xfers_<%=org.public_id%>" style="margin-left:80px; width:810px; border:0px solid #ddd;">
+    <table id="case_xfers_<%=org.public_id%>" style="margin-left:80px; width:90%; border:0px solid #ddd;">
       <tbody>
         <tr>
-          <td class="resource_levels_close" style="width:800px;">
+          <td class="resource_levels_close" style="width:95%;">
             <%= link_to '', elt_config_cases_xfer_path(:organization_id => @current_organization) %>
             Move Cases To Other Schools or Cycles
             <span></span>
@@ -97,10 +99,10 @@
             jQ('#case_xfers_<%=org.public_id%> .resource_levels_open').toggleResourceLevels();
         });
     </script>
-    <table id="plan_xfers_<%=org.public_id%>" style="margin-left:80px; width:810px; border:0px solid #ddd;">
+    <table id="plan_xfers_<%=org.public_id%>" style="margin-left:80px; width:90%; border:0px solid #ddd;">
       <tbody>
         <tr>
-          <td class="resource_levels_close" style="width:800px;">
+          <td class="resource_levels_close" style="width:95%;">
             <%= link_to '', elt_config_plans_xfer_path(:organization_id => @current_organization) %>
             Move A School Plan  To Another Cycle
             <span></span>

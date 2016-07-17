@@ -1,23 +1,23 @@
-<div id="manage_indicators_<%= @current_application.public_id%>">
+<div id="manage_indicators_<%= @current_application.public_id%><%=standard.id%>">
 	<% if @current_organization.provider?(@current_application) -%>
 		<div>
-			<table style="width:750px;margin-left:0px; border:0px solid #ddd;">
+			<table style="width:100%; margin-left:0px; border:0px solid #ddd;">
 				<tbody>  
 					<tr  style="border:0px solid #ddd;" >
-            <td   id = "indicators_activity" style="border:0px solid #ddd; vertical-align:middle; width:305px; padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
-                <%=  select(:elt, :type,   to_activities.collect{|t| [t.name, t.id]}, :prompt => activity.nil? ? "Select Activity" : activity.name) %>
+            <td   id = "indicators_activity_<%=standard.id%>" style="border:0px solid #ddd; vertical-align:middle; width:40%; padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
+                <%=  select(:type, standard.id,  to_activities.collect{|t| [t.name, t.id]}, :prompt => activity.nil? ? "Select Activity" : activity.name) %>
             </td>
-            <td   id = "source_activity" style="border:0px solid #ddd; vertical-align:middle;  width:420px; padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
+            <td   id = "source_activity_<%=standard.id%>" style="border:0px solid #ddd; vertical-align:middle;  width:60%; padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
               <% if activity %>
-                  <%=  select(:elt, :activity, from_activities.collect{|t| [t.organization.short_name + ": " + t.name, t.id]}, :prompt => from_activity.nil? ? "Copy From Selected Activity" : (from_activity.organization.short_name + ": " + from_activity.name)) %>
+                  <%=  select(:activity, standard.id, from_activities.collect{|t| [t.organization.short_name + ": " + t.name, t.id]}, :prompt => from_activity.nil? ? "Copy From Selected Activity" : (from_activity.organization.short_name + ": " + from_activity.name)) %>
                   <script type="text/javascript">
                     jQ(document).ready(function() {
-                      jQ('#source_activity').change(function() {
-                        var source_id = jQ('#elt_activity').val();
-                        var url = "<%= elt_config_indicator_activity_source_url(:organization_id => @current_organization, :activity_id => activity.id) %>";
+                      jQ('#source_activity_<%=standard.id%>').change(function() {
+                        var source_id = jQ('#activity_<%=standard.id%>').val();
+                        var url = "<%= elt_config_indicator_activity_source_url(:organization_id => @current_organization, :activity_id => activity.id, :elt_standard_id => standard.public_id) %>";
                         jQ.get(url, {'from_activity_id':source_id}, function(data) {
-                            jQ("#manage_indicators_<%= @current_application.public_id%>").html(data);
-                            jQ("#manage_indicators_<%= @current_application.public_id%>").show();
+                            jQ("#manage_indicators_<%= @current_application.public_id%><%=standard.id%>").html(data);
+                            jQ("#manage_indicators_<%= @current_application.public_id%><%=standard.id%>").show();
                         });
                       })
                     });
@@ -32,12 +32,12 @@
 		</div>
     <script type="text/javascript">
       jQ(document).ready(function() {
-        jQ('#indicators_activity').change(function() {
-          var activity_id = jQ('#elt_type').val();
-          var url = "<%= elt_config_indicator_activity_target_url(:organization_id => @current_organization) %>";
+        jQ('#indicators_activity_<%=standard.id%>').change(function() {
+          var activity_id = jQ('#type_<%=standard.id%>').val();
+          var url = "<%= elt_config_indicator_activity_target_url(:organization_id => @current_organization, :elt_standard_id => standard.public_id) %>";
             jQ.get(url, {'activity_id':activity_id}, function(data) {
-            jQ("#manage_indicators_<%= @current_application.public_id%>").html(data);
-            jQ("#manage_indicators_<%= @current_application.public_id%>").show();
+            jQ("#manage_indicators_<%= @current_application.public_id%><%=standard.id%>").html(data);
+            jQ("#manage_indicators_<%= @current_application.public_id%><%=standard.id%>").show();
           });
         })
       });
@@ -46,23 +46,23 @@
       <div style = "margin-top:20px;">
         <% if from_activity && activity && activity.organization -%>
           <div>
-            <table style="width:750px;margin-left:0px; border:0px solid #ddd;">
+            <table style="width:100%;margin-left:0px; border:0px solid #ddd;">
               <tbody>
                 <tr  style="border:0px solid #ddd;" >
-                  <td   id = "from_element" style="border:0px solid #ddd; vertical-align:middle; width:305px;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
-                    <%=  select(:elt, :to_element,  EltElement.org_available(@current_organization).collect{|e| [e.name, e.public_id]}, :prompt => to_element.nil? ? "Select Element" : to_element.name) %>
+                  <td   id = "target_element_<%=standard.id%>" style="border:0px solid #ddd; vertical-align:middle; width:40%;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
+                    <%=  select(:to_element, standard.id, standard.active_elements.collect{|e| [e.name, e.public_id]}, :prompt => to_element.nil? ? "Select Element" : to_element.name) %>
                   </td>
-                  <td   id = "copy_activity" style="border:0px solid #ddd; vertical-align:middle;  width:420px; padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
+                  <td   id = "copy_activity_<%=standard.id%>" style="border:0px solid #ddd; vertical-align:middle;  width:60%; padding-left:0px; padding-right:0px; padding-top:0px; text-align:center; font-size:10.5px; font-weight:normal">
                     <% if to_element %>
-                        <%=  select(:elt, :from_element,  from_activity.elements.collect{|e| [e.name, e.public_id]}, :prompt =>  "Copy From Selected Element") %>
+                        <%=  select(:source_element, standard.id, from_activity.elements.collect{|e| [(e.standard.abbrev + ': ' + truncate(e.name, :omission => '...', :lengthe => 15)), e.public_id]}, :prompt =>  "Copy From Selected Element") %>
                         <script type="text/javascript">
                           jQ(document).ready(function() {
-                              jQ('#copy_activity').change(function() {
-                                  var elt_element_id = jQ('#elt_from_element').val();
-                                  var url = "<%= elt_config_indicator_copy_url(:organization_id => @current_organization, :activity_id => activity.id, :from_activity_id => from_activity.id, :to_element_id => to_element.id, :app_id=> app.id) %>";
+                              jQ('#copy_activity_<%=standard.id%>').change(function() {
+                                  var elt_element_id = jQ('#source_element_<%=standard.id%>').val();
+                                  var url = "<%= elt_config_indicator_copy_url(:organization_id => @current_organization, :activity_id => activity.id, :from_activity_id => from_activity.id, :to_element_id => to_element.id, :elt_standard_id => standard.public_id) %>";
                                   jQ.get(url, {'elt_element_id':elt_element_id}, function(data) {
-                                    jQ("#manage_indicators_<%= @current_application.public_id%>").html(data);
-                                    jQ("#manage_indicators_<%= @current_application.public_id%>").show();
+                                    jQ("#manage_indicators_<%= @current_application.public_id%><%=standard.id%>").html(data);
+                                    jQ("#manage_indicators_<%= @current_application.public_id%><%=standard.id%>").show();
                                   });
                               })
                           });
@@ -77,12 +77,12 @@
           </div>
           <script type="text/javascript">
               jQ(document).ready(function() {
-                  jQ('#from_element').change(function() {
-                      var elt_element_id = jQ('#elt_to_element').val();
-                      var url = "<%= elt_config_indicator_element_select_url(:organization_id => @current_organization, :activity_id => activity.id, :from_activity_id => from_activity.id, :app_id=> app.id) %>";
+                  jQ('#target_element_<%=standard.id%>').change(function() {
+                      var elt_element_id = jQ('#to_element_<%=standard.id%>').val();
+                      var url = "<%= elt_config_indicator_element_select_url(:organization_id => @current_organization, :activity_id => activity.id, :from_activity_id => from_activity.id, :elt_standard_id => standard.public_id) %>";
                       jQ.get(url, {'elt_element_id':elt_element_id}, function(data) {
-                        jQ("#manage_indicators_<%= @current_application.public_id%>").html(data);
-                        jQ("#manage_indicators_<%= @current_application.public_id%>").show();
+                        jQ("#manage_indicators_<%= @current_application.public_id%><%=standard.id%>").html(data);
+                        jQ("#manage_indicators_<%= @current_application.public_id%><%=standard.id%>").show();
                       });
                   })
               });
@@ -90,7 +90,7 @@
 
         <% end %>
         <% if activity && activity.organization %>
-          <table  style="width:750px; border-top:0px solid #000; margin-top:10px; margin-bottom:0px; margin-left:0px">
+          <table  style="width:100%; border-top:0px solid #000; margin-top:10px; margin-bottom:0px; margin-left:0px">
             <tbody>
               <tr>
                 <td style=" text-align:center; color: #2061a5;; font-size:14px; font-weight:bold; ">
@@ -99,8 +99,8 @@
               </tr>
             </tbody>
           </table>
-            <% EltElement.org_available(@current_organization).each do |element| -%>
-                <%= render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:activity => activity, :element => element, :app=>@current_application}%>
+            <% standard.active_elements.each do |element| -%>
+                <%= render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:activity => activity, :element => element}%>
             <% end %>
         <% end %>
     </div>

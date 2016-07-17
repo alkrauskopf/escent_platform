@@ -37,8 +37,7 @@
           </td>
           <td style="border:0px solid #ddd; text-align:left; font-size:12px; padding-left:3px;padding-bottom:7px; font-weight:bold; color: <%=color_text%>">
             <%= standard.abbrev %>:&nbsp;&nbsp;<%= standard.name%>
-            <span style="font-size:9px">&nbsp;(<%= standard.organization.short_name %>)</span><br/>
-            <span style="font-size:9px">
+            <span style="font-size:9px"><br/>(<%= standard.organization.short_name %>)&nbsp;
               <%= standard.use_rubric? ? (pluralize(standard.active_rubrics.size, ' Rubric')) : 'No Rubric'%>,&nbsp;
               <%= pluralize(standard.cases.size, 'Case') %>
             </span>

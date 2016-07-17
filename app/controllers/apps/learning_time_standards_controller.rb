@@ -122,7 +122,7 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
     set_element
     @indicator = EltStdIndicator.new(params[:elt_std_indicator])
     if !@element.nil?
-      if @element.indicators << @indicator
+      if @element.elt_std_indicators << @indicator
         flash[:notice] = "#{@element.abbrev} Indicator Created"
       else
         flash[:error] = @indicator.errors.full_messages

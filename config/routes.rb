@@ -17,7 +17,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ep/blog/view' => 'fsn#select_blog'
   get '/ep/tos' => 'fsn#terms'
   get 'iwing/stylesheet' => 'stylesheets#iwing'
-  get '/:vanity' => 'application#vanity'
+ # get '/:vanity' => 'application#vanity'
 
   # CORE User
   get '/user/edit' => 'users#edit_profile'

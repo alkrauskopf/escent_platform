@@ -6,7 +6,7 @@ class Apps::LearningTimeStandardsController  < Site::ApplicationController
   before_filter :elt_allowed?, :except=>[]
   before_filter :current_org_current_app_provider?, :except=>[]
   before_filter :current_user_app_admin?, :except => []
-  before_filter :clear_notification, :except => [:index, :edit_element]
+  before_filter :clear_notification, :except => [:edit_element]
 
   def index
     available_standards(@current_organization)

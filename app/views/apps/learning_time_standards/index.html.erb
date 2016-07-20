@@ -2,7 +2,7 @@
   <div style="text-align:center;  padding-top:10px; word-wrap:break-word; color: #C83A14;  font-size: 16px; font-style: normal; font-weight: bold">
     <%= @current_organization.provider_app_name(@current_application) %> Standards
   </div>
-  <div style="float:none;width:96.7%;" class="mempro_box clear" style="margin-left:00px;">
+  <div style="float:none;width:96%;" class="mempro_box clear">
     <div id="centerpane_appl">
       <span class="fsn-button ui-button ui-state-default ui-corner-all">
         <%= link_to 'Create New Standard', elt_config_standard_edit_path(:organization_id => @current_organization,:task=>'New' ),{:target=>'_blank'}  %>

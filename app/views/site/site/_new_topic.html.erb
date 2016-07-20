@@ -14,7 +14,7 @@
 	  <%= render :partial => "/shared/share_login" %>
 	</div>
 	<div style="padding:5px; background-color:#F9F9F9; width:auto; margin: 0px 10px 5px 10px; text-align:left; line-height:1.4em;">
-	    <%= simple_format(topic.instructional_remarks)%>
+	    <%= topic.instructional_remarks.html_safe%>
 		<div id="shared_discussion_warp_box">
 			<%= render :partial => "/shared/shared_discussion", :locals => {:discussion => topic} %>
 		</div>

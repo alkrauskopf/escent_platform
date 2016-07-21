@@ -33,39 +33,32 @@
   </div>
 
   <div id="control_panel" >
-
     <ul>
-
       <li>
         <%  tab_1_label = "Assessment Questions" %>
         <a href="#tabs-1"><span class="tab_label">
-		<%= tab_1_label %></span></a>
+		    <%= tab_1_label %></span></a>
       </li>
-
       <li>
         <%  tab_2_label = "Related Readings" %>
         <a href="#tabs-2"><span class="tab_label">
-		<%= tab_2_label %></span></a>
+        <%= tab_2_label %></span></a>
       </li>
-
       <li>
         <%  tab_3_label = "Assessments" %>
         <a href="#tabs-3"><span class="tab_label">
-		<%= tab_3_label %></span></a>
+	    	<%= tab_3_label %></span></a>
       </li>
-
       <li>
         <%  tab_4_label = "Benchmarks" %>
         <a href="#tabs-4"><span class="tab_label">
-		<%= tab_4_label %></span></a>
+		    <%= tab_4_label %></span></a>
       </li>
-
       <li>
         <%  tab_8_label = "State Standards" %>
         <a href="#tabs-8"><span class="tab_label">
-		<%= tab_8_label %></span></a>
+        <%= tab_8_label %></span></a>
       </li>
-
       <% if @admin -%>
           <li>
             <%  tab_7_label = "Student Baseline Scores" %>
@@ -82,7 +75,7 @@
 
 
 
-    <div id="tabs-1" class="favorite_organizations" style="width:900px; margin-left:20;">
+    <div id="tabs-1" class="favorite_organizations" style="width:900px; margin-left:20px;">
 
       <%= render :partial => "/apps/assessment/manage_questions" %>
 
@@ -130,7 +123,7 @@
                     <% group_label = "<strong>" + user_group.first.last_name.capitalize + " - " + user_group.last.last_name.capitalize + "</strong>   <i>(" + user_group.size.to_s + ")</i>"  -%>
                     <tr>
                       <td class="resource_levels_close">
-                        <%= link_to '', :controller => "apps/assessment", :action => :student_list, :organization_id => @current_organization, :letter => l  %>
+                        <%= link_to '', ifa_students_path(:organization_id => @current_organization, :letter => l)  %>
                         <%= group_label %>
                         <span></span>
                       </td>

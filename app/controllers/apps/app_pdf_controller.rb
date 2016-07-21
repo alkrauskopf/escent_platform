@@ -1,6 +1,5 @@
 class Apps::AppPdfController < Site::ApplicationController
-
-  helper :all # include all helpers, all the time  
+  
   require 'prawn'
   layout "app_reports", :except =>[:elt_other_school_cycles,:elt_case]
 

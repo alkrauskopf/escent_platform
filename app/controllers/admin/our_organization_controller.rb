@@ -1,7 +1,7 @@
 class Admin::OurOrganizationController < Admin::ApplicationController
   layout "admin/our_organization/layout", :except =>[:update_logo]
   include ApplicationHelper
-  include SimpleCaptcha::ControllerHelpers
+  # include SimpleCaptcha::ControllerHelpers
   
 #  include OrganizationRegistration
 

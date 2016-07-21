@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
 
-  include SimpleCaptcha::ControllerHelpers
+  # include SimpleCaptcha::ControllerHelpers
 
   protect_from_forgery
 

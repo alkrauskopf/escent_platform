@@ -344,13 +344,13 @@
                     jQ("#content_upload_panel").css("display", "block");
             }
         });
-		
-        if (tinyMCE.getInstanceById("content_editor")) {
+
+    /*  if (tinyMCE.getInstanceById("content_editor")) {
             initTinyMCE();
         }
 		
         tinyMCE.execCommand("mceAddControl", false, 'content_editor');
-        
+     */
         jQ("#loading").hide();
         jQ("#save_button").bind("click", function(e){
             jQ("#loading").show();
@@ -435,9 +435,10 @@ jQ(document).ready(function() {
 
 	    return false;
 	  });
-                initTinyMCE();
 
-		/*if (tinyMCE.getInstanceById("topic_instructional_remarks") ) {
+/*              initTinyMCE();
+
+    if (tinyMCE.getInstanceById("topic_instructional_remarks") ) {
 			initTinyMCE();
 		}
 		tinyMCE.execCommand("mceAddControl", false, 'topic_instructional_remarks');

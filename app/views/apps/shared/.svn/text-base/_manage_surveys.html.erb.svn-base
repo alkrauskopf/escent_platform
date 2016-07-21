@@ -1,6 +1,0 @@
-
-
-		<%= render (:partial => "apps/shared/sumarize_surveys", :locals => {:admin => admin, :org => @current_organization, :app => app}) %>	
-
-
-

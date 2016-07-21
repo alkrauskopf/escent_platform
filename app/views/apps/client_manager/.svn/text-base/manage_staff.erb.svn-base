@@ -1,5 +1,0 @@
-<div >
-
-	    <%= render :partial => "/apps/client_manager/manage_staff", :locals => {:app=>@app}  %>
-
-</div>

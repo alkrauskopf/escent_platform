@@ -1,7 +1,0 @@
-
-<div style = "font-size:14px; color: #000000;">
-
-	<%= render :partial => "list_students", :locals=> {:period => @period} %>
-
-</div>
-

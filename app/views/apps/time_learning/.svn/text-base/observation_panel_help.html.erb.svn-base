@@ -1,5 +1,0 @@
-<div id="observation_panel_help">
-  
-  <%= render :partial => "/apps/time_learning/observation_panel_help" %>
-
-</div>

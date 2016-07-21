@@ -1,5 +1,0 @@
-<% error_messages_for(:blog) %>
-<% form_for :blog , @blog , :url => {:controller => "site/blogs" , :action => "create" , :organization_id => @current_organization.public_id } do |@f| %>
-  <%= render :partial => "site/blogs/form" %>
-<% end %>
-<%= link_to "Blog Summary Page" , :controller => "site/blogs" , :action => "index" , :organization_id => @current_organization.public_id %>

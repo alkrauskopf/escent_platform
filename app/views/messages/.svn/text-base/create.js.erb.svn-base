@@ -1,4 +1,0 @@
-jQ("#send_message_form").hide()
-jQ("#send_message_succefully").show()
-jQ("#send_message_form #message_content").attr('value','')
-jQ("#send_message_form #message_sender").attr('value','')

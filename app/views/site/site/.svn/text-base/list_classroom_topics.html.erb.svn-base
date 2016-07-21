@@ -1,7 +1,0 @@
-<div style = "font-size:12px; color: #000000;padding-left:10px;">
-
-	<%= render :partial => "classroom_topic_remove" -%>
-
-</div>	
-
-

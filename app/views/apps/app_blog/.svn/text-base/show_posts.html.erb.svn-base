@@ -1,9 +1,0 @@
-
-	<% unless first_post.nil? -%>
-		<%= render :partial => "apps/app_blog/show_post", :locals=> {:blog_post => first_post, :app=>app} %>			
-	<% end -%>
-	<% blog.blog_posts.active.each_with_index do |post, idx| -%>
-	    <% unless post == first_post -%>
-	    	<%= render :partial => "apps/app_blog/show_post", :locals=> {:blog_post => post, :app=>app} %>			
-		<% end -%>
-	<% end -%>

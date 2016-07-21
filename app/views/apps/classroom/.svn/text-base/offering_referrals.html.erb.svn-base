@@ -1,5 +1,0 @@
-<div id="offering_referrals">
-
-    <%= render :partial => "apps/classroom/offering_referrals", :locals => {:admin => @admin, :offering => @classroom}  %>
-
-</div>	

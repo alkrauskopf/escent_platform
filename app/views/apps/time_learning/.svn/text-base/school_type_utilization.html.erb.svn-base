@@ -1,5 +1,0 @@
-<div >
-	<%unless @school_type.nil? -%>
-	    <%= render :partial => "/apps/time_learning/school_type_itl_dashboard", :locals => {:school_type => @school_type, :app => @app}  %>
-	<% end -%>
-</div>

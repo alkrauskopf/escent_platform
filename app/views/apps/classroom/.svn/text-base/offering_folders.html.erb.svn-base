@@ -1,5 +1,0 @@
-<div >
-
-    <%= render :partial => "apps/classroom/offering_folders", :locals => {:admin => @admin, :app=>@app}  %>
-
-</div>	

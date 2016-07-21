@@ -1,4 +1,0 @@
-
-
-		<%= render (:partial => "apps/shared/show_results", :locals => {:survey => @schedule, :offering=> @offering, :teacher => @teacher, :observer => @observer}) %>	
-

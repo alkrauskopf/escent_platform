@@ -1,4 +1,0 @@
-
-
-    <%= render :partial => "apps/classroom/edit_classroom_lu", :locals => {:admin => @admin, :lu=> @topic}  %>
-

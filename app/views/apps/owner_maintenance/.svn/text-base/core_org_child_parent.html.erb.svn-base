@@ -1,9 +1,0 @@
-<div>
-
-
-	<% if @current_user.app_superuser?(@app) -%>
-		<%= render :partial => "/apps/owner_maintenance/core_org_child_parent", :locals => {:app => @app, :org=>@org} %>
-	<% end -%>
-
-</div>
-

@@ -1,5 +1,0 @@
-<div >
-
-	    <%= render :partial => "/apps/time_learning/manage_belt_user", :locals => {:observer=> @user, :app=>@app}  %>
-
-</div>

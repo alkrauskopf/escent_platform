@@ -1,5 +1,0 @@
-<% if @content -%>
-	<%= render :partial => "/shared/content", :locals => {:panel_id_prefix => "content_show", :content => @content} %>
-<% else -%>
-	This topic has no content.
-<% end -%>

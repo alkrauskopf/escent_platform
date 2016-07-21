@@ -1,4 +1,0 @@
-<div >
-
-	<%= render :partial => "/apps/blogs/list_blogs", :locals => {:b_type => @blog_type, :blog_app => @blog_app ? @blog_app : nil}%>
-</div>

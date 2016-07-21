@@ -1,4 +1,0 @@
-
-<div >
-    <%= render :partial => "/apps/shared/show_app_resources", :locals => {:admin => @admin, :app => @app, :pool => @active_pool}  %> 
-</div>

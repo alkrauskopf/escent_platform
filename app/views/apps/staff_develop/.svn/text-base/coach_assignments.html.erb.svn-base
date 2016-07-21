@@ -1,6 +1,0 @@
-
-<div id="cycle_update"> 
-
-    <%= render :partial => "apps/staff_develop/coach_assignments", :locals => {:admin => @admin, :app => @app, :coach => nil} %>
-
-</div>	

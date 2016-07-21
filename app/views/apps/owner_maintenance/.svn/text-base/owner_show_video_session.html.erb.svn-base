@@ -1,9 +1,0 @@
-<div>
-
-
-	<% if @current_user.app_superuser?(@app) -%>
-		<%= render :partial => "/apps/owner_maintenance/owner_show_video_session", :locals => {:app => @app, :video=>@video} %>
-	<% end -%>
-
-</div>
-

@@ -1,6 +1,0 @@
-<% if @current_user -%>
-	<% unless @current_user.has_authorization_level_for?(@current_organization, "discussion_moderator") -%>
-		<% display_value = "none;" %>
-	<% end -%>	
-Report as: <a href="javascript:void(0)" class="spam report">spam</a> / <a href="javascript:void(0)" class="offensive report">offensive</a>
-<% end -%>

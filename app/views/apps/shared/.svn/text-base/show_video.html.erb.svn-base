@@ -1,6 +1,0 @@
-<% if @entity && @entity.class == TltSession.first.class-%>
-	<%= render :partial => "/apps/shared/show_video", :locals => {:code => @entity.tlt_session_video.embed_code} %>
-<% else -%>
-	No Entity To Show.
-<% end -%>
-

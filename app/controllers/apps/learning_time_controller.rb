@@ -1157,4 +1157,12 @@ class Apps::LearningTimeController  < ApplicationController
  def set_org_type
    @org_type = OrganizationType.find_by_id(params[:organization_type_id]) rescue nil
  end
+ 
+ def cycle_activity_list(cycl)
+   if @current_provider.nil? || cycl.nil?
+     @activity_list = []
+   else
+     @activity_list = @current_cycle.activities.for_client.active
+   end
+ end
 end

@@ -1,0 +1,104 @@
+
+@import "application-variables.scss";
+
+
+.elt_container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.activity_list {
+  font-size: 120%;
+  color: $blue_text;
+  text-align: center;
+  padding-bottom:2em;
+}
+
+
+.activity_panel {
+  color: $red_text;
+  text-align: center;
+  font-size: 110%;
+  background-color: transparent;
+  line-height:2em;
+  padding-bottom:1em;
+}
+
+
+.activity_form_box {
+  width:100%;
+  padding-bottom:1em;
+}
+
+/*      needed below?  */
+
+.master_table {
+  width:850px;
+  border:1px solid #000000;
+  margin-top:45px;
+  margin-left:-5px;
+  /*  padding-left:20%;
+    padding-top:3em;
+    padding-bottom:1em;
+    */
+}
+
+.pov_association_loading {
+  display: none;
+  margin: auto;
+  width: 150px;
+}
+
+.image_list-container {
+  padding-left:20%;
+  padding-top:3em;
+  padding-bottom:1em;
+}
+
+.image_panel {
+  padding-left:0%;
+  padding-top:1em;
+  padding-bottom:1em;
+}
+
+
+.standards_panel {
+  min-height: 300em;
+  backround: $panel_background;
+  width:100%;
+  padding-bottom:2em;
+}
+
+.panel-palette_1 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_1;
+  border-color: #ddd;
+}
+
+.panel-palette_2 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_2;
+  border-color: #ddd;
+}
+.panel-palette_3 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_3;
+  border-color: #ddd;
+}
+
+.panel-palette_4 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_4;
+  border-color: #ddd;
+}
+
+.panel-palette_5 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_5;
+  border-color: #ddd;
+}

@@ -1,25 +1,18 @@
-<div style ='padding-bottom:20px'>
-	<div style ="text-align:center; color: #2061a5; font-size:16px; margin-top:0px; padding-top:20px; padding-bottom:20px; font-weight:bold">
-		<strong><%= @standard.name %>&nbsp;Element</strong>
-	</div>
-	<%= render :partial => "/shared/error_and_notice" %>
-  <div class="Form clear">
+<div class="container">
+  <div class= 'panel_title_blue'>
+    <%= @standard.name %>&nbsp;Element
+  </div>
+  <%= render :partial => "/shared/error_and_notice" %>
+  <div class="Form_Container clear">
     <%= form_for(:elt_element, :url => elt_config_standard_element_add_path(:organization_id => @current_organization, :elt_element_id=>@element, :elt_standard_id => @standard)) do |f| %>
-      <%= render :partial => "/apps/learning_time_standards/form_element" %>
-      <div class="FormRow">
-        <div class="FormRowTitle">
+        <%= render :partial => "/apps/learning_time_standards/form_element" %>
+        <div class="Form_Row">
+          <div class="Form_Row_Title">
+          </div>
+          <div class="Form_Row_Data">
+            <%= f.submit :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+          </div>
         </div>
-        <div class="FormRowData" style= "margin-left:25px">
-          <%= f.submit :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
-        </div>
-      </div>
-      </div>
     <% end -%>
   </div>
-
-<style type="text/css" media="screen">
-.FormRowData { width: auto; }
-.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
-.FormSectionTitle { margin-top: 10px;}
-* html .FormRow { float: none; display: block; width: 530px; }
-</style>
+</div>

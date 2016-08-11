@@ -1,80 +1,80 @@
 <div id="manage_elmnt_indicator_<%= element.public_id%>">
-  <div style="float:none;width:96.7%;" class="mempro_box clear" style="margin-left:00px;">
-  <table  style="border:0px solid #ddd; width:99%; font-size:11px; padding-top:5px; padding-bottom:5px; color:#2061a5;">
-    <tbody>
-    <tr style="border:0px solid #ddd; ">
-      <td colspan=4 style="text-align:center; font-size:14px; color:<%=element.e_font_color %>; background:<%=element.form_background%>">
-        <%= pluralize(element.indicators.size, ' Indicator')%>&nbsp;for&nbsp;<%= element.name %>
-      </td>
-    </tr>
-    <tr style="border:0px solid #ddd; ">
-      <td colspan=4 style="line-height:1em; ">
-        &nbsp;
-      </td>
-    </tr>
-    <% element.indicators.each do |indicator| -%>
-        <% active_button = indicator.active? ? "button_enabled.png" : "button_disabled.png"-%>
-        <tr style="border:0px solid #ddd; ">
-          <td style="border:0px solid #ddd;  width:10%; padding-left:7%">
+  <div style="float:none;width:96.7%;">
+    <table  style="border:0px solid #ddd; width:99%; font-size:11px; padding-top:5px; padding-bottom:5px; color:#2061a5;">
+      <tbody>
+      <tr style="border:0px solid #ddd; ">
+        <td colspan=4 style="text-align:center; font-size:14px; color:<%=element.e_font_color %>; background:<%=element.form_background%>">
+          <%= pluralize(element.indicators.size, ' Indicator')%>&nbsp;for&nbsp;<%= element.name %>
+        </td>
+      </tr>
+      <tr style="border:0px solid #ddd; ">
+        <td colspan=4 style="line-height:1em; ">
+          &nbsp;
+        </td>
+      </tr>
+      <% element.indicators.each do |indicator| -%>
+          <% active_button = indicator.active? ? "button_enabled.png" : "button_disabled.png"-%>
+          <tr style="border:0px solid #ddd; ">
+            <td style="border:0px solid #ddd;  width:10%; padding-left:7%">
               <span class="fsn-button ui-button ui-state-default ui-corner-all">
                 <%= link_to 'Edit', elt_config_standard_element_indicator_edit_path(:elt_std_indicator_id => indicator, :organization_id => @current_organization) %>
               </span>
-          </td>
-          <td id="toggle_active_i<%= indicator.public_id %>" style="border:0px solid #ddd;  width:2%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:top" >
-            <%= (image_tag active_button,:width => 10) %>
-          </td>
-          <td style="border:0px solid #ddd; text-align:left; font-weight:normal;">
+            </td>
+            <td id="toggle_active_i<%= indicator.public_id %>" style="border:0px solid #ddd;  width:2%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:top" >
+              <%= (image_tag active_button,:width => 10) %>
+            </td>
+            <td style="border:0px solid #ddd; text-align:left; font-weight:normal;">
               &nbsp;<%= indicator.position %>)&nbsp<%=indicator_tiered_label(indicator)%>&nbsp;<%= indicator.description%>
-            <span style="font-size:10px;">
+              <span style="font-size:10px;">
               &nbsp;&nbsp;(<%= pluralize(indicator.descriptors.size, ' Descriptor') %>)
             </span>
-          </td>
-          <% if indicator.active? %>
-            <td style="border:0px solid #ddd;  width:15%;  padding-left:0px; padding-top:3px; vertical-align:top" >
-              &nbsp;
             </td>
-          <% else %>
-            <td  style="border:0px solid #ddd; width:15%;" >
+            <% if indicator.active? %>
+                <td style="border:0px solid #ddd;  width:15%;  padding-left:0px; padding-top:3px; vertical-align:top" >
+                  &nbsp;
+                </td>
+            <% else %>
+                <td  style="border:0px solid #ddd; width:15%;" >
               <span id="destroy_i<%= indicator.public_id %>" class="fsn-button ui-button ui-state-default ui-corner-all" style ="cursor:pointer">
                 Destroy
               </span>
-            </td>
-          <% end %>
-          <script type="text/javascript">
-            jQ(document).ready(function() {
-              jQ("#toggle_active_i<%= indicator.public_id %>").click(function() {
-                var url = "<%= elt_config_standard_element_indicator_activate_url(:organization_id => @current_organization, :elt_std_indicator_id => indicator) %>";
-                jQ.get(url,{},  function(data) {
-                  jQ("#manage_elmnt_indicator_<%= element.public_id%>").html(data);
-                  jQ("#manage_elmnt_indicator_<%= element.public_id%>").show();
-                });
-              })
-            });
-          </script>
-          <script type="text/javascript">
-            jQ(document).ready(function() {
-              jQ("#destroy_i<%= indicator.public_id %>").click(function() {
-                var url = "<%= elt_config_standard_element_indicator_destroy_url(:organization_id => @current_organization, :elt_std_indicator_id => indicator) %>";
-                jQ.get(url,{},  function(data) {
-                  jQ("#manage_elmnt_indicator_<%= element.public_id%>").html(data);
-                  jQ("#manage_elmnt_indicator_<%= element.public_id%>").show();
-                });
-              })
-            });
-          </script>
-        </tr>
+                </td>
+            <% end %>
+            <script type="text/javascript">
+              jQ(document).ready(function() {
+                jQ("#toggle_active_i<%= indicator.public_id %>").click(function() {
+                  var url = "<%= elt_config_standard_element_indicator_activate_url(:organization_id => @current_organization, :elt_std_indicator_id => indicator) %>";
+                  jQ.get(url,{},  function(data) {
+                    jQ("#manage_elmnt_indicator_<%= element.public_id%>").html(data);
+                    jQ("#manage_elmnt_indicator_<%= element.public_id%>").show();
+                  });
+                })
+              });
+            </script>
+            <script type="text/javascript">
+              jQ(document).ready(function() {
+                jQ("#destroy_i<%= indicator.public_id %>").click(function() {
+                  var url = "<%= elt_config_standard_element_indicator_destroy_url(:organization_id => @current_organization, :elt_std_indicator_id => indicator) %>";
+                  jQ.get(url,{},  function(data) {
+                    jQ("#manage_elmnt_indicator_<%= element.public_id%>").html(data);
+                    jQ("#manage_elmnt_indicator_<%= element.public_id%>").show();
+                  });
+                })
+              });
+            </script>
+          </tr>
       <% end -%>
-        <tr style="border:0px solid #ddd; ">
-          <td style="border:0px solid #ddd;  padding-top:10px;width:16%;">
+      <tr style="border:0px solid #ddd; ">
+        <td style="border:0px solid #ddd;  padding-top:10px;width:16%;">
             <span class="fsn-button ui-button ui-state-default ui-corner-all">
               <%= link_to 'New Indicator', elt_config_standard_element_indicator_add_path(:elt_element_id => element, :organization_id => @current_organization) %>
             </span>
-          </td>
-          <td colspan=3 style="border:0px solid #ddd;">
-            &nbsp;
-          </td>
-        </tr>
-    </tbody>
-  </table>
+        </td>
+        <td colspan=3 style="border:0px solid #ddd;">
+          &nbsp;
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>

@@ -1,48 +1,42 @@
-<%= form_for(:elt_standard, :url => elt_config_standard_edit_path(:organization_id => @current_organization,
-                                  :elt_standard_id=>@standard.public_id, :task=>@task, :function => @task)) do |f| %>
-  <div class="formBox">
-    <div class="FormRow">
-      <div class="FormRowTitle">
-        Name:
+<div class="container Form_Container">
+  <%= form_for(:elt_standard, :url => elt_config_standard_edit_path(:organization_id => @current_organization,
+                                                                    :elt_standard_id=>@standard.public_id, :task=>@task, :function => @task)) do |f| %>
+      <div class="Form_Row">
+        <div class="Form_Row_Title">
+          Name:
+        </div>
+        <div class="Form_Row_Data">
+          <%= text_field :elt_standard, :name, :value => @standard.name, :size => 50 %>
+        </div>
       </div>
-      <div class="FormRowData" style= "margin-left:25px">
-        <%= text_field :elt_standard, :name, :value => @standard.name, :size => 50 %>
+      <div class="Form_Row">
+        <div class="Form_Row_Title">
+          Abbrev:
+        </div>
+        <div class="Form_Row_Data">
+          <%= text_field :elt_standard, :abbrev, :value => @standard.abbrev, :size => 10 %>
+        </div>
       </div>
-    </div>
-    <div class="FormRow">
-      <div class="FormRowTitle">
-        Abbrev:
+      <div class="Form_Row">
+        <div class="Form_Row_Title">
+          Public?
+        </div>
+        <div class="Form_Row_Data">
+          <%= check_box :elt_standard, :is_public, :checked=> @standard.is_public %>
+        </div>
       </div>
-      <div class="FormRowData" style= "margin-left:25px">
-        <%= text_field :elt_standard, :abbrev, :value => @standard.abbrev, :size => 10 %>
+      <div class="Form_Row">
+        <div class="Form_Row_Title">
+          Active?
+        </div>
+        <div class="Form_Row_Data">
+          <%= check_box :elt_standard, :is_active, :checked=> @standard.is_active%>
+        </div>
       </div>
-    </div>
-    <div class="FormRow">
-      <div class="FormRowTitle">
-      Public?
+      <div class="Form_Row">
+        <div class="Form_Row_Title">
+          <%= f.submit :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+        </div>
       </div>
-      <div class="FormRowData" style= "margin-left:25px">
-        <%= check_box :elt_standard, :is_public, :checked=> @standard.is_public %>
-      </div>
-    </div>
-    <div class="FormRow">
-      <div class="FormRowTitle">
-        Active?
-      </div>
-      <div class="FormRowData" style= "margin-left:25px">
-        <%= check_box :elt_standard, :is_active, :checked=> @standard.is_active%>
-      </div>
-    </div>
-    <div class="FormRow">
-      <div class="FormRowTitle">
-        <%= f.submit :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
-      </div>
-    </div>
-  </div>
-<% end %>
-<style type="text/css" media="screen">
-.FormRowData { width: auto; }
-.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
-.FormSectionTitle { margin-top: 10px;}
-* html .FormRow { float: none; display: block; width: 530px; }
-</style>
+  <% end %>
+</div>

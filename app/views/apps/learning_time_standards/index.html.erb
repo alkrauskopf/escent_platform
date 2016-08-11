@@ -1,14 +1,16 @@
-<div id="main_content">
-  <div style="text-align:center;  padding-top:10px; word-wrap:break-word; color: #C83A14;  font-size: 16px; font-style: normal; font-weight: bold">
+<div class='container'>
+  <div class= 'panel_title_blue'>
     <%= @current_organization.provider_app_name(@current_application) %> Standards
   </div>
-  <div style="float:none;width:96%;" class="mempro_box clear">
-    <div id="centerpane_appl">
-      <span class="fsn-button ui-button ui-state-default ui-corner-all">
-        <%= link_to 'Create New Standard', elt_config_standard_edit_path(:organization_id => @current_organization,:task=>'New' ),{:target=>'_blank'}  %>
-      </span>
+
+  <%= render :partial => "/apps/learning_time_standards/bootstrap_test" %>
+
+  <div class="row">
+    <hr>
+    <div class="col-md-2" style='font-size:10px;'>
+      <%= link_to 'New Standard', elt_config_standard_edit_path(:organization_id => @current_organization,:task=>'New' ), {class: 'btn btn-default', :target=>'_blank'}  %>
     </div>
-    <div style="width:780px; border:0px solid #ddd; ">
+    <div class="col-md-9">
       <%= render :partial => "manage_standards" %>
     </div>
   </div>

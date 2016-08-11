@@ -1,21 +1,26 @@
 <div id="manage_standards" style="padding-bottom:30px;">
   <div style="text-align:left;"><%= render :partial => "/shared/error_and_notice" %></div>
-  <table  style="border:1px solid #ddd; width:700px; font-size: 13px; margin-top:20px; margin-bottom:20px; margin-left:130px; color:#2061a5;">
+  <table  style="border:1px solid #ddd; width:100%; font-size: 13px; margin-top:0px; margin-bottom:0px; margin-left:0px; color:#2061a5;">
     <thead>
-        <tr style="border:1px solid #ddd; ">
-          <th  style=" border:0px solid #ddd; font-size:10px; font-weight:normal; text-align:center; ">
-            Public
-          </th>
-          <th  style=" border:0px solid #ddd; font-size:10px; font-weight:normal; text-align:center; ">
-            Active
-          </th>
-          <th  colspan=3 style=" border:0px solid #ddd; font-size:12px; font-weight:bold; text-align:center; ">
-            <%= pluralize(@standards.size,  " Available Standard") %>
-          </th>
-        </tr>
+    <tr style="border:1px solid #ddd; ">
+      <th  style=" border:0px solid #ddd; font-size:10px; font-weight:normal; text-align:center; ">
+        Public
+      </th>
+      <th  data-toggle="tooltip" data-placement="right" title="Tooltip on right" style=" border:0px solid #ddd; font-size:10px; font-weight:normal; text-align:center; ">
+        Active
+      </th>
+      <th  colspan=3 style=" border:0px solid #ddd; font-size:12px; font-weight:bold; text-align:center; ">
+        <%= pluralize(@standards.size,  " Available Standard") %>
+      </th>
+    </tr>
     </thead>
+    <script>
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
     <tbody>
-      <% @standards.each do |standard| -%>
+    <% @standards.each do |standard| -%>
         <% color_text = @current_organization == standard.organization ? "#C73914" : "#2061a5" %>
         <% active_button = standard.active? ? "button_enabled.png" : "button_disabled.png"-%>
         <% public_button = standard.public? ? "button_enabled.png" : "button_disabled.png"-%>
@@ -32,7 +37,7 @@
                 <%= link_to 'Edit', elt_config_standard_edit_path(:organization_id => @current_organization,:task=>'Update', :elt_standard_id=>standard.public_id ),{:target=>'_blank'}  %>
               </span>
             <% else%>
-              &nbsp;
+                &nbsp;
             <% end %>
           </td>
           <td style="border:0px solid #ddd; text-align:left; font-size:12px; padding-left:3px;padding-bottom:7px; font-weight:bold; color: <%=color_text%>">
@@ -43,26 +48,26 @@
             </span>
           </td>
           <% if standard.destroyable?(@current_organization) %>
-            <td id="destroy_<%= standard.public_id %>" style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
+              <td id="destroy_<%= standard.public_id %>" style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
               <span class="fsn-button ui-button ui-state-default ui-corner-all">
                 Destroy
               </span>
-            </td>
+              </td>
           <% else %>
-            <td style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
-              &nbsp;
-            </td>
+              <td style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
+                &nbsp;
+              </td>
           <% end %>
           <script type="text/javascript">
-              jQ(document).ready(function() {
-                  jQ("#destroy_<%= standard.public_id %>").click(function() {
-                      var url = "<%= elt_config_standard_destroy_url(:organization_id => @current_organization, :elt_standard_id => standard) %>";
-                      jQ.get(url,{},  function(data) {
-                          jQ("#manage_standards").html(data);
-                          jQ("#manage_standards").show();
-                      });
-                  })
-              });
+            jQ(document).ready(function() {
+              jQ("#destroy_<%= standard.public_id %>").click(function() {
+                var url = "<%= elt_config_standard_destroy_url(:organization_id => @current_organization, :elt_standard_id => standard) %>";
+                jQ.get(url,{},  function(data) {
+                  jQ("#manage_standards").html(data);
+                  jQ("#manage_standards").show();
+                });
+              })
+            });
           </script>
           <script type="text/javascript">
             jQ(document).ready(function() {
@@ -87,17 +92,17 @@
             });
           </script>
           <script type="text/javascript">
-              jQ(document).ready(function() {
-                  jQ("#edit_<%= standard.public_id %>").click(function() {
-                      var name = jQ('#name_<%= standard.public_id%>').val();
-                      var abbrev = jQ('#abbrev_<%= standard.public_id%>').val();
-                      var url = "<%= elt_config_standard_update_url(:organization_id => @current_organization, :elt_standard_id => standard) %>";
-                      jQ.get(url,{'name':name, 'abbrev':abbrev},  function(data) {
-                          jQ("#manage_standards").html(data);
-                          jQ("#manage_standards").show();
-                      });
-                  })
-              });
+            jQ(document).ready(function() {
+              jQ("#edit_<%= standard.public_id %>").click(function() {
+                var name = jQ('#name_<%= standard.public_id%>').val();
+                var abbrev = jQ('#abbrev_<%= standard.public_id%>').val();
+                var url = "<%= elt_config_standard_update_url(:organization_id => @current_organization, :elt_standard_id => standard) %>";
+                jQ.get(url,{'name':name, 'abbrev':abbrev},  function(data) {
+                  jQ("#manage_standards").html(data);
+                  jQ("#manage_standards").show();
+                });
+              })
+            });
           </script>
         </tr>
         <tr style="border-top:0px solid #ddd; ">
@@ -105,16 +110,7 @@
             <%= render :partial => "manage_standard_elements", :locals=>{:standard => standard} %>
           </td>
         </tr>
-      <% end -%>
+    <% end -%>
     </tbody>
   </table>
-
 </div>
-
-
-
-
-
-
-
-

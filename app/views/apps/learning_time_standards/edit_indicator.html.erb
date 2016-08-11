@@ -1,30 +1,22 @@
-<div style ='padding-bottom:20px'>
-  <div style ="text-align:center; color: #2061a5; font-size:16px; margin-top:0px; padding-top:20px; padding-bottom:20px; font-weight:bold">
-    <strong><%= @element.name %>&nbsp;Indicator</strong>
+<div class='container'>
+  <div class= 'panel_title_blue'>
+    <%= @element.name %>&nbsp;Indicator
   </div>
   <%= render :partial => "/shared/error_and_notice" %>
-  <div class="Form clear" >
+  <div class="Form_Container clear">
     <span class="fsn-button ui-button ui-state-default ui-corner-all" style ='margin:20px'>
       <%= link_to 'Return', elt_config_standard_element_edit_path(:elt_element_id => @element, :organization_id => @current_organization) %>
     </span>
-     <%= form_for(:elt_std_indicator, :url => elt_config_standard_element_indicator_update_path(:organization_id => @current_organization, :elt_std_indicator_id => @indicator)) do |f| %>
+    <%= form_for(:elt_std_indicator, :url => elt_config_standard_element_indicator_update_path(:organization_id => @current_organization, :elt_std_indicator_id => @indicator)) do |f| %>
         <%= render :partial => "/apps/learning_time_standards/form_indicator" %>
-        <div class="FormRow">
-          <div class="FormRowTitle">
+        <div class="Form_Row">
+          <div class="Form_Row_Title">
           </div>
-          <div class="FormRowData" style= "margin-left:25px">
+          <div class="Form_Row_Data">
             <%= f.submit :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
           </div>
         </div>
-        </div>
     <% end -%>
-    <%= render :partial => "apps/learning_time_standards/indicator_descriptors", :locals=>{:indicator => @indicator} %>
-
-    </div>
-
-<style type="text/css" media="screen">
-  .FormRowData { width: auto; }
-  .form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
-  .FormSectionTitle { margin-top: 10px;}
-  * html .FormRow { float: none; display: block; width: 530px; }
-</style>
+  </div>
+  <%= render :partial => "apps/learning_time_standards/indicator_descriptors", :locals=>{:indicator => @indicator} %>
+</div>

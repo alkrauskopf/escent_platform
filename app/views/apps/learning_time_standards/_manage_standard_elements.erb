@@ -1,30 +1,30 @@
-<div id="manage_std_element_<%= standard.public_id%>">
+<<div id="manage_std_element_<%= standard.public_id%>">
   <% if standard.editable?(@current_organization) %>
-    <% elements = standard.elements %>
-    <% edit = true %>
+      <% elements = standard.elements %>
+      <% edit = true %>
   <% else %>
-    <% elements = standard.elements.active.by_position %>
-    <% edit = false %>
+      <% elements = standard.elements.active.by_position %>
+      <% edit = false %>
   <% end %>
   <table  style="border:0px solid #ddd; width:99%; font-size:11px; padding-top:5px; padding-bottom:5px; color:#2061a5;">
     <tbody>
-      <% elements.each do |element| -%>
+    <% elements.each do |element| -%>
         <% active_button = element.active? ? "button_enabled.png" : "button_disabled.png"-%>
         <tr style="border:0px solid #ddd; ">
           <% if edit %>
-            <td style="border:0px solid #ddd;  width:16%;">
+              <td style="border:0px solid #ddd;  width:16%;">
                 &nbsp;
-            </td>
-            <td id="toggle_active_e<%= element.public_id %>" style="border:0px solid #ddd;  width:4%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:top" >
-              <%= (image_tag active_button,:width => 10) %>
-            </td>
+              </td>
+              <td id="toggle_active_e<%= element.public_id %>" style="border:0px solid #ddd;  width:4%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:top" >
+                <%= (image_tag active_button,:width => 10) %>
+              </td>
           <% else %>
-            <td style="border:0px solid #ddd;  width:16%;">
-              &nbsp;
-            </td>
-            <td style="border:0px solid #ddd;  width:4%; padding-left:5px; padding-top:7px; vertical-align:top" >
-              <%= (image_tag active_button,:width => 10) %>
-            </td>
+              <td style="border:0px solid #ddd;  width:16%;">
+                &nbsp;
+              </td>
+              <td style="border:0px solid #ddd;  width:4%; padding-left:5px; padding-top:7px; vertical-align:top" >
+                <%= (image_tag active_button,:width => 10) %>
+              </td>
           <% end %>
           <td style="border:0px solid #ddd; text-align:left; font-weight:normal;">
             <span style="color:<%=element.e_font_color %>; background:<%=element.form_background%>">
@@ -36,15 +36,15 @@
             </span>
           </td>
           <% if edit %>
-            <td style="border:0px solid #ddd;  width:8%;  padding-left:0px; padding-top:3px; vertical-align:top" >
+              <td style="border:0px solid #ddd;  width:8%;  padding-left:0px; padding-top:3px; vertical-align:top" >
               <span class="fsn-button ui-button ui-state-default ui-corner-all">
                 <%= link_to 'Edit', elt_config_standard_element_edit_path(:elt_element_id => element, :organization_id => @current_organization) %>
               </span>
-            </td>
+              </td>
           <% else %>
-            <td style="border:0px solid #ddd;  width:9%;  padding-left:0px; padding-top:3px; vertical-align:top" >
-              &nbsp;
-            </td>
+              <td style="border:0px solid #ddd;  width:9%;  padding-left:0px; padding-top:3px; vertical-align:top" >
+                &nbsp;
+              </td>
           <% end %>
           <script type="text/javascript">
             jQ(document).ready(function() {
@@ -58,8 +58,8 @@
             });
           </script>
         </tr>
-      <% end -%>
-      <% if edit %>
+    <% end -%>
+    <% if edit %>
         <tr style="border:0px solid #ddd; ">
           <td style="border:0px solid #ddd;  width:16%;">
             <span class="fsn-button ui-button ui-state-default ui-corner-all">

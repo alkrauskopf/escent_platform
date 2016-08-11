@@ -14,20 +14,21 @@ class Apps::LearningTimeController  < ApplicationController
  before_filter :clear_notification, :except =>[]
  before_filter :initialize_parameters, :except =>[:select_kb_filters, :case_indicators_element_rubric]
  before_filter :increment_app_views, :only=>[:index]
-  
-  def index
-    initialize_parameters
-    standards_with_rubric
-    if params[:function] && params[:function] == "New"
-      new_case = EltCase.new
-      new_case.user_id = @current_user.id
-      new_case.organization_id = @current_organization.id
-      new_case.user_name = @current_user.last_name_first
-      if new_case.save
-        redirect_to elt_case_add_path(:elt_case_id => @current_user.elt_cases.last, :organization_id=>@current_organization)
-      end    
-    end
-  end
+
+ def index
+   initialize_parameters
+   standards_with_rubric
+   cycle_activity_list(@current_cycle)
+   if params[:function] && params[:function] == "New"
+     new_case = EltCase.new
+     new_case.user_id = @current_user.id
+     new_case.organization_id = @current_organization.id
+     new_case.user_name = @current_user.last_name_first
+     if new_case.save
+       redirect_to elt_case_add_path(:elt_case_id => @current_user.elt_cases.last, :organization_id=>@current_organization)
+     end
+   end
+ end
 
  def manage_frameworks
    initialize_parameters

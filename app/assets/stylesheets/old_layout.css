@@ -2,7 +2,7 @@
    layout.css
    * Sets up site layout
 -------------------------------------------------------------- */
-#container { width: 850px; margin: 0 auto; }
+#container { width: 950px; margin: 0 auto; }
 #control_panel { min-height: 300px; }
 
 /* Observation Panel  */
@@ -123,7 +123,7 @@ span .back_to_roles { display: none; }
 .discussion_root_login_notice { position: absolute; left: 0; top: 6px; }
 .share_content_login_notice { position: absolute; left: 30px; top: 6px; }
 .discussion_root_login_submit button,
-.share_content_login_submit button { margin-left: 10px; }
+.share_content_login_submit button { margin-left: 10px; } 
 
 .share_pilot_feedback_login_submit { position: relative; padding-left: 226px; padding-top: 10px; }
 .share_pilot_feedback_login p { padding-left: 28px; }
@@ -164,7 +164,7 @@ span .back_to_roles { display: none; }
 .discussion_reply_login_submit { position: relative; padding-left: 200px; padding-top: 10px; }
 .share_discussion_form_submit { position: relative; padding-left: 240px; padding-top: 10px; }
 .discussion_reply_login_notice { position: absolute; left: 0; top: 0; }
-.discussion_reply_form_submit button,
+.discussion_reply_form_submit button, 
 .discussion_reply_login_submit button,
 .share_discussion_form_submit button,
 .share_content_form_submit button { margin-left: 10px; }

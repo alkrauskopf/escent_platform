@@ -34,8 +34,8 @@ input.text {
 .share_content_login input.disabled_password,
 .share_pilot_feedback_login input.disabled_password,
 .discussion_root_login input.disabled_password,
-.discussion_reply_login input.disabled_password {
-  background-image: url(<%= asset_path('bg_input_field_disabled_password_shadow.gif') %>);
+.discussion_reply_login input.disabled_password { 
+	background-image: url(<%= asset_path('bg_input_field_disabled_password_shadow.gif') %>);
 }
 
 input#keywords { margin-top: 2px; }
@@ -62,54 +62,25 @@ textarea.invalid    { border-color:#FBC2C4; }
 /* for form style and font */
 .formBox h2, .formBox p, .formBox h3 { clear: both; }
 .formBox p {
-  padding: 15px 0px 5px 16px;
-  font-size:12px;
-  position: relative;
+	padding: 15px 0px 5px 16px;
+	font-size:12px; 
+	position: relative;
 }
 
 .formBox p label {
-  float: left;
-  width: 260px;
-  text-align: right;
+	float: left;
+	width: 260px;
+	text-align: right;
 }
-.formBox form label.right-label {
-  width: auto;
-  line-height: 1.3em;
-  margin-left: 5px;
-  margin-right: 15px;
+.formBox form label.right-label { 
+	width: auto;
+	line-height: 1.3em;
+	margin-left: 5px;
+	margin-right: 15px;
 }
 .formBox form input.submit { margin-left: 160px; margin-right: 10px; }
 .formBox p strong { color: #333; line-height: 1.8em; }
 
-.Form_Container {
-  width:96%;
-  margin:2%;
-  padding-bottom:3em;
-  padding-top:1em;
-}
-
-.Form_Row{
-  width: 95%;
-  padding:0em;
-  float:left;
-  padding-bottom:1em;
-}
-
-.Form_Row_Title{
-  font-family: Verdana,Arial,Helvetica,sans-serif;
-  font-size:12px;
-  text-align:right;
-  padding:0px;
-  float:left;
-  width:30%;
-  padding-right:1em;
-
-}
-.Form_Row_Data{
-  float:left;
-  width:auto;
-  text-align:left;
-}
 
 
 /* Select fields */
@@ -120,10 +91,10 @@ option              { display: block; }
 button              { float: left; }
 /* Success, error & notice boxes for messages and errors. */
 .error,
-.notice,
+.notice, 
 .success       { border:1px solid #ddd; }
 .error ul,
-.notice ul,
+.notice ul, 
 .success ul    { list-style-type:square; }
 .error         { background:#FBE3E4; color:#D12F19; border-color:#FBC2C4; }
 .notice        { background:#FFF6BF; color:#817134; border-color:#FFD324; }

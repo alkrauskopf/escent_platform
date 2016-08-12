@@ -1,0 +1,382 @@
+/******************************************
+	Faith Streams Network Base Site CSS
+*******************************************/
+
+body 
+	{
+		margin: 0;
+		padding: 0;
+		text-align: center;
+		color: #636363;			
+	}
+
+/* Titles 	*/
+.title_large_red{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	color: #C83A14;
+	line-height:20px;	
+}
+
+.title_large_blue{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	color: #2971BD;	
+	line-height:20px;		
+}
+
+.title_large_green{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	color: #AABA0F;	
+	line-height:20px;		
+}
+
+.title_large_orange{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	color: #E9A713;	
+}
+
+
+.title_red{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #C83A14;
+	
+}
+
+.title_red_nobold{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #C83A14;
+	
+}
+
+.title_blue{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #2971BD;	
+}
+
+.title_green{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #AABA0F;	
+}
+
+.title_orange{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #E9A713;	
+}
+
+.text_dark_blue{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #11118A;
+}
+
+
+.form_container{
+	padding:15px;
+	border: 1px solid #DCDCDC;
+}
+/*	Login (login.html.erb)	*/
+.iwing_title_bar{
+	font: 11px Arial, Helvetica, sans-serif;
+	color:#555555;
+	font-weight:bold;
+}
+
+
+
+/* styles for flash message */
+.flash_error, .flash_notice, .flash_success { border:1px solid #ddd; margin-bottom: 10px; }
+.flash_error ul, .flash_notice ul, .flash_success ul { list-style-type:square; }
+.flash_error { background:#FBE3E4; color:#D12F19; border-color:#FBC2C4; }
+.flash_notice { background:#FFF6BF; color:#817134; border-color:#FFD324; }
+.flash_success { background:#E6EFC2; color:#529214; border-color:#C6D880; }
+
+/*--- FSN Master.master ---*/
+	
+.FSNMasterWrapper 
+	{
+		width: 1000px;
+		font-weight:normal;
+		background: #9b0b56;
+		margin: 0 auto;
+		border: 0px;
+		text-align: left;
+	}
+
+.FSNMasterWrapper  #mainContent
+	{ 
+		color:#000000; 
+		padding: 25px;
+	}
+	
+.FSNMasterWrapper #MasterHeaderPane
+	{
+		height:60px;
+		text-align:right;
+		vertical-align:top;
+		padding-bottom:20px;
+	}
+
+.FSNMasterWrapper #MasterNavPane 
+	{
+		background:url(<%= asset_path('hfshim.jpg') %>) repeat-x top left;
+		background-color:#BBDDFF;
+		color:#9B0B56;
+		display:inline-block; 
+		height:45px;
+		line-height:45px;
+		margin-bottom:10px;
+		min-height:45px;
+		text-align:left;
+		vertical-align:middle;
+		width:950px;
+	}
+
+
+.welcomeLabel
+	{
+		color:#9B0B56;
+		font-size:11px;
+		font-weight:bold;
+		text-transform:uppercase;
+	}
+
+a:link, a:visited { color:#1A64AC; }
+a:hover, a:active { color:#1A64AC; text-decoration:none; }
+a img { border:0; text-decoration:none; }
+
+img { border:0; }
+
+h1 { color:#5C8127; margin:.825em 0 .5em 0; font-size:2.125em; }
+h2 { color:#5C8127; margin:.825em 0 .5em 0; font-size:1.75em; }
+h3 { color:#5C8127; margin:.825em 0 .5em 0; font-size:1.5em; }
+h4 { color:#5C8127; margin:.825em 0 .5em 0; font-size:1.25em; }
+h5 {color:#5C8127; margin:.825em 0 .5em 0; font-size:1.125em; }
+h6 {color:#5C8127;margin:.825em 0 .5em 0;font-size:1em; }
+
+/*--- Lists ---*/
+blockquote {margin: 0 0 18px 18px; color:#666666; font-style: italic; }
+
+strong { font-weight:bold; }
+
+em { font-style:italic; }
+
+
+.left 		{float:left;}
+.right 		{float:right;}
+.clearThis 	{clear:both;}
+.small		{font-size:.625em;}
+.large		{font-size:1em;}
+.soft		{color:#D3D3D3;}
+.hide		{display:none;}
+p.last		{margin-bottom:0px;}
+
+
+/*--- Forms ---*/
+		.Form{
+			width:100%;
+		}
+
+
+		.FormRow{
+			width:100%;
+			padding:0px;
+			float:left;
+padding-bottom:10px;
+		}
+
+		.FormRowTitle{
+			font-family: Verdana,Arial,Helvetica,sans-serif;
+			font-size:12px;	
+			padding:0px;
+			float:left;
+			width:30%;
+			padding-right:0px;
+
+		}
+		.FormRowData{
+			float:left;
+			width:70%;
+			text-align:left;
+		}
+		
+.FormSectionTitle{
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-size:12px;	
+	font-weight:bold;			
+	text-align:left;
+}
+
+/*-- Input Elements --*/
+input.text {
+  border: none;
+  background: url(<%= asset_path('bg_input_field_shadow.gif') %>) top left no-repeat;
+  overflow: hidden;
+  height: 15px;
+  margin-top: -2px;
+  margin-right: 10px;
+  vertical-align: middle;
+  padding: 4px 5px 0 5px;
+  font-family: Verdana;
+  font-size: 10px;
+  border-bottom:1px solid #CCCCCC;
+  border-right:1px solid #CCCCCC;
+}
+/*-- Table Elements --*/
+td.center { text-align: center; }
+
+/* styles for flash message */
+.flash_error, .flash_notice, .flash_success { border:1px solid #ddd; margin-bottom: 10px; }
+.flash_error ul, .flash_notice ul, .flash_success ul { list-style-type:square; }
+.flash_error { background:#FBE3E4; color:#D12F19; border-color:#FBC2C4; }
+.flash_notice { background:#FFF6BF; color:#817134; border-color:#FFD324; }
+.flash_success { background:#E6EFC2; color:#529214; border-color:#C6D880; }
+
+/* styles for will paginate */
+/* 
+	Victor remove it and added a new style 
+	You can modify it by youself or undo my change.
+*/
+/* begin removed
+div.pagination {
+	padding: 3px;
+	margin: 3px;
+}
+
+
+div.pagination a {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #AAAADD;
+	
+	text-decoration: none; no underline 
+	color: #000099;
+}
+
+div.pagination a:hover, div.pagination a:active {
+	border: 1px solid #000099;
+	
+	color: #000;
+}
+
+div.pagination span.current {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #000099;
+	
+	font-weight: bold;
+	background-color: #000099;
+	color: #FFF;
+}
+
+div.pagination span.disabled {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #EEE;
+	
+	color: #DDD;
+}
+*/
+.marketing_content{
+	width:500px; 
+	float:left; 
+	margin:10px 0px 0px 50px;
+}
+
+.marketing_content ul{
+padding-left:25px;	
+}
+
+.faq_answer{
+padding-left:15px;
+margin-bottom:10px;
+}
+.digg_pagination {
+	padding-top: 10px;
+  /* self-clearing method: */ }
+	.pagination { margin: 0 auto; }
+  .digg_pagination a, .digg_pagination span {
+	  background: white;
+    padding: .2em .5em;
+    display: block;
+    float: left;
+    margin-right: 1px; }
+  .digg_pagination span.disabled {
+    color: #999;
+    border: 1px solid #DDD; }
+  .digg_pagination span.current {
+    font-weight: bold;
+    background: #2E6AB1;
+    color: white;
+    border: 1px solid #2E6AB1; }
+  .digg_pagination a {
+    text-decoration: none;
+    color: #105CB6;
+    border: 1px solid #9AAFE5; }
+    .digg_pagination a:hover, .digg_pagination a:focus {
+      color: #003;
+      border-color: #003; }
+  .digg_pagination .page_info {
+    background: #2E6AB1;
+    color: white;
+    padding: .4em .6em;
+    width: 22em;
+    margin-bottom: .3em;
+    text-align: center; }
+    .digg_pagination .page_info b {
+      color: #003;
+      background: #6aa6ed;
+      padding: .1em .25em; }
+  .digg_pagination:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden; }
+  * html .digg_pagination {
+    height: 1%; }
+  *:first-child+html .digg_pagination {
+    overflow: hidden; }
+	
+/* Member Profile */
+#memproBox {
+	width:650px;
+	border:1px solid #dadada;
+	padding:15px;
+	margin-left:25px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	color:#636363;
+	font-size:11px;
+	float:left;
+	margin-bottom:10px;
+	background-color:#FFFFFF;
+}
+
+#memproBox a{
+	color:#2176ad;
+	}
+#memproBox .instructions{
+	color:#2176ad;
+	font-size:9px;
+	font-weight:bold;	
+	}	
+
+
+
+

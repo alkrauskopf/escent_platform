@@ -1,30 +1,36 @@
 
   <% if elt_case.updatable?(@current_user)%>
-      <table style="width:800px;margin-left:0px; border:0px solid #000000;">
-        <tbody>
-        <tr>
-          <td  style = " width:39%; color: #C83A14; vertical-align:middle;  text-align:center; padding-left:0px; font-size:12px ">
-            <%= submit_tag 'Exit Without Saving', :class =>"fsn-button ui-button ui-state-default ui-corner-all save", :confirm => "DATA WILL NOT BE SAVED" %>
-          </td>
-          <td  style = " color: #000000; vertical-align:middle; text-align:center; padding-left:0px; font-size:12px ">
-            <%= submit_tag ('Submit ' + (elt_case.elt_type.elt_activity_type.nil? ? '' : elt_case.elt_type.elt_activity_type.name)), :class =>"fsn-button ui-button ui-state-default ui-corner-all save", :confirm => "Are You Sure?" %>
-          </td>
-          <td  style = " width:13%; color: #000000; vertical-align:middle; float:right; padding-left:0px; font-size:12px ">
-              <%= submit_tag 'Destroy', :class =>"fsn-button ui-button ui-state-default ui-corner-all save", :confirm => "DATA WILL BE DESTROYED" %>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <div class='panel_row'>
+        <div class='row'>
+          <hr>
+          <div class='col-md-3 '>
+              <%= submit_tag 'Exit Without Saving', class: 'btn btn-warning btn-xs' %>
+          </div>
+          <div class='col-md-3'>
+            <div style='float:right'>
+              <%= submit_tag ('Submit ' + (elt_case.elt_type.elt_activity_type.nil? ? '' : elt_case.elt_type.elt_activity_type.name)), class: 'btn btn-success btn-xs' %>
+            </div>
+          </div>
+          <div class='col-md-3 '>
+            <div style='float:right'>
+              <%= link_to 'Add Image', elt_case_evidence_add_path(:elt_case_id => elt_case), class: 'btn btn-info btn-xs', :target => '_blank' %>
+            </div>
+          </div>
+          <div class='col-md-3 '>
+            <div style='float:right'>
+              <%= submit_tag 'Destroy', class: 'btn btn-danger btn-xs'%>
+            </div>
+          </div>
+        </div>
+      </div>
   <% else -%>
-      <table style="width:240px;margin-left:0px; border:0px solid #000000;">
-        <tbody>
-        <tr>
-          <td  style = " width:240px; color: #000000; vertical-align:middle; text-align:left; padding-left:60px; font-size:12px ">
-          <span class="fsn-button ui-button ui-state-default ui-corner-all">
-             <%= link_to 'Return', elt_path(:organization_id => @current_organization) %>
-          </span>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <div class='row'>
+        <hr>
+        <div class='col-md-3 '>
+          <%= link_to 'Return', elt_path(:organization_id => @current_organization), class: 'btn btn-primary btn-xs' %>
+        </div>
+        <div class='col-md-9'>
+          &nbsp;
+        </div>
+      </div>
   <% end -%>

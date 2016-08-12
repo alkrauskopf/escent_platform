@@ -48,15 +48,15 @@
             </span>
           </td>
           <% if standard.destroyable?(@current_organization) %>
-              <td id="destroy_<%= standard.public_id %>" style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
+            <td id="destroy_<%= standard.public_id %>" style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
               <span class="fsn-button ui-button ui-state-default ui-corner-all">
                 Destroy
               </span>
-              </td>
+            </td>
           <% else %>
-              <td style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
-                &nbsp;
-              </td>
+            <td style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:8px; vertical-align:top" >
+              &nbsp;
+            </td>
           <% end %>
           <script type="text/javascript">
             jQ(document).ready(function() {
@@ -107,7 +107,7 @@
         </tr>
         <tr style="border-top:0px solid #ddd; ">
           <td colspan=5>
-            <%= render :partial => "manage_standard_elements", :locals=>{:standard => standard} %>
+           <%= render :partial => "manage_standard_elements", :locals=>{:standard => standard} %>
           </td>
         </tr>
     <% end -%>

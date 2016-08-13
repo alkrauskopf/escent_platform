@@ -1,6 +1,6 @@
 class ReportPdf < Prawn::Document
 
-  helper :all # include all helpers, all the time  
+  # helper :all # include all helpers, all the time
   require 'prawn'
 
   def initialize(org)

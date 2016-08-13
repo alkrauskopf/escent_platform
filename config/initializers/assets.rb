@@ -37,7 +37,8 @@ Rails.application.config.assets.precompile += [
     'master/reset.css',
     'master/screen.css',
     'master/style.css',
-    'master/typography.css'
+    'master/typography.css',
+    'apps/learning_time.scss'
       ]
 #
 #Javascript

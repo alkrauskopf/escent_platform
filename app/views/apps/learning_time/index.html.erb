@@ -6,10 +6,7 @@
   <div class="col-md-1"></div>
   <div class="col-md-10 activity_list">
     <div class='activity_panel'>
-      <%= @current_cycle.name + ' Activities'%>
-      <small class="text-muted">
-        &nbsp;&nbsp;(Select Activity To Begin)
-      </small>
+      <%= (!@current_cycle.nil? && @current_cycle.active?) ? (@current_cycle.name + ' Activities') : 'No Cycle Assignment' %>
     </div>
     <% idx = 0 %>
     <div class="list-group">

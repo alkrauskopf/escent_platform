@@ -1156,7 +1156,7 @@ class Apps::LearningTimeController  < ApplicationController
   end
 
   def cycle_activity_list(cycl)
-    if @current_provider.nil? || cycl.nil?
+    if @current_provider.nil? || cycl.nil? || !cycl.active?
       @activity_list = []
     else
       @activity_list = @current_cycle.activities.for_client.active

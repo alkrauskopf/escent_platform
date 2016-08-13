@@ -553,8 +553,7 @@ class Apps::LearningTimeController  < ApplicationController
         element_total = 0
         @activities[std].each do |activity|
           @data_points[activity] ||= {} # Create a sub-hash unless it already exists
-         # @data_points[activity][element] = activity.informing_indicators(element).size
-          @data_points[activity][element] = 5
+          @data_points[activity][element] = activity.informing_indicators(element).size
           element_total += @data_points[activity][element]
           standard_total += @data_points[activity][element]
           grand_total += @data_points[activity][element]

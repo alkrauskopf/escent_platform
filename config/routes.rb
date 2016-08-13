@@ -401,8 +401,8 @@ EscentPartners::Application.routes.draw do |map|
   post '/elt/case/add' => 'apps/learning_time#start_case'
   get '/elt/case/show' => 'apps/learning_time#show_case'
   get '/elt/case/finalize' => 'apps/learning_time#toggle_finalize_case'
-  get '/elt/map/evidence/show' => 'apps/learning_time#show_evidence_map'
-  get '/elt/map/activity/show' => 'apps/learning_time#show_activity_map'
+  get '/elt/map/evidence/show' => 'apps/learning_time#show_evidence_map'    # elt_map_evidence_show
+  get '/elt/map/activity/show' => 'apps/learning_time#show_activity_map'    # elt_map_activity_show
   get '/elt/case/header/update' => 'apps/learning_time#assign_case_header'
   post '/elt/case/update' => 'apps/learning_time#update_case_b'
   get '/elt/case/comments' => 'apps/learning_time#list_case_comments'

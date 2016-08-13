@@ -1,5 +1,8 @@
 
 <div style="margin-left:20px; overflow:scroll; max-width:850px; border:0px solid #ddd;">
+  <% if @standards.empty? %>
+      No Standards Defined For Cycle
+  <% end %>
   <% @standards.each do |standard| %>
     <% table_width = (250 + @elements[standard].size * 55).to_s + "px" -%>
       <div style="margin-left:250px; border:0px solid #ddd;">

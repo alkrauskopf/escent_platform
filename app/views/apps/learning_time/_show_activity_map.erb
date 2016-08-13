@@ -18,7 +18,7 @@
               </style>
               <tr style="border:0px solid #ddd;">
                 <td style=" width: 250px; width:fixed; border:px solid #ddd; color: #a80231; vertical-align:middle;text-align:right; padding-right:9px; font-size:13px; font-weight:normal" >
-                 xx <%#= pluralize(@standard_totals[standard],  map_label) %>
+                  <%= pluralize(@standard_totals[standard],  map_label) %>
                 </td>
                   <% @elements[standard].each do |element| -%>
                       <td title="<%=element.name%>" style=" width: 55px; width:fixed; border:1px solid #ddd; line-height:1.2em; color: <%=element.e_font_color%>;background-color: <%=element.form_background%>; padding-top:3px;padding-bottom:3px; font-weight:normal; vertical-align:middle;text-align:center; font-size:12px" >

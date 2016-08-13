@@ -3,6 +3,7 @@
   <% if @standards.empty? %>
       No Standards Defined For Cycle
   <% end %>
+  <% if false %>
   <% @standards.each do |standard| %>
     <% table_width = (250 + @elements[standard].size * 55).to_s + "px" -%>
       <div style="margin-left:250px; border:0px solid #ddd;">
@@ -43,4 +44,5 @@
           </tbody>
       </table>
   <% end %>
+      <% end %>
 </div>

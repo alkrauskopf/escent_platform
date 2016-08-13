@@ -542,7 +542,6 @@ class Apps::LearningTimeController  < ApplicationController
     @data_points ={}
     @element_totals = {}
     grand_total = 0
-    if true
     @cycle.standards.each_with_index do |std, idx|
       @standard_totals[std] ||= []
       standard_total = 0
@@ -562,7 +561,6 @@ class Apps::LearningTimeController  < ApplicationController
         @element_totals[element] = element_total
       end
       @standard_totals[std] = standard_total
-    end
     end
     render :partial => "/apps/learning_time/show_activity_map", :locals => {:map_label => ' Informer'}
   end

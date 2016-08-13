@@ -33,7 +33,7 @@
                 </td>
                 <% @elements[standard].each do |element| -%>
                     <td title="<%=element.name%>" style=" width: 55px; width:fixed; border:0px solid #ddd; color: #000000; vertical-align:top;text-align:center; font-size:11px" >
-                      <%= (element.nil? || activity.nil? || true) ? '': @data_points[activity][element]%>
+                      <%= (element.nil? || activity.nil? ) ? '': @data_points[activity][element]%>
                     </td>
                 <% end -%>
               </tr>

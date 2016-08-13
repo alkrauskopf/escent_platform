@@ -129,7 +129,7 @@ class EltType < ActiveRecord::Base
   end
 
   def informing_indicators(element)
-    []
-   # self.elt_indicators.for_element(element).active.map {|ind| ind.support_indicators.compact }.flatten
+   []
+    # self.elt_indicators.for_element(element).active.map {|ind| ind.support_indicators.compact }.flatten
   end
 end

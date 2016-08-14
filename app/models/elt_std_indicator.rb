@@ -49,12 +49,9 @@ class EltStdIndicator < ActiveRecord::Base
   def standard?
     (self.element? && self.element.standard?) ? true : false
   end
+
   def standard
     self.standard? ? self.element.standard : nil
-  end
-
-  def self.by_element
-    self.sort_by{|i| [i.element.abbrev]}.by_position
   end
 
   def self.for_element(element)

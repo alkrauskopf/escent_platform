@@ -51,7 +51,7 @@ class EltIndicator < ActiveRecord::Base
   end
 
   def supported_std_indicators
-    self.elt_std_indicators.by_element
+    self.elt_std_indicators.sort_by{|i| [i.element.abbrev]}
   end
 
   def case_findings(elt_case)

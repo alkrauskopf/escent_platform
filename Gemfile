@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.1.12'
+gem 'rails', '3.2.21'
 
 gem 'eventmachine', '1.0.3'
 gem 'thin'
 gem 'mysql2', '~> 0.3.10'
 gem 'will_paginate'
 gem 'crypt'
-gem 'activemerchant', '~> 1.7.1'
+# gem 'activemerchant', '~> 1.7.1'
 gem 'rmagick'
 gem 'uuidtools'
 #gem 'wicked_pdf', '~> 0.6.0'

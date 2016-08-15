@@ -30,6 +30,9 @@ EscentPartners::Application.configure do
   # like if you have constraints or database-specific column types
   # config.active_record.schema_format = :sql
 
+  # 3.2.21 Upgrade: Raise exception on mass assignment protection for Active Record models
+  config.active_record.mass_assignment_sanitizer = :strict
+
   # Configure static asset server for tests with Cache-Control for performance
   config.public_file_server.enabled = true
   config.public_file_server.headers = {

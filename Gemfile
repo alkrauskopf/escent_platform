@@ -7,11 +7,18 @@ gem 'thin'
 gem 'mysql2', '~> 0.3.10'
 gem 'will_paginate'
 gem 'crypt'
-# gem 'activemerchant', '~> 1.7.1'
 gem 'rmagick'
 gem 'uuidtools'
-#gem 'wicked_pdf', '~> 0.6.0'
 gem 'paperclip', '~> 3.3.1'
+
+#removed plugins
+gem 'acts_as_tree', '~> 2.4'
+gem 'acts_as_list', '~> 0.7.6'
+gem 'localized_country_select', '~> 0.9.11'
+gem 'tastebook-respond_to_parent', '~> 0.0.3'
+gem 'to_xls', '~> 1.5', '>= 1.5.3'
+# gem 'utility_scopes', '~> 0.3.1'
+gem 'tiny_mce', '~> 0.1.8'
 
 # Needed for the new asset pipeline  Rails 3.1.12
 group :assets do

@@ -1,6 +1,5 @@
 class Organization < ActiveRecord::Base
   include PublicPersona
-
   acts_as_tree :order => "name"
   
   belongs_to :status

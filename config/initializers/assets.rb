@@ -69,6 +69,6 @@ Rails.application.config.assets.precompile += [
     'jquery.ui.potato.menu.js',
     'swfobject.js',
     'jquery.jtree.1.0.min.js',
-    'jquery.jtree.1.0.js',
-    'tiny_mce/tiny_mce.js'
+    'jquery.jtree.1.0.js'
+ #   'tiny_mce/tiny_mce.js'
       ]

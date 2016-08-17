@@ -10,6 +10,7 @@
 	<div class="FormRow">
 		<div class="FormRowTitle">Bio</div>
         <div class="FormRowData" style= "margin-left:0px">
-  		    <%=  text_area :bio, :description, :value => bio.description, :class =>"mceEditor", :rows => 25, :cols => 55 %>
+  		    <%=  text_area :bio, :description, :value => bio.description, :class =>"tinymce", :rows => 25, :cols => 55 %>
+          <%= tinymce %>
  		 </div>
 	</div>

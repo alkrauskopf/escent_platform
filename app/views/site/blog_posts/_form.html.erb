@@ -11,7 +11,8 @@
 		<label for="blog_body">Content</label>
 	</div>
 	<div class="FormRowData">
-		<%= @f.text_area :body , :class => "mceEditor" %>
+		<%= @f.text_area :body , :class => "tinymce" %>
+    <%= tinymce %>
 	</div>	
 </div>
 <div class="FormRow">	

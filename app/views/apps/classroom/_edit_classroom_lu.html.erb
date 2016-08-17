@@ -61,11 +61,12 @@
 								<td   style="width:42%; border:0px solid #ddd; line-height:1.5em; vertical-align:top;  padding-left:0px; padding-right:3px; padding-top:8px; text-align:right; font-size:12px; ">
 									Overview & Objectives:
 								</td>
-				        		<td colspan=3 style = "line-height:1.5em; text-align:left;vertical-align:middle; padding-top:8px; padding-bottom:0px; font-size:12px;">
-									<%=  text_area :topic, :instructional_remarks, :class =>"mceEditor", :rows => 4, :cols => 55, :maxlength => 4000 %>
-								</td> 
-				       		</tr>
-					      	<tr>
+                  <td colspan=3 style = "line-height:1.5em; text-align:left;vertical-align:middle; padding-top:8px; padding-bottom:0px; font-size:12px;">
+									  <%=  text_area :topic, :instructional_remarks, :class =>"tinymce", :rows => 4, :cols => 55, :maxlength => 4000 %>
+                    <%= tinymce %>
+                  </td>
+                </tr>
+                <tr>
 								<td   style="width:42%; border:0px solid #ddd; line-height:1.5em; vertical-align:top;  padding-left:0px; padding-right:3px; padding-top:8px; text-align:right; font-size:12px; ">
 									Assignment:
 								</td>

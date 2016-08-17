@@ -57,7 +57,8 @@
 					Instructional Remarks:
 				</td>
         		<td width = 380px style = "text-align:left;vertical-align:middle; padding-bottom:0px; font-size:12px; font-weight:bold; color: #C83A14;">
-					<%= text_area :topic, :instructional_remarks, :class =>"mceEditor", :rows => 6, :cols => 65, :maxlength => 4000 %>
+					<%= text_area :topic, :instructional_remarks, :class =>"tinymce", :rows => 6, :cols => 65, :maxlength => 4000 %>
+              <%= tinymce %>
 				</td> 
        		</tr>
 	      	<tr>

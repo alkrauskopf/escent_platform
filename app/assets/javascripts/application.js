@@ -7,6 +7,8 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
+//= require tinymce
+
 //  require jquery-ui/datepicker
 
 var yes_html = '<input class="radio" checked="checked" value="Yes" name="status" type="radio">Yes <input class="radio" value="No" name="status" type="radio">No';

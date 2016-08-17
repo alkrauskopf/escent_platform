@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.21'
+gem 'rails', '3.2.22.4'
 
-gem 'eventmachine', '1.0.3'
+gem 'eventmachine', '1.0.9'
 gem 'thin'
 gem 'mysql2', '~> 0.3.10'
 gem 'will_paginate'
@@ -18,7 +18,8 @@ gem 'localized_country_select', '~> 0.9.11'
 gem 'tastebook-respond_to_parent', '~> 0.0.3'
 gem 'to_xls', '~> 1.5', '>= 1.5.3'
 # gem 'utility_scopes', '~> 0.3.1'
-gem 'tiny_mce', '~> 0.1.8'
+gem 'tinymce-rails', '~> 4.4', '>= 4.4.1'
+
 
 # Needed for the new asset pipeline  Rails 3.1.12
 group :assets do
@@ -36,9 +37,9 @@ gem 'jquery-ui-rails'
 gem 'hpricot'
 gem 'prawn', '~> 1.3'
 gem 'sendgrid'
+gem 'therubyracer'
 #
 # Bootstrap
-#gem "therubyracer"
 #gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 #gem "twitter-bootstrap-rails"
 
@@ -52,4 +53,6 @@ gem 'uglifier'
 group :development, :test do
   gem 'letter_opener'
   gem 'dotenv'
+  gem 'minitest'
+  gem 'test-unit'
 end

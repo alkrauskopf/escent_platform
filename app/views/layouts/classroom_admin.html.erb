@@ -3,6 +3,10 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title><%= @current_organization.name %></title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'apps/classroom' %>
+
 		<%= stylesheet_link_tag 'screen' %>
 		<%= stylesheet_link_tag iwing_stylesheet_url(:organization_id => @current_organization, :format => "css") %>
 
@@ -288,55 +292,52 @@
 			})
 		</script>
 	</head>
-	<body class="iwing_page_background" >
-		<div id="container">
-			<%= render(:partial => "/shared/masthead") %>
-			<div id="header">
-				<%= render(:partial => "/shared/login") %>
-			</div>
-			<div id="home_body">
-				<!-- close sidebar class div -->
-				<div id="main_content">
-				<% if @current_organization.can_be_displayed?(@current_user)-%>
-					<%= yield %>
-				<% else -%>
-				 	<span style = "color:#C73914; font-size:14px;">
-				 		</br></br></br></br></br>
-				 			<center>We're Sorry.</br><%= @current_organization.name %>&nbsp;is currently not available.</center>
-				 		</br></br></br></br>
-				 	</span>
-				<% end -%>
-				</div>
-				<!-- close main_content div -->
-				<div style="clear:both">
-					&nbsp;
-				</div>
-				<div class="bottom"></div>
-			</div>
-			<div class="iwing_footer">
-				<div class="iwing_header_and_footer_bars">
-					<%= render(:partial => "/shared/footer") %>
-				</div>
-			</div>
-		</div>
-		<div style="width:100%; text-align:center; font-size:10px;" class="background_text">
-			&copy; <%= Time.now.year %> ESCENT PARTNERS, LLC
-		</div>
-		<div id="loading" style="display:none;">
-			<%= image_tag asset_path('ajax-loader.gif') %>
-		</div>
-		<script type="text/javascript">
-			/*
-			 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-			 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-			 */
-		</script>
-		<script type="text/javascript">
-			try {
-				var pageTracker = _gat._getTracker("UA-10167834-1");
-				pageTracker._trackPageview();
-			} catch (err) {
-			}
-		</script>
-	</body>
+  <body  class="container iwing_page_background">
+    <div class="row">
+      <div class="classroom_container">
+        <%= render(:partial => "/shared/masthead") %>
+        <div id="header">
+          <%= render(:partial => "/shared/login") %>
+        </div>
+        <div id="home_body">
+          <!-- close sidebar class div -->
+          <div id="main_content">
+          <% if @current_organization.can_be_displayed?(@current_user)-%>
+            <%= yield %>
+          <% else -%>
+            <span style = "color:#C73914; font-size:14px;">
+              </br></br></br></br></br>
+                <center>We're Sorry.</br><%= @current_organization.name %>&nbsp;is currently not available.</center>
+              </br></br></br></br>
+            </span>
+          <% end -%>
+          </div>
+          <!-- close main_content div -->
+          <div style="clear:both">
+            &nbsp;
+          </div>
+          <div class="bottom"></div>
+        </div>
+        <div class="iwing_footer">
+          <div class="iwing_header_and_footer_bars">
+            <%= render(:partial => "/shared/footer") %>
+          </div>
+        </div>
+        <div style="width:100%; text-align:center; font-size:10px;" class="background_text">
+          &copy; <%= Time.now.year %> ESCENT PARTNERS, LLC
+        </div>
+        <div id="loading" style="display:none;">
+          <%= image_tag asset_path('ajax-loader.gif') %>
+        </div>
+      </div>
+      <script type="text/javascript">
+        try {
+          var pageTracker = _gat._getTracker("UA-10167834-1");
+          pageTracker._trackPageview();
+        } catch (err) {
+        }
+      </script>
+
+    </div>
+  </body>
 </html>

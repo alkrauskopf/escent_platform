@@ -182,7 +182,7 @@ EscentPartners::Application.routes.draw do |map|
 
   # APP Offering  (Classroom)
   # site/site
-  get '/offering/view' => 'site/site#static_classroom'
+  get '/offering/view' => 'site/site#static_classroom'   # offering_view
   get '/offering/homework' => 'site/site#submit_homework'
   put '/offering/homework' => 'site/site#submit_homework'
   get '/offering/lu/resources/featured' => 'site/site#featured_content'

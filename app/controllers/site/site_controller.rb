@@ -84,9 +84,10 @@ class Site::SiteController < Site::ApplicationController
       @discussions = @current_topic.discussions.active.parent_id_blank(:order_by =>  "created_at DESC")
     else
       @discussions = []
-    end    
-  rescue
-    redirect_to :action => :static_organization
+    end
+    render :layout => 'offering'
+ # rescue
+  #  redirect_to organization_view_path(:organization_id => @classroom.organization)
   end
 
   def assign_classroom_people

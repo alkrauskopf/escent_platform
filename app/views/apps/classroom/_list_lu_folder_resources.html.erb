@@ -1,5 +1,5 @@
-<div id="folder_content_panel_<%= folder.nil? ? '': folder.id.to_s%>" style="width:500px; border:0px solid #000; line-height:1.5em; color:#2061a5;">
-		<ul style="list-style: none; color: #2061a5; font-size:9px; padding-left:30px;padding-top:10px; margin-bottom: 10px;">
+<div id="folder_content_panel_<%= folder.nil? ? '': folder.id.to_s%>" >
+		<ul class='lu_resource_list'>
 			<% (folder.nil? ? lu.unfoldered_resources : lu.resources_for_folder(folder)).each do |rc|-%>
 				<% if rc.viewable_by_user?(@current_user ? @current_user : nil)-%>
 					<!--
@@ -8,8 +8,7 @@
 						&nbsp;<%#=rc.title%>
 					</li>
               -->
-              fffff
-              <li style="font-size:10px; font-weight:normal; line-height:1.0em;text-align:left">
+              <li>
                 <%= render :partial => "apps/shared/resource_view_box", :locals => {:resource => rc, :key => (rc.class.to_s + rc.public_id.to_s), :rsrc_title=>'', :btn_label=>'View', :button=>true}%>
                 &nbsp;<%=rc.title%>
               </li>

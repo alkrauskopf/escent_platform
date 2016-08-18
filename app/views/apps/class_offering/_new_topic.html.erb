@@ -1,0 +1,109 @@
+
+<% if !topic.nil? && topic.classroom.viewable_by?(@current_user)-%>
+<!--
+    <div class="offering_panel_box">
+      <div class="offering_panel_header ">
+        <span class="offering_panel_text"> <%#= topic.title %></span>
+			<div id="shared_discussion_warp" style="float:right; width:160px;">
+        <%#= render :partial => "site/discussions/share_discussion_btn" %>
+      </div>
+		</div>
+	</div>
+-->
+	<!--
+	<div id="share_discussion_form" style="display: none;clear:both;">
+	  <%#= render :partial => "/shared/share_login" %>
+	</div>
+	-->
+	<div class='lu_panel_box'>
+	    <div class='lu_remarks'>
+        <%= topic.instructional_remarks.html_safe%>
+      </div>
+		<!--
+    <div id="shared_discussion_warp_box">
+			<%#= render :partial => "/shared/shared_discussion", :locals => {:discussion => topic} %>
+		</div>
+		-->
+	</div>
+	<% unless topic.contents.empty? %>
+    <% if !topic.positioned_folders.empty? -%>
+      <div class="offering_panel_box">
+        <div class="offering_panel_header ">
+          <span class="offering_panel_text">Resource Folders</span>
+        </div>
+        <div>
+          <div class="offering_page_text" >
+            <%= render :partial => "apps/classroom/list_topic_folders", :locals => {:topic => topic}%>
+            <br style="clear:both" />
+          </div>
+        </div>
+      </div>
+    <% end -%>
+	
+	<div class="row lu_feature_panel">
+		<% if (!featured_resource.nil? || (topic.act_score_ranges && topic.classroom.ifa_classroom_option ))%>
+		  <div id="control_panel" style="width:563px; float:left; font-size:10px;">
+		    <!-- just for some javascript hack, jQ("#control_panel_ul").attr("class") -->
+		    <% topic_name = " " -%>
+	 	    <%= hidden_field_tag "control_panel_ul_" , topic.public_id %>
+	 	    <% topic_name = " " + topic.title.titleize -%>
+		    <ul>
+          <% if !featured_resource.nil? && featured_resource.viewable_by_classroom_user?(@current_user, topic.classroom) %>
+            <li>
+              <strong><%= link_to truncate(featured_resource.title.titleize, :omission=>"...", :length=>25), offering_lu_resources_featured_path(:organization_id => @current_organization, :topic_id => topic) %></strong>
+            </li>
+          <% end -%>
+          <% if topic.act_score_ranges && topic.classroom.ifa_classroom_option-%>
+            <li>
+              <strong><%= link_to "Strands & Benchmarks" , ifa_lu_standards_show_path(:organization_id => @current_organization, :classroom_id => topic.classroom, :topic_id => topic) %></strong>
+            </li>
+          <% end -%>
+			  </ul>
+		  </div>
+		
+		  <script type="text/javascript" charset="utf-8">
+		    jQuery(document).ready(function(){
+		      jQ('#control_panel').tabs();
+		      // selects
+		    });
+		  </script>		
+		<% end -%>
+	</div>
+	
+	<% else -%>
+	<!-- Blank Resource Folder for display purposes only  -->
+    <div class="offering_panel_box">
+      <div class="offering_panel_header ">
+        <span class="offering_panel_text"> Resource Folders</span>
+      </div>
+    </div>
+	<% end -%>
+
+  <% unless (topic.assignments.blank?) -%>
+    <div class='lu_panel_box_label'>
+      Thought Exercise
+    </div>
+    <div class='row lu_panel_box'>
+      <div class='lu_homework_text' >
+       <%= simple_format topic.assignments %>
+      </div>
+   </div>
+  <% end -%>
+
+  <div>
+    <%= render :partial => "/site/discussions/discussions", :locals=>{:topic => topic, :viewable => topic.classroom.viewable_by?(@current_user)}%>
+    &nbsp;
+	</div>
+	
+<% else -%>
+    <div class="offering_panel_box">
+      <div class="offering_panel_header ">
+        <span class="offering_panel_text">   <%= !topic.nil? ? topic.title : "No Learning Unit At This Time" %> </span>
+		</div>
+	</div>
+    <div class="offering_panel_box">
+      <div class="offering_panel_header ">
+        <span class="offering_panel_text"> <%= !topic.nil? ? "Resource Folders Are Not Viewable" : "Resource Folders" %></span>
+	    </div>
+	 </div>
+<% end -%>

@@ -8,9 +8,9 @@
 		<% end %>
 	  <% end %>
 	    <% if topic.is_open && viewable%>
-			<div class="module_header">
-	    	  	<div class="iwing_module_title">
-	            	<span class="content_area_title" >Critical Thinking Discussion </span>
+          <div class="offering_panel_box">
+            <div class="offering_panel_header ">
+              <span class="offering_panel_text">Critical Thinking Discussion </span>
 	         	</div>
 	        	<div class="root_discussion_trigger">
 		       	 	<% if comment_option -%>
@@ -30,18 +30,14 @@
         </div>
 			   	<input name="report_url" type="hidden" value="<%= discussion_report_abuse_url(:organization_id => @current_organization) %>" />
 		<% else %>
-			<div class="module_header">
-		      <div class="iwing_module_title">
-	        	  <small><i>Discussion Is <%=viewable ? "Closed" : "Not Viewable" %></i></small>
-	    	  </div>
-		    </div>
+      <div class="offering_panel_box">
+        <div class="offering_panel_header ">
+          <span class="offering_panel_text lu_discussion_closed">
+            Discussion Is <%=viewable ? "Closed" : "Not Viewable" %>
+          </span>
+        </div>
+      </div>
 		<% end%>
-	<% else %>
-	<div class="module_header">
-      <div class="iwing_module_title">
-          <i> No Topic To Discuss</i>
-         </div>
-    </div>
 	<% end%>
 	
 	<% if viewable %>	

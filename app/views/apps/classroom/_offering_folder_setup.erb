@@ -76,7 +76,7 @@
    			</style>
       <% if !lu.positioned_folders.empty? %>
 			<tbody>
-				<% lu.positioned_folders.by_position.each do |folder| %>
+				<% Folder.by_position(lu.positioned_folders).each do |folder| %>
 					<tr  style="border:1px solid #ddd;" >
 						<td id = "assign_position_<%= folder.public_id %>" style="width:20%; border:0px solid #ddd; padding-left:10px; padding-top:0px; padding-bottom:0px; vertical-align:top; text-align:left; font-size:12px">
 							<%=  select(:folder_position, folder.public_id, [*1...lu.folder_positions.size + 1], {:include_blank =>'Position (' + lu.folder_position(folder).to_s + ')'}) %>

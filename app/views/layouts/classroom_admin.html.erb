@@ -19,7 +19,6 @@
 		<script type="text/javascript" charset="utf-8">
 			jQ = jQuery.noConflict()
 		</script>
-    <%#= include_tiny_mce_if_needed %>
 		<%= javascript_include_tag 'swfobject.js' %>
 		<%= javascript_include_tag "jquery.qtip-1.0.0.min.js" %>
 		<%= javascript_include_tag 'jquery-ui-1.7.1.custom.min.js' %>
@@ -301,16 +300,8 @@
         </div>
         <div id="home_body">
           <!-- close sidebar class div -->
-          <div id="main_content">
-          <% if @current_organization.can_be_displayed?(@current_user)-%>
+          <div class="offering_content">
             <%= yield %>
-          <% else -%>
-            <span style = "color:#C73914; font-size:14px;">
-              </br></br></br></br></br>
-                <center>We're Sorry.</br><%= @current_organization.name %>&nbsp;is currently not available.</center>
-              </br></br></br></br>
-            </span>
-          <% end -%>
           </div>
           <!-- close main_content div -->
           <div style="clear:both">
@@ -337,7 +328,6 @@
         } catch (err) {
         }
       </script>
-
     </div>
   </body>
 </html>

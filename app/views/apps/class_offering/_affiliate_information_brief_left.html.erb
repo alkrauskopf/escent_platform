@@ -1,0 +1,10 @@
+<div class='offering_logo_box'>
+	<%- if @current_organization.logo.file? -%>
+		<%= image_tag(@current_organization.logo.url) -%>
+  <%- end -%>
+</div>
+<%- unless @current_organization.body.nil? -%>
+  <div class='offering_logo_text'>
+    <%= to_br(@current_organization.body)%>adlkasd lkasd as lakdalska slk lkas
+  </div>
+<%- end -%>

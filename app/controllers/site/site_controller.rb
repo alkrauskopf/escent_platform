@@ -1412,8 +1412,6 @@ class Site::SiteController < Site::ApplicationController
       @std_view = "act"
       @current_standard = ActMaster.all.first
     end
-    
-      
   end
   
 end

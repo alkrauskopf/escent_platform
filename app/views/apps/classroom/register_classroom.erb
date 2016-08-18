@@ -1,13 +1,13 @@
 
-
 <div style = "font-size:12px; color: #000000;padding-left:0px;">
 	<% unless @classroom.classroom_periods.empty? %>
 		<% key_visibility = @classroom.open? ? "hidden" : "visible" %>
     <% per_visibility = (@classroom.classroom_periods.size == 1) ? "hidden" : "visible" %>
       <div style="width:250px;margin-left:0px">
-        <%= form_for(:registration, :url => {:controller => 'apps/classroom', :action => 'self_register_student', :organization_id => @current_organization, :student_id => @current_user, :classroom_id => @classroom}) do |form| -%>
-          <div class="FormRow" style="position: relative; visibility:<%= per_visibility %>">
-            <div class="FormRowData">
+        <%= form_for(:registration, :url => self_offering_register_path(:organization_id => @current_organization, :student_id => @current_user, :classroom_id => @classroom)) do |form| -%>
+            <%= submit_tag "Join", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+            <div class="FormRow" style="position: relative; visibility:<%= per_visibility %>">
+            <div class="FormRowData">xxxxx
               <%=  select(:registration, :period_id, @classroom.classroom_periods.sort_by{|a| [a.name]}.collect{|t| [t.name, t.id]},{:include_blank =>'Select Your Period'}) %>
             </div>
           </div>
@@ -16,7 +16,6 @@
               Key:&nbsp;<%=  text_field(:registration, :key, :value=>'', :size=> 8) %>
             </div>
           </div>
-            <%= submit_tag "Join", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
         <% end %>
       </div>
 	<% else -%>

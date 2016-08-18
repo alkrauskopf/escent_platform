@@ -1,5 +1,5 @@
 
-<div id="user_is_student">
+<div class="offering_students">
 	<table class="tablesorter"> 
 		<tbody>
 			<% if classroom.homework_option?%>
@@ -11,29 +11,31 @@
 					</td>
 				</tr>
 			<% end -%>
-			<tr>
-				<td width = 120px style ="vertical-align:bottom; padding-top:0px; padding-left:00px; padding-bottom:0px">
-					<% send_link = 'Email Instructor' -%>
-					<p width = 110px style="padding-top:20px; padding-left:10px; padding-bottom:5px; float:left; word-wrap:break-word; overflow:hidden;">
-            <a id="send_message_link" href="#"><%= send_link %></a>
-          </p>
-          <div id="send_message_form" style="display:none">
-            <%= form_tag %>
-              <textarea id="message_content" name="message[content]" cols="35" rows="5"></textarea>
-              <input type="hidden" name="to" value="teachers">
-              <input type="hidden" name="message[sender]" value="<%= @current_user.full_name %>">
-              <input type="hidden" name="classroom_id" value="<%= classroom.id %>">
-              <input type="hidden" name="message[classroom_id]"value="<%= classroom.id %>">
-              <input type="hidden" name="message[sender_id]"value="<%= @current_user.id %>">
-              <input type="submit" class="submit" value="Send Message" />
-            </form>
-          </div>
-          <div id="send_message_succefully" style="display:none">
-            <i>Message Sent</i>
-          </div>
-					&nbsp;&nbsp;&nbsp;	
-				</td>
-			</tr>
+      <% if false %>  #  Bypass Email Funcationality
+        <tr>
+          <td width = 120px style ="vertical-align:bottom; padding-top:0px; padding-left:00px; padding-bottom:0px">
+            <% send_link = 'Email Instructor' -%>
+            <p width = 110px style="padding-top:20px; padding-left:10px; padding-bottom:5px; float:left; word-wrap:break-word; overflow:hidden;">
+              <a id="send_message_link" href="#"><%= send_link %></a>
+            </p>
+            <div id="send_message_form" style="display:none">
+              <%= form_tag %>
+                <textarea id="message_content" name="message[content]" cols="35" rows="5"></textarea>
+                <input type="hidden" name="to" value="teachers">
+                <input type="hidden" name="message[sender]" value="<%= @current_user.full_name %>">
+                <input type="hidden" name="classroom_id" value="<%= classroom.id %>">
+                <input type="hidden" name="message[classroom_id]"value="<%= classroom.id %>">
+                <input type="hidden" name="message[sender_id]"value="<%= @current_user.id %>">
+                <input type="submit" class="submit" value="Send Message" />
+              </form>
+            </div>
+            <div id="send_message_succefully" style="display:none">
+              <i>Message Sent</i>
+            </div>
+            &nbsp;&nbsp;&nbsp;
+          </td>
+        </tr>
+      <% end %>
 		</tbody>
 	</table>
 	<% if classroom.ifa_classroom_option && @current_organization.ifa_org_option-%>

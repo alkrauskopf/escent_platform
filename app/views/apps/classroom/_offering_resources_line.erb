@@ -39,7 +39,7 @@
 							</td>	
 							<td   id="folder_<%=key%>" style="width:30%; border:0px solid #ddd; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px; text-align:left; color: #000000; font-size:10px; font-weight:normal">
 								<% unless lu.nil? || lu.positioned_folders.empty? -%>
-									<%=  select(:folderx, key, [["No Folder", 0]] + lu.positioned_folders.by_position.collect{|f| [truncate(f.name, :omission=>"...", :length=>20), f.id]}, {:prompt=> folder.nil? ? "Select Folder" : folder.name}) %>
+									<%=  select(:folderx, key, [["No Folder", 0]] + Folder.by_position(lu.positioned_folders).collect{|f| [truncate(f.name, :omission=>"...", :length=>20), f.id]}, {:prompt=> folder.nil? ? "Select Folder" : folder.name}) %>
 								<% else -%>
 									&nbsp;
 								<% end -%>

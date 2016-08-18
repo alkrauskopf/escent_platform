@@ -181,8 +181,12 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/resource/assign' => 'apps/shared#add_remove_resource'
 
   # APP Offering  (Classroom)
+  # apps/class_offering
+  get '/offering/view' => 'apps/class_offering#index'   # offering_view
+  get '/offering/register' => 'apps/classroom#register_classroom'    # offering_register
+  post '/self/offering/register' => 'apps/classroom#self_register_student'  # self_offering_register
   # site/site
-  get '/offering/view' => 'site/site#static_classroom'   # offering_view
+ # get '/offering/view' => 'site/site#static_classroom'   # offering_view
   get '/offering/homework' => 'site/site#submit_homework'
   put '/offering/homework' => 'site/site#submit_homework'
   get '/offering/lu/resources/featured' => 'site/site#featured_content'
@@ -194,7 +198,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/lu/edit' => 'apps/classroom#setup_classroom_lu'
   get '/offering/toggle_favorite' => 'apps/classroom#toggle_favorite_classroom'
   get '/offering/unjoin' => 'apps/classroom#self_unregister_student'
-  get '/offering/register' => 'apps/classroom#register_classroom'
+#  get '/offering/register' => 'apps/classroom#register_classroom'
   get '/offering/lu/resources/show' => 'apps/classroom#show_lu_resources'   # offering_lu_resources_show
   get '/offering/admin/assign_subject' => 'apps/classroom#identify_parent_subject'
   get '/offering/admin/add' => 'apps/classroom#add_classroom'

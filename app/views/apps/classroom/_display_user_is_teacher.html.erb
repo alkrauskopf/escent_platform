@@ -1,5 +1,5 @@
 
-<div id="user_is_teacher">
+<div class="offering_teachers">
 	<table class="tablesorter"> 
 		<tbody>						
 			<% if classroom.ifa_classroom_option -%>
@@ -12,7 +12,7 @@
 					</td>
 				</tr>
 			<% end %>
-			<% unless classroom.participants.size < 1 -%>
+			<% unless true || classroom.participants.size < 1 -%>   # Bypass messaging functionality
 				<tr>
 					<td colspan=2 style ="vertical-align:top; text-align:left; padding-top:0px; padding-left:00px; padding-bottom:15px;color:#0000FF; font-size:13px;">
 						<% send_link = (image_tag "msg_students.png", :width => 100) -%>

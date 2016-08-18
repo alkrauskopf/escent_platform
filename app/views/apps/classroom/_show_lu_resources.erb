@@ -1,6 +1,8 @@
-	<div id="folder_panel_<%= folder.nil? ? 0 : folder.id%>" style = "width:540px; float:left; font-size:10px;">
-		<%= render :partial => "apps/classroom/list_lu_folder_resources", :locals => {:lu => lu, :folder => folder}%>
-	</div>
+	<div  id="folder_panel_<%= folder.nil? ? 0 : folder.id%>" >
+		<div class='lu_resource_list'>
+    <%= render :partial => "apps/classroom/list_lu_folder_resources", :locals => {:lu => lu, :folder => folder}%>
+    </div>
+  </div>
   <script type="text/javascript" charset="utf-8">
     jQuery(document).ready(function(){
       jQ('#folder_panel_<%= folder.nil? ? 0 : folder.id%>').tabs();

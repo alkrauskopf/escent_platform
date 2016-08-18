@@ -1,7 +1,7 @@
 # Here you can specify default options for TinyMCE across all controllers
 #
 toolbar:
-  - styleselect | undo redo | removeformat | bold italic underline |  aligncenter alignjustify  | bullist numlist outdent indent | link | print | fontselect fontsizeselect
+  - bold
   - image | link
 plugins:
   - image

@@ -42,7 +42,7 @@ EscentPartners::Application.routes.draw do |map|
   post '/user/bio/edit' => 'users#edit_user_bio'
 
   # CORE Resource (Content)
-  get '/resource/view' => 'site/site#static_resource'
+  get '/resource/view' => 'site/site#static_resource'    #  resource_view
   get '/resource/new' => 'site/contents#submit_resource'
   post '/resource/new' => 'site/contents#submit_resource'
   get '/resource/show' => 'site/contents#index'
@@ -152,7 +152,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/survey/take' => 'apps/shared#take_survey'
   post '/survey/take' => 'apps/shared#take_survey'
   post '/survey/submit' => 'apps/shared#submit_survey'
-  get '/my_survey/view' => 'apps/shared#my_surveys'
+  get '/my_survey/view' => 'apps/shared#my_surveys'   #  my_survey_view
   get '/my_survey/taken' => 'apps/shared#my_taken_surveys'
   get '/my_survey/broadcast' => 'apps/shared#my_broadcast_surveys'
   get '/my_survey/self' => 'apps/shared#my_self_surveys'
@@ -251,8 +251,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/admin/student/teacher/select' => 'apps/classroom#select_teacher'
 
   # APP Blogs
-  get '/blog/view' => 'apps/app_blog#show_app_blog'
-  get '/blog/show' => 'site/blogs#show'
+  get '/blog/view' => 'apps/app_blog#show_app_blog'   # blog_view
+  get '/blog/show' => 'site/blogs#show'       # blog_show
   post '/blog/share' => 'site/blogs#share_blog'
   get '/blog/email' => 'apps/app_blog#share_email'
   get '/blog/comment/add' => 'apps/app_blog#new_add_comment'

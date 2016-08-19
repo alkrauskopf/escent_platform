@@ -5,7 +5,7 @@ Dear <%= @recipient.first_name %>,
 <%= @review_msg %><br/>
 <br/>
 <% unless @classroom.nil? %>
-    <%= link_to "Click Here", url_for(:controller => "site/site", :action => "static_classroom", :organization_id => @organization, :id => @classroom, :host => @ep_host )%>&nbsp;
+    <%= link_to "Click Here", offering_view_url(:organization_id => @organization, :id => @classroom, :host => @ep_host )%>&nbsp;
     for <i><%=@classroom.course_name%>.</i>
 <% end %>
  <br/><br/>

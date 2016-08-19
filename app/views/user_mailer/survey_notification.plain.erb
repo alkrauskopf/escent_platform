@@ -10,7 +10,7 @@ Would you please complete a <%= @subject_line %>?
 
 
 
-You can do this by Signing-In at your personal <%= link_to (@user.last_name + " Survey Page"), url_for(:controller => "/apps/shared", :action => :my_surveys, :organization_id => @organization, :host => @ep_host )%>.
+You can do this by Signing-In at your personal <%= link_to (@user.last_name + " Survey Page"), my_survey_view_url(:organization_id => @organization, :host => @ep_host )%>.
 
 
 

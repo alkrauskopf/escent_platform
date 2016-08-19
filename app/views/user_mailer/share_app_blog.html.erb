@@ -1,5 +1,5 @@
 <p><%= @sender %> thinks you will be interested in this discussion: <strong><%= @blog.title %></strong>.</p>
-<p>Click <%= link_to "here", url_for(:action => "show_app_blog", :controller => "apps/app_blog",  :blog_id => @blog, :blog_app=> @blog.coop_app, :only_path => false,:host => @ep_host) %>.</p>
+<p>Click <%= link_to "here", blog_view_url(:blog_id => @blog, :blog_app=> @blog.coop_app, :only_path => false,:host => @ep_host) %>.</p>
 <p><%= simple_format @message %></p>
 <br />
 <p>

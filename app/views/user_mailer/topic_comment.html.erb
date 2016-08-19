@@ -6,7 +6,7 @@ Discussion Comment Notification,
 <%= @user.first_name%>&nbsp; said:&nbsp;<i>"<%= @topic_comment %>"</i>
 
 <br/><br/>
- Review the discussion for <%= link_to @topic.title, url_for(:controller => "site/site", :action => "static_classroom", :organization_id => @organization, :topic_id => @topic, :id => @topic.classroom,:host => @ep_host )%>&nbsp;
+ Review the discussion for <%= link_to @topic.title, offering_view_url(:organization_id => @organization, :topic_id => @topic, :id => @topic.classroom,:host => @ep_host )%>&nbsp;
  in <%=@topic.classroom.course_name%>.
  <br/><br/>
 

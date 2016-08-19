@@ -9,7 +9,7 @@ Dear <%= @recipient.first_name %>,
 
 
 <% unless @classroom.nil? %>
-    <%= link_to "Click Here", url_for(:controller => "site/site", :action => "static_classroom", :organization_id => @organization, :id => @classroom, :host => @ep_host )%>
+    <%= link_to "Click Here", offering_view_url(:organization_id => @organization, :id => @classroom, :host => @ep_host )%>
     for <%=@classroom.course_name%>.
 <% end %>
 

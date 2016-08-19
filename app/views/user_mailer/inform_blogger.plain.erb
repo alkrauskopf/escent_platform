@@ -10,5 +10,5 @@
 
 
 
-Click <%= link_to "here", url_for(:action => "show", :controller => "site/blogs", :blog_id => @blog.public_id, :only_path => false,:host => @ep_host) %> to see.
+Click <%= link_to "here", blog_show_url(blog_id => @blog.public_id, :only_path => false,:host => @ep_host) %> to see.
 

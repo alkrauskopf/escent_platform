@@ -6,7 +6,7 @@
 <br/> 
 <% end %>
 <br/>
-Check out <%= link_to @content.title, url_for(:controller => "site/site", :action => "static_resource", :organization_id => @organization, :id => @content, :host => @ep_host )%>.<br/>
+Check out <%= link_to @content.title, resource_view_url(:organization_id => @organization, :id => @content, :host => @ep_host )%>.<br/>
 Contributed by <%=@content.user.full_name%>&nbsp;of&nbsp;<%=@content.organization.name%>.
 
 <br/>

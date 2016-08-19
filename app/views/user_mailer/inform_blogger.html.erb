@@ -4,6 +4,6 @@
 <br/><br />
 <%= @user.first_name %> said: <i>"<%= simple_format @comment %>"</i>
 <br /><br />
-<p>Click <%= link_to "here", url_for(:action => "show", :controller => "site/blogs", :blog_id => @blog.public_id, :only_path => false,:host => @ep_host) %> to see.</p>
+<p>Click <%= link_to "here", blog_show_url(:blog_id => @blog.public_id, :only_path => false,:host => @ep_host) %> to see.</p>
 <br />
 

@@ -306,7 +306,7 @@ jQ(document).ready(function() {
 	  
 			var organization = "<%= @current_organization.public_id %>";
 			var question = "<%= @question.public_id %>";
-			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_benchmarks_recycle %>";
+			var url = "<%= ifa_question_benchmarks_recycle_url %>";
 			jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
 			jQ("#benchmark_tags").html(data);
 		  	jQ("#options_table").slideUp("fast");	 
@@ -317,7 +317,7 @@ jQ(document).ready(function() {
 	jQ("#assess_down").click(function() {
 	  		var organization = "<%= @current_organization.public_id %>";
 			var question = "<%= @question.public_id %>";
-			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_assessments_recycle %>";
+			var url = "<%= ifa_question_assessments_recycle_url %>";
 			jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
 			jQ("#assessment_tags").html(data);
 		  	jQ("#options_table").slideUp("fast");	 
@@ -329,7 +329,7 @@ jQ(document).ready(function() {
 	  		var organization = "<%= @current_organization.public_id %>";
 			var question = "<%= @question.public_id %>";
 			var group = "PDF";
-			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_find_resources %>";
+			var url = "<%= ifa_question_resources_find_url %>";
 			jQ.get(url,{'organization_id': organization,'question_id': question,'group_type': group},  function(data) {
 			jQ("#resource_tags").html(data);
 		  	jQ("#options_table").slideUp("fast");	 
@@ -342,7 +342,7 @@ jQ(document).ready(function() {
 	  		var organization = "<%= @current_organization.public_id %>";
 			var question = "<%= @question.public_id %>";
 			var group = "IMAGE";
-			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_find_resources %>";
+			var url = "<%= ifa_question_resources_find_url %>";
 			jQ.get(url,{'organization_id': organization,'question_id': question,'group_type': group},  function(data) {
 			jQ("#resource_tags").html(data);
 		  	jQ("#options_table").slideUp("fast");	 
@@ -353,7 +353,7 @@ jQ(document).ready(function() {
 	  		var organization = "<%= @current_organization.public_id %>";
 			var question = "<%= @question.public_id %>";
 			var group = "AUDIO";
-			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_find_resources %>";
+			var url = "<%= ifa_question_resources_find_url%>";
 			jQ.get(url,{'organization_id': organization,'question_id': question,'group_type': group},  function(data) {
 			jQ("#resource_tags").html(data);
 		  	jQ("#options_table").slideUp("fast");	 
@@ -366,7 +366,7 @@ jQ(document).ready(function() {
 	  		var organization = "<%= @current_organization.public_id %>";
 			var question = "<%= @question.public_id %>";
 			var group = "VIDEO";
-			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_find_resources %>";
+			var url = "<%= ifa_question_resources_find_url %>";
 			jQ.get(url,{'organization_id': organization,'question_id': question,'group_type': group},  function(data) {
 			jQ("#resource_tags").html(data);
 		  	jQ("#options_table").slideUp("fast");	 
@@ -389,7 +389,7 @@ jQ(document).ready(function() {
 		var organization = "<%= @current_organization.public_id %>";
 		var question = "<%= @question.public_id %>";
 		var user = "<%= @current_user.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_toggle_lock %>";
+		var url = "<%= ifa_question_toggle_lock_url %>";
 		jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
 			jQ("#question_options").html(data); 
 	   		jQ("#question_options").show();
@@ -404,7 +404,7 @@ jQ(document).ready(function() {
 		var organization = "<%= @current_organization.public_id %>";
 		var question = "<%= @question.public_id %>";
 		var user = "<%= @current_user.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_toggle_active %>";
+		var url = "<%= ifa_question_toggle_active_url %>";
 		jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
 			jQ("#question_options").html(data); 
 	   		jQ("#question_options").show();
@@ -419,7 +419,7 @@ jQ(document).ready(function() {
 		var organization = "<%= @current_organization.public_id %>";
 		var question = "<%= @question.public_id %>";
 		var user = "<%= @current_user.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_picture_enlarge %>";
+		var url = "<%= ifa_question_picture_size_url %>";
 		jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
 			jQ("#question_options").html(data); 
 	   		jQ("#question_options").show();
@@ -434,7 +434,7 @@ jQ(document).ready(function() {
 		var organization = "<%= @current_organization.public_id %>";
 		var question = "<%= @question.public_id %>";
 		var user = "<%= @current_user.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_destroy_question %>";
+		var url = "<%= ifa_question_destroy_url %>";
 		jQ.get(url,{'organization_id': organization,'question_id': question},  function(data) {
 			jQ("#question_options").html(data); 
 	   		jQ("#question_options").show();

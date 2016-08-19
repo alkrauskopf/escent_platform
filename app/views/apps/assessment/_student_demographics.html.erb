@@ -39,7 +39,7 @@ jQ(document).ready(function() {
  	jQ("#grade_change").change(function(){
 		var grade = jQ('#student_id').val();
 		var student_id = '<%= @student.public_id %>';
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_student_grade_level, :organization_id => @current_organization  %>";
+		var url = "<%= ifa_student_grade_level_edit_url(:organization_id => @current_organization) %>";
 			jQ.get(url, {'student_id':student_id, 'grade': grade}, function(data) {
 			jQ("#student_demographics").html(data); 
 	   		jQ("#student_demographics").show();

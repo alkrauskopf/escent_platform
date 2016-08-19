@@ -185,7 +185,7 @@
 				Updated <%= time_ago_in_words(quest.updated_at.to_s, include_seconds = false) %> ago<br/>
 				<%= link_to "View", {:controller =>  "/apps/assessment", :action => "static_question", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest}, {:target => "_blank"}  %>
 				<% if quest.user_id == @current_user.id %>
-					&nbsp;&nbsp;<%= link_to "Edit", {:controller =>  "/apps/assessment", :action => "edit_ifa_question", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest}, {:target => "_blank"}  %>
+					&nbsp;&nbsp;<%= link_to "Edit", ifa_question_edit_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest), {:target => "_blank"}  %>
 				<% end -%>
  			</td>
 			<td width=160px style=" border:0px solid #ddd;color: #000000; vertical-align:top;font-size:10px;" >
@@ -300,7 +300,7 @@ jQ(document).ready(function() {
 		var organization = "<%= @current_organization.public_id %>";
 		var assessment = "<%= @assessment.public_id %>";
 		var user = "<%= @current_user.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :user_option_toggle_calibrate %>";
+		var url = "<%= ifa_user_options_toggle_calibrate_url %>";
 		jQ.get(url,{'organization_id': organization,'assessment_id': assessment},  function(data) {
 			jQ("#assessment_options").html(data); 
 	   		jQ("#assessment_options").show();
@@ -315,7 +315,7 @@ jQ(document).ready(function() {
 		var organization = "<%= @current_organization.public_id %>";
 		var assessment = "<%= @assessment.public_id %>";
 		var user = "<%= @current_user.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :user_option_toggle_user_filter %>";
+		var url = "<%= ifa_user_options_toggle_filter_url %>";
 		jQ.get(url,{'organization_id': organization,'assessment_id': assessment},  function(data) {
 			jQ("#assessment_options").html(data); 
 	   		jQ("#assessment_options").show();
@@ -330,7 +330,7 @@ jQ(document).ready(function() {
 		var organization = "<%= @current_organization.public_id %>";
 		var assessment = "<%= @assessment.public_id %>";
 		var user = "<%= @current_user.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_assessment_question_pool_recycle %>";
+		var url = "<%= ifa_question_pool_recycle_url %>";
 		jQ.get(url,{'organization_id': organization,'assessment_id': assessment},  function(data) {
 			jQ("#assessment_options").html(data); 
   		  jQ("#options_table1").hide();
@@ -347,7 +347,7 @@ jQ(document).ready(function() {
 		var range_id = jQ('#ass_range_id').val();
 		var assessment_id = '<%= @assessment.public_id %>';
 		var user = "<%= @current_user.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :user_options_update, :organization_id => @current_organization  %>";
+		var url = "<%= ifa_user_options_update_url(:organization_id => @current_organization)  %>";
 			jQ.get(url, {'assessment_id':assessment_id, 'range_id':range_id, 'user_id': user}, function(data) {
 			jQ("#assessment_options").html(data); 
 	   		jQ("#assessment_options").show();
@@ -362,7 +362,7 @@ jQ(document).ready(function() {
 		var strand_id = jQ('#ass_strand_id').val();
 		var assessment_id = '<%= @assessment.public_id %>';
 		var user = "<%= @current_user.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :user_options_update, :organization_id => @current_organization  %>";
+		var url = "<%= ifa_user_options_update_url(:organization_id => @current_organization)  %>";
 			jQ.get(url, {'assessment_id':assessment_id,  'strand_id':strand_id, 'user_id': user}, function(data) {
 			jQ("#assessment_options").html(data); 
 	   		jQ("#assessment_options").show();
@@ -378,7 +378,7 @@ jQ(document).ready(function() {
 		var reading_id = jQ('#ass_reading_id').val();
 		var assessment_id = '<%= @assessment.public_id %>';
 		var user = "<%= @current_user.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :user_options_update, :organization_id => @current_organization  %>";
+		var url = "<%= ifa_user_options_update_url(:organization_id => @current_organization)  %>";
 			jQ.get(url, {'assessment_id':assessment_id,  'reading_id':reading_id, 'user_id': user}, function(data) {
 			jQ("#assessment_options").html(data); 
 	   		jQ("#assessment_options").show();
@@ -393,7 +393,7 @@ jQ(document).ready(function() {
 		var master_id = jQ('#ass_master_id').val();
 		var assessment_id = '<%= @assessment.public_id %>';
 		var user = "<%= @current_user.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :user_options_update, :organization_id => @current_organization  %>";
+		var url = "<%= ifa_user_options_update_url(:organization_id => @current_organization) %>";
 			jQ.get(url, {'assessment_id':assessment_id, 'master_id': master_id, 'user_id': user}, function(data) {
 			jQ("#assessment_options").html(data); 
 	   		jQ("#assessment_options").show();

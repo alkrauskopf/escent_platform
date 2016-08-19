@@ -132,7 +132,7 @@ jQ(document).ready(function() {
 		var question_id = '<%= @question.public_id %>';
 		var master_id = '<%= @master.public_id %>';
 		var choice_id = jQ('#choice_id2').val();
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_update_choice, :organization_id => @current_organization  %>";
+		var url = "<%= ifa_question_choice_update_url(:organization_id => @current_organization) %>";
 			jQ.get(url, {'question_id':question_id, 'choice': choice_text, 'choice_id': choice_id,'position': position, 'master_id': master_id}, function(data) {
 			jQ("#choices").html(data); 
 	   		jQ("#choices").show();
@@ -149,7 +149,7 @@ jQ(document).ready(function() {
 		var position = jQ('#position_text').val();
 		var question_id = '<%= @question.public_id %>';
 		var master_id = '<%= @master.public_id %>';
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_question_add_choice, :organization_id => @current_organization  %>";
+		var url = "<%= ifa_question_choice_add_url(:organization_id => @current_organization) %>";
 			jQ.get(url, {'question_id':question_id, 'choice': choice_text, 'position': position, 'master_id': master_id}, function(data) {
 			jQ("#choices").html(data); 
 	   		jQ("#choices").show();

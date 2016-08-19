@@ -219,7 +219,7 @@
 
         jQ("#reading_id").change(function(){
 			var related_reading_id = jQ('#q_read_reading_id').val();
-			var url = "<%= url_for :controller => '/apps/assessment', :action => :get_related_reading, :organization_id => @current_organization  %>";
+			var url = "<%= ifa_related_reading_url(:organization_id => @current_organization) %>";
 			jQ.get(url, {'id':related_reading_id}, function(data) {
 				var editor = tinyMCE.get("reading_text");
 				jQ('#quest_reading').val(tinyMCE.activeEditor.setContent(data));
@@ -239,7 +239,7 @@
 
 <script type="text/javascript" charset="utf-8">
     jQ(document).ready(function() {
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :select_related_reading, :organization_id => @current_organization, :sub_id => @subj_id  %>";
+		var url = "<%= ifa_related_reading_select_url(:organization_id => @current_organization, :sub_id => @subj_id) %>";
 		jQ("#select_related_reading").autocomplete(url, {
                                         				autoFill: false,
                                         				mustMatch: true,

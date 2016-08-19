@@ -222,7 +222,7 @@ jQ('th.tip').qtip({
 jQ(document).ready(function() {
 	jQ("#toggle_filter").click(function() {
 		var organization = "<%= @current_organization.public_id %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :toggle_sumry_ifa_dashboard %>";
+		var url = "<%= ifa_toggle_summary_dashboard_url %>";
 		jQ.get(url,{'organization_id': organization},  function(data) {
 			jQ("#sumry_dashboard").html(data); 
 	   		jQ("#sumry_dashboard").show();

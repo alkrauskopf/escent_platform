@@ -1,10 +1,11 @@
 class Apps::AssessmentController < ApplicationController
-  layout "site", :except =>[:manual_ifa_dashboard_update, :student_list, :student_baseline_scores, :static_assess_question_analysis, :list_user_questions, :list_subject_assessments, :subject_benchmarks, :subject_standard_benchmarks, :assign_classroom_assessment, :question_analysis, :entity_dashboard, :growth_dashboards, :student_dashboard, :student_subject_history, :classroom_dashboard,  :assign_classroom_assessment_view, :list_classroom_assessments, :subject_readings, :genre_readings, :list_standard_questions ,:subject_questions, :assign_assessment_question_view, :subject_assessments, :list_user_assessments]
+  layout "ifa", :except =>[:manual_ifa_dashboard_update, :student_list, :student_baseline_scores, :static_assess_question_analysis, :list_user_questions, :list_subject_assessments, :subject_benchmarks, :subject_standard_benchmarks, :assign_classroom_assessment, :question_analysis, :entity_dashboard, :growth_dashboards, :student_dashboard, :student_subject_history, :classroom_dashboard,  :assign_classroom_assessment_view, :list_classroom_assessments, :subject_readings, :genre_readings, :list_standard_questions ,:subject_questions, :assign_assessment_question_view, :subject_assessments, :list_user_assessments]
   before_filter :ifa_allowed?, :except=>[]
   before_filter :current_user_app_authorized?, :except=>[]
   before_filter :current_user_app_admin?, :only=>[]
   before_filter :clear_notification
   before_filter :increment_app_views, :only=>[:index]
+
   
  def clear_notification
     flash[:notice] = nil
@@ -1484,7 +1485,7 @@ class Apps::AssessmentController < ApplicationController
      if @question.save
        @question.update_attributes(:original_question_id => @question.id)
      end
-     redirect_to :action => 'edit_ifa_question', :organization_id => @current_organization, :assessment_id => @assessment, :question_id => @question, :function => "Edit"
+     redirect_to ifa_question_edit_path(:organization_id => @current_organization, :assessment_id => @assessment, :question_id => @question, :function => "Edit")
  end
 
  	def edit_ifa_question
@@ -2489,6 +2490,7 @@ end
 
    def ifa_allowed?
      @current_application = CoopApp.ifa
+     @current_provider = @current_organization.app_provider(@current_application)
      current_app_enabled_for_current_org?
    end
  

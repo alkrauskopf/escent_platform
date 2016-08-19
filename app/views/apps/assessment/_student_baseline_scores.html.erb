@@ -56,7 +56,7 @@ jQ(document).ready(function() {
 		var student_id = '<%= @student.public_id %>';
 		var master_id = '<%= @mstr.public_id %>';
 		var subject_id = '<%= @subj.public_id %>';
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_student_baseline_score, :organization_id => @current_organization  %>";
+		var url = "<%= ifa_student_baseline_edit_url(:organization_id => @current_organization) %>";
 			jQ.get(url, {'student_id':student_id, 'master_id': master_id, 'subject_id': subject_id,'score':score}, function(data) {
 			jQ("#student_scores").html(data); 
 	   		jQ("#student_scores").show();
@@ -72,7 +72,7 @@ jQ(document).ready(function() {
 		var score = jQ('#<%= @subj.public_id%>_csap').val();
 		var student_id = '<%= @student.public_id %>';
 		var subject_id = '<%= @subj.public_id %>';
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_student_csap_demographic, :organization_id => @current_organization  %>";
+		var url = "<%= ifa_student_csap_demographic_edit_url(:organization_id => @current_organization) %>";
 			jQ.get(url, {'student_id':student_id, 'subject_id': subject_id,'score':score}, function(data) {
 			jQ("#student_scores").html(data); 
 	   		jQ("#student_scores").show();

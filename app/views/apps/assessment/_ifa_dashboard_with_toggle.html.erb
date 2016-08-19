@@ -35,7 +35,7 @@ jQ(document).ready(function() {
 		var subject = "<%= @current_subject.id %>";
 		var start_period = "<%= @start_period %>";
 		var end_period = "<%= @end_period %>";
-		var url = "<%= url_for :controller => '/apps/assessment', :action => :toggle_ifa_dashboard %>";
+		var url = "<%= ifa_dashboard_toggle_url %>";
 		jQ.get(url,{'organization_id': organization,'entity_id': entity, 'class': entity_class,'subject_id': subject, 'start_period':start_period, 'end_period':end_period},  function(data) {
 			jQ("#ifa_dashboard").html(data); 
 	   		jQ("#ifa_dashboard").show();

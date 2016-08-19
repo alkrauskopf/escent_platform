@@ -252,7 +252,7 @@
 		               	jQ("#reading_text").hide();
  		              break;
  		              default:
-					   	var url = "<%= url_for :controller => '/apps/assessment', :action => :get_related_reading, :organization_id => @current_organization  %>";
+					   	var url = "<%= ifa_related_reading_url(:organization_id => @current_organization) %>";
 							jQ.get(url, {'id':related_reading_id}, function(data) {
 							jQ('#quest_reading').val(tinyMCE.activeEditor.setContent(data));
 						});
@@ -267,7 +267,7 @@
 						var question_id = '<%= @question.id %>';
  			            switch(related_reading_id){
                				case "":
-			   					var url = "<%= url_for :controller => '/apps/assessment', :action => :get_question_reading, :organization_id => @current_organization  %>";
+			   					var url = "<%= ifa_question_reading_url(:organization_id => @current_organization) %>";
 									jQ.get(url, {'id':question_id}, function(data) {
 									jQ('#quest_reading').val(tinyMCE.activeEditor.setContent(data));
 								});
@@ -277,7 +277,7 @@
                				jQ("#reading_text").hide();
                				break;
                				default:
-			   					var url = "<%= url_for :controller => '/apps/assessment', :action => :get_related_reading, :organization_id => @current_organization  %>";
+			   					var url = "<%= ifa_related_reading_url(:organization_id => @current_organization)  %>";
 									jQ.get(url, {'id':related_reading_id}, function(data) {
 									jQ('#quest_reading').val(tinyMCE.activeEditor.setContent(data));
 								});

@@ -16,7 +16,7 @@ jQ(document).ready(function() {
 	jQ("#questions_up").click(function() {
 			var organization = "<%= @current_organization.public_id %>";
 			var assessment = "<%= @assessment.public_id %>";
-			var url = "<%= url_for :controller => '/apps/assessment', :action => :edit_assessment_options_recycle %>";
+			var url = "<%= ifa_assessment_options_recycle_url %>";
 			jQ.get(url,{'organization_id': organization,'assessment_id': assessment},  function(data) {
 				jQ("#assessment_options").html(data);
 		  		jQ("#question_tags").hide();

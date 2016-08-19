@@ -11,7 +11,7 @@
               <script type="text/javascript">
                 jQ(document).ready(function() {
                   jQ("#refresh_tbdashboard<%= entity.class.to_s%><%= entity.id%>").click(function() {
-                    var url = "<%= url_for :controller => "apps/assessment", :action => "tbdashboard_submissions", :organization_id => organization,  :entity_id => entity, :entity_class => entity.class.to_s, :subject_id => subject.id, :period => period_end %>";
+                    var url = "<%= ifa_dashboard_tb_submissions_url(:organization_id => organization,  :entity_id => entity, :entity_class => entity.class.to_s, :subject_id => subject.id, :period => period_end) %>";
                     jQ.get(url,{},  function(data) {
                       jQ("#org_analysis_tabs").html(data);
                       jQ("#org_analysis_tabs").show();

@@ -1,0 +1,126 @@
+
+@import "application-variables.scss";
+
+
+.ifa_container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.ifa_user_panel {
+  padding-left:0em;
+  padding-top:1em;
+  text-align:center;
+  word-wrap:break-word;
+  overflow:hidden;
+  width:100%;
+  padding-bottom:2em;
+  font-size:14px;
+  color:$dark_text
+}
+.ifa_panel_title {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:14px;
+  color:$blue_title
+}
+.summary_dashboard_panel {
+  width:100%;
+  padding-bottom:2em;
+  padding-left:2em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  font-weight:normal;
+  font-size:10px;
+  color:$dark_text
+}
+.toggle_filter_row {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:center;
+  vertical-align:top;
+  font-weight:normal;
+  font-size:10px;
+  color:$dark_text;
+}
+.summary_dashboards {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:normal;
+  font-size:10px;
+  color:$dark_text;
+}
+.summary_dashboard_row {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:3em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:normal;
+  font-size:10px;
+  color:$dark_text;
+}
+.repo_question_select {
+  width:100%;
+  padding-right:0em;
+  font-size:10px;
+  color:$dark_text;
+}
+.repo_question_submit {
+  width:100%;
+  padding-left:1em;
+  font-size:10px;
+  color:$dark_text;
+}
+
+/*  -----    */
+
+.panel-palette_1 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_1;
+  border-color: #ddd;
+}
+
+.panel-palette_2 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_2;
+  border-color: #ddd;
+}
+.panel-palette_3 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_3;
+  border-color: #ddd;
+}
+
+.panel-palette_4 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_4;
+  border-color: #ddd;
+}
+
+.panel-palette_5 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_5;
+  border-color: #ddd;
+}

@@ -3,9 +3,12 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title><%= @current_organization.name %></title>
-		<%= stylesheet_link_tag "reset", :media => "screen" %>		
-		<%= stylesheet_link_tag "prayer_pledge", :media => "screen" %>
-        <%= stylesheet_link_tag 'general' %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'apps/assessment' %>
+
+		<%= stylesheet_link_tag "reset", :media => "screen" %>
+    <%= stylesheet_link_tag 'general' %>
 
 		<%= stylesheet_link_tag "jquery.ui.potato.menu.css" %>
 	
@@ -31,7 +34,6 @@
         <%= javascript_include_tag 'wforms_validation.js' %>
         <%= javascript_include_tag 'wforms_switch.js' %>
         <%= javascript_include_tag 'wforms_repeat_rails.js' %>
-        <%#= javascript_include_tag 'tiny_mce/tiny_mce.js' %>
         <%= javascript_include_tag 'jquery.tools.min.js' %>
 		<%= javascript_include_tag 'jquery.ui.potato.menu.js' %>
         <script type="text/javascript" charset="utf-8">
@@ -50,11 +52,12 @@
             })
         </script>		
 	</head>
-	<body>
-		<div id="container">
-			<%= yield %>
-		</div>
-		
+  <body  class="container iwing_page_background">
+    <div class="row">
+      <div class="elt_container">
+        <%= yield %>
+      </div>
+    </div>
 		<script type="text/javascript">
 /*
       var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");

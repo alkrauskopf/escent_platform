@@ -288,13 +288,66 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/assessment/view' => 'apps/assessment#static_assessment'
   get '/ifa/teacher/review' => 'apps/assessment#teacher_review'
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'
+  get '/ifa/assessment/submission' => 'apps/assessment#submission_teacher'  # ifa_assessment_submission_url
   get '/ifa/lu/standards/show' => 'apps/assessment#topic_standards_benchmarks'
   get '/ifa/classroom/option/calibrate' => 'apps/assessment#classroom_option_toggle_calibrate'
   get '/ifa/classroom/option/filter' => 'apps/assessment#classroom_option_toggle_user_filter'
   get '/ifa/classroom/option/update' => 'apps/assessment#classroom_options_update'
   get '/ifa/classroom/assessment/pool/update' => 'apps/assessment#update_classroom_assessment_pool_from_repository'
   get '/ifa/classroom/assessments/filtered' => 'apps/assessment#classroom_get_filtered_assessments'
-  get '/ifa/students' => 'apps/assessment#student_list'
+  get '/ifa/students' => 'apps/assessment#student_list'    # ifa_students
+  get '/ifa/org_analysis' => 'apps/assessment#org_analysis'    # ifa_org_analysis
+  get '/ifa/toggle/summary_data' => 'apps/assessment#toggle_sumry_ifa_data'    # ifa_toggle_summary_data_url
+  get '/ifa/toggle/summary_dashboard' => 'apps/assessment#toggle_sumry_ifa_dashboard'    # ifa_toggle_summary_dashboard_url
+
+  get '/ifa/student/baseline/edit' => 'apps/assessment#edit_student_baseline_score' #  ifa_student_baseline_edit_url
+  get '/ifa/student/csap/demographic/edit' => 'apps/assessment#edit_student_csap_demographic' #  ifa_student_csap_demographic_edit_url
+  get '/ifa/student/grade_level/edit' => 'apps/assessment#edit_student_grade_level' #  ifa_student_grade_level_edit_url
+
+  get '/ifa/question/add' => 'apps/assessment#add_ifa_question'    # ifa_question_add_path
+  post '/ifa/question/add' => 'apps/assessment#add_ifa_question'    # ifa_question_add_path
+  get '/ifa/question/edit' => 'apps/assessment#edit_ifa_question'    # ifa_question_edit_path
+  get '/ifa/question/destroy' => 'apps/assessment#edit_question_destroy_question'    # ifa_question_destroy_url
+
+  get '/ifa/question/position' => 'apps/assessment#position_question'    # ifa_question_position_url
+  get '/ifa/question/pool/recycle' => 'apps/assessment#edit_assessment_question_pool_recycle' #  ifa_question_pool_recycle_url
+  get '/ifa/question/options/recycle' => 'apps/assessment#edit_question_options_recycle' #  ifa_question_options_recycle_url
+  get '/ifa/question/choice/update' => 'apps/assessment#edit_question_update_choice' #  ifa_question_choice_update_url
+  get '/ifa/question/choice/add' => 'apps/assessment#edit_question_add_choice' #  ifa_question_choice_add_url
+  get '/ifa/question/reading' => 'apps/assessment#get_question_reading' #  ifa_question_reading_url
+  get '/ifa/question/score/range' => 'apps/assessment#edit_question_score_range' #  ifa_question_score_range_url
+  get '/ifa/question/strand' => 'apps/assessment#edit_question_strand' #  ifa_question_strand_url
+  get '/ifa/question/master/new' => 'apps/assessment#edit_question_new_master' #  ifa_question_master_new_url
+  get '/ifa/question/benchmarks/recycle' => 'apps/assessment#edit_question_benchmarks_recycle' #  ifa_question_benchmarks_recycle_url
+  get '/ifa/question/assessments/recycle' => 'apps/assessment#edit_question_assessments_recycle' #  ifa_question_assessments_recycle_url
+  get '/ifa/question/resources/find' => 'apps/assessment#edit_question_find_resources' #  ifa_question_resources_find_url
+  get '/ifa/question/toggle/lock' => 'apps/assessment#edit_question_toggle_lock' #  ifa_question_toggle_lock_url
+  get '/ifa/question/toggle/active' => 'apps/assessment#edit_question_toggle_active' #  ifa_question_toggle_active_url
+  get '/ifa/question/picture/size' => 'apps/assessment#edit_question_picture_enlarge' #  ifa_question_picture_size_url
+
+  get '/ifa/user/questions/list' => 'apps/assessment#list_user_questions'    # ifa_user_questions_list_path
+  get '/ifa/subject/questions' => 'apps/assessment#subject_questions'    # ifa_subject_questions_path
+  get '/ifa/user/options/update' => 'apps/assessment#user_options_update' #  ifa_user_options_update_url
+  get '/ifa/user/options/assessment/update' => 'apps/assessment#static_assess_user_options_update' #  ifa_user_options_assessment_update_url
+
+  get '/ifa/user/options/toggle/calibrate' => 'apps/assessment#user_option_toggle_calibrate' #  ifa_user_options_toggle_calibrate_url
+  get '/ifa/user/options/toggle/filter' => 'apps/assessment#user_option_toggle_user_filter' #  ifa_user_options_toggle_filter_url
+  get '/ifa/user/switch/standard' => 'apps/assessment#switch_standard_view' #  ifa_user_switch_standard_url
+
+  get '/ifa/assessment/options/recycle' => 'apps/assessment#edit_assessment_options_recycle' #  ifa_assessment_options_recycle_url
+  get '/ifa/assessment/toggle/lock' => 'apps/assessment#edit_assessment_toggle_lock' #  ifa_assessment_toggle_lock_url
+  get '/ifa/assessment/toggle/active' => 'apps/assessment#edit_assessment_toggle_active' #  ifa_assessment_toggle_active_url
+  get '/ifa/assessment/destroy' => 'apps/assessment#edit_assessment_destroy_assessment' #  ifa_assessment_destroy_url
+
+
+  get '/ifa/dashboard/refresh/scores' => 'apps/assessment#refresh_dashboard_scores' #  ifa_dashboard_refresh_scores_url
+  get '/ifa/dashboard/refresh/cells' => 'apps/assessment#refresh_dashboard_cells' #  ifa_dashboard_refresh_cells_url
+  get '/ifa/dashboard/submissions' => 'apps/assessment#dashboard_submissions' #  ifa_dashboard_submissions_url
+  get '/ifa/dashboard/tb/submissions' => 'apps/assessment#tbdashboard_submissions' #  ifa_dashboard_tb_submissions_url
+  get '/ifa/dashboard/toggle' => 'apps/assessment#toggle_ifa_dashboard' #  ifa_dashboard_toggle_url
+
+  get '/ifa/related_reading' => 'apps/assessment#get_related_reading' #  ifa_related_reading_url
+  get '/ifa/related_reading/select' => 'apps/assessment#select_related_reading' #  ifa_related_reading_select_url
 
   # APP CTL
   get '/ctl/session/show' => 'apps/time_learning#static_itl_session'

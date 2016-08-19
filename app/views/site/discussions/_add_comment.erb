@@ -37,26 +37,6 @@
 			jQ("#cancel_add_comment").click(function(){
 				jQ("#root_discussion_form").slideUp("fast");
 			})
-			
 		</script>
-	<% else -%>
-		<div class="discussion_root_login">
-			<div class="discussion_root_form_title">
-				Please login or <%= link_to "register", user_register_path %> first.
-			</div>
-			<%= form_tag user_signin_path(:organization_id => @current_organization, :admin => defined?(admin) && admin) do -%>
-				<p class="clear">
-					<%= text_field_tag "user[email_address]", "", :size=> 20, :class => "text" %>
-					<%= password_field_tag "user[password]", "", :size=> 20, :class => "text" %>
-				</p>
-				<div class="discussion_root_login_submit clear">
-					<% if flash[:login_error] -%>
-						<div class="discussion_root_login_notice"><%= flash[:login_error]%></div>
-					<% end -%>
-					<button class="fsn-button ui-button ui-state-default ui-corner-all">login</button>			
-					<button class="fsn-button ui-button ui-state-default ui-corner-all">cancel</button>
-				</div>
-			<% end -%>
-		</div>	
 	<% end -%>
 </div>

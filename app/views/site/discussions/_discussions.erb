@@ -3,22 +3,22 @@
   <% comment_option = false %>
   <% if topic  -%>
 	  <% unless !topic.classroom.active_for?(@current_user)-%> 
-		<% if topic.classroom.leaders.include?(@current_user) || @current_user.student_of_classroom?(topic.classroom) %> 
-		  	<% comment_option = true %>
-		<% end %>
+      <% if topic.classroom.leaders.include?(@current_user) || @current_user.student_of_classroom?(topic.classroom) %>
+          <% comment_option = true %>
+      <% end %>
 	  <% end %>
 	    <% if topic.is_open && viewable%>
-          <div class="offering_panel_box">
-            <div class="offering_panel_header ">
-              <span class="offering_panel_text">Critical Thinking Discussion </span>
-	         	</div>
+        <div class="offering_panel_box">
+          <div class="offering_panel_header ">
+            <span class="offering_panel_text">Critical Thinking Discussion </span>
 	        	<div class="root_discussion_trigger">
 		       	 	<% if comment_option -%>
-						<span style="vertical-align:top"><%=image_tag "comment.png",:width => 100 %></span>
-					<% end -%>
+						    <span style="vertical-align:top"><%=image_tag "comment.png",:width => 100 %></span>
+					    <% end -%>
 	        	</div>
-			</div>
-				<% if comment_option-%>	
+          </div>
+			  </div>
+				<% if comment_option-%>
 			  	  	<div id="root_discussion_form" style="display: none;">
 			        	<%= render :partial => "/site/discussions/add_comment", :locals => {:topic => topic} %>
 			    	</div>

@@ -1,5 +1,5 @@
 class Site::DiscussionsController < Site::ApplicationController
-  layout "site"    
+  layout "site"
   
   protect_from_forgery :except => [:add_reply, :delete_reply, :report_abuse, :share_content, :share_discussion]
   before_filter :find_featured_topic, :only => [:show, :add_comment]
@@ -27,7 +27,6 @@ class Site::DiscussionsController < Site::ApplicationController
     end
 
     # @discussions = @current_topic.discussions.active.paginate(:page => params[:page], :conditions => ["parent_id IS NULL"], :order => "created_at #{params[:parent_id] ? 'ASC' : 'DESC'}")
-
     render :partial => "discussions", :locals=>{:topic => @topic, :viewable => @current_user ? @topic.classroom.viewable_by?(@current_user) : nil}
   end
   

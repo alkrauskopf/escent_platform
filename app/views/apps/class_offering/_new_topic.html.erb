@@ -15,16 +15,18 @@
 	  <%#= render :partial => "/shared/share_login" %>
 	</div>
 	-->
-	<div class='lu_panel_box'>
+  <% if !topic.instructional_remarks.nil? && !topic.instructional_remarks.html_safe == '' %>
+    <div class='lu_panel_box'>
 	    <div class='lu_remarks'>
-        <%= topic.instructional_remarks.nil? ? '' : topic.instructional_remarks.html_safe%>
-      </div>
+        <%= topic.instructional_remarks.html_safe %>
 		<!--
     <div id="shared_discussion_warp_box">
 			<%#= render :partial => "/shared/shared_discussion", :locals => {:discussion => topic} %>
 		</div>
 		-->
-	</div>
+	    </div>
+    </div>
+  <% end %>
 	<% unless topic.contents.empty? %>
     <% if !topic.positioned_folders.empty? -%>
       <div class="offering_panel_box">
@@ -90,7 +92,7 @@
    </div>
   <% end -%>
 
-  <div>
+  <div id="discussions_panel">
     <%= render :partial => "/site/discussions/discussions", :locals=>{:topic => topic, :viewable => topic.classroom.viewable_by?(@current_user)}%>
     &nbsp;
 	</div>

@@ -17,7 +17,7 @@
 	-->
 	<div class='lu_panel_box'>
 	    <div class='lu_remarks'>
-        <%= topic.instructional_remarks.html_safe%>
+        <%= topics.instructional_remarks.nil? ? '' : topic.instructional_remarks.html_safe%>
       </div>
 		<!--
     <div id="shared_discussion_warp_box">

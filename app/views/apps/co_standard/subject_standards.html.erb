@@ -32,15 +32,15 @@
 						<% evidence_list = evidence_list.sort_by{|b| [b.act_score_range.upper_score]}-%>
 						<strong><%= gle.skill.humanize %></strong><br/>
 						<% if @edit_authorized -%>
-							<u><%=link_to 'Add Evidence Outcome For GLE', :controller => 'apps/assessment',:action => "add_ifa_benchmark",:organization_id => @current_organization, :classroom_id => @classroom, :subject_id => @current_subject.id, :std_id => std.id, :gle_id => gle.id, :master_id => master.id, :function => "New"%></u>
+							<u><%=link_to 'Add Evidence Outcome For GLE', ifa_benchmark_ifa_add_path(:organization_id => @current_organization, :classroom_id => @classroom, :subject_id => @current_subject.id, :std_id => std.id, :gle_id => gle.id, :master_id => master.id, :function => "New") %></u>
 						<% end -%>
 						 <br>
 						<% for ev in evidence_list do -%>						 
 							<strong><%= ev.act_score_range.range %></strong>&nbsp;
 							<% if @edit_authorized -%>
-								<u><%= link_to "Edit", {:controller =>  "/apps/assessment", :action => "edit_ifa_benchmark", :organization_id => @current_organization, :classroom_id => @classroom, :benchmark_id => ev}  %></u>
+								<u><%= link_to "Edit", ifa_benchmark_edit_path(:organization_id => @current_organization, :classroom_id => @classroom, :benchmark_id => ev) %></u>
 							<% end -%>
-							&nbsp;<u><%= link_to "Statistics", {:controller =>  "/apps/assessment", :action => "static_benchmark", :organization_id => @current_organization, :classroom_id => @classroom, :benchmark_id => ev}, {:target => "_blank"}  %></u>
+							&nbsp;<u><%= link_to "Statistics", ifa_benchmark_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :benchmark_id => ev), {:target => "_blank"}  %></u>
 							<br/><%= ev.description.humanize %><br/>
 						<% end -%>
 						<br/>- - - - - -<br/>						

@@ -58,7 +58,7 @@ EscentPartners::Application.routes.draw do |map|
   put '/resource/destroy' => 'site/contents#destroy_selected'
 
   # CORE Organization
-  get '/organization/view' => 'site/site#static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}
+  get '/organization/view' => 'site/site#static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}  #  organization_view_path
   get '/organization/view/app' => 'site/site#summarize_org_app'
   get '/organization/view/offering' => 'site/site#summarize_org_subject_offerings'
   get '/organization/view/resources' => 'site/site#summarize_org_resources'
@@ -137,7 +137,7 @@ EscentPartners::Application.routes.draw do |map|
   post '/discussion/report/abuse' => 'site/discussions#report_abuse'
 
   # Main Application Route Paths
-  get CoopApp.classroom.route_url => CoopApp.classroom.route_action
+  get CoopApp.classroom.route_url => CoopApp.classroom.route_action    #  self.send(@current_application.link_path
   get CoopApp.ifa.route_url => CoopApp.ifa.route_action
   get CoopApp.ctl.route_url => CoopApp.ctl.route_action
   get CoopApp.pd.route_url => CoopApp.pd.route_action
@@ -286,7 +286,7 @@ EscentPartners::Application.routes.draw do |map|
 
   # APPS IFA
 
-  get '/ifa/teacher/review' => 'apps/assessment#teacher_review'
+  get '/ifa/teacher/review' => 'apps/assessment#teacher_review'   # ifa_teacher_review_path
   get '/ifa/lu/standards/show' => 'apps/assessment#topic_standards_benchmarks'
   get '/ifa/classroom/option/calibrate' => 'apps/assessment#classroom_option_toggle_calibrate'
   get '/ifa/classroom/option/filter' => 'apps/assessment#classroom_option_toggle_user_filter'
@@ -355,6 +355,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path
   post '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path
+  get '/ifa/assessment/update' => 'apps/assessment#edit_assessment'   # ifa_assessment_update_path
   post '/ifa/assessment/update' => 'apps/assessment#edit_assessment'   # ifa_assessment_update_path
   get '/ifa/assessment/copy' => 'apps/assessment#copy_assessment'   # ifa_assessment_copy_path
   get '/ifa/assessment/submission' => 'apps/assessment#submission_teacher'  # ifa_assessment_submission_url
@@ -390,6 +391,7 @@ EscentPartners::Application.routes.draw do |map|
   post '/ifa/related_reading/edit' => 'apps/assessment#edit_reading' #  ifa_related_reading_edit_path
   get '/ifa/related_reading/genre/show' => 'apps/assessment#genre_readings' #  ifa_related_reading_genre_show_path
 
+  get '/ifa/benchmark/ifa/add' => 'apps/assessment#add_ifa_benchmark'   # ifa_benchmark_ifa_add_path
   post '/ifa/benchmark/ifa/add' => 'apps/assessment#add_ifa_benchmark'   # ifa_benchmark_ifa_add_path
   post '/ifa/benchmark/add' => 'apps/assessment#add_benchmark' #  ifa_benchmark_add_path
   get '/ifa/benchmark/edit' => 'apps/assessment#edit_ifa_benchmark'   # ifa_benchmark_edit_path
@@ -406,6 +408,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/standard/questions/list' => 'apps/assessment#list_standard_questions'    # ifa_standard_questions_list_path
   post '/ifa/options/edit' => 'apps/assessment#edit_options'    # ifa_options_edit_path
   get '/ifa/option/master/remove' => 'apps/assessment#add_remove_app_option_master'    # ifa_option_master_remove_path
+
+  get 'ifa/co/subject/standards' => 'apps/co_standard#subject_standards'    #   ifa_co_subject_standards_path
 
   # APP CTL
   get '/ctl/session/show' => 'apps/time_learning#static_itl_session'

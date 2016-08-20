@@ -6,13 +6,6 @@ class Apps::AssessmentController < ApplicationController
   before_filter :clear_notification
   before_filter :increment_app_views, :only=>[:index]
 
-  
- def clear_notification
-    flash[:notice] = nil
-    flash[:error] = nil
-  end
-  
-
 #
 #   MAIN ASSESSMENT MANAGEMENT CONTROLLERS
   def index
@@ -30,7 +23,7 @@ class Apps::AssessmentController < ApplicationController
       prepare_summary_data
       find_dashboard_update_start_dates(@current_organization)
     else
-      redirect_to :controller => "site/site", :action => "static_organization", :organization_id => @current_organization
+      redirect_to organization_view_path(:organization_id => @current_organization)
     end
   end
 
@@ -56,7 +49,7 @@ class Apps::AssessmentController < ApplicationController
       prepare_summary_dashboard
       find_dashboard_update_start_dates(@current_organization)
     else
-       redirect_to :controller => "site/site", :action => "static_organization", :organization_id => @current_organization
+       redirect_to organization_view_path(:organization_id => @current_organization)
     end
   end
 
@@ -72,7 +65,7 @@ class Apps::AssessmentController < ApplicationController
       @student = User.find_by_public_id(params[:user_id])rescue nil
     end
     unless @student
-       redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
     end
   end
 
@@ -89,7 +82,7 @@ class Apps::AssessmentController < ApplicationController
          flash[:error] = @current_organization.ifa_org_option.errors.full_messages.to_sentence 
       end
     end
-       redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
   end
 
 
@@ -102,7 +95,7 @@ class Apps::AssessmentController < ApplicationController
     initialize_parameters
 
     unless  @question
-      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization
+      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization))
     end
     @rel_reading = @question.act_rel_reading ? @question.act_rel_reading : nil
     @benchmark_list = @question.act_benches.sort_by{|b| [b.benchmark_type, b.description]} rescue []
@@ -139,7 +132,7 @@ class Apps::AssessmentController < ApplicationController
   def static_assessment
     initialize_parameters 
     unless @assessment 
-      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
+      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question))
     end
     @originator = "Unkown Creator"
     if @assessment.generation > 0
@@ -160,7 +153,7 @@ class Apps::AssessmentController < ApplicationController
     initialize_parameters
 
     unless  @benchmark
-      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
     end
     @bench_questions = @benchmark.act_questions rescue nil
     @bench_assessments = []
@@ -208,7 +201,7 @@ class Apps::AssessmentController < ApplicationController
    initialize_parameters 
    @question.update_attributes(:is_calibrated =>!@question.is_calibrated)
    @question.calibrate_assessments
-   redirect_to :action => 'static_question', :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
+   redirect_to ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question)
  end
 
 #
@@ -261,7 +254,7 @@ class Apps::AssessmentController < ApplicationController
           range.lower_score = 0
           range.save
           end
-        redirect_to :action => 'edit_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :assessment_id => @assessment
+        redirect_to ifa_assessment_update_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :assessment_id => @assessment)
       end 
       flash[:error] = @assessment.errors.full_messages.to_sentence 
     end
@@ -321,7 +314,7 @@ class Apps::AssessmentController < ApplicationController
         else
          flash[:error] = @assessment.errors.full_messages.to_sentence 
        end
-       redirect_to :action => 'static_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment
+       redirect_to ifa_assessment_view_path(:organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment)
     end
     if @assessment 
       then 
@@ -361,7 +354,7 @@ class Apps::AssessmentController < ApplicationController
           @assessment.act_assessment_score_ranges<<range
           end
      end
-     redirect_to :action => 'edit_ifa_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment
+     redirect_to ifa_assessment_edit_path(:organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment)
  end
 
 	def edit_ifa_assessment
@@ -426,7 +419,7 @@ class Apps::AssessmentController < ApplicationController
          flash[:error] = @new_assessment.errors.full_messages.to_sentence 
        end
      end
-   redirect_to :action => 'static_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :assessment_id => @assessment
+   redirect_to ifa_assessment_view_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :assessment_id => @assessment)
   end
 
   def destroy_assessment
@@ -437,7 +430,7 @@ class Apps::AssessmentController < ApplicationController
       @assessment.destroy
       flash[:notice] = "Assessment Deleted"    
       end
-    redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
+    redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question))
   end
 
   def unlock_assessment
@@ -450,7 +443,7 @@ class Apps::AssessmentController < ApplicationController
       @assessment.is_locked = true
     end
     @assessment.update_attributes params[:act_assessment]
-    redirect_to :action => 'static_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :assessment_id => @assessment
+    redirect_to ifa_assessment_view_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :assessment_id => @assessment)
   end
 
 
@@ -715,10 +708,10 @@ class Apps::AssessmentController < ApplicationController
          teacher = User.find(@submission.teacher_id)
          UserMailer.assessment_submission(teacher, @current_user,@classroom, @current_organization, teacher_must_review, request.host_with_port).deliver
        end
-       redirect_to :action => 'take_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment,:submission_id => @submission, :function => "Success"
+       redirect_to ifa_assessment_take_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment,:submission_id => @submission, :function => "Success")
      else
        flash[:error] = @submission.errors.full_messages.to_sentence
-       redirect_to :action => 'submit_assessment', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment
+       redirect_to ifa_assessment_submit_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment)
      end
    end
 
@@ -825,7 +818,7 @@ class Apps::AssessmentController < ApplicationController
   
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     unless @entity_dashboard
-      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization
+      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization))
     end
     update_sms_in_user_dashboard(@entity_dashboard) 
     prepare_single_ifa_dashboard(@entity_dashboard)
@@ -841,7 +834,7 @@ class Apps::AssessmentController < ApplicationController
 
      @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
      if @entity_dashboard.nil?
-       redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization
+       redirect_to self.send(@current_application.link_path(:organization_id => @current_organization))
      end
      ActSubmission.not_dashboarded(@entity_dashboard.ifa_dashboardable_type, @entity_dashboard.ifa_dashboardable, @current_subject, @entity_dashboard.period_beginning, @entity_dashboard.period_ending).each do |submission|
        if @entity_dashboard.ifa_dashboardable_type == 'User'
@@ -897,7 +890,7 @@ class Apps::AssessmentController < ApplicationController
   
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     unless @entity_dashboard
-      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization
+      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization))
     end
     update_cells_in_user_dashboard(@entity_dashboard) 
     prepare_single_ifa_dashboard(@entity_dashboard)
@@ -914,7 +907,7 @@ class Apps::AssessmentController < ApplicationController
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     @current_standard = ActMaster.find_by_id(params[:master_id]) rescue @current_standard 
     unless @entity_dashboard
-      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization
+      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization))
     end
     @current_user.set_standard_view(@current_standard)
     prepare_single_ifa_dashboard(@entity_dashboard)
@@ -994,7 +987,7 @@ class Apps::AssessmentController < ApplicationController
       unless @finalized
         flash[:error] = @submission.errors.full_messages.to_sentence
       end
-    redirect_to :controller => 'apps/assessment', :action => 'teacher_review', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic
+    redirect_to ifa_teacher_review_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic)
     else
     render :layout => "act_assessment"
     end
@@ -1010,7 +1003,7 @@ class Apps::AssessmentController < ApplicationController
        @teacher = User.find_by_id(@submission.teacher_id) rescue nil
        @reviewer = User.find_by_id(@submission.reviewer_id) rescue nil
       else
-       redirect_to :controller => 'apps/assessment', :action => 'teacher_review', :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic
+       redirect_to ifa_teacher_review_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic)
     end
     render :layout => "act_assessment"
   end
@@ -1025,7 +1018,7 @@ class Apps::AssessmentController < ApplicationController
        @teacher = User.find_by_id(@submission.teacher_id) rescue nil
        @reviewer = User.find_by_id(@submission.reviewer_id) rescue nil
       else
-       redirect_to :controller => 'apps/assessment', :action => 'teacher_review', :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to ifa_teacher_review_path(:organization_id => @current_organization, :classroom_id => @classroom)
     end
     render :layout => "act_assessment"
   end
@@ -1134,7 +1127,7 @@ class Apps::AssessmentController < ApplicationController
           end         
         end
        end
-         redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+         redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
      end
     end
   end
@@ -1182,7 +1175,7 @@ class Apps::AssessmentController < ApplicationController
      @benchmark.user_id = @current_user.id
      @benchmark.organization_id = @current_organization.id
      @benchmark.save
-     redirect_to :action => 'edit_ifa_benchmark', :organization_id => @current_organization, :benchmark_id => @benchmark
+     redirect_to ifa_benchmark_edit_path(:organization_id => @current_organization, :benchmark_id => @benchmark)
   end
 
   def edit_ifa_benchmark
@@ -1215,7 +1208,7 @@ class Apps::AssessmentController < ApplicationController
       @benchmark.destroy
       flash[:notice] = "Benchmark Deleted" 
     end
-    redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+    redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
   end
 
 
@@ -1335,7 +1328,7 @@ class Apps::AssessmentController < ApplicationController
      @benchmark_list.each do |bench|    
        @question.act_benches<<bench
      end
-     redirect_to :action => 'static_question', :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
+     redirect_to ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question)
     end 
     flash[:error] = @question.errors.full_messages.to_sentence 
     end 
@@ -1431,7 +1424,7 @@ class Apps::AssessmentController < ApplicationController
       end
 
          flash[:notice] = "Question Updated Successfully"       
-         redirect_to :action => 'static_question', :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
+         redirect_to ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question)
         else
          flash[:error] = @question.errors.full_messages.to_sentence 
        end
@@ -1602,7 +1595,7 @@ class Apps::AssessmentController < ApplicationController
          flash[:error] = @new_question.errors.full_messages.to_sentence 
        end
      end
-   redirect_to :action => 'static_question', :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
+   redirect_to ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question)
   end
 
   def unlock_question
@@ -1617,7 +1610,7 @@ class Apps::AssessmentController < ApplicationController
       @question.is_locked = true
     end
     @question.update_attributes params[:act_question]
-    redirect_to :action => 'static_question', :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question
+    redirect_to ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question)
   end
 
   def preview_question
@@ -1686,7 +1679,7 @@ class Apps::AssessmentController < ApplicationController
           end
          end
         end 
-      redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
     end 
     flash[:error] = @reading.errors.full_messages.to_sentence 
    end
@@ -1722,7 +1715,7 @@ class Apps::AssessmentController < ApplicationController
         else
          flash[:error] = @reading.errors.full_messages.to_sentence 
        end
-       redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
     end
   end
 
@@ -1735,7 +1728,7 @@ class Apps::AssessmentController < ApplicationController
       reading.destroy
       flash[:notice] = "Related Reading Deleted"
       end
-    redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+    redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
   end
 
 
@@ -2062,7 +2055,7 @@ end
     else
      flash[:error] = "assessment Was Not Deleted"
     end
-    redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+    redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
   end 
 
 
@@ -2132,7 +2125,7 @@ end
       @subject = ActSubject.find_by_public_id(params[:subject_id]) rescue nil
       @lower_score = params[:score] rescue nil
     unless @student && @master && @subject && @lower_score
-       redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
     end
     baseline_score = @student.ifa_user_baseline_scores.for_subject(@subject).for_standard(@master).first rescue nil
     if baseline_score
@@ -2177,7 +2170,7 @@ end
       @subject = ActSubject.find_by_public_id(params[:subject_id]) rescue nil
       @lower_score = params[:score] rescue nil
     unless @student && @subject && @lower_score
-       redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+       redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
     end
     subject_demo = @student.student_subject_demographics.for_subject(@subject).first rescue nil
     if subject_demo
@@ -2397,7 +2390,7 @@ end
     else
      flash[:error] = "Question Was Not Deleted"
     end
-    redirect_to :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom
+    redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
   end  
  
   def edit_question_toggle_choice

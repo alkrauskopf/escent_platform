@@ -1,16 +1,17 @@
-class Apps::CoStandardController < Site::ApplicationController
+class Apps::CoStandardController < ApplicationController
 
- layout "site", :except =>[:subject_standards]
-
-  
-#  x before_filter :clear_notification
+ layout "ifa", :except =>[:subject_standards]
+ before_filter :ifa_allowed?, :except=>[]
+ before_filter :current_user_app_authorized?, :except=>[]
+ before_filter :current_user_app_admin?, :only=>[]
+ before_filter :clear_notification
+ before_filter :increment_app_views, :only=>[:index]
   
  
   def index
   end
 
   def subject_standards
-    
     @co_master = ActMaster.co.first
     @current_standard = @current_user.act_master
     @current_organization = Organization.find_by_public_id(params[:organization_id])rescue nil
@@ -26,6 +27,12 @@ class Apps::CoStandardController < Site::ApplicationController
       end
   end
 
+ private
 
+ def ifa_allowed?
+   @current_application = CoopApp.ifa
+   @current_provider = @current_organization.app_provider(@current_application)
+   current_app_enabled_for_current_org?
+ end
 
 end

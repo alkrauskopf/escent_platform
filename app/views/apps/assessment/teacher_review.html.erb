@@ -81,7 +81,7 @@
 						<td  width=80px style="vertical-align:middle;  padding-top:5px; padding-bottom:5px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
 							<center>
 							<u>
-							<%= link_to "REVIEW", {:controller => "apps/assessment", :action => "final_assessment_review", :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :submission_id => ass} %> 
+							  <%= link_to "REVIEW", ifa_assessment_review_final_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :submission_id => ass) %>
 							</u>
 							</center>
 						</td>
@@ -115,7 +115,7 @@
 					<% subject_label = sub.name.titleize -%>
 					<tr>
 						<td class="resource_levels_close">
-							<%= link_to '', :controller => "apps/assessment", :action => :growth_dashboards, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "student", :subject_id => sub.id, :id => student, :details => true %>
+							<%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "student", :subject_id => sub.id, :id => student, :details => true) %>
 							<strong><%= student_label %></strong>&nbsp;&nbsp;&nbsp;<%= subject_label %>
 							<span></span>
 							</td>
@@ -146,7 +146,7 @@
 					<% sub_label = db.act_subject.name.titleize -%>
 					<tr>
 						<td class="resource_levels_close">
-						<%= link_to '', :controller => "apps/assessment", :action => :entity_dashboard, :organization_id => @current_organization,  :entity_id => @classroom, :subject_id => db.act_subject_id,  :dashboard_id => db,:entity_id => @classroom.id, :entity_class => @classroom.class, :period => db.period_end %>
+						<%= link_to '', ifa_dashboard_entity_path(:organization_id => @current_organization,  :entity_id => @classroom, :subject_id => db.act_subject_id,  :dashboard_id => db,:entity_id => @classroom.id, :entity_class => @classroom.class, :period => db.period_end) %>
 						<strong><%= period_label %></strong><%= sub_label %>
 						<span></span>
 						</td>

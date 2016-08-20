@@ -11,7 +11,7 @@
 					<% col_label = start_slot.strftime("%B, %Y") + ":&nbsp;&nbsp;&nbsp;&nbsp;" + pluralize(answers.size, ' Answer Choice') + ",&nbsp;&nbsp;&nbsp;&nbsp;Mastery Level: " + month_sms.to_s  -%>
 					<tr>
 						<td class="resource_levels_close">
-						<%= link_to '', :controller => "apps/assessment", :action => :entity_dashboard, :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :subject_id => @current_subject.id,  :group => "student", :entity => @current_user, :begin_time => start_slot,  :end_time => end_slot %>
+						<%= link_to '', ifa_dashboard_entity_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :subject_id => @current_subject.id, :group => "student", :entity => @current_user, :begin_time => start_slot,  :end_time => end_slot) %>
 						<strong><%= col_label %></strong>
 						<span></span>
 						</td>

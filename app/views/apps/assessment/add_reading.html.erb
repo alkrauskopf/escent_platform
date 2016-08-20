@@ -8,11 +8,11 @@
     <%= render :partial => "/shared/error_and_notice" %>
 
 <div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	  <%= link_to "Back", :controller => "/apps/assessment", :action => "manage", :organization_id => @current_organization, :classroom_id => @classroom %>
+	  <%= link_to "Back", self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom)) %>
 </div>
 
 <div id="reading_form" class="Form clear">
-<%= form_for(:act_rel_reading, :url => {:controller => "/apps/assessment", :action => :add_reading, :organization_id => @current_organization, :classroom_id => @classroom , :subject_id => @reading.act_subject_id, :function => "Submit"}) do |form| -%>
+<%= form_for(:act_rel_reading, :url => ifa_related_reading_add_path(:organization_id => @current_organization, :classroom_id => @classroom , :subject_id => @reading.act_subject_id, :function => "Submit")) do |form| -%>
 
 	<div class="FormRow">
 		<div class="FormRowTitle"><strong>Subject Area:</strong></div>
@@ -90,7 +90,7 @@
 <br/>
 	
 <div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	  <%= link_to "Back", :controller => "/apps/assessment", :action => "manage", :organization_id => @current_organization, :classroom_id => @classroom %>
+	  <%= link_to "Back", self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom)) %>
 </div>
 
 <style type="text/css" media="screen">

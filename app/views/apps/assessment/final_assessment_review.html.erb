@@ -1,6 +1,6 @@
 
 <div class="Form clear">
-<%= form_for(:act_submission, :url => {:controller => "/apps/assessment", :action => :final_assessment_review, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic,:submission_id => @submission, :function => "Submit"}) do |form| -%>
+<%= form_for(:act_submission, :url => ifa_assessment_review_final_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic,:submission_id => @submission, :function => "Submit")) do |form| -%>
 
     <%= render :partial => "/shared/error_and_notice" %>
 	

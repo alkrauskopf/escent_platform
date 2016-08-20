@@ -63,15 +63,15 @@
 
 				<tr >
 					<td width=80px style="vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-							<%= link_to (image_tag "delete.png", :class => "del"), {:action => "edit_question_remove_choice", :organization_id => @current_organization, :master_id => @master, :question_id => @question, :choice_id => c.id}, :class => "purge_button" %>
+							<%= link_to (image_tag "delete.png", :class => "del"), ifa_question_choice_remove_path(:organization_id => @current_organization, :master_id => @master, :question_id => @question, :choice_id => c.id), :class => "purge_button" %>
 					</td>						
 					<% if c.is_correct%>
 						<td width=80px style="vertical-align:middle;  padding-left:15px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-							<%= link_to (image_tag "button_correct.png",:width => 15), {:action => "edit_question_toggle_choice", :organization_id => @current_organization, :master_id => @master, :question_id => @question, :choice_id => c.id}, :class => "toggle_correct" %>
+							<%= link_to (image_tag "button_correct.png",:width => 15), ifa_question_choice_toggle_path(:organization_id => @current_organization, :master_id => @master, :question_id => @question, :choice_id => c.id), :class => "toggle_correct" %>
 						</td>
 					<% else -%>
 						<td width=80px style="vertical-align:middle;  padding-left:15px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-							<%= link_to (image_tag "button_incorrect.png",:width => 15), {:action => "edit_question_toggle_choice", :organization_id => @current_organization, :master_id => @master, :question_id => @question, :choice_id => c.id}, :class => "toggle_correct" %>
+							<%= link_to (image_tag "button_incorrect.png",:width => 15), ifa_question_choice_toggle_path(:organization_id => @current_organization, :master_id => @master, :question_id => @question, :choice_id => c.id), :class => "toggle_correct" %>
 						</td>						
 					<% end -%>
 

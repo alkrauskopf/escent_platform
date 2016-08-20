@@ -225,16 +225,16 @@
 				</td>
 				<% end-%>
 				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:35px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
-						<%= link_to (image_tag "button_preview.png",:width => 50), {:controller =>  "/apps/assessment", :action => "preview_question", :organization_id => @current_organization, :question_id => @question}, {:target => "_blank"} %>
+						<%= link_to (image_tag "button_preview.png",:width => 50), ifa_question_preview_path(:organization_id => @current_organization, :question_id => @question), {:target => "_blank"} %>
 				</td>	
 				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:40px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
-					<%= link_to (image_tag "button_new.png",:width => 50), :controller => 'apps/assessment',:action => "add_ifa_question",:organization_id => @current_organization, :subject_id => @question.act_subject.id, :function => "New"%>
+					<%= link_to (image_tag "button_new.png",:width => 50), ifa_question_add_path(:organization_id => @current_organization, :subject_id => @question.act_subject.id, :function => "New") %>
 				</td>			
 				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:35px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
-					<%= link_to (image_tag "button_new.png",:width => 50), {:controller => 'apps/assessment',:action => "add_reading",:organization_id => @current_organization, :subject_id => @question.act_subject.id, :function => "New"}, {:target => "_blank"}  %>
+					<%= link_to (image_tag "button_new.png",:width => 50), ifa_question_reading_add_path(:organization_id => @current_organization, :subject_id => @question.act_subject.id, :function => "New"), {:target => "_blank"}  %>
 				</td>			
 				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:35px; vertical-align:bottom; text-align:right;color: #000000;font-weight:normal;">
-					<%= link_to (image_tag "button_new.png",:width => 50), {:controller => 'apps/assessment',:action => "add_ifa_assessment",:organization_id => @current_organization,:subject_id => @question.act_subject.id, :function => "New"}, {:target => "_blank"} %>
+					<%= link_to (image_tag "button_new.png",:width => 50), ifa_assessment_add_path(:organization_id => @current_organization,:subject_id => @question.act_subject.id, :function => "New"), {:target => "_blank"} %>
 				</td>				
 			</tr>
 			<tr style=" border:0px solid white;">

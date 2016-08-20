@@ -13,7 +13,7 @@
 					<tr>
 					<td class="authorization_levels_close" style ="color:#C73914">
 
-					<%= link_to '', :controller => "apps/assessment", :action => :subject_standard_benchmarks, :organization_id => @current_organization, :classroom_id => @classroom, :master=> @master, :std_id => sti %>
+					<%= link_to '', ifa_subject_standard_benchmarks_path(:organization_id => @current_organization, :classroom_id => @classroom, :master=> @master, :std_id => sti) %>
 					<%= col_label %>
 					<span></span>
 					</td>

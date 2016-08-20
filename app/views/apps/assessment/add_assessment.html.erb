@@ -8,11 +8,11 @@
     <%= render :partial => "/shared/error_and_notice" %>
 
 <div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	  <%= link_to "Back", :controller => "/apps/assessment", :action => "manage", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question %>
+	  <%= link_to "Back", self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question)) %>
 </div>
 
 <div class="Form clear">
-<%= form_for(:act_assessment, :url => {:controller => "/apps/assessment", :action => :add_assessment, :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :function => "Submit"}) do |form| -%>
+<%= form_for(:act_assessment, :url => ifa_assessment_add_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :function => "Submit")) do |form| -%>
 
 
 	<div class="FormRow">
@@ -54,7 +54,7 @@
 <br/>
 	
 <div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	  <%= link_to "Back", :controller => "/apps/assessment", :action => "manage", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question %>
+	  <%= link_to "Back", self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question)) %>
 </div>
 
 <style type="text/css" media="screen">

@@ -10,7 +10,7 @@
 					<% col_label = readings.size.to_s + " " + genre_name-%>
 					<tr>
 					<td class="authorization_levels_close" style ="font-size:12px; color:#C73914">
-					<%= link_to '', :controller => "apps/assessment", :action => :genre_readings, :organization_id => @current_organization, :classroom_id => @classroom,  :subject_id => @current_subject.id, :genre_id => gi %>
+					<%= link_to '', ifa_related_reading_genre_show_path(:organization_id => @current_organization, :classroom_id => @classroom,  :subject_id => @current_subject.id, :genre_id => gi) %>
 					<%= col_label %>
 					<span></span>
 					</td>

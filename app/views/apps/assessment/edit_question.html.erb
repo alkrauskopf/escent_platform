@@ -8,11 +8,11 @@
     <%= render :partial => "/shared/error_and_notice" %>
 
 <div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	  <%= link_to "Back", :controller => "/apps/assessment", :action => "static_question", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question %>
+	  <%= link_to "Back", ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question) %>
 </div>
 
 <div id="question_form" class="Form clear">
-	<%= form_for(:act_question, :url => {:controller => "/apps/assessment", :action => :edit_question, :organization_id => @current_organization, :classroom_id => @classroom , :function => "Submit", :question_id => @question}) do |form| -%>
+	<%= form_for(:act_question, :url => ifa_question_update_path(:organization_id => @current_organization, :classroom_id => @classroom , :function => "Submit", :question_id => @question)) do |form| -%>
 
 	<div class="FormRow">
 		<div class="FormRowTitle"><strong>Subject Area:</strong></div>
@@ -123,7 +123,7 @@
 	</table>
 	<% @question.act_choices.each_with_index do |c, i| -%>
 	<div class="FormRow" style="position: relative;">
-					<%= link_to "Delete Choice", {:action => "remove_choice", :id => c[:id]}, :class => "delete" %>
+					<%= link_to "Delete Choice", ifa_question_choice_delete_path(:id => c[:id]), :class => "delete" %>
 				<%= hidden_field_tag "act_choices[id][]", c[:id] %>
 				<div class="FormRowTitle">&nbsp;</div>
 				<div class="FormRowData">
@@ -227,7 +227,7 @@
 <br/>
 	
 <div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	  <%= link_to "Back", :controller => "/apps/assessment", :action => "static_question", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question %>
+	  <%= link_to "Back", ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question) %>
 </div>
 
 <style type="text/css" media="screen">

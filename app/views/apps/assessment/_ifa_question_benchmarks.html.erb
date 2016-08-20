@@ -64,7 +64,7 @@ jQ(document).ready(function() {
 
 				<tr style="border:1px solid #ddd;">
 					<td width=80px style="vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
-							<%= link_to (image_tag "delete.png", :class => "del"), {:action => "edit_question_remove_benchmark", :organization_id => @current_organization, :question_id => @question, :benchmark_id => b.id}, :class => "bench_purge" %>
+							<%= link_to (image_tag "delete.png", :class => "del"), ifa_question_benchmark_remove_path(:organization_id => @current_organization, :question_id => @question, :benchmark_id => b.id), :class => "bench_purge" %>
 					</td>
 					<td width=80px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
 						<%=  b.act_master.abbrev.upcase %><br/><%= b.act_score_range.range %>,  <%= b.act_standard.abbrev %>
@@ -114,7 +114,7 @@ jQ(document).ready(function() {
 					<% unless @question.act_benches.include?(b) -%>
 					<tr style="border:1px solid #ddd;">
 							<td width=80px style="vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
-									<%= link_to (image_tag "add.png", :class => "del"), {:action => "edit_question_add_benchmark", :organization_id => @current_organization, :question_id => @question, :benchmark_id => b.id}, :class => "bench_add" %>
+									<%= link_to (image_tag "add.png", :class => "del"), ifa_question_benchmark_add_path(:organization_id => @current_organization, :question_id => @question, :benchmark_id => b.id), :class => "bench_add" %>
 							</td>
 							<td width=80px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
 								<%=  b.act_master.abbrev.upcase %><br/><%= b.act_score_range.range %>,  <%= b.act_standard.abbrev %>

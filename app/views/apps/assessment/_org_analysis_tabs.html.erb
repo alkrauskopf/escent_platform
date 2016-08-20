@@ -40,7 +40,7 @@
 				<% school_label = hs.name.upcase + ",&nbsp;" + hs.contact_name -%>
 				<tr>
 					<td class="resource_levels_close">
-						<%= link_to '', :controller => "apps/assessment", :action => :growth_dashboards, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "organization", :subject_id => @current_subject.id, :id => hs %>
+						<%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "organization", :subject_id => @current_subject.id, :id => hs) %>
 						<strong><%= school_label %></strong>
 						<span></span>
 						</td>
@@ -70,7 +70,7 @@
                 <% col_label = db.period_end.strftime("%B, %Y") -%>
                 <tr>
                   <td class="resource_levels_close">
-                    <%= link_to '', :controller => "apps/assessment", :action => :entity_dashboard, :organization_id => @current_organization,  :subject_id => @current_subject.id,  :dashboard_id => db %>
+                    <%= link_to '', ifa_dashboard_entity_path(:organization_id => @current_organization,  :subject_id => @current_subject.id,  :dashboard_id => db) %>
                     <strong><%= col_label %></strong>
                     <span></span>
                   </td>
@@ -100,7 +100,7 @@
           <% classroom_label = clsrm.course_name.upcase + ",&nbsp;" + truncate(clsrm.teacher_list, :omission => "...", :length => 13) -%>
           <tr>
             <td class="resource_levels_close">
-              <%= link_to '', :controller => "apps/assessment", :action => :growth_dashboards, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "classroom", :subject_id => @current_subject.id, :id => clsrm %>
+              <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "classroom", :subject_id => @current_subject.id, :id => clsrm) %>
               <strong><%= classroom_label %></strong>
               <span></span>
               </td>
@@ -123,7 +123,7 @@
           <% student_label = student.last_name.upcase + ",&nbsp;" + student.first_name -%>
           <tr>
             <td class="resource_levels_close">
-              <%= link_to '', :controller => "apps/assessment", :action => :growth_dashboards, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "student", :subject_id => @current_subject.id, :id => student %>
+              <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "student", :subject_id => @current_subject.id, :id => student) %>
               <strong><%= student_label %></strong>&nbsp;&nbsp;&nbsp;
               <span></span>
               </td>

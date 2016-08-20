@@ -137,7 +137,7 @@
 				<% group_label = "<strong>" + user_group.first.last_name.capitalize + " - " + user_group.last.last_name.capitalize + "</strong>   <i>(" + user_group.size.to_s + ")</i>"  -%>
 			<tr>
 				<td class="resource_levels_close">
-				<%= link_to '', :controller => "apps/assessment", :action => :student_list, :organization_id => @current_organization, :letter => l  %>
+				<%= link_to '', ifa_students_path(:organization_id => @current_organization, :letter => l) %>
 				<%= group_label %>
 				<span></span>
 				</td>

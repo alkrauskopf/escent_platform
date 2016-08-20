@@ -6,7 +6,7 @@
 	</span>
 	<% if @current_user.ifa_admin_for_org?(@current_organization)%>
 	<div style = "padding-bottom:10px;padding-left:0px; ">
-	<%= form_for(:act_question, :url => {:controller => "/apps/assessment", :action => :add_ifa_benchmark, :organization_id => @current_organization, :classroom_id => @classroom}) do |form| -%>
+	<%= form_for(:act_question, :url => ifa_benchmark_ifa_add_path(:organization_id => @current_organization, :classroom_id => @classroom)) do |form| -%>
 		<table  style="width:200px;margin-left:305px;">
 			<tbody>  
 				<tr>
@@ -47,7 +47,7 @@
 						<tr>
 						<td class="resource_levels_close">
 	
-						<%= link_to '', :controller => "apps/assessment", :action => :subject_benchmarks, :organization_id => @current_organization, :classroom_id => @classroom, :master => std,  :subject_id => si %>
+						<%= link_to '', ifa_subject_benchmarks_path(:organization_id => @current_organization, :classroom_id => @classroom, :master => std,  :subject_id => si) %>
 						<strong><%= col_label %></strong>
 						<span></span>
 						</td>

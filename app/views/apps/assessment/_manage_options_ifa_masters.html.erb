@@ -13,13 +13,13 @@
 						</td>			
 					<%else -%>
 						<td  id="remove" style="width:20px; border:0px; font-size:11px; padding-left:0px; padding-bottom:5px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:bold;">
-							<%= link_to (image_tag "button_enabled.png",:width => 15), {:action => "add_remove_app_option_master", :organization_id => @current_organization, :user_id => @current_user, :function => "remove", :master_id => mstr}, :class => "update_master" %>
+							<%= link_to (image_tag "button_enabled.png",:width => 15), ifa_option_master_remove_path(:organization_id => @current_organization, :user_id => @current_user, :function => "remove", :master_id => mstr), :class => "update_master" %>
 						</td>
 					<% end-%>
 			
 				<%else -%>
 						<td  id="add" style="width:20px; border:0px; font-size:11px; padding-left:0px; padding-bottom:5px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:bold;">
-							<%= link_to (image_tag "button_disabled.png",:width => 15), {:action => "add_remove_app_option_master", :organization_id => @current_organization, :user_id => @current_user,  :function => "add", :master_id => mstr}, :class => "update_master" %>
+							<%= link_to (image_tag "button_disabled.png",:width => 15), ifa_option_master_remove_path(:organization_id => @current_organization, :user_id => @current_user,  :function => "add", :master_id => mstr), :class => "update_master" %>
 						</td>
 				<% end-%>
 				<% if org_masters.include?(mstr)%>

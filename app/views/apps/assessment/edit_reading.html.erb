@@ -15,7 +15,7 @@
 </div>
 
 <div id="reading_form" class="Form clear">
-<%= form_for(:act_rel_reading, :url => {:controller => "/apps/assessment", :action => :edit_reading, :organization_id => @current_organization, :classroom_id => @classroom , :function => "Submit", :reading_id => @reading}) do |form| -%>
+<%= form_for(:act_rel_reading, :url => ifa_related_reading_edit_path(organization_id => @current_organization, :classroom_id => @classroom , :function => "Submit", :reading_id => @reading)) do |form| -%>
 
 <div style ="color: #000000; font-size:14px; margin-top:5px; margin-left:180px;font-weight:normal"> 
 

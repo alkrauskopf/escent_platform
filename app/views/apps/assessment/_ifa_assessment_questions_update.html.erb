@@ -151,7 +151,7 @@
 			<% end -%>
 			<% if !@assessment.is_locked -%>
 				<td width=20px style="border:0px solid #ddd;vertical-align:top;  padding-top:10px; padding-left:0px; padding-right:0px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-					<%= link_to (image_tag "delete.png", :class => "del"), {:action => "edit_assessment_remove_question", :organization_id => @current_organization, :assessment_id => @assessment, :question_id => quest.id}, :class => "purge_button" %>
+					<%= link_to (image_tag "delete.png", :class => "del"), ifa_assessment_question_remove_path(:organization_id => @current_organization, :assessment_id => @assessment, :question_id => quest.id), :class => "purge_button" %>
 				</td>
 			<% else -%>
 				<td width=20px style="border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:3px; padding-top:5px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
@@ -179,7 +179,7 @@
 				<% if quest.act_rel_reading %><u>Reading:</u><i> <%= quest.act_rel_reading.label %></i><br/><% end -%>
 				<i><%= quest.question.titleize %></i>
 				<br/><%= pluralize(quest.act_choices.size, ' Choice') %><br/>
-				<%= link_to "View", {:controller =>  "/apps/assessment", :action => "static_question", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest}, {:target => "_blank"}  %>
+				<%= link_to "View", ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest), {:target => "_blank"}  %>
 				<% if quest.user_id == @current_user.id %>
 					&nbsp;&nbsp;<%= link_to "Edit", ifa_question_edit_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest), {:target => "_blank"}  %>
 				<% end -%>

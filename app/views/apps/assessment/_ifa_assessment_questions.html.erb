@@ -54,7 +54,7 @@ jQ(document).ready(function() {
 
 						<tr style="border:1px solid #ddd;">
 							<td width=80px style="vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
-							<%= link_to (image_tag "delete.png", :class => "del"), {:action => "edit_question_remove_assessment", :organization_id => @current_organization, :question_id => @question, :assessment_id => ass.id}, :class => "assess_remove" %>
+							<%= link_to (image_tag "delete.png", :class => "del"), ifa_question_assessments_remove_path(:organization_id => @current_organization, :question_id => @question, :assessment_id => ass.id), :class => "assess_remove" %>
 						</td>
 						<td width=100px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
 							<%= time_ago_in_words(ass.updated_at.to_s, include_seconds = false).titleize %> Ago
@@ -67,7 +67,7 @@ jQ(document).ready(function() {
 							<% end -%>
 						</td>
 						<td width=540px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
-							<i><%=  ass.name.titleize %></i>&nbsp;&nbsp;<%= link_to "View In Separate Window", {:controller =>  "/apps/assessment", :action => :static_assessment, :organization_id => @current_organization, :question_id => @question, :assessment_id => ass}, {:target => "_blank"}  %>
+							<i><%=  ass.name.titleize %></i>&nbsp;&nbsp;<%= link_to "View In Separate Window", ifa_assessment_view_path(:organization_id => @current_organization, :question_id => @question, :assessment_id => ass), {:target => "_blank"}  %>
 							<br/>
 							<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
 							<%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%><br/>
@@ -108,7 +108,7 @@ jQ(document).ready(function() {
 					<% unless ass.act_questions.include?(@question)%>
 						<tr style="border:1px solid #ddd;">
 							<td width=80px style="vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
-							<%= link_to (image_tag "add.png", :class => "del"), {:action => "edit_question_attach_assessment", :organization_id => @current_organization, :question_id => @question, :assessment_id => ass.id}, :class => "assess_attach" %>
+							<%= link_to (image_tag "add.png", :class => "del"), ifa_question_assessments_attach_path(:organization_id => @current_organization, :question_id => @question, :assessment_id => ass.id), :class => "assess_attach" %>
 						</td>
 						<td width=100px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
 						<%= time_ago_in_words(ass.updated_at.to_s, include_seconds = false).titleize %> Ago
@@ -121,7 +121,7 @@ jQ(document).ready(function() {
 							<% end -%>
 						</td>
 						<td width=540px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
-							<i><%=  ass.name.titleize %></i>&nbsp;&nbsp;<%= link_to "View In Separate Window", {:controller =>  "/apps/assessment", :action => :static_assessment, :organization_id => @current_organization, :question_id => @question, :assessment_id => ass}, {:target => "_blank"}  %>
+							<i><%=  ass.name.titleize %></i>&nbsp;&nbsp;<%= link_to "View In Separate Window", ifa_assessment_view_path(:organization_id => @current_organization, :question_id => @question, :assessment_id => ass), {:target => "_blank"}  %>
 							<br/>
 							<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
 							<%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%><br/>

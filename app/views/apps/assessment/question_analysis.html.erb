@@ -63,9 +63,9 @@
 						<td colspan=2 width = 170px style="vertical-align:middle; text-align:left; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:10px; margin-left:0px; font-weight:normal" >
 							<% q_std = q.act_standards.for_standard(@current_standard).first rescue nil -%>
 							<% if q_std %>
-								<strong><%=q_std.abbrev.upcase%>:&nbsp;</strong><u><%= link_to  link_string, {:controller => "/apps/assessment", :action => :static_question, :organization_id => @current_organization, :classroom_id => @classroom, :question_id => q}, :target => '_blank' %></u>
+								<strong><%=q_std.abbrev.upcase%>:&nbsp;</strong><u><%= link_to  link_string, ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => q), :target => '_blank' %></u>
 							<% else -%>
-								<strong>***&nbsp;</strong><u><%= link_to  link_string, {:controller => "/apps/assessment", :action => :static_question, :organization_id => @current_organization, :classroom_id => @classroom, :question_id => q}, :target => '_blank' %></u>
+								<strong>***&nbsp;</strong><u><%= link_to  link_string, ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => q), :target => '_blank' %></u>
 							<% end -%>  
 						</td>
 					<% @current_subject.act_score_ranges.for_standard(@current_standard).each do |sr|%>

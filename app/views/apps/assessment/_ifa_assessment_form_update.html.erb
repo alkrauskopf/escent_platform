@@ -1,5 +1,5 @@
 <div id="assessment_form" class="Form clear">
-	<%= form_for(:act_assessment, :url => {:controller => "/apps/assessment", :action => :edit_ifa_assessment, :organization_id => @current_organization, :classroom_id => @classroom , :function => "Submit", :assessment_id => @assessment, :question_id => @question}) do |form| -%>
+	<%= form_for(:act_assessment, :url => ifa_assessment_edit_path(:organization_id => @current_organization, :classroom_id => @classroom , :function => "Submit", :assessment_id => @assessment, :question_id => @question)) do |form| -%>
 	
 	<div class="FormRow">
 		<div class="FormRowTitle">Subject:</div>

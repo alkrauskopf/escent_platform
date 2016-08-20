@@ -1,5 +1,5 @@
 <div id="question_form" class="Form clear">
-	<%= form_for(:act_question, ifa_question_edit_url(:organization_id => @current_organization, :assessment_id => @assessment , :function => "Submit", :question_id => @question)) do |form| -%>
+	<%= form_for(:act_question, :url => ifa_question_edit_path(:organization_id => @current_organization, :assessment_id => @assessment , :function => "Submit", :question_id => @question)) do |form| -%>
 	
 	<div class="FormRow">
 		<br/>

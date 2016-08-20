@@ -29,10 +29,10 @@
 				<td width = 50px style=" color: #000000; vertical-align:top;text-align:center; font-size:11px" >
 					<% if @edit_authorized -%>
 						<u>
-						<%= link_to "Edit", {:controller =>  "/apps/assessment", :action => "edit_ifa_benchmark", :organization_id => @current_organization, :classroom_id => @classroom, :benchmark_id => bnch}  %><br/>
+						<%= link_to "Edit", ifa_benchmark_edit_path(:organization_id => @current_organization, :classroom_id => @classroom, :benchmark_id => bnch)  %><br/>
 						</u>
 					<% end -%>
-					<u><%= link_to "Statistics", {:controller =>  "/apps/assessment", :action => "static_benchmark", :organization_id => @current_organization, :classroom_id => @classroom, :benchmark_id => bnch}, {:target => "_blank"}  %></u>
+					<u><%= link_to "Statistics", ifa_benchmark_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :benchmark_id => bnch), {:target => "_blank"}  %></u>
 				</td>				
 					
 				<td width = 50px style=" color: #000000; vertical-align:top;font-size:11px;" >

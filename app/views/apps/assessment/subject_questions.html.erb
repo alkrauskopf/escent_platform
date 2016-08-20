@@ -12,7 +12,7 @@
 						<% col_label = mstr.abbrev + ": " + std.abbrev.upcase + ", " + std.act_questions.active.size.to_s + " Questions" -%>
 						<tr>
 							<td class="authorization_levels_close" style ="color:#C73914">
-								<%= link_to '', :controller => "apps/assessment", :action => :list_standard_questions, :organization_id => @current_organization, :classroom_id => @classroom,  :std_id => std.id %>
+								<%= link_to '', ifa_standard_questions_list_path(:organization_id => @current_organization, :classroom_id => @classroom,  :std_id => std.id) %>
 								<%= col_label %>
 								<span></span>
 							</td>

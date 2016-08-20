@@ -158,7 +158,7 @@
 		<tr style="border:1px solid #ddd;">
 			<% if !@assessment.is_locked -%>
 			<td width=40px style="border:0px solid #ddd;vertical-align:top;  padding-left:20px; padding-right:0px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
-				<%= link_to (image_tag "add.png", :class => "del"), {:action => "edit_assessment_add_question", :organization_id => @current_organization, :assessment_id => @assessment, :question_id => quest.id}, :class => "add_button" %>
+				<%= link_to (image_tag "add.png", :class => "del"), ifa_assessment_question_add_path(:organization_id => @current_organization, :assessment_id => @assessment, :question_id => quest.id), :class => "add_button" %>
 			</td>						
 			<% else -%>
 				<td width=20px style="border:0px solid #ddd;vertical-align:middle;  padding-left:0px; padding-right:3px; padding-top:105px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
@@ -183,7 +183,7 @@
 				<% unless quest.organization.nil? %>,  <%= quest.organization.name.titleize%><%end%>
 				<br/>
 				Updated <%= time_ago_in_words(quest.updated_at.to_s, include_seconds = false) %> ago<br/>
-				<%= link_to "View", {:controller =>  "/apps/assessment", :action => "static_question", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest}, {:target => "_blank"}  %>
+				<%= link_to "View", ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest), {:target => "_blank"}  %>
 				<% if quest.user_id == @current_user.id %>
 					&nbsp;&nbsp;<%= link_to "Edit", ifa_question_edit_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest), {:target => "_blank"}  %>
 				<% end -%>
@@ -210,7 +210,7 @@
 					&nbsp;
 				</td>
 				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:40px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:normal;">
-					<%= link_to (image_tag "button_new.png",:width => 50), {:controller => 'apps/assessment',:action => "add_ifa_question",:organization_id => @current_organization, :assessment_id => @assessment,:subject_id => @assessment.act_subject.id, :function => "New"}, {:target => "_blank"}%>
+					<%= link_to (image_tag "button_new.png",:width => 50), ifa_question_add_path(:organization_id => @current_organization, :assessment_id => @assessment,:subject_id => @assessment.act_subject.id, :function => "New"), {:target => "_blank"}%>
 				</td>
 				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:50px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:normal;">
 					&nbsp;
@@ -222,10 +222,10 @@
 					&nbsp;
 				</td>
 				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:35px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:normal;">
-					<%= link_to (image_tag "button_new.png",:width => 50), {:controller => 'apps/assessment',:action => "add_ifa_assessment",:organization_id => @current_organization,:subject_id => @assessment.act_subject.id, :function => "New"} %>
+					<%= link_to (image_tag "button_new.png",:width => 50), ifa_assessment_add_path(:organization_id => @current_organization,:subject_id => @assessment.act_subject.id, :function => "New") %>
 				</td>
 				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:35px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:normal;">
-					<%= link_to (image_tag "button_view.png",:width => 50), {:controller =>  "/apps/assessment",:action => :submit_assessment, :organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment, :function => "preview"}, {:target => "_blank"}  %>
+					<%= link_to (image_tag "button_view.png",:width => 50), ifa_assessment_submit_path(:organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment, :function => "preview"), {:target => "_blank"}  %>
 				</td>			
 
 			</tr>

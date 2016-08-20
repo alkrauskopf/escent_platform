@@ -5,7 +5,7 @@
 	<strong>Assessment Repository</strong>
 	</span>
 	<div style = "padding-bottom:10px;padding-left:0px; ">
-	<%= form_for(:act_assesment, :url => {:controller => "/apps/assessment", :action => :add_ifa_assessment, :organization_id => @current_organization, :classroom_id => @classroom}) do |form| -%>
+	<%= form_for(:act_assesment, :url => ifa_assessment_add_path(:organization_id => @current_organization, :classroom_id => @classroom)) do |form| -%>
 		<table  style="width:200px;margin-left:285px;">
 			<tbody>  
 				<tr>
@@ -35,7 +35,7 @@
 					<tr>
 					<td class="resource_levels_close">
 						<% col_label = pluralize(@current_user.act_assessments.size, @current_user.last_name + " Assessment") -%>
-						<%= link_to '', :controller => "apps/assessment", :action => :list_user_assessments, :organization_id => @current_organization, :classroom_id => @classroom %>
+						<%= link_to '', ifa_user_assessments_list_path(:organization_id => @current_organization, :classroom_id => @classroom) %>
 						<strong><%= col_label %></strong>
 						<span></span>
 					</td>
@@ -54,7 +54,7 @@
 					<tr>
 					<td class="resource_levels_close">
 
-					<%= link_to '', :controller => "apps/assessment", :action => :list_subject_assessments, :organization_id => @current_organization, :classroom_id => @classroom, :subject_id => si %>
+					<%= link_to '', ifa_subject_assessments_list_path(:organization_id => @current_organization, :classroom_id => @classroom, :subject_id => si) %>
 					<strong><%= col_label %></strong>
 					<span></span>
 					</td>

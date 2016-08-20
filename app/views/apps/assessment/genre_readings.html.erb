@@ -24,7 +24,7 @@
 			<tr>
 				<td width = 50px style=" color: #000000; vertical-align:top; font-size:11px;" >
 					<% if rsrc.user_id == @current_user.id -%>
-						<center><u><%= link_to  "Edit", {:controller => "/apps/assessment", :action => :edit_reading, :organization_id => @current_organization, :classroom_id => @classroom, :function => "Edit", :reading_id => rsrc} %></u></center>
+						<center><u><%= link_to  "Edit", ifa_related_reading_edit_path(:organization_id => @current_organization, :classroom_id => @classroom, :function => "Edit", :reading_id => rsrc) %></u></center>
 					<% else %>
 						&nbsp;
 					<% end -%>

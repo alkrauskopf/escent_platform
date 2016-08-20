@@ -1,7 +1,7 @@
 <div class="formBox">
 	<h2>Manual IFA Dashboard Update </h2>
 <div class="Form clear">
-<%= form_for(:dashboard_update, :url => {:controller => "/apps/assessment", :action => :manual_ifa_update, :update => true}) do |form| -%>
+<%= form_for(:dashboard_update, :url => ifa_manual_update_path(:update => true)) do |form| -%>
 
 <div >
 		<div class="FormRow submit_warp" style="padding-left:20px;" >

@@ -138,7 +138,7 @@
 				<% @assessment_subjects.each do |sub| -%>
 					<tr>
 						<td class="authorization_levels_close">
-						<%= link_to '', :controller => "apps/assessment", :action => :growth_dashboards, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "student", :subject_id => sub.id, :id => @current_user %>
+						<%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "student", :subject_id => sub.id, :id => @current_user) %>
 						<strong><%= sub.name.titleize %></strong>
 						<span></span>
 						</td>

@@ -51,13 +51,13 @@ jQ(document).ready(function() {
     			</style>	
 				<tr style="border:1px solid #ddd;">
 					<td width=80px style="vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
-						<%= link_to (image_tag "delete.png", :class => "del"), {:action => "edit_question_remove_resource", :organization_id => @current_organization, :question_id => @question, :group_type => @group}, :class => "resource_remove" %>
+						<%= link_to (image_tag "delete.png", :class => "del"), ifa_question_resource_remove_path(:organization_id => @current_organization, :question_id => @question, :group_type => @group), :class => "resource_remove" %>
 					</td>
 					<td width=100px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
 						<%= time_ago_in_words(@question.content.updated_at.to_s, include_seconds = false).titleize %> Ago
 					</td>
 					<td width=570px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
-						<i><%=  @question.content.title.titleize %></i>&nbsp;&nbsp;<%= link_to "View In Separate Window", {:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => @question.content}, {:target => "_blank"}  %>
+						<i><%=  @question.content.title.titleize %></i>&nbsp;&nbsp;<%= link_to "View In Separate Window", resource_view_path(:organization_id => @current_organization, :id => @question.content), {:target => "_blank"}  %>
 						<br/>
 						<% unless @question.content.organization.nil? -%> <%= @question.content.organization.name %><br/>
 						<% end -%>
@@ -97,13 +97,13 @@ jQ(document).ready(function() {
 					<% unless @question.content == res %>
 						<tr style="border:1px solid #ddd;">
 							<td width=80px style="vertical-align:middle;  padding-left:40px; padding-right:3px; padding-top:10px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
-							<%= link_to (image_tag "add.png", :class => "del"), {:action => "edit_question_attach_resource", :organization_id => @current_organization, :question_id => @question, :resource_id => res.id, :group_type => @group}, :class => "resource_attach" %>
+							<%= link_to (image_tag "add.png", :class => "del"), ifa_question_resource_attach_path(:organization_id => @current_organization, :question_id => @question, :resource_id => res.id, :group_type => @group), :class => "resource_attach" %>
 						</td>
 						<td width=100px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
 							<%= time_ago_in_words(res.updated_at.to_s, include_seconds = false).titleize %> Ago
 						</td>
 						<td width=570px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
-							<i><%=  res.title.titleize %></i>&nbsp;&nbsp;<%= link_to "View In Separate Window", {:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => res}, {:target => "_blank"}  %>
+							<i><%=  res.title.titleize %></i>&nbsp;&nbsp;<%= link_to "View In Separate Window", resource_view_path(:organization_id => @current_organization, :id => res), {:target => "_blank"}  %>
 							<br/>
 							<%= res.content_object_type.content_object_type_group.name rescue "Unkown"  %>
 							<br/>

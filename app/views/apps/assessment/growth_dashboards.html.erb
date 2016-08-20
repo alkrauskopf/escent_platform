@@ -17,7 +17,7 @@
 					<% col_label = db.period_end.strftime("%B, %Y") + ",  Mastery Level: " + mastery.to_s -%>
 					<tr>
 						<td class="authorization_levels_close">
-						<%= link_to '', :controller => "apps/assessment", :action => :entity_dashboard, :organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => db, :period => db.period_end,:details => @show_details %>
+						<%= link_to '', ifa_dashboard_entity_path(:organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => db, :period => db.period_end,:details => @show_details) %>
 						<strong><%= col_label %></strong>
 						<span></span>
 						</td>

@@ -41,7 +41,7 @@
 				<% unless person.superuser? -%>				
 				<tr id="<%= person.public_id %>"  >
 					<td  style="width:50px; color:#C83A14; vertical-align:top;  font-size:10px; padding-top:5px; padding-bottom:5px; padding-left:0px; " >
-							<u><%= link_to "Update", {:controller =>  "/apps/assessment", :action => :update_student_demographics, :organization_id => @current_organization, :user_id => person}, {:target => "_blank"}  %></u>
+							<u><%= link_to "Update", ifa_student_demographic_update_path(:organization_id => @current_organization, :user_id => person), {:target => "_blank"}  %></u>
 					</td>
 					<td  style="width:50px; color:#C83A14; vertical-align:top;  font-size:10px; padding-top:5px; padding-bottom:5px; padding-left:0px; " >
 						<% unless person.picture.url.split("/").last == "missing.png" %>

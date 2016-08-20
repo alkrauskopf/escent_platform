@@ -41,7 +41,7 @@
 						<td  width=80px style="vertical-align:middle;  padding-top:3px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
 							<center>
 							<u>
-							<%= link_to "VIEW", {:controller => "apps/assessment", :action => "final_assessment_review", :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :submission_id => sub},{:target=>"_blank"} %> 
+							<%= link_to "VIEW", ifa_assessment_review_final_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :submission_id => sub),{:target=>"_blank"} %>
 							</u>
 							</center>
 						</td>

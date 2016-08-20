@@ -5,7 +5,7 @@
 	<strong>Readings Repository</strong>
 	</span>
 	<div style = "padding-bottom:10px;padding-left:0px; ">
-	<%= form_for(:act_reading, :url => {:controller => "/apps/assessment", :action => :add_reading, :organization_id => @current_organization, :classroom_id => @classroom, :function => "New"}) do |form| -%>
+	<%= form_for(:act_reading, :url => ifa_question_reading_add_path(:organization_id => @current_organization, :classroom_id => @classroom, :function => "New")) do |form| -%>
 		<table  style="width:200px;margin-left:305px;">
 			<tbody>  
 				<tr>
@@ -39,7 +39,7 @@
 					<tr>
 					<td class="resource_levels_close">
 
-					<%= link_to '', :controller => "apps/assessment", :action => :subject_readings, :organization_id => @current_organization, :classroom_id => @classroom, :subject_id => si %>
+					<%= link_to '', ifa_subject_readings_path(:organization_id => @current_organization, :classroom_id => @classroom, :subject_id => si) %>
 					<strong><%= col_label %></strong>
 					<span></span>
 					</td>

@@ -18,7 +18,7 @@
 	 <p style="float:right; word-wrap:break-word; overflow:hidden;">
       <br />
 			<% return_link = "Return" %>
-			<%= link_to return_link, :controller => "/apps/assessment", :action => :manage, :organization_id => @current_organization, :topic_id => @topic, :classroom_id => @classroom %>
+			<%= link_to return_link, self.send(@current_application.link_path(:organization_id => @current_organization, :topic_id => @topic, :classroom_id => @classroom)) %>
 			
 	</p>    
 	<div>	
@@ -71,7 +71,7 @@
 						<% range_label = rng.range + ",&nbsp;" + pluralize(question_count, ' Question') -%>
 					<tr>
 						<td class="resource_levels_close" style="text-align:left  word-wrap:break-word; color: #000000;  font-size: 13px; font-style: normal; font-weight: normal">
-							<%= link_to '', :controller => "apps/assessment", :action => :question_analysis, :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "organization", :subject_id => subj.id, :range => rng %>
+							<%= link_to '', ifa_assessment_question_analyze_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "organization", :subject_id => subj.id, :range => rng) %>
 							<strong><%= range_label %></strong>
 							<span></span>
 						</td>

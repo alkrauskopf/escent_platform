@@ -1,6 +1,6 @@
 
 <div class="Form clear">
-<%= form_for(:view_submission, :url => {:controller => "/apps/assessment", :action => :static_assessment, :organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment}) do |form| -%>
+<%= form_for(:view_submission, :url => ifa_assessment_update_path(:organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment)) do |form| -%>
 
     <%= render :partial => "/shared/error_and_notice" %>
 	
@@ -50,7 +50,7 @@
 	</table>
 <div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
 	  <% return_string = "Return" %>
-	  <%= link_to return_string, {:controller => "/apps/assessment", :action => :static_assessment, :organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment}%>
+	  <%= link_to return_string, ifa_assessment_view_path(:organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment) %>
 </div>
 	<table id="roles" class="tablesorter" style="width:775px; ">
 		<tbody>

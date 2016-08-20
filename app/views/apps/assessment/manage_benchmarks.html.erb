@@ -17,7 +17,7 @@
 		</style>
 		<tr>
 			<td style="width:600px; text-align:left;  font-size:12px; padding-left:10px;padding-bottom:20px;">
-				<%= link_to "Return", :controller => "/apps/assessment", :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom %>
+				<%= link_to "Return", self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom)) %>
 			</td>
 			<td style="width:300px; text-align:right;  font-size:12px; padding-right:20px;">
 				<%=link_to 'Add New Benchmark', :controller => 'apps/assessment',:action => "add_benchmark",:organization_id => @current_organization, :classroom_id => @classroom, :function => "New"%>
@@ -47,7 +47,7 @@
 					<tr>
 					<td class="authorization_levels_close">
 
-					<%= link_to '', :controller => "apps/assessment", :action => :subject_benchmarks, :organization_id => @current_organization, :classroom_id => @classroom,  :subj_id => si %>
+					<%= link_to '', ifa_subject_benchmarks_path(:organization_id => @current_organization, :classroom_id => @classroom,  :subj_id => si) %>
 					<strong><%= col_label %></strong>
 					<span></span>
 					</td>
@@ -67,7 +67,7 @@
 
 	<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
 	&nbsp;<br/>
-	  <%= link_to "Return", :controller => "/apps/assessment", :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom %>
+	  <%= link_to "Return", self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom)) %>
 	</div>
 
 </div>

@@ -59,7 +59,7 @@
 				<% else -%>	
 					<td width = 50px style=" color: #000000; vertical-align:top;text-align:center; font-size:11px" >
 						<u>
-						<%= link_to "View", {:controller =>  "/apps/assessment", :action => "static_question", :organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest}, {:target => "_blank"}  %>
+						<%= link_to "View", ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest), {:target => "_blank"}  %>
 						</u>
 					</td>				
 				<% end -%>

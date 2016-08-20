@@ -31,9 +31,9 @@
 				<tr style=" border:0px solid white;">
 					<td colspan=3 style="  border:0px solid white; font-size:11px; padding-top:15px;padding-bottom:0px; padding-left:3px; vertical-align:middle; text-align:left;color: #C83A14;font-weight:normal;">
 						<% if @question.is_calibrated -%>
-							<%= link_to  "Remove Calibration", {:action => :toggle_question_calibration, :organization_id => @current_organization, :question_id => @question}, :class => "toggle_calibration" %></u><br/>
+							<%= link_to  "Remove Calibration", ifa_question_toggle_calibration_path(:organization_id => @current_organization, :question_id => @question), :class => "toggle_calibration" %></u><br/>
 						<% else -%>
-							<%= link_to  "Calibrate Question", { :action => :toggle_question_calibration, :organization_id => @current_organization,  :question_id => @question}, :class => "toggle_calibration" %></u><br/>
+							<%= link_to  "Calibrate Question", ifa_question_toggle_calibration_path(:organization_id => @current_organization,  :question_id => @question), :class => "toggle_calibration" %></u><br/>
 						<%end -%>
 					</td>
 				</tr>
@@ -59,7 +59,7 @@
 			<tr style=" border:0px solid white;">
 				<td style=" border:0px solid white; font-size:11px; padding-top:5px;padding-bottom:5px; padding-left:3px; vertical-align:bottom; text-align:left;color: #C83A14;font-weight:normal;">
 					<br/>
-					<%= link_to "Return", :controller => "/apps/assessment", :action => CoopApp.ifa_app.app_link[1], :organization_id => @current_organization, :classroom_id => @classroom %>
+					<%= link_to "Return", self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom)) %>
 				</td>		
 			</tr>
 		</tbody>					

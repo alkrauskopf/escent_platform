@@ -11,7 +11,7 @@
 				<% col_label = mstr.abbrev + " Upper Score: " + score.to_s + ",   <small>(" + pluralize(ranges.size," Active Assessment") + ")</small>" -%>
 				<tr>
 					<td class="ifa_levels_close" style ="color: #C83A14; font-size:12px">
-						<%= link_to '', :controller => "apps/assessment", :action => :list_subject_assessments, :organization_id => @current_organization, :master_id => mstr.id, :subject_id => @current_subject.id, :upper_score => score %>
+						<%= link_to '', ifa_subject_assessments_list_path(:organization_id => @current_organization, :master_id => mstr.id, :subject_id => @current_subject.id, :upper_score => score) %>
 						<%= col_label %>
 					</td>
 				</tr>

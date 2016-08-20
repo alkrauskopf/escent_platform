@@ -52,11 +52,11 @@
 				<% end -%>
 				<td width = 40px style=" color: #000000; vertical-align:top;text-align:center; font-size:11px; padding-top:5px;" >
 				<u>
-				<%= link_to "View", {:controller =>  "/apps/assessment", :action => :static_assessment, :organization_id => @current_organization, :classroom_id => @classroom,:question_id => @question, :assessment_id => ass}, {:target => "_blank"}  %>
+				<%= link_to "View", ifa_assessment_view_path(:organization_id => @current_organization, :classroom_id => @classroom,:question_id => @question, :assessment_id => ass), {:target => "_blank"}  %>
 				</u>
 				<% if ass.user == @current_user %>
 					<br/><u>
-					<%= link_to  "Edit", {:controller => "/apps/assessment", :action => :edit_ifa_assessment, :organization_id => @current_organization, :classroom_id => @classroom,:question_id => @question, :assessment_id => ass}, {:target => "_blank"}  %></u><br/>
+					<%= link_to  "Edit", ifa_assessment_edit_path(:organization_id => @current_organization, :classroom_id => @classroom,:question_id => @question, :assessment_id => ass), {:target => "_blank"}  %></u><br/>
 				<% end -%>
 				</td>			
 				<td width = 100px style=" color: #000000; vertical-align:top; font-size:11px; padding-left:20px; padding-top:5px; text-align:left; line-height:1.4em;" >

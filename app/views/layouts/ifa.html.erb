@@ -19,7 +19,6 @@
 		<script type="text/javascript" charset="utf-8">
 			jQ = jQuery.noConflict();
 		</script>
-
 		<%= javascript_include_tag 'swfobject.js' %>
 		<%= javascript_include_tag "jquery.qtip-1.0.0.min.js" %>
 		<%= javascript_include_tag 'jquery-ui-1.7.1.custom.min.js' %>
@@ -125,16 +124,14 @@
         <div id="header">
           <%= render(:partial => "/shared/login") %>
         </div>
-        <div id="panel_content">
+        <div class="panel_content">
           <!-- close sidebar class div -->
             <% if @current_organization.can_be_displayed?(@current_user)-%>
               <%= yield %>
             <% else -%>
-              <span style = "color:#C73914; font-size:14px;">
-                </br></br></br></br></br>
-                  <center>We're Sorry.</br><%= @current_organization.name %>&nbsp;is currently not available.</center>
-                </br></br></br></br>
-              </span>
+              <div class="sorry">
+                We're Sorry. <%= @current_organization.name %>&nbsp;is currently not available.
+              </div>
             <% end -%>
           </div>
           <!-- close main_content div -->

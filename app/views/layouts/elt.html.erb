@@ -39,11 +39,8 @@
   <%= javascript_include_tag 'wforms_validation.js' %>
   <%= javascript_include_tag 'wforms_switch.js' %>
   <%= javascript_include_tag 'wforms_repeat_rails.js' %>
-  <%#= javascript_include_tag 'tiny_mce/tiny_mce.js' %>
   <%= javascript_include_tag 'jquery.tools.min.js' %>
   <%= javascript_include_tag 'jquery.ui.potato.menu.js' %>
-  <%#= xalendar_date_select_includes "blue" %>
-  <%#= include_tiny_mce_if_needed %>
   <style type="text/css">
     a.continue {
       text-transform: uppercase;
@@ -127,13 +124,11 @@
       <!-- close sidebar class div -->
       <div class="panel_content">
         <% if @current_organization.can_be_displayed?(@current_user)-%>
-            <%= yield %>
+          <%= yield %>
         <% else -%>
-              <span style = "color:#C73914; font-size:14px;">
-                </br></br></br></br></br>
-                <center>We're Sorry.</br><%= @current_organization.name %>&nbsp;is currently not available.</center>
-                </br></br></br></br>
-              </span>
+          <div class="sorry">
+            We're Sorry. <%= @current_organization.name %>&nbsp;is currently not available.
+          </div>
         <% end -%>
       </div>
       <!-- close main_content div -->

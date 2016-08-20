@@ -7,6 +7,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/root' => 'fsn#index'
   get '/privacy' => 'fsn#privacy'   #   privacy_path
   get '/terms' => 'fsn#terms'   #   terms_path
+
   # <%= link_to 'Edit Profile', user_edit_path %>
   #     <a href="/profile/edit">Edit Profile</a>
 

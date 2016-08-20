@@ -5,6 +5,8 @@ EscentPartners::Application.routes.draw do |map|
 
   get '/' => 'fsn#index'
   get '/root' => 'fsn#index'
+  get '/privacy' => 'fsn#privacy'   #   privacy_path
+  get '/terms' => 'fsn#terms'   #   terms_path
   # <%= link_to 'Edit Profile', user_edit_path %>
   #     <a href="/profile/edit">Edit Profile</a>
 
@@ -20,6 +22,7 @@ EscentPartners::Application.routes.draw do |map|
  # get '/:vanity' => 'application#vanity'
 
   # CORE User
+  get '/user/registration/successful' => 'users#registration_successful'   #  user_registration_successful_path
   get '/user/edit' => 'users#edit_profile'
   post '/user/edit' => 'users#edit_profile'
   get '/user/view' => 'users#member_public_profile'
@@ -294,7 +297,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/classroom/assessment/pool/update' => 'apps/assessment#update_classroom_assessment_pool_from_repository'
   get '/ifa/classroom/assessments/filtered' => 'apps/assessment#classroom_get_filtered_assessments'
   get '/ifa/students' => 'apps/assessment#student_list'    # ifa_students_path
-  get '/ifa/org_analysis' => 'apps/assessment#org_analysis'    # ifa_org_analysis
+  get '/ifa/org_analysis' => 'apps/assessment#org_analysis'    # ifa_org_analysis_path
+  post '/ifa/org_analysis' => 'apps/assessment#org_analysis'    # ifa_org_analysis_path
   get '/ifa/toggle/summary_data' => 'apps/assessment#toggle_sumry_ifa_data'    # ifa_toggle_summary_data_url
   get '/ifa/toggle/summary_dashboard' => 'apps/assessment#toggle_sumry_ifa_dashboard'    # ifa_toggle_summary_dashboard_url
   post '/ifa/manual/update' => 'apps/assessment#manual_ifa_update'    # ifa_manual_update_path
@@ -321,6 +325,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/question/choice/add' => 'apps/assessment#edit_question_add_choice' #  ifa_question_choice_add_url
   get '/ifa/question/choice/remove' => 'apps/assessment#edit_question_remove_choice' #  ifa_question_choice_remove_path
   get '/ifa/question/choice/delete' => 'apps/assessment#remove_choice' #  ifa_question_choice_delete_path
+  get '/ifa/question/copy' => 'apps/assessment#copy_question' #  ifa_question_copy_path
+  post '/ifa/question/copy' => 'apps/assessment#copy_question' #  ifa_question_copy_path
 
   get '/ifa/question/choice/toggle' => 'apps/assessment#edit_question_toggle_choice' #  ifa_question_choice_toggle_path
   get '/ifa/question/reading' => 'apps/assessment#get_question_reading' #  ifa_question_reading_url
@@ -361,6 +367,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/assessment/submission' => 'apps/assessment#submission_teacher'  # ifa_assessment_submission_url
   get '/ifa/assessment/submission/show' => 'apps/assessment#view_submission'  # ifa_assessment_submission_show_path
   get '/ifa/assessment/submit' => 'apps/assessment#submit_assessment'    # ifa_assessment_submit_path
+  post '/ifa/assessment/submit' => 'apps/assessment#submit_assessment'    # ifa_assessment_submit_path
   get '/ifa/assessment/view' => 'apps/assessment#static_assessment'   # ifa_assessment_view_path
   post '/ifa/assessment/update' => 'apps/assessment#static_assessment'   # ifa_assessment_update_path
   get '/ifa/assessment/add' => 'apps/assessment#add_ifa_assessment'    # ifa_assessment_add_path
@@ -625,6 +632,10 @@ EscentPartners::Application.routes.draw do |map|
   end
 
 
+  # APP PD
+
+  get '/pd/cycle/close' => 'apps/staff_develop#close_cycle'  #  pd_cycle_close_path
+  post '/pd/cycle/close' => 'apps/staff_develop#close_cycle'  #  pd_cycle_close_path
 
   # PDF
   get '/pdf/elt/case' => 'apps/app_pdf#elt_case'

@@ -103,7 +103,7 @@
 	</div>	
 <% end -%>
 	<% if @preview -%>
-		<center><%= button_to "Submit", {:controller =>  "/apps/assessment",:action => :static_assessment, :organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment}, :class => "fsn-button ui-button ui-state-default ui-corner-all" %></center>
+		<center><%= button_to "Submit", ifa_assessment_update_path(:organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment), :class => "fsn-button ui-button ui-state-default ui-corner-all" %></center>
 		<br/><br/>
 	<% end -%>
 

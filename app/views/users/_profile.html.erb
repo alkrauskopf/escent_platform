@@ -85,7 +85,7 @@
     <div class="FormRow">
 		<div class="FormRowTitle">&nbsp;</div>
 		<div class="FormRowData">
-      Simple Captcha <%#= show_simple_captcha %>
+      <%#= show_simple_captcha %>
 		</div>
 	</div>
 
@@ -103,10 +103,10 @@
             <br/>
             <%= check_box :user, :read_tos %>
             I have read and understand the Escent
-			<%= link_to 'Terms of Service', {:controller => :fsn, :action => 'terms'}, :target => '_blank' %> .
+			<%= link_to 'Terms of Service', terms_path, :target => '_blank' %> .
         
             <p class="smallPrint" style="padding-left:17px;">
-                Your email address will not be shared. See <%= link_to 'Privacy Policy', {:controller => :fsn, :action => 'privacy'},  :target => '_blank' %>
+                Your email address will not be shared. See <%= link_to 'Privacy Policy', privacy_path,  :target => '_blank' %>
             </p>
         </div>
     </div>

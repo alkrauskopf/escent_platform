@@ -33,7 +33,7 @@ class UsersController < ApplicationController
               if @user.organization.register_notify?
                 UserMailer.admin_notice(@user, @user.organization, request.host_with_port).deliver
               end
-              redirect_to :action => :registration_successful, :organization_id => @current_organization,:user => @user
+              redirect_to user_registration_successful_path(:organization_id => @current_organization,:user => @user)
               return
             else
               @user.errors[:base] << (@user.errors.full_messages.to_sentence)

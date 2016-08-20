@@ -71,7 +71,7 @@
 							 	<!--
                   <center><%#= button_to  "Dashboards", {:controller => "/apps/assessment", :action => :org_analysis, :organization_id => @current_organization,:classroom_id => @classroom, :topic_id => @topic, :subject_id => subj.id}, :class => "fsn-button ui-button ui-state-default ui-corner-all" %></center>
                   -->
-                  <center><%= button_to  "Dashboards", {:controller => "/apps/assessment", :action => :org_analysis, :organization_id => @current_organization, :subject_id => subj.id}, :class => "fsn-button ui-button ui-state-default ui-corner-all" %></center>
+                  <center><%= button_to  "Dashboards", ifa_org_analysis_path(:organization_id => @current_organization, :subject_id => subj.id), :class => "fsn-button ui-button ui-state-default ui-corner-all" %></center>
               <% end -%>
 						</td>
 						<td style="vertical-align:middle; width:60px; text-align:center; font-size: 12px; padding-top:8px;padding-bottom:0px;font-weight:normal; color:#000000;" >

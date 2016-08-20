@@ -20,7 +20,7 @@
 					</td>
 					<td   width=200px style="vertical-align:top;  padding-left:3px; padding-right:0px; padding-top:0px; text-align:right; color: #2061a5;  font-size:11px; font-weight:normal">
 						<% label = "CLOSE-OUT " + @plan.dle_cycle.name.upcase -%>
-						<%= button_to label, {:controller => :staff_develop, :action => :close_cycle, :organization_id => @current_organization, :plan_id => @plan}, :confirm=> "All Updates Entered?", :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
+						<%= button_to label, pd_cycle_close_path(:organization_id => @current_organization, :plan_id => @plan), :confirm=> "All Updates Entered?", :class =>"fsn-button ui-button ui-state-default ui-corner-all" %>
 					</td>
 				</tr>
 			</tbody>

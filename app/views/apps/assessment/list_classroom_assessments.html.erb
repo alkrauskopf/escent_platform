@@ -66,7 +66,7 @@
 						<% if available_to_submit -%>	
 							<center>
 							<u>
-							<%= button_to "TAKE", {:controller => "apps/assessment", :action => "submit_assessment", :organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => ass, :function => "Assess"}, :class => "fsn-button ui-button ui-state-default ui-corner-all" %> 
+							<%= button_to "TAKE", ifa_assessment_submit_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => ass, :function => "Assess"), :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
 							</u><br/>
 							</center>
 						<% else -%>

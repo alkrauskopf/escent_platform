@@ -50,7 +50,8 @@ class UsersController < ApplicationController
      flash[:error] = @user.errors.full_messages.to_sentence
     end
     @home_organization_list = Organization.active.sort_by{|o| o.name}
-    render :layout => "registration"
+  #  render :layout => "registration"
+    render :layout => 'fsn'
   end
   
   def registration_successful

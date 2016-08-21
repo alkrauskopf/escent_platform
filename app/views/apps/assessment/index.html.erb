@@ -38,7 +38,6 @@
         <a href="#tabs-1"><span class="tab_label">
 		    <%= tab_1_label %></span></a>
       </li>
-      <% if false %>
       <li>
         <%  tab_2_label = "Related Readings" %>
         <a href="#tabs-2"><span class="tab_label">
@@ -54,23 +53,25 @@
         <a href="#tabs-4"><span class="tab_label">
 		    <%= tab_4_label %></span></a>
       </li>
-      <li>
-        <%  tab_8_label = "State Standards" %>
-        <a href="#tabs-8"><span class="tab_label">
-        <%= tab_8_label %></span></a>
-      </li>
+      <% if false %>
+        <!-- Skip State Standards Setup -->
+        <li>
+          <%  tab_8_label = "State Standards" %>
+          <a href="#tabs-8"><span class="tab_label">
+          <%= tab_8_label %></span></a>
+        </li>
+      <% end %>
       <% if @admin -%>
-          <li>
-            <%  tab_7_label = "Student Baseline Scores" %>
-            <a href="#tabs-7"><span class="tab_label">
-		        <%= tab_7_label %></span></a>
-          </li>
-          <li>
-            <%  tab_9_label = "Options" %>
-            <a href="#tabs-9"><span class="tab_label">
-		        <%= tab_9_label %></span></a>
-          </li>
-      <% end -%>
+        <li>
+          <%  tab_7_label = "Student Baseline Scores" %>
+          <a href="#tabs-7"><span class="tab_label">
+          <%= tab_7_label %></span></a>
+        </li>
+        <li>
+          <%  tab_9_label = "Options" %>
+          <a href="#tabs-9"><span class="tab_label">
+          <%= tab_9_label %></span></a>
+        </li>
       <% end %>
     </ul>
 
@@ -80,55 +81,53 @@
         <%= render :partial => "/apps/assessment/manage_questions" %>
       </div>
       <div class="col-md-1"></div>
-    <div>
-
+    </div>
+    <div id="tabs-2" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial => "/apps/assessment/manage_readings" %>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-3" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial => "/apps/assessment/manage_assessments" %>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-4" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial => "/apps/assessment/manage_benchmarks" %>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
     <% if false %>
-    <div id="tabs-2" class="favorite_organizations" style="width:900px">
-      <%= render :partial => "/apps/assessment/manage_readings" %>
-    </div>
-
-    <div id="tabs-3" class="favorite_organizations" style="width:900px">
-      <%= render :partial => "/apps/assessment/manage_assessments" %>
-    </div>
-
-    <div id="tabs-4" class="favorite_organizations" style="width:900px">
-      <%= render :partial => "/apps/assessment/manage_benchmarks" %>
-    </div>
-
-    <div id="tabs-8" class="favorite_organizations" style="width:900px">
-      <%= render :partial => "/apps/co_standard/manage_co_standards" %>
-    </div>
-
-    <% if @admin -%>
-        <div id="tabs-7" class="favorite_organizations" style="width:900px">
-          <table id="people_levels" class="tablesorter" style="width:99%;">
-            <thead>
-            <tr>
-              <th><strong>Update Baseline Student Mastery Levels  </strong></th>
-            </tr>
-            </thead>
-            <tbody>
-            <% org_students = @current_organization.current_students rescue []-%>
-            <% ('A'..'Z').each do |l| -%>
-                <% user_group = org_students.compact.select{|u| u.last_name[0].chr.upcase == l.upcase} rescue [] -%>
-                <% unless user_group.empty? -%>
-                    <% group_label = "<strong>" + user_group.first.last_name.capitalize + " - " + user_group.last.last_name.capitalize + "</strong>   <i>(" + user_group.size.to_s + ")</i>"  -%>
-                    <tr>
-                      <td class="resource_levels_close">
-                        <%= link_to '', ifa_students_path(:organization_id => @current_organization, :letter => l)  %>
-                        <%= group_label %>
-                        <span></span>
-                      </td>
-                    </tr>
-                <% end -%>
-            <% end -%>
-            </tbody>
-          </table>
+      <!-- Skip State Standards Setup -->
+      <div id="tabs-8" class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <%= render :partial => "/apps/co_standard/manage_co_standards" %>
         </div>
-        <div id="tabs-9" class="favorite_organizations" style="width:900px">
+        <div class="col-md-1"></div>
+      </div>
+    <% end %>
+    <% if @admin -%>
+      <div id="tabs-7" class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <%= render :partial => "/apps/assessment/manage_baselines" %>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <div id="tabs-9" class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
           <%= render :partial => "/apps/assessment/manage_options" %>
         </div>
-    <% end -%>
+        <div class="col-md-1"></div>
+      </div>
     <% end %>
   </div>
 
@@ -141,52 +140,9 @@
       jQ("#roles").tablesorter({ headers: { 1: { sorter: false }} });
     });
   </script>
- <!--
-  <script type="text/javascript">
-    jQ(document).ready(function() {
-      function showDialogContent(title, content_id) {
-        $dialog = jQ("#view-content");
-        // next line is broken.
-        $dialog.attr("title", title);
-        jQ.post('<%#= url_for :controller => :content, :action => :show, :organization_id => @current_organization %>', {'id':content_id}, function(data) {
-          $dialog.html(data);
-          $dialog.dialog('open');
-        })
-      }
-
-      var addButtonAction = function() {
-        jQ("button", jQ("#topic_content")).each(function() {
-          jQ(this).click(function() {
-            var title = jQ(this).parent("td").parent("tr").children("td").eq(0).text();
-            var content_id = jQ(this).parent("td").parent("tr").attr("id");
-            showDialogContent(title, content_id)
-            return false;
-          })
-        })
-      }
-      jQ('.dialog').dialog('close');
-      addButtonAction();
-
-    })
-  </script>
--->
   <script type="text/javascript" charset="utf-8">
     jQ(document).ready(function(){
       jQ('#control_panel').tabs();
-    });
-  </script>
-  <script type="text/javascript" charset="utf-8">
-    jQ(document).ready(function() {
-      jQ('#resource_levels .resource_levels_close').toggleResourceLevels();
-      jQ('#resource_levels .resource_levels_open').toggleResourceLevels();
-      jQ("#authorization_levels").tablesorter({ headers: { 1: { sorter: false }} });
-    });
-  </script>
-
-  <script type="text/javascript" charset="utf-8">
-    jQ(document).ready(function() {
-      jQ('#people_levels .resource_levels_close').toggleResourceLevels();
-      jQ('#people_levels .resource_levels_open').toggleResourceLevels();
     });
   </script>
 </div>

@@ -19,8 +19,10 @@ class Apps::CoStandardController < ApplicationController
       @current_subject = ActSubject.find_by_id(params[:subject_id]) rescue nil
     end   
     @grade_level = CoGradeLevel.find_by_id(params[:gl_id]) rescue nil
- #   @standards_list = ActStandard.find(:all, :conditions => ["act_master_id = ? && act_subject_id = ?", @co_master.id, @current_subject.id])
-    @standards_list = ActStandard.for_standard_and_standard(@co_master, @current_subject)
+    # Don't know what's wrong here. Why isn't this grabbing Co Standard.
+    # No co_gles dependence for these
+#    @standards_list = ActStandard.for_standard_and_subject(@co_master, @current_subject)
+    @standards_list = []
     @standards_list = @standards_list.sort_by{|a| [a.abbrev]}
     if @current_user.ifa_admin_for_org?(@current_organization)
       @edit_authorized = true

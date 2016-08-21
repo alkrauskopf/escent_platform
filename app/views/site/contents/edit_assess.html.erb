@@ -87,7 +87,7 @@
 
    <% unless @current_subject.nil? %> 
 <!--			<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", @current_subject.id, @current_standard.id]) %>  -->
-      <% standards = ActStandard.for_standard_and_standard(@current_standard, @current_subject) %>
+      <% standards = ActStandard.for_standard_and_subject(@current_standard, @current_subject) %>
    <br/>
     <table cellspacing="0" class= "layout" >
    	<tbody >

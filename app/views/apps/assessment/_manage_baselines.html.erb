@@ -1,0 +1,32 @@
+<div>
+  <div class="row">
+    <div class="ifa_panel_title">
+      Update Baseline Student Mastery Levels
+    </div>
+  </div>
+  <hr>
+  <table id="people_levels" class="tablesorter" style="width:99%;">
+    <tbody>
+      <% org_students = @current_organization.current_students rescue []-%>
+      <% ('A'..'Z').each do |l| -%>
+        <% user_group = org_students.compact.select{|u| u.last_name[0].chr.upcase == l.upcase} rescue [] -%>
+        <% unless user_group.empty? -%>
+            <% group_label = "<strong>" + user_group.first.last_name.capitalize + " - " + user_group.last.last_name.capitalize + "</strong>   <i>(" + user_group.size.to_s + ")</i>"  -%>
+            <tr>
+              <td class="resource_levels_close">
+                <%= link_to '', ifa_students_path(:organization_id => @current_organization, :letter => l)  %>
+                <%= group_label %>
+                <span></span>
+              </td>
+            </tr>
+        <% end -%>
+    <% end -%>
+    </tbody>
+  </table>
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+      jQ('#people_levels .resource_levels_close').toggleResourceLevels();
+      jQ('#people_levels .resource_levels_open').toggleResourceLevels();
+    });
+  </script>
+</div>

@@ -1,38 +1,34 @@
-
-<div style = "font-size:12px; color: #000000;padding-left:10px;">
-	<br/>
-	<span style ="text-align:center; color: #C83A14; font-size:18px">
-	<strong>Integrated Formative Assessment <%= @current_standard.abbrev %> Benchmark Repository</strong>
-	</span>
-	<% if @current_user.ifa_admin_for_org?(@current_organization)%>
-	<div style = "padding-bottom:10px;padding-left:0px; ">
-	<%= form_for(:act_question, :url => ifa_benchmark_ifa_add_path(:organization_id => @current_organization, :classroom_id => @classroom)) do |form| -%>
-		<table  style="width:200px;margin-left:305px;">
-			<tbody>  
-				<tr>
-					<td style="width:120px; font-size:normal">
-						<%=  select( :bench,:subject_id, @current_standard.act_subjects.collect{|s| [s.name, s.id]}, {:prompt => "Select " + @current_standard.abbrev + " Subject"}) %>
-					</td>
-					<% master_list = (@current_organization.ifa_org_option.act_masters - ActMaster.where('abbrev = ?', 'CO')) & ActBenchType.all.collect{|m| m.act_master} -%>
-					<td style="width:120px; font-size:normal">
-<!--
-						<%#=  select(  :bench,:master_id, master_list.collect{|m| [m.abbrev, m.id]}, {:prompt => master_list.first.abbrev}) %>
--->
-					</td>
-        			<td>
-          				<%= form.submit 'Create New Benchmark',:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
-        			</td>			
-				</tr>
-			</tbody>
-		</table>
-	<% end -%>
-	</div>
-	<% end -%>
+<div>
+  <div class="row">
+    <div class="ifa_panel_title">
+      <%= @current_standard.abbrev %>&nbsp;Benchmark Repository
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+	  <%= form_for(:act_question, :url => ifa_benchmark_ifa_add_path(:organization_id => @current_organization, :classroom_id => @classroom)) do |form| -%>
+      <div class="col-md-4 "></div>
+      <div class="col-md-2 ">
+        <div class="repo_select">
+          <%=  select( :bench,:subject_id, @current_standard.act_subjects.collect{|s| [s.name, s.id]}, {:prompt => "Select " + @current_standard.abbrev + " Subject"}) %>
+    <!--
+        <%# master_list = (@current_organization.ifa_org_option.act_masters - ActMaster.where('abbrev = ?', 'CO')) & ActBenchType.all.collect{|m| m.act_master} -%>
+        <%#=  select(  :bench,:master_id, master_list.collect{|m| [m.abbrev, m.id]}, {:prompt => master_list.first.abbrev}) %>
+    -->
+        </div>
+      </div>
+      <div class="col-md-6 ">
+        <div class="repo_submit">
+          <%= form.submit 'Create New Benchmark', :class => "btn btn-primary btn-xs" %>
+        </div>
+      </div>
+    <% end -%>
+  </div>
 	<div>
 	<div id="assign_resources_panel">
 		<% ActMaster.national.each do |std| %>
 			<% unless std.act_benches.size.zero? %>
-			<table id="resource_levels"   style="width:99%;">
+			<table id="benchmark_levels"   style="width:99%;">
 				<thead>
 					<tr>
 						<% header_string = pluralize(std.act_benches.size.to_s, " " + std.abbrev + " Benchmark") + " In The Repository" %>
@@ -64,7 +60,11 @@
 		<% end -%>	
 	<% end -%>
 	</div>
-
-
 </div>
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+      jQ('#benchmark_levels .resource_levels_close').toggleResourceLevels();
+      jQ('#benchmark_levels .resource_levels_open').toggleResourceLevels();
+    });
+  </script>
 </div>

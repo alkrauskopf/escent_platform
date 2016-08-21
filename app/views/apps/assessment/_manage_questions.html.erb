@@ -7,15 +7,15 @@
   <hr>
   <div class="row">
     <%= form_for(:act_question, :url => ifa_question_add_path(:organization_id => @current_organization)) do |form| -%>
-        <div class="col-md-4 "></div>
-        <div class="col-md-2 ">
-        <div class="repo_question_select">
-        <%=  select( :quest, :subject_id, ActSubject.all_subjects.collect{|s| [s.name, s.id]}, {:prompt => ActSubject.first.name}) %>
+      <div class="col-md-4 "></div>
+      <div class="col-md-2 ">
+        <div class="repo_select">
+          <%=  select( :quest, :subject_id, ActSubject.all_subjects.collect{|s| [s.name, s.id]}, {:prompt => ActSubject.first.name}) %>
         </div>
       </div>
       <div class="col-md-6 ">
-        <div class="repo_question_submit">
-         <%= form.submit 'Create New Question', :class => "btn btn-primary btn-xs" %>
+        <div class="repo_submit">
+          <%= form.submit 'Create New Question', :class => "btn btn-primary btn-xs" %>
         </div>
       </div>
 	  <% end -%>
@@ -24,7 +24,7 @@
 	<% active_questions = ActQuestion.active rescue []%>
 	<% unless active_questions.size.zero? %>
 	<div id="assign_resources_panel">
-		<table id="resource_levels"   style="width:99%;">
+		<table id="question_levels"   style="width:99%;">
 			<thead>
 				<tr>
 					<% header_string = pluralize(active_questions.size.to_s, " Available Assessment Questions") + " In The Repository" %>
@@ -74,4 +74,10 @@
 <% end -%>	
 
 </div>
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+      jQ('#question_levels .resource_levels_close').toggleResourceLevels();
+      jQ('#question_levels .resource_levels_open').toggleResourceLevels();
+    });
+  </script>
   </div>

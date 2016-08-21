@@ -1,22 +1,19 @@
-
-<div style ="color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold"> 
-
-	<br/>
-	<strong><center> <%= @current_organization.medium_name %> Integrated Formative Assessment Options</center></strong>
-</div>
-
-    <%= render :partial => "/shared/error_and_notice" %>
-
-
+<div>
+  <div class="row">
+    <div class="ifa_panel_title">
+      <%= @current_organization.medium_name %> Integrated Formative Assessment Options
+    </div>
+  </div>
+  <hr>
+  <div class="row">
     <%= render :partial => "manage_options_ifa_masters" %>
-
 
 <div class="Form clear">
 <%= form_for(:ifa_org_option, :url => ifa_options_edit_path(:organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment, :options_id => @options)) do |form| -%>
 
 <div >
 		<div class="FormRow submit_warp" style="padding-left:720px;" >
-			<%= submit_tag "Change Options", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+			<%= submit_tag "Change Options", :class => "btn btn-primary btn-xs" %>
 		<br/>
 		</div>		
 <br/>			
@@ -191,4 +188,5 @@
 </div>
 
 <br/>
-	
+  </div>
+</div>

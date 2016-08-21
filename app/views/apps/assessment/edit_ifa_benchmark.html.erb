@@ -45,7 +45,7 @@
 				</td>
 				<td>
  <!--         <%#=  select( :bench, :standard_id, ActStandard.find(:all, :conditions=>["act_master_id = ? AND act_subject_id = ?", @benchmark.act_master_id, @benchmark.act_subject_id]).collect{|s| [s.abbrev, s.id]}, {:value => @benchmark.act_standard_id, :prompt => @benchmark.act_standard.abbrev.upcase}) %>  -->
-          <%=  select( :bench, :standard_id, ActStandard.for_standard_and_standard(@benchmark.act_master, @benchmark.act_subject).collect{|s| [s.abbrev, s.id]}, {:value => @benchmark.act_standard_id, :prompt => @benchmark.act_standard.abbrev.upcase}) %>
+          <%=  select( :bench, :standard_id, ActStandard.for_standard_and_subject(@benchmark.act_master, @benchmark.act_subject).collect{|s| [s.abbrev, s.id]}, {:value => @benchmark.act_standard_id, :prompt => @benchmark.act_standard.abbrev.upcase}) %>
 				</td>
 			</tr>
 		<% else -%>

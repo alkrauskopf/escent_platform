@@ -10,7 +10,7 @@
 	<!--			<%# score_ranges = ["no filter"] + ActScoreRange.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ? AND upper_score > ?", @assessment.act_subject_id, @current_user.ifa_user_option.act_master_id, 0],:order => "upper_score").collect{|s| [s.range, s.id]}%>  -->
         <% score_ranges = ["no filter"] + ActScoreRange.standard_subject_greater_than_upper(@current_user.ifa_user_option.act_master, @assessment.act_subject, 0).collect{|s| [s.range, s.id]}%>
 			<!--	<%# strands = ["no filter"] + ActStandard.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @assessment.act_subject_id, @current_user.ifa_user_option.act_master_id],:order => "name").collect{|s| [s.name, s.id]}%>  -->
-        <% strands = ["no filter"] + ActStandard.for_standard_and_standard(@current_user.ifa_user_option.act_master, @assessment.act_subject).sort_by{|s| s.name}.collect{|s| [s.name, s.id]}%>
+        <% strands = ["no filter"] + ActStandard.for_standard_and_subject(@current_user.ifa_user_option.act_master, @assessment.act_subject).sort_by{|s| s.name}.collect{|s| [s.name, s.id]}%>
 					<!--<%# readings = ["no filter"] + ActRelReading.find(:all, :conditions => ["act_subject_id =? ", @assessment.act_subject_id],:order => "label").collect{|r| [r.label, r.id]}%>-->
     <% readings = ["no filter"] + @assessment.act_subject.act_rel_readings.by_label.collect{|r| [r.label, r.id]}%>
 	<table   style="width:900px; border:0px solid white;">

@@ -1,29 +1,29 @@
-
-<div style = "font-size:12px; color: #000000;padding-left:10px;">
-	<br/>
-	<span style ="text-align:center; color: #C83A14; font-size:18px">
-	<strong>Assessment Repository</strong>
-	</span>
-	<div style = "padding-bottom:10px;padding-left:0px; ">
-	<%= form_for(:act_assesment, :url => ifa_assessment_add_path(:organization_id => @current_organization, :classroom_id => @classroom)) do |form| -%>
-		<table  style="width:200px;margin-left:285px;">
-			<tbody>  
-				<tr>
-					<td style="width:120px; font-size:normal">
+<div>
+  <div class="row">
+    <div class="ifa_panel_title">
+      Assessment Repository
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+	  <%= form_for(:act_assesment, :url => ifa_assessment_add_path(:organization_id => @current_organization, :classroom_id => @classroom)) do |form| -%>
+      <div class="col-md-4 "></div>
+      <div class="col-md-2 ">
+        <div class="repo_select">
 						<%=  select( :assess, :subject_id, ActSubject.all_subjects.collect{|s| [s.name, s.id]}, {:prompt => ActSubject.first.name}) %>
-					</td>
-        			<td>
-          				<%= form.submit 'Create New Assessment',:class => 'fsn-button ui-button ui-state-default ui-corner-all' %>
-        			</td>			
-				</tr>
-			</tbody>
-		</table>
-	<% end -%>
-	</div>
+        </div>
+      </div>
+      <div class="col-md-6 ">
+        <div class="repo_submit">
+          <%= form.submit 'Create New Assessment', :class => "btn btn-primary btn-xs" %>
+        </div>
+      </div>
+    <% end -%>
+  </div>
 
 	<% unless @assessments.size.zero? %>
 	<div id="assign_resources_panel">
-		<table id="resource_levels"  class="tablesorter" style="width:99%;">
+		<table id="assessment_levels"  class="tablesorter" style="width:99%;">
 			<thead>
 				<tr>
 					<% header_string = pluralize(@assessments.size.to_s, " Mastery Assessments") + " In The Repository" %>
@@ -69,6 +69,11 @@
 	<span style ="text-align:center; color: #C83A14; font-size:11px">
 	<i>* * *  There Are No Assessments In The Library At This Time  * * *</i>
 	</span>
-<% end -%>	
-
+<% end -%>
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+      jQ('#assessment_levels .resource_levels_close').toggleResourceLevels();
+      jQ('#assessment_levels .resource_levels_open').toggleResourceLevels();
+    });
+  </script>
 </div>

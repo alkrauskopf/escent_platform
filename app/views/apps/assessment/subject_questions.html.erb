@@ -7,7 +7,7 @@
 			<tbody>
 				<% @current_organization.ifa_org_option.act_masters.each do |mstr|%>
 		<!--			<%# act_stds = ActStandard.find(:all, :conditions => ["act_master_id =? AND act_subject_id =?", mstr.id, @current_subject.id], :order => "abbrev") -%>  -->
-          <% act_stds = ActStandard.for_standard_and_standard(mstr, @current_subject) -%>
+          <% act_stds = ActStandard.for_standard_and_subject(mstr, @current_subject) -%>
 						<% act_stds.each do |std| -%>
 						<% col_label = mstr.abbrev + ": " + std.abbrev.upcase + ", " + std.act_questions.active.size.to_s + " Questions" -%>
 						<tr>

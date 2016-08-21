@@ -30,7 +30,7 @@
 		<div class="FormRowTitle"><strong><%= @current_standard.abbrev %> Knowledge Strand:</strong></div>
   	     <div class="FormRowData" style= "margin-left:5px">
 	<!--		<%#=  select(:q_std, @current_standard.abbrev, ActStandard.find(:all, :conditions => ["act_subject_id =? AND act_master_id = ?", @question.act_subject_id, @current_standard.id],:order => "name").collect{|s| [s.name, s.id]},{:prompt => std_label}) %>  -->
-           <%=  select(:q_std, @current_standard.abbrev, ActStandard.for_standard_and_standard(@current_standard, @question.act_subject).sort_by{|s| s.name}.collect{|s| [s.name, s.id]},{:prompt => std_label}) %>
+           <%=  select(:q_std, @current_standard.abbrev, ActStandard.for_standard_and_subject(@current_standard, @question.act_subject).sort_by{|s| s.name}.collect{|s| [s.name, s.id]},{:prompt => std_label}) %>
   	  </div>
   	  </div>
 		<div class="FormRow">

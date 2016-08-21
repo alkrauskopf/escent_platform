@@ -740,7 +740,7 @@ class Apps::AssessmentController < ApplicationController
     @submitted_assessments = @classroom.act_submissions.select{|s|s.teacher_id == @current_user.id && s.created_at >= @start_time && s.created_at.at_beginning_of_day <= @end_time}
     @current_subject = @classroom.act_subject
  #   @standards_list = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id + ?", @classroom.act_subject_id, @current_standard.id], :order => "abbrev")
-    @standards_list = ActStandard.for_standard_and_standard(@current_standard, @classroom.act_subject)
+    @standards_list = ActStandard.for_standard_and_subject(@current_standard, @classroom.act_subject)
  #   @range_list = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? && upper_score > ? && act_master_id + ?", @classroom.act_subject_id, 0, @current_standard.id], :order => "upper_score")
     @range_list = ActScoreRange.standard_subject_greater_than_upper(@current_standard, @classroom.act_subject, 0)
 
@@ -927,7 +927,7 @@ class Apps::AssessmentController < ApplicationController
     @student_classroom_submissions = @student_all_submissions.select{|s| s.classroom_id == @classroom.id }.sort{|a,b| b.date_finalized<=> a.date_finalized}
     
   #  @standards_list = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", @classroom.act_subject_id, @current_standard.id], :order => "abbrev")
-    @standards_list = ActStandard.for_standard_and_standard(@current_standard, @classroom.act_subject)
+    @standards_list = ActStandard.for_standard_and_subject(@current_standard, @classroom.act_subject)
  # @range_list = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? && upper_score > ? && act_master_id = ?", @classroom.act_subject_id, 0, @current_standard.id], :order => "upper_score")
     @range_list = ActScoreRange.standard_subject_greater_than_upper(@current_standard, @classroom.act_subject, 0)
     @current_subject = @classroom.act_subject

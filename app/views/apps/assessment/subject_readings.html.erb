@@ -1,8 +1,9 @@
 
-<div style = "font-size:12px; color: #000000;padding-left:10px;">
+  <div class = 'ifa_panel_list'>
+    vvvvvv
 	<% unless @reading_list.size.zero? %>
-	<div id="assign_resources_panel">
-		<table id="authorization_levels"  class="tablesorter" style="width:99%;">
+	<div >
+		<table id="reading_list_levels"  class="tablesorter" style="width:99%;">
 			<tbody>  
 				<% gen_ids = @reading_list.group_by(&:act_genre_id) -%>
 				<% gen_ids.each do |gi, readings| -%>
@@ -27,8 +28,9 @@
 	<center><i>* * *  There Are No Related Readings In The Library At This Time  * * *</i></center>
 	</span>
 <% end -%>	
-
 </div>
+  <hr>
+
 <script type="text/javascript" charset="utf-8">
 jQ(document).ready(function() { 
 	jQ('.fsn-button').addUIStateClass();
@@ -36,8 +38,7 @@ jQ(document).ready(function() {
 </script>
 <script type="text/javascript" charset="utf-8">
 jQ(document).ready(function() {
-	jQ('#authorization_levels .authorization_levels_close').toggleAuthorizationLevels();
-	jQ('#authorization_levels .authorization_levels_open').toggleAuthorizationLevels();	
-  jQ("#roles").tablesorter({ headers: { 1: { sorter: false }} });
+	jQ('#reading_list_levels .authorization_levels_close').toggleAuthorizationLevels();
+	jQ('#reading_list_levels .authorization_levels_open').toggleAuthorizationLevels();
 });
 </script>

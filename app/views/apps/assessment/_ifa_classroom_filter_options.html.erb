@@ -10,9 +10,8 @@
 				<% end -%>
 				<% subject_tag = subject ? subject.name : "All Subjects" -%>	
 				<% upper_score_tag = @classroom.ifa_classroom_option.max_score_filter ? @classroom.ifa_classroom_option.max_score_filter.to_s : "All" -%>
-<!--				<%# upper_scores = ["All"] + ActScoreRange.find(:all, :conditions => ["act_master_id = ? ",  master.id],:order => "upper_score").collect{|s| [s.upper_score]}.uniq %>  -->
-    <% upper_scores = ["All"] + ActScoreRange.for_subject(master).collect{|s| [s.upper_score]}.uniq %>
-    <% subjects = ["All Subjects"] + ActSubject.all_subjects.collect{|s| [s.name, s.id]}%>
+        <% upper_scores = ["All"] + ActScoreRange.for_subject(master).collect{|s| [s.upper_score]}.uniq %>
+        <% subjects = ["All Subjects"] + ActSubject.all_subjects.collect{|s| [s.name, s.id]}%>
 
 	<table   style="width:900px; border:0px solid white;">
 		<tbody>

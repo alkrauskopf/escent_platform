@@ -20,26 +20,24 @@
       </div>
 	  <% end -%>
 	</div>
-  <div>
-	<% unless @readings.size.zero? %>
-	<div id="assign_resources_panel">
-		<table id="reading_levels" style="width:99%;">
-			<thead>
-				<tr>
-					<% header_string = pluralize(@readings.size.to_s, " Related Reading") + " In The Repository" %>
-					<th><strong><%= header_string %></strong></th>											
-				</tr>
-			</thead>
-			<tbody>  
+  <hr>
+  <div class="row ifa_panel_title">
+
+      <%= pluralize(@readings.size.to_s, " Related Reading") %>
+
+  </div>
+      <div class="row ">
+      <div class="ifa_panel_list">
+      <table id="reading_levels" >
+			<tbody >
 				<% sub_ids = @readings.group_by(&:act_subject_id) %>
 				<% sub_ids.each do |si, readings| %>
 					<% subj_name = ActSubject.find(si).name -%> 
 					<% col_label = readings.size.to_s + " " + subj_name-%>
 					<tr>
 					<td class="resource_levels_close">
-
 					<%= link_to '', ifa_subject_readings_path(:organization_id => @current_organization, :classroom_id => @classroom, :subject_id => si) %>
-					<strong><%= col_label %></strong>
+					<%= col_label %>
 					<span></span>
 					</td>
 					</tr>
@@ -47,15 +45,7 @@
 			</tbody>
 		</table>
 	<br/>
-
-	</div>
-<% else -%>
-	<br/>
-	<span style ="text-align:center; color: #C83A14; font-size:11px">
-	<i>* * *  There Are No Related Readings In The Library At This Time  * * *</i>
-	</span>
-<% end -%>	
-
+      </div>
 </div>
   <script type="text/javascript" charset="utf-8">
     jQ(document).ready(function() {

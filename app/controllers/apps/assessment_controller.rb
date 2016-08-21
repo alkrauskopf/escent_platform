@@ -1,5 +1,10 @@
 class Apps::AssessmentController < ApplicationController
-  layout "ifa", :except =>[:manual_ifa_dashboard_update, :student_list, :student_baseline_scores, :static_assess_question_analysis, :list_user_questions, :list_subject_assessments, :subject_benchmarks, :subject_standard_benchmarks, :assign_classroom_assessment, :question_analysis, :entity_dashboard, :growth_dashboards, :student_dashboard, :student_subject_history, :classroom_dashboard,  :assign_classroom_assessment_view, :list_classroom_assessments, :subject_readings, :genre_readings, :list_standard_questions ,:subject_questions, :assign_assessment_question_view, :subject_assessments, :list_user_assessments]
+  layout "ifa", :except =>[:manual_ifa_dashboard_update, :student_list, :student_baseline_scores, :static_assess_question_analysis,
+                           :list_user_questions, :list_subject_assessments, :subject_benchmarks, :subject_standard_benchmarks,
+                           :assign_classroom_assessment, :question_analysis, :entity_dashboard, :growth_dashboards, :student_dashboard,
+                           :student_subject_history, :classroom_dashboard,  :assign_classroom_assessment_view, :list_classroom_assessments,
+                           :subject_readings, :genre_readings, :list_standard_questions ,:subject_questions, :assign_assessment_question_view,
+                           :subject_assessments, :list_user_assessments]
   before_filter :ifa_allowed?, :except=>[]
   before_filter :current_user_app_authorized?, :except=>[]
   before_filter :current_user_app_admin?, :only=>[]
@@ -1625,11 +1630,8 @@ class Apps::AssessmentController < ApplicationController
   def subject_readings
   
     initialize_parameters
-  
-    # @reading_list = ActRelReading.find(:all, :conditions => ["act_subject_id = ?", @current_subject.id]) rescue nil
     @reading_list = @current_subject.act_rel_readings
     @reading_list.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
-    
   end
 
   def genre_readings
@@ -1727,7 +1729,7 @@ class Apps::AssessmentController < ApplicationController
      if @current_user == reading.user || @current_user.ifa_admin_for_org?(@current_organization)
       reading.destroy
       flash[:notice] = "Related Reading Deleted"
-      end
+     end
     redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
   end
 

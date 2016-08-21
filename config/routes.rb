@@ -398,6 +398,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/related_reading/edit' => 'apps/assessment#edit_reading' #  ifa_related_reading_edit_path
   post '/ifa/related_reading/edit' => 'apps/assessment#edit_reading' #  ifa_related_reading_edit_path
   get '/ifa/related_reading/genre/show' => 'apps/assessment#genre_readings' #  ifa_related_reading_genre_show_path
+  get '/ifa/related_reading/destroy' => 'apps/assessment#destroy_reading' #  ifa_related_reading_destroy_path
+  post '/ifa/related_reading/destroy' => 'apps/assessment#destroy_reading' #  ifa_related_reading_destroy_path
 
   get '/ifa/benchmark/ifa/add' => 'apps/assessment#add_ifa_benchmark'   # ifa_benchmark_ifa_add_path
   post '/ifa/benchmark/ifa/add' => 'apps/assessment#add_ifa_benchmark'   # ifa_benchmark_ifa_add_path

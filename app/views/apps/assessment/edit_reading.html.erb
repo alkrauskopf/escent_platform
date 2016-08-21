@@ -15,7 +15,7 @@
 </div>
 
 <div id="reading_form" class="Form clear">
-<%= form_for(:act_rel_reading, :url => ifa_related_reading_edit_path(organization_id => @current_organization, :classroom_id => @classroom , :function => "Submit", :reading_id => @reading)) do |form| -%>
+<%= form_for(:act_rel_reading, :url => ifa_related_reading_edit_path(:organization_id => @current_organization, :classroom_id => @classroom , :function => "Submit", :reading_id => @reading)) do |form| -%>
 
 <div style ="color: #000000; font-size:14px; margin-top:5px; margin-left:180px;font-weight:normal"> 
 
@@ -82,7 +82,8 @@
 	<div class="FormRow">
 		<div class="FormRowTitle"></div>
         <div class="FormRowData" style= "margin-left:25px">
-      <%= text_area :act_rel_reading, :reading, :rows => 20, :cols => 75, :maxlength => 255, :value => @reading.reading, :class =>"mceEditor"  %>
+          <%= text_area :act_rel_reading, :reading, :rows => 20, :cols => 75, :value => @reading.reading, :class =>"tinymce"  %>
+          <%= tinymce %>
         </div>
     </div>
 
@@ -93,7 +94,7 @@
 		</div>	
 		<div class="FormRow submit_warp">
 			<br/>
-			<%=link_to 'Delete Reading', {:controller => 'apps/assessment',:action => "destroy_reading",:organization_id => @current_organization, :classroom_id => @classroom, :reading_id => @reading}, :confirm => "Are You Sure?"%>
+			<%= link_to 'Delete Reading', ifa_related_reading_destroy_path(:organization_id => @current_organization, :classroom_id => @classroom, :reading_id => @reading.public_id), :class => "btn btn-danger btn-xs", :confirm => "Are You Sure?"%>
 		</div>	
 	</div>	
 <% end -%>	
@@ -106,31 +107,6 @@
 	  <%#= link_to "Back", :controller => "/apps/assessment", :action => "manage", :organization_id => @current_organization, :classroom_id => @classroom %>
 </div>
 
-<style type="text/css" media="screen">
-.FormRowData { width: auto; }
-.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
-.FormSectionTitle { margin-top: 10px;}
-* html .FormRow { float: none; display: block; width: 530px; }
-</style>
-<script type="text/javascript">		
-	jQ(document).ready(function() {
-//		var AUTH_TOKEN = "<%= protect_against_forgery? ? form_authenticity_token : '' %>";
-//		jQ.ajaxSetup({data:{authenticity_token : AUTH_TOKEN}});
-		jQ("form.ajax").submit(function() {
-			var action = jQ(this).attr("action");					
-			jQ("textarea.mceEditor", this).each(function() {
-				jQ(this).val(tinyMCE.get(this.id).getContent());
-			});
-			var post_data = $(this).serialize()
-		  jQ.post(action, post_data, function(data) {
-				jQ("#reading_form").html(data);
-			});
-
-	    return false;
-	  });
-
-	})
-</script>
 
 
 

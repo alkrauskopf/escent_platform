@@ -239,7 +239,7 @@
 				<% link_string = truncate(c.course_name, :omission => "...", :length => 18) -%>
 				<% leader_string = truncate(clsrm.teacher_list, :omission => "...", :length => 13) -%>
 				<center>
-					<%= link_to link_string, offering_view_path(organization_id => c.organization, :id => c) %><br/>
+					<%= link_to link_string, offering_view_path(:organization_id => c.organization, :id => c) %><br/>
 					<%= leader_string %><br/>
 					<%= c.organization.medium_name %>
 				</center>

@@ -221,7 +221,7 @@
 </div>
 	
 <div style="width:90%; text-align:left;  font-size:12px; padding:10px;">
-	  <%= link_to "Back", self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom,:question_id => @question, :assessment_id => @assessment)) %>
+	  <%= link_to "Back", self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom,:question_id => @question, :assessment_id => @assessment}) %>
 </div>
 
 <style type="text/css" media="screen">

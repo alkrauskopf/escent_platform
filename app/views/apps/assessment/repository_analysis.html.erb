@@ -18,7 +18,7 @@
 	 <p style="float:right; word-wrap:break-word; overflow:hidden;">
       <br />
 			<% return_link = "Return" %>
-			<%= link_to return_link, self.send(@current_application.link_path(:organization_id => @current_organization, :topic_id => @topic, :classroom_id => @classroom)) %>
+			<%= link_to return_link, self.send(@current_application.link_path,{:organization_id => @current_organization, :topic_id => @topic, :classroom_id => @classroom}) %>
 			
 	</p>    
 	<div>	

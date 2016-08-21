@@ -65,7 +65,7 @@ class Apps::AssessmentController < ApplicationController
       @student = User.find_by_public_id(params[:user_id])rescue nil
     end
     unless @student
-       redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
+       redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
     end
   end
 
@@ -82,7 +82,7 @@ class Apps::AssessmentController < ApplicationController
          flash[:error] = @current_organization.ifa_org_option.errors.full_messages.to_sentence 
       end
     end
-       redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
+       redirect_to self.send(@current_application.link_path, {:organization_id => @current_organization, :classroom_id => @classroom})
   end
 
 
@@ -95,7 +95,7 @@ class Apps::AssessmentController < ApplicationController
     initialize_parameters
 
     unless  @question
-      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization))
+      redirect_to self.send(@current_application.link_path, {:organization_id => @current_organization})
     end
     @rel_reading = @question.act_rel_reading ? @question.act_rel_reading : nil
     @benchmark_list = @question.act_benches.sort_by{|b| [b.benchmark_type, b.description]} rescue []
@@ -132,7 +132,7 @@ class Apps::AssessmentController < ApplicationController
   def static_assessment
     initialize_parameters 
     unless @assessment 
-      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question))
+      redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question})
     end
     @originator = "Unkown Creator"
     if @assessment.generation > 0
@@ -153,7 +153,7 @@ class Apps::AssessmentController < ApplicationController
     initialize_parameters
 
     unless  @benchmark
-      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
+      redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
     end
     @bench_questions = @benchmark.act_questions rescue nil
     @bench_assessments = []
@@ -430,7 +430,7 @@ class Apps::AssessmentController < ApplicationController
       @assessment.destroy
       flash[:notice] = "Assessment Deleted"    
       end
-    redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question))
+    redirect_to self.send(@current_application.link_path, {:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question})
   end
 
   def unlock_assessment
@@ -818,7 +818,7 @@ class Apps::AssessmentController < ApplicationController
   
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     unless @entity_dashboard
-      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization))
+      redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization})
     end
     update_sms_in_user_dashboard(@entity_dashboard) 
     prepare_single_ifa_dashboard(@entity_dashboard)
@@ -834,7 +834,7 @@ class Apps::AssessmentController < ApplicationController
 
      @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
      if @entity_dashboard.nil?
-       redirect_to self.send(@current_application.link_path(:organization_id => @current_organization))
+       redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization})
      end
      ActSubmission.not_dashboarded(@entity_dashboard.ifa_dashboardable_type, @entity_dashboard.ifa_dashboardable, @current_subject, @entity_dashboard.period_beginning, @entity_dashboard.period_ending).each do |submission|
        if @entity_dashboard.ifa_dashboardable_type == 'User'
@@ -890,7 +890,7 @@ class Apps::AssessmentController < ApplicationController
   
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     unless @entity_dashboard
-      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization))
+      redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization})
     end
     update_cells_in_user_dashboard(@entity_dashboard) 
     prepare_single_ifa_dashboard(@entity_dashboard)
@@ -907,7 +907,7 @@ class Apps::AssessmentController < ApplicationController
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     @current_standard = ActMaster.find_by_id(params[:master_id]) rescue @current_standard 
     unless @entity_dashboard
-      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization))
+      redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization})
     end
     @current_user.set_standard_view(@current_standard)
     prepare_single_ifa_dashboard(@entity_dashboard)
@@ -1127,7 +1127,7 @@ class Apps::AssessmentController < ApplicationController
           end         
         end
        end
-         redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
+         redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
      end
     end
   end
@@ -1208,7 +1208,7 @@ class Apps::AssessmentController < ApplicationController
       @benchmark.destroy
       flash[:notice] = "Benchmark Deleted" 
     end
-    redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
+    redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
   end
 
 
@@ -1679,7 +1679,7 @@ class Apps::AssessmentController < ApplicationController
           end
          end
         end 
-      redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
+      redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
     end 
     flash[:error] = @reading.errors.full_messages.to_sentence 
    end
@@ -1715,7 +1715,7 @@ class Apps::AssessmentController < ApplicationController
         else
          flash[:error] = @reading.errors.full_messages.to_sentence 
        end
-       redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
+       redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
     end
   end
 
@@ -1728,7 +1728,7 @@ class Apps::AssessmentController < ApplicationController
       reading.destroy
       flash[:notice] = "Related Reading Deleted"
       end
-    redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
+    redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
   end
 
 
@@ -2055,7 +2055,7 @@ end
     else
      flash[:error] = "assessment Was Not Deleted"
     end
-    redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
+    redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
   end 
 
 
@@ -2125,7 +2125,7 @@ end
       @subject = ActSubject.find_by_public_id(params[:subject_id]) rescue nil
       @lower_score = params[:score] rescue nil
     unless @student && @master && @subject && @lower_score
-       redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
+       redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
     end
     baseline_score = @student.ifa_user_baseline_scores.for_subject(@subject).for_standard(@master).first rescue nil
     if baseline_score
@@ -2170,7 +2170,7 @@ end
       @subject = ActSubject.find_by_public_id(params[:subject_id]) rescue nil
       @lower_score = params[:score] rescue nil
     unless @student && @subject && @lower_score
-       redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
+       redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
     end
     subject_demo = @student.student_subject_demographics.for_subject(@subject).first rescue nil
     if subject_demo
@@ -2390,7 +2390,7 @@ end
     else
      flash[:error] = "Question Was Not Deleted"
     end
-    redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom))
+    redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
   end  
  
   def edit_question_toggle_choice

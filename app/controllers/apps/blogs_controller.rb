@@ -68,7 +68,7 @@ class Apps::BlogsController < ApplicationController
         end
         @blog.position = @current_organization.blogs.size + 1
         if @blog.save
-          redirect_to self.send(@current_application.link_path(:organization_id => @current_organization, :user_id => @current_use))
+          redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :user_id => @current_use})
         else 
           flash[:error] = @blog.errors.full_messages.to_sentence 
         end

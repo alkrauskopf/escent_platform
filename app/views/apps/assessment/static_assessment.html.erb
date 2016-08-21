@@ -98,7 +98,7 @@
 			
 			
 			<span style="font-size:13px;"><br/><br/>
-			  <%= link_to "Return", self.send(@current_application.link_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :assessment_id => @assessment)) %>
+			  <%= link_to "Return", self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :assessment_id => @assessment}) %>
 			</span>
 			<br/>
 			</div>

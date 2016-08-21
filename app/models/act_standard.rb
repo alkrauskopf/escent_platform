@@ -24,7 +24,7 @@ class ActStandard < ActiveRecord::Base
   def self.for_standard_and_subject(standard, subject)
     subj = subject.class.to_s == 'Fixnum' ? (ActSubject.find_by_id(subject) rescue nil) : subject
     std = standard.class.to_s == 'Fixnum' ? (ActMaster.find_by_id(standard) rescue nil) : standard
-    (subj.nil? || std.nil?) ? [] : where('act_master_id = ? && act_subject_id = ?',std.id, subj.id).order('upper_score ASC')
+    (subj.nil? || std.nil?) ? [] : where('act_master_id = ? && act_subject_id = ?',std.id, subj.id).order('abbrev ASC')
   end
     
 end

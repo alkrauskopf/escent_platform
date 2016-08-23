@@ -30,8 +30,6 @@ class Site::SiteController < Site::ApplicationController
     else
       @content = @current_organization.contents.first
     end
-
-    
     @content_topics = []
     if @content
       @mastery_level = @content.act_score_ranges.for_standard(@current_standard).first rescue nil

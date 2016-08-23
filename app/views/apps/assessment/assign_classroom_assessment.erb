@@ -16,7 +16,7 @@
           </tr>
 					<% unless @tagged_classrooms.empty? -%>
 						<% @tagged_classrooms.each do |clsrm| -%>
-              <% col_label = "Add From  <i>" + clsrm.course_name + ", " + clsrm.organization.medium_name.titleize + "</i>"-%>
+              <% col_label = ("Add From  <i>" + clsrm.course_name + ", " + clsrm.organization.medium_name.titleize + "</i>").html_safe-%>
               <tr>
                 <td class="authorization_levels_close">
                   <%= link_to '', offering_admin_assessment_view_path(:organization_id => @current_organization, :group_id => clsrm, :classroom_id => @classroom) %>

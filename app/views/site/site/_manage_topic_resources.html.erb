@@ -65,7 +65,7 @@
 							<%= link_to (image_tag "delete.png"), {:controller => "/site/site", :action => "manage_topic_add_remove_resource",:organization_id => @current_organization, :topic_id => @topic, :resource_id => rsrc}, :class => "remove_button"%>
 						</td>
 						<td   style="width:490px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:middle; text-align:leftt;color: #000000;font-weight:normal;">
-							<strong><%= link_to rsrc.title.titleize,{:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => rsrc}, {:target => "_blank"} %></strong>
+							<strong><%= link_to rsrc.title.titleize, resource_view_path(:organization_id => @current_organization, :id => rsrc), {:target => "_blank"} %></strong>
 							<% if rsrc.content_status.name =="Restricted"%>&nbsp;<i>(RESTRICTED)</i><% end %>						
 							&nbsp; &nbsp;<%= rsrc.subject_area.name.humanize if rsrc.subject_area %> <%= rsrc.content_resource_type.name.humanize if rsrc.content_resource_type %>
 							&nbsp; (<%= rsrc.content_object_type.content_object_type_group.name.downcase%>)
@@ -134,7 +134,7 @@
 						<% end -%>
 					</td>
 					<td   style="width:580px; border:0px solid white; font-size:11px; padding-top:0px; padding-left:0px; vertical-align:top; text-align:leftt;color: #000000;font-weight:normal;">
-						<strong><u><%= link_to rsrc.title.titleize,{:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => rsrc}, {:target => "_blank"} %></u></strong>
+						<strong><u><%= link_to rsrc.title.titleize, resource_view_path(:organization_id => @current_organization, :id => rsrc), {:target => "_blank"} %></u></strong>
 						<% if rsrc.content_status.name =="Restricted"%>&nbsp;<i>(RESTRICTED)</i><% end %>						
 							&nbsp; &nbsp;<%= rsrc.subject_area.name.humanize if rsrc.subject_area %> <%= rsrc.content_resource_type.name.humanize if rsrc.content_resource_type %>&nbsp; (<%= rsrc.content_object_type.content_object_type_group.name.downcase%>)
 						<br/>Contributed <%= time_ago_in_words(rsrc.created_at.to_s, include_seconds = false)%> ago.
@@ -201,7 +201,7 @@
 						<% end -%>
 					</td>
 					<td   style="width:580px; border:0px solid white; font-size:11px; padding-top:0px; padding-left:0px; vertical-align:top; text-align:leftt;color: #000000;font-weight:normal;">
-						<strong><u><%= link_to rsrc.title.titleize,{:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => rsrc}, {:target => "_blank"} %></u></strong>
+						<strong><u><%= link_to rsrc.title.titleize, resource_view_path(:organization_id => @current_organization, :id => rsrc), {:target => "_blank"} %></u></strong>
 						<% if rsrc.content_status.name =="Restricted"%>&nbsp;<i>(RESTRICTED)</i><% end %>						
 							&nbsp; &nbsp;<%= rsrc.subject_area.name.humanize if rsrc.subject_area %> <%= rsrc.content_resource_type.name.humanize if rsrc.content_resource_type %>&nbsp; (<%= rsrc.content_object_type.content_object_type_group.name.downcase%>)
 						<br/>Contributed <%= time_ago_in_words(rsrc.created_at.to_s, include_seconds = false)%> ago.

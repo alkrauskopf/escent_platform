@@ -902,6 +902,7 @@ class User < ActiveRecord::Base
 
   def app_authorized?(app,org)
     auth = false
+    if app.core? then auth = org.can_be_displayed?(self) end
     if app.ifa?  then auth = self.ifa_authorized?(org) || self.app_superuser?(app) end
     if app.ita?  then auth = self.ita_authorized?(org) || self.app_superuser?(app) end      
     if app.blogs?  then auth = self.blog_authorized?(org) || self.app_superuser?(app) end

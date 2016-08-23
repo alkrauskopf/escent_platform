@@ -46,7 +46,8 @@ EscentPartners::Application.routes.draw do |map|
   post '/user/bio/edit' => 'users#edit_user_bio'
 
   # CORE Resource (Content)
-  get '/resource/view' => 'site/site#static_resource'    #  resource_view_path
+#  get '/resource/view' => 'site/site#static_resource'    #  resource_view_path
+  get '/resource/view' => 'apps/resource_library#static_resource'    #  resource_view_path
   get '/resource/new' => 'site/contents#submit_resource'
   post '/resource/new' => 'site/contents#submit_resource'
   get '/resource/show' => 'site/contents#index'
@@ -133,11 +134,11 @@ EscentPartners::Application.routes.draw do |map|
   post '/discussion/resource/comment/new' => 'site/discussions#add_comment_for_resource'
   get '/discussion/share' => 'site/discussions#share_discussion'
   post '/discussion/share' => 'site/discussions#share_discussion'
-  get '/discussion/reply' => 'site/discussions#add_reply'
+  get '/discussion/reply' => 'site/discussions#add_reply'     #   discussion_reply_url
   post '/discussion/reply' => 'site/discussions#add_reply'
   get '/discussion/reply/delete' => 'site/discussions#delete_reply'
   post '/discussion/comment/new' => 'site/discussions#add_comment'
-  get '/discussion/report/abuse' => 'site/discussions#report_abuse'
+  get '/discussion/report/abuse' => 'site/discussions#report_abuse'   # discussion_report_abuse_url
   post '/discussion/report/abuse' => 'site/discussions#report_abuse'
 
   # Main Application Route Paths

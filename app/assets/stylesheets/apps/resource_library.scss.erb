@@ -1,0 +1,80 @@
+
+@import "application-variables.scss";
+
+.resource_container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.resource_content {
+  background: #FFFFFF;
+}
+
+.resource_header {
+  padding-top:.5em;
+  padding-bottom: 0em;
+  width: 100%;
+}
+
+.resource_logo_box {
+  padding-top:0em;
+  padding-bottom: 0em;
+  width: 100%;
+}
+
+.resource_logo_text {
+  padding-top: .5em;
+  padding-bottom: 0em;
+  font-weight:bold;
+  text-align:center;
+  font-style: italic;
+  color:$blue_title;
+}
+
+.resource_title_text {
+  padding-top: 1em;
+  padding-bottom: 0em;
+  font-size:18px;
+  font-weight:bold;
+  text-align:center;
+  vertical-align:middle;
+  font-style: normal;
+  color:$blue_title;
+}
+
+.resource_panel_box {
+  width: auto;
+  height: auto;
+  padding-bottom: 1em;
+  padding-top: 2em;
+}
+
+.resource_panel_header{
+  width:auto;
+  height:3em;
+  vertical-align: middle;
+  text-align:center;
+  font-family:Verdana, Arial, Helvetica, sans-serif;
+  font-size:14px;
+  font-weight:bold;
+  background:url(<%= asset_path('mediashim.png') %>) repeat-x top left;
+  padding-top:.5em;
+  padding-left:0em;
+  border:1px solid $border_gray
+}
+
+.resource_panel_text {
+  font-size: 12px;
+  text-align:center;
+  vertical-align:middle;
+  color: $dark_text;
+}
+
+.resource_discussion_closed {
+  font-size: 12px;
+  vertical-align:middle;
+  font-weight:bold;
+  text-align:center;
+  font-style: italic;
+  color: $gray_text;
+}

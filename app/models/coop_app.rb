@@ -144,9 +144,14 @@ class CoopApp < ActiveRecord::Base
   end
 
   def app_link
+    if self.core?
+      controller = 'fsn'
+      action = 'index'
+      route = 'root'
+    end
     if self.ifa?
       controller = 'apps/assessment'
-   #   action = 'manage'
+      #   action = 'manage'
       action = 'index'
       route = 'ifa'
     end

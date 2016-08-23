@@ -7,7 +7,7 @@ jQ(".change_status").html('<%= escape_javascript(render(:partial => "/shared/rep
 jQ(".discussion_reply_warp").changeReplyStatus().addReportAction();
 jQ(".iwing_discussion_description").changeReplyStatus().addReportAction();
 jQ(".discussion_reply_form_submit button:even").replyFormCancel();
-var reply_url = '<%= url_for :controller => "/site/discussions", :action => :add_reply, :organization_id => @current_organization %>'
+var reply_url = '<%= discussion_reply_url(:organization_id => @current_organization) %>'
 jQ(".discussion_reply_form_submit button:odd").addNewReply(reply_url);
 jQ("#link_of_call_for_action").html('<%= escape_javascript(render(:partial => "/site/site/link_of_call_for_action")) %>');
 jQ("#share_content").html('<%= escape_javascript(render(:partial => "/shared/share_content", :locals => {:content => @content})) %>');

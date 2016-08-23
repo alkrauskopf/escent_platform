@@ -56,7 +56,7 @@
 					<tr>				
 				
 					<td width=250 style="vertical-align:middle;font-size:11px; border:1px solid #ddd;" class="<%= params[:order_by] == 'title' ? 'order' : '' %>">
-						<center><%= link_to item_found.title,{:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => item_found}%>
+						<center><%= link_to item_found.title, resource_view_path(:organization_id => @current_organization, :id => item_found) %>
 					<br/>Contributed <%= time_ago_in_words(item_found.created_at.to_s, include_seconds = false) %> ago</center>
 					</td>	
 					<!-- ALK Include User Name of Submitter with Org Name -->

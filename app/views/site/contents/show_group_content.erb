@@ -8,7 +8,7 @@
 				<% unless rsrc.nil?%>
 					<tr style="border:1px solid #ddd;">	
 						<td style=" width:60%;width:fixed; font-size:11.5px; line-height:1.3em;  padding-top:8px; padding-bottom:8px; color:#000000; vertical-align:top" >
-							<strong><u><%= link_to rsrc.title,{:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => rsrc},{:target=>"_blank"} %></u></strong></br>
+							<strong><u><%= link_to rsrc.title, resource_view_path(:organization_id => @current_organization, :id => rsrc),{:target=>"_blank"} %></u></strong></br>
 							<%= rsrc.organization ? rsrc.organization.short_name : "<i>- No Org -</i>"%>,&nbsp;<%= rsrc.user ? rsrc.user.last_name : "<i>- No Contributor -</i>"%>,&nbsp;<%= rsrc.subject_area.name %>,&nbsp;
 							Tagged: <%= pluralize(rsrc.favorite_of.size, ' Person') %>,&nbsp;<%= pluralize(rsrc.topics.size, " Learning Unit") %>
 						</td>

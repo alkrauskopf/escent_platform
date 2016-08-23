@@ -30,7 +30,7 @@
 								<%= rsrc.updated_at.strftime("%m-%d-%y")%>
 							</td>
 							<td   style="width:56%; border:1px solid #ddd; font-size:10px; padding-top:0px; padding-left:0px; vertical-align:top; text-align:left;color:#2061a5; font-weight:normal;">
-								&nbsp;<u><%= link_to "View",{:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => rsrc}, :target => '_blank' %></u>&nbsp;
+								&nbsp;<u><%= link_to "View", resource_view_path(:organization_id => @current_organization, :id => rsrc), :target => '_blank' %></u>&nbsp;
 								<span style="color: #2061a5;font-weight:bold; font-size:11.5px; ">
 									<%= rsrc.title %></br>
 								</span>

@@ -13,7 +13,7 @@
     <div id="root_discussion_form" style="display: none;">
         <%= render :partial => "/site/discussions/add_comment_for_resource" %>
     </div>
-    <input name="report_url" type="hidden" value="<%= url_for :controller => :discussions, :action => :report_abuse, :organization_id => @current_organization %>" />
+    <input name="report_url" type="hidden" value="<%= discussion_report_abuse_url(:organization_id => @current_organization) %>" />
 <div id="show_other_disscussions">
 <% for discussion in @discussions do -%>
     <%= render :partial => "/site/discussions/discussion_for_resource", :locals => {:discussion => discussion} %>
@@ -86,7 +86,7 @@
     			jQ(".share_content_login_submit button:even").lgoinFormSubmit("/shared/share_login", "<%= @current_topic.public_id %>");
     			<% end %>
     			// add a new reply by ajax.
-    			var reply_url = '<%= url_for :controller => "discussions", :action => :add_reply, :organization_id => @current_organization %>'
+    			var reply_url = '<%= discussion_reply_url(:organization_id => @current_organization) %>'
     			jQ(".discussion_reply_form_submit button:odd").addNewReply(reply_url);
     			// delete a reply or comment by ajax.
 					jQ("a.delete").deleteCommentAndReply();

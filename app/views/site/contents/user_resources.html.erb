@@ -12,7 +12,7 @@
 			<tr>
 			
 				<td width = 60%% style=" color: #000000; vertical-align:middle" >
-					<strong><u><%= link_to rsrc.title,{:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => rsrc} %></u></strong>
+					<strong><u><%= link_to rsrc.title, resource_view_path(:organization_id => @current_organization, :id => rsrc) %></u></strong>
 					&nbsp;&nbsp;&nbsp;<%= rsrc.subject_area.name.upcase %>&nbsp;&nbsp;&nbsp;<%= rsrc.content_status.name %>&nbsp;&nbsp;&nbsp;
 					<% if rsrc.content_object_type.nil? -%> <strong><i> Invalid File Type: Should Be Deleted <i/></strong>
 					<% else -%><%= rsrc.content_object_type.content_object_type_group.name.upcase  %>

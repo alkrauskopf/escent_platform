@@ -174,7 +174,7 @@ class Site::ContentsController < Site::ApplicationController
           if @content.save then
             @current_user.add_as_favorite_to(@content) 
 #           flash[:notice] =   "SAVED!Title: #{@content.title} object_group #{@content_object_group} content_object #{@content.content_object}  source file #{@content.source_file_content_type}source file file name #{@content.source_file_file_name} File SIZE: #{@content.source_file_file_size} Preview File name #{@content.source_file_preview_file_name} CONTENT OBJECT TYPE  #{type} "
-            redirect_to  :controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => @content
+            redirect_to  resource_view_path(:organization_id => @current_organization, :id => @content)
           end
         end
         @content.errors[:base] << ('  RESELECT YOUR RESOURCE')
@@ -368,7 +368,7 @@ class Site::ContentsController < Site::ApplicationController
     updated = true
   end  
   if updated
-    redirect_to(:controller => 'site/site',:action => "static_resource", :organization_id => @current_organization, :id => @content)
+    redirect_to resource_view_path(:organization_id => @current_organization, :id => @content)
   end
  end
 

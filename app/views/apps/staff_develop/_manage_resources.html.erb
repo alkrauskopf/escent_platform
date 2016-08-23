@@ -51,7 +51,7 @@
 					<% end -%>
 					<td   style="width:680px; border:1px solid #ddd; font-size:11px; padding-top:0px; padding-left:0px; vertical-align:top; text-align:left;color: #000000;font-weight:normal;">
 						<span style= "font-size:11.5px; color: #2061a5; font-weight:bold;">
-							<u><%= link_to rsrc.title,{:controller => "site/site", :action => "static_resource", :organization_id => @current_organization, :id => rsrc}, {:target => "_blank"} %></u>
+							<u><%= link_to rsrc.title, resource_view_path(:organization_id => @current_organization, :id => rsrc), {:target => "_blank"} %></u>
 						</span>
 						&nbsp; (<%= restrict %><%= rsrc.content_object_type.content_object_type_group.name.downcase%>)<br/>
 						<% unless rsrc.description == "" -%><%= rsrc.description%><br/><% end -%>

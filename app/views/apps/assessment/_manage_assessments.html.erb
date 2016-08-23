@@ -6,7 +6,7 @@
   </div>
   <hr>
   <div class="row">
-	  <%= form_for(:act_assesment, :url => ifa_assessment_add_path(:organization_id => @current_organization, :classroom_id => @classroom)) do |form| -%>
+	  <%= form_for(:act_assesment, :url => ifa_assessment_add_path(:organization_id => @current_organization, :classroom_id => @classroom, :function => 'New')) do |form| -%>
       <div class="col-md-4 "></div>
       <div class="col-md-2 ">
         <div class="repo_select">
@@ -15,6 +15,7 @@
       </div>
       <div class="col-md-6 ">
         <div class="repo_submit">
+     <!--     <%#= form.submit 'Create New Assessment', :class => "fsn-button ui-button ui-state-default ui-corner-all" %> -->
           <%= form.submit 'Create New Assessment', :class => "btn btn-primary btn-xs" %>
         </div>
       </div>

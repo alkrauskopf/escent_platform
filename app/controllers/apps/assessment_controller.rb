@@ -233,9 +233,7 @@ class Apps::AssessmentController < ApplicationController
     
     if params[:function]=="New"
       @assessment = ActAssessment.new
-
     else
-
       if params[:function] == "Submit"
         @assessment = ActAssessment.new
         @assessment.act_subject_id = params[:assess][:subj_id]
@@ -1471,18 +1469,18 @@ class Apps::AssessmentController < ApplicationController
      end
    #  @readings = ActRelReading.find(:all, :conditions => ["act_subject_id = ?", @question.act_subject_id], :order => "label").collect{|r| [r.label,r.id]}
       @readings = @question.act_subject.act_rel_readings.sort_by{|r| r.label}.collect{|r| [r.label,r.id]}
-  @question.act_rel_reading_id = 0
-     @question.question_type = "SA"
-     @question.question = "* * New Question * *"
-     @question.is_active = false
-     @question.is_locked = false
-     @question.is_calibrated = false
-     @question.user_id = @current_user.id
-     @question.organization_id = @current_organization.id
-     @question.generation = 0
-     if @question.save
-       @question.update_attributes(:original_question_id => @question.id)
-     end
+      @question.act_rel_reading_id = 0
+      @question.question_type = "SA"
+      @question.question = "* * New Question * *"
+      @question.is_active = false
+      @question.is_locked = false
+      @question.is_calibrated = false
+      @question.user_id = @current_user.id
+      @question.organization_id = @current_organization.id
+      @question.generation = 0
+      if @question.save
+        @question.update_attributes(:original_question_id => @question.id)
+      end
      redirect_to ifa_question_edit_path(:organization_id => @current_organization, :assessment_id => @assessment, :question_id => @question, :function => "Edit")
  end
 
@@ -1495,11 +1493,9 @@ class Apps::AssessmentController < ApplicationController
      unless params[:reading][:reading_id].empty? && !@question.act_question_reading
        if @question.act_question_reading
          if params[:reading][:reading_id] == "0"
-
             @question.act_question_reading.delete
             @question.act_rel_reading_id = params[:reading][:reading_id]            
          else
-
             @question.act_question_reading.update_attributes(:reading => params[:quest][:reading]) 
             @question.act_rel_reading_id = params[:reading][:reading_id] unless params[:reading][:reading_id].empty?
          end

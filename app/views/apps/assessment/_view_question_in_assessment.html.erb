@@ -62,7 +62,7 @@
 					&nbsp;
 				</td>
 				<td  colspan=2 width = 535px style="vertical-align:top; padding-top:5px; padding-bottom:0px; padding-left:0px;" >
-					<%= quest.act_question_reading.reading %>
+					<%= quest.act_question_reading.reading.html_safe %>
 				</td>
 				<td width = 70px>
 					&nbsp;
@@ -80,7 +80,7 @@
 					<u>Question:</u>&nbsp;&nbsp;&nbsp;
 				</td>
 				<td	width = 435px style="vertical-align:top; text-align:left; padding-top:0px; padding-bottom:5px; padding-left:0px;" >
-					<%= simple_format quest.question %>
+					<%= simple_format quest.question.html_safe %>
 				</td>
 				<td width = 70px>
 					&nbsp;

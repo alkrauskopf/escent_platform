@@ -15,7 +15,8 @@
 			<li/>
 		
 			<!--<%# benches = ActBench.find(:all, :conditions => ["act_subject_id =? AND act_standard_id = ? AND act_score_range_id = ? ", @classroom.act_subject_id, s.id, topic_range_id]) %>-->
-      <% benches = @classroom.act_subject.for_scorerange_strand(topic_range, s) %>
+      <%# benches = @classroom.act_subject.for_scorerange_strand(topic_range, s) %>
+      <% benches = (topic_range.nil? || s.nil?) ? [] : @classroom.act_subject.for_mastery_level(topic_range).for_strand(s) %>
 			<% benches.each do |b| %>
 				<li style="list-style: none; padding-left:10px;  margin: 20;">
 					+&nbsp;&nbsp <%=b.description %><br/>

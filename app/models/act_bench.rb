@@ -27,8 +27,8 @@ class ActBench < ActiveRecord::Base
   scope :for_type, lambda{|btype| {:conditions => ["act_bench_type_id = ? ", btype.id]}}
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
 
-  def self.for_scorerange_strand(sr, strand)
-    self.where('act_score_range_id = ? AND act_standard_id = ?', sr.id, strand.id)
+  def self.for_scorerange_strand(benches, sr, strand)
+    benches.where('act_score_range_id = ? AND act_standard_id = ?', sr.id, strand.id)
   end
 
   def self.for_co_gle(gle)

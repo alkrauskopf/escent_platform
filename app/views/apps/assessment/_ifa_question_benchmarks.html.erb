@@ -107,7 +107,10 @@ jQ(document).ready(function() {
       			}
     			</style>	
 				<% @current_organization.ifa_org_option.act_masters.sort_by{|m| [m.abbrev]}.each do |mstr| -%>
-          <% benches = @question.act_subject.for_scorerange_strand(@question.score_range(mstr), @question.standard(mstr)) -%>
+          <%# benches = @question.act_subject.act_benches.for_scorerange_strand(@question.score_range(mstr), @question.standard(mstr)) -%>
+          <%# benches = @question.act_subject.act_benches.for_mastery_level(@question.score_range(mstr)).for_strand(@question.standard(mstr)) -%>
+          <% benches = (@question.score_range(mstr).nil? || @question.standard(mstr).nil?) ? [] : @question.act_subject.act_benches.for_mastery_level(@question.score_range(mstr)).for_strand(@question.standard(mstr))-%>
+
     				<% benches.each do|b| %>
 		    			<% unless @question.act_benches.include?(b) -%>
 					<tr style="border:1px solid #ddd;">
@@ -115,10 +118,10 @@ jQ(document).ready(function() {
 									<%= link_to (image_tag "add.png", :class => "del"), ifa_question_benchmark_add_path(:organization_id => @current_organization, :question_id => @question, :benchmark_id => b.id), :class => "bench_add" %>
 							</td>
 							<td width=80px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:center; color: #000000; font-size:11px; font-weight:normal">
-								<%=  b.act_master.abbrev.upcase %><br/><%= b.act_score_range.range %>,  <%= b.act_standard.abbrev %>
+								<%=  b.act_master ? b.act_master.abbrev.upcase : "NO-MSTR" %><br/><%=  b.act_score_range ? b.act_score_range.range : 'NO-RNG' %>,  <%= b.act_standard ? b.act_standard.abbrev : 'NO-STRND' %>
 							</td>
 							<td width=390px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
-								<i><%=  b.act_bench_type.name.titleize %></i><br/>
+								<i><%=  b.act_bench_type ? b.act_bench_type.name.titleize : 'No Benchmark Type' %></i><br/>
 								<%= b.description %>
 							</td>
 						</tr>

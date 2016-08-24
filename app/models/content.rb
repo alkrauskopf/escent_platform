@@ -44,15 +44,9 @@ class Content < ActiveRecord::Base
   
   validates_acceptance_of :terms_of_service, :message => "You must declare you are authorized to submit resource.", :allow_nil => false, :accept => true, :if => :terms_of_service_required?
   attr_accessor :except_terms_or_service_vaild
-  #This is not working correctly because in the test environment RAILS_ENV == "devleopment"
-#  if Rails.env.development?
-#    has_attached_file :source_file
-#    has_attached_file :source_file_preview
-#  else
-#   has_attached_file :source_file, :path => ":rails_root/public/resourcelibrary/:id/:style/:basename.:extension", :url => "http://www.escentpartners.com/resourcelibrary:id/:style/:basename.:extension"
-#   has_attached_file :source_file_preview, :path => ":rails_root/public/resourcelibrary/:id/:style/:basename.:extension", :url => "http://www.escentpartners.com/resourcelibrary:id/:style/:basename.:extension"
-#  end
-  
+
+  validates_format_of :source_url, :with => /^((http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?)*$/,
+                      :message => 'not valid, format http://www.escentpartners.com', :allow_nil => true
 
   has_attached_file :source_file,
                     :path => ":rails_root/public/resourcelibrary/:id/:style/:basename.:extension",

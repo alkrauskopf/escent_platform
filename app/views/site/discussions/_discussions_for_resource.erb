@@ -1,13 +1,11 @@
 <div class="module results">
-    <div class="module_header">
-        <div class="iwing_module_title">
-            <i>"<%=@content.title.titleize %>"</i> <%# else %>
-        </div>
-        <div class ="root_discussion_trigger">
-        	<%# if permission_to_add_comment? -%>
-            <span>Add Comment</span>
-					<%# end -%>
-        </div>
+    <div class="resource_panel_header">
+      <div class="resource_discussion_label">
+            Discussion Forum
+        <span class="resource_discussion_trigger">
+          Add Comment
+        </span>
+      </div>
     </div>
 
     <div id="root_discussion_form" style="display: none;">

@@ -19,34 +19,60 @@
 .resource_logo_box {
   padding-top:0em;
   padding-bottom: 0em;
-  width: 100%;
+  width: 50%;
 }
 
 .resource_logo_text {
   padding-top: .5em;
   padding-bottom: 0em;
   font-weight:bold;
-  text-align:center;
+  text-align:left;
   font-style: italic;
   color:$blue_title;
 }
 
 .resource_title_text {
-  padding-top: 1em;
+  padding-top: 0em;
   padding-bottom: 0em;
-  font-size:18px;
-  font-weight:bold;
+  font-size:17px;
+  font-weight:normal;
   text-align:center;
   vertical-align:middle;
   font-style: normal;
   color:$blue_title;
 }
 
+.resource_standard_name {
+  padding-top: 0em;
+  padding-bottom: 0em;
+  font-size:13px;
+  font-weight:normal;
+  text-align:center;
+  color:$blue_text;
+}
+
+.resource_standards {
+  padding-top: 0em;
+  padding-bottom: 0em;
+  font-size: 12px;
+  font-weight: normal;
+  text-align: left;
+  color: $blue_text;
+}
+
 .resource_panel_box {
   width: auto;
   height: auto;
-  padding-bottom: 1em;
+  padding-bottom: 8em;
   padding-top: 2em;
+}
+
+
+.resource_discussion {
+  width: auto;
+  height: auto;
+  padding-bottom: 0em;
+  padding-top: 0em;
 }
 
 .resource_panel_header{
@@ -64,10 +90,24 @@
 }
 
 .resource_panel_text {
-  font-size: 12px;
-  text-align:center;
+  font-size: 13px;
+  text-align:left;
   vertical-align:middle;
-  color: $dark_text;
+  color: $blue_text;
+}
+.resource_text_right {
+  text-align:right;
+}
+
+.resource_no_content {
+  font-size:small;
+  color: $gray-text;
+}
+
+.resource_status {
+  font-size: 14px;
+  font-style: italic;
+  color: $red_text;
 }
 
 .resource_discussion_closed {
@@ -77,4 +117,37 @@
   text-align:center;
   font-style: italic;
   color: $gray_text;
+}
+
+.resource_panel_header{
+  width:auto;
+  height:3em;
+  vertical-align: middle;
+  text-align:left;
+  font-family:Verdana, Arial, Helvetica, sans-serif;
+  font-size:14px;
+  font-weight:bold;
+  background:url(<%= asset_path('mediashim.png') %>) repeat-x top left;
+  padding-top:.5em;
+  padding-left:3em;
+  border:1px solid $border_gray
+}
+
+
+.resource_discussion_label {
+  font-size: 12px;
+  vertical-align:middle;
+  font-weight:bold;
+  text-align:left;
+  padding-left:0em;
+  color: $dark_text;
+}
+.resource_discussion_trigger {
+  font-size: 12px;
+  cursor:pointer;
+  text-decoration: underline;
+  float:right;
+  font-weight:bold;
+  padding-right:2em;
+  color: $dark_text;
 }

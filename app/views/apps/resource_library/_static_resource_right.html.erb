@@ -1,92 +1,110 @@
-	<table style="width:100%;  border:0px solid #ddd;vertical-align:top;word-wrap:break-word;">
-		<tbody>  
-			<tr  style="border:0px solid #ddd;" >
-				<td colspan = 3 style="border:0px solid #ddd;vertical-align:top; font-size:14px; word-wrap:break-word; text-align:center; font-weight:bold; color:#C73914;">
-					<%= content.title.titleize %>
-				</td>
-			</tr>
-			<tr  style="border:0px solid #ddd;" >
-				<td style=" width:130px; border:0px solid #ddd; vertical-align:top; line-height:1.3em; padding-left:10px; padding-right:0px; font-weight:normal; color:#000000;">
-          <%= render :partial => "apps/shared/resource_view_box", :locals => {:resource => content, :key => (content.class.to_s + content.public_id.to_s), :rsrc_title=>'', :btn_label=>'View', :button=>true}%>
-				</td>
-				<td style=" border:0px solid #ddd;vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
-					<%= content.subject_area ? content.subject_area.name : "No Subject" %>,&nbsp;<%= content.content_resource_type ? content.content_resource_type.name : 'Undefined Type' %>
-				</td>
-				<td style=" width:80px;  border:0px solid #ddd; vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:right; padding-right:2px; font-weight:normal; color:#000000;">
-					&nbsp;
-				</td>
-			</tr>
-			<tr  style="border:0px solid #ddd;" >
-				<td style=" width:130px; border:0px solid #ddd; line-height:1.3em; vertical-align:top; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:right; padding-right:2px; font-weight:normal; color:#000000;">
-					Format:
-				</td>
-				<td style=" border:0px solid #ddd;vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
-					<%= number_to_human_size(content.source_file_file_size, precision: 1)%>:&nbsp;<%= content.content_object_type.content_object_type_group.name.upcase %>
-				</td>
-				<td style=" width:80px; border:0px solid #ddd; vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:right; padding-right:2px; font-weight:normal; color:#000000;">
-					&nbsp;
-				</td>
-			</tr>
-			<tr  style="border:0px solid #ddd;" >
-				<td style=" width:130px; border:0px solid #ddd; line-height:1.3em; vertical-align:top; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:right; padding-right:2px; font-weight:normal; color:#000000;">
-					Keywords:
-				</td>
-				<td style=" border:0px solid #ddd;vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
-					<% if !(content.caption.nil? || content.caption.empty?) %>
-            <%= simple_format content.caption.humanize %>
-          <% else %>
-            <em><small> - - none - -</small></em>
-          <% end %>
-				</td>
-				<td style=" width:80px; border:0px solid #ddd; vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:right; padding-right:2px; font-weight:normal; color:#000000;">
-					&nbsp;
-				</td>
-			</tr>
-			<tr  style="border:0px solid #ddd;" >
-				<td style=" width:130px; border:0px solid #ddd; line-height:1.3em; vertical-align:top; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:right; padding-right:2px; font-weight:normal; color:#000000;">
-					Description:
-				</td>
-				<td style=" border:0px solid #ddd;vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
-					<%= (!(content.description.nil? || content.description.empty?) ?  (simple_format content.description.humanize) : "<i><small> - - none - -</small></i>").html_safe %>
-				</td>
-				<td style=" width:80px; border:0px solid #ddd; vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:right; padding-right:2px; font-weight:normal; color:#000000;">
-					&nbsp;
-				</td>
-			</tr>
-			<% if (!content.content_object_type.nil? && [2,1].include?(content.content_object_type.content_object_type_group_id) && content.source_file_preview_file_name.present?) %>
-				<tr  style="border:0px solid #ddd;" >
-					<td colspan=2 style=" text-align:center; border:0px solid #ddd;vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
-			  			<img src="<%= content.source_file_preview.url(:med_thumb) %>">
-					</td>
-          <td style=" width:80px; border:0px solid #ddd; vertical-align:top; line-height:1.3em; padding-top:7px;padding-bottom:7px; font-size:12px; word-wrap:break-word; text-align:right; padding-right:2px; font-weight:normal; color:#000000;">
-            &nbsp;
-          </td>
-				</tr>
-			<% end -%>
-			<% if content.act_subject? -%>
-				<tr  style="border:0px solid #ddd;" >
-					<td colspan=3 style=" border:0px solid #ddd; line-height:1.3em; vertical-align:top; padding-top:17px;padding-bottom:10px; font-size:12px; word-wrap:break-word; text-align:left; padding-left:0px; font-weight:normal; color:#000000;">
-						<%= content.act_subject.name %>&nbsp;Standards<%= (content.act_standards.empty? ? "  <i><small>- - none - -</small></i>" : "").html_safe %>
-					</td>
-				</tr>
-				<% ActMaster.all.each do |std| -%>
-					<% unless content.act_standards.for_standard(std).empty? -%>
-						<tr  style="border:0px solid #ddd;" >
-							<td  style=" width:130px;border:0px solid #ddd; line-height:1.5em; vertical-align:top; padding-top:0px;padding-bottom:0px; font-size:12px; word-wrap:break-word; text-align:center; padding-left:0px; font-weight:normal; color:#000000;">
-								<%= std.abbrev %>
-							</td>
-							<td colspan=2 style=" border:0px solid #ddd;vertical-align:top; line-height:1.5em; padding-top:0px;padding-bottom:0px; font-size:12px; word-wrap:break-word; text-align:left; font-weight:normal; color:#000000;">
-								<%= content.act_score_ranges.for_standard(std).empty? ? "" :  "Mastery Level: " + content.act_score_ranges.for_standard(std).first.range %>
-								<span style="font-size:10.5px">		
-									<% content.act_standards.for_standard(std).each do |strand| -%>
-										<br/>&nbsp;+&nbsp;&nbsp;<%=	strand.name %>
-									<% end -%>
-								</span>
-							</td>
-						</tr>
-					<% end -%>
-				<% end -%>
-			<% end -%>		
-		</tbody>
-	</table>
-
+<div class="resource_panel_box">
+  <div class="row">
+    <div class="col-md-2">
+      <%= render :partial => "apps/shared/resource_view_box", :locals => {:resource => content, :key => (content.class.to_s + content.public_id.to_s), :rsrc_title=>'', :btn_label=>'View', :button=>true}%>
+    </div>
+    <div class="col-md-9 resource_title_text">
+      <%= content.title.titleize %>
+    </div>
+    <div class="col-md-1">
+      <% if content.editable_by_user?(@current_user ? @current_user : nil)-%>
+        <%= button_to  "Edit", resource_edit_path(:organization_id => content.organization, :content_id => content, :function => "Edit"), :class =>"btn btn-primary btn-xs" %>
+      <% end -%>
+    </div>
+  </div>
+  <hr>
+  <div class="row resource_panel_text">
+    <div class="col-md-3 resource_text_right">
+      Subject:
+    </div>
+    <div class="col-md-8">
+      <p>
+        <%= content.subject_area ? content.subject_area.name : "No Subject" %>
+      </p>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <div class="row resource_panel_text">
+    <div class="col-md-3 resource_text_right">
+      Type:
+    </div>
+    <div class="col-md-8">
+      <p>
+        <%= content.content_resource_type ? content.content_resource_type.name : 'Undefined Type' %>
+      </p>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <div class="row resource_panel_text">
+    <div class="col-md-3 resource_text_right">
+      Format:
+    </div>
+    <div class="col-md-8">
+      <p>
+        <%= number_to_human_size(content.source_file_file_size, precision: 1)%>&nbsp;<%= content.content_object_type.content_object_type_group.name.upcase %>
+      </p>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <div class="row resource_panel_text">
+    <div class="col-md-3 resource_text_right">
+      Keywords:
+    </div>
+    <div class="col-md-8">
+        <% if !(content.caption.nil? || content.caption.empty?) %>
+          <p><%= simple_format content.caption.humanize %></p>
+        <% else %>
+          <p class="resource_no_content"> - - none - -</p>
+        <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <div class="row resource_panel_text">
+    <div class="col-md-3 resource_text_right">
+      Description:
+    </div>
+    <div class="col-md-8">
+        <% if !(content.description.nil? || content.description.empty?) %>
+            <p><%= content.description.html_safe %></p>
+        <% else %>
+            <p class="resource_no_content"> - - none - -</p>
+        <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <% if (!content.content_object_type.nil? && [2,1].include?(content.content_object_type.content_object_type_group_id) && content.source_file_preview_file_name.present?) %>
+    <div class="row resource_panel_text">
+      <div class="col-md-3 resource_text_right">
+      </div>
+      <div class="col-md-8">
+        <img src="<%= content.source_file_preview.url(:med_thumb) %>">
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  <% end -%>
+  <% if content.act_subject? -%>
+    <hr>
+    <div class="row resource_panel_text">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-8 ">
+        <p class="resource_standard_name">
+          <%= content.act_subject.name %>&nbsp;Standards
+        </p>
+        <% ActMaster.all.each do |std| -%>
+          <% unless content.act_standards.for_standard(std).empty? -%>
+            <p class="resource_standards">
+              <%= content.act_score_ranges.for_standard(std).empty? ? "" :  "Mastery Level: " + content.act_score_ranges.for_standard(std).first.range %>
+            </p>
+            <% content.act_standards.for_standard(std).each do |strand| -%>
+              <p class="resource_standards">&nbsp;+&nbsp;&nbsp;<%=	strand.name %></p>
+            <% end -%>
+          <% end -%>
+        <% end -%>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+  <% end -%>
+  <hr>
+  <%= render(:partial => "resource") %>
+</div>

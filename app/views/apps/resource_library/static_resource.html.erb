@@ -7,17 +7,13 @@
       <% if [5].include?(@content.content_object_type.content_object_type_group_id)%><% button_label = "View Link"%> <% past_verb = "View"%><% end %>
   <% end -%>
   <div class='col-md-1'></div>
-  <div class='col-md-4'>
+  <div class='col-md-3'>
     <div class="resource_page_text">
       <%= render :partial => "static_resource_left", :locals=> {:content => @content} %>
     </div>
   </div>
-  <div class='col-md-6'>
-    <div class="offering_title_text">
-      <%= render :partial => "static_resource_right", :locals=> {:content => @content} %>
-      <hr>
-      <%= render(:partial => "resource") %>
-    </div>
+  <div class='col-md-7'>
+    <%= render :partial => "static_resource_right", :locals=> {:content => @content} %>
   </div>
   <div class='col-md-1'></div>
 </div>

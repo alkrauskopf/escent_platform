@@ -1,9 +1,14 @@
 class Site::SiteController < Site::ApplicationController
 
   helper :all # include all helpers, all the time  
-  layout "site", :except =>[ :summarize_org_resources, :summarize_org_subject_offerings, :summarize_org_app, :assign_topic_resource_view, :create_new_topic, :edit_topic, :topic_assess, :list_topic_resources, :assign_classroom_resource, :assign_classroom_resource_view, :list_classroom_referrals, :list_classroom_topics, :assign_classroom_referral_links, :assign_classroom_people]
+  layout "site", :except =>[ :summarize_org_resources, :summarize_org_subject_offerings, :summarize_org_app, :assign_topic_resource_view,
+                             :create_new_topic, :edit_topic, :topic_assess, :list_topic_resources, :assign_classroom_resource, :assign_classroom_resource_view,
+                             :list_classroom_referrals, :list_classroom_topics, :assign_classroom_referral_links, :assign_classroom_people]
 
-  before_filter :find_featured_topic, :only => [:index, :more_topic, :add_comment, :update_index, :featured_content, :home_users, :related_content, :related_content_list, :assign_classroom_referrals, :assign_classroom_people, :assign_classroom_resource, :create_or_edit_topic, :create_new_topic, :show_content, :show_share_content, :show_result_content, :add_star_rating_to_content, :static_classroom, :manage_topic, :assign_classroom_general]
+  before_filter :find_featured_topic, :only => [:index, :more_topic, :add_comment, :update_index, :featured_content, :home_users,
+                                                :related_content, :related_content_list, :assign_classroom_referrals, :assign_classroom_people,
+                                                :assign_classroom_resource, :create_or_edit_topic, :create_new_topic, :show_content, :show_share_content,
+                                                :show_result_content, :add_star_rating_to_content, :static_classroom, :manage_topic, :assign_classroom_general]
   protect_from_forgery :except => [:add_star_rating_to_content, :related_content_list]
 
   before_filter :clear_notification
@@ -19,30 +24,6 @@ class Site::SiteController < Site::ApplicationController
     initialize_std_parameters
     else
       redirect_to  root_path
-    end
-  end
-  
-  def static_resource
-    
-    initialize_std_parameters
-    if params[:id]
-      @content = Content.find_by_public_id(params[:id])
-    else
-      @content = @current_organization.contents.first
-    end
-    @content_topics = []
-    if @content
-      @mastery_level = @content.act_score_ranges.for_standard(@current_standard).first rescue nil
-      @strands = @content.act_standards.for_standard(@current_standard) rescue nil
-      @discussions = @content.discussions.active.parent_id_blank(:order_by =>  "created_at DESC")
-      @content_topics = @content.topics.active
-      @current_subject = @content.act_subject rescue nil
-    else
-      @discussions = []
-    end    
-    @content_org = Organization.find_by_id(@content.organization_id)
-    if @content_org.nil?
-      @content_org = Organization.ep_default.first
     end
   end
 

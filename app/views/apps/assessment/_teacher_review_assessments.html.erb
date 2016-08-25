@@ -1,0 +1,34 @@
+<div>
+  <div class="row">
+    <div class="ifa_panel_title">
+      <%= pluralize(@student_list.size, ' Student') %>,&nbsp;&nbsp;<%= pluralize(@assessment_subjects.size, ' Subject') %>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="ifa_panel_list">
+      <table id="student_levels" class="teacher_review_list">
+        <tbody >
+          <% @student_list.each do |student| -%>
+            <% @assessment_subjects.each do |sub| -%>
+              <% student_label = student.last_name.upcase + ",&nbsp;" + student.first_name + ":" -%>
+              <tr>
+                <td class="resource_levels_close">
+                  <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "student", :subject_id => sub.id, :id => student, :details => true) %>
+                  <strong><%= student_label.html_safe %></strong>&nbsp;&nbsp;&nbsp;<%= sub.name %>
+                  <span></span>
+                </td>
+              </tr>
+            <% end -%>
+          <% end -%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function() {
+    jQ('#student_levels .resource_levels_close').toggleResourceLevels();
+    jQ('#student_levels .resource_levels_open').toggleResourceLevels();
+  });
+</script>
+</div>

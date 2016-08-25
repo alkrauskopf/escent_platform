@@ -15,9 +15,9 @@
           <br/>
           <!-- Leader Message to Participants -->
           <% if @classroom.leaders.include?(@current_user) then -%>
-              <%= render :partial => "apps/classroom/display_user_is_teacher", :locals=> {:classroom => @classroom} %>
+             <%= render :partial => "apps/classroom/display_user_is_teacher", :locals=> {:classroom => @classroom} %>
           <% elsif @current_user.student_of_classroom?(@classroom) && @classroom.leaders.size > 0 -%>
-              <%= render :partial => "apps/classroom/display_user_is_student", :locals=> {:classroom => @classroom, :topic=> @topic} %>
+             <%= render :partial => "apps/classroom/display_user_is_student", :locals=> {:classroom => @classroom, :topic=> @topic} %>
           <% end -%>
         <% end -%>
       <% else %>
@@ -58,7 +58,6 @@
                       <% end %>
                   <% end -%>
               <% end -%>
-              <br style="clear:both" />
             </div>
           </div>
         </div>

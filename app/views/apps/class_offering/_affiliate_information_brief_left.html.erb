@@ -3,8 +3,8 @@
 		<%= image_tag(@current_organization.logo.url) -%>
   <%- end -%>
 </div>
-<%- unless @current_organization.body.nil? -%>
+<%- unless @current_organization.body.nil? || @current_organization.body.empty?-%>
   <div class='offering_logo_text'>
-    <%= to_br(@current_organization.body)%>adlkasd lkasd as lakdalska slk lkas
+    <%= @current_organization.body.html_safe%>
   </div>
 <%- end -%>

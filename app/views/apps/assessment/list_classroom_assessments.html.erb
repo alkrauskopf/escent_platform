@@ -1,6 +1,6 @@
 
 <div>
-	<% unless @classroom.act_assessments.active.locked.size.zero? %>
+	<% unless @classroom.act_assessments.active.lock.empty? %>
 
 	<br/>	
 	<table id="roles" class="tablesorter" style="width:900px; border:0px">
@@ -26,7 +26,7 @@
 				</tr>
 			</thead>
 			
-			<% for ass in @classroom.act_assessments.active.locked.sort{|a,b| b.updated_at <=> a.updated_at}do -%>
+			<% for ass in @classroom.act_assessments.active.lock.sort{|a,b| b.updated_at <=> a.updated_at}do -%>
 				<% previous_submits = []%>
 				<% available_to_submit = true -%>
 				<% unless @student_classroom_submissions.empty? -%>

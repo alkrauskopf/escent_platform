@@ -21,7 +21,7 @@ class ActAssessment < ActiveRecord::Base
 
   scope :calibrated, :conditions => { :is_calibrated => true }
   scope :unlocked, :conditions => { :is_locked => false }
-  scope :locked, :conditions => { :is_locked => true }
+  scope :lock, :conditions => { :is_locked => true }
   scope :for_subject, lambda{| subject| {:conditions => ["act_subject_id = ?", subject.id]}}
   scope :active, :conditions => { :is_active => true }
   scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}}

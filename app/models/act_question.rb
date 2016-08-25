@@ -33,7 +33,7 @@ class ActQuestion < ActiveRecord::Base
   validates_length_of :question, :within => 1..25500, :message => 'Invalid Length Of Question'  
 
   scope :unlocked, :conditions => { :is_locked => false }
-  scope :locked, :conditions => { :is_locked => true }
+  scope :lock, :conditions => { :is_locked => true }
   scope :calibrated, :conditions => { :is_calibrated => true }
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
   scope :for_mastery_level, lambda{|mstr| {:conditions => ["act_score_range_id = ? ", mstr.id]}}
@@ -103,7 +103,7 @@ class ActQuestion < ActiveRecord::Base
       last_changed = c.updated_at > last_changed ? c.updated_at : last_changed
     end
     if self.act_question_reading
-      last_changed = self.act_question_reading.updated_at > last_changed ?self.act_question_reading.updated_at : last_changed
+      last_changed = self.act_question_reading.updated_at > last_changed ? self.act_question_reading.updated_at : last_changed
     end
   last_changed
   end 

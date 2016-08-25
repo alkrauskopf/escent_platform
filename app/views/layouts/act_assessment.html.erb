@@ -52,18 +52,16 @@
             })
         </script>		
 	</head>
-  <body  class="container iwing_page_background">
+  <body  class="container assess_container">
     <div class="row">
-      <div class="elt_container">
-        <%= yield %>
-      </div>
+      <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <div class="panel_content">
+            <%= yield %>
+          </div>
+        </div>
+      <div class="col-md-1"></div>
     </div>
-		<script type="text/javascript">
-/*
-      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-*/
-    </script>
     <script type="text/javascript">
       try {
           var pageTracker = _gat._getTracker("UA-10167834-1");

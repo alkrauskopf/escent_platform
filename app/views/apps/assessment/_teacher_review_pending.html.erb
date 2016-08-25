@@ -1,0 +1,32 @@
+<div>
+  <div class="row">
+    <div class="ifa_panel_title">
+      <%= pluralize(@pending_assessments.size, ' Pending Assessment') %>&nbsp;For Review
+    </div>
+  </div>
+  <div class="row ">
+    <div class="ifa_panel_list">
+      <table class="table table-striped pending">
+        <tbody >
+        <% for ass in @pending_assessments do -%>
+            <tr id="<%= ass.public_id %>" >
+              <td  class="created">
+                <%= ass.created_at.strftime("%m-%d-%y") %>
+              </td>
+              <td  class="user">
+                <%= ass.user.full_name %>
+              </td>
+              <td  class="assessment">
+                <%= ass.act.act_assessment ? ass.act_assessment.name.titleize : 'No Assessment Found' %><br/>
+                <%= ass.act_subject ? ass.act_subject.name.titleize: 'No Subject Found' %>
+              </td>
+              <td class="review">
+                <%= link_to "REVIEW", ifa_assessment_review_final_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :submission_id => ass) %>
+              </td>
+            </tr>
+        <% end %>
+			</tbody>
+		</table>
+    </div>
+  </div>
+</div>

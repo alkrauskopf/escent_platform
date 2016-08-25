@@ -524,7 +524,7 @@ class User < ActiveRecord::Base
 #  Locked Assessment Questions Created by Teacher
 #
   def lqc(start_date, end_date)
-    question_list = self.act_answers.locked.where('updated_at >= ? && updated_at <= ?', start_date, end_date)
+    question_list = self.act_questions.lock.where('updated_at >= ? && updated_at <= ?', start_date, end_date)
   end  
 #
 #  Calibrated Assessment Questions Created by Teacher
@@ -536,7 +536,7 @@ class User < ActiveRecord::Base
 #  Locked Assessment Created by Teacher
 #
   def lac(start_date, end_date)
-    assess_list = self.act_assessments.locked.where('updated_at >= ? && updated_at <= ?',  start_date, end_date)
+    assess_list = self.act_assessments.lock.where('updated_at >= ? && updated_at <= ?',  start_date, end_date)
   end  
 #
 #  Calibrated Assessments Created by Teacher
@@ -850,10 +850,10 @@ class User < ActiveRecord::Base
        stat = self.classrooms.collect{|c| c.topics.active}.flatten.collect{|t| t.discussions.size}.sum
      end
      if metric.abbrev == "LQC"
-       stat = self.act_questions.locked.size 
+       stat = self.act_questions.lock.size
      end
      if metric.abbrev == "LAC"
-       stat = self.act_assessments.locked.size 
+       stat = self.act_assessments.lock.size
      end
      if metric.abbrev == "CQC"
        stat = self.act_questions.calibrated.size 

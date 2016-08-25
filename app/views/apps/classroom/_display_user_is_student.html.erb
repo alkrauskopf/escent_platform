@@ -43,7 +43,8 @@
 			<tbody>
 				<tr>
 					<td width = 200px style ="vertical-align:top; padding-top:0px; padding-left:00px; padding-bottom:5px">
-						<%= link_to (image_tag "assess_pill.png",:width => 80), ifa_assessment_take_path(:organization_id => @current_organization,:classroom_id => classroom, :topic_id => topic) %>
+						<%#= link_to (image_tag "assess_pill.png",:width => 80), ifa_assessment_take_path(:organization_id => @current_organization,:classroom_id => classroom, :topic_id => topic) %>
+            <%= link_to 'Assessments', ifa_assessment_take_path(:organization_id => @current_organization,:classroom_id => classroom, :topic_id => topic), class: 'btn btn-primary btn-xs' %>
 					</td>
 				</tr>
 				<tr>

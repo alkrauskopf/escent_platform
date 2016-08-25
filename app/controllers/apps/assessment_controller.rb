@@ -517,7 +517,7 @@ class Apps::AssessmentController < ApplicationController
     start_date = @current_organization.ifa_org_option.begin_school_year 
      prepare_ifa_dashboard(@current_user, start_date, Date.today)    
 #    @current_student_dashboards = @current_user.ifa_dashboards.for_subject_since(@classroom.act_subject,(@current_organization.ifa_org_option.begin_school_year - 1.years)).reverse
-    @classroom_assessment_list = @classroom.act_assessments.active.locked rescue []
+    @classroom_assessment_list = @classroom.act_assessments.active.lock rescue []
 
     @suggested_topics = @classroom.topics.select{|t| t.act_score_ranges.for_standard(@current_standard).first.upper_score >= @current_sms && t.act_score_ranges.for_standard(@current_standard).first.lower_score <= @current_sms}rescue nil
  
@@ -1628,6 +1628,7 @@ class Apps::AssessmentController < ApplicationController
     initialize_parameters
     @reading_list = @current_subject.act_rel_readings
     @reading_list.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
+    render layout: false
   end
 
   def genre_readings
@@ -2924,8 +2925,8 @@ end
          if cell_stats
           sdx_answers += calibration_filter ? cell_stats.calibrated_answers : cell_stats.finalized_answers
           sdx_points += calibration_filter ? cell_stats.cal_points : cell_stats.fin_points     
-          unless dashboard.ifa_dashboardable_type == "User"
-            sdx_hover_text += calibration_filter ? cell_stats.calibrated_hover : cell_stats.finalized_hover rescue ""
+          unless dashboard.ifa_dashboardable_type == "User" || cell_stats.nil?
+            sdx_hover_text += calibration_filter ? (cell_stats.calibrated_hover.nil? ? '' : cell_stats.calibrated_hover) : (cell_stats.finalized_hover.nil? ? '' : cell_stats.finalized_hover)
             sdx_hover_text += "<br/>"
           end
           end  # Cell Stats Present

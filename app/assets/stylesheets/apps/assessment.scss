@@ -7,6 +7,71 @@
   margin: 0 auto;
 }
 
+.assess_container {
+  width: 100%;
+  margin: 0 auto;
+  background:$page_background;
+}
+.assess_header_left {
+  width: 100%;
+  padding-bottom: 0em;
+  padding-left: 1em;
+  padding-top: 1em;
+  float:left;
+}
+.assess_header_ctr {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:bold;
+  font-size:14px;
+  color:$blue_title
+}
+.assess_header_right {
+  width: 100%;
+  padding-bottom: 0em;
+  padding-right: 1em;
+  padding-left:4em;
+  padding-top: 1em;
+  float:right;
+}
+.assess_header_text {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:13px;
+  color:$blue_title
+}
+.assess_form_title {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:14px;
+  color:$dark_text
+}
+.assess_form_left {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:12px;
+  color:$dark_text;
+}
+
 .ifa_user_panel {
   padding-left:0em;
   padding-top:1em;
@@ -102,6 +167,65 @@
   color:$dark_text;
 }
 
+.ifa_teacher_box {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  font-weight:bold;
+  font-size:14px;
+  color:$blue_text
+}
+.ifa_teacher_review {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:14px;
+  color:$red_text
+}
+.pending {
+  width:100%;
+  max-height: 300em;
+  background-color: $panel-background;
+  overflow: scroll;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:normal;
+  font-size:11px;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  color:$dark_text
+}
+.pending .created {
+  width:20%;
+  text-align:center;
+}
+.pending .user {
+  width:15%;
+}
+.pending .assessment {
+  width:53%;
+}
+.pending .review {
+  font-size:11px;
+}
+.teacher_review_list {
+  font-size:11px;
+  background-color: $panel-background;
+  overflow: scroll;
+}
+.student_row {
+  width:1%;
+}
 /*  -----    */
 
 .panel-palette_1 {

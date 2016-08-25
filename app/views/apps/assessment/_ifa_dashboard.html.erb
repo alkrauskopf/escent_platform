@@ -112,7 +112,7 @@
 					<%= filter %>  Answer Choices: <%= @total_answers -%><br/>
 					Proficiency: <%= @total_proficiency -%>%&nbsp;&nbsp;&nbsp;					
 					Efficiency: <%= @total_efficiency -%> Secs/Point<br/>
-					Current Mastery Level: <%= mastery_line -%>
+					Current Mastery Level: <%= mastery_line.html_safe -%>
 					</strong></center>
 					</span>
 					</th>

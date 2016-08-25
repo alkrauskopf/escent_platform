@@ -1,70 +1,61 @@
 
-<div class="Form clear">
-<%= form_for(:act_submission, :url => ifa_submission_add_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic,:assessment_id => @assessment,:begin_time => @begin_time, :function => "Submit")) do |form| -%>
-
-    <%= render :partial => "/shared/error_and_notice" %>
-	
-	<table style="width:775px; ">
-		<tbody>
-
-			<tr>
-				<td width = 150px style=" color: #000000; vertical-align:middle;text-align:left; font-size:12px" >
-					<%= image_tag(@current_organization.logo.url, :alt => @current_organization.name, :width => 150) if @current_organization.logo.file? -%>
-				</td>
-				<td width = 475px style="vertical-align:top; color: #C83A14; font-size:16px; margin-top:0px; font-weight:normal" >
-		 		     	<br/>
-							<strong><center><u><%= @classroom_name   %></u></center></strong>
-				</td>
-				<td width = 150px style=" color: #000000; vertical-align:middle; text-align:right; font-size:12px" >
-		    		<%= image_tag("COOP_logo.png", :alt => "Escent Partners, LLC", :width => 150) %>
-				</td>
- 			</tr>
-			<tr>
-				<td colspan=3>
-					<center>&nbsp;</center>
-				</td>
-			</tr>
-			<tr>
-			
-				<td width = 150px style=" color: #C83A14; vertical-align:middle;text-align:middle; font-size:12px" >
-      				<% if @student_pic -%>
-    				   <%= image_tag @current_user.picture.url(:thumb) %>
-      				<% else %>
-        				<%= image_tag "member_ico.gif" %> 
-      				<% end %>
-
-
-				</td>
-				<td width = 475px style="vertical-align:top; color: #C83A14; font-size:14px; margin-top:0px; font-weight:normal" >
-		 		     	<br/>
-							<strong><center> <%= @student_name %></center></strong>
-				</td>
-				<td width = 150px style=" color: #000000; vertical-align:top; text-align:top; font-size:12px" >
-					<br/>
-					<strong><%= Time.now.strftime("%B %d, %Y")%></strong>
-					<br/><br/>
-						<% unless @teacher.nil?%>
-							<strong>Teacher: <%= @teacher.full_name %></strong>
-						<% end -%>
-					</td>
- 			</tr>
-			<tr>
-				<td colspan=3>
-					<center>&nbsp;</center>
-				</td>
-			</tr>
-
-		</tbody>
-	</table>
-<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	  <% if @preview -%>
-		 <% return_string = "Return" %>
-		 <%= link_to return_string, ifa_assessment_view_path(:organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment)%>
-	  <% else -%>
-	 	 <% return_string = "Return "  -%>
-		 <%= link_to return_string, ifa_assessment_take_path(:organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment, :topic_id => @topic), :confirm => "Are You Sure? You Have Not Submitted Your Assessment." %>
-	  <% end -%>
+<div class="row">
+  <div class="col-md-3">
+    <div class="assess_header_left">
+      <%= image_tag(@current_organization.logo.url, :alt => @current_organization.name, :width => 150) if @current_organization.logo.file? -%>
+    </div>
+  </div>
+  <div class="col-md-6">
+      <div class= "assess_header_ctr">
+        <%= @classroom_name   %>
+      </div>
+  </div>
+  <div class="col-md-3">
+     <div class="assess_header_right">
+        <% if @student_pic -%>
+          <%= image_tag @current_user.picture.url(:thumb) %>
+        <% end %>
+     </div>
+  </div>
 </div>
+<div class="row">
+  <div class="col-md-3">
+    <div class= "assess_header_text">
+      <%= @teacher.nil? ? '' : ('Teacher: ' + @teacher.full_name) %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class= "assess_header_text">
+      <%=@assessment.act_subject.name.upcase %>,&nbsp;<%= Time.now.strftime("%B %d, %Y")%>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class= "assess_header_text">
+      <%= @student_name %>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="row">
+<%= form_for(:act_submission, :url => ifa_submission_add_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic,:assessment_id => @assessment,:begin_time => @begin_time, :function => "Submit")) do |form| -%>
+  <%= render :partial => "/shared/error_and_notice" %>
+  <div class="row">
+    <div class="col-md-2" >
+      <div class= "assess_form_left">
+        <% if @preview -%>
+          <%= link_to 'Return', ifa_assessment_view_path(:organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment)%>
+        <% else -%>
+          <%= link_to 'Return', ifa_assessment_take_path(:organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment, :topic_id => @topic), :confirm => "Are You Sure? You Have Not Submitted Your Assessment." %>
+        <% end -%>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class= "assess_form_title">
+        <%= @assessment.name.titleize %>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
 	<table style="width:775px; margin-left:0px; border:0px">
 		<tbody>
 		<style type="text/css" media="screen">
@@ -73,11 +64,6 @@
         background-color: transparent;
       }
     	</style>
-			<tr>
-				<td colspan=5 style=" color: #000000; vertical-align:middle;text-align:left; font-size:12px" >
-					<strong><center><%=@assessment.act_subject.name.upcase %><br/><u><%= @assessment.name.titleize %></u></center></strong>
-				</td>
- 			</tr>
 
 			  <% @assessment.act_questions.each_with_index do |quest,idx| %>
    			 	<%= render :partial => "view_question_in_assessment" , :locals => {:quest => quest, :num => idx+1} %>

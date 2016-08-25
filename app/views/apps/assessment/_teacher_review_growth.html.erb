@@ -1,0 +1,31 @@
+<div>
+  <div class="row">
+    <div class="ifa_panel_title">
+      <%= pluralize(@current_classroom_dashboards.size, ' Dashboard') %>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="ifa_panel_list">
+      <table id="dashboard_levels" class="teacher_review_list">
+        <tbody >
+          <% @current_classroom_dashboards.each do |db| -%>
+              <tr>
+                <td class="resource_levels_close">
+                  <%= link_to '', ifa_dashboard_entity_path(:organization_id => @current_organization,  :entity_id => @classroom, :subject_id => db.act_subject_id,  :dashboard_id => db,:entity_id => @classroom.id, :entity_class => @classroom.class, :period => db.period_end) %>
+                  <%= db.period_end.strftime("%B, %Y") %>:&nbsp;&nbsp;<%= db.act_subject.name %>
+                  <span></span>
+                </td>
+              </tr>
+          <% end -%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function() {
+    jQ('#dashboard_levels .resource_levels_close').toggleResourceLevels();
+    jQ('#dashboard_levels .resource_levels_open').toggleResourceLevels();
+  });
+</script>
+</div>

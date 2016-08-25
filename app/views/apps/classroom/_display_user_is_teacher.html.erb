@@ -8,7 +8,8 @@
 						<%= @teacher_assessments.size %>
 					</td>
 					<td width = 180px style ="vertical-align:middle; padding-top:0px; padding-left:00px; padding-bottom:10px;color:#0000FF; font-size:13px;">
-						<%= link_to (image_tag "assessment_review_pill.png",:width => 95), ifa_teacher_review_path(:organization_id => @current_organization, :classroom_id => classroom, :topic_id => @current_topic) %>
+						<%#= link_to (image_tag "assessment_review_pill.png",:width => 95), ifa_teacher_review_path(:organization_id => @current_organization, :classroom_id => classroom, :topic_id => @current_topic) %>
+            <%= link_to 'Assessments', ifa_teacher_review_path(:organization_id => @current_organization, :classroom_id => classroom, :topic_id => @current_topic), class: 'btn btn-primary btn-xs' %>
 					</td>
 				</tr>
 			<% end %>

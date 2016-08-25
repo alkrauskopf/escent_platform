@@ -1,7 +1,7 @@
 
 <div>
-	<% unless @classroom.act_assessments.active.locked.size.zero? %>
-
+	<%# unless @classroom.act_assessments.active.lock.size.zero? %>
+      <% unless @classroom.act_assessments.active.lock.empty? %>
   	<% student_submissions = @current_user.act_submissions.for_classroom(@classroom) -%>
 	<br/>	
 	<table style="width:900px; border:0px">
@@ -24,7 +24,7 @@
 				</tr>
 			</thead>
 			
-			<% for ass in @classroom.act_assessments.active.locked.sort{|a,b| b.updated_at <=> a.updated_at}do -%>
+			<% for ass in @classroom.act_assessments.active.lock.sort{|a,b| b.updated_at <=> a.updated_at}do -%>
 				<% previous_submits = []%>
 				<% available_to_submit = true -%>
 				<% unless student_submissions.empty? -%>
@@ -70,7 +70,7 @@
 							<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
 								<%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%>&nbsp;&nbsp;
 							<% end -%>	
-							<span/>				
+							</span>
 						</td>
 			
 					</tr>
@@ -83,9 +83,7 @@
 	<span style ="color: #C83A14; font-size:16px">
 	<center><i>* * *  <%= @classroom.course_name.upcase %> Has An Empty Assessment Pool  * * *</i></center>
 	</span>
-<% end -%>	
-
-
+<% end -%>
 </div>
 <script type="text/javascript" charset="utf-8">
 jQ(document).ready(function() { 

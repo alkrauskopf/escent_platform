@@ -19,7 +19,7 @@
           <td id="affiliate_information" class="module" style ="width:35%; border:0px solid #ddd; vertical-align:top; padding-top:0px; padding-left:00px; padding-bottom:0px">
             <%= image_tag(@current_organization.logo.url, :alt => @current_organization.name) if @current_organization.logo.file? -%>
             <% unless @current_organization.body.nil? %>
-              <span class="normal_text"><br/><strong><i><%= to_br(@current_organization.body)%></i></strong></span>
+              <span class="normal_text"><br/><strong><i><%= @current_organization.body.html_safe%></i></strong></span>
             <% end %>
           </td>
           <td style =" text-align:center; width:39%; border:0px solid #ddd; vertical-align:top; padding-top:10px; padding-left:00px; padding-bottom:0px">

@@ -1,135 +1,85 @@
-		 	
+<% @q_content_public_id = 0 -%>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 ">
+      <hr>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
 
-			<tr>
-				<td colspan=5 style=" color: #000000; vertical-align:middle;text-align:left; font-size:12px" >
-					&nbsp;
-				</td>
- 			</tr>
-
-			<tr>
-				<td colspan=5>
-					<br/><% unless num == 1 -%><strong><center>- - - - -</center></strong><% end -%>
-				</td>
-			</tr>
-			<tr>
-				<td width = 70px style="vertical-align:top; padding-top:5px; padding-bottom:0px; padding-left:00px; text-align:left; color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
-					&nbsp;
-				</td>
-				<td width = 100px style="vertical-align:top; padding-top:5px; padding-bottom:5px; padding-left:0px; text-align:left; color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
-					<strong><u>Question <%= num %></u></strong>
-				</td>
-				<td colspan=2 width = 535px style="vertical-align:top; padding-top:5px; padding-bottom:5px; padding-left:0px; text-align:left; color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
-					&nbsp;
-				</td>
-				<td width = 70px>
-					&nbsp;
-				</td>
-			</tr>
-			<% @q_content_public_id = 0 -%>
-			<% unless quest.content.nil? -%>
-				<% unless quest.content.content_object_type.nil? -%>
-				<% @q_content_public_id = quest.content.public_id -%>
-				<% if quest.content.content_object_type.content_object_type_group.name == "IMAGE" && !quest.is_enlarged-%>
-				<tr>
-					<td colspan=5 width = 775px style="vertical-align:top; padding-top:5px; padding-bottom:0px; padding-left:290px; text-align:left; color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
-						<img src="<%= quest.content.source_file.url %>" width="180" />
-					</td>
-				</tr>
-				<% end -%>
-				<% if quest.content.content_object_type.content_object_type_group.name == "IMAGE" && quest.is_enlarged-%>
-				<tr>
-					<td colspan=5 width = 775px style="vertical-align:top; padding-top:5px; padding-bottom:0px; padding-left:70px; text-align:left; color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
-						<img src="<%= quest.content.source_file.url %>" width="635" />
-					</td>
-				</tr>
-				<% end -%>
-				<% if quest.content.content_object_type.content_object_type_group.name == "PDF" -%>
-				<tr>
-					<td colspan=5 width = 775px style="vertical-align:top; padding-top:5px; padding-bottom:0px; padding-left:290px; text-align:left; color: #000000; font-size:12px; margin-top:0px; font-weight:bold" >
-				  	<a href="<%= quest.content.source_file.url %>" target="_blank">View PDF:</a>&nbsp;<%= quest.content.title.titleize  %></a>
-					</td>
-				</tr>
-				<% end -%>
-				<% end -%>
-			<% end -%>				
-			<% unless quest.act_question_reading.nil? -%>
-
-			<tr>
-				<td width = 70px style="vertical-align:top; padding-top:5px; padding-bottom:0px; padding-left:00px; text-align:left; color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
-					&nbsp;
-				</td>
-				<td width = 100px style="vertical-align:top; padding-top:5px; padding-bottom:5px; padding-left:0px; text-align:left; color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
-					&nbsp;
-				</td>
-				<td  colspan=2 width = 535px style="vertical-align:top; padding-top:5px; padding-bottom:0px; padding-left:0px;" >
-					<%= quest.act_question_reading.reading.html_safe %>
-				</td>
-				<td width = 70px>
-					&nbsp;
-				</td>
-			</tr>
-			<% end -%>
-			<tr>
-				<td width = 70px style="vertical-align:top; padding-top:5px; padding-bottom:0px; padding-left:00px; text-align:left; color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
-					&nbsp;
-				</td>
-				<td width = 100px style="vertical-align:top; padding-top:5px; padding-bottom:5px; padding-left:0px; text-align:left; color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
-					&nbsp;
-				</td>
-				<td	width = 100px style="vertical-align:top; text-align:right; padding-top:10px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
-					<u>Question:</u>&nbsp;&nbsp;&nbsp;
-				</td>
-				<td	width = 435px style="vertical-align:top; text-align:left; padding-top:0px; padding-bottom:5px; padding-left:0px;" >
-					<%= simple_format quest.question.html_safe %>
-				</td>
-				<td width = 70px>
-					&nbsp;
-				</td>
-			</tr>
-			<tr>
-				<td width = 70px style="vertical-align:top; padding-top:5px; padding-bottom:0px; padding-left:00px; text-align:left; color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
-					&nbsp;
-				</td>
-				<td width = 100px style="vertical-align:top; padding-top:5px; padding-bottom:5px; padding-left:0px; text-align:left; color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
-					&nbsp;
-				</td>
-				<td	width = 100px style="vertical-align:middle; text-align:right; padding-top:0px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
-					&nbsp;
-				</td>
-				<td	width = 435px style="vertical-align:top; text-align:left; padding-top:0px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:12px; margin-top:0px; font-weight:normal" >
-					<table id="choicess"  style="width:435px; ">
-						<tbody>
-							<% if quest.question_type =="MC" -%>
-							<% quest.act_choices.sort_by{rand}.each do |chc| -%>
-							<tr>
-								<td width = 55px style="vertical-align:middle; text-align:right; padding-top:0px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:10px; margin-top:0px; font-weight:normal" >
-									<%=  check_box_tag "ans_check[]", value = chc.id ,checked = false %>
-								</td>
-								<td	width = 380px style="vertical-align:top; text-align:left; padding-top:0px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
-									<%= simple_format chc.choice %>
-								</td>
-							</tr>
-							<% end -%>
-							<% else -%>								
-							<tr>
-								<center>
-								<td	colspan=2 width = 435px style="vertical-align:top; text-align:left; padding-top:0px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
-		    	 					<%= hidden_field_tag "short_ans[quest_id][]", quest.id %>
-									<%= text_area_tag "short_ans[answer][]", "", :rows => 3, :cols => 50, :maxlength => 255 %>
-								</td>
-								</center>								
-								</tr>
-							<% end -%>
-						</tbody>
-					</table>
-				</td>
-				<td width = 70px>
-					&nbsp;
-				</td>
-				</tr>	
-				<tr>
-					<td colspan=5>
-						<center>&nbsp;</center>
-					</td>
-				</tr>
-
+<div class="row">
+  <div class="col-md-2">
+    <div class="question_label">
+      Question <%= num %>
+    </div>
+  </div>
+  <div class="col-md-8 ">
+    <% unless quest.content.nil? -%>
+      <% unless quest.content.content_object_type.nil? -%>
+        <% @q_content_public_id = quest.content.public_id -%>
+        <% if quest.content.content_object_type.content_object_type_group.name == "IMAGE" && !quest.is_enlarged-%>
+          <div class="question_image" >
+            <img src="<%= quest.content.source_file.url %>" width="180" />
+          </div>
+        <% end -%>
+        <% if quest.content.content_object_type.content_object_type_group.name == "IMAGE" && quest.is_enlarged-%>
+          <div class="question_image" >
+            <img src="<%= quest.content.source_file.url %>" width="635" />
+          </div>
+        <% end -%>
+        <% if quest.content.content_object_type.content_object_type_group.name == "PDF" -%>
+          <div class="question_pdf" >
+            <a href="<%= quest.content.source_file.url %>" target="_blank">View PDF:</a>&nbsp;<%= quest.content.title.titleize  %></a>
+          </div>
+        <% end -%>
+      <% end -%>
+    <% end -%>
+    <% unless quest.act_question_reading.nil? -%>
+      <div class="question_reading" >
+        <%= quest.act_question_reading.reading.html_safe %>
+      </div>
+    <% end -%>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+   <div class="question_box">
+     <div class="question_text">
+      <%= simple_format quest.question.html_safe %>
+     </div>
+     <div>
+       <table id="choicess">
+         <style type="text/css" media="screen">
+           table,tr,td { border:medium}
+           table tr:hover{
+             background-color: transparent;
+           }
+         </style><tbody>
+         <% if quest.question_type =="MC" -%>
+             <% quest.act_choices.sort_by{rand}.each do |chc| -%>
+                 <tr>
+                   <td class="question_check" >
+                     <%=  check_box_tag "ans_check[]", value = chc.id ,checked = false %>
+                   </td>
+                   <td	class="question_choice"  >
+                     <%= simple_format chc.choice %>
+                   </td>
+                 </tr>
+             <% end -%>
+         <% else -%>
+             <tr>
+               <td	colspan=2 width = 100% style="vertical-align:top; text-align:left; padding-top:0px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
+                 <%= hidden_field_tag "short_ans[quest_id][]", quest.id %>
+                 <%= text_area_tag "short_ans[answer][]", "", :rows => 3, :cols => 50, :maxlength => 255 %>
+               </td>
+             </tr>
+         <% end -%>
+         </tbody>
+       </table>
+     </div>
+   </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>

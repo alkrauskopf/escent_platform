@@ -1,38 +1,22 @@
-<div id="assessment_submission">
-	<% teacher = @teacher ? @teacher.last_name : "Select Your Teacher" -%>
-	<br/>
-	<table style="width:300px; margin-left:300px; border:0px">
-		<tbody>
-		<style type="text/css" media="screen">
-	    table,tr,td { border:medium}
-		table tr:hover{
-        background-color: transparent;
-      }
-    	</style>
-			<tr >
-			<% if @teacher_list.size > 1 %>
-				<td  id="teacher_change" width=200px style="vertical-align:middle;  padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:bold">
-					<%= select(:submission, :teacher_id, @teacher_list.collect{|d| [d.last_name, d.id]}, :prompt => teacher) %>
-				</td>
-	 		<% else -%>
-				<td  width=200px style="vertical-align:middle;  padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:bold">
-					&nbsp;
-				</td>		
-			<% end -%>
-			<% if @teacher %>
-				<input type="hidden" name="teacher[teacher_id]" value="<%= @teacher.id %>">
-				<td  width=100px style="vertical-align:middle;  padding-top:0px; text-align:left; color: #000000; font-size:12px; font-weight:bold">
-				 	<% submit_string = "Submit To " + @teacher.last_name -%> 
-				 	<center><%= submit_tag submit_string, :class =>"fsn-button ui-button ui-state-default ui-corner-all save", :confirm => "Are You Sure?" %></center>
-				</td>
-	 		<% else -%>
-				<td  width=100px style="vertical-align:middle;  padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:bold">
-					&nbsp;
-				</td>		
-			<% end -%>
-			</tr>
-		</tbody>
-	</table>
+<div id="assessment_submission" >
+  <div class="row">
+    <div class="col-md-3"></div>
+	    <% teacher = @teacher ? @teacher.last_name : "Select Your Teacher" -%>
+      <div class= 'col-md-3 '>
+        <% if @teacher %>
+          <div class=" assess_button">
+            <input type="hidden" name="teacher[teacher_id]" value="<%= @teacher.id %>">
+            <%= submit_tag 'Submit Assessment',:class => 'btn btn-primary btn-xs', :confirm => "Are You Sure?" %>
+            <span class='assess_button_label'><%=@teacher.last_name%></span>
+          </div>
+        <% end -%>
+      </div>
+      <div class= 'col-md-3'>
+        <% if @teacher_list.size > 1 %>
+          <%= select(:submission, :teacher_id, @teacher_list.collect{|d| [d.last_name, d.id]}, :prompt => teacher) %>
+        <% end -%>
+      </div>
+      <div class="col-md-1"></div>
 <script type="text/javascript">
 jQ(document).ready(function() {
  	jQ("#submission_teacher_id").change(function(){
@@ -46,8 +30,9 @@ jQ(document).ready(function() {
 	})
 });
 </script>
-	<br/><br/>
+  </div>
 </div>
+
 
 
 

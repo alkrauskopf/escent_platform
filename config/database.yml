@@ -2,7 +2,7 @@ development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: tcpj_upgrade
+  database: tcpj_upgrade_with_prod_data
   pool: 5
   username: root
   password:

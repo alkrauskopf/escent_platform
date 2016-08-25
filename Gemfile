@@ -55,4 +55,5 @@ group :development, :test do
   gem 'dotenv'
   gem 'minitest'
   gem 'test-unit'
+  gem 'quiet_assets', group: :development
 end

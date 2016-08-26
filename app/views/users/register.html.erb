@@ -11,7 +11,7 @@
   </p>
   <br/>
   <div style="text-align:left;">
-    <%= form_tag user_register_path do %>
+    <%= form_tag user_register_path(:organization_id => @current_organization) do %>
         <%= render :partial => "/shared/error_and_notice" %>
         <%= render :partial => 'profile', :locals => {:org_list => @home_organization_list} %>
      <div style="margin-left:207px;">       

@@ -3,6 +3,7 @@ Rails.application.config.assets.precompile += [
     'colorpicker.css',
     'font.css',
     'form.css',
+    'fsn.css',
     'general.css',
     'ie.css',
     'ie6.css',

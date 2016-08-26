@@ -1,9 +1,16 @@
 
-<div>
-	<% unless @classroom.act_assessments.active.lock.empty? %>
+<div class="row ifa_panel_title">
+  <%= pluralize(@classroom.act_assessments.active.lock.size, ' Available Assessment') %>
+</div>
+
+<% unless @classroom.act_assessments.active.lock.empty? %>
+  <div class="row ">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+
 
 	<br/>	
-	<table id="roles" class="tablesorter" style="width:900px; border:0px">
+	<table class="table table-striped">
 
 		<tbody>
 		<style type="text/css" media="screen">
@@ -16,7 +23,7 @@
 			<thead>
 				<tr>
 					<th style="width:60px; vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-size:11px">
-						<strong><center>Last Taken</center></strong></th>
+						c<strong><center>kkkLast Taken</center></strong></th>
 					<th style="width:100px;vertical-align:middle;  padding-top:3px; padding-bottom:3px; color: #000000; font-size:11px">
 						<strong><center>Mastery Level</center></strong></th>			
 					<th style="width:60px;">
@@ -88,15 +95,15 @@
 			<% end %>
 		</tbody>
 	</table>
-	
+      </div>
+      <div class="col-md-2"></div>
 	
 	<br/>
+    </div>
 	<% else -%>	
 	 No Assessments Are Available
 	<% end -%>
 
-
-</div>
 <script type="text/javascript" charset="utf-8">
 jQ(document).ready(function() { 
 	jQ('.fsn-button').addUIStateClass();

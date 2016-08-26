@@ -8,6 +8,7 @@ class ActSubmission < ActiveRecord::Base
   belongs_to :classroom
   belongs_to :organization
   belongs_to :act_subject
+  belongs_to :teacher, :class_name => 'User', :foreign_key => "teacher_id"
   
   has_many :act_answers, :dependent => :destroy
   has_many :act_submission_scores, :dependent => :destroy

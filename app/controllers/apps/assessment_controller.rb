@@ -8,7 +8,7 @@ class Apps::AssessmentController < ApplicationController
   before_filter :ifa_allowed?, :except=>[]
   before_filter :current_user_app_authorized?, :except=>[]
   before_filter :current_user_app_admin?, :only=>[]
-  before_filter :clear_notification
+  before_filter :clear_notification, :except => [:take_assessment]
   before_filter :increment_app_views, :only=>[:index]
 
 #
@@ -711,6 +711,7 @@ class Apps::AssessmentController < ApplicationController
          teacher = User.find(@submission.teacher_id)
          UserMailer.assessment_submission(teacher, @current_user,@classroom, @current_organization, teacher_must_review, request.host_with_port).deliver
        end
+       flash[:notice] = "Assessment Submitted To " + @submission.teacher.last_name
        redirect_to ifa_assessment_take_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :assessment_id => @assessment,:submission_id => @submission, :function => "Success")
      else
        flash[:error] = @submission.errors.full_messages.to_sentence

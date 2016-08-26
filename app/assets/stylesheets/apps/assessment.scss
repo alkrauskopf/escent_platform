@@ -49,6 +49,29 @@
   font-size:13px;
   color:$blue_title
 }
+.assess_to_take {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  font-weight:normal;
+  font-size:13px;
+  color:$blue_title
+}
+.assess_to_take_hdr {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:bold;
+  font-size:12px;
+  color:$dark_text;
+}
+
 .assess_form_title {
   width:100%;
   padding-bottom:0em;
@@ -193,6 +216,29 @@
   text-align:left;
   font-size:13px;
   color:$dark_text;
+}
+
+.submission_success{
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  vertical-align:top;
+  text-align:center;
+  font-size:13px;
+  color:$red_text;
+}
+
+.suggested_topics_list {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:12px;
+  color:$dark_text
 }
 
 .ifa_user_panel {

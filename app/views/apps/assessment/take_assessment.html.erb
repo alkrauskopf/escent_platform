@@ -1,180 +1,102 @@
-<div id="mainContent">
-
-  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
-		<br/><strong><%= @classroom.course_name.upcase  %> </strong><br/>
-	</div>
-	
-	<%= render :partial => "/shared/error_and_notice" %>
-		
-	<div style="float:none;width:97%;" class="mempro_box clear">
-	 <p style="float:right; word-wrap:break-word; overflow:hidden;">
-      <br />
-			<% return_link = "Return To " + @classroom.course_name.upcase %>
-			<%= link_to return_link, offering_view_path(:organization_id => @current_organization, :topic_id => @topic, :id => @classroom) %>
-	</p>
-    <div id="member_ico">
-      <% if @current_user.picture.url.split("/").last == "missing.png" %>
-        <%= image_tag "member_ico.gif" %>
- 		<br/>
-		<%= link_to "Please Add Your Picture", user_edit_path(:organization_id => @current_organization, :id => @current_user) %>
-
-      <% else %>
-        <%= image_tag @current_user.picture.url(:thumb) %>
+<div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-2">
+      <div class="row ifa_user_panel">
+        <% if @current_user.picture.url.split("/").last == "missing.png" %>
+          <%= image_tag "member_ico.gif" %>
+          <% add_pic = true %>
+        <% else %>
+          <%= image_tag @current_user.picture.url(:thumb) %>
+          <% add_pic = false %>
+        <% end %>
+        <p class="ifa_user_panel">
+          <%= @current_user.full_name %>
+        </p>
+        <%if add_pic %>
+          <p>
+            <%= link_to "Please Add Your Picture", user_edit_path(:organization_id => @current_organization, :id => @current_user) %>
+          </p>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <div class= 'panel_title_blue'>
+        <%= @classroom.course_name.upcase  %>
+      </div>
+      <hr>
+      <%= render :partial => "/shared/error_and_notice" %>
+      <% if @submission && @success%>
+        <div class= 'submission_success'>
+          <% @current_organization.ifa_org_option.act_masters.each do |mstr| -%>
+            <% unless @submission.sms_score(mstr) == 0 -%>
+              <%= @submission.final? ? 'Final' : 'Estimated'%>&nbsp;<%= mstr.abbrev %> Score: <%= @submission.sms_score(mstr) %><br/>
+            <% end -%>
+          <% end -%>
+          Time To Complete: <%= number_with_precision(@submission.duration/60.0, :precision => 1) %> Minutes<br/>
+          <% if @classroom.ifa_classroom_option.is_ifa_notify %>
+              <%= @submission.teacher.last_name %> has been notified.<br/>
+          <% end -%>
+          <% if !@submission.final? -%>
+            Your dashboard will be updated when your teacher reviews the assessment.<br/>
+          <% end -%>
+        </div>
+      <% end %>
+      <% unless !@range_list.size.zero? -%>
+          <% if true || @suggested_topics.nil? || @suggested_topics.empty?%>
+              <div class="ifa_panel_title">
+                <%= @classroom.course_name %> Units you should be concentrating on.
+              </div>
+              <div class="suggested_topics_list">
+                <%# @suggested_topics.each do |tpc| -%>
+                <% @classroom.topics.each do |tpc| -%>
+                    <%= link_to tpc.title, offering_view_path(:organization_id => @current_organization, :topic_id => tpc, :id => @classroom) %><br>
+                <% end -%>
+              </div>
+          <% end -%>
       <% end %>
     </div>
-    <div id="member_info">
-			<div style="float:left; width:630px;">
-	      <p class="name" style="width:630px; word-wrap:break-word; overflow:hidden; font-size:16px" > <%= @current_user.full_name %> <br/></p>
-
-		  <p class="homeorginfo_label"> 
-			<br/><%= link_to (image_tag @current_organization.logo.url :med_thumb), organization_view_path(:organization_id => @current_organization) -%></br>
-		  </p>
-					
-        <% if @submission && @success%>
-			 		<span class="normal_text"style="width:630px; font-size:12px; text-align:center; width: 200px; font-weight:normal; color:#C73914;">
-						<br/>
-						<strong> <i>Successful Assessment Submission </i><%= @current_user.first_name -%>!</strong><br/>
-						<br/>
-						<% @current_organization.ifa_org_option.act_masters.each do |mstr| -%>
-                <% unless @submission.sms_score(mstr) == 0 -%>
-                  <%= @submission.final? ? 'Final' : 'Estimated'%>&nbsp;<%= mstr.abbrev %> Score: <%= @submission.sms_score(mstr) %><br/>
-                <% end -%>
-						<% end -%>
-						Time To Complete: <%= number_with_precision(@submission.duration/60.0, :precision => 1) %> Minutes<br/>
-					</span>
-					<span style ="width:630px; word-wrap:break-word; overflow:hidden; font-size:12px; padding-left:00px; font-weight:normal; color:#000000;">
-						<% if @classroom.ifa_classroom_option.is_ifa_notify %>
-							Your <%= @classroom.course_name %>&nbsp;teacher has been notified.<br/>
-						<% end -%>
-						<% if @submission.final? -%>
-							&nbsp;<br/>
-						<% else -%>
-							Your dashboard will be updated when your teacher reviews the assessment.<br/>
-					 	<% end -%>
-					 </span>
-				<% else -%>
-			 		<span class="normal_text"style="width:630px; font-size:12px; text-align:center; width: 200px; font-weight:normal; color:#C73914;">
-						<br/>
-						<br/>
-					</span>
-				<% end -%>
-				<br/>
-				<% unless @range_list.size.zero? -%>
-					<span style ="width:630px; word-wrap:break-word; overflow:hidden; font-size:12px; font-weight:normal; color:#000000;">
-					<% unless @suggested_topics.nil? || @suggested_topics.empty?%>
-						<%= @classroom.course_name %> Units you should be concentrating on.<br/>
-						<% @suggested_topics.each do |tpc| -%>
-							<span style ="width:630px; word-wrap:break-word; overflow:hidden; font-size:12px; padding-left:200px; font-weight:normal; color:#000000;">
-								-&nbsp;&nbsp;&nbsp;<%= link_to tpc.title, offering_view_path(:organization_id => @current_organization, :topic_id => tpc, :id => @classroom) %><br>
-							</span>
-						<% end -%>
-						<br/>
-					<% end -%>
-		  			</span>
-				<% else -%>	
-					<span style ="width:630px; word-wrap:break-word; overflow:hidden; font-size:12px; font-weight:normal; color:#000000;">
-					<%= @current_user.first_name %>, you have no finalized formative assessment results thus far.<br/>
-					Select an assessment below.
-		  			</span>
-				<% end -%>
-		</div>	
+    <div class="col-md-2 ">
+      <div class="row ifa_user_panel">
+        <% link_string = truncate(@classroom.course_name, :omission => "...", :length => 14)  -%>
+        <%= link_to link_string, offering_view_path(:organization_id => @current_organization, :topic_id => @topic, :id => @classroom) %>
+      </div>
     </div>
-	<% unless @range_list.size.zero? -%>
-	    <%= render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "assess"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)} %>	  
-	<% end -%>
-  </div>	
-
-
-
-  <div id="control_panel" >
- 
-   <ul>
-
-      <li>
-		<%  tab_1_label = @classroom.course_name + " Assessments" %>		
-		<a href="#tabs-1"><span class="tab_label">
-		<%= tab_1_label %></span></a>				
-		</li>
-
-	  <li>
-		<%  tab_2_label = "Your Growth" %>
-		<a href="#tabs-2"><span class="tab_label">
-		<%= tab_2_label %></span></a>								
-      </li>
-
-	  </li>
-
-    </ul>
-
-
-
-	
-
-<div id="tabs-1" class="favorite_organizations" style="width:900px; margin-left:20;">
-
-
-	<%= render :partial => "list_classroom_assessments"  -%>
-
-
+  </div>
+  <% unless @range_list.size.zero? -%>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "assess"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)} %>
+      </div>
+      <div class="col-md-1 "></div>
+    </div>
+  <% end -%>
 </div>
 
-
-	<div id="tabs-2" class="favorite_organizations" style="width:900px">
-
-	<div style = "font-size:12px; color: #000000;padding-left:10px;">
-	<% unless @assessment_subjects.size.zero? %>
-		<br/>
-		<span style ="color: #C83A14; font-size:18px">
-		<center><strong>Your Assessment History, <%= @current_user.first_name %></strong></center>
-		</span>
-
-	<div>
-
-	<br/>
-	<div id="assign_resources_panel">
-		<table id="authorization_levels" class="tablesorter" style="width:99%;">
-			<tbody>  
-				
-				<% @assessment_subjects.each do |sub| -%>
-					<tr>
-						<td class="authorization_levels_close">
-						<%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "student", :subject_id => sub.id, :id => @current_user) %>
-						<strong><%= sub.name.titleize %></strong>
-						<span></span>
-						</td>
-					</tr>
-				<% end -%>
-			</tbody>
-	</table>
-	<br/>
-
-	</div>
-<% else -%>
-	<br/>
-	<span style ="color: #C83A14; font-size:16px">
-	<center><i>* * *  You Have No Finalized Assessments On Record, <%= @current_user.first_name %> * * *</i></center>
-	</span>
-<% end -%>	
-
+<div id="control_panel" >
+  <ul>
+    <li>
+      <%  tab_1_label = " Assessments " %>
+      <a href="#tabs-1"><span class="tab_label">
+      <%= tab_1_label %></span></a>
+    </li>
+    <li>
+      <%  tab_2_label = " Your Growth " %>
+      <a href="#tabs-2"><span class="tab_label">
+      <%= tab_2_label %></span></a>
+    </li>
+  </ul>
+  <div id="tabs-1" class="row">
+    <%= render :partial => "list_classroom_assessments"  -%>
+  </div>
+	<div id="tabs-2" class="row">
+    <%= render :partial => "your_growth"  -%>
+  </div>
 </div>
-</div>
-
-
-   </div>
-	
-
-</div>
-
 
 <br style="clear:both" />
 
-<script type="text/javascript" charset="utf-8">
-jQ(document).ready(function() {
-	jQ('#authorization_levels .authorization_levels_close').toggleAuthorizationLevels();
-	jQ('#authorization_levels .authorization_levels_open').toggleAuthorizationLevels();	
-  jQ("#roles").tablesorter({ headers: { 1: { sorter: false }} });
-});
-</script>
 
 <script type="text/javascript" charset="utf-8">
   jQ(document).ready(function(){

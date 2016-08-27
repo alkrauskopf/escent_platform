@@ -1035,7 +1035,7 @@ class User < ActiveRecord::Base
   def elt_provider_reviewer?(org)
     auth = false
     if org.elt_provider
-      auth = self.elt_reviewer?(org)
+      auth = self.elt_reviewer?(org.elt_provider)
     end
     auth
   end

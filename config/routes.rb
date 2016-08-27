@@ -527,9 +527,9 @@ EscentPartners::Application.routes.draw do |map|
   post '/elt/maint/indicator/new' => 'apps/owner_maintenance#elt_indicator_new'
   get '/elt/maint/indicators' => 'apps/owner_maintenance#elt_manage_indicators'
   get '/elt/maint/activity/select' => 'apps/owner_maintenance#elt_select_type'
-  get '/elt/case/add' => 'apps/learning_time#start_case'
+  get '/elt/case/add' => 'apps/learning_time#start_case'    # elt_case_add_path
   post '/elt/case/add' => 'apps/learning_time#start_case'
-  get '/elt/case/show' => 'apps/learning_time#show_case'
+  get '/elt/case/show' => 'apps/learning_time#show_case'   # elt_case_show_path
   get '/elt/case/finalize' => 'apps/learning_time#toggle_finalize_case'
   get '/elt/map/evidence/show' => 'apps/learning_time#show_evidence_map'    # elt_map_evidence_show
   get '/elt/map/activity/show' => 'apps/learning_time#show_activity_map'    # elt_map_activity_show
@@ -602,7 +602,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/config/plans/xfer' => 'apps/learning_time#transfer_plans'
   get '/elt/config/plan/organization' => 'apps/learning_time#transfer_plan_org'
   get '/elt/activity/cycle/school/cases' => 'apps/learning_time#show_school_cycle_activity_cases' # elt_activity_cycle_school_cases
-  get '/elt/activity/cycle/school/activities' => 'apps/learning_time#list_school_cycle_activities' #
+  get '/elt/activity/cycle/school/activities' => 'apps/learning_time#list_school_cycle_activities' #elt_activity_cycle_school_activities
   get '/elt/survey/start' => 'apps/learning_time#send_school_cycle_survey'
   get '/elt/survey/stop' => 'apps/learning_time#stop_school_cycle_surveys'
   get '/elt/community/filters' => 'apps/learning_time#select_kb_filters'   # elt_community_filters

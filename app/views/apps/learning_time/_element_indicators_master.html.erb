@@ -19,13 +19,13 @@
         <td style = "border-left:1px solid #000000;width:13%; vertical-align:top; text-align:center; padding-top:5px; padding-left:5px; font-size:12px; padding-bottom:5px; ">
           <%= render :partial => "/apps/learning_time/element_rubric", :locals => {:elt_case => elt_case, :element=> element, :std_rubric => true} -%>
         </td>
-        <% if elt_case.updatable?(@current_user) -%>
-          <td style = "vertical-align:top;padding-top:5px;padding-bottom:5px;">
-              <%= text_area :notes, element.public_id, :rows => 2, :cols => 100, :value => elt_case.element_note(element).nil? ? 'Explain Rating': elt_case.element_note(element).note %>
+        <% if elt_case.updatable?(@current_user) %>
+          <td style = "vertical-align:top;padding-top:5px;padding-bottom:5px; color:#000000;">
+            <%= text_area :notes, element.public_id, :rows => 2, :cols => 100, :value => (elt_case.element_note(element).nil? || elt_case.element_note(element).blank?) ? "Explain Rating": elt_case.element_note(element).note  %>
           </td>
         <% else %>
           <td style = "vertical-align:top;padding-top:5px;padding-bottom:5px; line-height:1.5em;">
-              <%= elt_case.element_note(element).nil? ? '': (simple_format elt_case.element_note(element).note) %>
+            xxx <%= elt_case.element_note(element).nil? ? '': (simple_format elt_case.element_note(element).note) %>
           </td>
         <% end -%>
         <td style = "width:10%; border-right:1px solid #000000; ">

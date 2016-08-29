@@ -56,7 +56,7 @@
 					<td  style="vertical-align:top;  padding-top:5px;  padding-left:0px; border:0px solid black;">
 						<% unless school.nil? -%>
 							<div style="font-size: 18px; text-align:center; line-height: 1.5em; color:#1b5698; font-weight:normal; font-family:Verdana, Arial, Helvetica, sans-serif;">
-								<%= cycl.nil?  ? "Cycle Not Defined" : cycl.name  + ( cycl.elt_framework ? " (" + cycl.elt_framework.abbrev + ")" : '')%>
+								<%= cycl.nil?  ? "Cycle Not Defined" : cycl.name %>
 							</div>
 						<% end -%>
 					</td>
@@ -110,13 +110,13 @@
 							</div>
 						</td>
 						<td colspan=2 id = "select_activity" style=" vertical-align:top; text-align:left; padding-top:10px; padding-left:30px; border:0px solid black;">
-							<%=  select(:activa, provider.id,  (@current_organization == provider ? school.final_case_activities(cycl.elt_framework) : school.final_case_activities_reportable(cycl.elt_framework)).collect{|a| [a.name, a.public_id]}, :prompt=> "Select Finalized Activity") %>
+							<%=  select(:activa, provider.id,  (@current_organization == provider ? school.elt_case_activities_finalized : school.elt_case_activities_reportable).collect{|a| [a.name, a.public_id]}, :prompt=> "Select Finalized Activity") %>
 						</td>
 					</tr>
 	<script type="text/javascript">
 		jQ(document).ready(function() {
 			jQ('#cycle_plan').click(function() {
-				var url = "<%= elt_report_school_cycle_plan(:organization_id => @current_organization, :provider_id => provider, :elt_type_id => activity, :elt_cycle_id => cycl, :school_id => school, :app_id=> app.id) %>";
+				var url = "<%= elt_report_school_cycle_plan_url(:organization_id => @current_organization, :provider_id => provider, :elt_type_id => activity, :elt_cycle_id => cycl, :school_id => school, :app_id=> app.id) %>";
 					jQ.get(url, {}, function(data) {
 					jQ("#school_diag").html(data); 
 			   		jQ("#school_diag").show();

@@ -5,7 +5,7 @@
 	</style>
 </head>
 <body >
-	<% unless @school.nil? || @cycle.nil? || @activity.nil? || @provider.nil? || @activity.elt_framework.nil? || @activity.active_elements.empty?-%>
+	<% unless @school.nil? || @cycle.nil? || @activity.nil? || @provider.nil? || @activity.active_elements.empty?-%>
 		<% ind_count = 0 -%>
 		<% @activity.active_elements.each do |element| -%>
 			<div style = "page-break-after: always; max-width:1100px; font-family:Garamond, Calibri;">
@@ -20,7 +20,6 @@
 							<td  style="font-size: 20px; text-align:center; line-height: 1.2em; color:#1b5698; font-weight:normal;">
 								<%= @school.nil? ? "School Diagnostic Report" : @school.name %>
 								<span  style="font-size: 14px; line-height: 1.2em; color:#000000;">
-									<br/><%= @activity.elt_framework.name %>
 									<br/><%= @activity.name %>&nbsp;Action Plan
 								</span>
 							</td>

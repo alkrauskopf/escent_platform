@@ -1,7 +1,7 @@
 class Apps::LearningTimeController  < ApplicationController
 
   helper :all  # include all helpers, all the time
-  layout "elt", :except =>[:manage_frameworks, :manage_plan_types, :export_case, :report_school_diag, :report_community_diag,
+  layout "elt", :except =>[:manage_plan_types, :export_case, :report_school_diag, :report_community_diag,
                            :show_case_element_indicators, :transfer_plans, :transfer_cases,
                            :show_school_cycle_activity_cases, :list_school_cycle_activities, :list_case_evidences, :show_activity_cases,
                            :manage_cycles, :manage_activities, :manage_elements, :manage_indicators,
@@ -28,10 +28,6 @@ class Apps::LearningTimeController  < ApplicationController
         redirect_to elt_case_add_path(:elt_case_id => @current_user.elt_cases.last, :organization_id=>@current_organization)
       end
     end
-  end
-
-  def manage_frameworks
-    initialize_parameters
   end
 
   def manage_cycles
@@ -332,12 +328,12 @@ class Apps::LearningTimeController  < ApplicationController
     render :partial => "/apps/learning_time/manage_element_indicators", :locals => {:org => activity.organization, :element => @element, :activity => activity, :app=>@app}
   end
 
-  def toggle_active_element
+  def toggle_active_element_x
     @element = EltElement.find_by_public_id(params[:elt_element_id]) rescue nil
     unless @element.nil?
       @element.update_attributes(:is_active=> !@element.is_active)
     end
-    render :partial => "/apps/learning_time/manage_elements", :locals=>{:org=>@current_organization, :framework => @element.elt_framework, :app=>@app}
+    render :partial => "/apps/learning_time/manage_elements", :locals=>{:org=>@current_organization, :app=>@app}
   end
 
   def toggle_active_activity
@@ -365,7 +361,7 @@ class Apps::LearningTimeController  < ApplicationController
     unless @cycle.nil?
       @cycle.update_attributes(:is_active=> !@cycle.is_active)
     end
-    render :partial => "/apps/learning_time/manage_cycles", :locals => {:org => @current_organization, :framework => @framework, :app=>@app}
+    render :partial => "/apps/learning_time/manage_cycles", :locals => {:org => @current_organization}
   end
 
   def toggle_active_plan_type
@@ -701,46 +697,6 @@ class Apps::LearningTimeController  < ApplicationController
       @elt_case.destroy
     end
     render :partial => "/apps/learning_time/list_cases", :locals=>{:app=>@app}
-  end
-
-  def new_framework
-    initialize_parameters
-    framework = EltFramework.new
-    framework.name = params[:name]
-    framework.abbrev = params[:abbrev]
-    if !framework.name.strip.empty? then
-      if @current_organization.elt_frameworks << framework
-        if !@current_organization.elt_framework?
-          @current_organization.set_framework(@current_organization.elt_frameworks.last)
-        end
-      end
-    end
-    render :partial => "/apps/learning_time/manage_frameworks", :locals => {:org => @current_organization, :app=>@app}
-  end
-
-  def set_framework
-    initialize_parameters
-    if @framework
-      @current_organization.set_framework(@framework)
-    end
-    render :partial => "/apps/learning_time/maintain_frameworks", :locals=>{:app=>@app, :org => @current_organization}
-  end
-
-  def edit_framework
-    initialize_parameters
-    if @framework && !params[:name].strip.empty?
-      @framework.update_attributes(:name => params[:name].strip, :abbrev => params[:abbrev].strip)
-    end
-    render :partial => "/apps/learning_time/manage_frameworks", :locals => {:org => @current_organization, :app=>@app}
-  end
-
-  def destroy_framework
-    initialize_parameters
-    if @framework
-      @framework.destroy
-      @current_organization.initial_framework
-    end
-    render :partial => "/apps/learning_time/manage_frameworks", :locals => {:org => @current_organization, :app=>@app}
   end
 
   def select_kb_filters

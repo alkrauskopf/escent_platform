@@ -610,7 +610,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/community/case/rubric' => 'apps/learning_time#case_element_rubric'   # elt_community_case_rubric
   get '/elt/report' => 'apps/app_report#elt_school_diag'
   get '/elt/report/school/plan' => 'apps/app_report#elt_school_plan'
-  get '/elt/report/school/cycle/plan' => 'apps/learning_time#school_cycle_plan'
+  get '/elt/report/school/cycle/plan' => 'apps/learning_time#school_cycle_plan' # elt_report_school_cycle_plan_url
   get '/elt/report/school/select' => 'apps/app_report#elt_select_school_for_diag'
   get '/elt/report/school/cycle/select' => 'apps/app_report#elt_select_cycle_for_school'
   get '/elt/report/school/activity/select' => 'apps/app_report#elt_select_activity_for_school'

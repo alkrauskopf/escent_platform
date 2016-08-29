@@ -113,7 +113,7 @@
 		<div class="FormRow" style="position: relative;">
 				<div class="FormRowTitle">Institutions:</div>
 				<div class="FormRowData">
-					<%=  select(:user, :home_org_id, Organization.active(:order => "name").collect{|o| [o.name, o.id]}, :prompt => "Select Institution")  %>
+					<%=  select(:user, :home_org_id, Organization.registerable.collect{|o| [o.name, o.id]}, :prompt => "Select Institution")  %>
 				</div>
 		</div>
 		<div class="FormRow submit_warp">

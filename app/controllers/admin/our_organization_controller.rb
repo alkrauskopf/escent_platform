@@ -55,6 +55,12 @@ class Admin::OurOrganizationController < Admin::ApplicationController
      end
     render :partial => "registration_notify"
   end
+
+
+  def toggle_registration_allow
+    @current_organization.update_attributes(:can_register => !@current_organization.can_register)
+    render :partial => "registration_allow"
+  end
   
   def update_logo_x
     @current_organization.logo = params[:organization][:logo]

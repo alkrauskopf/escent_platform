@@ -28,7 +28,11 @@
       <% else -%>
         <div class="tip_info">
         	<div class="header_footer_text">
-            <%= link_to 'Register Here', user_register_path(:organization_id => @current_organization), {:target => '_blank'}, :class => 'join' %>
+            <% if @current_organization.registerable? %>
+              <%= link_to 'Register Here', user_register_path(:organization_id => @current_organization),  {:target => "_blank"}, :class => "join" %>
+            <% else %>
+              &nbsp;
+            <% end %>
         	</div>
         </div>
         <%= form_tag user_signin_path(:organization_id => @current_organization) do -%>

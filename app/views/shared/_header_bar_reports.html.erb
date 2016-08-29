@@ -23,11 +23,15 @@
     <div class="content" style="width:100%;">
       <div class="header_row clear">
         <% unless @current_user -%>
-            <div style="float:left; width:25%;vertical-align:bottom" class="header_footer_text">
+          <div style="float:left; width:25%;vertical-align:bottom" class="header_footer_text">
             <span style="font-size:12px; vertical-align:bottom; margin-left:10px;">
-              <%= link_to 'Register Here', user_register_path(:organization_id => @current_organization),  {:target => "_blank"}, :class => "join" %>
+              <% if @current_organization.registerable? %>
+                <%= link_to 'Register Here', user_register_path(:organization_id => @current_organization),  {:target => "_blank"}, :class => "join" %>
+              <% else %>
+                <hidden>Register</hidden>xxx
+              <% end %>
             </span>
-            </div>
+          </div>
         <%= form_tag user_signin_path(:organization_id => @current_organization) do -%>
           <div style="float:left; width:55%; "  class="content form">
             <div id= "log_header" style="font-size:12px; margin-left:250px; padding-bottom:2px; vertical-align:top; " class="header_row clear">

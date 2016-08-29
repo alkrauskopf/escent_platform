@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
   # Accesses the current registrant from the session.
   def current_user
     @current_user ||= (session[:user_id] && User.find(session[:user_id]) rescue nil) || nil
@@ -32,7 +33,15 @@ class ApplicationController < ActionController::Base
   end
 
   def increment_app_views
-    @current_application.increment_views
+    if @current_application
+      @current_application.increment_views
+    end
+  end
+
+  def increment_current_org_views
+    if @current_organization
+      @current_organization.increment_views
+    end
   end
   #
   #    ELT Instance Variables

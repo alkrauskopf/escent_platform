@@ -1,0 +1,32 @@
+<div id="registration_allow">
+  <div  style="margin:10px 0px 10px 0px;min-height:25px;">
+    <table  style="width:250px;margin-left:0px;">
+      <tbody>
+        <% button_label1 = @current_organization.registerable? ? "button_enabled.png" : "button_disabled.png" %>
+        <% button_label2 = @current_organization.registerable? ? "ALLOWED" : "DISALLOWED" %>
+        <tr>
+          <td width=25px style="vertical-align:top;  padding-left:5px; padding-right:0px; padding-top:4px; text-align:center; color: #000000; font-size:11px; font-weight:bold">
+            <%= link_to (image_tag button_label1, :width => 15), admin_registration_allow_path(:organization_id => @current_organization), :class => "toggle_allow" %>
+          </td>
+          <td width=225px style="vertical-align:top;  padding-left:0px; padding-right:0px; vertical-align:middle; text-align:left; color: #000000; font-size:11px; font-weight:normal">
+            User Registration <%= button_label2 %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ('a.toggle_allow').click(function() {
+        var $this = jQ(this);
+        var url = $this.attr("href");
+        jQ.get(url, function(data){
+          jQ("#registration_allow").html(data);
+          jQ("#registration_allow").show();
+        })
+        return false;
+      })
+    });
+  </script>
+</div>

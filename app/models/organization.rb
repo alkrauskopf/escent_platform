@@ -223,9 +223,19 @@ class Organization < ActiveRecord::Base
   def actived?
     status == Status.approved
   end
+
   def active?
     !self.status.nil? && self.status.approved?
   end
+
+  def registerable?
+    self.can_register
+  end
+
+  def self.registerable
+    where("can_register AND status_id = ?", 1).order('name')
+  end
+
   def parent?
     !self.parent.nil?
   end

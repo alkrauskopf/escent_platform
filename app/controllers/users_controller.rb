@@ -49,7 +49,7 @@ class UsersController < ApplicationController
          end 
      flash[:error] = @user.errors.full_messages.to_sentence
     end
-    @home_organization_list = Organization.active.sort_by{|o| o.name}
+    @registration_orgs = Organization.registerable
   #  render :layout => "registration"
     render :layout => 'fsn'
   end

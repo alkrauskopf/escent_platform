@@ -77,7 +77,8 @@ EscentPartners::Application.routes.draw do |map|
   # CORE Admin
   get '/admin' => 'admin/application#index'
   post '/admin' => 'admin/application#index'
-  get '/admin/notify' => 'admin/our_organization#toggle_notification'
+  get '/admin/notify' => 'admin/our_organization#toggle_notification' #  admin_notify_path
+  get '/admin/registration/allow' => 'admin/our_organization#toggle_registration_allow' #  admin_registration_allow_path
   post '/admin/org/profile' => 'admin/our_organization#update_profile'
   post '/admin/org/logo' => 'admin/our_organization#update_logo'
   get '/admin/org/colors' => 'admin/our_organization#change_style_setting'
@@ -608,7 +609,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/community/filters' => 'apps/learning_time#select_kb_filters'   # elt_community_filters
   get '/elt/community/indicator/rubric' => 'apps/learning_time#case_indicators_element_rubric'   # elt_community_indicator_rubric
   get '/elt/community/case/rubric' => 'apps/learning_time#case_element_rubric'   # elt_community_case_rubric
-  get '/elt/report' => 'apps/app_report#elt_school_diag'
+  get '/elt/report' => 'apps/app_report#elt_school_diag'   # elt_report_path
   get '/elt/report/school/plan' => 'apps/app_report#elt_school_plan'
   get '/elt/report/school/cycle/plan' => 'apps/learning_time#school_cycle_plan' # elt_report_school_cycle_plan_url
   get '/elt/report/school/select' => 'apps/app_report#elt_select_school_for_diag'

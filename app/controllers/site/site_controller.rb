@@ -1303,7 +1303,7 @@ class Site::SiteController < Site::ApplicationController
     render :partial => "manage_topic_options"
   end
 
-  def summarize_org_app
+  def summarize_org_app_x
 
     @app = CoopApp.find_by_public_id(params[:app_id])
     

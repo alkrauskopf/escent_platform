@@ -1,0 +1,17 @@
+<div class="organization_panel">
+  <div class="organization_panel_header">
+    <%= pluralize(@current_organization.active_offerings.size, ' OFFERING') %>
+  </div>
+  <div class="organization_panel_text">
+    <%= render :partial => "static_organization_classrooms", :locals=>{:display=>"Offering"}%>
+  </div>
+</div>
+
+<div class="organization_panel">
+  <div class="organization_panel_header">
+    RESOURCE LIBRARY CONTRIBUTIONS
+  </div>
+  <div class="organization_panel_text">
+    <%= render :partial => "static_organization_resources"%>
+  </div>
+</div>

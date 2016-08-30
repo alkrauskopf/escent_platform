@@ -1315,7 +1315,7 @@ class User < ActiveRecord::Base
   end
   
   def self.org_contact(contact_email)
-    User.where('(email_address = ?)', contact_email).first
+    User.where('email_address = ?', contact_email).first
   end
  
   def owned_classrooms

@@ -42,7 +42,8 @@ Rails.application.config.assets.precompile += [
     'apps/learning_time.css',
     'apps/classroom.css',
     'apps/assessment.css',
-    'resource_library.css'
+    'apps/resource_library.css',
+    'apps/organization.css'
       ]
 #
 #Javascript

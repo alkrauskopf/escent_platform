@@ -63,8 +63,10 @@ EscentPartners::Application.routes.draw do |map|
   put '/resource/destroy' => 'site/contents#destroy_selected'
 
   # CORE Organization
-  get '/organization/view' => 'site/site#static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}  #  organization_view_path
-  get '/organization/view/app' => 'site/site#summarize_org_app'
+#  get '/organization/view' => 'site/site#static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}  #  organization_view_path
+  get '/organization/view' => 'apps/organization#static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}  #  organization_view_path
+  get '/organization/view/app' => 'apps/organization#summarize_org_app'   #  organization_view_app_path
+ # get '/organization/view/app' => 'site/site#summarize_org_app'   #  organization_view_app_path
   get '/organization/view/offering' => 'site/site#summarize_org_subject_offerings'
   get '/organization/view/resources' => 'site/site#summarize_org_resources'
 

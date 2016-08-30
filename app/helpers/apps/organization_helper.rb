@@ -1,0 +1,2 @@
+module Apps::OrganizationHelper
+end

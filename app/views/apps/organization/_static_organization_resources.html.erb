@@ -1,0 +1,31 @@
+<div class="organization_panel_list">
+  <p>
+    <%= pluralize(@current_organization.contents.active.size, ' Resource') %>
+    <% unless @current_organization.active_offerings.empty?%>
+        in <%= pluralize(@current_organization.contents.active.collect{|c| c.subject_area}.uniq.size, 'Subject Area')%>
+    <% end %>
+  </p>
+
+		<% subjects = @current_organization.contents.active.select{|c| (c.created_at >= Time.now - 1030.days)}.collect{|c| c.parent_subject}.compact.uniq %>
+			<% subjects.sort_by{|s| s.name}.each do |sub| %>
+			<table id="<%=sub.public_id %>_content" style="width:370px; margin-left:10px">
+				<tbody>  
+					<tr>
+						<td class="resource_levels_close">
+						<%= link_to '', organization_view_resources_path(:organization_id => @current_organization, :subject_area_id => sub) %>
+								Recent&nbsp;<%= sub.name %>&nbsp;Contributions
+						<span></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>			
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#<%=sub.public_id%>_content .resource_levels_close').toggleResourceLevels();
+	jQ('#<%=sub.public_id%>_content .resource_levels_open').toggleResourceLevels();	
+});
+</script>
+
+	<% end -%>
+</div>

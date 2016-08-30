@@ -636,7 +636,15 @@ class Organization < ActiveRecord::Base
   def elt_evidences_for_indicator(ind)
     self.elt_cases.collect{|c| c.elt_case_indicators.for_indicator(ind)}.flatten.compact
   end
-  
+
+  def all_elt_findings
+    self.elt_cases.collect{|c| c.elt_case_indicators}.flatten.compact
+  end
+
+  def all_elt_images
+    self.elt_cases.collect{|c| c.elt_case_evidences}.flatten.compact
+  end
+
   def elt_evidences_for_cycle_indicator(cycle,ind)
     self.elt_cases.for_cycle(cycle).collect{|c| c.elt_case_indicators.for_indicator(ind)}.flatten.compact
   end
@@ -919,7 +927,15 @@ class Organization < ActiveRecord::Base
     page_section = self.page_sections.find_by_page_and_section(page, section)
     page_section ? page_section.body : ""
   end
-  
+
+  def featured_lus
+    self.active_offerings.empty? ? [] : self.classrooms.active.collect{|c| c.topics.active}.flatten
+  end
+
+  def active_offerings
+    self.classrooms.active
+  end
+
   def copy_featured_topic_from(organization, options={})
     self.featured_topic = organization.featured_topic.clone
     self.featured_topic.organization = self
@@ -928,6 +944,7 @@ class Organization < ActiveRecord::Base
     self.featured_topic.save
     self.save
   end
+
  def short_name
   if self.alt_short_name.nil? || self.alt_short_name.empty? then
    if self.organization_type.name == "High School" then 

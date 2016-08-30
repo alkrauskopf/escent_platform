@@ -1,0 +1,59 @@
+<div class= 'row '>
+  <div class="organization_heading">
+  <div class='col-md-4'>
+    <div class='organization_logo_box'>
+      <%- if @current_organization.logo.file? -%>
+          <%= image_tag(@current_organization.logo.url) -%>
+      <%- end -%>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <p class="organization_title_text">
+      <%= @current_organization.name%>
+    </p>
+    <p class="organization_address_text">
+      <% unless @current_organization.addresses.empty? %>
+          <% if @current_organization.addresses.first.country == 'US' %>
+              <%= @current_organization.addresses.first.street1 -%>
+              <%= @current_organization.addresses.first.street2.empty? ? "" : (", " + @current_organization.addresses.first.street2) -%>
+              <%= @current_organization.addresses.first.city.empty? ? "" : (", " + @current_organization.addresses.first.city) -%>,
+              <%= @current_organization.addresses.first.state -%> &nbsp; <%= @current_organization.addresses.first.postal_code rescue nil -%><br/>
+          <% else %>
+              <%= @current_organization.addresses.first.city rescue nil -%>,
+              <%= I18n.t @current_organization.addresses.first.country, :scope => 'countries' %>	&nbsp <%= @current_organization.addresses.first.postal_code rescue nil -%><br/>
+          <% end %>
+      <% end %>
+      <%= @current_organization.phone.empty? ? "" : @current_organization.phone -%>&nbsp;&nbsp;
+      <% unless @current_organization.web_site_url.nil? %>
+          <% web_link = "Website"%>
+          <%= link_to web_link, @current_organization.web_site_url, :target => "_blank"  %>
+      <% end %>
+    </p>
+  </div>
+  <div class='col-md-2 '>
+    <% contact_user = User.org_contact(@current_organization.contact_email) -%>
+    <% if !contact_user.nil? && @current_organization.display_contact?-%>
+      <% unless contact_user.picture.url.split("/").last == "missing.png" %>
+          <div class="organization_contact_pic">
+            <%= image_tag (contact_user.picture.url :med_thumb)%>
+          </div>
+      <% end %>
+      <p class="organization_contact_name">
+        <%= link_to contact_user.full_name, user_view_path(:organization_id => @current_organization, :id => contact_user) %>
+      </p>
+      <p class="organization_contact_text">
+        <%= @current_organization.contact_role if @current_organization.contact_role %>
+      </p>
+    <% else %>
+      <% if @current_organization.display_contact? -%>
+        <p class="organization_contact_name">
+          <strong><%= @current_organization.contact_name if @current_organization.contact_name %></strong>
+        </p>
+        <p class="organization_contact_text">
+          <%= @current_organization.contact_role %>
+        </p>
+      <% end -%>
+    <% end %>
+  </div>
+    </div>
+</div>

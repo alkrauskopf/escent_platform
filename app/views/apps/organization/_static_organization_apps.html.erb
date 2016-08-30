@@ -1,0 +1,23 @@
+<div class="organization_panel_list">
+	<% @current_organization.enabled_apps.sort_by{|a| a.abbrev}.each do |app| %>
+		<% unless app.core? || app.beta? -%>
+			<table id="<%=app.public_id %>">
+				<tbody>  
+					<tr>
+						<td class="resource_levels_close">
+						<%= link_to '', organization_view_app_path(:organization_id => @current_organization, :app_id => app) %>
+              <%= app.name %>
+						<span></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#<%=app.public_id%> .resource_levels_close').toggleResourceLevels();
+	jQ('#<%=app.public_id%> .resource_levels_open').toggleResourceLevels();	
+});
+</script>
+		<% end -%>
+	<% end -%>
+</div>

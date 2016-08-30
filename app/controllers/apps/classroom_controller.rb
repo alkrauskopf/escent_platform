@@ -12,12 +12,6 @@ class Apps::ClassroomController < ApplicationController
  before_filter :increment_app_views, :only=>[:index]
 
 
-
- def clear_notification
-    flash[:notice] = nil
-    flash[:error] = nil
- end
-
   def index
     initialize_parameters
     unless @current_user.classroom_admin_for_org?(@current_organization)

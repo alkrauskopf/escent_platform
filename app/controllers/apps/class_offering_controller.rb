@@ -10,10 +10,6 @@ class Apps::ClassOfferingController < ApplicationController
   before_filter :increment_app_views, :only=>[:index]
   protect_from_forgery :except => []
 
-  def clear_notification
-    flash[:notice] = nil
-    flash[:error] = nil
-  end
 
   def index
     current_app_enabled_for_current_org?

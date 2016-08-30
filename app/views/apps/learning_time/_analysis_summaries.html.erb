@@ -20,7 +20,7 @@
 				<tr>
 					<td  style="width:40px; vertical-align:middle; text-align:left;padding-bottom:10px; padding-top:10px; padding-left:20px">
 						<span class="fsn-button ui-button ui-state-default ui-corner-all">
-							 <%= link_to 'Go', elt_report_path(:organization_id => @current_organization, :user_id => @current_user, :report_id => "CD"), {:target => "_blank"} %>
+							 <%= link_to 'Go', elt_report_path(:organization_id => @current_organization, :user_id => @current_user, :report_id => "CD", :coop_app_id => @current_application.public_id), {:target => "_blank"} %>
 						</span>
 					</td>
 					<td style="width:550px; vertical-align:middle; text-align:left;padding-left:10px">

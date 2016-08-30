@@ -3,23 +3,18 @@ class Apps::AppReportController < Site::ApplicationController
   helper :all # include all helpers, all the time  
   layout "app_reports", :except =>[:elt_other_school_cycles]
 
+  before_filter :current_application, :except => []
+  before_filter :current_user_app_authorized?, :except=>[]
+  before_filter :clear_notification
   before_filter :initialize_parameters
-  
-  def clear_notification
-    flash[:notice] = nil
-    flash[:error] = nil
-  end
 
   def index
   end
 
-  def elt_school_diag   
-    unless @app
-      @app = CoopApp.elt
-    end    
+  def elt_school_diag
     @report = params[:report_id]
     @plan_type = EltPlanType.school
-    @provider = @current_organization.app_provider(@app)
+    @provider = @current_organization.app_provider(@current_application)
     @school =  @current_organization == @provider ? nil : @current_organization
     @cycle = @current_organization.elt_org_option.elt_cycle ? @current_organization.elt_org_option.elt_cycle : nil
     @activity = @cycle.nil? ? nil : @cycle.master_activity
@@ -110,9 +105,7 @@ class Apps::AppReportController < Site::ApplicationController
     if  params[:provider_id]
       @provider = Organization.find_by_public_id(params[:provider_id])rescue nil
     end    
-    if params[:app_id]
-      @app = CoopApp.find_by_id(params[:app_id]) rescue nil
-    end
+
     if params[:elt_plan_id]
       @plan = EltPlan.find_by_public_id(params[:elt_plan_id]) rescue nil
     end

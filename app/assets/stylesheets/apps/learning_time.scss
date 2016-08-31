@@ -1,5 +1,6 @@
 
 @import "application-variables.scss";
+@import 'bootstrap';
 
 
 .elt_container {
@@ -13,7 +14,6 @@
   text-align: center;
   padding-bottom:2em;
 }
-
 
 .activity_panel {
   color: $red_text;
@@ -33,6 +33,14 @@
 
 .case_buttons {
   float: right;
+}
+
+.star_lookfor {
+  @extend .glyphicon;
+  @extend .glyphicon-star;
+  color:$gold_star;
+  padding-right:0em;
+  font-size:11px;
 }
 
 /*      needed below?  */

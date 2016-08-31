@@ -17,6 +17,7 @@
 	<div class="FormRow">
     <div class="FormRowTitle">
       <%= button_label2 %>:
+      <% if indicator.star? %><br/><i class="star_lookfor"></i><% end %>
     </div>
     <div class="FormRowData" style= "margin-left:25px">
       <%= text_area :elt_indicator, :indicator, :value => indicator.indicator, :rows => 2, :cols => 65  %>

@@ -17,7 +17,7 @@ class EltIndicator < ActiveRecord::Base
   
   validates_presence_of :indicator, :message => 'Must Define Indicator' 
   validates_numericality_of :position, :greater_than => 0, :message => 'must > 0.  '
-  validates_numericality_of :weight, :greater_than_or_equal_to => 1, :less_than_or_equal_tp => 10,  :message => 'Must Be Between 1 & 10.'
+  validates_numericality_of :weight, :greater_than_or_equal_to => 1, :less_than_or_equal_to => 10,  :message => 'Must Be Between 1 & 10.'
   validates_presence_of :elt_type_id, :message => 'Element Not Defined'
   validates_presence_of :elt_element_id, :message => 'Element Not Defined'
       
@@ -32,7 +32,11 @@ class EltIndicator < ActiveRecord::Base
   def active?
     self.is_active
   end
-  
+
+  def star?
+    !self.weight.nil? && self.weight > 1
+  end
+
   def all_children
     (self.children + self.children.collect{|child| child.children}).flatten
   end

@@ -84,8 +84,28 @@ class Authorization < ActiveRecord::Base
     level.nil? ? [] : self.select{|a| a.authorization_level_id == level.id}
   end
 
+  def self.teachers
+    level = AuthorizationLevel.app_teacher(CoopApp.core)
+    level.nil? ? [] : self.where('authorization_level_id = ?', level.id)
+  end
+
   def self.elt_reviewer
     level = AuthorizationLevel.app_reviewer(CoopApp.elt)
     level.nil? ? [] : self.select{|a| a.authorization_level_id == level.id}
+  end
+
+  def self.ctl_observers
+    level = AuthorizationLevel.app_observer(CoopApp.ctl)
+    level.nil? ? [] : self.where('authorization_level_id = ?', level.id)
+  end
+
+  def self.panelists
+    level = AuthorizationLevel.app_panelist(CoopApp.blog)
+    level.nil? ? [] : self.where('authorization_level_id = ?', level.id)
+  end
+
+  def self.app_administrator(app)
+    level = AuthorizationLevel.app_administrator(app)
+    level.nil? ? [] : self.where('authorization_level_id = ?', level.id)
   end
 end

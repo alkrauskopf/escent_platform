@@ -299,7 +299,7 @@ class AuthorizationLevel < ActiveRecord::Base
   def self.leader
     self.where('name = ? AND coop_app_id = ?', 'teacher', CoopApp.classroom.id ).first
   end
-  
+
   def leader?
     (self.name == 'teacher') && (self.coop_app_id == CoopApp.classroom.id)
   end
@@ -366,7 +366,7 @@ class AuthorizationLevel < ActiveRecord::Base
   def self.ctl_observer
     self.where('name = ? AND coop_app_id = ?', 'observer', CoopApp.ctl.id ).first
   end
- 
+
   def self.itl_observer?
      (self.name == 'observer') && (self.coop_app_id == CoopApp.ctl.id)
   end

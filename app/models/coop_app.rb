@@ -121,6 +121,55 @@ class CoopApp < ActiveRecord::Base
   end
 
   #########
+  def provider_app_admins(org)
+    Authorization.app_administrator(self)
+  end
+
+  def provider_observer_levels(org)
+    Authorization.ctl_observers
+  end
+
+  def provider_observations(org)
+    TltSession.final
+  end
+
+  def provider_pd_plans(org)
+    UserDlePlan.current
+  end
+
+  def active_offerings(org)
+    Classroom.active
+  end
+
+  def closed_offerings(org)
+    Classroom.closed.active
+  end
+
+  def opened_offerings(org)
+    Classroom.opened.active
+  end
+
+  def provider_teachers(org)
+    Authorization.teachers
+  end
+
+  def provider_panelists(org)
+    Authorization.panelists
+  end
+
+  def pm_cases(org)
+    EltCase.final
+  end
+
+  def pm_findings(org)
+    EltCaseIndicator.final
+  end
+
+  def pm_images(org)
+    EltCaseEvidence.all
+  end
+
+  #########
 
 
   def increment_views

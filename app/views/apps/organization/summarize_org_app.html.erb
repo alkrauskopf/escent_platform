@@ -1,62 +1,83 @@
 <div class="organization_app_stats">
 	<% unless @app.nil? -%>
       <p>
-        Provider:&nbsp;<%= @current_organization.app_provider(@app) ? @current_organization.app_provider(@app).short_name : 'None' %>
-      </p>
-      <p>
-        <%= pluralize(@current_organization.admins_for_app(@app).size,  " Admin") %>:&nbsp;<%= @current_organization.admin_list_for_app(@app) %>
+        Provider:&nbsp;<%= @provider.short_name %>
       </p>
 		<% if @app.ctl? -%>
       <p>
-        <%= pluralize(@current_organization.itl_observation_count, " Observation")%>
+        <%= pluralize(@is_provider ? @app.provider_app_admins(@provider).size : @current_organization.admins_for_app(@app).size,  " Admin") %>
+        <% if !@is_provider %>:&nbsp;<%= @current_organization.admin_list_for_app(@app) %><% end %>
       </p>
       <p>
-        <%= pluralize(@current_organization.itl_observers.size, " Observer")%>
-        <%= ":  " + @current_organization.itl_observer_list unless @current_organization.itl_observers.empty? %>
+        <%= pluralize(@is_provider ? @app.provider_observations(@provider).size : @current_organization.itl_observation_count, " Finalized Observation")%>
+      </p>
+      <p>
+        <%= pluralize(@is_provider ? @app.provider_observer_levels(@provider).size : @current_organization.itl_observers.size, " Observer")%>
       </p>
 		<% elsif @app.pd? %>
       <p>
-        <%= pluralize(@current_organization.active_pd_plan_count, " Active PD Plan")%>
+        <%= pluralize(@is_provider ? @app.provider_app_admins(@provider).size : @current_organization.admins_for_app(@app).size,  " Admin") %>
+        <% if !@is_provider %>:&nbsp;<%= @current_organization.admin_list_for_app(@app) %><% end %>
+      </p>
+      <p>
+        <%= pluralize(@is_provider ? @app.provider_pd_plans(@provider).size : @current_organization.active_pd_plan_count, " Active PD Plan")%>
       </p>
 		<% elsif @app.classroom? %>
-          <p>
-            <%= pluralize(@current_organization.classrooms.active.size, " Offering")%>
-          </p>
-          <p>
-            <%= pluralize(@current_organization.teachers.size, " Leader")%>
-            <%= ":  " + @current_organization.teacher_list unless @current_organization.teachers.empty? %>
-          </p>
+      <p>
+        <%= pluralize(@is_provider ? @app.provider_app_admins(@provider).size : @current_organization.admins_for_app(@app).size,  " Admin") %>
+        <% if !@is_provider %>:&nbsp;<%= @current_organization.admin_list_for_app(@app) %><% end %>
+      </p>
+      <p>
+        <%= pluralize(@is_provider ? @app.active_offerings(@provider).size : @current_organization.active_offerings.size, " Offering")%>
+      </p>
+      <p>
+        <%= pluralize(@is_provider ? @app.closed_offerings(@provider).size : @current_organization.closed_offerings.size, " Closed Offering")%>
+      </p>
+      <p>
+        <%= pluralize(@is_provider ? @app.opened_offerings(@provider).size : @current_organization.opened_offerings.size, " Open Offering")%>
+      </p>
+      <p>
+        <%= pluralize(@is_provider ? @app.provider_teachers(@provider).size : @current_organization.teachers.size, " Leader")%>
+      </p>
 		<% elsif @app.blogs? %>
-          <p>
-            <%= pluralize(@current_organization.bloggers.size, ' Blogger') %>:&nbsp;<%= @current_organization.blogger %>
-          </p>
-          <p>
-            <%= pluralize(@current_organization.blog.size, " Blog")%>
-          </p>
-          <p>
-            <%= pluralize(@current_organization.bloggers.size, " Blogger")%>
-            <%= ":  " + @current_organization.blogger_list unless @current_organization.bloggers.empty? %>
-          </p>
+      <p>
+        <%= pluralize(@is_provider ? @app.provider_app_admins(@provider).size : @current_organization.admins_for_app(@app).size,  " Admin") %>
+        <% if !@is_provider %>:&nbsp;<%= @current_organization.admin_list_for_app(@app) %><% end %>
+      </p>
+      <p>
+        <%= pluralize(@is_provider ? @app.provider_panelists(@provider).size : @current_organization.bloggers.size, " Panelist")%>
+      </p>
+      <p>
+        <%= pluralize(@current_organization.blogs.size, " Blog")%>
+      </p>
 		<% elsif @app.ifa? %>
-          <p>
-            <%= pluralize(ActAssessment.all.size, @app.abbrev + " Assessment")%>&nbsp;In Repository
-          </p>
-          <p>
-            <%= pluralize(ActQuestion.all.size, @app.abbrev + " Question")%>&nbsp;In Repository
-          </p>
-          <p>
-            <%= pluralize(ActSubmission.all.size, " Student Assessment")%>&nbsp;Taken
-          </p>
+      <p>
+        <%= pluralize(@is_provider ? @app.provider_app_admins(@provider).size : @current_organization.admins_for_app(@app).size,  " Admin") %>
+        <% if !@is_provider %>:&nbsp;<%= @current_organization.admin_list_for_app(@app) %><% end %>
+      </p>
+      <p>
+        <%= pluralize(ActAssessment.all.size, @app.abbrev + " Assessment")%>&nbsp;In Repository
+      </p>
+      <p>
+        <%= pluralize(ActQuestion.all.size, @app.abbrev + " Question")%>&nbsp;In Repository
+      </p>
+      <p>
+        <%= pluralize(ActSubmission.all.size, " Student Assessment")%>&nbsp;Taken
+      </p>
     <% elsif @app.elt? %>
       <p>
-        <%= pluralize(@current_organization.elt_cases.size, " Activity")%>&nbsp;Conducted
+        <%= pluralize(@is_provider ? @app.provider_app_admins(@provider).size : @current_organization.admins_for_app(@app).size,  " Admin") %>
+        <% if !@is_provider %>:&nbsp;<%= @current_organization.admin_list_for_app(@app) %><% end %>
       </p>
       <p>
-        <%= pluralize(@current_organization.all_elt_findings.size, " Finding")%>&nbsp;Gathered
+        <%= pluralize(@is_provider ? @app.pm_cases(@provider).size : @current_organization.elt_cases.size, " Activity")%>&nbsp;Conducted
       </p>
       <p>
-        <%= pluralize(@current_organization.all_elt_images.size, " Evidence Image")%>&nbsp;Collected
+        <%= pluralize(@is_provider ? @app.pm_findings(@provider).size : @current_organization.all_elt_findings.size, " Finding")%>&nbsp;Gathered
+      </p>
+      <p>
+        <%= pluralize(@is_provider ? @app.pm_images(@provider).size : @current_organization.all_elt_images.size, " Evidence Image")%>&nbsp;Collected
       </p>
 		<% end -%>
 	<% end -%>
-
+</div>

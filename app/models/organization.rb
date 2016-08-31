@@ -288,7 +288,7 @@ class Organization < ActiveRecord::Base
   end
   
   def self.default
-    find Organization.ep_default.first rescue nil
+    find Organization.ep_default.first
   end
   
   def default?
@@ -936,6 +936,14 @@ class Organization < ActiveRecord::Base
     self.classrooms.active
   end
 
+  def closed_offerings
+    self.classrooms.closed.active
+  end
+
+  def opened_offerings
+    self.classrooms.opened.active
+  end
+
   def copy_featured_topic_from(organization, options={})
     self.featured_topic = organization.featured_topic.clone
     self.featured_topic.organization = self
@@ -1210,6 +1218,7 @@ class Organization < ActiveRecord::Base
       trackers = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.itl_observer, self).collect{|a| a.user}
   end
 
+
   def itl_observer_list
     unless self.itl_observers.empty?
       self.itl_observers.sort_by{|u| u.last_name}.collect{|t| t.last_name}.uniq.join(", ")
@@ -1219,27 +1228,11 @@ class Organization < ActiveRecord::Base
   end
 
   def admins_for_app(app)
-    if app.ctl?
-      admins = itl_admins
-    elsif app.ifa?
-      admins = ifa_admins
-    elsif app.pd?
-      admins = pd_admins
-    else
-      admins = []
-    end
+   self.authorizations.for_level(AuthorizationLevel.app_administrator(app)).collect{ |a| a.user}.compact.uniq
   end
   
   def admin_list_for_app(app)
-    if app.ctl?
-      admins = itl_admin_list
-    elsif app.ifa?
-      admins = ifa_admin_list
-    elsif app.pd?
-      admins = pd_admin_list
-    else
-      admins = ""
-    end
+    self.admins_for_app(app).sort_by{|u| u.last_name}.collect{|t| t.last_name}.uniq.join(", ")
   end
 
   def itl_admins

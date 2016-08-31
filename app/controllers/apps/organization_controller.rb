@@ -17,9 +17,9 @@
     end
 
     def summarize_org_app
-
       @app = CoopApp.find_by_public_id(params[:app_id])
-
+      @provider = @current_organization.app_provider(@app) ? @current_organization.app_provider(@app) : Organization.default
+      @is_provider =  @provider == @current_organization
     end
 
     private

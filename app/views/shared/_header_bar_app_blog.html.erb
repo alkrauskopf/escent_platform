@@ -44,11 +44,15 @@
                       <label for="login_id">
                           <span  style="font-size:12px; vertical-align:top; ">ID:</span>
                       </label>
-                      <%= text_field_tag "login_id]", "", :height=> 20,:size=> 15, :class => "text" %>
+                      <span style="color:#000000;">
+                        <%= text_field_tag "login_id]", "", :height=> 20,:size=> 15, :class => "text" %>
+                      </span>
                       <label for="password">
                           <span id= "log_hide" style="font-size:12px; vertical-align:top; ">&nbsp;Password:</span>
                       </label>
-                      <%= password_field_tag "user[password]", "", :size=> 8, :class => "text" %>
+                      <span style="color:#000000;">
+                        <%= password_field_tag "user[password]", "", :size=> 8, :class => "text" %>
+                      </span>
                       <%= submit_tag "Sign-in", :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
                     </div>
                     <div class="forgot_password">

@@ -42,11 +42,15 @@
                 <label for="login_id">
                     ID:
                 </label>
-                <%= text_field_tag "login_id]", "", :size=> 15, :class => "text" %>
+                <span style="color:#000000;">
+                  <%= text_field_tag "login_id]", "", :size=> 15, :class => "text" %>
+                </span>
                 <label for="password">
                     Password:
                 </label>
-                <%= password_field_tag "user[password]", "", :size=> 8, :class => "text" %>
+                <span style="color:#000000;">
+                  <%= password_field_tag "user[password]", "", :size=> 8, :class => "text" %>
+                </span>
                 <%= submit_tag "Sign-in", :class => "fsn-button ui-button ui-state-default ui-corner-all" %>
               </div>
               <div class="forgot_password">

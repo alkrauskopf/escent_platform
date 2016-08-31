@@ -55,6 +55,10 @@ class CoopApp < ActiveRecord::Base
   scope :use_folders,  :conditions => ["is_folderable = ? ", true]
   scope :blogable,  :conditions => ["is_blogable = ? ", true]
 
+
+  def providers
+    self.app_providers
+  end
 ####    Apps
 
   def app_name(option = {})

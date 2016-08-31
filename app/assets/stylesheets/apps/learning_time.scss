@@ -35,6 +35,11 @@
   float: right;
 }
 
+.cycle_activities {
+  border:0px;
+}
+
+
 .star_lookfor {
   @extend .glyphicon;
   @extend .glyphicon-star;

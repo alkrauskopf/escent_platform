@@ -13,7 +13,7 @@
       <% while @activity_list.size > idx %>
           <div class="col-md-4">
             <% disabled = @activity_list[idx].has_active_indicators? ? '' : 'disabled' %>
-            <a class="list-group-item <%=disabled%>"
+            <a class="list-group-item <%=disabled%> cycle_activities"
                href= <%= @activity_list[idx].has_active_indicators? ? (elt_case_add_path(:organization_id => @current_organization, :elt_cycle_id => @current_cycle, :school_id=> @current_organization, :elt_type_id => @activity_list[idx])) : '#' %>>
               <%= @activity_list[idx].name %>
             </a>

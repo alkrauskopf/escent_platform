@@ -645,6 +645,15 @@ class Organization < ActiveRecord::Base
     self.elt_cases.collect{|c| c.elt_case_evidences}.flatten.compact
   end
 
+  def cycle_images(elt_case, option = {})
+   unless elt_case.elt_cycle.nil?
+    images = self.elt_cases.for_cycle(elt_case.elt_cycle).collect{|c| c.elt_case_evidences}.flatten.compact
+    option[:include_case] == true ? images : images.select{|i| i.elt_case_id != elt_case.id}
+   else
+     []
+   end
+  end
+
   def elt_evidences_for_cycle_indicator(cycle,ind)
     self.elt_cases.for_cycle(cycle).collect{|c| c.elt_case_indicators.for_indicator(ind)}.flatten.compact
   end

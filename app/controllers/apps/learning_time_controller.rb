@@ -824,6 +824,7 @@ class Apps::LearningTimeController  < ApplicationController
     if request.post? && @elt_case
       @evidence = @elt_case.elt_case_evidences.new(params[:elt_case_evidence])
       @evidence.user_id = @current_user.id
+      @evidence.orig_case_id = @elt_case.id
       if @evidence.save then
         flash[:notice] = "Evidence Saved - Upload Another"
       else
@@ -831,6 +832,18 @@ class Apps::LearningTimeController  < ApplicationController
       end
     end
     @evidence = EltCaseEvidence.new
+  end
+
+  def case_evidence_copy
+    set_case_evidence
+    set_case
+    if @elt_case && @evidence
+      @evidence.update_attributes(:elt_case_id => @elt_case.id)
+      flash[:notice] = "Evidence Copied"
+    else
+      flash[:error] = "Not Copied"
+    end
+    render :partial => "/apps/learning_time/manage_case_evidence", :locals => {:elt_case => @elt_case, :updateable => @elt_case.updatable?(@current_user)}
   end
 
   def case_evidence_change
@@ -846,10 +859,18 @@ class Apps::LearningTimeController  < ApplicationController
   def case_evidence_destroy
     set_case_evidence
     @elt_case = @evidence.elt_case
-    if @evidence.destroy
-      flash[:notice] = "Evidence Destroyed"
+    if @evidence.elt_case_id == @evidence.orig_case_id
+      if @evidence.destroy
+        flash[:notice] = "Evidence Destroyed"
+      else
+        flash[:error] = @evidence.errors.full_messages.to_sentence
+      end
     else
-      flash[:error] = @evidence.errors.full_messages.to_sentence
+      if @evidence.update_attributes(:elt_case_id => @evidence.orig_case_id)
+        flash[:notice] = "Evidence Returned to Original Case"
+      else
+        flash[:error] = @evidence.errors.full_messages.to_sentence
+      end
     end
     render :partial => "/apps/learning_time/manage_case_evidence", :locals => {:elt_case => @elt_case, :updateable => @elt_case.updatable?(@current_user)}
   end

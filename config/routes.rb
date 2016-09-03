@@ -427,10 +427,10 @@ EscentPartners::Application.routes.draw do |map|
 
   # APP CTL
   get '/ctl/session/show' => 'apps/time_learning#static_itl_session'
-  get '/ctl/subjects' => 'apps/time_learning#observation_subject_list'
+  get '/ctl/subjects' => 'apps/time_learning#observation_subject_list'   # ctl_subjects_path
 
   scope 'ctl/observation', as: 'ctl_observation' do
-    get 'add' => 'apps/time_learning#setup_session'
+    get 'add' => 'apps/time_learning#setup_session'   # ctl_observation_add_path
     post 'add' => 'apps/time_learning#setup_session'
     get 'destroy' => 'apps/time_learning#destroy_session'
     get 'log' => 'apps/time_learning#log_summary'
@@ -445,7 +445,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ctl/observation/video/show' => 'apps/shared#show_video'
   get '/ctl/observation/research' => 'apps/time_learning#research_summary'
   get '/ctl/observation/activities' => 'apps/time_learning#refresh_activity_summary'
-  get '/ctl/observe/begin' => 'apps/panel#track_session'
+  get '/ctl/observe/begin' => 'apps/panel#track_session'  #  ctl_observe_begin_path
   get '/ctl/observe/end' => 'apps/panel#end_session'
   get '/ctl/observe/abort' => 'apps/panel#abort_session'
   get '/ctl/observe/task/start' => 'apps/panel#start_session_task'
@@ -540,6 +540,7 @@ EscentPartners::Application.routes.draw do |map|
   post '/elt/case/update' => 'apps/learning_time#update_case_b'
   get '/elt/case/comments' => 'apps/learning_time#list_case_comments'
   get '/elt/case/support/findings' => 'apps/learning_time_standards#supporting_findings'   # elt_case_support_findings
+  get '/elt/case/evidence/copy' => 'apps/learning_time#case_evidence_copy'   # elt_case_evidence_copy_path
   get '/elt/case/evidence/add' => 'apps/learning_time#case_evidence_add'   # elt_case_evidence_add
   post '/elt/case/evidence/add' => 'apps/learning_time#case_evidence_add'   # elt_case_evidence_add
   get '/elt/case/evidence/change' => 'apps/learning_time#case_evidence_change'   # elt_case_evidence_change

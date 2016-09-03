@@ -38,6 +38,10 @@ class EltCase < ActiveRecord::Base
     self.elt_type rescue nil
   end
 
+  def activity_type_name
+    self.activity.nil? ? '' : self.activity.type_name
+  end
+
   def provider
     self.elt_cycle ? self.elt_cycle.provider : nil
   end

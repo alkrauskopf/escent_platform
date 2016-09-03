@@ -1,0 +1,40 @@
+<div id="master_images<%= elt_case.public_id%>" style = 'margin-top:5em'>
+  <div style="border:0px solid #ddd; width:100%; margin-left:0%; font-size:16px; text-align:center; margin-top:1em; padding-bottom:1em; color:#a40a15;">
+    <% if !elt_case.organization.nil? %>
+    <%= pluralize(elt_case.organization.cycle_images(elt_case,:include_case=>false).size, ' Additional ' + elt_case.organization.short_name + ' Image') %> Can Be Added To <%= elt_case.activity_type_name %>
+      <div style= "overflow:auto; max-height:40em;">
+        <table  style="border:0px solid #ddd; width:100%; margin-left:0%; font-size:11px;">
+          <tbody>
+          <% elt_case.organization.cycle_images(elt_case,:include_case=>false).each do |evidence| -%>
+              <tr style=" border-bottom:1px solid #ddd;">
+                <td style="width:60%; border:0px solid #ddd; padding-top:1em; padding-bottom:1em; text-align:center; font-weight:normal;">
+                  <%= image_tag evidence.elt_evidence.url, :width =>'430'%>
+                </td>
+                <td style="border-right:0px solid #ddd; vertical-align:middle; text-align:left; padding-left:2%; color:#000000; font-size:12px; line-height:1.3em; font-family:'Times New Roman';font-weight:normal;">
+                  <%= evidence.description %><br/><br/>
+                  <span style= 'font-size:11px; font-weight:bold;'><%= evidence.submitter_name %></span>
+                </td>
+                <td id="tag_<%= evidence.public_id %>" style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:middle" >
+                   <span class='btn btn-primary btn-xs'>
+                    Add Image
+                  </span>
+                </td>
+              </tr>
+              <script type="text/javascript">
+                jQ(document).ready(function() {
+                  jQ("#tag_<%= evidence.public_id %>").click(function() {
+                    var url = "<%= elt_case_evidence_copy_path(:organization_id => @current_organization, :elt_case_id => elt_case.public_id, :elt_case_evidence_id => evidence.public_id) %>";
+                    jQ.get(url,{},  function(data) {
+                      jQ("#manage_case_evidence<%= elt_case.public_id%>").html(data);
+                      jQ("#manage_case_evidence<%= elt_case.public_id%>").show();
+                    });
+                  })
+                });
+              </script>
+          <% end -%>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  </div>
+</div>

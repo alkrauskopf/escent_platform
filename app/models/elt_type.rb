@@ -81,7 +81,11 @@ class EltType < ActiveRecord::Base
   def has_active_indicators?
     !self.elt_indicators.active.empty?
   end
- 
+
+  def type_name
+    self.elt_activity_type ? self.elt_activity_type.name : ''
+  end
+
   def elements
     self.elt_indicators.collect{|i| i.elt_element}.compact.uniq.sort_by{ |e| e.position}
   end

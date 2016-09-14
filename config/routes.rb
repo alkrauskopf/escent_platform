@@ -178,7 +178,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/survey/question/history' => 'apps/shared#question_history'
   get '/survey/broadcast' => 'apps/shared#broadcast_app_survey'
   get '/survey/results/show' => 'apps/shared#show_results'
-  get '/surveys/results/show' => 'apps/shared#show_aggregated_results'
+  get '/surveys/results/show' => 'apps/shared#show_aggregated_results'   #  surveys_results_show_path
 
   get '/app/folder/edit' => 'apps/shared#edit_folder'
   get '/app/folder/new' => 'apps/shared#create_folder'
@@ -190,7 +190,7 @@ EscentPartners::Application.routes.draw do |map|
 
   # APP Offering  (Classroom)
   # apps/class_offering
-  get '/offering/view' => 'apps/class_offering#index'   # offering_view
+  get '/offering/view' => 'apps/class_offering#index'   # offering_view_path
   get '/offering/register' => 'apps/classroom#register_classroom'    # offering_register
   post '/self/offering/register' => 'apps/classroom#self_register_student'  # self_offering_register
   # site/site
@@ -233,9 +233,11 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/admin/resources' => 'apps/classroom#offering_resources'
   get '/offering/admin/resource/assign' => 'apps/classroom#add_remove_resource'
   get '/offering/admin/resource/feature' => 'apps/classroom#toggle_lu_featured_resource'
-  get '/offering/admin/folders' => 'apps/classroom#offering_folders'
+  get '/offering/admin/folders' => 'apps/classroom#offering_folders'     #   offering_admin_folders_path
   get '/offering/admin/folder/setup' => 'apps/classroom#offering_folder_setup'
-  get '/offering/admin/resource/folder' => 'apps/classroom#lu_resource_folder'
+  get '/offering/folder/position/assign' => 'apps/shared#assign_folder_position'   #  offering_folder_position_assign_url
+  get '/offering/folder/assign' => 'apps/shared#assign_offering_folder'   #  offering_folder_assign_url
+  get '/offering/admin/resource/folder' => 'apps/classroom#lu_resource_folder'   #   offering_admin_resource_folder_path
   get '/offering/admin/resource/copy' => 'apps/classroom#copy_lu_resources'
   get '/offering/admin/resource/pool' => 'apps/classroom#resource_pool'
   get '/offering/admin/referrals' => 'apps/classroom#offering_referrals'
@@ -433,17 +435,18 @@ EscentPartners::Application.routes.draw do |map|
     get 'add' => 'apps/time_learning#setup_session'   # ctl_observation_add_path
     post 'add' => 'apps/time_learning#setup_session'
     get 'destroy' => 'apps/time_learning#destroy_session'
-    get 'log' => 'apps/time_learning#log_summary'
+    get 'log' => 'apps/time_learning#log_summary'    #   ctl_observation_log_path
     get 'finalize' => 'apps/time_learning#finalize_session'
     post 'survey' => 'apps/time_learning#take_post_conf_survey'
     get 'survey/send' => 'apps/time_learning#send_student_survey_from_static_page'
   end
-  get '/ctl/observation/comments/edit' => 'apps/time_learning#edit_session_comments'
+  get '/ctl/observation/comments/edit' => 'apps/time_learning#edit_session_comments'  #   ctl_observation_comments_edit_path
   get '/ctl/observation/video/attach' => 'apps/time_learning#attach_embed_code'
   get '/ctl/observation/video/remove' => 'apps/time_learning#remove_embed_code'
   get '/ctl/observation/video/create' => 'apps/time_learning#create_training_video'
-  get '/ctl/observation/video/show' => 'apps/shared#show_video'
-  get '/ctl/observation/research' => 'apps/time_learning#research_summary'
+  get '/ctl/observation/video/show' => 'apps/shared#show_video'    #  ctl_observation_video_show
+  get '/ctl/observation/video/rl' => 'apps/time_learning#add_video_to_rl'    #  ctl_observation_video_rl
+  get '/ctl/observation/research' => 'apps/time_learning#research_summary'    #  ctl_observation_research_path
   get '/ctl/observation/activities' => 'apps/time_learning#refresh_activity_summary'
   get '/ctl/observe/begin' => 'apps/panel#track_session'  #  ctl_observe_begin_path
   get '/ctl/observe/end' => 'apps/panel#end_session'
@@ -476,7 +479,13 @@ EscentPartners::Application.routes.draw do |map|
   get '/ctl/options/method/activate' => 'apps/time_learning#toggle_method'
   get '/ctl/options/method/template/activate' => 'apps/time_learning#toggle_template_method'
   get '/ctl/options/template/filter/activate' => 'apps/time_learning#toggle_template_filter'
-  get '/ctl/options/templates' => 'apps/time_learning#manage_filters'
+  get '/ctl/options/template/toggle' => 'apps/time_learning#toggle_template'    #   ctl_options_template_toggle_path
+  get '/ctl/options/template/edit' => 'apps/time_learning#edit_template'    #   ctl_options_template_edit_path
+  get '/ctl/options/template/destroy' => 'apps/time_learning#destroy_template'    #   ctl_options_template_destroy_path
+  get '/ctl/options/template/show' => 'apps/time_learning#show_template'    #   ctl_options_template_show_path
+  get '/ctl/options/template/copy' => 'apps/time_learning#copy_template'    #   ctl_options_template_copy_path
+  get '/ctl/options/filters' => 'apps/time_learning#manage_filters'    #  ctl_options_filters_path
+  get '/ctl/options/template' => 'apps/time_learning#manage_template'  #  ctl_options_template_url
   get '/ctl/options/finalize' => 'apps/time_learning#toggle_finalize'
   get '/ctl/options/concurrent' => 'apps/time_learning#toggle_concurrent'
   get '/ctl/options/discussion' => 'apps/time_learning#toggle_conversation'

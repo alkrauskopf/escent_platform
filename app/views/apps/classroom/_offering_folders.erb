@@ -64,7 +64,7 @@
 				jQ(document).ready(function() {
 					jQ('#assign_position_<%= fp.public_id %>').change(function() {
 						var pos = jQ('#folder_position_<%=fp.public_id%>').val();
-						var url = "<%= url_for :controller => '/apps/shared', :action => :assign_folder_position, :organization_id => @current_organization, :scope_id=>@current_organization.id, :scope_type=>@current_organization.class.to_s, :folder_id => fp.folder, :app_id=> app.id %>";
+						var url = "<%= offering_folder_position_assign_url(:organization_id => @current_organization, :scope_id=>@current_organization.id, :scope_type=>@current_organization.class.to_s, :folder_id => fp.folder, :app_id=> app.id )%>";
 							jQ.get(url, {'position':pos}, function(data) {
 							jQ("#offering_folders").html(data); 
 					   		jQ("#offering_folders").show();
@@ -77,7 +77,7 @@
 				jQ(document).ready(function() {
 					jQ('#assign_offering_<%= fp.public_id %>').change(function() {
 						var offering_id = jQ('#offering_assign_<%= fp.public_id %>').val();
-						var url = "<%= url_for :controller => '/apps/shared', :action => :assign_offering_folder, :organization_id => @current_organization, :folder_id => fp.folder, :app_id=> app.id %>";
+						var url = "<%= offering_folder_assign_url(:organization_id => @current_organization, :folder_id => fp.folder, :app_id=> app.id) %>";
 							jQ.get(url, {'offering_id':offering_id}, function(data) {
 							jQ("#offering_folders").html(data); 
 					   		jQ("#offering_folders").show();
@@ -90,7 +90,7 @@
 				jQ(document).ready(function() {
 					jQ('#remove_offering_<%= fp.public_id %>').change(function() {
 						var offering_id = jQ('#offering_remove_<%= fp.public_id %>').val();
-						var url = "<%= url_for :controller => '/apps/shared', :action => :assign_offering_folder, :organization_id => @current_organization, :folder_id => fp.folder, :app_id=> app.id %>";
+						var url = "<%= offering_folder_assign_url(:organization_id => @current_organization, :folder_id => fp.folder, :app_id=> app.id) %>";
 							jQ.get(url, {'offering_id':offering_id}, function(data) {
 							jQ("#offering_folders").html(data); 
 					   		jQ("#offering_folders").show();
@@ -146,7 +146,7 @@
 				jQ(document).ready(function() {
 					jQ('#assign_new_offering_<%= folder.public_id %>').change(function() {
 						var offering_id = jQ('#offering_new_assign_<%= folder.public_id %>').val();
-						var url = "<%= url_for :controller => '/apps/shared', :action => :assign_offering_folder, :organization_id => @current_organization, :folder_id => folder, :app_id=> app.id %>";
+						var url = "<%= offering_folder_assign_url(:organization_id => @current_organization, :folder_id => folder, :app_id=> app.id) %>";
 							jQ.get(url, {'offering_id':offering_id}, function(data) {
 							jQ("#offering_folders").html(data); 
 					   		jQ("#offering_folders").show();

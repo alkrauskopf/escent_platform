@@ -6,13 +6,13 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
-  create_authorization_levels = true
+  create_authorization_levels = false     # make true if ifa_pilot needs to be restored again
   update_authorization_levels = false
 
-  create_applicable_scopes = true
+  create_applicable_scopes = false     # make true if ifa_pilot needs to be restored again
   update_applicable_scopes = false
 
-  initialize_master_app_provider = true
+  initialize_master_app_provider = false     # make true if ifa_pilot needs to be restored again
 
   if initialize_master_app_provider
     if CoopAppOrganization.where(["coop_app_id = ? AND organization_id = ?", CoopApp.core.id, CoopApp.core.owner.id]).empty?

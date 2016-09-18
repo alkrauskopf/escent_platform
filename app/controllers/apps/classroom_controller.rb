@@ -7,7 +7,7 @@ class Apps::ClassroomController < ApplicationController
                                      :register_classroom, :manage_period_students, :subject_offerings]
 
  before_filter :classroom_allowed?, :except=>[]
- before_filter :current_user_app_authorized?, :except=>[:self_register_student,:register_classroom, :self_unregister_student]
+ before_filter :current_user_app_authorized?, :except=>[:self_register_student,:register_classroom, :self_unregister_student,:show_lu_resources,:list_folder_resources, :show_content]
  before_filter :clear_notification
  before_filter :increment_app_views, :only=>[:index]
 

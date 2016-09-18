@@ -1,7 +1,7 @@
 <div id="manage_case_evidence<%= elt_case.public_id%>" style = 'margin-top:3em'>
   <%= render :partial => "/shared/error_and_notice" %>
-  <div style="border:1px solid #ddd; width:100%; margin-left:0%; font-size:14px; text-align:center; margin-top:1em; padding-bottom:1em; color:#2061a5;">
-    <%= pluralize(elt_case.elt_case_evidences.size, ' Evidence Image') %>
+  <div style="border:0px solid #ddd; width:100%; margin-left:0%; font-size:16px; text-align:center; margin-top:1em; padding-bottom:1em; color:#2061a5;">
+    <%= pluralize(elt_case.elt_case_evidences.size, ' Evidence Image') %> Attached To <%=elt_case.activity_type_name %>
       <div style= "overflow:auto; max-height:40em;">
         <table  style="border:0px solid #ddd; width:100%; margin-left:0%; font-size:11px;">
           <tbody>
@@ -20,7 +20,7 @@
                         Change
                     </span>
                   </td>
-                  <td id="destroy_<%= evidence.public_id %>" style="border-right:1px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:middle" >
+                  <td id="destroy_<%= evidence.public_id %>" style=" width:10%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:middle" >
                     <span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;padding-left:5px;">
                         Delete
                     </span>
@@ -63,5 +63,8 @@
           </tbody>
         </table>
       </div>
+    <% if elt_case.master? %>
+        <%= render :partial => "/apps/learning_time/master_images", :locals=>{:elt_case=>elt_case} %>
+    <% end %>
   </div>
 </div>

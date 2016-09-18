@@ -67,7 +67,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/organization/view' => 'apps/organization#static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}  #  organization_view_path
   get '/organization/view/app' => 'apps/organization#summarize_org_app'   #  organization_view_app_path
  # get '/organization/view/app' => 'site/site#summarize_org_app'   #  organization_view_app_path
-  get '/organization/view/offering' => 'site/site#summarize_org_subject_offerings'
+#  get '/organization/view/offering' => 'site/site#summarize_org_subject_offerings'    #   organization_view_offering_path
+  get '/organization/view/offering' => 'apps/organization#summarize_org_subject_offerings'    #   organization_view_offering_path
   get '/organization/view/resources' => 'site/site#summarize_org_resources'
 
   # CORE Search
@@ -614,7 +615,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/config/case/organization' => 'apps/learning_time#transfer_case_org'
   get '/elt/config/plans/xfer' => 'apps/learning_time#transfer_plans'
   get '/elt/config/plan/organization' => 'apps/learning_time#transfer_plan_org'
-  get '/elt/activity/cycle/school/cases' => 'apps/learning_time#show_school_cycle_activity_cases' # elt_activity_cycle_school_cases
+  get '/elt/activity/cycle/school/cases' => 'apps/learning_time#show_school_cycle_activity_cases' # elt_activity_cycle_school_cases_path
   get '/elt/activity/cycle/school/activities' => 'apps/learning_time#list_school_cycle_activities' #elt_activity_cycle_school_activities
   get '/elt/survey/start' => 'apps/learning_time#send_school_cycle_survey'
   get '/elt/survey/stop' => 'apps/learning_time#stop_school_cycle_surveys'

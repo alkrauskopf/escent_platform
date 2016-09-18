@@ -18,12 +18,57 @@
 @import "bootstrap-generators";
 @import "bootstrap-variables";
 @import "application-variables.scss";
-
+@import 'bootstrap';
 
 /*  New ALK Stylesheets  */
 
 a.btn {
   text-decoration: none;
+}
+
+.button_blue {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-xs;
+  font-size:10px;
+}
+.button_red {
+  @extend .btn;
+  @extend .btn-danger;
+  @extend .btn-xs;
+  font-size:10px;
+}
+.button_light_blue {
+  @extend .btn;
+  @extend .btn-info;
+  @extend .btn-xs;
+  font-size:10px;
+}
+.button_green {
+  @extend .btn;
+  @extend .btn-success;
+  @extend .btn-xs;
+  font-size:10px;
+}
+.button_orange {
+  @extend .btn;
+  @extend .btn-warning;
+  @extend .btn-xs;
+  font-size:10px;
+}
+.button_gray {
+  @extend .btn;
+  @extend .btn-default;
+  @extend .btn-xs;
+  font-size:10px;
+}
+
+.red_star {
+  @extend .glyphicon;
+  @extend .glyphicon-star;
+  color:$red_star;
+  padding-right:0em;
+  font-size:11px;
 }
 
 .ep_container {

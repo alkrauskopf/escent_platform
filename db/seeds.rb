@@ -14,6 +14,19 @@
 
   initialize_master_app_provider = false     # make true if ifa_pilot needs to be restored again
 
+  create_a_resource_type = true
+
+  create_a_subject_area = false
+
+  if create_a_resource_type
+    if ContentResourceType.where(['name =?', 'Budget']).empty?
+      ContentResourceType.create('name' => 'Budget', 'descript' => 'Budget Document')
+    end
+    if ContentResourceType.where(['name =?', 'Proposal']).empty?
+      ContentResourceType.create('name' => 'Proposal', 'descript' => 'Proposal Document')
+    end
+  end
+
   if initialize_master_app_provider
     if CoopAppOrganization.where(["coop_app_id = ? AND organization_id = ?", CoopApp.core.id, CoopApp.core.owner.id]).empty?
       CoopAppOrganization.create('coop_app_id' => CoopApp.core.id, 'organization_id' => CoopApp.core.owner.id,

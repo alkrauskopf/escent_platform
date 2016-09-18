@@ -25,7 +25,9 @@ class AppMethod < ActiveRecord::Base
   def rs?
     self.abbrev == "RS"
   end
-
+  def self.strategy
+    self.rs.first rescue nil
+  end
   def tasks
     self.tl_activity_types.collect{|t| t.tl_activity_type_tasks}.flatten
   end

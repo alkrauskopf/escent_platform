@@ -1,0 +1,41 @@
+<div class="row organization_offerings" %>
+  <% unless @no_keys %>
+    <div class="key_required">
+      <span class="red_star"></span> => Access Code Needed To Join.
+    </div>
+  <% end %>
+  <% if @display == "Offering" -%>
+      <% @unfoldered_offerings.each do |clsrm| %>
+          <p class="offering_row">
+          <%= link_to 'View', offering_view_path(:organization_id => @current_organization,  :id => clsrm), :class=> "button_gray" %>&nbsp;&nbsp;
+            <% if !clsrm.open? %><span class="red_star"></span>&nbsp;<% end %>
+            <span class="offering_link"><%= clsrm.course_name%></span>
+        </p>
+      <% end %>
+  <% else-%>
+      <% @unfoldered_offerings.each do |clsrm| %>
+          <p class="offering_row">
+            <%= link_to 'View', offering_view_path(:organization_id => @current_organization,  :id => clsrm), :class=> "button_gray" %>&nbsp;&nbsp;
+            <% if !clsrm.open? %><span class="red_star"></span>&nbsp;<% end %>
+            <span class="offering_link"><%= clsrm.featured_topic.title %></span>
+          </p>
+        <% end %>
+  <% end %>
+  <% if @display == "Offering" -%>
+      <% @foldered_offerings.each do |clsrm| %>
+          <p class="offering_row">
+            <%= link_to 'View', offering_view_path(:organization_id => @current_organization, :id => clsrm), :class=> "button_gray"%>
+            <% if !clsrm.open? %><span class="red_star"></span>&nbsp;<% end %>
+            <span class="offering_link"><%=  clsrm.course_name %></span>
+          </p>
+      <% end %>
+  <% else-%>
+      <% @foldered_offerings.each do |clsrm| %>
+          <p class="offering_row">
+            <%= link_to 'View', offering_view_path(:organization_id => @current_organization,  :id => clsrm), :class=> "button_gray" %>
+            <% if !clsrm.open? %><span class="red_star"></span>&nbsp;<% end %>
+            <span class="offering_link"><%= link_to clsrm.featured_topic.title %></span>
+          </p>
+      <% end %>
+  <% end %>
+</div>

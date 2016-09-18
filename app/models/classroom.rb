@@ -167,7 +167,13 @@ class Classroom < ActiveRecord::Base
   def open?
       self.is_open
   end
-  
+  def not_open?
+    !self.is_open
+  end
+  def self.all_open?(offerings)
+    offerings.select{|o| o.not_open?}.empty?
+  end
+
   def active_for?(user)
       self.active? && user
   end

@@ -1,9 +1,9 @@
 class Site::SiteController < Site::ApplicationController
 
   helper :all # include all helpers, all the time  
-  layout "site", :except =>[ :summarize_org_resources, :summarize_org_subject_offerings, :summarize_org_app, :assign_topic_resource_view,
-                             :create_new_topic, :edit_topic, :topic_assess, :list_topic_resources, :assign_classroom_resource, :assign_classroom_resource_view,
-                             :list_classroom_referrals, :list_classroom_topics, :assign_classroom_referral_links, :assign_classroom_people]
+  layout "site", :except =>[:summarize_org_resources, :summarize_org_subject_offerings_x, :summarize_org_app, :assign_topic_resource_view,
+                            :create_new_topic, :edit_topic, :topic_assess, :list_topic_resources, :assign_classroom_resource, :assign_classroom_resource_view,
+                            :list_classroom_referrals, :list_classroom_topics, :assign_classroom_referral_links, :assign_classroom_people]
 
   before_filter :find_featured_topic, :only => [:index, :more_topic, :add_comment, :update_index, :featured_content, :home_users,
                                                 :related_content, :related_content_list, :assign_classroom_referrals, :assign_classroom_people,
@@ -1309,7 +1309,7 @@ class Site::SiteController < Site::ApplicationController
     
   end
 
-  def summarize_org_subject_offerings
+  def summarize_org_subject_offerings_x
     @subject = params[:subject_area_id] ? SubjectArea.find_by_public_id(params[:subject_area_id]): nil
     @folder = params[:folder_id] ? Folder.find_by_public_id(params[:folder_id]): nil      
     @display = params[:display]

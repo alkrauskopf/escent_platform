@@ -196,7 +196,7 @@ class Topic < ActiveRecord::Base
   end
   
   def unfoldered_resources
-    self.topic_contents.unfoldered.sort_by{|tc| tc.position}.collect{|tc| tc.content}.flatten.compact.select{|r| r.active?}
+    self.topic_contents.unfoldered.sort_by{|tc| tc.position}.collect{|tc| tc.content}.flatten.compact.select{|r| r.active? && (r.id != self.featured_content)}
   end
  
   def folders_for_resource(rsrc)

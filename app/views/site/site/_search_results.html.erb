@@ -133,7 +133,7 @@
 						<strong>Teaches:</strong> <% item_found.lead_classrooms.each do |c| %>
 							&nbsp;
 							<% link_string = c.course_name + ", " + c.organization.short_name -%>
-							<%= link_to link_string,{:controller => "site/site", :action => "static_classroom", :organization_id => c.organization, :id => c}%>
+							<%= link_to link_string, offering_view_path(:organization_id => c.organization, :id => c) %>
 						<% end %>	
 					<% end %>	
 					<% unless item_found.participate_classrooms.size ==0 %>
@@ -143,7 +143,7 @@
 								<%if label_needed %><br/><strong>Student:</strong> <% label_needed = false%> <% end %>
 								&nbsp;
 							<% link_string = c.course_name + ", " + c.organization.short_name -%>									 
-								<%= link_to link_string,{:controller => "site/site", :action => "static_classroom", :organization_id => c.organization, :id => c}%>
+								<%= link_to link_string, offering_view_path(:organization_id => c.organization, :id => c)%>
 							<% end %>
 						<% end %>	
 					<% end %>						
@@ -155,7 +155,7 @@
 									<%if label_needed %><br/><strong>Observes:</strong> <% label_needed = false%> <% end %>
 									&nbsp;
 									<% link_string = c.course_name + ", " + c.organization.short_name -%>
-									<%= link_to link_string,{:controller => "site/site", :action => "static_classroom", :organization_id => c.organization, :id => c}%>
+									<%= link_to link_string, offering_view_path(:organization_id => c.organization, :id => c) %>
 								<% end %>
 							<% end %>
 						<% end %>

@@ -269,6 +269,10 @@ class User < ActiveRecord::Base
     Organization.find_by_id(self.home_org_id) rescue nil
   end
 
+  def image_present?
+    !self.picture_file_name.nil? && !self.picture_file_name.blank?
+  end
+
   def suspend(flag)
      self.update_attributes(:is_suspended =>flag)
   end

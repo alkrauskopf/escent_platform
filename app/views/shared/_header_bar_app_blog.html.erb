@@ -26,7 +26,7 @@
                   <% if @current_organization.registerable? %>
                     <%= link_to 'Register Here', user_register_path(:organization_id => @current_organization),  {:target => "_blank"}, :class => "join" %>
                   <% else %>
-                    <hidden>Register</hidden>xxxx
+                    &nbsp;
                   <% end %>
                 </span>
               </div>

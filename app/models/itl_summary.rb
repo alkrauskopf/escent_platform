@@ -13,7 +13,7 @@ class ItlSummary < ActiveRecord::Base
   scope :since_date, lambda{|begin_date| {:conditions => ["yr_mnth_of >= ? ", begin_date], :order => "yr_mnth_of ASC"}}
   scope :before_date, lambda{|end_date| {:conditions => ["yr_mnth_of <= ? ", end_date], :order => "yr_mnth_of ASC"}}
   scope :between_dates, lambda{|begin_date,end_date| {:conditions => ["yr_mnth_of >= ? AND yr_mnth_of <= ? ", begin_date, end_date], :order => "yr_mnth_of ASC"}}
-  scope :for_belt, lambda{|belt| {:conditions => ["itl_belt_rank.id = ? ", belt.id], :order => "yr_mnth_of ASC"}}
+  scope :for_belt, lambda{|belt| {:conditions => ["itl_belt_rank_id = ? ", belt.id], :order => "yr_mnth_of ASC"}}
   scope :belt_score_min, lambda{|score| {:conditions => ["itl_belt_rank.rank_score >= ? ", score], :include => "itl_belt_rank", :order => "yr_mnth_of ASC"}}
 
  def self.for_month(mth)

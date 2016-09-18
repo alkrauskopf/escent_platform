@@ -1,19 +1,13 @@
 class Apps::PanelController < Apps::TimeLearningController
 
   helper :all # include all helpers, all the time  
-  layout "observation_panel"
+  layout "ctl_panel"
 
   before_filter :current_organization, :except => []
   before_filter :current_user, :except => []
   before_filter :ctl_allowed?, :except=>[]
   before_filter :current_user_app_authorized?, :except=>[]
   before_filter :clear_notification
- 
-  
- def clear_notification
-    flash[:notice] = nil
-    flash[:error] = nil
-  end
 
   def track_session
     initialize_parameters
@@ -121,8 +115,9 @@ class Apps::PanelController < Apps::TimeLearningController
 
    private
 
-  def xctl_allowed?
+  def ctl_allowed?
     @current_application = CoopApp.ctl
+    @current_provider = @current_organization.app_provider(@current_application)
     current_app_enabled_for_current_org?
   end
 

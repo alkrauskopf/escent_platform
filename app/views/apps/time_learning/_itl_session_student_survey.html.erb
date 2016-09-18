@@ -1,13 +1,12 @@
 <div  id="student_survey">
-
 	<% unless session.student_count == 0%>
 		<% survey = session.student_survey -%>
 		<% if !survey.nil?%>
-			<table id="<%=survey.public_id %>_feedback"   style="width:650px; color: #2061a5; font-size:11px; font-weight:normal">
+			<table id="<%=survey.public_id %>_feedback"   style="width:100%; color: #2061a5; font-size:11px; font-weight:normal">
 				<tbody>  
 					<tr>
 						<td class="resource_levels_close" >
-							<%= link_to '', :controller => "apps/shared", :action => :show_aggregated_results, :organization_id => @current_organization, :schedule_id => survey  %>
+							<%= link_to '', surveys_results_show_path(:organization_id => @current_organization, :schedule_id => survey)  %>
 							View Student Feedback
 							<span></span>
 						</td>
@@ -21,15 +20,15 @@
 			});
 			</script>	
 		<% elsif !session.finalized? && !session.student_survey_expired? && session.student_survey_available?-%>
-			<table style="width:650px; margin-left:0px;">
+			<table>
 				<tbody>
 					<tr>
-						<td   id = "send_survey" style="width:200px; width:fixed; border:0px solid #ddd; font-size:9px;vertical-align:middle;  padding-top:0px; padding-bottom:0px; padding-left:3px; vertical-align:top; ">
-							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
+						<td   id = "send_survey" style="width:31%; border:0px solid #ddd; font-size:9px;vertical-align:middle;  padding-top:0px; padding-bottom:0px; padding-left:3px; vertical-align:top; ">
+							<span class="button_green">
 								Survey Students
 							</span>
 						</td>
-						<td  style=" border:0px solid #ddd; padding-left:0px; padding-top:0px; vertical-align:bottom; text-align:center; font-size:10.5px">
+						<td>
 							 &nbsp;		
 						</td>
 					</tr>
@@ -50,5 +49,4 @@
 		})
 	});
 	</script>
-
 </div>

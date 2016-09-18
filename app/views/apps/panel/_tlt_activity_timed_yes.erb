@@ -1,229 +1,203 @@
+<div class="row">
+  <div class="col-md-12">
+    <p class=" observation_method">
+      <%=app_method.task_name.pluralize.upcase %>
+    </p>
+  </div>
+</div>
+<% app_method.tl_activity_types.by_position.select{|a| !a.tl_activity_type_tasks.empty?}.each do |activity| -%>
+  <% compress = tl_session.itl_template && !tl_session.itl_template.tl_activity_type_tasks.for_activity(activity).empty? -%>
+  <% filtered_tasks = compress ? tl_session.itl_template.tl_activity_type_tasks.for_activity(activity) : [] %>
+  <% activity_tasks = activity.tl_activity_type_tasks.enabled.by_position - filtered_tasks -%>
+  <% unless activity_tasks.empty? -%>
+    <% max_position = compress ? activity_tasks.collect{|t| t.position}.max : activity_tasks.size -%>
+    <% panel_position = 0 -%>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="observation_activity">
+          <%=activity.activity %>&nbsp;
+          <span  style=" font-size:13px;">
+            <%= number_with_precision(tl_session.measured_activity_time(activity)/60.0, :precision => 1) %>&nbsp;Min
+          </span>
+        </div>
+      </div>
+    </div>
 
-	<table  style="width:801px; width:fixed; margin-left:0px;border:3px solid #ddd; font-family:<%=family%>; background-color:<%= "#"+app_method.dashboard_color %>">
-		<tbody>  
-			<style type="text/css" media="screen">
-	    		table,tr,td { border:none }
-				table tr:hover{
-        		background-color: transparent;
-      			}
-   			</style>
-			<tr  style="border-top:1px solid #ddd; ">
-				<td  colspan = 9 style="border:0px solid #ddd; color: <%= text_color %>; vertical-align:middle;  padding-left:10px; padding-top:0px; font-size:16px; text-align:left">
-					<strong><%=app_method.task_name.pluralize.upcase %></strong>
-				</td>
-			</tr>
-			<% app_method.tl_activity_types.by_position.select{|a| !a.tl_activity_type_tasks.empty?}.each do |activity| -%>
-				<% compress = tl_session.itl_template && !tl_session.itl_template.tl_activity_type_tasks.for_activity(activity).empty? -%>
-				<% filtered_tasks = compress ? tl_session.itl_template.tl_activity_type_tasks.for_activity(activity) : [] %>
-				<% activity_tasks = activity.tl_activity_type_tasks.enabled.by_position - filtered_tasks -%>
-				<% unless activity_tasks.empty? -%>
-					<% max_position = compress ? activity_tasks.collect{|t| t.position}.max : activity_tasks.size -%>
-					<% panel_position = 0 -%>
-					<tr  style="border-top:1px solid #ddd; ">
-						<td  colspan = 9 style="border:0px solid #ddd; color: <%= text_color %>; vertical-align:bottom;  padding-left:0px; padding-top:0px; font-size:16px; text-align:center">
-							<%=activity.activity %>&nbsp;&nbsp;
-								<span  style=" font-size:14px;">
-									<%= number_with_precision(tl_session.measured_activity_time(activity)/60.0, :precision => 1) %>&nbsp;Min			
-								</span>
-						</td>
-					</tr>
-	
-					<% until panel_position >= max_position -%>
-						<% unless compress -%>
-							<% t1 = activity_tasks.select{|t| t.position == (panel_position + 1)}.first rescue nil -%>
-							<% t2 = activity_tasks.select{|t| t.position == (panel_position + 2)}.first rescue nil -%>
-							<% t3 = activity_tasks.select{|t| t.position == (panel_position + 3)}.first rescue nil -%>
-						<% else -%>
-							<% t1 = activity_tasks[panel_position] rescue nil -%>
-							<% t2 = activity_tasks[panel_position + 1] rescue nil -%>
-							<% t3 = activity_tasks[panel_position + 2] rescue nil -%>
-						<% end -%>
-						<% cell_1 = (!t1.nil?  && !filtered_tasks.include?(t1)) -%>
-						<% cell_2 = (!t2.nil?  && !filtered_tasks.include?(t2)) -%>
-						<% cell_3 = (!t3.nil?  && !filtered_tasks.include?(t3)) -%>
-						<% if cell_1 || cell_2 || cell_3 -%>
-							<tr  style="border:0px solid #ddd;">
-								<% if cell_1 -%>
-									<% task_duration = tl_session.tlt_session_logs.for_task(t1).collect{ |l| l.duration}.sum -%>
-									<% active_log_for_task = tl_session.tlt_session_logs.for_task(t1).active rescue [] -%>
-									<td  style="border:0px solid #ddd;width:50px; width:fixed; font-size:11px; color: <%= text_color %>; vertical-align:middle; padding-top:0px; text-align:right">
-										<%= task_duration != 0 ? (number_with_precision(task_duration/60.0, :precision => 1)) : " " %>
-									</td>
-									<% if active_log_for_task.size >0 -%>
-										<td  style="border:0px solid #ddd;width:20px; vertical-align:middle; padding-left:5px; text-align:center">
-											<%= link_to (image_tag "button_enabled.png",:width => 12), ctl_observe_task_stop_path(:user_id=>@current_user, :organization_id => @current_organization, :activity_id => activity.id, :tlt_task_id => t1.id,:tlt_session_id => tl_session), :class => 'task_button' %>
-										</td>	
-									<% else -%>
-										<td  style="border:0px solid #ddd;width:20px;  vertical-align:middle; padding-left:5px; text-align:center">
-											<%= link_to (image_tag "button_disabled.png",:width => 12), ctl_observe_task_start_path(:user_id=>@current_user, :organization_id => @current_organization, :activity_id => activity.id, :tlt_task_id => t1.id, :tlt_session_id => tl_session), :class => 'task_button' %>
-										</td>
-									<% end -%>
-									<td  id="c1a_<%=t1.id %>" href="" style="border:0px solid #ddd; width:197px; width:fixed; cursor:help; line-height:1.5em; font-size:12px; color: <%= text_color %>; vertical-align:middle; text-align:left">
-										<%= t1.name.titleize -%>
+    <% until panel_position >= max_position -%>
+      <% unless compress -%>
+        <% t1 = activity_tasks.select{|t| t.position == (panel_position + 1)}.first rescue nil -%>
+        <% t2 = activity_tasks.select{|t| t.position == (panel_position + 2)}.first rescue nil -%>
+        <% t3 = activity_tasks.select{|t| t.position == (panel_position + 3)}.first rescue nil -%>
+      <% else -%>
+        <% t1 = activity_tasks[panel_position] rescue nil -%>
+        <% t2 = activity_tasks[panel_position + 1] rescue nil -%>
+        <% t3 = activity_tasks[panel_position + 2] rescue nil -%>
+      <% end -%>
+      <% cell_1 = (!t1.nil?  && !filtered_tasks.include?(t1)) -%>
+      <% cell_2 = (!t2.nil?  && !filtered_tasks.include?(t2)) -%>
+      <% cell_3 = (!t3.nil?  && !filtered_tasks.include?(t3)) -%>
+      <% if cell_1 || cell_2 || cell_3 -%>
+        <div class="row">
+          <div class="col-md-4" >
+            <% if cell_1 %>
+              <% task_duration = tl_session.tlt_session_logs.for_task(t1).collect{ |l| l.duration}.sum -%>
+              <% active_log_for_task = tl_session.tlt_session_logs.for_task(t1).active rescue [] -%>
+              <table class="timed_cell">
+                <tr>
+                  <td class="timed_time">
+                    <%= task_duration != 0 ? ( (number_with_precision(task_duration/60.0, :precision => 1))) : '' %>
+                  </td>
+                  <td class="timed_button">
+                    <% if active_log_for_task.size >0 -%>
+                      <%= link_to (image_tag "button_enabled.png",:width => 12), ctl_observe_task_stop_path(:user_id=>@current_user, :organization_id => @current_organization, :activity_id => activity.id, :tlt_task_id => t1.id,:tlt_session_id => tl_session), :class => 'task_button' %>
+                    <% else -%>
+                      <%= link_to (image_tag "button_disabled.png",:width => 12), ctl_observe_task_start_path(:user_id=>@current_user, :organization_id => @current_organization, :activity_id => activity.id, :tlt_task_id => t1.id, :tlt_session_id => tl_session), :class => 'task_button' %>
+                    <% end %>
+                  </td>
+                  <td class="timed_help" id="c1a_<%=t1.id %>" href="">
+                    <%= t1.name.titleize -%>
+                  </td>
+                </tr>
+              </table>
+              <div title="<%=activity.activity %>" id="c1b_<%=t1.id %>" style="text-align:left;">
+                <div class="title_large_blue" style="margin-bottom:15px;">
+                  <%= t1.name.titleize -%>
+                </div>
+                <div class="normal_text" style=" font-size:12px;">
+                  <%= t1.description -%>
+                </div>
+              </div>
+              <script type="text/javascript" charset="utf-8">
+                jQ(document).ready(function() {
+                  jQ("#c1b_<%=t1.id %>").dialog({
+                        bgiframe: true,
+                        autoOpen: false,
+                        width: 500,
+                        height: 180,
+                        modal: true,
+                        buttons: {
+                          Close: function(){
+                            jQ(this).dialog('close');
+                          }
+                        }
+                      }
+                  );
+                  jQ('#c1a_<%=t1.id %>').click(function(event){
+                    jQ("#c1b_<%=t1.id %>").dialog('open');
+                    event.preventDefault();
+                  })
+                });
+              </script>
+            <% end %>
+          </div>
+          <div class="col-md-4" >
+            <% if cell_2 %>
+                <% task_duration = tl_session.tlt_session_logs.for_task(t2).collect{ |l| l.duration}.sum -%>
+                <% active_log_for_task = tl_session.tlt_session_logs.for_task(t2).active rescue [] -%>
+                <table class="timed_cell">
+                  <tr>
+                    <td class="timed_time">
+                      <%= task_duration != 0 ? ( (number_with_precision(task_duration/60.0, :precision => 1))) : '' %>
+                    </td>
+                    <td class="timed_button">
+                      <% if active_log_for_task.size >0 -%>
+                          <%= link_to (image_tag "button_enabled.png",:width => 12), ctl_observe_task_stop_path(:user_id=>@current_user, :organization_id => @current_organization, :activity_id => activity.id, :tlt_task_id => t2.id,:tlt_session_id => tl_session), :class => 'task_button' %>
+                      <% else -%>
+                          <%= link_to (image_tag "button_disabled.png",:width => 12), ctl_observe_task_start_path(:user_id=>@current_user, :organization_id => @current_organization, :activity_id => activity.id, :tlt_task_id => t2.id, :tlt_session_id => tl_session), :class => 'task_button' %>
+                      <% end %>
+                    </td>
+                    <td class="timed_help" id="c2a_<%=t2.id %>" href="">
+                      <%= t2.name.titleize -%>
+                    </td>
+                  </tr>
+                </table>
+                <div title="<%=activity.activity %>" id="c2b_<%=t2.id %>" style="text-align:left;">
+                  <div class="title_large_blue" style="margin-bottom:15px;">
+                    <%= t2.name.titleize -%>
+                  </div>
+                  <div class="normal_text" style=" font-size:12px;">
+                    <%= t2.description -%>
+                  </div>
+                </div>
+                <script type="text/javascript" charset="utf-8">
+                  jQ(document).ready(function() {
+                    jQ("#c2b_<%=t2.id %>").dialog({
+                          bgiframe: true,
+                          autoOpen: false,
+                          width: 500,
+                          height: 180,
+                          modal: true,
+                          buttons: {
+                            Close: function(){
+                              jQ(this).dialog('close');
+                            }
+                          }
+                        }
+                    );
+                    jQ('#c2a_<%=t2.id %>').click(function(event){
+                      jQ("#c2b_<%=t2.id %>").dialog('open');
+                      event.preventDefault();
+                    })
+                  });
+                </script>
+            <% end %>
+          </div>
+          <div class="col-md-4" >
+            <% if cell_3 %>
+                <% task_duration = tl_session.tlt_session_logs.for_task(t3).collect{ |l| l.duration}.sum -%>
+                <% active_log_for_task = tl_session.tlt_session_logs.for_task(t3).active rescue [] -%>
+                <table class="timed_cell">
+                  <tr>
+                    <td class="timed_time">
+                      <%= task_duration != 0 ? ( (number_with_precision(task_duration/60.0, :precision => 1))) : '' %>
+                    </td>
+                    <td class="timed_button">
+                      <% if active_log_for_task.size >0 -%>
+                          <%= link_to (image_tag "button_enabled.png",:width => 12), ctl_observe_task_stop_path(:user_id=>@current_user, :organization_id => @current_organization, :activity_id => activity.id, :tlt_task_id => t3.id,:tlt_session_id => tl_session), :class => 'task_button' %>
+                      <% else -%>
+                          <%= link_to (image_tag "button_disabled.png",:width => 12), ctl_observe_task_start_path(:user_id=>@current_user, :organization_id => @current_organization, :activity_id => activity.id, :tlt_task_id => t3.id, :tlt_session_id => tl_session), :class => 'task_button' %>
+                      <% end %>
+                    </td>
+                    <td class="timed_help" id="c3a_<%=t3.id %>" href="">
+                      <%= t3.name.titleize -%>
+                    </td>
+                  </tr>
+                </table>
+                <div title="<%=activity.activity %>" id="c3b_<%=t3.id %>" style="text-align:left;">
+                  <div class="title_large_blue" style="margin-bottom:15px;">
+                    <%= t3.name.titleize -%>
+                  </div>
+                  <div class="normal_text" style=" font-size:12px;">
+                    <%= t3.description -%>
+                  </div>
+                </div>
+                <script type="text/javascript" charset="utf-8">
+                  jQ(document).ready(function() {
+                    jQ("#c3b_<%=t3.id %>").dialog({
+                          bgiframe: true,
+                          autoOpen: false,
+                          width: 500,
+                          height: 180,
+                          modal: true,
+                          buttons: {
+                            Close: function(){
+                              jQ(this).dialog('close');
+                            }
+                          }
+                        }
+                    );
+                    jQ('#c3a_<%=t3.id %>').click(function(event){
+                      jQ("#c3b_<%=t3.id %>").dialog('open');
+                      event.preventDefault();
+                    })
+                  });
+                </script>
+            <% end %>
+          </div>
+        </div>
+      <% end -%>
+      <% panel_position += 3 -%>
+    <% end -%>
+  <% end -%>
+<% end -%>
 
-					<div title="<%=activity.activity %>" id="c1b_<%=t1.id %>" style="text-align:left;">
-					    <div class="title_large_blue" style="margin-bottom:15px;">
-					      <%= t1.name.titleize -%>
-					    </div>
-					    <div class="normal_text" style=" font-size:12px;">
-					      <%= t1.description -%>
-					    </div>
-					</div>
-					
-	<script type="text/javascript" charset="utf-8">
-	    	jQ(document).ready(function() {
-	
-	    	    jQ("#c1b_<%=t1.id %>").dialog({
-	    	            bgiframe: true,
-	    	            autoOpen: false,
-	    	            width: 500,
-	    	            height: 180,
-	    	            modal: true,
-	    				buttons: {
-	    					 Close: function(){
-	    		                        jQ(this).dialog('close');
-	    		                    }
-	    				}
-	        	    }
-	    		);					
-				
-	    		jQ('#c1a_<%=t1.id %>').click(function(event){
-	    		    jQ("#c1b_<%=t1.id %>").dialog('open');
-	    			 event.preventDefault();
-	    		})							
-	
-	    });
-	</script>
-									</td>										
-								<% else -%>
-									<td colspan=3>
-										&nbsp;
-									</td>
-								<% end -%>
-								<% if cell_2 -%>
-									<% task_duration = tl_session.tlt_session_logs.for_task(t2).collect{ |l| l.duration}.sum -%>
-									<% active_log_for_task = tl_session.tlt_session_logs.for_task(t2).active rescue [] -%>
-									<td  style="border:0px solid #ddd;width:50px; width:fixed; font-size:11px; color: <%= text_color %>; vertical-align:middle; padding-top:0px; text-align:right">
-										<%= task_duration != 0 ? number_with_precision(task_duration/60.0, :precision => 1) : " " %>
-									</td>
-									<% if active_log_for_task.size >0 -%>
-										<td  style="border:0px solid #ddd;width:20px; vertical-align:middle; padding-left:5px; text-align:center">
-											<%= link_to (image_tag "button_enabled.png",:width => 12), ctl_observe_task_stop_path(:user_id=>@current_user, :organization_id => @current_organization, :activity_id => activity.id, :tlt_task_id => t2.id,:tlt_session_id => tl_session), :class => 'task_button' %>
-										</td>	
-									<% else -%>
-										<td  style="border:0px solid #ddd;width:20px; vertical-align:middle; padding-left:5px; text-align:center">
-											<%= link_to (image_tag "button_disabled.png",:width => 12), ctl_observe_task_start_path(:user_id=>@current_user, :organization_id => @current_organization, :activity_id => activity.id, :tlt_task_id => t2.id, :tlt_session_id => tl_session), :class => 'task_button'  %>
-										</td>
-									<% end -%>
-									<td   id="c2a_<%=t2.id %>" href="" style="border:0px solid #ddd; width:197px; width:fixed; cursor:help; line-height:1.5em; font-size:12px; color: <%= text_color %>; vertical-align:middle; text-align:left">
-										<%= t2.name.titleize -%>											
-
-					<div title="<%=activity.activity %>" id="c2b_<%=t2.id %>" style="text-align:left;">
-					    <div class="title_large_blue" style="margin-bottom:15px;">
-					      <%= t2.name.titleize -%>
-					    </div>
-					    <div class="normal_text" style=" font-size:12px;">
-					      <%= t2.description -%>
-					    </div>
-					</div>
-					
-	<script type="text/javascript" charset="utf-8">
-	    	jQ(document).ready(function() {
-	
-	    	    jQ("#c2b_<%=t2.id %>").dialog({
-	    	            bgiframe: true,
-	    	            autoOpen: false,
-	    	            width: 500,
-	    	            height: 180,
-	    	            modal: true,
-	    				buttons: {
-	    					 Close: function(){
-	    		                        jQ(this).dialog('close');
-	    		                    }
-	    				}
-	        	    }
-	    		);					
-				
-	    		jQ('#c2a_<%=t2.id %>').click(function(event){
-	    		    jQ("#c2b_<%=t2.id %>").dialog('open');
-	    			 event.preventDefault();
-	    		})							
-	
-	    });
-	</script>				
-									</td>
-					
-								<% else -%>
-									<td colspan=3>
-										&nbsp;
-									</td>
-								<% end -%>
-								<% if cell_3 -%>
-									<% task_duration = tl_session.tlt_session_logs.for_task(t3).collect{ |l| l.duration}.sum -%>
-									<% active_log_for_task = tl_session.tlt_session_logs.for_task(t3).active rescue [] -%>
-									<td  style="border:0px solid #ddd;width:50px; width:fixed; font-size:11px; color: <%= text_color %>; vertical-align:middle; padding-top:0px; text-align:right">
-										<%= task_duration != 0 ? number_with_precision(task_duration/60.0, :precision => 1) : " " %>
-									</td>
-									<% if active_log_for_task.size >0 -%>
-										<td  style="border:0px solid #ddd;width:20px; vertical-align:middle; padding-left:5px; text-align:center">
-											<%= link_to (image_tag "button_enabled.png",:width => 12), ctl_observe_task_stop_path(:user_id=>@current_user, :organization_id => @current_organization, :activity_id => activity.id, :tlt_task_id => t3.id,:tlt_session_id => tl_session), :class => 'task_button' %>
-										</td>	
-									<% else -%>
-										<td  style="border:0px solid #ddd;width:20px; vertical-align:middle; padding-left:5px; text-align:center">
-											<%= link_to (image_tag "button_disabled.png",:width => 12), ctl_observe_task_start_path(:user_id=>@current_user, :organization_id => @current_organization, :activity_id => activity.id, :tlt_task_id => t3.id, :tlt_session_id => tl_session), :class => 'task_button'  %>
-										</td>
-									<% end -%>
-									<td  id="c3a_<%=t3.id %>" href="" style="border:0px solid #ddd; width:197px; width:fixed; cursor:help; line-height:1.5em; font-size:12px; color: <%= text_color %>; vertical-align:middle; text-align:left">
-										<%= t3.name.titleize -%>
-						<div title="<%=activity.activity %>" id="c3b_<%=t3.id %>" style="text-align:left;">
-					    <div class="title_large_blue" style="margin-bottom:15px;">
-					      <%= t3.name.titleize -%>
-					    </div>
-					    <div class="normal_text" style=" font-size:12px;">
-					      <%= t3.description -%>
-					    </div>
-					</div>
-					
-	<script type="text/javascript" charset="utf-8">
-	    	jQ(document).ready(function() {
-	
-	    	    jQ("#c3b_<%=t3.id %>").dialog({
-	    	            bgiframe: true,
-	    	            autoOpen: false,
-	    	            width: 500,
-	    	            height: 180,
-	    	            modal: true,
-	    				buttons: {
-	    					 Close: function(){
-	    		                        jQ(this).dialog('close');
-	    		                    }
-	    				}
-	        	    }
-	    		);					
-				
-	    		jQ('#c3a_<%=t3.id %>').click(function(event){
-	    		    jQ("#c3b_<%=t3.id %>").dialog('open');
-	    			 event.preventDefault();
-	    		})							
-	
-	    });
-	</script>
-									</td>
-								<% else -%>
-									<td colspan=3>
-										&nbsp;
-									</td>
-								<% end -%>
-							</tr>
-						<% end -%>
-						<% panel_position += 3 -%>
-					<% end -%>
-					<tr  style="border-top:0px solid #ddd; ">
-						<td  colspan = 9 style="border-bottom:0px solid #ddd; line-height:1.5em;vertical-align:bottom; padding-left:0px; padding-top:0px; font-size:11px; text-align:center">
-							&nbsp;
-						</td>
-					</tr>
-				<% end -%>
-			<% end -%>
-		</tbody>
-	</table>

@@ -1,156 +1,126 @@
-<div id="tracking_form" class="Form clear">
-<div style ="text-align:center; color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold">
-	<br/>
-	<strong><%= @current_application.name.titleize %>&nbsp;Observation Setup</strong>
+<div class= 'panel_title_blue'>
+  <%=  @classroom.course_name %>:&nbsp;<%=  @period.name %>
 </div>
-
-    <%= render :partial => "/shared/error_and_notice" %>
-
-<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
-	<input class="fsn-button ui-button ui-state-default ui-corner-all" style="font-size:11px; margin-left:80px; cursor:pointer;" type=button value="Back" onClick="history.go(-1)">
+<div class= 'panel_subtitle_blue'>
+  <%= @practice ? (@current_user.full_name + ' (Practice)') : @teacher.full_name %>
 </div>
-
-<% unless @current_organization.useable_itl_templates.empty? %>
-	<div class="Form clear">
-	  <%= form_for(:tlt_session, :url => ctl_observation_add_path(:organization_id => @current_organization, :user_id => @current_user, :classroom_id => @classroom,  :period_id => @period, :teacher_id => @teacher , :practice=>@practice, :function => 'Track')) do |form| -%>
-		<div class="FormRow">
-			<br/>
-			<div class="FormRowTitle">Classroom:</div>
-	        <div class="FormRowData" id="classroom_id" style= "margin-left:5px">
-				<%=  @classroom.course_name %>
-	      </div>
-	    </div>
-		<div class="FormRow">
-			<div class="FormRowTitle">Period:</div>
-	        <div class="FormRowData" id="classroom_id" style= "margin-left:5px">
-				<%=  @period.name %>
-	      </div>
-	   </div>
-		<div class="FormRow">
-			<br/>
-			<div class="FormRowTitle">Teacher:</div>
-	        <div class="FormRowData" id="teacher_id" style= "margin-left:5px">
-				<%=  @practice ? @current_user.full_name : @teacher.full_name %>
-	      </div>
-	    </div>
-	
-		<div class="FormRow"  >
-			<br/>
-			<div class="FormRowTitle">Class Duration
-        <span style="text-align:center; font-size:9px"><br/><i>(Minutes)</i></span>
-      </div>
-      <div class="FormRowData" style= "margin-left:5px">
-          <%= text_field :tlt_session, :duration, :value => "", :size => 2 %>
-      </div>
-		</div>			
-		<% unless @classroom.topics.empty? -%>
-			<div class="FormRow">
-				<br/>
-				<div class="FormRowTitle">Learning Unit:</div>
-          <div class="FormRowData" id="topic_id" style= "margin-left:5px">
-					  <%=  select(:tlt_session, :topic_id, @classroom.topics.collect{|lu| [lu.title.titleize, lu.id]},{:prompt => "Select Unit"}) %>
-		      </div>
-		    </div>
-		<% end -%>
-		<div class="FormRow" >
-			<br/>
-			<div class="FormRowTitle">Lesson</div>
-        <div class="FormRowData" style= "margin-left:5px">
-            <%= text_field :tlt_session, :lesson, :size => 55, :maxlength => 150 %>
-        </div>
-		</div>
-	
-		<div class="FormRow"  >
-			<br/>
-			<div class="FormRowTitle">Estimated Attendance</div>
-	      	<div class="FormRowData" style= "margin-left:5px">
-	           	<%= text_field :tlt_session, :students, :value=> 0, :size => 3 %>
-	       	</div>
-		</div>
-		<% if @practice -%>
-			<div class="FormRow">
-				<br/>
-				<div class="FormRowTitle">Practice Video:<br>
-					<span style="font-size:9px;padding-right:20px">
-						**&nbsp;<u><i><a id="cr_1" href="">What?</a></i></u>
-					</span>
-						<br/>
-					<div title="Calibration Resource" id="cr_2" style="text-align:left;">
-					    <div class="title_large_blue" style="margin-bottom:15px;">
-					      ** Proficiency Calibration Video
-					    </div>
-					    <div class="normal_text" style=" font-size:12px;">
-							After observing a ** video, an observer can reflect on her results relative to those of an accomplished "blackbelt" observer.<br/>
-							<br/>
-							This helps teachers independently develop their understandings of research-based strategies and calibrate their skills against an established standard.
-							<br/>
-					    </div>
-					</div>
-				</div>
-		        <div class="FormRowData" id="practice_vid" style= "margin-left:5px">
-					<%=  @video_list.empty? ? "No Practice Videos Available" : select(:tlt_session, :content_id, @video_list.collect{|res| [res.title, res.id]},{:prompt => "Select Video"}) %>
-		      </div>
-		    </div>
-	<script type="text/javascript" charset="utf-8">
-	    	jQ(document).ready(function() {
-	
-	    	    jQ("#cr_2").dialog({
-	    	            bgiframe: true,
-	    	            autoOpen: false,
-	    	            width: 500,
-	    	            height: 220,
-	    	            modal: true,
-	    				buttons: {
-	    					 Close: function(){
-	    		                        jQ(this).dialog('close');
-	    		                    }
-	    				}
-	        	    }
-	    		);					
-				
-	    		jQ('#cr_1').click(function(event){
-	    		    jQ("#cr_2").dialog('open');
-	    			 event.preventDefault();
-	    		})							
-	
-	    });
-	</script>
-		<% end -%>
-		<div class="FormRow" id="question_text">
-			<br/>
-			<div class="FormRowTitle">Pre-Session Notes:</div>
-			<div class="FormRowData" style= "margin-left:5px">
-	 		     <%= text_area :tlt_session, :observations, :rows => 2, :cols => 75  %>
-	 	    </div>
-	    </div>
-	
-		<% if @current_organization.useable_itl_templates.size > 1 %>
-			<div class="FormRow">
-				<br/>
-				<div class="FormRowTitle">Select Template:</div>
-		        <div class="FormRowData" id="topic_id" style= "margin-left:5px">
-					<%=  select(:coop_app, :meth, @current_organization.useable_itl_templates.collect{|m| [m.name.titleize, m.id]},{:prompt => @current_organization.default_template.nil? ? "Select Template": @current_organization.default_template.name}) %>
-		      </div>
-		    </div>
-	    <% end -%>
-		<div class="FormRow">
-			<div class="FormRowTitle"></div>
-      <div class="FormRowData" id="topic_id" style= "margin-left:5px">
-      </div>
-    </div>
-		<div id="session_header">
-			<div style =" padding-left:160px; font-size:12px; font-weight:normal; cursor:pointer;">
-				<%= submit_tag (@practice ? 'Begin Practice' : 'Begin Observation'), :style=>"cursor:pointer", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
-			</div>
-		</div>
-
-		<% end -%>
+<hr>
+<%= render :partial => "/shared/error_and_notice" %>
+<div class="row ">
+  <div class="col-md-1"></div>
+  <div class="col-md-1 ctl_button">
+    <%= link_to 'Cancel', self.send(@current_application.link_path, {:organization_id => @current_organization, :coop_app_id => @current_application}), :class =>"btn btn-default btn-xs" %>
   </div>
-  <% else -%>
-    <div style ="text-align:center; color: #2061a5; font-size:14px; padding-top:25px; font-weight:normal">
-      <br/>
-      * * *  No&nbsp;Observation Templates Available For <%=@current_organization.short_name %>  * * *
-      <br/><br/>
-    </div>
-  <% end -%>
+  <div class="col-md-8 session_setup">
+    <% unless @templates.empty? %>
+      <%= form_for(:tlt_session, :url => ctl_observation_add_path(:organization_id => @current_organization, :user_id => @current_user, :classroom_id => @classroom,  :period_id => @period, :teacher_id => @teacher , :practice=>@practice, :function => 'Track')) do |form| -%>
+        <div class="row setup_row">
+          <div class="col-md-3 setup_form_labels">
+            Class Duration
+          </div>
+          <div class="col-md-9 setup_form_boxes">
+            <%= text_field :tlt_session, :duration, :value => "", :size => 3 %>&nbsp;&nbsp;Minutes
+          </div>
+        </div>
+        <div class="row setup_row">
+          <div class="col-md-3 setup_form_labels">
+            Estimated Attendance
+          </div>
+          <div class="col-md-9 setup_form_boxes">
+            <%= text_field :tlt_session, :students, :value=> 0, :size => 3 %>
+          </div>
+        </div>
+        <% if !@classroom.topics.empty? -%>
+          <div class="row setup_row">
+            <div class="col-md-3 setup_form_labels">
+              Learning Unit
+            </div>
+            <div class="col-md-9 setup_form_boxes">
+              <%=  select(:tlt_session, :topic_id, @classroom.topics.collect{|lu| [lu.title.titleize, lu.id]},{:prompt => "Select Unit"}) %>
+            </div>
+          </div>
+        <% end %>
+        <div class="row setup_row">
+          <div class="col-md-3 setup_form_labels">
+            Lesson
+          </div>
+          <div class="col-md-9 setup_form_boxes">
+            <%= text_field :tlt_session, :lesson, :size => 55, :maxlength => 150 %>
+          </div>
+        </div>
+        <div class="row setup_row">
+          <div class="col-md-3 setup_form_labels">
+            Pre-Observation Notes
+          </div>
+          <div class="col-md-9 setup_form_boxes">
+            <%= text_area :tlt_session, :observations, :rows => 2, :cols => 70  %>
+          </div>
+        </div>
+        <% if @practice %>
+          <div class="row setup_row">
+            <div class="col-md-3 setup_form_labels">
+              Practice Video<br/>
+              <span class="video_help">
+                <a id="cr_1" href="">What?</a>
+              </span>
+              <div title="Calibration Resource" id="cr_2" style="text-align:left;">
+                <div class="title_large_blue" style="margin-bottom:15px;">
+                  ** Proficiency Calibration Video
+                </div>
+                <div class="normal_text" style=" font-size:12px;">
+                  After observing a video, an observer can reflect on her results relative to those of an accomplished "blackbelt" observer.<br/>
+                  <br/>
+                  This helps teachers independently develop their understandings of research-based strategies and calibrate their skills against an established standard.
+                  <br/>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-9 setup_form_boxes">
+              <%=  @video_list.empty? ? "No Practice Videos Available" : select(:tlt_session, :content_id, @video_list.collect{|res| [res.title, res.id]},{:prompt => "Select Video"}) %>
+            </div>
+          <script type="text/javascript" charset="utf-8">
+            jQ(document).ready(function() {
+              jQ("#cr_2").dialog({
+                    bgiframe: true,
+                    autoOpen: false,
+                    width: 500,
+                    height: 220,
+                    modal: true,
+                    buttons: {
+                      Close: function(){
+                        jQ(this).dialog('close');
+                      }
+                    }
+                  }
+              );
+              jQ('#cr_1').click(function(event){
+                jQ("#cr_2").dialog('open');
+                event.preventDefault();
+              })
+            });
+          </script>
+          </div>
+        <% end %>
+        <% if @templates.size > 1 %>
+          <div class="row setup_row">
+            <div class="col-md-3 setup_form_labels">
+              Observation Template
+            </div>
+            <div class="col-md-9 setup_form_boxes">
+              <%=  select(:coop_app, :meth, @templates.collect{|m| [m.name.titleize, m.id]},{:prompt => @current_organization.default_template.nil? ? "Select Template": @current_organization.default_template.name}) %>
+            </div>
+          </div>
+        <% end %>
+        <div class="row button_row">
+          <%= submit_tag (@practice ? 'Begin Practice' : 'Begin Observation'), :class =>"button_blue" %>
+        </div>
+      <% end %>
+  <% else %>
+      <div class="sorry">
+        No Observation Templates Defined For <%=@current_organization.short_name %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-2"></div>
 </div>
+

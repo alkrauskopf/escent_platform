@@ -1,55 +1,54 @@
-	<table  style="width:645px; margin-left:0px;padding-top:0px; border:0px solid #ddd;">
-		<tbody>  
-			<style type="text/css" media="screen">
-	    		table,tr,td { border:none }
-				table tr:hover{
-        		background-color: transparent;
-      			}
-   			</style>
-			<% if session.irr?%>
-				<tr style=" border:0px solid #ddd;" >
-					<td colspan=3 style="border:0px solid #ddd; vertical-align:top;  padding-top:0px; font-size:9px; text-align:center;">
-						<center><%=image_tag("black_belt.png", :width => 50)%></center>
-					</td>
-				</tr>
-			<% end -%>
-			<tr style=" border:0px solid #ddd;" >
-				<td colspan=3 style="border:0px solid #ddd; line-height:1.5em; vertical-align:top;  padding-bottom:10px; font-size:16px; text-align:center; font-weight:bold; color:#C73914;">
-					<%= session.classroom_name %>,&nbsp;<%= session.class_period_name %></br/>
-					<span style = "font-size:12px; font-weight:normal; line-height:1.2em;">
-						<%= session.session_date.strftime("%b %d, %Y") %>
-						<% if session.training? %>Practice					
-						<% elsif !session.students == 0 %>
-							,&nbsp;<%= pluralize(session.students, "Student")%>								
-						<% end -%>
-						<br/>
-						Class Time:&nbsp;<%= pluralize(number_with_precision(session.duration/60.0, :precision => 0), " Minute") %>	
-						,&nbsp;&nbsp;Observation Time:&nbsp;<%= pluralize(number_with_precision(session.session_length/60.0, :precision => 1), " Minute") %>											
-					</span>
-				</td>
-			</tr>
-			<% if session.topic %>
-				<tr  style="border:0px solid #ddd;">
-					<td   style="width:105px; border:0px solid #ddd; padding-right:0px; text-align:right; color:#000000;">
-						Unit:		
-					</td>
-					<td   style="border:0px solid #ddd;  padding-left:10px; text-align:left; color:#000000;">
-						<%=  session.topic.title.titleize %>				
-					</td>
-				</tr>		
-			<% end -%>
-			<% unless session.lesson.empty? %>
-				<tr  style="border:0px solid #ddd;">
-					<td   style="width:105px; border:0px solid #ddd; padding-right:0px; text-align:right; color:#000000;">
-						Lesson:			
-					</td>
-					<td   style="border:0px solid #ddd;  padding-left:10px; text-align:left; color:#000000;">
-						<%=  session.lesson.titleize %>				
-					</td>
-				</tr>
-			<% end -%>
-		</tbody>
-	</table>
+
+<div  class='row'>
+  <p class="irr_image">
+    <%= session.irr? ? image_tag("black_belt.png", :width => 30) : ''%>
+  </p>
+</div>
+<div  class='row panel_title_blue'>
+  <p>
+      <%= session.classroom_name %>,&nbsp;<%= session.class_period_name %>
+  </p>
+</div>
+<div  class='panel_subtitle_blue'>
+  <p>
+    <%= session.session_date.strftime("%b %d, %Y") %>
+    <%= session.training? ? '   (Practice Session)' : '' %>
+  </p>
+  <p>
+    <%= pluralize(session.students, "Student")%>
+  </p>
+  <p>
+    Class Time:&nbsp;<%= pluralize(number_with_precision(session.duration/60.0, :precision => 0), " Minute") %>
+  </p>
+  <p>
+    Observation Time:&nbsp;<%= pluralize(number_with_precision(session.session_length/60.0, :precision => 1), " Minute") %>
+  </p>
+  <hr>
+</div>
+<% if session.topic %>
+  <div  class='row session_content_row'>
+    <div class="col-md-3 session_label">
+      Unit:
+    </div>
+    <div class="col-md-9 session_content">
+      <p>
+        <%=  session.topic.title.titleize %>
+      </p>
+    </div>
+  </div>
+<% end %>
+<% if !session.lesson.empty? %>
+    <div  class='row session_content_row'>
+      <div class="col-md-3 session_label">
+        Lesson:
+      </div>
+      <div class="col-md-9 session_content">
+        <p>
+          <%=  session.lesson.titleize %>
+        </p>
+      </div>
+    </div>
+<% end %>
 
 <script type="text/javascript">
 jQ(document).ready(function() {

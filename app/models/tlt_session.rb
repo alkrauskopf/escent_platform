@@ -50,6 +50,10 @@ class TltSession < ActiveRecord::Base
   validates_numericality_of :duration, :greater_than_or_equal_to => 60, :message => ' => Invalid Class Duration' 
   validates_presence_of :itl_template_id, :message => 'Must Select Observation Template'
 
+  def observer
+    self.tracker rescue nil
+  end
+
   def self.destroy_sessions(school,status)
     count = 0
     if school
@@ -192,6 +196,5 @@ class TltSession < ActiveRecord::Base
   def irr_session
     self.content.itl_blackbelt.tlt_session rescue nil
   end
-
 
 end

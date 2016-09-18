@@ -37,7 +37,7 @@
 jQ(document).ready(function() {
 	jQ('#new_template').click(function() {
 		var name = jQ('#itl_template_name').val();		
-		var url = "<%= url_for :controller => '/apps/time_learning', :action => :manage_template, :function=>"new", :organization_id => @current_organization  %>";
+		var url = "<%= ctl_options_template_url(:function=>"new", :organization_id => @current_organization)  %>";
 			jQ.get(url, {'name':name}, function(data) {
 			jQ("#manage_templates").html(data); 
 	   		jQ("#manage_templates").show();
@@ -63,7 +63,7 @@ jQ(document).ready(function() {
 jQ(document).ready(function() {
 	jQ('#default_template').change(function() {
 		var temp_id = jQ('#itl_template_id').val();		
-		var url = "<%= url_for :controller => '/apps/time_learning', :action => :manage_template, :function=>"default", :organization_id => @current_organization  %>";
+		var url = "<%= ctl_options_template_url(:function=>"default", :organization_id => @current_organization)  %>";
 			jQ.get(url, {'itl_template_id':temp_id}, function(data) {
 			jQ("#manage_templates").html(data); 
 	   		jQ("#manage_templates").show();
@@ -89,7 +89,7 @@ jQ(document).ready(function() {
 						<td  style="width:20px; width:fixed;   vertical-align:top; text-align:left;padding-bottom:0px; padding-top:15px; padding-left:10px">
 							<% unless template.empty? %>
 								<span style ="cursor:pointer">
-									<%= link_to (image_tag toggle_button,:width => 12), { :controller =>"apps/time_learning", :action => "toggle_template", :itl_template_id=> template.id, :organization_id => @current_organization}, :class => "toggle_template" + template.id.to_s %>
+									<%= link_to (image_tag toggle_button,:width => 12), ctl_options_template_toggle_path(:itl_template_id=> template.id, :organization_id => @current_organization), :class => "toggle_template" + template.id.to_s %>
 								</span>
 							<% else %>
 								&nbsp;
@@ -98,7 +98,7 @@ jQ(document).ready(function() {
 						<td  style="width:50px; width:fixed;  vertical-align:top; padding-bottom:0px; padding-top:10px; padding-left:5px">
 							<% if template.editable? -%>
 								<span class="fsn-button ui-button ui-state-default ui-corner-all", style ="cursor:pointer">
-									 <%= link_to "Edit", {:controller => "/apps/time_learning", :action => "edit_template", :itl_template_id=> template.id, :organization_id => @current_organization} %>
+									 <%= link_to "Edit", ctl_options_template_edit_path(:itl_template_id=> template.id, :organization_id => @current_organization) %>
 								</span>
 							<% else %>
 								&nbsp;
@@ -107,7 +107,7 @@ jQ(document).ready(function() {
 						<td  style="width:70px; width:fixed; vertical-align:top; padding-bottom:0px; padding-top:10px; padding-left:0px">
 							<% unless template.enabled? -%>
 								<span class="fsn-button ui-button ui-state-default ui-corner-all", style ="cursor:pointer">
-									 <%= link_to "Delete", {:controller => "/apps/time_learning", :action => "destroy_template", :itl_template_id=> template.id, :organization_id => @current_organization}, :confirm => "Are You Sure?", :class => "destroy_template" + template.id.to_s %>
+									 <%= link_to "Delete", ctl_options_template_destroy_path(:itl_template_id=> template.id, :organization_id => @current_organization), :confirm => "Are You Sure?", :class => "destroy_template" + template.id.to_s %>
 								</span>
 							<% end -%>
 						</td>
@@ -133,7 +133,7 @@ jQ(document).ready(function() {
 										<tr>
 											<td class="resource_levels_close">
 							
-											<%= link_to '', :controller => "apps/time_learning", :action => :show_template, :organization_id => @current_organization, :itl_template_id => template.id %>
+											<%= link_to '', ctl_options_template_show_path(:organization_id => @current_organization, :itl_template_id => template.id) %>
 											Look-Fors
 											<span></span>
 											</td>
@@ -204,7 +204,7 @@ jQ(document).ready(function() {
 											<tr style = "border:0px solid #ddd; padding-bottom:0px;">
 												<td  style="width:90px; width:fixed;  vertical-align:top; padding-bottom:0px; padding-top:5px; padding-left:55px">
 													<span class="fsn-button ui-button ui-state-default ui-corner-all", style ="cursor:pointer">
-														 <%= link_to "Copy", {:controller => "/apps/time_learning", :action => "copy_template", :itl_template_id=> template.id, :organization_id => @current_organization}, :class => "copy_template" + template.id.to_s %>
+														 <%= link_to "Copy", ctl_options_template_copy_path(:itl_template_id=> template.id, :organization_id => @current_organization), :class => "copy_template" + template.id.to_s %>
 													</span>					
 												</td>
 												<td  style="width:510px; width:fixed; vertical-align:top; font-size:10px; text-align:left; padding-bottom:10px; padding-left:0px">

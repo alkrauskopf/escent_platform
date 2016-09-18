@@ -1,95 +1,75 @@
-	<table  style="width:220px; border:0px solid #ddd;padding-top:0px;">
-		<tbody>  
-			<style type="text/css" media="screen">
-	    		table,tr,td { border:none }
-				table tr:hover{
-        		background-color: transparent;
-      			}
-   			</style>
-			<% unless session.user.nil? || session.is_training -%>
-        <% unless session.user.picture.url.split("/").last == "missing.png" %>
-          <tr  style="border:0px solid #ddd;" >
-            <td  colspan=2 style="border:0px solid #ddd; vertical-align:top; padding-left:50px; padding-bottom:8px; padding-top:3px; font-size:12px; text-align:left; font-weight:normal; color:#000000;">
-              <%= image_tag session.user.picture.url(:thumb) %>
-            </td>
-          </tr>
+	<div  class='row'>
+    <% if !session.user.nil? && !session.is_training -%>
+      <div class="col-md-5">
+        <% if !session.user.nil? && session.user.image_present? %>
+          <p class = 'ctl_user_pic'>
+            <%= image_tag session.user.picture.url(:thumb) %>
+          </p>
         <% end -%>
-        <tr  style="border:0px solid #ddd;" >
-          <td class="normal_text" colspan=2 style=" border:0px solid #ddd; font-size:13px; text-align:center; font-weight:normal; color: #2061a5;">
-            <%= session.user.full_name %>
-            <br/>
-          </td>
-        </tr>
-      <% end -%>
-			<tr  style="border:0px solid #ddd;" >
-        <td class="normal_text" colspan=2 style="border:0px solid #ddd; font-size:11px; text-align:center; font-weight:normal; color:#C73914;">
-          &nbsp;
-				</td>
-			</tr>
-      <% unless session.tracker.nil?%>
-        <% unless session.tracker.picture.url.split("/").last == "missing.png" %>
-					<tr  style="border:0px solid #ddd;" >
-						<td  colspan=2 style="border:0px solid #ddd;  padding-left:80px; padding-top:8px; padding-bottom:8px; font-size:12px; text-align:left; font-weight:normal; color: #2061a5;">
-              <%= image_tag session.tracker.picture.url(:small_thumb) %>
-						</td>
-					</tr>			  		
-			  	<% end -%>
-			<% end -%>
-			<tr  style="border:0px solid #ddd;" >
-        <td class="normal_text" colspan=2 style="border:0px solid #ddd; font-size:12px; text-align:center; font-weight:normal; color: #2061a5;">
-          <% if  session.tracker.nil?%>
-						<i> * * Former Observer * * </i>
-					<% else %>
-              <%= session.tracker.full_name %>
-          <% end -%>
-				</td>
-			</tr>
-			<% if session.methods? %>
-				<tr  style="border:0px solid #ddd;">
-          <% label = session.app_methods.size == 1 ? "Observation Method" : "Observation Methods" -%>
-          <td class="normal_text" colspan=2 style="border:0px solid #ddd; line-height:1.4em; padding-top:20px; padding-bottom:10px; font-size:11px; text-align:center; font-weight:normal; color:#2061a5;">
-						<span style="line-height:1.5em;font-size:12px;"><u><%= label %></u><br/></span>
-						<% session.app_methods.each do |method| -%>
-							<%= method.name %></br/>
-						<% end -%>										
-					</td>
-				</tr>
-			<% end -%>
-			<% if session.template? %>
-				<tr  style="border:0px solid #ddd;">
-          <td class="normal_text" colspan=2 style="border:0px solid #ddd; line-height:1.4em; padding-top:0px; padding-bottom:10px; font-size:11px; text-align:center; font-weight:normal; color:#2061a5;">
-						<span style="line-height:1.5em;font-size:12px;"><u>Template</u><br/></span>
-						<%= session.itl_template.name %>									
-					</td>
-				</tr>
-			<% end -%>
-			<% unless session.training? -%>
-				<tr  style="border:0px solid #ddd" >
-					<% if session.is_final -%>
-            <td class="normal_text" colspan=2 style="border:0px solid #ddd; padding-top:10px; font-size:11px; text-align:center; font-weight:normal; color:#C73914;">
-							Finalized:&nbsp;<%= session.finalize_date.strftime("%b %d, %Y") %>
-						</td>
-					<% else -%>
-            <td class="normal_text" colspan=2 style="border:0px solid #ddd; padding-top:10px; font-size:11px; text-align:center; font-weight:normal; color:#C73914;">
-              Not Final
-            </td>
-					<% end -%>
-				</tr>
-			<% end -%>				
-		</tbody>
-	</table>
-	<% unless session.training? || session.irr?-%>
-		<% if session.finalizable?(@current_user) && survey %>
-      <div style="width:150px; text-align:center; padding-left:65px; padding-top:10px;">
-        <a id="pc-survey" href=""><%= (image_tag "button_finalize.png",:width => 85)%></a>
       </div>
-		<% elsif session.finalizable?(@current_user) -%>
-      <div style="width:150px; text-align:center; padding-left:65px; padding-top:10px;">
-				<%= link_to (image_tag "button_finalize.png",:width => 85), ctl_observation_finalize_path(:organization_id => @current_organization, :user_id => @current_user, :tlt_session_id => session, :function => 'observer') %>
+      <div class = 'col-md-7 ctl_user_name'>
+        <%= session.user.nil? ? 'Undefined User' : session.user.full_name %>
       </div>
-		<% end -%>
-
-		<div id="pc-survey-dialog" title= "<%= survey && survey.survey_instruction.is_anon ? "Post Conference Survey - Anonymous" : "Post Conference Survey" %>" style="text-align:left;">
+    <% end -%>
+  </div>
+  <div  class='row'>
+    <% if !session.tracker.nil?%>
+      <div class="col-md-5">
+        <% if session.tracker.image_present? %>
+          <p class = 'ctl_user_pic'>
+            <%= image_tag session.tracker.picture.url(:med_thumb) %>
+          </p>
+        <% end -%>
+      </div>
+      <div class = 'col-md-7 ctl_user_name'>
+        <%= session.tracker.nil? ? 'Undefined Observer' : session.tracker.full_name %>
+      </div>
+    <% end -%>
+  </div>
+  <hr>
+  <% if session.methods? %>
+    <div  class='row session_content_row'>
+      <div class="col-md-4 session_label">
+        <%= session.app_methods.size == 1 ? 'Method' : 'Methods'%>
+      </div>
+      <div class="col-md-8 session_content">
+        <% session.app_methods.each do |method| -%>
+          <p>
+            <%= method.name %>
+          </p>
+        <% end -%>
+      </div>
+    </div>
+  <% end -%>
+  <% if session.template? %>
+    <div  class='row session_content_row'>
+      <div class="col-md-4 session_label">
+        Template:
+      </div>
+      <div class="col-md-8 session_content">
+        <p>
+          <%= session.itl_template.name %>
+        </p>
+      </div>
+    </div>
+  <% end -%>
+	<% if !session.training? && !session.irr?-%>
+    <div class="row ">
+      <div class="col-md-4 session_finalize">
+        <% if session.finalizable?(@current_user) && survey %>
+          <a class='button_blue' id="pc-survey" href="">Finalize</a>
+		    <% elsif session.finalizable?(@current_user) -%>
+				  <%= link_to 'Finalize', ctl_observation_finalize_path(:organization_id => @current_organization, :user_id => @current_user, :tlt_session_id => session, :function => 'observer'), :class=>'btn btn-primary btn-xs' %>
+        <% elsif session.is_final -%>
+          <p class="session_status">
+            Finalized
+          </p>
+        <% end -%>
+      </div>
+      <div  class='col-md-7 session_status'>
+        <%= session.is_final ? (session.finalize_date.strftime("%b %d, %Y")) : 'Not Final'-%>
+      </div>
+		  <div id="pc-survey-dialog" title= "<%= survey && survey.survey_instruction.is_anon ? "Post Conference Survey - Anonymous" : "Post Conference Survey" %>" style="text-align:left;">
 		    <div class="title_large_blue" style="margin-bottom:15px;">
 		        <%= session.user ? session.user.last_name: "teacher" %>/<%= session.tracker.last_name %>
 		    </div>
@@ -98,12 +78,12 @@
 		        	<div >
 						<%= form_for(:tlt_session, :url => ctl_observation_survey_path(:organization_id => @current_organization, :schedule_id => survey, :tlt_session_id => session, :finalize=>true, :function => "submit")) do |form| -%>
 							<span style="float:right; padding-right:60px; font-size:14px">
-								<%= link_to 'No Thanks', ctl_observation_finalize_path(:organization_id => @current_organization, :user_id => @current_user, :tlt_session_id => session, :function => 'observer'),:class => 'fsn-button ui-button ui-state-default ui-corner-all'  %>
+								<%= link_to 'No Thanks', ctl_observation_finalize_path(:organization_id => @current_organization, :user_id => @current_user, :tlt_session_id => session, :function => 'observer'),:class => 'btn btn-default btn-xs'  %>
 							</span>
 								<%= render :partial => "/apps/shared/survey_template", :locals=> {:audience => survey.tlt_survey_audience, :survey_type => survey.tlt_survey_type} %>
 							<span style="float:left; padding-left:30px;">
 						
-								<%= submit_tag 'Submit Survey', :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+								<%= submit_tag 'Submit Survey', :class => 'btn btn-success btn-xs' %>
 							</span>	
 							<br/>
 						<% end -%>
@@ -112,15 +92,14 @@
 		    		No Survey Available
 		   		<% end -%>
 		    </div>
-		</div>
+		  </div>
+    </div>
 	<% end-%>
-	<br/></br/>
-
-	<%= render :partial => "apps/app_blog/app_blog_list", :locals=>{:app => @current_application} %>
-
+<!--
+	<#%= render :partial => "apps/app_blog/app_blog_list", :locals=>{:app => @current_application} %>
+-->
 <script type="text/javascript" charset="utf-8">
     	jQ(document).ready(function() {
-
     	    jQ("#pc-survey-dialog").dialog({
     	            bgiframe: true,
     	            autoOpen: false,
@@ -133,12 +112,10 @@
     		                    }
     				}
         	    }
-    		);					
-			
+    		);
     		jQ('#pc-survey').click(function(event){
     		    jQ("#pc-survey-dialog").dialog('open');
     			 event.preventDefault();
-    		})							
-
+    		})
     });
 </script>

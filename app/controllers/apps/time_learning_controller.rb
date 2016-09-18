@@ -1,6 +1,6 @@
 class Apps::TimeLearningController < ApplicationController
   helper :all # include all helpers, all the time  
- layout "tlt", :except =>[:log_summary, :activity_summary, :show_template, :show_not_timed_tasks, :owner_show_video_session,
+ layout "ctl", :except =>[:log_summary, :activity_summary, :show_template, :show_not_timed_tasks, :owner_show_video_session,
                           :manage_template, :create_training_video, :manage_belt_user, :manage_belt_rankings,
                           :training_classroom, :observation_subject_list, :list_backlog_for, :observation_panel_help,
                           :then_now, :send_invite, :research_summary, :subject_tlt_sessions,:add_survey_question,
@@ -13,11 +13,6 @@ class Apps::TimeLearningController < ApplicationController
   before_filter :current_user_app_authorized?, :except=>[]
   before_filter :clear_notification, :except =>[:teacher_private_itl_dashboards]
   before_filter :increment_app_views, :only=>[:index]
-  
- def clear_notification
-    flash[:notice] = nil
-    flash[:error] = nil
-  end
 
   def index
     initialize_parameters
@@ -33,9 +28,9 @@ class Apps::TimeLearningController < ApplicationController
     initialize_parameters
   end
 
- 
    def setup_session
     initialize_parameters
+    @templates = @current_organization.useable_itl_templates
     @practice = params[:practice] == 'false' ? false:true
     @video_list = @practice ? @current_organization.coop_app_resources.for_app(@current_application).collect{|app_res| app_res.content}.select{|c| c.embed_code?} : []
     @video_list.each do|vid|
@@ -344,7 +339,6 @@ class Apps::TimeLearningController < ApplicationController
   def add_video_to_rl
     initialize_parameters    
     if @tlt_session && @tlt_session.tlt_session_video && !@tlt_session.tlt_session_video.embed_code.empty?
-
       video = Content.new
       video.user = @current_user
       video.organization = @current_organization
@@ -369,6 +363,16 @@ class Apps::TimeLearningController < ApplicationController
       video.act_subject_id = @tlt_session.subject_area.act_subject_id
       if video.save       
         @tlt_session.update_attributes(:content_id => @current_user.contents.last.id)
+        flash[:notice]  = "Training Video Created"
+        app_resource = CoopAppResource.new
+        app_resource.content_id = @current_user.contents.last.id
+        app_resource.organization_id = @current_organization.id
+        app_resource.is_featured = false
+        resources = @current_organization.coop_app_resources.for_app(@current_application)
+        app_resource.position = resources.empty? ? 1 : (resources.order('position ASC').last.position + 1)
+        @current_application.coop_app_resources << app_resource
+      else
+        flash[:error]  = "Training Video Not Created"
       end
 
     end
@@ -933,7 +937,7 @@ class Apps::TimeLearningController < ApplicationController
         new_template.tl_activity_type_tasks << template.tl_activity_type_tasks
       end
     end
-    redirect_to ctl_options_templates_path(:organization_id => @current_organization)
+    redirect_to ctl_options_filters_path(:organization_id => @current_organization)
   end
 
   def destroy_template

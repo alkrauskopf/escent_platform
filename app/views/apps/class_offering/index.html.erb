@@ -1,8 +1,7 @@
 
 <div class= 'row offering_header'>
-  <div class='col-md-1'>
-  </div>
-  <div class='col-md-4'>
+  <div class='col-md-5'>
+    <div class="offering_left_panel">
     <div class="offering_page_text">
       <%= render :partial => "affiliate_information_brief_left" %>
     </div>
@@ -145,8 +144,9 @@
         </div>
       <% end %>
     </div>
+    </div>
   </div>
-  <div class='col-md-6'>
+  <div class='col-md-7'>
     <div class="offering_title_text">
       <%= @classroom.course_name %>
       <% if @classroom.status == 'archived'%>
@@ -170,8 +170,6 @@
         <% end %>
     <% end -%>
     <%= render(:partial => "new_topic", :locals => {:topic => @current_topic ? @current_topic : nil, :featured_resource => @content ? @content : nil}) %>
-  </div>
-  <div class='col-md-1'>
   </div>
 </div>
 

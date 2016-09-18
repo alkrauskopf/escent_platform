@@ -5,7 +5,7 @@ class Apps::ClassOfferingController < ApplicationController
 
   before_filter :find_featured_topic, :only => [:index]
   before_filter :classroom_allowed?, :except=>[]
-  before_filter :current_user_app_authorized?, :except=>[]
+  before_filter :current_user_app_authorized?, :except=>[:index]
   before_filter :clear_notification
   before_filter :increment_app_views, :only=>[:index]
   protect_from_forgery :except => []

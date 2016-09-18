@@ -192,8 +192,8 @@ EscentPartners::Application.routes.draw do |map|
   # APP Offering  (Classroom)
   # apps/class_offering
   get '/offering/view' => 'apps/class_offering#index'   # offering_view_path
-  get '/offering/register' => 'apps/classroom#register_classroom'    # offering_register
-  post '/self/offering/register' => 'apps/classroom#self_register_student'  # self_offering_register
+  get '/offering/register' => 'apps/classroom#register_classroom'    # offering_register_path
+  post '/self/offering/register' => 'apps/classroom#self_register_student'  # self_offering_register_path
   # site/site
 #  get '/offering/view' => 'site/site#static_classroom'   # offering_view
   get '/offering/homework' => 'site/site#submit_homework'
@@ -206,7 +206,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/setup' => 'apps/classroom#setup_classroom'
   get '/offering/lu/edit' => 'apps/classroom#setup_classroom_lu'
   get '/offering/toggle_favorite' => 'apps/classroom#toggle_favorite_classroom'
-  get '/offering/unjoin' => 'apps/classroom#self_unregister_student'
+  get '/offering/unjoin' => 'apps/classroom#self_unregister_student'   # offering_unjoin_path
 #  get '/offering/register' => 'apps/classroom#register_classroom'
   get '/offering/lu/resources/show' => 'apps/classroom#show_lu_resources'   # offering_lu_resources_show
   get '/offering/admin/assign_subject' => 'apps/classroom#identify_parent_subject'
@@ -246,7 +246,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/admin/students' => 'apps/classroom#offering_students'
   get '/offering/admin/students/period' => 'apps/classroom#manage_period_students'
   get '/offering/admin/students/remove/all' => 'apps/classroom#remove_all_students'
-  get '/offering/admin/student/assign' => 'apps/classroom#add_remove_student'
+  get '/offering/admin/student/assign' => 'apps/classroom#add_remove_student'     #   offering_admin_student_assign
   get '/offering/admin/assessments' => 'apps/assessment#assign_classroom_assessment'
   get '/offering/admin/assessment/view' => 'apps/assessment#assign_classroom_assessment_view'
   get '/offering/admin/assessment/pool/update' => 'apps/assessment#update_classroom_assessment_pool'

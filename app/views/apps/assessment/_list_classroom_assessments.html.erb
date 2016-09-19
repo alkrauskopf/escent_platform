@@ -22,7 +22,7 @@
       <hr>
       <div class="col-md-1"></div>
       <div class="col-md-2">
-        <%= !previous_submits.empty? ? 'Not Yet Taken' : ('Last Taken: ' + last_date_taken.strftime("%m-%d-%y")) %>
+        <%= previous_submits.empty? ? 'Not Yet Taken' : ('Last Taken: ' + last_date_taken.strftime("%m-%d-%y")) %>
       </div>
       <div class="col-md-1">
         <% disabled =  available_to_submit ? nil : 'disabled' -%>

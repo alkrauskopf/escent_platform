@@ -6,7 +6,8 @@ class Apps::AssessmentController < ApplicationController
                            :subject_readings, :genre_readings, :list_standard_questions ,:subject_questions, :assign_assessment_question_view,
                            :subject_assessments, :list_user_assessments]
   before_filter :ifa_allowed?, :except=>[]
-  before_filter :current_user_app_authorized?, :except=>[]
+#  before_filter :current_user_app_authorized?, :except=>[:topic_standards_benchmarks]
+  before_filter :current_user_app_authorized?, :only=>[:index]
   before_filter :current_user_app_admin?, :only=>[]
   before_filter :clear_notification, :except => [:take_assessment]
   before_filter :increment_app_views, :only=>[:index]

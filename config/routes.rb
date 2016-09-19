@@ -298,7 +298,7 @@ EscentPartners::Application.routes.draw do |map|
   # APPS IFA
 
   get '/ifa/teacher/review' => 'apps/assessment#teacher_review'   # ifa_teacher_review_path
-  get '/ifa/lu/standards/show' => 'apps/assessment#topic_standards_benchmarks'
+  get '/ifa/lu/standards/show' => 'apps/assessment#topic_standards_benchmarks'    #   ifa_lu_standards_show_path
   get '/ifa/classroom/option/calibrate' => 'apps/assessment#classroom_option_toggle_calibrate'
   get '/ifa/classroom/option/filter' => 'apps/assessment#classroom_option_toggle_user_filter'
   get '/ifa/classroom/option/update' => 'apps/assessment#classroom_options_update'

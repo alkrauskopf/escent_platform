@@ -7,7 +7,7 @@
         <%= form_for(:registration, :url => self_offering_register_path(:organization_id => @current_organization, :student_id => @current_user, :classroom_id => @classroom)) do |form| -%>
             <%= submit_tag "Join", :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
             <div class="FormRow" style="position: relative; visibility:<%= per_visibility %>">
-            <div class="FormRowData">xxxxx
+            <div class="FormRowData">
               <%=  select(:registration, :period_id, @classroom.classroom_periods.sort_by{|a| [a.name]}.collect{|t| [t.name, t.id]},{:include_blank =>'Select Your Period'}) %>
             </div>
           </div>

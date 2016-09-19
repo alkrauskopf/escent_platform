@@ -819,7 +819,7 @@ class Apps::ClassroomController < ApplicationController
     elsif pool_class == 3
       @filters = @current_user.colleagues.compact.uniq.sort_by{|u| u.last_name}.collect{|t| [t.last_name_first, t.id]}
     elsif pool_class == 4
-      @filters = @current_user.favorite_classrooms.compact.uniq.select{|o| o.organization}.collect{|o| o.topics}.flatten.sort_by{|t| t.title}.collect{|t| [t.title+": "+ t.classroom.course_name + " (" + t.classroom.organization.short_name + ")", t.id]}
+      @filters = @current_user.favorite_classrooms.compact.uniq.select{|o| o.organization}.sort_by{|o| o.organization.short_name}.collect{|o| o.topics}.flatten.collect{|t| [" (" + t.classroom.organization.short_name + ") " + t.classroom.course_name + ": " + t.title, t.id]}
     else
       @filters = []
     end   

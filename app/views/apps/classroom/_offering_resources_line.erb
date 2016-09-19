@@ -29,7 +29,7 @@
 							<td   style=" border:0px solid #ddd; font-size:11px; padding-top:13px; padding-left:0px; vertical-align:top; text-align:left; line-height:1.4em; color: #000000;font-weight:normal;">
 								<u><%= link_to rsrc.title.titleize, resource_view_path(:organization_id => @current_organization, :id => rsrc), {:target => '_blank'} %></u>
 								<span  style= "color:#C73914; font-size:10px;">
-									<%= rsrc.content_status.name == "Restricted" ? " <i>(Restricted)</i>" : "" %>						
+                  <%= (!rsrc.available? ? ("<i>(" + rsrc.content_status.name + ")</i>") : "").html_safe %>
 								</span>
 								<br/><%= rsrc.subject_area.name if rsrc.subject_area %> <%= rsrc.content_resource_type.name if rsrc.content_resource_type %>
 								&nbsp;(<%= rsrc.content_object_type.content_object_type_group.name.downcase if rsrc.content_object_type.content_object_type_group %>)

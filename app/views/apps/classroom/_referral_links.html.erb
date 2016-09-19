@@ -21,7 +21,7 @@
 		   			</style>
 					<tbody>  
 						<% @current_user.favorite_classrooms.each do |clsrm| -%>
-							<% if clsrm.open? && clsrm.active? && (!clsrm.topics.empty?)%>
+							<% if clsrm.active? && (!clsrm.topics.empty?)%>
 								<tr style="border:1px solid #ddd;">
 									<td style="width:34%;; border:0px solid #ddd; line-height:1.3em; text-align:right; vertical-align:top; padding-top:8px; font-size:12px; font-weight:normal; padding-right:0px; color: #2061a5;">
 										<%= (clsrm.course_name.upcase + (clsrm.organization ? ("<br/>" + clsrm.organization.medium_name) : '')).html_safe%>

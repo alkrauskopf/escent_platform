@@ -231,7 +231,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/admin/lu/options' => 'apps/classroom#toggle_lu_options'
   get '/offering/admin/lu/folder' => 'apps/shared#assign_lu_folder'
   get '/offering/admin/lu/folder/position' => 'apps/shared#assign_lu_folder_position'
-  get '/offering/admin/resources' => 'apps/classroom#offering_resources'
+  get '/offering/admin/resources' => 'apps/classroom#offering_resources'     #  offering_admin_resources_path
   get '/offering/admin/resource/assign' => 'apps/classroom#add_remove_resource'
   get '/offering/admin/resource/feature' => 'apps/classroom#toggle_lu_featured_resource'
   get '/offering/admin/folders' => 'apps/classroom#offering_folders'     #   offering_admin_folders_path

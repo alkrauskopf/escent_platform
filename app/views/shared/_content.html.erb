@@ -40,17 +40,14 @@
 
 				<% end -%>
 
-	             <% unless content.nil? -%>
-				 	Contributed By:&nbsp;  
+         <% if !content.nil? -%>
 				 	<% if content.organization -%>
-				 		<%= content.organization.name %>
-				  	<% else -%>
-				  		A Former Organization 
+              Contributed By:&nbsp;<%= content.organization.name %></br>
 				  	<% end -%>
 					<% unless content.source_name.nil? || content.source_name.empty? -%> 
-					 	&nbsp;Source: <%= content.source_name %>
+					 	Source: <%= content.source_name %>
 					<% end -%>
-	            <% end -%>
+        <% end -%>
 
 		<br style="clear:both" />
     </div>

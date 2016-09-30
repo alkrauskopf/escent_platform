@@ -444,7 +444,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ctl/observation/comments/edit' => 'apps/time_learning#edit_session_comments'  #   ctl_observation_comments_edit_path
   get '/ctl/observation/video/attach' => 'apps/time_learning#attach_embed_code'
   get '/ctl/observation/video/remove' => 'apps/time_learning#remove_embed_code'
-  get '/ctl/observation/video/create' => 'apps/time_learning#create_training_video'
+  get '/ctl/observation/video/create' => 'apps/time_learning#create_training_video'   # ctl_observation_video_create_path
   get '/ctl/observation/video/show' => 'apps/shared#show_video'    #  ctl_observation_video_show
   get '/ctl/observation/video/rl' => 'apps/time_learning#add_video_to_rl'    #  ctl_observation_video_rl
   get '/ctl/observation/research' => 'apps/time_learning#research_summary'    #  ctl_observation_research_path
@@ -554,8 +554,9 @@ EscentPartners::Application.routes.draw do |map|
   get '/elt/case/evidence/add' => 'apps/learning_time#case_evidence_add'   # elt_case_evidence_add
   post '/elt/case/evidence/add' => 'apps/learning_time#case_evidence_add'   # elt_case_evidence_add
   get '/elt/case/evidence/change' => 'apps/learning_time#case_evidence_change'   # elt_case_evidence_change
-  get '/elt/case/evidence/destroy' => 'apps/learning_time#case_evidence_destroy'   # elt_case_evidence_destroy
-  get '/elt/case/evidence/show' => 'apps/learning_time#manage_case_evidence'   # elt_case_evidence_show
+  get '/elt/case/evidence/destroy' => 'apps/learning_time#case_evidence_destroy'   # elt_case_evidence_destroy_path
+  get '/elt/case/evidence/rl/add' => 'apps/learning_time#case_evidence_rl_add'   # elt_case_evidence_rl_add_path
+  get '/elt/case/evidence/show' => 'apps/learning_time#manage_case_evidence'   # elt_case_evidence_show_path
   get '/elt/config/standards' => 'apps/learning_time_standards#index'
   get '/elt/config/standard/edit' => 'apps/learning_time_standards#maintain_standard'
   post '/elt/config/standard/edit' => 'apps/learning_time_standards#maintain_standard' # elt_config_standard_edit

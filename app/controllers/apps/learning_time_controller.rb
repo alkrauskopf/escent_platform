@@ -875,6 +875,17 @@ class Apps::LearningTimeController  < ApplicationController
     render :partial => "/apps/learning_time/manage_case_evidence", :locals => {:elt_case => @elt_case, :updateable => @elt_case.updatable?(@current_user)}
   end
 
+  def case_evidence_rl_add
+    set_case_evidence
+    @elt_case = @evidence.elt_case
+   #
+  #   Not implemented: need FileUtil
+
+      flash[:error] = "Function Not Implemented"
+
+    render :partial => "/apps/learning_time/manage_case_evidence", :locals => {:elt_case => @elt_case, :updateable => @elt_case.updatable?(@current_user)}
+  end
+
   def manage_case_evidence
     set_case
     if params[:updateable]

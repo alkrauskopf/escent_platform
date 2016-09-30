@@ -58,6 +58,29 @@
                     <%= evidence.description %><br/><br/>
                     <span style= 'font-size:11px; font-weight:bold;'><%= evidence.submitter_name %></span>
                   </td>
+                  <% if !evidence.in_library? %>
+                  <td id="rl_<%= evidence.public_id %>" style="border:0px solid #ddd;  width:10%; cursor:pointer; padding-left:5px; padding-top:7px; vertical-align:middle" >
+                    <span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;padding-left:5px;">
+                        Library It
+                    </span>
+                  </td>
+                  <% else %>
+                      <td  style="border:0px solid #ddd;  width:10%;  padding-left:5px; padding-top:7px; vertical-align:middle" >
+                        &nbsp;
+                      </td>
+                  <% end %>
+                </tr>
+                  <script type="text/javascript">
+                    jQ(document).ready(function() {
+                      jQ("#rl_<%= evidence.public_id %>").click(function() {
+                        var url = "<%= elt_case_evidence_rl_add_path(:organization_id => @current_organization, :elt_case_evidence_id => evidence.public_id) %>";
+                        jQ.get(url,{},  function(data) {
+                          jQ("#manage_case_evidence<%= elt_case.public_id%>").html(data);
+                          jQ("#manage_case_evidence<%= elt_case.public_id%>").show();
+                        });
+                      })
+                    });
+                  </script>
               <% end %>
             <% end -%>
           </tbody>

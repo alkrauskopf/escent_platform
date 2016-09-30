@@ -4,6 +4,7 @@ class EltCaseEvidence < ActiveRecord::Base
 
   belongs_to :elt_case
   belongs_to :user
+  belongs_to :content
 
   has_attached_file :elt_evidence,
                     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
@@ -22,5 +23,9 @@ class EltCaseEvidence < ActiveRecord::Base
     self.user ? self.user.last_name : 'Unknown Submitter'
   end
 
+  def in_library?
+  #  !self.content.nil?
+    true
+  end
 
 end

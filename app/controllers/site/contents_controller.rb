@@ -411,7 +411,7 @@ class Site::ContentsController < Site::ApplicationController
   protected
 
   def current_user_km_authorized?
-    if (@current_user.nil? || !(@current_user.content_admin_for_org?(@current_organization) || self.content_manager_for_org?(@current_organization)))
+    if (@current_user.nil? || !(@current_user.content_admin_for_org?(@current_organization) || @current_user.content_manager_for_org?(@current_organization)))
       redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
     end
   end

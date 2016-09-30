@@ -14,7 +14,7 @@
 
   initialize_master_app_provider = false     # make true if ifa_pilot needs to be restored again
 
-  create_a_resource_type = false
+  create_a_resource_type = true
 
   create_a_subject_area = false
 
@@ -24,6 +24,9 @@
     end
     if ContentResourceType.where(['name =?', 'Proposal']).empty?
       ContentResourceType.create('name' => 'Proposal', 'descript' => 'Proposal Document')
+    end
+    if ContentResourceType.where(['name =?', 'Evidence']).empty?
+      ContentResourceType.create('name' => 'Evidence', 'descript' => 'Performance Evidence')
     end
   end
 

@@ -15,6 +15,7 @@ class Content < ActiveRecord::Base
   has_one   :total_view, :as => :entity, :dependent => :destroy
   has_one   :star_rating, :as => :entity, :dependent => :destroy
   has_one   :itl_blackbelt, :dependent => :destroy
+  has_one   :elt_case_evidence
   
   has_many :discussions, :as => :discussionable, :order => "last_posted_at desc", :dependent => :destroy  
   has_many :reported_abuses, :class_name => "ReportedAbuse", :as => :entity, :dependent => :destroy

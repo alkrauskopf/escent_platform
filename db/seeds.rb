@@ -14,9 +14,19 @@
 
   initialize_master_app_provider = false     # make true if ifa_pilot needs to be restored again
 
-  create_a_resource_type = true
+  create_a_resource_type = false
 
   create_a_subject_area = false
+
+  create_object_type = true
+
+  if create_object_type
+    if ContentObjectType.where(['content_object_type =?', 'XLSM']).empty?
+      ContentObjectType.create('content_object_type' => 'XLSM', 'content_object_type_group_id' => 8,
+                                'name' => 'MS Excel Spreadsheet', 'mime_type' => 'application/vnd.ms-excel',
+                                'is_nested_content' => false)
+    end
+  end
 
   if create_a_resource_type
     if ContentResourceType.where(['name =?', 'Budget']).empty?

@@ -25,7 +25,7 @@
           </td>
         <% else %>
           <td style = "vertical-align:top;padding-top:5px;padding-bottom:5px; line-height:1.5em;">
-            xxx <%= elt_case.element_note(element).nil? ? '': (simple_format elt_case.element_note(element).note) %>
+            <%= elt_case.element_note(element).nil? ? '': (simple_format elt_case.element_note(element).note) %>
           </td>
         <% end -%>
         <td style = "width:10%; border-right:1px solid #000000; ">

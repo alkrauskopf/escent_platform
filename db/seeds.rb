@@ -14,11 +14,11 @@
 
   initialize_master_app_provider = false     # make true if ifa_pilot needs to be restored again
 
-  create_a_resource_type = false
+  create_a_resource_type = true
 
   create_a_subject_area = false
 
-  create_object_type = true
+  create_object_type = false
 
   if create_object_type
     if ContentObjectType.where(['content_object_type =?', 'XLSM']).empty?
@@ -37,6 +37,9 @@
     end
     if ContentResourceType.where(['name =?', 'Evidence']).empty?
       ContentResourceType.create('name' => 'Evidence', 'descript' => 'Performance Evidence')
+    end
+    if ContentResourceType.where(['name =?', 'Exemplar']).empty?
+      ContentResourceType.create('name' => 'Exemplar', 'descript' => 'An Example.')
     end
   end
 

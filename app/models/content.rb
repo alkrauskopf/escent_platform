@@ -380,7 +380,7 @@ class Content < ActiveRecord::Base
       if self.available? || self.restricted?
         view = true
       end
-      if self.restricted?
+      if self.confidential?
         view = (self.organization == org) ? true : false
       end
     else

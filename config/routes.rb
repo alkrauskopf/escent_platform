@@ -1,6 +1,6 @@
 EscentPartners::Application.routes.draw do |map|
 
-  mount Wirispluginengine::Engine => 'wirispluginengine'
+#  mount Wirispluginengine::Engine => 'wirispluginengine'
   # You can have the root of your site routed with "root"
  # root to: 'fsn#index'
 

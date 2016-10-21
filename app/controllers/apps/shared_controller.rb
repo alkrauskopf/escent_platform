@@ -301,7 +301,15 @@ class Apps::SharedController < Site::ApplicationController
     if @folder && @topic
       @folder.position_for_scope(@topic.id, @topic.class.to_s).update_attributes(:position => params[:position].to_i)
     end
-  render :partial => "/apps/classroom/offering_folder_setup", :locals => {:admin => true, :app=> @app, :lu=> @topic}
+    render :partial => "/apps/classroom/offering_folder_setup", :locals => {:admin => true, :app=> @app, :lu=> @topic}
+  end
+
+  def assign_lu_folder_toggle_show
+    if @folder && @topic
+      folder = @folder.position_for_scope(@topic.id, @topic.class.to_s)
+      folder.update_attributes(:is_hidden => !folder.is_hidden)
+    end
+    render :partial => "/apps/classroom/offering_folder_setup", :locals => {:admin => true, :app=> @app, :lu=> @topic}
   end
   
   def maintain_rubric

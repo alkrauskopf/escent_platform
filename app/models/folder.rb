@@ -65,6 +65,14 @@ class Folder < ActiveRecord::Base
     self.topic_contents.for_lu(lu).sort_by{|tc| tc.position}.collect{|tc| tc.content}.compact.select{|c| c.active?}
   end
 
+  def show?(lu)
+    !self.hidden?(lu.id, lu.class.to_s)
+  end
+
+  def hide?(lu)
+    self.hidden?(lu.id, lu.class.to_s)
+  end
+
   def no_lu_contents?(lu)
     self.topic_contents.for_lu(lu).empty?
   end
@@ -93,4 +101,7 @@ class Folder < ActiveRecord::Base
     self.position_for_scope(scope_id, scope_type).nil? ? 0 : self.position_for_scope(scope_id, scope_type).position
   end
 
+  def hidden?(scope_id, scope_type)
+    self.position_for_scope(scope_id, scope_type).nil? ? false : self.position_for_scope(scope_id, scope_type).is_hidden
+  end
 end

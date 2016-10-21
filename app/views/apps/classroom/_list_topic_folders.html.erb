@@ -4,11 +4,17 @@
 		 	<% Folder.by_position(topic.positioned_folders).each do |folder| %>
 				<% unless folder.no_lu_contents?(topic)%>
 					<tr>
+            <% if folder.show?(topic)%>
 						<td class="resource_levels_close">
-						<%= link_to '', offering_lu_resources_show_path(:organization_id => @current_organization, :topic_id => topic, :folder_id => folder.id) %>
-							<%= folder.name%>&nbsp;<i>(<%= folder.resources_for_lu(topic).size%>)</i>
+              <%= link_to '', offering_lu_resources_show_path(:organization_id => @current_organization, :topic_id => topic, :folder_id => folder.id) %>
+              <%= folder.name%>&nbsp;<i>(<%= folder.resources_for_lu(topic).size%>)</i>
 						<span></span>
 						</td>
+            <% else %>
+              <td class="hidden_resource_folder">
+                <%= folder.name%>&nbsp;<i>(<%= folder.resources_for_lu(topic).size%>)</i>
+              </td>
+            <% end %>
 					</tr>
 				<% end -%>
 			<% end -%>

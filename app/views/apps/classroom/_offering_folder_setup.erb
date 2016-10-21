@@ -55,7 +55,7 @@
 		<table style="width:500px; margin-left:0px; border:0px solid #ddd;">
 			<thead style="border:1px solid #ddd;">
 				<tr>
-					<th colspan = 2 style = "border:0px solid #ddd; line-height:1.3em; font-size:13px; text-align:center; padding-top:5px; padding-bottom:5px;">
+					<th colspan = 3 style = "border:0px solid #ddd; line-height:1.3em; font-size:13px; text-align:center; padding-top:5px; padding-bottom:5px;">
 							<%= pluralize(lu.positioned_folders.size, (lu.title + " Folder")) -%>
 					</th>
 				</tr>
@@ -63,6 +63,9 @@
 					<th style = "width:20%; border:0px solid #ddd; font-size:11px; text-align:center; padding-top:0px; padding-bottom:0px;">
 							Position
 					</th>
+          <th style = "width:5%; border:0px solid #ddd; font-size:11px; text-align:center; padding-top:0px; padding-bottom:0px;">
+            Show?
+          </th>
 					<th style = " border:0px solid #ddd; font-size:11px; text-align:left; padding-top:0px; padding-bottom:0px;">
 							Folder
 					</th>
@@ -81,7 +84,11 @@
 						<td id = "assign_position_<%= folder.public_id %>" style="width:20%; border:0px solid #ddd; padding-left:10px; padding-top:0px; padding-bottom:0px; vertical-align:top; text-align:left; font-size:12px">
 							<%=  select(:folder_position, folder.public_id, [*1...lu.folder_positions.size + 1], {:include_blank =>'Position (' + lu.folder_position(folder).to_s + ')'}) %>
 						</td>
-						<td style=" border:0px solid #ddd; vertical-align:top;  padding-top:0px; padding-bottom:0px; color:#2061a5; text-align:left; font-weight:normal; font-size:12px">
+            <% show_button = folder.show?(lu) ? "button_enabled.png" : "button_disabled.png" -%>
+            <td   id="toggle_show_<%= folder.public_id %>" style="width:5%; border:0px solid #ddd; padding-left:1em; font-size:11px; cursor:pointer; vertical-align:middle;">
+              <%= (image_tag show_button,:width => 12) -%>
+            </td>
+            <td style=" border:0px solid #ddd; vertical-align:top;  padding-top:0px; padding-bottom:0px; color:#2061a5; text-align:left; font-weight:normal; font-size:12px">
 							<%= folder.parent ? ('<u>' + folder.parent.name + ':</u> ' + folder.name).html_safe : folder.name  %>
 							<span style = "color:#2061a5; font-size:10px;  font-weight:normal ">
 								(<%= pluralize(lu.topic_contents.for_folder(folder).size, " Resource") %>)
@@ -100,6 +107,17 @@
 		})
 	});
 	</script>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ('#toggle_show_<%= folder.public_id %>').click(function() {
+                var url = "<%= offering_admin_lu_folder_toggle_url(:organization_id => @current_organization, :topic_id => lu, :folder_id => folder, :app_id=> app.id) %>";
+                jQ.get(url, {}, function(data) {
+                  jQ("#offering_folder_setup_<%=app.id%>").html(data);
+                  jQ("#offering_folder_setup_<%=app.id%>").show();
+                });
+              })
+            });
+          </script>
 				<% end -%>
 			</tbody>
       <% end %>

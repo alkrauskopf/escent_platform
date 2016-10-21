@@ -14,7 +14,7 @@
 
   initialize_master_app_provider = false     # make true if ifa_pilot needs to be restored again
 
-  create_a_resource_type = true
+  create_a_resource_type = false
 
   create_a_subject_area = false
 

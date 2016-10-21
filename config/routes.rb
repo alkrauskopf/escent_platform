@@ -1,5 +1,6 @@
 EscentPartners::Application.routes.draw do |map|
 
+  mount Wirispluginengine::Engine => 'wirispluginengine'
   # You can have the root of your site routed with "root"
  # root to: 'fsn#index'
 
@@ -230,7 +231,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/admin/lu/destroy' => 'apps/classroom#destroy_lu'
   get '/offering/admin/lu/options' => 'apps/classroom#toggle_lu_options'
   get '/offering/admin/lu/folder' => 'apps/shared#assign_lu_folder'
-  get '/offering/admin/lu/folder/position' => 'apps/shared#assign_lu_folder_position'
+  get '/offering/admin/lu/folder/position' => 'apps/shared#assign_lu_folder_position'   #  offering_admin_lu_folder_position
+  get '/offering/admin/lu/folder/toggle' => 'apps/shared#assign_lu_folder_toggle_show'   #  offering_admin_lu_folder_toggle
   get '/offering/admin/resources' => 'apps/classroom#offering_resources'     #  offering_admin_resources_path
   get '/offering/admin/resource/assign' => 'apps/classroom#add_remove_resource'
   get '/offering/admin/resource/feature' => 'apps/classroom#toggle_lu_featured_resource'
@@ -365,7 +367,6 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/user/options/toggle/filter' => 'apps/assessment#user_option_toggle_user_filter' #  ifa_user_options_toggle_filter_url
   get '/ifa/user/switch/standard' => 'apps/assessment#switch_standard_view' #  ifa_user_switch_standard_url
 
-  post '/ifa/assessment/add' => 'apps/assessment#add_assessment'    # ifa_assessment_add_path
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path
   post '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path
@@ -378,6 +379,7 @@ EscentPartners::Application.routes.draw do |map|
   post '/ifa/assessment/submit' => 'apps/assessment#submit_assessment'    # ifa_assessment_submit_path
   get '/ifa/assessment/view' => 'apps/assessment#static_assessment'   # ifa_assessment_view_path
   post '/ifa/assessment/update' => 'apps/assessment#static_assessment'   # ifa_assessment_update_path
+  #  post '/ifa/assessment/add' => 'apps/assessment#add_assessment'    # ifa_assessment_add_path
   get '/ifa/assessment/add' => 'apps/assessment#add_ifa_assessment'    # ifa_assessment_add_path
   post '/ifa/assessment/add' => 'apps/assessment#add_ifa_assessment'    # ifa_assessment_add_path
   get '/ifa/assessment/review/final' => 'apps/assessment#final_assessment_review'    # ifa_assessment_review_final_path

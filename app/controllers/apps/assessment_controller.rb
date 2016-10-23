@@ -1650,8 +1650,10 @@ class Apps::AssessmentController < ApplicationController
       @reading = ActRelReading.new
       @reading.reading = "-- Type or Paste Reading Here --"
       @reading.label = ""
-     unless params[:read][:subject_id] == ""
+     if (params[:read] && params[:read][:subject_id] && params[:read][:subject_id] != "")
       @reading.act_subject_id = ActSubject.find_by_id(params[:read][:subject_id]).id rescue ActSubject.first.id
+     elsif params[:subject_id]
+       @reading.act_subject_id = ActSubject.find_by_id(params[:subject_id]).id rescue ActSubject.first.id
      else
       @reading.act_subject_id = ActSubject.first.id
      end      

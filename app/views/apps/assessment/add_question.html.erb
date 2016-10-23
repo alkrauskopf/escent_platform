@@ -59,9 +59,10 @@
 
 	<div class="FormRow" id="question_text">
 		<br/>
-		<div class="FormRowTitle"><strong>Question:</strong></div>
+		<div class="FormRowTitle"><strong>xxQuestion:</strong></div>
 		<div class="FormRowData" style= "margin-left:5px">
-   		   	<%= text_area :quest, :question, :rows => 2, :cols => 75 %>
+      <%= text_area :quest, :question, :class =>"tinymce", :rows => 2, :cols => 75 %>
+      <%= tinymce %>
 			<br/>
 		</div>
 	</div>

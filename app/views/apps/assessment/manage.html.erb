@@ -126,7 +126,7 @@
 	<table id="people_levels" class="tablesorter" style="width:99%;">
 		<thead>
 			<tr>
-				<th><strong>Update Baseline Student Mastery Levels  </strong></th>											
+				<th><strong>xUpdate Baseline Student Mastery Levels  </strong></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -138,7 +138,7 @@
 			<tr>
 				<td class="resource_levels_close">
 				<%= link_to '', ifa_students_path(:organization_id => @current_organization, :letter => l) %>
-				<%= group_label %>
+				<%= group_label.html_safe %>
 				<span></span>
 				</td>
 			</tr>

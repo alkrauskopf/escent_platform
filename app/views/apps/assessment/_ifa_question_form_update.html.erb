@@ -21,8 +21,9 @@
 		<br/>
 		<div class="FormRowTitle"><strong>Question:</strong></div>
 		<div class="FormRowData" style= "margin-left:5px">
- 		     <%= text_area :act_question, :question, :rows => 2, :cols => 75, :value => @question.question  %>
-			<br/>
+ 		     <%= text_area :act_question, :question, :class =>"tinymce", :rows => 2, :cols => 105, :value => @question.question  %>
+      <%= tinymce %>
+      <br/>
  	    </div>
     </div>
  

@@ -316,7 +316,7 @@ EscentPartners::Application.routes.draw do |map|
 
   get '/ifa/student/baseline/edit' => 'apps/assessment#edit_student_baseline_score' #  ifa_student_baseline_edit_url
   get '/ifa/student/csap/demographic/edit' => 'apps/assessment#edit_student_csap_demographic' #  ifa_student_csap_demographic_edit_url
-  get '/ifa/studentdemographic/update' => 'apps/assessment#update_student_demographics' #  ifa_student_demographic_update_path
+  get '/ifa/student/demographic/update' => 'apps/assessment#update_student_demographics' #  ifa_student_demographic_update_path
   get '/ifa/student/grade_level/edit' => 'apps/assessment#edit_student_grade_level' #  ifa_student_grade_level_edit_url
 
   get '/ifa/question/show' => 'apps/assessment#static_question'    # ifa_question_show_path

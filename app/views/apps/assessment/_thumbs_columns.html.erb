@@ -1,6 +1,6 @@
 			<% seq_score = quest.sequence_score_for(std, filter) -%>
 			<% align_score = quest.alignment_score_for(std, filter) -%>
-				<td width = 26px style=" color: #000000; padding-top:5px; padding-left:0px; vertical-align:top; font-size:10px;" >
+				<td style=" width:3%; color: #000000; padding-top:5px; padding-left:0px; vertical-align:top; font-size:10px;" >
 					<% if seq_score.nil? %>
 						<center>--</center>
 					<% elsif seq_score < 60 -%>
@@ -11,7 +11,7 @@
 						<center>--</center>
 					<% end -%>
 				</td>
-				<td width = 26px style=" color: #000000; padding-top:5px; padding-left:0px; vertical-align:top; font-size:10px;" >
+				<td style=" width:3%; color: #000000; padding-top:5px; padding-left:0px; vertical-align:top; font-size:10px;" >
 					<% if align_score.nil? %>
 						<center>--</center>
 					<% elsif align_score < 50 -%>

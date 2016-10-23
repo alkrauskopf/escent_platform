@@ -30,7 +30,7 @@ class ActScoreRange < ActiveRecord::Base
 #  scope :for_standardstring_and_subject, lambda{|standard, subject| {:conditions => ["act_subject_id = ? && standard = ? ", subject.id, standard],:order => "upper_score"}}
 
   def self.standard_subject_greater_than_upper(standard, subject, upper)
-    where('act_subject_id = ? AND act_master_is = ? AND upper_score > ?', subject.id, standard.id, upper).order('upper_score')
+    where('act_subject_id = ? AND act_master_id = ? AND upper_score > ?', subject.id, standard.id, upper).order('upper_score')
   end
 
   def self.for_subject_id(subject_id)

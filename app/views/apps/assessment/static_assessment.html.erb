@@ -131,7 +131,7 @@
 	 
   <br style="clear:both">
 	
-	<% @assessment.act_questions.each_with_index do |@q,@idx| %>	
+	<% @assessment.act_questions.each_with_index do |que,qdx| %>
 
 	<table id="roles" style="width:500px; border:0px solid:white">
 		<tbody>
@@ -143,7 +143,7 @@
    			</style>	
 
 	  		<tr style="border:0px solid:white">
-				<% if !@q.is_calibrated -%>
+				<% if !que.is_calibrated -%>
 					<td style=" width:20px; color: #000000; vertical-align:top; font-size:10px" >
 						&nbsp;
 					</td>
@@ -152,7 +152,7 @@
 						<%= (image_tag "calibrated_yes.png",:width => 15) -%>
 					</td>
 				<% end -%>
-				<% if !@q.is_locked -%>
+				<% if !que.is_locked -%>
 					<td style=" width:20px; color: #000000; vertical-align:top;font-size:10px" >
 						<%= (image_tag "lock_no.png",:width => 15) -%>
 					</td>
@@ -161,12 +161,12 @@
 						<%= (image_tag "lock_yes.png",:width => 15) -%>
 					</td>
 				<% end -%>
-				<% points = @q.act_answers.selected.select{|a| a.act_assessment_id == @assessment.id}.collect{|a| a.points}.sum rescue 0 -%>
-				<% times_selected = @q.act_answers.selected.select{|a| a.act_assessment_id == @assessment.id && a.was_selected}.size rescue 0 -%>
+				<% points = que.act_answers.selected.select{|a| a.act_assessment_id == @assessment.id}.collect{|a| a.points}.sum rescue 0 -%>
+				<% times_selected = que.act_answers.selected.select{|a| a.act_assessment_id == @assessment.id && a.was_selected}.size rescue 0 -%>
 				<% prof = times_selected == 0 ? "" : (100*points/times_selected).to_i -%>
 				<td colspan=3 style=" width:80px; color: #000000; vertical-align:bottom;text-align:left; font-size:12px" >
-					<% question_string = "Question " + (@idx+1).to_s + ": " %>
-					<strong><u><%= link_to question_string, ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @q), {:target => "_blank"} %></u></strong>
+					<% question_string = "Question " + (qdx+1).to_s + ": " %>
+					<strong><u><%= link_to question_string, ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => que), {:target => "_blank"} %></u></strong>
 					&nbsp;&nbsp;&nbsp;
 					<% unless prof == "" -%>
 						<%=number_to_percentage(prof, :precision => 0) %> Of <%= times_selected %> 
@@ -176,30 +176,30 @@
 				</td>
 			
 			</tr>
-			<% if @q.content%>
+			<% if que.content%>
 	  		<tr style="border:0px solid:white">
 				<td colspan=2 style=" width:40px; color: #000000; vertical-align:top; font-size:10px" >
 						&nbsp;
 				</td>
 				<td style=" width:80px; color: #000000; vertical-align:bottom;text-align:right; font-size:12px" >
 					<% attachment_string = "Attachment:" %>
-					<u><%= link_to attachment_string, resource_view_path(:organization_id => @current_organization, :id => @q.content), {:target => "_blank"} %></u>&nbsp;
+					<u><%= link_to attachment_string, resource_view_path(:organization_id => @current_organization, :id => que.content), {:target => "_blank"} %></u>&nbsp;
 				</td>
 				<td  colspan=2 style="vertical-align:top; color: #000000; text-align:left; font-size:10px; margin-top:0px; font-weight:normal" >
-					<i><%= @q.content.title.titleize %></i>
+					<i><%= que.content.title.titleize %></i>
 				</td>
 			</tr>
 			<% end -%>							  
 		</tbody>
 	</table>
 
-	<% if @q.act_rel_reading %>
+	<% if que.act_rel_reading %>
 		<%= render :partial=> "static_assessment_q_readings" %>
 	<% end -%>
-	<% if @q.act_benches %>
+	<% if que.act_benches %>
 	<!--	<%#= render :partial=> "static_assessment_q_benchmarks" %> -->
 	<% end -%>
-		<%= render :partial=> "static_assessment_q_analyze", :locals => {:q => @q} -%>
+		<%= render :partial=> "static_assessment_q_analyze", :locals => {:q => que} -%>
 			
 	<table style="width:500px; ">
 		<tbody>
@@ -217,10 +217,10 @@
 						&nbsp;
 					</td>
 					<td  colspan=3 style="vertical-align:top; color: #000000; text-align:left; font-size:11px; margin-top:0px; font-weight:normal" >
-						<strong><%= simple_format @q.question %></strong>
+						<strong><%= simple_format que.question %></strong>
 					</td>
 				</tr>
-			<% if @q.act_choices.size.zero? %>
+			<% if que.act_choices.size.zero? %>
 	  			<tr style="border:0px solid:white">
 					<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
 						&nbsp;
@@ -239,8 +239,8 @@
 					</td>
 				</tr>
 			<% else -%>
-				<% tot_answers = @q.act_answers.selected rescue []-%>
-				<% @q.act_choices.each do |chc| -%>
+				<% tot_answers = que.act_answers.selected rescue []-%>
+				<% que.act_choices.each do |chc| -%>
 		  			<tr style="border:0px solid:white">
 						<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
 							&nbsp;

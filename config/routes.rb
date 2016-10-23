@@ -378,8 +378,9 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/assessment/submit' => 'apps/assessment#submit_assessment'    # ifa_assessment_submit_path
   post '/ifa/assessment/submit' => 'apps/assessment#submit_assessment'    # ifa_assessment_submit_path
   get '/ifa/assessment/view' => 'apps/assessment#static_assessment'   # ifa_assessment_view_path
-  post '/ifa/assessment/update' => 'apps/assessment#static_assessment'   # ifa_assessment_update_path
-  #  post '/ifa/assessment/add' => 'apps/assessment#add_assessment'    # ifa_assessment_add_path
+  post '/ifa/assessment/view' => 'apps/assessment#static_assessment'   # ifa_assessment_update_path
+  post '/ifa/assessment/create' => 'apps/assessment#add_assessment'    # ifa_assessment_create_path
+  # get '/ifa/assessment/add' => 'apps/assessment#add_assessment'    # ifa_assessment_add_path
   get '/ifa/assessment/add' => 'apps/assessment#add_ifa_assessment'    # ifa_assessment_add_path
   post '/ifa/assessment/add' => 'apps/assessment#add_ifa_assessment'    # ifa_assessment_add_path
   get '/ifa/assessment/review/final' => 'apps/assessment#final_assessment_review'    # ifa_assessment_review_final_path

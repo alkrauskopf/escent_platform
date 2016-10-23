@@ -12,7 +12,7 @@ xx
 </div>
 
 <div class="Form clear">
-<%= form_for(:act_assessment, :url => ifa_assessment_add_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :function => "Submit")) do |form| -%>
+<%= form_for(:act_assessment, :url => ifa_assessment_create_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :function => "Submit")) do |form| -%>
 
 
 	<div class="FormRow">

@@ -20,10 +20,11 @@
           <%= @current_user.full_name %>
         </p>
       </div>
+        <%= render :partial => "/apps/assessment/ifa_user_views" %>
     </div>
     <div class="col-md-7 ">
       <div class='ifa_panel_title'>
-        <%= @current_organization.short_name %> <%= @current_standard.abbrev.upcase %> Dashboards
+        <%= @current_organization.short_name %> <%= @current_user.sat_view? ? 'SAT' : @current_standard.abbrev.upcase %> Dashboards
       </div>
       <div class='summary_dashboard_panel'>
         <%= render :partial => "/apps/assessment/ifa_summary_brief" %>

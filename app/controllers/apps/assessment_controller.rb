@@ -2475,14 +2475,32 @@ end
     render :partial => "/apps/assessment/ifa_summary_dashboard"
   end
 
-     def toggle_sumry_ifa_data
-       initialize_parameters
-       @current_user.update_attributes(:calibrated_only =>!@current_user.calibrated_only)
-       prepare_summary_data
-       render :partial => "/apps/assessment/ifa_summary_brief"
-     end
+   def toggle_sumry_ifa_data
+     initialize_parameters
+     @current_user.update_attributes(:calibrated_only =>!@current_user.calibrated_only)
+     prepare_summary_data
+     render :partial => "/apps/assessment/ifa_user_views"
+   end
+
+  def toggle_sat_view
+    initialize_parameters
+    toggle_user_sat(@current_user)
+    prepare_summary_data
+    render :partial => "/apps/assessment/ifa_user_views"
+  end
+
+  def toggle_sat_view_student
+    initialize_parameters
+    toggle_user_sat(@current_user)
+    redirect_to ifa_assessment_take_path(:organization_id => @current_organization,:classroom_id => @classroom, :topic_id => @topic)
+  end
 
    private
+
+  def toggle_user_sat(user)
+    user.ifa_user_option.update_attributes(:sat_view =>!user.ifa_user_option.sat_view)
+  end
+
 
    def ifa_allowed?
      @current_application = CoopApp.ifa
@@ -2840,7 +2858,9 @@ end
   end
 
     @current_sms_f = latest_dashboard_scores.sms_finalized rescue ""
+    @current_sms_f = (@current_user.sat_view? && @current_sms_f != "") ? ActScoreRange.sat_score(@current_standard, @current_subject, @current_sms_f) : @current_sms_f
     @current_sms_c = latest_dashboard_scores.sms_calibrated rescue ""
+    @current_sms_c = (@current_user.sat_view? && @current_sms_c != "") ? ActScoreRange.sat_score(@current_standard, @current_subject, @current_sms_c) : @current_sms_c
     @baseline_score = latest_dashboard_scores.baseline_score rescue nil
 
   @min_range = score_list ? score_list.collect{|sl| sl.score_range_min}.min : 0
@@ -2901,7 +2921,9 @@ end
     @total_efficiency =  duration_points == 0 ? 0 : (@total_duration.to_f/duration_points.to_f).round
 
     @current_sms_f = scores.sms_finalized rescue ""
+    @current_sms_f = (@current_user.sat_view? && @current_sms_f != "") ? ActScoreRange.sat_score(@current_standard, @current_subject, @current_sms_f) : @current_sms_f
     @current_sms_c = scores.sms_calibrated rescue ""
+    @current_sms_c = (@current_user.sat_view? && @current_sms_c != "") ? ActScoreRange.sat_score(@current_standard, @current_subject, @current_sms_c) : @current_sms_c
     @baseline_score = scores.baseline_score rescue nil
     @min_range = scores.score_range_min rescue 0
     @max_range = scores.score_range_max rescue 0

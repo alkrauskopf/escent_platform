@@ -5,7 +5,7 @@
 					<% header_string = "No Assessment Data On Record" %>
 					<% else -%>
 					<% filter = @current_user.calibrated_only ? "Calibrated" : "Finalized"%>
-					<% header_string = @current_standard.abbrev.upcase + " " + filter + " IFA Results, " + @entity_dashboards.last.period_end.strftime("%B, %Y") + " - " +  @entity_dashboards.first.period_end.strftime("%B, %Y") %>
+					<% header_string = @current_standard.abbrev_view(@current_user) + " " + filter + " IFA Results, " + @entity_dashboards.last.period_end.strftime("%B, %Y") + " - " +  @entity_dashboards.first.period_end.strftime("%B, %Y") %>
 					<% end -%>					
 				<tr>
 					<th><strong><%= header_string %></strong></th>											
@@ -14,7 +14,8 @@
 			<tbody>
 				<% @entity_dashboards.each do |db| -%>
 					<% mastery = @current_user.calibrated_only ? db.ifa_dashboard_sms_scores.for_standard(@current_standard).first.sms_calibrated : db.ifa_dashboard_sms_scores.for_standard(@current_standard).first.sms_finalized rescue "none" -%>
-					<% col_label = db.period_end.strftime("%B, %Y") + ",  Mastery Level: " + mastery.to_s -%>
+					<% mastery = @current_user.sat_view? ? ActScoreRange.sat_score(@current_standard, @current_subject, mastery) : mastery %>
+          <% col_label = db.period_end.strftime("%B, %Y") + ",  Mastery Level: " + mastery.to_s -%>
 					<tr>
 						<td class="authorization_levels_close">
 						<%= link_to '', ifa_dashboard_entity_path(:organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => db, :period => db.period_end,:details => @show_details) %>

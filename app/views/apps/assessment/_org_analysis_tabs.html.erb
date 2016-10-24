@@ -41,7 +41,7 @@
 				<tr>
 					<td class="resource_levels_close">
 						<%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "organization", :subject_id => @current_subject.id, :id => hs) %>
-						<strong><%= school_label %></strong>
+						<strong><%= school_label.html_safe %></strong>
 						<span></span>
 						</td>
 					</tr>
@@ -71,7 +71,7 @@
                 <tr>
                   <td class="resource_levels_close">
                     <%= link_to '', ifa_dashboard_entity_path(:organization_id => @current_organization,  :subject_id => @current_subject.id,  :dashboard_id => db) %>
-                    <strong><%= col_label %></strong>
+                    <strong><%= col_label.html_safe %></strong>
                     <span></span>
                   </td>
                 </tr>
@@ -101,7 +101,7 @@
           <tr>
             <td class="resource_levels_close">
               <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "classroom", :subject_id => @current_subject.id, :id => clsrm) %>
-              <strong><%= classroom_label %></strong>
+              <strong><%= classroom_label.html_safe %></strong>
               <span></span>
               </td>
             </tr>
@@ -124,7 +124,7 @@
           <tr>
             <td class="resource_levels_close">
               <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "student", :subject_id => @current_subject.id, :id => student) %>
-              <strong><%= student_label %></strong>&nbsp;&nbsp;&nbsp;
+              <strong><%= student_label.html_safe %></strong>&nbsp;&nbsp;&nbsp;
               <span></span>
               </td>
             </tr>

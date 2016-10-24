@@ -1,13 +1,6 @@
 <div id="sumry_brief" >
   <div class="row">
     <div class="col-md-1">
-      <div class= "toggle_filter_row" id="toggle_filter">
-        <% if @current_user.calibrated_only -%>
-          <%= (image_tag "calibrated_yes.png",:width => 25) -%>
-        <% else %>
-          <%= (image_tag "calibrated_no.png",:width => 25) -%>
-        <% end %>
-      </div>
     </div>
     <div class="col-md-10">
       <div class="summary_dashboards" id="dashboard_data">
@@ -30,17 +23,3 @@
     </div>
   </div>
 </div>
-
-<script type="text/javascript">
-jQ(document).ready(function() {
-	jQ("#toggle_filter").click(function() {
-		var organization = "<%= @current_organization.public_id %>";
-		var url = "<%= ifa_toggle_summary_data_url %>";
-		jQ.get(url,{'organization_id': organization},  function(data) {
-			jQ("#sumry_brief").html(data);
-	   		jQ("#sumry_brief").show();
-					});
-               
-	})
-});
-</script>

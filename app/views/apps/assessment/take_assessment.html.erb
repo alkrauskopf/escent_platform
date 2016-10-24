@@ -1,4 +1,4 @@
-<div>
+<div id="take_assess">
   <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-2">
@@ -19,6 +19,20 @@
           </p>
         <% end %>
       </div>
+      <div class="row">
+        <div class="ifa_sat_view_panel">
+          <div class="col-md-1 ifa_sat_button">
+            <% if @current_user.sat_view? -%>
+                <%= link_to (image_tag "button_enabled.png",:width => 12), ifa_toggle_sat_view_student_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic) -%>
+            <% else %>
+                <%= link_to (image_tag "button_disabled.png",:width => 12), ifa_toggle_sat_view_student_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic) -%>
+            <% end %>
+          </div>
+          <div class="col-md-10">
+            SAT View
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-md-7">
       <div class= 'panel_title_blue'>
@@ -30,7 +44,8 @@
         <div class= 'submission_success'>
           <% @current_organization.ifa_org_option.act_masters.each do |mstr| -%>
             <% unless @submission.sms_score(mstr) == 0 -%>
-              <%= @submission.final? ? 'Final' : 'Estimated'%>&nbsp;<%= mstr.abbrev %> Score: <%= @submission.sms_score(mstr) %><br/>
+              <% ass_score = @current_user.sat_view? ?  ActScoreRange.sat_score(mstr, @submission.act_subject, @submission.sms_score(mstr)) : @submission.sms_score(mstr) %>
+              <%= @submission.final? ? 'Final' : 'Estimated'%>&nbsp;<%= mstr.abbrev_view(@current_user) %> Score: <%= ass_score %><br/>
             <% end -%>
           <% end -%>
           Time To Complete: <%= number_with_precision(@submission.duration/60.0, :precision => 1) %> Minutes<br/>
@@ -96,7 +111,6 @@
 </div>
 
 <br style="clear:both" />
-
 
 <script type="text/javascript" charset="utf-8">
   jQ(document).ready(function(){

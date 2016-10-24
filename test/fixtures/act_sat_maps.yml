@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  range: MyString
+  lower_score: 1
+  upper_score: 1
+
+two:
+  range: MyString
+  lower_score: 1
+  upper_score: 1

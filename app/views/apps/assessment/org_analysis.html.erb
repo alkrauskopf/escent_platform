@@ -1,7 +1,7 @@
 
 <div id="mainContent">
   	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
-		<br/><strong><%= @current_organization.short_name %> <%= @current_standard.abbrev.upcase %> Dashboard </strong><br/>
+		<br/><strong><%= @current_organization.short_name %> <%= @current_standard.abbrev_view(@current_user) %> Dashboard </strong><br/>
 	</div>	
 	<%= render :partial => "/shared/error_and_notice" %>
 	<div style="float:left; padding-left:000px;width:730px;">
@@ -12,6 +12,7 @@
 				<%= @current_user.full_name %>
 			</span> 
 			</p>
+    <%#= render :partial => "/apps/assessment/ifa_user_views" %>
 	</div>
 
 		

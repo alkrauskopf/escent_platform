@@ -1,0 +1,57 @@
+<div id="user_views" >
+  <div class="row">
+    <div class="col-md-2">
+      <div class= "toggle_filter_row" id="toggle_filter">
+        <% if @current_user.calibrated_only -%>
+          <%= (image_tag "calibrated_yes.png",:width => 20) -%>
+        <% else %>
+          <%= (image_tag "calibrated_no.png",:width => 20) -%>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-10">
+      Calibrated View
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <div class= "toggle_filter_row" id="toggle_SAT">
+        <% if @current_user.sat_view? -%>
+            <%= (image_tag "button_enabled.png",:width => 12) -%>
+        <% else %>
+            <%= (image_tag "button_disabled.png",:width => 12) -%>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-10">
+      SAT View
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ("#toggle_filter").click(function() {
+		var organization = "<%= @current_organization.public_id %>";
+		var url = "<%= ifa_toggle_summary_data_url %>";
+		jQ.get(url,{'organization_id': organization},  function(data) {
+			jQ("#user_views").html(data);
+	   		jQ("#user_views").show();
+					});
+               
+	})
+});
+</script>
+<script type="text/javascript">
+  jQ(document).ready(function() {
+    jQ("#toggle_SAT").click(function() {
+      var organization = "<%= @current_organization.public_id %>";
+      var url = "<%= ifa_toggle_sat_view_url %>";
+      jQ.get(url,{'organization_id': organization},  function(data) {
+        jQ("#user_views").html(data);
+        jQ("#user_views").show();
+      });
+
+    })
+  });
+</script>

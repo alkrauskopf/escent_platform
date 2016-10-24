@@ -26,11 +26,27 @@ class ActMaster < ActiveRecord::Base
   scope :act, :conditions => { :abbrev => "ACT"}  
   scope :all, :order => "abbrev"
   scope  :co,  :conditions => { :abbrev => "CO"}
+  scope  :cc,  :conditions => { :abbrev => "CC"}
 
-
+  def abbrev_view(user)
+    (user && user.sat_view?) ? 'SAT' : self.abbrev.upcase
+  end
   def self.default_std
    ActMaster.act.first
   end
+
+  def self.act_std
+    ActMaster.act.first
+  end
+
+  def self.co_std
+    ActMaster.co.first
+  end
+
+  def self.cc_std
+    ActMaster.cc.first
+  end
+
   def self.find_standard(std)
     self.where('abbrev = ?', std).first
   end

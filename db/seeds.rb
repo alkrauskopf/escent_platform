@@ -20,6 +20,108 @@
 
   create_object_type = false
 
+  initialize_act_sat_map = true     # make true if act_sat_map needs to be restored again
+
+  if initialize_act_sat_map
+    ActSatMap.destroy_all
+    #  ACT English & Writing
+    ActMaster.act_std.act_score_ranges.for_subject(ActSubject.ew).each do |act_range|
+      if act_range.sat_range
+        act_range.sat_range.destroy
+      end
+      if act_range.range == '33-36'
+        sat_map = ActSatMap.create('range' => '730-800', 'lower_score' => 730, 'upper_score' => 800)
+      elsif act_range.range == '28-32'
+        sat_map = ActSatMap.create('range' => '620-720', 'lower_score' => 620, 'upper_score' => 720)
+      elsif act_range.range == '24-27'
+        sat_map = ActSatMap.create('range' => '550-610', 'lower_score' => 550, 'upper_score' => 610)
+      elsif act_range.range == '20-23'
+        sat_map = ActSatMap.create('range' => '470-540', 'lower_score' => 470, 'upper_score' => 540)
+      elsif act_range.range == '16-19'
+        sat_map = ActSatMap.create('range' => '390-460', 'lower_score' => 390, 'upper_score' => 460)
+      elsif act_range.range == '13-15'
+        sat_map = ActSatMap.create('range' => '340-380', 'lower_score' => 340, 'upper_score' => 380)
+      elsif act_range.range == '1-12'
+        sat_map = ActSatMap.create('range' => '300-330', 'lower_score' => 300, 'upper_score' => 330)
+      end
+      unless sat_map.nil?
+        act_range.update_attributes({'act_sat_map_id' => sat_map.id})
+      end
+    end
+    #  ACT Math
+    ActMaster.act_std.act_score_ranges.for_subject(ActSubject.math).each do |act_range|
+      if act_range.sat_range
+        act_range.sat_range.destroy
+      end
+      if act_range.range == '33-36'
+        sat_map = ActSatMap.create('range' => '720-800', 'lower_score' => 720, 'upper_score' => 800)
+      elsif act_range.range == '28-32'
+        sat_map = ActSatMap.create('range' => '630-710', 'lower_score' => 630, 'upper_score' => 710)
+      elsif act_range.range == '24-27'
+        sat_map = ActSatMap.create('range' => '550-620', 'lower_score' => 550, 'upper_score' => 620)
+      elsif act_range.range == '20-23'
+        sat_map = ActSatMap.create('range' => '470-540', 'lower_score' => 470, 'upper_score' => 540)
+      elsif act_range.range == '16-19'
+        sat_map = ActSatMap.create('range' => '390-460', 'lower_score' => 390, 'upper_score' => 460)
+      elsif act_range.range == '13-15'
+        sat_map = ActSatMap.create('range' => '310-380', 'lower_score' => 310, 'upper_score' => 380)
+      elsif act_range.range == '1-12'
+        sat_map = ActSatMap.create('range' => '250-300', 'lower_score' => 250, 'upper_score' => 300)
+      end
+      unless sat_map.nil?
+        act_range.update_attributes({'act_sat_map_id' => sat_map.id})
+      end
+    end
+    #  ACT Reading
+    ActMaster.act_std.act_score_ranges.for_subject(ActSubject.rl).each do |act_range|
+      if act_range.sat_range
+        act_range.sat_range.destroy
+      end
+      if act_range.range == '33-36'
+        sat_map = ActSatMap.create('range' => '720-800', 'lower_score' => 720, 'upper_score' => 800)
+      elsif act_range.range == '28-32'
+        sat_map = ActSatMap.create('range' => '630-710', 'lower_score' => 630, 'upper_score' => 710)
+      elsif act_range.range == '24-27'
+        sat_map = ActSatMap.create('range' => '550-620', 'lower_score' => 550, 'upper_score' => 620)
+      elsif act_range.range == '20-23'
+        sat_map = ActSatMap.create('range' => '470-540', 'lower_score' => 470, 'upper_score' => 540)
+      elsif act_range.range == '16-19'
+        sat_map = ActSatMap.create('range' => '390-460', 'lower_score' => 390, 'upper_score' => 460)
+      elsif act_range.range == '13-15'
+        sat_map = ActSatMap.create('range' => '310-380', 'lower_score' => 310, 'upper_score' => 380)
+      elsif act_range.range == '1-12'
+        sat_map = ActSatMap.create('range' => '250-300', 'lower_score' => 250, 'upper_score' => 300)
+      end
+      unless sat_map.nil?
+        act_range.update_attributes({'act_sat_map_id' => sat_map.id})
+      end
+    end
+    #  ACT Science
+    ActMaster.act_std.act_score_ranges.for_subject(ActSubject.science).each do |act_range|
+      if act_range.sat_range
+        act_range.sat_range.destroy
+      end
+      if act_range.range == '33-36'
+        sat_map = ActSatMap.create('range' => '720-800', 'lower_score' => 720, 'upper_score' => 800)
+      elsif act_range.range == '28-32'
+        sat_map = ActSatMap.create('range' => '630-710', 'lower_score' => 630, 'upper_score' => 710)
+      elsif act_range.range == '24-27'
+        sat_map = ActSatMap.create('range' => '550-620', 'lower_score' => 550, 'upper_score' => 620)
+      elsif act_range.range == '20-23'
+        sat_map = ActSatMap.create('range' => '470-540', 'lower_score' => 470, 'upper_score' => 540)
+      elsif act_range.range == '16-19'
+        sat_map = ActSatMap.create('range' => '390-460', 'lower_score' => 390, 'upper_score' => 460)
+      elsif act_range.range == '13-15'
+        sat_map = ActSatMap.create('range' => '310-380', 'lower_score' => 310, 'upper_score' => 380)
+      elsif act_range.range == '1-12'
+        sat_map = ActSatMap.create('range' => '250-300', 'lower_score' => 250, 'upper_score' => 300)
+      end
+      unless sat_map.nil?
+        act_range.update_attributes({'act_sat_map_id' => sat_map.id})
+      end
+    end
+  end
+
   if create_object_type
     if ContentObjectType.where(['content_object_type =?', 'XLSM']).empty?
       ContentObjectType.create('content_object_type' => 'XLSM', 'content_object_type_group_id' => 8,

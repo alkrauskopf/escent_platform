@@ -4,6 +4,7 @@ class ActScoreRange < ActiveRecord::Base
 
   belongs_to :act_master
   belongs_to :act_subject
+  belongs_to :act_sat_map
   
   has_many :act_benches, :dependent => :destroy
   has_many :contents
@@ -28,6 +29,30 @@ class ActScoreRange < ActiveRecord::Base
 
 #  scope :for_standard_and_subject, lambda{|standard, subject| {:conditions => ["act_subject_id = ? && act_master_id = ? ", subject.id, standard.id],:order => "upper_score"}}
 #  scope :for_standardstring_and_subject, lambda{|standard, subject| {:conditions => ["act_subject_id = ? && standard = ? ", subject.id, standard],:order => "upper_score"}}
+
+  def self.sat_score(standard, subject, score)
+    range = ActScoreRange.no_na.for_standard_and_subject(standard, subject).select{|r| (score >= r.lower_score && score <= r.upper_score)}.first
+    if !range.nil? && range.sat_range?
+      pct_delta =  (score - range.lower_score.to_f)/(range.upper_score - range.lower_score.to_f)
+      sat_range_size = (range.sat_range.upper_score - range.sat_range.lower_score).to_f
+      sat_score = (range.sat_range.lower_score.to_f + sat_range_size*pct_delta).to_i
+    else
+      sat_score = score
+    end
+    sat_score
+  end
+
+  def sat_range
+    self.act_sat_map ? self.act_sat_map : nil
+  end
+
+  def sat_range?
+    self.act_sat_map ? true : false
+  end
+
+  def range_view(user)
+    (user.sat_view? && self.sat_range?) ? self.sat_range.range : self.range
+  end
 
   def self.standard_subject_greater_than_upper(standard, subject, upper)
     where('act_subject_id = ? AND act_master_id = ? AND upper_score > ?', subject.id, standard.id, upper).order('upper_score')

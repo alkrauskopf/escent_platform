@@ -1263,7 +1263,20 @@ class User < ActiveRecord::Base
     end
   end
 
-  #
+#
+#  IFA methods
+#
+
+  def calibrate_view?
+ #   self.calbrated_only
+    self.ifa_user_option ? self.ifa_user_option.calibrate_only : false
+  end
+
+  def sat_view?
+    self.ifa_user_option ? self.ifa_user_option.sat_view : false
+  end
+
+#
   #  Classroom methods
   #
 

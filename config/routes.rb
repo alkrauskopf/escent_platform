@@ -310,6 +310,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/org_analysis' => 'apps/assessment#org_analysis'    # ifa_org_analysis_path
   post '/ifa/org_analysis' => 'apps/assessment#org_analysis'    # ifa_org_analysis_path
   get '/ifa/toggle/summary_data' => 'apps/assessment#toggle_sumry_ifa_data'    # ifa_toggle_summary_data_url
+  get '/ifa/toggle/sat_view' => 'apps/assessment#toggle_sat_view'    # ifa_toggle_sat_view_url
+  get '/ifa/toggle/sat_view/student' => 'apps/assessment#toggle_sat_view_student'    # ifa_toggle_sat_view_student
   get '/ifa/toggle/summary_dashboard' => 'apps/assessment#toggle_sumry_ifa_dashboard'    # ifa_toggle_summary_dashboard_url
   post '/ifa/manual/update' => 'apps/assessment#manual_ifa_update'    # ifa_manual_update_path
   post '/ifa/submission/add' => 'apps/assessment#add_submission'    # ifa_submission_add_path

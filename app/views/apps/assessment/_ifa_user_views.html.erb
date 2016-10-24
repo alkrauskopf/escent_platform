@@ -14,17 +14,17 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-2">
-      <div class= "toggle_filter_row" id="toggle_SAT">
+    <div class="ifa_sat_view_panel">
+      <div class="col-md-1 ifa_sat_button">
         <% if @current_user.sat_view? -%>
-            <%= (image_tag "button_enabled.png",:width => 12) -%>
+            <%= link_to (image_tag "button_enabled.png",:width => 12), ifa_toggle_sat_view_path(:organization_id => @current_organization) -%>
         <% else %>
-            <%= (image_tag "button_disabled.png",:width => 12) -%>
+            <%= link_to (image_tag "button_disabled.png",:width => 12), ifa_toggle_sat_view_path(:organization_id => @current_organization) -%>
         <% end %>
       </div>
-    </div>
-    <div class="col-md-10">
-      SAT View
+      <div class="col-md-10">
+        SAT View
+      </div>
     </div>
   </div>
 </div>
@@ -38,20 +38,6 @@ jQ(document).ready(function() {
 			jQ("#user_views").html(data);
 	   		jQ("#user_views").show();
 					});
-               
 	})
 });
-</script>
-<script type="text/javascript">
-  jQ(document).ready(function() {
-    jQ("#toggle_SAT").click(function() {
-      var organization = "<%= @current_organization.public_id %>";
-      var url = "<%= ifa_toggle_sat_view_url %>";
-      jQ.get(url,{'organization_id': organization},  function(data) {
-        jQ("#user_views").html(data);
-        jQ("#user_views").show();
-      });
-
-    })
-  });
 </script>

@@ -7,7 +7,7 @@ plugins:
   - code
   - textcolor colorpicker
   - print
-  - tiny_mce_wiris
+#  - tiny_mce_wiris
 toolbar:
   - bullist numlist outdent indent | forecolor backcolor emoticons | bold italic underline | undo redo | alignleft aligncenter alignright
 #  - tiny_mce_wiris_CAS | tiny_mce_wiris_formulaEditorChemistry | code | tiny_mce_wiris_formulaEditor

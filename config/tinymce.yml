@@ -7,6 +7,8 @@ plugins:
   - code
   - textcolor colorpicker
   - print
+  - lists
+  - advlist
 #  - tiny_mce_wiris
 toolbar:
   - bullist numlist outdent indent | forecolor backcolor emoticons | bold italic underline | undo redo | alignleft aligncenter alignright

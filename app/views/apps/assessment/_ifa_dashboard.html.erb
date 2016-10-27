@@ -1,183 +1,158 @@
 <div id="ifa_dashboard_<%= div_key %>">
-  <!-- temporarily disable these refreshes  -->
-	<% if false %>
-    <% if @current_user.superuser? && !dashboard.nil?-%>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <% if  !dashboard.nil? && (@current_organization.ifa_standards.size > 1)%>
+        <div   id = "standard_view_<%= dashboard.id %>" style="margin-left:45px;">
+          <%=  select(:master, div_key, @current_organization.ifa_standards.collect{|s| [s.name, s.id]}, :prompt => "View Standard") %>
+        </div>
 
-      <div id="refresh_scores<%= dashboard.id %>">
-        <span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
-           Refresh Scores  (temporarily disabled)
-        </span>
-      </div>
-      <script type="text/javascript">
-      jQ(document).ready(function() {
-        jQ("#refresh_scores<%= dashboard.id %>").click(function() {
-          var url = "<%= ifa_dashboard_refresh_scores_url(:organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details) %>";
-          jQ.get(url,{},  function(data) {
-            jQ("#ifa_dashboard_<%= div_key %>").html(data);
-            jQ("#ifa_dashboard_<%= div_key %>").show();
-                });
-        })
-      });
-      </script>
-      <div id="refresh_cells<%= dashboard.id %>">
-        <span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
-           Refresh Cells  (temporarily disabled)
-        </span>
         <script type="text/javascript">
         jQ(document).ready(function() {
-          jQ("#refresh_cells<%= dashboard.id %>").click(function() {
-            var url = "<%= ifa_dashboard_refresh_cells_url(:organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details)  %>";
-            jQ.get(url,{},  function(data) {
+          jQ('#standard_view_<%= dashboard.id %>').change(function() {
+            var master_id = jQ('#master_<%= div_key %>').val();
+            var url = "<%= ifa_user_switch_standard_url(:organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details) %>";
+              jQ.get(url, {'master_id':master_id}, function(data) {
               jQ("#ifa_dashboard_<%= div_key %>").html(data);
               jQ("#ifa_dashboard_<%= div_key %>").show();
-                  });
+              });
           })
         });
         </script>
-            &nbsp;Submissions: <%= @temp_count ? @temp_count : "xx" %>,&nbsp;SMS Records For Std: <%= @temp_std_count ? @temp_std_count : "xx" %>
-            &nbsp;Max Score: <%= @max_score ? @max_score : "xx" %>,&nbsp;Min Score: <%= @min_score ? @min_score : "xx" %><br/>
-      </div>
-    <% end -%>
-  <% end %>
-
-	<% if  !dashboard.nil? && (@current_organization.ifa_standards.size > 1)%>
-		<div   id = "standard_view_<%= dashboard.id %>" style="margin-left:45px;">
-			<%=  select(:master, div_key, @current_organization.ifa_standards.collect{|s| [s.name, s.id]}, :prompt => "View Standard") %>
-		</div>
-
-    <script type="text/javascript">
-    jQ(document).ready(function() {
-      jQ('#standard_view_<%= dashboard.id %>').change(function() {
-        var master_id = jQ('#master_<%= div_key %>').val();
-        var url = "<%= ifa_user_switch_standard_url(:organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details) %>";
-          jQ.get(url, {'master_id':master_id}, function(data) {
-          jQ("#ifa_dashboard_<%= div_key %>").html(data);
-          jQ("#ifa_dashboard_<%= div_key %>").show();
-          });
-      })
-    });
-    </script>
-	<% end -%>
-    <% if !dashboard.nil? && dashboard.period_end && dashboard.ifa_dashboardable %>
-      <div style="width:750px;margin-left:45px">
+      <% end -%>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <% if !dashboard.nil? && dashboard.period_end && dashboard.ifa_dashboardable %>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
         <% if ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, @current_subject, dashboard.period_beginning, dashboard.period_ending).size == 0 %>
             <%= 'All ' + dashboard.ifa_dashboardable.name + ' Assessments Between ' +  dashboard.period_beginning.strftime("%m/%d/%Y") + ' and ' + dashboard.period_ending.strftime("%m/%d/%Y") + ' Have Been Dashboarded' %>
         <% else %>
           <%= pluralize(ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, @current_subject, dashboard.period_beginning, dashboard.period_ending).size,
-              (dashboard.ifa_dashboardable.name + ' Assessment')) + ' Between ' +  dashboard.period_beginning.strftime("%m/%d/%Y") + ' and ' + dashboard.period_ending.strftime("%m/%d/%Y") + ' Not Dashboarded' %>
-            <% if @current_user.ifa_admin?(dashboard.organization) %>
-              <div id="refresh_dashboard<%= dashboard.id %>">
-                <span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
-                   <%= ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, @current_subject, dashboard.period_beginning, dashboard.period_ending).size == 1 ? ' Dashboard It ' : ' Dashboard Them ' %>
-                </span>
-              </div>
-              <script type="text/javascript">
-                jQ(document).ready(function() {
-                  jQ("#refresh_dashboard<%= dashboard.id %>").click(function() {
-                    var url = "<%= ifa_dashboard_submissions_url(:organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details) %>";
-                    jQ.get(url,{},  function(data) {
-                      jQ("#ifa_dashboard_<%= div_key %>").html(data);
-                      jQ("#ifa_dashboard_<%= div_key %>").show();
-                    });
-                  })
-                });
-              </script>
-            <% end %>
+          (dashboard.ifa_dashboardable.name + ' Assessment')) + ' Between ' +  dashboard.period_beginning.strftime("%m/%d/%Y") + ' and ' + dashboard.period_ending.strftime("%m/%d/%Y") + ' Not Dashboarded' %>
+          <% if @current_user.ifa_admin?(dashboard.organization) %>
+            <div id="refresh_dashboard<%= dashboard.id %>">
+              <span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
+                 <%= ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, @current_subject, dashboard.period_beginning, dashboard.period_ending).size == 1 ? ' Dashboard It ' : ' Dashboard Them ' %>
+              </span>
+            </div>
+            <script type="text/javascript">
+              jQ(document).ready(function() {
+                jQ("#refresh_dashboard<%= dashboard.id %>").click(function() {
+                  var url = "<%= ifa_dashboard_submissions_url(:organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => dashboard, :period => dashboard.period_end,:details => @show_details) %>";
+                  jQ.get(url,{},  function(data) {
+                    jQ("#ifa_dashboard_<%= div_key %>").html(data);
+                    jQ("#ifa_dashboard_<%= div_key %>").show();
+                  });
+                })
+              });
+            </script>
+          <% end %>
         <% end %>
       </div>
-    <% end %>
-		<table  id = "dash" style="width:750px;margin-left:45px">
-			<thead>
-				<tr>
-					<% filter = @current_user.calibrated_only ? "Calibrated" : "Finalized" -%>
-					<% header_string = @current_subject.name.upcase + " IFA RESULTS - " + filter  %>
-					<th colspan=13 style="vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #C83A14; font-size:14px; margin-top:0px; font-weight:normal" >
-					<% if @start_period -%>
-					<center><strong><%= header_string %><br/>
-					 <%= @start_period.strftime("%B, %Y") %> - <%= @end_period.strftime("%B, %Y") %><br/>
-					</strong></center>
-					<% else -%>
-					<center><strong><%= header_string %><br/>
-					 <%= @end_period.strftime("%B, %Y") %><br/>
-					</strong></center>
-					<% end -%>
-					<% mastery_line = @current_user.calibrated_only ? @current_sms_c.to_s + "</strong>  <small>(UnCalibrated: " + @current_sms_f.to_s + ")</small>" :  @current_sms_f.to_s + "</strong>  <small>(Calibrated: " + @current_sms_c.to_s + ")</small>" -%>
-					<% if @baseline_score && @baseline_score != 0%>
-						<% mastery_line += "<small>(Baseline: " + @baseline_score.to_s + ")</small>" -%>
-					<% end -%>
-					<span style="font-size:11px"> 
-					<center><strong>
-					<%= filter %> Assessments: <%= @total_assessments -%>&nbsp;of <%= @total_taken %>&nbsp;Taken. &nbsp;&nbsp;&nbsp;
-					<%= filter %>  Answer Choices: <%= @total_answers -%><br/>
-					Proficiency: <%= @total_proficiency -%>%&nbsp;&nbsp;&nbsp;					
-					Efficiency: <%= @total_efficiency -%> Secs/Point<br/>
-					Current Mastery Level: <%= mastery_line.html_safe -%>
-					</strong></center>
-					</span>
-					</th>
-				</tr>
-			</thead>
-			<tbody id = "dashboard">
-				<style  type="text/css" media="screen">
-				table,tr,td { border:1px solid #ddd; }
-				table tr:hover{
-        		background-color: transparent;
-      			}
-    			</style>	
+      <div class="col-md-1"></div>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <table  class="dashboard" id = "dash">
+        <thead class="dashboard_header">
+          <tr >
+            <% filter = @current_user.calibrate_view? ? " Calibrated" : " Finalized" -%>
+            <% header_string = @current_subject.name + filter + " Results"  %>
+            <th colspan=13  class = "dashboard_header_1">
+              <%= header_string %>
+            </th>
+          </tr>
+          <tr >
+            <th colspan=13 class = "dashboard_header_2" >
+              <% if @start_period -%>
+                  <%= @start_period.strftime("%B, %Y") %> - <%= @end_period.strftime("%B, %Y") %>
+              <% else -%>
+                  <%= @end_period.strftime("%B, %Y") %>
+              <% end -%>
+            </th>
+          </tr>
+          <tr >
+            <th colspan=13  class = "dashboard_header_3">
+              <% if false %>   <!-- skip this for now %>  -->
+                <% mastery_line = @current_user.calibrate_view? ? @current_sms_c.to_s + "<small>(UnCalibrated: " + @current_sms_f.to_s + ")</small>" :  @current_sms_f.to_s + "<small>(Calibrated: " + @current_sms_c.to_s + ")</small>" -%>
+                <% if @baseline_score && @baseline_score != 0%>
+                  <% mastery_line += "<small>(Baseline: " + @baseline_score.to_s + ")</small>" -%>
+                <% end -%>
+              <% end %>
+              <%= pluralize(@total_taken, ' Assessment') %>&nbsp;&nbsp;|&nbsp;&nbsp;
+              <%= pluralize(@total_answers, ' Answer Choice') -%>&nbsp;&nbsp;|&nbsp;&nbsp;
+              <%= @total_proficiency -%>% Proficiency&nbsp;&nbsp;|&nbsp;&nbsp;
+              <%= @total_efficiency -%> Secs/Point
+            </th>
+          </tr>
+          <tr >
+            <th colspan=13  class = "dashboard_header_4">
+              Mastery Level: <%= @current_user.calibrate_view? ? @current_sms_c.to_s : @current_sms_f.to_s %>
+            </th>
+          </tr>
+        </thead>
+        <tbody >
+          <%# col_width = @strand_list.size > 0 ? ((750 - 120)/@strand_list.size).round : 1 -%>
+          <% label_col_pct = 12 %>
+          <% strand_col_pct = 100 - label_col_pct %>
+          <% col_width = @strand_list.size > 0 ? (strand_col_pct/@strand_list.size).round : strand_col_pct -%>
+          <tr >
+            <td  class = "dashboard_cell" style="width:<%= label_col_pct %>%" >
+              <%= @current_user.sat_view? ? 'SAT' : @current_standard.abbrev %> Mastery
+            </td>
+            <% @strand_list.each do |s|%>
+              <td class="dashboard_cell" width = <%= col_width %>%  >
+                <%= s.abbrev.upcase %>
+              </td>
+            <% end -%>
+          </tr>
+          <% @range_list.each_with_index do |r,rdx|%>
+          <tr>
+            <td class="dashboard_cell" width = <%= label_col_pct %>% >
+                <%= r.range_view(@current_user) %>
+            </td>
+            <% @strand_list.each_with_index do |s,sdx|-%>
+            <% answers = @range_answers[rdx].fetch(sdx)-%>
+            <% points =  @range_points[rdx].fetch(sdx) -%>
+            <% pct_correct = answers == 0 ? 0 : number_to_percentage((100*points.to_f/answers.to_f).round, :precision => 0) -%>
+            <% hover_text =  @hover_text ? @range_hover_text[rdx].fetch(sdx) : ""-%>
+            <% if !@hover_text -%>
+              <% hover_class = hover_text == "" ? "" : "tip_cell_" + div_key -%>
+            <% end -%>
+            <% hover_text += "<br/><strong>" + r.range + " </strong>" + @current_standard.cell_benchmarks(@current_subject.id, s.id, r.id) -%>
+            <% cell_color = "#6a6529" -%>
+            <% if pct_correct.to_i <= @current_organization.ifa_org_option.pct_correct_red -%> <% cell_color = "#C83A14" -%> <% end -%>
+            <% if pct_correct.to_i >= @current_organization.ifa_org_option.pct_correct_green -%> <% cell_color = "#279605" -%> <% end -%>
+            <% back_color = "#f7f5cc" -%>
+            <% if pct_correct.to_i <= @current_organization.ifa_org_option.pct_correct_red -%> <% back_color = "#fcd1ca" -%> <% end -%>
+            <% if pct_correct.to_i >= @current_organization.ifa_org_option.pct_correct_green -%> <% back_color = "#baeaa9" -%> <% end -%>
+            <% cell_color = "#000000" -%>
+            <% unless answers == 0 -%>
+            <% id = div_key + r.id.to_s + s.id.to_s %>
+            <td  width = <%= col_width %>% style="border:1px solid #ddd; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px; background:<%=back_color%>; color:<%= cell_color %>; font-size:11px; margin-top:0px; font-weight:bold" >
+                <%=  points.round.to_i %> of <%=  answers %><br>
+                <a id="<%= id %>" href=""><%=  pct_correct %></a>
+                <%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :titl=> (@dashboard_name.nil? ? "" : (@dashboard_name + " => " )) + pct_correct, :blue=>  s.name.titleize, :body=> hover_text, :height=> 300, :width=> 650 } %>
+            </td>
+              <%else -%>
+            <td  width = <%= col_width %>% style="border:1px solid #ddd;" >
+              &nbsp;
+            </td>
+              <% end -%>
 
-				<% col_width = @strand_list.size > 0 ? ((750 - 120)/@strand_list.size).round : 1 -%>
-				<tr>
-					<td colspan=1 width = 65px style="border:1px solid #ddd; vertical-align:middle; text-align:right; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
-						<center><strong><%= @current_user.sat_view? ? 'SAT' : @current_standard.abbrev %> Mastery Levels</strong></center>
-					</td>
-
-
-					<% @strand_list.each do |s|%>
-					<td class="tip_std" title="<center><strong><%= s.name.titleize %></strong></center>" width = 60px style="border:1px solid #ddd; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px;color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
-						<strong><%= s.abbrev.upcase %></strong>
-					</td>
-					<% end -%>
-				</tr>
-				<% @range_list.each_with_index do |r,rdx|%>
-				<tr>
-					<td width = 120px style="border:1px solid #ddd; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-right:0px;color: #000000; font-size:11px; margin-top:0px; font-weight:normal" >
-							<strong><%= r.range_view(@current_user) %></strong>
-					</td>
-					<% @strand_list.each_with_index do |s,sdx|-%>
-					<% answers = @range_answers[rdx].fetch(sdx)-%>
-					<% points =  @range_points[rdx].fetch(sdx) -%>
-					<% pct_correct = answers == 0 ? 0 : number_to_percentage((100*points.to_f/answers.to_f).round, :precision => 0) -%>
-					<% hover_text =  @hover_text ? @range_hover_text[rdx].fetch(sdx) : ""-%>
-					<% if !@hover_text -%>
-						<% hover_class = hover_text == "" ? "" : "tip_cell_" + div_key -%>
-					<% end -%>
-					<% hover_text += "<br/><strong>" + r.range + " </strong>" + @current_standard.cell_benchmarks(@current_subject.id, s.id, r.id) -%>
-					<% cell_color = "#6a6529" -%>
-					<% if pct_correct.to_i <= @current_organization.ifa_org_option.pct_correct_red -%> <% cell_color = "#C83A14" -%> <% end -%>
-					<% if pct_correct.to_i >= @current_organization.ifa_org_option.pct_correct_green -%> <% cell_color = "#279605" -%> <% end -%>
-					<% back_color = "#f7f5cc" -%>
-					<% if pct_correct.to_i <= @current_organization.ifa_org_option.pct_correct_red -%> <% back_color = "#fcd1ca" -%> <% end -%>
-					<% if pct_correct.to_i >= @current_organization.ifa_org_option.pct_correct_green -%> <% back_color = "#baeaa9" -%> <% end -%>
-					<% cell_color = "#000000" -%>
-					<% unless answers == 0 -%>
-					<% id = div_key + r.id.to_s + s.id.to_s %>
-					<td  width = <%= col_width %>px style="border:1px solid #ddd; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px; background:<%=back_color%>; color:<%= cell_color %>; font-size:11px; margin-top:0px; font-weight:bold" >
-							<%=  points.round.to_i %> of <%=  answers %><br>
-							<a id="<%= id %>" href=""><%=  pct_correct %></a>
-							<%= render :partial => "/apps/shared/help_box", :locals => {:id => id, :titl=> (@dashboard_name.nil? ? "" : (@dashboard_name + " => " )) + pct_correct, :blue=>  s.name.titleize, :body=> hover_text, :height=> 300, :width=> 650 } %>
-
-					</td>	
-						<%else -%>
-					<td  width = <%= col_width %>px style="border:1px solid #ddd;" >
-						&nbsp;
-					</td>						
-						<% end -%>
-
-					<% end -%>
-				</tr>
-				<% end -%>
-			</tbody>
-		</table>
+            <% end -%>
+          </tr>
+          <% end -%>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
 </div>
 <script>
 jQ(function(){

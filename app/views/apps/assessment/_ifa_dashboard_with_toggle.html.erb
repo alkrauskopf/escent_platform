@@ -1,25 +1,6 @@
 <br style="clear:both" />
 <div id="ifa_dashboard" width = 100px style="text-align:center;  padding_left:0px; color: #000000;  font-size:9px">
-	<table  style="width:100px; border:0px;">
-		<tbody>
-			<tr style=" border:0px;">
-				<td   id="toggle_filter" style="width:100px; border:0px; font-size:10px; padding-left:35px; vertical-align:bottom; text-align:center;color: #C83A14;font-weight:bold;">
-					<% if @current_user.calibrated_only -%>
-						<%= (image_tag "calibrated_yes.png",:width => 25) -%>
-						<% calibrate_hover = "<center><u>Calibrated Results</u><br/>Associated With Questions That Have Been Designated As<br/>Valid Indicators Of Mastery Levels. <br/><strong>Click Ribbon To Remove Calibration Filter.</strong></center>" %>
-					<% else %>
-						<%= (image_tag "calibrated_no.png",:width => 25) -%>
-						<% calibrate_hover = "<center><u>Calibrated Results</u><br/>Associated With Questions That Have Been Designated As<br/>Valid Indicators Of Mastery Levels. <br/><strong>Click Ribbon To View Calibrated Result Only.</strong></center>" %>
-					<% end %>
-				</td>	
-			</tr>
-			<tr style=" border:0px; height: 10px;">	
-				<td   class="tip_filter" title="<%= calibrate_hover %>" style="width:50px; border:0px; font-size:8px; padding-left:92px; vertical-align:middle; text-align:right;color: #C83A14;font-weight:bold;">
-					&nbsp;
-				</td>	
-			</tr>	
-		</tbody>					
-	</table>
+
 
     	<%= render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "toggle"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)} %>
 <br/>		

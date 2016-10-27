@@ -244,13 +244,11 @@
 .ifa_user_panel {
   padding-left:0em;
   padding-top:1em;
-  text-align:center;
-  word-wrap:break-word;
-  overflow:hidden;
-  width:100%;
+  text-align:left;
+  font-weight:bold;
   padding-bottom:.5em;
   font-size:14px;
-  color:$dark_text
+  color:$blue_text
 }
 .ifa_sat_button {
   padding-left:.5em;
@@ -302,20 +300,105 @@
   color:$dark_text
 }
 .toggle_filter_row {
-  width:100%;
   padding-bottom:1em;
+  padding-right:0em;
+  padding-top:0em;
+  text-align:right;
+  vertical-align:top;
+  font-weight:normal;
+  font-size:12px;
+  color:$dark_text;
+}
+.toggle_filter_button {
+  padding-bottom:1em;
+  padding-right:0em;
+  padding-top:0em;
+  float:left;
+  cursor:pointer;
+}
+.dashboard {
+  width:100%;
+  border:1px solid #ddd;
+  padding-bottom:2em;
   padding-left:0em;
   padding-top:0em;
   word-wrap:break-word;
   text-align:center;
-  vertical-align:top;
-  font-weight:normal;
-  font-size:10px;
-  color:$dark_text;
+  vertical-align:middle;
 }
+.dashboard_header {
+  color:$blue_title;
+}
+.dashboard_header_1 {
+  border:0px solid #ddd;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  font-size:15px;
+  word-wrap:break-word;
+  text-align:center;
+  vertical-align:middle;
+  font-weight:bold;
+}
+.dashboard_header_2 {
+  border:0px solid #ddd;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  font-size:14px;
+  word-wrap:break-word;
+  text-align:center;
+  vertical-align:middle;
+  font-weight:normal;
+}
+.dashboard_header_3 {
+  border:0px solid #ddd;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  font-size:12px;
+  word-wrap:break-word;
+  text-align:center;
+  vertical-align:middle;
+  font-weight:normal;
+}
+.dashboard_header_4 {
+  border:0px solid #ddd;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  font-size:12px;
+  word-wrap:break-word;
+  text-align:center;
+  vertical-align:middle;
+  font-weight:bold;
+}
+.dashboard_labels {
+  border:1px solid #ddd;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:1em;
+  font-size:11px;
+  word-wrap:break-word;
+  vertical-align:middle;
+  font-weight:bold;
+}
+
+.dashboard_cell {
+  padding-bottom:1em;
+  padding-top:1em;
+  color:$dark_text;
+  border:1px solid #ddd;
+  text-align:center;
+  vertical-align:middle;
+  font-weight:bold;
+  font-size:11px;
+}
+
+
 .summary_dashboards {
   width:100%;
-  padding-bottom:1em;
+  padding-bottom:2em;
   padding-left:0em;
   padding-top:0em;
   word-wrap:break-word;

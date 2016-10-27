@@ -4,15 +4,12 @@
     <%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@current_application} %>
   </div>
   <hr>
-    <%= render :partial => "/shared/error_and_notice" %>
   <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-2">
       <div class="row">
-        <% if @current_user.picture.url.split("/").last == "missing.png" %>
-            <%= image_tag "member_ico.gif" %>
-        <% else %>
-            <%= image_tag @current_user.picture.url(:thumb) %>
+        <% if @current_user.picture.url %>
+          <%= image_tag @current_user.picture.url(:thumb) %>
         <% end %>
       </div>
       <div class="row">
@@ -20,17 +17,18 @@
           <%= @current_user.full_name %>
         </p>
       </div>
-        <%= render :partial => "/apps/assessment/ifa_user_views" %>
     </div>
-    <div class="col-md-7 ">
+    <div class="col-md-6 ">
       <div class='ifa_panel_title'>
-        <%= @current_organization.short_name %> <%= @current_user.sat_view? ? 'SAT' : @current_standard.abbrev.upcase %> Dashboards
+        <%= @current_organization.short_name %> Assessment Dashboards
       </div>
       <div class='summary_dashboard_panel'>
         <%= render :partial => "/apps/assessment/ifa_summary_brief" %>
       </div>
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-3">
+      <%= render :partial => "/apps/assessment/ifa_user_views" %>
+    </div>
   </div>
   <div id="control_panel" >
     <ul>

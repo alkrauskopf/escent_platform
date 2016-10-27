@@ -2486,8 +2486,8 @@ end
     initialize_parameters
     toggle_user_sat(@current_user)
     prepare_summary_data
-   # render :partial => "/apps/assessment/ifa_user_views"
-    redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
+    render :partial => "/apps/assessment/ifa_user_views"
+   # redirect_to self.send(@current_application.link_path,{:organization_id => @current_organization, :classroom_id => @classroom})
   end
 
   def toggle_sat_view_student

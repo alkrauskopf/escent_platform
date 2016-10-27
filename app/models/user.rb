@@ -1268,8 +1268,8 @@ class User < ActiveRecord::Base
 #
 
   def calibrate_view?
- #   self.calbrated_only
-    self.ifa_user_option ? self.ifa_user_option.calibrate_only : false
+    self.calibrated_only
+ #   self.ifa_user_option ? self.ifa_user_option.calibrate_only : false
   end
 
   def sat_view?

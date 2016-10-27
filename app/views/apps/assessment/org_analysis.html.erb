@@ -1,27 +1,15 @@
 
-<div id="mainContent">
-  	<div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
-		<br/><strong><%= @current_organization.short_name %> <%= @current_standard.abbrev_view(@current_user) %> Dashboard </strong><br/>
-	</div>	
-	<%= render :partial => "/shared/error_and_notice" %>
-	<div style="float:left; padding-left:000px;width:730px;">
-	      <p class="name" style="width:730px; padding-top:15px; word-wrap:break-word; overflow:hidden; font-weight:bold; font-size:16px" > 
-		  	<%= link_to (image_tag @current_organization.logo.url :thumb), organization_view_path(:organization_id => @current_organization) -%>
-			<br/>
-			<span style="padding-left:50px">
-				<%= @current_user.full_name %>
-			</span> 
-			</p>
-    <%#= render :partial => "/apps/assessment/ifa_user_views" %>
-	</div>
-
-		
-	<div style="float:none;width:97%;" class="mempro_box clear">
-
-    <%= render :partial => "/apps/assessment/ifa_dashboard_with_toggle" %>
-
-	</div>
-
+<div>
+  <div class= 'row panel_title_blue'>
+    <%= @current_organization.short_name %> <%= @current_standard.abbrev_view(@current_user) %> Dashboards <%= @current_user.calibrate_view? ? ' - Calibrated':''%>
+  </div>
+  <hr>
+  <div class="row">
+        <div class="summary_dashboards">
+          <%= render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "toggle"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)} %>
+        </div>
+      </div>
+    <div class="col-md-1"></div>
+  </div>
   <%= render :partial => "/apps/assessment/org_analysis_tabs" %>
-
 </div>

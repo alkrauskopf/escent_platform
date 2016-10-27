@@ -1,43 +1,51 @@
 <div id="user_views" >
-  <div class="row">
-    <div class="col-md-2">
-      <div class= "toggle_filter_row" id="toggle_filter">
-        <% if @current_user.calibrated_only -%>
-          <%= (image_tag "calibrated_yes.png",:width => 20) -%>
-        <% else %>
-          <%= (image_tag "calibrated_no.png",:width => 20) -%>
-        <% end %>
-      </div>
+  <div class="row toggle_filter_row">
+    <div class="col-md-9">
+      Calibrated Only <%= @current_user.calibrate_view? ? '(ON)' : '(OFF)' %>
     </div>
-    <div class="col-md-10">
-      Calibrated View
+    <div  class="col-md-3" id="toggle_filter">
+      <% if @current_user.calibrated_only -%>
+       <span class="toggle_filter_button"> <%= (image_tag "button_enabled.png",:width => 12) -%></span>
+      <% else %>
+        <span class="toggle_filter_button"> <%= (image_tag "button_disabled.png",:width => 12) -%></span>
+      <% end %>
     </div>
   </div>
-  <div class="row">
-    <div class="ifa_sat_view_panel">
-      <div class="col-md-1 ifa_sat_button">
-        <% if @current_user.sat_view? -%>
-            <%= link_to (image_tag "button_enabled.png",:width => 12), ifa_toggle_sat_view_path(:organization_id => @current_organization) -%>
-        <% else %>
-            <%= link_to (image_tag "button_disabled.png",:width => 12), ifa_toggle_sat_view_path(:organization_id => @current_organization) -%>
-        <% end %>
-      </div>
-      <div class="col-md-10">
-        SAT View
-      </div>
+  <div class="row toggle_filter_row">
+    <div class="col-md-9">
+      SAT View <%= @current_user.sat_view? ? '(ON)' : '(OFF)' %>
+    </div>
+    <div  class="col-md-3" id="sat_filter">
+      <% if @current_user.sat_view? -%>
+        <span class="toggle_filter_button"> <%= (image_tag "button_enabled.png",:width => 12) -%></span>
+      <% else %>
+        <span class="toggle_filter_button"> <%= (image_tag "button_disabled.png",:width => 12) -%></span>
+      <% end %>
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
-jQ(document).ready(function() {
-	jQ("#toggle_filter").click(function() {
-		var organization = "<%= @current_organization.public_id %>";
-		var url = "<%= ifa_toggle_summary_data_url %>";
-		jQ.get(url,{'organization_id': organization},  function(data) {
-			jQ("#user_views").html(data);
-	   		jQ("#user_views").show();
-					});
-	})
-});
+  jQ(document).ready(function() {
+    jQ("#toggle_filter").click(function() {
+      var organization = "<%= @current_organization.public_id %>";
+      var url = "<%= ifa_toggle_summary_data_url %>";
+      jQ.get(url,{'organization_id': organization},  function(data) {
+        jQ("#user_views").html(data);
+          jQ("#user_views").show();
+            });
+    })
+  });
+</script>
+<script type="text/javascript">
+  jQ(document).ready(function() {
+    jQ("#sat_filter").click(function() {
+      var organization = "<%= @current_organization.public_id %>";
+      var url = "<%= ifa_toggle_sat_view_url %>";
+      jQ.get(url,{'organization_id': organization},  function(data) {
+        jQ("#user_views").html(data);
+        jQ("#user_views").show();
+      });
+    })
+  });
 </script>

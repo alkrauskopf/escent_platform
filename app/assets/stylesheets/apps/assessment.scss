@@ -318,6 +318,7 @@
 }
 .dashboard {
   width:100%;
+  background-color:white;
   border:1px solid #ddd;
   padding-bottom:2em;
   padding-left:0em;
@@ -394,8 +395,18 @@
   font-weight:bold;
   font-size:11px;
 }
-
-
+.dashboard_listing {
+  margin-left:0em;
+  width:99%;
+  padding-bottom:2em;
+  padding-left:0em;
+  padding-top:0em;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:normal;
+  font-size:13px;
+  color:$blue_title;
+}
 .summary_dashboards {
   width:100%;
   padding-bottom:2em;

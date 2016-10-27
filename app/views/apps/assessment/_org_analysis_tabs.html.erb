@@ -1,176 +1,155 @@
 <div id="org_analysis_tabs"%>
   <div id="control_panel" >
- 
-   <ul>
-
+    <ul>
       <li>
-		<%  tab_1_label = "Network Growth" %>		
-		<a href="#tabs-1"><span class="tab_label">
-		<%= tab_1_label %></span></a>				
-		</li>
-
-      <li>
-		<%  tab_2_label = @current_organization.short_name + " Growth" %>
-		<a href="#tabs-2"><span class="tab_label">
-		<%= tab_2_label %></span></a>				
-	  </li>
-		
-	  <li>
-		<%  tab_3_label = @current_organization.short_name + " Classroom Growth" %>
-		<a href="#tabs-3"><span class="tab_label">
-		<%= tab_3_label %></span></a>								
+        <%  tab_1_label = "Network Growth" %>
+        <a href="#tabs-1"><span class="tab_label">
+        <%= tab_1_label %></span></a>
       </li>
-
-	  <li>
-      <%  tab_4_label = @current_organization.short_name + " Student Growth" %>
-      <a href="#tabs-4"><span class="tab_label">
-      <%= tab_4_label %></span></a>
-    </li>
-
+      <li>
+        <%  tab_2_label = @current_organization.short_name + " Growth" %>
+        <a href="#tabs-2"><span class="tab_label">
+        <%= tab_2_label %></span></a>
+      </li>
+      <li>
+        <%  tab_3_label = @current_organization.short_name + " Classroom Growth" %>
+        <a href="#tabs-3"><span class="tab_label">
+        <%= tab_3_label %></span></a>
+      </li>
+      <li>
+        <%  tab_4_label = @current_organization.short_name + " Student Growth" %>
+        <a href="#tabs-4"><span class="tab_label">
+        <%= tab_4_label %></span></a>
+      </li>
     </ul>
-
-
-    <div id="tabs-1" class="favorite_organizations" style="width:900px; margin-left:20;">
-
-	<table id="network_levels" class="tablesorter" style="width:99%;">
-		<tbody>
-			<% unless @org_family.size.zero? -%>
-				<% @org_family.each do |hs| %>
-				
-				<% school_label = hs.name.upcase + ",&nbsp;" + hs.contact_name -%>
-				<tr>
-					<td class="resource_levels_close">
-						<%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "organization", :subject_id => @current_subject.id, :id => hs) %>
-						<strong><%= school_label.html_safe %></strong>
-						<span></span>
-						</td>
-					</tr>
-
-				<% end -%>
-			<% else -%>
-			<br/>
-			<span style ="text-align:center;font-size:11px; color: #C83A14;">
-				<i>* * *  No Siblings In Network  * * *</i>
-			</span>				
-			<% end -%>
-		</tbody>
-	</table>
-	</div>
- 
-  <div id="tabs-2" class="favorite_organizations" style="width:900px; margin-left:20;">
-    <!--
-    <%# if @org_tbdashboard_submissions.size > 0 %>
-        <%#= render :partial => "/apps/assessment/tbdashboard_it", :locals=>{:organization=>@current_organization, :submissions => @org_tbdashboard_submissions, :entity=>@current_organization, :subject=> @current_subject, :period_end=> @org_tbdashboard_period_end} %>
-    <%# end%>
-    -->
-    <table id="org_levels" class="tablesorter" style="width:99%;">
-      <tbody>
-        <% unless @current_org_dashboards.size.zero? -%>
-            <% @current_org_dashboards.each do |db| -%>
-                <% col_label = db.period_end.strftime("%B, %Y") -%>
+    <div id="tabs-1" >
+	    <div class="container dashboard_listing">
+        <% if !@org_family.size.zero? -%>
+          <table id="network_levels">
+            <tbody>
+              <% @org_family.each do |hs| %>
+                <% school_label = hs.name.upcase + ",&nbsp;" + hs.contact_name -%>
                 <tr>
                   <td class="resource_levels_close">
-                    <%= link_to '', ifa_dashboard_entity_path(:organization_id => @current_organization,  :subject_id => @current_subject.id,  :dashboard_id => db) %>
-                    <strong><%= col_label.html_safe %></strong>
+                    <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "organization", :subject_id => @current_subject.id, :id => hs) %>
+                    <%= school_label.html_safe %>
                     <span></span>
                   </td>
                 </tr>
+              <% end -%>
+            </tbody>
+          </table>
+        <% else -%>
+          <div >
+            * * *  No Siblings In Network  * * *
+          </div>
+        <% end -%>
+      </div>
+    </div>
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+      jQ('#network_levels .resource_levels_close').toggleResourceLevels();
+      jQ('#network_levels .resource_levels_open').toggleResourceLevels();
+    });
+  </script>
+ 
+  <div id="tabs-2">
+    <div class="container dashboard_listing">
+      <% if !@current_org_dashboards.size.zero? -%>
+        <table id="org_levels">
+          <tbody>
+            <% @current_org_dashboards.each do |db| -%>
+              <% col_label = db.period_end.strftime("%B, %Y") -%>
+              <tr>
+                <td class="resource_levels_close">
+                  <%= link_to '', ifa_dashboard_entity_path(:organization_id => @current_organization,  :subject_id => @current_subject.id,  :dashboard_id => db) %>
+                  <%= col_label.html_safe %>
+                  <span></span>
+                </td>
+              </tr>
             <% end -%>
-        <% else -%>
-            <br/>
-        <span style ="text-align:center; font-size:11px; color: #C83A14;">
-          <strong><i>* * *   NO IFA RESULTS FOR <%= @current_subject.name.upcase %>   * * *</i></strong>
-        </span>
-        <% end -%>
-      </tbody>
-    </table>
+          </tbody>
+        </table>
+      <% else -%>
+        <div>
+          * * *   No Data For <%= @current_subject.name.upcase %>   * * *
+        </div>
+      <% end -%>
+    </div>
   </div>
+    <script type="text/javascript" charset="utf-8">
+      jQ(document).ready(function() {
+        jQ('#org_levels .resource_levels_close').toggleResourceLevels();
+        jQ('#org_levels .resource_levels_open').toggleResourceLevels();
+      });
+    </script>
 
-  <div id="tabs-3" class="favorite_organizations" style="width:900px; margin-left:20;">
- <!--
-    <%# if @classroom_tbdashboard_submissions.size > 0 %>
-        <%#= render :partial => "/apps/assessment/tbdashboard_it", :locals=>{:organization=>@current_organization, :submissions => @classroom_tbdashboard_submissions, :entity=>@classroom_tbdashboard_submissions.first.classroom, :subject=> @current_subject, :period_end=> @classroom_tbdashboard_period_end} %>
-    <%# end%>
-    <%#= @classroom_tbdashboard_period_end.strftime("%B, %Y") -%>
-    -->
-    <table id="classroom_levels" class="tablesorter" style="width:99%;">
-      <tbody>
-        <% unless @classroom_list.size.zero? -%>
-          <% @classroom_list.each do |clsrm| %>
-          <% classroom_label = clsrm.course_name.upcase + ",&nbsp;" + truncate(clsrm.teacher_list, :omission => "...", :length => 13) -%>
-          <tr>
-            <td class="resource_levels_close">
-              <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "classroom", :subject_id => @current_subject.id, :id => clsrm) %>
-              <strong><%= classroom_label.html_safe %></strong>
-              <span></span>
-              </td>
-            </tr>
-          <% end -%>
-        <% else -%>
-        <br/>
-        <span style ="text-align:center;font-size:11px; color: #C83A14;">
-          <strong><i>* * *   NO CLASSROOMS WITH IFA RESULTS FOR <%= @current_subject.name.upcase %>   * * *</i></strong>
-        </span>
-        <% end -%>
-      </tbody>
-    </table>
+  <div id="tabs-3">
+    <div class="container dashboard_listing">
+      <% if !@classroom_list.size.zero? -%>
+        <table id="classroom_levels">
+          <tbody>
+            <% @classroom_list.each do |clsrm| %>
+              <% classroom_label = clsrm.course_name.upcase + ",&nbsp;" + truncate(clsrm.teacher_list, :omission => "...", :length => 13) -%>
+              <tr>
+                <td class="resource_levels_close">
+                  <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "classroom", :subject_id => @current_subject.id, :id => clsrm) %>
+                  <%= classroom_label.html_safe %>
+                  <span></span>
+                </td>
+              </tr>
+            <% end -%>
+          </tbody>
+        </table>
+      <% else -%>
+        <div>
+          * * *   No Classroom Data For <%= @current_subject.name.upcase %>   * * *
+        </div>
+      <% end -%>
+    </div>
   </div>
-  <div id="tabs-4" class="favorite_organizations" style="width:900px; margin-left:20;">
-    <table id="user_levels" class="tablesorter" style="width:99%;">
-      <tbody>
-        <% unless @student_list.size.zero? -%>
-          <% @student_list.each do |student| %>
-          <% student_label = student.last_name.upcase + ",&nbsp;" + student.first_name -%>
-          <tr>
-            <td class="resource_levels_close">
-              <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "student", :subject_id => @current_subject.id, :id => student) %>
-              <strong><%= student_label.html_safe %></strong>&nbsp;&nbsp;&nbsp;
-              <span></span>
-              </td>
-            </tr>
-          <% end -%>
-        <% else -%>
-        <br/>
-        <span style ="text-align:center; font-size:11px; color: #C83A14;">
-          <strong><i>* * *  NO STUDENTS WITH IFA RESULTS FOR <%= @current_subject.name.upcase %>   * * *</i></strong>
-        </span>
-        <% end -%>
-      </tbody>
-    </table>
+    <script type="text/javascript" charset="utf-8">
+      jQ(document).ready(function() {
+        jQ('#classroom_levels .resource_levels_close').toggleResourceLevels();
+        jQ('#classroom_levels .resource_levels_open').toggleResourceLevels();
+      });
+    </script>
+
+  <div id="tabs-4">
+    <div class="container dashboard_listing">
+      <% if !@student_list.size.zero? -%>
+        <table id="user_levels">
+          <tbody>
+            <% @student_list.each do |student| %>
+              <% student_label = student.last_name.upcase + ",&nbsp;" + student.first_name -%>
+              <tr>
+                <td class="resource_levels_close">
+                  <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "student", :subject_id => @current_subject.id, :id => student) %>
+                  <%= student_label.html_safe %>
+                  <span></span>
+                </td>
+              </tr>
+            <% end -%>
+          </tbody>
+        </table>
+      <% else -%>
+        <div>
+          * * *   No Student Data For <%= @current_subject.name.upcase %>   * * *
+        </div>
+      <% end -%>
+    </div>
   </div>
-
-</div>
-
-<br style="clear:both" />
-
-
-<script type="text/javascript" charset="utf-8">
-  jQ(document).ready(function(){
-    jQ('#control_panel').tabs();
-  });
-</script>
-<script type="text/javascript" charset="utf-8">
-jQ(document).ready(function() {
-	jQ('#network_levels .resource_levels_close').toggleResourceLevels();
-	jQ('#network_levels .resource_levels_open').toggleResourceLevels();	
-});
-</script>
-<script type="text/javascript" charset="utf-8">
-jQ(document).ready(function() {
-	jQ('#org_levels .resource_levels_close').toggleResourceLevels();
-	jQ('#org_levels .resource_levels_open').toggleResourceLevels();	
-});
-</script>
-<script type="text/javascript" charset="utf-8">
-jQ(document).ready(function() {
-	jQ('#classroom_levels .resource_levels_close').toggleResourceLevels();
-	jQ('#classroom_levels .resource_levels_open').toggleResourceLevels();	
-});
-</script>
-<script type="text/javascript" charset="utf-8">
-jQ(document).ready(function() {
-	jQ('#user_levels .resource_levels_close').toggleResourceLevels();
-	jQ('#user_levels .resource_levels_open').toggleResourceLevels();	
-});
-</script>
+    <script type="text/javascript" charset="utf-8">
+      jQ(document).ready(function() {
+        jQ('#user_levels .resource_levels_close').toggleResourceLevels();
+        jQ('#user_levels .resource_levels_open').toggleResourceLevels();
+      });
+    </script>
+  </div>
+  <br style="clear:both" />
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function(){
+      jQ('#control_panel').tabs();
+    });
+  </script>
 </div>

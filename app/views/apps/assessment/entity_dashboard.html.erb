@@ -1,11 +1,11 @@
-<div id="mainContent">
-
+<div>
+  kkkkk
   <% unless @entity_assessments.size.zero? || !@current_user.has_authorization_level_for?(@current_organization, "content_manager")%>
 	<% assess_header = "header" + @entity_dashboard.public_id.to_s  -%>
 	<% assess_show = "show" + @entity_dashboard.public_id.to_s -%>
 	<% assess_list = "list" + @entity_dashboard.public_id.to_s -%>
 	<% assess_hide = "hide" + @entity_dashboard.public_id.to_s -%>
-	
+	xxxxx
 	<table  id="<%= assess_header%>" style="width:600px; margin-left:120px; border:0px">
 		<tbody>
 		<style type="text/css" media="screen">
@@ -21,7 +21,6 @@
 		</tr>
 	</tbody>
 	</table>
-
 <div id="<%=assess_list%>">
 	<table  style="width:600px; margin-left:120px; border:0px">
 		<tbody>

@@ -1,5 +1,5 @@
 <div id="ifa_dashboard_<%= div_key %>">
-  <div class="row">
+  <div class="row dashboard">
     <div class="col-md-1"></div>
     <div class="col-md-10">
       <% if  !dashboard.nil? && (@current_organization.ifa_standards.size > 1)%>
@@ -106,7 +106,7 @@
               <%= @current_user.sat_view? ? 'SAT' : @current_standard.abbrev %> Mastery
             </td>
             <% @strand_list.each do |s|%>
-              <td class="dashboard_cell" width = <%= col_width %>%  >
+              <td class="dashboard_cell tip_std" title="<center><strong><%= s.name.titleize %></strong></center>" width = <%= col_width %>%  >
                 <%= s.abbrev.upcase %>
               </td>
             <% end -%>

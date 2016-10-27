@@ -779,30 +779,26 @@ class Apps::AssessmentController < ApplicationController
   end
 
   def growth_dashboards
-  
-  initialize_parameters
-  
-  @show_details = params[:details] rescue nil
-  @entity_dashboards = []  
-  @group = params[:group]
-  if @group == "organization"
-    @entity =  Organization.find_by_public_id(params[:id])
-    @entity_dashboards =  @entity.ifa_dashboards.for_subject_since(@current_subject, (@options.begin_school_year - 1.years)).reverse rescue []
-  end
-  if @group == "classroom"
-    @entity =  Classroom.find_by_public_id(params[:id])
-    @entity_dashboards =  @entity.ifa_dashboards.for_subject_since(@current_subject, @options.begin_school_year).reverse rescue []
-  end
-  if @group == "student"
-    @entity =  User.find_by_public_id(params[:id])
-    @entity_dashboards =  @entity.ifa_dashboards.for_subject_since(@current_subject, @options.begin_school_year).reverse rescue []
-  end
-  
+    initialize_parameters
+    @show_details = params[:details] rescue nil
+    @entity_dashboards = []
+    @group = params[:group]
+    if @group == "organization"
+      @entity =  Organization.find_by_public_id(params[:id])
+      @entity_dashboards =  @entity.ifa_dashboards.for_subject_since(@current_subject, (@options.begin_school_year - 1.years)).reverse rescue []
+    end
+    if @group == "classroom"
+      @entity =  Classroom.find_by_public_id(params[:id])
+      @entity_dashboards =  @entity.ifa_dashboards.for_subject_since(@current_subject, @options.begin_school_year).reverse rescue []
+    end
+    if @group == "student"
+      @entity =  User.find_by_public_id(params[:id])
+      @entity_dashboards =  @entity.ifa_dashboards.for_subject_since(@current_subject, @options.begin_school_year).reverse rescue []
+    end
   end
 
   def entity_dashboard
-  
-  initialize_parameters
+    initialize_parameters
     @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
     unless @entity_dashboard
       period = params[:period].to_date rescue Date.today
@@ -814,7 +810,6 @@ class Apps::AssessmentController < ApplicationController
     prepare_single_ifa_dashboard(@entity_dashboard)
     @show_details = params[:details] rescue nil
     prepare_single_dashboard_details
-   
   end
 
   def refresh_dashboard_scores

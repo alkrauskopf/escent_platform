@@ -147,11 +147,9 @@ class Apps::AssessmentController < ApplicationController
        @originator = original.organization.short_name + ", " + original.user.last_name
       end
     end
-
     if @assessment.user_id == @current_user.id
       @allow_resequence = true
     end
- 
   end
 
   def static_benchmark

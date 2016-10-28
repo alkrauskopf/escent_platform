@@ -1,8 +1,8 @@
 
-	<% assess_header = "header" + @idx.to_s -%>
-	<% assess_show = "show" + @idx.to_s-%>
-	<% assess_list = "list" + @idx.to_s-%>
-	<% assess_hide = "hide" + @idx.to_s-%>
+	<% assess_header = "header" + qdx.to_s -%>
+	<% assess_show = "show" + qdx.to_s-%>
+	<% assess_list = "list" + qdx.to_s-%>
+	<% assess_hide = "hide" + qdx.to_s-%>
 
 	<table  id="<%= assess_header%>" style="width:500px;">
 		<tbody>  
@@ -12,7 +12,7 @@
         		background-color: transparent;
       			}
    			</style>
-			<% col_label = @q.act_rel_reading.label.titleize -%>
+			<% col_label = q.act_rel_reading.label.titleize -%>
 			<tr>
 				<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
 					&nbsp;
@@ -38,7 +38,7 @@
         		background-color: transparent;
       			}
    			</style>
-			<% col_label = @q.act_rel_reading.label.titleize -%>
+			<% col_label = q.act_rel_reading.label.titleize -%>
 			<tr>
 				<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
 					&nbsp;
@@ -60,7 +60,7 @@
 					&nbsp;
 				</td>
 				<td  colspan=3 style="width:460px; text-align:left;">
-					<%= simple_format @q.act_question_reading.reading %>
+					<%= simple_format q.act_question_reading.reading %>
 				</td>
 			</tr>
 		</tbody>

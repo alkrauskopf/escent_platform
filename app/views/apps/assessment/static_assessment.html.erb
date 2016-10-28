@@ -6,9 +6,7 @@
         background-color: transparent;
       }
     </style>
-
     <div id="staticorg">
-
       <div id="affiliate_information" class="module">
         <div class="module_body2">
           <div class="page_text">
@@ -17,7 +15,6 @@
               <div style="padding-bottom:10px;">
                 <%= image_tag(@assessment.organization.logo.url, :alt => @assessment.organization.medium_name) if @assessment.organization.logo.file? -%>
               </div>
-
               <div class="affiliate_information_title" style="font-size:14px; text-align:center; font-weight:bold; width: 230px; color:#000000;">
                 <%= link_to @assessment.organization.name, organization_view_path(:organization_id => @assessment.organization), :html => {:style => "margin-top: 5px; margin-bottom: 5px;", :class =>"fsn-button ui-button ui-state-default ui-corner-all"} %>
                 <br/>
@@ -194,7 +191,7 @@
 	</table>
 
 	<% if que.act_rel_reading %>
-		<%= render :partial=> "static_assessment_q_readings" %>
+		<%= render :partial=> "static_assessment_q_readings", :locals => {:q => que, :qdx => qdx} %>
 	<% end -%>
 	<% if que.act_benches %>
 	<!--	<%#= render :partial=> "static_assessment_q_benchmarks" %> -->
@@ -288,3 +285,4 @@
  
 </div> 
 
+</div>

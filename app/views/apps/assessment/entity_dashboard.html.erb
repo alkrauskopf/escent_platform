@@ -1,10 +1,9 @@
 <div>
-  <% unless @entity_assessments.size.zero? || !@current_user.has_authorization_level_for?(@current_organization, "content_manager")%>
+  <% if !@entity_assessments.size.zero? && @current_user.ifa_admin_for_org?(@current_organization)%>
 	<% assess_header = "header" + @entity_dashboard.public_id.to_s  -%>
 	<% assess_show = "show" + @entity_dashboard.public_id.to_s -%>
 	<% assess_list = "list" + @entity_dashboard.public_id.to_s -%>
 	<% assess_hide = "hide" + @entity_dashboard.public_id.to_s -%>
-	xxxxx
 	<table  id="<%= assess_header%>" style="width:600px; margin-left:120px; border:0px">
 		<tbody>
 		<style type="text/css" media="screen">
@@ -73,7 +72,7 @@
 				<i><%=  ass.name.titleize %></i>&nbsp;&nbsp;<u><%= link_to "View In Separate Window", ifa_assessment_view_path(:organization_id => @current_organization, :question_id => @question, :assessment_id => ass), {:target => "_blank"}  %></u>
 				<br/>
 				<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
-				<%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%><br/>
+				  <%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%><br/>
 				<% end -%>
 				<% if ass.user%><%= ass.user.last_name %><% if ass.organization%>,&nbsp;&nbsp;<%= ass.organization.medium_name %><% end-%><% end-%>
 			</td>
@@ -88,18 +87,18 @@
 </div>
 <br style="clear:both" />
 <script type="text/javascript">
-jQ(document).ready(function() {
-  		  jQ("#<%=assess_header%>").show();
-		  jQ("#<%=assess_list%>").hide();		  
+  jQ(document).ready(function() {
+          jQ("#<%=assess_header%>").show();
+        jQ("#<%=assess_list%>").hide();
 
-	jQ("#<%=assess_show%>").click(function() {
-		  	jQ("#<%=assess_header%>").hide();	 
-	   		jQ("#<%=assess_list%>").slideDown("slow");
-	})
+    jQ("#<%=assess_show%>").click(function() {
+          jQ("#<%=assess_header%>").hide();
+          jQ("#<%=assess_list%>").slideDown("slow");
+    })
 
-	jQ("#<%=assess_hide%>").click(function() {
-	   		jQ("#<%=assess_list%>").slideUp("slow");
-	   		jQ("#<%=assess_header%>").show();
-	})	
-});
+    jQ("#<%=assess_hide%>").click(function() {
+          jQ("#<%=assess_list%>").slideUp("slow");
+          jQ("#<%=assess_header%>").show();
+    })
+  });
 </script>

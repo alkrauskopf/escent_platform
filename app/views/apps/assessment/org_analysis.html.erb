@@ -1,14 +1,24 @@
 
 <div>
-  <div class= 'row panel_title_blue'>
-    <%= @current_organization.short_name %> <%= @current_standard.abbrev_view(@current_user) %> Dashboards <%= @current_user.calibrate_view? ? ' - Calibrated':''%>
+  <div class= 'row'>
+    <div class="col-md-1">
+      <div class="ifa_back_button">
+        <%= link_to  "Back", self.send(@current_application.link_path,{:organization_id => @current_organization}), :class => "button_gray" %>
+      </div>
+    </div>
+    <div class="col-md-10">
+      <div class="panel_title_blue">
+        <%= @current_organization.short_name %> <%= @current_standard.abbrev_view(@current_user) %> Dashboards <%= @current_user.calibrate_view? ? ' - Calibrated':''%>
+      </div>
+    </div>
+    <div class="col-md-1"></div>
   </div>
   <hr>
   <div class="row">
-        <div class="summary_dashboards">
-          <%= render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "toggle"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)} %>
-        </div>
-      </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-10 summary_dashboards">
+      <%= render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "toggle"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)} %>
+    </div>
     <div class="col-md-1"></div>
   </div>
   <%= render :partial => "/apps/assessment/org_analysis_tabs" %>

@@ -1,12 +1,11 @@
 <div id="ifa_dashboard_<%= div_key %>">
-  <div class="row dashboard">
+  <div class="row ">
     <div class="col-md-1"></div>
     <div class="col-md-10">
       <% if  !dashboard.nil? && (@current_organization.ifa_standards.size > 1)%>
         <div   id = "standard_view_<%= dashboard.id %>" style="margin-left:45px;">
           <%=  select(:master, div_key, @current_organization.ifa_standards.collect{|s| [s.name, s.id]}, :prompt => "View Standard") %>
         </div>
-
         <script type="text/javascript">
         jQ(document).ready(function() {
           jQ('#standard_view_<%= dashboard.id %>').change(function() {
@@ -55,7 +54,7 @@
       <div class="col-md-1"></div>
     </div>
   <% end %>
-  <div class="row">
+  <div class="row dashboard">
     <div class="col-md-1"></div>
     <div class="col-md-10">
       <table  class="dashboard" id = "dash">
@@ -92,25 +91,25 @@
           </tr>
           <tr >
             <th colspan=13  class = "dashboard_header_4">
-              Mastery Level: <%= @current_user.calibrate_view? ? @current_sms_c.to_s : @current_sms_f.to_s %>
+              <%= @current_standard.abbrev_view(@current_user)%>&nbsp;Mastery Level: <%= @current_user.calibrate_view? ? @current_sms_c.to_s : @current_sms_f.to_s %>
             </th>
           </tr>
-        </thead>
-        <tbody >
           <%# col_width = @strand_list.size > 0 ? ((750 - 120)/@strand_list.size).round : 1 -%>
           <% label_col_pct = 12 %>
           <% strand_col_pct = 100 - label_col_pct %>
           <% col_width = @strand_list.size > 0 ? (strand_col_pct/@strand_list.size).round : strand_col_pct -%>
           <tr >
-            <td  class = "dashboard_cell" style="width:<%= label_col_pct %>%" >
+            <th  class = "dashboard_header_1" style="width:<%= label_col_pct %>%" >
               <%= @current_user.sat_view? ? 'SAT' : @current_standard.abbrev %> Mastery
-            </td>
+            </th>
             <% @strand_list.each do |s|%>
-              <td class="dashboard_cell tip_std" title="<center><strong><%= s.name.titleize %></strong></center>" width = <%= col_width %>%  >
-                <%= s.abbrev.upcase %>
-              </td>
+                <th class="dashboard_header_1 tip_std" title="<center><strong><%= s.name.titleize %></strong></center>" width = <%= col_width %>%  >
+                  <%= s.abbrev.upcase %>
+                </th>
             <% end -%>
           </tr>
+        </thead>
+        <tbody >
           <% @range_list.each_with_index do |r,rdx|%>
           <tr>
             <td class="dashboard_cell" width = <%= label_col_pct %>% >
@@ -189,7 +188,7 @@ jQ('td.tip_cell_<%= div_key %>').qtip({
 </script>
 <script>
 jQ(function(){
-jQ('td.tip_std').qtip({
+jQ('th.tip_std').qtip({
    content: { text: false },
       position: {
       corner: {

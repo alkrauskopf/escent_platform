@@ -121,6 +121,13 @@
   font-size:12px;
 }
 
+.ifa_back_button {
+  float:right;
+  padding-left:1em;
+  padding-top:3em;
+  font-size:10px;
+}
+
 .assess_button {
   width:100%;
   padding-bottom:0em;
@@ -317,9 +324,9 @@
   cursor:pointer;
 }
 .dashboard {
-  width:100%;
   background-color:white;
   border:1px solid #ddd;
+  border-radius: 5px;
   padding-bottom:2em;
   padding-left:0em;
   padding-top:0em;
@@ -374,13 +381,14 @@
   vertical-align:middle;
   font-weight:bold;
 }
-.dashboard_labels {
-  border:1px solid #ddd;
-  padding-bottom:1em;
+.dashboard_header_1 {
+  border:0px solid #ddd;
+  padding-bottom:0em;
   padding-left:0em;
   padding-top:1em;
   font-size:11px;
   word-wrap:break-word;
+  text-align:center;
   vertical-align:middle;
   font-weight:bold;
 }
@@ -408,7 +416,6 @@
   color:$blue_title;
 }
 .summary_dashboards {
-  width:100%;
   padding-bottom:2em;
   padding-left:0em;
   padding-top:0em;
@@ -420,7 +427,6 @@
   color:$dark_text;
 }
 .summary_dashboard_row {
-  width:100%;
   padding-bottom:1em;
   padding-left:3em;
   padding-top:0em;

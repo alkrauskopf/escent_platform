@@ -1841,7 +1841,7 @@ class Apps::AssessmentController < ApplicationController
     if params[:filter] == 'org'
       @current_user.ifa_user_option.update_attributes(:is_org_filtered=> !@current_user.ifa_user_option.is_org_filtered,:is_classroom_filtered=> false, :is_student_filtered=> false,:is_colleague_filtered=> false)
     end    
-    render :partial => "ifa_assessment_stats" 
+    render :partial => "static_assessment_user_options"
   end
 
  def edit_assessment_sequence

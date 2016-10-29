@@ -101,6 +101,14 @@ class ActAssessment < ActiveRecord::Base
       score = "No Level"
     end
   end
+  def score_range_sat(std)
+    range = self.act_assessment_score_ranges.select{|r| r.act_master_id == std.id}.first rescue nil
+    if range
+      score = range.lower_score.to_s + " - " + range.upper_score.to_s
+    else
+      score = "No Level"
+    end
+  end
 
   def max_question_score(std)
 #    self.act_questions.collect{|q| q.upper_score(std.to_s)}.max 

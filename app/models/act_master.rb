@@ -31,12 +31,17 @@ class ActMaster < ActiveRecord::Base
   def abbrev_view(user)
     (user && user.sat_view?) ? 'SAT' : self.abbrev.upcase
   end
+
   def self.default_std
    ActMaster.act.first
   end
 
   def self.act_std
     ActMaster.act.first
+  end
+
+  def act?
+    self.abbrev == 'ACT'
   end
 
   def self.co_std

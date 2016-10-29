@@ -1,0 +1,21 @@
+			<% seq_score = quest.sequence_score_for(std, filter) -%>
+			<% align_score = quest.alignment_score_for(std, filter) -%>
+      <% if seq_score.nil? %>
+        <span class="no_thumb"></span>
+      <% elsif seq_score < 60 -%>
+        <span class="down_thumb_seq"></span>
+      <% elsif seq_score > 80 -%>
+        <span class="up_thumb_seq"></span>
+      <% else %>
+      <span class="no_thumb"></span>
+      <% end -%>
+      &nbsp;
+      <% if align_score.nil? %>
+        <span class="no_thumb"></span>
+      <% elsif align_score < 50 -%>
+        <span class="down_thumb_align"></span>
+      <% elsif align_score > 80 -%>
+        <span class="up_thumb_align"></span>
+      <% else %>
+        <span class="no_thumb"></span>
+      <% end -%>

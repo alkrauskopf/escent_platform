@@ -45,7 +45,8 @@ class ActQuestion < ActiveRecord::Base
   scope :for_teacher, lambda{| teacher| {:conditions => ["teacher_id = ?", teacher.id]}}
   
   scope :available, {:conditions => ["is_active = true && is_locked = true"]}
-  
+
+
   def score_range(std)
     self.act_score_ranges.select{|r| r.act_master_id == std.id}.first rescue nil
   end

@@ -1,5 +1,4 @@
-			<% seq_score = quest.sequence_score_for(std, filter) -%>
-			<% align_score = quest.alignment_score_for(std, filter) -%>
+
       <% if seq_score.nil? %>
         <span class="no_thumb"></span>
       <% elsif seq_score < 60 -%>

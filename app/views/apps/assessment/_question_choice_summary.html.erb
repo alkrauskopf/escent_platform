@@ -1,0 +1,26 @@
+<% if question.act_choices.size.zero? %>
+  Short Answer
+<% else %>
+  <% tot_answers = question.act_answers.selected rescue []-%>
+  <table>
+    <tbody>
+    <% question.act_choices.each do |chc| -%>
+        <% selection_count = tot_answers.for_choice(chc).size -%>
+        <% pct_choice = tot_answers.size == 0 ? '': (100*selection_count/tot_answers.size).to_i%>
+        <tr>
+          <td style=" width:14%; text-align:right;" >
+            <%= pct_choice == '' ? ' % ' : number_to_percentage(pct_choice, :precision => 0) %>
+            <% if chc.is_correct %>
+              <span class="correct_choice"></span>&nbsp;
+            <% else %>
+              <span class="incorrect_choice"></span>&nbsp;
+            <% end %>
+          </td>
+          <td style=" text-align:left; line-height:1em;" >
+            <%= chc.choice %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

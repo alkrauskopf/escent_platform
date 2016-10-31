@@ -1,0 +1,44 @@
+<% seq = assess.sequence_score_for(ActMaster.act_std, 'ACT') -%>
+<% align = assess.alignment_score_for(ActMaster.act_std, 'ACT') -%>
+<table style="width:90%">
+  <tbody>
+    <tr>
+      <td class = 'static_assess_thumbs' style="width:35%"%>
+        Sequencing&nbsp;
+        <% if seq.nil? %>
+            <span class="no_thumb"></span>
+        <% elsif seq < 60 -%>
+            <span class="down_thumb_seq "></span>
+        <% elsif seq > 80 -%>
+            <span class="up_thumb_seq"></span>
+        <% else %>
+            <span class="no_thumb"></span>
+        <% end -%>
+      </td>
+      <td class = 'static_assess_thumbs' style="width:35%"%>
+        Alignment&nbsp;
+        <% if align.nil? %>
+            <span class="no_thumb"></span>
+        <% elsif align < 60 -%>
+            <span class="down_thumb_align "></span>
+        <% elsif align > 80 -%>
+            <span class="up_thumb_align "></span>
+        <% else %>
+            <span class="no_thumb"></span>
+        <% end -%>
+      </td>
+      <td style="width:15%">
+        <% if !assess.is_locked -%>
+            <%= (image_tag "lock_no.png",:width => 15) -%>
+        <% else -%>
+            <%= (image_tag "lock_yes.png",:width => 15) -%>
+        <% end -%>
+      </td>
+      <td style="width:15%">
+        <% if assess.is_calibrated -%>
+            <%= (image_tag "calibrated_yes.png",:width => 18) -%>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>

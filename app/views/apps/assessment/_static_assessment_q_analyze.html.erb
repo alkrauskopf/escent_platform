@@ -1,40 +1,19 @@
 
-	<% analysis = "anal" + q.id.to_s-%>
+<table id="<%=que.id.to_s %>_<%=qdx.to_s%>_anal">
+  <tbody>
+  <tr>
+    <td class="resource_levels_close">
+      <%= link_to '', ifa_assessment_question_analyze_path(:organization_id => @current_organization,  :q_id => que.id) %>
+      Analyze
+      <span></span>
+    </td>
+  </tr>
+  </tbody>
+</table>
 
-	<div id="assign_resources_panel" style="width:150px; margin-left:0px; border:0px">
-		<table id="<%= analysis %>">
-			<tbody>
-				<tr>
-					<%= render :partial => "thumbs_columns", :locals => {:quest => q, :std => ActMaster.act.first, :filter =>"ACT"}%>
-					<td style ="width:50px; color:#000000;vertical-align:middle; font-size:11px">
-							Quality
-					</td>
-
-					<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
-						&nbsp;
-					</td>
-				</tr>					
-				<tr>	
-					<td colspan=2>
-						&nbsp;
-					</td>					
-					<td class="authorization_levels_close" style ="width:50px; color:#C73914;font-size:10px">
-						<%= link_to '', ifa_assessment_question_analyze_path(:organization_id => @current_organization,  :q_id => q.id) %>
-							Analyze
-							<span></span>
-					</td>
-
-					<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
-						&nbsp;
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>		
 <script type="text/javascript" charset="utf-8">
-jQ(document).ready(function() {
-	jQ('#<%= analysis %> .authorization_levels_close').toggleAuthorizationLevels();
-	jQ('#<%= analysis %> .authorization_levels_open').toggleAuthorizationLevels();	
-  jQ("#roles").tablesorter({ headers: { 1: { sorter: false }} });
-});
+  jQ(document).ready(function() {
+    jQ('#<%=que.id.to_s %>_<%=qdx.to_s%>_anal .resource_levels_close').toggleResourceLevels();
+    jQ('#<%=que.id.to_s %>_<%=qdx.to_s%>_anal .resource_levels_open').toggleResourceLevels();
+  });
 </script>

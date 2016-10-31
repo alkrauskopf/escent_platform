@@ -142,8 +142,6 @@ class ActQuestion < ActiveRecord::Base
   end 
 
   def alignment_score_for(std, filter)
-
-
     q_range = self.act_score_ranges.for_standard(std).first rescue nil
     good_alignment_count = 0
     alignment_checks = 0
@@ -182,7 +180,4 @@ class ActQuestion < ActiveRecord::Base
    align_score = alignment_checks > 0 ? (100*good_alignment_count.to_f/ alignment_checks.to_f).round : nil
 #    align_score = q_range_index
   end
-    
-  
-  
 end

@@ -1,36 +1,4 @@
 <div id="assess_stats">
-	<table   style="width:20px;  margin-left:100px; border:0px solid white;">
-		<tbody>
-			<style type="text/css" media="screen">
-		    table,tr,td { border:medium}
-			table tr:hover{
- 	       	background-color: transparent;
- 	     	}
- 		   	</style>
-			<tr style=" border:0px solid white;">
-			 	<% if @assessment.is_calibrated? -%>			
-					<td style=" width:20px; border:0px solid white; font-size:11px; padding-top:5px;padding-bottom:5px; padding-left:13px; vertical-align:bottom; text-align:left;color: #C83A14;font-weight:normal;">
-						<%= (image_tag "calibrated_yes.png",:width => 20)%>					
-					</td>
-				<% else -%>
-					<td style=" width:20px; border:0px solid white; font-size:11px; padding-top:5px;padding-bottom:5px; padding-left:13px; vertical-align:bottom; text-align:left;color: #C83A14;font-weight:normal;">
-						&nbsp;				
-					</td>
-				<% end -%>
-				<% if @assessment.is_locked? -%>			
-					<td style=" width:20px; border:0px solid white; font-size:11px; padding-top:5px;padding-bottom:5px; padding-left:13px; vertical-align:bottom; text-align:left;color: #C83A14;font-weight:normal;">
-						<%= (image_tag "lock_yes.png",:width => 20)%>				
-					</td>
-				<% else -%>
-					<td style=" width:20px; border:0px solid white; font-size:11px; padding-top:5px;padding-bottom:5px; padding-left:13px; vertical-align:bottom; text-align:left;color: #C83A14;font-weight:normal;">
-						<%= (image_tag "lock_no.png",:width => 20)%>				
-					</td>
-				<% end -%>
-			</tr>
-		</tbody>					
-	</table>
-
-	
 	<table id="ass_stats"  style="width:230px; border:1px solid #ddd;">
 		<thead>
 			<tr>

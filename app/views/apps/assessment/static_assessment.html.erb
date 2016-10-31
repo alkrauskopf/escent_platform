@@ -17,244 +17,123 @@
             &nbsp;|&nbsp;
           <% end %>
       <% end-%>
+      </br>
+      <%= pluralize(@assessment.act_questions.size, ' Question') %>
     </div>
   </div>
   <hr>
   <div class= 'row'>
-    <div class="col-md-4">
-      <div class="static_assess_left_panel">
-        <div class="static_assess_creation">
+    <div class="static_assess_top_panel">
+      <div class="col-md-3 static_assess_creation">
+        <p>
+          Created <%= time_ago_in_words(@assessment.created_at.to_s, include_seconds = false) %> Ago
+        </p>
+        <% if !@assessment.user.nil? %>
           <p>
-            Created <%= time_ago_in_words(@assessment.created_at.to_s, include_seconds = false) %> Ago
+            <% if @assessment.user.picture.url %>
+                <%= image_tag @assessment.user.picture.url(:small_thumb) %>
+            <% end %>
           </p>
-          <% if !@assessment.organization.nil? %>
-            <p>
-              <%= link_to @assessment.organization.name, organization_view_path(:organization_id => @assessment.organization)%>
-            </p>
-          <% end %>
-          <% if !@assessment.user.nil? %>
-            <p>
-              By:&nbsp;<%= link_to @assessment.user.full_name, user_view_path(:organization_id => @current_organization, :id => @assessment.user)%>
-            </p>
-            <p>
-              <% if @assessment.user.picture.url %>
-                <%= image_tag @assessment.user.picture.url(:thumb) %>
-              <% end %>
-            </p>
-          <% end %>
-          <% if @assessment.generation > 0%>
-              <p>
-                Copied:&nbsp;<%= pluralize(@assessment.generation, 'generation') %><br/>
-                Origin:&nbsp;<%= @originator %>
-              </p>
-          <% end -%>
-        </div>
-        <div class="row static_assess_stats">
+          <p>
+            <%= link_to @assessment.user.full_name, user_view_path(:organization_id => @current_organization, :id => @assessment.user)%>
+            <%= @assessment.organization.nil? ? '' : (', ' +  @assessment.organization.short_name) %>
+          </p>
+        <% else %>
+          By: <%= @assessment.organization.nil? ? '' : (@assessment.organization.name) %>
+        <% end %>
+        <% if @assessment.generation > 0%>
+          <p>
+            Copied:&nbsp;<%= pluralize(@assessment.generation, ' Time') %><br/>
+            Originator:&nbsp;<%= @originator %>
+          </p>
+        <% end -%>
+      </div>
+      <div class="col-md-3">
+        <div class="static_assess_stats">
           <%= render :partial => "ifa_assessment_stats" %>
         </div>
-        <div class="static_assess_filters">
-          <%= render :partial => "static_assessment_user_options" %>
-          <div class="row">
-            <div class="col-md-7">
-              Assessment Quality:
+      </div>
+      <div class="col-md-5">
+          <%= render :partial => "assessment_tags", :locals => {:assess => @assessment} %>
+        <div class="row">
+          <div class="col-md-7">
+            <%= render :partial => "static_assessment_user_options" %>
+          </div>
+          <div class="col-md-5 ">
+            <div class="static_assess_buttons">
+              <%= link_to "Edit", ifa_assessment_edit_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :assessment_id => @assessment, :function => "Edit"), :class => "button_blue" %>
             </div>
-            <div class="col-md-5 static_assess_thumbs">
-              <%= render :partial => "thumbs_bootstrap", :locals => {:quest => @assessment, :std => ActMaster.act.first, :filter =>"ACT"}%>
+            <div class="static_assess_buttons">
+              <%= link_to  "Clone", ifa_assessment_copy_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :assessment_id => @assessment), :class => "button_orange" %>
             </div>
-          </div>
-        </div>
-        <div class="row static_assess_buttons">
-          <div class="col-md-2"></div>
-          <div class="col-md-10">
-            <%= link_to "Edit", ifa_assessment_edit_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :assessment_id => @assessment, :function => "Edit"), :class => "button_blue" %>
-          </div>
-        </div>
-        <div class="row static_assess_buttons">
-          <div class="col-md-2"></div>
-          <div class="col-md-10">
-            <%= link_to  "Clone", ifa_assessment_copy_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :assessment_id => @assessment), :class => "button_orange" %>
-          </div>
-        </div>
-        <div class="row static_assess_buttons">
-          <div class="col-md-2"></div>
-          <div class="col-md-10">
-            <%= link_to "Pre-View", ifa_assessment_submit_path(:organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment, :function => "preview"), :class => "button_gray", :target => "_blank" %>
+            <div class="static_assess_buttons">
+              <%= link_to "Pre-View", ifa_assessment_submit_path(:organization_id => @current_organization, :classroom_id => @classroom, :assessment_id => @assessment, :function => "preview"), :class => "button_gray", :target => "_blank" %>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-8 static_assess_right_panel">
-      xx
+  </div>
+  <hr>
+  <div class='container static_assess_bottom_panel'>
+    <div class="static_assess_questions">
+      <% @assessment.act_questions.each_with_index do |que,qdx| %>
+       <% if true %>
+        <% points = que.act_answers.selected.select{|a| a.act_assessment_id == @assessment.id}.collect{|a| a.points}.sum rescue 0 -%>
+        <% times_selected = que.act_answers.selected.select{|a| a.act_assessment_id == @assessment.id && a.was_selected}.size rescue 0 -%>
+        <% prof = times_selected == 0 ? "" : (100*points/times_selected).to_i -%>
+        <% question_string = "Question " + (qdx+1).to_s + ": " %>
+        <% attachment_string = "Attachment:" %>
+        <% seq = que.sequence_score_for(ActMaster.act_std, 'ACT') -%>
+        <% align = que.alignment_score_for(ActMaster.act_std, 'ACT') -%>
+        <div class="row">
+          <div class="col-md-3">
+            <%= render :partial => "question_tags", :locals => {:que => que} %>
+          </div>
+          <div class="col-md-7">
+            <span class="q_number">
+              <%= link_to question_string, ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => que), {:target => "_blank"} %>
+            </span>&nbsp;
+            <span class="q_prof">
+              <%= prof == "" ? 'No Scores' : (number_to_percentage(prof, :precision => 0) + ' of ' +  times_selected.to_s) %>
+            </span>
+          </div>
+        </div>
+        <div class="row q_line">
+          <div class="col-md-3">
+          </div>
+          <div class="col-md-7 q_text">
+            <%= que.question.html_safe %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <% if que.content%>
+              <%= link_to 'View', resource_view_path(:organization_id => @current_organization, :id => que.content), {:target => "_blank"} %>
+              &nbsp;<%= que.content.title.titleize %>
+            <% end %>
+          </div>
+          <div class="col-md-6 q_choices">
+            <%= render :partial => "question_choice_summary", :locals => {:question => que} %>
+          </div>
+        </div>
+        <% if que.act_rel_reading %>
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-7">
+              <%#= render :partial=> "static_assessment_q_readings", :locals => {:q => que, :qdx => qdx} %>
+            </div>
+          </div>
+        <% end -%>
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-7 q_analyze">
+              <%= render :partial=> "static_assessment_q_analyze", :locals => {:que => que, :qdx => qdx} %>
+            </div>
+          </div>
+        <% end %>
+        <hr>
+      <% end %>
     </div>
   </div>
-<div id="rightpane">	
-
-	 
-	 <div style="float:left; width:480px;font-size:15px; word-wrap:break-word; text-align:center; font-weight:normal; color:#C73914;">
-     <%= pluralize(@assessment.act_questions.size, ' Question') %>
- 
-		<span style="font-size:11px">
-
-		</span>
-	 
-  <br style="clear:both">
-	
-	<% @assessment.act_questions.each_with_index do |que,qdx| %>
-
-	<table id="roles" style="width:500px; border:0px solid:white">
-		<tbody>
-			<style type="text/css" media="screen">
-	    		table,tr,td { border:0px solid:white }
-				table tr:hover{
-        		background-color: transparent;
-      			}
-   			</style>	
-
-	  		<tr style="border:0px solid:white">
-				<% if !que.is_calibrated -%>
-					<td style=" width:20px; color: #000000; vertical-align:top; font-size:10px" >
-						&nbsp;
-					</td>
-				<% else -%>
-					<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
-						<%= (image_tag "calibrated_yes.png",:width => 15) -%>
-					</td>
-				<% end -%>
-				<% if !que.is_locked -%>
-					<td style=" width:20px; color: #000000; vertical-align:top;font-size:10px" >
-						<%= (image_tag "lock_no.png",:width => 15) -%>
-					</td>
-				<% else -%>
-					<td style=" width:20px; color: #000000; vertical-align:top; font-size:10px" >
-						<%= (image_tag "lock_yes.png",:width => 15) -%>
-					</td>
-				<% end -%>
-				<% points = que.act_answers.selected.select{|a| a.act_assessment_id == @assessment.id}.collect{|a| a.points}.sum rescue 0 -%>
-				<% times_selected = que.act_answers.selected.select{|a| a.act_assessment_id == @assessment.id && a.was_selected}.size rescue 0 -%>
-				<% prof = times_selected == 0 ? "" : (100*points/times_selected).to_i -%>
-				<td colspan=3 style=" width:80px; color: #000000; vertical-align:bottom;text-align:left; font-size:12px" >
-					<% question_string = "Question " + (qdx+1).to_s + ": " %>
-					<strong><u><%= link_to question_string, ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => que), {:target => "_blank"} %></u></strong>
-					&nbsp;&nbsp;&nbsp;
-					<% unless prof == "" -%>
-						<%=number_to_percentage(prof, :precision => 0) %> Of <%= times_selected %> 
-					<% else -%>
-						<small><i>No Scores</i></small>
-					<% end -%>
-				</td>
-			
-			</tr>
-			<% if que.content%>
-	  		<tr style="border:0px solid:white">
-				<td colspan=2 style=" width:40px; color: #000000; vertical-align:top; font-size:10px" >
-						&nbsp;
-				</td>
-				<td style=" width:80px; color: #000000; vertical-align:bottom;text-align:right; font-size:12px" >
-					<% attachment_string = "Attachment:" %>
-					<u><%= link_to attachment_string, resource_view_path(:organization_id => @current_organization, :id => que.content), {:target => "_blank"} %></u>&nbsp;
-				</td>
-				<td  colspan=2 style="vertical-align:top; color: #000000; text-align:left; font-size:10px; margin-top:0px; font-weight:normal" >
-					<i><%= que.content.title.titleize %></i>
-				</td>
-			</tr>
-			<% end -%>							  
-		</tbody>
-	</table>
-
-	<% if que.act_rel_reading %>
-		<%= render :partial=> "static_assessment_q_readings", :locals => {:q => que, :qdx => qdx} %>
-	<% end -%>
-	<% if que.act_benches %>
-	<!--	<%#= render :partial=> "static_assessment_q_benchmarks" %> -->
-	<% end -%>
-		<%= render :partial=> "static_assessment_q_analyze", :locals => {:q => que} -%>
-			
-	<table style="width:500px; ">
-		<tbody>
-			<style type="text/css" media="screen">
-	    		table,tr,td { border:none; }
-				table tr:hover{
-        		background-color: transparent;
-      			}
-   			</style>
-	  			<tr style="border:0px solid:white">
-					<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
-						&nbsp;
-					</td>
-					<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
-						&nbsp;
-					</td>
-					<td  colspan=3 style="vertical-align:top; color: #000000; text-align:left; font-size:11px; margin-top:0px; font-weight:normal" >
-						<strong><%= simple_format que.question %></strong>
-					</td>
-				</tr>
-			<% if que.act_choices.size.zero? %>
-	  			<tr style="border:0px solid:white">
-					<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
-						&nbsp;
-					</td>
-					<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
-						&nbsp;
-					</td>
-					<td style=" width:80px; color: #000000; vertical-align:middle;text-align:left; padding-left:20px;font-size:10px" >
-						&nbsp;
-					</td>
-					<td style=" width:15px; color: #000000; vertical-align:middle; font-size:10px" >
-						&nbsp;
-					</td>
-					<td  style="vertical-align:top; color: #000000; text-align:left; font-size:10px; margin-top:0px; font-weight:normal" >
-						Short Answer
-					</td>
-				</tr>
-			<% else -%>
-				<% tot_answers = que.act_answers.selected rescue []-%>
-				<% que.act_choices.each do |chc| -%>
-		  			<tr style="border:0px solid:white">
-						<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
-							&nbsp;
-						</td>
-						<td style=" width:20px; color: #000000; vertical-align:middle; font-size:10px" >
-							&nbsp;
-						</td>
-						<% selection_count = tot_answers.for_choice(chc).size -%>
-						
-						<% pct_choice = tot_answers.size == 0 ? "": (100*selection_count/tot_answers.size).to_i%>
-						<td style=" width:80px; color: #000000; vertical-align:middle;text-align:right; padding-right:10px;font-size:10px" >
-							<% unless pct_choice == "" -%>
-								<%=number_to_percentage(pct_choice, :precision => 0) %> 
-							<% else -%>
-								<small>- - -</small>
-							<% end -%>
-						</td>
-						<% if chc.is_correct -%>
-							<td width=15px style="vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px;">
-								<%= (image_tag "button_correct.png",:width => 10) %>
-							</td>
-							<% else -%>		
-							<td width=15px style="vertical-align:middle;  padding-left:0px; padding-right:0px; padding-top:0px;">
-								<%= (image_tag "button_incorrect.png",:width => 10)%>
-							</td>
-						<% end -%>
-						<td  style="vertical-align:top; color: #000000; text-align:left; font-size:10px; margin-top:0px; font-weight:normal" >
-							<%= chc.choice %>
-						</td>
-					</tr>
-				<% end -%>
-			<% end -%>
-			<tr style="border:0px solid:white">
-				<td colspan=5 style=" color: #000000; vertical-align:middle;text-align:left; font-size:10px" >
-					<br/> - - - - - - -
-				</td>
-			</tr>  
-
-		</tbody>
-	</table>
-
-
-	<% end -%>
-
- 
-</div> 
-
-</div>
 </div>

@@ -1,5 +1,5 @@
 class Apps::AssessmentController < ApplicationController
-  layout "ifa", :except =>[:manual_ifa_dashboard_update, :student_list, :student_baseline_scores, :static_assess_question_analysis,
+  layout "ifa", :except =>[:manual_ifa_dashboard_update, :student_list, :student_baseline_scores, :static_assess_question_analysis, :question_analysis_test,
                            :list_user_questions, :list_subject_assessments, :subject_benchmarks, :subject_standard_benchmarks,
                            :assign_classroom_assessment, :question_analysis, :entity_dashboard, :growth_dashboards, :student_dashboard,
                            :student_subject_history, :classroom_dashboard,  :assign_classroom_assessment_view, :list_classroom_assessments,
@@ -1820,8 +1820,12 @@ class Apps::AssessmentController < ApplicationController
   def static_assess_question_analysis
    initialize_parameters
    @q = ActQuestion.find_by_id(params[:q_id])
-
   end
+  def question_analysis_test
+    initialize_parameters
+    @q = ActQuestion.find_by_id(params[:q_id])
+  end
+
 
   def static_assess_user_options_update
    initialize_parameters

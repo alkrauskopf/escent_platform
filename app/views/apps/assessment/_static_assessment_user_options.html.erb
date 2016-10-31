@@ -1,52 +1,61 @@
 <div id="assess_options">
-  <div class="row">
-    <div class="col-md-7">
-      <%= @current_user.last_name %> Students Only:
-    </div>
-    <div id="student_filter" class="col-md-5" style="padding-top:.7em;">
-      <% if @current_user.ifa_user_option.is_student_filtered %>
-          <%= (image_tag "button_enabled.png",:width => 12) -%>
-      <% else -%>
-          <%= (image_tag "button_disabled.png",:width => 12) -%>
-      <% end -%>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-7">
-      Tagged Classrooms Only:
-    </div>
-    <div id="classroom_filter" class="col-md-5" style="padding-top:.7em;">
-      <% if @current_user.ifa_user_option.is_classroom_filtered %>
-          <%= (image_tag "button_enabled.png",:width => 12) -%>
-      <% else -%>
-          <%= (image_tag "button_disabled.png",:width => 12) -%>
-      <% end -%>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-7">
-      Tagged Colleagues Only:
-    </div>
-    <div id="colleague_filter" class="col-md-5" style="padding-top:.7em;">
-      <% if @current_user.ifa_user_option.is_colleague_filtered %>
-          <%= (image_tag "button_enabled.png",:width => 12) -%>
-      <% else -%>
-          <%= (image_tag "button_disabled.png",:width => 12) -%>
-      <% end -%>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-7">
-      Tagged Organizations Only:
-    </div>
-    <div id="org_filter" class="col-md-5" style="padding-top:.7em;">
-      <% if @current_user.ifa_user_option.is_org_filtered %>
-          <%= (image_tag "button_enabled.png",:width => 12) -%>
-      <% else -%>
-          <%= (image_tag "button_disabled.png",:width => 12) -%>
-      <% end -%>
-    </div>
-  </div>
+  <table class="static_assess_filters" >
+    <thead>
+      <th colspan="2">
+        Analysis Filters
+      </th>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="width:77%; text-align:right;">
+          <%= @current_user.last_name %> Students Only:&nbsp;&nbsp;
+        </td>
+        <td id="student_filter" style="padding-top:.7em;">
+          <% if @current_user.ifa_user_option.is_student_filtered %>
+              <%= (image_tag "button_enabled.png",:width => 12) -%>
+          <% else -%>
+              <%= (image_tag "button_disabled.png",:width => 12) -%>
+          <% end -%>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:77%; text-align:right;">
+          Tagged Classrooms Only:&nbsp;&nbsp;
+        </td>
+        <td id="classroom_filter" style="padding-top:.7em;">
+          <% if @current_user.ifa_user_option.is_classroom_filtered %>
+              <%= (image_tag "button_enabled.png",:width => 12) -%>
+          <% else -%>
+              <%= (image_tag "button_disabled.png",:width => 12) -%>
+          <% end -%>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:77%; text-align:right;">
+          Tagged Colleagues Only:&nbsp;&nbsp;
+        </td>
+        <td id="colleague_filter"  style="padding-top:.7em;">
+          <% if @current_user.ifa_user_option.is_colleague_filtered %>
+              <%= (image_tag "button_enabled.png",:width => 12) -%>
+          <% else -%>
+              <%= (image_tag "button_disabled.png",:width => 12) -%>
+          <% end -%>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:77%; text-align:right;">
+          Tagged Organizations Only:&nbsp;&nbsp;
+        </td>
+        <td id="org_filter"  style="padding-top:.7em;">
+          <% if @current_user.ifa_user_option.is_org_filtered %>
+              <%= (image_tag "button_enabled.png",:width => 12) -%>
+          <% else -%>
+              <%= (image_tag "button_disabled.png",:width => 12) -%>
+          <% end -%>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <script type="text/javascript">

@@ -1,0 +1,42 @@
+<% seq = que.sequence_score_for(ActMaster.act_std, 'ACT') -%>
+<% align = que.alignment_score_for(ActMaster.act_std, 'ACT') -%>
+<table style="width:80%">
+  <tbody>
+    <tr>
+      <td class = 'quest_tags' style="width:25%"%>
+        <% if que.is_calibrated -%>
+            <%= (image_tag "calibrated_yes.png",:width => 13) -%>
+        <% end -%>
+      </td>
+      <td class = 'quest_tags' style="width:25%"%>
+        <% if !que.is_locked -%>
+            <%= (image_tag "lock_no.png",:width => 13) -%>
+        <% else -%>
+            <%= (image_tag "lock_yes.png",:width => 13) -%>
+        <% end -%>
+      </td>
+      <td class = 'quest_tags' style="width:25%"%>
+        <% if seq.nil? %>
+            <span class="no_thumb"></span>
+        <% elsif seq < 60 -%>
+            <span class="down_thumb_seq "></span>
+        <% elsif seq > 80 -%>
+            <span class="up_thumb_seq"></span>
+        <% else %>
+            <span class="no_thumb"></span>
+        <% end -%>
+      </td>
+      <td class = 'quest_tags' style="width:25%"%>
+        <% if align.nil? %>
+            <span class="no_thumb"></span>
+        <% elsif align < 60 -%>
+            <span class="down_thumb_align "></span>
+        <% elsif align > 80 -%>
+            <span class="up_thumb_align "></span>
+        <% else %>
+            <span class="no_thumb"></span>
+        <% end -%>
+      </td>
+    </tr>
+  </tbody>
+</table>

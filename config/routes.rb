@@ -394,6 +394,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/assessment/question/add' => 'apps/assessment#edit_assessment_add_question' #  ifa_assessment_question_add_path
   get '/ifa/assessment/question/remove' => 'apps/assessment#edit_assessment_remove_question' #  ifa_assessment_question_remove_path
   get '/ifa/assessment/question/analyze' => 'apps/assessment#static_assess_question_analysis' #  ifa_assessment_question_analyze_path
+  get '/ifa/assessment/question/analyze/test' => 'apps/assessment#question_analysis_test' #  ifa_assessment_question_analyze_test_path
   get '/ifa/assessment/question/view/assign' => 'apps/assessment#assign_assessment_question_view' #  ifa_assessment_question_view_assign_path
 
   get '/ifa/dashboard/refresh/scores' => 'apps/assessment#refresh_dashboard_scores' #  ifa_dashboard_refresh_scores_url

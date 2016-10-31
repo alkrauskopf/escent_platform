@@ -1,5 +1,5 @@
 
-<div id="<%=@q_table2%>">	
+<div id="<%=@q_table2%>">
 	<table   style="width:450px; border:0px solid white;color:#000000">
 		<tbody>
 					<% if @current_user.ifa_user_option.is_student_filtered -%> 
@@ -39,7 +39,7 @@
 		
 		</tbody>					
 	</table>
-
+<% if true %>
 	<table   style="width:450px; border:1px solid #ddd;">
 		<thead>
 			<tr style=" border:1px solid #ddd;">			
@@ -138,6 +138,8 @@
 		</tbody>					
 	</table>
 	<br/>
+  <% end %>
+  <% if true %>
 <div   style="width:450px; font-size: 13px; border:1px solid #ddd;color:#000000">
 	<br/><center><strong><%= @q.act_subject.name%> Question Calibration</strong></center>
 	<% @current_organization.ifa_org_option.act_masters.each_with_index do |mstr,mdx| -%>
@@ -233,9 +235,10 @@
 		<span style="font-size:12px;width:550px;">
 		<center> - - - - - - - </center>
 		</span>
-	
+
 	<% end -%>
 	</div>
+      <% end %>
 </div>
 
 <script>
@@ -270,4 +273,4 @@ jQ('th.tip').qtip({
 });
 });
 </script>
-<script>
+

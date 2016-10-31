@@ -40,7 +40,6 @@ a.btn {
   @extend .btn;
   @extend .btn-info;
   @extend .btn-xs;
-  font-size:10px;
 }
 .button_green {
   @extend .btn;
@@ -94,7 +93,18 @@ a.btn {
   @extend .glyphicon-minus;
   font-size:10px;
 }
-
+.correct_choice {
+  @extend .glyphicon;
+  @extend .glyphicon-ok;
+  color:$green_check;
+  font-size:12px;
+}
+.incorrect_choice {
+  @extend .glyphicon;
+  @extend .glyphicon-remove;
+  color:$red_star;
+  font-size:10px;
+}
 .ep_container {
   width: 100%;
   margin: 0 auto;

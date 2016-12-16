@@ -130,13 +130,30 @@
 			</div>
 		</div>
 	<% end -%>
-	<div class="FormRow">
+  <div class="FormRow">
     <div class="FormRowTitle">
+      Picture Name:
     </div>
     <div class="FormRowData" style= "margin-left:25px">
-      &nbsp;
+      <%= text_field :coop_app, :registration_code, :value => app.registration_code, :size => 10 %>
     </div>
   </div>
+  <div class="FormRow" style="position: relative;">
+    <div class="FormRowTitle">Registration Picture:</div>
+    <div class="FormRowData">
+      <%= file_field_tag 'coop_app[picture]' %>
+    </div>
+  </div>
+  <% if app.image_present? %>
+    <div class="FormRow">
+      <div class="FormRowTitle">
+        Current Picture
+      </div>
+      <div class="FormRowData" style= "margin-left:25px">
+        <%= image_tag app.picture.url(:access) %>
+      </div>
+    </div>
+  <% end -%>
 </div>
 
 <style type="text/css" media="screen">

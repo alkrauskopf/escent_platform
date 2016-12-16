@@ -1,11 +1,11 @@
 <div id="main_content">
   <div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
-    <br/><%= @function %> Application
+    <br/><%= @function %> Applicationx
 	</div>
   <%= render :partial => "/shared/error_and_notice" %>
 	<% unless @function == "Destroyed" %>	
 		<div class="Form clear">	
-      <%= form_for(:coop_app, :url => master_apps_edit_path(:app_id => (@function == "New" ? nil : @app.id), :function=>(@function == "New" ? "Create" : @function))) do |form| %>
+      <%= form_tag(master_apps_edit_path(:app_id => (@function == "New" ? nil : @app.id), :function=>(@function == "New" ? "Create" : @function)),  :multipart => true ) do |form| %>
         <%= render :partial => "/master/coop_apps/form_coop_app", :locals=>{:function=> @function, :app => @app} %>
       <% end -%>
 

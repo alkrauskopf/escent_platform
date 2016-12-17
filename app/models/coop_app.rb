@@ -7,7 +7,7 @@ class CoopApp < ActiveRecord::Base
                     :styles => { :access => "100x100#" }
   validates_attachment :picture,
                        content_type: {content_type: ['image/gif', 'image/jpeg', 'image/png', 'image/pjpeg', 'image/x-png']}
-  validates_with AttachmentSizeValidator, attributes: :picture, less_than: 500.kilobytes
+  validates_with AttachmentSizeValidator, attributes: :picture, less_than: 1000.kilobytes
   validate :picture_width
 
   belongs_to :owner, :class_name=>'Organization', :foreign_key=>'owner_id'

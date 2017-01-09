@@ -99,6 +99,11 @@ class ApplicationController < ActionController::Base
     flash[:error] = nil
   end
 
+  def valid_captcha?(captcha_id, guess)
+    captcha = CaptchaImage.find_by_id(captcha_id) rescue nil
+    (!captcha.nil? && guess.upcase.include?(captcha.name.upcase)) ? true : false
+  end
+
   #
   # Vanity URL
   #

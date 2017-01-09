@@ -107,6 +107,9 @@ EscentPartners::Application.routes.draw do |map|
   # CORE Master
   get '/master/index' => 'master/application#index'
   post '/master/signin' => 'master/application#login'
+  get '/master/captcha' => 'master/captcha#index', as: 'master_captcha_images'
+  get '/master/captcha/destroy' => 'master/captcha#destroy_captcha'
+  post '/master/captcha' => 'master/captcha#create_captcha'
   get '/master/users/show' => 'master/users#index'
   get '/master/users/delete' => 'master/users#delete'
   get '/master/users/suspend' => 'master/users#toggle_suspend'

@@ -1,15 +1,6 @@
 class CoopApp < ActiveRecord::Base
   include PublicPersona
 
-  has_attached_file :picture,
-                    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
-                    :url => "/system/:attachment/:id/:style/:filename",
-                    :styles => { :access => "100x100#" }
-  validates_attachment :picture,
-                       content_type: {content_type: ['image/gif', 'image/jpeg', 'image/png', 'image/pjpeg', 'image/x-png']}
-  validates_with AttachmentSizeValidator, attributes: :picture, less_than: 1000.kilobytes
-  validate :picture_width
-
   belongs_to :owner, :class_name=>'Organization', :foreign_key=>'owner_id'
 
 
@@ -393,17 +384,6 @@ class CoopApp < ActiveRecord::Base
     end
   end
 
-  def image_present?
-    !self.picture_file_name.nil? && !self.picture_file_name.blank?
-  end
-
   private
 
-  def picture_width
-    required_width  = 2000
-    if picture.queued_for_write[:original]
-      dimensions = Paperclip::Geometry.from_file(picture.queued_for_write[:original].path)
-      errors.add(:picture, "Width can't be greater than #{required_width}") unless dimensions.width <= required_width
-    end
-  end
 end

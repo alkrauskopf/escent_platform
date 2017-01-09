@@ -1,0 +1,208 @@
+	<table  id="filter_header" style="width:220px;">
+		<tbody>  
+			<style type="text/css" media="screen">
+	    		table,tr,td { border:none; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+   			</style>
+			<tr>
+				<td id="filter_show" style="width:80px; color: #000000; vertical-align:middle;text-align:left; font-size:10px" >
+					<u>Show Analysis Filters</u>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table   >
+		<tbody>
+			<style type="text/css" media="screen">
+		    table,tr,td { border:medium}
+			table tr:hover{
+ 	       	background-color: transparent;
+ 	     	}
+ 		   	</style>
+	<% hover_text = "" -%>
+	<table id="filter_list" style="width:220px;  margin-left:00px; border:0px solid white;">
+		<tbody>  
+			<tr>
+				<td colspan=2 id="filter_hide" style="width:80px; color: #000000; vertical-align:middle;text-align:left; font-size:10px" >
+					<u>Hide Filters</u>
+				</td>
+			</tr>
+			<tr>
+				<td colspan=2  style="width:220px; color: #000000; vertical-align:middle;text-align:left; font-size:10px" >
+					Select Buttons To Set Preferences For<br/>Analysing Assessment Questions.<br/>
+				</td>
+			</tr>
+      <!--
+			<tr>
+				<td colspan=2  style="width:80px; color: #000000; vertical-align:middle;text-align:left; font-size:10px" >
+					<br/>Starting Date For Analysis.<br/>
+				</td>
+			</tr>
+			<tr style=" border:0px solid white;">
+				<td  width = 200px style=" color: #000000; vertical-align:middle" >
+				  Needs New Calendar Helper<%#= xalendar_date_select (:period , :begin , :value => @current_user.ifa_user_option.beginning_period , :size => "18px", :class => "text") %>
+				</td>
+				<td id="period_change" width = 20px style=" color: #000000; vertical-align:middle" >
+					<%#= (image_tag "button_enabled.png",:width => 15) -%>
+				</td>
+      </tr>
+      -->
+
+			<tr style=" border:0px solid white;">
+				<td  width = 200px style=" color: #000000; vertical-align:middle" >
+					<%= @current_user.last_name %> Students Only:
+				</td>
+				<td id="student_filter" width = 20px style=" color: #000000; vertical-align:middle" >
+				<% if @current_user.ifa_user_option.is_student_filtered %>
+						<%= (image_tag "button_enabled.png",:width => 15) -%>
+				<% else -%>
+						<%= (image_tag "button_disabled.png",:width => 15) -%>
+				<% end -%>
+				</td>				
+			</tr>
+			<tr style=" border:0px solid white;">
+				<td  width = 200px style=" color: #000000; vertical-align:middle" >
+					Tagged Classrooms Only:
+				</td>
+				<td id="classroom_filter" width = 20px style=" color: #000000; vertical-align:middle" >
+				<% if @current_user.ifa_user_option.is_classroom_filtered %>
+						<%= (image_tag "button_enabled.png",:width => 15) -%>
+				<% else -%>
+						<%= (image_tag "button_disabled.png",:width => 15) -%>
+				<% end -%>
+				</td>			
+			</tr>
+			<tr style=" border:0px solid white;">
+				<td  width = 200px style=" color: #000000; vertical-align:middle" >
+					Tagged Colleagues Only:
+				</td>
+				<td id="colleague_filter" width = 20px style=" color: #000000; vertical-align:middle" >
+				<% if @current_user.ifa_user_option.is_colleague_filtered %>
+						<%= (image_tag "button_enabled.png",:width => 15) -%>
+				<% else -%>
+						<%= (image_tag "button_disabled.png",:width => 15) -%>
+				<% end -%>
+				</td>				
+			</tr>
+			<tr style=" border:0px solid white;">
+				<td  width = 200px style=" color: #000000; vertical-align:middle" >
+					Tagged Organizations Only:
+				</td>
+				<td id="org_filter" width = 20px style=" color: #000000; vertical-align:middle" >
+				<% if @current_user.ifa_user_option.is_org_filtered %>
+					<%= (image_tag "button_enabled.png",:width => 15) -%>
+				<% else -%>
+					<%= (image_tag "button_disabled.png",:width => 15) -%>
+				<% end -%>
+				</td>				
+			</tr>
+			
+		</tbody>					
+	</table>
+	<br/> 
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#period_change").click(function(){
+		var period = jQ('#period_begin').val();
+		var assessment_id = '<%= @assessment.public_id %>';
+		var user = "<%= @current_user.public_id %>";
+		var url = "<%= ifa_user_options_assessment_update_url(:organization_id => @current_organization) %>";
+			jQ.get(url, {'assessment_id':assessment_id, 'begin_date':period, 'user_id': user}, function(data) {
+			jQ("#assess_stats").html(data); 
+	   		jQ("#assess_stats").show();
+		  	jQ("#filter_header").hide();	 
+	   		jQ("#filter_list").show();
+			});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#student_filter").click(function(){
+		var filter = 'student';
+		var assessment_id = '<%= @assessment.public_id %>';
+		var user = "<%= @current_user.public_id %>";
+		var url = "<%= ifa_user_options_assessment_update_url(:organization_id => @current_organization)  %>";
+			jQ.get(url, {'assessment_id':assessment_id, 'filter':filter, 'user_id': user}, function(data) {
+			jQ("#assess_stats").html(data); 
+	   		jQ("#assess_stats").show();
+		  	jQ("#filter_header").hide();	 
+	   		jQ("#filter_list").show();
+			});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#org_filter").click(function(){
+		var filter = 'org';
+		var assessment_id = '<%= @assessment.public_id %>';
+		var user = "<%= @current_user.public_id %>";
+		var url = "<%= ifa_user_options_assessment_update_url(:organization_id => @current_organization) %>";
+			jQ.get(url, {'assessment_id':assessment_id, 'filter':filter, 'user_id': user}, function(data) {
+			jQ("#assess_stats").html(data); 
+	   		jQ("#assess_stats").show();
+		  	jQ("#filter_header").hide();	 
+	   		jQ("#filter_list").show();
+			});
+	})
+});
+</script>
+
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#classroom_filter").click(function(){
+		var filter = 'classroom';
+		var assessment_id = '<%= @assessment.public_id %>';
+		var user = "<%= @current_user.public_id %>";
+		var url = "<%= ifa_user_options_assessment_update_url(:organization_id => @current_organization) %>";
+			jQ.get(url, {'assessment_id':assessment_id, 'filter':filter, 'user_id': user}, function(data) {
+			jQ("#assess_stats").html(data); 
+	   		jQ("#assess_stats").show();
+		  	jQ("#filter_header").hide();	 
+	   		jQ("#filter_list").show();
+			});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+ 	jQ("#colleague_filter").click(function(){
+		var filter = 'colleague';
+		var assessment_id = '<%= @assessment.public_id %>';
+		var user = "<%= @current_user.public_id %>";
+		var url = "<%= ifa_user_options_assessment_update_url(:organization_id => @current_organization) %>";
+			jQ.get(url, {'assessment_id':assessment_id, 'filter':filter, 'user_id': user}, function(data) {
+			jQ("#assess_stats").html(data); 
+	   		jQ("#assess_stats").show();
+		  	jQ("#filter_header").hide();	 
+	   		jQ("#filter_list").show();
+			});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+  		  jQ("#filter_header").show();
+		  jQ("#filter_list").hide();		  
+
+	jQ("#filter_show").click(function() {
+		  	jQ("#filter_header").hide();	 
+	   		jQ("#filter_list").slideDown("slow");
+	})
+
+	jQ("#filter_hide").click(function() {
+	   		jQ("#filter_list").slideUp("slow");
+	   		jQ("#filter_header").show();
+	})	
+});
+</script>
+ 

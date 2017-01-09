@@ -88,12 +88,17 @@
         <%#= show_simple_captcha %>
       </div>
 	  </div>
-   <div class="FormRow">
-     <div class="FormRowTitle">What's in this picture?</div>
-     <div class="FormRowData">
-       <%= text_field :access, :registration_code, :class=>"text", :size=>"10" %><br/>&nbsp;<%= image_tag core_image %>
+   <% captcha = captcha_pick %>
+   <% if !captcha.nil? %>
+     <div class="FormRow">
+       <div class="FormRowTitle">What's in this picture?</div>
+
+       <div class="FormRowData">
+         <%= text_field :access, :registration_code, :class=>"text", :size=>"10" %><br/>&nbsp;<%= image_tag captcha.image(:thumb) %>
+       </div>
      </div>
-   </div>
+       <input type="hidden" name="captcha_id" value= <%= captcha.id %> />
+   <% end %>
 
     <div class="FormRow" style="text-align:center;">
             &nbsp;

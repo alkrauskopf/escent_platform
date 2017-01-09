@@ -5,7 +5,14 @@ module ApplicationHelper
     return str
   end
 
-  def core_image
-    CoopApp.core.image_present? ? CoopApp.core.picture.url(:access) : nil
+  def captcha_pick
+    if CaptchaImage.all.empty?
+      current_captcha = nil
+    else
+      max = CaptchaImage.all.size - 1
+      current_captcha = CaptchaImage.all[rand(0..max)]
+    end
+    current_captcha
   end
+
 end

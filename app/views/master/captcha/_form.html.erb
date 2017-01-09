@@ -1,0 +1,30 @@
+<div class="container">
+<%= form_for([:master, @captcha], html: {class: 'form-horizontal', role: 'form', multipart: true }) do |f| %>
+
+  <% if @captcha.errors.any? %>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4><%= pluralize(@captcha.errors.count, "error") %> prohibited this image from being updated:</h4>
+      <ul>
+        <% @captcha.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row captcha_maint">
+    <div class="col-md-1"></div>
+    <div class="col-md-3">
+      <%= f.label :name, class: "col-sm-3 " %>
+      <%= f.text_field :name, size: 10 %>
+    </div>
+    <div class="col-md-3">
+      <%= f.file_field :image %>
+    </div>
+    <div class="col-md-5">
+      <%= f.submit class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
+</div>

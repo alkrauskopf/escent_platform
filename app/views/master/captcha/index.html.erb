@@ -1,0 +1,34 @@
+
+  <div class = "container ">
+    <div class="row ">
+      <%= render partial: 'form' %>
+      <hr>
+    </div>
+    <div class="col-md-3"></div>
+    <div class=" col-md-6 ">
+      <div class="panel">
+        <div class="panel-heading captcha_panel">
+          <h5><%= pluralize(@captchas.size, ' Captcha Image')%></h5>
+        </div>
+        <div class="panel-body, table-responsive">
+          <table class="table table-striped table-bordered table-hover">
+            <tbody>
+            <%= content_tag_for(:tr, @captchas) do |img| %>
+                <td >
+                  <%= image_tag(img.image(:thumb)) %>
+                </td>
+                <td>
+                  <%= img.name.upcase %>
+                </td>
+                <td>
+                  <%= link_to 'Destroy', master_captcha_destroy_path(:id=> img.id) %>
+                </td>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+

@@ -22,7 +22,7 @@ class UsersController < ApplicationController
           @user.verification_code = User::generate_password(16)
           @user.set_default_registration_values(@current_organization.id)         
           
-          if params[:access][:registration_code].upcase.include? CoopApp.core.registration_code.upcase
+          if valid_captcha?(params[:captcha_id], params[:access][:registration_code])
             if @user.save
      #  Initialize First User as Superuser
               if User.all.size == 1

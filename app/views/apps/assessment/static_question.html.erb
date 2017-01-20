@@ -76,7 +76,7 @@
   </div>
 </div>
 
-<div id="rightpane">	
+<div id="rightpane"></div>
 	<div style="float:left; width:450px;font-size:17px; word-wrap:break-word; text-align:center; font-weight:bold; color:#C73914;">
 		ASSESSMENT QUESTION  ID: <%= @question.id %></br/>
  </div> 
@@ -297,7 +297,7 @@
 	</div>
 	<div style="float:left; width:550px">
 
-		<%= render :partial=> "static_assessment_q_analyze", :locals => {:q => @question} -%>
+		<%= render :partial=> "static_assessment_q_analyze", :locals => {:que => @question, :qdx => 0} -%>
 
 	</div>
 

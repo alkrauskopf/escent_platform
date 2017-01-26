@@ -732,6 +732,25 @@ class Apps::AssessmentController < ApplicationController
     find_dashboard_update_start_dates(@classroom)
   end
 
+  def destroy_pending_all
+    initialize_parameters
+    @classroom.act_submissions.for_teacher(@current_user).not_final.destroy_all
+    @all_submitted_assessments = @classroom.act_submissions.for_teacher(@current_user)
+    @pending_assessments = @all_submitted_assessments.select{|s|!s.is_final}.sort{ |a,b| b.created_at <=> a.created_at }
+    render :partial => "/apps/assessment/teacher_review_pending"
+  end
+
+
+  def destroy_pending
+    initialize_parameters
+    if @submission
+      @submission.destroy
+    end
+    @all_submitted_assessments = @classroom.act_submissions.for_teacher(@current_user)
+    @pending_assessments = @all_submitted_assessments.select{|s|!s.is_final}.sort{ |a,b| b.created_at <=> a.created_at }
+    render :partial => "/apps/assessment/teacher_review_pending"
+  end
+
   def classroom_dashboard_x
   
   initialize_parameters

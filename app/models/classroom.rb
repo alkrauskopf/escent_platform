@@ -54,7 +54,7 @@ class Classroom < ActiveRecord::Base
   scope :opened, :conditions => ["is_open = ? ", true]
   scope :closed, :conditions => ["is_open = ? ", false]
   scope :with_authorization, lambda{|user,auth| {:include => "authorizations", :conditions => ['authorizations.user_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ?', user.id, 'Classroom', auth.id], :order => 'course_name'}}
- 
+
   scope :with_course_names, lambda { |keywords, options|
     condition_strings = []
     conditions = []

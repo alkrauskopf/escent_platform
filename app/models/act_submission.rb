@@ -18,6 +18,7 @@ class ActSubmission < ActiveRecord::Base
   validates_presence_of :teacher_id, :message => 'You Must Identify Your Teacher' 
   
   scope :final, :conditions => { :is_final => true }
+  scope :not_final, :conditions => { :is_final => false }
   scope :auto_finalized, :conditions => { :is_auto_finalized => true }
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
   scope :not_user_dashboarded, :conditions => ["is_user_dashboarded IS NULL"] rescue []

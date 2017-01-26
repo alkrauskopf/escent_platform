@@ -1,9 +1,16 @@
-<div>
+<div id="review_pending" >
   <div class="row">
     <div class="ifa_panel_title">
       <%= pluralize(@pending_assessments.size, ' Pending Assessment') %>&nbsp;For Review
     </div>
   </div>
+  <% if !@pending_assessments.empty? %>
+    <div class="row">
+      <div  class="ifa_pending_destroy">
+        <span id = "destroy_all" class = "btn btn-danger btn-xs">Destroy All </span>
+      </div>
+    </div>
+  <% end %>
   <div class="row ">
     <div class="ifa_panel_list">
       <table class="table table-striped pending">
@@ -17,16 +24,41 @@
                 <%= ass.user.full_name %>
               </td>
               <td  class="assessment">
-                <%= ass.act.act_assessment ? ass.act_assessment.name.titleize : 'No Assessment Found' %><br/>
+                <%= ass.act_assessment ? ass.act_assessment.name.titleize : 'No Assessment Found' %><br/>
                 <%= ass.act_subject ? ass.act_subject.name.titleize: 'No Subject Found' %>
               </td>
               <td class="review">
                 <%= link_to "REVIEW", ifa_assessment_review_final_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :submission_id => ass) %>
               </td>
+              <td  class="ifa_pending_destroy">
+                <span id = "destroy_it_<%=ass.id %>" class = "btn btn-danger btn-xs">Destroy </span>
+              </td>
             </tr>
+            <script type="text/javascript">
+              jQ(document).ready(function() {
+                jQ("#destroy_it_<%=ass.id %>").click(function() {
+                  var url = "<%= ifa_pending_destroy_url(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @current_topic, :submission_id => ass ) %>";
+                  jQ.get(url,{},  function(data) {
+                    jQ("#review_pending").html(data);
+                    jQ("#review_pending").show();
+                  });
+                })
+              });
+            </script>
         <% end %>
 			</tbody>
 		</table>
     </div>
   </div>
 </div>
+<script type="text/javascript">
+  jQ(document).ready(function() {
+    jQ("#destroy_all").click(function() {
+      var url = "<%= ifa_pending_destroy_all_url(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @current_topic) %>";
+      jQ.get(url,{},  function(data) {
+        jQ("#review_pending").html(data);
+        jQ("#review_pending").show();
+      });
+    })
+  });
+</script>

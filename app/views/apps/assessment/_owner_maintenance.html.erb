@@ -1,19 +1,18 @@
 <div id="ctl_owner_maintenance">
-
 	<br/>
 	<% if @current_user.app_superuser?(app)-%>	
-			<span style="text-align:center; color: #C83A14; font-size:12px;  font-weight:normal">
-				<br/></br/>
-					No <%= @current_application.abbrev %>&nbsp;Maintenance Functions Available.
-				<br/></br/>
-			</span>
+    <span style="text-align:center; color: #C83A14; font-size:12px;  font-weight:normal">
+      <br/></br/>
+        No <%= @current_application.abbrev %>&nbsp;Maintenance Functions Available.
+      <br/></br/>
+    </span>
 	<% else -%>
-			<span style="text-align:center; color: #C83A14; font-size:12px;  font-weight:normal">
-				<br/></br/>
-					Not <%= @current_application.abbrev %>&nbsp;Authorized.
-				<br/></br/>
-			</span>
+    <span style="text-align:center; color: #C83A14; font-size:12px;  font-weight:normal">
+      <br/></br/>
+        Not <%= @current_application.abbrev %>&nbsp;Authorized.
+      <br/></br/>
+    </span>
 	<% end -%>
-<br/>
+  <br/>
 </div>
 

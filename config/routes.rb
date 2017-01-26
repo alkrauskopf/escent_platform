@@ -310,6 +310,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/classroom/assessment/pool/update' => 'apps/assessment#update_classroom_assessment_pool_from_repository'
   get '/ifa/classroom/assessments/filtered' => 'apps/assessment#classroom_get_filtered_assessments'
   get '/ifa/students' => 'apps/assessment#student_list'    # ifa_students_path
+  get '/ifa/pending_destroy' => 'apps/assessment#destroy_pending'    # ifa_pending_destroy_url
+  get '/ifa/pending_destroy_all' => 'apps/assessment#destroy_pending_all'    # ifa_pending_destroy_url
   get '/ifa/org_analysis' => 'apps/assessment#org_analysis'    # ifa_org_analysis_path
   post '/ifa/org_analysis' => 'apps/assessment#org_analysis'    # ifa_org_analysis_path
   get '/ifa/toggle/summary_data' => 'apps/assessment#toggle_sumry_ifa_data'    # ifa_toggle_summary_data_url

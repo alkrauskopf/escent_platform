@@ -21,9 +21,9 @@ class ActSubmission < ActiveRecord::Base
   scope :not_final, :conditions => { :is_final => false }
   scope :auto_finalized, :conditions => { :is_auto_finalized => true }
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
-  scope :not_user_dashboarded, :conditions => ["is_user_dashboarded IS NULL"] rescue []
-  scope :not_classroom_dashboarded, :conditions => ["is_classroom_dashboarded IS NULL"]rescue []
-  scope :not_org_dashboarded, :conditions => ["is_org_dashboarded IS NULL"] rescue []
+  scope :not_user_dashboarded, :conditions => {:is_user_dashboarded => false} rescue []
+  scope :not_classroom_dashboarded, :conditions => { :is_classroom_dashboarded => false } rescue []
+  scope :not_org_dashboarded, :conditions => {:is_org_dashboarded => false} rescue []
   scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}}
   scope :until, lambda{| end_date| {:conditions => ["created_at <= ?", end_date]}}
   scope :for_teacher, lambda{| teacher| {:conditions => ["teacher_id = ?", teacher.id]}}

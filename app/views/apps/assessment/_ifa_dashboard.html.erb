@@ -27,11 +27,11 @@
       <div class="col-md-1"></div>
       <div class="col-md-10">
         <% if ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, @current_subject, dashboard.period_beginning, dashboard.period_ending).size == 0 %>
-            <%= 'All ' + dashboard.ifa_dashboardable.name + ' Assessments Between ' +  dashboard.period_beginning.strftime("%m/%d/%Y") + ' and ' + dashboard.period_ending.strftime("%m/%d/%Y") + ' Have Been Dashboarded' %>
+          <%= 'All ' + dashboard.ifa_dashboardable.name + ' Assessments Between ' +  dashboard.period_beginning.strftime("%m/%d/%Y") + ' and ' + dashboard.period_ending.strftime("%m/%d/%Y") + ' Have Been Dashboarded' %>
         <% else %>
           <%= pluralize(ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, @current_subject, dashboard.period_beginning, dashboard.period_ending).size,
           (dashboard.ifa_dashboardable.name + ' Assessment')) + ' Between ' +  dashboard.period_beginning.strftime("%m/%d/%Y") + ' and ' + dashboard.period_ending.strftime("%m/%d/%Y") + ' Not Dashboarded' %>
-          <% if @current_user.ifa_admin?(dashboard.organization) %>
+          <% if @current_user.ifa_admin_for_org?(dashboard.organization) %>
             <div id="refresh_dashboard<%= dashboard.id %>">
               <span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
                  <%= ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, @current_subject, dashboard.period_beginning, dashboard.period_ending).size == 1 ? ' Dashboard It ' : ' Dashboard Them ' %>

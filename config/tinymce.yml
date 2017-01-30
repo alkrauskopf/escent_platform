@@ -1,15 +1,20 @@
 # Here you can specify default options for TinyMCE across all controllers
 #
-plugins:
-  - image
-  - link
-  - emoticons
-  - code
-  - textcolor colorpicker
-  - print
-  - lists
-  - advlist
-#  - tiny_mce_wiris
-toolbar:
-  - bullist numlist outdent indent | forecolor backcolor emoticons | bold italic underline | undo redo | alignleft aligncenter alignright
-#  - tiny_mce_wiris_CAS | tiny_mce_wiris_formulaEditorChemistry | code | tiny_mce_wiris_formulaEditor
+  plugins:
+    - image imagetools
+    - link
+    - emoticons
+    - code
+    - charmap
+    - textcolor colorpicker
+    - print
+    - lists
+    - advlist
+    - insertdatetime
+    - directionality
+    - media
+    - preview
+    - tiny_mce_wiris
+  toolbar:
+    - fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | forecolor backcolor | emoticons insertdatetime
+    - charmap | subscript superscript | tiny_mce_wiris_CAS | tiny_mce_wiris_formulaEditorChemistry | tiny_mce_wiris_formulaEditor | undo redo removeformat | print | link | media | preview | code |

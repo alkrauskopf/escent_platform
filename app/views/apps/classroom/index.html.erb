@@ -1,7 +1,7 @@
 <div>
   <div class= 'row panel_title_blue'>
     <%= @current_application.app_name(:provider=>@current_provider).upcase %>
-    </div>
+  </div>
   <div class= 'row panel_title_blue'>
     <%= @admin ? pluralize(@current_organization.classrooms.size.to_s, " " + @current_organization.short_name + " Offering"): pluralize(@current_user.offerings_taught(@current_organization).size, @current_user.last_name + " Offerings") %>
     <%#= render :partial => "apps/shared/app_owner_button", :locals => {:app=>@current_application} %>

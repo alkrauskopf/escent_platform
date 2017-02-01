@@ -1,0 +1,122 @@
+<table class="admin_table">
+  <style type="text/css" media="screen">
+        table,tr,td { border:none }
+      table tr:hover{
+          background-color: transparent;
+          }
+    </style>
+  <tbody>
+    <tr >
+      <td   id="label_col">
+        Status:
+      </td>
+      <td class="button_col" id = "toggle_status">
+        <% button_color = classroom.active? ? "button_green" : "button_red" %>
+        <span class=<%=button_color%>>
+          <%= classroom.active? ? "Active" : "Inactive" %>
+        </span>
+      </td>
+      <td  colspan=2 class="text_col">
+        <%= pluralize( classroom.views, " View")%>&nbsp;Since&nbsp;<%= classroom.first_view_date.strftime("%b %e, %Y")%>
+      </td>
+    </tr>
+    <% unless classroom.active?-%>
+      <tr >
+        <td   id="label_col">
+          &nbsp;
+        </td>
+        <td class="button_col">
+            <%= button_to "Destroy", offering_admin_destroy_path(:organization_id => @current_organization, :classroom_id => classroom), :class=>"button_red", :confirm => "Are you sure?" %>
+        </td>
+        <td  colspan=2 class="text_col">
+          <span id="warning">
+            Permanently Removes Offering, and all related data.
+          </span>
+        </td>
+      </tr>
+    <% end -%>
+    <tr>
+      <td   id="label_col">
+        Name:
+      </td>
+      <td class="button_col" id = "edit_classroom_name">
+        <span class="button_blue">
+          Change
+        </span>
+      </td>
+      <td  colspan=2 class="text_col">
+           <%= text_field :classroom, :course_name, :value => classroom.course_name, :size => 65, :maxlength => 250 %>
+      </td>
+    </tr>
+    <tr>
+      <td   id="label_col">
+        Subject Area:
+      </td>
+      <td class="button_col" id = "edit_classroom_subject">
+        <span class="button_blue">
+          Change
+        </span>
+      </td>
+      <td   class="text_col" id = "select_subject">
+        <%=  select(:parent, :parent_subject,  SubjectArea.all_parents.sort_by{|a| [a.name]}.collect{|s| [s.name, s.id]},{:include_blank =>parent.name}) %>
+      </td>
+      <td  class="text_col" >
+        <% prompt_label = (!(parent == classroom.parent_subject) || ((parent == classroom.parent_subject) && classroom.subject_area.parent?)) ? parent.name + " Detail (Optional)" : classroom.subject_area.name   %>
+        <%=  select(:child, :child_subject, parent.all_children.sort_by{|a| [a.name]}.collect{|s| [s.name, s.id]},{:include_blank => prompt_label}) %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#toggle_status').click(function() {
+		var url = "<%= offering_admin_activate_url(:organization_id => @current_organization, :classroom_id => classroom) %>";
+			jQ.get(url, { }, function(data) {
+			jQ("#classroom_edit").html(data); 
+	   		jQ("#classroom_edit").show();
+			});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#edit_classroom_name').click(function() {
+		var classroom = jQ('#classroom_course_name').val();
+		var url = "<%= offering_admin_name_update_url(:organization_id => @current_organization, :classroom_id => classroom) %>";
+			jQ.get(url, {'classroom_name':classroom}, function(data) {
+			jQ("#classroom_edit").html(data); 
+	   		jQ("#classroom_edit").show();
+			});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#edit_classroom_subject').click(function() {
+		var child_id = jQ('#child_child_subject').val();
+		var url = "<%= offering_admin_subject_update_url(:organization_id => @current_organization, :classroom_id => classroom, :parent_subject_id=>parent.id) %>";
+			jQ.get(url, { 'child_subject_id': child_id}, function(data) {
+			jQ("#classroom_edit").html(data); 
+	   		jQ("#classroom_edit").show();
+			});
+	})
+});
+</script>
+
+<script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('#select_subject').change(function() {
+		var parent_id = jQ('#parent_parent_subject').val();
+		var url = "<%= offering_admin_parent_subject_url(:organization_id => @current_organization, :classroom_id => classroom) %>";
+			jQ.get(url, {'parent_subject_id': parent_id}, function(data) {
+			jQ("#classroom_edit").html(data); 
+	   		jQ("#classroom_edit").show();
+			});
+	})
+});
+</script>
+
+
+

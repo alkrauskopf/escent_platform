@@ -1,18 +1,20 @@
-<div id="main_content">
-
-  <div style="text-align:center;  word-wrap:break-word; color: #C83A14;  font-size: 18px; font-style: normal; font-weight: bold">
-    <br/><%= @current_application.name.upcase %>
-	</div>
-
-		<%= render :partial => "apps/shared/app_owner_button", :locals => {:app=>@current_application} %>
-		<div style="float:none;width:96.7%;" class="mempro_box clear">
-			<% header_string = @admin ? pluralize(@current_organization.classrooms.size.to_s, " " + @current_organization.short_name + " Offering"): pluralize(@current_user.offerings_taught(@current_organization).size, @current_user.last_name + " Offerings") %>
-			<div style = "text-align:center;font-size:14px; font-weight:bold; color: #2061a5; padding-left:0px;">
-					<%= header_string %>
-			</div>
+<div>
+  <div class= 'row panel_title_blue'>
+    <%= @current_application.app_name(:provider=>@current_provider).upcase %>
+    </div>
+  <div class= 'row panel_title_blue'>
+    <%= @admin ? pluralize(@current_organization.classrooms.size.to_s, " " + @current_organization.short_name + " Offering"): pluralize(@current_user.offerings_taught(@current_organization).size, @current_user.last_name + " Offerings") %>
+    <%#= render :partial => "apps/shared/app_owner_button", :locals => {:app=>@current_application} %>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
 			<% if @admin -%>
-				<div id="centerpane_appl">
-					<table id="off_header" style="width:750px;  margin-left:20px; border:0px solid #ddd;">
+				<div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+					<table class= "offering_create_box" id="off_header">
 						<tbody>
 							<style type="text/css" media="screen">
 						    table,tr,td { border:medium}
@@ -27,7 +29,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<table id="off_descript" style="width:700px;margin-left:20px">
+					<table class= "offering_create_box" id="off_descript">
 						<style type="text/css" media="screen">
 					    		table,tr,td { border:none }
 								table tr:hover{
@@ -63,14 +65,20 @@
 					})	
 				});
 				</script>
+            </div>
+          <div class="col-md-1"></div>
 				</div>		
 			<% end -%>
-			<div id="rightpane_applx">
-				<div id="offering_box">		
-					<%= render :partial => "list_classrooms", :locals => {:admin => @admin} %>
-			    </div>
-			</div>
-		</div>
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-9 offering_list_box">
+          <%= render :partial => "list_classrooms", :locals => {:admin => @admin} %>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      </div>
+  </div>
+
 	  <div id="control_panel" >
 	 
 	   <ul>

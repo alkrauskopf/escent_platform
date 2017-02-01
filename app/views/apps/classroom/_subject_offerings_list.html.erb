@@ -1,6 +1,6 @@
 
 	<% (admin ? (subject_parent.nil? ? @current_organization.offerings_in_folder(folder) : @current_organization.unfoldered_offerings_for_parent_subject(subject_parent)) : @current_user.offerings_taught(@current_organization)).each do|offering| -%>
-		<table style="width:680px; width:fixed; text-align:left; margin-top:0px; padding-bottom:0px; border:0px solid #ddd;">
+		<table>
 			<tbody>  
 				<style type="text/css" media="screen">
 		    		table,tr,td { border:none; }
@@ -8,21 +8,19 @@
 	        		background-color: transparent;
 	      			}
 	   			</style>
-					<tr style="border:0px solid #ddd;">
-						<td  style="  width:40px; width:fixed; border:0px solid #ddd; vertical-align:top; text-align:left;padding-top:5px">
-							<span class="fsn-button ui-button ui-state-default ui-corner-all">
-								 <%= link_to 'Edit', offering_admin_setup_path(:organization_id => @current_organization, :classroom_id => offering) %>
-							</span>
+					<tr>
+						<td  style="width:7%;">
+               <%= link_to 'Edit', offering_admin_setup_path(:organization_id => @current_organization, :classroom_id => offering), :class =>"button_gray" %>
 						</td>
-						<td  style="color: #2061a5;  border:0px solid #ddd; font-size:12px; line-height:1.4em; font-weight:bold; vertical-align:bottom; text-align:left;padding-bottom:5px;padding-top:5px">
+						<td  class="offering_name">
 							<%= offering.course_name %>
 							<% unless offering.active? -%>
-								<span style = "color: #C83A14; font-size:10px; padding-top:0px; font-weight:normal ">
-									&nbsp;<i>(Not Active)</i>&nbsp;
+								<span class="offering_inactive">
+									&nbsp;(Not Active)&nbsp;
 								</span>
 							<% end -%>
 							<br/>
-							<span style = "color: #000000; font-size:10px; padding-top:0px; font-weight:normal ">
+							<span class="offering_info">
 								<%= offering.teachers.empty? ? "(No Teachers)" : offering.teacher_list %>&nbsp;&nbsp;
 								<%= pluralize( offering.classroom_periods.size, " Period")%>,&nbsp;<%= pluralize( offering.learning_units.size, " Learning Unit")%>						
 							</span>

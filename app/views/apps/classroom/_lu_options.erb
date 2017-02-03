@@ -1,56 +1,39 @@
 <div id="lu_options_<%=lu.public_id%>" >
-	<div style ="color: #2061a5; font-size:13px; padding-top:5px; font-weight:normal"> 
-		<u>Options</u>
-	</div>
-	<table style="width:750px; border:0px solid #ddd;">
+  <table class="options_table">
 		<tbody>
 			<tr style=" border:0px;">
-				<% featured_button = lu.featured? ? "button_enabled.png" : "button_disabled.png" -%>				
-				<td   id="toggle_feature" style="width:4%; border:0px solid #ddd; font-size:11px; cursor:pointer; vertical-align:middle; text-align:left; color: #C83A14;font-weight:normal;">
-						<%= (image_tag featured_button,:width => 12) -%>
-				</td>			
-				<td  style="width:30%; border:0px solid #ddd; font-size:12px; padding-left:0px; vertical-align:middle; text-align:left;color: #2061a5;font-weight:normal;">
+				<% featured_button = lu.featured? ? "button_enabled.png" : "button_disabled.png" -%>
+        <td class="option_label">
 						Unit&nbsp;<%= lu.featured? ? "Currently Featured" : "Not Currently Featured" %>
-				</td>		
-				<% open_button = lu.open? ? "button_enabled.png" : "button_disabled.png" -%>				
-				<td   id="toggle_discussion" style="width:4%; border:0px solid #ddd; font-size:11px; cursor:pointer; vertical-align:middle; text-align:left; color: #C83A14;font-weight:normal;">
+				</td>
+        <td class="toggle_button" id="toggle_feature">
+          <%= (image_tag featured_button,:width => 12) -%>
+        </td>
+				<% open_button = lu.open? ? "button_enabled.png" : "button_disabled.png" -%>
+        <td class="option_label">
+          Discussion Forum&nbsp;<%= lu.open? ? "Open" : "Closed" %>
+        </td>
+        <td class="toggle_button" id="toggle_discussion">
 						<%= (image_tag open_button,:width => 12) -%>
-				</td>			
-				<td  style="width:30%; border:0px solid #ddd; font-size:12px; padding-left:0px; vertical-align:middle; text-align:left;color: #2061a5;font-weight:normal;">
-						Discussion Forum&nbsp;<%= lu.open? ? "Open" : "Closed" %>
 				</td>
-				<% notify_button = lu.notify? ? "button_enabled.png" : "button_disabled.png" -%>				
-				<td   id="toggle_notify" style="width:4%; border:0px solid #ddd; font-size:11px; cursor:pointer; vertical-align:middle; text-align:left; color: #C83A14;font-weight:normal;">
-						<%= (image_tag notify_button,:width => 12) -%>
-				</td>			
-				<td  style=" border:0px solid #ddd; font-size:12px; padding-left:0px; vertical-align:middle; text-align:left;color: #2061a5;font-weight:normal;">
-						Discussion Notifications&nbsp;<%= lu.notify? ? "On" : "Off" %>
+				<% notify_button = lu.notify? ? "button_enabled.png" : "button_disabled.png" -%>
+        <td class="option_label">
+          Discussion Notifications&nbsp;<%= lu.notify? ? "On" : "Off" %>
 				</td>
+        <td class="toggle_button" id="toggle_notify">
+          <%= (image_tag notify_button,:width => 12) -%>
+        </td>
 			</tr>
 		</tbody>					
 	</table>
-	<table style="width:750px; border:0px solid #ddd;">
+  <table class="options_table">
 		<tbody>
 			<tr style=" border:0px solid #ddd;">
-				<td  id="clear_discussion" style="width:7%; border:0px solid #ddd; font-size:11px; padding-left:5px; vertical-align:middle; text-align:left; color: #2061a5;font-weight:normal;">
-					<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
+        <td class="discussion_clear" >
+					<span class="button_red" id="clear_discussion" >
 						Clear
 					</span>
-				</td>			
-				<td  style="width:27%; border:0px solid #ddd; font-size:12px; padding-left:0px; vertical-align:middle; text-align:left;color:#2061a5;font-weight:normal;">
-					<%= pluralize(lu.discussions.active.size.to_s, "Discussion Comment") %>
-				</td>
-				<td   style="width:7%; border:0px solid #ddd; font-size:11px; padding-left:0px; vertical-align:middle; text-align:left; color: #2061a5;font-weight:normal;">
-					&nbsp;
-				</td>			
-				<td  style="width:27%; border:0px solid #ddd; font-size:11px; padding-left:0px; vertical-align:middle; text-align:left;color: #2061a5;font-weight:normal;">
-					&nbsp;
-				</td>
-				<td   style="width:7%; border:0px solid #ddd; font-size:11px; padding-left:0px; vertical-align:middle; text-align:left; color: #2061a5;font-weight:normal;">
-					&nbsp;
-				</td>			
-				<td  style="border:0px solid #ddd; font-size:11px; padding-left:0px; vertical-align:middle; text-align:left;color:#2061a5;font-weight:normal;">
-					&nbsp;
+          &nbsp;<%= pluralize(lu.discussions.active.size.to_s, "Discussion Comment") %>
 				</td>
 			</tr>
 		</tbody>					
@@ -58,49 +41,49 @@
 </div>
 
 <script type="text/javascript">
-jQ(document).ready(function() {
-	jQ('#toggle_feature').click(function() {
-		var url = "<%= offering_admin_lu_options_url(:organization_id => @current_organization, :topic_id => lu, :option=>'feature') %>";
-			jQ.get(url, { }, function(data) {
-			jQ("#lu_options_<%=lu.public_id%>").html(data); 
-	   		jQ("#lu_options_<%=lu.public_id%>").show();
-			});
-	})
-});
+  jQ(document).ready(function() {
+    jQ('#toggle_feature').click(function() {
+      var url = "<%= offering_admin_lu_options_url(:organization_id => @current_organization, :topic_id => lu, :option=>'feature') %>";
+        jQ.get(url, { }, function(data) {
+        jQ("#lu_options_<%=lu.public_id%>").html(data);
+          jQ("#lu_options_<%=lu.public_id%>").show();
+        });
+    })
+  });
 </script>
 
 <script type="text/javascript">
-jQ(document).ready(function() {
-	jQ('#toggle_discussion').click(function() {
-		var url = "<%= offering_admin_lu_options_url(:organization_id => @current_organization, :topic_id => lu, :option=>'discussion') %>";
-			jQ.get(url, { }, function(data) {
-			jQ("#lu_options_<%=lu.public_id%>").html(data); 
-	   		jQ("#lu_options_<%=lu.public_id%>").show();
-			});
-	})
-});
+  jQ(document).ready(function() {
+    jQ('#toggle_discussion').click(function() {
+      var url = "<%= offering_admin_lu_options_url(:organization_id => @current_organization, :topic_id => lu, :option=>'discussion') %>";
+        jQ.get(url, { }, function(data) {
+        jQ("#lu_options_<%=lu.public_id%>").html(data);
+          jQ("#lu_options_<%=lu.public_id%>").show();
+        });
+    })
+  });
 </script>
 
 <script type="text/javascript">
-jQ(document).ready(function() {
-	jQ('#toggle_notify').click(function() {
-		var url = "<%= offering_admin_lu_options_url(:organization_id => @current_organization, :topic_id => lu, :option=>'notify') %>";
-			jQ.get(url, { }, function(data) {
-			jQ("#lu_options_<%=lu.public_id%>").html(data); 
-	   		jQ("#lu_options_<%=lu.public_id%>").show();
-			});
-	})
-});
+  jQ(document).ready(function() {
+    jQ('#toggle_notify').click(function() {
+      var url = "<%= offering_admin_lu_options_url(:organization_id => @current_organization, :topic_id => lu, :option=>'notify') %>";
+        jQ.get(url, { }, function(data) {
+        jQ("#lu_options_<%=lu.public_id%>").html(data);
+          jQ("#lu_options_<%=lu.public_id%>").show();
+        });
+    })
+  });
 </script>
 
 <script type="text/javascript">
-jQ(document).ready(function() {
-	jQ('#clear_discussion').click(function() {
-		var url = "<%= offering_admin_lu_options_url(:organization_id => @current_organization, :topic_id => lu, :option=>'suspend') %>";
-			jQ.get(url, { }, function(data) {
-			jQ("#lu_options_<%=lu.public_id%>").html(data); 
-	   		jQ("#lu_options_<%=lu.public_id%>").show();
-			});
-	})
-});
+  jQ(document).ready(function() {
+    jQ('#clear_discussion').click(function() {
+      var url = "<%= offering_admin_lu_options_url(:organization_id => @current_organization, :topic_id => lu, :option=>'d_clear') %>";
+      jQ.get(url, { }, function(data) {
+        jQ("#lu_options_<%=lu.public_id%>").html(data);
+        jQ("#lu_options_<%=lu.public_id%>").show();
+      });
+    })
+  });
 </script>

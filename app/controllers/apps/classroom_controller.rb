@@ -557,10 +557,13 @@ class Apps::ClassroomController < ApplicationController
       if params[:option]=="notify"
         @topic.update_attributes(:should_notify => !@topic.should_notify)
       end    
-      if params[:option]=="suspend"   
+      if params[:option]=="suspend"
         @topic.discussions.each do |disc|
           disc.suspend!(:user => @current_user)
         end
+      end
+      if params[:option]=="d_clear"
+        @topic.discussions.destroy_all
       end
     end
     refresh_lu

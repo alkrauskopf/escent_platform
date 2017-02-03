@@ -7,7 +7,7 @@
     </style>
   <tbody>
     <tr >
-      <td   id="label_col">
+      <td id="label_col">
         Status:
       </td>
       <td class="button_col" id = "toggle_status">
@@ -26,7 +26,7 @@
           &nbsp;
         </td>
         <td class="button_col">
-            <%= button_to "Destroy", offering_admin_destroy_path(:organization_id => @current_organization, :classroom_id => classroom), :class=>"button_red", :confirm => "Are you sure?" %>
+            <%= button_to "Destroy", offering_admin_destroy_path(:organization_id => @current_organization, :classroom_id => classroom), :class=>"button_red", data: {confirm: "Are you sure?"} %>
         </td>
         <td  colspan=2 class="text_col">
           <span id="warning">

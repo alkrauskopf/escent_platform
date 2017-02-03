@@ -1,129 +1,64 @@
 
-<div id="lu_edit" style = "font-size:12px; color: #000000;padding-left:0px;">
-	<div style ="text-align:center; color: #2061a5; font-size:14px; padding-top:15px; font-weight:normal">
-		<strong><%= @current_organization.medium_name %> Learning Unit Maintainence</strong><br/>
+<div id="lu_edit">
+  <div class= 'row panel_title_blue'>
+		<%= @current_organization.medium_name %> Learning Unit Maintainence
+  </div>
+  <div class= 'row panel_subtitle_blue'>
 		<%=lu.classroom.course_name.upcase %><%= lu.classroom.active? ? '' : "<span style='font-size:10px;color: #C83A14;'>  (Not Active)</span>" %>:&nbsp;<%=lu.title %>
 	</div>
-	<div style ="text-align:center; color: #000000; font-size:11px; padding-top:0px; font-weight:normal">
+  <div class= 'row panel_subsubtitle_blue'>
 		<%= lu.estimated_start_date.strftime("%b %d, %Y")%> - <%= lu.estimated_end_date.strftime("%b %d, %Y")%>
 	</div>
-	<div id="back_button" style = "font-size:9px; color: #000000;padding-left:0px;">
-		<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-			<%= link_to "Edit Offering", offering_admin_setup_path(:organization_id => @current_organization,  :classroom_id => lu.classroom) %>
-		</span>
-		<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer;float:right">
-			<%= lu.classroom.organization ?  (link_to "View Learning Unit", offering_view_path(:organization_id => lu.classroom.organization, :id => lu.classroom, :topic_id=>lu), {:target=> 'blank'}) : ""%>
-		</span>
-	</div>
-	<%= render :partial => "/shared/error_and_notice" %>
-	<div id="lu_edit_box">
+  <div class="row">
+    <div class="col-md-1">
+      <%= link_to "Back", offering_admin_setup_path(:organization_id => @current_organization,  :classroom_id => lu.classroom) %>
+    </div>
+    <div class="col-md-10 ">
+      <%= render :partial => "/shared/error_and_notice" %>
+      <% if @current_user.can_edit_offering?(lu.classroom)-%>
+        <%= render :partial => "apps/classroom/edit_classroom_lu_admin", :locals => {:lu => lu}%>
+        <hr>
+        <%= render :partial => "lu_options", :locals=>{:lu => lu} %>
+        <hr>
+        <table id="lu_folder_list">
+          <tbody>
+            <tr>
+              <td class="resource_levels_close">
+                <%= link_to '', offering_admin_folder_setup_path(:organization_id => @current_organization, :topic_id => lu) %>
+                Setup Folders: <small> <%= pluralize(lu.positioned_folders.size, "Folder") %></small>
+                <span></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <script type="text/javascript" charset="utf-8">
+          jQ(document).ready(function() {
+            jQ('#lu_folder_list .resource_levels_close').toggleResourceLevels();
+            jQ('#lu_folder_list .resource_levels_open').toggleResourceLevels();
+          });
+        </script>
 
-		<% if @current_user.can_edit_offering?(lu.classroom)-%>
-			<div class="Form clear"></div>
-				<%= form_for(:topic, :url => offering_admin_lu_edit_path(:organization_id => @current_organization, :topic_id => lu, :function => "Update")) do |form| %>
-					<div class="FormRow submit_warp" style= "padding-left:90px" >
-						<%= submit_tag 'Update Info', :class =>"fsn-button ui-button ui-state-default ui-corner-all save"  %>
-					</div>	
-					<table style="width:900px; margin-left:0px; border:0px solid #ddd;">
-						<style type="text/css" media="screen">
-				    		table,tr,td { border:none }
-							table tr:hover{
-			        		background-color: transparent;
-			      			}
-			   			</style>
-						<tbody> 
-							<tr>
-								<td   style="width:42%; border:0px solid #ddd; line-height:1.5em; vertical-align:top;  padding-left:0px; padding-right:3px; padding-top:5px; text-align:right; font-size:12px; ">
-									Title:
-								</td>
-								<td   colspan=2 style="border:0px solid #ddd; vertical-align:middle;  padding-left:0px; padding-right:0px; padding-bottom:10px; text-align:left; color: #C83A14; font-size:13px; font-weight:normal">
-								     <%= text_field :topic, :title, :value => lu.title, :size => 65, :maxlength => 250 %>			
-								</td>
-								<td   style="width:11%; border:0px solid #ddd; line-height:1.5em; vertical-align:middle;  padding-left:0px; padding-right:3px; padding-top:5px; text-align:right; font-size:12px; ">
-									&nbsp;
-								</td>
-							</tr>
-							<tr style="padding-bottom:10px;">
-								<td   style="width:42%; border:0px solid #ddd; line-height:1.5em; vertical-align:top;  padding-bottom:10px; padding-right:3px; padding-top:5px; text-align:right; font-size:12px; ">
-									Est. Begining & End:
-								</td>
-								<td style=" width:25%; border:0px solid #ddd;  padding-bottom:10px; vertical-align:middle; text-align:center; font-size:12px">
-				    				<%= date_select(:topic, :estimated_start_date,  :use_short_month=>true, :default=>lu.estimated_start_date, :order=>[:month, :day, :year], :start_year => Time.now.year-1, :end_year => Time.now.year+1) %></td>
-								</td>
-								<td style="  border:0px solid #ddd; padding-bottom:10px; vertical-align:middle; text-align:left; font-size:12px">
-				    				<%= date_select(:topic, :estimated_end_date,  :use_short_month=>true, :default=>lu.estimated_end_date, :order=>[:month, :day, :year], :start_year => Time.now.year-1, :end_year => Time.now.year+1) %></td>
-								</td>
-								<td   style="width:11%; border:0px solid #ddd; line-height:1.5em; vertical-align:middle;  padding-left:0px; padding-right:3px; padding-top:0px; text-align:right; font-size:12px; ">
-									&nbsp;
-								</td>
-							</tr>
-					      	<tr>
-								<td   style="width:42%; border:0px solid #ddd; line-height:1.5em; vertical-align:top;  padding-left:0px; padding-right:3px; padding-top:8px; text-align:right; font-size:12px; ">
-									Overview & Objectives:
-								</td>
-                  <td colspan=3 style = "line-height:1.5em; text-align:left;vertical-align:middle; padding-top:8px; padding-bottom:0px; font-size:12px;">
-									  <%=  text_area :topic, :instructional_remarks, :class =>"tinymce", :rows => 4, :cols => 55, :maxlength => 4000 %>
-                    <%= tinymce %>
-                  </td>
-                </tr>
-                <tr>
-								<td   style="width:42%; border:0px solid #ddd; line-height:1.5em; vertical-align:top;  padding-left:0px; padding-right:3px; padding-top:8px; text-align:right; font-size:12px; ">
-									Assignment:
-								</td>
-				        		<td colspan=3 style = "text-align:left;vertical-align:middle; padding-top:8px; padding-bottom:0px; font-size:12px;">
-									<%= text_area :topic, :assignments, :value=>lu.assignments, :class=>"text", :rows => 3, :cols => 65, :maxlength => 4000 %>
-								</td> 
-				       		</tr>
-						</tbody>
-					</table>
-				<% end -%>
-			</div>
-			<div id="lu_options">
-				<span class="fsn-button ui-button ui-state-default ui-corner-all" style="float:right; cursor:pointer">
-					<%= link_to 'Destroy Unit', offering_admin_lu_destroy_path(:organization_id => @current_organization, :topic_id => lu), :confirm => "Are you sure?" %>
-				</span>
-				<%= render :partial => "lu_options", :locals=>{:lu => lu} %>
-			</div>
-
-			<div id="lu_resources">
-				<table id="lu_folder_list"  style="margin-left:0px; width:700px; border:0px solid #ddd;">
-					<tbody> 
-						<tr>
-							<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal;  padding-bottom:0px; font-size:12px">
-								<%= link_to '', offering_admin_folder_setup_path(:organization_id => @current_organization, :topic_id => lu) %>
-								Setup Folders: <small> <%= pluralize(lu.positioned_folders.size, "Folder") %></small>
-								<span></span>
-							</td>
-						</tr>				
-					</tbody>
-				</table>
-				
-				<script type="text/javascript" charset="utf-8">
-				jQ(document).ready(function() {
-					jQ('#lu_folder_list .resource_levels_close').toggleResourceLevels();
-					jQ('#lu_folder_list .resource_levels_open').toggleResourceLevels();	
-				});
-				</script>
-
-				<table id="lu_resource_list"  style="margin-left:0px; width:700px; border:0px solid #ddd;">
-					<tbody> 
-						<tr>
-							<td class="resource_levels_close" style=" color: #2061a5; font-weight:normal;  padding-bottom:0px; font-size:12px">
-								<%= link_to '', offering_admin_resources_path(:organization_id => @current_organization, :classroom_id => lu.classroom, :topic_id => lu) %>
-								Assign Resources: <small> <%= pluralize(lu.contents.active.size, "Resource") %></small>
-								<span></span>
-							</td>
-						</tr>				
-					</tbody>
-				</table>
-				
-				<script type="text/javascript" charset="utf-8">
-				jQ(document).ready(function() {
-					jQ('#lu_resource_list .resource_levels_close').toggleResourceLevels();
-					jQ('#lu_resource_list .resource_levels_open').toggleResourceLevels();	
-				});
-				</script>
-			</div>	
-		<% end -%>
-	<br/>
-	</div>
+        <table id="lu_resource_list">
+          <tbody>
+            <tr>
+              <td class="resource_levels_close">
+                <%= link_to '', offering_admin_resources_path(:organization_id => @current_organization, :classroom_id => lu.classroom, :topic_id => lu) %>
+                Assign Resources: <small> <%= pluralize(lu.contents.active.size, "Resource") %></small>
+                <span></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <script type="text/javascript" charset="utf-8">
+          jQ(document).ready(function() {
+            jQ('#lu_resource_list .resource_levels_close').toggleResourceLevels();
+            jQ('#lu_resource_list .resource_levels_open').toggleResourceLevels();
+          });
+        </script>
+      <% end %>
+    </div>
+    <div class="col-md-1">
+      <%= lu.classroom.organization ?  (link_to "View", offering_view_path(:organization_id => lu.classroom.organization, :id => lu.classroom, :topic_id => lu), {:target=> 'blank'}) : ""%>
+    </div>
+  </div>
+</div>

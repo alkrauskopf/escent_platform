@@ -1,0 +1,65 @@
+
+<div class="admin_table">
+  <%= form_for(:topic, :url => offering_admin_lu_edit_path(:organization_id => @current_organization, :topic_id => lu, :function => "Update")) do |form| %>
+    <div class="row">
+      <%= submit_tag 'Update', :class =>"button_blue" %>
+    </div>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <table>
+        <style type="text/css" media="screen">
+          table,tr,td { border:none }
+          table tr:hover{
+            background-color: transparent;
+          }
+        </style>
+        <tbody>
+          <tr>
+            <td class="lu_label_col">
+              Title:
+            </td>
+            <td class="lu_text_col">
+              <%= text_field :topic, :title, :value => lu.title, :size => 65, :maxlength => 250 %>
+            </td>
+          </tr>
+          <tr>
+            <td class="lu_label_col">
+              Est. Begining Date:
+            </td>
+            <td class="lu_text_col">
+              <%= date_select(:topic, :estimated_start_date,  :use_short_month=>true, :default=>lu.estimated_start_date, :order=>[:month, :day, :year], :start_year => Time.now.year-1, :end_year => Time.now.year+1) %></td>
+            </td>
+          </tr>
+          <tr>
+            <td class="lu_label_col">
+              Est. End Date:
+            </td>
+            <td class="lu_text_col">
+              <%= date_select(:topic, :estimated_end_date,  :use_short_month=>true, :default=>lu.estimated_end_date, :order=>[:month, :day, :year], :start_year => Time.now.year-1, :end_year => Time.now.year+1) %></td>
+            </td>
+          </tr>
+          <tr>
+            <td class="lu_label_col">
+              Overview & Objectives:
+            </td>
+            <td class="lu_text_col">
+              <%=  text_area :topic, :instructional_remarks, :class =>"tinymce", :rows => 4, :cols => 55, :maxlength => 4000 %>
+              <%= tinymce %>
+            </td>
+          </tr>
+          <tr>
+            <td class="lu_label_col">
+              Assignment:
+            </td>
+            <td class="lu_text_col">
+              <%= text_area :topic, :assignments, :value=>lu.assignments, :class=>"text", :rows => 3, :cols => 65, :maxlength => 4000 %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <% end -%>
+  <div class="row">
+    <%= link_to 'Destroy Unit', offering_admin_lu_destroy_path(:organization_id => @current_organization, :topic_id => lu), :class=>"button_red", :confirm => "Are you sure?" %>
+  </div>
+</div>

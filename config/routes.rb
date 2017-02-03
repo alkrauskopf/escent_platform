@@ -217,7 +217,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/admin/add' => 'apps/classroom#add_classroom'
   get '/offering/admin/subjects' => 'apps/classroom#subject_offerings'
   get '/offering/admin/setup' => 'apps/classroom#setup_classroom'
-  get '/offering/admin/destroy' => 'apps/classroom#destroy_classroom'
+  post '/offering/admin/destroy' => 'apps/classroom#destroy_classroom'   # offering_admin_destroy_path
   get '/offering/admin/activate' => 'apps/classroom#toggle_active'
   get '/offering/admin/name/update' => 'apps/classroom#change_classroom_name'
   get '/offering/admin/subject/update' => 'apps/classroom#change_classroom_subject'
@@ -227,12 +227,12 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/admin/period/edit' => 'apps/classroom#edit_period'
   get '/offering/admin/period/teachers' => 'apps/classroom#manage_period_teachers'
   get '/offering/admin/period/destroy' => 'apps/classroom#destroy_period'
-  get '/offering/admin/lus' => 'apps/classroom#offering_lus'
+  get '/offering/admin/lus' => 'apps/classroom#offering_lus'   # offering_admin_lus_path
   get '/offering/admin/lu/add' => 'apps/classroom#add_lu'
   get '/offering/admin/lu/edit' => 'apps/classroom#setup_classroom_lu'
   post '/offering/admin/lu/edit' => 'apps/classroom#setup_classroom_lu'
   get '/offering/admin/lu/destroy' => 'apps/classroom#destroy_lu'
-  get '/offering/admin/lu/options' => 'apps/classroom#toggle_lu_options'
+  get '/offering/admin/lu/options' => 'apps/classroom#toggle_lu_options'   # offering_admin_lu_options_url
   get '/offering/admin/lu/folder' => 'apps/shared#assign_lu_folder'
   get '/offering/admin/lu/folder/position' => 'apps/shared#assign_lu_folder_position'   #  offering_admin_lu_folder_position
   get '/offering/admin/lu/folder/toggle' => 'apps/shared#assign_lu_folder_toggle_show'   #  offering_admin_lu_folder_toggle

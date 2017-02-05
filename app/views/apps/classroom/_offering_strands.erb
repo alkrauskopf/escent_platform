@@ -1,0 +1,69 @@
+
+<div id="offering_strand_<%=lu.id%>" >
+	<% if admin && lu-%>
+      <div class="row">
+        <div class="assigns col-md-8">
+          Assign <%=lu.classroom.act_subject.name %> Knowledge Strands
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4" id="add_strand_<%= lu.public_id %>">
+          <%=  select(:strand_add, lu.public_id, @add_strands.sort_by{|f| [f.act_master.abbrev, f.abbrev]}.collect{|f| [truncate((f.act_master.abbrev + '- ' + f.abbrev + ': ' + f.name), :omission => "...", :length => 40), f.id]},{:include_blank =>'Add ' + @current_subject.name + ' Strand'}) %>
+        </div>
+        <div class="col-md-4" id="remove_strand_<%= lu.public_id %>">
+          <%=  select(:strand_remove, lu.public_id, @remove_strands.sort_by{|f| [f.act_master.abbrev, f.abbrev]}.collect{|f| [truncate((f.act_master.abbrev + '- ' + f.abbrev + ': ' + f.name), :omission => "...", :length => 40), f.id]},{:include_blank =>'Remove ' + @current_subject.name + ' Strand'}) %>
+        </div>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ('#add_strand_<%= lu.public_id %>').change(function() {
+              var strand_id = jQ('#strand_add_<%= lu.public_id %>').val();
+              var url = "<%= offering_admin_lu_strand_url(:organization_id => @current_organization, :topic_id => lu) %>";
+                jQ.get(url, {'act_standard_id':strand_id}, function(data) {
+                jQ("#offering_strand_<%=lu.id%>").html(data);
+                  jQ("#offering_strand_<%=lu.id%>").show();
+                });
+            })
+          });
+        </script>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ('#remove_strand_<%= lu.public_id %>').change(function() {
+              var strand_id = jQ('#strand_remove_<%= lu.public_id %>').val();
+              var url = "<%= offering_admin_lu_strand_url(:organization_id => @current_organization, :topic_id => lu) %>";
+              jQ.get(url, {'act_standard_id':strand_id}, function(data) {
+                jQ("#offering_strand_<%=lu.id%>").html(data);
+                jQ("#offering_strand_<%=lu.id%>").show();
+              });
+            })
+          });
+        </script>
+      </div>
+
+      <div class="row">
+		<table class="strand_list">
+			<thead style="border:1px solid #ddd;">
+				<tr>
+					<th class="header_row" colspan = 3 >
+							<%= pluralize(@remove_strands.size, (lu.title + " Knowledge Strand")) -%>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @remove_strands.sort_by{|f| [f.act_master.abbrev, f.abbrev]}.each do |strand| %>
+          <tr>
+            <td class="std_col">
+              <%= strand.act_master.abbrev.upcase %>
+            </td>
+            <td class="std_col">
+              <%= strand.abbrev.upcase %>
+            </td>
+            <td class="strand_col">
+              <%= strand.name %>
+            </td>
+          </tr>
+				<% end -%>
+			</tbody>
+		</table>
+	<% end -%>
+  </div>
+</div>

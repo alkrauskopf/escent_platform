@@ -1,2 +1,33 @@
+<% if !@strands.empty? && !@mastery_levels.empty? %>
+  <div class="lu_strand_box">
+    <div class="lu_strand_box_header">
+      Benchmarks & Improvement Ideas
+    </div>
+    <div class=" lu_strand_list">
+      <% @mastery_levels.each do |ml| %>
+          <% @strands.each do |strand| %>
+              <table id="lu_benchmarks_<% ml.id.to_s%>_<% strand.id.to_s%>">
+                <tbody>
+                <tr>
+                  <td class="resource_levels_close">
+                    <%= link_to '', offering_folder_benchmarks_path(:organization_id => @current_organization, :act_score_range_id => ml.id, :act_standard_id => strand.id) %>
+                    <%=strand.abbrev.upcase %>:&nbsp;<%= ml.mastery_label %>
+                    <span></span>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <script type="text/javascript" charset="utf-8">
+                jQ(document).ready(function() {
+                  jQ('#lu_benchmarks_<% ml.id.to_s%>_<% strand.id.to_s%> .resource_levels_close').toggleResourceLevels();
+                  jQ('#lu_benchmarks_<% ml.id.to_s%>_<% strand.id.to_s%> .resource_levels_open').toggleResourceLevels();
+                });
+              </script>
+          <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
 
 <%= render :partial => 'show_lu_resources', :locals => {:lu => @topic, :folder => @folder}%>
+<hr>

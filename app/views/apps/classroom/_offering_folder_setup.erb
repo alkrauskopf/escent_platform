@@ -1,27 +1,21 @@
 
-<div id="offering_folder_setup_<%=app.id%>" >
+<div id="offering_folder_setup_<%=lu.id%>" >
 	<% if admin && lu-%>
-		<table style="width:500px; margin-left:0px; border:0px solid #ddd;">
-			<style type="text/css" media="screen">
-	    		table,tr,td { border:none }
-				table tr:hover{
-        		background-color: transparent;
-      			}
-   			</style>
+		<table class="lu_admin_folder_box">
 			<tbody>  
 				<tr>
-					<td colspan = 2 style = "line-height:1.3em; font-size:13px; text-align:center; padding-top:5px; padding-bottom:5px;">
+					<td class='folder_header' colspan = 2 >
 						Add / Remove LU Folders<br/>
-						<span style ="font-size:11px; color:#C73914;">
+						<span class ="warning">
 							Folders Must Be Emptied Before They Can Be Removed From LU
 						</span>
 					</td>
 				</tr>
-				<tr  style="border:0px solid #ddd;" >
-					<td id = "assign_folder_<%= lu.public_id %>" style="border:0px solid #ddd; padding-top:7px; padding-bottom:7px; vertical-align:top; text-align:left; font-size:12px">
+				<tr  >
+					<td class='folder_select' id = "assign_folder_<%= lu.public_id %>">
 						<%=  select(:folder_assign, lu.public_id, (@current_organization.folders - lu.positioned_folders).sort_by{|f| f.name}.collect{|f| [truncate(f.name, :omission => "...", :length => 40), f.public_id]},{:include_blank =>'Add ' + @current_organization.short_name + ' Folder'}) %>
 					</td>
-					<td id = "remove_folder_<%= lu.public_id %>" style="border:0px solid #ddd; padding-top:7px; padding-bottom:7px; vertical-align:top; text-align:left; font-size:12px">
+					<td class='folder_select' id = "remove_folder_<%= lu.public_id %>">
 						<%=  select(:folder_remove, lu.public_id, lu.positioned_folders.select{|f| f.topic_contents.for_lu(lu).empty?}.sort_by{|f| f.name}.collect{|f| [truncate(f.name, :omission => "...", :length => 40), f.public_id]},{:include_blank =>'Remove Emptied Folder'}) %>
 					</td>				
 				</tr>
@@ -32,10 +26,10 @@
 		jQ(document).ready(function() {
 			jQ('#assign_folder_<%= lu.public_id %>').change(function() {
 				var folder_id = jQ('#folder_assign_<%= lu.public_id %>').val();
-				var url = "<%= offering_admin_lu_folder_url(:organization_id => @current_organization, :topic_id => lu, :app_id=> app.id) %>";
+				var url = "<%= offering_admin_lu_folder_url(:organization_id => @current_organization, :topic_id => lu) %>";
 					jQ.get(url, {'folder_id':folder_id}, function(data) {
-					jQ("#offering_folder_setup_<%=app.id%>").html(data); 
-			   		jQ("#offering_folder_setup_<%=app.id%>").show();
+					jQ("#offering_folder_setup_<%=lu.id%>").html(data);
+			   		jQ("#offering_folder_setup_<%=lu.id%>").show();
 					});
 			})
 		});
@@ -44,76 +38,63 @@
 		jQ(document).ready(function() {
 			jQ('#remove_folder_<%= lu.public_id %>').change(function() {
 				var folder_id = jQ('#folder_remove_<%= lu.public_id %>').val();
-				var url = "<%= offering_admin_lu_folder_url(:organization_id => @current_organization, :topic_id => lu, :app_id=> app.id) %>";
+				var url = "<%= offering_admin_lu_folder_url(:organization_id => @current_organization, :topic_id => lu) %>";
 					jQ.get(url, {'folder_id':folder_id}, function(data) {
-					jQ("#offering_folder_setup_<%=app.id%>").html(data); 
-			   		jQ("#offering_folder_setup_<%=app.id%>").show();
+					jQ("#offering_folder_setup_<%=lu.id%>").html(data);
+			   		jQ("#offering_folder_setup_<%=lu.id%>").show();
 					});
 			})
 		});
-		</script>										
-		<table style="width:500px; margin-left:0px; border:0px solid #ddd;">
-			<thead style="border:1px solid #ddd;">
+		</script>
+    <table class="lu_admin_folder_box">
+			<thead>
 				<tr>
-					<th colspan = 3 style = "border:0px solid #ddd; line-height:1.3em; font-size:13px; text-align:center; padding-top:5px; padding-bottom:5px;">
-							<%= pluralize(lu.positioned_folders.size, (lu.title + " Folder")) -%>
-					</th>
-				</tr>
-				<tr>
-					<th style = "width:20%; border:0px solid #ddd; font-size:11px; text-align:center; padding-top:0px; padding-bottom:0px;">
-							Position
-					</th>
-          <th style = "width:5%; border:0px solid #ddd; font-size:11px; text-align:center; padding-top:0px; padding-bottom:0px;">
-            Show?
-          </th>
-					<th style = " border:0px solid #ddd; font-size:11px; text-align:left; padding-top:0px; padding-bottom:0px;">
-							Folder
+					<th colspan = 4 class='folder_header'>
+            <%= pluralize(lu.positioned_folders.size, (lu.title + " Folder")) -%>
 					</th>
 				</tr>
 			</thead>
-			<style type="text/css" media="screen">
-	    		table,tr,td { border:none }
-				table tr:hover{
-        		background-color: transparent;
-      			}
-   			</style>
       <% if !lu.positioned_folders.empty? %>
 			<tbody>
 				<% Folder.by_position(lu.positioned_folders).each do |folder| %>
-					<tr  style="border:1px solid #ddd;" >
-						<td id = "assign_position_<%= folder.public_id %>" style="width:20%; border:0px solid #ddd; padding-left:10px; padding-top:0px; padding-bottom:0px; vertical-align:top; text-align:left; font-size:12px">
+					<tr class="folder_row">
+						<td class="position" id = "assign_position_<%= folder.public_id %>">
 							<%=  select(:folder_position, folder.public_id, [*1...lu.folder_positions.size + 1], {:include_blank =>'Position (' + lu.folder_position(folder).to_s + ')'}) %>
 						</td>
             <% show_button = folder.show?(lu) ? "button_enabled.png" : "button_disabled.png" -%>
-            <td   id="toggle_show_<%= folder.public_id %>" style="width:5%; border:0px solid #ddd; padding-left:1em; font-size:11px; cursor:pointer; vertical-align:middle;">
+            <td class="activate" id="toggle_show_<%= folder.public_id %>">
               <%= (image_tag show_button,:width => 12) -%>
             </td>
-            <td style=" border:0px solid #ddd; vertical-align:top;  padding-top:0px; padding-bottom:0px; color:#2061a5; text-align:left; font-weight:normal; font-size:12px">
-							<%= folder.parent ? ('<u>' + folder.parent.name + ':</u> ' + folder.name).html_safe : folder.name  %>
-							<span style = "color:#2061a5; font-size:10px;  font-weight:normal ">
-								(<%= pluralize(lu.topic_contents.for_folder(folder).size, " Resource") %>)
-							</span>
+            <td class="description">
+							<%= folder.parent ? (folder.parent.name + ' / <strong>' + folder.name + '</strong>').html_safe : ('<strong>' + folder.name + '</strong>').html_safe  %>
+              (<%= pluralize(lu.topic_contents.for_folder(folder).size, " Resource") %>)
 						</td>
-					</tr>		
-	<script type="text/javascript">
-	jQ(document).ready(function() {
-		jQ('#assign_position_<%= folder.public_id %>').change(function() {
-			var pos = jQ('#folder_position_<%=folder.public_id%>').val();
-			var url = "<%= offering_admin_lu_folder_position_url(:organization_id => @current_organization, :topic_id => lu, :folder_id => folder, :app_id=> app.id) %>";
-				jQ.get(url, {'position':pos}, function(data) {
-					jQ("#offering_folder_setup_<%=app.id%>").html(data); 
-			   		jQ("#offering_folder_setup_<%=app.id%>").show();
-				});
-		})
-	});
-	</script>
+            <td class="mastery">
+              <% folder.subject_mastery_levels(lu.classroom.act_subject).each do |ml| %>
+                <%= ml.mastery_label %>
+                <br/>
+              <% end %>
+            </td>
+					</tr>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ('#assign_position_<%= folder.public_id %>').change(function() {
+                var pos = jQ('#folder_position_<%=folder.public_id%>').val();
+                var url = "<%= offering_admin_lu_folder_position_url(:organization_id => @current_organization, :topic_id => lu, :folder_id => folder) %>";
+                  jQ.get(url, {'position':pos}, function(data) {
+                    jQ("#offering_folder_setup_<%=lu.id%>").html(data);
+                      jQ("#offering_folder_setup_<%=lu.id%>").show();
+                  });
+              })
+            });
+          </script>
           <script type="text/javascript">
             jQ(document).ready(function() {
               jQ('#toggle_show_<%= folder.public_id %>').click(function() {
-                var url = "<%= offering_admin_lu_folder_toggle_url(:organization_id => @current_organization, :topic_id => lu, :folder_id => folder, :app_id=> app.id) %>";
+                var url = "<%= offering_admin_lu_folder_toggle_url(:organization_id => @current_organization, :topic_id => lu, :folder_id => folder ) %>";
                 jQ.get(url, {}, function(data) {
-                  jQ("#offering_folder_setup_<%=app.id%>").html(data);
-                  jQ("#offering_folder_setup_<%=app.id%>").show();
+                  jQ("#offering_folder_setup_<%=lu.id%>").html(data);
+                  jQ("#offering_folder_setup_<%=lu.id%>").show();
                 });
               })
             });

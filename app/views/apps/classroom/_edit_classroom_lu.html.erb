@@ -55,6 +55,25 @@
             jQ('#lu_resource_list .resource_levels_open').toggleResourceLevels();
           });
         </script>
+
+        <table id="lu_strands">
+          <tbody>
+          <tr>
+            <td class="resource_levels_close">
+              <%= link_to '', offering_admin_strands_path(:organization_id => @current_organization, :classroom_id => lu.classroom, :topic_id => lu) %>
+              Assign Knowledge Strands
+              <span></span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <script type="text/javascript" charset="utf-8">
+          jQ(document).ready(function() {
+            jQ('#lu_strands .resource_levels_close').toggleResourceLevels();
+            jQ('#lu_strands .resource_levels_open').toggleResourceLevels();
+          });
+        </script>
+
       <% end %>
     </div>
     <div class="col-md-1">

@@ -1,63 +1,67 @@
-
-
-<div id="folders_<%=org.public_id%>_<%=app.id%>" style = "font-size:12px; color: #2061a5;  padding-left:0px;">
-	<% unless org.folders.for_app(app).size == 0 -%>
-		<table  style="width:700px;  margin-left:100px; border:0px solid #ddd;">
+<div id="folders_<%=org.public_id%>_<%=app.id%>">
+  <% unless org.folders.for_app(app).size == 0 -%>
+		<table class="folder_edit_box" >
 			<thead>
 				<tr>
-					<th colspan = 4 style = "line-height:1.3em; font-size:14px; padding-top:10px; padding-bottom:10px;">
-						<span style = "font-size:14px;">
-							<%= pluralize(org.folders.for_app(app).size, " " + app.name + " Folder") -%>
-						</span>
+					<th colspan = 4 class="folder_assign_header">
+            <%= pluralize(org.folders.for_app(app).size, " " + app.name + " Folder") -%>
 					</th>
 				</tr>
 			</thead>
 			<tbody>
-				<style type="text/css" media="screen">
-			    table,tr,td { border:medium}
-				table tr:hover{
-	 	       	background-color: transparent;
-	 	     	}
-	 		   	</style>
 				<% org.folders.for_app(app).all_parents.sort_by{|f| f.name.upcase}.each do |p_folder|%>
-					<tr >
-						<td  style = "width:7%; border:1px solid #ddd; cursor:pointer; text-align:left; font-weight:normal; vertical-align:top; padding-bottom:5px; font-size:10.5px; color: #1b5698;">
-							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-								<%= link_to 'Edit', app_folder_edit_path(:organization_id => @current_organization, :app_id=>app.id, :folder_id => p_folder), :class => "edit_folder" %>
-							</span>
+          <tr style="  border:1px solid #ddd;">
+						<td  class="button_col">
+							<%= link_to 'Edit', app_folder_edit_path(:organization_id => @current_organization, :app_id=>app.id, :folder_id => p_folder), :class => "edit_folder" %>
 						</td>
-						<td  style = "width:34%; border:1px solid #ddd; text-align:left; font-weight:bold; vertical-align:top; padding-bottom:0px; font-size:10.5px; color: #1b5698;">
+						<td class="folder_name" style="font-weight:bold;">
 							<%=p_folder.name %>
-							<span style="color:#000000; font-size:9px;font-weight:normal">&nbsp;&nbsp;(<%= pluralize( p_folder.views, " View")%>)</span>	
+							<span style="font-size:9px;">&nbsp;&nbsp;(Used By <%= pluralize( p_folder.topics.size, " Learning Unit")%>)</span>
+              <br/>
+              <span class="descript">
+                <%= p_folder.description %>
+              </span>
+            </td>
+            <td class="folder_name levels mastery_list">
+							<% if p_folder.mastery_levels.empty? %>
+                No Mastery Levels
+              <% else %>
+                <% p_folder.mastery_levels.each do |ml| %>
+                  <%= ml.act_master.abbrev.upcase%>:&nbsp;<%= ml.act_subject.name%>&nbsp;-&nbsp;<%= ml.range%>
+                  <br/>
+                <% end %>
+              <% end %>
 						</td>
-						<td  style = "width:47%; border:1px solid #ddd; line-height:1.3em; text-align:left; font-weight:normal; vertical-align:top; padding-top:0px; padding-bottom:5px; font-size:10.5px; color: #1b5698;">
-							<%= p_folder.description %>
-						</td>
-						<td style = " border:1px solid #ddd; cursor:pointer; text-align:left; font-weight:normal; vertical-align:top;  padding-left:5px; font-size:10.5px; color: #1b5698;">
-							<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-								<%= link_to 'Destroy', app_folder_destroy_path(:organization_id => @current_organization, :app_id=>app.id, :folder_id => p_folder), :class => "destroy_folder" %>
-							</span>
+            <td  class="button_col">
+              <%= link_to 'Destroy', app_folder_destroy_path(:organization_id => @current_organization, :app_id=>app.id, :folder_id => p_folder), :class => "destroy_folder" %>
 						</td>
 					</tr>
 					<% p_folder.all_children.sort_by{|f| f.name.upcase}.each do |c_folder|%>
-						<tr >
-							<td style = "width:7%; border:1px solid #ddd; cursor:pointer; text-align:left; font-weight:normal; vertical-align:top; padding-bottom:5px; font-size:10.5px; color: #1b5698;">
-								<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-									<%= link_to 'Edit', app_folder_edit_path(:organization_id => @current_organization, :app_id=>app.id, :folder_id => c_folder), :class => "edit_folder" %>
-								</span>
+						<tr style="  border:1px solid #ddd;">
+              <td  class="button_col">
+                <%= link_to 'Edit', app_folder_edit_path(:organization_id => @current_organization, :app_id=>app.id, :folder_id => c_folder), :class => "edit_folder" %>
 							</td>
-							<td  style = "width:34%;border:1px solid #ddd; text-align:left; font-weight:normal; vertical-align:top; padding-bottom:0px; font-size:10.5px; color: #1b5698;">
+              <td class="folder_name" style="font-weight:normal;">
 								<%=c_folder.name %>
-							<span style="color:#000000; font-size:9px;font-weight:normal">&nbsp;&nbsp;(<%= pluralize( c_folder.views, " View")%>)</span>	
+							  <span style="font-size:9px;">&nbsp;&nbsp;(<%= pluralize( c_folder.views, " View")%>)</span>
+                <br/>
+                <span class="descript">
+                  <%= c_folder.description %>
+                </span>
 							</td>
-							<td  style = "width:47%; border:1px solid #ddd; line-height:1.3em; text-align:left; font-weight:normal; vertical-align:top; padding-top:0px; padding-bottom:5px; font-size:10.5px; color: #1b5698;">
-								<%= c_folder.description %>
-							</td>
-							<td style = " border:1px solid #ddd; cursor:pointer; text-align:left; font-weight:normal; vertical-align:top; padding-left:5px; font-size:10.5px; color: #1b5698;">
-								<span class="fsn-button ui-button ui-state-default ui-corner-all" style="cursor:pointer">
-									<%= link_to 'Destroy', app_folder_destroy_path(:organization_id => @current_organization,  :app_id=>app.id, :folder_id => c_folder), :class => "destroy_folder" %>
-								</span>
-							</td>
+              <td class="folder_name levels mastery_list">
+                <% if c_folder.mastery_levels.empty? %>
+                    No Mastery Levels
+                <% else %>
+                  <% c_folder.mastery_levels.each do |ml| %>
+                    <%= ml.act_master.abbrev.upcase%>:&nbsp;<%= ml.act_subject.name%>&nbsp;-&nbsp;<%= ml.range%>
+                    <br/>
+                  <% end %>
+                <% end %>
+              </td>
+              <td  class="button_col">
+                <%= link_to 'Destroy', app_folder_destroy_path(:organization_id => @current_organization, :app_id=>app.id, :folder_id => c_folder), :class => "destroy_folder" %>
+              </td>
 						</tr>
 					<% end -%>				
 				<% end -%>										

@@ -1,0 +1,99 @@
+<div id="folder_masteries" >
+  <table class="folder_edit_box">
+    <thead>
+      <tr>
+        <th class="folder_assign_header" colspan = 3 >
+          <%= @current_application.name -%>&nbsp;Folders
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @parent_folders.each do |p_folder|%>
+        <tr style="border:1px solid #ddd;">
+          <td class="mastery_folders" style="font-weight:bold">
+            <%=p_folder.name %>
+            <% p_folder.mastery_levels.each do |ml| %>
+              <br/>
+              <span class="mastery_list">
+                <%= ml.act_master.abbrev.upcase%>:&nbsp;<%= ml.act_subject.name%>&nbsp;-&nbsp;<%= ml.range%>
+              </span>
+            <% end %>
+          </td>
+          <td class="mastery_select" id="assign_mastery_<%= p_folder.public_id %>">
+            <%=  select(:mastery_assign, p_folder.public_id, (@mastery_levels - p_folder.mastery_levels).collect{|m| [truncate((m.act_master.abbrev + ': ' + m.act_subject.name + ' - ' + m.range), :omission => "...", :length => 40), m.id]},{:include_blank =>'Assign Mastery Level'}) %>
+          </td>
+          <td class="mastery_select" id="remove_mastery_<%= p_folder.public_id %>">
+            <%=  select(:mastery_remove, p_folder.public_id, p_folder.mastery_levels.collect{|m| [truncate((m.act_master.abbrev + ': ' + m.act_subject.name + ' - ' + m.range), :omission => "...", :length => 40), m.id]},{:include_blank =>'Remove Mastery Level'}) %>
+          </td>
+        </tr>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ('#assign_mastery_<%= p_folder.public_id %>').change(function() {
+              var mastery_id = jQ('#mastery_assign_<%= p_folder.public_id %>').val();
+              var url = "<%= offering_folder_mastery_assign_url(:organization_id => @current_organization, :folder_id => p_folder.id) %>";
+              jQ.get(url, {'mastery_level_id':mastery_id}, function(data) {
+                jQ("#folder_masteries").html(data);
+                jQ("#folder_masteries").show();
+              });
+            })
+          });
+        </script>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ('#remove_mastery_<%= p_folder.public_id %>').change(function() {
+              var mastery_id = jQ('#mastery_remove_<%= p_folder.public_id %>').val();
+              var url = "<%= offering_folder_mastery_assign_url(:organization_id => @current_organization, :folder_id => p_folder.id) %>";
+              jQ.get(url, {'mastery_level_id':mastery_id}, function(data) {
+                jQ("#folder_masteries").html(data);
+                jQ("#folder_masteries").show();
+              });
+            })
+          });
+        </script>
+        <% p_folder.all_children.sort_by{|f| f.name.upcase}.each do |c_folder|%>
+          <tr style="border:1px solid #ddd;">
+            <td class="mastery_folders">
+              <%=c_folder.name %>
+              <% c_folder.mastery_levels.each do |ml| %>
+                <br/>
+                <span class="mastery_list">
+                  <%= ml.act_master.abbrev.upcase%>:&nbsp;<%= ml.act_subject.name%>&nbsp;-&nbsp;<%= ml.range%>
+                </span>
+              <% end %>
+            </td>
+            <td class="mastery_select" id = "assign_mastery_<%= c_folder.public_id %>">
+              <%=  select(:mastery_assign, c_folder.public_id, (@mastery_levels - c_folder.mastery_levels).collect{|m| [truncate((m.act_master.abbrev + ': ' + m.act_subject.name + ' - ' + m.range), :omission => "...", :length => 40), m.id]},{:include_blank =>'Assign Mastery Level'}) %>
+            </td>
+            <td class="mastery_select" id = "remove_mastery_<%= c_folder.public_id %>">
+              <%=  select(:mastery_remove, c_folder.public_id, c_folder.mastery_levels.collect{|m| [truncate((m.act_master.abbrev + ': ' + m.act_subject.name + ' - ' + m.range), :omission => "...", :length => 40), m.id]},{:include_blank =>'Remove Mastery Level'}) %>
+            </td>
+          </tr>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ('#assign_mastery_<%= c_folder.public_id %>').change(function() {
+                var mastery_id = jQ('#mastery_assign_<%= c_folder.public_id %>').val();
+                var url = "<%= offering_folder_mastery_assign_url(:organization_id => @current_organization, :folder_id => c_folder.id) %>";
+                jQ.get(url, {'mastery_level_id':mastery_id}, function(data) {
+                  jQ("#folder_masteries").html(data);
+                  jQ("#folder_masteries").show();
+                });
+              })
+            });
+          </script>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ('#remove_mastery_<%= c_folder.public_id %>').change(function() {
+                var mastery_id = jQ('#mastery_remove_<%= c_folder.public_id %>').val();
+                var url = "<%= offering_folder_mastery_assign_url(:organization_id => @current_organization, :folder_id => c_folder.id) %>";
+                jQ.get(url, {'mastery_level_id':mastery_id}, function(data) {
+                  jQ("#folder_masteries").html(data);
+                  jQ("#folder_masteries").show();
+                });
+              })
+            });
+          </script>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

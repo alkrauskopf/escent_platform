@@ -1,5 +1,4 @@
-<div>
-  <div class= 'row panel_title_blue'>
+ <div class= 'row panel_title_blue'>
     <%= @current_application.app_name(:provider=>@current_provider).upcase %>
   </div>
   <div class= 'row panel_title_blue'>
@@ -79,50 +78,49 @@
       </div>
   </div>
 
-	  <div id="control_panel" >
-	 
-	   <ul>
-	      <li>
-	      	<%  tab_1_label = "Teacher Assignments" %>
-	        <a href="#tabs-1"><span class="tab_label">
-			<%= tab_1_label %></span></a>	
-		  </li>
-	      <li>
-	      	<%  tab_4_label = "Student Assignments" %>
-	        <a href="#tabs-4"><span class="tab_label">
-			<%= tab_4_label %></span></a>	
+  <div id="control_panel" >
+   <ul>
+    <li>
+        <%  tab_1_label = "Teacher Assignments" %>
+        <a href="#tabs-1"><span class="tab_label">
+			  <%= tab_1_label %></span></a>
+    </li>
+      <li>
+        <%  tab_4_label = "Student Assignments" %>
+        <a href="#tabs-4"><span class="tab_label">
+			  <%= tab_4_label %></span></a>
 		  </li>	
-	      <li>
-	      	<%  tab_3_label = "Surveys" %>
-	        <a href="#tabs-3"><span class="tab_label">
-			<%= tab_3_label %></span></a>	
+      <li>
+        <%  tab_3_label = "Surveys" %>
+        <a href="#tabs-3"><span class="tab_label">
+			  <%= tab_3_label %></span></a>
 		  </li>	
 			<% if @admin -%>			
-		      <li>
-		      	<%  tab_2_label = "Folders" %>
-		        <a href="#tabs-2"><span class="tab_label">
-				<%= tab_2_label %></span></a>	
+        <li>
+          <%  tab_2_label = "Folders" %>
+          <a href="#tabs-2"><span class="tab_label">
+				  <%= tab_2_label %></span></a>
 			  </li>	
 			<% end -%>	
-	      <li>
-	      	<%  tab_5_label = "Stats" %>
-	        <a href="#tabs-5"><span class="tab_label">
-			<%= tab_5_label %></span></a>	
+      <li>
+        <%  tab_5_label = "Stats" %>
+        <a href="#tabs-5"><span class="tab_label">
+			  <%= tab_5_label %></span></a>
 		  </li>	
-	    </ul>
-		<div id="tabs-1" class="favorite_organizations" style="width:900px">
+    </ul>
+		<div id="tabs-1" >
 	 	  <%= render :partial => "/apps/classroom/manage_teachers", :locals => {:admin => @admin, :teacher=> (@admin ? nil : @current_user), :subject=>nil} %>
 	   	</div >	
-		<div id="tabs-4" class="favorite_organizations" style="width:900px">
+		<div id="tabs-4" >
 	 	  <%= render :partial => "/apps/classroom/manage_students", :locals => {:admin => @admin} %>
 	   	</div >	 	
-		<div id="tabs-3" class="favorite_organizations" style="width:900px">
+		<div id="tabs-3">
 	 	  <%= render :partial => "/apps/shared/sumarize_surveys", :locals => {:admin => @admin, :org => @current_organization, :app => @current_application} %>
 	   	</div>
-		<div id="tabs-2" class="favorite_organizations" style="width:900px">
+		<div id="tabs-2" >
 	 	  <%= render :partial => "/apps/shared/manage_app_folders", :locals => {:admin => @admin, :folder=>nil, :app => @current_application} %>
 	   	</div>
-		<div id="tabs-5" class="favorite_organizations" style="width:900px">
+		<div id="tabs-5" >
 	 	  Under Construction
       <!--
       <%#= render :partial => "/apps/classroom/show_stats", :locals => {:admin => @admin} %>
@@ -138,4 +136,3 @@
 
 <br style="clear:both" />
 
-</div>

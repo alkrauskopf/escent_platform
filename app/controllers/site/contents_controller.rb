@@ -379,8 +379,6 @@ class Site::ContentsController < Site::ApplicationController
     @content = Content.find_by_public_id(params[:content_id]) rescue nil
     @mastery_range = @content.act_score_ranges.for_standard(@current_standard).first rescue nil
     @strands = @content.act_standards.for_standard(@current_standard) rescue nil
-    
-
     @current_organization = Organization.find_by_public_id(params[:organization_id]) rescue nil
     if @content.act_subject_id
       @current_subject = ActSubject.find_by_id(@content.act_subject_id)

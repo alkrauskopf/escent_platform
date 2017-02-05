@@ -1,163 +1,147 @@
-
-
 <div id="offering_folders" >
 	<% if admin -%>
-		<table style="width:700px; margin-left:0px; border:0px solid #ddd;">
+		<table class="folder_edit_box">
 			<thead>
 				<tr>
-					<th colspan = 2 style = "line-height:1.3em; font-size:14px; text-align:center; padding-top:5px; padding-bottom:5px;">
+					<th class="folder_assign_header" colspan = 2 >
 							<%= pluralize(@current_organization.all_folder_positions_for_app(app).size, " Populated Folder") -%>
 					</th>
 				</tr>
 			</thead>
-			<style type="text/css" media="screen">
-		    		table,tr,td { border:none }
-					table tr:hover{
-	        		background-color: transparent;
-	      			}
-	   			</style>
-				<tbody>  
-					<% @current_organization.all_folder_positions_for_app(app).each do |fp| %>
-						<tr  style="border:1px solid #ddd;" >
-							<td style="width:400px; width;fixed; padding-bottom:10px;">
-								<table style="margin-top:0px">
-									<tbody>
-										<tr  style="border:0px solid #ddd;" >
-											<td colspan=2  style="border:0px solid #ddd; padding-top:0px; padding-bottom:0px; vertical-align:top; text-align:left; font-size:12px">
-												<span style = "color:#2061a5; font-size:11px;  font-weight:normal ">
-													<%= fp.position %>)&nbsp;<%= fp.folder.parent? ?  fp.folder.name  : (fp.folder.parent.name + ': ' +  fp.folder.name) -%>
-												</span>
-											</td>
-										</tr>
-										<tr  style="border:0px solid #ddd;" >
-											<td id = "assign_position_<%= fp.public_id %>" style="width:90px; width;fixed;border:0px solid #ddd; padding-top:0px; padding-bottom:0px; vertical-align:top; text-align:left; font-size:12px">
-												<%=  select(:folder_position, fp.public_id, [*1..@current_organization.all_folder_positions_for_app(app).size], {:include_blank =>'Position'}) %>
-											</td>
-											<td style=" border:0px solid #ddd; vertical-align:top;  padding-top:0px; padding-bottom:10px; color: #000000; text-align:left; font-weight:normal; font-size:10.5px">
-												<span style = "color:#2061a5; font-size:11px;  font-weight:normal ">
-													<%= pluralize(fp.folder.classrooms.size, " Offering") %>
-												</span>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
-							<td style="width:300px; width;fixed; padding-bottom:10px;">
-								<table style="margin-top:0px">
-									<tbody>
-										<tr  style="border:0px solid #ddd;" >
-											<td id = "assign_offering_<%= fp.public_id %>" style="border:0px solid #ddd; padding-top:0px; padding-bottom:0px; vertical-align:top text-align:left; font-size:12px">
-												<%=  select(:offering_assign, fp.public_id, (@current_organization.classrooms - fp.folder.classrooms).sort_by{|c| (c.subject_area.name + c.course_name)}.collect{|o| [truncate(o.subject_area.name + ": " + o.course_name, :omission => "...", :length => 40), o.id]},{:include_blank =>'Add Offering'}) %>
-											</td>
-										</tr>
-										<tr  style="border:0px solid #ddd;" >
-											<td id = "remove_offering_<%= fp.public_id %>" style="border:0px solid #ddd; padding-top:0px; padding-bottom:0px; vertical-align:top; text-align:left; font-size:12px">
-												<%=  select(:offering_remove, fp.public_id, (fp.folder.classrooms).sort_by{|o| (o.subject_area.name + o.course_name)}.sort_by{|c| c.subject_area.name}.collect{|o| [truncate(o.subject_area.name + ": " + o.course_name, :omission => "...", :length => 40), o.id]},{:include_blank =>'Remove Offering'}) %>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>					
-						</tr>
-				
-				<script type="text/javascript">
-				jQ(document).ready(function() {
-					jQ('#assign_position_<%= fp.public_id %>').change(function() {
-						var pos = jQ('#folder_position_<%=fp.public_id%>').val();
-						var url = "<%= offering_folder_position_assign_url(:organization_id => @current_organization, :scope_id=>@current_organization.id, :scope_type=>@current_organization.class.to_s, :folder_id => fp.folder, :app_id=> app.id )%>";
-							jQ.get(url, {'position':pos}, function(data) {
-							jQ("#offering_folders").html(data); 
-					   		jQ("#offering_folders").show();
-							});
-					})
-				});
-				</script>
-				
-				<script type="text/javascript">
-				jQ(document).ready(function() {
-					jQ('#assign_offering_<%= fp.public_id %>').change(function() {
-						var offering_id = jQ('#offering_assign_<%= fp.public_id %>').val();
-						var url = "<%= offering_folder_assign_url(:organization_id => @current_organization, :folder_id => fp.folder, :app_id=> app.id) %>";
-							jQ.get(url, {'offering_id':offering_id}, function(data) {
-							jQ("#offering_folders").html(data); 
-					   		jQ("#offering_folders").show();
-							});
-					})
-				});
-				</script>
-				
-				<script type="text/javascript">
-				jQ(document).ready(function() {
-					jQ('#remove_offering_<%= fp.public_id %>').change(function() {
-						var offering_id = jQ('#offering_remove_<%= fp.public_id %>').val();
-						var url = "<%= offering_folder_assign_url(:organization_id => @current_organization, :folder_id => fp.folder, :app_id=> app.id) %>";
-							jQ.get(url, {'offering_id':offering_id}, function(data) {
-							jQ("#offering_folders").html(data); 
-					   		jQ("#offering_folders").show();
-							});
-					})
-				});
-				</script>
+      <tbody>
+        <% @current_organization.all_folder_positions_for_app(app).each do |fp| %>
+          <tr style="border:1px solid #ddd;" >
+            <td class="offering_position">
+              <table>
+                <tbody>
+                  <tr >
+                    <td colspan=2>
+                      <%= fp.position %>)&nbsp; <%= fp.folder.parent? ? ("<strong>" + fp.folder.name + "</strong>").html_safe : (fp.folder.parent.name + ": " + "<strong>" +  fp.folder.name + "</strong> ").html_safe -%>
+                    </td>
+                  </tr>
+                  <tr >
+                    <td class="pos_select" id = "assign_position_<%= fp.public_id %>">
+                      <%=  select(:folder_position, fp.public_id, [*1..@current_organization.all_folder_positions_for_app(app).size], {:include_blank =>'Position'}) %>
+                    </td>
+                    <td>
+                      <% if fp.folder.classrooms.empty? %>
+                        No Offerings Assigned
+                      <% else %>
+                        <% fp.folder.classrooms.each do |o| %>
+                          <%= o.subject_area.name %>:&nbsp;<%= o.name %><br/>
+                        <% end %>
+                      <% end %>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+            <td class="offering_position">
+              <table>
+                <tbody>
+                  <tr  >
+                    <td id = "assign_offering_<%= fp.public_id %>">
+                      <%=  select(:offering_assign, fp.public_id, (@current_organization.classrooms - fp.folder.classrooms).sort_by{|c| (c.subject_area.name + c.course_name)}.collect{|o| [truncate(o.subject_area.name + ": " + o.course_name, :omission => "...", :length => 40), o.id]},{:include_blank =>'Add Offering'}) %>
+                    </td>
+                  </tr>
+                  <tr >
+                    <td id = "remove_offering_<%= fp.public_id %>">
+                      <%=  select(:offering_remove, fp.public_id, (fp.folder.classrooms).sort_by{|o| (o.subject_area.name + o.course_name)}.sort_by{|c| c.subject_area.name}.collect{|o| [truncate(o.subject_area.name + ": " + o.course_name, :omission => "...", :length => 40), o.id]},{:include_blank =>'Remove Offering'}) %>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ('#assign_position_<%= fp.public_id %>').change(function() {
+              var pos = jQ('#folder_position_<%=fp.public_id%>').val();
+              var url = "<%= offering_folder_position_assign_url(:organization_id => @current_organization, :scope_id=>@current_organization.id, :scope_type=>@current_organization.class.to_s, :folder_id => fp.folder, :app_id=> app.id )%>";
+                jQ.get(url, {'position':pos}, function(data) {
+                jQ("#offering_folders").html(data);
+                  jQ("#offering_folders").show();
+                });
+            })
+          });
+          </script>
+          <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ('#assign_offering_<%= fp.public_id %>').change(function() {
+              var offering_id = jQ('#offering_assign_<%= fp.public_id %>').val();
+              var url = "<%= offering_folder_assign_url(:organization_id => @current_organization, :folder_id => fp.folder, :app_id=> app.id) %>";
+                jQ.get(url, {'offering_id':offering_id}, function(data) {
+                jQ("#offering_folders").html(data);
+                  jQ("#offering_folders").show();
+                });
+            })
+          });
+          </script>
+          <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ('#remove_offering_<%= fp.public_id %>').change(function() {
+              var offering_id = jQ('#offering_remove_<%= fp.public_id %>').val();
+              var url = "<%= offering_folder_assign_url(:organization_id => @current_organization, :folder_id => fp.folder, :app_id=> app.id) %>";
+                jQ.get(url, {'offering_id':offering_id}, function(data) {
+                jQ("#offering_folders").html(data);
+                  jQ("#offering_folders").show();
+                });
+            })
+          });
+          </script>
 				<% end-%>
 				<tr>
-					<th colspan = 2 style = "line-height:1.3em; font-size:14px; text-align:center; padding-top:5px; padding-bottom:5px;">
+					<th class="folder_assign_header" colspan = 2>
 							<%= pluralize(@current_organization.unpopulated_offering_folders_app(app).size, " Un-Populated Folder") -%>
 					</th>
 				</tr>
-					<% @current_organization.unpopulated_offering_folders_app(app).sort_by{|f| f.parent_child_names}.each do |folder| %>
-						<tr  style="border:1px solid #ddd;" >
-							<td style="width:400px; width;fixed; padding-bottom:10px;">
-								<table style="margin-top:0px">
-									<tbody>
-										<tr  style="border:0px solid #ddd;" >
-											<td colspan=2  style="border:0px solid #ddd; padding-top:0px; padding-bottom:0px; vertical-align:top; text-align:left; font-size:12px">
-												<span style = "color:#2061a5; font-size:11px;  font-weight:normal ">
-                          <%= folder.parent? ? ("<strong>" + folder.name + "</strong>").html_safe : ("<strong>" + folder.parent.name + ":</strong> " +  folder.name).html_safe -%>
-												</span>
-											</td>
-										</tr>
-										<tr  style="border:0px solid #ddd;" >
-											<td  style="width:90px; width;fixed;border:0px solid #ddd; padding-top:0px; padding-bottom:0px; vertical-align:top; text-align:left; font-size:12px">
-												&nbsp;
-											</td>
-											<td style=" border:0px solid #ddd; vertical-align:top;  padding-top:0px; padding-bottom:10px; color: #000000; text-align:left; font-weight:normal; font-size:10.5px">
-												<span style = "color:#2061a5; font-size:11px;  font-weight:normal ">
-													<%= pluralize(folder.classrooms.size, " Offering") %>
-												</span>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
-							<td style="width:300px; width;fixed; padding-bottom:10px;">
-								<table style="margin-top:0px">
-									<tbody>
-										<tr  style="border:0px solid #ddd;" >
-											<td id = "assign_new_offering_<%= folder.public_id %>" style="border:0px solid #ddd; padding-top:0px; padding-bottom:0px; vertical-align:top text-align:left; font-size:12px">
-												<%=  select(:offering_new_assign, folder.public_id, (@current_organization.classrooms - folder.classrooms).sort_by{|c| (c.subject_area.name + c.course_name)}.collect{|o| [truncate(o.subject_area.name + ": " + o.course_name, :omission => "...", :length => 40), o.id]},{:include_blank =>'Add Offering'}) %>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>					
-						</tr>
-				
-				<script type="text/javascript">
-				jQ(document).ready(function() {
-					jQ('#assign_new_offering_<%= folder.public_id %>').change(function() {
-						var offering_id = jQ('#offering_new_assign_<%= folder.public_id %>').val();
-						var url = "<%= offering_folder_assign_url(:organization_id => @current_organization, :folder_id => folder, :app_id=> app.id) %>";
-							jQ.get(url, {'offering_id':offering_id}, function(data) {
-							jQ("#offering_folders").html(data); 
-					   		jQ("#offering_folders").show();
-							});
-					})
-				});
-				</script>
-
+        <% @current_organization.unpopulated_offering_folders_app(app).sort_by{|f| f.parent_child_names}.each do |folder| %>
+          <tr  style="border:1px solid #ddd;" >
+            <td class="offering_position">
+              <table>
+                <tbody>
+                  <tr >
+                    <td colspan=2 >
+                        <%= folder.parent? ? ("<strong>" + folder.name + "</strong>").html_safe : (folder.parent.name + ": " + "<strong>" +  folder.name + "</strong> ").html_safe -%>
+                    </td>
+                  </tr>
+                  <tr >
+                    <td >
+                      &nbsp;
+                    </td>
+                    <td>
+                      <%= pluralize(folder.classrooms.size, " Offering") %>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+            <td class="offering_position">
+              <table>
+                <tbody>
+                  <tr >
+                    <td id = "assign_new_offering_<%= folder.public_id %>">
+                      <%=  select(:offering_new_assign, folder.public_id, (@current_organization.classrooms - folder.classrooms).sort_by{|c| (c.subject_area.name + c.course_name)}.collect{|o| [truncate(o.subject_area.name + ": " + o.course_name, :omission => "...", :length => 40), o.id]},{:include_blank =>'Add Offering'}) %>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ('#assign_new_offering_<%= folder.public_id %>').change(function() {
+              var offering_id = jQ('#offering_new_assign_<%= folder.public_id %>').val();
+              var url = "<%= offering_folder_assign_url(:organization_id => @current_organization, :folder_id => folder, :app_id=> app.id) %>";
+                jQ.get(url, {'offering_id':offering_id}, function(data) {
+                jQ("#offering_folders").html(data);
+                  jQ("#offering_folders").show();
+                });
+            })
+          });
+          </script>
 				<% end -%>
 			</tbody>
 		</table>						
 	<% end -%>
-	<br/>
 </div>

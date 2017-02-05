@@ -10,5 +10,11 @@ class ActBenchType < ActiveRecord::Base
   scope :for_dashboard, :conditions => { :for_dashbaord => true }
   scope :for_list, :conditions => { :for_list => true }
   scope :for_static, :conditions => { :for_statis => true }
-  
+
+  def self.improvement(std)
+    where('act_master_id = ? && name = ?', std.id, 'improvement' ).first rescue nil
+  end
+  def self.benchmark(std)
+    where('act_master_id = ? && name = ?', std.id, 'benchmark' ).first rescue nil
+  end
 end

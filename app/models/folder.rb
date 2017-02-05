@@ -14,7 +14,10 @@ class Folder < ActiveRecord::Base
   has_many :topics, :through => :topic_contents
   has_many :folder_folderables, :dependent => :destroy
   has_many :folder_positions, :dependent => :destroy
-  
+  has_many :folder_mastery_levels, :dependent => :destroy
+  has_many :act_score_ranges, :through => :folder_mastery_levels
+
+
   scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id], :order=>'name'}}
   scope :for_app, lambda{|app| {:conditions => ["coop_app_id = ? ", app.id], :order=>'name'}}
   scope :all_parents,   :conditions => ["parent_id IS NULL"], :order=>'name'
@@ -23,6 +26,14 @@ class Folder < ActiveRecord::Base
   validates_presence_of :name
 
   
+  def mastery_levels
+    self.act_score_ranges.sort_by{|sr| [sr.act_master.abbrev,sr.act_subject.name, sr.lower_score]}
+  end
+
+  def subject_mastery_levels(subject)
+    self.act_score_ranges.for_subject(subject).sort_by{|sr| [sr.act_master.abbrev,sr.act_subject.name, sr.lower_score]}
+  end
+
   def self.by_position(folders)
    unless folders.empty?
      folders.sort_by{|f| f.folder_positions.first.position}

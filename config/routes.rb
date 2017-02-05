@@ -52,9 +52,9 @@ EscentPartners::Application.routes.draw do |map|
   get '/resource/new' => 'site/contents#submit_resource'
   post '/resource/new' => 'site/contents#submit_resource'
   get '/resource/show' => 'site/contents#index'
-  get '/resource/edit' => 'site/contents#edit_resource'
+  get '/resource/edit' => 'site/contents#edit_resource'   #   resource_edit_path
   post '/resource/edit' => 'site/contents#edit_resource'
-  get '/resource/assess/edit' => 'site/contents#edit_assess'
+  get '/resource/assess/edit' => 'site/contents#edit_assess'   #  resource_assess_edit_path
   get '/resource/subjects' => 'site/contents#select_subject_areas'
   get '/resource/types' => 'site/contents#select_resource_types'
   get '/resource/share' => 'site/discussions#share_content'
@@ -185,7 +185,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/survey/results/show' => 'apps/shared#show_results'
   get '/surveys/results/show' => 'apps/shared#show_aggregated_results'   #  surveys_results_show_path
 
-  get '/app/folder/edit' => 'apps/shared#edit_folder'
+  get '/app/folder/edit' => 'apps/shared#edit_folder'   #  app_folder_edit_path
+  post '/app/folder/edit' => 'apps/shared#edit_folder'   #  app_folder_edit_path
   get '/app/folder/new' => 'apps/shared#create_folder'
   get '/app/folder/destroy' => 'apps/shared#destroy_folder'
   get '/app/rubric/add' => 'apps/shared#maintain_rubric'  #app_rubric_add
@@ -233,13 +234,18 @@ EscentPartners::Application.routes.draw do |map|
   post '/offering/admin/lu/edit' => 'apps/classroom#setup_classroom_lu'
   get '/offering/admin/lu/destroy' => 'apps/classroom#destroy_lu'
   get '/offering/admin/lu/options' => 'apps/classroom#toggle_lu_options'   # offering_admin_lu_options_url
-  get '/offering/admin/lu/folder' => 'apps/shared#assign_lu_folder'
+  get '/offering/admin/lu/folder' => 'apps/shared#assign_lu_folder'     #  offering_admin_lu_folder_url
   get '/offering/admin/lu/folder/position' => 'apps/shared#assign_lu_folder_position'   #  offering_admin_lu_folder_position
   get '/offering/admin/lu/folder/toggle' => 'apps/shared#assign_lu_folder_toggle_show'   #  offering_admin_lu_folder_toggle
+  get '/offering/admin/lu/strand' => 'apps/classroom#assign_lu_strand'     #  offering_admin_lu_strand_url
   get '/offering/admin/resources' => 'apps/classroom#offering_resources'     #  offering_admin_resources_path
+  get '/offering/admin/strands' => 'apps/classroom#offering_strands'     #  offering_admin_strands_path
   get '/offering/admin/resource/assign' => 'apps/classroom#add_remove_resource'
   get '/offering/admin/resource/feature' => 'apps/classroom#toggle_lu_featured_resource'
   get '/offering/admin/folders' => 'apps/classroom#offering_folders'     #   offering_admin_folders_path
+  get '/offering/folder/mastery' => 'apps/classroom#offering_folder_masteries'     #   offering_folder_mastery_path
+  get '/offering/folder/benchmarks' => 'apps/classroom#offering_folder_benchmarks'     #   offering_folder_benchmarks_path
+  get '/offering/folder/mastery/assign' => 'apps/classroom#offering_folder_mastery_assign'     #   offering_folder_mastery_assign_url
   get '/offering/admin/folder/setup' => 'apps/classroom#offering_folder_setup'
   get '/offering/folder/position/assign' => 'apps/shared#assign_folder_position'   #  offering_folder_position_assign_url
   get '/offering/folder/assign' => 'apps/shared#assign_offering_folder'   #  offering_folder_assign_url

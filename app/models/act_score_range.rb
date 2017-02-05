@@ -20,6 +20,9 @@ class ActScoreRange < ActiveRecord::Base
   has_many :act_score_range_topics, :dependent => :destroy
   has_many :topics, :through => :act_score_range_topics
 
+  has_many :folder_mastery_levels, :dependent => :destroy
+  has_many :folders, :through => :folder_mastery_levels
+
   scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id],:order => "upper_score"}}
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
   scope :for_subject_no_na, lambda{|subject| {:conditions => ["act_subject_id = ? && upper_score > ?", subject.id, 0]}}
@@ -71,6 +74,11 @@ class ActScoreRange < ActiveRecord::Base
     subj = subject.class.to_s == 'Fixnum' ? (ActSubject.find_by_id(subject) rescue nil) : subject
     std = standard.class.to_s == 'Fixnum' ? (ActMaster.find_by_id(standard) rescue nil) : standard
     (subj.nil? || std.nil?) ? [] : where('act_master_id = ? && act_subject_id = ?',std.id, subj.id).order('upper_score ASC')
+  end
+
+  def mastery_label
+    act_label = self.act_master.abbrev.upcase + ': ' + self.range
+    self.act_sat_map.nil? ? act_label  : (act_label + ', SAT: ' + self.act_sat_map.range)
   end
 
 end

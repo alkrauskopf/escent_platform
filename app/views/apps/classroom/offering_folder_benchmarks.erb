@@ -1,0 +1,35 @@
+ <div class= 'lu_benchmark_list'>
+   <div class="type_title">
+     <%= pluralize(@benches.size, ' Benchmark') %>
+   </div>
+   <% @benches.each.with_index do |bench, idx| %>
+     <div class="row">
+       <div class="col-md-1">
+         <div class="benchmark_index">
+           <%= (idx+1).to_s %>)
+         </div>
+       </div>
+       <div class="col-md-10 benchmark_descript">
+         <%= bench.description %>
+       </div>
+     </div>
+   <% end %>
+ </div>
+ <hr>
+ <div class= 'lu_benchmark_list'>
+   <div class="type_title">
+     <%= pluralize(@improvements.size, ' Improvement Idea') %>
+   </div>
+   <% @improvements.each.with_index do |improve, idx| %>
+       <div class="row">
+         <div class="col-md-1">
+           <div class="benchmark_index">
+             <%= (idx+1).to_s %>)
+           </div>
+         </div>
+         <div class="col-md-10 benchmark_descript">
+           <%= improve.description %>
+         </div>
+       </div>
+   <% end %>
+ </div>

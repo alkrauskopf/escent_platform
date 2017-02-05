@@ -206,6 +206,13 @@ class Topic < ActiveRecord::Base
   def resources_for_folder(folder)
     folder.nil? ? self.unfoldered_resources : self.topic_contents.for_folder(folder).collect{|tc| tc.content}.select{|c| c.active?}.compact
   end
-  
-  
+
+  def ifa_viewable?
+    self.classroom.ifa_classroom_option && self.classroom.organization.ifa_org_option
+  end
+
+  def strands
+    self.act_standards.sort_by{|s| [s.act_master.abbrev, s.name]}
+  end
+
 end

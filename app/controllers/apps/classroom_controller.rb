@@ -4,11 +4,12 @@ class Apps::ClassroomController < ApplicationController
                                      :offering_folders, :offering_surveys, :offering_homeworks, :offering_students, :offering_referrals,
                                      :offering_resources, :offering_periods, :offering_lus, :destroy_classroom, :toggle_active, :assign_students,
                                      :list_students, :survey_classroom_schedule, :survey_classroom_results, :question_aggregation,
-                                     :register_classroom, :manage_period_students, :subject_offerings]
+                                     :register_classroom, :manage_period_students, :subject_offerings, :offering_folder_masteries, :offering_folder_benchmarks]
 
  before_filter :classroom_allowed?, :except=>[]
 # before_filter :current_user_app_authorized?, :except=>[:self_register_student,:register_classroom, :self_unregister_student,:show_lu_resources,:list_folder_resources, :show_content]
   before_filter :current_user_app_authorized?, :only=>[:index]
+  before_filter :current_user_app_admin?, :only=>[]
   before_filter :clear_notification
  before_filter :increment_app_views, :only=>[:index]
 
@@ -128,6 +129,20 @@ class Apps::ClassroomController < ApplicationController
     initialize_parameters
   end
 
+  def offering_strands
+    initialize_parameters
+    get_topic_strands(@topic)
+  end
+
+  def assign_lu_strand
+    initialize_parameters
+    if @strand
+      @topic.act_standards.include?(@strand) ? @topic.act_standard_topics.for_strand(@strand).destroy_all : (@topic.act_standards << @strand)
+    end
+    get_topic_strands(@topic)
+    render :partial => "/apps/classroom/offering_strands", :locals => {:admin => true,:lu=> @topic}
+  end
+
   def offering_referrals
     initialize_parameters
   end
@@ -138,6 +153,35 @@ class Apps::ClassroomController < ApplicationController
 
   def offering_folders
     initialize_parameters
+  end
+
+  def offering_folder_masteries
+    initialize_parameters
+    get_parent_folders
+    get_mastery_levels
+  end
+
+  def offering_folder_benchmarks
+    initialize_parameters
+    if @mastery_level && @strand
+      improve = ActBenchType.improvement(@mastery_level.act_master)
+      benchmark = ActBenchType.benchmark(@mastery_level.act_master)
+      @benches = benchmark.nil? ? [] : benchmark.act_benches.for_strand(@strand).for_mastery_level(@mastery_level)
+      @improvements = improve.nil? ? [] : improve.act_benches.for_strand(@strand).for_mastery_level(@mastery_level)
+    end
+  end
+
+  def offering_folder_mastery_assign
+    initialize_parameters
+    mastery_level = ActScoreRange.find_by_id(params[:mastery_level_id])
+    if @folder.act_score_ranges.include?(mastery_level)
+      @folder.folder_mastery_levels.for_level(mastery_level).destroy_all
+    else
+      @folder.act_score_ranges << mastery_level
+    end
+    get_parent_folders
+    get_mastery_levels
+    render :partial => "apps/classroom/offering_folder_masteries"
   end
 
   def offering_views
@@ -470,8 +514,10 @@ class Apps::ClassroomController < ApplicationController
 
   def show_lu_resources
     initialize_parameters
-    if !@folder.nil?
+    if !@folder.nil? && !@topic.nil?
       @folder.increment_views
+      @mastery_levels = @folder.subject_mastery_levels(@topic.classroom.act_subject)
+      @strands = @topic.act_standards
     end
   end
 
@@ -741,6 +787,12 @@ class Apps::ClassroomController < ApplicationController
       @folder = Folder.find_by_id(params[:folder_id]) rescue nil
     end
 
+    if params[:act_standard_id]
+      @strand = ActStandard.find_by_id(params[:act_standard_id])
+    end
+    if params[:act_score_range_id]
+      @mastery_level = ActScoreRange.find_by_id(params[:act_score_range_id])
+    end
   end
 
   def refresh_classroom 
@@ -895,4 +947,21 @@ class Apps::ClassroomController < ApplicationController
     lu.update_attributes(:featured_content=> nil)
   end
 
+  def get_topic_strands(topic)
+    @current_subject = topic.classroom.act_subject rescue nil
+    @remove_strands = topic.act_standards
+    @add_strands = @current_subject.nil? ? [] : (@current_subject.act_standards - @remove_strands)
+  end
+
+  def get_folder
+    @folder = Folder.find_by_id(params[:folder_id]) rescue nil
+  end
+
+  def get_mastery_levels
+    @mastery_levels = @current_organization.ifa_standards.collect{|m| m.act_score_ranges.no_na}.flatten.sort_by{|sr| [sr.act_master.abbrev,sr.act_subject.name, sr.lower_score]}
+  end
+
+  def get_parent_folders
+    @parent_folders = @current_organization.folders.for_app(@current_application).all_parents.sort_by{|f| f.name.upcase}
+  end
 end

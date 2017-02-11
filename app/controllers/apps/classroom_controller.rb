@@ -516,7 +516,7 @@ class Apps::ClassroomController < ApplicationController
     initialize_parameters
     if !@folder.nil? && !@topic.nil?
       @folder.increment_views
-      @mastery_levels = @folder.subject_mastery_levels(@topic.classroom.act_subject)
+      @mastery_levels = @folder.mastery_levels
       @strands = @topic.act_standards
     end
   end
@@ -524,7 +524,6 @@ class Apps::ClassroomController < ApplicationController
   def list_folder_resources
     initialize_parameters
     render :partial => "list_lu_folder_resources", :locals => {:lu => @topic, :folder => @folder}
-
   end
    
    def add_remove_student

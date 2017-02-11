@@ -27,7 +27,7 @@
                 No Mastery Levels
               <% else %>
                 <% p_folder.mastery_levels.each do |ml| %>
-                  <%= ml.act_master.abbrev.upcase%>:&nbsp;<%= ml.act_subject.name%>&nbsp;-&nbsp;<%= ml.range%>
+                  <%= ml.act_subject.name%>:&nbsp;<%= ml.act_master.abbrev.upcase%>&nbsp;-&nbsp;<%= ml.range%>
                   <br/>
                 <% end %>
               <% end %>
@@ -54,7 +54,7 @@
                     No Mastery Levels
                 <% else %>
                   <% c_folder.mastery_levels.each do |ml| %>
-                    <%= ml.act_master.abbrev.upcase%>:&nbsp;<%= ml.act_subject.name%>&nbsp;-&nbsp;<%= ml.range%>
+                    <%= ml.act_subject.name%>:&nbsp;<%= ml.act_master.abbrev.upcase%>&nbsp;-&nbsp;<%= ml.range%>
                     <br/>
                   <% end %>
                 <% end %>

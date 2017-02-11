@@ -70,8 +70,8 @@
               (<%= pluralize(lu.topic_contents.for_folder(folder).size, " Resource") %>)
 						</td>
             <td class="mastery">
-              <% folder.subject_mastery_levels(lu.classroom.act_subject).each do |ml| %>
-                <%= ml.mastery_label %>
+              <% folder.mastery_levels.each do |ml| %>
+               <%= ml.act_subject.name%>: <%= ml.mastery_label %>
                 <br/>
               <% end %>
             </td>

@@ -948,9 +948,8 @@ class Apps::ClassroomController < ApplicationController
   end
 
   def get_topic_strands(topic)
-    @current_subject = topic.classroom.act_subject rescue nil
-    @remove_strands = topic.act_standards
-    @add_strands = @current_subject.nil? ? [] : (@current_subject.act_standards - @remove_strands)
+    @remove_strands = topic.act_standards.sort_by{|f| [f.act_subject.name, f.act_master.abbrev, f.abbrev]}
+    @add_strands = @current_organization.knowledge_strands.sort_by{|f| [f.act_subject.name, f.act_master.abbrev, f.abbrev]} - @remove_strands
   end
 
   def get_folder

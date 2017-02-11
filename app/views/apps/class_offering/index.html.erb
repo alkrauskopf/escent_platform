@@ -160,11 +160,22 @@
       <%= @current_topic.nil? ? '- - No Learning Unit - -' :  @current_topic.title %>
     </div>
     <% if !@current_topic.strands.empty?-%>
-      <div class='lu_title_strands'>
-        <% @current_topic.strands.each do |strand| %>
-            <%=strand.name %></br>
-        <% end %>
-      </div>
+      <table class='lu_title_strands'>
+        <tbody>
+          <% @current_topic.strands.group_by{|s| s.act_subject}.each do |subject, strands| %>
+            <tr>
+              <td class="subject">
+                <%= subject.name%>:
+              </td>
+              <td class="strand">
+                <% strands.each do |strand| %>
+                  <%=strand.name %></br>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     <% end %>
         <!--
         <%# @current_organization.ifa_org_option.act_masters.each do |mstr| %>

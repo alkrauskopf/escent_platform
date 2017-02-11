@@ -789,6 +789,11 @@ class Organization < ActiveRecord::Base
     standards
   end
 
+
+  def knowledge_strands
+    self.ifa_standards.collect{|s| s.act_standards}.flatten
+  end
+
   def elt_remove_org_options
     if self.elt_org_option
       self.elt_org_option.destroy rescue nil

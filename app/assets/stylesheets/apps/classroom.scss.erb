@@ -91,13 +91,25 @@
   color:$blue_text;
 }
 .lu_title_strands {
-  margin: .5em 0em 0em 0em;
+  margin: .5em 0em .5em 0em;
   font-size:13px;
+  line-height:1.3em;
   font-weight:normal;
-  text-align:center;
+  text-align:left;
   vertical-align:middle;
   font-style: normal;
   color:$blue_text;
+  border:0px solid $border_gray
+}
+.lu_title_strands .subject {
+  width:45%;
+  text-align:right;
+  padding-right:1em;
+}
+.lu_title_strands .strand {
+  line-height:1.3em;
+  padding-bottom: .5em;
+  text-align:left;
 }
 
 .lu_strand_box {
@@ -142,6 +154,7 @@
 }
 .lu_benchmark_list .type_title {
   padding:0em 0em .5em 0em;
+  font-size:11px;
   text-align:left;
   font-weight:normal;
   text-decoration:underline;
@@ -420,7 +433,7 @@
   margin:2em 0em 1em 0em;
   width:90%;
   color:$red_text;
-  font-size:14px;
+  font-size:13px;
   height:2em;
   text-align:left;
   border:0px solid #ddd;
@@ -431,16 +444,21 @@
   text-align:center;
   border:1px solid #ddd;
 }
+.offering_edit_box .strand_list .subject_col{
+  width:25%;
+  height:2em;
+  text-align:center;
+  border:1px solid #ddd;
+}
 .offering_edit_box .strand_list .std_col{
-  width:10%;
-  font-size:14px;
+  width:12%;
   height:2em;
   text-align:center;
   border:1px solid #ddd;
 }
 .offering_edit_box .strand_list .strand_col{
-  font-size:14px;
   height:2em;
+  padding-left:2em;
   text-align:left;
   border:1px solid #ddd;
 }

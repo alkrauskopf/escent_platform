@@ -3,15 +3,15 @@
 	<% if admin && lu-%>
       <div class="row">
         <div class="assigns col-md-8">
-          Assign <%=lu.classroom.act_subject.name %> Knowledge Strands
+          "<%=lu.title %>" Knowledge Strands
         </div>
       </div>
       <div class="row">
         <div class="col-md-4" id="add_strand_<%= lu.public_id %>">
-          <%=  select(:strand_add, lu.public_id, @add_strands.sort_by{|f| [f.act_master.abbrev, f.abbrev]}.collect{|f| [truncate((f.act_master.abbrev + '- ' + f.abbrev + ': ' + f.name), :omission => "...", :length => 40), f.id]},{:include_blank =>'Add ' + @current_subject.name + ' Strand'}) %>
+          <%=  select(:strand_add, lu.public_id, @add_strands.collect{|f| [truncate((f.act_subject.name[0..3] + ' (' + f.act_master.abbrev.downcase + ') - ' + f.abbrev + ': ' + f.name), :omission => "...", :length => 40), f.id]},{:include_blank =>'Add Knowledge Strand'}) %>
         </div>
         <div class="col-md-4" id="remove_strand_<%= lu.public_id %>">
-          <%=  select(:strand_remove, lu.public_id, @remove_strands.sort_by{|f| [f.act_master.abbrev, f.abbrev]}.collect{|f| [truncate((f.act_master.abbrev + '- ' + f.abbrev + ': ' + f.name), :omission => "...", :length => 40), f.id]},{:include_blank =>'Remove ' + @current_subject.name + ' Strand'}) %>
+          <%=  select(:strand_remove, lu.public_id, @remove_strands.collect{|f| [truncate((f.act_subject.name[0..3] + ' (' + f.act_master.abbrev.downcase + ') - ' + f.abbrev + ': ' + f.name), :omission => "...", :length => 40), f.id]},{:include_blank =>'Remove Knowledge Strand'}) %>
         </div>
         <script type="text/javascript">
           jQ(document).ready(function() {
@@ -51,11 +51,11 @@
 			<tbody>
 				<% @remove_strands.sort_by{|f| [f.act_master.abbrev, f.abbrev]}.each do |strand| %>
           <tr>
-            <td class="std_col">
-              <%= strand.act_master.abbrev.upcase %>
+            <td class="subject_col">
+              <%= strand.act_subject.name %>
             </td>
             <td class="std_col">
-              <%= strand.abbrev.upcase %>
+              <%= strand.act_master.abbrev.upcase %>: <%= strand.abbrev.upcase %>
             </td>
             <td class="strand_col">
               <%= strand.name %>

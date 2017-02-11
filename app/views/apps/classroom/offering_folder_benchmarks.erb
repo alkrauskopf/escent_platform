@@ -15,12 +15,13 @@
      </div>
    <% end %>
  </div>
- <hr>
- <div class= 'lu_benchmark_list'>
-   <div class="type_title">
-     <%= pluralize(@improvements.size, ' Improvement Idea') %>
-   </div>
-   <% @improvements.each.with_index do |improve, idx| %>
+ <% if !@improvements.empty? %>
+   <hr>
+   <div class= 'lu_benchmark_list'>
+     <div class="type_title">
+       <%= pluralize(@improvements.size, ' Improvement Idea') %>
+     </div>
+     <% @improvements.each.with_index do |improve, idx| %>
        <div class="row">
          <div class="col-md-1">
            <div class="benchmark_index">
@@ -31,5 +32,7 @@
            <%= improve.description %>
          </div>
        </div>
-   <% end %>
- </div>
+     <% end %>
+   </div>
+ <% end %>
+ <hr>

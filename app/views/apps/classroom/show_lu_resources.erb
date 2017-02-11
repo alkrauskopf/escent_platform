@@ -6,7 +6,7 @@
     <div class=" lu_strand_list">
       <% @mastery_levels.each do |ml| %>
           <% @strands.each do |strand| %>
-              <table id="lu_benchmarks_<% ml.id.to_s%>_<% strand.id.to_s%>">
+              <table id="lu_benchmarks_<%= ml.id.to_s%>_<%= strand.id.to_s%>">
                 <tbody>
                 <tr>
                   <td class="resource_levels_close">
@@ -19,8 +19,8 @@
               </table>
               <script type="text/javascript" charset="utf-8">
                 jQ(document).ready(function() {
-                  jQ('#lu_benchmarks_<% ml.id.to_s%>_<% strand.id.to_s%> .resource_levels_close').toggleResourceLevels();
-                  jQ('#lu_benchmarks_<% ml.id.to_s%>_<% strand.id.to_s%> .resource_levels_open').toggleResourceLevels();
+                  jQ('#lu_benchmarks_<%= ml.id.to_s%>_<%= strand.id.to_s%> .resource_levels_close').toggleResourceLevels();
+                  jQ('#lu_benchmarks_<%= ml.id.to_s%>_<%= strand.id.to_s%> .resource_levels_open').toggleResourceLevels();
                 });
               </script>
           <% end %>

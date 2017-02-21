@@ -159,7 +159,7 @@
     <div class='lu_title_text'>
       <%= @current_topic.nil? ? '- - No Learning Unit - -' :  @current_topic.title %>
     </div>
-    <% if !@current_topic.strands.empty?-%>
+    <% if !@current_topic.nil? && !@current_topic.strands.empty?-%>
       <table class='lu_title_strands'>
         <tbody>
           <% @current_topic.strands.group_by{|s| s.act_subject}.each do |subject, strands| %>

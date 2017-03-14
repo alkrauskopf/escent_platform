@@ -1,0 +1,87 @@
+<div id="manage_utilities">
+  <div class= 'row panel_title_blue'>
+    <%= @current_organization.medium_name %> <%= app.name.titleize %> Utilities</br>
+    <%= @admin_orgs.size %>
+  </div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+	    <%= render :partial => "/shared/error_and_notice" %>
+      <% if admin && !@admin_orgs.empty?-%>
+		    <% unless @current_organization.folders.for_app(app).empty? || !app.classroom?%>
+          <table id="offering_levels">
+            <tbody>
+                <tr>
+                  <td class="resource_levels_close" >
+                    <%= link_to '', offering_admin_folders_path(:organization_id => @current_organization) %>
+                    Assign Offerings To Folders
+                    <span></span>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+          <script type="text/javascript" charset="utf-8">
+            jQ(document).ready(function() {
+              jQ('#offering_levels .resource_levels_close').toggleResourceLevels();
+              jQ('#offering_levels .resource_levels_open').toggleResourceLevels();
+            });
+          </script>
+          <table id="mastery_levels">
+            <tbody>
+            <tr>
+              <td class="resource_levels_close" >
+                <%= link_to '', offering_folder_mastery_path(:organization_id => @current_organization) %>
+                Assign Mastery Levels To Folders
+                <span></span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <script type="text/javascript" charset="utf-8">
+            jQ(document).ready(function() {
+              jQ('#mastery_levels .resource_levels_close').toggleResourceLevels();
+              jQ('#mastery_levels .resource_levels_open').toggleResourceLevels();
+            });
+          </script>
+		    <% end %>
+
+		    <%#= render :partial => "/apps/shared/edit_folders", :locals => {:app => app, :org => @current_organization}  %>
+
+      <% else -%>
+        <span style="text-align:center; font-size:12.5px;  color: #C83A14;">
+          Not Authorized
+        </span>
+      <% end -%>
+
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ('#create_folder').click(function() {
+          var parent_id = jQ('#parent_id').val();
+          var folder_name = jQ('#folder_name').val();
+          var folder_description = jQ('#folder_descript').val();
+          var url = "<%= app_folder_new_url(:organization_id => @current_organization, :app_id => app.id) %>";
+            jQ.get(url, { 'parent_id': parent_id, 'name':folder_name, 'description':folder_description}, function(data) {
+            jQ("#manage_folders").html(data);
+              jQ("#manage_folder").show();
+            });
+        })
+      });
+    </script>
+
+    <script type="text/javascript">
+jQ(document).ready(function() {
+	jQ('a.cancel_edit').click(function() {
+		var $this = jQ(this);
+		var url = $this.attr("href");
+			jQ.get(url, function(data){
+				jQ("#manage_folders").html(data);
+				jQ("#manage_folders").show();
+			})
+			return false;
+	})
+});
+</script>
+  </div>
+     <div class="col-md-1"></div>
+  </div>
+</div>

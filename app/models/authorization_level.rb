@@ -73,6 +73,7 @@ class AuthorizationLevel < ActiveRecord::Base
     end
     levels.empty? ? nil : levels.first
   end
+
   def self.app_administrators
     self.where('name = ?', 'administrator' )
   end

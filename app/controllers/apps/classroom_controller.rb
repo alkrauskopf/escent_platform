@@ -9,16 +9,107 @@ class Apps::ClassroomController < ApplicationController
  before_filter :classroom_allowed?, :except=>[]
 # before_filter :current_user_app_authorized?, :except=>[:self_register_student,:register_classroom, :self_unregister_student,:show_lu_resources,:list_folder_resources, :show_content]
   before_filter :current_user_app_authorized?, :only=>[:index]
-  before_filter :current_user_app_admin?, :only=>[]
+  before_filter :current_user_app_admin?, :only=>[:utilities, :admin_destroy_folder, :admin_folders_copy]
   before_filter :clear_notification
  before_filter :increment_app_views, :only=>[:index]
 
 
   def index
     initialize_parameters
-    unless @current_user.classroom_admin_for_org?(@current_organization)
+    if !@current_user.classroom_admin_for_org?(@current_organization)
       @teacher = @current_user
-    end 
+      @admin_orgs = []
+    else
+      @admin_orgs = @current_user.app_admin_orgs(@current_application).select{|o| o != @current_organization}
+    end
+  end
+
+  def utilities
+    initialize_parameters
+    administratable_orgs
+  end
+
+  def admin_destroy_folder
+    initialize_parameters
+    get_folder
+    if @folder && @folder.destroy
+      flash[:notice] = 'Folder Destroyed'
+    elsif @folder
+      flash[:error] = @folder.errors.full_messages
+    else
+      flash[:error] = 'Folder Not Found'
+    end
+    administratable_orgs
+    render :partial => "/apps/classroom/utility_folders", :locals => {:org_list => @admin_folder_orgs}
+  end
+
+  def admin_folders_copy
+    initialize_parameters
+    get_org
+    if @org
+      cnt = 0
+      parent_folders(@org).each do |folder|
+        new_folder = folder.dup
+        folder.folder_mastery_levels.each do |ml|
+          new_ml = ml.dup
+          new_folder.folder_mastery_levels << new_ml
+        end
+        @current_organization.folders << new_folder
+        cnt += 1
+        folder.all_children.each do |chld|
+          new_child = chld.dup
+          new_child.parent_id = new_folder.id
+          @current_organization.folders << new_child
+          cnt += 1
+          chld.folder_mastery_levels.each do |ml|
+            new_ml = ml.dup
+            new_child.folder_mastery_levels << new_ml
+          end
+        end
+      end
+      flash[:notice] = cnt.to_s + " #{@org.short_name} Folders Transferred"
+    else
+      flash[:error] = 'Source Organization Not Found'
+    end
+    administratable_orgs
+    render :partial => "/apps/classroom/utility_folders", :locals => {:org_list => @admin_folder_orgs}
+  #  render :text => @org.short_name
+  end
+
+  def admin_destroy_offering
+    initialize_parameters
+    if @classroom && @classroom.destroy
+      flash[:notice] = 'Offering Destroyed'
+    elsif @classroom
+      flash[:error] = @classroom.errors.full_messages
+    else
+      flash[:error] = 'Offering Not Found'
+    end
+    administratable_orgs
+    render :partial => "/apps/classroom/utility_offerings", :locals => {:org_list => @admin_offering_orgs}
+  end
+
+  def admin_offering_copy
+    initialize_parameters
+    get_offering
+    if @offering
+      @new_offering = @offering.dup
+      @new_offering.status = ''
+      @new_offering.user_id = @current_user.id
+      @new_offering.featured_topic_id = nil
+      @new_offering.duplicate_contents(@offering)
+      @new_offering.duplicate_referrals(@offering)
+      @new_offering.duplicate_ifa(@offering)
+      @current_organization.classrooms << @new_offering
+      duplicate_offering_folder
+      @new_offering.duplicate_periods(@offering)
+      @new_offering.duplicate_lus(@offering)
+      flash[:notice] = " #{@offering.organization.short_name}: #{@offering.name} Duplicated."
+    else
+      flash[:error] = 'Source Offering Not Found'
+    end
+    administratable_orgs
+    render :partial => "/apps/classroom/utility_offerings", :locals => {:org_list => @admin_offering_orgs}
   end
 
   def admin
@@ -955,11 +1046,43 @@ class Apps::ClassroomController < ApplicationController
     @folder = Folder.find_by_id(params[:folder_id]) rescue nil
   end
 
+  def get_org
+    @org = Organization.find_by_id(params[:org_id]) rescue nil
+  end
+
+  def get_offering
+    @offering = Classroom.find_by_id(params[:offering_id]) rescue nil
+  end
+
   def get_mastery_levels
     @mastery_levels = @current_organization.ifa_standards.collect{|m| m.act_score_ranges.no_na}.flatten.sort_by{|sr| [sr.act_master.abbrev,sr.act_subject.name, sr.lower_score]}
   end
 
   def get_parent_folders
     @parent_folders = @current_organization.folders.for_app(@current_application).all_parents.sort_by{|f| f.name.upcase}
+  end
+
+  def administratable_orgs
+    @admin_orgs = @current_user.app_admin_orgs(@current_application).select{|o| o != @current_organization}
+  #  @admin_orgs = @current_user.app_admin_orgs(@current_application)
+    @admin_folder_orgs = @admin_orgs.select{|o| !o.folders.empty?}
+    @admin_offering_orgs = @admin_orgs.select{|o| !o.classrooms.empty?}
+  end
+
+  def parent_folders(org)
+    org.folders.select{|f| f.parent?}
+  end
+
+  def duplicate_offering_folder
+    if @offering.folder
+      @new_offering.folder = @offering.folder.copy_to_org(@current_organization)
+      orig_position = @offering.folder.folder_positions.org_scope.first rescue nil
+      new_position = FolderPosition.new
+      new_position.scope_id = @current_organization.id
+      new_position.scope_type = @current_organization.class.to_s
+      new_position.position = orig_position.nil? ? 1 : orig_position.position
+      new_position.is_hidden = orig_position.nil? ? false : orig_position.is_hidden
+      @new_offering.folder.folder_positions << new_position
+    end
   end
 end

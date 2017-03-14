@@ -37,10 +37,10 @@ class Topic < ActiveRecord::Base
   validates_presence_of :estimated_start_date, :message => "Please Define An Estimated Start & End Date."
   validates_presence_of :estimated_end_date 
   
-  PermissionToContributeOptions = [['Any member of FaithStreams','all']]
-  ModerationOptions = [['Posts appear immediately','None'],['All posts must be approved','Required']]
+#  PermissionToContributeOptions = [['Any member of FaithStreams','all']]
+#  ModerationOptions = [['Posts appear immediately','None'],['All posts must be approved','Required']]
   #SettingOptions = [{:label => "Who may contribute", :options => PermissionToContributeOptions}, {:label => "Moderation", :options => ModerationOptions}]
-  SettingOptions = [{:label => "Who may contribute", :options => PermissionToContributeOptions}]
+#  SettingOptions = [{:label => "Who may contribute", :options => PermissionToContributeOptions}]
   
   scope :with_organizations, lambda { |keywords, options|
     condition_strings = []
@@ -146,8 +146,7 @@ class Topic < ActiveRecord::Base
     
     self.discussions.active.each do |discussion|
       discussions << discussion unless discussion.reported_abuses.empty?
-    end        
-    
+    end
     discussions
   end  
   
@@ -213,6 +212,51 @@ class Topic < ActiveRecord::Base
 
   def strands
     self.act_standards.sort_by{|s| [s.act_master.abbrev, s.name]}
+  end
+
+  def duplicate_contents(lu)
+    lu.topic_contents.each do |content|
+      dup_content = TopicContent.new
+      dup_content = content.dup
+      self.topic_contents << dup_content
+    end
+  end
+
+  def duplicate_ifa(lu)
+    lu.act_standard_topics.each do |strand|
+      dup_strand = ActStandardTopic.new
+      dup_strand = strand.dup
+      self.act_standard_topics << dup_strand
+    end
+    lu.act_score_range_topics.each do |range|
+      dup_range = ActScoreRangeTopic.new
+      dup_range = range.dup
+      self.act_score_range_topics << dup_range
+    end
+  end
+
+  def duplicate_lu_folders(orig_lu)
+    orig_lu.folders.each do |orig_folder|
+      #  Identify or Create Folder
+      new_folder = orig_folder.copy_to_org(self.classroom.organization)
+      # copy over Folder Position For Topic
+      orig_position = orig_folder.folder_positions.for_scope(orig_lu.id, orig_lu.class.to_s).first rescue nil
+      new_position = FolderPosition.new
+      new_position.scope_id = self.id
+      new_position.scope_type = self.class.to_s
+      new_position.position = orig_position.nil? ? 1 : orig_position.position
+      new_position.is_hidden = orig_position.nil? ? false : orig_position.is_hidden
+      new_folder.folder_positions << new_position
+      # assign contents to topic folder
+      orig_lu.topic_contents.for_folder(orig_folder).each do |tc|
+        new_tc = TopicContent.new
+        new_tc.folder_id = new_folder.id
+        new_tc.position = tc.position
+        new_tc.display_position = tc.display_position
+        new_tc.content_id = tc.content_id
+        self.topic_contents << new_tc
+      end
+    end
   end
 
 end

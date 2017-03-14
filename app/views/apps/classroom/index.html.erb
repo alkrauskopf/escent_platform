@@ -1,9 +1,17 @@
  <div class= 'row panel_title_blue'>
     <%= @current_application.app_name(:provider=>@current_provider).upcase %>
   </div>
-  <div class= 'row panel_title_blue'>
-    <%= @admin ? pluralize(@current_organization.classrooms.size.to_s, " " + @current_organization.short_name + " Offering"): pluralize(@current_user.offerings_taught(@current_organization).size, @current_user.last_name + " Offerings") %>
-    <%#= render :partial => "apps/shared/app_owner_button", :locals => {:app=>@current_application} %>
+  <div class= 'row panel_subtitle_blue'>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <%= @admin ? pluralize(@current_organization.classrooms.size.to_s, " " + @current_organization.short_name + " Offering"): pluralize(@current_user.offerings_taught(@current_organization).size, @current_user.last_name + " Offerings") %>
+      <%#= render :partial => "apps/shared/app_owner_button", :locals => {:app=>@current_application} %>
+    </div>
+    <div class="col-md-2">
+      <% if !@admin_orgs.empty? %>
+        <%= link_to "Quick Setup", offering_admin_utilities_path(:organization_id => @current_organization), :class=>"button_blue"%>
+      <% end %>
+    </div>
   </div>
   <hr>
   <div class="row">
@@ -102,11 +110,13 @@
 				  <%= tab_2_label %></span></a>
 			  </li>	
 			<% end -%>	
-      <li>
-        <%  tab_5_label = "Stats" %>
+     <!--
+     <li>
+        <%#  tab_5_label = "Utilities" %>
         <a href="#tabs-5"><span class="tab_label">
-			  <%= tab_5_label %></span></a>
-		  </li>	
+			  <%#= tab_5_label %></span></a>
+		  </li>
+		  -->
     </ul>
 		<div id="tabs-1" >
 	 	  <%= render :partial => "/apps/classroom/manage_teachers", :locals => {:admin => @admin, :teacher=> (@admin ? nil : @current_user), :subject=>nil} %>
@@ -119,13 +129,12 @@
 	   	</div>
 		<div id="tabs-2" >
 	 	  <%= render :partial => "/apps/shared/manage_app_folders", :locals => {:admin => @admin, :folder=>nil, :app => @current_application} %>
-	   	</div>
-		<div id="tabs-5" >
-	 	  Under Construction
-      <!--
-      <%#= render :partial => "/apps/classroom/show_stats", :locals => {:admin => @admin} %>
-	    -->
     </div>
+    <!--
+		<div id="tabs-5" >
+      <%#= render :partial => "/apps/classroom/manage_utilities", :locals => {:admin => @admin, :app => @current_application} %>
+    </div>
+    -->
 	 </div>
 
 <script type="text/javascript" charset="utf-8">

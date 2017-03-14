@@ -290,6 +290,7 @@ class Apps::SharedController < Site::ApplicationController
   render :partial => "/apps/shared/manage_app_folders", :locals => {:admin => true, :app => @app, :folder=>nil}
  end
 
+
   def assign_lu_folder
     if @folder && @topic 
       @folder.position_for_scope(@topic.id, @topic.class.to_s).nil? ? create_folder_position(@folder, @topic) : remove_folder_position(@folder, @topic)

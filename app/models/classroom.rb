@@ -48,7 +48,9 @@ class Classroom < ActiveRecord::Base
   
   validates_presence_of :subject_area_id, :message => 'must be defined.  ' 
   validates_presence_of :course_name, :message => 'must be defined.  '
-  
+  before_destroy :confirm_no_leaders?
+
+
   scope :on_subject, lambda{|subject| {:conditions => ["subject_area_id = ? ", subject.id], :order => "course_name"}}
   scope :active, :conditions => ["status = ? ", "active"], :order => "course_name"
   scope :opened, :conditions => ["is_open = ? ", true]
@@ -324,5 +326,64 @@ class Classroom < ActiveRecord::Base
   def discussion_comments
     comment_list = self.topics.collect{|tpc| tpc.discussions}.flatten
   end
+
+  def duplicate_contents(offering)
+    offering.classroom_contents.each do |content|
+      dup_content = ClassroomContent.new
+      dup_content = content.dup
+      self.classroom_contents << dup_content
+    end
+  end
+
+  def duplicate_referrals(offering)
+    offering.classroom_referrals.each do |referral|
+      dup_referral = ClassroomReferral.new
+      dup_referral = referral.dup
+      self.classroom_referrals << dup_referral
+    end
+  end
+
+  def duplicate_ifa(offering)
+    if offering.ifa_classroom_option
+      ifa_option = IfaClassroomOption.new
+      ifa_option = offering.ifa_classroom_option.dup
+      self.ifa_classroom_option = ifa_option
+    end
+    offering.act_assessment_classrooms.each do |ass|
+      dup_ass = ActAssessmentClassroom.new
+      dup_ass = ass.dup
+      self.act_assessment_classrooms << dup_ass
+    end
+  end
+
+  def duplicate_periods(offering)
+    offering.classroom_periods.each do |orig_per|
+      new_per = orig_per.dup
+      self.classroom_periods << new_per
+    end
+  end
+
+  def duplicate_lus(offering)
+    offering.topics.each do |orig_lu|
+      new_lu = orig_lu.dup
+      new_lu.user_id = self.user_id
+      new_lu.last_posted_at = nil
+      self.topics << new_lu
+      if offering.featured_topic == orig_lu
+        self.update_attributes(:featured_topic_id => new_lu.id)
+      end
+      new_lu.duplicate_contents(orig_lu)
+      new_lu.duplicate_ifa(orig_lu)
+      new_lu.duplicate_lu_folders(orig_lu)
+    end
+  end
+
+
+  private
+
+  def confirm_no_leaders?
+    self.leaders.empty?
+  end
+
 
 end

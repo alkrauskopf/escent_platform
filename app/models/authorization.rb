@@ -41,71 +41,75 @@ class Authorization < ActiveRecord::Base
 
   def self.superuser
     level = AuthorizationLevel.app_superuser(CoopApp.core)
-    level.nil? ? [] : self.select{|a| a.authorization_level_id == level.id}
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
   end
 
   def self.friend
     level = AuthorizationLevel.app_friend(CoopApp.core)
-    level.nil? ? [] : self.select{|a| a.authorization_level_id == level.id}
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
   end
 
   def self.administrator
     level = AuthorizationLevel.app_administrator(CoopApp.core)
-    level.nil? ? [] : self.select{|a| a.authorization_level_id == level.id}
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
   end
 
   def self.content_manager
     level = AuthorizationLevel.app_knowledge_manager(CoopApp.core)
-    level.nil? ? [] : self.select{|a| a.authorization_level_id == level.id}
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
   end
 
   def self.knowledge_manager
     level = AuthorizationLevel.app_knowledge_manager(CoopApp.core)
-    level.nil? ? [] : self.select{|a| a.authorization_level_id == level.id}
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
   end
 
   def self.content_administrator
     level = AuthorizationLevel.app_library_administrator(CoopApp.core)
-    level.nil? ? [] : self.select{|a| a.authorization_level_id == level.id}
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
   end
 
   def self.classroom_manager
     level = AuthorizationLevel.app_administrator(CoopApp.classroom)
-    level.nil? ? [] : self.select{|a| a.authorization_level_id == level.id}
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
+  end
+
+  def self.organizations
+   where('scope_type = ?', 'Organization').collect{|a| a.scope}.flatten.uniq
   end
 
   def self.colleague
     level = AuthorizationLevel.app_colleague(CoopApp.core)
-    level.nil? ? [] : self.select{|a| a.authorization_level_id == level.id}
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
   end
 
   def self.teacher
     level = AuthorizationLevel.app_teacher(CoopApp.core)
-    level.nil? ? [] : self.select{|a| a.authorization_level_id == level.id}
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
   end
 
   def self.teachers
     level = AuthorizationLevel.app_teacher(CoopApp.core)
-    level.nil? ? [] : self.where('authorization_level_id = ?', level.id)
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
   end
 
   def self.elt_reviewer
     level = AuthorizationLevel.app_reviewer(CoopApp.elt)
-    level.nil? ? [] : self.select{|a| a.authorization_level_id == level.id}
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
   end
 
   def self.ctl_observers
     level = AuthorizationLevel.app_observer(CoopApp.ctl)
-    level.nil? ? [] : self.where('authorization_level_id = ?', level.id)
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
   end
 
   def self.panelists
     level = AuthorizationLevel.app_panelist(CoopApp.blog)
-    level.nil? ? [] : self.where('authorization_level_id = ?', level.id)
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
   end
 
   def self.app_administrator(app)
     level = AuthorizationLevel.app_administrator(app)
-    level.nil? ? [] : self.where('authorization_level_id = ?', level.id)
+    level.nil? ? [] : Authorization.where('authorization_level_id = ?', level.id)
   end
 end

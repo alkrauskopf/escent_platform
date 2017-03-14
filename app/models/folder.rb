@@ -25,9 +25,21 @@ class Folder < ActiveRecord::Base
   
   validates_presence_of :name
 
-  
+
+  def standards_tagged?
+    !self.folder_mastery_levels.empty?
+  end
+
   def mastery_levels
-    self.act_score_ranges.sort_by{|sr| [sr.act_master.abbrev,sr.act_subject.name, sr.lower_score]}
+    self.standards_tagged? ?  self.act_score_ranges.sort_by{|sr| [sr.act_master.abbrev,sr.act_subject.name, sr.lower_score]} : []
+  end
+
+  def mastery_string
+    string = ''
+    if self.standards_tagged?
+      string = self.mastery_levels.collect{|l| (l.range)}.join(', ')
+    end
+    string
   end
 
   def subject_mastery_levels(subject)
@@ -114,5 +126,22 @@ class Folder < ActiveRecord::Base
 
   def hidden?(scope_id, scope_type)
     self.position_for_scope(scope_id, scope_type).nil? ? false : self.position_for_scope(scope_id, scope_type).is_hidden
+  end
+
+  def copy_to_org(org)
+    new_folder = org.folders.where('name = ?', self.name).first rescue nil
+    if new_folder.nil?
+      new_folder = Folder.new
+      new_folder = self.dup
+      new_folder.parent_id = nil
+      org.folders << new_folder
+      # copy Mastery Levels to new folder
+      self.folder_mastery_levels.each do |ml|
+        new_ml = FolderMasteryLevel.new
+        new_ml.act_score_range_id = ml.act_score_range_id
+        new_folder.folder_mastery_levels << new_ml
+      end
+    end
+    new_folder
   end
 end

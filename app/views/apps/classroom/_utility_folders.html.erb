@@ -1,0 +1,93 @@
+ <div id= 'utility_folders'>
+  <div class="row ">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="col-md-2"></div>
+    <div class=" col-md-8 ">
+      <div class="panel panel-palette_4">
+        <div class="panel-heading">
+          Copy Folders To <%= @current_organization.short_name %>
+        </div>
+        <div class="panel-bodyx">
+          <div class="offering_utility_summary">
+          <table class="table">
+            <tbody >
+            <%= content_tag_for(:tr, @current_organization.folders) do |folder| %>
+                <td >
+                  <%= folder.name %>
+                </td>
+                <td >
+                  <% folder.mastery_levels.each do |ml| %>
+                    <%= ml.act_subject.name%>:&nbsp;<%= ml.act_master.abbrev.upcase%>&nbsp;-&nbsp;<%= ml.range%>
+                      <br/>
+                  <% end %>
+                <td>
+                <td class="button_col" id = "remove_folder_<%= folder.id%>">
+                  <span class="button_gray">
+                    Remove
+                  </span>
+                </td>
+                <script type="text/javascript">
+                  jQ(document).ready(function() {
+                    jQ('#remove_folder_<%= folder.id%>').click(function() {
+                      var url = "<%= offering_admin_folder_destroy_url(:organization_id => @current_organization, :folder_id=> folder.id) %>";
+                      jQ.get(url, function(data){
+                        jQ("#utility_folders").html(data);
+                        jQ("#utility_folders").show();
+                      })
+                      return false;
+                    })
+                  });
+                </script>
+            <% end %>
+            </tbody>
+          </table>
+          </div>
+        </div>
+        <div class="panel-bodyx table-responsive">
+          <div class= "offering_utility_org_box">
+          <table class="table table-striped table-bordered table-hover">
+            <tbody >
+            <%= content_tag_for(:tr, org_list) do |org| %>
+                <td >
+                  <%= org.name %></br/>
+                </td>
+                <td >
+                  <% org.folders.each do |folder|%>
+                      <%= folder.name %>
+                      <% if folder.standards_tagged? %>
+                        ,&nbsp;
+                        <span class="offering_utility_small">
+                          Standardized
+                        </span>
+                      <% end %>
+                      <br/>
+                  <% end %>
+                </td>
+                <td class="button_col" id = "copy_folders_<%= org.id%>">
+                  <span class="button_gray">
+                    Copy
+                  </span>
+                </td>
+                <script type="text/javascript">
+                  jQ(document).ready(function() {
+                    jQ('#copy_folders_<%= org.id%>').click(function() {
+                      var url = "<%= offering_admin_folders_copy_url(:organization_id => @current_organization, :org_id=> org.id) %>";
+                      jQ.get(url, function(data){
+                        jQ("#utility_folders").html(data);
+                        jQ("#utility_folders").show();
+                      })
+                      return false;
+                    })
+                  });
+                </script>
+            <% end %>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>
+<br style="clear:both" />

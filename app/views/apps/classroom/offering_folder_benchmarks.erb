@@ -1,6 +1,6 @@
  <div class= 'lu_benchmark_list'>
    <div class="type_title">
-     <%= pluralize(@benches.size, ' Benchmark') %>
+     <%= pluralize(@benches.size, ' Benchmark') %> - <%= @strand.name %>
    </div>
    <% @benches.each.with_index do |bench, idx| %>
      <div class="row">

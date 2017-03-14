@@ -453,18 +453,16 @@ class Apps::AssessmentController < ApplicationController
 #   CLASSROOM ASSESSMENTS
 #
 
- def assign_classroom_assessment
-  
-  initialize_parameters
-  
+  def assign_classroom_assessment
+    initialize_parameters
     if @classroom  then 
       @classroom_assessments = @classroom.act_assessments
       else
       @classroom_assessments = []
-      end
+    end
     @tagged_classrooms = @current_user.favorite_classrooms.sort_by{|c|[c.act_subject.name, c.course_name]} rescue []
-    @tagged_classrooms.delete(@classroom)
- end
+    @tagged_classrooms.select!{|cl| (cl.act_assessments.size > 0) && (cl != @classroom)}
+  end
 
   def assign_classroom_assessment_view
     initialize_parameters
@@ -475,10 +473,7 @@ class Apps::AssessmentController < ApplicationController
   end 
    
  def assign_assessments_to_classroom
-  
   initialize_parameters
- 
-    
     add_count = 0
     remove_count = 0 
     params[:res_check] ||= []
@@ -2530,35 +2525,27 @@ end
   @assessment_pool = []
   if @classroom.ifa_classroom_option
     if @classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered && @classroom.ifa_classroom_option.act_subject_id
-#      @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND is_calibrated AND user_id = ? AND act_subject_id = ?", @current_user.id, @classroom.ifa_classroom_option.act_subject_id]) rescue []
       @assessment_pool = @current_user.act_assessments.where('is_active AND is_calibrated AND act_subject_id = ?', @classroom.ifa_classroom_option.act_subject.id)
     end
     if @classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered && !@classroom.ifa_classroom_option.act_subject_id
-  #    @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND is_calibrated AND user_id = ?", @current_user.id]) rescue []
       @assessment_pool = @current_user.act_assessments.active.calibrated
     end
     if !@classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered  && @classroom.ifa_classroom_option.act_subject_id
-  #    @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND user_id = ? AND act_subject_id = ?", @current_user.id, @classroom.ifa_classroom_option.act_subject_id]) rescue []
       @assessment_pool = @current_user.act_assessments.active.where('act_subject_id = ?', @classroom.ifa_classroom_option.act_subject.id)
     end
     if @classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && @classroom.ifa_classroom_option.act_subject_id
-  #    @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND is_calibrated AND act_subject_id = ?", @classroom.ifa_classroom_option.act_subject_id]) rescue []
       @assessment_pool = @classroom.ifa_classroom_option.act_subject.act_assessments.where('is_active AND is_calibrated')
     end
     if @classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && !@classroom.ifa_classroom_option.act_subject_id
-  #    @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND is_calibrated"])
       @assessment_pool = ActAssessment.active.calibrated
     end
     if !@classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && @classroom.ifa_classroom_option.act_subject_id
-  #    @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND act_subject_id = ?", @classroom.ifa_classroom_option.act_subject_id]) rescue []
       @assessment_pool = @classroom.ifa_classroom_option.act_subject.act_assessments.active
     end
     if !@classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered  && !@classroom.ifa_classroom_option.act_subject_id
-    #  @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active AND user_id = ?", @current_user.id]) rescue []
       @assessment_pool = @current_user.act_assessments.active
     end
     if !@classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && !@classroom.ifa_classroom_option.act_subject_id
-   #   @assessment_pool = ActAssessment.find(:all, :conditions=>["is_active"])
       @assessment_pool = ActAssessment.active
     end
     if @classroom.ifa_classroom_option.max_score_filter && @classroom.ifa_classroom_option.act_master_id

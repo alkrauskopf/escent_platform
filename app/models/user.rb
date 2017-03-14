@@ -967,6 +967,12 @@ class User < ActiveRecord::Base
       (self.favorite_organizations + org.active_siblings_same_type).uniq.select{|o| o.app_enabled?(CoopApp.ctl.first.abbrev)}
   end
 
+#####################    User Authorization Orgs
+
+  def app_admin_orgs(app)
+    self.authorizations.for_level(AuthorizationLevel.app_administrator(app)).organizations.sort_by{|o| o.name}
+  end
+
 #####################    IFA Authorizations
 
   def ifa_authorized?(org)

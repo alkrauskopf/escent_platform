@@ -1,0 +1,20 @@
+ <div class= 'row panel_title_blue'>
+    <%= @current_application.app_name(:provider=>@current_provider).upcase %> Utilities
+  </div>
+  <div class= 'row panel_subtitle_blue'>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <%= pluralize(@admin_orgs.size.to_s, " " + " Accessible Organization")%>
+    </div>
+    <div class="col-md-2">
+      <% if !@admin_orgs.empty? %>
+          <%= link_to "Return", offering_path(:organization_id => @current_organization,:user_id => @current_user, :teacher_id => @current_user), :class=>"button_gray"%>
+      <% end %>
+    </div>
+  </div>
+  <hr>
+<div class="container">
+  <%#= render :partial => "/apps/classroom/utility_folders", :locals => {:org_list => @admin_folder_orgs}  %>
+  <%= render :partial => "/apps/classroom/utility_offerings", :locals => {:org_list => @admin_offering_orgs}  %>
+</div>
+<br style="clear:both" />

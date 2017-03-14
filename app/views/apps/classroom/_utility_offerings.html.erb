@@ -1,0 +1,119 @@
+ <div id= 'utility_offerings'>
+  <div class="row ">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="col-md-2"></div>
+    <div class=" col-md-8 ">
+      <div class="panel panel-palette_1" >
+        <div class="panel-heading" style="background-color: <%= @current_organization.style_setting_value_named("Header and Footer Bars")%>;">
+          Current Offerings For <%= @current_organization.short_name %>
+        </div>
+        <div class="panel-bodyx">
+          <div class="offering_utility_summary">
+          <table class="table">
+            <tbody >
+            <%= content_tag_for(:tr, @current_organization.classrooms) do |offering| %>
+                <td >
+                  <%= offering.name %></br>
+                  <%= pluralize(offering.leaders.size, ' Leader')%></br>
+                  <%= offering.active? ? 'Active' : 'Not Active' %></br>
+                  <%= offering.folder ? ('Folder: ' + offering.folder.name) : 'No Folder'%>
+                </td>
+                <td >
+                  <%= pluralize(offering.topics.size, ' LU')%>
+                  <% offering.topics.each do |lu| %>
+                    <%= lu.title %><br/>
+                  <% end %>
+                <td>
+                <td >
+                  <%= pluralize(offering.classroom_periods.size, ' Period')%><br/>
+                  <% offering.classroom_periods.each do |per| %>
+                      <%= per.name %><br/>
+                  <% end %>
+                </td>
+                <td >
+                  <%= pluralize(offering.classroom_contents.size, ' Offering_Content')%><br/>
+                  <%= pluralize(offering.classroom_referrals.size, ' Related LU')%></br>
+                  <%= offering.ifa_classroom_option ? 'IFA Option' : "No IFA Option" %></br>
+                  Assessment Pool <%= pluralize(offering.act_assessments.size, ' Assessment')%></br>
+                </td>
+                <% if offering.leaders.empty? %>
+                  <td class="button_col" id = "remove_offering_<%= offering.id%>">
+                    <span class="button_gray">
+                      Remove
+                    </span>
+                  </td>
+                <% else %>
+                  <td class="button_col">
+                    <span class="button_gray">
+                      Not Deletable
+                    </span>
+                  </td>
+                <% end %>
+                  <td>
+                    <%= link_to 'View', offering_view_path(:organization_id => @current_organization, :id => offering),  :target => '_blank' %>
+                  </td>
+                <script type="text/javascript">
+                  jQ(document).ready(function() {
+                    jQ('#remove_offering_<%= offering.id%>').click(function() {
+                      var url = "<%= offering_admin_offering_destroy_url(:organization_id => @current_organization, :classroom_id=> offering.public_id) %>";
+                      jQ.get(url, function(data){
+                        jQ("#utility_offerings").html(data);
+                        jQ("#utility_offerings").show();
+                      })
+                      return false;
+                    })
+                  });
+                </script>
+            <% end %>
+            </tbody>
+          </table>
+          </div>
+        </div>
+        <div class= "offering_utility_org_box">
+          <% org_list.each do |org| %>
+            <div class="panel panel-palette_4">
+              <div class="panel-heading" style="background-color: <%= org.style_setting_value_named("Header and Footer Bars")%>;">
+                Copy Offerings From <%= org.short_name %> To <%= @current_organization.short_name %>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered table-hover">
+                <tbody >
+                  <%= content_tag_for(:tr, org.classrooms.active) do |offering| %>
+                    <td >
+                      <%=org.short_name%>:&nbsp;<%= offering.name %>, <%= pluralize(offering.classroom_contents.size, ' Content')%>,&nbsp;
+                      <%= pluralize(offering.classroom_referrals.size, ' Referral')%>,&nbsp;
+                      <%= pluralize(offering.act_assessments.size, ' Assessment')%>
+                    </td>
+                    <td class="offering_utility_small">
+                      <%=pluralize(offering.topics.active.size, ' Unit') %>
+                    </td>
+                    <td class="button_col" id = "copy_offering_<%= org.id%>_<%=offering.id%>">
+                      <span class="button_gray">
+                        Copy
+                      </span>
+                    </td>
+                    <script type="text/javascript">
+                      jQ(document).ready(function() {
+                        jQ('#copy_offering_<%= org.id%>_<%=offering.id%>').click(function() {
+                          var url = "<%= offering_admin_offering_copy_url(:organization_id => @current_organization, :org_id => org.id, :offering_id => offering.id ) %>";
+                          jQ.get(url, function(data){
+                            jQ("#utility_offerings").html(data);
+                            jQ("#utility_offerings").show();
+                          })
+                          return false;
+                        })
+                      });
+                    </script>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>
+<br style="clear:both" />

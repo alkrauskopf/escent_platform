@@ -331,6 +331,7 @@ class Organization < ActiveRecord::Base
   def all_parent_subjects
     self.classrooms.collect{|c| c.parent_subject}.compact.uniq.sort_by{|s| s.name} rescue []
   end
+
   def unfoldered_parent_subjects
     self.unfoldered_offerings.collect{|c| c.parent_subject}.compact.uniq.sort_by{|s| s.name} rescue []
   end

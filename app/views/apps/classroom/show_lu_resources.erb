@@ -12,7 +12,7 @@
               <tr>
                 <td class="resource_levels_close">
                   <%= link_to '', offering_folder_benchmarks_path(:organization_id => @current_organization, :act_score_range_id => ml.id, :act_standard_id => strand.id) %>
-                  <%=strand.abbrev.upcase %>:&nbsp;<%= ml.mastery_label %>
+                  <%=strand.name.titleize %>:&nbsp;<%= ml.mastery_label %>
                   <span></span>
                 </td>
               </tr>

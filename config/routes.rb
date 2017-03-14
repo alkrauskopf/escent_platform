@@ -188,7 +188,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/folder/edit' => 'apps/shared#edit_folder'   #  app_folder_edit_path
   post '/app/folder/edit' => 'apps/shared#edit_folder'   #  app_folder_edit_path
   get '/app/folder/new' => 'apps/shared#create_folder'
-  get '/app/folder/destroy' => 'apps/shared#destroy_folder'
+  get '/app/folder/destroy' => 'apps/shared#destroy_folder'  # app_folder_destroy_path
   get '/app/rubric/add' => 'apps/shared#maintain_rubric'  #app_rubric_add
   post '/app/rubric/add' => 'apps/shared#maintain_rubric'
 
@@ -218,6 +218,11 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/admin/add' => 'apps/classroom#add_classroom'
   get '/offering/admin/subjects' => 'apps/classroom#subject_offerings'
   get '/offering/admin/setup' => 'apps/classroom#setup_classroom'
+  get '/offering/admin/utilities' => 'apps/classroom#utilities'   # offering_admin_utilities_path
+  get '/offering/admin/folder/destroy' => 'apps/classroom#admin_destroy_folder'  # offering_admin_folder_destroy_url
+  get '/offering/admin/folders/copy' => 'apps/classroom#admin_folders_copy'  # offering_admin_folders_copy_url
+  get '/offering/admin/offering/destroy' => 'apps/classroom#admin_destroy_offering'  # offering_admin_offering_destroy_url
+  get '/offering/admin/offering/copy' => 'apps/classroom#admin_offering_copy'  # offering_admin_offering_copy_url
   post '/offering/admin/destroy' => 'apps/classroom#destroy_classroom'   # offering_admin_destroy_path
   get '/offering/admin/activate' => 'apps/classroom#toggle_active'
   get '/offering/admin/name/update' => 'apps/classroom#change_classroom_name'
@@ -258,8 +263,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/admin/students/period' => 'apps/classroom#manage_period_students'
   get '/offering/admin/students/remove/all' => 'apps/classroom#remove_all_students'
   get '/offering/admin/student/assign' => 'apps/classroom#add_remove_student'     #   offering_admin_student_assign
-  get '/offering/admin/assessments' => 'apps/assessment#assign_classroom_assessment'
-  get '/offering/admin/assessment/view' => 'apps/assessment#assign_classroom_assessment_view'
+  get '/offering/admin/assessments' => 'apps/assessment#assign_classroom_assessment'   #  offering_admin_assessments
+  get '/offering/admin/assessment/view' => 'apps/assessment#assign_classroom_assessment_view'   #   offering_admin_assessment_view
   get '/offering/admin/assessment/pool/update' => 'apps/assessment#update_classroom_assessment_pool'
   get '/offering/admin/surveys' => 'apps/classroom#offering_surveys'
   get '/offering/admin/survey/on' => 'apps/classroom#period_survey_activate'

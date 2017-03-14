@@ -20,6 +20,7 @@ gem 'to_xls', '~> 1.5', '>= 1.5.3'
 # gem 'utility_scopes', '~> 0.3.1'
 gem 'tinymce-rails', '~> 4.4', '>= 4.4.1'
 
+# gem 'wirispluginengine'
 
 # Needed for the new asset pipeline  Rails 3.1.12
 group :assets do
@@ -52,7 +53,7 @@ gem 'uglifier'
 
 group :development, :test do
   gem 'letter_opener'
-  gem 'dotenv'
+  gem 'dotenv-rails'
   gem 'minitest'
   gem 'test-unit'
   gem 'quiet_assets'

@@ -276,9 +276,12 @@ class Content < ActiveRecord::Base
     items.sort_by{|c| c.title}
   end
 
+  def expired_old?
+    (self.publish_start_date > Date.today || self.publish_end_date < Date.today)
+  end
   
   def expired?
-    (self.publish_start_date > Date.today || self.publish_end_date < Date.today)
+    (Time.now < self.publish_start_date || self.publish_end_date < Time.now)
   end
   
   def active?

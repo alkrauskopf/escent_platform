@@ -437,6 +437,7 @@ EscentPartners::Application.routes.draw do |map|
   post '/ifa/benchmark/edit' => 'apps/assessment#edit_ifa_benchmark'   # ifa_benchmark_edit_path
   post '/ifa/benchmark/update' => 'apps/assessment#edit_benchmark'   # ifa_benchmark_update_path
   get '/ifa/benchmark/show' => 'apps/assessment#static_benchmark'   # ifa_benchmark_show_path
+  get '/ifa/benchmark/destroy' => 'apps/assessment#destroy_benchmark'   # ifa_benchmark_destroy_path
 
   get '/ifa/subject/questions' => 'apps/assessment#subject_questions'    # ifa_subject_questions_path
   get '/ifa/subject/assessments/list' => 'apps/assessment#list_subject_assessments'    # ifa_subject_assessments_list_path

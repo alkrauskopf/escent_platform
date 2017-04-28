@@ -8,11 +8,13 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 //= require tinymce
-
+//  require jquery
 //  require jquery-ui/datepicker
 
 var yes_html = '<input class="radio" checked="checked" value="Yes" name="status" type="radio">Yes <input class="radio" value="No" name="status" type="radio">No';
 var no_html = '<input class="radio" value="Yes" name="status" type="radio">Yes <input class="radio" checked="checked" value="No" name="status" type="radio">No';
+
+
 
 function headerSortDown(sort_url) {
     jQ.get(sort_url, {"sort":"headerSortDown"}, function(data) {

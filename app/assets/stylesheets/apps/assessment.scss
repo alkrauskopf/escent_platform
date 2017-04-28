@@ -112,7 +112,14 @@
 .sequence{
   color:$thumb_green;
 }
-
+.ifa_pool_container {
+  margin:0em 0em 0em 0em;
+  padding-bottom:0em;
+  text-align:left;
+  font-size:14px;
+  line-height:2.0em;
+  color:$blue_text;
+}
 .static_assess_questions .quest {
   margin:0em 0em 0em 1em;
   padding-bottom:0em;
@@ -705,4 +712,11 @@
   text-align: center;
   background-color: $palette_5;
   border-color: #ddd;
+}
+.question_pool {
+  font-size: 13px;
+  line-height:1.5em;
+  color:$dark_text;
+  text-align:left;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
 }

@@ -504,7 +504,7 @@ class Apps::LearningTimeController  < ApplicationController
       @standard_totals[std] ||= []
       standard_total = 0
       @standards[idx] = std
-      @elements[std] = std.elements.active.by_position
+      @elements[std] = @cycle.elements.active.by_position
       @activities[std] = @cycle.activities.informing.active.by_position
       @elements[std].each do |element|
         @element_totals[element] ||= []
@@ -542,7 +542,7 @@ class Apps::LearningTimeController  < ApplicationController
       @standard_totals[std] ||= []
       standard_total = 0
       @standards[idx] = std
-      @elements[std] = std.elements.active.by_position
+      @elements[std] = @cycle.elements.active.by_position
       @activities[std] = @cycle.activities.informing.active.by_position
       @elements[std].each do |element|
         @element_totals[element] ||= []

@@ -95,7 +95,7 @@ class EltCase < ActiveRecord::Base
   end
 
   def cycle_ratings_for_element(element)
-    self.cycle_case_indicators_for_element(element).collect{|ci| ci.rubric}.compact
+    self.cycle_case_indicators_for_element(element).collect{|ci| ci.rubric}.compact.sort_by{|r| r.position}
   end
 
   def element_rubric_count(elt_element, rubric)

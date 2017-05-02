@@ -3,10 +3,10 @@
     <div class="col-md-1"></div>
     <div class= 'col-md-10 panel_title_blue'>
       <%= elt_case.elt_cycle ? elt_case.elt_cycle.name: "Removed Diagnostic Cycle" -%>:&nbsp;<%= elt_case.name %>
-    </div>
-    <div class="panel_subtitle_blue" >
-      <%= elt_case.activity.collect_subject? ? (elt_case.subject_area ? (elt_case.subject_area.name ) : 'No Subject') : '' -%>
-      <%= elt_case.activity.collect_grade? ? ( elt_case.grade_level ? " " + elt_case.grade_level.name : "  No Grade Level") : '' -%>
+      <div class="panel_subtitle_blue" >
+        <%= elt_case.activity.collect_subject? ? (elt_case.subject_area ? (elt_case.subject_area.name ) : 'No Subject') : '' -%>
+        <%= elt_case.activity.collect_grade? ? ( elt_case.grade_level ? " " + elt_case.grade_level.name : "  No Grade Level") : '' -%>
+      </div>
     </div>
     <div class="col-md-1"></div>
   </div>

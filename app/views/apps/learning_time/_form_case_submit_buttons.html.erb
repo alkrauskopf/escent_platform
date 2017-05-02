@@ -2,35 +2,51 @@
   <% if elt_case.updatable?(@current_user)%>
       <div class='panel_row'>
         <div class='row'>
-          <hr>
-          <div class='col-md-3 '>
-              <%= submit_tag 'Exit Without Saving', class: 'btn btn-warning btn-xs' %>
-          </div>
-          <div class='col-md-3'>
-            <div style='float:right'>
-              <%= submit_tag ('Submit ' + (elt_case.elt_type.elt_activity_type.nil? ? '' : elt_case.elt_type.elt_activity_type.name)), class: 'btn btn-success btn-xs' %>
+          <div class='col-md-2 '>
+            <div class='row' style="padding-bottom:2em;">
+              <%= submit_tag ('Save ' + (elt_case.elt_type.elt_activity_type.nil? ? '' : elt_case.elt_type.elt_activity_type.name)), class: 'btn btn-success btn-xs' %>
             </div>
-          </div>
-          <div class='col-md-3 '>
-            <div style='float:right'>
+            <div class='row' style="padding-bottom:0em;">
               <%= link_to 'Add Image', elt_case_evidence_add_path(:organization_id => @current_organization, :elt_case_id => elt_case), class: 'btn btn-info btn-xs', :target => '_blank' %>
             </div>
           </div>
-          <div class='col-md-3 '>
-            <div style='float:right'>
-              <%= submit_tag 'Destroy', class: 'btn btn-danger btn-xs'%>
+          <div class='col-md-8'>
+            <% if include_title %>
+              <%= render :partial => "/apps/learning_time/show_edit_case_title", :locals => {:elt_case => elt_case, :updateable => elt_case.updatable?(@current_user)} -%>
+              <% if elt_case.activity.rubric? -%>
+                  <%= render :partial => "/apps/learning_time/explain_rubric", :locals => {:activity => elt_case.activity} -%>
+              <% end -%>
+            <% end %>
+          </div>
+          <div class='col-md-2 '>
+            <div class='row' style="padding-bottom:2em;">
+              <span style="float:right">
+                <%= submit_tag 'NO Save', class: 'btn btn-warning btn-xs' %>
+              </span>
+            </div>
+            <div class='row' style="padding-bottom:0em;">
+              <span style="float:right">
+                <%= submit_tag ('Destroy '+ (elt_case.elt_type.elt_activity_type.nil? ? '' : elt_case.elt_type.elt_activity_type.name)), class: 'btn btn-danger btn-xs'%>
+              </span>
             </div>
           </div>
         </div>
       </div>
   <% else -%>
       <div class='row'>
-        <hr>
         <div class='col-md-3 '>
           <%= link_to 'Return', elt_path(:organization_id => @current_organization), class: 'btn btn-primary btn-xs' %>
         </div>
-        <div class='col-md-9'>
-          &nbsp;
+        <div class='col-md-6'>
+          <% if include_title %>
+              <%= render :partial => "/apps/learning_time/show_edit_case_title", :locals => {:elt_case => elt_case, :updateable => elt_case.updatable?(@current_user)} -%>
+              <% if elt_case.activity.rubric? -%>
+                  <%= render :partial => "/apps/learning_time/explain_rubric", :locals => {:activity => elt_case.activity} -%>
+              <% end -%>
+          <% end %>
+        </div>
+        <div class='col-md-3 '>
         </div>
       </div>
   <% end -%>
+  <hr>

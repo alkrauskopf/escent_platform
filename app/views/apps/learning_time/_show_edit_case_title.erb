@@ -1,11 +1,8 @@
 <div id="case_title_<%=elt_case.public_id%>">
   <% if updateable%>
-		<table style = "width:70%; margin-left:15%; margin-top:0px">
+		<table style = "margin-left:0%; margin-top:0px">
 			<tbody>
 					<tr>
-						<td style="font-size:11px;  vertical-align:top; padding-bottom:0px; ">
-              Title:
-						</td>
 						<td style="width:50%; font-size:11px; padding-bottom:10px; ">
               <%= text_field :elt_case, :name, :value => elt_case.name,  :size => 40, :maxlength => 75 %>
 						</td>
@@ -16,7 +13,7 @@
 								&nbsp;
 							<% end -%>
 						</td>
-						<td style="width:20%; font-size:10px; padding-bottom:10px; ">
+						<td style="font-size:10px; padding-bottom:10px; ">
               <% if elt_case.elt_type.collect_grade?-%>
                 <%=  select(:elt_case, :grade_level_id, GradeLevel.pre_university.collect{|gl| [gl.name, gl.id]}, :prompt =>  (elt_case.grade_level) ? elt_case.grade_level.name : "Grade Level") %>
 							<% else -%>

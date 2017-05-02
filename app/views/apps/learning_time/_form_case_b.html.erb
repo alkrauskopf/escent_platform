@@ -2,13 +2,9 @@
   <%= form_for(:elt_case, :url => elt_case_update_path(:organization_id => @current_organization, :elt_case_id => elt_case)) do |form| %>
     <% if !elt_case.images.empty? %>
       <%= render :partial => "/apps/learning_time/list_case_evidence_images", :locals => {:elt_case => elt_case, :updateable => elt_case.updatable?(@current_user)} -%>
+      <hr>
     <% end %>
-    <%= render :partial => "/apps/learning_time/form_case_submit_buttons", :locals => {:elt_case => elt_case} -%>
-    <br/>
-    <%= render :partial => "/apps/learning_time/show_edit_case_title", :locals => {:elt_case => elt_case, :updateable => elt_case.updatable?(@current_user)} -%>
-    <% if elt_case.activity.rubric? -%>
-        <%= render :partial => "/apps/learning_time/explain_rubric", :locals => {:activity => elt_case.activity} -%>
-    <% end -%>
+    <%= render :partial => "/apps/learning_time/form_case_submit_buttons", :locals => {:elt_case => elt_case, :include_title => true} -%>
     <% elt_case.cycle_elements.each do |element| -%>
       <% unless element.elt_indicators.active.for_activity(elt_case.elt_type).empty? && false %>
         <%= elt_case.activity.master? ? (render :partial => "/apps/learning_time/element_indicators_master", :locals => {:elt_case => elt_case, :element=> element}) :
@@ -16,6 +12,6 @@
       <% end %>
     <% end %>
     <br/>
-    <%= render :partial => "/apps/learning_time/form_case_submit_buttons", :locals => {:elt_case => elt_case} -%>
+    <%= render :partial => "/apps/learning_time/form_case_submit_buttons", :locals => {:elt_case => elt_case, :include_title => false} -%>
   <% end %>
 </div>

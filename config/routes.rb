@@ -160,6 +160,13 @@ EscentPartners::Application.routes.draw do |map|
   get CoopApp.elt.route_url => CoopApp.elt.route_action
   get CoopApp.blog.route_url => CoopApp.blog.route_action
 
+
+  # APP Mainenance (New Approach)
+  get '/app/maintenance/ifa' => 'app_maintenance/ifa#index' # app_maintenance_ifa_path
+  get '/app/maintenance/ifa/std_select' => 'app_maintenance/ifa#standard_select' # app_maintenance_ifa_std_select_url
+  get '/app/maintenance/ifa/strand_select' => 'app_maintenance/ifa#strand_select' # app_maintenance_ifa_strand_select_url
+  get '/app/maintenance/ifa/strand/update' => 'app_maintenance/ifa#strand_update' # app_maintenance_ifa_strand_update_url
+
   # APPS Shared
   get '/app/owner/maintenance' => 'apps/owner_maintenance#index'
   get '/survey/take' => 'apps/shared#take_survey'
@@ -270,7 +277,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/admin/survey/on' => 'apps/classroom#period_survey_activate'
   get '/offering/admin/survey/off' => 'apps/classroom#period_survey_deactivate'
   get '/offering/admin/homeworks' => 'apps/classroom#offering_homeworks'
-  get '/offering/admin/option/activate' => 'apps/classroom#offering_options'
+  get '/offering/admin/option/activate' => 'apps/classroom#offering_options' # offering_admin_option_activate_url
   get '/offering/admin/homework/delete' => 'apps/classroom#delete_homework'
   get '/offering/admin/teacher' => 'apps/classroom#manage_teacher'
   get '/offering/admin/teacher/subject' => 'apps/classroom#assign_for_subject'

@@ -118,6 +118,11 @@
 				jQ('.fsn-button').addUIStateClass();
 			})
 		</script>
+    <script>
+      $('form#id').submit(function(){
+        $(this).find(':input[type=submit]').prop('disabled', true);
+      });
+    </script>
 	</head>
   <body  class="container iwing_page_background">
     <div class="row">

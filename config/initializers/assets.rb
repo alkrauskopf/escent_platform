@@ -44,7 +44,8 @@ Rails.application.config.assets.precompile += [
     'apps/assessment.css',
     'apps/resource_library.css',
     'apps/organization.css',
-    'apps/time_learning.css'
+    'apps/time_learning.css',
+    'app_maintenance/ifa.css',
       ]
 #
 #Javascript
@@ -75,6 +76,7 @@ Rails.application.config.assets.precompile += [
     'jquery.ui.potato.menu.js',
     'swfobject.js',
     'jquery.jtree.1.0.min.js',
-    'jquery.jtree.1.0.js'
+    'jquery.jtree.1.0.js',
+    'WIRISplugins.js'
  #   'tiny_mce/tiny_mce.js'
       ]

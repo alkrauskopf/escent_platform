@@ -6,6 +6,9 @@
 </div>
 
     <%= render :partial => "/shared/error_and_notice" %>
+    <div >
+      <%= link_to 'Back', self.send(@current_application.link_path,{:organization_id => @current_organization}), :class => 'btn btn-default btn-xs' %>
+    </div>
     <%= render :partial => "ifa_question_master_update" %>
     <%= render :partial => "ifa_question_form_update" %>
     <%= render :partial => "ifa_question_choices_update" %>

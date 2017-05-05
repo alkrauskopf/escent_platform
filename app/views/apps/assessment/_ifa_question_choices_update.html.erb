@@ -58,7 +58,7 @@
 				<% end -%>					
 				</tr>				
 				
-				<% list = @question.act_choices.sort_by{|c| c.position} -%>
+				<% list = @question.act_choices.by_position -%>
 				<% list.each do |c| -%>
 
 				<tr >

@@ -86,7 +86,7 @@
 		</div>	
 		<div class="FormRow submit_warp">
 			<br/>
-			<%=link_to 'Delete Benchmark', {:controller => 'apps/assessment',:action => "destroy_benchmark",:organization_id => @current_organization, :classroom_id => @classroom, :benchmark_id => @benchmark}, :confirm => "Are You Sure?"%>
+			<%=link_to 'Delete Benchmark', ifa_benchmark_destroy_path(:organization_id => @current_organization, :classroom_id => @classroom, :benchmark_id => @benchmark), :confirm => "Are You Sure?"%>
 		</div>	
 	</div>	
 <% end -%>	

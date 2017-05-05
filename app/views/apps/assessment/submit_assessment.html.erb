@@ -35,7 +35,7 @@
     </div>
   </div>
 </div>
-<%= form_for(:act_submission, :url => ifa_submission_add_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic,:assessment_id => @assessment,:begin_time => @begin_time, :function => "Submit")) do |form| -%>
+<%= form_for(:act_submission, :url => ifa_submission_add_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic,:assessment_id => @assessment,:begin_time => @begin_time, :function => "Submit"), html: { id: "id"}) do |form| -%>
   <%= render :partial => "/shared/error_and_notice" %>
   <div class="row">
     <div class="col-md-2" >

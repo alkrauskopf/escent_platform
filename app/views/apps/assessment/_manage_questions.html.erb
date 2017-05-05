@@ -1,7 +1,7 @@
 <div>
   <div class="row">
     <div class="ifa_panel_title">
-      Question Repository
+      Question Repository: <%= pluralize(@active_questions.size.to_s, " Available Question") %>
     </div>
   </div>
   <hr>
@@ -21,63 +21,42 @@
 	  <% end -%>
 	</div>
 	<div>
-	<% active_questions = ActQuestion.active rescue []%>
-	<% unless active_questions.size.zero? %>
-	<div id="assign_resources_panel">
-		<table id="question_levels"   style="width:99%;">
-			<thead>
-				<tr>
-					<% header_string = pluralize(active_questions.size.to_s, " Available Assessment Questions") + " In The Repository" %>
-					<th><strong><%= header_string %></strong></th>											
-				</tr>
-			</thead>
-			<tbody>  
-				<% unless @current_user.act_questions.size.zero? %>
-					<tr>
-					<td class="resource_levels_close">
-						<% col_label = pluralize(@current_user.act_questions.size, @current_user.last_name + " Question") -%>
-						<%= link_to '', ifa_user_questions_list_path(:organization_id => @current_organization)%>
-						<strong><%= col_label %></strong>
-						<span></span>
-					</td>
-					</tr>				
-				<% else -%>
-					<tr>
-						<td style ="text-align:center; color: #C83A14; font-size:11px">
-							<i>* * *  There Are No <%=@current_user.last_name %> Questions In The Repository  * * *</i>
-						</td>
-					</tr>
-				<% end -%>
-				<% sub_ids = active_questions.group_by(&:act_subject_id) %>
-				<% sub_ids.each do |si, readings| %>
-					<% subj_name = ActSubject.find(si).name -%> 
-					<% col_label = readings.size.to_s + " " + subj_name-%>
-					<tr>
-					<td class="resource_levels_close">
-
-					<%= link_to '', ifa_subject_questions_path(:organization_id => @current_organization, :classroom_id => @ifa_classroom,  :subject_id => si) %>
-					<strong><%= col_label %></strong>
-					<span></span>
-					</td>
-					</tr>
-					<% end -%>
-			</tbody>
-		</table>
-	<br/>
-
-	</div>
-<% else -%>
-	<br/>
-	<span style ="text-align:center; color: #C83A14; font-size:11px">
-	<i>* * *  There Are No Assessment Questions In The Repository At This Time  * * *</i>
-	</span>
-<% end -%>	
-
-</div>
-  <script type="text/javascript" charset="utf-8">
-    jQ(document).ready(function() {
-      jQ('#question_levels .resource_levels_close').toggleResourceLevels();
-      jQ('#question_levels .resource_levels_open').toggleResourceLevels();
-    });
-  </script>
+    <% unless @active_questions.empty? %>
+      <div class = "ifa_pool_container" >
+        <% unless @current_user_questions.empty? %>
+          <div id="user_questions" >
+            <div class="resource_levels_close">
+              <%= link_to '', ifa_user_questions_list_path(:organization_id => @current_organization)%>
+              <%= @current_user.last_name %><span class="levels_count">(<%= @current_user_questions.size.to_s %>)</span>
+              <span></span>
+            </div>
+            <script type="text/javascript" charset="utf-8">
+              jQ(document).ready(function() {
+                jQ('#user_questions .resource_levels_close').toggleResourceLevels();
+                jQ('#user_questions .resource_levels_open').toggleResourceLevels();
+              });
+            </script>
+          </div>
+        <% end -%>
+        <% sub_ids = @active_questions.group_by(&:act_subject_id) %>
+        <% sub_ids.each do |si, questions| %>
+          <div id="question_levels<%=si.to_s%>" >
+            <% subj_name = ActSubject.find(si).name -%>
+            <div class="resource_levels_close">
+              <% col_hdr = subj_name + ' (' + questions.size.to_s + ')' %>
+              <%= link_to '', ifa_subject_questions_path(:organization_id => @current_organization, :classroom_id => @ifa_classroom,  :subject_id => si) %>
+              <%= col_hdr %>
+              <span></span>
+            </div>
+            <script type="text/javascript" charset="utf-8">
+              jQ(document).ready(function() {
+                jQ('#question_levels<%=si.to_s%> .resource_levels_close').toggleResourceLevels();
+                jQ('#question_levels<%=si.to_s%> .resource_levels_open').toggleResourceLevels();
+              });
+            </script>
+          </div>
+        <% end -%>
+      </div>
+    <% end -%>
   </div>
+</div>

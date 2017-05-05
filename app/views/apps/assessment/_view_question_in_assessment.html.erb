@@ -58,7 +58,7 @@
            }
          </style><tbody>
          <% if quest.question_type =="MC" -%>
-             <% quest.act_choices.sort_by{rand}.each do |chc| -%>
+             <% quest.choices.each do |chc| -%>
                  <tr>
                    <td class="question_check" >
                      <%=  check_box_tag "ans_check[]", value = chc.id ,checked = false %>

@@ -3,8 +3,6 @@
 	
 	<% unless @standard.act_questions.active.size.zero? -%>
 
-
-
 		<br/>			
 	<table id="roles"  style="width:845px; ">
 		<tbody>
@@ -70,7 +68,8 @@
 				</td>		
 				<td width = 520px style=" color: #000000; vertical-align:top; font-size:11px" >
 					<% if quest.act_rel_reading %><u>Reading:</u><i> <%= quest.act_rel_reading.label %></i><br/><% end -%>
-						<u>Type:</u>&nbsp;<%= quest.question_type %>,&nbsp;<%= pluralize(quest.act_choices.size, ' Choice') %><br/>
+						<u>Type:</u>&nbsp;<%= quest.question_type %><%= quest.calculator_free? ? ', Calculator Free':'' %>,&nbsp;<%= pluralize(quest.act_choices.size, ' Choice') %>
+              <%= quest.randomize? ? ' (Randomized)':' (Not Randomized)' %><br/>
 						<i><%= quest.question.titleize %></i><br>
 						<span style="color:#000000;font-size:10px">
 							Last Changed: <%= quest.last_date_changed.strftime("%b %d, %Y") %>

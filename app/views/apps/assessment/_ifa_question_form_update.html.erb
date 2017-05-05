@@ -1,37 +1,50 @@
 <div id="question_form" class="Form clear">
 	<%= form_for(:act_question, :url => ifa_question_edit_path(:organization_id => @current_organization, :assessment_id => @assessment , :function => "Submit", :question_id => @question)) do |form| -%>
-	
 	<div class="FormRow">
 		<br/>
 		<div class="FormRowTitle"><strong>Related Content:</strong></div>
-        <div class="FormRowData" id="reading_id" style= "margin-left:5px">
-			<%=  select(:reading, :reading_id, @rel_readings,{:prompt => @reading_label}) %>
+    <div class="FormRowData" id="reading_id" style= "margin-left:5px">
+      <%=  select(:reading, :reading_id, @rel_readings,{:prompt => @reading_label}) %>
+    </div>
+  </div>
+  <div class="FormRow">
+    <br/>
+    <div class="FormRowTitle"><strong>Calculator Free:</strong></div>
+    <div class="FormRowData" style= "margin-left:5px">
+      <%= form.check_box :is_calc_free, :checked => @question.is_calc_free %>
+    </div>
+  </div>
+    <div class="FormRow">
+      <br/>
+      <div class="FormRowTitle"><strong>Randomize Answers:</strong></div>
+      <div class="FormRowData" style= "margin-left:5px">
+        <%= form.check_box :is_random, :checked => @question.is_random %>
       </div>
     </div>
 
 	<div class="FormRow" id="reading_text" >
 		<div class="FormRowTitle">&nbsp;</div>
-      	<div class="FormRowData" style= "margin-left:5px">
-           	<%= text_area :quest, :reading, :rows => 15, :cols => 75, :value => @question_reading, :class =>"tinymce" %>
-          <%= tinymce %>
-       	</div>
+    <div class="FormRowData" style= "margin-left:5px">
+      <%= text_area :quest, :reading, :rows => 15, :cols => 75, :value => @question_reading, :class =>"tinymce" %>
+      <%= tinymce %>
+    </div>
 	</div>
 
 	<div class="FormRow" id="question_text">
 		<br/>
 		<div class="FormRowTitle"><strong>Question:</strong></div>
 		<div class="FormRowData" style= "margin-left:5px">
- 		     <%= text_area :act_question, :question, :class =>"tinymce", :rows => 2, :cols => 105, :value => @question.question  %>
+ 		     <%= text_area :act_question, :question, :class =>"tinymce", :rows => 2, :cols => 105, :placeholder => 'Add Comment', :value => @question.question  %>
       <%= tinymce %>
       <br/>
  	    </div>
     </div>
  
   	<div class="FormRow">
-		<br/>
-		<div class="FormRowTitle"><strong>Comment:</strong></div>
-        <div class="FormRowData" style= "margin-left:0px">
- 		     <%= text_field :act_question, :comment, :size => 55, :maxlength => 150, :value => @question.comment  %>
+      <br/>
+      <div class="FormRowTitle"><strong>Comment:</strong></div>
+      <div class="FormRowData" style= "margin-left:0px">
+        <%= text_field :act_question, :comment, :size => 55, :maxlength => 150,  :value => @question.comment  %>
  	    </div>
     </div>	
 	

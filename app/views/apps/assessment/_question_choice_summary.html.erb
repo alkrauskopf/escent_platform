@@ -4,7 +4,7 @@
   <% tot_answers = question.act_answers.selected rescue []-%>
   <table>
     <tbody>
-    <% question.act_choices.each do |chc| -%>
+    <% question.act_choices.by_position.each do |chc| -%>
         <% selection_count = tot_answers.for_choice(chc).size -%>
         <% pct_choice = tot_answers.size == 0 ? '': (100*selection_count/tot_answers.size).to_i%>
         <tr>

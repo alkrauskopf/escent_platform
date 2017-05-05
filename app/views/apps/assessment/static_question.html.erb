@@ -177,7 +177,7 @@
 	  	<% if @question.question_type =="MC" -%>
 		<table style="float:left; width:400px;">
 			<tbody>  
-			<% @question.act_choices.sort_by{|c| [c.position]}.each do |chc| -%>
+			<% @question.act_choices.by_position.each do |chc| -%>
 				<tr>
 					<% if chc.is_correct -%>
 					<td style="width:30px; padding-left:15px; vertical-align:middle;">

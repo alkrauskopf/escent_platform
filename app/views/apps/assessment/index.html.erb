@@ -1,8 +1,17 @@
 <div>
   <div class= 'row panel_title_blue'>
     <%= @current_application.app_name(:provider=>@current_provider) %>
-    <%= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@current_application} %>
+    <%#= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@current_application} %>
   </div>
+  <% if @super_admin %>
+    <div class="row">
+      <div class="col-md-10"></div>
+      <div class="col-md-2">
+        <% button_label = "Maintain " + @current_application.app_abbrev(:provider=>@current_provider)%>
+        <%= link_to button_label , app_maintenance_ifa_path(:organization_id => @current_organization), :class=> "button_gray" %>
+      </div>
+    </div>
+  <% end %>
   <hr>
   <div class="row">
     <div class="col-md-1"></div>

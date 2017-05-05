@@ -74,11 +74,12 @@
           <td class="days_select"  id="days_repeat">
 						<%=  select(:ifa, :dtr, repeat_days,{:include_blank => offering.ifa_retake_days.to_s}) %>
 					</td>
-          <td  class="toggle_button">
-            &nbsp;
-          </td>
+          <% prep_button = offering.precision_prep? ? "button_enabled.png" : "button_disabled.png" -%>
           <td class="option_label">
-            &nbsp;
+            Precision Prep&nbsp;<%= offering.precision_prep? ? "Yes" : "No" %>
+          </td>
+          <td class="toggle_button" id="toggle_precision_prep">
+            <%= (image_tag prep_button,:width => 12) -%>
           </td>
 				</tr>
 			</tbody>					
@@ -164,6 +165,17 @@ jQ(document).ready(function() {
 					});               
 	})
 });
+</script>
+<script type="text/javascript">
+  jQ(document).ready(function() {
+    jQ("#toggle_precision_prep").click(function() {
+      var url = "<%= offering_admin_option_activate_url(:organization_id => @current_organization, :classroom_id=> offering, :option=>'precision_prep') %>";
+      jQ.get(url,{},  function(data) {
+        jQ("#offering_options_<%=offering.public_id%>").html(data);
+        jQ("#offering_options_<%=offering.public_id%>").show();
+      });
+    })
+  });
 </script>
 <script type="text/javascript">
 jQ(document).ready(function() {

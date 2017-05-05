@@ -793,6 +793,9 @@ class Apps::ClassroomController < ApplicationController
         @classroom.ifa_classroom_option.update_attributes(:days_til_repeat => repeat_days)
       end
     end
+    if params[:option] == "precision_prep"
+      @classroom.update_attributes(:is_prep =>!@classroom.is_prep)
+    end
     refresh_classroom
     render :partial => "offering_options", :locals=>{:offering => @classroom}
   end

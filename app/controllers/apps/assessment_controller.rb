@@ -23,9 +23,11 @@ class Apps::AssessmentController < ApplicationController
       @readings = ActRelReading.all
       @readings.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
       @assessments = ActAssessment.active rescue []
+      @active_questions = ActQuestion.active rescue []
+      @current_user_questions = @current_user.act_questions
       @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}
       @threshold = Time.now - @current_organization.ifa_org_option.sms_calc_cycle.days
-
+      @super_admin = (@current_organization == @current_provider && @current_user.app_superuser?(@current_application))
       prepare_summary_data
       find_dashboard_update_start_dates(@current_organization)
     else
@@ -1245,6 +1247,7 @@ class Apps::AssessmentController < ApplicationController
   
   def list_user_questions
     initialize_parameters
+    render :partial => "question_pool_list", :locals => {:questions => @current_user.act_questions.order('updated_at DESC')}
   end 
 
   def add_question
@@ -1480,7 +1483,7 @@ class Apps::AssessmentController < ApplicationController
       @readings = @question.act_subject.act_rel_readings.sort_by{|r| r.label}.collect{|r| [r.label,r.id]}
       @question.act_rel_reading_id = 0
       @question.question_type = "SA"
-      @question.question = "* * New Question * *"
+      @question.question = '* * New Question * *'
       @question.is_active = false
       @question.is_locked = false
       @question.is_calibrated = false

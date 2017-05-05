@@ -19,6 +19,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def set_ifa
+    @current_application = CoopApp.ifa
+    @current_provider = @current_organization.nil? ? nil : @current_organization.app_provider(@current_application)
+  end
+
   # Accesses the current registrant from the session.
   def current_user
     @current_user ||= (session[:user_id] && User.find(session[:user_id]) rescue nil) || nil

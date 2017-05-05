@@ -1,0 +1,2 @@
+module AppMaintenance::IfaHelper
+end

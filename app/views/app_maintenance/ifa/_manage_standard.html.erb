@@ -1,0 +1,112 @@
+<div id="manage_standard">
+  <div class="maintenance_box">
+  <div class="row standard_row">
+    <div class= "col-md-6">
+      <div class="standard_label">
+        <%= @current_standard.name %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="standard_select" id="master_id">
+        <%=  select(:act, :master_id, ActMaster.all.collect{|m| [m.abbrev,m.id]},{:prompt => @current_standard.abbrev}) %>
+      </div>
+    </div>
+  </div>
+  <div class="row standard_row">
+    <div class= "col-md-6">
+      <div class="standard_label">
+        <%= @current_subject.name %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="standard_select" id="subject_id">
+        <%=  select(:act, :subject_id, ActSubject.no_na.collect{|s| [s.name,s.id]},{:prompt => @current_subject.name}) %>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#master_id").change(function(){
+        var master_id = jQ('#act_master_id').val();
+        var url = "<%= app_maintenance_ifa_std_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
+        jQ.get(url, {'act_master_id': master_id}, function(data) {
+          jQ("#manage_standard").html(data);
+          jQ("#manage_standard").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#subject_id").change(function(){
+        var subject_id = jQ('#act_subject_id').val();
+        var url = "<%= app_maintenance_ifa_std_select_url(:organization_id => @current_organization, :act_master_id => @current_standard.id,) %>";
+        jQ.get(url, {'act_subject_id': subject_id}, function(data) {
+          jQ("#manage_standard").html(data);
+          jQ("#manage_standard").show();
+        });
+      })
+    });
+  </script>
+  </div>
+  <div id="control_panel" >
+    <ul>
+      <li>
+        <%  tab_2_label = "Strands" %>
+        <a href="#tabs-2"><span class="tab_label">
+		    <%= tab_2_label %></span></a>
+      </li>
+      <li>
+        <%  tab_3_label = "Mastery Levels" %>
+        <a href="#tabs-3"><span class="tab_label">
+		    <%= tab_3_label %></span></a>
+      </li>
+      <li>
+        <%  tab_4_label = "Benchmarks" %>
+        <a href="#tabs-4"><span class="tab_label">
+		    <%= tab_4_label %></span></a>
+      </li>
+      <li>
+        <%  tab_5_label = "Genres" %>
+        <a href="#tabs-5"><span class="tab_label">
+		    <%= tab_5_label %></span></a>
+      </li>
+    </ul>
+
+    <div id="tabs-2" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial =>  "manage_strands", :locals=>{}%>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-3" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        Mastery Level Maintenance Under Construction
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-4" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%#= render :partial => "/app_maintenance/ifa/manage_benchmarks" %>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-5" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        Genres Under Construction
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
+
+  <br style="clear:both" />
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function(){
+      jQ('#control_panel').tabs();
+    });
+  </script>
+</div>

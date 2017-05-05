@@ -1,0 +1,9 @@
+<div id="ifa_maintenance">
+  <div class= 'row panel_title_blue'>
+    <%= @current_application.app_name(:provider=>@current_provider) %> Maintenance
+  </div>
+  <hr>
+
+  <%= render :partial =>  "manage_standard", :locals=>{}%>
+
+</div>

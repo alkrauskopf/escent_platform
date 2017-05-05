@@ -1,0 +1,70 @@
+<div id="edit_strand_<%= strand.id %>" >
+  <div class="precision_panel "  style="color: <%= strand.strand_font%>; background-color:<%= strand.strand_background %>">
+    <%= strand.name %>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      Name
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_area :strand, :name, :rows=>1, :cols => 60, :value => strand.name %>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      Abbreviation
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_area :strand, :abbrev, :rows=>1, :cols => 8, :value => strand.abbrev %>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      Description
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_area :strand, :description, :rows=>4, :cols => 60, :value => strand.description %>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      Panel Color
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_area :strand, :strand_background, :rows=>1, :cols => 8, :value => strand.strand_background %>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      Text Color
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_area :strand, :strand_font, :rows=>1, :cols => 8, :value => strand.strand_font %>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      <span class="button_blue" id="strand_update">
+          Update
+      </span>
+    </div>
+    <div class="col-md-10 ifa_edit_text"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#strand_update").click(function(){
+        var name = jQ('#strand_name').val();
+        var abbrev = jQ('#strand_abbrev').val();
+        var description = jQ('#strand_description').val();
+        var panel = jQ('#strand_strand_background').val();
+        var font = jQ('#strand_strand_font').val();
+        var url = "<%= app_maintenance_ifa_strand_update_url(:organization_id => @current_organization, :act_standard_id => strand.id,
+         :act_master_id => strand.act_master_id, :act_subject_id=>strand.act_subject_id) %>";
+        jQ.get(url, {'name':name, 'abbrev':abbrev, 'description':description, 'strand_background':panel, 'strand_font':font}, function(data) {
+          jQ("#edit_strand_<%=strand.id%>").html(data);
+          jQ("#edit_strand_<%=strand.id%>").show();
+        });
+      })
+    });
+  </script>
+</div>

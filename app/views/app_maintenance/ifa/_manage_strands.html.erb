@@ -1,0 +1,31 @@
+<div id="manage_strands">
+  <div class="row standard_row">
+    <div class="strand_label">
+      <%= @current_strand.nil? ? 'No Strands' : ''%>
+    </div>
+  </div>
+  <div class="row standard_row">
+    <% if !@strands.empty? %>
+      <div class="strand_select" id="standard_id">
+        <%=  select(:act, :standard_id, @strands.collect{|s| [s.name,s.id]},{:prompt => 'Select New Strand'}) %>
+      </div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#standard_id").change(function(){
+            var standard_id = jQ('#act_standard_id').val();
+            var url = "<%= app_maintenance_ifa_strand_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_master_id => @current_standard.id ) %>";
+            jQ.get(url, {'act_standard_id': standard_id}, function(data) {
+              jQ("#manage_strands").html(data);
+              jQ("#manage_strands").show();
+            });
+          })
+        });
+      </script>
+    <% end %>
+  </div>
+  <% if !@current_strand.nil? %>
+    <div class="ifa_edit_box">
+      <%= render :partial =>  "edit_strand", :locals=>{:strand => @current_strand}%>
+    </div>
+  <% end %>
+</div>

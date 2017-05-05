@@ -421,7 +421,7 @@
   font-weight:bold;
   padding-bottom:.5em;
   font-size:14px;
-  color:$blue_text
+  color:$red_text
 }
 .ifa_sat_button {
   padding-left:.5em;
@@ -445,9 +445,10 @@
   word-wrap:break-word;
   text-align:center;
   font-weight:normal;
-  font-size:14px;
-  color:$blue_title
+  font-size:24px;
+  color:$red_text;
 }
+
 .ifa_pending_destroy {
   font-size:11px;
 }

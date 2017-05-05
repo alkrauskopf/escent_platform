@@ -1,0 +1,102 @@
+<div class="row question_pool">
+	<% unless questions.size.zero? %>
+      <div class="panel-body, table-responsive">
+
+          <tbody>
+          </tbody>
+          </table>
+    <table class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th colspan=3 style = "color:#000000"><center>Status</center></th>
+					<th colspan=2 style = "color:#000000"><center>Quality</center></th>
+					<th style = "color:#000000">&nbsp;</th>
+					<th style = "color:#000000"><center>Mastery</center></th>
+					<th style = "color:#000000"><center>Question</center></th>
+				</tr>
+			</thead>
+      <tbody>
+			<tr>
+				<td colspan=8 >
+					&nbsp;
+				</td>
+			</tr>
+			<% questions.each do |quest| -%>
+
+			<% unless quest.nil?%>
+			<tr>
+				<% if !quest.is_calibrated -%>
+					<td style=" width:3%; color: #000000; vertical-align:top;text-align:center; font-size:10px" >
+						&nbsp;
+					</td>
+				<% else -%>
+					<td style=" width:3%; color: #000000; vertical-align:top;text-align:center; font-size:10px" >
+						<%= (image_tag "calibrated_yes.png",:width => 25) -%>
+					</td>
+				<% end -%>
+				<% if !quest.is_locked -%>
+					<td style=" width:3%; color: #000000; vertical-align:top;text-align:center; font-size:10px" >
+						<%= (image_tag "lock_no.png",:width => 20) -%>
+					</td>
+				<% else -%>
+					<td style=" width:3%; color: #000000; vertical-align:top;text-align:center; font-size:10px" >
+						<%= (image_tag "lock_yes.png",:width => 20) -%>
+					</td>
+				<% end -%>
+				<% if quest.is_active -%>
+					<td style=" width:3%; color: #000000; padding-top:5px;vertical-align:top;text-align:center; font-size:10px" >
+						<%= (image_tag "button_enabled.png",:width => 10) -%>
+					</td>
+				<% else -%>
+					<td style=" width:3%; color: #000000; padding-top:5px;vertical-align:top;text-align:center; font-size:10px" >
+						<%= (image_tag "button_disabled.png",:width => 10) -%>
+					</td>
+				<% end -%>	
+				<%= render :partial => "thumbs_columns", :locals => {:quest => quest, :std => ActMaster.act.first, :filter =>"ACT"}%>
+				<td style=" width:6%; color: #000000; vertical-align:top;text-align:center; font-size:11px" >
+					<u>
+						<%= link_to "View", ifa_question_show_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest), {:target => "_blank"}  %>
+					</u>
+					&nbsp;
+					<% if quest.user_id == @current_user.id %>
+						<u>
+							<%= link_to "Edit", ifa_question_edit_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => quest), {:target => "_blank"}  %>
+						</u>
+					<% end -%>
+				</td>
+				<td style=" width:18%; color: #000000; vertical-align:top;font-size:11px;" >
+					ooo<center><%= quest.act_subject.name.titleize %><br/>
+					<% unless @current_organization.ifa_org_option.nil? -%>
+						<% @current_organization.ifa_org_option.act_masters.each do|mstr| -%>
+						<%= mstr.abbrev.upcase %>:&nbsp;<%= quest.score_range_name(mstr)%><br/>
+						<% end -%></center>
+					<% else -%>
+						&nbsp;
+					<% end -%>			
+				</td>
+				<td style=" color: #000000; vertical-align:top; padding-bottom:.5em;font-size:11px" >
+					<% if quest.act_rel_reading %><u>Reading:</u><i> <%= quest.act_rel_reading.label %></i><br/><% end -%>
+          <span style="color:#000000;font-size:10px">
+						<%= time_ago_in_words(quest.updated_at.to_s, include_seconds = false).titleize %> Ago <br/>
+						</span>
+          <u>Type:</u>&nbsp;<%= quest.question_type %><%= quest.calculator_free? ? ', Calculator Free':'' %>,&nbsp;<%= pluralize(quest.act_choices.size, ' Choice') %>
+              <%= quest.randomize? ? ' (Randomized)':' (Not Randomized)' %><br/>
+						<i><%= quest.question.titleize %></i><br>
+ 				</td>
+ 			</tr>
+			<tr>&nbsp;</tr>
+			<% end -%>
+			<% end -%>
+		</tbody>
+	</table>
+  </div>
+	<% else -%>	
+		No <%= @current_user.last_name %> Questions.
+	<% end -%>
+
+</div>
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() { 
+	jQ('.fsn-button').addUIStateClass();
+});
+</script>

@@ -132,6 +132,14 @@ class Classroom < ActiveRecord::Base
     self.course_name
   end
 
+  def precision_prep?
+    self.is_prep
+  end
+
+  def self.precision_prep
+    where('is_prep')
+  end
+
   def ifa_enable
     if self.organization.ifa_org_option
       ifa_option = IfaClassroomOption.new

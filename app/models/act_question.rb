@@ -46,6 +46,17 @@ class ActQuestion < ActiveRecord::Base
   
   scope :available, {:conditions => ["is_active = true && is_locked = true"]}
 
+  def calculator_free?
+    self.is_calc_free
+  end
+
+  def randomize?
+    self.is_random
+  end
+
+  def choices
+    choices = self.randomize? ? self.act_choices.shuffle : self.act_choices.by_position
+  end
 
   def score_range(std)
     self.act_score_ranges.select{|r| r.act_master_id == std.id}.first rescue nil

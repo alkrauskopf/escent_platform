@@ -12,5 +12,10 @@ class ActChoice < ActiveRecord::Base
 
   scope :incorrect, :conditions => { :is_correct => false }
   scope :correct, :conditions => { :is_correct => true }
-  
+
+
+  def self.by_position
+    order('position ASC')
+  end
+
 end

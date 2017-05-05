@@ -36,6 +36,10 @@ class ActMaster < ActiveRecord::Base
    ActMaster.act.first
   end
 
+  def self.default
+    where('is_default').first
+  end
+
   def self.act_std
     ActMaster.act.first
   end

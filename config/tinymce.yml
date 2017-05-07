@@ -3,19 +3,19 @@
   plugins:
     - image imagetools
     - link
-    - emoticons
+ #   - emoticons
     - code
     - charmap
     - textcolor colorpicker
     - print
     - lists
     - advlist
-    - insertdatetime
+ #   - insertdatetime
     - directionality
     - media
     - preview
  #   - tiny_mce_wiris
   toolbar:
-    - fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | forecolor backcolor | emoticons insertdatetime
+    - fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | forecolor backcolor
  #   - charmap | subscript superscript | tiny_mce_wiris_CAS | tiny_mce_wiris_formulaEditorChemistry | tiny_mce_wiris_formulaEditor | undo redo removeformat | print | link | media | preview | code |
     - charmap | subscript superscript | undo redo removeformat | print | link | media | preview | code |

@@ -166,6 +166,9 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/maintenance/ifa/std_select' => 'app_maintenance/ifa#standard_select' # app_maintenance_ifa_std_select_url
   get '/app/maintenance/ifa/strand_select' => 'app_maintenance/ifa#strand_select' # app_maintenance_ifa_strand_select_url
   get '/app/maintenance/ifa/strand/update' => 'app_maintenance/ifa#strand_update' # app_maintenance_ifa_strand_update_url
+  get '/app/maintenance/ifa/subject/update' => 'app_maintenance/ifa#subject_update' # app_maintenance_ifa_subject_update_url
+  get '/app/maintenance/ifa/subject/update' => 'app_maintenance/ifa#subject_update' # app_maintenance_ifa_subject_update_url
+
 
   # APPS Shared
   get '/app/owner/maintenance' => 'apps/owner_maintenance#index'
@@ -391,6 +394,21 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/user/options/toggle/calibrate' => 'apps/assessment#user_option_toggle_calibrate' #  ifa_user_options_toggle_calibrate_url
   get '/ifa/user/options/toggle/filter' => 'apps/assessment#user_option_toggle_user_filter' #  ifa_user_options_toggle_filter_url
   get '/ifa/user/switch/standard' => 'apps/assessment#switch_standard_view' #  ifa_user_switch_standard_url
+
+  get '/ifa/plan/std/select' => 'apps/ifa_plan#current_standard' #  ifa_plan_std_select_url
+  get '/ifa/plan/subject/select' => 'apps/ifa_plan#current_subject' #  ifa_plan_subject_select_url
+  get '/ifa/plan/subject' => 'apps/ifa_plan#plan_subject' #  ifa_plan_subject_path
+  get '/ifa/plan/create' => 'apps/ifa_plan#plan_create' #  ifa_plan_create_url
+  get '/ifa/plan/show/form' => 'apps/ifa_plan#plan_show_form' #  ifa_plan_show_form_url
+  get '/ifa/plan/update' => 'apps/ifa_plan#plan_update' #  ifa_plan_update_url
+  post '/ifa/plan/update' => 'apps/ifa_plan#plan_update_2' #  ifa_plan_update_url
+  get '/ifa/plan/update/cancel' => 'apps/ifa_plan#plan_update_cancel' #  ifa_plan_update_cancel_url
+  get '/ifa/milestone/create' => 'apps/ifa_plan#milestone_create' #  ifa_milestone_create_url
+  get '/ifa/milestone/update' => 'apps/ifa_plan#milestone_update' #  ifa_milestone_update_url
+  get '/ifa/milestone/update/cancel' => 'apps/ifa_plan#milestone_update_cancel' #  ifa_milestone_update_cancel_url
+  get '/ifa/milestone/range/select' => 'apps/ifa_plan#milestone_range_select' # ifa_milestone_range_select_url
+  get '/ifa/milestone/destroy' => 'apps/ifa_plan#milestone_destroy' #  ifa_milestone_destroy_url
+  get '/ifa/milestone/change' => 'apps/ifa_plan#milestone_change' #  ifa_milestone_change_url
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

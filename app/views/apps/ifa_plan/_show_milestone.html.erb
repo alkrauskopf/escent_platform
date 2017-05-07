@@ -1,21 +1,30 @@
 <div class="row ifa_milestone_show_row">
   <div class="col-md-4 ">
     <div class="row ifa_milestone_show_range">
-      <% if !milestone.achieved? %><i class="star_achievement"></i><% end %>
-      <span>
-        <%= milestone.range.nil? ? 'No Mastery Level' : milestone.range.label_with_sat.html_safe %>
-      </span>
+      <%= milestone.range.nil? ? 'No Mastery Level' : milestone.range.label_with_sat.html_safe %>
     </div>
     <div class="row ifa_milestone_show_time">
       Updated: <%= time_ago_in_words(milestone.updated_at).sub(/about /, '') + " ago" %>
-    </div>
-    <% if !milestone.achieved? %>
-      <div class="row ifa_milestone_show_button">
 
+    </div>
+    <% if milestone.achieved?%>
+      <div class="row ifa_milestone_show_button">
+        <% achievement_level(milestone.strand, milestone.range).times do %>
+          <i class="star_achievement"></i>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="row ifa_milestone_show_button">
         <span class="button_blue" id="milestone_show_change<%=milestone.public_id%>">
           <%= 'Change' %>
         </span>
       </div>
+        <div class="row ifa_milestone_show_button">
+
+        <span class="button_green" id="milestone_show_achieved<%=milestone.public_id%>">
+          <%= 'Achieved!' %>
+        </span>
+        </div>
     <% end %>
   </div>
   <div class="col-md-6">
@@ -58,6 +67,17 @@
   jQ(document).ready(function() {
     jQ("#milestone_show_change<%=milestone.public_id%>").click(function(){
       var url = "<%= ifa_milestone_change_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.public_id) %>";
+      jQ.get(url, {}, function(data) {
+        jQ("#strand_milestone<%=milestone.act_standard.public_id%>").html(data);
+        jQ("#strand_milestone<%=milestone.act_standard.public_id%>").show();
+      });
+    })
+  });
+</script>
+<script type="text/javascript">
+  jQ(document).ready(function() {
+    jQ("#milestone_show_achieved<%=milestone.public_id%>").click(function(){
+      var url = "<%= ifa_milestone_achieved_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.public_id) %>";
       jQ.get(url, {}, function(data) {
         jQ("#strand_milestone<%=milestone.act_standard.public_id%>").html(data);
         jQ("#strand_milestone<%=milestone.act_standard.public_id%>").show();

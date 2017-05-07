@@ -105,6 +105,14 @@ class Apps::IfaPlanController < ApplicationController
                                                                      :new_milestone => false, :ranges => @ranges}
   end
 
+  def milestone_achieved
+    set_milestone
+    @milestone.update_attributes(:is_achieved=>true)
+    milestone_destroy?(@milestone, false)
+    render :partial => "/apps/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
+                                                                     :new_milestone => false, :ranges => @ranges}
+  end
+
   def milestone_range_select
     set_milestone
     set_range

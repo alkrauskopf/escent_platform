@@ -409,6 +409,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/milestone/range/select' => 'apps/ifa_plan#milestone_range_select' # ifa_milestone_range_select_url
   get '/ifa/milestone/destroy' => 'apps/ifa_plan#milestone_destroy' #  ifa_milestone_destroy_url
   get '/ifa/milestone/change' => 'apps/ifa_plan#milestone_change' #  ifa_milestone_change_url
+  get '/ifa/milestone/achieved' => 'apps/ifa_plan#milestone_achieved' #  ifa_milestone_achieved_url
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

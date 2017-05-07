@@ -1,0 +1,24 @@
+<div id="select_standard">
+  <div class="col-md-4 ">
+    <% if standards.size > 1 %>
+          <div class="plan_selects" id="master_id">
+            <%=  select(:act, :master_id, standards.collect{|m| [m.name,m.id]},{:prompt => 'Select Planning Standard'}) %>
+          </div>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ("#master_id").change(function(){
+              var master_id = jQ('#act_master_id').val();
+              var url = "<%= ifa_plan_std_select_url(:organization_id => @current_organization) %>";
+              jQ.get(url, {'act_master_id': master_id}, function(data) {
+                jQ("#select_standard").html(data);
+                jQ("#select_standard").show();
+              });
+            })
+          });
+        </script>
+    <% end %>
+  </div>
+  <div class="col-md-8 plan_base_upon_label">
+    <%= @current_standard.name %>
+  </div>
+</div>

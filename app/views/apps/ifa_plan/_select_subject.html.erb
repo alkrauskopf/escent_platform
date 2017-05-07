@@ -1,0 +1,22 @@
+<div id="select_subject">
+  <div class="col-md-4 ">
+    <div class="plan_selects" id="subject_id">
+      <%=  select(:act, :subject_id, ActSubject.plannable.collect{|s| [s.name,s.id]},{:prompt => 'Select Subject Area'}) %>
+    </div>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#subject_id").change(function(){
+          var subject_id = jQ('#act_subject_id').val();
+          var url = "<%= ifa_plan_subject_select_url(:organization_id => @current_organization) %>";
+          jQ.get(url, {'act_subject_id': subject_id}, function(data) {
+            jQ("#select_subject").html(data);
+            jQ("#select_subject").show();
+          });
+        })
+      });
+    </script>
+  </div>
+  <div class="col-md-8 plan_base_upon_label">
+    <%= @current_subject.name %>
+  </div>
+</div>

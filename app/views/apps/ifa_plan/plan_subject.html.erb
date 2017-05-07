@@ -1,0 +1,38 @@
+<div class="row ifa_plan_box">
+  <% if @user_plan.incomplete? %>
+      <%= render :partial => '/apps/ifa_plan/form_plan', :locals=>{:plan=>@user_plan}%>
+  <% else %>
+    <div id="assign_resources_panel">
+      <table id="plan_<%=@subject.id%>" class="user_edit_plan_box">
+        <tbody>
+            <tr>
+              <td class="authorization_levels_close">
+                <%= link_to '', ifa_plan_subject_path(:organization_id => @current_organization, :subject_id => @subject.id) %>
+                Update Plan
+                <span></span>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+      <br/>
+    </div>
+    <script type="text/javascript" charset="utf-8">
+      jQ(document).ready(function() {
+        jQ('#plan_<%=@subject.id%> .authorization_levels_close').toggleAuthorizationLevels();
+        jQ('#plan_<%=@subject.id%> .authorization_levels_open').toggleAuthorizationLevels();
+      });
+    </script>
+  <% end %>
+  </div>
+  <div class="row ifa_plan_box">
+  <div class="col-md-4 ">
+    <%= @subject.name %><br/>
+    <%= @user_plan.user.name %>
+    <% if false %>
+
+    <% end %>
+  </div>
+  <div class="col-md-8 plan_base_upon_label">
+
+  </div>
+</div>

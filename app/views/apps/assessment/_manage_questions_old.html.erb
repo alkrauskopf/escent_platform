@@ -1,0 +1,77 @@
+<div>
+  <% %>
+  <div class="row">
+    <div class="ifa_panel_title">
+      Question Repository: <%= pluralize(@active_questions.size.to_s, " Available Question") %>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <%= form_for(:act_question, :url => ifa_question_add_path(:organization_id => @current_organization)) do |form| -%>
+      <div class="col-md-4 "></div>
+      <div class="col-md-2 ">
+        <div class="repo_select">
+          <%=  select( :quest, :subject_id, ActSubject.all_subjects.collect{|s| [s.name, s.id]}, {:prompt => ActSubject.first.name}) %>
+        </div>
+      </div>
+      <div class="col-md-6 ">
+        <div class="repo_submit">
+          <%= form.submit 'Create New Question', :class => "btn btn-primary btn-xs" %>
+        </div>
+      </div>
+	  <% end -%>
+	</div>
+	<div>
+	<% unless @active_questions.empty? %>
+	<div id="assign_resources_panel">
+		<table id="question_levels"   style="width:99%;">
+			<tbody>  
+				<% unless @current_user_questions.empty? %>
+					<tr>
+					<td class="resource_levels_close">
+						<% col_label = pluralize(@current_user_questions.size, @current_user.last_name + " Question") -%>
+						<%= link_to '', ifa_user_questions_list_path(:organization_id => @current_organization)%>
+						<strong><%= col_label %></strong>
+						<span></span>
+					</td>
+					</tr>				
+				<% else -%>
+					<tr>
+						<td style ="text-align:center; color: #C83A14; font-size:11px">
+							<i>* * *  There Are No <%=@current_user.last_name %> Questions In The Repository  * * *</i>
+						</td>
+					</tr>
+				<% end -%>
+				<% sub_ids = @active_questions.group_by(&:act_subject_id) %>
+				<% sub_ids.each do |si, readings| %>
+					<% subj_name = ActSubject.find(si).name -%> 
+					<% col_label = readings.size.to_s + " " + subj_name-%>
+					<tr>
+					<td class="resource_levels_close">
+
+					<%= link_to '', ifa_subject_questions_path(:organization_id => @current_organization, :classroom_id => @ifa_classroom,  :subject_id => si) %>
+					<strong><%= col_label %></strong>
+					<span></span>
+					</td>
+					</tr>
+					<% end -%>
+			</tbody>
+		</table>
+	<br/>
+
+	</div>
+<% else -%>
+	<br/>
+	<span style ="text-align:center; color: #C83A14; font-size:11px">
+	<i>* * *  There Are No Assessment Questions In The Repository At This Time  * * *</i>
+	</span>
+<% end -%>	
+
+</div>
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+      jQ('#question_levels .resource_levels_close').toggleResourceLevels();
+      jQ('#question_levels .resource_levels_open').toggleResourceLevels();
+    });
+  </script>
+  </div>

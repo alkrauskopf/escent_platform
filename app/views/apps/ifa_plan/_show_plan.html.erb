@@ -1,0 +1,24 @@
+<div  class="ifa_plan_show_box ">
+  <div class="row ">
+    <div class="col-md-6">
+      <div class="ifa_plan_show_row">
+        <div class="ifa_plan_label">
+          <%= plan.act_subject.name %>&nbsp;Needs & Challenges:
+        </div>
+        <div class="ifa_plan_text">
+          <%= simple_format plan.needs%>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="ifa_plan_show_row">
+        <div class="ifa_plan_label">
+          <%= plan.act_subject.name %>&nbsp;Goals:
+        </div>
+        <div class="ifa_plan_text">
+          <%= simple_format plan.goals %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

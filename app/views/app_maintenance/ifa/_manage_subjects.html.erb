@@ -1,0 +1,12 @@
+<div id="manage_subjects">
+  <div class="row standard_row">
+    <div class="strand_label">
+      Standard Subject Areas: Name & Plannable
+    </div>
+  </div>
+  <% @subjects.each do |subject| %>
+    <div class="row ifa_subject_edit_box">
+      <%= render :partial =>  "edit_subject", :locals=>{:subject=>subject}%>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,80 @@
+<div id="manage_plans">
+  <div class="row ifa_panel_title">
+    <div>
+      Personalized Growth Plans
+    </div>
+    <div class="row assess_to_take">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <div id="assign_resources_panel">
+          <table id="subject_plans" class="user_plans_box user_plan_list">
+            <tbody>
+            <% ActSubject.plannable.each do |sub| -%>
+                <tr>
+                  <td class="authorization_levels_close" style="font-size:16px;">
+                    <%= link_to '', ifa_plan_subject_path(:organization_id => @current_organization, :subject_id => sub.id) %>
+                    Your <%= sub.name.titleize.upcase %>
+                    <span></span>
+                  </td>
+                </tr>
+            <% end -%>
+            </tbody>
+          </table>
+          <br/>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <script type="text/javascript" charset="utf-8">
+      jQ(document).ready(function() {
+        jQ('#subject_plans .authorization_levels_close').toggleAuthorizationLevels();
+        jQ('#subject_plans .authorization_levels_open').toggleAuthorizationLevels();
+      });
+    </script>
+  </div>
+  <% if !standards.empty? %>
+    <div class="row plan_base_upon">
+      <%= render :partial => '/apps/ifa_plan/select_standard', :locals=>{:standards=>standards}%>
+    </div>
+    <% if @current_standard %>
+      <div class="row plan_base_upon">
+        <%= render :partial => '/apps/ifa_plan/select_subject'%>
+      </div>
+      <% if @current_subject && false%>
+        <div class="row plan_base_upon">
+          <%= render :partial => '/apps/ifa_plan/select_strand', :locals=>{:standards=>standards}%>
+        </div>
+          <div class="row standard_row">
+      <% if !@strands.empty? %>
+        <div class="strand_select" id="standard_id">
+          <%=  select(:act, :standard_id, @strands.collect{|s| [s.name,s.id]},{:prompt => 'Select New Strand'}) %>
+        </div>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ("#standard_id").change(function(){
+              var standard_id = jQ('#act_standard_id').val();
+              var url = "<%= app_maintenance_ifa_strand_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_master_id => @current_standard.id ) %>";
+              jQ.get(url, {'act_standard_id': standard_id}, function(data) {
+                jQ("#manage_strands").html(data);
+                jQ("#manage_strands").show();
+              });
+            })
+          });
+        </script>
+      <% end %>
+    </div>
+    <% end %>
+    <% if !@current_strand.nil? %>
+      <div class="ifa_edit_box">
+        <%#= render :partial =>  "edit_strand", :locals=>{:strand => @current_strand}%>
+      </div>
+    <% end %>
+    <% end %>
+  <% else %>
+      <div class="row sorry">
+        <div>
+          There Are No Standards Currently Available For <%= classroom.name %>
+        </div>
+      </div>
+  <% end %>
+</div>

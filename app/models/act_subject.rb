@@ -21,6 +21,8 @@ class ActSubject < ActiveRecord::Base
   has_many :ifa_user_baseline_scores
   has_many :student_subject_demographics
   has_many :co_csap_ranges
+  has_many :subject_areas
+  has_many :ifa_plans
         
   scope :no_na, {:conditions => ["name != ?", "-na-"]}
 
@@ -52,5 +54,14 @@ class ActSubject < ActiveRecord::Base
   def self.na
     where('name = ?', '-na-').first
   end
+
+  def plannable?
+    self.is_plannable
+  end
+
+  def self.plannable
+    where('is_plannable')
+  end
+
 end
 

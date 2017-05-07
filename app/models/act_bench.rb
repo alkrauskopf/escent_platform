@@ -34,6 +34,16 @@ class ActBench < ActiveRecord::Base
   def self.for_co_gle(gle)
     where('co_gle_id = ?', gle.id)
   end
+
+  def benchmark?
+    self.act_bench_type.name.upcase == 'BENCHMARK'
+  end
+  def improvement?
+    self.act_bench_type.name.upcase == 'IMPROVEMENT'
+  end
+  def evidence?
+    self.act_bench_type.name.upcase == 'EVIDENCE'
+  end
 end
 
 

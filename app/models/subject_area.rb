@@ -15,7 +15,9 @@ class SubjectArea < ActiveRecord::Base
   has_many :coop_apps, :through => :coop_app_resources_subjects
   
   has_many   :ista_case_allocations, :as => :activity, :dependent => :destroy  
-  has_many :elt_cases 
+  has_many :elt_cases
+
+  belongs_to :act_subject
         
   validates_presence_of :name
 

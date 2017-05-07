@@ -23,6 +23,8 @@ class ActScoreRange < ActiveRecord::Base
   has_many :folder_mastery_levels, :dependent => :destroy
   has_many :folders, :through => :folder_mastery_levels
 
+  has_many :ifa_plan_milestones
+
   scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id],:order => "upper_score"}}
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
   scope :for_subject_no_na, lambda{|subject| {:conditions => ["act_subject_id = ? && upper_score > ?", subject.id, 0]}}
@@ -47,6 +49,20 @@ class ActScoreRange < ActiveRecord::Base
 
   def sat_range
     self.act_sat_map ? self.act_sat_map : nil
+  end
+
+  def sat_label
+    self.sat_range? ? (' | SAT: ' + self.sat_range.range) : ''
+  end
+
+  def label_with_sat
+    self.sat_range? ? (self.label_without_sat + ',  SAT: ' + self.sat_range.range) : self.label_without_sat
+  end
+  def label_with_sat_break
+    self.sat_range? ? (self.label_without_sat + '<br/>SAT: ' + self.sat_range.range) : self.label_without_sat
+  end
+  def label_without_sat
+    self.act_master.abbrev + ': ' + self.range
   end
 
   def sat_range?

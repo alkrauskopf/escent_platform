@@ -71,6 +71,11 @@
         <a href="#tabs-5"><span class="tab_label">
 		    <%= tab_5_label %></span></a>
       </li>
+      <li>
+        <%  tab_6_label = "Subjects" %>
+        <a href="#tabs-6"><span class="tab_label">
+		    <%= tab_6_label %></span></a>
+      </li>
     </ul>
 
     <div id="tabs-2" class="row">
@@ -98,6 +103,13 @@
       <div class="col-md-1"></div>
       <div class="col-md-10">
         Genres Under Construction
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-6" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial =>  "manage_subjects", :locals=>{}%>
       </div>
       <div class="col-md-1"></div>
     </div>

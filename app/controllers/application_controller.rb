@@ -23,6 +23,10 @@ class ApplicationController < ActionController::Base
     @current_application = CoopApp.ifa
     @current_provider = @current_organization.nil? ? nil : @current_organization.app_provider(@current_application)
   end
+  def set_classroom
+    @current_application = CoopApp.classroom
+    @current_provider = @current_organization.nil? ? nil : @current_organization.app_provider(@current_application)
+  end
 
   # Accesses the current registrant from the session.
   def current_user

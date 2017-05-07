@@ -72,9 +72,8 @@
       <% end %>
     </div>
     <div class="col-md-2 ">
-      <div class="row ifa_user_panel">
-        <% link_string = truncate(@classroom.course_name, :omission => "...", :length => 14)  -%>
-        <%= link_to link_string, offering_view_path(:organization_id => @current_organization, :topic_id => @topic, :id => @classroom) %>
+      <div class="row ifa_take_right">
+        <%= link_to 'Return', offering_view_path(:organization_id => @current_organization, :topic_id => @topic, :id => @classroom) %>
       </div>
     </div>
   </div>
@@ -92,15 +91,22 @@
 <div id="control_panel" >
   <ul>
     <li>
-      <%  tab_1_label = " Assessments " %>
+      <%  tab_1_label = " My Assessment Pool " %>
       <a href="#tabs-1"><span class="tab_label">
       <%= tab_1_label %></span></a>
     </li>
     <li>
-      <%  tab_2_label = " Your Growth " %>
+      <%  tab_2_label = " My Growth " %>
       <a href="#tabs-2"><span class="tab_label">
       <%= tab_2_label %></span></a>
     </li>
+    <% ActSubject.plannable.each do |subj| %>
+      <li>
+        <%  tab_2_label = 'My ' + subj.name + ' Plan' %>
+        <a href="#tabs-3<%= subj.id.to_s%>"><span class="tab_label">
+        <%= tab_2_label %></span></a>
+      </li>
+    <% end %>
   </ul>
   <div id="tabs-1" class="row">
     <%= render :partial => "list_classroom_assessments"  -%>
@@ -108,12 +114,17 @@
 	<div id="tabs-2" class="row">
     <%= render :partial => "your_growth"  -%>
   </div>
+  <% ActSubject.plannable.each do |subj| %>
+    <div id="tabs-3<%= subj.id.to_s%>" class="row">
+      <%=    render :partial => "/apps/ifa_plan/manage_subj_plan", :locals=>{:subject => subj, :show_form => @current_user.show_ifa_plan_form?(subj)} %>
+    </div>
+  <% end %>
+
+  <br style="clear:both" />
+
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function(){
+      jQ('#control_panel').tabs();
+    });
+  </script>
 </div>
-
-<br style="clear:both" />
-
-<script type="text/javascript" charset="utf-8">
-  jQ(document).ready(function(){
-    jQ('#control_panel').tabs();
-  });
-</script>

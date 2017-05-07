@@ -78,6 +78,8 @@ class User < ActiveRecord::Base
 
   has_many :client_assignments, :dependent=> :destroy
   has_many :clients, :through => :client_assignments
+
+  has_many :ifa_plans, :dependent => :destroy
       
   validates_confirmation_of :email_address
   validates_confirmation_of :password
@@ -1272,6 +1274,13 @@ class User < ActiveRecord::Base
 #
 #  IFA methods
 #
+  def ifa_plan_subject(subject)
+    self.ifa_plans.for_subject(subject).last
+  end
+
+  def show_ifa_plan_form?(subject)
+    !subject.nil? && !self.ifa_plan_subject(subject).nil? && self.ifa_plan_subject(subject).incomplete?
+  end
 
   def calibrate_view?
     self.calibrated_only

@@ -5,6 +5,8 @@ class Apps::AssessmentController < ApplicationController
                            :student_subject_history, :classroom_dashboard,  :assign_classroom_assessment_view, :list_classroom_assessments,
                            :subject_readings, :genre_readings, :list_standard_questions ,:subject_questions, :assign_assessment_question_view,
                            :subject_assessments, :list_user_assessments]
+
+  before_filter :set_ifa, :except=>[]
   before_filter :ifa_allowed?, :except=>[]
 #  before_filter :current_user_app_authorized?, :except=>[:topic_standards_benchmarks]
   before_filter :current_user_app_authorized?, :only=>[:index]
@@ -517,10 +519,10 @@ class Apps::AssessmentController < ApplicationController
 
     @suggested_topics = @classroom.topics.select{|t| t.act_score_ranges.for_standard(@current_standard).first.upper_score >= @current_sms && t.act_score_ranges.for_standard(@current_standard).first.lower_score <= @current_sms}rescue nil
  
-    if params[:function]=="Success"
+    if params[:function] == "Success"
       @success = true
     end
-    
+    user_ifa_plans
     find_dashboard_update_start_dates(@current_user)
 
   end
@@ -2518,8 +2520,6 @@ end
 
 
    def ifa_allowed?
-     @current_application = CoopApp.ifa
-     @current_provider = @current_organization.app_provider(@current_application)
      current_app_enabled_for_current_org?
    end
  
@@ -3589,4 +3589,13 @@ end
  #    @classroom_tbdashboard_period_end = @classroom_dashboards.empty? ? (Date.today.end_of_month) :(@classroom_dashboards.first.period_end + 1.day).end_of_month
  #    @classroom_tbdashboard_submissions = ActSubmission.not_dashboarded('Classroom', @current_organization, @current_subject, @classroom_tbdashboard_period_end.beginning_of_month, @classroom_tbdashboard_period_end)
    end
+
+  def user_ifa_plans
+    @user_plans = {}
+    ActSubject.plannable.each do |subject|
+      unless @current_user.ifa_plan_subject(subject).nil?
+        @user_plans[subject] = @current_user.ifa_plan_subject(subject)
+      end
+    end
+  end
  end

@@ -19,8 +19,6 @@ class ActMaster < ActiveRecord::Base
   has_many :ifa_user_options
   has_many :ifa_classroom_options
   has_many :ifa_user_baseline_scores
-  
-  
      
   scope :national, :conditions => { :is_national => true}  
   scope :act, :conditions => { :abbrev => "ACT"}  
@@ -30,6 +28,24 @@ class ActMaster < ActiveRecord::Base
 
   def abbrev_view(user)
     (user && user.sat_view?) ? 'SAT' : self.abbrev.upcase
+  end
+
+  def act_benches_for_strand_mastery(strand, mastery, bench_type)
+    if !strand.nil? && !mastery.nil? && !bench_type.nil?
+      benches = self.act_benches.where('act_standard_id = ? AND act_score_range_id = ? AND act_bench_type_id = ?', strand.id, mastery.id, bench_type.id)
+    else
+      benches = []
+    end
+    benches
+  end
+  def benchmarks_for_strand_range(strand, mastery)
+    self.act_benches_for_strand_mastery(strand, mastery, ActBenchType.benchmark(self))
+  end
+  def improvements_for_strand_range(strand, mastery)
+    self.act_benches_for_strand_mastery(strand, mastery, ActBenchType.improvement(self))
+  end
+  def evidence_for_strand_range(strand, mastery)
+    self.act_benches_for_strand_mastery(strand, mastery, ActBenchType.evidence(self))
   end
 
   def self.default_std

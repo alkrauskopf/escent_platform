@@ -3,6 +3,7 @@ class Apps::ClassOfferingController < ApplicationController
   helper :all # include all helpers, all the time
   layout "offering", :except =>[ ]
 
+  before_filter :set_classroom, :except=>[]
   before_filter :find_featured_topic, :only => [:index]
   before_filter :classroom_allowed?, :except=>[]
  # before_filter :current_user_app_authorized?, :except=>[:index]
@@ -15,7 +16,7 @@ class Apps::ClassOfferingController < ApplicationController
     current_app_enabled_for_current_org?
     initialize_site_parameters
     initialize_std_parameters
-    @classroom = params[:id] ? Classroom.find_by_public_id(params[:id]) : @current_organization.classrooms.active.first
+ #   @classroom = params[:id] ? Classroom.find_by_public_id(params[:id]) : @current_organization.classrooms.active.first
     @classroom.increment_views
     if @current_user
       @clsrm_leaders = @current_user.student_of_classroom?(@classroom) ? @classroom.teachers_for_student(@current_user) : @classroom.leaders
@@ -55,7 +56,6 @@ class Apps::ClassOfferingController < ApplicationController
   private
 
   def classroom_allowed?
-    @current_application = CoopApp.classroom
     current_app_enabled_for_current_org?
   end
 
@@ -65,6 +65,7 @@ class Apps::ClassOfferingController < ApplicationController
     unless @current_classroom
       @current_classroom = Classroom.all.first
     end
+    @classroom = @current_classroom
     if !params[:topic_id].blank?
       @current_topic = Topic.find_by_public_id params[:topic_id]
       @return_topic = @current_topic

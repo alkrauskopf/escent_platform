@@ -25,7 +25,7 @@ class Classroom < ActiveRecord::Base
   has_one   :total_view, :as => :entity, :dependent => :destroy
   
   belongs_to   :subject_area
-  belongs_to   :act_subject
+#  belongs_to   :act_subject
   has_many :act_assessment_classrooms, :dependent => :destroy
   has_many :act_assessments, :through => :act_assessment_classrooms, :order => "position"
   has_many :act_submissions
@@ -153,6 +153,14 @@ class Classroom < ActiveRecord::Base
       self.ifa_classroom_option = ifa_option
     end
   end
+
+  def ifa_subject
+    self.subject_area.act_subject rescue nil
+  end
+  def act_subject
+    self.subject_area.act_subject rescue nil
+  end
+
 
   def ifa_disable
       self.ifa_classroom_option.destroy rescue nil

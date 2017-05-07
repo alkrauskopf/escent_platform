@@ -8,6 +8,7 @@ class AppMaintenance::IfaController < ApplicationController
   before_filter :clear_notification, :except => []
   before_filter :current_standard, :except => []
   before_filter :current_subject, :except => []
+  before_filter :subjects, :except => []
 
   def index
     strands
@@ -34,6 +35,12 @@ class AppMaintenance::IfaController < ApplicationController
     render :partial =>  "edit_strand", :locals=>{:strand => @current_strand}
   end
 
+  def subject_update
+    @subject = ActSubject.find_by_id(params[:subject_id]) rescue nil
+    @subject.update_attributes(:name=>params[:name], :is_plannable => (params[:is_plannable] == 'Y' ? true:false))
+    render :partial =>  "edit_subject", :locals=>{:subject => @subject}
+  end
+
   private
 
   def current_standard
@@ -53,6 +60,10 @@ class AppMaintenance::IfaController < ApplicationController
 
   def strands
     @strands = ActStandard.for_standard_and_subject(@current_standard, @current_subject)
+  end
+
+  def subjects
+    @subjects = ActSubject.all
   end
 
   def current_strand

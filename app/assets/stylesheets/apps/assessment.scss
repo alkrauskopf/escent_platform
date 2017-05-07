@@ -1,12 +1,23 @@
 
 @import "application-variables.scss";
+@import 'bootstrap';
 
+.star_achievement {
+  @extend .glyphicon;
+  @extend .glyphicon-star;
+  color:$gold_star;
+  padding-right:0em;
+  font-size:16px;
+}
 
 .ifa_container {
   width: 100%;
   margin: 0 auto;
 }
-
+.classroom_tab {
+  width: 92%;
+  margin: 0em 5em 0em 5em;
+}
 .assess_container {
   width: 100%;
   margin: 0 auto;
@@ -423,6 +434,12 @@
   font-size:14px;
   color:$red_text
 }
+.ifa_take_right {
+  padding-left:2em;
+  margin-top:3em;
+  text-align:left;
+  font-size:14px;
+}
 .ifa_sat_button {
   padding-left:.5em;
   padding-top:.4em;
@@ -439,14 +456,13 @@
 }
 .ifa_panel_title {
   width:100%;
+  margin-top:1em;
   padding-bottom:1em;
-  padding-left:0em;
-  padding-top:0em;
   word-wrap:break-word;
   text-align:center;
   font-weight:normal;
-  font-size:24px;
-  color:$red_text;
+  font-size:16px;
+  color:$blue_text;
 }
 
 .ifa_pending_destroy {
@@ -720,4 +736,230 @@
   color:$dark_text;
   text-align:left;
   font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.user_plans_box {
+  margin: 2em 1em 0em 1em;
+}
+
+.user_plan_list {
+  padding: 1em 0em 1em 0em;
+  font-size:16px;
+  font-weight:bold;
+  color:$red_text;
+}
+
+.user_edit_plan_box {
+  margin:0em 0em 1em 0em;
+  font-size:10px;
+  color:$dark_text;
+}
+
+.ifa_plan_box {
+  margin: 1em 0em 1em 0em;
+  font-size:13px;
+  font-weight:normal;
+  color:$dark_text;
+  border:1px solid #ddd;
+}
+
+.plan_base_upon {
+  margin: 0em 0em 1em 0em;
+  font-size:14px;
+  color:$red_text;
+}
+
+.plan_base_upon_label {
+  padding-left:2em;
+}
+
+.plan_selects {
+  padding: 0em 0em 0em 0em;
+  font-size:13px;
+  color:$dark_text;
+}
+
+
+.standard_label {
+  float:right;
+}
+.standard_select {
+  margin-left: 30em;
+}
+.strand_label {
+  text-align:center;
+}
+.strand_select {
+  text-align:center;
+  margin-left:15em;
+}
+
+.ifa_plan_edit_box {
+  margin:0em 8em 1em 8em;
+  word-wrap: break-word;
+  background-color: $panel_background_ifa;
+  border:1px solid #ddd;
+  border-radius: 5px;
+  font-size:14px;
+  color:$dark_text;
+}
+.ifa_plan_show_box {
+  margin:0em 0em 1em 0em;
+  word-wrap: break-word;
+  background-color: $panel_background_ifa;
+  border:1px solid #ddd;
+  border-radius: 5px;
+  font-size:14px;
+  color:$dark_text;
+}
+.ifa_plan_button {
+  margin:0em 0em 1em 0em;
+}
+
+.ifa_plan_edit_row {
+  margin:2em 0em 2em 0em;
+}
+
+.ifa_plan_edit_box .ifa_plan_edit_row .edit_label {
+  width:90%;
+  text-align:center;
+  font-weight:bold;
+  font-size:15px;
+  color:$dark_text;
+}
+.ifa_plan_edit_box .ifa_plan_edit_row .explain{
+  margin:.5em 1em 0em 1em;
+  line-height:2em;
+  font-size:13px;
+  word-wrap: break-word;
+  text-align:center;
+  font-weight:normal;
+  color:$dark_text;
+}
+.ifa_plan_text_box {
+  margin-top:0em;
+  margin-left:12em;
+  margin-right:3em;
+  text-align:left;
+  font-size:15px;
+  font-weight:normal;
+  color:$dark_text;
+}
+
+.ifa_plan_show_row {
+  margin:1em 2em 1em 2em;
+  font-family:Georgia, "Times New Roman", Times, serif;
+}
+.ifa_plan_label {
+  margin:0em 0em .5em 0em;
+  text-align:left;
+  font-weight:bold;
+  font-size:14px;
+  color:$dark_text;
+}
+.ifa_plan_text {
+  margin:0em 0em 0em 0em;
+  text-align:left;
+  word-wrap: break-word;
+  font-weight:normal;
+  font-size:14px;
+  color:$dark_text;
+}
+
+.ifa_edit_row {
+  margin:2em 0em 0em 0em;
+}
+
+.ifa_edit_label {
+  text-align:right;
+}
+
+.ifa_edit_text {
+  text-align:left;
+}
+.ifa_milestone_panel {
+  margin: .5em 0em 0em 0em;
+}
+.ifa_milestone_header_row {
+  margin:2em 0em 1em 0em;
+  font-size:12px;
+}
+.ifa_milestone_range_select {
+  padding:0em 0em 0em 4em;
+  color:$red_text;
+  font-size:14px;
+}
+
+.ifa_milestone_edit_box {
+  margin:0em 1em 0em 1em;
+  word-wrap: break-word;
+  background-color: $panel_background_ifa;
+  border:1px solid #ddd;
+  border-radius: 5px;
+  font-size:14px;
+  color:$dark_text;
+}
+
+.ifa_milestone_edit_row {
+  margin:1em 0em 1em 0em;
+}
+.ifa_milestone_edit_footer_row {
+  padding:0em 0em 1em 0em;
+}
+
+.ifa_milestone_mastery {
+  font-size:13px;
+  text-align:center;
+  color:$red_text;
+}
+.ifa_milestone_benchmark {
+  font-size:14px;
+  font-weight:normal;
+  text-align:left;
+  color:$dark_text;
+}
+.ifa_milestone_benchmark_count {
+  text-align:center;
+}
+
+.ifa_milestone_show_box {
+  margin:0em 2em 1em 2em;
+  word-wrap: break-word;
+  background-color: $panel_background_ifa;
+  font-family:Georgia, "Times New Roman", Times, serif;
+  border:1px solid #ddd;
+  border-radius: 5px;
+  max-height: 135em;
+  overflow: scroll;
+  font-size:14px;
+  color:$dark_text;
+}
+.ifa_milestone_show_row {
+  padding:.5em 0em .5em 0em;
+  text-align:left;
+}
+.ifa_milestone_show_range {
+  padding:1em 0em .5em 3em;
+  font-weight:bold;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  color:$red_text;
+  font-size:13px;
+}
+.ifa_milestone_show_time {
+  padding:1em 0em .5em 3em;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  color:$dark_text;
+  font-size:12px;
+}
+.ifa_milestone_show_descript {
+  padding:0em 0em 0em 0em;
+  color:$dark_text;
+  font-size:14px;
+}
+.ifa_milestone_show_button {
+  padding:2em 0em .5em 3em;
+}
+.ifa_milestone_edit_button {
+  vertical-align:top;
+  padding:2em 0em .5em 3em;
 }

@@ -11,7 +11,7 @@
 }
 
 .ifa_modal_header {
-  color:$blue_text;
+  color:$red_text;
   font-weight:bold;
   text-align:left;
   font-family: Verdana,Arial,Helvetica,sans-serif;
@@ -21,11 +21,23 @@
 .ifa_modal_title {
   margin-top:1em;
   margin-bottom:1em;
-  color:$dark_text;
+  color:$blue_text;
   font-weight:bold;
   text-align:left;
   font-family: Verdana,Arial,Helvetica,sans-serif;
   font-size:14px;
+}
+.ifa_modal_box {
+  margin:0em 4em 0em 4em;
+  line-height:1.5em;
+  color:$dark_text;
+  font-weight:normal;
+  text-align:left;
+  font-family:Georgia, "Times New Roman", Times, serif;
+  font-size:16px;
+}
+.ifa_modal_row {
+  padding-bottom:1em;
 }
 
 .ifa_container {

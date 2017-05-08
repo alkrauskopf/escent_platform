@@ -85,6 +85,11 @@ class Apps::AssessmentController < ApplicationController
       school_start_valid = true
       school_start = DateTime.parse(params[:start_date]).strftime("%Y-%m-%d") rescue school_start_valid = false
       @current_organization.ifa_org_option.begin_school_year = school_start if school_start_valid
+      #
+      # Temp Fix for set school start
+      #
+      @current_organization.ifa_org_option.begin_school_year = "2015-08-30"
+
       @current_organization.ifa_org_option.days_til_repeat = params[:option][:days_til_repeat].to_i < 0 ? 0: params[:option][:days_til_repeat].to_i
       if @current_organization.ifa_org_option.update_attributes(params[:ifa_org_option])
         flash[:notice] = "Options Updated Successfully"       

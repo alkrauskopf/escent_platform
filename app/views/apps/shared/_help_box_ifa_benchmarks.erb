@@ -1,0 +1,54 @@
+								<div id="<%= id%>dialog">
+                  <div class="ifa_modal_header">
+                    <%=titl%>
+                  </div>
+								    <div class="ifa_modal_title">
+								        <%= pluralize(body.size, ' ' + blue) %>
+								    </div>
+								    <div class="normal_text" style=" font-size:12px;">
+										<table  style="width:620px; margin-left:30px;border:0px solid #ddd;"  >
+											<tbody>  
+												<style type="text/css" media="screen">
+										    		table,tr,td { border:none }
+													table tr:hover{
+									        		background-color: transparent;
+									      			}
+									   			</style>
+												<tr  style="border-top:0px solid #ddd; ">
+													<td   style="border:0px solid #ddd; line-height:1.2em; color:#000000; padding-bottom:15px; text-align:left; vertical-align:middle;">
+                            <% body.each_with_index do |benchmark, idx| %>
+                                <div>
+                                  <%=(idx+1).to_s%>)&nbsp;
+                                  <%= benchmark.description.html_safe%>
+                                </div>
+                            <% end %>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+								    </div>
+								</div>
+<script type="text/javascript" charset="utf-8">
+    	jQ(document).ready(function() {
+
+    	    jQ("#<%= id%>dialog").dialog({
+    	            bgiframe: true,
+    	            autoOpen: false,
+    	            width: <%=width%>,
+    	            height: <%=height%>,
+    	            modal: true,
+    				buttons: {
+    					 Close: function(){
+    		                        jQ(this).dialog('close');
+    		                    }
+    				}
+        	    }
+    		);					
+			
+    		jQ('#<%= id%>').click(function(event){
+    		    jQ("#<%= id%>dialog").dialog('open');
+    			 event.preventDefault();
+    		})							
+
+    });
+</script>

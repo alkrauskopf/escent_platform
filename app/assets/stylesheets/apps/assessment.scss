@@ -10,6 +10,24 @@
   font-size:16px;
 }
 
+.ifa_modal_header {
+  color:$blue_text;
+  font-weight:bold;
+  text-align:left;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size:16px;
+}
+
+.ifa_modal_title {
+  margin-top:1em;
+  margin-bottom:1em;
+  color:$dark_text;
+  font-weight:bold;
+  text-align:left;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size:14px;
+}
+
 .ifa_container {
   width: 100%;
   margin: 0 auto;
@@ -949,7 +967,13 @@
   padding:1em 0em .5em 3em;
   font-family: Verdana,Arial,Helvetica,sans-serif;
   color:$dark_text;
-  font-size:12px;
+  font-size:13px;
+}
+.ifa_milestone_show_benchmarks {
+  padding:1em 0em .5em 3em;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  color:$blue_text;
+  font-size:14px;
 }
 .ifa_milestone_show_descript {
   padding:0em 0em 0em 0em;

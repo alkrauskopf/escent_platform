@@ -132,9 +132,23 @@ class Apps::IfaPlanController < ApplicationController
     set_classroom
     set_student
     @plan = @student.ifa_plan_subject(@subject)
+    @remarks = @plan.remarks
+    @new_remark = IfaPlanRemark.new
     @milestones= @plan.nil? ? nil:@plan.ifa_plan_milestones.by_last_updated
-    render :partial =>  "/apps/ifa_plan/teacher_show_plan", :locals=>{:milestones => @milestones,
+    render :partial =>  "/apps/ifa_plan/teacher_show_plan", :locals=>{:milestones => @milestones, :remarks => @remarks,
                         :plan => @plan, :student=>@student, :classroom=> @classroom}
+  end
+
+  def plan_teacher_remark_update
+    set_plan
+    set_classroom
+    new_remark=IfaPlanRemark.new
+    new_remark.remarks = params[:remarks]
+    new_remark.user_id = @current_user.id
+    new_remark.teacher_name = @current_user.last_name_first
+    new_remark.course_name = @classroom.name
+    @user_plan.ifa_plan_remarks << new_remark
+    render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.ifa_plan_remarks, :classroom => @classroom}
   end
 
   private

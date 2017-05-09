@@ -6,6 +6,7 @@ class IfaPlan < ActiveRecord::Base
   belongs_to :act_subject
   belongs_to :user
   has_many :ifa_plan_milestones, :dependent => :destroy
+  has_many :ifa_plan_remarks, :dependent => :destroy
 
   validates_presence_of :act_subject_id, :message => 'Subject Area Not Defined'
   validates_presence_of :user_id, :message => 'User Not Defined'
@@ -34,5 +35,9 @@ class IfaPlan < ActiveRecord::Base
 
   def strand_milestones(strand)
     self.ifa_plan_milestones.for_strand(strand)
+  end
+
+  def remarks
+    self.ifa_plan_remarks
   end
 end

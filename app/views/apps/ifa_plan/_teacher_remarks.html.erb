@@ -1,0 +1,39 @@
+<div id="plan_remarks_<%=plan.public_id%>" class="ifa_milestone_teacher_remarks_box">
+  <hr>
+  <div class="row ifa_plan_teacher_remark_label ">
+    <%= pluralize(remarks.size, ' Teacher Remark') %>
+  </div>
+  <div id="remark_header_<%= plan.public_id %>">
+    <div id="remark_show_<%= plan.public_id %>" class="ifa_milestone_teacher_remark_link">
+      Add Remark
+    </div>
+  </div>
+  <div id="remark_descript_<%= plan.public_id %>" >
+      <div id="remark_hide_<%= plan.public_id %>" class="ifa_milestone_teacher_remark_link">
+        Cancel
+      </div>
+    <div>
+     <%= render :partial =>  "/apps/ifa_plan/form_remark", :locals=>{:plan=> plan, :classroom => classroom} %>
+    </div>
+  </div>
+  <% remarks.each do |remark|%>
+      <%= remark.id %>
+  <% end %>
+  <hr>
+</div>
+<script type="text/javascript">
+  jQ(document).ready(function() {
+    jQ("#remark_header_<%= plan.public_id %>").show();
+    jQ("#remark_descript_<%= plan.public_id %>").hide();
+
+    jQ("#remark_show_<%= plan.public_id %>").click(function() {
+      jQ("#remark_header_<%= plan.public_id %>").hide();
+      jQ("#remark_descript_<%= plan.public_id %>").slideDown("slow");
+    })
+
+    jQ("#remark_hide_<%= plan.public_id %>").click(function() {
+      jQ("#remark_descript_<%= plan.public_id %>").slideUp("slow");
+      jQ("#remark_header_<%= plan.public_id %>").show();
+    })
+  });
+</script>

@@ -412,6 +412,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/milestone/achieved' => 'apps/ifa_plan#milestone_achieved' #  ifa_milestone_achieved_url
   get '/ifa/plan/teacher/review' => 'apps/ifa_plan#plan_teacher_review' #  ifa_plan_teacher_review_path
   get '/ifa/milestone/achieve/toggle' => 'apps/ifa_plan#milestone_achieve_toggle' #  ifa_milestone_achieve_toggle_url
+  get '/ifa/remark/add' => 'apps/ifa_plan#plan_teacher_remark_update' #  ifa_remark_add_url
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

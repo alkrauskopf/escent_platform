@@ -1034,6 +1034,12 @@
   font-weight:bold;
   font-size:14px;
 }
+
+.ifa_milestone_teacher_show_box {
+  max-height: 35em;
+  overflow: scroll;
+}
+
 .ifa_milestone_teacher_show_row {
   margin:0em 0em 0em 0em;
   border:1px solid #ddd;
@@ -1048,4 +1054,33 @@
   padding:.5em 2em .5em 0em;
   color:$dark_text;
   font-size:13px;
+}
+
+.ifa_milestone_teacher_remarks_box {
+  margin:1em 0em 1em 0em;
+  border:0px solid #ddd;
+  border-radius: 0px;
+  font-size:14px;
+  max-height: 85em;
+  overflow: scroll;
+}
+.ifa_plan_teacher_remark_label {
+  margin:1em 2em 1em 2em;
+  color:$dark_text;
+  font-size:13px;
+  font-weight:bold;
+  font-family:Georgia, "Times New Roman", Times, serif;
+}
+.ifa_milestone_teacher_remark_link {
+  margin:0em 0em .5em 3em;
+  color:$blue_text;
+  font-size:12px;
+  text-decoration: underline;
+}
+.ifa_remark_edit_button {
+  float:right;
+  padding:1em 0em 0em 0em;
+}
+.ifa_remark_edit_box {
+  padding:1em 0em 0em 0em;
 }

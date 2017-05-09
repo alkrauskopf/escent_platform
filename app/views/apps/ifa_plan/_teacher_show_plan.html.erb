@@ -25,7 +25,8 @@
         </div>
       </div>
     </div>
-    <%= render :partial =>  "/apps/ifa_plan/teacher_show_milestones", :locals=>{:plan=> plan, :milestones => milestones} %>
+      <%= render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> plan, :remarks => remarks, :classroom => classroom} %>
+      <%= render :partial =>  "/apps/ifa_plan/teacher_show_milestones", :locals=>{:plan=> plan, :milestones => milestones} %>
   <% else %>
     <div class="row ifa_plan_teacher_show_none">
       No Plan Started

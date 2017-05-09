@@ -80,6 +80,7 @@ class User < ActiveRecord::Base
   has_many :clients, :through => :client_assignments
 
   has_many :ifa_plans, :dependent => :destroy
+  has_many :ifa_plan_remarks
       
   validates_confirmation_of :email_address
   validates_confirmation_of :password

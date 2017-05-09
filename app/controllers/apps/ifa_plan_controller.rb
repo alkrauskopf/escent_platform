@@ -113,12 +113,28 @@ class Apps::IfaPlanController < ApplicationController
                                                                      :new_milestone => false, :ranges => @ranges}
   end
 
+  def milestone_achieve_toggle
+    set_milestone
+    @milestone.update_attributes(:is_achieved=>!@milestone.is_achieved)
+    render :partial =>  "/apps/ifa_plan/teacher_show_milestone", :locals=>{:milestone => @milestone}
+  end
+
   def milestone_range_select
     set_milestone
     set_range
     @milestone.update_attributes(:act_score_range_id=>@range.id)
     benchmarks_improvements
     render :partial =>  "/apps/ifa_plan/form_milestone", :locals=>{:milestone => @milestone, :ranges => strand_ranges(@milestone.strand)}
+  end
+
+  def plan_teacher_review
+    set_subject
+    set_classroom
+    set_student
+    @plan = @student.ifa_plan_subject(@subject)
+    @milestones= @plan.nil? ? nil:@plan.ifa_plan_milestones.by_last_updated
+    render :partial =>  "/apps/ifa_plan/teacher_show_plan", :locals=>{:milestones => @milestones,
+                        :plan => @plan, :student=>@student, :classroom=> @classroom}
   end
 
   private
@@ -144,6 +160,18 @@ class Apps::IfaPlanController < ApplicationController
 
   def set_range
     @range = ActScoreRange.find_by_public_id(params[:act_score_range_id])
+  end
+
+  def set_student
+    @student = User.find_by_public_id(params[:student_id]) rescue nil
+  end
+
+  def set_classroom
+    if params[:classroom_id]
+      @classroom = Classroom.find_by_public_id(params[:classroom_id]) rescue nil
+    else
+      @classroom = nil
+    end
   end
 
   def strand_ranges(strand)

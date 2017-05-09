@@ -1,0 +1,5 @@
+<div>
+  <% milestones.each do |milestone|%>
+    <%= render :partial =>  "/apps/ifa_plan/teacher_show_milestone", :locals=>{:milestone => milestone} %>
+  <% end %>
+</div>

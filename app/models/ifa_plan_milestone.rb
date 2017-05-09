@@ -13,7 +13,15 @@ class IfaPlanMilestone < ActiveRecord::Base
   end
 
   def self.achieved
-    where('is_achieved').order('created_at DESC')
+    where('is_achieved').order('updated_at DESC')
+  end
+
+  def self.open
+    where('is_achieved = ?', false).order('updated_at DESC')
+  end
+
+  def self.by_last_updated
+    order('updated_at DESC')
   end
 
   def self.for_strand(strand)

@@ -39,9 +39,14 @@
         <%= tab_2_label %></span></a>
       </li>
       <li>
-        <%  tab_3_label = @classroom.course_name + " Classroom Growth" %>
+        <%  tab_3_label = " Classroom Growth" %>
         <a href="#tabs-3"><span class="tab_label">
         <%= tab_3_label %></span></a>
+      </li>
+      <li>
+        <%  tab_4_label = @classroom.act_subject.name + " Student Plans" %>
+        <a href="#tabs-4"><span class="tab_label">
+        <%= tab_4_label %></span></a>
       </li>
     </ul>
 
@@ -63,6 +68,13 @@
       <div class="col-md-1"></div>
       <div class="col-md-10">
         <%= render :partial => "/apps/assessment/teacher_review_growth" %>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-4" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial => "/apps/ifa_plan/teacher_review_plans" %>
       </div>
       <div class="col-md-1"></div>
     </div>

@@ -1,39 +1,34 @@
-<div id="plan_remarks_<%=plan.public_id%>" class="ifa_milestone_teacher_remarks_box">
+<div id="plan_remarks_<%=plan.public_id%>" class="ifa_plan_teacher_remarks_box">
   <hr>
   <div class="row ifa_plan_teacher_remark_label ">
     <%= pluralize(remarks.size, ' Teacher Remark') %>
+    <% if !show_form && !@current_user.teacher_for_org?(@current_organization)%>&nbsp;
+      <span class="button_blue ifa_remark_button" id="show_remark_form_<%=plan.id%>">
+        Add Remark
+      </span>
+    <% end %>
   </div>
-  <div id="remark_header_<%= plan.public_id %>">
-    <div id="remark_show_<%= plan.public_id %>" class="ifa_milestone_teacher_remark_link">
-      Add Remark
-    </div>
-  </div>
-  <div id="remark_descript_<%= plan.public_id %>" >
-      <div id="remark_hide_<%= plan.public_id %>" class="ifa_milestone_teacher_remark_link">
-        Cancel
-      </div>
+  <% if show_form %>
     <div>
      <%= render :partial =>  "/apps/ifa_plan/form_remark", :locals=>{:plan=> plan, :classroom => classroom} %>
     </div>
+  <% else %>
+  <div class="ifa_plan_teacher_remarks">
+    <% remarks.each do |remark|%>
+      <%= render :partial =>  "/apps/ifa_plan/teacher_show_remark", :locals=>{:remark => remark, :classroom => classroom} %>
+    <% end %>
   </div>
-  <% remarks.each do |remark|%>
-      <%= remark.id %>
-  <% end %>
   <hr>
+  <% end %>
 </div>
 <script type="text/javascript">
   jQ(document).ready(function() {
-    jQ("#remark_header_<%= plan.public_id %>").show();
-    jQ("#remark_descript_<%= plan.public_id %>").hide();
-
-    jQ("#remark_show_<%= plan.public_id %>").click(function() {
-      jQ("#remark_header_<%= plan.public_id %>").hide();
-      jQ("#remark_descript_<%= plan.public_id %>").slideDown("slow");
-    })
-
-    jQ("#remark_hide_<%= plan.public_id %>").click(function() {
-      jQ("#remark_descript_<%= plan.public_id %>").slideUp("slow");
-      jQ("#remark_header_<%= plan.public_id %>").show();
+    jQ("#show_remark_form_<%=plan.id%>").click(function(){
+      var url = "<%= ifa_remark_show_form_url(:organization_id => @current_organization, :ifa_plan_id => plan.public_id, :classroom_id => classroom.public_id) %>";
+      jQ.get(url, {}, function(data) {
+        jQ("#plan_remarks_<%=plan.public_id%>").html(data);
+        jQ("#plan_remarks_<%=plan.public_id%>").show();
+      });
     })
   });
 </script>

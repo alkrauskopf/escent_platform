@@ -148,7 +148,21 @@ class Apps::IfaPlanController < ApplicationController
     new_remark.teacher_name = @current_user.last_name_first
     new_remark.course_name = @classroom.name
     @user_plan.ifa_plan_remarks << new_remark
-    render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.ifa_plan_remarks, :classroom => @classroom}
+    render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>false}
+  end
+  def plan_teacher_remark_destroy
+    set_plan
+    set_classroom
+    set_remark
+    @remark.destroy
+    render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>false}
+  end
+
+  def remark_show_form
+    set_plan
+    set_classroom
+    @new_remark = IfaPlanRemark.new
+    render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>true}
   end
 
   private
@@ -166,6 +180,10 @@ class Apps::IfaPlanController < ApplicationController
 
   def set_milestone
     @milestone = IfaPlanMilestone.find_by_public_id(params[:ifa_plan_milestone_id])
+  end
+
+  def set_remark
+    @remark = IfaPlanRemark.find_by_public_id(params[:ifa_plan_remark_id])
   end
 
   def set_strand

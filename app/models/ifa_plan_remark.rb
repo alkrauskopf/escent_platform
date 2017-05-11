@@ -6,6 +6,19 @@ class IfaPlanRemark < ActiveRecord::Base
   belongs_to :user
 
   def self.by_update_date
-    order('updated_ar DESC')
+    order('updated_at DESC')
   end
+
+  def plan
+    self.ifa_plan
+  end
+
+  def teacher
+    self.user
+  end
+
+  def teacher?
+    !self.user.nil?
+  end
+
 end

@@ -37,7 +37,11 @@ class IfaPlan < ActiveRecord::Base
     self.ifa_plan_milestones.for_strand(strand)
   end
 
+  def milestones
+    self.ifa_plan_milestones
+  end
+
   def remarks
-    self.ifa_plan_remarks
+    self.ifa_plan_remarks.by_update_date
   end
 end

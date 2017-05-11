@@ -1,4 +1,7 @@
 <div class="ifa_milestone_teacher_show_box">
+  <div class="row ifa_milestone_show_header">
+    <%= pluralize(plan.milestones.size, ' Milestone') %>
+  </div>
   <% milestones.each do |milestone|%>
     <%= render :partial =>  "/apps/ifa_plan/teacher_show_milestone", :locals=>{:milestone => milestone} %>
   <% end %>

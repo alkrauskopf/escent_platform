@@ -28,7 +28,7 @@
     jQ(document).ready(function() {
       jQ("#master_id").change(function(){
         var master_id = jQ('#act_master_id').val();
-        var url = "<%= app_maintenance_ifa_std_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
+        var url = "<%= app_maintenance_ifa_std_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.public_id) %>";
         jQ.get(url, {'act_master_id': master_id}, function(data) {
           jQ("#manage_standard").html(data);
           jQ("#manage_standard").show();

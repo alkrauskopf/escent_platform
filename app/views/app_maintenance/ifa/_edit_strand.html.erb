@@ -44,11 +44,33 @@
   </div>
   <div class="row ifa_edit_row">
     <div class="col-md-2 ifa_edit_label">
+      Position
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_field :strand, :pos, :size => 2, :value => strand.pos %>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
       <span class="button_blue" id="strand_update">
           Update
       </span>
     </div>
-    <div class="col-md-10 ifa_edit_text"></div>
+    <div class="col-md-3 ifa_edit_label">
+      <% button_color = @current_strand.active? ? 'button_green':'button_orange'%>
+      <% button_label = @current_strand.active? ? ' Active ':' Not Active '%>
+      <span class=<%=button_color%> id="toggle_strand_active">
+          <%=button_label%>
+      </span>
+    </div>
+    <div class="col-md-2 ifa_edit_label">
+      <% if @current_strand.destroyable? %>
+        <span class= "button_red" id="strand_destroy">
+            Destroy
+        </span>
+      <% end %>
+    </div>
+    <div class="col-md-3 ifa_edit_text"></div>
   </div>
   <script type="text/javascript">
     jQ(document).ready(function() {
@@ -58,9 +80,35 @@
         var description = jQ('#strand_description').val();
         var panel = jQ('#strand_strand_background').val();
         var font = jQ('#strand_strand_font').val();
+        var pos = jQ('#strand_pos').val();
         var url = "<%= app_maintenance_ifa_strand_update_url(:organization_id => @current_organization, :act_standard_id => strand.id,
          :act_master_id => strand.act_master_id, :act_subject_id=>strand.act_subject_id) %>";
-        jQ.get(url, {'name':name, 'abbrev':abbrev, 'description':description, 'strand_background':panel, 'strand_font':font}, function(data) {
+        jQ.get(url, {'name':name, 'abbrev':abbrev, 'description':description, 'strand_background':panel, 'strand_font':font,
+          'pos':pos}, function(data) {
+          jQ("#edit_strand_<%=strand.id%>").html(data);
+          jQ("#edit_strand_<%=strand.id%>").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#toggle_strand_active").click(function() {
+        var url = "<%= app_maintenance_ifa_strand_toggle_url(:organization_id => @current_organization, :act_standard_id => strand.id,
+         :act_master_id => strand.act_master_id, :act_subject_id=>strand.act_subject_id) %>";
+        jQ.get(url,{},  function(data) {
+          jQ("#edit_strand_<%=strand.id%>").html(data);
+          jQ("#edit_strand_<%=strand.id%>").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#strand_destroy").click(function() {
+        var url = "<%= app_maintenance_ifa_strand_destroy_url(:organization_id => @current_organization, :act_standard_id => strand.id,
+         :act_master_id => strand.act_master_id, :act_subject_id=>strand.act_subject_id) %>";
+        jQ.get(url,{},  function(data) {
           jQ("#edit_strand_<%=strand.id%>").html(data);
           jQ("#edit_strand_<%=strand.id%>").show();
         });

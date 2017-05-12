@@ -1,0 +1,68 @@
+<div class="container Form_Container">
+  <%= render :partial => "/shared/error_and_notice" %>
+  <%= form_for(:act_standard, :url => app_maintenance_ifa_strand_create_path(:organization_id => @current_organization,
+                                                                    :act_master_id=>@current_standard.id,
+                                                                    :act_subject_id => @current_subject.id)) do |f| %>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Name
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_area :act_standard, :name, :rows=>1, :cols => 60, :value => @strand.name %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Abbreviation
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_area :act_standard, :abbrev, :rows=>1, :cols => 8, :value => @strand.abbrev %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Description
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_area :act_standard, :description, :rows=>4, :cols => 60, :value => @strand.description %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Panel Color
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_area :act_standard, :strand_background, :rows=>1, :cols => 8, :value => @strand.strand_background %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Text Color
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_area :act_standard, :strand_font, :rows=>1, :cols => 8, :value => @strand.strand_font %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Position
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_field :act_standard, :pos, :size => 2, :value => @strand.pos %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Active?
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= check_box :act_standard, :is_active, :checked=> @strand.is_active%>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          <%= f.submit 'Create Strand',:class =>"button_blue" %>
+        </div>
+      </div>
+  <% end %>
+</div>

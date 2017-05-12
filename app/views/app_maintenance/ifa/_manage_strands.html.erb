@@ -5,6 +5,11 @@
     </div>
   </div>
   <div class="row standard_row">
+    <div class="strand_add">
+      <%= link_to 'New Strand', app_maintenance_ifa_strand_add_path(:organization_id => @current_organization), {class: 'button_blue', :target=>'_blank'}  %>
+    </div>
+    </div>
+    <div class="row standard_row">
     <% if !@strands.empty? %>
       <div class="strand_select" id="standard_id">
         <%=  select(:act, :standard_id, @strands.collect{|s| [s.name,s.id]},{:prompt => 'Select New Strand'}) %>
@@ -23,7 +28,7 @@
       </script>
     <% end %>
   </div>
-  <% if !@current_strand.nil? %>
+  <% if !@current_strand.nil?%>
     <div class="ifa_edit_box">
       <%= render :partial =>  "edit_strand", :locals=>{:strand => @current_strand}%>
     </div>

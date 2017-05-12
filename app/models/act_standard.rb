@@ -25,7 +25,25 @@ class ActStandard < ActiveRecord::Base
   def self.for_standard_and_subject(standard, subject)
     subj = subject.class.to_s == 'Fixnum' ? (ActSubject.find_by_id(subject) rescue nil) : subject
     std = standard.class.to_s == 'Fixnum' ? (ActMaster.find_by_id(standard) rescue nil) : standard
-    (subj.nil? || std.nil?) ? [] : where('act_master_id = ? && act_subject_id = ?',std.id, subj.id).order('abbrev ASC')
+    (subj.nil? || std.nil?) ? [] : where('act_master_id = ? && act_subject_id = ? && is_active', std.id, subj.id).order('pos ASC')
   end
-    
+
+  def self.all_for_standard_and_subject(standard, subject)
+    subj = subject.class.to_s == 'Fixnum' ? (ActSubject.find_by_id(subject) rescue nil) : subject
+    std = standard.class.to_s == 'Fixnum' ? (ActMaster.find_by_id(standard) rescue nil) : standard
+    (subj.nil? || std.nil?) ? [] : where('act_master_id = ? && act_subject_id = ?', std.id, subj.id).order('pos ASC')
+  end
+
+  def active?
+    self.is_active
+  end
+
+
+  def destroyable?
+    !self.is_active
+  end
+
+  def self.strands
+    where('is_active').order('pos ASC')
+  end
 end

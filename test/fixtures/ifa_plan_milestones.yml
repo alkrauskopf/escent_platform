@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ifa_plan_id: 1
+  act_standard_id: 1
+  act_score_range_id: 1
+  is_achieved: false
+  description: MyText
+
+two:
+  ifa_plan_id: 1
+  act_standard_id: 1
+  act_score_range_id: 1
+  is_achieved: false
+  description: MyText

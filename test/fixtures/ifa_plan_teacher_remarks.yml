@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ifa_plan_id: 1
+  teacher_name: MyString
+  course_name: MyString
+  string: MyString
+  remarks: MyText
+
+two:
+  ifa_plan_id: 1
+  teacher_name: MyString
+  course_name: MyString
+  string: MyString
+  remarks: MyText

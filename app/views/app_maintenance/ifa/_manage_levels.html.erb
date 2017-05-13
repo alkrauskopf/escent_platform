@@ -1,0 +1,36 @@
+<div id="manage_levels">
+  <div class="row standard_row">
+    <div class="strand_label">
+      <%= @current_level.nil? ? 'No Levels' : @current_level.range %>
+    </div>
+  </div>
+  <div class="row standard_row">
+    <div class="strand_add">
+      <%#= link_to 'New Level', app_maintenance_ifa_level_add_path(:organization_id => @current_organization), {class: 'button_blue', :target=>'_blank'}  %>
+    </div>
+    </div>
+    <div class="row standard_row">
+    <% if !@levels.empty? %>
+      <div class="strand_select" id="standard_id_level">
+        <%=  select(:act, :score_range_id, @levels.collect{|s| [s.range,s.id]},{:prompt => 'Select New Level'}) %>
+      </div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#standard_id_level").change(function(){
+            var level_id = jQ('#act_score_range_id').val();
+            var url = "<%= app_maintenance_ifa_level_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_master_id => @current_standard.id ) %>";
+            jQ.get(url, {'act_score_range_id': level_id}, function(data) {
+              jQ("#manage_levels").html(data);
+              jQ("#manage_levels").show();
+            });
+          })
+        });
+      </script>
+    <% end %>
+  </div>
+  <% if !@current_level.nil?%>
+    <div class="ifa_edit_box">
+      <%= render :partial =>  "edit_level", :locals=>{:level => @current_level}%>
+    </div>
+  <% end %>
+</div>

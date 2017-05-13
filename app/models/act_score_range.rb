@@ -35,6 +35,18 @@ class ActScoreRange < ActiveRecord::Base
 #  scope :for_standard_and_subject, lambda{|standard, subject| {:conditions => ["act_subject_id = ? && act_master_id = ? ", subject.id, standard.id],:order => "upper_score"}}
 #  scope :for_standardstring_and_subject, lambda{|standard, subject| {:conditions => ["act_subject_id = ? && standard = ? ", subject.id, standard],:order => "upper_score"}}
 
+  def active?
+    self.is_active
+  end
+
+  def destroyable?
+   !self.active?
+  end
+
+  def self.active
+    where('is_active').order('upper_score ASC')
+  end
+
   def self.sat_score(standard, subject, score)
     range = ActScoreRange.no_na.for_standard_and_subject(standard, subject).select{|r| (score >= r.lower_score && score <= r.upper_score)}.first
     if !range.nil? && range.sat_range?
@@ -86,7 +98,14 @@ class ActScoreRange < ActiveRecord::Base
     subj.nil? ? [] : where('standard = ? && act_subject_id = ?',standard, subj.id).order('upper_score ASC')
   end
 
+  ### Below should include is_active condition
   def self.for_standard_and_subject(standard, subject)
+    subj = subject.class.to_s == 'Fixnum' ? (ActSubject.find_by_id(subject) rescue nil) : subject
+    std = standard.class.to_s == 'Fixnum' ? (ActMaster.find_by_id(standard) rescue nil) : standard
+    (subj.nil? || std.nil?) ? [] : where('act_master_id = ? && act_subject_id = ?',std.id, subj.id).order('upper_score ASC')
+  end
+
+  def self.all_for_standard_and_subject(standard, subject)
     subj = subject.class.to_s == 'Fixnum' ? (ActSubject.find_by_id(subject) rescue nil) : subject
     std = standard.class.to_s == 'Fixnum' ? (ActMaster.find_by_id(standard) rescue nil) : standard
     (subj.nil? || std.nil?) ? [] : where('act_master_id = ? && act_subject_id = ?',std.id, subj.id).order('upper_score ASC')

@@ -13,6 +13,8 @@ class AppMaintenance::IfaController < ApplicationController
   def index
     strands
     current_strand
+    levels
+    current_level
   end
 
   def standard_select
@@ -69,9 +71,9 @@ class AppMaintenance::IfaController < ApplicationController
     strands
     current_strand
     if @current_strand.destroy
-      flash[:notice] = "Strand Created"
+      flash[:notice] = "Strand Destroyed"
       strands
-      @current_strand = @strands.first
+      @current_strand = @strands.first rescue nil
     end
     render :partial =>  "edit_strand", :locals=>{:strand => @current_strand}
   end
@@ -81,6 +83,39 @@ class AppMaintenance::IfaController < ApplicationController
     @subject = ActSubject.find_by_id(params[:subject_id]) rescue nil
     @subject.update_attributes(:name=>params[:name], :is_plannable => (params[:is_plannable] == 'Y' ? true:false))
     render :partial =>  "edit_subject", :locals=>{:subject => @subject}
+  end
+
+  def level_select
+    levels
+    current_level
+    render :partial =>  "manage_levels", :locals=>{}
+  end
+
+  def level_update
+    levels
+    current_level
+    @current_level.update_attributes(:range=>params[:range], :lower_score => params[:lower_score], :upper_score => params[:upper_score],
+                                      :score_background=>params[:score_background], :score_font=>params[:score_font])
+    render :partial =>  "edit_level", :locals=>{:level => @current_level}
+  end
+
+  def level_toggle
+    levels
+    current_level
+    @current_level.update_attributes(:is_active=> !@current_level.is_active)
+    render :partial =>  "edit_level", :locals=>{:level => @current_level}
+  end
+
+  def level_destroy
+    levels
+    current_level
+    # Don't want to make this possible yet.
+   # if @current_level.destroy
+   #   flash[:notice] = "Level Destroy"
+   #   levels
+   #   @current_level = @levels.first rescue nil
+   # end
+    render :partial =>  "edit_level", :locals=>{:level => @current_level}
   end
 
   private
@@ -122,6 +157,22 @@ class AppMaintenance::IfaController < ApplicationController
       end
     else
       @current_strand = nil
+    end
+  end
+
+  def levels
+    @levels = ActScoreRange.all_for_standard_and_subject(@current_standard, @current_subject)
+  end
+
+  def current_level
+    if !@levels.empty?
+      if params[:act_score_range_id]
+        @current_level = ActScoreRange.find_by_id(params[:act_score_range_id])
+      else
+        @current_level = @levels.first
+      end
+    else
+      @current_level = nil
     end
   end
 end

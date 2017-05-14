@@ -183,6 +183,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/maintenance/ifa/benchmark/destroy' => 'app_maintenance/ifa#benchmark_destroy' # app_maintenance_ifa_benchmark_destroy_url
   get '/app/maintenance/ifa/benchmark/refresh' => 'app_maintenance/ifa#benchmark_refresh' # app_maintenance_ifa_benchmark_refresh_url
   post '/app/maintenance/ifa/benchmark/update' => 'app_maintenance/ifa#benchmark_update' # app_maintenance_ifa_benchmark_create_path
+  get '/app/maintenance/ifa/genre/update' => 'app_maintenance/ifa#genre_update' # app_maintenance_ifa_genre_update_url
+  get '/app/maintenance/ifa/genre/create' => 'app_maintenance/ifa#genre_create' # app_maintenance_ifa_genre_create_url
 
   # APPS Shared
   get '/app/owner/maintenance' => 'apps/owner_maintenance#index'

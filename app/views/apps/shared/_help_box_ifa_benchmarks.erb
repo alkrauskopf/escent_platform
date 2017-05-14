@@ -7,10 +7,9 @@
                   </div>
                   <hr>
                   <div class="ifa_modal_box">
-                    <% body.each_with_index do |benchmark, idx| %>
-                        <div class="row ifa_modal_row">
-                          <%= simple_format ((idx+1).to_s + ') ' + benchmark.description.humanize)%>
-                        </div>
+                    <% body.each_with_index do |benchmark| %>
+                      <%= benchmark.description.html_safe%>
+                      <hr>
                     <% end %>
                   </div>
 								</div>

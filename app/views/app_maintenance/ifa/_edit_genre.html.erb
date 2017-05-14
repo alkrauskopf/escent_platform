@@ -1,0 +1,42 @@
+<div id="edit_genre_<%= genre.id %>" >
+  <div class="row ">
+    <div class="col-md-1 "></div>
+    <div class="col-md-10 ">
+      <%=genre.name%>&nbsp;<%= genre.active? ? '- Active' : '- Not Active' %>
+    </div>
+  </div>
+  <div class="row ifa_edit_genre">
+    <div class="col-md-1">
+      <span class="button_blue" id="genre_<%=genre.id%>">
+          Update
+      </span>
+    </div>
+    <div class="col-md-6 ifa_edit_genre">
+      <%= text_area :name, genre.id, :rows=>1, :cols => 60, :value => genre.name %>
+    </div>
+    <div class="col-md-4 ifa_edit_genre">
+      <%= text_area :is_active, genre.id, :rows=>1, :cols => 1, :value => genre.active? ? 'Y':'N' %>
+    </div>
+  </div>
+  <div class="row ifa_edit_genre">
+    <div class="col-md-1"></div>
+    <div class="col-md-10 ifa_edit_genre">
+      <%= text_area :description, genre.id, :rows=>5, :cols => 70, :value => genre.description %>
+    </div>
+  </div>
+  <hr>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#genre_<%=genre.id%>").click(function(){
+        var name = jQ('#name_<%=genre.id%>').val();
+        var description = jQ('#description_<%=genre.id%>').val();
+        var active = jQ('#is_active_<%=genre.id%>').val();
+        var url = "<%= app_maintenance_ifa_genre_update_url(:organization_id => @current_organization, :act_genre_id=> genre.id) %>";
+        jQ.get(url, {'name':name, 'description':description, 'is_active':active}, function(data) {
+          jQ("#edit_genre_<%= genre.id %>").html(data);
+          jQ("#edit_genre_<%= genre.id %>").show();
+        });
+      })
+    });
+  </script>
+</div>

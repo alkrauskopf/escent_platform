@@ -20,6 +20,7 @@ class AppMaintenance::IfaController < ApplicationController
   def standard_select
     strands
     current_strand
+    levels
     render :partial =>  "manage_standard", :locals=>{}
   end
 
@@ -80,11 +81,21 @@ class AppMaintenance::IfaController < ApplicationController
     render :partial =>  "edit_strand", :locals=>{:strand => @current_strand}
   end
 
-
   def subject_update
     @subject = ActSubject.find_by_id(params[:subject_id]) rescue nil
     @subject.update_attributes(:name=>params[:name], :is_plannable => (params[:is_plannable] == 'Y' ? true:false))
     render :partial =>  "edit_subject", :locals=>{:subject => @subject}
+  end
+
+  def genre_create
+    ActGenre.create(:name=>params[:name], :description=>params[:description])
+    render :partial =>  "manage_genres"
+  end
+
+  def genre_update
+    @genre = ActGenre.find_by_id(params[:act_genre_id]) rescue nil
+    @genre.update_attributes(:name=>params[:name], :description=>params[:description], :is_active => (params[:is_active].upcase == 'Y' ? true:false))
+    render :partial =>  "edit_genre", :locals=>{:genre => @genre}
   end
 
   def level_select

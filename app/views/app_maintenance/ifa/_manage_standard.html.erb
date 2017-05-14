@@ -28,7 +28,7 @@
     jQ(document).ready(function() {
       jQ("#master_id").change(function(){
         var master_id = jQ('#act_master_id').val();
-        var url = "<%= app_maintenance_ifa_std_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.public_id) %>";
+        var url = "<%= app_maintenance_ifa_std_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
         jQ.get(url, {'act_master_id': master_id}, function(data) {
           jQ("#manage_standard").html(data);
           jQ("#manage_standard").show();
@@ -102,7 +102,7 @@
     <div id="tabs-5" class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10">
-        Genres Under Construction
+        <%= render :partial =>  "manage_genres", :locals=>{}%>
       </div>
       <div class="col-md-1"></div>
     </div>

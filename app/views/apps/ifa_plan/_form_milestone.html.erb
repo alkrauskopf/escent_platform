@@ -23,10 +23,8 @@
           </div>
           <div class="col-md-9 ">
             <% @benchmarks.each_with_index do |benchmark, idx| %>
-              <div>
-                  <%=(idx+1).to_s%>)&nbsp;
-                  <%= benchmark.description.html_safe%>
-              </div>
+              <%= benchmark.description.html_safe%>
+              <hr>
             <% end %>
           </div>
         </div>

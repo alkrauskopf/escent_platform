@@ -1,0 +1,42 @@
+<div id="manage_genres">
+  <div class="row standard_row">
+    <div class="strand_label">
+      Manage Genres
+    </div>
+  </div>
+  <div class="row ifa_edit_genre">
+    <div class="col-md-1">
+      <span class="button_green" id="genre_create">
+          Create
+      </span>
+    </div>
+    <div class="col-md-10 ifa_edit_genre">
+      <%= text_area :act_genre, :name, :rows=>1, :cols => 60%>
+    </div>
+  </div>
+  <div class="row ifa_edit_genre">
+    <div class="col-md-1"></div>
+    <div class="col-md-10 ifa_edit_genre">
+      <%= text_area :act_genre, :description, :rows=>5, :cols => 70 %>
+    </div>
+  </div>
+  <hr>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#genre_create").click(function(){
+        var name = jQ('#act_genre_name').val();
+        var description = jQ('#act_genre_description').val();
+        var url = "<%= app_maintenance_ifa_genre_create_url(:organization_id => @current_organization) %>";
+        jQ.get(url, {'name':name, 'description':description}, function(data) {
+          jQ("#manage_genres").html(data);
+          jQ("#manage_genres").show();
+        });
+      })
+    });
+  </script>
+  <% ActGenre.all.each do |genre| %>
+    <div class="row ifa_subject_edit_box">
+      <%= render :partial =>  "edit_genre", :locals=>{:genre=>genre}%>
+    </div>
+  <% end %>
+</div>

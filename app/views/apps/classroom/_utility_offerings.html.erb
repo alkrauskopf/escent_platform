@@ -16,7 +16,8 @@
                   <%= offering.name %></br>
                   <%= pluralize(offering.leaders.size, ' Leader')%></br>
                   <%= offering.active? ? 'Active' : 'Not Active' %></br>
-                  <%= offering.folder ? ('Folder: ' + offering.folder.name) : 'No Folder'%>
+                  <%= offering.folder ? ('Folder: ' + offering.folder.name) : 'No Folder'%><br/>
+                  <%= offering.precision_prep? ? 'PREP':'' %>
                 </td>
                 <td >
                   <%= pluralize(offering.topics.size, ' LU')%>
@@ -79,7 +80,7 @@
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
                 <tbody >
-                  <%= content_tag_for(:tr, org.classrooms.active) do |offering| %>
+                  <%= content_tag_for(:tr, org.classrooms.precision_prep.active) do |offering| %>
                     <td >
                       <%=org.short_name%>:&nbsp;<%= offering.name %>, <%= pluralize(offering.classroom_contents.size, ' Content')%>,&nbsp;
                       <%= pluralize(offering.classroom_referrals.size, ' Referral')%>,&nbsp;

@@ -1,0 +1,18 @@
+<div class= 'row panel_title_blue'>
+  Edit Benchmark<br/><%=@current_strand.subject_area.name %> | <%= @current_strand.name %> | <%= mastery_label(@current_level, true)%>
+</div>
+<hr>
+<div class="container Form_Container">
+  <%= render :partial => "/shared/error_and_notice" %>
+  <%= form_for(:act_bench, :url => app_maintenance_ifa_benchmark_update_path(:organization_id => @current_organization,
+                                                                             :act_standard_id=>@current_strand.id,
+                                                                             :act_score_range_id => @current_level.id,
+                                                                             :act_benchmark_id => @current_benchmark.id)) do |f| %>
+      <%= render :partial => "form_benchmark" %>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          <%= f.submit :class =>"button_blue" %>
+        </div>
+      </div>
+  <% end %>
+</div>

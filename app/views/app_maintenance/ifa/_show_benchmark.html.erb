@@ -1,0 +1,52 @@
+<div class="row benchmark_row" id="show_benchmark<%=benchmark_id%>">
+  <%= render :partial => "/shared/error_and_notice" %>
+  <% if !benchmark.nil? %>
+    <div class="col-md-1 benchmark_add">
+      <%= link_to 'Edit', app_maintenance_ifa_benchmark_edit_path(:organization_id => @current_organization, :act_standard_id=>strand.id, :act_score_range_id=>level.id, :act_benchmark_id => benchmark.id), {:target=>'_blank'}  %>
+    </div>
+    <div class="col-md-1 benchmark_add">
+      <% button_color = benchmark.active? ? 'button_green':'button_orange'%>
+      <% button_label = benchmark.active? ? ' Active ':' Not Active '%>
+      <span class=<%=button_color%> id="toggle_benchmark_active<%=benchmark.id%>">
+        <%=button_label%>
+      </span>
+    </div>
+    <div class="col-md-8">
+      <div class="benchmark_type">
+        <%=benchmark.pos %>)&nbsp;<%= benchmark.type_name %>
+      </div>
+      <div class="benchmark_descript">
+        <%=benchmark.description.nil? ? '' : benchmark.description.html_safe %>
+      </div>
+    </div>
+    <div class="col-md-1 benchmark_add">
+      <% if benchmark.destroyable? %>
+      <span class="button_red" id="benchmark_destroy<%=benchmark.id%>">
+        Destroy
+      </span>
+     <% end %>
+    </div>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#toggle_benchmark_active<%=benchmark.id%>").click(function() {
+          var url = "<%= app_maintenance_ifa_benchmark_toggle_url(:organization_id => @current_organization, :act_benchmark_id => benchmark.id) %>";
+          jQ.get(url,{},  function(data) {
+            jQ("#show_benchmark<%=benchmark_id%>").html(data);
+            jQ("#show_benchmark<%=benchmark_id%><%=level.public_id%>").show();
+          });
+        })
+      });
+    </script>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#benchmark_destroy<%=benchmark.id%>").click(function() {
+          var url = "<%= app_maintenance_ifa_benchmark_destroy_url(:organization_id => @current_organization, :act_benchmark_id => benchmark.id)%>";
+          jQ.get(url,{},  function(data) {
+            jQ("#show_benchmark<%=benchmark_id%>").html(data);
+            jQ("#show_benchmark<%=benchmark_id%>").show();
+          });
+        })
+      });
+    </script>
+  <% end %>
+</div>

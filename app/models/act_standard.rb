@@ -46,4 +46,8 @@ class ActStandard < ActiveRecord::Base
   def self.strands
     where('is_active').order('pos ASC')
   end
+
+  def subject_area
+    self.act_subject.nil? ? nil : self.act_subject
+  end
 end

@@ -1,0 +1,12 @@
+<div id="manage_benchmarks">
+  <div class="row standard_row">
+    <div class="strand_label">
+      Manage <%= @current_standard.abbrev + " " + @current_subject.name + ' Benchmarks' %>
+    </div>
+  </div>
+  <div class="row standard_row">
+    <% @strands.each do |strand| %>
+        <%= render :partial =>  "manage_benchmarks_strand", :locals=>{:strand => strand}%>
+    <% end %>
+  </div>
+</div>

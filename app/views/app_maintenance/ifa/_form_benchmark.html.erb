@@ -1,0 +1,30 @@
+
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Benchmark Type
+          <span>
+            <br/>(<%= @current_benchmark.type_name %>)
+          </span>
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%=  select(:act_bench, :act_benchmark_type_id, @bench_types.collect{|m| [m.name,m.id]},{:prompt => 'Select Type'}) %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Description
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_area :act_bench, :description, :rows=>4, :cols => 60, :value => @current_benchmark.description, :class =>"tinymce" %>
+          <%= tinymce %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Position
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_field :act_bench, :pos, :size => 2, :value => @current_benchmark.pos %>
+        </div>
+      </div>
+

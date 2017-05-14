@@ -43,6 +43,10 @@ class ActScoreRange < ActiveRecord::Base
    !self.active?
   end
 
+  def na?
+    self.upper_score == 0
+  end
+
   def self.active
     where('is_active').order('upper_score ASC')
   end
@@ -116,4 +120,11 @@ class ActScoreRange < ActiveRecord::Base
     self.act_sat_map.nil? ? act_label  : (act_label + ', SAT: ' + self.act_sat_map.range)
   end
 
+  def standard
+    self.act_master.nil? ? nil : self.act_master
+  end
+
+  def subject_area
+    self.act_subject.nil? ? nil : self.act_subject
+  end
 end

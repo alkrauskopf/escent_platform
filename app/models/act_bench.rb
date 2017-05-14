@@ -28,7 +28,15 @@ class ActBench < ActiveRecord::Base
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
 
   def self.for_scorerange_strand(benches, sr, strand)
-    benches.where('act_score_range_id = ? AND act_standard_id = ?', sr.id, strand.id)
+    benches.where('act_score_range_id = ? AND act_standard_id = ? AND is_active', sr.id, strand.id).order('pos ASC')
+  end
+
+  def self.all_for_level_strand( sr, strand)
+    where('act_score_range_id = ? AND act_standard_id = ?', sr.id, strand.id).order('pos ASC')
+  end
+
+  def self.for_level_strand( sr, strand)
+    where('act_score_range_id = ? AND act_standard_id = ? AND is_active', sr.id, strand.id).order('pos ASC')
   end
 
   def self.for_co_gle(gle)
@@ -44,6 +52,31 @@ class ActBench < ActiveRecord::Base
   def evidence?
     self.act_bench_type.name.upcase == 'EVIDENCE'
   end
+
+  def active?
+    self.is_active
+  end
+
+  def destroyable?
+    !self.active?
+  end
+
+  def self.active
+    where('is_active').order('pos ASC')
+  end
+
+  def type_name
+    self.act_bench_type ? self.act_bench_type.name.titleize : 'No Type'
+  end
+
+  def strand
+    self.act_standard ? self.act_standard : nil
+  end
+
+  def mastery_level
+    self.act_score_range ? self.act_score_range : nil
+  end
+
 end
 
 

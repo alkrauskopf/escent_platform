@@ -969,6 +969,8 @@ class Apps::ClassroomController < ApplicationController
       @filters = @current_user.colleagues.compact.uniq.sort_by{|u| u.last_name}.collect{|t| [t.last_name_first, t.id]}
     elsif pool_class == 4
       @filters = @current_user.favorite_classrooms.compact.uniq.select{|o| o.organization}.sort_by{|o| o.organization.short_name}.collect{|o| o.topics}.flatten.collect{|t| [" (" + t.classroom.organization.short_name + ") " + t.classroom.course_name + ": " + t.title, t.id]}
+    elsif pool_class == 5
+      @filters = ActStandard.strands_for_subject(@classroom.act_subject).collect{|s| [(s.standard.abbrev + ' ' + s.subject_area.name  + ' | ' + s.name), s.id]}
     else
       @filters = []
     end   
@@ -1003,6 +1005,16 @@ class Apps::ClassroomController < ApplicationController
       @resource_pool-= @topic.nil? ? @classroom.contents.active.compact : @topic.contents.active.compact
       @copy_lu = (!fav_lu.nil? && fav_lu.classroom.organization_id == @current_organization.id) ? fav_lu : nil
       @header_line = fav_lu.nil? ? "" : (fav_lu.title + (fav_lu.classroom.organization ? (" (" + fav_lu.classroom.organization.short_name + ")"): ""))
+    elsif pool_filter && pool_class == 5
+      strand = ActStandard.find_by_id(pool_filter)
+      if !strand.nil?
+        @resource_pool = strand.contents.active.compact.select{|r| r.content_object_type && @allowed_types.include?(r.content_object_type.content_object_type_group_id)}
+        @resource_pool-= @topic.nil? ? @classroom.contents.active.compact : @topic.contents.active.compact
+        @header_line = strand.name
+      else
+        @resource_pool = []
+        @header_line = ""
+      end
     else
       @resource_pool = []
       @header_line = ""

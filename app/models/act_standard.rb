@@ -38,13 +38,20 @@ class ActStandard < ActiveRecord::Base
     self.is_active
   end
 
-
   def destroyable?
     !self.is_active
   end
 
   def self.strands
     where('is_active').order('pos ASC')
+  end
+
+  def self.strands_for_subject(subject)
+    where('act_subject_id = ? AND is_active', subject.id).order('pos ASC') rescue []
+  end
+
+  def standard
+    self.act_master
   end
 
   def subject_area

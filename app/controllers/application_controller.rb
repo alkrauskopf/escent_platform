@@ -41,6 +41,11 @@ class ApplicationController < ActionController::Base
     @current_application ||= CoopApp.find_by_public_id(params[:coop_app_id]) rescue CoopApp.core
   end
 
+  def current_app_superuser?
+    @current_app_superuser = @current_user && @current_application && @current_user.app_superuser?(@current_application)
+    @current_app_superuser
+  end
+
   def increment_app_views
     if @current_application
       @current_application.increment_views
@@ -81,7 +86,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user_app_superuser?
-    unless(@current_user && @current_user.app_superuser?(@current_application))
+    unless current_app_superuser?
       redirect_to organization_view_path(:organization_id => @current_organization, :coop_app_id => CoopApp.core)
     end
   end

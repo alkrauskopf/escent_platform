@@ -22,6 +22,8 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  has_many :authorization_levels, :through => :coop_app, :source => :owner
+
   has_many :classrooms, :dependent => :destroy
   has_many :contents
   has_many :discussions
@@ -40,6 +42,7 @@ class Organization < ActiveRecord::Base
   has_many :coop_apps, :through => :coop_app_organizations
   has_many :app_providers, :through => :coop_app_organizations, :uniq => true
   has_many :master_apps, :class_name => 'CoopApp', :foreign_key=>'owner_id'
+
   has_many :app_discussions, :dependent => :destroy
   
 
@@ -398,6 +401,10 @@ class Organization < ActiveRecord::Base
 
   def enabled_app_authorizations
     AuthorizationLevel.app_authorizations(self).select{ |al| app_enabled?(al.coop_app)}.sort_by{|a| a.coop_app.abbrev}
+  end
+
+  def superuser_authorizations
+    levels = AuthorizationLevel.app_superusers.select{|a| a.owner_org == self}
   end
 
   def app_settings(app)

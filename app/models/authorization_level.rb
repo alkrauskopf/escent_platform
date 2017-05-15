@@ -1,6 +1,7 @@
 class AuthorizationLevel < ActiveRecord::Base
 
   belongs_to :coop_app
+  has_one :owner_org, :through => :coop_app, :source => :owner
 
   has_many :authorizations
 #  has_many :authorizable_actions
@@ -55,8 +56,9 @@ class AuthorizationLevel < ActiveRecord::Base
     end
     levels.empty? ? nil : levels.first
   end
+
   def self.app_superusers
-    self.where('name = ?', 'superuser' )
+    where('name = ?', 'superuser' )
   end
 ###
 

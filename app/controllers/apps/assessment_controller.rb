@@ -11,6 +11,7 @@ class Apps::AssessmentController < ApplicationController
 #  before_filter :current_user_app_authorized?, :except=>[:topic_standards_benchmarks]
   before_filter :current_user_app_authorized?, :only=>[:index]
   before_filter :current_user_app_admin?, :only=>[]
+  before_filter :current_app_superuser?, :only=>[:index]
   before_filter :clear_notification, :except => [:take_assessment]
   before_filter :increment_app_views, :only=>[:index]
 
@@ -29,7 +30,7 @@ class Apps::AssessmentController < ApplicationController
       @current_user_questions = @current_user.act_questions
       @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}
       @threshold = Time.now - @current_organization.ifa_org_option.sms_calc_cycle.days
-      @super_admin = (@current_organization == @current_provider && @current_user.app_superuser?(@current_application))
+   #   @super_admin = (@current_organization == @current_provider && @current_user.app_superuser?(@current_application))
       prepare_summary_data
       find_dashboard_update_start_dates(@current_organization)
     else

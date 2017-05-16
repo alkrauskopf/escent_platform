@@ -23,7 +23,8 @@
 						<% pool_filters = ["Select Resource Type","Select Offering","Select Organization","Select Colleague","Select Learning Unit"] -%>		
 						<tr>
 							<th colspan=3 id="select_filter" style=" border:0px solid #ddd; text-align:right; vertical-align:middle; font-size:12px; font-weight:bold; color: #2061a5;">
-								<%= select(:pool,:filter, filters, { :include_blank => pool_filters[pool_class]}) %>
+								<%#= select(:pool,:filter, filters, { :include_blank => pool_filters[pool_class]}) %>
+                <%= select(:pool,:filter, filters, { :include_blank => "Select Filter"}) %>
 							</th>					
 						</tr>
 					<% end -%>

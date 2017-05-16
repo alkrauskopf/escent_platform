@@ -78,7 +78,12 @@
 										</span>
 										<br/><%= rsrc.subject_area.name if rsrc.subject_area %> <%= rsrc.content_resource_type.name if rsrc.content_resource_type %>
 										&nbsp;(<%= (rsrc.content_object_type ? rsrc.content_object_type.content_object_type_group.name.downcase : "") if rsrc.content_object_type.content_object_type_group %>)
-										<br/>Contributed <%= time_ago_in_words(rsrc.created_at.to_s, include_seconds = false)%> ago
+										<% if !rsrc.mastery_levels.empty? %>
+                      <% rsrc.mastery_levels.each do |ml| %>
+                        <br/><%= mastery_label(ml, true) %>
+                      <% end %>
+                    <% end %>
+                    <br/>Contributed <%= time_ago_in_words(rsrc.created_at.to_s, include_seconds = false)%> ago
 										<% unless rsrc.user.nil?%><%= ",  " + rsrc.user.full_name%><%end%>
 										<%= rsrc.organization ? (",  " + rsrc.organization.short_name + "."): "." %>				
 									</td>					

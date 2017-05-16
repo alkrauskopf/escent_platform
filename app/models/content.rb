@@ -300,7 +300,7 @@ class Content < ActiveRecord::Base
     self.is_delete || self.content_status.name == "Deleted"
   end
 
-  def pending?
+  def pendingx?
     self.content_status.name == "Pending"
   end
 
@@ -317,7 +317,11 @@ class Content < ActiveRecord::Base
   def act_subject?
     !self.act_subject_id.nil? && !(self.act_subject_id == 99) && self.act_subject
   end
-   
+
+  def mastery_levels
+    self.act_score_ranges.active.sort_by{|ml| [ml.standard.abbrev, ml.range]}
+  end
+
   def editable_by_user?(user)
     edit = false
     unless user.nil? || !self.organization

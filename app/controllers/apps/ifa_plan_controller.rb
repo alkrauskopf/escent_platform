@@ -38,6 +38,7 @@ class Apps::IfaPlanController < ApplicationController
 
   def plan_update
     set_plan
+    set_classroom
     if @user_plan
       @user_plan.update_attributes(:needs=>params[:needs],:goals=>params[:goals])
     end
@@ -137,7 +138,7 @@ class Apps::IfaPlanController < ApplicationController
     @new_remark = IfaPlanRemark.new
     @milestones= @plan.nil? ? nil:@plan.ifa_plan_milestones.by_last_updated
     render :partial =>  "/apps/ifa_plan/teacher_show_plan", :locals=>{:milestones => @milestones, :remarks => @remarks,
-                        :plan => @plan, :student=>@student, :classroom=> @classroom}
+                        :plan => @plan, :student=>@student}
   end
 
   def plan_teacher_remark_update
@@ -171,9 +172,9 @@ class Apps::IfaPlanController < ApplicationController
     set_strand
     set_range
     set_student
-    @correct_answers = @current_user.ifa_correct_answers(@strand.subject_area, :level=>@range, :strand=>@strand)
-    @total_answers = @current_user.ifa_total_answers(@strand.subject_area, :level=>@range, :strand=>@strand)
-    @assessments = @current_user.assessments_taken(:subject=>@strand.subject_area)
+  #  @correct_answers = @student.ifa_correct_answers(@strand.subject_area, :level=>@range, :strand=>@strand)
+  #  @total_answers = @student.ifa_total_answers(@strand.subject_area, :level=>@range, :strand=>@strand)
+    @assessments = @student.assessments_taken(:subject=>@strand.subject_area)
   end
 
   private

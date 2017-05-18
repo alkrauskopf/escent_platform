@@ -1,6 +1,8 @@
-<div class="ifa_milestone_teacher_show_box">
-  <div class="row ifa_milestone_show_header">
-    <%= pluralize(plan.milestones.size, ' Milestone') %>
+<div class="ifa_plan_teacher_milestones_box ">
+  <div class="row ifa_plan_teacher_milestone_header">
+    <div class="ifa_plan_teacher_milestone_label">
+      <%= pluralize(plan.milestones.size, ' Student Milestone') %>
+    </div>
   </div>
   <% milestones.each do |milestone|%>
     <%= render :partial =>  "/apps/ifa_plan/teacher_show_milestone", :locals=>{:milestone => milestone} %>

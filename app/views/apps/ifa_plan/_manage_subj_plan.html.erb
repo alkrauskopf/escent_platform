@@ -1,35 +1,44 @@
 <div id="manage_plan_<%=subject.public_id%>">
   <div class="container classroom_tab">
     <div class="row ifa_panel_title">
-      <div>
-        <%= subject.name.upcase %> Growth Plan
-      </div>
-    </div>
-    <div class="row ifa_panel_title">
       <% if @current_user.ifa_plan_subject(subject).nil? %>
         <div class="button_blue" id="create_plan_<%=subject.id%>">
           Create Plan
         </div>
       <% else %>
         <% if !show_form %>
-          <div class="ifa_plan_button">
-            <span class="button_green ifa_plan_button" id="show_form_<%=subject.id%>">
-              Update Needs/Goals
-            </span>
-          </div>
-          <% plan = @current_user.ifa_plan_subject(subject) %>
-          <%= render :partial =>  "/apps/ifa_plan/show_plan", :locals=>{:plan=> plan}%>
-          <% if !plan.remarks.empty? %>
-            <%= render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> plan, :remarks => plan.remarks, :classroom => @classroom, :show_form=>false} %>
-          <% end %>
-          <div class="row ifa_milestone_show_header">
-            <%= pluralize(plan.milestones.size, ' Milestone') %>
-          </div>
-          <% ActStandard.for_standard_and_subject(ActMaster.default, subject).each do |strand| %>
-            <div class="row">
-              <%= render :partial =>  "/apps/ifa_plan/strand_milestones", :locals=>{:plan=>@current_user.ifa_plan_subject(subject), :strand => strand, :new_milestone=>nil}%>
+          <div  class="ifa_plan_show_box ">
+            <div class= "precision_prep_panel">
+              <div class="col-md-3">
+                <div class="button_gray ifa_plan_button" id="show_form_<%=subject.id%>">
+                  Update Needs/Goals
+                </div>
+              </div>
+              <div class="col-md-6">
+                <%= subject.name.upcase %> Growth Plan
+              </div>
+              <div class="col-md-3">
+                <%= @current_user.full_name.titleize %>
+              </div>
             </div>
-          <% end %>
+            <% plan = @current_user.ifa_plan_subject(subject) %>
+            <%= render :partial =>  "/apps/ifa_plan/show_plan", :locals=>{:plan=> plan}%>
+            <%= render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> plan, :remarks => plan.remarks, :show_form=>false} %>
+            <%= @classroom.nil? ? 'Nil Classroom': @classroom.id %>
+            <%= plan.nil? ? 'Nil Plan': plan.id %>
+            <div class="ifa_plan_teacher_milestones_box ">
+              <div class="row ifa_plan_teacher_milestone_header">
+                <div class="ifa_plan_teacher_milestone_label">
+                  <%= pluralize(plan.milestones.size, ' Student Milestone') %>
+                </div>
+              </div>
+            </div>
+            <% ActStandard.for_standard_and_subject(ActMaster.default, subject).each do |strand| %>
+              <div class="row ifa_plan_teacher_milestones_box">
+                <%= render :partial =>  "/apps/ifa_plan/strand_milestones", :locals=>{:plan=>@current_user.ifa_plan_subject(subject), :strand => strand, :new_milestone=>nil}%>
+              </div>
+            <% end %>
+          </div>
         <% else %>
           <%= render :partial =>  "/apps/ifa_plan/form_plan", :locals=>{:plan=>@current_user.ifa_plan_subject(subject)}%>
         <% end %>

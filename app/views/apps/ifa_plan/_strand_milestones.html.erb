@@ -1,5 +1,5 @@
 <div id="strand_milestone<%=strand.public_id%>">
-  <div class="precision_panel "  style="color: <%= strand.strand_font%>; background-color:<%= strand.strand_background %>">
+  <div class="precision_prep_panel "  style="color: <%= strand.strand_font%>; background-color:<%= strand.strand_background %>">
     <div class="row ifa_milestone_panel">
       <div class="col-md-2">
         <% if !new_milestone %>
@@ -9,16 +9,14 @@
         <% end %>
       </div>
       <div class="col-md-8">
-        <%= strand.name %>
+        <%= pluralize(plan.strand_milestones(strand).size, (strand.name  + ' Milestone'))%>
         <% if !strand.description.nil? && !strand.description.empty? %>
           <div class="row ifa_milestone_panel_descript">
             <%= simple_format strand.description %>
           </div>
         <% end %>
       </div>
-      <div class="col-md-2 ">
-        <%= pluralize(plan.strand_milestones(strand).size, ' Milestone') %>
-      </div>
+      <div class="col-md-2 "> </div>
     </div>
   </div>
   <% if new_milestone %>

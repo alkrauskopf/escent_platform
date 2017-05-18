@@ -7,6 +7,7 @@ class IfaPlanMilestone < ActiveRecord::Base
   belongs_to :act_standard
   belongs_to :act_score_range
   has_one :act_subject, :through => :ifa_plan
+  has_one :student, :through => :ifa_plan, :source=>:user
 
 
   def achieved?

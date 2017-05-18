@@ -1,16 +1,16 @@
 <div id="teacher_show_milestone_<%=milestone.public_id%>">
+  <div class="row ifa_milestone_teacher_show_row" style="color: <%= milestone.strand.strand_font%>; background-color:<%= milestone.strand.strand_background %>; text-align:center">
+    <div class="col-md-3 ifa_milestone_teacher_show_strand">
+      Milestone
+    </div>
+    <div class="col-md-9 ifa_milestone_teacher_show_strand">
+      <%= mastery_label(milestone.range, true) %>&nbsp;|&nbsp;<%= milestone.strand.name %>
+    </div>
+  </div>
     <div class="row ifa_milestone_teacher_show_row">
       <div class="col-md-4 " style="padding-top:.5em; padding-bottom:1.5em;">
-        <div class="row ifa_milestone_show_range">
-          <%= mastery_label(milestone.range, true) %>
-        </div>
-        <div class="row ifa_milestone_show_range">
-          <span style="color: <%= milestone.strand.strand_font%>; background-color:<%= milestone.strand.strand_background %>">
-            &nbsp;<%= milestone.strand.abbrev %>&nbsp;
-            </span>
-        </div>
         <div class="row ifa_milestone_show_time">
-          Updated: <%= time_ago_in_words(milestone.updated_at).sub(/about /, '') + " ago" %>
+          Last Updated: <%= time_ago_in_words(milestone.updated_at).sub(/about /, '') + " ago" %>
         </div>
         <% if milestone.achieved?%>
           <div class="row ifa_milestone_show_button">
@@ -34,6 +34,17 @@
             <%= simple_format milestone.description.nil? ? 'None' : milestone.description%>
           </div>
         </div>
+        <hr>
+        <div class="row ifa_milestone_show_descript">
+          <div id="student_assessments<%=milestone.id%>">
+            <div class="resource_levels_close" >
+              <%= link_to '', ifa_plan_student_cell_data_path(:organization_id => @current_organization, :student_id => milestone.student.public_id, :act_score_range_id => milestone.range.public_id, :act_standard_id => milestone.strand.public_id,) %>
+              Relevant Assessment Data
+              <span></span>
+            </div>
+          </div>
+        </div>
+        <hr>
         <div class="row ifa_milestone_show_descript">
           <div style="font-weight:bold">Evidence:</div>
           <div>
@@ -42,6 +53,12 @@
         </div>
       </div>
     </div>
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+      jQ('#student_assessments<%=milestone.id%> .resource_levels_close').toggleResourceLevels();
+      jQ('#student_assessments<%=milestone.id%> .resource_levels_open').toggleResourceLevels();
+    });
+  </script>
     <script type="text/javascript">
       jQ(document).ready(function() {
         jQ("#milestone_show_achieved<%=milestone.public_id%>").click(function(){

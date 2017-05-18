@@ -10,8 +10,8 @@ class ActAnswer < ActiveRecord::Base
   belongs_to :act_choice
   belongs_to :user
   belongs_to :organization  
-  belongs_to :classroom 
-  
+  belongs_to :classroom
+
   scope :incorrect, :conditions => { :is_correct => false }
   scope :correct, :conditions => { :is_correct => true }
   scope :selected, :conditions => { :was_selected => true }
@@ -24,7 +24,6 @@ class ActAnswer < ActiveRecord::Base
   scope :for_question, lambda{|question| {:conditions => ["act_question_id = ? ", question.id]}}
   scope :calibrated, :conditions => { :is_calibrated => true }
 
-end
 
   def self.selected_and_after(after_date)
     where('created_at >= ? AND was_selected', after_date)
@@ -275,4 +274,6 @@ end
    end
     
     sms = score.to_i
+  end
+
   end

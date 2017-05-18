@@ -789,6 +789,11 @@ class Organization < ActiveRecord::Base
      end
   end
 
+  def last_ifa_dashboard(subject)
+    self.ifa_dashboards.for_subject(subject).empty? ? nil :
+        self.ifa_dashboards.for_subject(subject).first
+  end
+
   def ifa_standards
     standards = []
     if self.ifa_org_option

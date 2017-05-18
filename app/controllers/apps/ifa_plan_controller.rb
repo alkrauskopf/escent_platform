@@ -24,6 +24,7 @@ class Apps::IfaPlanController < ApplicationController
       @current_user.ifa_plans << IfaPlan.create(:act_subject_id=>@subject.id)
     end
     @user_plan = @current_user.ifa_plan_subject(@subject)
+    @user_dashboard = @current_user.ifa_dashboards.last rescue nil
   end
 
   def plan_create
@@ -131,8 +132,8 @@ class Apps::IfaPlanController < ApplicationController
     set_subject
     set_classroom
     set_student
-    @plan = @student.ifa_plan_subject(@subject)
-    @remarks = @plan.remarks
+    @plan = @student.ifa_plan_subject(@subject) rescue nil
+    @remarks = @plan.nil? ? [] : @plan.remarks
     @new_remark = IfaPlanRemark.new
     @milestones= @plan.nil? ? nil:@plan.ifa_plan_milestones.by_last_updated
     render :partial =>  "/apps/ifa_plan/teacher_show_plan", :locals=>{:milestones => @milestones, :remarks => @remarks,
@@ -150,6 +151,7 @@ class Apps::IfaPlanController < ApplicationController
     @user_plan.ifa_plan_remarks << new_remark
     render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>false}
   end
+
   def plan_teacher_remark_destroy
     set_plan
     set_classroom
@@ -163,6 +165,15 @@ class Apps::IfaPlanController < ApplicationController
     set_classroom
     @new_remark = IfaPlanRemark.new
     render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>true}
+  end
+
+  def student_cell_data
+    set_strand
+    set_range
+    set_student
+    @correct_answers = @current_user.ifa_correct_answers(@strand.subject_area, :level=>@range, :strand=>@strand)
+    @total_answers = @current_user.ifa_total_answers(@strand.subject_area, :level=>@range, :strand=>@strand)
+    @assessments = @current_user.assessments_taken(:subject=>@strand.subject_area)
   end
 
   private

@@ -26,6 +26,7 @@ module Apps::IfaPlanHelper
     end
     benchmarks
   end
+
   def improvements(strand, range, standard)
     improvements = []
     if !range.nil? && !strand.nil? && !standard.nil?
@@ -33,4 +34,61 @@ module Apps::IfaPlanHelper
     end
     improvements
   end
+
+  def last_ifa_dashboard(entity, subject)
+    entity.last_ifa_dashboard(subject)
+  end
+
+  def points_for_dashboard_cell(dashboard, range, strand)
+    if !dashboard.nil? && !range.nil? && !strand.nil? && !dashboard.ifa_dashboard_cells.empty?
+      dashboard.ifa_dashboard_cells.for_range_and_strand(range, strand).last.fin_points.to_i
+    else
+      0
+    end
+  end
+
+  def answers_for_dashboard_cell(dashboard, range, strand)
+    if !dashboard.nil? && !range.nil? && !strand.nil? && !dashboard.ifa_dashboard_cells.empty?
+      dashboard.ifa_dashboard_cells.for_range_and_strand(range, strand).last.finalized_answers
+    else
+      0
+    end
+  end
+
+  def correct_assessment_answers(submission, options={})
+    if options[:level] && options[:strand]
+      answers = submission.act_answers.correct.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+    elsif options[:level]
+      answers = submission.act_answers.correct.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+    elsif options[:strand]
+      answers = submission.act_answers.correct.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+    else
+      answers = submission.act_answers.correct.selected
+    end
+  end
+
+  def incorrect_assessment_answers(submission, options={})
+    if options[:level] && options[:strand]
+      answers = submission.act_answers.incorrect.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+    elsif options[:level]
+      answers = submission.act_answers.incorrect.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+    elsif options[:strand]
+      answers = submission.act_answers.incorrect.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+    else
+      answers = submission.act_answers.incorrect.selected
+    end
+  end
+
+  def total_assessment_answers(submission, options={})
+    if options[:level] && options[:strand]
+      answers = submission.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+    elsif options[:level]
+      answers = submission.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+    elsif options[:strand]
+      answers = submission.act_answers.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+    else
+      answers = submission.act_answers.selected
+    end
+  end
+
 end

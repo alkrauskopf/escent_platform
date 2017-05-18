@@ -46,6 +46,15 @@ class ActQuestion < ActiveRecord::Base
   
   scope :available, {:conditions => ["is_active = true && is_locked = true"]}
 
+
+  def of_mastery_level?(level)
+    self.act_score_ranges.include?(level)
+  end
+
+  def of_strand?(strand)
+    self.act_standards.include?(strand)
+  end
+
   def calculator_free?
     self.is_calc_free
   end

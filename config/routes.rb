@@ -431,6 +431,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/remark/add' => 'apps/ifa_plan#plan_teacher_remark_update' #  ifa_remark_add_url
   get '/ifa/remark/destroy' => 'apps/ifa_plan#plan_teacher_remark_destroy' #  ifa_remark_destroy_url
   get '/ifa/remark/show/form' => 'apps/ifa_plan#remark_show_form' #  ifa_remark_show_form_url
+  get '/ifa/plan/student/cell/data' => 'apps/ifa_plan#student_cell_data' #  ifa_plan_student_cell_data_path
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

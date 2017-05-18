@@ -154,6 +154,11 @@ class Classroom < ActiveRecord::Base
     end
   end
 
+  def last_ifa_dashboard(subject)
+    self.ifa_dashboards.for_subject(subject).empty? ? nil :
+        self.ifa_dashboards.for_subject(subject).first
+  end
+
   def ifa_subject
     self.subject_area.act_subject rescue nil
   end

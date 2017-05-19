@@ -148,7 +148,7 @@ class Apps::IfaPlanController < ApplicationController
     new_remark.remarks = params[:remarks]
     new_remark.user_id = @current_user.id
     new_remark.teacher_name = @current_user.last_name_first
-    new_remark.course_name = @classroom.name
+    new_remark.course_name = @classroom.nil? ? '' : @classroom.name
     @user_plan.ifa_plan_remarks << new_remark
     render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>false}
   end

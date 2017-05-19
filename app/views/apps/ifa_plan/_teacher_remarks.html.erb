@@ -2,10 +2,10 @@
   <div class="row ifa_plan_teacher_remarks_box ">
     <div class="col-md-3">
       <% if !show_form && @current_user.teacher_for_org?(@current_organization)%>&nbsp;
-      <span class="button_gray ifa_remark_button" id="show_remark_form_<%=plan.id%>">
-        Add Remark
-      </span>
-    <% end %>
+        <span class="button_gray ifa_remark_button" id="show_remark_form_<%=plan.id%>">
+          Add Remark
+        </span>
+      <% end %>
     </div>
     <div class="col-md-9 ifa_plan_teacher_remark_label">
       <%= pluralize(remarks.size, ' Teacher Remark') %>
@@ -26,7 +26,7 @@
 <script type="text/javascript">
   jQ(document).ready(function() {
     jQ("#show_remark_form_<%=plan.id%>").click(function(){
-      var url = "<%= ifa_remark_show_form_url(:organization_id => @current_organization, :ifa_plan_id => plan.public_id, :classroom_id => @classroom.public_id) %>";
+      var url = "<%= ifa_remark_show_form_url(:organization_id => @current_organization, :ifa_plan_id => plan.public_id, :classroom_id => (@classroom.nil? ? nil : @classroom.public_id)) %>";
       jQ.get(url, {}, function(data) {
         jQ("#plan_remarks_<%=plan.public_id%>").html(data);
         jQ("#plan_remarks_<%=plan.public_id%>").show();

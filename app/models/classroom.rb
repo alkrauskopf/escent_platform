@@ -137,7 +137,11 @@ class Classroom < ActiveRecord::Base
   end
 
   def self.precision_prep
-    where('is_prep')
+    where('status = ? && is_prep', 'active')
+  end
+
+  def self.precision_prep_subject(subject)
+    where('act_subject_id = ? && status = ? && is_prep', subject.id, 'active')
   end
 
   def ifa_enable

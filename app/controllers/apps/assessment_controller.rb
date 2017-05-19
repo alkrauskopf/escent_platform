@@ -30,6 +30,8 @@ class Apps::AssessmentController < ApplicationController
       @current_user_questions = @current_user.act_questions
       @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}
       @threshold = Time.now - @current_organization.ifa_org_option.sms_calc_cycle.days
+
+      student_growth_plans
    #   @super_admin = (@current_organization == @current_provider && @current_user.app_superuser?(@current_application))
       prepare_summary_data
       find_dashboard_update_start_dates(@current_organization)
@@ -2847,7 +2849,14 @@ end
        @total_submissions[idx] = @current_organization.act_submissions.for_subject(subj).size
      end
    end
-  
+
+  def student_growth_plans
+    @prep_students={}
+    ActSubject.plannable.each do |subj|
+      @prep_students[subj] = @current_organization.precision_prep_students(subj)
+    end
+  end
+
   def prepare_ifa_dashboard(entity, start_period, end_period)
   @entity = entity
   @start_period = start_period.to_date
@@ -3590,6 +3599,7 @@ end
        @students << User.find_by_id(id) rescue nil
      end
      @student_list = @students.compact.uniq.sort{|a,b| a.last_name <=> b.last_name}
+     @prep_classrooms = @current_organization.classrooms.active.precision_prep
  #    @org_tbdashboard_period_end =  @current_org_dashboards.empty? ? (Date.today.end_of_month) : (@current_org_dashboards.first.period_end + 1.day).end_of_month
  #    @org_tbdashboard_submissions = ActSubmission.not_dashboarded('Organization', @current_organization, @current_subject, @org_tbdashboard_period_end.beginning_of_month, @org_tbdashboard_period_end)
  #    @classroom_tbdashboard_period_end = @classroom_dashboards.empty? ? (Date.today.end_of_month) :(@classroom_dashboards.first.period_end + 1.day).end_of_month

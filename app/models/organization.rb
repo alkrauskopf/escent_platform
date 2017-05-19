@@ -802,6 +802,10 @@ class Organization < ActiveRecord::Base
     standards
   end
 
+  def precision_prep_students(subject)
+    self.classrooms.precision_prep_subject(subject).collect{|c| c.students}.flatten.compact.uniq.sort_by{|s| s.last_name}
+  end
+
 
   def knowledge_strands
     self.ifa_standards.collect{|s| s.act_standards}.flatten

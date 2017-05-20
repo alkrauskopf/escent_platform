@@ -8,7 +8,7 @@
       <div class="col-md-10"></div>
       <div class="col-md-2">
         <% button_label = "Maintain " + @current_application.app_abbrev(:provider=>@current_provider)%>
-        <%= link_to button_label , app_maintenance_ifa_path(:organization_id => @current_organization), :class=> "button_gray" %>
+        <%= link_to button_label , app_maintenance_ifa_path(:organization_id => @current_organization), :class=> "button_green" %>
       </div>
     </div>
   <% end %>

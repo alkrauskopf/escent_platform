@@ -200,8 +200,8 @@
                   <i> ARCHIVED</i>
               <% end %>
             </span>
-            <% if @current_topic && @classroom.ifa_classroom_option && @current_organization.ifa_org_option-%>
-              <% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
+            <% if @current_topic && @classroom.ifa_classroom_option && @current_provider.ifa_org_option-%>
+              <% @current_provider.ifa_org_option.act_masters.each do |mstr| %>
                 <span style="font-size:12px;font-weight:normal">
                   <% if @current_topic.act_score_ranges.no_na.for_standard(mstr).first -%>
                     <%= mstr.abbrev %> Mastery Level: <%= @current_topic.act_score_ranges.no_na.for_standard(mstr).first.range %>

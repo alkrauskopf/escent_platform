@@ -49,7 +49,7 @@ class Site::SiteController < Site::ApplicationController
 
 # get student sms for classroom
 
-      if @current_organization.ifa_org_option
+      if @current_provider.ifa_org_option
         @latest_dashboard = @current_user.ifa_dashboards.for_subject_since(@classroom.act_subject, @school_options.begin_school_year).last rescue nil
         teacher_fav_topics = []
         @classroom.leaders.each do |l|

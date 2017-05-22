@@ -9,6 +9,7 @@ class AppMaintenance::IfaController < ApplicationController
   before_filter :current_standard, :except => []
   before_filter :current_subject, :except => []
   before_filter :subjects, :except => []
+  before_filter :current_ifa_options, :only => [:index]
 
   def index
     strands

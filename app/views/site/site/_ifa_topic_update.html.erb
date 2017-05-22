@@ -1,6 +1,6 @@
 	
 <div id="topic_ifa_tags" >
-	<% if @classroom.ifa_classroom_option && @current_organization.ifa_org_option-%>
+	<% if @classroom.ifa_classroom_option && @current_provider.ifa_org_option-%>
 
 			<table style="width:530px; margin-left:200px; border:0px">
 				<tbody>
@@ -36,7 +36,7 @@
 						Change Standard:
 					</td>
 					<td  id = "master_id" width=70px style="vertical-align:middle;  padding-right:0px; padding-top:10px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
-						<%=  select(:org, :master_id, @current_organization.ifa_org_option.act_masters.collect{|m| [m.abbrev,m.id]},{:prompt => @master.abbrev}) %>
+						<%=  select(:org, :master_id, @current_provider.ifa_org_option.act_masters.collect{|m| [m.abbrev,m.id]},{:prompt => @master.abbrev}) %>
 					</td>					
 					<td width=170px style="vertical-align:middle;  padding-right:3px; padding-top:10px; text-align:right; color: #000000; font-size:11px; font-weight:bold">
 						&nbsp;

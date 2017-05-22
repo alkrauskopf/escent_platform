@@ -58,8 +58,8 @@
 				<% end -%>	
 				<%= render :partial => "thumbs_columns", :locals => {:quest => quest, :std => ActMaster.act.first, :filter =>"ACT"}%>
 				<td width = 150px style=" color: #000000; vertical-align:top;font-size:11px;" >
-					<% unless @current_organization.ifa_org_option.nil? -%>
-						<% @current_organization.ifa_org_option.act_masters.each do|mstr| -%>
+					<% unless @current_provider.ifa_org_option.nil? -%>
+						<% @current_provider.ifa_org_option.act_masters.each do|mstr| -%>
 						<center><%= mstr.abbrev.upcase %>:&nbsp;<%= quest.score_range_name(mstr)%><br/></center>
 						<% end -%>
 					<% else -%>

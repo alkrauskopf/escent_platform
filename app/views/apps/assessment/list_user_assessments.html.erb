@@ -63,8 +63,8 @@
 					<center><%= ass.act_subject.name.titleize %></center>
 				</td>
 				<td style=" width:85px; width:fixed; color: #000000; vertical-align:top; text-align:left; font-size:11px; padding-top:5px; line-height:1.4em;" >
-					<% unless @current_organization.ifa_org_option.nil? -%>
-						<% @current_organization.ifa_org_option.act_masters.each do|mstr| -%>
+					<% unless @current_provider.ifa_org_option.nil? -%>
+						<% @current_provider.ifa_org_option.act_masters.each do|mstr| -%>
 						<%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%><br/>
 						<% end -%>
 					<% else -%>

@@ -83,7 +83,7 @@
 
 	 <div style="float:left; width:450px;font-size:16px; word-wrap:break-word; text-align:center; font-weight:bold; color:#C73914;">
      	<%= @question.act_subject.name.upcase%><br/>
-		<% @current_organization.ifa_org_option.act_masters.each do|mstr| -%>
+		<% @current_provider.ifa_org_option.act_masters.each do|mstr| -%>
 	 	<% title_string = "" -%>
 	 	<% stand = @question.standard(mstr) -%>
 	 	<% range = @question.score_range(mstr) -%>

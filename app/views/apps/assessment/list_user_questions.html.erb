@@ -69,8 +69,8 @@
 				</td>
 				<td style=" width:18%; color: #000000; vertical-align:top;font-size:11px;" >
 					<center><%= quest.act_subject.name.titleize %><br/>
-					<% unless @current_organization.ifa_org_option.nil? -%>
-						<% @current_organization.ifa_org_option.act_masters.each do|mstr| -%>
+					<% unless @current_provider.ifa_org_option.nil? -%>
+						<% @current_provider.ifa_org_option.act_masters.each do|mstr| -%>
 						<%= mstr.abbrev.upcase %>:&nbsp;<%= quest.score_range_name(mstr)%><br/>
 						<% end -%></center>
 					<% else -%>

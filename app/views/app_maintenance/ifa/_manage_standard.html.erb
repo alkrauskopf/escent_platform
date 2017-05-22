@@ -76,6 +76,11 @@
         <a href="#tabs-6"><span class="tab_label">
 		    <%= tab_6_label %></span></a>
       </li>
+      <li>
+        <%  tab_7_label = "Universal Parameters" %>
+        <a href="#tabs-7"><span class="tab_label">
+		    <%= tab_7_label %></span></a>
+      </li>
     </ul>
 
     <div id="tabs-2" class="row">
@@ -110,6 +115,13 @@
       <div class="col-md-1"></div>
       <div class="col-md-10">
         <%= render :partial =>  "manage_subjects", :locals=>{}%>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-7" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial =>  "manage_options", :locals=>{}%>
       </div>
       <div class="col-md-1"></div>
     </div>

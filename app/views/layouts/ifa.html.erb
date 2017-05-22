@@ -5,7 +5,7 @@
 		<title><%= @current_organization.name %></title>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-    <%= stylesheet_link_tag 'apps/assessment' %>
+    <%= stylesheet_link_tag 'ifa/assessment' %>
 
 		<%= stylesheet_link_tag 'screen' %>
 		<%= stylesheet_link_tag iwing_stylesheet_url(:organization_id => @current_organization, :format => "css") %>
@@ -54,53 +54,6 @@
 			}
 			a.continue:hover {
 				text-decoration: underline;
-			}
-			#main_content {
-				background: #FFFFFF;
-			}
-			#mainContent {
-				background: #FFFFFF;
-			}
-			#mainContent #blog_summary {
-				top: 20px;
-				left: 10px;
-				width: 850px;
-				position: relative;
-			}
-			#mainContent #panel_summary {
-				top: 0px;
-				left: 50px;
-				width: 600px;
-				position: relative;
-			}
-			#mainContent #panel_enable_table {
-				top: 0px;
-				left: 500px;
-				position: relative;
-			}
-			#mainContent #blog_posting_summary {
-				top: 0px;
-				left: 200px;
-				width: 650px;
-				position: relative;
-			}
-			#mainContent #blog_posting_summary #blog_posts {
-				top: 00px;
-				left: 000px;
-				width: 650px;
-				position: relative;
-			}
-			#mainContent #add_button {
-				top: 260px;
-				left: 860px;
-				position: absolute;
-		
-		     } #blog_flash {
-                background: transparent url(<%= asset_path('fsn_home/bg_flash_shadow.png') %>) top left no-repeat;
-                width: 250px;
-                height: 182px;
-                position: relative;
-                top: 50px;
 			}
 		</style>
 		<script type="text/javascript" charset="utf-8">
@@ -156,13 +109,6 @@
           <%= image_tag asset_path('ajax-loader.gif') %>
         </div>
       </div>
-      <script type="text/javascript">
-        try {
-          var pageTracker = _gat._getTracker("UA-10167834-1");
-          pageTracker._trackPageview();
-        } catch (err) {
-        }
-      </script>
     </div>
   </body>
 </html>

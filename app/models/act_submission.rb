@@ -9,6 +9,7 @@ class ActSubmission < ActiveRecord::Base
   belongs_to :organization
   belongs_to :act_subject
   belongs_to :teacher, :class_name => 'User', :foreign_key => "teacher_id"
+  has_one :subject, :through => :act_assessment, :source => 'act_subject'
   
   has_many :act_answers, :dependent => :destroy
   has_many :act_submission_scores, :dependent => :destroy
@@ -34,6 +35,72 @@ class ActSubmission < ActiveRecord::Base
   
   def final?
     self.is_final
+  end
+
+  def correct_answers(options = {})
+    if options[:level] && options[:strand]
+      answers = self.act_answers.correct.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+    elsif options[:level]
+      answers = self.act_answers.correct.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+    elsif options[:strand]
+      answers = self.act_answers.correct.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+    else
+      answers = self.act_answers.correct.selected
+    end
+    answers
+  end
+
+  def incorrect_answers(options = {})
+    if options[:level] && options[:strand]
+      answers = self.act_answers.incorrect.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+    elsif options[:level]
+      answers = self.act_answers.incorrect.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+    elsif options[:strand]
+      answers = self.act_answers.incorrect.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+    else
+      answers = self.act_answers.incorrect.selected
+    end
+    answers
+  end
+
+  def total_answers(options = {})
+    if options[:level] && options[:strand]
+      answers = self.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+    elsif options[:level]
+      answers = self.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+    elsif options[:strand]
+      answers = self.act_answers.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+    else
+      answers = self.act_answers.selected
+    end
+    answers
+  end
+
+  def self.correct_subject_answers(subject,entity, options = {})
+    if options[:since]
+      correct_answers = entity.act_submissions.final.for_subject(subject).since(options[:since]).collect{|s| s.correct_answers(:level, :strand)}.flatten
+    else
+      correct_answers = entity.act_submissions.final.for_subject(subject).collect{|s| s.correct_answers(:level, :strand)}.flatten
+    end
+    correct_answers
+  end
+
+  def self.incorrect_subject_answers(subject,entity, options = {})
+    if options[:since]
+      incorrect_answers = entity.act_submissions.final.for_subject(subject).since(options[:since]).collect{|s| s.incorrect_answers(:level, :strand)}.flatten
+    else
+      incorrect_answers = entity.act_submissions.final.for_subject(subject).collect{|s| s.incorrect_answers(:level, :strand)}.flatten
+    end
+    incorrect_answers
+  end
+
+  def self.total_subject_answers(subject,entity, options = {})
+    if options[:since]
+      total_answers = entity.act_submissions.final.for_subject(subject).since(options[:since]).collect{|s| s.total_answers(:level, :strand)}.flatten
+    else
+      total_answers = entity.act_submissions.final.for_subject(subject).collect{|s| s.total_answers(:level, :strand)}.flatten
+    end
+    total_answers
   end
 
   def finalize(auto, reviewer_id)

@@ -1,4 +1,5 @@
-class Apps::AssessmentController < ApplicationController
+class Apps::AssessmentController < Apps::ApplicationController
+
   layout "ifa", :except =>[:manual_ifa_dashboard_update, :student_list, :student_baseline_scores, :static_assess_question_analysis, :question_analysis_test,
                            :list_user_questions, :list_subject_assessments, :subject_benchmarks, :subject_standard_benchmarks,
                            :assign_classroom_assessment, :question_analysis, :entity_dashboard, :growth_dashboards, :student_dashboard,
@@ -29,10 +30,9 @@ class Apps::AssessmentController < ApplicationController
       @active_questions = ActQuestion.active rescue []
       @current_user_questions = @current_user.act_questions
       @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}
-      @threshold = Time.now - @current_organization.ifa_org_option.sms_calc_cycle.days
+      @threshold = Time.now - @current_provider.ifa_org_option.sms_calc_cycle.days
 
       student_growth_plans
-   #   @super_admin = (@current_organization == @current_provider && @current_user.app_superuser?(@current_application))
       prepare_summary_data
       find_dashboard_update_start_dates(@current_organization)
     else
@@ -57,7 +57,7 @@ class Apps::AssessmentController < ApplicationController
       @readings.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
       @assessments = ActAssessment.active rescue []
       @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}
-      @threshold = Time.now - @current_organization.ifa_org_option.sms_calc_cycle.days
+      @threshold = Time.now - @current_provider.ifa_org_option.sms_calc_cycle.days
 
       prepare_summary_dashboard
       find_dashboard_update_start_dates(@current_organization)
@@ -87,7 +87,7 @@ class Apps::AssessmentController < ApplicationController
    if @current_organization.ifa_org_option
       school_start_valid = true
       school_start = DateTime.parse(params[:start_date]).strftime("%Y-%m-%d") rescue school_start_valid = false
-      @current_organization.ifa_org_option.begin_school_year = school_start if school_start_valid
+      @current_provider.ifa_org_option.begin_school_year = school_start if school_start_valid
       #
       # Temp Fix for set school start
       #
@@ -359,7 +359,7 @@ class Apps::AssessmentController < ApplicationController
      @assessment.generation = 0
      if @assessment.save
        @assessment.update_attributes(:original_assessment_id => @assessment.id)
-       @current_organization.ifa_org_option.act_masters.each do |std|
+       @current_provider.ifa_org_option.act_masters.each do |std|
           range = ActAssessmentScoreRange.new
           range.standard = std.abbrev.downcase
           range.act_master_id = std.id
@@ -519,10 +519,12 @@ class Apps::AssessmentController < ApplicationController
     initialize_parameters    
     @ifa_classroom = @classroom
     @current_subject = @classroom.act_subject
+    @last_submission = @current_user.act_submissions.for_subject(@current_subject).empty? ? nil : @current_user.act_submissions.for_subject(@current_subject).last
+    @student_plan = @current_user.ifa_plans.for_subject(@current_subject).empty? ? nil : @current_user.ifa_plans.for_subject(@current_subject).last
     @assessment_subjects = @current_user.act_submissions.collect{|s| s.act_subject}.uniq rescue []
-    start_date = @current_organization.ifa_org_option.begin_school_year 
+    start_date = @current_provider.ifa_org_option.begin_school_year
      prepare_ifa_dashboard(@current_user, start_date, Date.today)    
-#    @current_student_dashboards = @current_user.ifa_dashboards.for_subject_since(@classroom.act_subject,(@current_organization.ifa_org_option.begin_school_year - 1.years)).reverse
+#    @current_student_dashboards = @current_user.ifa_dashboards.for_subject_since(@classroom.act_subject,(@current_provider.ifa_org_option.begin_school_year - 1.years)).reverse
     @classroom_assessment_list = @classroom.act_assessments.active.lock rescue []
 
     @suggested_topics = @classroom.topics.select{|t| t.act_score_ranges.for_standard(@current_standard).first.upper_score >= @current_sms && t.act_score_ranges.for_standard(@current_standard).first.lower_score <= @current_sms}rescue nil
@@ -530,6 +532,7 @@ class Apps::AssessmentController < ApplicationController
     if params[:function] == "Success"
       @success = true
     end
+    student_assessment_dashboard(@last_submission)
     user_ifa_plans
     find_dashboard_update_start_dates(@current_user)
 
@@ -797,7 +800,7 @@ class Apps::AssessmentController < ApplicationController
   
     initialize_parameters
 
-    prepare_ifa_dashboard(@current_organization, @current_organization.ifa_org_option.begin_school_year, Date.today)
+    prepare_ifa_dashboard(@current_organization, @current_provider.ifa_org_option.begin_school_year, Date.today)
 
     org_analysys_instance_variables
   end
@@ -1560,7 +1563,7 @@ class Apps::AssessmentController < ApplicationController
      @rel_readings = @rel_readings.insert(0,["* * Remove Related Content * *", 0])
    end
    @resource_list = []
-   @master = @current_organization.ifa_org_option.act_masters.first rescue nil
+   @master = @current_provider.ifa_org_option.act_masters.first rescue nil
    unless @master
      @master = ActMaster.default_std
    end 
@@ -2435,9 +2438,9 @@ end
     @current_user = User.find_by_public_id(params[:user_id]) rescue nil    
     master = ActMaster.find_by_public_id(params[:master_id]) rescue nil
     if params[:function]== "add"
-      @current_organization.ifa_org_option.act_masters << master
+      @current_provider.ifa_org_option.act_masters << master
     else
-      remove_masters = @current_organization.ifa_org_option.ifa_org_option_act_masters.for_master(master) rescue nil
+      remove_masters = @current_provider.ifa_org_option.ifa_org_option_act_masters.for_master(master) rescue nil
       remove_masters.each do|m|
         m.destroy
       end
@@ -2735,7 +2738,7 @@ end
     else
       @current_standard = @master_standards.first
     end
-    @options = @current_organization.ifa_org_option rescue nil
+    @options = @current_provider.ifa_org_option rescue nil
 
     unless @current_user.ifa_user_option
         user_option = IfaUserOption.new
@@ -3581,13 +3584,13 @@ end
    def org_analysys_instance_variables
      @dashboard_name = @current_organization.medium_name
      @org_family = @current_organization.active_siblings_same_type
-  #   @current_org_dashboards = @current_organization.ifa_dashboards.for_subject_since(@current_subject,(@current_organization.ifa_org_option.begin_school_year - 1.years)).reverse
-     @current_org_dashboards =IfaDashboard.org_subject_after_date('Organization', @current_organization, @current_subject, @current_organization.ifa_org_option.begin_school_year).reverse
-  #    @classroom_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "Classroom", (@current_organization.ifa_org_option.begin_school_year)]) rescue []
-     @classroom_dashboards =IfaDashboard.org_subject_after_date('Classroom', @current_organization, @current_subject, @current_organization.ifa_org_option.begin_school_year).reverse
+  #   @current_org_dashboards = @current_organization.ifa_dashboards.for_subject_since(@current_subject,(@current_provider.ifa_org_option.begin_school_year - 1.years)).reverse
+     @current_org_dashboards =IfaDashboard.org_subject_after_date('Organization', @current_organization, @current_subject, @current_provider.ifa_org_option.begin_school_year).reverse
+  #    @classroom_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "Classroom", (@current_provider.ifa_org_option.begin_school_year)]) rescue []
+     @classroom_dashboards =IfaDashboard.org_subject_after_date('Classroom', @current_organization, @current_subject, @current_provider.ifa_org_option.begin_school_year).reverse
      @classroom_ids = @classroom_dashboards.collect{|d| d.ifa_dashboardable_id}.uniq rescue []
-  #   @student_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "User", (@current_organization.ifa_org_option.begin_school_year)]) rescue []
-     @student_dashboards =IfaDashboard.org_subject_after_date('User', @current_organization, @current_subject, @current_organization.ifa_org_option.begin_school_year).reverse
+  #   @student_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "User", (@current_provider.ifa_org_option.begin_school_year)]) rescue []
+     @student_dashboards =IfaDashboard.org_subject_after_date('User', @current_organization, @current_subject, @current_provider.ifa_org_option.begin_school_year).reverse
      @student_ids = @student_dashboards.collect{|d| d.ifa_dashboardable_id}.uniq rescue []
      @classrooms = []
      @classroom_ids.each do |id|

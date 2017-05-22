@@ -118,7 +118,7 @@
 				</td>
 			</tr>
 			<% end -%>
-		<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
+		<% @current_provider.ifa_org_option.act_masters.each do |mstr| %>
 			<tr >
 				<td colspan=4 style="vertical-align:middle;  padding-right:3px; padding-top:0px; text-align:center; color: #000000;font-size:13px; font-weight:bold">
 						<%= mstr.abbrev.upcase %> Mastery Range:  <%= @assessment.score_range(mstr) %>
@@ -194,7 +194,7 @@
 				</td>				
 			<% end -%>
 			<td   style=" border:0px solid #ddd;color: #000000; vertical-align:top; padding-top:5px;font-size:10px;" >
-				<% @current_organization.ifa_org_option.act_masters.each do|mstr| -%>
+				<% @current_provider.ifa_org_option.act_masters.each do|mstr| -%>
 				<% strand = quest.standard(mstr).abbrev.upcase rescue ""-%>
 	 			<% range = quest.score_range(mstr).range rescue "" -%>
 				<% unless strand == "" && range == ""%><%= mstr.abbrev %>: <%= strand%> <%=range %><% end -%><br/>

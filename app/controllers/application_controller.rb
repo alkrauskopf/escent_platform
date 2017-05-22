@@ -67,8 +67,12 @@ class ApplicationController < ActionController::Base
     @current_case_org = @current_case.nil? ? nil : (@current_case.organization.nil? ? nil :@current_case.organization)
   end
 #
-#  App Authorizations
+#  App Authorizations & Options
 #
+
+  def current_ifa_options
+    @current_ifa_options = @current_provider.nil? ? nil : @current_provider.ifa_org_option
+  end
 
   def current_org_current_app_provider?
     unless (!@current_organization.nil? && !@current_application.nil? && @current_organization.provider?(@current_application))

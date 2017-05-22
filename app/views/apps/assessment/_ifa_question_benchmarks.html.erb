@@ -106,7 +106,7 @@ jQ(document).ready(function() {
         		background-color: transparent;
       			}
     			</style>	
-				<% @current_organization.ifa_org_option.act_masters.sort_by{|m| [m.abbrev]}.each do |mstr| -%>
+				<% @current_provider.ifa_org_option.act_masters.sort_by{|m| [m.abbrev]}.each do |mstr| -%>
           <%# benches = @question.act_subject.act_benches.for_scorerange_strand(@question.score_range(mstr), @question.standard(mstr)) -%>
           <%# benches = @question.act_subject.act_benches.for_mastery_level(@question.score_range(mstr)).for_strand(@question.standard(mstr)) -%>
           <% benches = (@question.score_range(mstr).nil? || @question.standard(mstr).nil?) ? [] : @question.act_subject.act_benches.for_mastery_level(@question.score_range(mstr)).for_strand(@question.standard(mstr))-%>

@@ -12,7 +12,7 @@
 			<td style="width:150px; text-align:center;border:1px solid #ddd;">
 				<u>Subject Area</u>
 			</td>
-			<% @current_organization.ifa_org_option.act_masters.each do|mstr| -%>
+			<% @current_provider.ifa_org_option.act_masters.each do|mstr| -%>
 				<td style = "width:200px; text-align:center;border:1px solid #ddd;">
 					<u><%= mstr.abbrev.upcase -%></u>
 				</td>
@@ -29,7 +29,7 @@
 			<td style="width:150px; vertical-aign:middle; text-align:center; padding-top:20px; padding-bottom:20px;border:1px solid #ddd;">
 				<%= subj.name.upcase %>
 			</td>
-			<% @current_organization.ifa_org_option.act_masters.each do|mstr| -%>
+			<% @current_provider.ifa_org_option.act_masters.each do|mstr| -%>
 				<% score = @student.ifa_user_baseline_scores.for_subject(subj).for_standard(mstr).first ? @student.ifa_user_baseline_scores.for_subject(subj).for_standard(mstr).first.score.to_s: "Not Defined" -%>
 				<% @score_id = subj.public_id + mstr.public_id -%>
 				<td id="s_<%= @score_id %>" style = "text-align:center; width:200px; padding-top:10px;border:1px solid #ddd;color: #C83A14; font-size:12px">

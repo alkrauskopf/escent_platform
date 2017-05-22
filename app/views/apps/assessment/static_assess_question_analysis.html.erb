@@ -26,7 +26,7 @@
 			</tr>
 			<tr style=" border:0px solid white;">
 				<td  style="width:550px; border:0px solid white; font-size:11px; padding-left:0px; vertical-align:bottom; text-align:left;color: #000000;font-weight:normal;">
-				<% @current_organization.ifa_org_option.act_masters.each do |mstr| -%>
+				<% @current_provider.ifa_org_option.act_masters.each do |mstr| -%>
 				 	<% stand = @q.standard(mstr) -%>
 	 				<% range = @q.score_range(mstr) -%>
 					<% s_string = stand ? stand.abbrev.upcase : "No Strand"  -%>
@@ -142,7 +142,7 @@
   <% if true %>
 <div   style="width:450px; font-size: 13px; border:1px solid #ddd;color:#000000">
 	<br/><center><strong><%= @q.act_subject.name%> Question Calibration</strong></center>
-	<% @current_organization.ifa_org_option.act_masters.each_with_index do |mstr,mdx| -%>
+	<% @current_provider.ifa_org_option.act_masters.each_with_index do |mstr,mdx| -%>
 	<% if mstr.abbrev == "CO" %>
 		<%= render :partial => "ifa_csap_analysis", :locals => {:quest => @q, :mstr => mstr}%>
 	<% end -%>

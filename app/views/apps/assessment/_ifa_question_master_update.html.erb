@@ -18,7 +18,7 @@
 						Set Standards Tags:
 					</td>
 					<td  id = "master_id" width=70px style="vertical-align:middle;  padding-right:0px; padding-top:0px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
-						<%=  select(:org, :master_id, @current_organization.ifa_org_option.act_masters.collect{|m| [m.abbrev,m.id]},{:prompt => master_tag}) %>
+						<%=  select(:org, :master_id, @current_provider.ifa_org_option.act_masters.collect{|m| [m.abbrev,m.id]},{:prompt => master_tag}) %>
 					</td>
 					<td  id="range_change" width=400px style="vertical-align:middle;  padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:bold">
             <%=  select(:range, :range_id, ActScoreRange.for_standard_and_subject(@master, @question.act_subject).collect{|s| [s.range, s.id]},{:prompt => mastery_tag}) %>

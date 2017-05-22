@@ -11,7 +11,7 @@
 			<tr>
 				<td colspan=3 style=" color: #000000; vertical-align:middle;text-align:left; font-weight:normal; font-size:12px" >
      				<center><%= @question.act_subject.name.upcase%></center>
-					<% @current_organization.ifa_org_option.act_masters.each do|mstr| -%>
+					<% @current_provider.ifa_org_option.act_masters.each do|mstr| -%>
 	 				<% title_string = "" -%>
 	 				<% stand = @question.standard(mstr) -%>
 	 				<% range = @question.score_range(mstr) -%>

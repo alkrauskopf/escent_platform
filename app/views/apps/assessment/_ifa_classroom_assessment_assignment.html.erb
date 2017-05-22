@@ -48,7 +48,7 @@
 							<% end %><br/>
 						<span style ="color: #000000;font-size:10px">
 						<strong><%= ass.act_subject.name.upcase %></strong>,&nbsp;
-						<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
+						<% @current_provider.ifa_org_option.act_masters.each do |mstr| %>
 							<%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%>&nbsp;&nbsp;&nbsp;
 						<% end -%>
 						<%= pluralize(ass.act_questions.size, ' Question')%>, &nbsp;&nbsp;Last Updated: <%=ass.updated_at.strftime("%m-%d-%y") %><br/>

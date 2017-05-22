@@ -4,7 +4,7 @@
 		<div id="assign_resources_panel">
 		<table id="ifa_levels"  class="tablesorter" style="width:99%;">
 			<tbody> 
-			<% mstr = @current_organization.ifa_org_option.act_masters.first -%>
+			<% mstr = @current_provider.ifa_org_option.act_masters.first -%>
 				<% assessment_ranges = @current_subject.act_assessments.active.collect{|a| a.act_assessment_score_ranges.for_standard(mstr)}.flatten.sort_by{|ar| [ar.upper_score]}%>
 				<% upper_scores = assessment_ranges.group_by(&:upper_score) %>
 				<% upper_scores.each do |score, ranges| %>

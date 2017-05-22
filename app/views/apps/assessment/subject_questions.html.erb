@@ -1,11 +1,11 @@
 <div >
 
-	<% unless @current_subject.act_questions.active.size.zero? || @current_organization.ifa_org_option.act_masters.size.zero? -%>
+	<% unless @current_subject.act_questions.active.size.zero? || @current_provider.ifa_org_option.act_masters.size.zero? -%>
 
 	<div id="assign_resources_panel">
 		<table id="authorization_levels"    style="width:99%;">
 			<tbody>
-				<% @current_organization.ifa_org_option.act_masters.each do |mstr|%>
+				<% @current_provider.ifa_org_option.act_masters.each do |mstr|%>
 		<!--			<%# act_stds = ActStandard.find(:all, :conditions => ["act_master_id =? AND act_subject_id =?", mstr.id, @current_subject.id], :order => "abbrev") -%>  -->
           <% act_stds = ActStandard.for_standard_and_subject(mstr, @current_subject) -%>
 						<% act_stds.each do |std| -%>

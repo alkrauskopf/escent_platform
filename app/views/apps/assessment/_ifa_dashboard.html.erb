@@ -125,11 +125,11 @@
             <% end -%>
             <% hover_text += "<br/><strong>" + r.range + " </strong>" + @current_standard.cell_benchmarks(@current_subject.id, s.id, r.id) -%>
             <% cell_color = "#6a6529" -%>
-            <% if pct_correct.to_i <= @current_organization.ifa_org_option.pct_correct_red -%> <% cell_color = "#C83A14" -%> <% end -%>
-            <% if pct_correct.to_i >= @current_organization.ifa_org_option.pct_correct_green -%> <% cell_color = "#279605" -%> <% end -%>
+            <% if pct_correct.to_i <= @current_provider.ifa_org_option.pct_correct_red -%> <% cell_color = "#C83A14" -%> <% end -%>
+            <% if pct_correct.to_i >= @current_provider.ifa_org_option.pct_correct_green -%> <% cell_color = "#279605" -%> <% end -%>
             <% back_color = "#f7f5cc" -%>
-            <% if pct_correct.to_i <= @current_organization.ifa_org_option.pct_correct_red -%> <% back_color = "#fcd1ca" -%> <% end -%>
-            <% if pct_correct.to_i >= @current_organization.ifa_org_option.pct_correct_green -%> <% back_color = "#baeaa9" -%> <% end -%>
+            <% if pct_correct.to_i <= @current_provider.ifa_org_option.pct_correct_red -%> <% back_color = "#fcd1ca" -%> <% end -%>
+            <% if pct_correct.to_i >= @current_provider.ifa_org_option.pct_correct_green -%> <% back_color = "#baeaa9" -%> <% end -%>
             <% cell_color = "#000000" -%>
             <% unless answers == 0 -%>
             <% id = div_key + r.id.to_s + s.id.to_s %>

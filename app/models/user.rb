@@ -909,52 +909,6 @@ class User < ActiveRecord::Base
     assessments
   end
 
-  def ifa_correct_answers(subject, options = {})
-    if options[:since]
-      correct_answers = self.act_submissions.final.for_subject(subject).since(options[:since]).collect{|s| s.act_answers.correct.selected}.flatten
-    else
-      correct_answers = self.act_submissions.final.for_subject(subject).collect{|s| s.act_answers.correct.selected}.flatten
-    end
-    if options[:level] && options[:strand]
-      answers = correct_answers.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
-    elsif options[:level]
-      answers = correct_answers.select{|a| a.act_question.of_mastery_level?(options[:level])}
-    elsif options[:strand]
-      answers = correct_answers.select{|a| a.act_question.of_strand?(options[:strand])}
-    else
-      answers = correct_answers
-    end
-    answers
-  end
-
-  def ifa_incorrect_answers(subject, options = {})
-    incorrect_answers = self.act_submissions.final.for_subject(subject).collect{|s| s.act_answers.incorrect.selected}.flatten
-    if options[:level] && options[:strand]
-      answers = incorrect_answers.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
-    elsif options[:level]
-      answers = incorrect_answers.select{|a| a.act_question.of_mastery_level?(options[:level])}
-    elsif options[:strand]
-      answers = incorrect_answers.select{|a| a.act_question.of_strand?(options[:strand])}
-    else
-      answers = incorrect_answers
-    end
-    answers
-  end
-
-  def ifa_total_answers(subject, options = {})
-    total_answers = self.act_submissions.final.for_subject(subject).collect{|s| s.act_answers.selected}.flatten
-    if options[:level] && options[:strand]
-      answers = total_answers.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
-    elsif options[:level]
-      answers = total_answers.select{|a| a.act_question.of_mastery_level?(options[:level])}
-    elsif options[:strand]
-      answers = total_answers.select{|a| a.act_question.of_strand?(options[:strand])}
-    else
-      answers = total_answers
-    end
-    answers
-  end
-
 #
 #  ctl
 #

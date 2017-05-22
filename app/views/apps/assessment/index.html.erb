@@ -3,7 +3,7 @@
     <%= @current_application.app_name(:provider=>@current_provider) %>
     <%#= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@current_application} %>
   </div>
-  <% if @current_app_superuser %>
+  <% if @current_app_superuser && @current_organization == @current_provider%>
     <div class="row">
       <div class="col-md-10"></div>
       <div class="col-md-2">
@@ -69,11 +69,6 @@
           <a href="#tabs-7"><span class="tab_label">
           <%= tab_7_label %></span></a>
         </li>
-        <li>
-          <%  tab_9_label = "Options" %>
-          <a href="#tabs-9"><span class="tab_label">
-          <%= tab_9_label %></span></a>
-        </li>
       <% end %>
     </ul>
     <div id="tabs-1" class="row">
@@ -101,7 +96,7 @@
       <div id="tabs-4<%= subj.id.to_s%>" class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
-        <%= render :partial => "/apps/ifa_plan/teacher_review_plans", :locals=>{:students => @prep_students[subj], :subject => subj} %>
+        <%= render :partial => "/ifa/ifa_plan/teacher_review_plans", :locals=>{:students => @prep_students[subj], :subject => subj} %>
         </div>
         <div class="col-md-1"></div>
       </div>
@@ -111,13 +106,6 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
           <%= render :partial => "/apps/assessment/manage_baselines" %>
-        </div>
-        <div class="col-md-1"></div>
-      </div>
-      <div id="tabs-9" class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-          <%= render :partial => "/apps/assessment/manage_options" %>
         </div>
         <div class="col-md-1"></div>
       </div>

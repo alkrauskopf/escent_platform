@@ -26,6 +26,15 @@ class ActMaster < ActiveRecord::Base
   scope  :co,  :conditions => { :abbrev => "CO"}
   scope  :cc,  :conditions => { :abbrev => "CC"}
 
+  def mastery_levels(subject)
+    self.act_score_ranges.for_subject(subject).active
+  end
+
+  def strands(subject)
+    self.act_standards.for_subject(subject).active
+  end
+
+
   def abbrev_view(user)
     (user && user.sat_view?) ? 'SAT' : self.abbrev.upcase
   end

@@ -12,7 +12,7 @@
         <div class="repo_select">
           <%=  select( :bench,:subject_id, @current_standard.act_subjects.collect{|s| [s.name, s.id]}, {:prompt => "Select " + @current_standard.abbrev + " Subject"}) %>
     <!--
-        <%# master_list = (@current_organization.ifa_org_option.act_masters - ActMaster.where('abbrev = ?', 'CO')) & ActBenchType.all.collect{|m| m.act_master} -%>
+        <%# master_list = (@current_provider.ifa_org_option.act_masters - ActMaster.where('abbrev = ?', 'CO')) & ActBenchType.all.collect{|m| m.act_master} -%>
         <%#=  select(  :bench,:master_id, master_list.collect{|m| [m.abbrev, m.id]}, {:prompt => master_list.first.abbrev}) %>
     -->
         </div>

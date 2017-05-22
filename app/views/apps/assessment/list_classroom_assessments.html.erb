@@ -64,7 +64,7 @@
 
 						<td style="width:100px;color: #000000; vertical-align:middle; padding-top:3px;font-size:11px">
 							<center>
-							<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
+							<% @current_provider.ifa_org_option.act_masters.each do |mstr| %>
 								<%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%><br/>
 							<% end -%>
 							</center>

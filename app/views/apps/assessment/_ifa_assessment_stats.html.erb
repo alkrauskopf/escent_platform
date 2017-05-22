@@ -70,7 +70,7 @@
 					<center><%= tchr_eff %></center>
 				</td>			
 			</tr>
-			<% @current_organization.ifa_org_option.act_masters.each do |mstr| -%>
+			<% @current_provider.ifa_org_option.act_masters.each do |mstr| -%>
 			<% tot_scores = @assessment.act_submissions.final.since(@current_user.ifa_user_option.beginning_period).collect{|s| s.act_submission_scores}.flatten.select{|s| s.act_master_id == mstr.id && s.final_sms && s.final_sms > 0} %>
 			<% tchr_scores = @assessment.act_submissions.for_teacher(@current_user).final.since(@current_user.ifa_user_option.beginning_period).collect{|s| s.act_submission_scores}.flatten.select{|s| s.act_master_id == mstr.id && s.final_sms && s.final_sms > 0} %>
 

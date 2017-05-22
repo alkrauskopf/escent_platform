@@ -1,91 +1,56 @@
 <div id="take_assess">
   <div class="row">
     <div class="col-md-1"></div>
-    <div class="col-md-2">
-      <div class="row ifa_user_panel">
-        <% if @current_user.picture.url.split("/").last == "missing.png" %>
-          <%= image_tag "member_ico.gif" %>
-          <% add_pic = true %>
-        <% else %>
-          <%= image_tag @current_user.picture.url(:thumb) %>
-          <% add_pic = false %>
-        <% end %>
-        <p class="ifa_user_panel">
-          <%= @current_user.full_name %>
-        </p>
-        <%if add_pic %>
-          <p>
-            <%= link_to "Please Add Your Picture", user_edit_path(:organization_id => @current_organization, :id => @current_user) %>
-          </p>
-        <% end %>
-      </div>
-      <div class="row">
-        <div class="ifa_sat_view_panel">
-          <div class="col-md-1 ifa_sat_button">
-            <% if @current_user.sat_view? -%>
-                <%= link_to (image_tag "button_enabled.png",:width => 12), ifa_toggle_sat_view_student_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic) -%>
-            <% else %>
-                <%= link_to (image_tag "button_disabled.png",:width => 12), ifa_toggle_sat_view_student_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic) -%>
-            <% end %>
-          </div>
-          <div class="col-md-10">
-            SAT View
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-7">
+    <div class="col-md-10">
       <div class= 'panel_title_blue'>
-        <%= @classroom.course_name.upcase  %>
+        <%= @classroom.course_name.upcase  %> Growth| <%= @current_user.full_name %>
       </div>
       <hr>
-      <%= render :partial => "/shared/error_and_notice" %>
-      <% if @submission && @success%>
-        <div class= 'submission_success'>
-          <% @current_organization.ifa_org_option.act_masters.each do |mstr| -%>
-            <% unless @submission.sms_score(mstr) == 0 -%>
-              <% ass_score = @current_user.sat_view? ?  ActScoreRange.sat_score(mstr, @submission.act_subject, @submission.sms_score(mstr)) : @submission.sms_score(mstr) %>
-              <%= @submission.final? ? 'Final' : 'Estimated'%>&nbsp;<%= mstr.abbrev_view(@current_user) %> Score: <%= ass_score %><br/>
-            <% end -%>
-          <% end -%>
-          Time To Complete: <%= number_with_precision(@submission.duration/60.0, :precision => 1) %> Minutes<br/>
-          <% if @classroom.ifa_classroom_option.is_ifa_notify %>
-              <%= @submission.teacher.last_name %> has been notified.<br/>
-          <% end -%>
-          <% if !@submission.final? -%>
-            Your dashboard will be updated when your teacher reviews the assessment.<br/>
-          <% end -%>
-        </div>
-      <% end %>
-      <% unless !@range_list.size.zero? -%>
-          <% if true || @suggested_topics.nil? || @suggested_topics.empty?%>
-              <div class="ifa_panel_title">
-                <%= @classroom.course_name %> Units you should be concentrating on.
-              </div>
-              <div class="suggested_topics_list">
-                <%# @suggested_topics.each do |tpc| -%>
-                <% @classroom.topics.each do |tpc| -%>
-                    <%= link_to tpc.title, offering_view_path(:organization_id => @current_organization, :topic_id => tpc, :id => @classroom) %><br>
-                <% end -%>
-              </div>
-          <% end -%>
-      <% end %>
     </div>
-    <div class="col-md-2 ">
+    <div class="col-md-1 ">
       <div class="row ifa_take_right">
         <%= link_to 'Return', offering_view_path(:organization_id => @current_organization, :topic_id => @topic, :id => @classroom) %>
       </div>
     </div>
   </div>
-  <% unless @range_list.size.zero? -%>
-    <div class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
-        <%= render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "assess"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)} %>
-      </div>
-      <div class="col-md-1 "></div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-5 ">
+      <% if @last_submission%>
+          <div class= 'submission_success'>
+            <% unless @last_submission.sms_score(@current_standard) == 0 -%>
+                <% ass_score =  @last_submission.sms_score(@current_standard) %>
+                <%= @last_submission.final? ? 'Final' : 'Estimated'%>&nbsp;<%= @current_standard.abbrev_view(@current_user) %> Score: <%= ass_score %><br/>
+            <% end -%>
+            Time To Complete: <%= number_with_precision(@last_submission.duration/60.0, :precision => 1) %> Minutes<br/>
+            <% if @classroom.ifa_classroom_option.is_ifa_notify %>
+                <%= @last_submission.teacher.last_name %> has been notified.<br/>
+            <% end -%>
+            <% if !@last_submission.final? -%>
+                Your dashboard will be updated when your teacher reviews the assessment.<br/>
+            <% end -%>
+          </div>
+      <% end %>
     </div>
-  <% end -%>
+    <div class="col-md-5 ">
+      <% if !@student_plan.nil? -%>
+          list milestone supports
+      <% else %>
+          Please Initiate Your <%=@current_subject.name %> Growth Plan
+      <% end %>
+    </div>
+    <div class="col-md-1 "></div>
+  </div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10 ifa_dashboard_box">
+      <% if !@last_submission.nil? %>
+          <%= render :partial => "ifa/ifa_dashboard/submission_dashboard", :locals=>{:submission => @last_submission, :subject => @last_submission.subject, :cell_corrects=>@cell_correct, :cell_totals=>@cell_total, :cell_pcts=>@cell_pct } %>
+      <% end %>
+      <hr>
+    </div>
+    <div class="col-md-1 "></div>
+  </div>
 </div>
 
 <div id="control_panel" >
@@ -116,7 +81,7 @@
   </div>
   <% ActSubject.plannable.each do |subj| %>
     <div id="tabs-3<%= subj.id.to_s%>" class="row">
-      <%=    render :partial => "/apps/ifa_plan/manage_subj_plan", :locals=>{:subject => subj, :show_form => @current_user.show_ifa_plan_form?(subj)} %>
+      <%=    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => subj, :show_form => @current_user.show_ifa_plan_form?(subj)} %>
     </div>
   <% end %>
 

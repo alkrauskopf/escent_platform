@@ -69,7 +69,7 @@ jQ(document).ready(function() {
 						<td width=540px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
 							<i><%=  ass.name.titleize %></i>&nbsp;&nbsp;<%= link_to "View In Separate Window", ifa_assessment_view_path(:organization_id => @current_organization, :question_id => @question, :assessment_id => ass), {:target => "_blank"}  %>
 							<br/>
-							<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
+							<% @current_provider.ifa_org_option.act_masters.each do |mstr| %>
 							<%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%><br/>
 							<% end -%>
 						</td>
@@ -123,7 +123,7 @@ jQ(document).ready(function() {
 						<td width=540px style="vertical-align:middle;  padding-left:10px; padding-right:3px; padding-top:0px; text-align:left; color: #000000; font-size:11px; font-weight:normal">
 							<i><%=  ass.name.titleize %></i>&nbsp;&nbsp;<%= link_to "View In Separate Window", ifa_assessment_view_path(:organization_id => @current_organization, :question_id => @question, :assessment_id => ass), {:target => "_blank"}  %>
 							<br/>
-							<% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
+							<% @current_provider.ifa_org_option.act_masters.each do |mstr| %>
 							<%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%><br/>
 							<% end -%>
 						</td>

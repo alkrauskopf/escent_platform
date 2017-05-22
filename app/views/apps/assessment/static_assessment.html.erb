@@ -8,12 +8,12 @@
     <div class="panel_subtitle_blue">
       <%= @assessment.act_subject.name.upcase%>
       </br>
-      <% @current_organization.ifa_org_option.act_masters.each_with_index do|mstr, idx| -%>
+      <% @current_provider.ifa_org_option.act_masters.each_with_index do|mstr, idx| -%>
           <%= mstr.abbrev %>: <%=@assessment.score_range(mstr) %>
           <% if mstr.act?%>
             &nbsp;|&nbsp;SAT: <%= ActScoreRange.sat_score(mstr, @assessment.act_subject, @assessment.lower_score(mstr)) %>&nbsp;-&nbsp;<%= ActScoreRange.sat_score(mstr, @assessment.act_subject, @assessment.upper_score(mstr)) %>
           <% end %>
-          <% if (idx + 1) < @current_organization.ifa_org_option.act_masters.size %>
+          <% if (idx + 1) < @current_provider.ifa_org_option.act_masters.size %>
             &nbsp;|&nbsp;
           <% end %>
       <% end-%>

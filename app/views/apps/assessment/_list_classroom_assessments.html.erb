@@ -32,7 +32,7 @@
       <div class="col-md-7">
         <span style="font-weight:bold"><%= ass.name.titleize%></span><br/>
         <%= ass.act_subject.name%>:&nbsp;
-        <% @current_organization.ifa_org_option.act_masters.each do |mstr| %>
+        <% @current_provider.ifa_org_option.act_masters.each do |mstr| %>
             <%= mstr.abbrev.upcase %>:&nbsp;<%= ass.score_range(mstr)%>&nbsp;&nbsp;
         <% end -%>
       </div>

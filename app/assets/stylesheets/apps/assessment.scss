@@ -465,7 +465,7 @@
   color:$red_text
 }
 .ifa_take_right {
-  padding-left:2em;
+  padding-left:0em;
   margin-top:3em;
   text-align:left;
   font-size:14px;
@@ -1155,4 +1155,9 @@
 .ifa_edit_genre {
   text-align:left;
   padding:.5em 0em .5em 0em;
+}
+.ifa_dashboard_box {
+  margin:0em 0em 0em 0em;
+  border-top:1px solid #ddd;
+  border-radius: 5px;
 }

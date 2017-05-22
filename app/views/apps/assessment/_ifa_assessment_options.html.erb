@@ -39,7 +39,7 @@
 					</td>
 				<% end-%>
 					<td  id = "master_id" width=60px style="vertical-align:middle;  padding-left:30px; padding-top:10px; text-align:right; color: #000000; font-size:11px; font-weight:normal">
-						<%=  select(:ass, :master_id, @current_organization.ifa_org_option.act_masters.collect{|m| [m.abbrev,m.id]},{:prompt => master_tag}) %>
+						<%=  select(:ass, :master_id, @current_provider.ifa_org_option.act_masters.collect{|m| [m.abbrev,m.id]},{:prompt => master_tag}) %>
 					</td>
 				<td  style="width:120px; border:0px solid white; font-size:11px; padding-left:35px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:normal;">
 					&nbsp;
@@ -189,7 +189,7 @@
 				<% if quest.is_calibrated -%>
 					 <%= (image_tag "calibrated_yes.png",:width => 20) %>
 				<% end -%>
-				<% @current_organization.ifa_org_option.act_masters.each do|mstr| -%>
+				<% @current_provider.ifa_org_option.act_masters.each do|mstr| -%>
 				<% strand = quest.standard(mstr).abbrev.upcase rescue ""-%>
 	 			<% range = quest.score_range(mstr).range rescue "" -%>
 				<% unless strand == "" && range == ""%><%= mstr.abbrev %>: <%= strand%> <%=range %><% end -%><br/>

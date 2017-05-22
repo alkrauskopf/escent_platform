@@ -42,6 +42,10 @@ class ActStandard < ActiveRecord::Base
     !self.is_active
   end
 
+  def self.active
+    where('is_active').order('pos ASC')
+  end
+
   def self.strands
     where('is_active').order('pos ASC')
   end

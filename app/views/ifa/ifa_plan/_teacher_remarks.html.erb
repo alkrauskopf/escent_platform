@@ -13,12 +13,12 @@
   </div>
   <% if show_form %>
     <div>
-     <%= render :partial =>  "/apps/ifa_plan/form_remark", :locals=>{:plan=> plan} %>
+     <%= render :partial =>  "/ifa/ifa_plan/form_remark", :locals=>{:plan=> plan} %>
     </div>
   <% else %>
   <div class="ifa_plan_teacher_remarks">
     <% remarks.each do |remark|%>
-      <%= render :partial =>  "/apps/ifa_plan/teacher_show_remark", :locals=>{:remark => remark} %>
+      <%= render :partial =>  "/ifa/ifa_plan/teacher_show_remark", :locals=>{:remark => remark} %>
     <% end %>
   </div>
   <% end %>

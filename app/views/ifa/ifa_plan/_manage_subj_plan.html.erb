@@ -22,8 +22,8 @@
               </div>
             </div>
             <% plan = @current_user.ifa_plan_subject(subject) %>
-            <%= render :partial =>  "/apps/ifa_plan/show_plan", :locals=>{:plan=> plan}%>
-            <%= render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> plan, :remarks => plan.remarks, :show_form=>false} %>
+            <%= render :partial =>  "/ifa/ifa_plan/show_plan", :locals=>{:plan=> plan}%>
+            <%= render :partial =>  "/ifa/ifa_plan/teacher_remarks", :locals=>{:plan=> plan, :remarks => plan.remarks, :show_form=>false} %>
             <%= @classroom.nil? ? 'Nil Classroom': @classroom.id %>
             <%= plan.nil? ? 'Nil Plan': plan.id %>
             <div class="ifa_plan_teacher_milestones_box ">
@@ -35,12 +35,12 @@
             </div>
             <% ActStandard.for_standard_and_subject(ActMaster.default, subject).each do |strand| %>
               <div class="row ifa_plan_teacher_milestones_box">
-                <%= render :partial =>  "/apps/ifa_plan/strand_milestones", :locals=>{:plan=>@current_user.ifa_plan_subject(subject), :strand => strand, :new_milestone=>nil}%>
+                <%= render :partial =>  "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@current_user.ifa_plan_subject(subject), :strand => strand, :new_milestone=>nil}%>
               </div>
             <% end %>
           </div>
         <% else %>
-          <%= render :partial =>  "/apps/ifa_plan/form_plan", :locals=>{:plan=>@current_user.ifa_plan_subject(subject)}%>
+          <%= render :partial =>  "/ifa/ifa_plan/form_plan", :locals=>{:plan=>@current_user.ifa_plan_subject(subject)}%>
         <% end %>
       <% end %>
     </div>

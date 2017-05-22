@@ -1,0 +1,1163 @@
+
+@import "application-variables.scss";
+@import 'bootstrap';
+
+.star_achievement {
+  @extend .glyphicon;
+  @extend .glyphicon-star;
+  color:$gold_star;
+  padding-right:0em;
+  font-size:16px;
+}
+
+.ifa_modal_header {
+  color:$red_text;
+  font-weight:bold;
+  text-align:left;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size:16px;
+}
+
+.ifa_modal_title {
+  margin-top:1em;
+  margin-bottom:1em;
+  color:$blue_text;
+  font-weight:bold;
+  text-align:left;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size:14px;
+}
+.ifa_modal_box {
+  margin:0em 4em 0em 4em;
+  line-height:1.5em;
+  color:$dark_text;
+  font-weight:normal;
+  text-align:left;
+  font-family:Georgia, "Times New Roman", Times, serif;
+  font-size:16px;
+}
+.ifa_modal_row {
+  padding-bottom:1em;
+}
+
+.ifa_container {
+  width: 100%;
+  margin: 0 auto;
+}
+.classroom_tab {
+  width: 92%;
+  margin: 0em 5em 0em 5em;
+}
+.assess_container {
+  width: 100%;
+  margin: 0 auto;
+  background:$page_background;
+}
+
+.static_assessment {
+  width: 100%;
+  margin: 0 auto;
+  background-color:white;
+  border:1px solid #ddd;
+  border-radius: 5px;
+  padding-bottom:2em;
+  padding-left:0em;
+  padding-top:0em;
+}
+
+.static_assess_top_panel {
+  margin: 0em 1em 0em 1em;
+  background-color:white;
+  border:0px solid #ddd;
+  line-height:1.5em;
+  border-radius: 0px;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  font-weight:normal;
+  font-size:13px;
+  color:$dark-text;
+ /* font-family:Georgia, "Times New Roman", Times, serif;  */
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.static_assess_creation {
+  line-height:2.0em;
+  margin:0em 0em 0em 2em;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  font-size:13px;
+}
+.static_assess_stats {
+  margin: 0em 0em 0em 1em;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  font-size:15px;
+}
+.static_assess_filters {
+  margin: 1em 0em 0em 0em;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  font-size:12px;
+  line-height:1em;
+  vertical-align:top;
+  text-align:right;
+}
+.static_assess_thumbs {
+  text-align:left;
+  font-size:17px;
+}
+.static_assess_buttons {
+  margin:0em 0em 0em 3em;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:1em;
+  font-size:14px;
+}
+
+.static_assess_bottom_panel {
+  margin: 0em 2em 0em 2em;
+  background-color:white;
+  line-height:2.0em;
+  border-radius: 0px;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  font-weight:normal;
+  font-size:11px;
+  color:$dark-text;
+  /* font-family:Georgia, "Times New Roman", Times, serif;  */
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.static_assess_questions {
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  font-size:12px;
+}
+.static_assess_questions .quest_tags {
+  margin-left:0em;
+  vertical-align:top;
+}
+.align{
+  color:$thumb_purple;
+}
+.sequence{
+  color:$thumb_green;
+}
+.ifa_pool_container {
+  margin:0em 0em 0em 0em;
+  padding-bottom:0em;
+  text-align:left;
+  font-size:14px;
+  line-height:2.0em;
+  color:$blue_text;
+}
+.static_assess_questions .quest {
+  margin:0em 0em 0em 1em;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  text-align:left;
+  font-size:12px;
+}
+.static_assess_questions .q_number {
+  color:$blue_text;
+  text-align:left;
+  vertical-align:top;
+  font-weight:bold;
+  font-size:12px;
+}
+.static_assess_questions .q_prof {
+  color:$blue_text;
+  padding-left:1em;
+  text-align:left;
+  vertical-align:top;
+  font-weight:normal;
+  font-size:12px;
+}
+.static_assess_questions .q_text {
+  color:$dark_text;
+  border-right:1px dashed #ddd;
+  margin:1em 0em 0em 0em;
+  padding-top:0em;
+  line-height:1em;
+  vertical-align:middle;
+  font-style: italic;
+  text-align:left;
+  font-weight:normal;
+  font-size:14px;
+}
+.static_assess_questions .q_choices {
+  color:$dark_text;
+  margin:0em 0em 0em 0em;
+  padding-top:.5em;
+  line-height:1em;
+  vertical-align:middle;
+  text-align:left;
+  font-weight:normal;
+  font-size:12px;
+}
+.static_assess_questions .q_line {
+  word-wrap:break-word;
+  color:$dark_text;
+  margin:.5em 0em 0em 0em;
+}
+.static_assess_questions .q_analyze {
+  color:$blue_text;
+  margin:0em 0em 0em 0em;
+  text-align:left;
+  font-weight:normal;
+  font-size:13px;
+}
+
+.assess_header_left {
+  width: 100%;
+  padding-bottom: 0em;
+  padding-left: 1em;
+  padding-top: 1em;
+  float:left;
+}
+.assess_header_ctr {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:bold;
+  font-size:14px;
+  color:$blue_title
+}
+.assess_header_right {
+  width: 100%;
+  padding-bottom: 0em;
+  padding-right: 1em;
+  padding-left:4em;
+  padding-top: 1em;
+  float:right;
+}
+.assess_header_text {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:13px;
+  color:$blue_title
+}
+.assess_to_take {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  font-weight:normal;
+  font-size:13px;
+  color:$blue_title
+}
+.assess_to_take_hdr {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:bold;
+  font-size:12px;
+  color:$dark_text;
+}
+
+.assess_form_title {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:14px;
+  color:$dark_text
+}
+.assess_form_end {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:12px;
+  color:$blue_text;
+}
+.eoa {
+  font-size:14px;
+  color:$red_text;
+  text-align:center;
+  padding-top:1em;
+  padding-bottom:0em;
+  font-style: italic;
+}
+.assess_form_left {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:12px;
+  color:$dark_text;
+}
+
+.assess_submit_row {
+  padding-bottom:3em;
+  padding-left:0em;
+  padding-top:2em;
+  font-size:12px;
+}
+
+.ifa_back_button {
+  float:right;
+  padding-left:1em;
+  padding-top:3em;
+  font-size:10px;
+}
+
+.assess_button {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:1em;
+  padding-top:0em;
+  font-size:12px;
+}
+
+.assess_button_label {
+  padding-left:2em;
+  font-size:10px;
+  font-weight:normal;
+  font-style: italic;
+  color:$red-text;
+}
+
+.question_label {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  text-align:center;
+  text-decoration: underline;
+  font-weight:bold;
+  font-size:12px;
+}
+.question_reading {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:3em;
+  padding-right:3em;
+  padding-top:0em;
+  text-align:left;
+  font-family:Georgia, "Times New Roman", Times, serif;
+}
+.question_image {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:3em;
+  padding-right:3em;
+  padding-top:0em;
+  text-align:center;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.question_pdf {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:3em;
+  padding-right:3em;
+  padding-top:0em;
+  text-align:left;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.question_box {
+  width:90%;
+  margin: 0em 0em 0em 3em;
+  border: 1px $dark-text;
+  border-style: dashed;
+  background:$question_background;
+  border-radius: 5px;
+  padding: 2em;
+  text-align:left;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.question_text {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:3em;
+  padding-right:3em;
+  padding-top:0em;
+  font-size:14px;
+  font-weight:bold;
+  text-align:left;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+  color:$dark_text;
+}
+.question_check {
+  width:10%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  float:right;
+  vertical-align:top;
+  font-size:12px;
+  color:$dark_text;
+}
+.question_choice {
+  width:90%;
+  padding-bottom:0em;
+  padding-left:1.5em;
+  padding-top:1em;
+  vertical-align:top;
+  text-align:left;
+  font-size:13px;
+  color:$dark_text;
+}
+
+.submission_success{
+  width:100%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  vertical-align:top;
+  text-align:center;
+  font-size:13px;
+  color:$red_text;
+}
+
+.suggested_topics_list {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:12px;
+  color:$dark_text
+}
+
+.ifa_user_panel {
+  padding-left:0em;
+  padding-top:1em;
+  text-align:left;
+  font-weight:bold;
+  padding-bottom:.5em;
+  font-size:14px;
+  color:$red_text
+}
+.ifa_take_right {
+  padding-left:0em;
+  margin-top:3em;
+  text-align:left;
+  font-size:14px;
+}
+.ifa_sat_button {
+  padding-left:.5em;
+  padding-top:.4em;
+  padding-bottom:0em;
+}
+.ifa_sat_view_panel {
+  padding-left:0em;
+  padding-top:0em;
+  text-align:left;
+  vertical-align:top;
+  padding-bottom:3em;
+  font-size:14px;
+  color:$dark_text
+}
+.ifa_panel_title {
+  width:100%;
+  margin-top:1em;
+  padding-bottom:1em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:16px;
+  color:$blue_text;
+}
+
+.ifa_pending_destroy {
+  font-size:11px;
+}
+
+.ifa_panel_list {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  font-weight:normal;
+  font-size:12px;
+  color:$dark_text
+}
+
+.summary_dashboard_panel {
+  width:100%;
+  padding-bottom:2em;
+  padding-left:2em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  font-weight:normal;
+  font-size:10px;
+  color:$dark_text
+}
+.toggle_filter_row {
+  padding-bottom:1em;
+  padding-right:0em;
+  padding-top:0em;
+  text-align:right;
+  vertical-align:top;
+  font-weight:normal;
+  font-size:12px;
+  color:$dark_text;
+}
+.toggle_filter_button {
+  padding-bottom:1em;
+  padding-right:0em;
+  padding-top:0em;
+  float:left;
+  cursor:pointer;
+}
+.dashboard {
+  background-color:white;
+  border:1px solid #ddd;
+  border-radius: 5px;
+  padding-bottom:2em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:center;
+  vertical-align:middle;
+}
+.dashboard_header {
+  color:$blue_title;
+}
+.dashboard_header_1 {
+  border:0px solid #ddd;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  font-size:15px;
+  word-wrap:break-word;
+  text-align:center;
+  vertical-align:middle;
+  font-weight:bold;
+}
+.dashboard_header_2 {
+  border:0px solid #ddd;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  font-size:14px;
+  word-wrap:break-word;
+  text-align:center;
+  vertical-align:middle;
+  font-weight:normal;
+}
+.dashboard_header_3 {
+  border:0px solid #ddd;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  font-size:12px;
+  word-wrap:break-word;
+  text-align:center;
+  vertical-align:middle;
+  font-weight:normal;
+}
+.dashboard_header_4 {
+  border:0px solid #ddd;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  font-size:12px;
+  word-wrap:break-word;
+  text-align:center;
+  vertical-align:middle;
+  font-weight:bold;
+}
+.dashboard_header_1 {
+  border:0px solid #ddd;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  font-size:11px;
+  word-wrap:break-word;
+  text-align:center;
+  vertical-align:middle;
+  font-weight:bold;
+}
+
+.dashboard_cell {
+  padding-bottom:1em;
+  padding-top:1em;
+  color:$dark_text;
+  border:1px solid #ddd;
+  text-align:center;
+  vertical-align:middle;
+  font-weight:bold;
+  font-size:11px;
+}
+.dashboard_listing {
+  margin-left:0em;
+  width:99%;
+  padding-bottom:2em;
+  padding-left:0em;
+  padding-top:0em;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:normal;
+  font-size:13px;
+  color:$blue_title;
+}
+.summary_dashboards {
+  padding-bottom:2em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:normal;
+  font-size:10px;
+  color:$dark_text;
+}
+.summary_dashboard_row {
+  padding-bottom:1em;
+  padding-left:3em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:normal;
+  font-size:14px;
+  color:$dark_text;
+}
+.repo_select {
+  width:100%;
+  padding-right:0em;
+  font-size:10px;
+  color:$dark_text;
+}
+.repo_submit {
+  width:100%;
+  padding-left:1em;
+  font-size:10px;
+  color:$dark_text;
+}
+
+.ifa_teacher_box {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  font-weight:bold;
+  font-size:14px;
+  color:$blue_text
+}
+.ifa_teacher_review {
+  width:100%;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:14px;
+  color:$red_text
+}
+.pending {
+  width:100%;
+  max-height: 300em;
+  background-color: $panel-background;
+  overflow: scroll;
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:normal;
+  font-size:11px;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  color:$dark_text
+}
+.pending .created {
+  width:20%;
+  text-align:center;
+}
+.pending .user {
+  width:15%;
+}
+.pending .assessment {
+  width:53%;
+}
+.pending .review {
+  font-size:11px;
+}
+.teacher_review_list {
+  font-size:11px;
+}
+.student_row {
+  width:1%;
+}
+/*  -----    */
+
+.panel-palette_1 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_1;
+  border-color: #ddd;
+}
+
+.panel-palette_2 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_2;
+  border-color: #ddd;
+}
+.panel-palette_3 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_3;
+  border-color: #ddd;
+}
+
+.panel-palette_4 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_4;
+  border-color: #ddd;
+}
+
+.panel-palette_5 {
+  color: $light_text;
+  text-align: center;
+  background-color: $palette_5;
+  border-color: #ddd;
+}
+.question_pool {
+  font-size: 13px;
+  line-height:1.5em;
+  color:$dark_text;
+  text-align:left;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.user_plans_box {
+  margin: 2em 1em 0em 1em;
+}
+
+.user_plan_list {
+  padding: 1em 0em 1em 0em;
+  font-size:16px;
+  font-weight:bold;
+  color:$red_text;
+}
+
+.user_edit_plan_box {
+  margin:0em 0em 1em 0em;
+  font-size:10px;
+  color:$dark_text;
+}
+
+.ifa_plan_box {
+  margin: 1em 0em 1em 0em;
+  font-size:13px;
+  font-weight:normal;
+  color:$dark_text;
+  border:1px solid #ddd;
+}
+
+.plan_base_upon {
+  margin: 0em 0em 1em 0em;
+  font-size:14px;
+  color:$red_text;
+}
+
+.plan_base_upon_label {
+  padding-left:2em;
+}
+
+.plan_selects {
+  padding: 0em 0em 0em 0em;
+  font-size:13px;
+  color:$dark_text;
+}
+
+
+.standard_label {
+  float:right;
+}
+.standard_select {
+  margin-left: 30em;
+}
+.strand_label {
+  text-align:center;
+}
+.strand_select {
+  text-align:center;
+  margin-left:15em;
+}
+
+.ifa_plan_edit_box {
+  margin:0em 8em 1em 8em;
+  word-wrap: break-word;
+  background-color: $panel_background_ifa;
+  border:1px solid #ddd;
+  border-radius: 5px;
+  font-size:14px;
+  color:$dark_text;
+}
+.ifa_plan_show_box {
+  margin:0em 0em 1em 0em;
+  word-wrap: break-word;
+  background-color: $panel_background_ifa;
+  border:1px solid #ddd;
+  border-radius: 5px;
+  font-size:14px;
+  color:$dark_text;
+}
+.ifa_plan_button {
+  margin:0em 0em 1em 0em;
+}
+
+.ifa_plan_edit_row {
+  margin:2em 0em 2em 0em;
+}
+
+.ifa_plan_edit_box .ifa_plan_edit_row .edit_label {
+  width:90%;
+  text-align:center;
+  font-weight:bold;
+  font-size:15px;
+  color:$dark_text;
+}
+.ifa_plan_edit_box .ifa_plan_edit_row .explain{
+  margin:.5em 1em 0em 1em;
+  line-height:2em;
+  font-size:13px;
+  word-wrap: break-word;
+  text-align:center;
+  font-weight:normal;
+  color:$dark_text;
+}
+.ifa_plan_text_box {
+  margin-top:0em;
+  margin-left:12em;
+  margin-right:3em;
+  text-align:left;
+  font-size:15px;
+  font-weight:normal;
+  color:$dark_text;
+}
+
+.ifa_plan_show_row {
+  margin:1em 2em 1em 2em;
+  font-family:Georgia, "Times New Roman", Times, serif;
+}
+.ifa_plan_label {
+  margin:0em 0em .5em 0em;
+  text-align:left;
+  font-weight:bold;
+  font-size:14px;
+  color:$dark_text;
+}
+.ifa_plan_text {
+  margin:0em 0em 0em 0em;
+  text-align:left;
+  word-wrap: break-word;
+  font-weight:normal;
+  font-size:14px;
+  color:$dark_text;
+}
+
+.ifa_edit_row {
+  margin:2em 0em 0em 0em;
+}
+
+.ifa_edit_label {
+  text-align:right;
+}
+
+.ifa_edit_text {
+  text-align:left;
+}
+.ifa_milestone_panel {
+  margin: .5em 0em 0em 0em;
+}
+.ifa_milestone_panel_descript {
+  margin: .5em 2em 0em 2em;
+  text-align:justify;
+  font-size:12px;
+  font-weight:normal;
+}
+.ifa_milestone_header_row {
+  margin:2em 0em 1em 0em;
+  font-size:12px;
+}
+.ifa_milestone_range_select {
+  padding:0em 0em 0em 4em;
+  color:$red_text;
+  font-size:14px;
+}
+
+.ifa_milestone_edit_box {
+  margin:0em 1em 0em 1em;
+  word-wrap: break-word;
+  background-color: $panel_background_ifa;
+  border:1px solid #ddd;
+  border-radius: 5px;
+  font-size:14px;
+  color:$dark_text;
+}
+
+.ifa_milestone_edit_row {
+  margin:1em 0em 1em 0em;
+}
+.ifa_milestone_edit_footer_row {
+  padding:0em 0em 1em 0em;
+}
+
+.ifa_milestone_mastery {
+  font-size:13px;
+  text-align:center;
+  color:$red_text;
+}
+.ifa_milestone_benchmark {
+  font-size:14px;
+  font-weight:normal;
+  text-align:left;
+  color:$dark_text;
+}
+.ifa_milestone_benchmark_count {
+  text-align:center;
+}
+
+.ifa_milestone_show_box {
+  margin:0em 2em 1em 2em;
+  word-wrap: break-word;
+  background-color: $panel_background_ifa;
+  font-family:Georgia, "Times New Roman", Times, serif;
+  border:0px solid #ddd;
+  border-radius: 5px;
+  max-height: 200em;
+  overflow: scroll;
+  font-size:14px;
+  color:$dark_text;
+}
+.ifa_milestone_show_header {
+  padding:.5em 0em .5em 3em;
+  font-weight:bold;
+  font-size:14px;
+  background-color: $panel_background_ifa_remarks;
+  color:$dark_text;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  text-align:left;
+}
+
+.ifa_milestone_show_row {
+  padding:.5em 0em .5em 0em;
+  text-align:left;
+}
+.ifa_milestone_show_range {
+  padding:1em 0em .5em 3em;
+  font-weight:bold;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  color:$red_text;
+  font-size:13px;
+}
+.ifa_milestone_show_time {
+  padding:1em 0em .5em 3em;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  color:$dark_text;
+  font-size:13px;
+}
+.ifa_milestone_show_benchmarks {
+  padding:1em 0em .5em 3em;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  color:$blue_text;
+  font-size:14px;
+}
+.ifa_milestone_show_descript {
+  padding:0em 0em 0em 0em;
+  color:$dark_text;
+  font-size:14px;
+}
+
+.ifa_milestone_data_row {
+  margin:.5em 0em .5em 3em;
+  text-align:left;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  color:$dark_text;
+  font-size:14px;
+  line-height:1.5em;
+}
+
+.ifa_milestone_show_button {
+  padding:2em 0em .5em 3em;
+}
+.ifa_milestone_edit_button {
+  vertical-align:top;
+  padding:2em 0em .5em 3em;
+}
+
+.ifa_plan_teacher_show_box {
+  margin:0em 0em 1em 0em;
+  word-wrap: break-word;
+  background-color: $panel_background_ifa;
+  border:1px solid #ddd;
+  border-radius: 5px;
+  text-align:justify;
+  font-size:14px;
+  color:$dark_text;
+}
+.ifa_plan_teacher_show_row {
+  margin:1em 2em 1em 2em;
+  padding-bottom:2em;
+  text-align:justify;
+  font-family:Georgia, "Times New Roman", Times, serif;
+}
+.ifa_plan_teacher_show_none {
+  margin:1em 2em 1em 2em;
+  color:$blue_text;
+  font-size:14px;
+}
+.ifa_plan_teacher_show_header {
+  margin:1em 2em 1em 2em;
+  color:$dark_text;
+  text-align:center;
+  font-weight:bold;
+  font-size:14px;
+}
+
+.ifa_milestone_teacher_show_box {
+  margin:0em 0em 0em 0em;
+}
+
+.ifa_milestone_teacher_show_row {
+  margin:0em 0em 0em 0em;
+  border:1px solid #ddd;
+  border-radius: 0px;
+  font-size:13px;
+}
+.ifa_milestone_teacher_show_strand {
+  text-align:left;
+  padding:0em 0em 0em 1em;
+}
+.ifa_milestone_teacher_show_descript {
+  padding:.5em 2em .5em 0em;
+  color:$dark_text;
+  font-size:13px;
+}
+
+.ifa_plan_teacher_remarks_box {
+  margin:1em 0em 0em 0em;
+  border:1px solid #ddd;
+  background-color: $panel_background_ifa_remarks;
+  border-radius: 0px;
+  font-size:14px;
+}
+.ifa_plan_teacher_milestones_box {
+  margin:0em 0em 0em 0em;
+}
+
+.ifa_plan_teacher_milestone_header {
+  margin:0em 0em 0em 0em;
+  background-color: $panel_background_ifa_remarks;
+  border-top:1px solid #ddd;
+  border-radius: 0px;
+  font-size:13px;
+
+}
+
+.ifa_plan_teacher_milestone_label {
+  padding:1em 2em 1em 2em;
+  text-align:right;
+  color:$light_text;
+  font-weight:bold;
+}
+
+.ifa_plan_teacher_remark {
+  margin:0em 0em 1em 0em;
+  text-align:left;
+  background-color: $panel_background_ifa;
+  border-top:1px solid #ddd;
+  border-radius: 0px;
+  font-size:13px;
+}
+.ifa_plan_teacher_remark_label {
+  padding:1em 2em 1em 2em;
+  text-align:right;
+  color:$light_text;
+  font-size:13px;
+  font-weight:bold;
+}
+.ifa_milestone_teacher_remark_link {
+  margin:0em 0em .5em 3em;
+  color:$blue_text;
+  font-size:12px;
+  text-decoration: underline;
+}
+
+.ifa_remark_edit_button {
+  float:right;
+  padding:1em 0em 0em 0em;
+}
+.ifa_remark_edit_box {
+  padding:1em 0em 1em 0em;
+}
+.ifa_plan_teacher_remarks {
+  border-bottom:1px solid #ddd;
+  max-height: 15em;
+  overflow: scroll;
+}
+.ifa_remark_show_time {
+  padding-left:2em;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  color:$dark_text;
+  font-size:13px;
+}
+.ifa_remark_show_remark {
+  padding:.5em 2em .5em 0em;
+  color:$dark_text;
+  font-style: italic;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size:15px;
+}
+.ifa_remark_button {
+  font-size:11px;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+}
+
+.ifa_edit_genre {
+  text-align:left;
+  padding:.5em 0em .5em 0em;
+}
+.ifa_dashboard_box {
+  margin:0em 0em 0em 0em;
+  border-top:1px solid #ddd;
+  border-radius: 5px;
+}

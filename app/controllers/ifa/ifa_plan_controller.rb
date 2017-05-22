@@ -1,21 +1,23 @@
-class Apps::IfaPlanController < ApplicationController
-  helper :all # include all helpers, all the time
+class Ifa::IfaPlanController < ApplicationController
+#  helper :all # include all helpers, all the time
 
   before_filter :set_ifa, :except=>[]
-  before_filter :clear_notification
-#  after_filter :benchmarks_improvements, :only=>[:milestone_create, :milestone_update, :milestone_range_select]
+  before_filter :current_app_enabled_for_current_org?, :except=>[]
+  before_filter :current_user_app_authorized?, :only=>[:index]
+  before_filter :current_user_app_admin?, :only=>[]
+  before_filter :current_app_superuser?, :only=>[:index]
+  before_filter :clear_notification, :except => [:take_assessment]
+  before_filter :increment_app_views, :only=>[:index]
 
-
-  def current_standard
+  def select_standard
     @current_standard = ActMaster.find_by_id(params[:act_master_id]) rescue nil
-  #  standards = @current_organization.ifa_org_option.act_masters rescue []
     standards = ActMaster.all
-    render :partial => '/apps/ifa_plan/select_standard', :locals=>{:standards=>standards}
+    render :partial => '/ifa/ifa_plan/select_standard', :locals=>{:standards=>standards}
   end
 
-  def current_subject
+  def select_subject
     @current_subject = ActSubject.find_by_id(params[:act_subject_id]) rescue ActSubject.na
-    render :partial => '/apps/ifa_plan/select_subject'
+    render :partial => '/ifa/ifa_plan/select_subject'
   end
 
   def plan_subject
@@ -33,7 +35,7 @@ class Apps::IfaPlanController < ApplicationController
       @current_user.ifa_plans << IfaPlan.create(:act_subject_id=>@subject.id)
     end
     @user_plan = @current_user.ifa_plan_subject(@subject)
-    render :partial => "/apps/ifa_plan/manage_subj_plan", :locals=>{:subject => @subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => @subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
   end
 
   def plan_update
@@ -42,7 +44,7 @@ class Apps::IfaPlanController < ApplicationController
     if @user_plan
       @user_plan.update_attributes(:needs=>params[:needs],:goals=>params[:goals])
     end
-    render :partial => "/apps/ifa_plan/manage_subj_plan", :locals=>{:subject => @user_plan.act_subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => @user_plan.act_subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
   end
 
   def plan_update_2
@@ -50,17 +52,17 @@ class Apps::IfaPlanController < ApplicationController
     if @user_plan
       @user_plan.update_attributes(:needs=>params[:ifa_plan][:needs],:goals=>params[:ifa_plan][:goals])
     end
-    render :partial => "/apps/ifa_plan/manage_subj_plan", :locals=>{:subject => @user_plan.act_subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => @user_plan.act_subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
   end
 
   def plan_show_form
     set_subject
-    render :partial => "/apps/ifa_plan/manage_subj_plan", :locals=>{:subject => @subject, :show_form => true}
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => @subject, :show_form => true}
   end
 
   def plan_update_cancel
     set_subject
-    render :partial => "/apps/ifa_plan/manage_subj_plan", :locals=>{:subject => @subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => @subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
   end
 
   def milestone_create
@@ -71,7 +73,7 @@ class Apps::IfaPlanController < ApplicationController
     end
     @milestone = @user_plan.ifa_plan_milestones.last
     benchmarks_improvements
-    render :partial => "/apps/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
+    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
                                                                      :new_milestone => @milestone,
                                                                      :ranges => strand_ranges(@strand)}
   end
@@ -79,7 +81,7 @@ class Apps::IfaPlanController < ApplicationController
   def milestone_change
     set_milestone
     benchmarks_improvements
-    render :partial => "/apps/ifa_plan/strand_milestones", :locals=>{:plan=>@milestone.plan, :strand => @milestone.strand,
+    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@milestone.plan, :strand => @milestone.strand,
                                                                      :new_milestone => @milestone,
                                                                      :ranges => strand_ranges(@milestone.strand)}
   end
@@ -89,21 +91,21 @@ class Apps::IfaPlanController < ApplicationController
     @milestone.update_attributes(:description=>params[:description])
     @milestone.update_attributes(:evidence=>params[:evidence])
     milestone_destroy?(@milestone, false)
-    render :partial => "/apps/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
+    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
                                                                      :new_milestone => false, :ranges => @ranges}
   end
 
   def milestone_update_cancel
     set_milestone
     milestone_destroy?(@milestone, false)
-    render :partial => "/apps/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
+    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
                                                                      :new_milestone => false, :ranges => @ranges}
   end
 
   def milestone_destroy
     set_milestone
     milestone_destroy?(@milestone, true)
-    render :partial => "/apps/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
+    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
                                                                      :new_milestone => false, :ranges => @ranges}
   end
 
@@ -111,14 +113,14 @@ class Apps::IfaPlanController < ApplicationController
     set_milestone
     @milestone.update_attributes(:is_achieved=>true)
     milestone_destroy?(@milestone, false)
-    render :partial => "/apps/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
+    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
                                                                      :new_milestone => false, :ranges => @ranges}
   end
 
   def milestone_achieve_toggle
     set_milestone
     @milestone.update_attributes(:is_achieved=>!@milestone.is_achieved)
-    render :partial =>  "/apps/ifa_plan/teacher_show_milestone", :locals=>{:milestone => @milestone}
+    render :partial =>  "/ifa/ifa_plan/teacher_show_milestone", :locals=>{:milestone => @milestone}
   end
 
   def milestone_range_select
@@ -126,7 +128,7 @@ class Apps::IfaPlanController < ApplicationController
     set_range
     @milestone.update_attributes(:act_score_range_id=>@range.id)
     benchmarks_improvements
-    render :partial =>  "/apps/ifa_plan/form_milestone", :locals=>{:milestone => @milestone, :ranges => strand_ranges(@milestone.strand)}
+    render :partial =>  "/ifa/ifa_plan/form_milestone", :locals=>{:milestone => @milestone, :ranges => strand_ranges(@milestone.strand)}
   end
 
   def plan_teacher_review
@@ -137,7 +139,7 @@ class Apps::IfaPlanController < ApplicationController
     @remarks = @plan.nil? ? [] : @plan.remarks
     @new_remark = IfaPlanRemark.new
     @milestones= @plan.nil? ? nil:@plan.ifa_plan_milestones.by_last_updated
-    render :partial =>  "/apps/ifa_plan/teacher_show_plan", :locals=>{:milestones => @milestones, :remarks => @remarks,
+    render :partial =>  "/ifa/ifa_plan/teacher_show_plan", :locals=>{:milestones => @milestones, :remarks => @remarks,
                         :plan => @plan, :student=>@student}
   end
 
@@ -150,7 +152,7 @@ class Apps::IfaPlanController < ApplicationController
     new_remark.teacher_name = @current_user.last_name_first
     new_remark.course_name = @classroom.nil? ? '' : @classroom.name
     @user_plan.ifa_plan_remarks << new_remark
-    render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>false}
+    render :partial =>  "/ifa/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>false}
   end
 
   def plan_teacher_remark_destroy
@@ -158,14 +160,14 @@ class Apps::IfaPlanController < ApplicationController
     set_classroom
     set_remark
     @remark.destroy
-    render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>false}
+    render :partial =>  "/ifa/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>false}
   end
 
   def remark_show_form
     set_plan
     set_classroom
     @new_remark = IfaPlanRemark.new
-    render :partial =>  "/apps/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>true}
+    render :partial =>  "/ifa/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>true}
   end
 
   def student_cell_data

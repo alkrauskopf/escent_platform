@@ -1,4 +1,4 @@
-module Apps::IfaPlanHelper
+module Ifa::IfaPlanHelper
 
   def achievement_level(strand, level)
     if !strand.nil? && !level.nil?

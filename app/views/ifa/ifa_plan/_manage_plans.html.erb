@@ -34,15 +34,15 @@
   </div>
   <% if !standards.empty? %>
     <div class="row plan_base_upon">
-      <%= render :partial => '/apps/ifa_plan/select_standard', :locals=>{:standards=>standards}%>
+      <%= render :partial => '/ifa/ifa_plan/select_standard', :locals=>{:standards=>standards}%>
     </div>
     <% if @current_standard %>
       <div class="row plan_base_upon">
-        <%= render :partial => '/apps/ifa_plan/select_subject'%>
+        <%= render :partial => '/ifa/ifa_plan/select_subject'%>
       </div>
       <% if @current_subject && false%>
         <div class="row plan_base_upon">
-          <%= render :partial => '/apps/ifa_plan/select_strand', :locals=>{:standards=>standards}%>
+          <%= render :partial => '/ifa/ifa_plan/select_strand', :locals=>{:standards=>standards}%>
         </div>
           <div class="row standard_row">
       <% if !@strands.empty? %>

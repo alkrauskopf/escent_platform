@@ -1,54 +1,44 @@
 <div id="submission_dashboard_<%= submission.public_id %>">
-  <div class="row ">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-      <%= @current_standard.name %> | <%= subject.name %>
-    <div class="col-md-1"></div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-      <%= @cell_total.size %> Cells
-    </div>
-    <div class="col-md-1"></div>
-  </div>
-  <div class="row dashboard">
-    <div class="col-md-12">
-      <table  class="dashboard" id = "dash">
-        <thead class="dashboard_header">
-          <%# col_width = @strand_list.size > 0 ? ((750 - 120)/@strand_list.size).round : 1 -%>
-          <% label_col_pct = 20 %>
-          <%# strand_col_pct = 100 - label_col_pct %>
-          <%# col_width = @current_standard.act_act_standard.strands.size > 0 ? (strand_col_pct/@strand_list.size).round : strand_col_pct -%>
-          <tr >
-            <th  class = "dashboard_header_1" style="width:<%= label_col_pct %>%" >
-              Mastery
-            </th>
-            <% @current_standard.strands(subject).each do |s|%>
-                <th class="dashboard_header_1 tip_std" title="<center><strong><%= s.name.titleize %></strong></center>"  >
-                  <%= s.abbrev.upcase %>
-                </th>
+  <div class="row dashboard_box">
+    <% strands = @current_standard.strands(subject) %>
+    <% level_width = 14 %>
+    <% strnd_width = ((100 - level_width)/strands.size).to_f.to_i.to_s + '%'%>
+      <table >
+        <tbody >
+          <tr>
+            <td class="dashboard_bench_label">
+              For Benchmarks<br/>Click Inside Cells
+            </td>
+            <% strands.each do |s|%>
+              <td class=" dashboard_strand_header tip_std" title="<center><%= s.name.titleize %></center>"  style="width:<%=strnd_width%>; background:<%= s.strand_background%>; color:<%= s.strand_font%>"  >
+                <%= s.abbrev.upcase %>
+              </td>
             <% end -%>
           </tr>
-        </thead>
-        <tbody >
-        <% back_color='#fafafa'%>
-        <% font_color = '#CA8000' %>
           <% @current_standard.mastery_levels(subject).each do |ml|%>
             <tr>
-              <td class="dashboard_cell" width = <%= label_col_pct %>% >
-                  <%= mastery_label(ml, true) %>
+              <td class="dashboard_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
+                  <%= mastery_label_br(ml, true).html_safe %>
               </td>
               <% @current_standard.strands(subject).each do |s|%>
-                <td   style="border:1px solid #ddd; vertical-align:middle; text-align:center; padding-top:5px; padding-bottom:5px; padding-left:0px; background:<%=back_color%>; color:<%= font_color %>; font-size:11px; margin-top:0px; font-weight:bold" >
-                   <%= cell_corrects[hash_key(ml,s)] %> Correct of <%= cell_totals[hash_key(ml,s)] %>
+                <td class="dashboard_cells"  style="background:<%=cell_color[hash_key(ml,s)]%>; color:<%= cell_font[hash_key(ml,s)]%>; " >
+                  <% if cell_milestones[hash_key(ml,s)]%>
+                      <div class="dashboard_milestone" style="color:red;"><i class="wrench_work"></i></div>
+                  <% end %>
+                  <a id="b_<%= ml.id.to_s %><%= s.id.to_s %>" href="">
+                    <%= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s + '<br/>' +
+                        number_with_precision(cell_pcts[hash_key(ml,s)], :precision => 0) + '%').html_safe : ' _ '%>
+                    </a>
+                    <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + ml.id.to_s + s.id.to_s), :titl=> (mastery_label(ml, true) + " | " + s.name),
+                                                                                               :blue=> 'Benchmark',
+                                                                                               :body=> benchmarks(s, ml, @current_standard), :height=> 400, :width=> 650 } %>
+
               <% end -%>
             </tr>
           <% end %>
         </tbody>
       </table>
-    </div>
+
   </div>
 </div>
 <script>
@@ -86,7 +76,7 @@ jQ('td.tip_cell_<%#= div_key %>').qtip({
 </script>
 <script>
 jQ(function(){
-jQ('th.tip_std').qtip({
+jQ('td.tip_std').qtip({
    content: { text: false },
       position: {
       corner: {

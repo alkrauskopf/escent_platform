@@ -19,6 +19,14 @@ module Ifa::IfaPlanHelper
     end
     label
   end
+  def mastery_label_br(range, sat)
+    if !range.nil?
+      label = sat ? range.label_with_sat_break : range.range
+    else
+      label = 'Undefined Level'
+    end
+    label
+  end
   def benchmarks(strand, range, standard)
     benchmarks = []
     if !range.nil? && !strand.nil? && !standard.nil?

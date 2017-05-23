@@ -185,7 +185,9 @@ EscentPartners::Application.routes.draw do |map|
   post '/app/maintenance/ifa/benchmark/update' => 'app_maintenance/ifa#benchmark_update' # app_maintenance_ifa_benchmark_create_path
   get '/app/maintenance/ifa/genre/update' => 'app_maintenance/ifa#genre_update' # app_maintenance_ifa_genre_update_url
   get '/app/maintenance/ifa/genre/create' => 'app_maintenance/ifa#genre_create' # app_maintenance_ifa_genre_create_url
-  post '/app/maintenance/options/edit' => 'app_maintenance/ifa#edit_options'    # app_maintenance_options_edit_path
+  post '/app/maintenance/options/edit' => 'app_maintenance/ifa#edit_options'    # app_maintenance_options_edit_path - - -OLD
+  post '/ifa/options/edit' => 'app_maintenance/ifa#edit_options'    # ifa_options_edit_path
+  get '/ifa/option/master/toggle' => 'app_maintenance/ifa#add_remove_standard_option'    # ifa_option_master_toggle_path
 
   # APPS Shared
   get '/app/owner/maintenance' => 'apps/owner_maintenance#index'
@@ -496,7 +498,7 @@ EscentPartners::Application.routes.draw do |map|
 
   get '/ifa/standard/questions/list' => 'apps/assessment#list_standard_questions'    # ifa_standard_questions_list_path
 
-  get '/ifa/option/master/remove' => 'apps/assessment#add_remove_app_option_master'    # ifa_option_master_remove_path
+
 
   get 'ifa/co/subject/standards' => 'apps/co_standard#subject_standards'    #   ifa_co_subject_standards_path
 

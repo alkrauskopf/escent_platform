@@ -2,7 +2,7 @@ class Ifa::ApplicationController < ApplicationController
 
   helper :all # include all helpers, all the time
   layout "ifa"
-
+  before_filter :current_ifa_options
 
   def student_assessment_dashboardx(submission)
     @cell_correct = {}

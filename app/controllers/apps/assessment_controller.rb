@@ -12,6 +12,7 @@ class Apps::AssessmentController < Apps::ApplicationController
 #  before_filter :current_user_app_authorized?, :except=>[:topic_standards_benchmarks]
   before_filter :current_user_app_authorized?, :only=>[:index]
   before_filter :current_user_app_admin?, :only=>[]
+  before_filter :current_ifa_options
   before_filter :current_app_superuser?, :only=>[:index]
   before_filter :clear_notification, :except => [:take_assessment]
   before_filter :increment_app_views, :only=>[:index]
@@ -20,7 +21,7 @@ class Apps::AssessmentController < Apps::ApplicationController
 #   MAIN ASSESSMENT MANAGEMENT CONTROLLERS
   def index
     initialize_parameters
-    if @current_organization.ifa_org_option
+    if @current_provider.ifa_org_option
       @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first
       @master = ActMaster.find_standard('ACT')
       @co_master = ActMaster.find_standard('CO')
@@ -47,7 +48,7 @@ class Apps::AssessmentController < Apps::ApplicationController
 
     initialize_parameters
     CoopApp.ifa.increment_views
-    if @current_organization.ifa_org_option
+    if @current_provider.ifa_org_option
       @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first
   #    @master = ActMaster.find(:first, :condition=>["abbrev = ?", "ACT"]) rescue ActMaster.first
       @master = ActMaster.act
@@ -84,20 +85,20 @@ class Apps::AssessmentController < Apps::ApplicationController
 
   def edit_options
 
-   if @current_organization.ifa_org_option
+   if @current_provider.ifa_org_option
       school_start_valid = true
       school_start = DateTime.parse(params[:start_date]).strftime("%Y-%m-%d") rescue school_start_valid = false
       @current_provider.ifa_org_option.begin_school_year = school_start if school_start_valid
       #
       # Temp Fix for set school start
       #
-      @current_organization.ifa_org_option.begin_school_year = "2015-08-30"
+      @current_provider.ifa_org_option.begin_school_year = "2015-08-30"
 
-      @current_organization.ifa_org_option.days_til_repeat = params[:option][:days_til_repeat].to_i < 0 ? 0: params[:option][:days_til_repeat].to_i
-      if @current_organization.ifa_org_option.update_attributes(params[:ifa_org_option])
+      @current_provider.ifa_org_option.days_til_repeat = params[:option][:days_til_repeat].to_i < 0 ? 0: params[:option][:days_til_repeat].to_i
+      if @current_provider.ifa_org_option.update_attributes(params[:ifa_org_option])
         flash[:notice] = "Options Updated Successfully"       
       else
-         flash[:error] = @current_organization.ifa_org_option.errors.full_messages.to_sentence 
+         flash[:error] = @current_provider.ifa_org_option.errors.full_messages.to_sentence
       end
     end
        redirect_to self.send(@current_application.link_path, {:organization_id => @current_organization, :classroom_id => @classroom})
@@ -520,14 +521,15 @@ class Apps::AssessmentController < Apps::ApplicationController
     @ifa_classroom = @classroom
     @current_subject = @classroom.act_subject
     @last_submission = @current_user.act_submissions.for_subject(@current_subject).empty? ? nil : @current_user.act_submissions.for_subject(@current_subject).last
-    @student_plan = @current_user.ifa_plans.for_subject(@current_subject).empty? ? nil : @current_user.ifa_plans.for_subject(@current_subject).last
+    @current_student_plan = @current_user.ifa_plans.for_subject(@current_subject).empty? ? nil : @current_user.ifa_plans.for_subject(@current_subject).last
+    @suggested_topics = @current_student_plan.nil? ? [] : @current_student_plan.classroom_lus(@classroom)
     @assessment_subjects = @current_user.act_submissions.collect{|s| s.act_subject}.uniq rescue []
     start_date = @current_provider.ifa_org_option.begin_school_year
      prepare_ifa_dashboard(@current_user, start_date, Date.today)    
 #    @current_student_dashboards = @current_user.ifa_dashboards.for_subject_since(@classroom.act_subject,(@current_provider.ifa_org_option.begin_school_year - 1.years)).reverse
     @classroom_assessment_list = @classroom.act_assessments.active.lock rescue []
 
-    @suggested_topics = @classroom.topics.select{|t| t.act_score_ranges.for_standard(@current_standard).first.upper_score >= @current_sms && t.act_score_ranges.for_standard(@current_standard).first.lower_score <= @current_sms}rescue nil
+  #  @suggested_topics = @classroom.topics.select{|t| t.act_score_ranges.for_standard(@current_standard).first.upper_score >= @current_sms && t.act_score_ranges.for_standard(@current_standard).first.lower_score <= @current_sms}rescue nil
  
     if params[:function] == "Success"
       @success = true

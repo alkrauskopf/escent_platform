@@ -1,101 +1,47 @@
-<div id="master_options" style="padding:0px; width:99%;  border:0px; margin: 0px 0px 0px 0px; text-align:left; min-height:5px;">
-	<% masters = ActMaster.all.by_abbrev -%>
-	<% option = @current_provider.ifa_org_option%>
-	<% org_masters = option.act_masters rescue [] %>
-	<br/>
-	<table  style="width:260px; border:0px;margin-left: 40px">
-		<% masters.each do |mstr| -%>
-			<tr style=" border:0px;">
-				<% if org_masters.include?(mstr)%>
-					<% if mstr.abbrev.upcase == "ACT" -%>
-						<td   style="width:20px; border:0px; font-size:11px; padding-left:0px; padding-bottom:5px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:bold;">
-							<%= (image_tag "button_enabled.png",:width => 15) -%>
-						</td>			
-					<%else -%>
-						<td  id="remove" style="width:20px; border:0px; font-size:11px; padding-left:0px; padding-bottom:5px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:bold;">
-							<%= link_to (image_tag "button_enabled.png",:width => 15), ifa_option_master_remove_path(:organization_id => @current_organization, :user_id => @current_user, :function => "remove", :master_id => mstr), :class => "update_master" %>
-						</td>
-					<% end-%>
-			
-				<%else -%>
-						<td  id="add" style="width:20px; border:0px; font-size:11px; padding-left:0px; padding-bottom:5px; vertical-align:bottom; text-align:right;color: #C83A14;font-weight:bold;">
-							<%= link_to (image_tag "button_disabled.png",:width => 15), ifa_option_master_remove_path(:organization_id => @current_organization, :user_id => @current_user,  :function => "add", :master_id => mstr), :class => "update_master" %>
-						</td>
-				<% end-%>
-				<% if org_masters.include?(mstr)%>
-					<% if mstr.abbrev.upcase == "ACT" -%>
-						<% master_hover = "<center>" + mstr.abbrev.upcase + " Is The IFA Baseline.<br/>" + mstr.abbrev.upcase +  " Cannot Be Turned Off.</center>" %>
-					<td   class="tip" title="<%= master_hover %>" style="width:240px; border:0px; font-size:10px;  vertical-align:bottom; height:25px; text-align:left; color: #C83A14; font-weight:normal;">
-						<%= mstr.name.titleize %>
-					</td>			
-					<%else -%>
-						<% master_hover = "<center>" + mstr.abbrev + " Standards Are Enabled.<br/>Green Button Turns Them Off.</center>" %>
-					<td   class="tip" title="<%= master_hover %>" style="width:240px; border:0px; font-size:10px;  vertical-align:bottom; height:25px; text-align:left; color: #C83A14; font-weight:normal;">
-						<%= mstr.name.titleize %>
-					</td>
-					<% end-%>
-			
-				<%else -%>
-					<% master_hover = "<center>" + mstr.abbrev + " Standards Are Disabled.<br/>Red Button Turns Them On.</center>" %>
-					<td   class="tip" title="<%= master_hover %>" style="width:240px; border:0px; font-size:10px;  vertical-align:bottom; height:25px; text-align:left; color: #C83A14; font-weight:normal;">
-						<%= mstr.name.titleize %>
-					</td>
-				<% end-%>				
-				</tr>				
-			<% end-%>			
-
-		</tbody>					
-	</table>
+<div id="master_options">
+	<% org_masters = @current_ifa_options.act_masters rescue [] %>
+  <div class="row options_standards_row">
+    <div class="col-md-4">
+      <table >
+        <tbody>
+          <% ActMaster.by_abbrev.each do |mstr| -%>
+            <% if mstr.default? -%>
+              <tr>
+                <td class="options_standards_indicator">
+                  <%= (image_tag "button_enabled.png",:width => 15) -%>
+                </td>
+                <td class="options_standards_name">
+                  <%= mstr.name.titleize %>
+                </td>
+              </tr>
+            <%else %>
+              <tr>
+                <td  id="toggle_<%=mstr.id%>">
+                  <% if org_masters.include?(mstr) -%>
+                    <%= (image_tag "button_enabled.png",:width => 15)%>
+                  <% else %>
+                    <%= (image_tag "button_disabled.png",:width => 15)%>
+                  <% end %>
+                </td>
+                <td class="options_standards_name">
+                  <%= mstr.name.titleize %>
+                </td>
+              </tr>
+                <script type="text/javascript">
+                  jQ(document).ready(function() {
+                    jQ("#toggle_<%=mstr.id%>").click(function(){
+                      var url = "<%= ifa_option_master_toggle_url(:organization_id => @current_organization, :master_id => mstr.public_id)%>";
+                      jQ.get(url, {}, function(data) {
+                        jQ("#master_options").html(data);
+                        jQ("#master_options").show();
+                      });
+                    })
+                  });
+                </script>
+            <% end-%>
+          <% end-%>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-
-<script>
-jQ(function(){
-jQ('td.tip').qtip({
-   content: { text: false },
-      position: {
-      corner: {
-         target: 'bottomMiddle',
-         tooltip: 'topMiddle'
-      }
-   },
-   style: { 
-      name: 'cream',
-	  border: {
-         width: 0,
-         radius: 0,
-         color: '#99911a'
-      },
-      width: 240,
-	  tip: { // Now an object instead of a string
-         corner: 'topMiddle', // We declare our corner within the object using the corner sub-option
-         color: '#99911a',
-         size: {
-            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
-            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
-         }
-}  }
-,
-   show: 'mouseover',
-   hide: 'mouseout'
-});
-});
-</script>
-
-
- <script type="text/javascript">
-jQ(document).ready(function() {
-
-	jQ('a.update_master').click(function() {
-
-		var $this = jQ(this);
-
-		var url = $this.attr("href");
-
-			jQ.get(url, function(data){
-				jQ("#master_options").html(data);
-				jQ("#master_options").show();
-			})
-			return false;
-	})
-});
-</script>

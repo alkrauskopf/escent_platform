@@ -1,6 +1,6 @@
 class AppMaintenance::IfaController < ApplicationController
 
-  layout "ifa_maint", :except =>[:standard_select]
+  layout "ifa_maint", :except =>[:standard_select, :add_remove_standard_option]
 
   before_filter :set_ifa, :except=>[]
   before_filter :current_org_current_app_provider?, :except=>[]
@@ -9,7 +9,7 @@ class AppMaintenance::IfaController < ApplicationController
   before_filter :current_standard, :except => []
   before_filter :current_subject, :except => []
   before_filter :subjects, :except => []
-  before_filter :current_ifa_options, :only => [:index]
+  before_filter :current_ifa_options
 
   def index
     strands
@@ -216,6 +216,41 @@ class AppMaintenance::IfaController < ApplicationController
       flash[:error] = @current_benchmark.errors.full_messages.to_sentence
     end
     render :benchmark_edit
+  end
+
+  # Options
+
+  def add_remove_standard_option
+    master = ActMaster.find_by_public_id(params[:master_id]) rescue nil
+    if !@current_provider.ifa_org_option.act_masters.include?(master)
+      @current_provider.ifa_org_option.act_masters << master
+    else
+      remove_masters = @current_provider.ifa_org_option.ifa_org_option_act_masters.for_master(master) rescue nil
+      remove_masters.each do|m|
+        m.destroy
+      end
+    end
+    render :partial => "manage_options_ifa_masters"
+  end
+
+  def edit_options
+    if @current_organization.ifa_org_option
+      school_start_valid = true
+      school_start = DateTime.parse(params[:start_date]).strftime("%Y-%m-%d") rescue school_start_valid = false
+      @current_organization.ifa_org_option.begin_school_year = school_start if school_start_valid
+      #
+      # Temp Fix for set school start
+      #
+      @current_organization.ifa_org_option.begin_school_year = "2015-08-30"
+
+      @current_organization.ifa_org_option.days_til_repeat = params[:option][:days_til_repeat].to_i < 0 ? 0: params[:option][:days_til_repeat].to_i
+      if @current_organization.ifa_org_option.update_attributes(params[:ifa_org_option])
+        flash[:notice] = "Options Updated Successfully"
+      else
+        flash[:error] = @current_organization.ifa_org_option.errors.full_messages.to_sentence
+      end
+    end
+    redirect_to app_maintenance_ifa_path, {:organization_id => @current_organization}
   end
 
   private

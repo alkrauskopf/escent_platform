@@ -44,4 +44,20 @@ class IfaPlan < ActiveRecord::Base
   def remarks
     self.ifa_plan_remarks.by_update_date
   end
+
+  def classroom_lus(classroom)
+    lus = []
+    classroom.topics.active.each do |lu|
+      self.ifa_plan_milestones.each do |ms|
+        if lu.act_score_ranges.include?(ms.range) && lu.act_standards.include?(ms.strand)
+          lus << lu
+        end
+      end
+      lus
+    end
+  end
+
+  def milestone_for?(range,strand)
+    !self.ifa_plan_milestones.open_for_range_strand(range, strand).empty?
+  end
 end

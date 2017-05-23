@@ -22,6 +22,14 @@ class IfaPlanMilestone < ActiveRecord::Base
     where('is_achieved = ?', false).order('updated_at DESC')
   end
 
+  def open_for_range_strand?(range, strand)
+    self.act_score_range_id = range.id &&  self.act_standard_id = strand.id && !self.is_achieved
+  end
+
+  def self.open_for_range_strand(range, strand)
+    where('act_score_range_id = ? && act_standard_id = ? && is_achieved = ?', range.id, strand.id, false)
+  end
+
   def self.by_last_updated
     order('updated_at DESC')
   end

@@ -88,12 +88,21 @@
   text-align:left;
 }
 
+.dashboard_achieve_label {
+  padding:0em 0em 0em 2em;
+  color:$blue_text;
+  font-size:12px;
+  vertical-align:middle;
+  text-align:left;
+  line-height:2em;
+}
 .dashboard_bench_label {
+  padding:1em 0em 0em 2em;
   color:$red_text;
-  font-size:11px;
+  font-size:12px;
   vertical-align:middle;
   text-align:center;
-  line-height:1.1em;
+  line-height:1.5em;
 }
 
 .dashboard_show_benchmarks {
@@ -126,4 +135,12 @@ font-weight:normal;
   font-size:14px;
   text-align:left;
   font-weight:normal;
+}
+.dashboard_list {
+  margin: 0em 0em 0em 0em;
+  color:$red_text;
+  font-size:14px;
+  text-align:left;
+  font-weight:normal;
+
 }

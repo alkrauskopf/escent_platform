@@ -22,7 +22,7 @@
   <% if new_milestone %>
     <%= render :partial =>  "/ifa/ifa_plan/form_milestone", :locals=>{:milestone => new_milestone, :ranges => ranges}%>
   <% else %>
-    <div class="row ifa_milestone_show_box">
+    <div class="row">
       <% plan.strand_milestones(strand).each do |milestone| %>
         <%= render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => milestone}%>
         <hr>

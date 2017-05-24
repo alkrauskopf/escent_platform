@@ -1,10 +1,14 @@
 <div class="ifa_plan_teacher_milestones_box ">
-  <div class="row ifa_plan_teacher_milestone_header">
-    <div class="ifa_plan_teacher_milestone_label">
+  <div class= "precision_prep_panel">
+    <div class="ifa_plan_header_label">
       <%= pluralize(plan.milestones.size, ' Student Milestone') %>
     </div>
   </div>
-  <% milestones.each do |milestone|%>
-    <%= render :partial =>  "/ifa/ifa_plan/teacher_show_milestone", :locals=>{:milestone => milestone} %>
-  <% end %>
+  <div class="ifa_plan_teacher_milestones">
+    <% milestones.each do |milestone|%>
+        <%= render :partial =>  "/ifa/ifa_plan/teacher_show_milestone", :locals=>{:milestone => milestone} %>
+    <% end %>
+  </div>
 </div>
+
+

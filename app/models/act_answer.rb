@@ -1,8 +1,6 @@
 class ActAnswer < ActiveRecord::Base
 
-
   include PublicPersona
-
 
   belongs_to :act_assessment
   belongs_to :act_submission
@@ -11,6 +9,7 @@ class ActAnswer < ActiveRecord::Base
   belongs_to :user
   belongs_to :organization  
   belongs_to :classroom
+  has_one :act_subject, :through => :act_submission
 
   scope :incorrect, :conditions => { :is_correct => false }
   scope :correct, :conditions => { :is_correct => true }
@@ -27,6 +26,13 @@ class ActAnswer < ActiveRecord::Base
 
   def self.selected_and_after(after_date)
     where('created_at >= ? AND was_selected', after_date)
+  end
+
+  def self.selected_for_subject_window(subject, begin_date, end_date)
+    where('created_at >= ? AND created_at <= ? AND was_selected', begin_date, end_date).select{|a| a.act_subject == subject}
+  end
+  def self.selected_for_subject_since(subject, begin_date)
+    where('created_at >= ? AND was_selected', begin_date).select{|a| a.act_subject == subject}
   end
 
   def cell_answers (answers, standard_id, range_id)

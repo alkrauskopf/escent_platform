@@ -521,7 +521,7 @@ class Apps::AssessmentController < Apps::ApplicationController
     @ifa_classroom = @classroom
     @current_subject = @classroom.act_subject
     @last_submission = @current_user.act_submissions.for_subject(@current_subject).empty? ? nil : @current_user.act_submissions.for_subject(@current_subject).last
-    @current_student_plan = @current_user.ifa_plans.for_subject(@current_subject).empty? ? nil : @current_user.ifa_plans.for_subject(@current_subject).last
+    @current_student_plan = @current_user.ifa_plan_for(@current_subject)
     @suggested_topics = @current_student_plan.nil? ? [] : @current_student_plan.classroom_lus(@classroom)
     @assessment_subjects = @current_user.act_submissions.collect{|s| s.act_subject}.uniq rescue []
     start_date = @current_provider.ifa_org_option.begin_school_year

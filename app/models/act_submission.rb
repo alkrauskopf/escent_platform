@@ -2,7 +2,6 @@ class ActSubmission < ActiveRecord::Base
 
   include PublicPersona
 
-
   belongs_to :act_assessment
   belongs_to :user
   belongs_to :classroom
@@ -37,6 +36,14 @@ class ActSubmission < ActiveRecord::Base
     self.is_final
   end
 
+  def self.final_for_subject_window(subject, begin_date, end_date)
+    where('act_subject_id = ? AND date_finalized >= ? AND date_finalized <= ? AND is_final', subject.id, begin_date, end_date)
+  end
+
+  def self.final_for_subject_since(subject, begin_date)
+    where('act_subject_id = ? AND date_finalized >= ? AND is_final', subject.id, begin_date)
+  end
+
   def correct_answers(options = {})
     if options[:level] && options[:strand]
       answers = self.act_answers.correct.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
@@ -48,6 +55,32 @@ class ActSubmission < ActiveRecord::Base
       answers = self.act_answers.correct.selected
     end
     answers
+  end
+
+  def answer_points(options = {})
+    if options[:level] && options[:strand]
+      answers = self.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+    elsif options[:level]
+      answers = self.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+    elsif options[:strand]
+      answers = self.act_answers.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+    else
+      answers = self.act_answers.selected
+    end
+    answers.sum(&:points)
+  end
+
+  def answers_selected(options = {})
+    if options[:level] && options[:strand]
+      answers = self.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+    elsif options[:level]
+      answers = self.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+    elsif options[:strand]
+      answers = self.act_answers.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+    else
+      answers = self.act_answers.selected
+    end
+    answers.size
   end
 
   def incorrect_answers(options = {})

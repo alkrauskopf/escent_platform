@@ -1,5 +1,5 @@
 <div id="plan_remarks_<%=plan.public_id%>">
-  <div class="row ifa_plan_teacher_remarks_box ">
+  <div class= "precision_prep_panel">
     <div class="col-md-3">
       <% if !show_form && @current_user.teacher_for_org?(@current_organization)%>&nbsp;
         <span class="button_gray ifa_remark_button" id="show_remark_form_<%=plan.id%>">
@@ -7,7 +7,7 @@
         </span>
       <% end %>
     </div>
-    <div class="col-md-9 ifa_plan_teacher_remark_label">
+    <div class="col-md-9 ifa_plan_header_label">
       <%= pluralize(remarks.size, ' Teacher Remark') %>
     </div>
   </div>

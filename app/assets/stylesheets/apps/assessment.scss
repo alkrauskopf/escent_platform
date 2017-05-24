@@ -618,11 +618,8 @@
   font-size:11px;
 }
 .dashboard_listing {
-  margin-left:0em;
+  margin:0em 0em 2em 0em;
   width:99%;
-  padding-bottom:2em;
-  padding-left:0em;
-  padding-top:0em;
   text-align:left;
   vertical-align:middle;
   font-weight:normal;
@@ -833,7 +830,7 @@
   margin:0em 0em 1em 0em;
   word-wrap: break-word;
   background-color: $panel_background_ifa;
-  border:1px solid #ddd;
+  border:3px solid #ddd;
   border-radius: 5px;
   font-size:14px;
   color:$dark_text;
@@ -994,8 +991,9 @@
   font-size:13px;
 }
 .ifa_milestone_show_benchmarks {
-  padding:1em 0em .5em 3em;
+  padding:1em 0em 0em 3em;
   font-family: Verdana,Arial,Helvetica,sans-serif;
+  text-decoration:underline;
   color:$blue_text;
   font-size:14px;
 }
@@ -1088,16 +1086,19 @@
   border-top:1px solid #ddd;
   border-radius: 0px;
   font-size:13px;
-
 }
 
 .ifa_plan_teacher_milestone_label {
-  padding:1em 2em 1em 2em;
+  padding:0em 2em 0em 0em;
   text-align:right;
   color:$light_text;
   font-weight:bold;
 }
-
+.ifa_plan_teacher_milestones {
+  border-bottom:1px solid #ddd;
+  max-height: 515em;
+  overflow: scroll;
+}
 .ifa_plan_teacher_remark {
   margin:0em 0em 1em 0em;
   text-align:left;
@@ -1108,6 +1109,13 @@
 }
 .ifa_plan_teacher_remark_label {
   padding:1em 2em 1em 2em;
+  text-align:right;
+  color:$light_text;
+  font-size:13px;
+  font-weight:bold;
+}
+.ifa_plan_header_label {
+  padding:0em 2em 0em 2em;
   text-align:right;
   color:$light_text;
   font-size:13px;

@@ -1,0 +1,30 @@
+<div id="growth_dashboard_<%= @entity.public_id %>" class="container dashboard_listing">
+  <% if !@submission_months.empty? -%>
+      <table id="<%= @entity.public_id %>">
+        <tbody>
+          <% @submission_months.each do |mnth| -%>
+            <tr>
+              <td class="authorization_levels_close">
+              <%= link_to '', ifa_dashboards_entity_path(:organization_id => @current_organization, :subject_id => @subject.id,
+                                        :begin_date => mnth, :entity_id => @entity, :entity_class=> @entity.class.to_s) %>
+              <%= mnth.strftime("%B %Y")%>
+              <span></span>
+              </td>
+            </tr>
+          <% end -%>
+        </tbody>
+      </table>
+  <% else %>
+    <div>
+      * * * No Assessment Data On Record * * *
+    </div>
+  <% end %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+jQ(document).ready(function() {
+	jQ('#<%= @entity.public_id%> .authorization_levels_close').toggleAuthorizationLevels();
+	jQ('#<%= @entity.public_id%> .authorization_levels_open').toggleAuthorizationLevels();	
+});
+</script>
+

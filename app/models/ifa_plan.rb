@@ -60,4 +60,9 @@ class IfaPlan < ActiveRecord::Base
   def milestone_for?(range,strand)
     !self.ifa_plan_milestones.open_for_range_strand(range, strand).empty?
   end
+
+  def achieved_for?(range,strand)
+    !self.ifa_plan_milestones.achieved_for_range_strand(range, strand).empty?
+  end
+
 end

@@ -1,0 +1,29 @@
+<div class="row ifa_panel_title">
+  <%= @current_user.full_name %> Assessment History For <%= pluralize(subjects.size, ' Subject') %>
+</div>
+
+<div class="container dashboard_listing">
+  <div id="assign_resources_panel">
+    <table id="subject_levels">
+      <tbody>
+      <% subjects.each do |sub| -%>
+          <tr>
+            <td class="authorization_levels_close">
+              <%= link_to '', ifa_dashboards_growth_path(:organization_id => @current_organization, :entity_class => "User", :subject_id => sub.id, :entity_id => @current_user) %>
+              <strong><%= sub.name.titleize %> Dashboards</strong>
+              <span></span>
+            </td>
+          </tr>
+      <% end -%>
+      </tbody>
+    </table>
+    <br/>
+  </div>
+</div>
+
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+      jQ('#subject_levels .authorization_levels_close').toggleAuthorizationLevels();
+      jQ('#subject_levels .authorization_levels_open').toggleAuthorizationLevels();
+    });
+  </script>

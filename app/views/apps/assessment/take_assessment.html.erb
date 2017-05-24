@@ -55,9 +55,9 @@
     <div class="col-md-10 ifa_dashboard_box">
       <% if !@last_submission.nil? %>
           <%= render :partial => "ifa/ifa_dashboard/submission_dashboard",
-                     :locals=>{:submission => @last_submission, :subject => @last_submission.subject, :cell_corrects=>@cell_correct,
+                     :locals=>{:entity => @last_submission, :subject => @last_submission.subject, :begin_date => Date.today, :cell_corrects=>@cell_correct,
                                :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
-                                :cell_milestones=>@cell_milestone} %>
+                                :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve} %>
       <% end %>
       <hr>
     </div>
@@ -90,6 +90,7 @@
   </div>
 	<div id="tabs-2" class="row">
     <%= render :partial => "your_growth"  -%>
+    <%#=    render :partial => "/ifa/ifa_dashboard/student_history", :locals=>{:subjects => @assessment_subjects} %>
   </div>
   <% ActSubject.plannable.each do |subj| %>
     <div id="tabs-3<%= subj.id.to_s%>" class="row">

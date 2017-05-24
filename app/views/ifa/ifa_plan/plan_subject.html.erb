@@ -1,6 +1,6 @@
-<div class="row ifa_plan_box">llll
+<div class="row ifa_plan_box">
   <% if @user_plan.incomplete? %>
-      <%= render :partial => '/ifa/ifa_plan/form_plan', :locals=>{:plan=>@user_plan}%>
+    <%= render :partial => '/ifa/ifa_plan/form_plan', :locals=>{:plan=>@user_plan}%>
   <% else %>
     <div id="assign_resources_panel">
       <table id="plan_<%=@subject.id%>" class="user_edit_plan_box">
@@ -30,6 +30,6 @@
     <%= @user_plan.user.name %>
   </div>
   <div class="col-md-8 plan_base_upon_label">
-kkkkk
+
   </div>
 </div>

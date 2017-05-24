@@ -1,6 +1,6 @@
-<div id="entity_dashboard_<%= entity.public_id %><%=subject.id%><%=begin_date.to_s%>">
+<div id="dashboard_<%= @entity.public_id %><%= @subject.id %><%=@begin_date%>">
   <div class="row dashboard_box">
-    <% strands = @current_standard.strands(subject) %>
+    <% strands = @current_standard.strands(@subject) %>
     <% level_width = 14 %>
     <% strnd_width = ((100 - level_width)/strands.size).to_f.to_i.to_s + '%'%>
     <div class="row dashboard_bench_label">
@@ -19,12 +19,12 @@
               </td>
             <% end -%>
           </tr>
-          <% @current_standard.mastery_levels(subject).each do |ml|%>
+          <% @current_standard.mastery_levels(@subject).each do |ml|%>
             <tr>
               <td class="dashboard_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
                   <%= mastery_label_br(ml, true).html_safe %>
               </td>
-              <% @current_standard.strands(subject).each do |s|%>
+              <% @current_standard.strands(@subject).each do |s|%>
                 <td class="dashboard_cells"  style="background:<%=cell_color[hash_key(ml,s)]%>; color:<%= cell_font[hash_key(ml,s)]%>; " >
                   <% if cell_milestones[hash_key(ml,s)]%>
                       <div class="dashboard_milestone"><i class="wrench_work"></i></div>
@@ -32,12 +32,11 @@
                   <% if cell_achieves[hash_key(ml,s)]%>
                       <div class="dashboard_milestone"><i class="star_achievement"></i></div>
                   <% end %>
-                  <a id="b_<%= entity.public_id %><%=subject.id%><%=begin_date.to_s%><%= ml.id.to_s %><%= s.id.to_s %>" href="">
+                  <a id="b_<%= ml.id.to_s %><%= s.id.to_s %>" href="">
                     <%= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s + '<br/>' +
                         number_with_precision(cell_pcts[hash_key(ml,s)], :precision => 0) + '%').html_safe : ' _ '%>
                     </a>
-                    <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + entity.public_id + subject.id.to_s + begin_date.to_s + ml.id.to_s + s.id.to_s),
-                                                                                               :titl=> (mastery_label(ml, true) + " | " + s.name),
+                    <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + ml.id.to_s + s.id.to_s), :titl=> (mastery_label(ml, true) + " | " + s.name),
                                                                                                :blue=> 'Benchmark',
                                                                                                :body=> benchmarks(s, ml, @current_standard), :height=> 400, :width=> 650 } %>
 

@@ -891,6 +891,10 @@ class User < ActiveRecord::Base
 # IFA
 #
 
+  def ifa_plan_for(subject)
+    self.ifa_plans.for_subject(subject).empty? ? nil : self.ifa_plans.for_subject(subject).last
+  end
+
   def last_ifa_dashboard(subject)
     self.ifa_dashboards.for_subject(subject).empty? ? nil :
         self.ifa_dashboards.for_subject(subject).first

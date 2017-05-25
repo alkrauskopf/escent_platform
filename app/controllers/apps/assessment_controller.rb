@@ -736,13 +736,16 @@ class Apps::AssessmentController < Apps::ApplicationController
   initialize_parameters
     @ifa_classroom = @classroom
     @current_subject = @classroom.act_subject
-     prepare_ifa_dashboard(@classroom, (Date.today - 2.months), Date.today)    
+  #   prepare_ifa_dashboard(@classroom, (Date.today - 2.months), Date.today)
     @all_submitted_assessments = @classroom.act_submissions.for_teacher(@current_user)
     @assessment_subjects = @all_submitted_assessments.collect{|s| s.act_subject}.uniq rescue []
     @pending_assessments = @all_submitted_assessments.select{|s|!s.is_final}.sort{ |a,b| b.created_at <=> a.created_at }
     @student_list = @classroom.participants.sort{|a,b| a.last_name <=> b.last_name}
-    @current_classroom_dashboards = @classroom.ifa_dashboards.since(@options.begin_school_year.end_of_month).sort_by{|a| a.act_subject.name}.sort{|a,b| b.period_end <=> a.period_end}
-    find_dashboard_update_start_dates(@classroom)
+  #  @current_classroom_dashboards = @classroom.ifa_dashboards.since(@options.begin_school_year.end_of_month).sort_by{|a| a.act_subject.name}.sort{|a,b| b.period_end <=> a.period_end}
+    @current_classroom_dashboards = @classroom.ifa_dashboards
+  #  find_dashboard_update_start_dates(@classroom)
+    aggregate_dashboard_cell_hashes(@current_classroom_dashboards, @current_subject, @current_user.standard_view)
+    aggregate_dashboard_header_info(@current_classroom_dashboards, @current_subject, @current_user.standard_view)
   end
 
   def destroy_pending_all

@@ -53,6 +53,9 @@ class IfaDashboard < ActiveRecord::Base
   def cell_for(level, strand)
     self.ifa_dashboard_cells.for_range_and_strand(level, strand).empty? ? nil : self.ifa_dashboard_cells.for_range_and_strand(level, strand).first
   end
+  def cells_for_standard(standard)
+    self.ifa_dashboard_cells.for_standard(standard)
+  end
 
   def entity_name
     if self.ifa_dashboardable.nil?

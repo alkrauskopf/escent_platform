@@ -1,0 +1,26 @@
+
+    <div class="row dashboard_title_1">
+      <div class="col-md-1"></div>
+      <div class="col-md-10 ">
+        <%= @dashboard['name'] %> | <%= @dashboard['subject'].name %> | <%= @dashboard['period_end'].strftime("%B %Y")%>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div class="row dashboard_title_2">
+      <div class="col-md-1"></div>
+      <div class="col-md-10 ">
+        <%= pluralize(@dashboard['assess_count'], ' Assessment') %> |
+        <%= pluralize(@dashboard['answer_count'], ' Answer Choice') %> |
+        <%= @dashboard['proficiency']%>% Proficiency |
+        <%= @dashboard['efficiency']%> Secs/Point
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div class="row dashboard_title_2">
+      <div class="col-md-1"></div>
+      <div class="col-md-10 ">
+        Mastery Level: <%= @dashboard['standard'].abbrev %>&nbsp;<%= @dashboard['standard_score']%>
+        <%= @dashboard['sat_score'].nil? ? '' : (', SAT ' + @dashboard['sat_score'].to_s) %>
+      </div>
+      <div class="col-md-1"></div>
+    </div>

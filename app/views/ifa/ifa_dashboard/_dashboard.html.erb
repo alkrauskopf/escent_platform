@@ -1,67 +1,12 @@
 <div id="entity_dashboard_<%= dashboard.public_id %>">
   <% if !@dashboard.nil? %>
-    <div class="row dashboard_title_1">
-      <div class="col-md-1"></div>
-      <div class="col-md-10 ">
-        <%= @dashboard['id'] %> | <%= @dashboard['name'] %> | <%= @dashboard['subject'].name %> | <%= @dashboard['period_end'].strftime("%B %Y")%>
-      </div>
-      <div class="col-md-1"></div>
-    </div>
-    <div class="row dashboard_title_2">
-      <div class="col-md-1"></div>
-      <div class="col-md-10 ">
-        <%= pluralize(@dashboard['assess_count'], ' Assessment') %> |
-        <%= pluralize(@dashboard['answer_count'], ' Answer Choice') %> |
-        <%= @dashboard['proficiency']%>% Proficiency |
-        <%= @dashboard['efficiency']%> Secs/Point
-      </div>
-      <div class="col-md-1"></div>
-    </div>
-      <div class="row dashboard_title_2">
-        <div class="col-md-1"></div>
-        <div class="col-md-10 ">
-          Mastery Level: <%= @dashboard['standard'].abbrev %>&nbsp;<%= @dashboard['standard_score']%>
-          <%= @dashboard['sat_score'].nil? ? '' : (', SAT ' + @dashboard['sat_score'].to_s) %>
-        </div>
-        <div class="col-md-1"></div>
-      </div>
+    <%= render :partial => "/ifa/ifa_dashboard/header_dashboard" %>
   <% end %>
   <% if !@assessment.nil? %>
-      <div class="row ">
-        <div class="col-md-2">
-          <% if @assessment['comment'] != '' %>
-              <div class="row dashboard_comment_header ">
-                Student Comment
-              </div>
-              <div class="row dashboard_comment ">
-                <%= @assessment['comment']%>
-              </div>
-          <% end %>
-        </div>
-        <div class="col-md-8 ">
-          <div class="row dashboard_title_3">
-            <%= @assessment['subject'].name %> Assessment Taken <%= time_ago_in_words(@assessment['taken_time']).sub(/about /, '') + " ago" %>
-          </div>
-          <div class="row dashboard_title_3">
-            <%= pluralize(@assessment['answer_count'], ' Answer Choice') %> |
-            <%= pluralize(number_with_precision(@assessment['total_points'], :precision => 0), ' Point') %> |
-            <%= pluralize(number_with_precision(@assessment['duration_minutes'], :precision => 1), ' Minute') %> |
-            <%= @assessment['proficiency']%>% | <%= @assessment['efficiency']%> Secs/Point
-          </div>
-          <div class="row dashboard_title_4">
-            <%=@assessment['score_status']%>Mastery Level: <%= @assessment['standard'].abbrev %>&nbsp;<%= @assessment['standard_score']%>
-            <%= @assessment['sat_score'].nil? ? '' : (', SAT ' + @assessment['sat_score'].to_s) %>
-          </div>
-        </div>
-        <div class="col-md-2 dashboard_teacher">
-          <div class="row">
-            <%= @assessment['teacher']%>
-          </div>
-          <div class="row">
-            <%= @assessment['status'] %>
-          </div>
-        </div>
-      </div>
+      <%= render :partial => "/ifa/ifa_dashboard/header_assessment" %>
+  <% end %>
+  <% if !@aggregate.nil? %>
+      <%= render :partial => "/ifa/ifa_dashboard/header_aggregate" %>
   <% end %>
   <div class="row dashboard_box">
     <% strands = standard.strands(subject) %>

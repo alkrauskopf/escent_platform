@@ -14,27 +14,11 @@
   </div>
   <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-4 submission_success">
-      <% if @last_submission%>
-        Last Assessment: <%= time_ago_in_words(@last_submission.created_at).sub(/about /, '') + " ago" %><br/>
-        Duration: <%= number_with_precision(@last_submission.duration/60.0, :precision => 1) %> Minutes<br/>
-        <% unless @last_submission.sms_score(@current_standard) == 0 -%>
-          <% ass_score =  @last_submission.sms_score(@current_standard) %>
-          <%= @last_submission.final? ? '' : 'Estimated '%><%= @current_standard.abbrev_view(@current_user) %> Score: <%= ass_score %><br/>
-        <% end -%>
-        <% if @classroom.ifa_classroom_option.is_ifa_notify %>
-          <%= @last_submission.teacher.last_name %> has been notified.<br/>
-        <% end -%>
-        <% if !@last_submission.final? -%>
-            Your dashboard will be updated when your teacher reviews the assessment.<br/>
-        <% end -%>
-      <% end %>
-    </div>
-    <div class="col-md-5 submission_success">
+    <div class="col-md-8 submission_success">
       <% if !@current_student_plan.nil? -%>
         <% if !@suggested_topics.empty? %>
           <div class="row plan_lus_header">
-            Your Milestone Learning Units
+            Your Plan Learning Units
           </div>
           <% @suggested_topics.each do |lu| %>
             <div class="row plan_lus">
@@ -48,14 +32,14 @@
         </div>
       <% end %>
     </div>
-    <div class="col-md-1 "></div>
+    <div class="col-md-2 "></div>
   </div>
   <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-10 ifa_dashboard_box">
       <% if !@last_submission.nil? %>
-          <%= render :partial => "ifa/ifa_dashboard/submission_dashboard",
-                     :locals=>{:entity => @last_submission, :subject => @last_submission.subject, :begin_date => Date.today, :cell_corrects=>@cell_correct,
+          <%= render :partial => "ifa/ifa_dashboard/dashboard",
+                     :locals=>{:dashboard => @last_submission, :subject => @last_submission.subject, :standard=>@current_standard, :cell_corrects=>@cell_correct,
                                :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
                                 :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve} %>
       <% end %>

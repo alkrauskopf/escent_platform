@@ -52,13 +52,13 @@ class ActScoreRange < ActiveRecord::Base
   end
 
   def self.sat_score(standard, subject, score)
-    range = ActScoreRange.no_na.for_standard_and_subject(standard, subject).select{|r| (score >= r.lower_score && score <= r.upper_score)}.first
+    range = ActScoreRange.no_na.for_standard_and_subject(standard, subject).select{|r| (score >= r.lower_score && score <= r.upper_score)}.first rescue nil
     if !range.nil? && range.sat_range?
       pct_delta =  (score - range.lower_score.to_f)/(range.upper_score - range.lower_score.to_f)
       sat_range_size = (range.sat_range.upper_score - range.sat_range.lower_score).to_f
       sat_score = (range.sat_range.lower_score.to_f + sat_range_size*pct_delta).to_i
     else
-      sat_score = score
+      sat_score = nil
     end
     sat_score
   end

@@ -5,22 +5,25 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
   def growth_dashboards
     get_subject
     get_entity
-    @submission_months = @entity.act_submissions.final_for_subject_since(@subject, @current_ifa_options.begin_school_year).collect{|s| s.date_finalized.beginning_of_month}.uniq.sort_by{ |d| d }.reverse
+    @submission_months = @entity.act_submissions.final_for_subject_since(@current_subject, @current_ifa_options.begin_school_year).collect{|s| s.date_finalized.beginning_of_month}.uniq.sort_by{ |d| d }.reverse
   end
 
   def entity_dashboard
     get_subject
-    get_entity
-    get_current_plan(@subject)
-    @begin_date = params[:begin_date].to_date
-    @end_date = @begin_date.end_of_month
-    entity_assessment_dashboard(@entity, @subject, @begin_date, @end_date)
+    get_dashboard
+    get_current_plan(@current_subject)
+    dashboard_cell_hashes(@entity_dashboard, @current_subject, @current_standard)
+    dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
   end
 
   private
 
   def get_subject
-    @subject = ActSubject.find_by_id(params[:subject_id]) rescue nil
+    @current_subject = ActSubject.find_by_id(params[:subject_id]) rescue nil
+  end
+
+  def get_dashboard
+    @entity_dashboard = IfaDashboard.find_by_public_id(params[:dashboard_id])rescue nil
   end
 
   def get_entity
@@ -36,8 +39,8 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
   end
 
   def get_current_plan(subject)
-    if !@entity.nil? && @entity.class.to_s == 'User'
-      @current_student_plan = @entity.ifa_plan_for(subject)
+    if !@entity_dashboard.nil? && @entity_dashboard.ifa_dashboardable_type == "User" && !@entity_dashboard.ifa_dashboardable.nil?
+      @current_student_plan = @entity_dashboard.ifa_dashboardable.ifa_plan_for(subject)
     else
       @current_student_plan = nil
     end

@@ -3,12 +3,12 @@
 <div id="options_table1">
 
 <br/>
-				<% master_tag = @current_user.ifa_user_option.act_master.abbrev rescue "ACT"-%>
+				<% master_tag = @current_user.standard_view.abbrev rescue "ACT"-%>
 				<% mastery_tag = @current_user.ifa_user_option.act_score_range.range rescue "Select Mastery Filter" %>
 				<% strand_tag = @current_user.ifa_user_option.act_standard.name rescue "Select Knowledge Strand Filter" %>
 				<% reading_tag = @current_user.ifa_user_option.act_rel_reading.label rescue "Select Related Reading Filter" %>
-        <% score_ranges = ["no filter"] + ActScoreRange.standard_subject_greater_than_upper(@current_user.ifa_user_option.act_master, @assessment.act_subject, 0).collect{|s| [s.range, s.id]}%>
-        <% strands = ["no filter"] + ActStandard.for_standard_and_subject(@current_user.ifa_user_option.act_master, @assessment.act_subject).sort_by{|s| s.name}.collect{|s| [s.name, s.id]}%>
+        <% score_ranges = ["no filter"] + ActScoreRange.standard_subject_greater_than_upper(@current_user.standard_view, @assessment.act_subject, 0).collect{|s| [s.range, s.id]}%>
+        <% strands = ["no filter"] + ActStandard.for_standard_and_subject(@current_user.standard_view, @assessment.act_subject).sort_by{|s| s.name}.collect{|s| [s.name, s.id]}%>
         <% readings = ["no filter"] + @assessment.act_subject.act_rel_readings.by_label.collect{|r| [r.label, r.id]}%>
 	<table   style="width:900px; border:0px solid white;">
 		<tbody>

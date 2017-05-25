@@ -41,6 +41,25 @@ class Apps::ApplicationController < ApplicationController
     end
   end
 
+  def assessment_header_info(submission, standard)
+    @assessment = {}
+    @assessment['id'] = submission.id
+    @assessment['taken_time'] = submission.created_at
+    @assessment['standard'] = standard
+    @assessment['subject'] = submission.subject
+    @assessment['comment'] = submission.student_comment
+    @assessment['standard_score'] = submission.sms_score(standard).nil? ? 0 : submission.sms_score(standard)
+    @assessment['sat_score'] = ActScoreRange.sat_score(standard, submission.subject, @assessment['standard_score'])
+    @assessment['score_status'] = submission.final? ? '' : 'Estimated '
+    @assessment['status'] = submission.final? ? 'Final' : 'Pending'
+    @assessment['teacher'] = submission.teacher.nil? ? 'Not Identified' : submission.teacher.last_name
+    @assessment['answer_count'] = submission.tot_choices.nil? ? 0 : submission.tot_choices
+    @assessment['total_points'] = submission.tot_points.nil? ? 0.0 : submission.tot_points
+    @assessment['duration_secs'] = submission.duration.nil? ? 0 : submission.duration
+    @assessment['duration_minutes'] = @assessment['duration_secs']/60.0
+    @assessment['proficiency'] = @assessment['answer_count'] == 0 ? 0 : (100.0 * @assessment['total_points']/@assessment['answer_count'].to_f).round
+    @assessment['efficiency'] = @assessment['total_points'] == 0.0 ? 0 : (@assessment['duration_secs'].to_f/@assessment['total_points']).round
+  end
 
   protected
   

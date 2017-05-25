@@ -49,4 +49,27 @@ class IfaDashboard < ActiveRecord::Base
   def period_ending
     self.period_end.end_of_month
   end
+
+  def cell_for(level, strand)
+    self.ifa_dashboard_cells.for_range_and_strand(level, strand).empty? ? nil : self.ifa_dashboard_cells.for_range_and_strand(level, strand).first
+  end
+
+  def entity_name
+    if self.ifa_dashboardable.nil?
+      name = "Undefined"
+    elsif self.ifa_dashboardable.class.to_s == 'User'
+      name = self.ifa_dashboardable.full_name
+    elsif self.ifa_dashboardable.class.to_s == 'Classroom'
+      name = self.ifa_dashboardable.name
+    elsif self.ifa_dashboardable.class.to_s == 'Organization'
+      name = self.ifa_dashboardable.short_name
+    else
+      name = 'Undefined'
+    end
+    name
+  end
+
+  def score_for_standard(standard)
+    self.ifa_dashboard_sms_scores.for_standard(standard).first rescue nil
+  end
 end

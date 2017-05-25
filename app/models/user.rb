@@ -900,6 +900,15 @@ class User < ActiveRecord::Base
         self.ifa_dashboards.for_subject(subject).first
   end
 
+  def standard_view
+    if !self.ifa_user_option.nil? && self.ifa_user_option.act_master
+      std = self.ifa_user_option.act_master
+    else
+      std = ActMaster.default_std
+    end
+    std
+  end
+
   def assessments_taken(options = {})
     if options[:since] && options[:subject]
       assessments = self.act_submissions.final.for_subject(options[:subject]).since(options[:since]).order('created_at DESC')

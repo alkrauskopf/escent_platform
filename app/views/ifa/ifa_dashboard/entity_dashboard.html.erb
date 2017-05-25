@@ -1,8 +1,8 @@
 
 <div class="row">
-  <div class="col-md-10 ifa_dashboard_box">
-        <%= render :partial => "ifa/ifa_dashboard/submission_dashboard",
-                   :locals=>{:entity => @entity, :subject => @subject, :begin_date => @begin_date, :cell_corrects=>@cell_correct,
+  <div class="col-md-10">
+        <%= render :partial => "ifa/ifa_dashboard/dashboard",
+                   :locals=>{:dashboard => @entity_dashboard, :subject => @current_subject, :standard => @current_standard, :cell_corrects=>@cell_correct,
                              :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
                              :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve} %>
   </div>

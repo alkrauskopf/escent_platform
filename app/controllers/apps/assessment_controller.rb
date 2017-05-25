@@ -535,6 +535,7 @@ class Apps::AssessmentController < Apps::ApplicationController
       @success = true
     end
     student_assessment_dashboard(@last_submission)
+    assessment_header_info(@last_submission, ActMaster.default_std)
     user_ifa_plans
     find_dashboard_update_start_dates(@current_user)
 
@@ -833,7 +834,7 @@ class Apps::AssessmentController < Apps::ApplicationController
       period = params[:period].to_date rescue Date.today
       entity_id = params[:entity_id] rescue ""
       entity_class = params[:entity_class].to_s rescue ""
-     # @entity_dashboard = IfaDashboard.find(:first, :conditions =>["ifa_dashboardable_type = ? && ifa_dashboardable_id = ? && period_end = ?", entity_class, entity_id, period ])
+     # @entity_dashboard_xx = IfaDashboard.find(:first, :conditions =>["ifa_dashboardable_type = ? && ifa_dashboardable_id = ? && period_end = ?", entity_class, entity_id, period ])
       @entity_dashboard = IfaDashboard.for_entity(entity_class, entity_id, period)
     end
     prepare_single_ifa_dashboard(@entity_dashboard)
@@ -3386,16 +3387,16 @@ end
               dashboard_cell.calibrated_answers = log.is_calibrated ? log.choices : 0                  
               dashboard_cell.fin_points = log.earned_points
               dashboard_cell.cal_points = log.is_calibrated ? log.earned_points : 0.0
-#              dashboard_cell.finalized_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, false)
-#              dashboard_cell.calibrated_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, true)
+#              dashboard_cell.finalized_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard_xx.period_end.beginning_of_month, 75, false)
+#              dashboard_cell.calibrated_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard_xx.period_end.beginning_of_month, 75, true)
               entity_dashboard.ifa_dashboard_cells << dashboard_cell
             else
               dashboard_cell.finalized_answers += log.choices
               dashboard_cell.calibrated_answers += log.is_calibrated ? log.choices : 0                  
               dashboard_cell.fin_points += log.earned_points
               dashboard_cell.cal_points += log.is_calibrated ? log.earned_points : 0.0 
-#              dashboard_cell.finalized_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, false)
-#              dashboard_cell.calibrated_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard.period_end.beginning_of_month, 75, true)
+#              dashboard_cell.finalized_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard_xx.period_end.beginning_of_month, 75, false)
+#              dashboard_cell.calibrated_hover = target_hovers(entity, submission.act_subject, q_range, q_strand, entity_dashboard_xx.period_end.beginning_of_month, 75, true)
               dashboard_cell.update_attributes(params[:ifa_dashboard_cell]) 
             end
           end

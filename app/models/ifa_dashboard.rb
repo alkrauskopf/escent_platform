@@ -50,6 +50,10 @@ class IfaDashboard < ActiveRecord::Base
     self.period_end.end_of_month
   end
 
+  def self.subject_between_periods(subject, start_date, end_date)
+    where('act_subject_id = ? && period_end >= ? && period_end <= ?', subject.id, start_date, end_date)
+  end
+
   def cell_for(level, strand)
     self.ifa_dashboard_cells.for_range_and_strand(level, strand).empty? ? nil : self.ifa_dashboard_cells.for_range_and_strand(level, strand).first
   end

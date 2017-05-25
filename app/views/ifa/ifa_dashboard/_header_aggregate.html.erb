@@ -1,9 +1,26 @@
 <div class="row dashboard_title_1">
   <div class="col-md-1"></div>
   <div class="col-md-10 ">
-    <%= @aggregate['start_period'].strftime("%B %Y")%> - <%= @aggregate['end_period'].strftime("%B %Y")%>
+      <%= @aggregate['start_period'].strftime("%B %Y")%> - <%= @aggregate['end_period'].strftime("%B %Y")%>
   </div>
   <div class="col-md-1"></div>
+</div>
+<div class="row dashboard_title_date_select">
+  <div class="col-md-3"></div>
+  <div class="col-md-3 ">
+    <%= date_select(:dashboard, :start_date, :order=>[:month, :year], :start_year => @aggregate['start_period'].year, :end_year => @aggregate['end_period'].year,:default => @aggregate['start_period']) %>
+  </div>
+  <div class="col-md-3 ">
+    <%= date_select(:dashboard, :end_date, :order=>[:month, :year], :start_year => @aggregate['start_period'].year, :end_year => @aggregate['end_period'].year,:default => @aggregate['end_period']) %>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-2">
+    <div class="button_col" >
+      <span id = "change_range" class="button_blue">
+        New Dates
+      </span>
+    </div>
+  </div>
 </div>
 <div class="row dashboard_title_2">
   <div class="col-md-1"></div>
@@ -15,4 +32,19 @@
   </div>
   <div class="col-md-1"></div>
 </div>
-
+<script type="text/javascript">
+  jQ(document).ready(function() {
+    jQ('#change_range').click(function() {
+      var start_mth = jQ('#dashboard_start_date_2i').val();
+      var start_yr = jQ('#dashboard_start_date_1i').val();
+      var end_mth = jQ('#dashboard_end_date_2i').val();
+      var end_yr = jQ('#dashboard_end_date_1i').val();
+      var url = "<%= ifa_dashboard_range_change_url(:organization_id => @current_organization, :entity_id => @aggregate['entity'].public_id,
+      :entity_class => @aggregate['entity'].class.to_s, :subject_id => @aggregate['subject'].id, :standard_id => @aggregate['standard'].id) %>";
+      jQ.get(url, {'start_mth':start_mth, 'start_yr':start_yr, 'end_mth':end_mth, 'end_yr':end_yr }, function(data) {
+        jQ("#entity_dashboard_<%= dashboard.public_id %>").html(data);
+        jQ("#entity_dashboard_<%= dashboard.public_id %>").show();
+      });
+    })
+  });
+</script>

@@ -34,8 +34,8 @@ class Apps::ApplicationController < ApplicationController
             @cell_color[hash_key] = @current_ifa_options.empty_cell_color
             @cell_font[hash_key] = @current_ifa_options.empty_cell_font
           end
-          @cell_milestone[hash_key] = @current_student_plan.nil? ? false : @current_student_plan.milestone_for?(level,strand)
-          @cell_achieve[hash_key] = @current_student_plan.nil? ? false : @current_student_plan.achieved_for?(level,strand)
+          @cell_milestone[hash_key] = @current_student_plan.nil? ? nil : @current_student_plan.milestone_for?(level,strand)
+          @cell_achieve[hash_key] = @current_student_plan.nil? ? nil : @current_student_plan.achieved_for?(level,strand)
         end
       end
     end
@@ -101,8 +101,9 @@ class Apps::ApplicationController < ApplicationController
     end
   end
 
-  def aggregate_dashboard_header_info(dashboards, subject, standard)
+  def aggregate_dashboard_header_info(dashboards, subject, standard, entity)
     @aggregate = {}
+    @aggregate['entity'] = entity
     @aggregate['subject'] = subject
     @aggregate['standard'] = standard
     @aggregate['assess_count'] = dashboards.collect{|db| db.assessments_taken}.sum

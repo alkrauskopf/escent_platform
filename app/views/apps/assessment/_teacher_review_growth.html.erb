@@ -11,7 +11,7 @@
           <% @current_classroom_dashboards.each do |db| -%>
               <tr>
                 <td class="resource_levels_close">
-                  <%= link_to '', ifa_dashboard_entity_path(:organization_id => @current_organization,  :entity_id => @classroom, :subject_id => db.act_subject_id,  :dashboard_id => db,:entity_id => @classroom.id, :entity_class => @classroom.class, :period => db.period_end) %>
+                  <%= link_to '', ifa_dashboards_entity_path(:organization_id => @current_organization,  :entity_id => @classroom, :subject_id => db.act_subject_id,  :dashboard_id => db,:entity_id => @classroom.id, :entity_class => @classroom.class, :period => db.period_end) %>
                   <%= db.period_end.strftime("%B, %Y") %>:&nbsp;&nbsp;<%= db.act_subject.name %>
                   <span></span>
                 </td>

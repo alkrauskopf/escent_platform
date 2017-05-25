@@ -745,7 +745,23 @@ class Apps::AssessmentController < Apps::ApplicationController
     @current_classroom_dashboards = @classroom.ifa_dashboards
   #  find_dashboard_update_start_dates(@classroom)
     aggregate_dashboard_cell_hashes(@current_classroom_dashboards, @current_subject, @current_user.standard_view)
-    aggregate_dashboard_header_info(@current_classroom_dashboards, @current_subject, @current_user.standard_view)
+    aggregate_dashboard_header_info(@current_classroom_dashboards, @current_subject, @current_user.standard_view, @classroom)
+  end
+
+  def range_change_dashboard
+    get_entity
+    get_standard
+    get_subject
+    start_date = Date.new(params[:start_yr].to_i, params[:start_mth].to_i, 1)
+    end_date = Date.new(params[:end_yr].to_i, params[:end_mth].to_i, 1).end_of_month
+    @dashboards = @entity.ifa_dashboards.subject_between_periods(@current_subject, start_date, end_date)
+    aggregate_dashboard_cell_hashes(@dashboards, @current_subject, @current_standard)
+    aggregate_dashboard_header_info(@dashboards, @current_subject, @current_standard, @entity)
+
+    render :partial => "ifa/ifa_dashboard/dashboard",
+           :locals=>{:dashboard => @entity, :subject => @current_subject, :standard=>@current_standard, :cell_corrects=>@cell_correct,
+                     :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
+                     :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve}
   end
 
   def destroy_pending_all
@@ -2740,9 +2756,9 @@ end
     @admin = @current_user.ifa_admin_for_org?(@current_organization)
 
     if @current_user
-      @current_standard = @current_user.act_master
+      @current_standard = @current_user.standard_view
     else
-      @current_standard = @master_standards.first
+      @current_standard = ActMaster.default_std
     end
     @options = @current_provider.ifa_org_option rescue nil
 
@@ -3621,6 +3637,30 @@ end
       unless @current_user.ifa_plan_subject(subject).nil?
         @user_plans[subject] = @current_user.ifa_plan_subject(subject)
       end
+    end
+  end
+
+  def get_entity
+    if params[:entity_class] == 'User'
+      @entity = User.find_by_public_id(params[:entity_id]) rescue nil
+    elsif params[:entity_class] == 'Classroom'
+      @entity = Classroom.find_by_public_id(params[:entity_id]) rescue nil
+    elsif params[:entity_class] == 'Organization'
+      @entity = Organization.find_by_public_id(params[:entity_id]) rescue nil
+    else
+      @entity = nil
+    end
+  end
+
+  def get_subject
+    if params[:subject_id]
+      @current_subject = ActSubject.find_by_id(params[:subject_id]) rescue nil
+    end
+  end
+
+  def get_standard
+    if params[:standard_id]
+      @current_standard = ActMaster.find_by_id(params[:standard_id]) rescue nil
     end
   end
  end

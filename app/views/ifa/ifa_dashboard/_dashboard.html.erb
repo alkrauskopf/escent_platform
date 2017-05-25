@@ -6,7 +6,7 @@
       <%= render :partial => "/ifa/ifa_dashboard/header_assessment" %>
   <% end %>
   <% if !@aggregate.nil? %>
-      <%= render :partial => "/ifa/ifa_dashboard/header_aggregate" %>
+      <%= render :partial => "/ifa/ifa_dashboard/header_aggregate", :locals => {:dashboard => dashboard} %>
   <% end %>
   <div class="row dashboard_box">
     <% strands = standard.strands(subject) %>
@@ -19,7 +19,7 @@
       <tbody >
       <tr>
         <td class="dashboard_achieve_label">
-          <% if !cell_milestones.empty? %>
+          <% if @current_student_plan %>
             <i class="star_achievement"></i> &nbsp; Mastered<br/>
             <i class="wrench_work"></i> &nbsp; Work Focus
           <% end %>

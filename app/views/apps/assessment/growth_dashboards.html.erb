@@ -1,4 +1,6 @@
-<div class="container dashboard_listing">
+
+  <div class="row ">
+    <div class="ifa_panel_list">
   <% if !@entity_dashboards.empty? -%>
 		<table id="<%= @entity.public_id %>">
 			<tbody>
@@ -21,7 +23,9 @@
       * * * No Assessment Data On Record * * *
     </div>
   <% end %>
-</div>
+    </div>
+  </div>
+
 
 <script type="text/javascript" charset="utf-8">
 jQ(document).ready(function() {

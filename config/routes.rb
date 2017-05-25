@@ -471,6 +471,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/dashboard/toggle' => 'apps/assessment#toggle_ifa_dashboard' #  ifa_dashboard_toggle_url
   get '/ifa/dashboard/growth' => 'apps/assessment#growth_dashboards' #  ifa_dashboard_growth_path
   get '/ifa/dashboard/entity' => 'apps/assessment#entity_dashboard' #  ifa_dashboard_entity_path
+  get '/ifa/dashboard/range_change' => 'apps/assessment#range_change_dashboard' #  ifa_dashboard_range_change_url
 
   get '/ifa/dashboards/growth' => 'ifa/ifa_dashboard#growth_dashboards' #  ifa_dashboards_growth_path
   get '/ifa/dashboards/entity' => 'ifa/ifa_dashboard#entity_dashboard' #  ifa_dashboards_entity_path

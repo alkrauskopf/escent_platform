@@ -99,8 +99,8 @@ class Ifa::ApplicationController < ApplicationController
             @cell_color[hash_key] = @current_ifa_options.empty_cell_color
             @cell_font[hash_key] = @current_ifa_options.empty_cell_font
           end
-          @cell_milestone[hash_key] = @current_student_plan.nil? ? false : @current_student_plan.milestone_for?(level,strand)
-          @cell_achieve[hash_key] = @current_student_plan.nil? ? false : @current_student_plan.achieved_for?(level,strand)
+          @cell_milestone[hash_key] = @current_student_plan.nil? ? nil : @current_student_plan.milestone_for?(level,strand)
+          @cell_achieve[hash_key] = @current_student_plan.nil? ? nil : @current_student_plan.achieved_for?(level,strand)
         end
       end
     end

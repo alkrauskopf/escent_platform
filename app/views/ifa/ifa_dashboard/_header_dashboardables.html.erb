@@ -2,13 +2,13 @@
   <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-11 dashboard_title_dashboardable">
-      <%= 'All ' + @dashboardable['entity'].name + ' Assessments Between ' +  @dashboardable['start_date'].strftime("%m/%d/%Y") + ' and ' + @dashboardable['end_date'].strftime("%m/%d/%Y") + ' Have Been Dashboarded' %>
+      <%= 'All Assessments Between ' +  @dashboardable['start_date'].strftime("%m/%d/%Y") + ' and ' + @dashboardable['end_date'].strftime("%m/%d/%Y") + ' Have Been Dashboarded' %>
     </div>
   </div>
 <% else %>
   <div class="row ">
     <div class="col-md-10 dashboard_title_dashboardable">
-    <%= pluralize(@dashboardable['submissions'].size, (@dashboardable['entity'].name + ' Assessment')) + ' Between ' +
+    <%= pluralize(@dashboardable['submissions'].size, ' Assessment') + ' Between ' +
             @dashboardable['start_date'].strftime("%m/%d/%Y") + ' and ' + @dashboardable['end_date'].strftime("%m/%d/%Y") + ' Not Dashboarded' %>
       </div>
       <div class="col-md-2 dashboard_title_dashboardable">

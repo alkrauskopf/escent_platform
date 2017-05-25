@@ -69,8 +69,8 @@
   border:1px solid #ddd;
   vertical-align:middle;
   text-align:center;
-  font-size:11px;
-  font-weight:bold;
+  font-size:12px;
+  font-weight:normal;
 }
 
 .dashboard_cells {
@@ -80,7 +80,7 @@
   text-align:center;
   line-height:1.3em;
   font-size:12px;
-  font-weight:bold;
+  font-weight:normal;
 }
 
 .dashboard_milestone {
@@ -111,11 +111,11 @@
 }
 .dashboard_strand_header {
   padding:1em 0em 1em 0em;
-  font-size:13px;
+  font-size:15px;
   word-wrap:break-word;
   text-align:center;
   vertical-align:middle;
-  font-weight:bold;
+  font-weight:normal;
 }
 .plan_lus_header {
   color:$blue_text;

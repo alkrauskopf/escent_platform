@@ -475,6 +475,7 @@ EscentPartners::Application.routes.draw do |map|
 
   get '/ifa/dashboards/growth' => 'ifa/ifa_dashboard#growth_dashboards' #  ifa_dashboards_growth_path
   get '/ifa/dashboards/entity' => 'ifa/ifa_dashboard#entity_dashboard' #  ifa_dashboards_entity_path
+  get '/ifa/dashboards/submissions' => 'ifa/ifa_dashboard#dashboard_submissions' #  ifa_dashboards_submissions_url
 
   get '/ifa/related_reading' => 'apps/assessment#get_related_reading' #  ifa_related_reading_url
   post '/ifa/related_reading/add' => 'apps/assessment#add_reading' #  ifa_related_reading_add_path

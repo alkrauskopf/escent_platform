@@ -1,25 +1,35 @@
-
-<div>
-  <div class= 'row'>
-    <div class="col-md-1">
-      <div class="ifa_back_button">
+<div id="ifa_org_analysis">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <div class= 'panel_title_blue'>
+        <%= @current_organization.short_name.upcase  %> Review| <%= @current_user.full_name %>
+      </div>
+    </div>
+    <div class="col-md-1 ">
+      <div class="row ifa_take_right">
         <%= link_to  "Back", self.send(@current_application.link_path,{:organization_id => @current_organization}), :class => "button_gray" %>
       </div>
     </div>
-    <div class="col-md-10">
-      <div class="panel_title_blue">
-        <%= @current_organization.short_name %> <%= @current_standard.abbrev_view(@current_user) %> Dashboards <%= @current_user.calibrate_view? ? ' - Calibrated':''%>
-      </div>
-    </div>
-    <div class="col-md-1"></div>
   </div>
   <hr>
+  <%= render :partial => "/shared/error_and_notice" %>
   <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10 summary_dashboards">
-      <%= render :partial => "/apps/assessment/ifa_dashboard", :locals => {:div_key => (@entity_dashboard ? @entity_dashboard.public_id : "toggle"), :dashboard => (@entity_dashboard ? @entity_dashboard : nil)} %>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="row dashboard_box">
+        <div class="col-md-12 ">
+          <% if !@organization_dashboards.empty? %>
+              <%= render :partial => "ifa/ifa_dashboard/dashboard",
+                         :locals=>{:dashboard => @current_organization, :subject => @current_subject, :standard=>@current_user.standard_view, :cell_corrects=>@cell_correct,
+                                   :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
+                                   :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve} %>
+          <% end %>
+          <hr>
+        </div>
+      </div>
     </div>
-    <div class="col-md-1"></div>
+    <div class="col-md-2"></div>
   </div>
   <%= render :partial => "/apps/assessment/org_analysis_tabs" %>
 </div>

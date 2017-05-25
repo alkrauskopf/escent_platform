@@ -534,6 +534,7 @@ class Apps::AssessmentController < Apps::ApplicationController
     if params[:function] == "Success"
       @success = true
     end
+    @success = true
     student_assessment_dashboard(@last_submission)
     assessment_header_info(@last_submission, ActMaster.default_std)
     user_ifa_plans
@@ -783,42 +784,18 @@ class Apps::AssessmentController < Apps::ApplicationController
     render :partial => "/apps/assessment/teacher_review_pending"
   end
 
-  def classroom_dashboard_x
-  
-  initialize_parameters
-  
-    @start_time = params[:begin_time].to_time
-    @end_time = params[:end_time].to_time
-    @list = @classroom.act_answers
-    @answer_list = @list.selected.select{|a| a.teacher_id == @current_user.id && a.created_at >= @start_time && a.created_at <= @end_time}   
-    @submitted_assessments = @classroom.act_submissions.select{|s|s.teacher_id == @current_user.id && s.created_at >= @start_time && s.created_at.at_beginning_of_day <= @end_time}
-    @current_subject = @classroom.act_subject
- #   @standards_list = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id + ?", @classroom.act_subject_id, @current_standard.id], :order => "abbrev")
-    @standards_list = ActStandard.for_standard_and_subject(@current_standard, @classroom.act_subject)
- #   @range_list = ActScoreRange.find(:all, :conditions => ["act_subject_id = ? && upper_score > ? && act_master_id + ?", @classroom.act_subject_id, 0, @current_standard.id], :order => "upper_score")
-    @range_list = ActScoreRange.standard_subject_greater_than_upper(@current_standard, @classroom.act_subject, 0)
-
-    @num_assessments = @submitted_assessments.size
-    @num_qa = @answer_list.size
-    @sms_level = @current_standard.sms(@answer_list, @classroom.act_subject_id, 0,0, @current_organization.id)
-    @sms_label = "Your " + @classroom.course_name + " SMS Is " + @sms_score.to_s
-        @stats_group = "student"
-    @stats = @current_standard.sms_stats(@answer_list, @classroom.act_subject_id, 0,0, @current_organization.id, @stats_group)
-    unless @stats[0] == 1
-      group_string = @stats_group + "s"
-    else
-      group_string = @stats_group
-    end
-    @header2_string = @start_time.strftime("%B, %Y") +  "&nbsp;&nbsp;"+ @classroom.course_name.upcase + ", " + @current_user.last_name 
-    @header3_string = @stats[0].to_s + "&nbsp;" + group_string.titleize + ",&nbsp;&nbsp;" + @num_qa.to_s + " Answer Choices" + ",&nbsp;&nbsp;Current Mastery Level: " + @sms_level.to_s
-    @header4_string = @current_standard.abbrev + " Mastery Variability Among " + group_string.titleize + ": " + @stats[4].to_s 
-    @header5_string = ""
-    @hover = "classroom"
-
+  def org_analysis
+    initialize_parameters
+    get_subject
+    start_date = @current_provider.ifa_org_option.begin_school_year.beginning_of_month
+    end_date = Date.today.end_of_month
+    @organization_dashboards = @current_organization.ifa_dashboards.subject_between_periods(@current_subject, start_date, end_date) rescue []
+    aggregate_dashboard_cell_hashes(@organization_dashboards, @current_subject, @current_standard)
+    aggregate_dashboard_header_info(@organization_dashboards, @current_subject, @current_standard, @current_organization)
+    org_analysys_instance_variables
   end
 
-
-  def org_analysis
+  def org_analysis_x
   
     initialize_parameters
 
@@ -3625,10 +3602,6 @@ end
      end
      @student_list = @students.compact.uniq.sort{|a,b| a.last_name <=> b.last_name}
      @prep_classrooms = @current_organization.classrooms.active.precision_prep
- #    @org_tbdashboard_period_end =  @current_org_dashboards.empty? ? (Date.today.end_of_month) : (@current_org_dashboards.first.period_end + 1.day).end_of_month
- #    @org_tbdashboard_submissions = ActSubmission.not_dashboarded('Organization', @current_organization, @current_subject, @org_tbdashboard_period_end.beginning_of_month, @org_tbdashboard_period_end)
- #    @classroom_tbdashboard_period_end = @classroom_dashboards.empty? ? (Date.today.end_of_month) :(@classroom_dashboards.first.period_end + 1.day).end_of_month
- #    @classroom_tbdashboard_submissions = ActSubmission.not_dashboarded('Classroom', @current_organization, @current_subject, @classroom_tbdashboard_period_end.beginning_of_month, @classroom_tbdashboard_period_end)
    end
 
   def user_ifa_plans

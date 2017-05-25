@@ -1,0 +1,36 @@
+<% if @dashboardable['submissions'].empty? %>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-11 dashboard_title_dashboardable">
+      <%= 'All ' + @dashboardable['entity'].name + ' Assessments Between ' +  @dashboardable['start_date'].strftime("%m/%d/%Y") + ' and ' + @dashboardable['end_date'].strftime("%m/%d/%Y") + ' Have Been Dashboarded' %>
+    </div>
+  </div>
+<% else %>
+  <div class="row ">
+    <div class="col-md-10 dashboard_title_dashboardable">
+    <%= pluralize(@dashboardable['submissions'].size, (@dashboardable['entity'].name + ' Assessment')) + ' Between ' +
+            @dashboardable['start_date'].strftime("%m/%d/%Y") + ' and ' + @dashboardable['end_date'].strftime("%m/%d/%Y") + ' Not Dashboarded' %>
+      </div>
+      <div class="col-md-2 dashboard_title_dashboardable">
+        <% if @current_user.ifa_admin_for_org?(dashboard.organization) %>
+          <div id="refresh_dashboard<%= dashboard.id %>">
+            <span class="fsn-button ui-button ui-state-default ui-corner-all", style="cursor:pointer">
+               <%= @dashboardable['submissions'].size == 1 ? ' Dashboard It ' : ' Dashboard Them ' %>
+            </span>
+          </div>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ("#refresh_dashboard<%= dashboard.id %>").click(function() {
+                var url = "<%= ifa_dashboards_submissions_url(:organization_id => @current_organization,  :entity_id => @dashboardable['entity'].public_id,
+                :entity_class => @dashboardable['entity'].class.to_s, :subject_id => @dashboardable['subject'].id,  :dashboard_id => dashboard.public_id) %>";
+                jQ.get(url,{},  function(data) {
+                  jQ("#entity_dashboard_<%= dashboard.public_id %>").html(data);
+                  jQ("#entity_dashboard_<%= dashboard.public_id %>").show();
+                });
+              })
+            });
+          </script>
+        <% end %>
+      </div>
+    </div>
+<% end %>

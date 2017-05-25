@@ -52,31 +52,33 @@
       jQ('#network_levels .resource_levels_open').toggleResourceLevels();
     });
   </script>
- 
-  <div id="tabs-2">
-    <div class="container dashboard_listing">
-      <% if !@current_org_dashboards.size.zero? -%>
-        <table id="org_levels">
-          <tbody>
-            <% @current_org_dashboards.each do |db| -%>
-              <% col_label = db.period_end.strftime("%B, %Y") -%>
-              <tr>
-                <td class="resource_levels_close">
-                  <%= link_to '', ifa_dashboard_entity_path(:organization_id => @current_organization,  :subject_id => @current_subject.id,  :dashboard_id => db) %>
-                  <%= col_label.html_safe %>
-                  <span></span>
-                </td>
-              </tr>
-            <% end -%>
-          </tbody>
-        </table>
-      <% else -%>
-        <div>
-          * * *   No Data For <%= @current_subject.name.upcase %>   * * *
-        </div>
-      <% end -%>
+
+    <div id="tabs-2" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <% if !@current_org_dashboards.size.zero? -%>
+            <table id="org_levels" class="teacher_review_list">
+              <tbody>
+              <% @current_org_dashboards.each do |db| -%>
+                  <% col_label = db.period_end.strftime("%B, %Y") -%>
+                  <tr>
+                    <td class="resource_levels_close">
+                      <%= link_to '', ifa_dashboards_entity_path(:organization_id => @current_organization,  :subject_id => @current_subject.id,  :dashboard_id => db) %>
+                      <%= col_label.html_safe %>
+                      <span></span>
+                    </td>
+                  </tr>
+              <% end -%>
+              </tbody>
+            </table>
+        <% else -%>
+            <div>
+              * * *   No Data For <%= @current_subject.name.upcase %>   * * *
+            </div>
+        <% end -%>
+      </div>
+      <div class="col-md-1"></div>
     </div>
-  </div>
     <script type="text/javascript" charset="utf-8">
       jQ(document).ready(function() {
         jQ('#org_levels .resource_levels_close').toggleResourceLevels();
@@ -84,8 +86,9 @@
       });
     </script>
 
-  <div id="tabs-3">
-    <div class="container dashboard_listing">
+  <div id="tabs-3" class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
       <% if !@classroom_list.size.zero? -%>
         <table id="classroom_levels">
           <tbody>
@@ -106,8 +109,9 @@
           * * *   No Classroom Data For <%= @current_subject.name.upcase %>   * * *
         </div>
       <% end -%>
+      </div>
+      <div class="col-md-1"></div>
     </div>
-  </div>
     <script type="text/javascript" charset="utf-8">
       jQ(document).ready(function() {
         jQ('#classroom_levels .resource_levels_close').toggleResourceLevels();
@@ -115,8 +119,9 @@
       });
     </script>
 
-  <div id="tabs-4">
-    <div class="container dashboard_listing">
+  <div id="tabs-4" class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
       <% if !@student_list.size.zero? -%>
         <table id="user_levels">
           <tbody>
@@ -138,6 +143,7 @@
         </div>
       <% end -%>
     </div>
+    <div class="col-md-1"></div>
   </div>
     <script type="text/javascript" charset="utf-8">
       jQ(document).ready(function() {

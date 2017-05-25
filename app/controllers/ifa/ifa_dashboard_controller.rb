@@ -14,6 +14,32 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     get_current_plan(@current_subject)
     dashboard_cell_hashes(@entity_dashboard, @current_subject, @current_standard)
     dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
+    dashboardable_submissions(@entity_dashboard, @current_subject )
+  end
+
+  def dashboard_submissions
+    get_entity
+    get_subject
+    get_dashboard
+    unless @entity.nil?
+      ActSubmission.not_dashboarded(@entity.class.to_s, @entity, @current_subject, @entity_dashboard.period_beginning, @entity_dashboard.period_ending).each do |submission|
+        if @entity.class.to_s == 'User'
+          submission.dashboard_it(submission.user)
+        elsif @entity.class.to_s == 'Classroom'
+          submission.dashboard_it(submission.classroom)
+        elsif @entity.class.to_s == 'Organization'
+          submission.dashboard_it(submission.organization)
+        end
+      end
+    end
+    get_dashboard
+    dashboard_cell_hashes(@entity_dashboard, @current_subject, @current_standard)
+    dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
+    dashboardable_submissions(@entity_dashboard, @current_subject )
+    render :partial => "ifa/ifa_dashboard/dashboard",
+        :locals=>{:dashboard => @entity_dashboard, :subject => @current_subject, :standard => @current_user.standard_view, :cell_corrects=>@cell_correct,
+                  :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
+                  :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve}
   end
 
   private

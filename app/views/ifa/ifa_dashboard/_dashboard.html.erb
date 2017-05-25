@@ -1,4 +1,7 @@
 <div id="entity_dashboard_<%= dashboard.public_id %>">
+  <% if !@dashboardable.nil? %>
+      <%= render :partial => "/ifa/ifa_dashboard/header_dashboardables", :locals => {:dashboard => dashboard} %>
+  <% end %>
   <% if !@dashboard.nil? %>
     <%= render :partial => "/ifa/ifa_dashboard/header_dashboard" %>
   <% end %>

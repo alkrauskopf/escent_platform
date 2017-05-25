@@ -105,6 +105,18 @@ class Ifa::ApplicationController < ApplicationController
       end
     end
   end
+
+  def dashboardable_submissions(dashboard, subject)
+    @dashboardable = {}
+    if !dashboard.nil? && dashboard.period_end && dashboard.ifa_dashboardable
+      @dashboardable['submissions'] = ActSubmission.not_dashboarded(dashboard.ifa_dashboardable_type, dashboard.ifa_dashboardable, subject,
+                                    dashboard.period_beginning, dashboard.period_ending)
+      @dashboardable['start_date'] = dashboard.period_beginning
+      @dashboardable['end_date'] = dashboard.period_ending
+      @dashboardable['entity'] = dashboard.ifa_dashboardable
+      @dashboardable['subject'] = subject
+    end
+  end
   
   protected
 

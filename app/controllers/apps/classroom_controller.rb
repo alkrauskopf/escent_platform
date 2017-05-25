@@ -499,6 +499,7 @@ class Apps::ClassroomController < ApplicationController
     period = ClassroomPeriod.new
     period.classroom_id = @classroom.id
     period.name = params[:period_name]
+    period.start_date = Date.new(params[:start_yr].to_i, params[:start_mth].to_i, params[:start_day].to_i)
     period.week_duration = params[:duration].to_i rescue nil 
     if period.save
       flash[:notice] = @classroom.course_name + ' Period Created'
@@ -646,7 +647,8 @@ class Apps::ClassroomController < ApplicationController
 
   def edit_period
     initialize_parameters
-    if @period.update_attributes(:name => params[:period_name], :week_duration => params[:duration].to_i )
+    start_date = Date.new(params[:start_yr].to_i, params[:start_mth].to_i, params[:start_day].to_i)
+    if @period.update_attributes(:name => params[:period_name], :week_duration => params[:duration].to_i, :start_date => start_date )
       flash[:notice] = @classroom.course_name + ' Period Update'
     else 
      flash[:error] = period.errors.full_messages       

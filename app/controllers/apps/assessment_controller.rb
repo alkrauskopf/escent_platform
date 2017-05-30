@@ -3583,24 +3583,10 @@ end
    def org_analysys_instance_variables
      @dashboard_name = @current_organization.medium_name
      @org_family = @current_organization.active_siblings_same_type
-  #   @current_org_dashboards = @current_organization.ifa_dashboards.for_subject_since(@current_subject,(@current_provider.ifa_org_option.begin_school_year - 1.years)).reverse
-     @current_org_dashboards =IfaDashboard.org_subject_after_date('Organization', @current_organization, @current_subject, @current_provider.ifa_org_option.begin_school_year).reverse
-  #    @classroom_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "Classroom", (@current_provider.ifa_org_option.begin_school_year)]) rescue []
-     @classroom_dashboards =IfaDashboard.org_subject_after_date('Classroom', @current_organization, @current_subject, @current_provider.ifa_org_option.begin_school_year).reverse
-     @classroom_ids = @classroom_dashboards.collect{|d| d.ifa_dashboardable_id}.uniq rescue []
-  #   @student_dashboards = IfaDashboard.find(:all, :conditions => ["act_subject_id = ? && organization_id = ? && ifa_dashboardable_type = ? && period_end >= ? ", @current_subject.id, @current_organization.id, "User", (@current_provider.ifa_org_option.begin_school_year)]) rescue []
-     @student_dashboards =IfaDashboard.org_subject_after_date('User', @current_organization, @current_subject, @current_provider.ifa_org_option.begin_school_year).reverse
-     @student_ids = @student_dashboards.collect{|d| d.ifa_dashboardable_id}.uniq rescue []
-     @classrooms = []
-     @classroom_ids.each do |id|
-       @classrooms << Classroom.find_by_id(id) rescue nil
-     end
-     @classroom_list = @classrooms.compact.uniq.sort{|a,b| a.course_name <=> b.course_name}
-     @students = []
-     @student_ids.each do |id|
-       @students << User.find_by_id(id) rescue nil
-     end
-     @student_list = @students.compact.uniq.sort{|a,b| a.last_name <=> b.last_name}
+     @current_org_dashboards = @current_organization.ifa_dashboards.for_subject(@current_subject).reverse
+   #  @current_org_dashboards =IfaDashboard.org_subject_after_date('Organization', @current_organization, @current_subject, @current_provider.ifa_org_option.begin_school_year).reverse
+     @classroom_list =@current_organization.classrooms.precision_prep_subject(@current_subject).sort{|a,b| a.course_name <=> b.course_name}
+     @student_list = @current_organization.classrooms.precision_prep_students.sort{|a,b| a.last_name <=> b.last_name}
      @prep_classrooms = @current_organization.classrooms.active.precision_prep
    end
 

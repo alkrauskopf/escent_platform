@@ -61,6 +61,8 @@
               <tbody>
               <% @current_org_dashboards.each do |db| -%>
                   <% col_label = db.period_end.strftime("%B, %Y") -%>
+                  <% sms = @current_user.standard_view.sms_for_dashboard(db) %>
+                  <% col_label = db.period_end.strftime("%B, %Y") + ", " + scores_with_sat_equivalent(sms, @current_user.standard_view, db.act_subject) %>
                   <tr>
                     <td class="resource_levels_close">
                       <%= link_to '', ifa_dashboards_entity_path(:organization_id => @current_organization,  :subject_id => @current_subject.id,  :dashboard_id => db) %>

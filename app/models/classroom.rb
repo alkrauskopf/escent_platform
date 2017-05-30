@@ -241,7 +241,11 @@ class Classroom < ActiveRecord::Base
 
   def with_tlt_sessions
     !self.tlt_sessions.empty?
-  end 
+  end
+
+  def self.precision_prep_students
+    where('status = ? && is_prep', 'active').collect{|c| c.students}.flatten.uniq
+  end
  
   def students
     self.classroom_periods.collect{|cp| cp.students}.compact.flatten.uniq

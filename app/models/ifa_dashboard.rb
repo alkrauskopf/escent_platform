@@ -54,9 +54,14 @@ class IfaDashboard < ActiveRecord::Base
     where('act_subject_id = ? && period_end >= ? && period_end <= ?', subject.id, start_date, end_date)
   end
 
-  def cell_for(level, strand)
-    self.ifa_dashboard_cells.for_range_and_strand(level, strand).empty? ? nil : self.ifa_dashboard_cells.for_range_and_strand(level, strand).first
+  def self.for_subject_period(subject, period_date)
+    where('act_subject_id = ? && period_end = ?', subject.id, period_date).first rescue nil
   end
+
+  def cell_for(level, strand)
+    self.ifa_dashboard_cells.for_range_and_strand(level, strand).empty? ? nil : self.ifa_dashboard_cells.for_range_and_strand(level, strand).first rescue nil
+  end
+
   def cells_for_standard(standard)
     self.ifa_dashboard_cells.for_standard(standard)
   end
@@ -78,5 +83,16 @@ class IfaDashboard < ActiveRecord::Base
 
   def score_for_standard(standard)
     self.ifa_dashboard_sms_scores.for_standard(standard).first rescue nil
+  end
+
+  def sms_score(standard)
+    self.ifa_dashboard_sms_scores.for_standard(standard).first rescue nil
+  end
+
+  def score_boundary_minimum(standard)
+    self.ifa_dashboard_cells.for_standard(standard).collect{|c| c.act_score_range.lower_score}.min
+  end
+  def score_boundary_maximum(standard)
+    self.ifa_dashboard_cells.for_standard(standard).collect{|c| c.act_score_range.upper_score}.max
   end
 end

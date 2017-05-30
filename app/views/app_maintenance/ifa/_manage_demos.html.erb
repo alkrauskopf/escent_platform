@@ -1,0 +1,76 @@
+<div id="manage_demos">
+  <div class="row standard_row">
+    <div class="strand_label">
+      Create <%= @current_standard.abbrev %> | <%=@current_subject.name %> Student Dashboard Data
+    </div>
+  </div>
+  <hr>
+  <% if !@prep_classrooms.empty? %>
+    <div class="row standard_row">
+      <div class="strand_select" id="class_id">
+        <%=  select(:classroom, :id, @prep_classrooms.collect{|s| [(s.organization.short_name + ' | ' +s.name),s.id]},{:prompt => 'Select Prep Class'}) %>
+      </div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#class_id").change(function(){
+            var classroom_id = jQ('#classroom_id').val();
+            var url = "<%= app_maintenance_ifa_classroom_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_master_id => @current_standard.id ) %>";
+            jQ.get(url, {'classroom_id': classroom_id}, function(data) {
+              jQ("#manage_demos").html(data);
+              jQ("#manage_demos").show();
+            });
+          })
+        });
+      </script>
+    </div>
+    <% if !@current_classroom.nil?%>
+      <% if !@current_classroom.students.empty?%>
+        <div class="row standard_row">
+          <div class="strand_select" id="student_id">
+            <%=  select(:user, :id, @current_classroom.students.collect{|s| [(s.full_name),s.id]},{:prompt => 'Select Student'}) %>
+          </div>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ("#student_id").change(function(){
+                var user_id = jQ('#user_id').val();
+                var url = "<%= app_maintenance_ifa_student_select_url(:organization_id => @current_organization,
+                  :act_subject_id => @current_subject.id, :act_master_id => @current_standard.id, :classroom_id => @current_classroom.id ) %>";
+                jQ.get(url, {'user_id': user_id}, function(data) {
+                  jQ("#manage_demos").html(data);
+                  jQ("#manage_demos").show();
+                });
+              })
+            });
+          </script>
+        </div>
+        <% if !@current_student.nil? %>
+          <%= form_for(:dashboard, :url => app_maintenance_ifa_edit_dashboard_url(:organization_id => @current_organization,
+                        :act_subject_id => @current_subject.id, :act_master_id => @current_standard.id, :classroom_id => @current_classroom.id,
+                        :user_id => @current_student.id), :target => "_blank") do |form| %>
+            <div class="row standard_row">
+              <div class="col-md-6">
+              <div class="strand_select">
+                <%= date_select(:dashboard, :period, :order=>[:month, :year], :start_year => (Date.today.year - 10),
+                                :end_year => Date.today.year,:default => (@current_period.nil? ? Date.today : @current_period)) %>
+              </div>
+              </div>
+              <div class="col-md-2">
+                <div class="button_col" >
+                    <%= form.submit "Get Dashboard", :class => "button_blue" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          Student Not Found
+        <% end %>
+      <% else %>
+        No Students Are In <%=@current_classroom.name %>
+      <% end %>
+    <% else %>
+      Classroom Not Found
+    <% end %>
+  <% else %>
+      No Precision Prep Classrooms - Data Cannot Be Created
+  <% end %>
+</div>

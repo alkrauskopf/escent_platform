@@ -188,6 +188,10 @@ EscentPartners::Application.routes.draw do |map|
   post '/app/maintenance/options/edit' => 'app_maintenance/ifa#edit_options'    # app_maintenance_options_edit_path - - -OLD
   post '/ifa/options/edit' => 'app_maintenance/ifa#edit_options'    # ifa_options_edit_path
   get '/ifa/option/master/toggle' => 'app_maintenance/ifa#add_remove_standard_option'    # ifa_option_master_toggle_path
+  get '/app/maintenance/ifa/classroom_select' => 'app_maintenance/ifa#classroom_select' # app_maintenance_ifa_classroom_select_url
+  get '/app/maintenance/ifa/student_select' => 'app_maintenance/ifa#student_select' # app_maintenance_ifa_student_select_url
+  post '/app/maintenance/ifa/edit_dashboard' => 'app_maintenance/ifa#edit_dashboard' # app_maintenance_ifa_edit_dashboard_url
+  post '/app/maintenance/ifa/update_dashboard' => 'app_maintenance/ifa#update_dashboard' # app_maintenance_ifa_update_dashboard_url
 
   # APPS Shared
   get '/app/owner/maintenance' => 'apps/owner_maintenance#index'

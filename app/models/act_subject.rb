@@ -23,6 +23,7 @@ class ActSubject < ActiveRecord::Base
   has_many :co_csap_ranges
   has_many :subject_areas
   has_many :ifa_plans
+  has_many :classrooms, :through => :subject_areas
         
   scope :no_na, {:conditions => ["name != ?", "-na-"]}
 

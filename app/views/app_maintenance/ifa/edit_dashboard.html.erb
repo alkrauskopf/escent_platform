@@ -1,0 +1,296 @@
+<div class= 'row panel_title_blue'>
+  <div class=" standard_row strand_label">
+    <%= @function %> <%=@current_student.full_name %>, <%=@current_subject.name %>, <%= @current_standard.abbrev %>  Dashboard
+  </div>
+</div>
+<div class="row standard_row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10 strand_label">
+    For <%= @current_period.strftime("%b %d, %Y") %>
+  </div>
+  <div class="col-md-1">
+    <%= link_to 'Return' , app_maintenance_ifa_path(:organization_id => @current_organization), :class=> "button_green" %>
+  </div>
+</div>
+<div class="row standard_row">
+  <div class="strand_label">
+    <%= @current_classroom.organization.short_name %> | <%= @current_classroom.name %>
+  </div>
+</div>
+<hr>
+<div class="container Form_Container">
+  <%= render :partial => "/shared/error_and_notice" %>
+  <%= form_for(:ifa_dashboard, :url => app_maintenance_ifa_update_dashboard_path(:organization_id => @current_organization,
+                :act_master_id => @current_standard.id, :act_subject_id => @current_subject.id, :classroom_id => @current_classroom.id,
+                :user_id => @current_student.id, :period_end => @current_period, :function=>@function)) do |f| %>
+      <hr>
+      <% dashboard = @current_dashboard %>
+      <div class="row ifa_edit_row">
+        <div class="col-md-4 ifa_edit_label">
+          <%=@current_student.last_name %> Dashboard: <%= dashboard.ifa_dashboardable.nil? ? 'New' : dashboard.ifa_dashboardable.name %>
+        </div>
+        <div class="col-md-4 ifa_edit_label">
+          Period: <%= dashboard.period_end.nil? ? @current_period.strftime("%b %d, %Y") : dashboard.period_end.strftime("%b %d, %Y") %>
+        </div>
+        <div class="col-md-4 ifa_edit_label">
+          Dashboard Cells: <%=dashboard.ifa_dashboard_cells.size %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-4 ifa_edit_text">
+          Assessments Taken/Finalized: <%= dashboard.assessments_taken %>/<%= dashboard.finalized_assessments %>
+        </div>
+        <div class="col-md-4 ifa_edit_text">
+          Answer Taken/Point: <%= dashboard.finalized_answers %>/<%= number_with_precision(dashboard.fin_points, :precision=>1) %>
+        </div>
+        <div class="col-md-4 ifa_edit_label">
+          Duration(Seconds): <%=dashboard.finalized_duration %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-4 ifa_edit_text">
+          SMS Scores: <%= dashboard.ifa_dashboard_sms_scores.size %>
+        </div>
+        <div class="col-md-4 ifa_edit_text">
+          <%=@current_standard.abbrev%> Level Min/Max: <%= dashboard.score_for_standard(@current_standard).nil? ? '-/-' :
+                                                               (dashboard.score_for_standard(@current_standard).score_range_min.to_s + '/' +
+                                                                   dashboard.score_for_standard(@current_standard).score_range_max.to_s)%>
+        </div>
+        <div class="col-md-4 ifa_edit_text">
+          <%=@current_standard.abbrev%> Score: <%= dashboard.score_for_standard(@current_standard).nil? ? '-' :
+                                                       (dashboard.score_for_standard(@current_standard).sms_finalized)%>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-3 ifa_edit_label">
+          Number of Assessments
+        </div>
+        <div class="col-md-2 ifa_edit_text">
+          <%= text_field :ifa_dashboard, :assessments_taken, :size => 3, :value => @current_dashboard.assessments_taken %>
+        </div>
+        <div class="col-md-3 ifa_edit_label">
+          Total Duration (Seconds)
+        </div>
+        <div class="col-md-2 ifa_edit_text">
+          <%= text_field :ifa_dashboard, :finalized_duration, :size => 5, :value => @current_dashboard.finalized_duration %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-1" %></div>
+        <div class="col-md-10 ifa_edit_label">
+          <% strands = @current_standard.strands(@current_subject) %>
+          <% level_width = 14 %>
+          <% strnd_width = ((100 - level_width)/strands.size).to_f.to_i.to_s + '%'%>
+          <table >
+            <tbody >
+            <tr>
+              <td class="dashboard_demo_label">
+                  Correct Answers<br/>Of<br/>Total Answers
+              </td>
+              <% strands.each do |s|%>
+                  <td class=" dashboard_demo_header"  style="width:<%=strnd_width%>; background:<%= s.strand_background%>; color:<%= s.strand_font%>"  >
+                    <%= s.abbrev.upcase %>
+                  </td>
+              <% end -%>
+            </tr>
+            <% @current_standard.mastery_levels(@current_subject).each do |ml|%>
+              <tr>
+                <td class="dashboard_demo_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
+                  <%= mastery_label_br(ml, true).html_safe %>
+                </td>
+                <% @current_standard.strands(@current_subject).each do |s|%>
+                    <% hash_key = ml.id.to_s + s.id.to_s %>
+                  <td class="dashboard_demo_cells" >
+                    <i style = "color:<%=@cell_color[hash_key]%>;" class="asterisk"></i>
+                    <%= text_field :correct, hash_key ,:size => 3, :value => @cell_correct[hash_key] %>
+                    <%= text_field :answers, hash_key ,:size => 3, :value => @cell_total[hash_key] %>
+                    <div><%=(number_with_precision(@cell_pct[hash_key(ml,s)], :precision => 0) + '%').html_safe %></div>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-1" %></div>
+      </div>
+
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          <%= f.submit @function, :class =>"button_blue" %>
+        </div>
+      </div>
+  <% end %>
+  <% if !@current_class_dashboard.nil? %>
+      <hr>
+    <% dashboard = @current_class_dashboard %>
+      <div class="row ifa_edit_row">
+        <div class="col-md-4 ifa_edit_label">
+          Classroom Dashboard: <%= dashboard.ifa_dashboardable.name %>
+        </div>
+        <div class="col-md-4 ifa_edit_label">
+          Period: <%=dashboard.period_end.strftime("%b %d, %Y") %>
+        </div>
+        <div class="col-md-4 ifa_edit_label">
+          Dashboard Cells: <%=dashboard.ifa_dashboard_cells.size %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-4 ifa_edit_text">
+          Assessments Taken/Finalized: <%= dashboard.assessments_taken %>/<%= dashboard.finalized_assessments %>
+        </div>
+        <div class="col-md-4 ifa_edit_text">
+          Answer Taken/Point: <%= dashboard.finalized_answers %>/<%= number_with_precision(dashboard.fin_points, :precision=>1) %>
+        </div>
+        <div class="col-md-4 ifa_edit_label">
+          Duration(Seconds): <%=dashboard.finalized_duration %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-4 ifa_edit_text">
+          SMS Scores: <%= dashboard.ifa_dashboard_sms_scores.size %>
+        </div>
+        <div class="col-md-4 ifa_edit_text">
+          <%=@current_standard.abbrev%> Level Min/Max: <%= dashboard.score_for_standard(@current_standard).nil? ? '-/-' :
+                                                               (dashboard.score_for_standard(@current_standard).score_range_min.to_s + '/' +
+                                                                dashboard.score_for_standard(@current_standard).score_range_max.to_s)%>
+        </div>
+        <div class="col-md-4 ifa_edit_text">
+          <%=@current_standard.abbrev%> Score: <%= dashboard.score_for_standard(@current_standard).nil? ? '-' :
+                                                               (dashboard.score_for_standard(@current_standard).sms_finalized)%>
+        </div>
+      </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-1" %></div>
+    <div class="col-md-10 ifa_edit_label">
+      <% strands = @current_standard.strands(@current_subject) %>
+      <% level_width = 14 %>
+      <% strnd_width = ((100 - level_width)/strands.size).to_f.to_i.to_s + '%'%>
+      <table >
+        <tbody >
+        <tr>
+          <td class="dashboard_demo_label">
+            <%#= dashboard.ifa_dashboard_cells.collect{|c| c.act_score_range.id.to_s + c.act_standard.id.to_s}.join(' | ') %>
+          </td>
+          <% strands.each do |s|%>
+              <td class=" dashboard_demo_header"  style="width:<%=strnd_width%>; background:<%= s.strand_background%>; color:<%= s.strand_font%>"  >
+                <%= s.abbrev.upcase %>
+              </td>
+          <% end -%>
+        </tr>
+        <% @current_standard.mastery_levels(@current_subject).each do |ml|%>
+            <tr>
+              <td class="dashboard_demo_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
+                <%= mastery_label_br(ml, true).html_safe %>
+              </td>
+              <% @current_standard.strands(@current_subject).each do |s|%>
+                  <% db_cell = dashboard.cell_for(ml,s)%>
+                  <% if !db_cell.nil? %>
+                      <% correct = db_cell.fin_points.to_i %>
+                      <% total = db_cell.finalized_answers %>
+                      <% pct = total > 0 ? (100.0 * correct.to_f/total.to_f).to_i : 0 %>
+                  <% else %>
+                      <% correct = 0 %>
+                      <% total = 0 %>
+                      <% pct = 0 %>
+                  <% end %>
+                  <td class="dashboard_demo_cells" >
+                    <div><%=correct %> - <%=total %></div>
+                    <%= pct %>%
+                  </td>
+              <% end %>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-1" %></div>
+  </div>
+  <% end %>
+  <% if !@current_org_dashboard.nil? %>
+      <hr>
+      <% dashboard = @current_class_dashboard %>
+      <div class="row ifa_edit_row">
+        <div class="col-md-4 ifa_edit_label">
+          Classroom Dashboard: <%= dashboard.ifa_dashboardable.name %>
+        </div>
+        <div class="col-md-4 ifa_edit_label">
+          Period: <%=dashboard.period_end.strftime("%b %d, %Y") %>
+        </div>
+        <div class="col-md-4 ifa_edit_label">
+          Dashboard Cells: <%=dashboard.ifa_dashboard_cells.size %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-4 ifa_edit_text">
+          Assessments Taken/Finalized: <%= dashboard.assessments_taken %>/<%= dashboard.finalized_assessments %>
+        </div>
+        <div class="col-md-4 ifa_edit_text">
+          Answer Taken/Point: <%= dashboard.finalized_answers %>/<%= number_with_precision(dashboard.fin_points, :precision=>1) %>
+        </div>
+        <div class="col-md-4 ifa_edit_label">
+          Duration(Seconds): <%=dashboard.finalized_duration %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-4 ifa_edit_text">
+          SMS Scores: <%= dashboard.ifa_dashboard_sms_scores.size %>
+        </div>
+        <div class="col-md-4 ifa_edit_text">
+          <%=@current_standard.abbrev%> Level Min/Max: <%= dashboard.score_for_standard(@current_standard).nil? ? '-/-' :
+                                                               (dashboard.score_for_standard(@current_standard).score_range_min.to_s + '/' +
+                                                                   dashboard.score_for_standard(@current_standard).score_range_max.to_s)%>
+        </div>
+        <div class="col-md-4 ifa_edit_text">
+          <%=@current_standard.abbrev%> Score: <%= dashboard.score_for_standard(@current_standard).nil? ? '-' :
+                                                       (dashboard.score_for_standard(@current_standard).sms_finalized)%>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-1" %></div>
+        <div class="col-md-10 ifa_edit_label">
+          <% strands = @current_standard.strands(@current_subject) %>
+          <% level_width = 14 %>
+          <% strnd_width = ((100 - level_width)/strands.size).to_f.to_i.to_s + '%'%>
+          <table >
+            <tbody >
+            <tr>
+              <td class="dashboard_demo_label">
+                <%#= dashboard.ifa_dashboard_cells.collect{|c| c.act_score_range.id.to_s + c.act_standard.id.to_s}.join(' | ') %>
+              </td>
+              <% strands.each do |s|%>
+                  <td class=" dashboard_demo_header"  style="width:<%=strnd_width%>; background:<%= s.strand_background%>; color:<%= s.strand_font%>"  >
+                    <%= s.abbrev.upcase %>
+                  </td>
+              <% end -%>
+            </tr>
+            <% @current_standard.mastery_levels(@current_subject).each do |ml|%>
+                <tr>
+                  <td class="dashboard_demo_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
+                    <%= mastery_label_br(ml, true).html_safe %>
+                  </td>
+                  <% @current_standard.strands(@current_subject).each do |s|%>
+                      <% db_cell = dashboard.cell_for(ml,s)%>
+                      <% if !db_cell.nil? %>
+                          <% correct = db_cell.fin_points.to_i %>
+                          <% total = db_cell.finalized_answers %>
+                          <% pct = total > 0 ? (100.0 * correct.to_f/total.to_f).to_i : 0 %>
+                      <% else %>
+                          <% correct = 0 %>
+                          <% total = 0 %>
+                          <% pct = 0 %>
+                      <% end %>
+                      <td class="dashboard_demo_cells" >
+                        <div><%=correct %> - <%=total %></div>
+                        <%= pct %>%
+                      </td>
+                  <% end %>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-1" %></div>
+      </div>
+  <% end %>
+</div>

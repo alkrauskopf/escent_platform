@@ -25,7 +25,7 @@ class Classroom < ActiveRecord::Base
   has_one   :total_view, :as => :entity, :dependent => :destroy
   
   belongs_to   :subject_area
-#  belongs_to   :act_subject
+  has_one   :act_subject, :through => :subject_area
   has_many :act_assessment_classrooms, :dependent => :destroy
   has_many :act_assessments, :through => :act_assessment_classrooms, :order => "position"
   has_many :act_submissions
@@ -138,6 +138,10 @@ class Classroom < ActiveRecord::Base
 
   def self.precision_prep
     where('status = ? && is_prep', 'active')
+  end
+
+  def self.precision_prep_provider(provider)
+    where('is_prep').select{|c| c.organization.app_provider(CoopApp.ifa) == provider}
   end
 
   def self.precision_prep_subject(subject)

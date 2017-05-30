@@ -8,10 +8,10 @@
 <div class="row dashboard_title_date_select">
   <div class="col-md-3"></div>
   <div class="col-md-3 ">
-    <%= date_select(:dashboard, :start_date, :order=>[:month, :year], :start_year => @aggregate['start_period'].year, :end_year => @aggregate['end_period'].year,:default => @aggregate['start_period']) %>
+    <%= date_select(:dashboard, :start_date, :order=>[:month, :year], :start_year => (@aggregate['start_period'].year - 3), :end_year => @aggregate['end_period'].year,:default => @aggregate['start_period']) %>
   </div>
   <div class="col-md-3 ">
-    <%= date_select(:dashboard, :end_date, :order=>[:month, :year], :start_year => @aggregate['start_period'].year, :end_year => @aggregate['end_period'].year,:default => @aggregate['end_period']) %>
+    <%= date_select(:dashboard, :end_date, :order=>[:month, :year], :start_year => (@aggregate['start_period'].year - 3), :end_year => @aggregate['end_period'].year,:default => @aggregate['end_period']) %>
   </div>
   <div class="col-md-1"></div>
   <div class="col-md-2">

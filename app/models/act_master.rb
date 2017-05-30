@@ -107,6 +107,22 @@ class ActMaster < ActiveRecord::Base
     score
   end
 
+  def sms_for_dashboard(dashboard, subject, option={})
+    if option[:calibrated]
+      pct_score = dashboard.calibrated_answers > 1 ? (dashboard.fin_points/dashboard.calibrated_answers.to_f) : 0.0
+    else
+      pct_score = dashboard.finalized_answers > 1 ? (dashboard.fin_points/dashboard.finalized_answers.to_f) : 0.0
+    end
+    score = self.lowest_upper_score(subject)
+    if pct_score > 0.25
+      max_score = dashboard.score_boundary_maximum(self)
+      score = self.lowest_upper_score(subject) + (pct_score * ((max_score - self.lowest_upper_score(subject)).to_f)).to_i
+    else
+      score = self.lowest_upper_score(subject)
+    end
+    score
+  end
+
   def sms_for_period(entity, subject, period_end, h_threshold, calibrated)
     standard_scoring = true
     if standard_scoring

@@ -11,6 +11,5 @@ class IfaDashboardCell < ActiveRecord::Base
   scope :with_range_id, lambda{|range_id| {:conditions => ["act_score_range_id = ? ", range_id]}}
   scope :with_strand_id, lambda{|strand_id| {:conditions => ["act_standard_id = ? ", strand_id]}}
   scope :for_standard, lambda{|standard | {:conditions => ["act_master_id = ? ", standard.id]}}
-  
-  
+
 end

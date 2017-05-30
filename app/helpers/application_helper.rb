@@ -15,4 +15,15 @@ module ApplicationHelper
     current_captcha
   end
 
+  def scores_with_sat_equivalent(sms, standard, subject)
+    if !sms.nil? && !standard.nil? && !subject.nil?
+      label = standard.abbrev + ': ' + sms.to_s
+      sat_score = ActScoreRange.sat_score(standard, subject, sms)
+      label = sat_score.nil? ?  label: (label + ', SAT:' + sat_score.to_s)
+    else
+      label = "Nil Parameter"
+    end
+      label
+  end
+
 end

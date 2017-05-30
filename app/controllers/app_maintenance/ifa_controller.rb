@@ -10,13 +10,14 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   before_filter :current_subject, :except => []
   before_filter :subjects, :except => []
   before_filter :current_ifa_options
+  before_filter :prep_classrooms
 
   def index
     strands
     current_strand
     levels
     current_level
-    prep_classrooms
+
   end
 
   def standard_select
@@ -485,8 +486,8 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     sms_score.act_master_id = standard.id
     sms_score.score_range_min = db.score_boundary_minimum(standard)
     sms_score.score_range_max = db.score_boundary_maximum(standard)
-    sms_score.sms_finalized = standard.sms_for_dashboard(db, subject)
-    sms_score.sms_calibrated = standard.sms_for_dashboard(db, subject, :calibrated=>true)
+    sms_score.sms_finalized = standard.sms_for_dashboard(db)
+    sms_score.sms_calibrated = standard.sms_for_dashboard(db, :calibrated=>true)
     sms_score.baseline_score = db.ifa_dashboardable_type == 'User' ? standard.base_score(db.ifa_dashboardable, subject) : nil
     db.ifa_dashboard_sms_scores << sms_score
 

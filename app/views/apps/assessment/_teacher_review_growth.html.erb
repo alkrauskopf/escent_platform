@@ -9,10 +9,11 @@
       <table id="dashboard_levels" class="teacher_review_list">
         <tbody >
           <% @current_classroom_dashboards.each do |db| -%>
+            <% sms = @current_user.standard_view.sms_for_dashboard(db) %>
               <tr>
                 <td class="resource_levels_close">
                   <%= link_to '', ifa_dashboards_entity_path(:organization_id => @current_organization,  :entity_id => @classroom, :subject_id => db.act_subject_id,  :dashboard_id => db,:entity_id => @classroom.id, :entity_class => @classroom.class, :period => db.period_end) %>
-                  <%= db.period_end.strftime("%B, %Y") %>:&nbsp;&nbsp;<%= db.act_subject.name %>
+                  <%= db.period_end.strftime("%B, %Y") %>:&nbsp;&nbsp;<%= db.act_subject.name %>,&nbsp;&nbsp;<%= scores_with_sat_equivalent(sms, @current_user.standard_view, db.act_subject) %>
                   <span></span>
                 </td>
               </tr>

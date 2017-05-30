@@ -107,7 +107,8 @@ class ActMaster < ActiveRecord::Base
     score
   end
 
-  def sms_for_dashboard(dashboard, subject, option={})
+  def sms_for_dashboard(dashboard, option={})
+    subject = dashboard.act_subject
     if option[:calibrated]
       pct_score = dashboard.calibrated_answers > 1 ? (dashboard.fin_points/dashboard.calibrated_answers.to_f) : 0.0
     else

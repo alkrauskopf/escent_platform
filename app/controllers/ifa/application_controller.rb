@@ -1,13 +1,22 @@
 class Ifa::ApplicationController < ApplicationController
 
   helper :all # include all helpers, all the time
-  before_filter :current_ifa_options
   before_filter :set_ifa, :except=>[]
-  before_filter :current_app_enabled_for_current_org?, :except=>[]
-  before_filter :current_user_app_admin?, :only=>[]
   before_filter :current_ifa_options
+  before_filter :current_app_enabled_for_current_org?, :except=>[]
   before_filter :current_standard
-  before_filter :clear_notification, :except => []
+
+  def current_standard
+      @current_standard ||= @current_user.standard_view
+  end
+
+  def current_subject
+    if params[:act_subject_id]
+      @current_subject ||= ActSubject.find_by_id(params[:act_subject_id]) rescue nil
+    else
+      @current_subject ||= ActSubject.all_subjects.first
+    end
+  end
 
   def entity_assessment_dashboard(entity, subject, begin_date, end_date)
     @cell_total = {}
@@ -119,10 +128,5 @@ class Ifa::ApplicationController < ApplicationController
   end
   
   protected
-
-  def current_standard
-    @current_standard = ActMaster.default_std
-  end
-
   
 end

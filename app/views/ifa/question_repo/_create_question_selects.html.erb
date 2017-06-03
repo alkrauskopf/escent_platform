@@ -1,0 +1,33 @@
+
+  <div class= 'row panel_title_blue'>
+    <%= @current_application.app_name(:provider=>@current_provider) %> Repository
+  </div>
+  <hr>
+  <div class="row standard_row">
+    <div class= "col-md-1"></div>
+    <div class= "col-md-5">
+      <div class="repo_label_field">
+        Create <%= @current_subject.name %> Question, <small>(Or Reselect Subject)</small>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="repo_select_field" id="subject_id">
+        <%=  select(:act, :subject_id, @ifa_subjects.collect{|s| [s.name,s.id]},{:prompt => @current_subject.name}) %>
+      </div>
+    </div>
+    <div class= "col-md-4"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#subject_id").change(function(){
+        var subject_id = jQ('#act_subject_id').val();
+        var url = "<%= ifa_repo_subject_select_url(:organization_id => @current_organization,) %>";
+        jQ.get(url, {'act_subject_id': subject_id}, function(data) {
+          jQ("#ifa_question_repo").html(data);
+          jQ("#ifa_question_repo").show();
+        });
+      })
+    });
+  </script>
+  <%#= render :partial =>  "manage_standard", :locals=>{}%>
+</div>

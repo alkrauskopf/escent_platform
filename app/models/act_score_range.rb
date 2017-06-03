@@ -9,7 +9,6 @@ class ActScoreRange < ActiveRecord::Base
   has_many :act_benches, :dependent => :destroy
   has_many :contents
 
-
   has_many :act_question_act_score_ranges, :dependent => :destroy
   has_many :act_questions, :through => :act_question_act_score_ranges  
 
@@ -41,6 +40,16 @@ class ActScoreRange < ActiveRecord::Base
 
   def destroyable?
    !self.active?
+  end
+
+  def readings
+    self.act_related_readings
+  end
+
+  def self.first_for_standard_and_subject(standard, subject)
+    subj = subject.class.to_s == 'Fixnum' ? (ActSubject.find_by_id(subject) rescue nil) : subject
+    std = standard.class.to_s == 'Fixnum' ? (ActMaster.find_by_id(standard) rescue nil) : standard
+    (subj.nil? || std.nil?) ? nil : where('act_master_id = ? && act_subject_id = ? && is_active', std.id, subj.id).first
   end
 
   def na?
@@ -106,7 +115,7 @@ class ActScoreRange < ActiveRecord::Base
   def self.for_standard_and_subject(standard, subject)
     subj = subject.class.to_s == 'Fixnum' ? (ActSubject.find_by_id(subject) rescue nil) : subject
     std = standard.class.to_s == 'Fixnum' ? (ActMaster.find_by_id(standard) rescue nil) : standard
-    (subj.nil? || std.nil?) ? [] : where('act_master_id = ? && act_subject_id = ?',std.id, subj.id).order('upper_score ASC')
+    (subj.nil? || std.nil?) ? [] : where('act_master_id = ? && act_subject_id = ?  && is_active',std.id, subj.id).order('upper_score ASC')
   end
 
   def self.all_for_standard_and_subject(standard, subject)

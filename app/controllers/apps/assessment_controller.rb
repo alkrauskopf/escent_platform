@@ -13,7 +13,7 @@ class Apps::AssessmentController < Apps::ApplicationController
   before_filter :current_user_app_authorized?, :only=>[:index]
   before_filter :current_user_app_admin?, :only=>[]
   before_filter :current_ifa_options
-  before_filter :current_app_superuser?, :only=>[:index]
+  before_filter :current_app_superuser, :only=>[:index]
   before_filter :clear_notification, :except => [:take_assessment]
   before_filter :increment_app_views, :only=>[:index]
 
@@ -743,10 +743,12 @@ class Apps::AssessmentController < Apps::ApplicationController
     @pending_assessments = @all_submitted_assessments.select{|s|!s.is_final}.sort{ |a,b| b.created_at <=> a.created_at }
     @student_list = @classroom.participants.sort{|a,b| a.last_name <=> b.last_name}
   #  @current_classroom_dashboards = @classroom.ifa_dashboards.since(@options.begin_school_year.end_of_month).sort_by{|a| a.act_subject.name}.sort{|a,b| b.period_end <=> a.period_end}
-    @current_classroom_dashboards = @classroom.ifa_dashboards
+    @current_classroom_dashboards = @classroom.ifa_dashboards.for_subject(@current_subject).select{|d| !d.period_end.nil? && !d.organization_id.nil?}
+  #  @current_classroom_dashboards = @classroom.ifa_dashboards.select{|d| !d.act_subject.nil? && !d.period_end.nil? && !d.organization_id.nil?}
   #  find_dashboard_update_start_dates(@classroom)
     aggregate_dashboard_cell_hashes(@current_classroom_dashboards, @current_subject, @current_user.standard_view)
     aggregate_dashboard_header_info(@current_classroom_dashboards, @current_subject, @current_user.standard_view, @classroom)
+
   end
 
   def range_change_dashboard

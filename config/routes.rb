@@ -440,6 +440,11 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/remark/show/form' => 'ifa/ifa_plan#remark_show_form' #  ifa_remark_show_form_url
   get '/ifa/plan/student/cell/data' => 'ifa/ifa_plan#student_cell_data' #  ifa_plan_student_cell_data_path
 
+  get '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path
+  get '/ifa/repo/subject/select' => 'ifa/question_repo#subject_select'    # ifa_repo_subject_select_path
+  post '/ifa/repo/question/create' => 'ifa/question_repo#create'    # ifa_repo_question_create_url
+  get '/ifa/repo/question/new' => 'ifa/question_repo#new'    # ifa_repo_question_new_url
+
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path
   post '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

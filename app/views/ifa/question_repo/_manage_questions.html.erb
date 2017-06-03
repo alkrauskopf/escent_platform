@@ -1,0 +1,62 @@
+<div>
+  <div class="row">
+    <div class="ifa_panel_title">
+      Question Repository: <%= pluralize(@active_questions.size.to_s, " Available Question") %>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <%= form_for(:act_question, :url => ifa_question_add_path(:organization_id => @current_organization)) do |form| -%>
+      <div class="col-md-4 "></div>
+      <div class="col-md-2 ">
+        <div class="repo_select">
+          <%=  select( :quest, :subject_id, ActSubject.all_subjects.collect{|s| [s.name, s.id]}, {:prompt => ActSubject.first.name}) %>
+        </div>
+      </div>
+      <div class="col-md-6 ">
+        <div class="repo_submit">
+          <%= form.submit 'Create New Question', :class => "btn btn-primary btn-xs" %>
+        </div>
+      </div>
+	  <% end -%>
+	</div>
+	<div>
+    <% unless @active_questions.empty? %>
+      <div class = "ifa_pool_container" >
+        <% unless @current_user_questions.empty? %>
+          <div id="user_questions" >
+            <div class="resource_levels_close">
+              <%= link_to '', ifa_user_questions_list_path(:organization_id => @current_organization)%>
+              <%= @current_user.last_name %><span class="levels_count">(<%= @current_user_questions.size.to_s %>)</span>
+              <span></span>
+            </div>
+            <script type="text/javascript" charset="utf-8">
+              jQ(document).ready(function() {
+                jQ('#user_questions .resource_levels_close').toggleResourceLevels();
+                jQ('#user_questions .resource_levels_open').toggleResourceLevels();
+              });
+            </script>
+          </div>
+        <% end -%>
+        <% sub_ids = @active_questions.group_by(&:act_subject_id) %>
+        <% sub_ids.each do |si, questions| %>
+          <div id="question_levels<%=si.to_s%>" >
+            <% subj_name = ActSubject.find(si).name -%>
+            <div class="resource_levels_close">
+              <% col_hdr = subj_name + ' (' + questions.size.to_s + ')' %>
+              <%= link_to '', ifa_subject_questions_path(:organization_id => @current_organization, :classroom_id => @ifa_classroom,  :subject_id => si) %>
+              <%= col_hdr %>
+              <span></span>
+            </div>
+            <script type="text/javascript" charset="utf-8">
+              jQ(document).ready(function() {
+                jQ('#question_levels<%=si.to_s%> .resource_levels_close').toggleResourceLevels();
+                jQ('#question_levels<%=si.to_s%> .resource_levels_open').toggleResourceLevels();
+              });
+            </script>
+          </div>
+        <% end -%>
+      </div>
+    <% end -%>
+  </div>
+</div>

@@ -8,7 +8,7 @@
     <div class="ifa_panel_list">
       <table id="dashboard_levels" class="teacher_review_list">
         <tbody >
-          <% @current_classroom_dashboards.each do |db| -%>
+          <% @current_classroom_dashboards.each do |db| %>
             <% sms = @current_user.standard_view.sms_for_dashboard(db) %>
               <tr>
                 <td class="resource_levels_close">

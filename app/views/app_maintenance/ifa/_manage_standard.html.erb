@@ -40,7 +40,7 @@
     jQ(document).ready(function() {
       jQ("#subject_id").change(function(){
         var subject_id = jQ('#act_subject_id').val();
-        var url = "<%= app_maintenance_ifa_std_select_url(:organization_id => @current_organization, :act_master_id => @current_standard.id,) %>";
+        var url = "<%= app_maintenance_ifa_std_select_url(:organization_id => @current_organization, :act_master_id => @current_standard.id) %>";
         jQ.get(url, {'act_subject_id': subject_id}, function(data) {
           jQ("#manage_standard").html(data);
           jQ("#manage_standard").show();

@@ -6,7 +6,7 @@ class Ifa::IfaPlanController < ApplicationController
   before_filter :current_user_app_authorized?, :only=>[:index]
   before_filter :current_user_app_admin?, :only=>[]
   before_filter :current_ifa_options
-  before_filter :current_app_superuser?, :only=>[:index]
+  before_filter :current_app_superuser, :only=>[:index]
   before_filter :clear_notification, :except => [:take_assessment]
   before_filter :increment_app_views, :only=>[:index]
 

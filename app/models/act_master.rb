@@ -109,6 +109,7 @@ class ActMaster < ActiveRecord::Base
 
   def sms_for_dashboard(dashboard, option={})
     subject = dashboard.act_subject
+    if !subject.nil?
     if option[:calibrated]
       pct_score = dashboard.calibrated_answers > 1 ? (dashboard.fin_points/dashboard.calibrated_answers.to_f) : 0.0
     else
@@ -117,9 +118,12 @@ class ActMaster < ActiveRecord::Base
     score = self.lowest_upper_score(subject)
     if pct_score > 0.25
       max_score = dashboard.score_boundary_maximum(self)
-      score = self.lowest_upper_score(subject) + (pct_score * ((max_score - self.lowest_upper_score(subject)).to_f)).to_i
+      score = self.lowest_upper_score(subject) + (pct_score * ((max_score.to_f - self.lowest_upper_score(subject)).to_f)).to_i
     else
       score = self.lowest_upper_score(subject)
+    end
+    else
+      score = 999
     end
     score
   end

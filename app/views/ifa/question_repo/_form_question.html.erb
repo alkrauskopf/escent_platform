@@ -1,0 +1,74 @@
+<div id="question_<%= @current_subject.id.to_s + @current_strand.id.to_s + @current_level.id.to_s %>">
+  <div class="row" >
+    <div class="col-md-2">
+      <% if @current_question.nil? %>
+        <span id="create_question" class='button_blue'>
+         Create
+        </span>
+      <% end %>
+    </div>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#create_question").click(function(){
+          var url = "<%= ifa_repo_question_new_url(:organization_id => @current_organization, :act_standard_id => @current_strand.id,
+                                  :act_score_range_id => @current_level.id, :act_subject_id => @current_subject.id) %>";
+          jQ.get(url, {}, function(data) {
+            jQ("#question_<%= @current_subject.id.to_s + @current_strand.id.to_s + @current_level.id.to_s %>").html(data);
+            jQ("#question_<%= @current_subject.id.to_s + @current_strand.id.to_s + @current_level.id.to_s %>").show();
+          });
+        })
+      });
+    </script>
+    <div class="col-md-8 repo_create_header">
+      <%= @current_subject.name.upcase %> | <%=@current_strand.nil? ? 'No Srand' : @current_strand.abbrev %> | <%=@current_level.nil? ? 'No Level' : mastery_label(@current_level, true) %>
+    </div>
+      <div class="col-md-2"></div>
+    </div>
+
+  <div class="repo_edit_box">
+    <% if !@current_question.nil? %>
+      <%= form_for(:act_question,
+                   :url => ifa_repo_question_create_path(:organization_id => @current_organization, :act_standard_id => @current_strand.id,
+                       :act_score_range_id => @current_level.id, :act_subject_id => @current_subject.id, :act_question_id => @current_question)) do |form| -%>
+        <div class="row repo_edit_row">
+          <div class="col-md-3 repo_label_field">
+            Calculator Free:
+          </div>
+          <div class="col-md-9 repo_text_field">
+            <%= form.check_box :is_calc_free, :checked => @current_question.is_calc_free %>
+          </div>
+        </div>
+        <div class="row repo_edit_row">
+          <div class="col-md-3 repo_label_field">
+            Randomize Answers:
+          </div>
+          <div class="col-md-9 repo_text_field">
+            <%= form.check_box :is_random, :checked => @current_question.is_random %>
+          </div>
+        </div>
+        <div class="row repo_edit_row">
+          <div class="col-md-3 repo_label_field">
+            Question
+          </div>
+          <div class="col-md-9 repo_text_field">
+            <%= text_area :act_question, (@current_subject.id.to_s + @current_strand.id.to_s + @current_level.id.to_s), :class =>"tinymce", :rows => 3, :cols => 70, :placeholder => 'Formulate Question', :value => @current_question.question  %>
+            <%= tinymce %>
+          </div>
+        </div>
+        <div class="row repo_edit_row">
+          <div class="col-md-3 repo_label_field">
+            Comment
+          </div>
+          <div class="col-md-9 repo_text_field">
+            <%= text_field :act_question, :comment, :size => 55, :maxlength => 150,  :value => @current_question.comment  %>
+          </div>
+        </div>
+        <div class="row repo_edit_row">
+          <div class="col-md-3 repo_label_field">
+            <%= form.submit 'Save', :class =>"button_blue" %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

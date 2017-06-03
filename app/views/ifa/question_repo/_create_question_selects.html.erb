@@ -1,33 +1,102 @@
-
-  <div class= 'row panel_title_blue'>
-    <%= @current_application.app_name(:provider=>@current_provider) %> Repository
-  </div>
-  <hr>
-  <div class="row standard_row">
+<div id= 'question_selects'>
+  <div class="row repo_select_row">
     <div class= "col-md-1"></div>
     <div class= "col-md-5">
       <div class="repo_label_field">
-        Create <%= @current_subject.name %> Question, <small>(Or Reselect Subject)</small>
+        Re-select Subject:
       </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-5">
       <div class="repo_select_field" id="subject_id">
         <%=  select(:act, :subject_id, @ifa_subjects.collect{|s| [s.name,s.id]},{:prompt => @current_subject.name}) %>
       </div>
     </div>
-    <div class= "col-md-4"></div>
+    <div class= "col-md-1"></div>
   </div>
   <script type="text/javascript">
     jQ(document).ready(function() {
       jQ("#subject_id").change(function(){
         var subject_id = jQ('#act_subject_id').val();
-        var url = "<%= ifa_repo_subject_select_url(:organization_id => @current_organization,) %>";
+        var url = "<%= ifa_repo_subject_select_url(:organization_id => @current_organization) %>";
         jQ.get(url, {'act_subject_id': subject_id}, function(data) {
-          jQ("#ifa_question_repo").html(data);
-          jQ("#ifa_question_repo").show();
+          jQ("#question_selects").html(data);
+          jQ("#question_selects").show();
         });
       })
     });
   </script>
-  <%#= render :partial =>  "manage_standard", :locals=>{}%>
+<% if !@current_strand.nil? && !@current_level.nil? %>
+  <div class="row repo_select_row">
+    <div class= "col-md-1"></div>
+    <div class= "col-md-5">
+      <div class="repo_label_field">
+        Re-select Strand:
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="repo_select_field" id="strand_id">
+        <%=  select(:act, :standard_id, @current_ifa_strands.collect{|s| [s.name,s.id]},{:prompt => @current_strand.name}) %>
+      </div>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#strand_id").change(function(){
+        var standard_id = jQ('#act_standard_id').val();
+        var url = "<%= ifa_repo_subject_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+         :act_score_range_id => @current_level.id) %>";
+        jQ.get(url, {'act_standard_id': standard_id}, function(data) {
+          jQ("#question_selects").html(data);
+          jQ("#question_selects").show();
+        });
+      })
+    });
+  </script>
+  <div class="row repo_select_row">
+    <div class= "col-md-1"></div>
+    <div class= "col-md-5">
+      <div class="repo_label_field">
+        Re-select Level:
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="repo_select_field" id="level_id">
+        <%=  select(:act, :score_range_id, @current_ifa_levels.collect{|s| [s.range,s.id]},{:prompt => @current_level.range}) %>
+      </div>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#level_id").change(function(){
+        var level_id = jQ('#act_score_range_id').val();
+        var url = "<%= ifa_repo_subject_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+         :act_standard_id => @current_strand.id) %>";
+        jQ.get(url, {'act_score_range_id': level_id}, function(data) {
+          jQ("#question_selects").html(data);
+          jQ("#question_selects").show();
+        });
+      })
+    });
+  </script>
+  <% else %>
+    <div class="row repo_select_row">
+      <div class= "col-md-1"></div>
+      <div class= "col-md-6">
+        <div class="repo_label_field">
+          <%= @current_subject.name %> Strands or Levels Not Available
+        </div>
+      </div>
+      <div class= "col-md-1"></div>
+    </div>
+  <% end %>
+  <div class="row repo_create_header">
+    <div class= "col-md-1"></div>
+    <div id="<%=@current_subject.id.to_s%><%=@current_strand.id.to_s%><%=@current_level.id.to_s%>" class= "col-md-10">
+      <hr>
+      <%=render :partial => 'form_question' %>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
 </div>

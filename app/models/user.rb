@@ -373,7 +373,7 @@ class User < ActiveRecord::Base
     favs.each do |fc|
     rooms << Classroom.active.where('id= ?', fc.scope_id).first
    end
-  rooms
+  rooms.compact
   end
 
   def participate_classrooms

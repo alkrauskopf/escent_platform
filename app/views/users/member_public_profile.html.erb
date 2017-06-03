@@ -45,7 +45,7 @@
           <div style="width:700px;  font-size: 10px;  ">
             <% unless @classroom_lead.empty?%>
               <% need_label = true%>
-              <% @classroom_lead.each do |c| %>
+              <% @classroom_lead.compact.each do |c| %>
                 <% if (c.organization.id == @user.home_org_id && need_label) then%>
                 <strong>Teacher:&nbsp;&nbsp;</strong> <% need_label = false %><% end %>
                 <% if c.organization.id == @user.home_org_id %>

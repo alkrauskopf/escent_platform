@@ -4,22 +4,12 @@
       Question Repository: <%= pluralize(@active_questions.size.to_s, " Available Question") %>
     </div>
   </div>
-  <hr>
   <div class="row">
-    <%= form_for(:act_question, :url => ifa_question_add_path(:organization_id => @current_organization)) do |form| -%>
-      <div class="col-md-4 "></div>
-      <div class="col-md-2 ">
-        <div class="repo_select">
-          <%=  select( :quest, :subject_id, ActSubject.all_subjects.collect{|s| [s.name, s.id]}, {:prompt => ActSubject.first.name}) %>
-        </div>
-      </div>
-      <div class="col-md-6 ">
-        <div class="repo_submit">
-          <%= form.submit 'Create New Question', :class => "btn btn-primary btn-xs" %>
-        </div>
-      </div>
-	  <% end -%>
-	</div>
+    <div class="ifa_panel_subtitle">
+      <%= link_to "Create Question", ifa_repo_question_add_path(:organization_id => @current_organization), :target => '_blank' %>
+    </div>
+  </div>
+  <hr>
 	<div>
     <% unless @active_questions.empty? %>
       <div class = "ifa_pool_container" >

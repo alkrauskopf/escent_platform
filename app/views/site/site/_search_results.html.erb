@@ -131,9 +131,11 @@
 					<% unless item_found.lead_classrooms.empty? %>
 						<br/>
 						<strong>Teaches:</strong> <% item_found.lead_classrooms.each do |c| %>
-							&nbsp;
+							<% if !c.nil? %>
+												&nbsp;
 							<% link_string = c.course_name + ", " + c.organization.short_name -%>
 							<%= link_to link_string, offering_view_path(:organization_id => c.organization, :id => c) %>
+							<% end %>
 						<% end %>	
 					<% end %>	
 					<% unless item_found.participate_classrooms.size ==0 %>

@@ -158,16 +158,16 @@ class UsersController < ApplicationController
     if @user.nil? 
       then @user = User.all.first
     end
-    @owned_classrooms = @user.owned_classrooms
-    @classroom_favs = @user.favorite_classrooms
-    @classroom_lead = @user.lead_classrooms
-    @classroom_participate = @user.participate_classrooms
-    @colleagues = @user.colleagues
-    @resource_favs = @user.viewable_favorite_resources(@current_user ? @current_user : nil)
+    @owned_classrooms = @user.owned_classrooms.compact
+    @classroom_favs = @user.favorite_classrooms.compact
+    @classroom_lead = @user.lead_classrooms.compact
+    @classroom_participate = @user.participate_classrooms.compact
+    @colleagues = @user.colleagues.compact
+    @resource_favs = @user.viewable_favorite_resources(@current_user ? @current_user : nil).compact
  #   @org_connects =  @user.authorizations.find(:all,:conditions=>"scope_type LIKE 'Organization'",:order => :scope_id, :group => :scope_id)
   #  @org_connects =  @user.authorizations.org_connections
-    @org_connects = @user.favorite_organizations
-    @followers = @user.followers
+    @org_connects = @user.favorite_organizations.compact
+    @followers = @user.followers.compact
     
     render :layout => "site"
 #    render :layout => "public_info"

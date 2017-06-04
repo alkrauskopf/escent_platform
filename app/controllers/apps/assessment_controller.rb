@@ -524,6 +524,7 @@ class Apps::AssessmentController < Apps::ApplicationController
     @current_student_plan = @current_user.ifa_plan_for(@current_subject)
     @suggested_topics = @current_student_plan.nil? ? [] : @current_student_plan.classroom_lus(@classroom)
     @assessment_subjects = @current_user.act_submissions.collect{|s| s.act_subject}.uniq rescue []
+    @dashboard_subjects = @current_user.ifa_dashboards.collect{|s| s.act_subject}.compact.uniq rescue []
     start_date = @current_provider.ifa_org_option.begin_school_year
      prepare_ifa_dashboard(@current_user, start_date, Date.today)    
 #    @current_student_dashboards = @current_user.ifa_dashboards.for_subject_since(@classroom.act_subject,(@current_provider.ifa_org_option.begin_school_year - 1.years)).reverse

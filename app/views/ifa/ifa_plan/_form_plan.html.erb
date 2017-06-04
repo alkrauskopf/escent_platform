@@ -1,58 +1,18 @@
 <div  class="ifa_plan_edit_box ">
-  <% if false %>
-    <%= form_for(:ifa_plan, :url => ifa_plan_update_path(:organization_id => @current_organization, :ifa_plan_id => plan)) do |form| -%>
-      <div class="row ifa_plan_edit_row">
-        <div class="edit_label">
-          Your Needs
-        </div>
-        <div class="explain">
-          Review your <%=plan.act_subject.name %> data.&nbsp;
-          Reflect upon,and explain, your Needs & Challenges.
-        </div>
-      </div>
-      <div class="row ifa_plan_text_box">
-        <%= form.text_area :needs, :rows=>10, :cols => 60, :value => plan.needs, :class=>'tinymce'%>
-        <%= tinymce %>
-      </div>
-      <hr>
-      <div class="row ifa_plan_edit_row">
-        <div class="edit_label">
-          Your Goals
-        </div>
-        <div class="explain">
-          In the coming year, what do you hope to master in <%=plan.act_subject.name %>? Be as specific as possible.
-        </div>
-      </div>
-      <div class="row ifa_plan_text_box">
-        <%= form.text_area :goals, :rows=>10, :cols => 60, :value => plan.goals, :class=>'tinymce' %>
-        <%= tinymce %>
-      </div>
-      <div class="row ifa_plan_edit_row">
-        <div class="col-md-2 label">
-          <span class="button_blue" id="xplan_update<%=plan.id%>">
-            <%= submit_tag 'Update' %>
-          </span>
-        </div>
-        <div class="col-md-8 ifa_edit_text"></div>
-        <div class="col-md-2 label">
-          <span class="button_orange" id="plan_cancel<%=plan.id%>">
-            Cancel
-          </span>
-        </div>
-      </div>
-    <% end %>
-  <% else %>
       <div class="row ifa_plan_edit_row">
         <div class="edit_label">
           Your <%=plan.act_subject.name %> Needs
         </div>
         <div class="explain">
           Review your <%=plan.act_subject.name %> data.&nbsp;
-          Reflect upon,and explain, your Needs & Challenges.
+          Reflect upon,and explain, your Needs & Challenges.bbb
         </div>
       </div>
       <div class="row ifa_plan_text_box">
-        <%= text_area :needs, plan.public_id, :rows=>10, :cols => 60, :value => plan.needs%>
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+          <%= text_area :needs, plan.public_id, :rows=>10, :cols => 60, :value => plan.needs%>
+        </div>
       </div>
       <hr>
       <div class="row ifa_plan_edit_row">
@@ -64,7 +24,10 @@
         </div>
       </div>
       <div class="row ifa_plan_text_box">
-        <%= text_area :goals, plan.public_id, :rows=>10, :cols => 60, :value => plan.goals%>
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+          <%= text_area :goals, plan.public_id, :rows=>10, :cols => 60, :value => plan.goals%>
+        </div>
       </div>
       <div class="row ifa_plan_edit_row">
         <div class="col-md-2 label">
@@ -103,5 +66,4 @@
       })
     });
   </script>
-  <% end %>
 </div>

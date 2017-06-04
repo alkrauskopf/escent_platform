@@ -10,7 +10,7 @@
          </div>
        </div>
        <div class="col-md-10 benchmark_descript">
-         <%= bench.description %>
+         <%= bench.description.html_safe %>
        </div>
      </div>
    <% end %>
@@ -29,7 +29,7 @@
            </div>
          </div>
          <div class="col-md-10 benchmark_descript">
-           <%= improve.description %>
+           <%= improve.description.html_safe %>
          </div>
        </div>
      <% end %>

@@ -48,13 +48,13 @@ class IfaPlan < ActiveRecord::Base
   def classroom_lus(classroom)
     lus = []
     classroom.topics.active.each do |lu|
-      self.ifa_plan_milestones.each do |ms|
-        if lu.act_score_ranges.include?(ms.range) && lu.act_standards.include?(ms.strand)
+      self.ifa_plan_milestones.not_achieved.each do |ms|
+        if lu.act_standards.include?(ms.strand)
           lus << lu
         end
       end
-      lus
     end
+    lus.uniq
   end
 
   def milestone_for?(range,strand)
@@ -63,6 +63,10 @@ class IfaPlan < ActiveRecord::Base
 
   def achieved_for?(range,strand)
     !self.ifa_plan_milestones.achieved_for_range_strand(range, strand).empty?
+  end
+
+  def open_milestones
+    self.ifa_plan_milestones.achieved_for_range_strand(range, strand).empty?
   end
 
 end

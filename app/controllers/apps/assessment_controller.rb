@@ -523,6 +523,7 @@ class Apps::AssessmentController < Apps::ApplicationController
     @last_submission = @current_user.act_submissions.for_subject(@current_subject).empty? ? nil : @current_user.act_submissions.for_subject(@current_subject).last
     @current_student_plan = @current_user.ifa_plan_for(@current_subject)
     @suggested_topics = @current_student_plan.nil? ? [] : @current_student_plan.classroom_lus(@classroom)
+
     @assessment_subjects = @current_user.act_submissions.collect{|s| s.act_subject}.uniq rescue []
     @dashboard_subjects = @current_user.ifa_dashboards.collect{|s| s.act_subject}.compact.uniq rescue []
     start_date = @current_provider.ifa_org_option.begin_school_year
@@ -540,7 +541,6 @@ class Apps::AssessmentController < Apps::ApplicationController
     assessment_header_info(@last_submission, ActMaster.default_std)
     user_ifa_plans
     find_dashboard_update_start_dates(@current_user)
-
   end
 
   def submit_assessment

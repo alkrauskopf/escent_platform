@@ -18,7 +18,7 @@ class IfaPlanMilestone < ActiveRecord::Base
     where('is_achieved').order('updated_at DESC')
   end
 
-  def self.open
+  def self.not_achieved
     where('is_achieved = ?', false).order('updated_at DESC')
   end
 

@@ -38,7 +38,7 @@
       <% end %>
 		</tbody>
 	</table>
-	<% if classroom.ifa_classroom_option && @current_provider.ifa_org_option-%>
+	<% if classroom.ifa_classroom_option && @current_provider.ifa_org_option && classroom.act_subject-%>
 		<table > 
 			<tbody>
 				<tr>
@@ -50,10 +50,10 @@
 				<tr>
 					<td style ="width:200px; padding-top:0px; padding-left:0px; padding-bottom:0px; color:#C83A14; font-size:11px;">
 		 				<% @current_provider.ifa_org_option.act_masters.each do |mstr| -%>
-							<% latest_scores = @current_user.ifa_dashboards.last.ifa_dashboard_sms_scores.for_standard(mstr).first rescue nil -%>
+							<% latest_scores = @current_user.current_sms_score(mstr,classroom.act_subject) %>
 							<% if latest_scores -%>
-								<% unless latest_scores.sms_finalized == 0 -%>
-					 				Current <%= mstr.abbrev %> Mastery Level: <%= latest_scores.sms_finalized %>
+								<% if latest_scores.sms_finalized > 0 -%>
+					 				Current Level: <%= scores_with_sat_equivalent(latest_scores.sms_finalized, mstr, classroom.act_subject) %>
 								<% end -%>
 							<% end -%>
 						<% end -%>

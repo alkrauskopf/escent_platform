@@ -891,6 +891,10 @@ class User < ActiveRecord::Base
 # IFA
 #
 
+  def current_sms_score(standard, subject)
+    self.ifa_dashboards.for_subject(subject).last.ifa_dashboard_sms_scores.for_standard(standard).first rescue nil
+  end
+
   def ifa_plan_for(subject)
     self.ifa_plans.for_subject(subject).empty? ? nil : self.ifa_plans.for_subject(subject).last
   end

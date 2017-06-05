@@ -53,7 +53,7 @@
 							<% latest_scores = @current_user.current_sms_score(mstr,classroom.act_subject) %>
 							<% if latest_scores -%>
 								<% if latest_scores.sms_finalized > 0 -%>
-					 				Current Level: <%= scores_with_sat_equivalent(latest_scores.sms_finalized, mstr, classroom.act_subject) %>
+					 				Estimated Level: <%= scores_with_sat_equivalent(latest_scores.sms_finalized, mstr, classroom.act_subject) %>
 								<% end -%>
 							<% end -%>
 						<% end -%>

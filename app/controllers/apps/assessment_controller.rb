@@ -798,15 +798,6 @@ class Apps::AssessmentController < Apps::ApplicationController
     org_analysys_instance_variables
   end
 
-  def org_analysis_x
-  
-    initialize_parameters
-
-    prepare_ifa_dashboard(@current_organization, @current_provider.ifa_org_option.begin_school_year, Date.today)
-
-    org_analysys_instance_variables
-  end
-
   def growth_dashboards
     initialize_parameters
     @show_details = params[:details] rescue nil
@@ -3585,7 +3576,9 @@ end
   end
    def org_analysys_instance_variables
      @dashboard_name = @current_organization.medium_name
-     @org_family = @current_organization.active_siblings_same_type
+     byebug
+     @org_family = (@current_provider == @current_organization) ? @current_organization.provided_app_orgs(@current_application, true)
+     : @current_organization.active_siblings_same_type
      @current_org_dashboards = @current_organization.ifa_dashboards.for_subject(@current_subject).reverse
    #  @current_org_dashboards =IfaDashboard.org_subject_after_date('Organization', @current_organization, @current_subject, @current_provider.ifa_org_option.begin_school_year).reverse
      @classroom_list =@current_organization.classrooms.precision_prep_subject(@current_subject).sort{|a,b| a.course_name <=> b.course_name}

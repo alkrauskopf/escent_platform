@@ -95,7 +95,7 @@
         <table id="classroom_levels">
           <tbody>
             <% @classroom_list.each do |clsrm| %>
-              <% classroom_label = clsrm.course_name.upcase + ",&nbsp;" + truncate(clsrm.teacher_list, :omission => "...", :length => 13) -%>
+              <% classroom_label = clsrm.organization.short_name + " - " + clsrm.course_name.upcase + ",&nbsp;" + truncate(clsrm.teacher_list, :omission => "...", :length => 23) -%>
               <tr>
                 <td class="resource_levels_close">
                   <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "classroom", :subject_id => @current_subject.id, :id => clsrm) %>
@@ -128,7 +128,7 @@
         <table id="user_levels">
           <tbody>
             <% @student_list.each do |student| %>
-              <% student_label = student.last_name.upcase + ",&nbsp;" + student.first_name -%>
+              <% student_label = student.organization.short_name + ' - ' + student.last_name.upcase + ",&nbsp;" + student.first_name -%>
               <tr>
                 <td class="resource_levels_close">
                   <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "student", :subject_id => @current_subject.id, :id => student) %>

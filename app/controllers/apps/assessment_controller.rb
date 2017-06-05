@@ -3576,13 +3576,14 @@ end
   end
    def org_analysys_instance_variables
      @dashboard_name = @current_organization.medium_name
-     byebug
      @org_family = (@current_provider == @current_organization) ? @current_organization.provided_app_orgs(@current_application, true)
      : @current_organization.active_siblings_same_type
      @current_org_dashboards = @current_organization.ifa_dashboards.for_subject(@current_subject).reverse
    #  @current_org_dashboards =IfaDashboard.org_subject_after_date('Organization', @current_organization, @current_subject, @current_provider.ifa_org_option.begin_school_year).reverse
-     @classroom_list =@current_organization.classrooms.precision_prep_subject(@current_subject).sort{|a,b| a.course_name <=> b.course_name}
-     @student_list = @current_organization.classrooms.precision_prep_students.sort{|a,b| a.last_name <=> b.last_name}
+     @classroom_list =(@current_provider == @current_organization) ? @current_organization.precision_prep_provider_classrooms(@current_subject)
+         : @current_organization.classrooms.precision_prep_subject(@current_subject).sort{|a,b| a.course_name <=> b.course_name}
+     @student_list = (@current_provider == @current_organization) ? @current_organization.precision_prep_provider_students
+     : @current_organization.classrooms.precision_prep_students.sort{|a,b| a.last_name <=> b.last_name}
      @prep_classrooms = @current_organization.classrooms.active.precision_prep
    end
 

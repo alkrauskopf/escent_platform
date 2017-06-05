@@ -487,6 +487,14 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def precision_prep_provider_classrooms(subject)
+    self.provided_app_orgs(CoopApp.ifa, true).collect{|o| o.classrooms.precision_prep_subject(subject)}.flatten.sort_by{|c| [c.organization.name, c.name]}
+  end
+
+  def precision_prep_provider_students
+    self.provided_app_orgs(CoopApp.ifa, true).collect{|o| o.classrooms.precision_prep_students}.flatten.sort_by{|s| [s.organization.name, s.last_name]}
+  end
+
   def provided_app_org_types(app, ex_self)
     self.provided_app_orgs(app, ex_self).collect{|o| o.organization_type}.compact.uniq
   end

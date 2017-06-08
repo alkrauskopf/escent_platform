@@ -482,7 +482,8 @@ class Apps::AssessmentController < Apps::ApplicationController
     if params[:group_id]
       @tagged_classroom = Classroom.find_by_public_id(params[:group_id]) rescue nil
     end
-    get_assessments_from_repository
+  #  get_assessments_from_repository
+    @assessment_pool = ActAssessment.active.sort!{|a,b| b.updated_at <=> a.updated_at}
   end 
    
  def assign_assessments_to_classroom
@@ -1836,7 +1837,8 @@ class Apps::AssessmentController < Apps::ApplicationController
         @classroom.act_assessments<< ass
      end
     end
-    get_assessments_from_repository
+   # get_assessments_from_repository
+   @assessment_pool = ActAssessment.active.sort!{|a,b| b.updated_at <=> a.updated_at}
   render :partial => "ifa_classroom_assessment_assignment_repository"  
  end
 

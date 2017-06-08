@@ -1,9 +1,9 @@
 
 <div>
-	<% unless @tagged_classroom.nil? %>
+	<% if !@tagged_classroom.nil? %>
 		<%= render :partial => "/apps/assessment/ifa_classroom_assessment_assignment" %>
 	<% else -%>	
-		<%= render :partial => "/apps/assessment/ifa_classroom_filter_options" %>
+		<%#= render :partial => "/apps/assessment/ifa_classroom_filter_options" %>
 		<%= render :partial => "/apps/assessment/ifa_classroom_assessment_assignment_repository" %>
 	<% end -%>
 </div>

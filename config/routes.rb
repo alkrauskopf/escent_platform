@@ -351,7 +351,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/classroom/option/calibrate' => 'apps/assessment#classroom_option_toggle_calibrate'
   get '/ifa/classroom/option/filter' => 'apps/assessment#classroom_option_toggle_user_filter'
   get '/ifa/classroom/option/update' => 'apps/assessment#classroom_options_update'
-  get '/ifa/classroom/assessment/pool/update' => 'apps/assessment#update_classroom_assessment_pool_from_repository'
+  get '/ifa/classroom/assessment/pool/update' => 'apps/assessment#update_classroom_assessment_pool_from_repository'   # ifa_classroom_assessment_pool_update_path
   get '/ifa/classroom/assessments/filtered' => 'apps/assessment#classroom_get_filtered_assessments'
   get '/ifa/students' => 'apps/assessment#student_list'    # ifa_students_path
   get '/ifa/pending_destroy' => 'apps/assessment#destroy_pending'    # ifa_pending_destroy_url
@@ -444,6 +444,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/repo/subject/select' => 'ifa/question_repo#subject_select'    # ifa_repo_subject_select_path
   post '/ifa/repo/question/create' => 'ifa/question_repo#create'    # ifa_repo_question_create_url
   get '/ifa/repo/question/new' => 'ifa/question_repo#new'    # ifa_repo_question_new_url
+  get '/ifa/repo/question/reading/select' => 'ifa/question_repo#reading_select'    # ifa_repo_question_reading_select_url
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

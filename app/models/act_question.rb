@@ -2,6 +2,8 @@ class ActQuestion < ActiveRecord::Base
 
   include PublicPersona
 
+  acts_as_tree
+
   has_many  :act_choices, :dependent => :destroy
   has_one  :act_question_reading, :dependent => :destroy
  
@@ -46,6 +48,18 @@ class ActQuestion < ActiveRecord::Base
   
   scope :available, {:conditions => ["is_active = true && is_locked = true"]}
 
+  TYPES = [
+      [ "Multiple Choice", "MC" ],
+      [ "Short Answer", "SA" ]
+  ]
+
+  def multiple_choice?
+    self.question_type == 'MC'
+  end
+
+  def short_answer?
+    self.question_type == 'SA'
+  end
 
   def of_mastery_level?(level)
     self.act_score_ranges.include?(level)
@@ -67,6 +81,9 @@ class ActQuestion < ActiveRecord::Base
     choices = self.randomize? ? self.act_choices.shuffle : self.act_choices.by_position
   end
 
+  def all_choices
+    self.act_choices.by_position
+  end
   def score_range(std)
     self.act_score_ranges.select{|r| r.act_master_id == std.id}.first rescue nil
   end
@@ -78,6 +95,22 @@ class ActQuestion < ActiveRecord::Base
     else
       name = "No Level"
     end
+  end
+
+  def strands
+    self.act_standards.active
+  end
+
+  def levels
+    self.act_score_ranges.no_na.active
+  end
+
+  def strand_remove(strand)
+    self.act_question_act_standards.for_strand(strand).destroy_all
+  end
+
+  def level_remove(level)
+    self.act_question_act_score_ranges.for_mastery_level(level).destroy_all
   end
 
   def standard(std)

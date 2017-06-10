@@ -5,9 +5,20 @@
     </div>
   </div>
   <div class="row">
-    <div class="ifa_panel_subtitle">
-      <%= link_to "Create Question", ifa_repo_question_add_path(:organization_id => @current_organization), :target => '_blank' %>
+    <%= form_for(:subject, :url => ifa_repo_question_add_path(:organization_id => @current_organization)) do |form| -%>
+    <div class="col-md-4 "></div>
+    <div class="col-md-2 ">
+      <div class="repo_select">
+        <%=  select( :act_subject, :id, ActSubject.all_subjects.collect{|s| [s.name, s.id]}, {:prompt => ActSubject.all_subjects.first.name}) %>
+      </div>
     </div>
+    <div class="col-md-6 ">
+      <div class="repo_submit">
+        <%= form.submit 'Create Question', :class => "btn btn-primary btn-xs" %>
+        <%#= link_to 'Create Question' , ifa_repo_question_add_path(:organization_id => @current_organization), :class=> "button_blue" %>
+      </div>
+    </div>
+    <% end %>
   </div>
   <hr>
 	<div>

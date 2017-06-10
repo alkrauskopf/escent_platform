@@ -98,7 +98,7 @@
               <% classroom_label = clsrm.organization.short_name + " - " + clsrm.course_name.upcase + ",&nbsp;" + truncate(clsrm.teacher_list, :omission => "...", :length => 23) -%>
               <tr>
                 <td class="resource_levels_close">
-                  <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "classroom", :subject_id => @current_subject.id, :id => clsrm) %>
+                  <%= link_to '', ifa_dashboards_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "classroom", :subject_id => @current_subject.id, :id => clsrm) %>
                   <%= classroom_label.html_safe %>
                   <span></span>
                 </td>

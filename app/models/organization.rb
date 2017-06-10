@@ -819,6 +819,18 @@ class Organization < ActiveRecord::Base
     self.ifa_standards.collect{|s| s.act_standards}.flatten
   end
 
+  def knowledge_strands_subject(subject)
+    self.knowledge_strands.select{|s| s.active? && s.act_subject_id == subject.id}
+  end
+
+  def knowledge_levels
+    self.ifa_standards.collect{|s| s.act_score_ranges.no_na}.flatten
+  end
+
+  def knowledge_levels_subject(subject)
+    self.knowledge_levels.select{|s| s.active? && s.act_subject_id == subject.id}
+  end
+
   def elt_remove_org_options
     if self.elt_org_option
       self.elt_org_option.destroy rescue nil

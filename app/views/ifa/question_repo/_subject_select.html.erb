@@ -1,0 +1,28 @@
+<div id= 'subject_select'>
+  <div class="row repo_select_row">
+    <div class= "col-md-1"></div>
+    <div class= "col-md-5">
+      <div class="repo_label_field">
+        Select Subject:
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="repo_select_field" id="subject_id">
+        <%=  select(:act, :subject_id, @ifa_subjects.collect{|s| [s.name,s.id]},{:prompt => @current_subject.nil? ? 'Select Subject' : @current_subject.name}) %>
+      </div>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#subject_id").change(function(){
+        var subject_id = jQ('#act_subject_id').val();
+        var url = "<%= ifa_repo_question_new_url(:organization_id => @current_organization) %>";
+        jQ.get(url, {'act_subject_id': subject_id}, function(data) {
+          jQ("#subject_select").html(data);
+          jQ("#subject_select").show();
+        });
+      })
+    });
+  </script>
+</div>

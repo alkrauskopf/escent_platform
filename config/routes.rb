@@ -441,10 +441,18 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/plan/student/cell/data' => 'ifa/ifa_plan#student_cell_data' #  ifa_plan_student_cell_data_path
 
   get '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path
+  post '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path
   get '/ifa/repo/subject/select' => 'ifa/question_repo#subject_select'    # ifa_repo_subject_select_path
   post '/ifa/repo/question/create' => 'ifa/question_repo#create'    # ifa_repo_question_create_url
   get '/ifa/repo/question/new' => 'ifa/question_repo#new'    # ifa_repo_question_new_url
   get '/ifa/repo/question/reading/select' => 'ifa/question_repo#reading_select'    # ifa_repo_question_reading_select_url
+  get '/ifa/repo/question/strand/select' => 'ifa/question_repo#strand_select'    # ifa_repo_question_strand_select_url
+  get '/ifa/repo/question/level/select' => 'ifa/question_repo#level_select'    # ifa_repo_question_level_select_url
+  get '/ifa/repo/question/choice/create' => 'ifa/question_repo#choice_create'    # ifa_repo_question_choice_create_url
+  get '/ifa/repo/question/choice/active' => 'ifa/question_repo#choice_active'    # ifa_repo_question_choice_active_url
+  get '/ifa/repo/question/choice/correct' => 'ifa/question_repo#choice_correct'    # ifa_repo_question_choice_correct_url
+  get '/ifa/repo/question/choice/destroy' => 'ifa/question_repo#choice_destroy'    # ifa_repo_question_choice_destroy_url
+  get '/ifa/repo/question/choice/update' => 'ifa/question_repo#choice_update'    # ifa_repo_question_choice_update_url
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

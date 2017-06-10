@@ -1,8 +1,29 @@
 <div id="ifa_question_repo" class="repo_box">
-  <div class= 'row panel_title_blue'>
-    Add <%= @current_application.app_name(:provider=>@current_provider) %> Question
-  </div>
-  <hr>
-  <%= render :partial => 'create_question_selects' %>
-  <%#= render :partial =>  "manage_standard", :locals=>{}%>
+  <% if !@current_subject.nil? %>
+    <div class= 'row panel_title_blue'>
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <%=@current_subject.name %> Question
+      </div>
+      <div class="col-md-2">
+        <%= link_to  "Back", self.send(@current_application.link_path,{:organization_id => @current_organization}), :class => "button_gray" %>
+      </div>
+    </div>
+    <hr>
+    <%= render :partial => "/shared/error_and_notice" %>
+    <%= render :partial =>  "form_question", :locals=>{}%>
+  <% if @function == 'Update' %>
+    <hr>
+    <%= render :partial =>  "update_question_tags", :locals=>{}%>
+    <hr>
+    <% if @current_question.multiple_choice? %>
+      <%= render :partial =>  "update_question_choices", :locals=>{}%>
+    <% end %>
+    <hr>
+  <% end %>
+  <% else %>
+    <div class= 'row panel_title_blue'>
+      No <%= @current_application.app_name(:provider=>@current_provider) %> Subject Identified
+    </div>
+  <% end %>
 </div>

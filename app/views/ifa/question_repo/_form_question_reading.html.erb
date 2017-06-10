@@ -1,0 +1,35 @@
+<div id= 'reading_select_<%= @current_reading.nil? ? '0' : @current_reading.id.to_s %>'>
+  <div class="row repo_edit_row">
+    <div class="col-md-3 repo_label_field">
+      Related Reading
+    </div>
+    <div class="col-md-9 repo_select_field" id="reading_id">
+      <%=  select(:rel, :reading_id, @rel_readings,{:prompt => "Select Related Reading"}) %>
+    </div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#reading_id").change(function(){
+        var reading_id = jQ('#rel_reading_id').val();
+        var url = "<%= ifa_repo_question_reading_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
+        jQ.get(url, {'act_rel_reading_id': reading_id}, function(data) {
+          jQ("#reading_select_<%= @current_reading.nil? ? '0' : @current_reading.id.to_s %>").html(data);
+          jQ("#reading_select_<%= @current_reading.nil? ? '0' : @current_reading.id.to_s %>").show();
+        });
+      })
+    });
+  </script>
+  <% if !@current_reading.nil? %>
+    <div class="row repo_edit_row">
+      <div class="col-md-3 repo_label_field">
+        Edit Reading
+      </div>
+      <div class="col-md-9 repo_text_field">
+        <%= text_area :act_question_reading, (@current_reading.nil? ? '0' : @current_reading.id.to_s),
+                      :class =>"tinymce", :rows => 8, :cols => 70,:value => @current_reading_text %>
+        <%= tinymce %>
+      </div>
+    </div>
+  <% end %>
+  <%= hidden_field_tag "act_rel_reading_id", @current_reading.nil? ? 0 : @current_reading.id %>
+</div>

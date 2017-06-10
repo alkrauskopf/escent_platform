@@ -1,0 +1,106 @@
+<div id= 'question_tags_<%= @current_question.id %>' class="repo_tags_box">
+  <div class="row">
+    <div class= "col-md-1"></div>
+    <div class= "col-md-5 ">
+      <div class="repo_panel repo_header_label">
+        <%= pluralize(@current_question.strands.size, ' Knowledge Strand') %>
+      </div>
+    </div>
+    <div class= "col-md-5 ">
+      <div class="repo_panel repo_header_label">
+        <%= pluralize(@current_question.levels.size, ' Mastery Level') %>
+      </div>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+  <div class="row repo_select_row">
+    <div class= "col-md-1"></div>
+    <div class="col-md-5">
+      <div class="repo_select_field" id="add_strand">
+        <%=  select(:add, :standard_id, @available_strands.collect{|s| [s.name,s.id]},{:prompt => 'ADD Question Strand'}) %>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="repo_select_field" id="add_level">
+        <%=  select(:add, :level_id, @available_levels.collect{|s| [mastery_label(s, true),s.id]},{:prompt => 'ADD Question Level'}) %>
+      </div>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+  <div class="row repo_select_row">
+    <div class= "col-md-1"></div>
+    <div class="col-md-5">
+      <div class="repo_select_field" id="remove_strand">
+        <%=  select(:remove, :standard_id, @current_question.strands.collect{|s| [s.name,s.id]},{:prompt => 'REMOVE Question Strand'}) %>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="repo_select_field" id="remove_level">
+        <%=  select(:remove, :level_id, @current_question.levels.collect{|s| [mastery_label(s, true),s.id]},{:prompt => 'REMOVE Question Level'}) %>
+      </div>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+  <div class="row repo_tag_row">
+    <div class= "col-md-1"></div>
+    <div class="col-md-5">
+      <% @current_question.strands.each do |strand|%>
+        <%= strand.name%><br/>
+      <% end %>
+    </div>
+    <div class="col-md-5">
+      <% @current_question.levels.each do |level|%>
+          <%= mastery_label(level, true)%><br/>
+      <% end %>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#add_strand").change(function(){
+        var standard_id = jQ('#add_standard_id').val();
+        var url = "<%= ifa_repo_question_strand_select_url(:organization_id => @current_organization, :act_question_id => @current_question.id) %>";
+        jQ.get(url, {'act_standard_id': standard_id}, function(data) {
+          jQ("#question_tags_<%= @current_question.id %>").html(data);
+          jQ("#question_tags_<%= @current_question.id %>").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#remove_strand").change(function(){
+        var standard_id = jQ('#remove_standard_id').val();
+        var url = "<%= ifa_repo_question_strand_select_url(:organization_id => @current_organization, :act_question_id => @current_question.id) %>";
+        jQ.get(url, {'act_standard_id': standard_id}, function(data) {
+          jQ("#question_tags_<%= @current_question.id %>").html(data);
+          jQ("#question_tags_<%= @current_question.id %>").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#add_level").change(function(){
+        var level_id = jQ('#add_level_id').val();
+        var url = "<%= ifa_repo_question_level_select_url(:organization_id => @current_organization, :act_question_id => @current_question.id) %>";
+        jQ.get(url, {'act_score_range_id': level_id}, function(data) {
+          jQ("#question_tags_<%= @current_question.id %>").html(data);
+          jQ("#question_tags_<%= @current_question.id %>").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#remove_level").change(function(){
+        var level_id = jQ('#remove_level_id').val();
+        var url = "<%= ifa_repo_question_level_select_url(:organization_id => @current_organization, :act_question_id => @current_question.id) %>";
+        jQ.get(url, {'act_score_range_id': level_id}, function(data) {
+          jQ("#question_tags_<%= @current_question.id %>").html(data);
+          jQ("#question_tags_<%= @current_question.id %>").show();
+        });
+      })
+    });
+  </script>
+</div>

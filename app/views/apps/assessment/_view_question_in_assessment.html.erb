@@ -14,28 +14,43 @@
     </div>
   </div>
   <div class="col-md-8 ">
-    <% unless quest.content.nil? -%>
-      <% unless quest.content.content_object_type.nil? -%>
+    <% image_width = quest.image_enlarge? ? "100%" : "50%" %>
+    <% if quest.question_image.present? %>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 question_image">
+          <%#= image_tag quest.question_image, width= image_width %>
+          <img src="<%= quest.question_image %>" width= <%=image_width%> />
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    <% end %>
+    <% if !quest.content.nil? -%>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
         <% @q_content_public_id = quest.content.public_id -%>
-        <% if quest.content.content_object_type.content_object_type_group.name == "IMAGE" && !quest.is_enlarged-%>
+        <% if quest.content.image? %>
           <div class="question_image" >
-            <img src="<%= quest.content.source_file.url %>" width="180" />
+            <img src="<%= quest.content.source_file.url %>" width= <%=image_width%> />
           </div>
         <% end -%>
-        <% if quest.content.content_object_type.content_object_type_group.name == "IMAGE" && quest.is_enlarged-%>
-          <div class="question_image" >
-            <img src="<%= quest.content.source_file.url %>" width="635" />
-          </div>
-        <% end -%>
-        <% if quest.content.content_object_type.content_object_type_group.name == "PDF" -%>
+        <% if quest.content.pdf? -%>
           <div class="question_pdf" >
             <a href="<%= quest.content.source_file.url %>" target="_blank">View PDF:</a>&nbsp;<%= quest.content.title.titleize  %></a>
           </div>
         <% end -%>
-      <% end -%>
+        <% if quest.content.embed_code? -%>
+          <div class="question_video" >
+            <%= quest.content.content_object.html_safe %>
+          </div>
+        <% end -%>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
     <% end -%>
     <% unless quest.act_question_reading.nil? -%>
-      <div class="question_reading" >
+      <div class="row question_reading" >
         <%= quest.act_question_reading.reading.html_safe %>
       </div>
     <% end -%>

@@ -65,11 +65,24 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     render :partial =>  "update_question_tags"
   end
 
+  def assessment_select
+    get_current_question
+    get_current_assessment
+    if @current_question.all_assessments.include?(@current_assessment)
+      @current_question.assessment_remove(@current_assessment)
+    else
+      assign_question_assessment
+    end
+    available_assessments(@current_question)
+    render :partial =>  "update_question_assignments"
+  end
+
   def toggle_active
     get_current_question
     @current_question.update_attributes(:is_active => !@current_question.is_active)
     available_strands_levels(@current_question)
-    render :partial =>  "update_question_tags"
+    available_assessments(@current_question)
+    render :partial =>  "update_question_assignments"
   end
 
   def edit
@@ -96,6 +109,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     if !@current_question.nil?
       update_question
       available_strands_levels(@current_question)
+      available_assessments(@current_question)
     else
       flash[:error] = 'Could Create Question Object'
     end
@@ -158,6 +172,11 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     @entity_questions = @current_entity.act_questions.by_date
     question_creators_strands
     render :partial =>  "question_list"
+  end
+
+  def preview_question
+    get_current_question
+    render :layout => "act_assessment"
   end
 
   private
@@ -235,6 +254,14 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     end
   end
 
+  def get_current_assessment
+    if params[:act_assessment_id]
+      @current_assessment = ActAssessment.find_by_id(params[:act_assessment_id]) rescue nil
+    else
+      @current_assessment = nil
+    end
+  end
+
   def get_current_choice
     if params[:act_choice_id]
       @current_choice = ActChoice.find_by_id(params[:act_choice_id]) rescue nil
@@ -252,6 +279,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     @current_question.comment = params[:act_question][:comment]
     @current_question.question_type = params[:question][:question_type] == '' ? @current_question.question_type : params[:question][:question_type]
     @current_question.is_random = params[:act_question][:is_random]
+    @current_question.is_enlarged = params[:act_question][:is_enlarged]
     @current_question.is_calc_free = params[:act_question][:is_calc_free]
     @current_question.act_subject_id = @current_subject.id
     @current_question.user_id = @current_user.id
@@ -283,6 +311,17 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
   def available_strands_levels(question)
     @available_strands = @current_provider.knowledge_strands_subject(question.act_subject) - question.strands
     @available_levels = @current_provider.knowledge_levels_subject(question.act_subject) - question.levels
+  end
+  def available_assessments(question)
+    @available_assessments = @current_question.act_subject.act_assessments.active.lock
+    @available_assessments -= @current_question.act_assessments
+  end
+
+  def assign_question_assessment
+    ass_join = ActAssessmentActQuestion.new
+    ass_join.act_assessment_id = @current_assessment.id
+    ass_join.position = @current_assessment.act_questions.size + 1
+    @current_question.act_assessment_act_questions << ass_join
   end
 
 end

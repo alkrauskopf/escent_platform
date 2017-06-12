@@ -51,8 +51,11 @@ class ActAssessment < ActiveRecord::Base
     question_pool.sort!{|a,b| b.updated_at <=> a.updated_at}
   end
 
-  def position_for(question)
+  def position_forx(question)
     self.act_assessment_act_questions.select{|q| q.act_question_id == question.id}.first.position rescue ""
+  end
+  def position_for(question)
+    self.act_assessment_act_questions.for_question(question).first.position.to_s rescue ""
   end
 
   def sequence_questions

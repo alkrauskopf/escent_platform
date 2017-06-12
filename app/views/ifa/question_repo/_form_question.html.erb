@@ -3,30 +3,6 @@
     <%= form_for(:act_question,
                  :url => ifa_repo_question_create_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
                                                        :act_question_id => @current_question.id, :function => @function), :html => {:multipart => true}) do |form| -%>
-      <div class="row repo_edit_row">
-        <div class="col-md-3 repo_label_field">
-          <%= ActQuestion::TYPES.find { |n, m| m == @current_question.question_type }[0] rescue nil%>
-        </div>
-        <div class="col-md-9 repo_select_field">
-          <%=  select(:question, :question_type, ActQuestion::TYPES, :value => @current_question.question_type, :prompt => 'Change Type') %>
-        </div>
-      </div>
-      <div class="row repo_edit_row">
-        <div class="col-md-3 repo_label_field">
-          Calculator Free:
-        </div>
-        <div class="col-md-9 repo_text_field">
-          <%= form.check_box :is_calc_free, :checked => @current_question.is_calc_free %>
-        </div>
-      </div>
-      <div class="row repo_edit_row">
-        <div class="col-md-3 repo_label_field">
-          Randomize Answers:
-        </div>
-        <div class="col-md-9 repo_text_field">
-          <%= form.check_box :is_random, :checked => @current_question.is_random %>
-        </div>
-      </div>
       <%= render :partial =>  "form_question_reading", :locals=>{}%>
       <div class="row repo_edit_row">
         <div class="col-md-3 repo_label_field">
@@ -51,20 +27,46 @@
         </div>
         <div class="col-md-3 repo_text_field">
           <%= file_field_tag 'act_question[question_image]' %>
+          <div class="pool_check_box">
+            <br/><%= form.check_box :is_enlarged, :checked => @current_question.is_enlarged %>&nbsp;&nbsp;Enlarge Image
+          </div>
           <% if @current_question.question_image.present? %>
-            <br/><br/><%= check_box :question_image, :delete %>&nbsp;&nbsp;Remove Image
+            <div class="pool_check_box">
+              <%= check_box :question_image, :delete %>&nbsp;&nbsp;Remove Image
+            </div>
           <% end %>
         </div>
         <div class="col-md-3 repo_label_field">
           <% if @current_question.question_image.present? %>
-            <%= image_tag @current_question.question_image(:thumb) %>
+            <%= image_tag @current_question.question_image(:assessment) %>
           <% end %>
         </div>
       </div>
       <div class="row repo_edit_row">
         <div class="col-md-3 repo_label_field">
-          <%= form.submit @function + ' Question', :class =>"button_blue" %>
+          <%= ActQuestion::TYPES.find { |n, m| m == @current_question.question_type }[0] rescue nil%>
         </div>
+        <div class="col-md-9 repo_select_field">
+          <%=  select(:question, :question_type, ActQuestion::TYPES, :value => @current_question.question_type, :prompt => 'Change Type') %>
+        </div>
+      </div>
+          <div class="row repo_edit_row">
+            <div class="col-md-3 repo_label_field"></div>
+            <div class="col-md-9 repo_text_field">
+              <%= form.check_box :is_calc_free, :checked => @current_question.is_calc_free %>&nbsp;&nbsp;Calculator Free
+            </div>
+          </div>
+          <div class="row repo_edit_row">
+            <div class="col-md-3 repo_label_field"></div>
+            <div class="col-md-9 repo_text_field">
+              <%= form.check_box :is_random, :checked => @current_question.is_random %>&nbsp;&nbsp;Randomize Answers
+            </div>
+          </div>
+      <div class="row repo_button_row">
+        <div class="col-md-6">
+          <%= form.submit @function + ' Question Info', :class =>"update_button button_blue" %>
+        </div>
+        <div class="col-md-6"></div>
       </div>
     <% end %>
   <% end %>

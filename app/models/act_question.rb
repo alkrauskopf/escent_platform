@@ -6,7 +6,7 @@ class ActQuestion < ActiveRecord::Base
   has_attached_file :question_image,
                     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
                     :url => "/system/:attachment/:id/:style/:filename",
-                    :styles => { :thumb => "118x166#", :small_thumb => "59x83#" }
+                    :styles => { :thumb => "118x166#", :small_thumb => "59x83#", :assessment => "140x140#" }
   validates_attachment :question_image,
                        content_type: {content_type: ['image/gif', 'image/jpeg', 'image/png', 'image/pjpeg', 'image/x-png']}
   validates_with AttachmentSizeValidator, attributes: :question_image, less_than: 5.megabytes
@@ -82,6 +82,14 @@ class ActQuestion < ActiveRecord::Base
     self.act_assessments.lock.empty? && !self.active?
   end
 
+  def enableable?
+    self.short_answer? || !self.choices.empty? || true
+  end
+
+  def image_enlarge?
+    self.is_enlarged
+  end
+
   def reading?
     self.act_rel_reading ? true : false
   end
@@ -150,12 +158,24 @@ class ActQuestion < ActiveRecord::Base
     self.act_score_ranges.no_na.active
   end
 
+  def assessments
+    self.act_assessments.active
+  end
+
+  def all_assessments
+    self.act_assessments
+  end
+
   def strand_remove(strand)
     self.act_question_act_standards.for_strand(strand).destroy_all
   end
 
   def level_remove(level)
     self.act_question_act_score_ranges.for_mastery_level(level).destroy_all
+  end
+
+  def assessment_remove(assessment)
+    self.act_assessment_act_questions.for_assessment(assessment).destroy_all
   end
 
   def standard(std)

@@ -1,28 +1,5 @@
 <div id= 'question_tags_<%= @current_question.id %>' class="repo_tags_box">
   <div class="row">
-    <div class= "col-md-3 question_button">
-      <% button_color = @current_question.active? ? 'button_green' : 'button_red'%>
-      <% button_label = @current_question.active? ? 'Enabled' : 'Disabled'%>
-      <span id = "toggle_active_<%=@current_question.id%>" class=<%=button_color%>>
-        <%=button_label %>
-      </span>
-    </div>
-    <div class= "col-md-9"></div>
-  </div>
-  <script type="text/javascript">
-    jQ(document).ready(function() {
-      jQ("#toggle_active_<%=@current_question.id%>").click(function(){
-        var url = "<%= ifa_repo_question_active_url(:organization_id => @current_organization,
-                  :act_question_id => @current_question.id ) %>";
-        jQ.get(url, {}, function(data) {
-          jQ("#question_tags_<%= @current_question.id %>").html(data);
-          jQ("#question_tags_<%= @current_question.id %>").show();
-        });
-      })
-    });
-  </script>
-  <hr>
-  <div class="row">
     <div class= "col-md-1"></div>
     <div class= "col-md-5 ">
       <div class="repo_panel repo_header_label">

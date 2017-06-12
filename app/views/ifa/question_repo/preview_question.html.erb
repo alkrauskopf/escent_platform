@@ -1,0 +1,24 @@
+<div id="ifa_question_preview" class="preview_box">
+  <div class= 'row panel_title_blue'>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      Question PreView
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <% if !@current_question.nil? %>
+  <div class= 'row'>
+    <div class="col-md-12">
+      <%= render(:partial => "apps/assessment/view_question_in_assessment" , :locals => {:quest => @current_question, :num => 1}) %>
+    </div>
+  </div>
+  <% else %>
+    <div class= 'row panel_title_blue'>
+      <div class="col-md-12">
+        No Question
+      </div>
+    </div>
+  <% end %>
+  <hr>
+</div>
+

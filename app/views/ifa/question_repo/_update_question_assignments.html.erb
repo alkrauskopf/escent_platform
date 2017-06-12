@@ -1,0 +1,65 @@
+<div id= 'question_assignments_<%= @current_question.id %>' class="repo_tags_box">
+  <%= render :partial => 'question_buttons'%>
+  <% if @current_question.active? %>
+    <hr>
+    <div class="row">
+      <div class= "col-md-1"></div>
+      <div class= "col-md-10 ">
+        <div class="repo_panel repo_header_label">
+          Assigned To <%= pluralize(@current_question.assessments.size, ' Assessment') %>
+        </div>
+      </div>
+      <div class= "col-md-1"></div>
+    </div>
+    <div class="row repo_select_row">
+      <div class= "col-md-1"></div>
+      <div class="col-md-5">
+        <div class="repo_select_field" id="add_assessment">
+          <%=  select(:add, :assessment_id, @available_assessments.collect{|s| [s.name,s.id]},{:prompt => 'ADD To Assessment'}) %>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="repo_select_field" id="remove_assessment">
+          <%=  select(:remove, :assessment_id, @current_question.assessments.collect{|s| [s.name,s.id]},{:prompt => 'REMOVE From Assessment'}) %>
+        </div>
+      </div>
+      <div class= "col-md-1"></div>
+    </div>
+    <div class="row repo_tag_row">
+      <div class= "col-md-3"></div>
+      <div class="col-md-6 question_assessments">
+        <% @current_question.assessments.each do |assessment|%>
+          <%= assessment.name%>:
+            <span class="assessment_position">
+              (Position # <%= assessment.position_for(@current_question) %>)
+            </span><br/>
+        <% end %>
+      </div>
+      <div class= "col-md-3"></div>
+    </div>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#add_assessment").change(function(){
+          var assessment_id = jQ('#add_assessment_id').val();
+          var url = "<%= ifa_repo_question_assessment_select_url(:organization_id => @current_organization, :act_question_id => @current_question.id) %>";
+          jQ.get(url, {'act_assessment_id': assessment_id}, function(data) {
+            jQ("#question_assignments_<%= @current_question.id %>").html(data);
+            jQ("#question_assignments_<%= @current_question.id %>").show();
+          });
+        })
+      });
+    </script>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#remove_assessment").change(function(){
+          var assessment_id = jQ('#remove_assessment_id').val();
+          var url = "<%= ifa_repo_question_assessment_select_url(:organization_id => @current_organization, :act_question_id => @current_question.id) %>";
+          jQ.get(url, {'act_assessment_id': assessment_id}, function(data) {
+            jQ("#question_assignments_<%= @current_question.id %>").html(data);
+            jQ("#question_assignments_<%= @current_question.id %>").show();
+          });
+        })
+      });
+    </script>
+  <% end %>
+</div>

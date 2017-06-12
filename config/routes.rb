@@ -460,6 +460,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/repo/question/show' => 'ifa/question_repo#static_question'    # ifa_repo_question_show_path
   get '/ifa/repo/question/active' => 'ifa/question_repo#toggle_active'    # ifa_repo_question_active_url
   get '/ifa/repo/question/destroy' => 'ifa/question_repo#question_destroy'    # ifa_repo_question_destroy_url
+  get '/ifa/repo/question/preview' => 'ifa/question_repo#preview_question'    # ifa_repo_question_preview_path
+  get '/ifa/repo/question/assessment/select' => 'ifa/question_repo#assessment_select'    # ifa_repo_question_assessment_select_path
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

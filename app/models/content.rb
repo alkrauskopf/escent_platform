@@ -451,7 +451,32 @@ class Content < ActiveRecord::Base
   end
 
   def embed_code?
-    self.content_object_type.content_object_type_group.name == "EMBED CODE"
+    if self.content_object_type && self.content_object_type.content_object_type_group
+      self.content_object_type.content_object_type_group.name == "EMBED CODE"
+    else
+      false
+    end
+  end
+  def pdf?
+    if self.content_object_type && self.content_object_type.content_object_type_group
+      self.content_object_type.content_object_type_group.name == "PDF"
+    else
+      false
+    end
+  end
+  def image?
+    if self.content_object_type && self.content_object_type.content_object_type_group
+      self.content_object_type.content_object_type_group.name == "IMAGE"
+    else
+      false
+    end
+  end
+  def link?
+    if self.content_object_type && self.content_object_type.content_object_type_group
+      self.content_object_type.content_object_type_group.name == "LINK"
+    else
+      false
+    end
   end
 
   def content_group_name

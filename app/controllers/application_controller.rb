@@ -102,6 +102,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_user_app_admin
+    @current_user_app_admin = (@current_user && @current_application && @current_organization && @current_user.has_authority?(AuthorizationLevel.app_administrator(@current_application), @current_organization, :superuser => true)) ? true : false
+  end
+
   def user_authorize(auth_level)
     if @current_user.nil? || @current_organization.nil? || !@current_user.has_authority?(auth_level, @current_organization, :superuser=>true)
       organization = !@current_user.nil? ? @current_user.organization : Organization.default

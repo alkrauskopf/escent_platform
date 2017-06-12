@@ -1,8 +1,17 @@
 class ActQuestion < ActiveRecord::Base
 
   include PublicPersona
-
   acts_as_tree
+
+  has_attached_file :question_image,
+                    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+                    :url => "/system/:attachment/:id/:style/:filename",
+                    :styles => { :thumb => "118x166#", :small_thumb => "59x83#" }
+  validates_attachment :question_image,
+                       content_type: {content_type: ['image/gif', 'image/jpeg', 'image/png', 'image/pjpeg', 'image/x-png']}
+  validates_with AttachmentSizeValidator, attributes: :question_image, less_than: 5.megabytes
+
+
 
   has_many  :act_choices, :dependent => :destroy
   has_one  :act_question_reading, :dependent => :destroy
@@ -53,6 +62,38 @@ class ActQuestion < ActiveRecord::Base
       [ "Short Answer", "SA" ]
   ]
 
+  def self.creators
+    ActQuestion.all.collect{|q| q.user}.compact.uniq.sort_by{|u| u.last_name}
+  end
+
+  def self.by_date
+    order('updated_at DESC')
+  end
+
+  def active?
+    self.is_active
+  end
+
+  def self.enabled
+    where('is_active')
+  end
+
+  def destroyable?
+    self.act_assessments.lock.empty? && !self.active?
+  end
+
+  def reading?
+    self.act_rel_reading ? true : false
+  end
+
+  def reading
+    self.act_rel_reading
+  end
+
+  def reading_genre
+    (self.reading? && self.reading.act_genre) ? self.reading.act_genre.name : 'None'
+  end
+
   def multiple_choice?
     self.question_type == 'MC'
   end
@@ -77,8 +118,12 @@ class ActQuestion < ActiveRecord::Base
     self.is_random
   end
 
+  def calibrated?
+    self.is_calibrated
+  end
+
   def choices
-    choices = self.randomize? ? self.act_choices.shuffle : self.act_choices.by_position
+    choices = self.randomize? ? self.act_choices.active.shuffle : self.act_choices.active.by_position
   end
 
   def all_choices
@@ -232,5 +277,15 @@ class ActQuestion < ActiveRecord::Base
     end
    align_score = alignment_checks > 0 ? (100*good_alignment_count.to_f/ alignment_checks.to_f).round : nil
 #    align_score = q_range_index
+  end
+
+  private
+
+  def picture_width
+    required_width  = 300
+    if question_image.queued_for_write[:original]
+      dimensions = Paperclip::Geometry.from_file(picture.queued_for_write[:original].path)
+      errors.add(:question_image, "Width can't be greater than #{required_width}") unless dimensions.width <= required_width
+    end
   end
 end

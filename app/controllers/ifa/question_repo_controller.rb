@@ -1,10 +1,11 @@
 class Ifa::QuestionRepoController < Ifa::ApplicationController
 
-  layout "ifa_repo", :except=>[:new]
+  layout "ifa_repo", :except=>[:question_list]
 
   before_filter :current_user_app_authorized?
   before_filter :current_user_app_admin?, :only=>[]
   before_filter :current_app_superuser
+  before_filter :current_user_app_admin, :only=>[:question_list]
   before_filter :current_subject, :except => [:index]
   before_filter :clear_notification, :except => []
 
@@ -25,6 +26,19 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     get_current_reading
     @current_reading_text = @current_reading.nil? ? '' : @current_reading.reading
     render :partial => 'form_question_reading'
+  end
+
+  def rl_select
+    get_current_question
+    get_resource_list
+    render :partial =>  "update_question_rls", :locals => {:resource_type => resource_type}
+  end
+
+  def resource_attach
+    get_current_question
+    @current_question.update_attributes(:content_id => params[:resource_id])
+    get_resource_list
+    render :partial =>  "update_question_rls", :locals => {:resource_type => resource_type}
   end
 
   def strand_select
@@ -49,6 +63,24 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     end
     available_strands_levels(@current_question)
     render :partial =>  "update_question_tags"
+  end
+
+  def toggle_active
+    get_current_question
+    @current_question.update_attributes(:is_active => !@current_question.is_active)
+    available_strands_levels(@current_question)
+    render :partial =>  "update_question_tags"
+  end
+
+  def edit
+    get_current_question
+    ifa_subjects
+    related_readings
+    @function = 'Update'
+    available_strands_levels(@current_question)
+    @current_reading = @current_question.reading.nil? ? nil : @current_question.act_rel_reading
+    @current_reading_text = (@current_question.nil? || @current_question.act_question_reading.nil?) ? '' : @current_question.act_question_reading.reading
+    render :index
   end
 
   def create
@@ -115,7 +147,42 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     render :partial =>  "update_question_choices"
   end
 
+  def question_destroy
+    get_current_question
+    @current_question.destroy
+    question_list
+  end
+
+  def question_list
+    get_entity
+    @entity_questions = @current_entity.act_questions.by_date
+    question_creators_strands
+    render :partial =>  "question_list"
+  end
+
   private
+
+  def get_entity
+    if params[:entity_class] == 'User'
+      @current_entity = User.find_by_id(params[:entity_id]) rescue nil
+    elsif params[:entity_class] == 'ActStandard'
+      @current_entity = ActStandard.find_by_id(params[:entity_id]) rescue nil
+    end
+  end
+
+  def question_creators_strands
+    @question_creators = ActQuestion.creators
+    @question_strands = ActStandard.for_standard(@current_user.standard_view)
+  end
+
+  def resource_type
+    params[:resource_type] ? params[:resource_type]: nil
+  end
+
+  def get_resource_list
+    @resource_list = @current_user.favorite_resources.select{|r| (r.content_object_type.content_object_type_group.name == resource_type) }.sort{ |a, b| b.updated_at <=> a.updated_at } rescue []
+    @resource_list -= [@current_question.content]
+  end
 
   def function
     @function = params[:function] ? params[:function]: nil
@@ -160,6 +227,14 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     end
   end
 
+  def get_current_resource
+    if params[:resource_id]
+      @current_resource = Content.find_by_id(params[:resource_id]) rescue nil
+    else
+      @current_resource = nil
+    end
+  end
+
   def get_current_choice
     if params[:act_choice_id]
       @current_choice = ActChoice.find_by_id(params[:act_choice_id]) rescue nil
@@ -175,12 +250,16 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     @current_question.act_rel_reading_id = params[:act_rel_reading_id] == '0' ? nil : params[:act_rel_reading_id].to_i
     @current_question.question = params[:act_question][:question]
     @current_question.comment = params[:act_question][:comment]
-    @current_question.question_type = params[:act_question][:question_type] == '' ? @current_question.question_type : params[:act_question][:question_type]
+    @current_question.question_type = params[:question][:question_type] == '' ? @current_question.question_type : params[:question][:question_type]
     @current_question.is_random = params[:act_question][:is_random]
     @current_question.is_calc_free = params[:act_question][:is_calc_free]
     @current_question.act_subject_id = @current_subject.id
     @current_question.user_id = @current_user.id
     @current_question.organization_id = @current_organization.id
+    @current_question.question_image = params[:act_question][:question_image] ? params[:act_question][:question_image] : @current_question.question_image
+    if params[:question_image] && params[:question_image][:delete] == '1'
+      @current_question.question_image.destroy
+    end
     if @current_question.save
       flash[:notice] = "Question #{function} Successful"
       @function = 'Update'

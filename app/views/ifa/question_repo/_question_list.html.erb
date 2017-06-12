@@ -1,0 +1,162 @@
+<div id="question_pool">
+  <div class="row question_pool_select">
+    <div class="col-md-1 "></div>
+    <div class="col-md-5">
+      <div id="user_select">
+        <%=  select( :user, :id, @question_creators.collect{|s| [(s.name + ' | ' + s.organization.short_name), s.id]}, {:prompt => "Select A Question Creator"}) %>
+      </div>
+    </div>
+    <div class="col-md-5 ">
+      <div id="strand_select">
+        <%=  select( :act_standard, :id,  @question_strands.collect{|s| [(s.act_subject.name + ' | ' +s.abbrev.upcase), s.id]}, {:prompt => "Select A Question Strand"}) %>
+      </div>
+    </div>
+    <div class="col-md-1 "></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#user_select").change(function(){
+        var entity_id = jQ('#user_id').val();
+        var url = "<%= ifa_repo_pool_select_url(:organization_id => @current_organization, :entity_class => 'User') %>";
+        jQ.get(url, {'entity_id': entity_id}, function(data) {
+          jQ("#question_pool").html(data);
+          jQ("#question_pool").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#strand_select").change(function(){
+        var entity_id = jQ('#act_standard_id').val();
+        var url = "<%= ifa_repo_pool_select_url(:organization_id => @current_organization, :entity_class => 'ActStandard') %>";
+        jQ.get(url, {'entity_id': entity_id}, function(data) {
+          jQ("#question_pool").html(data);
+          jQ("#question_pool").show();
+        });
+      })
+    });
+  </script>
+  <% if @entity_questions %>
+    <div class="row question_pool_list">
+      <div class= "col-md-1"></div>
+      <div class= "col-md-10 ">
+        <div class="repo_panel repo_pool_header_label">
+          <%= pluralize(@entity_questions.size, ' ' + @current_entity.name + ' Question') %>
+        </div>
+        <% @entity_questions.each do |question| %>
+          <div class="row question_pool_text">
+            <div class= "col-md-3 ">
+              <div class="question_pool_subject"><%= question.act_subject.name %></div>
+              <div class="question_pool_subject">
+                <% if question.levels.empty? %>
+                  No Levels
+                <% else %>
+                  <% question.levels.each do |level|%>
+                    <%= mastery_label(level, true)%><br/>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="question_pool_subject">
+                <%= question.strands.empty? ? "No Strands" : (question.strands.collect{|s| s.abbrev}.join(', ')) %>
+              </div>
+              <% if !question.active? %>
+                <div class="question_pool_subject question_disabled">
+                  Disabled
+                </div>
+              <% end %>
+              <div class="question_pool_subject">
+                <%= question.user ? question.user.last_name.upcase : 'Former User' %>
+              </div>
+            </div>
+            <div class= "col-md-7">
+              <div class="question_pool_question">
+                <%= question.question.html_safe%>
+              </div>
+              <% if question.reading? %>
+                <div class="question_pool_reading">
+                  <div >
+                    READING:&nbsp;<%= question.reading.label%>
+                  </div>
+                  <div >
+                    GENRE:&nbsp;<%= question.reading_genre %>
+                  </div>
+                  <% if question.content %>
+                    <div >
+                      RL Attachment: <%=question.content.title.titleize %>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+              <% if !question.comment.nil? && question.comment != '' %>
+                  <div class="question_pool_reading">
+                    <div >
+                      COMMENT:&nbsp;<%= question.comment %>
+                    </div>
+                  </div>
+              <% end %>
+              <div class="question_pool_tags">
+                <div>
+                  <%= ActQuestion::TYPES.find { |n, m| m == question.question_type }[0] rescue ''%>: <%= pluralize(question.choices.size, 'Choice')%>
+                </div>
+                <div>
+                  <%= question.randomize? ? 'Randomized Choices' : 'Positioned Choices'%>
+                </div>
+                <div>
+                  <%= question.calculator_free? ? 'Calculator Free' : 'Calculator Allowed'%>
+                </div>
+                <% if question.calibrated? %>
+                  <div >
+                    Calibrated
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class= "col-md-2">
+              <div class="row">
+                <div class="col-md-6 question_pool_button">
+                  <%= link_to 'View', ifa_question_show_path(:organization_id => @current_organization, :question_id => question.public_id), {:class => 'button_gray', :target => '_blank'} %>
+                </div>
+                <div class="col-md-6 question_pool_button">
+                  <% if @current_user.id == question.user_id || @current_user_app_admin %>
+                    <%= link_to 'Edit', ifa_repo_question_edit_path(:organization_id => @current_organization, :act_subject_id => question.act_subject_id, :act_question_id => question.id), {:class => 'button_gray', :target => '_blank'} %>
+                  <% end %>
+                </div>
+              </div>
+              <% if question.question_image.present? %>
+                <div class="row">
+                  <div class="col-md-12 question_pool_image">
+                    <%= image_tag question.question_image(:small_thumb) %>
+                  </div>
+                </div>
+              <% end %>
+              <% if (@current_user.id == question.user_id || @current_user_app_admin) && question.destroyable? %>
+                  <div class="row">
+                    <div class="col-md-12 question_pool_image">
+                      <span id = "destroy_<%=question.id%>" class="button_red">
+                        Destroy Question
+                      </span>
+                    </div>
+                  </div>
+                  <script type="text/javascript">
+                    jQ(document).ready(function() {
+                      jQ("#destroy_<%=question.id%>").click(function(){
+                        var url = "<%= ifa_repo_question_destroy_url(:organization_id => @current_organization,
+                                    :entity_class => @current_entity.class.to_s, :entity_id => @current_entity.id, :act_question_id => question.id ) %>";
+                        jQ.get(url, {}, function(data) {
+                          jQ("#question_pool").html(data);
+                          jQ("#question_pool").show();
+                        });
+                      })
+                    });
+                  </script>
+              <% end %>
+            </div>
+          </div>
+          <hr>
+        <% end %>
+      </div>
+      <div class= "col-md-1"></div>
+    </div>
+  <% end %>
+</div>

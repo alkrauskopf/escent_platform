@@ -2,13 +2,13 @@
   <% if !@current_question.nil?%>
     <%= form_for(:act_question,
                  :url => ifa_repo_question_create_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
-                                                       :act_question_id => @current_question.id, :function => @function)) do |form| -%>
+                                                       :act_question_id => @current_question.id, :function => @function), :html => {:multipart => true}) do |form| -%>
       <div class="row repo_edit_row">
         <div class="col-md-3 repo_label_field">
           <%= ActQuestion::TYPES.find { |n, m| m == @current_question.question_type }[0] rescue nil%>
         </div>
         <div class="col-md-9 repo_select_field">
-          <%=  select(:act_question, :question_type, ActQuestion::TYPES, :value => @current_question.question_type, :prompt => 'Change Type') %>
+          <%=  select(:question, :question_type, ActQuestion::TYPES, :value => @current_question.question_type, :prompt => 'Change Type') %>
         </div>
       </div>
       <div class="row repo_edit_row">
@@ -43,6 +43,22 @@
         </div>
         <div class="col-md-9 repo_text_field">
           <%= text_field :act_question, :comment, :size => 55, :maxlength => 150,  :value => @current_question.comment  %>
+        </div>
+      </div>
+      <div class="row repo_edit_row">
+        <div class="col-md-3 repo_label_field">
+          Image Attachment:
+        </div>
+        <div class="col-md-3 repo_text_field">
+          <%= file_field_tag 'act_question[question_image]' %>
+          <% if @current_question.question_image.present? %>
+            <br/><br/><%= check_box :question_image, :delete %>&nbsp;&nbsp;Remove Image
+          <% end %>
+        </div>
+        <div class="col-md-3 repo_label_field">
+          <% if @current_question.question_image.present? %>
+            <%= image_tag @current_question.question_image(:thumb) %>
+          <% end %>
         </div>
       </div>
       <div class="row repo_edit_row">

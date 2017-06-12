@@ -390,7 +390,7 @@ class User < ActiveRecord::Base
 
   def favorite_resources
     authorization_level = AuthorizationLevel.find_by_name("favorite")
-    Content.with_authorization(self, authorization_level)
+    Content.with_authorization(self, authorization_level).compact.uniq
   end
 
   def viewable_favorite_resources(user)

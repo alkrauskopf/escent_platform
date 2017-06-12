@@ -444,6 +444,7 @@ EscentPartners::Application.routes.draw do |map|
   post '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path
   get '/ifa/repo/subject/select' => 'ifa/question_repo#subject_select'    # ifa_repo_subject_select_path
   post '/ifa/repo/question/create' => 'ifa/question_repo#create'    # ifa_repo_question_create_url
+  get '/ifa/repo/question/edit' => 'ifa/question_repo#edit'    # ifa_repo_question_edit_path
   get '/ifa/repo/question/new' => 'ifa/question_repo#new'    # ifa_repo_question_new_url
   get '/ifa/repo/question/reading/select' => 'ifa/question_repo#reading_select'    # ifa_repo_question_reading_select_url
   get '/ifa/repo/question/strand/select' => 'ifa/question_repo#strand_select'    # ifa_repo_question_strand_select_url
@@ -453,6 +454,12 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/repo/question/choice/correct' => 'ifa/question_repo#choice_correct'    # ifa_repo_question_choice_correct_url
   get '/ifa/repo/question/choice/destroy' => 'ifa/question_repo#choice_destroy'    # ifa_repo_question_choice_destroy_url
   get '/ifa/repo/question/choice/update' => 'ifa/question_repo#choice_update'    # ifa_repo_question_choice_update_url
+  get '/ifa/repo/question/rl/select' => 'ifa/question_repo#rl_select'           # ifa_repo_question_rl_select_url
+  get '/ifa/repo/question/resource/attach' => 'ifa/question_repo#resource_attach'    # ifa_repo_question_resource_attacht_url
+  get '/ifa/repo/pool/select' => 'ifa/question_repo#question_list'    # ifa_repo_question_list_path
+  get '/ifa/repo/question/show' => 'ifa/question_repo#static_question'    # ifa_repo_question_show_path
+  get '/ifa/repo/question/active' => 'ifa/question_repo#toggle_active'    # ifa_repo_question_active_url
+  get '/ifa/repo/question/destroy' => 'ifa/question_repo#question_destroy'    # ifa_repo_question_destroy_url
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

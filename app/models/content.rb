@@ -35,7 +35,6 @@ class Content < ActiveRecord::Base
   has_many :dle_resources, :dependent => :destroy 
   has_many :coop_app_resources, :dependent => :destroy  
 
-  
   validates_presence_of :title
   validates_presence_of :content_object_type_id, :message => "- Invalid File Extension or File Name, No Periods in File Name."
  #
@@ -71,7 +70,8 @@ class Content < ActiveRecord::Base
   scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id], :order => "updated_at DESC"}}
   scope :for_type, lambda{|type| {:conditions => ["content_resource_type_id = ? ", type.id], :order => "updated_at DESC"}}
   scope :for_type_name, lambda{|name| {:include => :content_resource_type, :conditions => ["content_resource_types.name = ?", name], :order => "updated_at DESC"}}
-  scope :with_authorization, lambda{|user,auth| {:include => "authorizations", :conditions => ['authorizations.user_id = ? AND authorizations.scope_type = ? AND authorizations.authorization_level_id = ?', user.id, 'Content', auth.id], :order => 'title'}}
+  scope :with_authorization, lambda{|user,auth| {:include => "authorizations", :conditions => ['authorizations.user_id = ? AND
+            authorizations.scope_type = ? AND authorizations.authorization_level_id = ?', user.id, 'Content', auth.id], :order => 'title'}}
 
   scope :with_keywords_and_type, lambda { |keywords, type, options|
     condition_strings = []
@@ -185,7 +185,13 @@ class Content < ActiveRecord::Base
   
   scope :with_content_upload_source, lambda { |source_id| { :conditions => { :content_upload_source_id => source_id } } }
 
-  after_initialize :after_initialize_method
+  IFA_TYPES = [
+      ["Video Stream", 'EMBED CODE'],
+      ["Image", 'IMAGE'],
+      ["PDF", 'PDF']
+  ]
+
+      after_initialize :after_initialize_method
   def after_initialize_method
     unless self.publish_start_date
       self.publish_start_date = Time.now
@@ -446,8 +452,12 @@ class Content < ActiveRecord::Base
 
   def embed_code?
     self.content_object_type.content_object_type_group.name == "EMBED CODE"
-  end 
-  
+  end
+
+  def content_group_name
+    self.content_object_type.content_object_type_group.name
+  end
+
   def favorite_of
 #     content_auths = Authorization.find(:all, :conditions => ["scope_type = ? AND authorization_level_id = ? AND scope_id = ?", "Content", AuthorizationLevel.favorite, self])
      content_auths = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Content', AuthorizationLevel.favorite, self)

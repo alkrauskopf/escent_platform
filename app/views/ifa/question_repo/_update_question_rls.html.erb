@@ -1,0 +1,133 @@
+<div id= 'question_rls_<%= @current_question.id %>' class="repo_tags_box">
+  <div class="row">
+    <div class= "col-md-1"></div>
+    <div class= "col-md-10 ">
+      <div class="repo_panel repo_header_label">
+        Resource Library Attachment
+      </div>
+      <% if @current_question.content %>
+        <div class="row">
+          <div class= "col-md-1"></div>
+          <div class= "col-md-10">
+              <table>
+                <tbody>
+                  <colgroup>
+                    <col style="width:15%">
+                    <col style="width:75%">
+                    <col style="width:10%">
+                  </colgroup>
+                  <tr>
+                    <td class="rl_table_button">
+                      <% button_color = 'button_red'%>
+                      <% button_label = 'Detach'%>
+                      <span id = "detach" class=<%=button_color%>>
+                        <%=button_label %>
+                      </span>
+                    </td>
+                    <td class="rl_attachment_name">
+                      <%= @current_question.content.title %><br/>
+                      <span class="rl_attachment_type">
+                        <% label = Content::IFA_TYPES.find { |n, m| m == @current_question.content.content_group_name }[0] %>
+                        <%= label %>
+                      </span>
+                    </td>
+                    <td class="rl_table_button">
+                      <%= link_to 'View', resource_view_path(:organization_id => @current_organization, :id => @current_question.content), {:class => 'button_gray', :target => '_blank'} %>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+          <div class= "col-md-1"></div>
+        </div>
+      <% end %>
+      <hr>
+      <div class="row repo_edit_row">
+        <div class="col-md-6 repo_label_field">
+          <%= @current_question.content ? "Replace Library Attachment" : "Add Library Attachment"%>
+        </div>
+        <div class="col-md-6 repo_select_field" id="resource_group">
+          <%=  select(:content, :resource_type, Content::IFA_TYPES,:prompt => 'Select Resource Type') %>
+        </div>
+      </div>
+      <% if @resource_list && !resource_type.nil?%>
+        <div class="row ">
+          <div class= "col-md-1"></div>
+          <div class= "col-md-10 ">
+            <table class="table table-striped rl_table">
+              <tbody>
+                <colgroup>
+                  <col style="width:10%">
+                  <col style="width:80%">
+                  <col style="width:10%">
+                </colgroup>
+                <tr>
+                  <td class="rl_table_header" colspan="3">
+                    <% label = Content::IFA_TYPES.find { |n, m| m == resource_type }[0] %>
+                    Select From Your <%= pluralize(@resource_list.size, ' Tagged ' + label) %>
+                  </td>
+                </tr>
+                <% @resource_list.each do |resource| %>
+                  <tr>
+                    <td class="rl_table_button">
+                      <% button_color = 'button_blue'%>
+                      <% button_label = 'Attach'%>
+                      <span id = "attach_<%=resource.id%>" class=<%=button_color%>>
+                        <%=button_label %>
+                      </span>
+                    </td>
+                    <td class="rl_table_row">
+                      <%= resource.title %>
+                    </td>
+                    <td class="rl_table_button">
+                      <%= link_to 'View', resource_view_path(:organization_id => @current_organization, :id => resource), {:class => 'button_gray', :target => '_blank'} %>
+                    </td>
+                  </tr>
+                  <script type="text/javascript">
+                    jQ(document).ready(function() {
+                      jQ("#attach_<%=resource.id%>").click(function(){
+                        var url = "<%= ifa_repo_question_resource_attach_url(:organization_id => @current_organization, :resource_type => resource_type,
+                                    :act_question_id => @current_question.id, :resource_id => resource.id ) %>";
+                        jQ.get(url, {}, function(data) {
+                          jQ("#question_rls_<%= @current_question.id %>").html(data);
+                          jQ("#question_rls_<%= @current_question.id %>").show();
+                        });
+                      })
+                    });
+                  </script>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class= "col-md-1"></div>
+        </div>
+      <% end %>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#resource_group").change(function(){
+        var resource_type = jQ('#content_resource_type').val();
+        var url = "<%= ifa_repo_question_rl_select_url(:organization_id => @current_organization, :act_question_id => @current_question.id) %>";
+        jQ.get(url, {'resource_type': resource_type}, function(data) {
+          jQ("#question_rls_<%= @current_question.id %>").html(data);
+          jQ("#question_rls_<%= @current_question.id %>").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#detach").click(function(){
+        var url = "<%= ifa_repo_question_resource_attach_url(:organization_id => @current_organization, :resource_type => resource_type,
+                                    :act_question_id => @current_question.id, :resource_id => nil ) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#question_rls_<%= @current_question.id %>").html(data);
+          jQ("#question_rls_<%= @current_question.id %>").show();
+        });
+      })
+    });
+  </script>
+</div>
+

@@ -36,6 +36,7 @@ class Apps::AssessmentController < Apps::ApplicationController
       student_growth_plans
       prepare_summary_data
       find_dashboard_update_start_dates(@current_organization)
+      question_creators_strands
     else
       redirect_to organization_view_path(:organization_id => @current_organization)
     end
@@ -2853,6 +2854,11 @@ end
     ActSubject.plannable.each do |subj|
       @prep_students[subj] = @current_organization.precision_prep_students(subj)
     end
+  end
+
+  def question_creators_strands
+    @question_creators = ActQuestion.creators
+    @question_strands = ActStandard.for_standard(@current_user.standard_view)
   end
 
   def prepare_ifa_dashboard(entity, start_period, end_period)

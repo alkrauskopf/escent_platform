@@ -15,6 +15,20 @@
     </div>
     <div class="row options_row">
       <div class="col-md-3 options_label">
+        Master Standard (<%= @current_organization.master_standard? ? @current_organization.master_standard.abbrev : 'Not Defined' %>)
+      </div>
+      <div class="col-md-2">
+        <div class="col-md-9 repo_select_field">
+          <%=  select(:ifa_org_option, :standard_id,  ActMaster.all.collect{|s| [s.abbrev,s.id]}, :value => @current_ifa_options.master_standard ? @current_ifa_options.standard_id : 1 ) %>
+        </div>
+      </div>
+      <div class="col-md-6 options_descript">
+        DO NOT CHANGE THIS Unless you know what you're doing.<br/>
+      </div>
+    </div>
+    <hr>
+    <div class="row options_row">
+      <div class="col-md-3 options_label">
         Begin School Year
       </div>
       <div class="col-md-2">

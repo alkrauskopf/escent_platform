@@ -4,6 +4,8 @@ class IfaOrgOption < ActiveRecord::Base
   include PublicPersona
 
   belongs_to :organization
+  belongs_to :master_standard, :class_name => 'ActMaster', :foreign_key => "standard_id"
+
   has_many :ifa_org_option_act_masters, :dependent => :destroy
   has_many :act_masters, :through => :ifa_org_option_act_masters
 

@@ -21,10 +21,10 @@ class ActMaster < ActiveRecord::Base
   has_many :ifa_user_baseline_scores
      
   scope :national, :conditions => { :is_national => true}  
-  scope :act, :conditions => { :abbrev => "ACT"}  
+  scope :act, :conditions => { :abbrev_old => "ACT"}
   scope :all, :order => "abbrev"
-  scope  :co,  :conditions => { :abbrev => "CO"}
-  scope  :cc,  :conditions => { :abbrev => "CC"}
+  scope  :co,  :conditions => { :abbrev_old => "CO"}
+  scope  :cc,  :conditions => { :abbrev_old => "CC"}
 
   def mastery_levels(subject)
     self.act_score_ranges.for_subject(subject).active

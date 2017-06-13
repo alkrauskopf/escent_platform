@@ -66,13 +66,13 @@
 									    </style>
 										<tr >
 											<td  id="<%=app.id%>_enable" style="width:220px; width:fixed; color:#000000; font-weight:normal; font-size:12px; padding-left:30px; padding-bottom:0px;">
-												<%=  select(:app_enable, app.id, (Organization.active - app.selected_orgs).sort_by{|o| o.name}.collect{|o| [truncate(o.medium_name, :omission => "...", :length => 18), o.id]}, :prompt => "Enable Organization") %>				
+												<%=  select(:app_enable, app.id, (Organization.active - app.selected_orgs).sort_by{|o| o.name}.collect{|o| [truncate(o.medium_name, :omission => "...", :length => 18), o.id]}, :prompt => "Enable Organization") %>
 											</td>
 											<td style="color:#2061a5;  font-size:11px; vertical-align:middle; text-align:center; font-weight:bold">
 												<%=  pluralize(@current_organization.provided_app_orgs(app,true).size, " Enabled Org") %>
 											</td>
 											<td  id="<%=app.id%>_disable" style="width:200px; width:fixed; color:#000000; font-weight:normal; font-size:12px; padding-left:40px; padding-bottom:0px;">
-												<%=  select(:app_disable, app.id, (@current_organization.provided_app_orgs(app,true)).sort_by{|o| o.name}.collect{|o| [truncate(o.medium_name, :omission => "...", :length => 18), o.id]}, :prompt => "Disable Organization") %>				
+												<%=  select(:app_disable, app.id, (@current_organization.provided_app_orgs(app,true)).sort_by{|o| o.name}.collect{|o| [truncate(o.medium_name, :omission => "...", :length => 18), o.id]}, :prompt => "Disable Organization") %>
 											</td>
 										</tr>						
 <script type="text/javascript">

@@ -810,6 +810,14 @@ class Organization < ActiveRecord::Base
     standards
   end
 
+  def master_standard
+    self.ifa_org_option && self.ifa_org_option.master_standard ? self.ifa_org_option.master_standard : nil
+  end
+
+  def master_standard?
+    self.master_standard.nil? ? false : true
+  end
+
   def precision_prep_students(subject)
     self.classrooms.precision_prep_subject(subject).collect{|c| c.students}.flatten.compact.uniq.sort_by{|s| s.last_name}
   end

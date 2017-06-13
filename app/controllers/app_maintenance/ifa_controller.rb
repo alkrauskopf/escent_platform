@@ -252,7 +252,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
         flash[:error] = @current_organization.ifa_org_option.errors.full_messages.to_sentence
       end
     end
-    redirect_to app_maintenance_ifa_path, {:organization_id => @current_organization}
+    redirect_to app_maintenance_ifa_path(:organization_id => @current_organization)
   end
 
   def classroom_select

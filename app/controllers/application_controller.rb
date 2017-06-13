@@ -231,15 +231,6 @@ class ApplicationController < ActionController::Base
     flash[:error] = nil
   end
 
-
-  def update_app_settings(app, org, provider, selected, allowed, abbrev, name, provider_id)
-    unless org.app_settings(app).nil?
-      org.app_settings(app).update_attributes(:is_owner => provider, :is_selected => selected, :is_allowed => allowed, :alt_abbrev => abbrev, :alt_name => name, :provider_id => provider_id)
-    else
-      create_app_settings(app, org, provider, selected, allowed, abbrev, name, provider_id)
-    end
-  end
-
   def create_app_settings(app, org, provider, selected, allowed, abbrev, name, provider_id)
     if app.org_settings(org).nil?
       setting = CoopAppOrganization.new
@@ -267,12 +258,19 @@ class ApplicationController < ActionController::Base
         end
         update_app_settings(app, provider, false, false, provider.app_settings(app).is_allowed, abbrev, name, nil)
       else
-        provider.app_settings(app).update_attributes(:is_owner => !provider.app_settings(app).is_owner, :alt_abbrev => abbrev, :alt_name => name, :provider_id => provider.id)
-        update_app_settings(app, provider, true, true, provider.app_settings(app).is_allowed, abbrev, name, nil)
+      #  provider.app_settings(app).update_attributes(:is_owner => true, :alt_abbrev => abbrev, :alt_name => name, :provider_id => provider.id)
+        update_app_settings(app, provider, true, true, provider.app_settings(app).is_allowed, abbrev, name, provider.id)
       end
     end
   end
 
+  def update_app_settings(app, org, provider, selected, allowed, abbrev, name, provider_id)
+    unless org.app_settings(app).nil?
+      org.app_settings(app).update_attributes(:is_owner => provider, :is_selected => selected, :is_allowed => allowed, :alt_abbrev => abbrev, :alt_name => name, :provider_id => provider_id)
+    else
+      create_app_settings(app, org, provider, selected, allowed, abbrev, name, provider_id)
+    end
+  end
   def toggle_app_allow(app, org)
     if org.app_settings(app).nil?
       create_app_settings(app, org, false, false, false, app.abbrev, app.name, nil)

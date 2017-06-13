@@ -21,9 +21,9 @@ class ActAssessment < ActiveRecord::Base
 
   scope :calibrated, :conditions => { :is_calibrated => true }
   scope :unlocked, :conditions => { :is_locked => false }
-  scope :lock, :conditions => { :is_locked => true }
+  scope :lock, :conditions => { :is_locked => true }, :order => 'updated_at DESC'
   scope :for_subject, lambda{| subject| {:conditions => ["act_subject_id = ?", subject.id]}}
-  scope :active, :conditions => { :is_active => true }
+  scope :active, :conditions => { :is_active => true }, :order => 'updated_at DESC'
   scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}}
   scope :until, lambda{| end_date| {:conditions => ["created_at <= ?", end_date]}}
 

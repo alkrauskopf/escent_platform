@@ -1,7 +1,7 @@
 <div id= 'question_buttons_<%= @current_question.id %>'>
   <div class="row">
-    <div class= "col-md-6"></div>
-    <div class= "col-md-3">
+    <div class= "col-md-4"></div>
+    <div class= "col-md-2">
       <% button_color = @current_question.active? ? 'button_green' : 'button_red'%>
       <% button_label = @current_question.active? ? ' Enabled ' : ' Disabled '%>
       <% button_status = @current_question.enableable? ? 'active' : 'disabled'%>
@@ -9,7 +9,14 @@
         <%=button_label %>
       </span>
     </div>
-    <div class="col-md-3">
+    <div class= "col-md-2">
+      <% button_color = @current_question.calibrated? ? 'button_green' : 'button_orange'%>
+      <% button_label = @current_question.calibrated? ? ' Calbrated ' : ' Calibrate '%>
+      <span id = "toggle_calibrate_<%=@current_question.id%>" class = "update_button <%=button_color%> <%=button_status%>">
+        <%=button_label %>
+      </span>
+    </div>
+    <div class="col-md-2">
       <%= link_to "PreView", ifa_repo_question_preview_path(:organization_id => @current_organization, :act_question_id => @current_question.id), {:class => "update_button button_light_blue", :target => "_blank"} %>
     </div>
   </div>
@@ -17,7 +24,19 @@
     jQ(document).ready(function() {
       jQ("#toggle_active_<%=@current_question.id%>").click(function(){
         var url = "<%= ifa_repo_question_active_url(:organization_id => @current_organization,
-                  :act_question_id => @current_question.id ) %>";
+                  :act_question_id => @current_question.id, :function => 'Active' ) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#question_assignments_<%= @current_question.id %>").html(data);
+          jQ("#question_assignments_<%= @current_question.id %>").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#toggle_calibrate_<%=@current_question.id%>").click(function(){
+        var url = "<%= ifa_repo_question_active_url(:organization_id => @current_organization,
+                  :act_question_id => @current_question.id, :function => 'Calibrate' ) %>";
         jQ.get(url, {}, function(data) {
           jQ("#question_assignments_<%= @current_question.id %>").html(data);
           jQ("#question_assignments_<%= @current_question.id %>").show();

@@ -79,7 +79,11 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
 
   def toggle_active
     get_current_question
-    @current_question.update_attributes(:is_active => !@current_question.is_active)
+    if params[:function] == 'Active'
+      @current_question.update_attributes(:is_active => !@current_question.is_active)
+    elsif params[:function] == 'Calibrate'
+      @current_question.update_attributes(:is_calibrated => !@current_question.is_calibrated)
+    end
     available_strands_levels(@current_question)
     available_assessments(@current_question)
     render :partial =>  "update_question_assignments"

@@ -5,7 +5,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
   before_filter :current_user_app_authorized?
   before_filter :current_user_app_admin?, :only=>[]
   before_filter :current_app_superuser
-  before_filter :current_user_app_admin, :only=>[:question_list]
+  before_filter :current_user_app_admin
   before_filter :current_subject, :except => [:index]
   before_filter :clear_notification, :except => []
 

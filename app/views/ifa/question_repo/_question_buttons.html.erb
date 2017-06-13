@@ -12,6 +12,8 @@
     <div class= "col-md-2">
       <% button_color = @current_question.calibrated? ? 'button_green' : 'button_orange'%>
       <% button_label = @current_question.calibrated? ? ' Calbrated ' : ' Calibrate '%>
+      <% button_status = @current_user_app_admin ? 'active' : 'disabled'%>
+
       <span id = "toggle_calibrate_<%=@current_question.id%>" class = "update_button <%=button_color%> <%=button_status%>">
         <%=button_label %>
       </span>

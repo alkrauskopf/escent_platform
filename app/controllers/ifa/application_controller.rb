@@ -7,7 +7,7 @@ class Ifa::ApplicationController < ApplicationController
   before_filter :current_standard
 
   def current_standard
-      @current_standard ||= @current_user.standard_view
+      @current_standard ||= @current_provider.master_standard
   end
 
   def current_subject

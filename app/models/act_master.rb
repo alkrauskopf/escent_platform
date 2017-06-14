@@ -24,7 +24,7 @@ class ActMaster < ActiveRecord::Base
   scope :act, :conditions => { :abbrev_old => "ACT"}
   scope :all, :order => "abbrev"
   scope  :co,  :conditions => { :abbrev_old => "CO"}
-  scope  :cc,  :conditions => { :abbrev_old => "CC"}
+  scope  :cc,  :conditions => { :abbrev => "CC"}
 
   def mastery_levels(subject)
     self.act_score_ranges.for_subject(subject).active

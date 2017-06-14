@@ -277,8 +277,24 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     @rel_readings = @rel_readings.insert(0,["- - No Reading - -", 0])
   end
 
+  def adjust_levels_strands
+    # this is to move away from multiple levels/strands per question
+    @current_question.act_question_act_score_ranges.destroy_all
+    @current_question.act_question_act_standards.destroy_all
+    temp_levels = ActQuestionActScoreRange.new
+    temp_levels.act_score_range_id = params[:act_question][:act_score_range_id]
+    @current_question.act_question_act_score_ranges << temp_levels
+    temp_strands = ActQuestionActStandard.new
+    temp_strands.act_standard_id = params[:act_question][:act_standard_id]
+    @current_question.act_question_act_standards << temp_strands
+  end
   def update_question
     @current_question.act_rel_reading_id = params[:act_rel_reading_id] == '0' ? nil : params[:act_rel_reading_id].to_i
+    @current_question.act_standard_id = params[:act_question][:act_standard_id] == '' ? @current_question.act_standard_id : params[:act_question][:act_standard_id]
+    @current_question.act_score_range_id = params[:act_question][:act_score_range_id] == '' ? @current_question.act_score_range_id : params[:act_question][:act_score_range_id]
+    #  transition from many levels & strands
+    adjust_levels_strands
+    #
     @current_question.question = params[:act_question][:question]
     @current_question.comment = params[:act_question][:comment]
     @current_question.question_type = params[:question][:question_type] == '' ? @current_question.question_type : params[:question][:question_type]

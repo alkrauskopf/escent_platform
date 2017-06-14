@@ -3,7 +3,25 @@
     <%= form_for(:act_question,
                  :url => ifa_repo_question_create_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
                                                        :act_question_id => @current_question.id, :function => @function), :html => {:multipart => true}) do |form| -%>
-      <%= render :partial =>  "form_question_reading", :locals=>{}%>
+      <div class="row repo_edit_row">
+        <div class="col-md-3 repo_label_field">
+          <%= @current_standard.abbrev %> Knowledge Strand
+        </div>
+        <div class="col-md-9 repo_select_field">
+          <%= select(:act_question, :act_standard_id, @current_standard.strands(@current_subject).collect{|s| [s.name, s.id]},
+                     :prompt => @current_question.strand ? @current_question.strand.name : 'Select Strand') %>
+        </div>
+      </div>
+      <div class="row repo_edit_row">
+        <div class="col-md-3 repo_label_field">
+          <%= @current_standard.abbrev %> Mastery Level
+        </div>
+        <div class="col-md-9 repo_select_field">
+          <%= select(:act_question, :act_score_range_id, @current_standard.mastery_levels(@current_subject).collect{|s| [s.range, s.id]},
+                     :prompt => @current_question.mastery_level ? @current_question.mastery_level.range : 'Select Level') %>
+        </div>
+      </div>
+          <%= render :partial =>  "form_question_reading", :locals=>{}%>
       <div class="row repo_edit_row">
         <div class="col-md-3 repo_label_field">
           Question

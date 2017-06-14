@@ -15,8 +15,9 @@ class ActQuestion < ActiveRecord::Base
 
   has_many  :act_choices, :dependent => :destroy
   has_one  :act_question_reading, :dependent => :destroy
- 
-  
+
+  belongs_to :mastery_level, :class_name => 'ActScoreRange', :foreign_key => "act_score_range_id"
+  belongs_to :strand, :class_name => 'ActStandard', :foreign_key => "act_standard_id"
   belongs_to :act_subject
   belongs_to :user
   belongs_to :organization
@@ -40,6 +41,8 @@ class ActQuestion < ActiveRecord::Base
   has_many :ifa_question_performances
   
   validates_presence_of :act_subject_id
+  validates_presence_of :act_score_range_id,  :message => 'Must Define Mastery Level'
+  validates_presence_of :act_standard_id,  :message => 'Must Define Knowledge Strand'
   validates_presence_of :question_type, :message => ': SELECT ANSWER TYPE' 
   validates_length_of :question, :within => 1..25500, :message => 'Invalid Length Of Question'  
 

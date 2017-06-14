@@ -49,16 +49,14 @@
             <div class= "col-md-3 ">
               <div class="question_pool_subject"><%= question.act_subject.name %></div>
               <div class="question_pool_subject">
-                <% if question.levels.empty? %>
-                  No Levels
+                <% if question.mastery_level.nil? %>
+                  No Level
                 <% else %>
-                  <% question.levels.each do |level|%>
-                    <%= mastery_label(level, true)%><br/>
-                  <% end %>
+                    <%= mastery_label(question.mastery_level, true)%><br/>
                 <% end %>
               </div>
               <div class="question_pool_subject">
-                <%= question.strands.empty? ? "No Strands" : (question.strands.collect{|s| s.abbrev}.join(', ')) %>
+                <%= question.strand.nil? ? "No Strand" : (question.strand.abbrev.upcase) %>
               </div>
               <% if !question.active? %>
                 <div class="question_pool_subject question_disabled">

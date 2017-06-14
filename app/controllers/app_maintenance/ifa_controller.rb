@@ -70,6 +70,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   end
 
   def standard_select
+    standards
     strands
     current_strand
     levels

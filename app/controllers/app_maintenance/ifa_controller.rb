@@ -13,11 +13,60 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   before_filter :prep_classrooms
 
   def index
+    standards
     strands
     current_strand
     levels
     current_level
+  end
 
+  def standard_maint_select
+    standards
+    render :partial =>  "manage_standards", :locals=>{}
+  end
+
+  def standard_update
+    if params[:is_default] == 'Y'
+      ActMaster.all_defaults.each do |std|
+        std.update_attributes(:is_default => false)
+      end
+    end
+    @current_standard.update_attributes(:name=>params[:name], :is_national => (params[:national] == 'Y' ? true:false),
+                                        :abbrev=>params[:abbrev], :is_default => (params[:is_default] == 'Y' ? true:false),
+                                        :source=>params[:source], :abbrev_old => params[:abbrev_old])
+    render :partial =>  "edit_standard", :locals=>{:standard => @current_standard}
+  end
+
+  def standard_add
+    @current_standard = ActMaster.new
+  end
+
+  def standard_create
+    @current_standard = ActMaster.new
+    @current_standard.name = params[:act_master][:name]
+    @current_standard.abbrev = params[:act_master][:abbrev].upcase
+    @current_standard.abbrev_old = @current_standard.abbrev
+    @current_standard.source = params[:act_master][:source]
+    @current_standard.is_default = false
+    @current_standard.is_national = params[:act_master][:is_national]
+    if @current_standard.save
+      flash[:notice] = "Standard Created"
+    else
+      flash[:error] = @current_standard.errors.full_messages.to_sentence
+    end
+    render :standard_add
+  end
+
+  def standard_destroy
+    current_standard
+    if @current_standard != @current_provider.master_standard && @current_standard.destoyable?
+      if @current_standard.destroy
+        flash[:notice] = "Standard Destroyed"
+        @current_standard = @current_provider.master_standard
+      end
+    end
+    standards
+    render :partial =>  "manage_standards", :locals=>{}
   end
 
   def standard_select
@@ -328,6 +377,10 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     else
       @current_subject = ActSubject.first
     end
+  end
+
+  def standards
+    @standards = ActMaster.all
   end
 
   def strands

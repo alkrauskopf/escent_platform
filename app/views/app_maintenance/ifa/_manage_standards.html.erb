@@ -1,0 +1,36 @@
+<div id="manage_masters">
+  <div class="row standard_row">
+    <div class="strand_label">
+      <%= @current_standard.nil? ? 'No Standard' : ''%>
+    </div>
+  </div>
+  <div class="row standard_row">
+    <div class="strand_add">
+      <%= link_to 'New Standard', app_maintenance_ifa_standard_add_path(:organization_id => @current_organization), {class: 'button_blue', :target=>'_blank'}  %>
+    </div>
+    </div>
+    <div class="row standard_row">
+    <% if !@standards.empty? %>
+      <div class="standard_select" id="master_select">
+        <%=  select(:actx, :master_id, @standards.collect{|s| [s.name,s.id]},{:prompt => 'Select Standard'}) %>
+      </div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#master_select").change(function(){
+            var standard_id = jQ('#actx_master_id').val();
+            var url = "<%= app_maintenance_ifa_master_select_url(:organization_id => @current_organization) %>";
+            jQ.get(url, {'act_master_id': standard_id}, function(data) {
+              jQ("#manage_masters").html(data);
+              jQ("#manage_masters").show();
+            });
+          })
+        });
+      </script>
+    <% end %>
+  </div>
+  <% if !@current_standard.nil?%>
+    <div class="ifa_edit_box">
+      <%= render :partial =>  "edit_standard", :locals=>{:standard => @current_standard}%>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,98 @@
+<div id="edit_standard_<%= standard.id %>" >
+  <div class="precision_panel " >
+    <%= standard.name %>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      Name
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_area :standard, :name, :rows=>1, :cols => 60, :value => standard.name %>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      Abbreviation
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_area :standard, :abbrev, :rows=>1, :cols => 8, :value => standard.abbrev %>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      Source
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_area :standard, :source, :rows=>1, :cols => 60, :value => standard.source %>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      National?
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_area :standard, :national, :rows=>1, :cols => 1, :value => standard.national? ? 'Y':'N' %>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      Default?
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_area :standard, :default, :rows=>1, :cols => 1, :value => standard.default? ? 'Y':'N' %>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      Old Abbrev
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_area :standard, :abbrev_old, :rows=>1, :cols => 8, :value => standard.abbrev_old %>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      <span class="button_blue" id="standard_update">
+          Update
+      </span>
+    </div>
+
+    <div class="col-md-2 ifa_edit_label">
+      <% if standard.destroyable? %>
+        <span class= "button_red" id="standard_destroy">
+            Destroy
+        </span>
+      <% end %>
+    </div>
+    <div class="col-md-3 ifa_edit_text"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#standard_update").click(function(){
+        var name = jQ('#standard_name').val();
+        var abbrev = jQ('#standard_abbrev').val();
+        var source = jQ('#standard_source').val();
+        var national = jQ('#standard_national').val();
+        var is_default = jQ('#standard_default').val();
+        var abbrev_old = jQ('#standard_abbrev_old').val();
+        var url = "<%= app_maintenance_ifa_standard_update_url(:organization_id => @current_organization, :act_master_id => standard.id) %>";
+        jQ.get(url, {'name':name, 'abbrev':abbrev, 'source':source, 'national':national, 'is_default':is_default,
+          'abbrev_old':abbrev_old}, function(data) {
+          jQ("#edit_standard_<%= standard.id %>").html(data);
+          jQ("#edit_standard_<%= standard.id %>").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#standard_destroy").click(function() {
+        var url = "<%= app_maintenance_ifa_standard_destroy_url(:organization_id => @current_organization, :act_master_id => standard.id) %>";
+        jQ.get(url,{},  function(data) {
+          jQ("#manage_masters").html(data);
+          jQ("#manage_masters").show();
+        });
+      })
+    });
+  </script>
+</div>

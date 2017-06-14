@@ -86,6 +86,11 @@
         <a href="#tabs-8"><span class="tab_label">
 		    <%= tab_8_label %></span></a>
       </li>
+      <li>
+        <%  tab_9_label = "Standards" %>
+        <a href="#tabs-9"><span class="tab_label">
+		    <%= tab_9_label %></span></a>
+      </li>
     </ul>
 
     <div id="tabs-2" class="row">
@@ -134,6 +139,13 @@
       <div class="col-md-1"></div>
       <div class="col-md-10">
         <%= render :partial =>  "manage_demos", :locals=>{}%>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-9" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial =>  "manage_standards", :locals=>{}%>
       </div>
       <div class="col-md-1"></div>
     </div>

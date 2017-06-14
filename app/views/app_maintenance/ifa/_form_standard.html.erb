@@ -1,0 +1,42 @@
+<div class="container Form_Container">
+  <%= render :partial => "/shared/error_and_notice" %>
+  <%= form_for(:act_master, :url => app_maintenance_ifa_standard_create_path(:organization_id => @current_organization)) do |f| %>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Name
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_area :act_master, :name, :rows=>1, :cols => 60, :value => @current_standard.name %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Abbreviation
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_area :act_master, :abbrev, :rows=>1, :cols => 8, :value => @current_standard.abbrev %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Source
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_area :act_master, :source, :rows=>1, :cols => 60, :value => @current_standard.source %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          National?
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= check_box :act_master, :is_national, :checked=> @current_standard.national?%>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          <%= f.submit 'Create Standard',:class =>"button_blue" %>
+        </div>
+      </div>
+  <% end %>
+</div>

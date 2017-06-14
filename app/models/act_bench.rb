@@ -1,8 +1,9 @@
 class ActBench < ActiveRecord::Base
 
   include PublicPersona
-  
-  
+
+  belongs_to :source_level, :class_name => 'ActScoreRange', :foreign_key => "source_level_id"
+  belongs_to :source_strand, :class_name => 'ActStandard', :foreign_key => "source_strand_id"
   belongs_to :act_score_range
   belongs_to :act_standard
   belongs_to :act_subject

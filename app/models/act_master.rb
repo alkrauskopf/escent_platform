@@ -64,9 +64,20 @@ class ActMaster < ActiveRecord::Base
   def self.default
     where('is_default').first
   end
+  def self.all_defaults
+    where('is_default')
+  end
+
+  def destroyable?
+    self.act_standards.active.empty? && self.act_score_ranges.active.empty? && !self.default?
+  end
 
   def default?
     self.is_default
+  end
+
+  def national?
+    self.is_national
   end
 
   def self.act_std

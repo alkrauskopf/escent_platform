@@ -171,6 +171,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/maintenance/ifa/subject/update' => 'app_maintenance/ifa#subject_update' # app_maintenance_ifa_subject_update_url
   get '/app/maintenance/ifa/strand/add' => 'app_maintenance/ifa#strand_add' # app_maintenance_ifa_strand_add_path
   post '/app/maintenance/ifa/strand/create' => 'app_maintenance/ifa#strand_create' # app_maintenance_ifa_strand_create_path
+  get '/app/maintenance/ifa/level/add' => 'app_maintenance/ifa#level_add' # app_maintenance_ifa_level_add_path
+  post '/app/maintenance/ifa/level/create' => 'app_maintenance/ifa#level_create' # app_maintenance_ifa_level_create_path
   get '/app/maintenance/ifa/standard/add' => 'app_maintenance/ifa#standard_add' # app_maintenance_ifa_standard_add_path
   post '/app/maintenance/ifa/standard/create' => 'app_maintenance/ifa#standard_create' # app_maintenance_ifa_standard_create_path
   get '/app/maintenance/ifa/master/select' => 'app_maintenance/ifa#standard_maint_select' # app_maintenance_ifa_master_select_url

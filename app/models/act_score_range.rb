@@ -39,7 +39,7 @@ class ActScoreRange < ActiveRecord::Base
   end
 
   def destroyable?
-   !self.active?
+   !self.active? && self.act_questions.empty?
   end
 
   def readings

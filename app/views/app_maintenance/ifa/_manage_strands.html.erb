@@ -6,7 +6,7 @@
   </div>
   <div class="row standard_row">
     <div class="strand_add">
-      <%= link_to 'New Strand', app_maintenance_ifa_strand_add_path(:organization_id => @current_organization), {class: 'button_blue', :target=>'_blank'}  %>
+      <%= link_to 'New Strand', app_maintenance_ifa_strand_add_path(:organization_id => @current_organization, :act_master_id => @current_standard.id, :act_subject_id => @current_subject.id), {class: 'button_blue', :target=>'_blank'}  %>
     </div>
     </div>
     <div class="row standard_row">

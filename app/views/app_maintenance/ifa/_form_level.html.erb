@@ -1,0 +1,76 @@
+<div class="container Form_Container">
+  <%= render :partial => "/shared/error_and_notice" %>
+  <%= form_for(:act_score_range, :url => app_maintenance_ifa_level_create_path(:organization_id => @current_organization,
+                                                                    :act_master_id=>@current_standard.id,
+                                                                    :act_subject_id => @current_subject.id)) do |f| %>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Range
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_field :act_score_range, :range, :size => 15, :maxlength => 25, :value => @current_level.range %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Lower Score
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_field :act_score_range, :lower_score, :size => 4, :maxlength => 6, :value => @current_level.lower_score %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Upper Score
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_field :act_score_range, :upper_score, :size => 4, :maxlength => 6, :value => @current_level.upper_score %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Panel Background Color
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_field :act_score_range, :score_background, :size => 8, :maxlength => 8, :value => @current_level.score_background %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Panel Font Color
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_field :act_score_range, :score_font, :size => 8, :maxlength => 8, :value => @current_level.score_font %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          SAT Equivalent - Lower
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_field :sat_map, :lower, :size => 3, :maxlength => 3 %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          SAT Equivalent - Upper
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= text_field :sat_map, :upper, :size => 3, :maxlength => 3 %>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          Active
+        </div>
+        <div class="col-md-10 ifa_edit_text">
+          <%= check_box :act_score_range, :is_active, :checked=> @current_level.is_active%>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2 ifa_edit_label">
+          <%= f.submit 'Create Level',:class =>"button_blue" %>
+        </div>
+      </div>
+  <% end %>
+</div>

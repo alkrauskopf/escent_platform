@@ -1,6 +1,6 @@
 <div id="edit_level_<%= level.id %>" >
   <div class="precision_panel "  style="color: <%= level.score_font%>; background-color:<%= level.score_background %>">
-    <%= level.range %>
+    <%= mastery_label(level, true) %>
   </div>
   <div class="row ifa_edit_row">
     <div class="col-md-2 ifa_edit_label">
@@ -44,6 +44,22 @@
   </div>
   <div class="row ifa_edit_row">
     <div class="col-md-2 ifa_edit_label">
+      Lower SAT Equivalent<br/>0 to delete
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_field :sat_map, :lower, :size => 3, :maxlength => 3 , :value => level.act_sat_map ? level.act_sat_map.lower_score : ''%>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
+      Upper SAT Equivalent<br/>0 to delete
+    </div>
+    <div class="col-md-10 ifa_edit_text">
+      <%= text_field :sat_map, :upper, :size => 3, :maxlength => 3, :value => level.act_sat_map ? level.act_sat_map.upper_score : '' %>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-2 ifa_edit_label">
       <span class="button_blue" id="level_update">
           Update
       </span>
@@ -72,9 +88,12 @@
         var upper = jQ('#level_upper_score').val();
         var panel = jQ('#level_score_background').val();
         var font = jQ('#level_score_font').val();
+        var sat_lower = jQ('#sat_map_lower').val();
+        var sat_upper = jQ('#sat_map_upper').val();
         var url = "<%= app_maintenance_ifa_level_update_url(:organization_id => @current_organization, :act_score_range_id => level.id,
          :act_master_id => level.act_master_id, :act_subject_id=>level.act_subject_id) %>";
-        jQ.get(url, {'range':range, 'lower_score':lower, 'upper_score':upper, 'score_background':panel, 'score_font':font}, function(data) {
+        jQ.get(url, {'range':range, 'lower_score':lower, 'upper_score':upper, 'score_background':panel, 'score_font':font,
+        'sat_map_lower': sat_lower, 'sat_map_upper':sat_upper}, function(data) {
           jQ("#edit_level_<%= level.id %>").html(data);
           jQ("#edit_level_<%= level.id %>").show();
         });

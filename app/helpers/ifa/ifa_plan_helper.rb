@@ -13,7 +13,7 @@ module Ifa::IfaPlanHelper
   end
   def mastery_label(range, sat)
     if !range.nil?
-      label = sat ? range.label_with_sat : range.range
+      label = (range.act_sat_map && sat) ? range.label_with_sat : range.range
     else
       label = 'Undefined Level'
     end
@@ -21,7 +21,7 @@ module Ifa::IfaPlanHelper
   end
   def mastery_label_br(range, sat)
     if !range.nil?
-      label = sat ? range.label_with_sat_break : range.range
+      label = (range.act_sat_map && sat) ? range.label_with_sat_break : range.range
     else
       label = 'Undefined Level'
     end

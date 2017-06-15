@@ -3,5 +3,8 @@ class ActSatMap < ActiveRecord::Base
 
   has_one :act_score_range
 
+  def self.get_map(lower, upper)
+    where('lower_score = ? && upper_score = ?', lower, upper).first rescue nil
+  end
 
 end

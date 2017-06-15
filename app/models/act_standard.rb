@@ -44,7 +44,7 @@ class ActStandard < ActiveRecord::Base
   end
 
   def destroyable?
-    !self.is_active
+    !self.active? && self.act_questions.empty?
   end
 
   def self.active

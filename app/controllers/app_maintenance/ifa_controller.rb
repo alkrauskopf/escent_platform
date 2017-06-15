@@ -124,7 +124,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   def strand_destroy
     strands
     current_strand
-    if false
+    if @current_strand.destroyable?
       if @current_strand.destroy
         flash[:notice] = "Strand Destroyed"
         strands
@@ -157,11 +157,44 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     render :partial =>  "manage_levels", :locals=>{}
   end
 
+  def level_add
+    sat_map
+    @current_level = ActScoreRange.new
+  end
+
+  def level_create
+    @current_level = ActScoreRange.new
+    @current_level.act_subject_id = @current_subject.id
+    @current_level.act_master_id = @current_standard.id
+    @current_level.range = params[:act_score_range][:range]
+    @current_level.lower_score = params[:act_score_range][:lower_score]
+    @current_level.upper_score = params[:act_score_range][:upper_score]
+    if sat_map_input?(params[:sat_map][:lower], params[:sat_map][:upper])
+      sat_map =get_sat_map_id(params[:sat_map][:lower].to_i, params[:sat_map][:upper].to_i)
+      @current_level.act_sat_map_id = sat_map.nil? ? nil : sat_map.id
+    end
+    @current_level.score_background = params[:act_score_range][:score_background]
+    @current_level.score_font = params[:act_score_range][:score_font]
+    @current_level.is_active = params[:act_score_range][:is_active]
+    if @current_level.save
+      flash[:notice] = "Level Created"
+    else
+      flash[:error] = @current_level.errors.full_messages.to_sentence
+    end
+    render :level_add
+  end
+
   def level_update
     levels
     current_level
+    if sat_map_input?(params[:sat_map_lower], params[:sat_map_upper])
+      sat_map =get_sat_map_id(params[:sat_map_lower].to_i, params[:sat_map_upper].to_i)
+      sat_map_id = sat_map.nil? ? nil : sat_map.id
+    else
+      sat_map_id = nil
+    end
     @current_level.update_attributes(:range=>params[:range], :lower_score => params[:lower_score], :upper_score => params[:upper_score],
-                                      :score_background=>params[:score_background], :score_font=>params[:score_font])
+                                      :score_background=>params[:score_background], :score_font=>params[:score_font], :act_sat_map_id => sat_map_id)
     render :partial =>  "edit_level", :locals=>{:level => @current_level}
   end
 
@@ -175,12 +208,13 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   def level_destroy
     levels
     current_level
-    # Don't want to make this possible yet.
-   # if @current_level.destroy
-   #   flash[:notice] = "Level Destroy"
-   #   levels
-   #   @current_level = @levels.first rescue nil
-   # end
+    if @current_level.destroyable?
+     if @current_level.destroy
+      flash[:notice] = "Level Destroy"
+      levels
+      @current_level = @levels.first rescue nil
+     end
+    end
     render :partial =>  "edit_level", :locals=>{:level => @current_level}
   end
 
@@ -359,6 +393,25 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   end
 
   private
+
+  def sat_map_input? (params_lower, params_upper)
+    params_lower.to_i >= 0 && params_upper.to_i >= 0 &&
+    params_lower.to_i <= 800 && params_upper.to_i <= 800  &&
+    params_lower.to_i < params_upper.to_i
+  end
+
+  def get_sat_map_id(lower, upper)
+    sat_map = ActSatMap.get_map(lower, upper)
+    if sat_map.nil? && (lower != 0) && (upper != 0)
+      map = ActSatMap.new
+      map.lower_score = lower
+      map.upper_score = upper
+      map.range = lower.to_s + '-' + upper.to_s
+      map.save
+      sat_map = ActSatMap.get_map(lower, upper)
+    end
+    sat_map
+  end
 
   def strand_params
     params.require(:act_standard).permit(:name, :abbrev, :description, :strand_background, :strand_font, :pos, :is_active)
@@ -641,6 +694,10 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       @current_dashboard = nil
       flash[:error] = "Dashboard Not Created"
     end
+  end
+
+  def sat_map
+    @sats = ActSatMap.all.sort_by{|s| s.lower_score}
   end
 
   def levels

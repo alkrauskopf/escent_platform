@@ -1,4 +1,5 @@
-<div id="edit_strand_<%= strand.id %>" >
+<div id="edit_strand_<%= strand ? strand.id : '' %>" >
+  <% if !strand.nil? %>
   <div class="precision_panel "  style="color: <%= strand.strand_font%>; background-color:<%= strand.strand_background %>">
     <%= strand.name %>
   </div>
@@ -115,4 +116,9 @@
       })
     });
   </script>
+  <% else %>
+    <div class="precision_panel ">
+      No Strand Available
+    </div>
+  <% end %>
 </div>

@@ -5,7 +5,7 @@
     </div>
   </div>
   <hr>
-  <%= render :partial => "manage_options_ifa_masters" %>
+  <%#= render :partial => "manage_options_ifa_masters" %>
   <div class="options_box">
     <%= form_for(:ifa_org_option, :url => app_maintenance_options_edit_path(:organization_id => @current_organization)) do |form| -%>
     <div class="row options_row">
@@ -22,8 +22,17 @@
           <%=  select(:ifa_org_option, :standard_id,  ActMaster.all.collect{|s| [s.abbrev,s.id]}, :value => @current_ifa_options.master_standard ? @current_ifa_options.standard_id : 1 ) %>
         </div>
       </div>
-      <div class="col-md-6 options_descript">
+      <div class="col-md-6 options_label">
         DO NOT CHANGE THIS Unless you know what you're doing.<br/>
+        Current Master</br>
+        &nbsp;-&nbsp;<%= @current_organization.master_standard.name %> -
+                        (<%= @current_organization.master_standard.abbrev %>) <%= @current_organization.master_standard.default? ? (' | Default') : ''%><br/>
+        Supporting Standards</br>
+        <% ActMaster.by_abbrev.each do |mstr| -%>
+          <% if mstr != @current_organization.master_standard %>
+            &nbsp;-&nbsp;<%= mstr.name %> - (<%= mstr.abbrev %>) <%= mstr.default? ? (' | Default') : ''%><br/>
+          <% end %>
+        <% end %>
       </div>
     </div>
     <hr>
@@ -36,7 +45,7 @@
         <%#= date_select(:ts_start, type_org_key, :use_short_month=>true, :default=>time_table[0], :order=>[:month, :year],:start_year => Time.now.year - 5, :end_year => Time.now.year) %>
         <%= @current_ifa_options.begin_school_year.strftime("%b %d, %Y") %>
       </div>
-      <div class="col-md-6 options_descript">
+      <div class="col-md-6 options_label">
         The School Year Start Date. It is used for data analysis & reporting purposes.  <br/>Data preceding this date will be omitted from the analysis.<br/>
       </div>
     </div>

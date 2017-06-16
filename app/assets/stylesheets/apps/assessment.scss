@@ -28,14 +28,30 @@
   font-size:14px;
 }
 .ifa_modal_box {
-  margin:0em 4em 0em 4em;
+  margin:0em 0em 0em 0em;
+  border:0px solid #ddd;
   line-height:1.5em;
   color:$dark_text;
   font-weight:normal;
   text-align:left;
   font-family:Georgia, "Times New Roman", Times, serif;
-  font-size:16px;
+  font-size:20px;
 }
+.ifa_modal_std {
+  margin:.5em 2em .5em 2em;
+  border:0px solid #ddd;
+  line-height: 1.5em;
+  color: $red_text;
+  font-weight: normal;
+  text-align: left;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+  .ifa_modal_std_src {
+  text-decoration:underline;
+  }
+
 .ifa_modal_row {
   padding-bottom:1em;
 }

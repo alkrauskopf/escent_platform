@@ -519,7 +519,7 @@ class Apps::AssessmentController < Apps::ApplicationController
  end  
 
   def take_assessment
-    initialize_parameters    
+    initialize_parameters
     @ifa_classroom = @classroom
     @current_subject = @classroom.act_subject
     @last_submission = @current_user.act_submissions.for_subject(@current_subject).empty? ? nil : @current_user.act_submissions.for_subject(@current_subject).last
@@ -736,7 +736,6 @@ class Apps::AssessmentController < Apps::ApplicationController
    end
 
   def teacher_review
-  
   initialize_parameters
     @ifa_classroom = @classroom
     @current_subject = @classroom.act_subject

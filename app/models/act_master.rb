@@ -23,7 +23,7 @@ class ActMaster < ActiveRecord::Base
   scope :national, :conditions => { :is_national => true}  
   scope :act, :conditions => { :abbrev_old => "ACT"}
   scope :all, :order => "abbrev"
-  scope  :co,  :conditions => { :abbrev_old => "CO"}
+  scope  :co,  :conditions => { :abbrev => "CO"}
   scope  :cc,  :conditions => { :abbrev => "CC"}
 
   def mastery_levels(subject)
@@ -58,7 +58,8 @@ class ActMaster < ActiveRecord::Base
   end
 
   def self.default_std
-   ActMaster.act.first
+ #  ActMaster.act.first
+    ActMaster.default
   end
 
   def self.default

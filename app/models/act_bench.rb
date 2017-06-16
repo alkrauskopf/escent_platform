@@ -62,6 +62,19 @@ class ActBench < ActiveRecord::Base
     !self.active?
   end
 
+  def other_source_standard
+    source_standard = self.source_level.nil? ? nil : self.source_level.standard
+    source_standard ||= self.source_strand.nil? ? nil : self.source_strand.standard
+  end
+
+  def source_standard
+    self.source_level.nil? ? self.act_master : self.source_level.standard
+  end
+
+  def source_compatible?
+    (self.source_level.nil? && self.source_strand.nil?) || (self.source_level && self.source_strand && (self.source_level.standard = self.source_strand.standard))
+  end
+
   def self.active
     where('is_active').order('pos ASC')
   end

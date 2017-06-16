@@ -51,7 +51,7 @@
                         number_with_precision(cell_pcts[hash_key(ml,s)], :precision => 0) + '%').html_safe : ' _ '%>
                   </a>
                   <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + dashboard.public_id + ml.id.to_s + s.id.to_s),
-                                                                                             :titl=> (mastery_label(ml, true) + " | " + s.name),
+                                                                                             :titl=> (mastery_label(ml, false) + " | " + s.name),
                                                                                              :blue=> 'Benchmark',
                                                                                              :body=> benchmarks(s, ml, @current_standard), :height=> 400, :width=> 650 } %>
 

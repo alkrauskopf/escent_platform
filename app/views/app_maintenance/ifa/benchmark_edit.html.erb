@@ -8,11 +8,12 @@
                                                                              :act_standard_id=>@current_strand.id,
                                                                              :act_score_range_id => @current_level.id,
                                                                              :act_benchmark_id => @current_benchmark.id)) do |f| %>
-      <%= render :partial => "form_benchmark" %>
-      <div class="row ifa_edit_row">
-        <div class="col-md-2 ifa_edit_label">
-          <%= f.submit :class =>"button_blue" %>
-        </div>
+    <%= render :partial => "form_benchmark" %>
+    <%= render :partial => "benchmark_source" %>
+    <div class="row ifa_edit_row">
+      <div class="col-md-2 ifa_edit_label">
+        <%= f.submit :class =>"button_blue" %>
       </div>
+    </div>
   <% end %>
 </div>

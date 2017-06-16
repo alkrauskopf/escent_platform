@@ -20,9 +20,33 @@
 
   create_object_type = false
 
-  initialize_act_sat_map = true     # make true if act_sat_map needs to be restored again
+  initialize_act_sat_map = false     # make true if act_sat_map needs to be restored again
 
-  if initialize_act_sat_map
+  create_ifa_standards = false
+
+
+  if create_ifa_standards
+#  Assumes ActMaster Table was dropped then recreated
+
+    ActMaster.create({'name' => 'Precision Growth Model', 'abbrev' => 'PP',
+                               'source' => 'Precision School Improvement', 'abbrev_old' => 'ACT',
+                               'is_national' => 1, 'is_default' => 1})
+
+    ActMaster.create({'name' => 'Colorado State Education Standards', 'abbrev' => 'CO',
+                      'source' => 'http://www.cde.state.co.us/cdeassess/UAS/CoAcademicStandards.html', 'abbrev_old' => 'CO',
+                      'is_national' => 0, 'is_default' => 0})
+
+    ActMaster.create({'name' => 'Common Core Standards', 'abbrev' => 'CC',
+                      'source' => 'http://www.corestandards.org', 'abbrev_old' => 'CC',
+                      'is_national' => 1, 'is_default' => 0})
+
+    ActMaster.create({'name' => 'ACT College Readiness Standards', 'abbrev' => 'ACTNEW',
+                      'source' => 'http://www.precisionschoolimprovement.com/', 'abbrev_old' => 'PP',
+                      'is_national' => 1, 'is_default' => 0})
+end
+
+
+    if initialize_act_sat_map
     ActSatMap.destroy_all
     #  ACT English & Writing
     ActMaster.act_std.act_score_ranges.for_subject(ActSubject.ew).each do |act_range|

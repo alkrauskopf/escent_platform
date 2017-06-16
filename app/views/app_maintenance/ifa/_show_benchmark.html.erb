@@ -2,7 +2,7 @@
   <%= render :partial => "/shared/error_and_notice" %>
   <% if !benchmark.nil? %>
     <div class="col-md-1 benchmark_add">
-      <%= link_to 'Edit', app_maintenance_ifa_benchmark_edit_path(:organization_id => @current_organization, :act_standard_id=>strand.id, :act_score_range_id=>level.id, :act_benchmark_id => benchmark.id), {:target=>'_blank'}  %>
+      <%= link_to 'Edit', app_maintenance_ifa_benchmark_edit_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_standard_id=>strand.id, :act_score_range_id=>level.id, :act_benchmark_id => benchmark.id), {:target=>'_blank'}  %>
     </div>
     <div class="col-md-1 benchmark_add">
       <% button_color = benchmark.active? ? 'button_green':'button_orange'%>
@@ -11,11 +11,30 @@
         <%=button_label%>
       </span>
     </div>
-    <div class="col-md-8">
-      <div class="benchmark_type">
-        <%=benchmark.pos %>)&nbsp;<%= benchmark.type_name %>
+    <div class="col-md-9">
+      <div class="row ">
+        <div class="col-md-3 bench_type">
+          <%=benchmark.pos %>)&nbsp;<%= benchmark.type_name %>
+        </div>
+        <div class="col-md-7  benchmark_source">
+          <%= benchmark.source_standard.name %>
+        </div>
       </div>
-      <div class="benchmark_descript">
+      <% if !benchmark.source_level.nil? || !benchmark.source_strand.nil? %>
+        <div class="row ">
+          <div class="col-md-3 bench_type"></div>
+          <div class="col-md-8  benchmark_source_cell">
+            <%= benchmark.source_level.nil? ? '' : (benchmark.source_level.range) %>
+            <%= benchmark.source_strand.nil? ? '' : (' ' + benchmark.source_strand.name) %>
+            <% if benchmark.source_compatible? %>
+                <div class="benchmark_source_err">
+                  <%= benchmark.source_compatible? ? '' : 'Incompatible Standard Source for Level and Strand' %>
+                </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      <div class="row benchmark_descript">
         <%=benchmark.description.nil? ? '' : benchmark.description.html_safe %>
       </div>
     </div>

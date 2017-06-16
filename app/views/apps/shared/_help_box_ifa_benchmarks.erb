@@ -6,11 +6,20 @@
                       <%= pluralize(body.size, ' ' + blue) %>
                   </div>
                   <hr>
-                  <div class="ifa_modal_box">
-                    <% body.each_with_index do |benchmark| %>
-                      <%= benchmark.description.html_safe%>
-                      <hr>
-                    <% end %>
+                  <div class="row">
+                    <div class="ifa_modal_box">
+                      <% body.each_with_index do |benchmark| %>
+                        <%= benchmark.description.html_safe%>
+                        <% if benchmark.other_source_standard %>
+                          <div class="ifa_modal_std">
+                            <span class="ifa_modal_std_src"><%= benchmark.other_source_standard.name %></span>:&nbsp;
+                            <%=benchmark.source_level ? (benchmark.source_level.range + ' | ') : '' %>
+                            <%=benchmark.source_strand ? (benchmark.source_strand.abbrev) : '' %>
+                          </div>
+                        <% end %>
+                        <hr>
+                      <% end %>
+                    </div>
                   </div>
 								</div>
 <script type="text/javascript" charset="utf-8">

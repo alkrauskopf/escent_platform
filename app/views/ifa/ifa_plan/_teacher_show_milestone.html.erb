@@ -14,13 +14,13 @@
         </div>
         <div class="row ifa_milestone_show_benchmarks">
           <a id="b_<%= milestone.id.to_s %>" href="">View Benchmarks</a>
-          <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, true) + " | " + milestone.strand.name),
+          <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
                                                                                      :blue=> 'Benchmark',
                                                                                      :body=> benchmarks(milestone.strand, milestone.range, milestone.standard), :height=> 400, :width=> 650 } %>
         </div>
         <div class="row ifa_milestone_show_benchmarks">
           <a id="i_<%= milestone.id.to_s %>" href="">View Improvement Ideas</a>
-          <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('i_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, true) + " | " + milestone.strand.name),
+          <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('i_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
                                                                                      :blue=> 'Improvement Idea',
                                                                                      :body=> improvements(milestone.strand, milestone.range, milestone.standard), :height=> 400, :width=> 650 } %>
         </div>

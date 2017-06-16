@@ -224,6 +224,11 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     render :partial =>  "manage_benchmarks_strand", :locals=>{:strand => @current_strand}
   end
 
+  def benchmark_source_x
+    benchmark_source_standards
+    render :partial =>  "benchmark_source", :locals => {:source_standard => @benchmark_source_standard, :source_level => nil, :source_strand => nil}
+  end
+
   def benchmark_toggle
     current_benchmark
     @current_benchmark.update_attributes(:is_active=> !@current_benchmark.is_active)
@@ -245,6 +250,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   def benchmark_add
     get_strand
     get_level
+    benchmark_source_standards
     @bench_types = @current_level.standard.act_bench_types
     @current_benchmark = ActBench.new
     set_default_bench_type(@current_benchmark)
@@ -254,6 +260,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     get_strand
     get_level
     current_benchmark
+    benchmark_source_standards
     @bench_types = @current_level.standard.act_bench_types
   end
 
@@ -269,6 +276,9 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     @current_benchmark.user_id = @current_user.id
     @current_benchmark.organization_id = @current_organization.id
     @current_benchmark.description = params[:act_bench][:description]
+    get_source_level_strand_ids
+    @current_benchmark.source_level_id = @source_level_id
+    @current_benchmark.source_strand_id = @source_strand_id
     if params[:act_bench][:act_benchmark_type_id] == ''
       set_default_bench_type(@current_benchmark)
     else
@@ -281,6 +291,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     else
       flash[:error] = @current_benchmark.errors.full_messages.to_sentence
     end
+    benchmark_source_standards
     render :benchmark_add
   end
 
@@ -292,6 +303,9 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     @current_benchmark.user_id = @current_user.id
     @current_benchmark.organization_id = @current_organization.id
     @current_benchmark.description = params[:act_bench][:description]
+    get_source_level_strand_ids
+    @current_benchmark.source_level_id = @source_level_id
+    @current_benchmark.source_strand_id = @source_strand_id
     if params[:act_bench][:act_benchmark_type_id] != ''
       @current_benchmark.act_bench_type_id = params[:act_bench][:act_benchmark_type_id]
     end
@@ -301,6 +315,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     else
       flash[:error] = @current_benchmark.errors.full_messages.to_sentence
     end
+    benchmark_source_standards
     render :benchmark_edit
   end
 
@@ -421,7 +436,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     if params[:act_master_id]
       @current_standard = ActMaster.find_by_id(params[:act_master_id]) rescue ActMaster.default
     else
-      @current_standard = ActMaster.default
+      @current_standard = @current_provider.master_standard
     end
   end
 
@@ -733,5 +748,28 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
 
   def set_default_bench_type(benchmark)
     benchmark.act_bench_type_id = @bench_types.empty? ? nil : @bench_types.first.id
+  end
+
+  def benchmark_source_standards
+    @source_standards = ActMaster.all - [@current_standard]
+    @source_levels = @source_standards.collect{|s| s.mastery_levels(@current_subject)}.flatten.compact.sort_by{|l| [l.standard.abbrev, l.lower_score]}
+    @source_strands = @source_standards.collect{|s| s.strands(@current_subject)}.flatten.compact.sort_by{|s| [s.standard.abbrev, s.name]}
+  end
+
+  def get_source_level_strand_ids
+    if params[:act_bench][:source_level_id] == ''
+      @source_level_id = @current_benchmark.source_level_id
+    elsif params[:act_bench][:source_level_id].to_i > 0
+      @source_level_id = params[:act_bench][:source_level_id].to_i
+    else
+      @source_level_id = nil
+    end
+    if params[:act_bench][:source_strand_id] ==''
+      @source_strand_id = @current_benchmark.source_strand_id
+    elsif params[:act_bench][:source_strand_id].to_i > 0
+      @source_strand_id = params[:act_bench][:source_strand_id].to_i
+    else
+      @source_strand_id = nil
+    end
   end
 end

@@ -15,11 +15,11 @@
   <% if @function == 'Update' %>
     <%= render :partial =>  "update_question_assignments", :locals=>{}%>
     <hr>
-    <%#= render :partial =>  "update_question_tags", :locals=>{}%>
-    <hr>
     <% if @current_question.multiple_choice? %>
       <%= render :partial =>  "update_question_choices", :locals=>{}%>
     <% end %>
+    <hr>
+    <%= render :partial =>  "update_question_benchmarks", :locals=>{}%>
     <hr>
     <%= render :partial =>  "update_question_rls", :locals=>{:resource_type => nil}%>
     <hr>

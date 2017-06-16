@@ -34,7 +34,6 @@ class ActMaster < ActiveRecord::Base
     self.act_standards.for_subject(subject).active
   end
 
-
   def abbrev_view(user)
     (user && user.sat_view?) ? 'SAT' : self.abbrev.upcase
   end
@@ -58,7 +57,6 @@ class ActMaster < ActiveRecord::Base
   end
 
   def self.default_std
- #  ActMaster.act.first
     ActMaster.default
   end
 
@@ -82,19 +80,7 @@ class ActMaster < ActiveRecord::Base
   end
 
   def self.act_std
-    ActMaster.act.first
-  end
-
-  def act?
-    self.abbrev == 'ACT'
-  end
-
-  def self.co_std
-    ActMaster.co.first
-  end
-
-  def self.cc_std
-    ActMaster.cc.first
+    ActMaster.default
   end
 
   def self.find_standard(std)

@@ -41,7 +41,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     render :partial =>  "update_question_rls", :locals => {:resource_type => resource_type}
   end
 
-  def strand_select
+  def strand_select_x
     get_current_question
     get_current_strand
     if @current_question.strands.include?(@current_strand)
@@ -53,7 +53,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     render :partial =>  "update_question_tags"
   end
 
-  def level_select
+  def level_select_x
     get_current_question
     get_current_level
     if @current_question.levels.include?(@current_level)
@@ -74,6 +74,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
       assign_question_assessment
     end
     available_assessments(@current_question)
+    available_benchmarks(@current_question)
     render :partial =>  "update_question_assignments"
   end
 
@@ -85,8 +86,21 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
       @current_question.update_attributes(:is_calibrated => !@current_question.is_calibrated)
     end
     available_strands_levels(@current_question)
+    available_benchmarks(@current_question)
     available_assessments(@current_question)
     render :partial =>  "update_question_assignments"
+  end
+
+  def benchmark_attach
+    get_current_question
+    get_current_benchmark
+    if @current_question.all_benchmarks.include?(@current_benchmark)
+      @current_question.act_bench_act_questions.for_bench(@current_benchmark).destroy_all
+    elsif
+      @current_question.act_benches << @current_benchmark
+    end
+    available_benchmarks(@current_question)
+    render :partial =>  "update_question_benchmarks"
   end
 
   def edit
@@ -95,6 +109,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     related_readings
     @function = 'Update'
     available_strands_levels(@current_question)
+    available_benchmarks(@current_question)
     @current_reading = @current_question.reading.nil? ? nil : @current_question.act_rel_reading
     @current_reading_text = (@current_question.nil? || @current_question.act_question_reading.nil?) ? '' : @current_question.act_question_reading.reading
     render :index
@@ -113,9 +128,10 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     if !@current_question.nil?
       update_question
       available_strands_levels(@current_question)
+      available_benchmarks(@current_question)
       available_assessments(@current_question)
     else
-      flash[:error] = 'Could Create Question Object'
+      flash[:error] = 'Could Not Create Question Object'
     end
     @current_reading_text = (@current_question.nil? || @current_question.act_question_reading.nil?) ? '' : @current_question.act_question_reading.reading
     render :index
@@ -250,6 +266,11 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     end
   end
 
+  def get_current_benchmark
+    if params[:act_benchmark_id]
+      @current_benchmark = ActBench.find_by_id(params[:act_benchmark_id]) rescue nil
+    end
+  end
   def get_current_resource
     if params[:resource_id]
       @current_resource = Content.find_by_id(params[:resource_id]) rescue nil
@@ -332,6 +353,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     @available_strands = @current_provider.knowledge_strands_subject(question.act_subject) - question.strands
     @available_levels = @current_provider.knowledge_levels_subject(question.act_subject) - question.levels
   end
+
   def available_assessments(question)
     @available_assessments = @current_question.act_subject.act_assessments.active.lock
     @available_assessments -= @current_question.act_assessments
@@ -342,6 +364,10 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     ass_join.act_assessment_id = @current_assessment.id
     ass_join.position = @current_assessment.act_questions.size + 1
     @current_question.act_assessment_act_questions << ass_join
+  end
+
+  def available_benchmarks(question)
+    @available_benchmarks = ActBench.for_level_strand(question.mastery_level, question.strand).select{|b| b.benchmark?}
   end
 
 end

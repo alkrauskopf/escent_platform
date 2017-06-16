@@ -153,6 +153,14 @@ class ActQuestion < ActiveRecord::Base
     end
   end
 
+
+  def benchmarks
+    self.act_benches.active.select{|b| b.benchmark?}
+  end
+  def all_benchmarks
+    self.act_benches
+  end
+
   def strands
     self.act_standards.active
   end
@@ -242,7 +250,9 @@ class ActQuestion < ActiveRecord::Base
        end
        if filter.upcase == "ACT"
          prof = perf.baseline_answers > 0 ? (100*perf.baseline_points.to_f/perf.baseline_answers.to_f) : 999.0
-
+       end
+       if filter.upcase == "PP"
+         prof = perf.baseline_answers > 0 ? (100*perf.baseline_points.to_f/perf.baseline_answers.to_f) : 999.0
        end
        if filter.upcase == "ALL"
          prof = perf.answers > 0 ? (100*perf.points.to_f/perf.answers.to_f) : 999.0
@@ -279,6 +289,9 @@ class ActQuestion < ActiveRecord::Base
              prof = perf.calibrated_student_answers > 0 ? (100*perf.calibrated_student_points.to_f/perf.calibrated_student_answers.to_f) : 999.0
            end
            if filter == "ACT"
+             prof = perf.baseline_answers > 0 ? (100*perf.baseline_points.to_f/perf.baseline_answers.to_f) : 999.0
+           end
+           if filter == "PP"
              prof = perf.baseline_answers > 0 ? (100*perf.baseline_points.to_f/perf.baseline_answers.to_f) : 999.0
            end
            if filter == "ALL"

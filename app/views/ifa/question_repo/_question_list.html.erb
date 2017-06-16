@@ -46,24 +46,27 @@
         </div>
         <% @entity_questions.each do |question| %>
           <div class="row question_pool_text">
-            <div class= "col-md-3 ">
-              <div class="question_pool_subject"><%= question.act_subject.name %></div>
-              <div class="question_pool_subject">
+            <div class= "col-md-3 question_pool_subject">
+              <div ><%= question.act_subject.name %></div>
+              <div >
                 <% if question.mastery_level.nil? %>
                   No Level
                 <% else %>
                     <%= mastery_label(question.mastery_level, true)%><br/>
                 <% end %>
               </div>
-              <div class="question_pool_subject">
+              <div >
                 <%= question.strand.nil? ? "No Strand" : (question.strand.abbrev.upcase) %>
               </div>
+              <div>
+                <%= pluralize(question.benchmarks.size, ' Tagged Benchmark') %>
+              </div>
               <% if !question.active? %>
-                <div class="question_pool_subject question_disabled">
+                <div class=" question_disabled">
                   Disabled
                 </div>
               <% end %>
-              <div class="question_pool_subject">
+              <div >
                 <%= question.user ? question.user.last_name.upcase : 'Former User' %>
               </div>
             </div>
@@ -71,8 +74,8 @@
               <div class="question_pool_question">
                 <%= question.question.html_safe%>
               </div>
-              <% if question.reading? %>
-                <div class="question_pool_reading">
+              <div class="question_pool_reading">
+                <% if question.reading? %>
                   <div >
                     READING:&nbsp;<%= question.reading.label%>
                   </div>
@@ -84,15 +87,11 @@
                       RL Attachment: <%=question.content.title.titleize %>
                     </div>
                   <% end %>
-                </div>
-              <% end %>
-              <% if !question.comment.nil? && question.comment != '' %>
-                  <div class="question_pool_reading">
-                    <div >
-                      COMMENT:&nbsp;<%= question.comment %>
-                    </div>
-                  </div>
-              <% end %>
+                <% end %>
+                <% if !question.comment.nil? && question.comment != '' %>
+                  COMMENT:&nbsp;<%= question.comment %>
+                <% end %>
+              </div>
               <div class="question_pool_tags">
                 <div>
                   <%= ActQuestion::TYPES.find { |n, m| m == question.question_type }[0] rescue ''%>: <%= pluralize(question.choices.size, 'Choice')%>

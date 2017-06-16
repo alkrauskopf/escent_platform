@@ -63,7 +63,37 @@
   @extend .panel-heading;
   margin: 0em 0em 0em 0em;
   background-color: $panel_background_ifa_remarks;
-  color:$light_text;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:16px;
+}
+.repo_q_choice_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $gold_panel;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:16px;
+}
+.repo_q_bench_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $blue_panel;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:16px;
+}
+.repo_q_rl_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $green_panel;
+  color:white;
   text-align:left;
   vertical-align:middle;
   min-height:2.0em;
@@ -118,6 +148,35 @@
   font-size:15px;
   text-align:center;
   vertical-align:middle;
+}
+.benchmark_table {
+  margin: 1em 1em 0em 1em;
+  font-style:normal;
+  font-size:16px;
+  color: $dark_text;
+}
+.benchmark_table_row {
+  border-bottom:1px solid #ddd;
+}
+.benchmark_table_button {
+  font-size:13px;
+  text-align:center;
+  vertical-align:top;
+}
+.benchmark_table_source {
+  font-size:14px;
+  color: $red_text;
+  line-height:1.5em;
+  text-align:center;
+  vertical-align:top;
+}
+.benchmark_table_descript {
+  text-align:left;
+  padding:0em 1em 1em 1em;
+  vertical-align:top;
+  line-height:1.5em;
+  font-size:15px;
+  color: $dark_text;
 }
 .rl_attachment_name {
   font-size:19px;

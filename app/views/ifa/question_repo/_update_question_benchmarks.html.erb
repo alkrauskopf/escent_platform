@@ -1,0 +1,59 @@
+<div id= 'question_benchmarks_<%= @current_question.id %>' class="repo_tags_box">
+  <div class="row">
+    <div class= "col-md-1"></div>
+    <div class= "col-md-10 ">
+      <div class="repo_q_bench_panel repo_header_label">
+        <%= pluralize(@current_question.benchmarks.size, ' Tagged Benchmark') %>
+      </div>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+  <div class="row repo_tag_row">
+    <div class= "col-md-1"></div>
+    <div class="col-md-10">
+      <div class="row benchmark_table">
+        <table >
+          <tbody>
+          <colgroup>
+            <col style="width:12%">
+            <col style="width:63%">
+            <col style="width:25%">
+          </colgroup>
+          <% @available_benchmarks.each do |benchmark| %>
+              <tr class="benchmark_table_row">
+                <td class="benchmark_table_button">
+                  <% button_color = @current_question.benchmarks.include?(benchmark) ? 'button_green' : 'button_orange'%>
+                  <% button_label = @current_question.benchmarks.include?(benchmark) ? ' Tagged ' : ' Not Tagged '%>
+                  <span id = "toggle_attach_<%=benchmark.id%>" class=<%=button_color%>>
+                    <%=button_label %>
+                  </span>
+                </td>
+                <td class="benchmark_table_descript">
+                  <%= benchmark.description.html_safe %>
+                </td>
+                <td class="benchmark_table_source">
+                  <%= benchmark.source_standard.name %><br/>
+                  <%= benchmark.source_level.nil? ? '' : (benchmark.source_level.range + ' | ') %>
+                  <%= benchmark.source_strand.nil? ? '' : (benchmark.source_strand.abbrev) %>
+                </td>
+              </tr>
+              <script type="text/javascript">
+                jQ(document).ready(function() {
+                  jQ("#toggle_attach_<%=benchmark.id%>").click(function(){
+                    var url = "<%= ifa_repo_question_benchmark_attach_url(:organization_id => @current_organization,
+                  :act_question_id => @current_question.id, :act_benchmark_id => benchmark.id ) %>";
+                    jQ.get(url, {}, function(data) {
+                      jQ("#question_benchmarks_<%= @current_question.id %>").html(data);
+                      jQ("question_benchmarks_<%= @current_question.id %>").show();
+                    });
+                  })
+                });
+              </script>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+</div>

@@ -8,4 +8,11 @@ class ActBenchActQuestion < ActiveRecord::Base
    
   acts_as_list :scope => :act_question
 
+  def self.for_bench(bench)
+    where('act_bench_id = ?', bench.id )
+  end
+
+  def self.for_question(question)
+    where('act_question_id = ?', question.id )
+  end
 end

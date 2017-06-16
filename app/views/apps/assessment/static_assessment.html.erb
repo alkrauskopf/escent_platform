@@ -8,15 +8,7 @@
     <div class="panel_subtitle_blue">
       <%= @assessment.act_subject.name.upcase%>
       </br>
-      <% @current_provider.ifa_org_option.act_masters.each_with_index do|mstr, idx| -%>
-          <%= mstr.abbrev %>: <%=@assessment.score_range(mstr) %>
-          <% if mstr.act?%>
-            &nbsp;|&nbsp;SAT: <%= ActScoreRange.sat_score(mstr, @assessment.act_subject, @assessment.lower_score(mstr)) %>&nbsp;-&nbsp;<%= ActScoreRange.sat_score(mstr, @assessment.act_subject, @assessment.upper_score(mstr)) %>
-          <% end %>
-          <% if (idx + 1) < @current_provider.ifa_org_option.act_masters.size %>
-            &nbsp;|&nbsp;
-          <% end %>
-      <% end-%>
+      <% @current_provider.master_standard.abbrev %>: <%=@assessment.score_range(@current_provider.master_standard) %>
       </br>
       <%= pluralize(@assessment.act_questions.size, ' Question') %>
     </div>
@@ -84,8 +76,8 @@
         <% prof = times_selected == 0 ? "" : (100*points/times_selected).to_i -%>
         <% question_string = "Question " + (qdx+1).to_s + ": " %>
         <% attachment_string = "Attachment:" %>
-        <% seq = que.sequence_score_for(ActMaster.act_std, 'ACT') -%>
-        <% align = que.alignment_score_for(ActMaster.act_std, 'ACT') -%>
+        <% seq = que.sequence_score_for(ActMaster.default, 'PP') -%>
+        <% align = que.alignment_score_for(ActMaster..default, 'PP') -%>
         <div class="row">
           <div class="col-md-3">
             <%= render :partial => "question_tags", :locals => {:que => que} %>

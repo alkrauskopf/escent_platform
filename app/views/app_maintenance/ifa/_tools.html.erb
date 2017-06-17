@@ -18,6 +18,9 @@
           <%=@tool_a_summary %><br/><br/>
           <%= pluralize(@tool_a_compatible.size, ' Level/Strand Compatible Question') %><br/>
           <%= pluralize(@tool_a_incompatible.size, ' Level/Strand Incompatible Question') %><br/><br/>
+          <%= pluralize(@tool_a_nil_level.size, ' Nil Level Question') %><br/>
+          <%= pluralize(@tool_a_nil_strand.size, ' Nil Strand Question') %><br/>
+          <%= pluralize(@tool_a_nil_level_strand.size, ' Nil Level & Strand Question') %><br/><br/>
           <%= pluralize(@tool_question_in_asses.size, ' Asessment Question') %><br/>
           <%= pluralize(@tool_questions_multi_level.size, ' Multi-level') %><br/>
           <%= pluralize(@tool_questions_multi_strand.size, ' Multi-strand') %><br/>

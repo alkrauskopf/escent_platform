@@ -30,6 +30,9 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     @tool_questions_nil_strand = @tool_question_in_asses.select{|q| q.strand.nil?}
     @tool_a_compatible = ActQuestion.all.select{|q| (q.mastery_level && q.strand && (q.mastery_level.standard == q.strand.standard))}
     @tool_a_incompatible = ActQuestion.all.select{|q| (q.mastery_level && q.strand && (q.mastery_level.standard != q.strand.standard))}
+    @tool_a_nil_level = ActQuestion.all.select{|q| (q.mastery_level.nil?)}
+    @tool_a_nil_strand = ActQuestion.all.select{|q| (q.strand.nil?)}
+    @tool_a_nil_level_strand = ActQuestion.all.select{|q| (q.mastery_level.nil? && q.strand.nil?)}
     @tool_a_summary = 'Summary'
     render :partial =>  "tools", :locals=>{}
   end

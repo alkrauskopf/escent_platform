@@ -20,6 +20,63 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     current_level
   end
 
+  def tool_a
+    @tool_question_in_asses = ActQuestion.all.select{|q| !q.act_assessments.empty?}
+    @tool_questions_multi_level = @tool_question_in_asses.select{|q| q.act_score_ranges.size > 1}
+    @tool_questions_multi_strand = @tool_question_in_asses.select{|q| q.act_standards.size > 1}
+    @tool_questions_no_level = @tool_question_in_asses.select{|q| q.act_score_ranges.empty?}
+    @tool_questions_no_strand = @tool_question_in_asses.select{|q| q.act_standards.empty?}
+    @tool_questions_nil_level = @tool_question_in_asses.select{|q| q.mastery_level.nil?}
+    @tool_questions_nil_strand = @tool_question_in_asses.select{|q| q.strand.nil?}
+    @tool_a_compatible = ActQuestion.all.select{|q| (q.mastery_level && q.strand && (q.mastery_level.standard == q.strand.standard))}
+    @tool_a_incompatible = ActQuestion.all.select{|q| (q.mastery_level && q.strand && (q.mastery_level.standard != q.strand.standard))}
+    @tool_a_summary = 'Summary'
+    render :partial =>  "tools", :locals=>{}
+  end
+  def tool_b
+    @tool_b_level_nil = 0
+    @tool_b_level_updateable = 0
+    @tool_b_level_updated = 0
+    @tool_b_strand_nil = 0
+    @tool_b_strand_updateable = 0
+    @tool_b_strand_updated = 0
+    @tool_b_compatible_update = 0
+    @tool_b_no_level = 0
+    @tool_b_no_strand = 0
+
+    ActQuestion.all.each do |q|
+      if q.mastery_level.nil?
+        @tool_b_level_nil +=1
+        if !q.act_score_ranges.empty?
+          @tool_b_level_updateable +=1
+          lvl_std = q.act_score_ranges.select{|l| l.act_master == @current_standard}.first
+          if lvl_std
+            q.update_attributes(:act_score_range_id => lvl_std.id)
+            @tool_b_level_updated += 1
+          end
+        end
+      end
+      if q.strand.nil?
+        @tool_b_strand_nil +=1
+        if !q.act_standards.empty?
+          @tool_b_strand_updateable +=1
+          strnd_std = q.act_standards.select{|l| l.act_master == @current_standard}.first
+          if strnd_std
+            q.update_attributes(:act_standard_id => strnd_std.id)
+            @tool_b_strand_updated += 1
+          end
+        end
+      end
+      if !strnd_std.nil? && !lvl_std.nil?
+        @tool_b_compatible_update += 1
+      else
+        strnd_std.nil? ? @tool_b_no_strand += 1 : @tool_b_no_level += 1
+      end
+    end
+
+    @tool_b_summary = 'Summary'
+    render :partial =>  "tools", :locals=>{}
+  end
   def standard_maint_select
     standards
     render :partial =>  "manage_standards", :locals=>{}
@@ -434,7 +491,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
 
   def current_standard
     if params[:act_master_id]
-      @current_standard = ActMaster.find_by_id(params[:act_master_id]) rescue ActMaster.default
+      @current_standard = ActMaster.find_by_id(params[:act_master_id])
     else
       @current_standard = @current_provider.master_standard
     end

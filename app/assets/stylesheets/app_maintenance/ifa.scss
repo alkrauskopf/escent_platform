@@ -18,6 +18,20 @@
   margin:1em 0em 0em 0em;
   min-height:10em;
 }
+
+.tool_row {
+   margin: 3em 0em 0em 0em;
+   font-size:14px;
+   color:$dark_text;
+ }
+.tool_sumry {
+  padding: 1em 0em 0em 1em;
+  border:1px solid #ddd;
+  line-height:1.3em;
+  font-size:14px;
+  color:$red_text;
+}
+
 .standard_row {
   margin: 0em 0em 1em 0em;
   font-size:16px;

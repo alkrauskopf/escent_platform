@@ -1,0 +1,80 @@
+<div id="tools">
+  <div class="row standard_row">
+    <div class="strand_label">
+      <%= @current_organization.provider_app_name(@current_application)%> Maintenance Tools
+    </div>
+  </div>
+  <div class="row tool_row">
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_a" class='button_gray'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Summarize Question Info
+      <% if !@tool_a_summary.nil? %>
+        <div class="row tool_sumry">
+          <%=@tool_a_summary %><br/><br/>
+          <%= pluralize(@tool_a_compatible.size, ' Level/Strand Compatible Question') %><br/>
+          <%= pluralize(@tool_a_incompatible.size, ' Level/Strand Incompatible Question') %><br/><br/>
+          <%= pluralize(@tool_question_in_asses.size, ' Asessment Question') %><br/>
+          <%= pluralize(@tool_questions_multi_level.size, ' Multi-level') %><br/>
+          <%= pluralize(@tool_questions_multi_strand.size, ' Multi-strand') %><br/>
+          <%= pluralize(@tool_questions_no_level.size, ' No-level') %><br/>
+          <%= pluralize(@tool_questions_no_strand.size, ' No-strand') %><br/>
+          <%= pluralize(@tool_questions_nil_level.size, ' Nil-level') %><br/>
+          <%= pluralize(@tool_questions_nil_strand.size, ' Nil-strand') %>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_a").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_a_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tools").html(data);
+          jQ("#ools").show();
+        });
+      })
+    });
+  </script>
+  <div class="row tool_row">
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_b" class='button_gray'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Assign Levels & Strands
+      <% if !@tool_b_summary.nil? %>
+          <div class="row tool_sumry">
+            <%=@tool_b_summary %><br/>
+            <%= pluralize(@tool_b_level_nil, ' Nil Level Question') %><br/>
+            <%= pluralize(@tool_b_level_updateable, ' Populated Level Question') %><br/>
+            <%= pluralize(@tool_b_level_updated, ' Updated Level With Current Std Question') %><br/><br/>
+            <%= pluralize(@tool_b_strand_nil, ' Nil Strand Question') %><br/>
+            <%= pluralize(@tool_b_strand_updateable, ' Populated Strand Question') %><br/>
+            <%= pluralize(@tool_b_strand_updated, ' Updated Strand With Current Std Question') %><br/><br/>
+            <%= pluralize(@tool_b_compatible_update, ' Compatible Level/Strand Update') %><br/>
+            <%= pluralize(@tool_b_no_level, ' Strand, No Level Question') %>&nbsp;<%= pluralize(@tool_b_no_strand, ' Level, No Strand Question') %>
+          </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_b").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_b_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tools").html(data);
+          jQ("#ools").show();
+        });
+      })
+    });
+  </script>
+</div>

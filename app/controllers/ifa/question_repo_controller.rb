@@ -188,8 +188,12 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
   end
 
   def question_list
-    get_entity
-    @entity_questions = @current_entity.act_questions.by_date
+    if params[:entity_id] == '0'
+      @entity_questions = ActQuestion.untagged
+    else
+      get_entity
+      @entity_questions = @current_entity.act_questions.by_date
+    end
     question_creators_strands
     render :partial =>  "question_list"
   end

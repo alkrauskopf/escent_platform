@@ -8,7 +8,7 @@
     </div>
     <div class="col-md-5 ">
       <div id="strand_select">
-        <%=  select( :act_standard, :id,  @question_strands.collect{|s| [(s.act_subject.name + ' | ' +s.abbrev.upcase), s.id]}, {:prompt => "Select A Question Strand"}) %>
+        <%=  select( :act_standard, :id,  @question_strands.collect{|s| [(s.act_subject.name + ' | ' +s.abbrev.upcase), s.id]}.push([' Untagged Questions', 0]), {:prompt => "Select A Question Strand"}) %>
       </div>
     </div>
     <div class="col-md-1 "></div>
@@ -42,7 +42,7 @@
       <div class= "col-md-1"></div>
       <div class= "col-md-10 ">
         <div class="repo_panel repo_pool_header_label">
-          <%= pluralize(@entity_questions.size, ' ' + @current_entity.name + ' Question') %>
+          <%= pluralize(@entity_questions.size, ' ' + (@current_entity.nil? ? 'Untagged':@current_entity.name) + ' Question') %>
         </div>
         <% @entity_questions.each do |question| %>
           <div class="row question_pool_text">
@@ -139,7 +139,7 @@
                     jQ(document).ready(function() {
                       jQ("#destroy_<%=question.id%>").click(function(){
                         var url = "<%= ifa_repo_question_destroy_url(:organization_id => @current_organization,
-                                    :entity_class => @current_entity.class.to_s, :entity_id => @current_entity.id, :act_question_id => question.id ) %>";
+                                    :entity_class => (@current_entity.nil? ? '' : @current_entity.class.to_s), :entity_id => (@current_entity.nil? ? 0 :@current_entity.id), :act_question_id => question.id ) %>";
                         jQ.get(url, {}, function(data) {
                           jQ("#question_pool").html(data);
                           jQ("#question_pool").show();

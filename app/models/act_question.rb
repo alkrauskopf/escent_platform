@@ -69,6 +69,10 @@ class ActQuestion < ActiveRecord::Base
     ActQuestion.all.collect{|q| q.user}.compact.uniq.sort_by{|u| u.last_name}
   end
 
+  def self.untagged
+    ActQuestion.all.select{|q| q.mastery_level.nil? || q.strand.nil?}
+  end
+
   def self.by_date
     order('updated_at DESC')
   end

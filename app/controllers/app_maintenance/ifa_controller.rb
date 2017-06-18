@@ -17,6 +17,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     strands
     current_strand
     levels
+    active_levels
     current_level
   end
 
@@ -134,6 +135,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     strands
     current_strand
     levels
+    active_levels
     render :partial =>  "manage_standard", :locals=>{}
   end
 
@@ -280,7 +282,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
 
   def benchmark_refresh
     get_strand
-    levels
+    active_levels
     render :partial =>  "manage_benchmarks_strand", :locals=>{:strand => @current_strand}
   end
 
@@ -777,6 +779,10 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
 
   def levels
     @levels = ActScoreRange.all_for_standard_and_subject(@current_standard, @current_subject)
+  end
+
+  def active_levels
+    @active_levels = ActScoreRange.for_standard_and_subject(@current_standard, @current_subject)
   end
 
   def current_level

@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="benchmark_box">
-    <% @levels.each do |level| %>
+    <% @active_levels.each do |level| %>
       <% if !level.na? %>
         <div class="row benchmark_level_row" style="color: <%= level.score_font%>; background-color:<%= level.score_background %>">
           <div class="col-md-10 benchmark_level">
@@ -32,7 +32,7 @@
   <script type="text/javascript">
     jQ(document).ready(function() {
       jQ("#benchmark_refresh<%=strand.id%>").click(function() {
-        var url = "<%= app_maintenance_ifa_benchmark_refresh_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_standard_id => strand.id)%>";
+        var url = "<%= app_maintenance_ifa_benchmark_refresh_url(:organization_id => @current_organization, :act_master_id => @current_standard.id, :act_subject_id => @current_subject.id, :act_standard_id => strand.id)%>";
         jQ.get(url,{},  function(data) {
           jQ("#strand_benchmarks<%=strand.id %>").html(data);
           jQ("#strand_benchmarks<%=strand.id %>").show();

@@ -475,6 +475,15 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/repo/question/assessment/select' => 'ifa/question_repo#assessment_select'    # ifa_repo_question_assessment_select_path
   get '/ifa/repo/question/benchmark/attach' => 'ifa/question_repo#benchmark_attach'    # ifa_repo_question_benchmark_attach_url
 
+  get '/ifa/repo/assessment/add' => 'ifa/assessment_repo#index'    # ifa_repo_assessment_add_path
+  post '/ifa/repo/assessment/add' => 'ifa/assessment_repo#index'    # ifa_repo_assessment_add_path
+  get '/ifa/repo/assessment/subject/select' => 'ifa/assessment_repo#subject_select'    # ifa_repo_assessment_subject_select_path
+  post '/ifa/repo/assessment/create' => 'ifa/assessment_repo#create'    # ifa_repo_assessment_create_url
+  get '/ifa/repo/assessment/active' => 'ifa/assessment_repo#toggle_active'    # ifa_repo_assessment_active_url
+  get '/ifa/repo/assessment/question/toggle' => 'ifa/assessment_repo#toggle_add_question'    # ifa_repo_assessment_question_toggle_url
+  get '/ifa/repo/assessment/question/position' => 'ifa/assessment_repo#question_position_update'    # ifa_repo_assessment_question_position_url
+  get '/ifa/repo/assessment/filter' => 'ifa/assessment_repo#pool_filter'    # ifa_repo_assessment_filter_url
+
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path
   post '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

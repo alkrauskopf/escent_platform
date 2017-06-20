@@ -1,0 +1,75 @@
+<div id= "question_pool<%= @current_assessment.id %>">
+  <div class="repo_assessment_pool_panel">
+    <div class="row repo_header_label">
+      <div class="col-md-3 repo_header_filter">
+        <%=@user_filter.nil? ? 'All Users':@user_filter.last_name.upcase%><br/>
+        <%=@level_filter.nil? ? 'All Levels':@level_filter.range%><br/>
+        <%=@strand_filter.nil? ? 'All Strands':@strand_filter.abbrev%>
+      </div>
+      <div class="col-md-9 repo_pool_header">
+        <%= pluralize(@question_pool.size, ' Question')%>&nbsp;In Pool
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="row ">
+      <div class="col-md-3">
+        <%=  select(:filter, :user_id, @user_filters.collect{|s| [s.name,s.id]},{:prompt => 'User Filter'}) %>
+      </div>
+      <div class="col-md-3">
+        <%=  select(:filter, :level_id, @level_filters.collect{|s| [s.range,s.id]},{:prompt => 'Level Filter'}) %>
+      </div>
+      <div class="col-md-3">
+        <%=  select(:filter, :strand_id, @strand_filters.collect{|s| [s.abbrev,s.id]},{:prompt => 'Strand Filter'}) %>
+      </div>
+      <div class="col-md-3">
+          <span id = "filter_<%=@current_assessment.id%>" class= 'button_orange'>
+            Filter
+          </span>
+      </div>
+    </div>
+
+  <% @question_pool.each do |question| %>
+    <div class="row question_pool_row">
+      <div class = "col-md-1 question_table_button">
+        <% button_color = 'button_blue'%>
+        <% button_label = 'Add'%>
+        <span id = "toggle_add_<%=question.id%>" class=<%=button_color%>>
+          <%=button_label %>
+        </span>
+      </div>
+      <div class = "col-md-11">
+        <%= render :partial => "question_info_row", :locals=>{:question=> question} %>
+      </div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#toggle_add_<%=question.id%>").click(function(){
+            var url = "<%= ifa_repo_assessment_question_toggle_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+            :act_assessment_id => @current_assessment.id, :act_question_id => question.id ) %>";
+            jQ.get(url, {}, function(data) {
+              jQ("#assessment_questions<%= @current_assessment.id %>").html(data);
+              jQ("#assessment_questions<%= @current_assessment.id %>").show();
+            });
+          })
+        });
+      </script>
+    </div>
+    <hr>
+  <% end %>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#filter_<%=@current_assessment.id%>").click(function(){
+        var user_id = jQ('#filter_user_id').val();
+        var level_id = jQ('#filter_level_id').val();
+        var strand_id = jQ('#filter_strand_id').val();
+        var url = "<%= ifa_repo_assessment_filter_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+                      :act_assessment_id => @current_assessment.id) %>";
+        jQ.get(url, {'filter_user_id': user_id, 'filter_level_id': level_id, 'filter_strand_id': strand_id}, function(data) {
+          jQ("#question_pool<%= @current_assessment.id %>").html(data);
+          jQ("#question_pool<%= @current_assessment.id %>").show();
+        });
+      })
+    });
+  </script>
+  </div>
+</div>

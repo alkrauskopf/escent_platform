@@ -28,6 +28,7 @@ class Apps::AssessmentController < Apps::ApplicationController
       @readings = ActRelReading.all
       @readings.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
       @assessments = ActAssessment.active rescue []
+      @active_assessments = ActAssessment.active rescue []    # for IFA rewrite to rid @assessments variable
       @active_questions = ActQuestion.active rescue []
       @current_user_questions = @current_user.act_questions
       @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}

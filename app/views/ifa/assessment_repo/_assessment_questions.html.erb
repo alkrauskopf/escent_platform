@@ -1,0 +1,62 @@
+<div id= 'assessment_questions<%= @current_assessment.id %>' class="repo_tags_box">
+  <div class="row">
+    <div class= "col-md-1"></div>
+    <div class= "col-md-10 ">
+      <div class="repo_assessment_panel repo_header_label">
+        <%= pluralize(@assessment_questions.size, ' Assessment Question')%>&nbsp;Assigned
+      </div>
+      <% @assessment_questions.each do |question| %>
+        <div class="row question_table">
+          <div class = "col-md-1 question_table_button">
+            <% button_color = 'button_orange'%>
+            <% button_label = 'Remove'%>
+            <span id = "toggle_remove_<%=question.id%>" class=<%=button_color%>>
+              <%=button_label %>
+            </span>
+          </div>
+          <div class = "col-md-1 question_table_button">
+            <% button_color = 'button_blue'%>
+            <% button_label = 'Change'%>
+            <span id = "toggle_reposition_<%=question.id%>" class=<%=button_color%>>
+              <%=button_label %>
+            </span>
+          </div>
+          <div class = "col-md-1 question_table_button">
+            <%= text_field :position, question.id, :value => @current_assessment.position_for(question), :size => 2, :maxlength => 2%>
+          </div>
+          <div class = "col-md-9">
+            <%= render :partial => "question_info_row", :locals => {:question => question} %>
+          </div>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ("#toggle_remove_<%=question.id%>").click(function(){
+                var url = "<%= ifa_repo_assessment_question_toggle_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+                :act_assessment_id => @current_assessment.id, :act_question_id => question.id ) %>";
+                jQ.get(url, {}, function(data) {
+                  jQ("#assessment_questions<%= @current_assessment.id %>").html(data);
+                  jQ("#assessment_questions<%= @current_assessment.id %>").show();
+                });
+              })
+            });
+          </script>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ("#toggle_reposition_<%=question.id%>").click(function(){
+                var position = jQ('#position_<%=question.id%>').val();
+                var url = "<%= ifa_repo_assessment_question_position_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+              :act_assessment_id => @current_assessment.id, :act_question_id => question.id ) %>";
+                jQ.get(url, {'position': position}, function(data) {
+                  jQ("#assessment_questions<%= @current_assessment.id %>").html(data);
+                  jQ("#assessment_questions<%= @current_assessment.id %>").show();
+                });
+              })
+            });
+          </script>
+        </div>
+        <hr>
+      <% end %>
+      <%= render :partial => "question_pool" %>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+</div>

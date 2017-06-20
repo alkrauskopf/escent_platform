@@ -18,6 +18,10 @@ class Ifa::ApplicationController < ApplicationController
     end
   end
 
+  def ifa_subjects
+    @ifa_subjects = ActSubject.all_subjects
+  end
+
   def entity_assessment_dashboard(entity, subject, begin_date, end_date)
     @cell_total = {}
     @cell_correct = {}

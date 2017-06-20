@@ -1,0 +1,73 @@
+<div id="question_info_row_<%=question.id%>">
+  <div class="row ">
+    <div class= "col-md-3 question_pool_level">
+      <% level_label = question.mastery_level.nil? ? 'No Level' : mastery_label(question.mastery_level, false) %>
+      <% strand_label = question.strand.nil? ? 'No Strand' : (question.strand.abbrev.upcase) %>
+      <div >
+        <%= level_label + ' | ' + strand_label %>
+      </div>
+      <% if !question.benchmarks.empty? %>
+        <div>
+          <a id="ass_<%= question.id.to_s %>" href="">View</a> <%=pluralize(question.benchmarks.size, ' Benchmark') %>
+          <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('ass_' + question.id.to_s), :titl=> question.question.html_safe,
+                                                                                     :blue=> 'Benchmark',
+                                                                                     :body=> question.benchmarks, :height=> 400, :width=> 850 } %>
+        </div>
+      <% else %>
+        <div>
+          No Benchmarks
+        </div>
+      <% end %>
+      <div >
+        <%= question.user.last_name.upcase %>
+      </div>
+    </div>
+    <div class= "col-md-7">
+      <div class="question_pool_question">
+        <%= question.question.html_safe%>
+      </div>
+      <div class="question_pool_reading">
+        <% if question.reading? %>
+          <div >
+            READING:&nbsp;<%= question.reading.label%>
+          </div>
+          <div >
+            GENRE:&nbsp;<%= question.reading_genre %>
+          </div>
+          <% if question.content %>
+            <div >
+              RL Attachment: <%=question.content.title.titleize %>
+            </div>
+          <% end %>
+        <% end %>
+        <% if !question.comment.nil? && question.comment != '' %>
+          COMMENT:&nbsp;<%= question.comment %>
+        <% end %>
+      </div>
+      <div class="question_pool_tagsx">
+        <div>
+          <%= ActQuestion::TYPES.find { |n, m| m == question.question_type }[0] rescue ''%>: <%= pluralize(question.choices.size, 'Choice')%>
+        </div>
+        <% if question.calibrated? %>
+          <div >
+            Calibrated
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class= "col-md-2">
+      <div class="row">
+        <div class="col-md-6 question_pool_button">
+          <%= link_to 'View', ifa_question_show_path(:organization_id => @current_organization, :question_id => question.public_id), {:class => 'button_gray', :target => '_blank'} %>
+        </div>
+      </div>
+      <% if question.question_image.present? %>
+        <div class="row">
+          <div class="col-md-12 question_pool_image">
+            <%= image_tag question.question_image(:small_thumb) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

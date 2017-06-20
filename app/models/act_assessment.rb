@@ -3,7 +3,7 @@ class ActAssessment < ActiveRecord::Base
   include PublicPersona
 
   has_many :act_assessment_act_questions, :dependent => :destroy
-  has_many :act_questions, :through => :act_assessment_act_questions, :order => "position"  
+  has_many :act_questions, :through => :act_assessment_act_questions, :order => "position ASC"
   has_many :act_assessment_classrooms, :dependent => :destroy
   has_many :classrooms, :through => :act_assessment_classrooms, :order => "position"  
   has_many :act_answers
@@ -26,6 +26,32 @@ class ActAssessment < ActiveRecord::Base
   scope :active, :conditions => { :is_active => true }, :order => 'updated_at DESC'
   scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}}
   scope :until, lambda{| end_date| {:conditions => ["created_at <= ?", end_date]}}
+
+
+  def active?
+    self.is_active
+  end
+
+  def enableable?
+    !self.act_questions.active.empty?
+    true
+  end
+
+  def locked?
+    self.is_locked
+  end
+
+  def calibrated?
+    self.is_calibrated
+  end
+
+  def all_questions
+    self.act_assessment_act_questions.by_position.collect{|aq| aq.act_question}
+  end
+
+  def question_joins(question)
+    self.act_assessment_act_questions.for_question(question)
+  end
 
   def question_pool_for(user)
     question_pool = self.act_subject.act_questions.active rescue []

@@ -85,6 +85,18 @@ class ActQuestion < ActiveRecord::Base
     where('is_active')
   end
 
+  def self.for_level(level)
+    where('act_score_range_id = ?', level.id)
+  end
+
+  def self.for_strand(strand)
+    where('act_standard_id = ?', strand.id)
+  end
+
+  def self.for_user(user)
+    where('user_id = ?', user.id)
+  end
+
   def destroyable?
     self.act_assessments.lock.empty? && !self.active?
   end

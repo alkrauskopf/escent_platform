@@ -1,0 +1,2 @@
+module Ifa::AssessmentRepoHelper
+end

@@ -64,5 +64,23 @@ class ActSubject < ActiveRecord::Base
     where('is_plannable')
   end
 
+    def available_questions(user, level, strand)
+      if user.nil? && level.nil? && strand.nil?
+        self.act_questions.enabled
+      elsif level.nil? && strand.nil?
+        self.act_questions.for_user(user).enabled
+      elsif user.nil? && strand.nil?
+        self.act_questions.for_level(level).enabled
+      elsif user.nil? && level.nil?
+        self.act_questions.for_strand(strand).enabled
+      elsif !level.nil? && !user.nil? && strand.nil?
+        self.act_questions.for_user(user).for_level(level).enabled
+      elsif !level.nil? && !strand.nil? && user.nil?
+        self.act_questions.for_level(level).for_strand(strand).enabled
+      else
+        self.act_questions.for_user(user).for_level(level).for_strand(strand).enabled
+      end
+    end
+
 end
 

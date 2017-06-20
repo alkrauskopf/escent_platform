@@ -1,0 +1,56 @@
+<div id= 'assessment_buttons_<%= @current_assessment.id %>'>
+  <div class="row">
+    <div class= "col-md-3"></div>
+    <div class= "col-md-2">
+      <% button_color = @current_assessment.active? ? 'button_green' : 'button_red'%>
+      <% button_label = @current_assessment.active? ? ' Enabled ' : ' Disabled '%>
+      <% button_status = @current_assessment.enableable? ? 'active' : 'disabled'%>
+      <span id = "toggle_active_<%=@current_assessment.id%>" class = "update_button <%=button_color%> <%=button_status%>">
+        <%=button_label %>
+      </span>
+    </div>
+    <div class= "col-md-2">
+      <% button_color = @current_assessment.locked? ? 'button_green' : 'button_red'%>
+      <% button_label = @current_assessment.locked? ? ' Locked ' : ' Not Locked '%>
+      <% button_status = @current_assessment.active? ? 'active' : 'disabled'%>
+      <span id = "toggle_lock_<%=@current_assessment.id%>" class = "update_button <%=button_color%> <%=button_status%>">
+        <%=button_label %>
+      </span>
+    </div>
+    <div class= "col-md-2">
+      <% button_color = @current_assessment.calibrated? ? 'button_green' : 'button_orange'%>
+      <% button_label = @current_assessment.calibrated? ? ' Calibrated ' : ' Not Calibrated '%>
+      <span class = "update_button <%=button_color%> disabled">
+        <%=button_label %>
+      </span>
+    </div>
+    <div class="col-md-2">
+      <%= link_to "PreView", ifa_assessment_submit_path(:organization_id => @current_organization, :assessment_id => @current_assessment,
+                                                        :function => "preview"), {:class => "update_button button_light_blue", :target => "_blank"} %>
+    </div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#toggle_active_<%=@current_assessment.id%>").click(function(){
+        var url = "<%= ifa_repo_assessment_active_url(:organization_id => @current_organization,
+                  :act_assessment_id => @current_assessment.id, :function => 'Active' ) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#assessment_buttons_<%= @current_assessment.id %>").html(data);
+          jQ("#assessment_buttons_<%= @current_assessment.id %>").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#toggle_lock_<%=@current_assessment.id%>").click(function(){
+        var url = "<%= ifa_repo_assessment_active_url(:organization_id => @current_organization,
+                  :act_assessment_id => @current_assessment.id, :function => 'Lock' ) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#assessment_buttons_<%= @current_assessment.id %>").html(data);
+          jQ("#assessment_buttons_<%= @current_assessment.id %>").show();
+        });
+      })
+    });
+  </script>
+</div>

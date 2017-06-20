@@ -117,7 +117,6 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
 
   def create
     ifa_subjects
-  #  levels_and_strands
     related_readings
     get_current_reading
     if function == 'Create'
@@ -232,10 +231,6 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     @function
   end
 
-  def ifa_subjects
-    @ifa_subjects = ActSubject.all_subjects
-  end
-
   def tinymce_param
     @current_subject.id.to_s + @current_strand.id.to_s + @current_level.id.to_s
   end
@@ -313,6 +308,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     temp_strands.act_standard_id = params[:act_question][:act_standard_id]
     @current_question.act_question_act_standards << temp_strands
   end
+
   def update_question
     @current_question.act_rel_reading_id = params[:act_rel_reading_id] == '0' ? nil : params[:act_rel_reading_id].to_i
     @current_question.act_standard_id = params[:act_question][:act_standard_id] == '' ? @current_question.act_standard_id : params[:act_question][:act_standard_id]

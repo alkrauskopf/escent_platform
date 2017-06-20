@@ -1,0 +1,24 @@
+<div class="question_pool_box">
+  <div class="row">
+    <div class="ifa_panel_title">
+      Assessment Repository: <%= pluralize(@active_assessments.size.to_s, " Available Assessments") %>
+    </div>
+  </div>
+  <div class="row">
+    <%= form_for(:subject, :url => ifa_repo_assessment_add_path(:organization_id => @current_organization)) do |form| -%>
+    <div class="col-md-4 "></div>
+    <div class="col-md-2 ">
+      <div class="repo_select">
+        <%=  select( :act_subject, :id, ActSubject.all_subjects.collect{|s| [s.name, s.id]}, {:prompt => ActSubject.all_subjects.first.name}) %>
+      </div>
+    </div>
+    <div class="col-md-6 ">
+      <div class="repo_submit">
+        <%= form.submit 'Create Assessment', :class => "btn btn-primary btn-xs" %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <hr>
+  <%#= render :partial =>  "/ifa/assessment_repo/assessment_list"%>
+</div>

@@ -79,6 +79,26 @@
   min-height:2.0em;
   font-size:16px;
 }
+.repo_assessment_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $assess_green1;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:16px;
+}
+.repo_assessment_pool_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $assess_green2;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:16px;
+}
 .repo_q_bench_panel {
   @extend .panel-heading;
   margin: 0em 0em 0em 0em;
@@ -103,9 +123,21 @@
   font-weight:bold;
   text-align:center;
 }
+.repo_header_filter {
+  padding-left: 1em;
+  font-weight:normal;
+  text-align:left;
+  font-size:11px;
+}
 .repo_pool_header_label {
   font-weight:bold;
   text-align:center;
+  vertical-align:middle;
+}
+.repo_pool_header {
+  padding-left: 5em;
+  font-weight:bold;
+  text-align:left;
 }
 .repo_tag_row {
   color:$red_text;
@@ -121,6 +153,39 @@
   font-style:normal;
   font-size:12px;
   color: $dark_text;
+}
+.question_pool_row {
+  margin: 1em 0em 1em 0em;
+  font-style:normal;
+  font-size:12px;
+  color: $dark_text;
+}
+.question_table {
+  margin: 1em 1em 0em 1em;
+  font-style:normal;
+  font-size:12px;
+  color: $dark_text;
+}
+.question_table_header {
+  text-align:center;
+  vertical-align:middle;
+}
+.question_table_button {
+  font-size:11px;
+  text-align:center;
+  vertical-align:middle;
+}
+.question_table_position {
+  padding-left:2em;
+  font-size:15px;
+  text-align:center;
+  vertical-align:middle;
+}
+.question_table_type {
+  padding-left:0em;
+  font-size:11px;
+  text-align:left;
+  vertical-align:top;
 }
 .choice_table {
   margin: 1em 1em 0em 1em;
@@ -249,6 +314,12 @@
 .question_pool_question {
   font-style: italic;
   font-size:14px;
+  color:$blue_text;
+}
+.question_pool_level {
+  line-height:1.5em;
+  font-size:11px;
+  font-weight:bold;
   color:$red_text;
 }
 .question_pool_subject {

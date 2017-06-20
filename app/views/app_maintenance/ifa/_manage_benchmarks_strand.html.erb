@@ -18,7 +18,7 @@
             <%= mastery_label(level, true) %>&nbsp;|&nbsp;<%= pluralize(ActBench.all_for_level_strand( level, strand).size, ' Benchmark')%>
           </div>
           <div class="col-md-2 benchmark_add">
-            <%= link_to 'Add Benchmark', app_maintenance_ifa_benchmark_add_path(:organization_id => @current_organization, :act_standard_id=>strand.id, :act_score_range_id=>level.id), {:target=>'_blank'}  %>
+            <%= link_to 'Add Benchmark', app_maintenance_ifa_benchmark_add_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_standard_id=>strand.id, :act_score_range_id=>level.id), {:target=>'_blank'}  %>
           </div>
         </div>
         <% ActBench.all_for_level_strand( level, strand).each do |benchmark| %>

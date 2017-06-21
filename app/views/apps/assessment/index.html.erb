@@ -3,6 +3,12 @@
     <%= @current_application.app_name(:provider=>@current_provider) %>
     <%#= render :partial => "apps/shared/app_owner_button", :locals=>{:app=>@current_application} %>
   </div>
+  <div class= 'row panel_title_blue'>
+    <%= @current_provider.master_standard? ? @current_provider.master_standard.abbrev : 'No Master Standard' %>
+  </div>
+  <div class= 'row panel_title_blue'>
+    <%= @current_provider.ifa_org_option ? (@current_provider.ifa_org_option.standard_id.nil? ? 'No Standard ID' : ('Standard ID:' + @current_provider.ifa_org_option.standard_id.to_s)) : 'No IFA Org Option'%>
+  </div>
   <% if @current_app_superuser && @current_organization == @current_provider%>
     <div class="row">
       <div class="col-md-10"></div>

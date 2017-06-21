@@ -49,6 +49,7 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
         question_join.position = @current_assessment.act_questions.size + 1
         @current_assessment.act_assessment_act_questions << question_join
       end
+      calibrate_assessment
       question_pool
       render :partial =>  "assessment_questions"
     end
@@ -101,6 +102,16 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
       pool_filters
     end
 
+    def calibrate_assessment
+      get_current_assessment
+      upper_score = @current_assessment.max_question_level.nil? ? 0 : @current_assessment.max_question_level.upper_score
+      lower_score = @current_assessment.min_question_level.nil? ? 0 : @current_assessment.min_question_level.lower_score
+      @current_assessment.update_attributes(:lower_level_id => (@current_assessment.min_question_level.nil? ? nil : @current_assessment.min_question_level.id),
+      :upper_level_id => (@current_assessment.max_question_level.nil? ? nil : @current_assessment.max_question_level.id),
+      :min_score => lower_score, :max_score => upper_score, :is_calibrated => @current_assessment.questions_calibrated?,
+      :original_assessment_id => (@current_assessment.original_assessment_id.nil? ? @current_assessment.id : @current_assessment.original_assessment_id))
+    end
+
     def get_current_assessment
       if params[:act_assessment_id]
         @current_assessment = ActAssessment.find_by_id(params[:act_assessment_id]) rescue nil
@@ -125,6 +136,4 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
         flash[:error] = @current_assessment.errors.full_messages.to_sentence
       end
     end
-
-
   end

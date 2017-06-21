@@ -124,10 +124,23 @@
   text-align:center;
 }
 .repo_header_filter {
-  padding-left: 1em;
   font-weight:normal;
+  text-align:center;
+  font-size:13px;
+}
+.repo_assess_sumry_row {
+  padding: .5em 0em 1em 0em;
+  color:$blue_text;
   text-align:left;
-  font-size:11px;
+  font-weight:normal;
+  font-size:18px;
+}
+.repo_filter_row {
+  padding: 1.5em 0em .5em 0em;
+  font-size:13px;
+}
+.repo_filter_select {
+  padding: 0em 0em 0em 3em;
 }
 .repo_pool_header_label {
   font-weight:bold;

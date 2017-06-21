@@ -1,33 +1,33 @@
 <div id= "question_pool<%= @current_assessment.id %>">
   <div class="repo_assessment_pool_panel">
     <div class="row repo_header_label">
-      <div class="col-md-3 repo_header_filter">
-        <%=@user_filter.nil? ? 'All Users':@user_filter.last_name.upcase%><br/>
-        <%=@level_filter.nil? ? 'All Levels':@level_filter.range%><br/>
-        <%=@strand_filter.nil? ? 'All Strands':@strand_filter.abbrev%>
-      </div>
-      <div class="col-md-9 repo_pool_header">
         <%= pluralize(@question_pool.size, ' Question')%>&nbsp;In Pool
-      </div>
+    </div>
+    <div class="row repo_header_filter">
+        <%=@user_filter.nil? ? 'All Users':@user_filter.last_name.upcase%> |
+        <%=@level_filter.nil? ? 'All Levels':@level_filter.range%> |
+        <%=@strand_filter.nil? ? 'All Strands':@strand_filter.abbrev%>
     </div>
   </div>
   <div>
-    <div class="row ">
-      <div class="col-md-3">
+    <div class="row repo_filter_row">
+      <div class="col-md-1"></div>
+      <div class="col-md-3 repo_filter_select">
         <%=  select(:filter, :user_id, @user_filters.collect{|s| [s.name,s.id]},{:prompt => 'User Filter'}) %>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3 repo_filter_select">
         <%=  select(:filter, :level_id, @level_filters.collect{|s| [s.range,s.id]},{:prompt => 'Level Filter'}) %>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3 repo_filter_select">
         <%=  select(:filter, :strand_id, @strand_filters.collect{|s| [s.abbrev,s.id]},{:prompt => 'Strand Filter'}) %>
       </div>
-      <div class="col-md-3">
-          <span id = "filter_<%=@current_assessment.id%>" class= 'button_orange'>
-            Filter
-          </span>
+      <div class="col-md-2">
+        <span id = "filter_<%=@current_assessment.id%>" class= 'button_orange'>
+          Search
+        </span>
       </div>
     </div>
+    <hr>
 
   <% @question_pool.each do |question| %>
     <div class="row question_pool_row">

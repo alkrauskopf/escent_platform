@@ -14,7 +14,9 @@ class ActAssessment < ActiveRecord::Base
   belongs_to :act_subject
   belongs_to :user
   belongs_to :organization
-  
+  belongs_to :lower_level, :class_name => 'ActScoreRange', :foreign_key => 'lower_level_id'
+  belongs_to :upper_level, :class_name => 'ActScoreRange', :foreign_key => 'upper_level_id'
+
   validates_presence_of :act_subject_id
   validates_presence_of :name
 
@@ -45,8 +47,32 @@ class ActAssessment < ActiveRecord::Base
     self.is_calibrated
   end
 
+  def questions_calibrated?
+    self.act_questions.not_calibrated.empty?
+  end
+
   def all_questions
     self.act_assessment_act_questions.by_position.collect{|aq| aq.act_question}
+  end
+
+  def mastery_levels
+    self.act_questions.collect{|q| q.mastery_level}.compact.uniq.sort_by{|r| r.lower_score}
+  end
+
+  def strands
+    self.act_questions.collect{|q| q.strand}.compact.uniq.sort_by{|s| s.pos}
+  end
+
+  def strand_string
+    self.strands.empty? ?  'None' : self.strands.collect{|s| s.abbrev}.join(', ')
+  end
+
+  def min_question_level
+    self.mastery_levels.first
+  end
+
+  def max_question_level
+    self.mastery_levels.last
   end
 
   def question_joins(question)

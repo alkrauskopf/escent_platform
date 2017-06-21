@@ -17,13 +17,6 @@
         <%=button_label %>
       </span>
     </div>
-    <div class= "col-md-2">
-      <% button_color = @current_assessment.calibrated? ? 'button_green' : 'button_orange'%>
-      <% button_label = @current_assessment.calibrated? ? ' Calibrated ' : ' Not Calibrated '%>
-      <span class = "update_button <%=button_color%> disabled">
-        <%=button_label %>
-      </span>
-    </div>
     <div class="col-md-2">
       <%= link_to "PreView", ifa_assessment_submit_path(:organization_id => @current_organization, :assessment_id => @current_assessment,
                                                         :function => "preview"), {:class => "update_button button_light_blue", :target => "_blank"} %>

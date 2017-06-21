@@ -77,10 +77,9 @@
         <% unless @preview -%>
           <%= render :partial => "submit_assessment_button" %>
         <% else %>
-          <div class= 'btn btn-primary btn-xs'>
+          <div class= 'btn btn-primary btn-xs disabled'>
             Submit Assessment
           </div>
-          <span class='assess_button_label'>Disabled Submit</span>
         <% end -%>
       </div>
       <hr>

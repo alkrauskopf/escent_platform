@@ -49,6 +49,7 @@ class ActQuestion < ActiveRecord::Base
   scope :unlocked, :conditions => { :is_locked => false }
   scope :lock, :conditions => { :is_locked => true }
   scope :calibrated, :conditions => { :is_calibrated => true }
+  scope :not_calibrated, :conditions => { :is_calibrated => false }
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
   scope :for_mastery_level, lambda{|mstr| {:conditions => ["act_score_range_id = ? ", mstr.id]}}
   scope :using_reading, lambda{|reading| {:conditions => ["act_rel_reading_id = ? ", reading.id]}}

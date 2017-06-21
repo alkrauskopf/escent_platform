@@ -1,0 +1,18 @@
+<div>
+  <div class="row repo_assess_sumry_row">
+    <div class= "col-md-3">
+      <%= @current_standard.abbrev %> Range: <%=@current_assessment.lower_level ?  @current_assessment.lower_level.lower_score : 'Undefined' %> -
+        <%=@current_assessment.upper_level ?  @current_assessment.upper_level.upper_score : 'Undefined' %>
+    </div>
+    <div class= "col-md-7">
+      <%= @current_standard.abbrev %> Strands: <%=@current_assessment.strand_string %>
+    </div>
+    <div class= "col-md-2">
+      <% button_color = @current_assessment.calibrated? ? 'button_green' : 'button_orange'%>
+      <% button_label = @current_assessment.calibrated? ? ' Calibrated ' : ' Not Calibrated '%>
+      <span class = "<%=button_color%> disabled">
+          <%=button_label %>
+        </span>
+    </div>
+  </div>
+</div>

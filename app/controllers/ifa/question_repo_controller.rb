@@ -110,6 +110,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     @function = 'Update'
     available_strands_levels(@current_question)
     available_benchmarks(@current_question)
+    available_assessments(@current_question)
     @current_reading = @current_question.reading.nil? ? nil : @current_question.act_rel_reading
     @current_reading_text = (@current_question.nil? || @current_question.act_question_reading.nil?) ? '' : @current_question.act_question_reading.reading
     render :index
@@ -355,8 +356,8 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
   end
 
   def available_assessments(question)
-    @available_assessments = @current_question.act_subject.act_assessments.active.lock
-    @available_assessments -= @current_question.act_assessments
+    @available_assessments = question.act_subject.act_assessments.active.lock
+    @available_assessments -= question.act_assessments
   end
 
   def assign_question_assessment

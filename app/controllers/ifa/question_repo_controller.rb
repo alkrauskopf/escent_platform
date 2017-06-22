@@ -367,7 +367,11 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
   end
 
   def available_benchmarks(question)
-    @available_benchmarks = ActBench.for_level_strand(question.mastery_level, question.strand).select{|b| b.benchmark?}
+    if !question.strand.nil? && !question.mastery_level.nil?
+      @available_benchmarks = ActBench.for_level_strand(question.mastery_level, question.strand).select{|b| b.benchmark?}
+    else
+      @available_benchmarks = []
+    end
   end
 
 end

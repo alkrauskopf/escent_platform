@@ -194,7 +194,8 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
       get_entity
       @entity_questions = @current_entity.act_questions.by_date
     end
-    question_creators_strands
+    question_creators
+    current_strands
     render :partial =>  "question_list"
   end
 
@@ -211,11 +212,6 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     elsif params[:entity_class] == 'ActStandard'
       @current_entity = ActStandard.find_by_id(params[:entity_id]) rescue nil
     end
-  end
-
-  def question_creators_strands
-    @question_creators = ActQuestion.creators
-    @question_strands = ActStandard.for_standard(@current_user.standard_view)
   end
 
   def resource_type

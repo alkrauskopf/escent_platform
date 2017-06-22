@@ -80,6 +80,19 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
       render :index
     end
 
+    def assessment_list
+      if params[:entity_id] == '0'
+        @entity_assessments = ActAssessment.untagged(ActAssessment.all)
+      else
+        byebug
+        get_entity
+        @entity_assessments = @current_entity.act_assessments.by_date
+      end
+      assessment_creators
+      current_strands
+      render :partial =>  "assessment_list"
+    end
+
   private
 
     def function
@@ -110,6 +123,17 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
       :upper_level_id => (@current_assessment.max_question_level.nil? ? nil : @current_assessment.max_question_level.id),
       :min_score => lower_score, :max_score => upper_score, :is_calibrated => @current_assessment.questions_calibrated?,
       :original_assessment_id => (@current_assessment.original_assessment_id.nil? ? @current_assessment.id : @current_assessment.original_assessment_id))
+      if @current_assessment.strands != @current_assessment.question_strands
+        # Add differences
+        (@current_assessment.question_strands - @current_assessment.strands).each do |strand|
+          @current_assessment.act_standards << strand
+        end
+        # Remove differences
+        (@current_assessment.strands - @current_assessment.question_strands).each do |strand|
+          @current_assessment.act_assessment_act_standards.for_strand(strand).destroy_all
+        end
+      end
+      get_current_assessment
     end
 
     def get_current_assessment
@@ -134,6 +158,14 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
         @function = 'Update'
       else
         flash[:error] = @current_assessment.errors.full_messages.to_sentence
+      end
+    end
+
+    def get_entity
+      if params[:entity_class] == 'User'
+        @current_entity = User.find_by_id(params[:entity_id]) rescue nil
+      elsif params[:entity_class] == 'ActStandard'
+        @current_entity = ActStandard.find_by_id(params[:entity_id]) rescue nil
       end
     end
   end

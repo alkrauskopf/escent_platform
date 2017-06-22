@@ -22,6 +22,22 @@ class Ifa::ApplicationController < ApplicationController
     @ifa_subjects = ActSubject.all_subjects
   end
 
+  def current_strands(options={})
+    @current_strands = options[:subject] ?  ActStandard.strands_for_subject(options[:subject]) : ActStandard.active
+  end
+
+  def current_levels
+    @current_levels = @current_subject ? ActScoreRange.active.for_subject(@current_subject) : []
+  end
+
+  def question_creators
+    @question_creators = ActQuestion.creators
+  end
+
+  def assessment_creators
+    @assessment_creators = ActAssessment.creators
+  end
+
   def entity_assessment_dashboard(entity, subject, begin_date, end_date)
     @cell_total = {}
     @cell_correct = {}

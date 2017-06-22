@@ -294,7 +294,7 @@
   font-size:13px;
 }
 .question_pool_box {
-  border:1px solid #ddd;
+  border:0px solid #ddd;
 }
 
 .assessment_question_box {
@@ -303,7 +303,7 @@
   overflow: scroll;
 }
 
-.question_pool_list {
+.repo_pool_list {
   border:1px solid #ddd;
   margin: 2em 0em 1em 0em;
 }
@@ -317,12 +317,12 @@
   text-align:center;
   vertical-align:middle;
 }
-.question_pool_select {
+.repo_pool_select {
   font-size:14px;
   color:$red_text;
   font-weight:normal;
 }
-.question_pool_text {
+.repo_pool_text {
   padding-top:1em;
   padding-bottom:.5em;
   font-size:12px;
@@ -342,7 +342,7 @@
   font-weight:bold;
   color:$red_text;
 }
-.question_pool_subject {
+.repo_pool_subject {
   padding-top:1em;
   line-height:1.5em;
   font-size:13px;

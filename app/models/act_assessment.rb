@@ -5,7 +5,9 @@ class ActAssessment < ActiveRecord::Base
   has_many :act_assessment_act_questions, :dependent => :destroy
   has_many :act_questions, :through => :act_assessment_act_questions, :order => "position ASC"
   has_many :act_assessment_classrooms, :dependent => :destroy
-  has_many :classrooms, :through => :act_assessment_classrooms, :order => "position"  
+  has_many :classrooms, :through => :act_assessment_classrooms, :order => "position"
+  has_many :act_assessment_act_standards, :dependent => :destroy
+  has_many :act_standards, :through => :act_assessment_act_standards, :order => "pos"
   has_many :act_answers
   has_many :act_submissions
   has_many :act_assessment_score_ranges
@@ -28,6 +30,7 @@ class ActAssessment < ActiveRecord::Base
   scope :active, :conditions => { :is_active => true }, :order => 'updated_at DESC'
   scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}}
   scope :until, lambda{| end_date| {:conditions => ["created_at <= ?", end_date]}}
+  scope :by_date, :order => 'updated_at DESC'
 
 
   def active?
@@ -47,6 +50,22 @@ class ActAssessment < ActiveRecord::Base
     self.is_calibrated
   end
 
+  def untagged?
+    self.lower_level.nil? || self.upper_level.nil? || self.strands.empty?
+  end
+
+  def self.untagged(assessments)
+    assessments.select{|a| a.untagged?}
+  end
+
+  def properly_tagged?
+    !self.lower_level.nil? && !self.upper_level.nil? && !self.strands.empty?
+  end
+
+  def self.properly_tagged(assessments)
+    assessments.select{|a| a.properly_tagged?}
+  end
+
   def questions_calibrated?
     self.act_questions.not_calibrated.empty?
   end
@@ -60,11 +79,19 @@ class ActAssessment < ActiveRecord::Base
   end
 
   def strands
+    self.act_standards
+  end
+
+  def question_strands
     self.act_questions.collect{|q| q.strand}.compact.uniq.sort_by{|s| s.pos}
   end
 
   def strand_string
     self.strands.empty? ?  'None' : self.strands.collect{|s| s.abbrev}.join(', ')
+  end
+
+  def self.creators
+    all.collect{|a| a.user}.compact.uniq.sort_by{|u| u.last_name}
   end
 
   def min_question_level

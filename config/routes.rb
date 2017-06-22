@@ -467,7 +467,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/repo/question/choice/update' => 'ifa/question_repo#choice_update'    # ifa_repo_question_choice_update_url
   get '/ifa/repo/question/rl/select' => 'ifa/question_repo#rl_select'           # ifa_repo_question_rl_select_url
   get '/ifa/repo/question/resource/attach' => 'ifa/question_repo#resource_attach'    # ifa_repo_question_resource_attacht_url
-  get '/ifa/repo/pool/select' => 'ifa/question_repo#question_list'    # ifa_repo_question_list_path
+  get '/ifa/repo/pool/select' => 'ifa/question_repo#question_list'    # ifa_repo_pool_select_path
   get '/ifa/repo/question/show' => 'ifa/question_repo#static_question'    # ifa_repo_question_show_path
   get '/ifa/repo/question/active' => 'ifa/question_repo#toggle_active'    # ifa_repo_question_active_url
   get '/ifa/repo/question/destroy' => 'ifa/question_repo#question_destroy'    # ifa_repo_question_destroy_url
@@ -483,6 +483,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/repo/assessment/question/toggle' => 'ifa/assessment_repo#toggle_add_question'    # ifa_repo_assessment_question_toggle_url
   get '/ifa/repo/assessment/question/position' => 'ifa/assessment_repo#question_position_update'    # ifa_repo_assessment_question_position_url
   get '/ifa/repo/assessment/filter' => 'ifa/assessment_repo#pool_filter'    # ifa_repo_assessment_filter_url
+  get '/ifa/repo/assessment/pool/select' => 'ifa/assessment_repo#assessment_list'    # ifa_repo_assessment_pool_select_path
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

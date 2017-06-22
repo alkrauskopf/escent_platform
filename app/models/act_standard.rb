@@ -16,6 +16,9 @@ class ActStandard < ActiveRecord::Base
   has_many :act_question_act_standards, :dependent => :destroy  
   has_many :act_questions, :through => :act_question_act_standards
 
+  has_many :act_assessment_act_standards, :dependent => :destroy
+  has_many :act_assessments, :through => :act_assessment_act_standards, :order => "pos"
+
   has_many :ifa_plan_milestones
  
   scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id]}}
@@ -65,5 +68,9 @@ class ActStandard < ActiveRecord::Base
 
   def subject_area
     self.act_subject.nil? ? nil : self.act_subject
+  end
+
+  def assessment
+    self.act_assessments
   end
 end

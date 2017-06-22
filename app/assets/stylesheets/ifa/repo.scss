@@ -136,7 +136,7 @@
   font-size:18px;
 }
 .repo_filter_row {
-  padding: 1.5em 0em .5em 0em;
+  padding: 1.5em 0em 1.5em 0em;
   font-size:13px;
 }
 .repo_filter_select {
@@ -294,8 +294,15 @@
   font-size:13px;
 }
 .question_pool_box {
-  border:0px solid #ddd;
+  border:1px solid #ddd;
 }
+
+.assessment_question_box {
+  border:1px solid #ddd;
+  max-height: 50em;
+  overflow: scroll;
+}
+
 .question_pool_list {
   border:1px solid #ddd;
   margin: 2em 0em 1em 0em;

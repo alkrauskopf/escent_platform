@@ -1,10 +1,8 @@
 <div id= "question_pool<%= @current_assessment.id %>">
   <div class="repo_assessment_pool_panel">
     <div class="row repo_header_label">
-        <%= pluralize(@question_pool.size, ' Question')%>&nbsp;In Pool
-    </div>
-    <div class="row repo_header_filter">
-        <%=@user_filter.nil? ? 'All Users':@user_filter.last_name.upcase%> |
+        <%= pluralize(@question_pool.size, ' Question')%>&nbsp;For &nbsp;
+        <%=@user_filter.nil? ? 'All Users':@user_filter.last_name %> |
         <%=@level_filter.nil? ? 'All Levels':@level_filter.range%> |
         <%=@strand_filter.nil? ? 'All Strands':@strand_filter.abbrev%>
     </div>
@@ -27,35 +25,35 @@
         </span>
       </div>
     </div>
-    <hr>
-
-  <% @question_pool.each do |question| %>
-    <div class="row question_pool_row">
-      <div class = "col-md-1 question_table_button">
-        <% button_color = 'button_blue'%>
-        <% button_label = 'Add'%>
-        <span id = "toggle_add_<%=question.id%>" class=<%=button_color%>>
-          <%=button_label %>
-        </span>
-      </div>
-      <div class = "col-md-11">
-        <%= render :partial => "question_info_row", :locals=>{:question=> question} %>
-      </div>
-      <script type="text/javascript">
-        jQ(document).ready(function() {
-          jQ("#toggle_add_<%=question.id%>").click(function(){
-            var url = "<%= ifa_repo_assessment_question_toggle_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
-            :act_assessment_id => @current_assessment.id, :act_question_id => question.id ) %>";
-            jQ.get(url, {}, function(data) {
-              jQ("#assessment_questions<%= @current_assessment.id %>").html(data);
-              jQ("#assessment_questions<%= @current_assessment.id %>").show();
+    <div class="assessment_question_box">
+      <% @question_pool.each do |question| %>
+        <div class="row question_pool_row">
+          <div class = "col-md-1 question_table_button">
+            <% button_color = 'button_blue'%>
+            <% button_label = 'Add'%>
+            <span id = "toggle_add_<%=question.id%>" class=<%=button_color%>>
+              <%=button_label %>
+            </span>
+          </div>
+          <div class = "col-md-11">
+            <%= render :partial => "question_info_row", :locals=>{:question=> question} %>
+          </div>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ("#toggle_add_<%=question.id%>").click(function(){
+                var url = "<%= ifa_repo_assessment_question_toggle_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+                :act_assessment_id => @current_assessment.id, :act_question_id => question.id ) %>";
+                jQ.get(url, {}, function(data) {
+                  jQ("#assessment_questions<%= @current_assessment.id %>").html(data);
+                  jQ("#assessment_questions<%= @current_assessment.id %>").show();
+                });
+              })
             });
-          })
-        });
-      </script>
+          </script>
+        </div>
+        <hr>
+      <% end %>
     </div>
-    <hr>
-  <% end %>
   <script type="text/javascript">
     jQ(document).ready(function() {
       jQ("#filter_<%=@current_assessment.id%>").click(function(){

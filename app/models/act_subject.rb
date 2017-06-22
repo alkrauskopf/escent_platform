@@ -77,6 +77,8 @@ class ActSubject < ActiveRecord::Base
         self.act_questions.for_user(user).for_level(level).enabled
       elsif !level.nil? && !strand.nil? && user.nil?
         self.act_questions.for_level(level).for_strand(strand).enabled
+      elsif !user.nil? && !strand.nil? && level.nil?
+        self.act_questions.for_level(user).for_strand(strand).enabled
       else
         self.act_questions.for_user(user).for_level(level).for_strand(strand).enabled
       end

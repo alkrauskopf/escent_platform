@@ -87,15 +87,15 @@ class ActQuestion < ActiveRecord::Base
   end
 
   def self.for_level(level)
-    where('act_score_range_id = ?', level.id)
+    level.nil? ? [] : where('act_score_range_id = ?', level.id)
   end
 
   def self.for_strand(strand)
-    where('act_standard_id = ?', strand.id)
+    strand.nil? ? [] : where('act_standard_id = ?', strand.id)
   end
 
   def self.for_user(user)
-    where('user_id = ?', user.id)
+    user.nil? ? [] : where('user_id = ?', user.id)
   end
 
   def destroyable?

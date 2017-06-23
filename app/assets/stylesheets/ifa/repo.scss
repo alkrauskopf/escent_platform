@@ -310,7 +310,7 @@
 }
 
 .repo_pool_list {
-  border:1px solid #ddd;
+  border:0px solid #ddd;
   margin: 2em 0em 1em 0em;
 }
 
@@ -390,4 +390,21 @@
 .assessment_position {
   font-size:13px;
   text-align:left;
+}
+.assessment_pool_name {
+  font-style: normal;
+  font-size:15px;
+  color:$blue_text;
+}
+.assessment_pool_comment {
+  font-style: normal;
+  font-size:13px;
+  color:$dark_text;
+}
+.assessment_pool_stats {
+  padding-top:1em;
+  line-height:1.5em;
+}
+.assessment_pool_button {
+  padding:1em 1em 1em 1em;
 }

@@ -3,12 +3,12 @@
     <div class="col-md-1 "></div>
     <div class="col-md-5">
       <div id="ass_user_select">
-        <%=  select( :ass_user, :id, @assessment_creators.collect{|s| [(s.name + ' | ' + s.organization.short_name), s.id]}, {:prompt => "Select An Assessment Creator"}) %>
+        <%=  select( :ass_user, :id, @assessment_creators.collect{|s| [(s.last_name + ' | ' + s.organization.short_name), s.id]}, {:prompt => "Assessment Creator"}) %>
       </div>
     </div>
     <div class="col-md-5 ">
       <div id="ass_strand_select">
-        <%=  select( :act_standard, :id,  @current_strands.collect{|s| [(s.act_subject.name + ' | ' +s.abbrev.upcase), s.id]}.push([' Untagged Assessments', 0]), {:prompt => "Select An Assessment Strand"}) %>
+        <%=  select( :ass_standard, :id,  @current_strands.collect{|s| [(s.act_subject.name + ' | ' +s.abbrev.upcase), s.id]}.push([' Empty Assessments', 0]), {:prompt => "Assessment Strand"}) %>
       </div>
     </div>
     <div class="col-md-1 "></div>
@@ -28,7 +28,7 @@
   <script type="text/javascript">
     jQ(document).ready(function() {
       jQ("#ass_strand_select").change(function(){
-        var entity_id = jQ('#act_standard_id').val();
+        var entity_id = jQ('#ass_standard_id').val();
         var url = "<%= ifa_repo_assessment_pool_select_url(:organization_id => @current_organization, :entity_class => 'ActStandard') %>";
         jQ.get(url, {'entity_id': entity_id}, function(data) {
           jQ("#assessment_pool").html(data);
@@ -37,116 +37,97 @@
       })
     });
   </script>
-  <% if false %>
   <% if @entity_assessments %>
     <div class="row repo_pool_list">
-      <div class= "col-md-1"></div>
-      <div class= "col-md-10 ">
+      <div class= "col-md-12 ">
         <div class="repo_panel repo_pool_header_label">
-          <%= pluralize(@entity_assessments.size, ' ' + (@current_entity.nil? ? 'Untagged':@current_entity.name) + ' Assessment') %>
+          <%= pluralize(@entity_assessments.size, ' ' + (@current_entity.nil? ? 'Empty':@current_entity.name) + ' Assessment') %>
         </div>
-        <% @entity_assessments.each do |ass| %>
-          <div class="row repo_pool_text">
-            <div class= "col-md-3 repo_pool_subject">
-              <div ><%= ass.act_subject.name %></div>
-              <div >
-                <% if ass.mastery_level.nil? %>
-                  No Level
-                <% else %>
-                    <%= mastery_label(ass.mastery_level, true)%><br/>
-                <% end %>
-              </div>
-              <div >
-                <%= ass.strand.nil? ? "No Strand" : (ass.strand.abbrev.upcase) %>
-              </div>
-              <div>
-                <%= pluralize(ass.benchmarks.size, ' Tagged Benchmark') %>
-              </div>
-              <% if !ass.active? %>
-                <div class=" ass_disabled">
-                  Disabled
-                </div>
-              <% end %>
-              <div >
-                <%= ass.user ? ass.user.last_name.upcase : 'Former User' %>
-              </div>
+      </div>
+    </div>
+    <% @entity_assessments.each do |ass| %>
+      <div class="row repo_pool_text">
+        <div class= "col-md-2 repo_pool_subject">
+          <div >
+            <%= ass.act_subject.name %>
+          </div>
+          <div >
+            <%= ass.min_score%> - <%= ass.max_score%>
+          </div>
+          <% if !ass.active? %>
+            <div class=" ass_disabled">
+              Disabled
             </div>
-            <div class= "col-md-7">
-              <div class="question_pool_question">
-                <%= ass.question.html_safe%>
-              </div>
-              <div class="question_pool_reading">
-                <% if question.reading? %>
-                  <div >
-                    READING:&nbsp;<%= question.reading.label%>
-                  </div>
-                  <div >
-                    GENRE:&nbsp;<%= question.reading_genre %>
-                  </div>
-                  <% if question.content %>
-                    <div >
-                      RL Attachment: <%=question.content.title.titleize %>
-                    </div>
-                  <% end %>
-                <% end %>
-                <% if !question.comment.nil? && question.comment != '' %>
-                  COMMENT:&nbsp;<%= question.comment %>
-                <% end %>
-              </div>
-              <div class="question_pool_tags">
-                <% if ass.calibrated? %>
-                  <div >
-                    Calibrated
-                  </div>
-                <% end %>
-              </div>
+          <% end %>
+          <% if !ass.calibrated? %>
+            <div class=" ass_disabled">
+              Calibrated
             </div>
-            <div class= "col-md-2">
-              <div class="row">
-                <div class="col-md-6 question_pool_button">
-                  <%= link_to 'View', ifa_question_show_path(:organization_id => @current_organization, :question_id => question.public_id), {:class => 'button_gray', :target => '_blank'} %>
-                </div>
-                <div class="col-md-6 question_pool_button">
-                  <% if @current_user.id == question.user_id || @current_user_app_admin %>
-                    <%= link_to 'Edit', ifa_repo_question_edit_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_question_id => question.id), {:class => 'button_gray', :target => '_blank'} %>
-                  <% end %>
-                </div>
-              </div>
-              <% if question.question_image.present? %>
-                <div class="row">
-                  <div class="col-md-12 question_pool_image">
-                    <%= image_tag question.question_image(:small_thumb) %>
-                  </div>
-                </div>
-              <% end %>
-              <% if (@current_user.id == question.user_id || @current_user_app_admin) && question.destroyable? %>
-                  <div class="row">
-                    <div class="col-md-12 question_pool_image">
-                      <span id = "destroy_<%=question.id%>" class="button_red">
-                        Destroy Question
-                      </span>
-                    </div>
-                  </div>
-                  <script type="text/javascript">
-                    jQ(document).ready(function() {
-                      jQ("#destroy_<%=question.id%>").click(function(){
-                        var url = "<%= ifa_repo_question_destroy_url(:organization_id => @current_organization,
-                                    :entity_class => (@current_entity.nil? ? '' : @current_entity.class.to_s), :entity_id => (@current_entity.nil? ? 0 :@current_entity.id), :act_question_id => question.id ) %>";
-                        jQ.get(url, {}, function(data) {
-                          jQ("#question_pool").html(data);
-                          jQ("#question_pool").show();
-                        });
-                      })
-                    });
-                  </script>
+          <% end %>
+          <div >
+            <%= ass.user ? ass.user.last_name.upcase : 'Former User' %>
+          </div>
+        </div>
+        <div class= "col-md-2 repo_pool_subject">
+          <% ass.strands.each do |strand| %>
+            <div>
+              <%= strand.abbrev %>
+            </div>
+          <% end %>
+        </div>
+        <div class= "col-md-5">
+          <div class="assessment_pool_name">
+            <%= ass.name%>
+          </div>
+          <% if ass.comment != '' %>
+            <div class="assessment_pool_name">
+              COMMENT: <%= ass.comment %>
+            </div>
+          <% end %>
+          <div class="assessment_pool_name">
+            <%= pluralize(ass.act_questions.size, ' Question') %>
+          </div>
+          <div class="assessment_pool_name">
+            Used In <%= pluralize(ass.classrooms.size, ' Offering') %>
+          </div>
+        </div>
+        <div class= "col-md-3">
+          <div class="row">
+            <div class="col-md-6 assessment_pool_button">
+              <%= link_to "View", ifa_assessment_submit_path(:organization_id => @current_organization, :assessment_id => ass,
+                                                                :function => "preview"), {:class => "button_gray", :target => "_blank"} %>
+            </div>
+            <div class="col-md-6 assessment_pool_button">
+              <% if @current_user.id == ass.user_id || @current_user_app_admin %>
+                  <%= link_to 'Edit', ifa_repo_assessment_edit_path(:organization_id => @current_organization,
+                                                                  :act_subject_id => ass.act_subject.id, :act_assessment_id => ass.id), {:class => 'button_gray', :target => '_blank'} %>
               <% end %>
             </div>
           </div>
-          <hr>
-        <% end %>
+          <% if (@current_user.id == ass.user_id || @current_user_app_admin) && ass.destroyable? %>
+            <div class="row">
+              <div class="col-md-12 assessment_pool_button">
+                <span id = "destroy_<%=ass.id%>" class="button_red">
+                  Destroy Assessment
+                </span>
+              </div>
+            </div>
+            <script type="text/javascript">
+              jQ(document).ready(function() {
+                jQ("#destroy_<%=ass.id%>").click(function(){
+                  var url = "<%= ifa_repo_assessment_destroy_url(:organization_id => @current_organization,
+                              :entity_class => (@current_entity.nil? ? '' : @current_entity.class.to_s), :entity_id => (@current_entity.nil? ? 0 :@current_entity.id), :act_assessment_id => ass.id ) %>";
+                  jQ.get(url, {}, function(data) {
+                    jQ("#assessment_pool").html(data);
+                    jQ("#assessment_pool").show();
+                  });
+                })
+              });
+            </script>
+          <% end %>
+        </div>
       </div>
-      <div class= "col-md-1"></div>
-    </div>
-  <% end %>
+      <hr>
+    <% end %>
   <% end %>
 </div>

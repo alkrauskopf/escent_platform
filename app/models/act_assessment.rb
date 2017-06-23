@@ -46,6 +46,10 @@ class ActAssessment < ActiveRecord::Base
     self.is_locked
   end
 
+  def destroyable?
+    !self.active?
+  end
+
   def calibrated?
     self.is_calibrated
   end
@@ -56,6 +60,10 @@ class ActAssessment < ActiveRecord::Base
 
   def self.untagged(assessments)
     assessments.select{|a| a.untagged?}
+  end
+
+  def self.empties
+    ActAssessment.all.select{|a| a.act_assessment_act_questions.empty?}
   end
 
   def properly_tagged?
@@ -71,7 +79,8 @@ class ActAssessment < ActiveRecord::Base
   end
 
   def all_questions
-    self.act_assessment_act_questions.by_position.collect{|aq| aq.act_question}
+ #   self.act_assessment_act_questions.by_position.collect{|aq| aq.act_question}
+    self.act_questions.uniq
   end
 
   def mastery_levels

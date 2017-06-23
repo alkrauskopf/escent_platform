@@ -88,18 +88,31 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
     end
 
     def assessment_list
-      if params[:entity_id] == '0'
-        @entity_assessments = ActAssessment.untagged(ActAssessment.all)
-      else
-        get_entity
-        @entity_assessments = @current_entity.act_assessments.by_date
-      end
+      assessment_pool
       assessment_creators
-      current_strands
+      current_strands(:standard=>@current_standard)
       render :partial =>  "assessment_list"
     end
 
-  private
+    def edit
+      get_current_assessment
+      ifa_subjects
+      question_pool
+      @function = 'Update'
+      render :index
+    end
+
+    def destroy
+      get_current_assessment
+      @current_assessment.destroy
+      assessment_pool
+      assessment_creators
+      current_strands(:standard=>@current_standard)
+      render :partial =>  "assessment_list"
+    end
+
+
+    private
 
     def function
       @function = params[:function] ? params[:function]: nil
@@ -153,10 +166,23 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
     end
 
     def get_entity
-      if params[:entity_class] == 'User'
+      if params[:entity_class] && params[:entity_class] == 'User'
         @current_entity = User.find_by_id(params[:entity_id]) rescue nil
-      elsif params[:entity_class] == 'ActStandard'
+      elsif params[:entity_class] && params[:entity_class] == 'ActStandard'
         @current_entity = ActStandard.find_by_id(params[:entity_id]) rescue nil
+      else
+        @current_entity = nil
       end
+    end
+
+    def assessment_pool
+      if params[:entity_id] && params[:entity_id] == '0'
+        @entity_assessments = ActAssessment.empties
+      else
+        get_entity
+        @entity_assessments = @current_entity.act_assessments
+      end
+      assessment_creators
+      current_strands(:standard=>@current_standard)
     end
   end

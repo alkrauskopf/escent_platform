@@ -3,7 +3,7 @@
     <div class="col-md-1 "></div>
     <div class="col-md-5">
       <div id="user_select">
-        <%=  select( :user, :id, @question_creators.collect{|s| [(s.name + ' | ' + s.organization.short_name), s.id]}, {:prompt => "Select A Question Creator"}) %>
+        <%=  select( :user, :id, @question_creators.collect{|s| [(s.last_name + ' | ' + s.organization.short_name), s.id]}, {:prompt => "Select A Question Creator"}) %>
       </div>
     </div>
     <div class="col-md-5 ">

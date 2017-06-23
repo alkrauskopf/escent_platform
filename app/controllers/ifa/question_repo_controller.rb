@@ -173,7 +173,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
       @entity_questions = @current_entity.act_questions.by_date
     end
     question_creators
-    current_strands
+    current_strands(:standard=>@current_standard)
     render :partial =>  "question_list"
   end
 

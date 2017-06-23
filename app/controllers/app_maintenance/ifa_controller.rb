@@ -124,6 +124,22 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     render :partial =>  "tools", :locals=>{}
   end
 
+
+  def tool_e
+    @tool_e_assessment_count = ActAssessment.all.size
+    @tool_e_assessments_with_dup_q = 0
+    @tool_e_dups = []
+
+    ActAssessment.all.each do |a|
+      if a.act_questions.size != a.act_questions.uniq.size
+        @tool_e_assessments_with_dup_q += 1
+        @tool_e_dups << a
+      end
+    end
+    @tool_e_summary = 'Tool E Summary'
+    render :partial =>  "tools", :locals=>{}
+  end
+
   def standard_maint_select
     standards
     render :partial =>  "manage_standards", :locals=>{}

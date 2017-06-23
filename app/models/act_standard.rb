@@ -17,13 +17,36 @@ class ActStandard < ActiveRecord::Base
   has_many :act_questions, :through => :act_question_act_standards
 
   has_many :act_assessment_act_standards, :dependent => :destroy
-  has_many :act_assessments, :through => :act_assessment_act_standards, :order => "pos"
+  has_many :act_assessments, :through => :act_assessment_act_standards
 
   has_many :ifa_plan_milestones
  
   scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id]}}
 #  scope :for_standard_and_subject, lambda{|standard, subject| {:conditions => ["act_subject_id = ? && act_master_id = ? ", subject.id, standard.id], :order => "abbrev"}}
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ?", subject.id]}}
+
+
+  def self.active_strands(options={})
+    if options[:subject].nil? && options[:standard].nil?
+      where('is_active').includes(:act_subject, :act_master).order('act_subjects.name DESC, act_masters.abbrev ASC, pos')
+    elsif options[:subject].nil? && !options[:standard].nil?
+      where('act_master_id = ? AND is_active', options[:standard].id).includes(:act_subject).order('act_subjects.name ASC, pos')
+    elsif !options[:subject].nil? && options[:standard].nil?
+      where('act_subject_id = ? AND is_active', options[:subject].id).includes(:act_master).order('act_masters.abbrev ASC, pos')
+    elsif !options[:subject].nil? && !options[:standard].nil?
+      where('act_master_id = ? AND act_subject_id = ? AND is_active', options[:standard].id, options[:subject].id).order('pos')
+    else
+      []
+    end
+  end
+
+  def self.strands
+    where('is_active').order('pos ASC')
+  end
+
+  def self.strands_for_subject(subject)
+    where('act_subject_id = ? AND is_active', subject.id).order('pos ASC') rescue []
+  end
 
   def self.for_standard_and_subject(standard, subject)
     subj = subject.class.to_s == 'Fixnum' ? (ActSubject.find_by_id(subject) rescue nil) : subject
@@ -54,14 +77,6 @@ class ActStandard < ActiveRecord::Base
     where('is_active').order('pos ASC')
   end
 
-  def self.strands
-    where('is_active').order('pos ASC')
-  end
-
-  def self.strands_for_subject(subject)
-    where('act_subject_id = ? AND is_active', subject.id).order('pos ASC') rescue []
-  end
-
   def standard
     self.act_master
   end
@@ -70,7 +85,7 @@ class ActStandard < ActiveRecord::Base
     self.act_subject.nil? ? nil : self.act_subject
   end
 
-  def assessment
+  def assessments
     self.act_assessments
   end
 end

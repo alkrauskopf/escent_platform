@@ -23,7 +23,7 @@ class Ifa::ApplicationController < ApplicationController
   end
 
   def current_strands(options={})
-    @current_strands = options[:subject] ?  ActStandard.strands_for_subject(options[:subject]) : ActStandard.active
+    @current_strands = ActStandard.active_strands(:subject=>options[:subject], :standard=>options[:standard])
   end
 
   def current_levels

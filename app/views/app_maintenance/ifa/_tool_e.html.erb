@@ -1,0 +1,36 @@
+<div id="tool_e">
+  <div class="row tool_row">
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_e" class='button_gray enabled'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Find Dup Question Assessments
+      <% if !@tool_e_summary.nil? %>
+        <div class="row tool_sumry">
+          <%=@tool_e_summary %><br/>
+          <%= pluralize(@tool_e_assessment_count, ' Assessment') %><br/>
+          <%= pluralize(@tool_e_assessments_with_dup_q, ' Dup Question Assessment') %><br/><br/>
+          <% @tool_e_dups.each_with_index do |ass,idx| %>
+          <div>
+            <%= idx+1%>)&nbsp;<%=ass.name %> | <%=ass.act_subject.name %> | <%= pluralize(ass.act_questions.size, ' Dup') %>&nbsp;<%= pluralize(ass.act_questions.uniq.size, ' Uniq') %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_e").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_e_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tools").html(data);
+          jQ("#ools").show();
+        });
+      })
+    });
+  </script>
+</div>

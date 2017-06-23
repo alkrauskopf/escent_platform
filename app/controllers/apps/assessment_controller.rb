@@ -2859,7 +2859,7 @@ end
 
   def question_creators_strands
     @question_creators = ActQuestion.creators
-    @current_strands = ActStandard.for_standard(@current_user.standard_view)
+    @current_strands = ActStandard.active_strands(:standard=>@current_standard)
   end
 
   def assessment_creators

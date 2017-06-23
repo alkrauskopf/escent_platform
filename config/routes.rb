@@ -204,6 +204,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/maintenance/ifa/tool_b' => 'app_maintenance/ifa#tool_b' # app_maintenance_ifa_tool_b_url
   get '/app/maintenance/ifa/tool_c' => 'app_maintenance/ifa#tool_c' # app_maintenance_ifa_tool_c_url
   get '/app/maintenance/ifa/tool_d' => 'app_maintenance/ifa#tool_d' # app_maintenance_ifa_tool_d_url
+  get '/app/maintenance/ifa/tool_e' => 'app_maintenance/ifa#tool_e' # app_maintenance_ifa_tool_e_url
 
 
   # APPS Shared
@@ -487,6 +488,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/repo/assessment/filter' => 'ifa/assessment_repo#pool_filter'    # ifa_repo_assessment_filter_url
   get '/ifa/repo/assessment/pool/select' => 'ifa/assessment_repo#assessment_list'    # ifa_repo_assessment_pool_select_path
   get '/ifa/repo/assessment/refresh' => 'ifa/assessment_repo#refresh'    # ifa_repo_assessment_refresh_path
+  get '/ifa/repo/assessment/edit' => 'ifa/assessment_repo#edit'    # ifa_repo_assessment_edit_path
+  get '/ifa/repo/assessment/destroy' => 'ifa/assessment_repo#destroy'    # ifa_repo_assessment_destroy_url
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

@@ -6,7 +6,7 @@
         <% if @teacher %>
           <div class=" assess_button">
             <input type="hidden" name="teacher[teacher_id]" value="<%= @teacher.id %>">
-            <% button_class = preview ? 'btn btn-primary btn-xs enable' : 'btn btn-primary btn-xs disable' %>
+            <% button_class = @preview ? 'btn btn-primary btn-xs disable' : 'btn btn-primary btn-xs enable' %>
             <%= submit_tag 'Submit Assessment',:class => button_class, :confirm => "Are You Sure?" %>
             <span class='assess_button_label'><%=@teacher.last_name%></span>
           </div>

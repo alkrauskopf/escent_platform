@@ -81,6 +81,33 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     @tool_b_summary = 'Summary'
     render :partial =>  "tools", :locals=>{}
   end
+
+  def tool_c
+    @tool_c_question_count = ActQuestion.untagged.size
+    @tool_c_with_answer = 0
+    @tool_c_tot_answer = 0
+    @tool_c_with_assessment = 0
+    @tool_c_tot_assessment = 0
+    @tool_c_with_level = 0
+    @tool_c_with_strand = 0
+
+    ActQuestion.untagged.each do |q|
+      if !q.act_answers.empty?
+        @tool_c_with_answer += 1
+        @tool_c_tot_answer += q.act_answers.size
+      end
+      if !q.act_assessments.empty?
+        @tool_c_with_assessment += 1
+        @tool_c_tot_assessment += q.act_assessments.size
+      end
+      @tool_c_with_level += q.mastery_level ? 1 : 0
+      @tool_c_with_strand += q.strand ? 1 : 0
+      q.destroy
+    end
+    @tool_c_summary = 'Summary'
+    render :partial =>  "tools", :locals=>{}
+  end
+
   def standard_maint_select
     standards
     render :partial =>  "manage_standards", :locals=>{}

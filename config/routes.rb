@@ -202,6 +202,7 @@ EscentPartners::Application.routes.draw do |map|
   post '/app/maintenance/ifa/update_dashboard' => 'app_maintenance/ifa#update_dashboard' # app_maintenance_ifa_update_dashboard_url
   get '/app/maintenance/ifa/tool_a' => 'app_maintenance/ifa#tool_a' # app_maintenance_ifa_tool_a_url
   get '/app/maintenance/ifa/tool_b' => 'app_maintenance/ifa#tool_b' # app_maintenance_ifa_tool_b_url
+  get '/app/maintenance/ifa/tool_c' => 'app_maintenance/ifa#tool_c' # app_maintenance_ifa_tool_c_url
 
 
   # APPS Shared

@@ -12,8 +12,35 @@
     <div class= "col-md-1"></div>
     <div class= "col-md-10 ">
       <div class="repo_assessment_panel repo_header_label">
-        <%= pluralize(@assessment_questions.size, ' Assessment Question')%>&nbsp;Assigned
+        <div class="row">
+          <div class= "col-md-2">
+            <span class="button_blue repo_header_button" id="create_question">
+              <%= link_to 'Create Question', ifa_repo_question_add_path(:organization_id => @current_organization, :act_subject_id => @current_assessment.act_subject.id,
+              :act_assessment_id => @current_assessment.id), {class: 'button_blue', :target=>'_blank'}  %>
+            </span>
+          </div>
+          <div class= "col-md-8 ">
+            <%= pluralize(@assessment_questions.size, ' Assessment Question')%>
+          </div>
+          <div class= "col-md-2">
+            <span class="button_gray repo_header_button" id="refresh_assessment">
+              Refresh
+            </span>
+          </div>
+        </div>
       </div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#refresh_assessment").click(function(){
+            var url = "<%= ifa_repo_assessment_refresh_url(:organization_id => @current_organization, :act_assessment_id => @current_assessment.id,
+            :filter_user_id => (@user_filter ? @user_filter.id : ''), :filter_level_id => (@level_filter ? @level_filter.id : ''), :filter_strand_id => (@strand_filter ? @strand_filter.id : '')) %>";
+            jQ.get(url, {}, function(data) {
+              jQ("#assessment_questions<%= @current_assessment.id %>").html(data);
+              jQ("#assessment_questions<%= @current_assessment.id %>").show();
+            });
+          })
+        });
+      </script>
       <% @assessment_questions.each do |question| %>
         <div class="row question_table">
           <div class = "col-md-1 question_table_button">

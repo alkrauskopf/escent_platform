@@ -1,6 +1,4 @@
 <div id= 'question_assignments_<%= @current_question.id %>' class="repo_tags_box">
-  <%= render :partial => 'question_buttons'%>
-  <% if @current_question.active? %>
     <hr>
     <div class="row">
       <div class= "col-md-1"></div>
@@ -61,5 +59,4 @@
         })
       });
     </script>
-  <% end %>
 </div>

@@ -28,8 +28,8 @@
         var url = "<%= ifa_repo_question_active_url(:organization_id => @current_organization,
                   :act_question_id => @current_question.id, :function => 'Active' ) %>";
         jQ.get(url, {}, function(data) {
-          jQ("#question_assignments_<%= @current_question.id %>").html(data);
-          jQ("#question_assignments_<%= @current_question.id %>").show();
+          jQ("#question_answers_<%= @current_question.id %>").html(data);
+          jQ("#question_answers_<%= @current_question.id %>").show();
         });
       })
     });
@@ -40,8 +40,8 @@
         var url = "<%= ifa_repo_question_active_url(:organization_id => @current_organization,
                   :act_question_id => @current_question.id, :function => 'Calibrate' ) %>";
         jQ.get(url, {}, function(data) {
-          jQ("#question_assignments_<%= @current_question.id %>").html(data);
-          jQ("#question_assignments_<%= @current_question.id %>").show();
+          jQ("#question_answers_<%= @current_question.id %>").html(data);
+          jQ("#question_answers_<%= @current_question.id %>").show();
         });
       })
     });

@@ -123,6 +123,10 @@
   font-weight:bold;
   text-align:center;
 }
+.repo_header_button {
+  font-size:11px;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+}
 .repo_header_filter {
   font-weight:normal;
   text-align:center;
@@ -237,11 +241,13 @@
   border-bottom:1px solid #ddd;
 }
 .benchmark_table_button {
+  padding:1em 0em .5em 0em;
   font-size:13px;
   text-align:center;
   vertical-align:top;
 }
 .benchmark_table_source {
+  padding:1em 0em .5em 0em;
   font-size:14px;
   color: $red_text;
   line-height:1.5em;
@@ -249,8 +255,8 @@
   vertical-align:top;
 }
 .benchmark_table_descript {
+  padding:1em 1em 1em 1em;
   text-align:left;
-  padding:0em 1em 1em 1em;
   vertical-align:top;
   line-height:1.5em;
   font-size:15px;

@@ -11,6 +11,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
 
   def index
     ifa_subjects
+    get_current_assessment
     if params[:act_subject] && params[:act_subject][:id] && params[:act_subject][:id] != ''
       @current_subject = ActSubject.find_by_id(params[:act_subject][:id]) rescue ActSubject.all_subjects.first
     else
@@ -41,30 +42,6 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     render :partial =>  "update_question_rls", :locals => {:resource_type => resource_type}
   end
 
-  def strand_select_x
-    get_current_question
-    get_current_strand
-    if @current_question.strands.include?(@current_strand)
-      @current_question.strand_remove(@current_strand)
-    else
-      @current_question.act_standards << @current_strand
-    end
-    available_strands_levels(@current_question)
-    render :partial =>  "update_question_tags"
-  end
-
-  def level_select_x
-    get_current_question
-    get_current_level
-    if @current_question.levels.include?(@current_level)
-      @current_question.level_remove(@current_level)
-    else
-      @current_question.act_score_ranges << @current_level
-    end
-    available_strands_levels(@current_question)
-    render :partial =>  "update_question_tags"
-  end
-
   def assessment_select
     get_current_question
     get_current_assessment
@@ -85,10 +62,10 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     elsif params[:function] == 'Calibrate'
       @current_question.update_attributes(:is_calibrated => !@current_question.is_calibrated)
     end
-    available_strands_levels(@current_question)
-    available_benchmarks(@current_question)
-    available_assessments(@current_question)
-    render :partial =>  "update_question_assignments"
+#    available_strands_levels(@current_question)
+#    available_benchmarks(@current_question)
+#    available_assessments(@current_question)
+    render :partial =>  "update_question_choices"
   end
 
   def benchmark_attach
@@ -120,6 +97,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     ifa_subjects
     related_readings
     get_current_reading
+    get_current_assessment
     if function == 'Create'
       @current_question = ActQuestion.new
     else
@@ -267,6 +245,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
       @current_benchmark = ActBench.find_by_id(params[:act_benchmark_id]) rescue nil
     end
   end
+
   def get_current_resource
     if params[:resource_id]
       @current_resource = Content.find_by_id(params[:resource_id]) rescue nil
@@ -340,6 +319,13 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
         if !@current_question.act_question_reading.nil?
           @current_question.act_question_reading.destroy
         end
+      end
+      if @current_assessment
+        assessment_join = ActAssessmentActQuestion.new
+        assessment_join.act_assessment_id = @current_assessment.id
+        assessment_join.position = 1
+        @current_question.act_assessment_act_questions << assessment_join
+        flash[:notice] << ' AND Added To Assessment'
       end
     else
       flash[:error] = @current_question.errors.full_messages.to_sentence

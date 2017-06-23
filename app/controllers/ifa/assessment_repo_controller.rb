@@ -54,6 +54,14 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
       render :partial =>  "assessment_questions"
     end
 
+    def refresh
+      get_current_assessment
+      calibrate_assessment
+      byebug
+      question_pool
+      render :partial =>  "assessment_questions"
+    end
+
     def toggle_active
       get_current_assessment
       if params[:function] == 'Active'

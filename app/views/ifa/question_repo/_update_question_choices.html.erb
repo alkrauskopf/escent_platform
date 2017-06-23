@@ -1,149 +1,153 @@
 <div id= 'question_answers_<%= @current_question.id %>' class="repo_tags_box">
-  <div class="row">
-    <div class= "col-md-1"></div>
-    <div class= "col-md-10 ">
-      <div class="repo_q_choice_panel repo_header_label">
-        <%= pluralize(@current_question.all_choices.size, ' Question Choice') %>
-      </div>
-      <%= render :partial => "/shared/error_and_notice" %>
-      <div class="row new_choice_table">
-        <table >
-          <tbody>
-          <colgroup>
-            <col style="width:10%">
-            <col style="width:10%">
-            <col style="width:80%">
-          </colgroup>
-          <tr>
-            <td class="choice_table_button">
-              <span id = "add_choice" class="button_blue">
-                Add
-              </span>
-            </td>
-            <td class="choice_table_position">
-              <%= text_field :choice, :position, :value => @current_question.all_choices.size + 1, :size => 2, :maxlength => 2%>
-            </td>
-            <td >
-              <%= text_area :choice, :description, :rows=>2, :cols => 60, :placeholder=>'Add Answer Choice' %>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="row choice_table">
-        <table >
-          <tbody>
-          <colgroup>
-            <col style="width:10%">
-            <col style="width:10%">
-            <col style="width:10%">
-            <col style="width:50%">
-            <col style="width:10%">
-            <col style="width:10%">
-          </colgroup>
-          <% @current_question.all_choices.each do |choice| %>
+  <%= render :partial => 'question_buttons'%>
+  <% if @current_question.multiple_choice? %>
+    <hr>
+    <div class="row">
+      <div class= "col-md-1"></div>
+      <div class= "col-md-10 ">
+        <div class="repo_q_choice_panel repo_header_label">
+          <%= pluralize(@current_question.all_choices.size, ' Question Choice') %>
+        </div>
+        <%= render :partial => "/shared/error_and_notice" %>
+        <div class="row new_choice_table">
+          <table >
+            <tbody>
+            <colgroup>
+              <col style="width:10%">
+              <col style="width:10%">
+              <col style="width:80%">
+            </colgroup>
             <tr>
               <td class="choice_table_button">
-                <% button_color = choice.active? ? 'button_green' : 'button_red'%>
-                <% button_label = choice.active? ? 'Active' : 'Inactive'%>
-                <span id = "toggle_active_<%=choice.id%>" class=<%=button_color%>>
-                  <%=button_label %>
-                </span>
-              </td>
-              <td class="choice_table_button">
-                <% button_color = choice.correct? ? 'button_green' : 'button_red'%>
-                <% button_label = choice.correct? ? 'Correct' : 'Incorrect'%>
-                <span id = "toggle_correct_<%=choice.id%>" class=<%=button_color%>>
-                  <%=button_label %>
+                <span id = "add_choice" class="button_blue">
+                  Add
                 </span>
               </td>
               <td class="choice_table_position">
-                <%= text_field :position, choice.id, :value => choice.position, :size => 2, :maxlength => 2%>
+                <%= text_field :choice, :position, :value => @current_question.all_choices.size + 1, :size => 2, :maxlength => 2%>
               </td>
               <td >
-                <%= text_area :description, choice.id, :rows=>2, :cols => 50, :value => choice.choice %>
-              </td>
-              <td class="choice_table_button">
-                <span id = "update_<%=choice.id%>" class='button_blue'>
-                  Change
-                </span>
-              </td>
-              <td class="choice_table_button">
-                <% if choice.destroyable? %>
-                  <span id = "destroy_<%=choice.id%>" class='button_red'>
-                    Destroy
-                  </span>
-                <% end %>
+                <%= text_area :choice, :description, :rows=>2, :cols => 60, :placeholder=>'Add Answer Choice' %>
               </td>
             </tr>
-            <script type="text/javascript">
-              jQ(document).ready(function() {
-                jQ("#toggle_active_<%=choice.id%>").click(function(){
-                  var url = "<%= ifa_repo_question_choice_active_url(:organization_id => @current_organization,
-                  :act_question_id => @current_question.id, :act_choice_id => choice.id ) %>";
-                  jQ.get(url, {}, function(data) {
-                    jQ("#question_answers_<%= @current_question.id %>").html(data);
-                    jQ("#question_answers_<%= @current_question.id %>").show();
+          </table>
+        </div>
+        <div class="row choice_table">
+          <table >
+            <tbody>
+            <colgroup>
+              <col style="width:10%">
+              <col style="width:10%">
+              <col style="width:10%">
+              <col style="width:50%">
+              <col style="width:10%">
+              <col style="width:10%">
+            </colgroup>
+            <% @current_question.all_choices.each do |choice| %>
+              <tr>
+                <td class="choice_table_button">
+                  <% button_color = choice.active? ? 'button_green' : 'button_red'%>
+                  <% button_label = choice.active? ? 'Active' : 'Inactive'%>
+                  <span id = "toggle_active_<%=choice.id%>" class=<%=button_color%>>
+                    <%=button_label %>
+                  </span>
+                </td>
+                <td class="choice_table_button">
+                  <% button_color = choice.correct? ? 'button_green' : 'button_red'%>
+                  <% button_label = choice.correct? ? 'Correct' : 'Incorrect'%>
+                  <span id = "toggle_correct_<%=choice.id%>" class=<%=button_color%>>
+                    <%=button_label %>
+                  </span>
+                </td>
+                <td class="choice_table_position">
+                  <%= text_field :position, choice.id, :value => choice.position, :size => 2, :maxlength => 2%>
+                </td>
+                <td >
+                  <%= text_area :description, choice.id, :rows=>2, :cols => 50, :value => choice.choice %>
+                </td>
+                <td class="choice_table_button">
+                  <span id = "update_<%=choice.id%>" class='button_blue'>
+                    Change
+                  </span>
+                </td>
+                <td class="choice_table_button">
+                  <% if choice.destroyable? %>
+                    <span id = "destroy_<%=choice.id%>" class='button_red'>
+                      Destroy
+                    </span>
+                  <% end %>
+                </td>
+              </tr>
+              <script type="text/javascript">
+                jQ(document).ready(function() {
+                  jQ("#toggle_active_<%=choice.id%>").click(function(){
+                    var url = "<%= ifa_repo_question_choice_active_url(:organization_id => @current_organization,
+                    :act_question_id => @current_question.id, :act_choice_id => choice.id ) %>";
+                    jQ.get(url, {}, function(data) {
+                      jQ("#question_answers_<%= @current_question.id %>").html(data);
+                      jQ("#question_answers_<%= @current_question.id %>").show();
+                    });
+                  })
+                });
+              </script>
+                <script type="text/javascript">
+                  jQ(document).ready(function() {
+                    jQ("#toggle_correct_<%=choice.id%>").click(function(){
+                      var url = "<%= ifa_repo_question_choice_correct_url(:organization_id => @current_organization,
+                    :act_question_id => @current_question.id, :act_choice_id => choice.id ) %>";
+                      jQ.get(url, {}, function(data) {
+                        jQ("#question_answers_<%= @current_question.id %>").html(data);
+                        jQ("#question_answers_<%= @current_question.id %>").show();
+                      });
+                    })
                   });
-                })
-              });
-            </script>
-              <script type="text/javascript">
-                jQ(document).ready(function() {
-                  jQ("#toggle_correct_<%=choice.id%>").click(function(){
-                    var url = "<%= ifa_repo_question_choice_correct_url(:organization_id => @current_organization,
-                  :act_question_id => @current_question.id, :act_choice_id => choice.id ) %>";
-                    jQ.get(url, {}, function(data) {
-                      jQ("#question_answers_<%= @current_question.id %>").html(data);
-                      jQ("#question_answers_<%= @current_question.id %>").show();
-                    });
-                  })
-                });
-              </script>
-              <script type="text/javascript">
-                jQ(document).ready(function() {
-                  jQ("#destroy_<%=choice.id%>").click(function(){
-                    var url = "<%= ifa_repo_question_choice_destroy_url(:organization_id => @current_organization,
-                  :act_question_id => @current_question.id, :act_choice_id => choice.id ) %>";
-                    jQ.get(url, {}, function(data) {
-                      jQ("#question_answers_<%= @current_question.id %>").html(data);
-                      jQ("#question_answers_<%= @current_question.id %>").show();
-                    });
-                  })
-                });
-              </script>
-              <script type="text/javascript">
-                jQ(document).ready(function() {
-                  jQ("#update_<%=choice.id%>").click(function(){
-                    var position = jQ('#position_<%=choice.id%>').val();
-                    var description = jQ('#description_<%=choice.id%>').val();
-                    var url = "<%= ifa_repo_question_choice_update_url(:organization_id => @current_organization,
-                                :act_question_id => @current_question.id, :act_choice_id => choice.id ) %>";
-                    jQ.get(url, {'position': position, 'description': description}, function(data) {
-                      jQ("#question_answers_<%= @current_question.id %>").html(data);
-                      jQ("#question_answers_<%= @current_question.id %>").show();
-                    });
-                  })
-                });
-              </script>
-          <% end %>
-          </tbody>
-        </table>
+                </script>
+                <script type="text/javascript">
+                  jQ(document).ready(function() {
+                    jQ("#destroy_<%=choice.id%>").click(function(){
+                      var url = "<%= ifa_repo_question_choice_destroy_url(:organization_id => @current_organization,
+                    :act_question_id => @current_question.id, :act_choice_id => choice.id ) %>";
+                      jQ.get(url, {}, function(data) {
+                        jQ("#question_answers_<%= @current_question.id %>").html(data);
+                        jQ("#question_answers_<%= @current_question.id %>").show();
+                      });
+                    })
+                  });
+                </script>
+                <script type="text/javascript">
+                  jQ(document).ready(function() {
+                    jQ("#update_<%=choice.id%>").click(function(){
+                      var position = jQ('#position_<%=choice.id%>').val();
+                      var description = jQ('#description_<%=choice.id%>').val();
+                      var url = "<%= ifa_repo_question_choice_update_url(:organization_id => @current_organization,
+                                  :act_question_id => @current_question.id, :act_choice_id => choice.id ) %>";
+                      jQ.get(url, {'position': position, 'description': description}, function(data) {
+                        jQ("#question_answers_<%= @current_question.id %>").html(data);
+                        jQ("#question_answers_<%= @current_question.id %>").show();
+                      });
+                    })
+                  });
+                </script>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
       </div>
+      <div class= "col-md-1"></div>
     </div>
-    <div class= "col-md-1"></div>
-  </div>
 
-  <script type="text/javascript">
-    jQ(document).ready(function() {
-      jQ("#add_choice").click(function(){
-        var position = jQ('#choice_position').val();
-        var description = jQ('#choice_description').val();
-        var url = "<%= ifa_repo_question_choice_create_url(:organization_id => @current_organization, :act_question_id => @current_question.id) %>";
-        jQ.get(url, {'position': position, 'description': description}, function(data) {
-          jQ("#question_answers_<%= @current_question.id %>").html(data);
-          jQ("#question_answers_<%= @current_question.id %>").show();
-        });
-      })
-    });
-  </script>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#add_choice").click(function(){
+          var position = jQ('#choice_position').val();
+          var description = jQ('#choice_description').val();
+          var url = "<%= ifa_repo_question_choice_create_url(:organization_id => @current_organization, :act_question_id => @current_question.id) %>";
+          jQ.get(url, {'position': position, 'description': description}, function(data) {
+            jQ("#question_answers_<%= @current_question.id %>").html(data);
+            jQ("#question_answers_<%= @current_question.id %>").show();
+          });
+        })
+      });
+    </script>
+  <% end %>
 </div>

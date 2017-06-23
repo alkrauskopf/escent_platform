@@ -9,19 +9,26 @@
         <%= link_to  "Back", self.send(@current_application.link_path,{:organization_id => @current_organization}), :class => "button_gray" %>
       </div>
     </div>
+      <% if !@current_assessment.nil? %>
+        <div class= 'row panel_subtitle_blue'>
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            For Assessment:&nbsp;<%=@current_assessment.name %>
+          </div>
+          <div class="col-md-2"></div>
+        </div>
+      <% end %>
     <hr>
     <%= render :partial => "/shared/error_and_notice" %>
     <%= render :partial =>  "form_question", :locals=>{}%>
   <% if @function == 'Update' %>
-    <%= render :partial =>  "update_question_assignments", :locals=>{}%>
-    <hr>
-    <% if @current_question.multiple_choice? %>
-      <%= render :partial =>  "update_question_choices", :locals=>{}%>
-    <% end %>
+    <%= render :partial =>  "update_question_choices", :locals=>{}%>
     <hr>
     <%= render :partial =>  "update_question_benchmarks", :locals=>{}%>
     <hr>
     <%= render :partial =>  "update_question_rls", :locals=>{:resource_type => nil}%>
+    <hr>
+    <%#= render :partial =>  "update_question_assignments", :locals=>{}%>
     <hr>
   <% end %>
   <% else %>

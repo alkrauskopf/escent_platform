@@ -484,6 +484,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/repo/assessment/question/position' => 'ifa/assessment_repo#question_position_update'    # ifa_repo_assessment_question_position_url
   get '/ifa/repo/assessment/filter' => 'ifa/assessment_repo#pool_filter'    # ifa_repo_assessment_filter_url
   get '/ifa/repo/assessment/pool/select' => 'ifa/assessment_repo#assessment_list'    # ifa_repo_assessment_pool_select_path
+  get '/ifa/repo/assessment/refresh' => 'ifa/assessment_repo#refresh'    # ifa_repo_assessment_refresh_path
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

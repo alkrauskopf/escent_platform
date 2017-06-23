@@ -2,7 +2,8 @@
   <% if !@current_question.nil?%>
     <%= form_for(:act_question,
                  :url => ifa_repo_question_create_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
-                                                       :act_question_id => @current_question.id, :function => @function), :html => {:multipart => true}) do |form| -%>
+                                                       :act_question_id => @current_question.id, :act_assessment_id => (@current_assessment.nil? ? nil:@current_assessment.id),
+                                                        :function => @function), :html => {:multipart => true}) do |form| -%>
       <div class="row repo_edit_row">
         <div class="col-md-3 repo_label_field">
           <%= @current_standard.abbrev %> Knowledge Strand

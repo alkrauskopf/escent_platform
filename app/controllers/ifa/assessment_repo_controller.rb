@@ -57,7 +57,6 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
     def refresh
       get_current_assessment
       calibrate_assessment
-      byebug
       question_pool
       render :partial =>  "assessment_questions"
     end

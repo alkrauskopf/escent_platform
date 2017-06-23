@@ -108,6 +108,37 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     render :partial =>  "tools", :locals=>{}
   end
 
+  def tool_d
+    @tool_d_assessment_count = ActAssessment.all.size
+    @tool_d_empty_assessment = 0
+
+    ActAssessment.all.each do |a|
+      if a.act_questions.empty?
+        @tool_d_empty_assessment += 1
+        a.destroy
+      else
+        upper_score = a.max_question_level.nil? ? 0 : a.max_question_level.upper_score
+        lower_score = a.min_question_level.nil? ? 0 : a.min_question_level.lower_score
+        a.update_attributes(:lower_level_id => (a.min_question_level.nil? ? nil : a.min_question_level.id),
+                                              :upper_level_id => (a.max_question_level.nil? ? nil : a.max_question_level.id),
+                                              :min_score => lower_score, :max_score => upper_score, :is_calibrated => a.questions_calibrated?,
+                                              :original_assessment_id => (a.original_assessment_id.nil? ? a.id : a.original_assessment_id))
+        if a.strands != a.question_strands
+          # Add differences
+          (a.question_strands - a.strands).each do |strand|
+            a.act_standards << strand
+          end
+          # Remove differences
+          (a.strands - a.question_strands).each do |strand|
+            a.act_assessment_act_standards.for_strand(strand).destroy_all
+          end
+        end
+      end
+    end
+    @tool_d_summary = 'Tool d Summary'
+    render :partial =>  "tools", :locals=>{}
+  end
+
   def standard_maint_select
     standards
     render :partial =>  "manage_standards", :locals=>{}

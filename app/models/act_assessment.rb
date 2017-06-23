@@ -106,6 +106,28 @@ class ActAssessment < ActiveRecord::Base
     self.act_assessment_act_questions.for_question(question)
   end
 
+  def reconstitute
+    upper_score = self.max_question_level.nil? ? 0 : self.max_question_level.upper_score
+    lower_score = self.min_question_level.nil? ? 0 : self.min_question_level.lower_score
+    self.update_attributes(:lower_level_id => (self.min_question_level.nil? ? nil : self.min_question_level.id),
+                                          :upper_level_id => (self.max_question_level.nil? ? nil : self.max_question_level.id),
+                                          :min_score => lower_score, :max_score => upper_score, :is_calibrated => self.questions_calibrated?,
+                                          :original_assessment_id => (self.original_assessment_id.nil? ? self.id : self.original_assessment_id))
+    if self.strands != self.question_strands
+      # Add differences
+      (self.question_strands - self.strands).each do |strand|
+        self.act_standards << strand
+      end
+      # Remove differences
+      (self.strands - self.question_strands).each do |strand|
+        self.act_assessment_act_standards.for_strand(strand).destroy_all
+      end
+    end
+  end
+
+
+  ################
+
   def question_pool_for(user)
     question_pool = self.act_subject.act_questions.active rescue []
     filter = user.ifa_user_option rescue nil

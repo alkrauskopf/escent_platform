@@ -91,7 +91,6 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
       if params[:entity_id] == '0'
         @entity_assessments = ActAssessment.untagged(ActAssessment.all)
       else
-        byebug
         get_entity
         @entity_assessments = @current_entity.act_assessments.by_date
       end
@@ -124,22 +123,7 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
 
     def calibrate_assessment
       get_current_assessment
-      upper_score = @current_assessment.max_question_level.nil? ? 0 : @current_assessment.max_question_level.upper_score
-      lower_score = @current_assessment.min_question_level.nil? ? 0 : @current_assessment.min_question_level.lower_score
-      @current_assessment.update_attributes(:lower_level_id => (@current_assessment.min_question_level.nil? ? nil : @current_assessment.min_question_level.id),
-      :upper_level_id => (@current_assessment.max_question_level.nil? ? nil : @current_assessment.max_question_level.id),
-      :min_score => lower_score, :max_score => upper_score, :is_calibrated => @current_assessment.questions_calibrated?,
-      :original_assessment_id => (@current_assessment.original_assessment_id.nil? ? @current_assessment.id : @current_assessment.original_assessment_id))
-      if @current_assessment.strands != @current_assessment.question_strands
-        # Add differences
-        (@current_assessment.question_strands - @current_assessment.strands).each do |strand|
-          @current_assessment.act_standards << strand
-        end
-        # Remove differences
-        (@current_assessment.strands - @current_assessment.question_strands).each do |strand|
-          @current_assessment.act_assessment_act_standards.for_strand(strand).destroy_all
-        end
-      end
+      @current_assessment.reconstitute
       get_current_assessment
     end
 

@@ -490,3 +490,20 @@
   font-weight:bold;
   color:$red_text;
 }
+.assessment_classroom_header {
+  margin:0em 0em .5em 0em;
+  text-align:center;
+  font-size:15px;
+  color:$blue_text;
+  font-weight:normal;
+}
+.assessment_classroom_list {
+  font-size:13px;
+  color:$dark_text;
+  font-weight:normal;
+}
+.assessment_disabled {
+  font-size:12px;
+  color:$red_text;
+  font-weight:bold;
+}

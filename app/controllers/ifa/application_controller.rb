@@ -160,6 +160,24 @@ class Ifa::ApplicationController < ApplicationController
       @question_set['align_score' + question.id.to_s] = question.alignment_score_for(@current_standard, 'PP')
     end
   end
+
+  def classroom_pools(assessments)
+    @classroom_set = {}
+    assessments.each do |ass|
+      @classroom_set['pool'+ ass.id.to_s] = @current_organization == @current_provider ? (Classroom.for_subject(ass.act_subject).precision_prep_provider(@current_provider)) :
+        @current_organization.classrooms.for_subject(ass.act_subject).select{|c| c.ifa_enabled?}
+      @classroom_set['available'+ ass.id.to_s] = @classroom_set['pool'+ ass.id.to_s] - ass.classrooms
+      @classroom_set['used'+ ass.id.to_s] = ass.classrooms
+    end
+  end
+
+  def classroom_pool(ass)
+    @classroom_set = {}
+      @classroom_set['pool'+ ass.id.to_s] = @current_organization == @current_provider ? (Classroom.for_subject(ass.act_subject).precision_prep_provider(@current_provider)) :
+          @current_organization.classrooms.for_subject(ass.act_subject).select{|c| c.ifa_enabled?}
+      @classroom_set['available'+ ass.id.to_s] = @classroom_set['pool'+ ass.id.to_s] - ass.classrooms
+      @classroom_set['used'+ ass.id.to_s] = ass.classrooms
+  end
   
   protected
   

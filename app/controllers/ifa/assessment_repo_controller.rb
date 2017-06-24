@@ -89,9 +89,22 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
 
     def assessment_list
       assessment_pool
-      assessment_creators
+      classroom_pools(@entity_assessments)
       current_strands(:standard=>@current_standard)
       render :partial =>  "assessment_list"
+    end
+
+    def classroom_assign
+      get_current_assessment
+      get_current_classroom
+      if !@current_assessment.classrooms.include?(@current_classroom)
+        @current_assessment.add_classroom(@current_classroom)
+      else
+        @current_assessment.remove_classroom(@current_classroom)
+      end
+      get_current_assessment
+      classroom_pool(@current_assessment)
+      render :partial => "assessment_classrooms", :locals => {:assessment => @current_assessment}
     end
 
     def edit
@@ -106,6 +119,7 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
       get_current_assessment
       @current_assessment.destroy
       assessment_pool
+      classroom_pools(@entity_assessments)
       assessment_creators
       current_strands(:standard=>@current_standard)
       render :partial =>  "assessment_list"
@@ -115,10 +129,6 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
       get_current_assessment
       assessment_classrooms
       assessment_performance(@current_assessment)
-    end
-
-    def analyze_question
-
     end
 
     private
@@ -152,6 +162,12 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
     def get_current_assessment
       if params[:act_assessment_id]
         @current_assessment = ActAssessment.find_by_id(params[:act_assessment_id]) rescue nil
+      end
+    end
+
+    def get_current_classroom
+      if params[:classroom_id]
+        @current_classroom = Classroom.find_by_id(params[:classroom_id]) rescue nil
       end
     end
 

@@ -47,20 +47,17 @@
     </div>
     <% @entity_assessments.each do |ass| %>
       <div class="row repo_pool_text">
-        <div class= "col-md-2 repo_pool_subject">
+        <div class= "col-md-2 assessment_pool_name">
           <div >
             <%= ass.act_subject.name %>
           </div>
-          <div >
-            <%= ass.min_score%> - <%= ass.max_score%>
-          </div>
           <% if !ass.active? %>
-            <div class=" ass_disabled">
+            <div class=" assessment_disabled">
               Disabled
             </div>
           <% end %>
           <% if !ass.calibrated? %>
-            <div class=" ass_disabled">
+            <div class=" assessment_disabled">
               Calibrated
             </div>
           <% end %>
@@ -68,16 +65,14 @@
             <%= ass.user ? ass.user.last_name.upcase : 'Former User' %>
           </div>
         </div>
-        <div class= "col-md-2 repo_pool_subject">
-          <% ass.strands.each do |strand| %>
-            <div>
-              <%= strand.abbrev.upcase %>
-            </div>
-          <% end %>
-        </div>
-        <div class= "col-md-6">
+        <div class= "col-md-8">
           <div class="assessment_pool_name">
-            <%= ass.name%>
+            <p>
+              <%= ass.name%>
+            </p>
+            <p>
+              <%= ass.min_score%> - <%= ass.max_score%> | <%= ass.strand_string %>
+            </p>
           </div>
           <% if ass.comment != '' %>
             <div class="assessment_pool_name">
@@ -87,9 +82,7 @@
           <div class="assessment_pool_name">
             <%= pluralize(ass.act_questions.size, ' Question') %>
           </div>
-          <div class="assessment_pool_name">
-            Used In <%= pluralize(ass.classrooms.size, ' Offering') %>
-          </div>
+          <%= render :partial => "assessment_classrooms", :locals => {:assessment => ass} %>
         </div>
         <div class= "col-md-2">
           <div class="row assessment_pool_button">

@@ -138,6 +138,18 @@ class ActAssessment < ActiveRecord::Base
     end
   end
 
+  def add_classroom(classroom)
+    if !classroom.nil?
+      self.classrooms << classroom
+    end
+  end
+
+  def remove_classroom(classroom)
+    if !classroom.nil?
+      self.act_assessment_classrooms.for_classroom(classroom).destroy_all
+    end
+  end
+
 
   ################
 

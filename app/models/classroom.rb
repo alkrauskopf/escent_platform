@@ -136,6 +136,10 @@ class Classroom < ActiveRecord::Base
     self.is_prep
   end
 
+  def self.for_subject(subject)
+    where('act_subject_id = ?', subject.id)
+  end
+
   def self.precision_prep
     where('status = ? && is_prep', 'active')
   end
@@ -160,6 +164,10 @@ class Classroom < ActiveRecord::Base
       ifa_option.days_til_repeat = self.organization.ifa_org_option.days_til_repeat
       self.ifa_classroom_option = ifa_option
     end
+  end
+
+  def ifa_enabled?
+    self.ifa_classroom_option ? true : false
   end
 
   def last_ifa_dashboard(subject)

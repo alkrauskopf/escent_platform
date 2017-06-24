@@ -8,4 +8,12 @@ class ActAssessmentClassroom < ActiveRecord::Base
   
   acts_as_list :scope => :act_assessment
 
+  def self.for_classroom(classroom)
+    where('classroom_id = ?', classroom.id)
+  end
+
+  def self.for_assessment(assessment)
+    where('act_assessment_id = ?', assessment.id)
+  end
+
 end

@@ -21,9 +21,9 @@
 				</td>
 				<% if @current_organization.ifa_enabled? %>
           <td class="option_label">
-            IFA&nbsp;<%= offering.ifa_classroom_option ? "On" : "Off" %>
+            IFA&nbsp;<%= offering.ifa_enabled? ? "On" : "Off" %>
           </td>
-          <% ifa_button = offering.ifa_classroom_option ? "button_enabled.png" : "button_disabled.png" -%>
+          <% ifa_button = offering.ifa_enabled? ? "button_enabled.png" : "button_disabled.png" -%>
 					<td  class="toggle_button" id="toggle_ifa">
 							<%= (image_tag ifa_button,:width => 12) -%>
 					</td>

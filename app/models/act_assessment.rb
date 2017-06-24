@@ -83,6 +83,10 @@ class ActAssessment < ActiveRecord::Base
     self.act_questions.uniq
   end
 
+  def active_questions
+    self.act_questions.uniq.select{|q| q.active?}
+  end
+
   def mastery_levels
     self.act_questions.collect{|q| q.mastery_level}.compact.uniq.sort_by{|r| r.lower_score}
   end

@@ -76,8 +76,6 @@
         <% prof = times_selected == 0 ? "" : (100*points/times_selected).to_i -%>
         <% question_string = "Question " + (qdx+1).to_s + ": " %>
         <% attachment_string = "Attachment:" %>
-        <% seq = que.sequence_score_for(ActMaster.default, 'PP') -%>
-        <% align = que.alignment_score_for(ActMaster..default, 'PP') -%>
         <div class="row">
           <div class="col-md-3">
             <%= render :partial => "question_tags", :locals => {:que => que} %>

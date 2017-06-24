@@ -71,11 +71,11 @@
         <div class= "col-md-2 repo_pool_subject">
           <% ass.strands.each do |strand| %>
             <div>
-              <%= strand.abbrev %>
+              <%= strand.abbrev.upcase %>
             </div>
           <% end %>
         </div>
-        <div class= "col-md-5">
+        <div class= "col-md-6">
           <div class="assessment_pool_name">
             <%= ass.name%>
           </div>
@@ -91,17 +91,22 @@
             Used In <%= pluralize(ass.classrooms.size, ' Offering') %>
           </div>
         </div>
-        <div class= "col-md-3">
-          <div class="row">
-            <div class="col-md-6 assessment_pool_button">
-              <%= link_to "View", ifa_assessment_submit_path(:organization_id => @current_organization, :assessment_id => ass,
-                                                                :function => "preview"), {:class => "button_gray", :target => "_blank"} %>
+        <div class= "col-md-2">
+          <div class="row assessment_pool_button">
+            <%= link_to "PreView", ifa_assessment_submit_path(:organization_id => @current_organization, :assessment_id => ass,
+                                                              :function => "preview"), {:class => 'button_gray', :target => '_blank'}%>
+          </div>
+          <% if @current_user.id == ass.user_id || @current_user_app_admin %>
+            <div class="row">
+              <div class="col-md-12 assessment_pool_button">
+                <%= link_to 'Edit', ifa_repo_assessment_edit_path(:organization_id => @current_organization,
+                                                                :act_subject_id => ass.act_subject.id, :act_assessment_id => ass.id), {:class => 'button_gray', :target => '_blank'} %>
+              </div>
             </div>
-            <div class="col-md-6 assessment_pool_button">
-              <% if @current_user.id == ass.user_id || @current_user_app_admin %>
-                  <%= link_to 'Edit', ifa_repo_assessment_edit_path(:organization_id => @current_organization,
-                                                                  :act_subject_id => ass.act_subject.id, :act_assessment_id => ass.id), {:class => 'button_gray', :target => '_blank'} %>
-              <% end %>
+          <% end %>
+          <div class="row">
+            <div class="col-md-12 assessment_pool_button">
+              <%= link_to 'Details', ifa_repo_assessment_view_path(:organization_id => @current_organization, :act_assessment_id => ass.id), {:class => 'button_gray', :target => '_blank'} %>
             </div>
           </div>
           <% if (@current_user.id == ass.user_id || @current_user_app_admin) && ass.destroyable? %>

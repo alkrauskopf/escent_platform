@@ -1,0 +1,61 @@
+<div class="container static_assessment">
+  <div class= 'row'>
+      <div class="panel_title_blue">
+        <%= @current_assessment.name %>
+      </div>
+  </div>
+  <div class= 'row'>
+    <div class="panel_subtitle_blue">
+      <%= @current_assessment.act_subject.name.upcase%>
+      </br>
+      <%= @current_standard.abbrev %> <%=@current_assessment.lower_level ?  @current_assessment.lower_level.lower_score : 'Undefined' %> -
+      <%=@current_assessment.upper_level ?  @current_assessment.upper_level.upper_score : 'Undefined' %>&nbsp;|&nbsp;
+      <%=@current_assessment.strand_string %>
+      </br>
+      <%= pluralize(@current_assessment.active_questions.size, ' Question') %>
+    </div>
+  </div>
+  <hr>
+  <div class= 'row'>
+    <div class="col-md-2 static_assess_creation">
+      <div class="row ">
+        Created <%= time_ago_in_words(@current_assessment.created_at.to_s, include_seconds = false) %> Ago
+      </div>
+      <% if !@current_assessment.user.nil? %>
+        <div class="row">
+            <% if @current_assessment.user.picture.present? %>
+              <%= image_tag @current_assessment.user.picture.url(:small_thumb) %>
+            <% end %>
+        </div>
+        <div class="row ">
+          <%= @current_assessment.user.full_name %>
+        </div>
+      <% end %>
+      <div class="row">
+        <%= @current_assessment.organization.nil? ? '' : (@current_assessment.organization.short_name) %>
+      </div>
+      <% if @current_user_app_admin %>
+          <div class="row static_assess_left">
+            <%= link_to "Edit", ifa_repo_assessment_edit_path(:organization_id => @current_organization, :act_subject_id => @current_assessment.act_subject.id, :act_assessment_id => @current_assessment.id), {:class => "button_blue", :target => '_blank'} %>
+          </div>
+      <% end %>
+      <% if false %>
+          <div class="row static_assess_left">
+            <%#= link_to  "Clone", ifa_assessment_copy_path(:organization_id => @current_organization, :classroom_id => @classroom, :question_id => @question, :assessment_id => @current_assessment), :class => "button_orange" %>
+          </div>
+      <% end %>
+      <div class="row static_assess_left">
+        <%= link_to "Pre-View", ifa_assessment_submit_path(:organization_id => @current_organization, :assessment_id => @current_assessment, :function => "preview"), :class => "button_gray", :target => "_blank" %>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="static_assess_table_box">
+        <%= render :partial => "static_assessment_classrooms" %>
+      </div>
+      <div class="static_assess_table_box">
+        <%= render :partial => "static_assessment_questions" %>
+      </div>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</div>

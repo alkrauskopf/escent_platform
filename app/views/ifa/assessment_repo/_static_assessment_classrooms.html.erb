@@ -1,0 +1,27 @@
+<div id= 'assessment_classrooms<%= @current_assessment.id %>'>
+  <div class="row">
+    <div class= "col-md-12 ">
+      <div class="repo_assessment_panel repo_header_label">
+        <div class="row">
+          <%= pluralize(@current_assessment.act_submissions.size, ' Submission')%> Among <%= pluralize(@assessment_classrooms.size, ' Offering')%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="assessment_classroom_box">
+    <% @assessment_classrooms.each do |classroom| %>
+      <div class="row">
+        <div class = "col-md-3  performance_cell">
+          <%= pluralize(@current_assessment.act_submissions.for_classroom(classroom).size, ' Submission') %>
+        </div>
+        <div class = "col-md-7  performance_cell">
+          <%= classroom.organization.short_name %> | <%= classroom.name %>
+        </div>
+        <div class = "col-md-2  performance_cell">
+         <%= link_to 'View', offering_view_path(:organization_id => classroom.organization,  :id => classroom), :class => 'button_gray', :target=> '_blank' %>&nbsp;
+        </div>
+      </div>
+      <hr>
+    <% end %>
+  </div>
+</div>

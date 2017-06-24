@@ -111,6 +111,15 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
       render :partial =>  "assessment_list"
     end
 
+    def static_assessment
+      get_current_assessment
+      assessment_classrooms
+      assessment_performance(@current_assessment)
+    end
+
+    def analyze_question
+
+    end
 
     private
 
@@ -129,7 +138,7 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
       @user_filter = User.find_by_id(params[:filter_user_id]) rescue nil
       @level_filter = ActScoreRange.find_by_id(params[:filter_level_id]) rescue nil
       @strand_filter = ActStandard.find_by_id(params[:filter_strand_id]) rescue nil
-      @assessment_questions = @current_assessment.all_questions
+      @assessment_questions = @current_assessment.active_questions
       @question_pool = @current_subject.available_questions(@user_filter, @level_filter, @strand_filter) - @assessment_questions
       pool_filters
     end
@@ -144,6 +153,10 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
       if params[:act_assessment_id]
         @current_assessment = ActAssessment.find_by_id(params[:act_assessment_id]) rescue nil
       end
+    end
+
+    def assessment_classrooms
+      @assessment_classrooms = @current_assessment.act_submissions.collect{|s| s.classroom}.compact.uniq
     end
 
     def get_current_question

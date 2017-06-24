@@ -489,7 +489,10 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/repo/assessment/pool/select' => 'ifa/assessment_repo#assessment_list'    # ifa_repo_assessment_pool_select_path
   get '/ifa/repo/assessment/refresh' => 'ifa/assessment_repo#refresh'    # ifa_repo_assessment_refresh_path
   get '/ifa/repo/assessment/edit' => 'ifa/assessment_repo#edit'    # ifa_repo_assessment_edit_path
+  post '/ifa/repo/assessment/edit' => 'ifa/assessment_repo#edit'    # ifa_repo_assessment_edit_path
   get '/ifa/repo/assessment/destroy' => 'ifa/assessment_repo#destroy'    # ifa_repo_assessment_destroy_url
+  get '/ifa/repo/assessment/view' => 'ifa/assessment_repo#static_assessment'   # ifa_repo_assessment_view_path
+  get '/ifa/repo/assessment/question/analyze' => 'ifa/assessment_repo#question_analyze'   # ifa_repo_assessment_question_analyze_path
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

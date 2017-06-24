@@ -146,6 +146,20 @@ class Ifa::ApplicationController < ApplicationController
       @dashboardable['subject'] = subject
     end
   end
+
+  def assessment_performance(assessment)
+    @question_set = {}
+    assessment.active_questions.each do |question|
+      selected_answers = assessment.act_answers.for_question(question).selected
+      points = selected_answers.collect{|a| a.points}.sum rescue 0
+      selection_count = selected_answers.size
+      @question_set['points' + question.id.to_s] = points.to_i
+      @question_set['selections' + question.id.to_s] = selection_count
+      @question_set['proficiency' + question.id.to_s] = selection_count == 0 ? nil : (100.0*points/selection_count.to_f).to_i
+      @question_set['seq_score' + question.id.to_s] = question.sequence_score_for(@current_standard, 'PP')
+      @question_set['align_score' + question.id.to_s] = question.alignment_score_for(@current_standard, 'PP')
+    end
+  end
   
   protected
   

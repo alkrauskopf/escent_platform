@@ -2,6 +2,17 @@
 @import "application-variables.scss";
 @import 'bootstrap';
 
+
+.question_align{
+  padding:.25em 0em .5em 0em;
+  font-size:18px;
+  color:$thumb_purple;
+}
+.question_sequence{
+  padding:.25em 0em .5em 0em;
+  font-size:18px;
+  color:$thumb_green;
+}
 .repo_box {
   margin: 0em 2em 0em 2em;
   min-height:35em;
@@ -58,6 +69,7 @@
 }
 .repo_tags_box {
   padding:0em 0em 2em 0em;
+  border:1px solid #ddd;
 }
 .repo_panel {
   @extend .panel-heading;
@@ -308,6 +320,11 @@
   max-height: 50em;
   overflow: scroll;
 }
+.assessment_classroom_box {
+  border:1px solid #ddd;
+  max-height: 3oem;
+  overflow: scroll;
+}
 
 .repo_pool_list {
   border:0px solid #ddd;
@@ -348,6 +365,7 @@
   font-weight:bold;
   color:$red_text;
 }
+
 .repo_pool_subject {
   padding-top:1em;
   line-height:1.5em;
@@ -407,4 +425,68 @@
 }
 .assessment_pool_button {
   padding:1em 1em 1em 1em;
+}
+
+.static_assess_creation {
+  line-height:2.0em;
+  color:$red_text;
+  margin:0em 0em 0em 2em;
+  font-size:16px;
+}
+.static_assess_left {
+  margin: 1em 0em 1em 1em;
+}
+.static_assess_top_panel {
+  margin: 0em 1em 0em 1em;
+  background-color:white;
+  border:0px solid #ddd;
+  line-height:1.5em;
+  border-radius: 0px;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  font-weight:normal;
+  font-size:18px;
+  color:$red-text;
+  /* font-family:Georgia, "Times New Roman", Times, serif;  */
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.classroom_list_row {
+  padding: 0em 0em 0em 2em;
+  font-style:normal;
+  vertical-align:middle;
+  text-align:left;
+  font-size:15px;
+  color: $blue_text;
+}
+.performance_cell {
+  padding:1em 0em 1em 0em;
+  font-style: normal;
+  text-align:center;
+  font-size:15px;
+  color:$dark_text;
+}
+.static_assess_table_box {
+  margin:.5em 0em 1.5em 0em;
+}
+.static_assess_question {
+  padding:.5em 0em 0em 0em;
+  text-align:left;
+  font-style: italic;
+  font-size:14px;
+  color:$blue_text;
+}
+.static_assess_question_view {
+  padding:1.5em 0em 0em 1em;
+  text-align:center;
+  font-size:12px;
+}
+.static_assess_q_level {
+  padding:.5em 0em 0em 0em;
+  text-align:left;
+  font-size:12px;
+  font-weight:bold;
+  color:$red_text;
 }

@@ -1,0 +1,45 @@
+<div class="container static_question">
+  <div class= 'row'>
+      <div class="panel_title_blue">
+        <%= @current_question.act_subject.name %> | <%= @current_question.mastery_level.range %> | <%= @current_question.strand.abbrev.upcase %> Question
+      </div>
+  </div>
+  <hr>
+  <div class= 'row'>
+    <div class="col-md-2 static_assess_creation">
+      <div class="row ">
+        Updated <%= time_ago_in_words(@current_question.updated_at.to_s, include_seconds = false) %> Ago
+      </div>
+      <% if !@current_question.user.nil? %>
+        <div class="row">
+            <% if @current_question.user.picture.present? %>
+              <%= image_tag @current_question.user.picture.url(:small_thumb) %>
+            <% end %>
+        </div>
+        <div class="row ">
+          <%= @current_question.user.full_name %>
+        </div>
+      <% end %>
+      <div class="row">
+        <%= @current_question.organization.nil? ? '' : (@current_question.organization.short_name) %>
+      </div>
+      <% if @current_user_app_admin || @current_user == @current_question.user%>
+          <div class="row static_assess_left">
+            <%= link_to "Edit", ifa_repo_question_edit_path(:organization_id => @current_organization, :act_subject_id => @current_question.act_subject.id, :act_question_id => @current_question.id), {:class => "button_blue", :target => '_blank'} %>
+          </div>
+      <% end %>
+    </div>
+    <div class="col-md-8">
+      <div class="static_assess_table_box">
+        <div class="panel_title_blue">
+        Under Construction
+        </div>
+        <%#= render :partial => "static_assessment_classrooms" %>
+      </div>
+      <div class="static_assess_table_box">
+        <%#= render :partial => "static_assessment_questions" %>
+      </div>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</div>

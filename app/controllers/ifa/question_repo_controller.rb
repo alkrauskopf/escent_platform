@@ -182,6 +182,10 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     render :layout => "act_assessment"
   end
 
+  def static_question
+    get_current_question
+
+  end
   private
 
   def get_entity

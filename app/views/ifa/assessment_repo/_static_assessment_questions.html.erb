@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class = "col-md-2  static_assess_question_view">
-          <%= link_to 'Analyze', ifa_repo_assessment_question_analyze_path(:organization_id => @current_organization,  :act_assessment_id => @current_assessment.id, :act_question_id => question.id), :class => 'button_gray' %>
+          <%= link_to 'Analyze', ifa_repo_question_view_path(:organization_id => @current_organization,  :act_assessment_id => @current_assessment.id, :act_question_id => question.id), :class => 'button_gray', :target=>'_blank' %>
         </div>
       </div>
       <hr>

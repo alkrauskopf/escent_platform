@@ -18,7 +18,7 @@
       </span>
     </div>
     <div class="col-md-2">
-      <%= link_to "PreView", ifa_assessment_submit_path(:organization_id => @current_organization, :assessment_id => @current_assessment,
+      <%= link_to "PreView", ifa_submission_take_path(:organization_id => @current_organization, :act_assessment_id => @current_assessment.id,
                                                         :function => "preview"), {:class => "update_button button_light_blue", :target => "_blank"} %>
     </div>
   </div>

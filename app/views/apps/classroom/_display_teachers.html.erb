@@ -1,6 +1,6 @@
 
 <div class="offering_teachers">
-  <% if !@classroom.active_for?(@current_user) || classroom.student_period(@current_user).nil? -%>
+  <% if !classroom.active_for?(@current_user) || classroom.student_period(@current_user).nil? -%>
     <% classroom.teachers.sort_by{|t| t.last_name}.each do |cl|-%>
       <% unless cl.nil? -%>
         <div class="row">

@@ -20,8 +20,10 @@ class Apps::ClassOfferingController < ApplicationController
     @classroom.increment_views
     if @current_user
       @clsrm_leaders = @current_user.student_of_classroom?(@classroom) ? @classroom.teachers_for_student(@current_user) : @classroom.leaders
+      @current_classroom_period = @classroom.period_for_student(@current_user)
     else
       @clsrm_leaders = @classroom.leaders
+      @current_classroom_period = nil
     end
     @topics_list = @classroom.topics.sort{ |a,b| a.estimated_start_date <=> b.estimated_start_date }
     @homeworks_list = @classroom.homeworks.active
@@ -109,10 +111,10 @@ class Apps::ClassOfferingController < ApplicationController
     @standards = ActStandard.all.collect{|s|[s.standard]}.uniq.sort
     if @current_user
       @std_view = @current_user.std_view.to_s
-      @current_standard = @current_user.act_master
+      @current_standard = ActMaster.default
     else
       @std_view = "act"
-      @current_standard = ActMaster.all.first
+      @current_standard = ActMaster.default
     end
   end
 end

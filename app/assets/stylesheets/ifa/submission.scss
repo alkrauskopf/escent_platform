@@ -16,6 +16,187 @@
   padding-right:0em;
   font-size:16px;
 }
+.assessment_container {
+  width: 100%;
+  margin: 0 auto;
+  background-color: black;
+}
+.assessment_box {
+  margin: 2em 8em 8em 8em;
+  color:$dark_text;
+  font-size:14px;
+  background-color: white;
+  border:3px solid #ddd;
+}
+.question_list_box {
+  margin: 2em 2em 0em 2em;
+  padding: 3em 0em 2em 0em;
+  border:1px solid #000;
+}
+
+.assess_header_ctr {
+  padding:2em 0em 0em 0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:bold;
+  font-size:18px;
+  color:$dark_text;
+}
+
+.assess_subheader_ctr {
+  padding:0em 0em 1em 0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:bold;
+  font-size:16px;
+  color:$dark_text;
+}
+.assess_header_text {
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:14px;
+  color:$dark_text;
+}
+.assess_header_margin_left{
+  padding:2em 0em 0em 2em;
+  word-wrap:break-word;
+  float:left;
+  text-align:left;
+  font-weight:bold;
+  font-size:13px;
+  color:$dark_text;
+}
+.assess_header_margin_right{
+  padding:2em 2em 0em 0em;
+  word-wrap:break-word;
+  float:right;
+  text-align:right;
+  font-weight:bold;
+  font-size:13px;
+  color:$dark_text;
+}
+.eoa {
+  padding: 2em 0em 0em 0em;
+  font-size:18px;
+  color:$dark_text;
+  font-weight:bold;
+  text-align:center;
+}
+.assess_form_end {
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  margin:2em 0em 0em 0em;
+  text-align:left;
+  font-weight:bold;
+  font-size:13px;
+  color:$blue_text;
+  border:0px solid #ddd;
+}
+
+.assess_submit_row {
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  margin:2em 0em 3em 0em;
+  border:0px solid #ddd;
+}
+
+.assess_button {
+  font-size:13px;
+}
+.assess_button_label {
+  padding-left:2em;
+  font-size:13px;
+  font-weight:bold;
+  color:$blue-text;
+}
+.assess_teacher_select {
+  font-size:15px;
+  float:left;
+  font-weight:normal;
+  color:$blue-text;
+}
+.question_block {
+  padding:3em 0em 2em 0em;
+  border-bottom:1px solid #ddd;
+}
+.question_label {
+  padding:0em 3em 0em 0em;
+  text-align:right;
+  text-decoration: underline;
+  font-weight:bold;
+  font-size:15px;
+}
+.question_image {
+  border:0px solid #ddd;
+  margin:1em 2em 1em 2em;
+  text-align:center;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.question_attachment {
+  margin:2em 0em 1em 0em;
+  font-size:18px;
+  color:$blue_text;
+  text-align:center;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.question_reading {
+  padding-bottom:0em;
+  padding-left:3em;
+  padding-right:3em;
+  padding-top:0em;
+  font-size: 17px;
+  line-height:1.8em;
+  text-align:left;
+  font-family:Georgia, "Times New Roman", Times, serif;
+}
+.question_box {
+  width:90%;
+  margin: 0em 0em 1em 3em;
+  border: 1px $dark-text;
+  border-style: dashed;
+  background:$question_background;
+  border-radius: 5px;
+  padding: 2em;
+  text-align:left;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.question_text {
+  width:100%;
+  padding-bottom:0em;
+  padding-left:3em;
+  padding-right:3em;
+  padding-top:0em;
+  font-size:14px;
+  font-weight:bold;
+  text-align:left;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+  color:$dark_text;
+}
+.question_check {
+  width:10%;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:1em;
+  float:right;
+  vertical-align:top;
+  font-size:12px;
+  color:$dark_text;
+}
+.question_choice {
+  width:90%;
+  padding-bottom:0em;
+  padding-left:1.5em;
+  padding-top:1em;
+  vertical-align:top;
+  text-align:left;
+  font-size:13px;
+  color:$dark_text;
+}
+
+
+
 
 .ifa_modal_header {
   color:$red_text;

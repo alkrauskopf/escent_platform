@@ -14,7 +14,14 @@ class Ifa::ApplicationController < ApplicationController
     if params[:classroom_id]
       @current_classroom = Classroom.find_by_id(params[:classroom_id]) rescue nil
     end
+    current_period
     current_topic
+  end
+
+  def current_period
+    if params[:period_id]
+      @current_classroom_period = ClassroomPeriod.find_by_id(params[:period_id]) rescue nil
+    end
   end
 
   def current_topic

@@ -1,41 +1,36 @@
 <div id="assessment_submission" >
   <div class="row">
-    <div class="col-md-3"></div>
-	    <% teacher = @teacher ? @teacher.last_name : "Select Your Teacher" -%>
-      <div class= 'col-md-3 '>
-        <% if @teacher %>
-          <div class=" assess_button">
-            <input type="hidden" name="teacher[teacher_id]" value="<%= @teacher.id %>">
-            <% button_class = @preview ? 'btn btn-primary btn-xs disable' : 'btn btn-primary btn-xs enable' %>
-            <%= submit_tag 'Submit Assessment',:class => button_class, :confirm => "Are You Sure?" %>
-            <span class='assess_button_label'><%=@teacher.last_name%></span>
-          </div>
-        <% end -%>
+    <div class="col-md-2"></div>
+    <% teacher = !@current_teacher.nil? ? @current_teacher.last_name : "Select Your Teacher" -%>
+    <div class= 'col-md-5 '>
+      <% button_class = (@current_teacher.nil? || @preview) ? 'btn btn-primary btn-xs disabled' : 'btn btn-primary btn-xs enabled' %>
+      <div class=" assess_button">
+        <input type="hidden" name="teacher[teacher_id]" value="<%= @current_teacher.nil? ? 0 : @current_teacher.id %>">
+        <%= submit_tag 'Submit Assessment',:class => button_class, :confirm => "Are You Sure?" %>
+        <span class='assess_button_label'>
+          <%= @current_teacher.nil? ? 'Teacher?' : @current_teacher.last_name%>
+        </span>
       </div>
-      <div class= 'col-md-3'>
-        <% if @teacher_list.size > 1 %>
+    </div>
+    <div class= 'col-md-5 '>
+      <% if !@preview && @teacher_list.size > 1 %>
+        <div id="teacher_select" class="assess_teacher_select">
           <%= select(:submission, :teacher_id, @teacher_list.collect{|d| [d.last_name, d.id]}, :prompt => teacher) %>
-        <% end -%>
-      </div>
-      <div class="col-md-1"></div>
-    <script type="text/javascript">
-      jQ(document).ready(function() {
-        jQ("#submission_teacher_id").change(function(){
-          var teacher_id = jQ('#submission_teacher_id').val();
-          var classroom_id = '<%= @current_classroom.public_id %>';
-          var url = "<%= ifa_assessment_submission_url(:organization_id => @current_organization) %>";
-            jQ.get(url, {'classroom_id':classroom_id,  'teacher_id':teacher_id}, function(data) {
-            jQ("#assessment_submission").html(data);
-              jQ("#assessment_submission").show();
-            });
-        })
-      });
-    </script>
-    <script>
-      jQ('form#id').submit(function(){
-        jQ(this).find(':input[type=submit]').prop('disabled', true);
-      });
-    </script>
+        </div>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ("#teacher_select").change(function(){
+              var teacher_id = jQ('#submission_teacher_id').val();
+              var url = "<%= ifa_submission_teacher_path(:organization_id => @current_organization, :classroom_id => @current_classroom.id, :period_id => @current_classroom_period.id ) %>";
+              jQ.get(url, {'teacher_id':teacher_id}, function(data) {
+                jQ("#assessment_submission").html(data);
+                jQ("#assessment_submission").show();
+              });
+            })
+          });
+        </script>
+      <% end -%>
+    </div>
   </div>
 </div>
 

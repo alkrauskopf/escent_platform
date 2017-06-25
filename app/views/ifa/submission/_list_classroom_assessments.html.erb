@@ -4,19 +4,6 @@
 <% student_submissions = @current_user.act_submissions.for_classroom(@current_classroom) -%>
 <% if !@current_classroom.act_assessments.active.empty? %>
   <% for ass in @current_classroom.act_assessments.active.sort{|a,b| b.updated_at <=> a.updated_at}do -%>
-    <% previous_submits = []%>
-    <% available_to_submit = true -%>
-    <% unless student_submissions.empty? -%>
-      <% previous_submits = student_submissions.select{|s| s.act_assessment_id == ass.id} -%>
-      <% unless previous_submits.empty? -%>
-        <% last_date_taken = previous_submits.collect{|s| s.created_at}.max -%>
-        <% if last_date_taken > (Time.now - @current_classroom.ifa_classroom_option.days_til_repeat.days) -%>
-            <% available_to_submit = false -%>
-        <% else -%>
-            <% available_to_submit = true -%>
-        <% end -%>
-      <% end -%>
-    <% end -%>
     <% last_submit = @current_user.act_submissions.for_classroom(@current_classroom).for_assessment(ass).first rescue nil %>
     <% available_to_submit = last_submit.nil? ? true : (last_submit.created_at <= (Time.now - @current_classroom.ifa_classroom_option.days_til_repeat.days)) %>
     <div class="row ifa_take_list">
@@ -27,7 +14,7 @@
       </div>
       <div class="col-md-1">
         <% disabled =  available_to_submit ? nil : 'disabled' -%>
-        <%= link_to "Take", ifa_submission_take_path(:organization_id => @current_organization, :classroom_id => @current_classroom.id, :topic_id => (@topic.nil? ? nil : @topic.id), :act_assessment_id => ass.id, :function => "Assess"),
+        <%= link_to "Take", ifa_submission_take_path(:organization_id => @current_organization, :classroom_id => @current_classroom.id, :period_id => @current_classroom_period.id, :topic_id => (@topic.nil? ? nil : @topic.id), :act_assessment_id => ass.id, :function => "Assess"),
                     :class => "btn btn-default btn-xs", :disabled => disabled, :method=>:get %>
       </div>
       <div class="col-md-7">

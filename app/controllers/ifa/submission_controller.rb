@@ -3,13 +3,13 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     layout "ifa_submission"
 
     before_filter :current_classroom
+    before_filter :current_user_classroom_period?, :only=>[:index]
     before_filter :current_app_superuser
     before_filter :current_user_app_admin
-    before_filter :classroom_authorized?, :except=>[]
+    before_filter :classroom_authorized?, :only=>[:index]
     before_filter :current_subject, :except => []
-    before_filter :clear_notification, :except => []
+    before_filter :clear_notification, :except => [:index]
     before_filter :provider_options, :except => []
-
 
     def index
       current_student_plan
@@ -32,30 +32,23 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     def submit_assessment
       get_current_assessment
       if params[:function]=="Assess"
-        @teacher_list = @current_classroom.teachers_for_student(@current_user).sort{|a,b| a.last_name.downcase <=> b.last_name.downcase}
-        if @teacher_list.size == 1
-          @teacher = @teacher_list.first
-        end
-        @classroom_name = @current_classroom.course_name.upcase
-        @student_name = @current_user.full_name.upcase
-        if @current_user.picture.url.split("/").last == "missing.png"
-          @student_pic = false
-        else
-          @student_pic = true
-        end
+        @teacher_list = @current_classroom_period.teachers
+        @current_teacher = @teacher_list.size == 1 ? @teacher_list.first : nil
         @preview = false
         @begin_time = Time.now
       else
         @teacher_list = []
-        @classroom_name = "Course Name Will Be Displayed Here"
-        @student_pic = false
-        @student_name = "Student's Full Name"
         @preview = true
       end
 
-      render :layout => "act_assessment"
+      render :layout => "assessment"
     end
 
+    def submission_teacher_select
+      @current_teacher = User.find_by_id(params[:teacher_id])
+      @teacher_list = @current_classroom_period.teachers
+      render :partial => "submit_assessment_button"
+    end
 
     def take_assessment
       initialize_parameters
@@ -64,7 +57,6 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       @last_submission = @current_user.act_submissions.for_subject(@current_subject).empty? ? nil : @current_user.act_submissions.for_subject(@current_subject).last
       @current_student_plan = @current_user.ifa_plan_for(@current_subject)
       @suggested_topics = @current_student_plan.nil? ? [] : @current_student_plan.classroom_lus(@current_classroom)
-
       @assessment_subjects = @current_user.act_submissions.collect{|s| s.act_subject}.uniq rescue []
       @dashboard_subjects = @current_user.ifa_dashboards.collect{|s| s.act_subject}.compact.uniq rescue []
       start_date = @current_provider.ifa_org_option.begin_school_year

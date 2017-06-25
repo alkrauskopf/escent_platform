@@ -1,16 +1,16 @@
-<div class="row ifa_milestone_data_row">
+<div class="row ifa_plan_text">
   <% nothing_to_show = true %>
   <% @assessments.each do |ass| %>
     <% if !ass.total_answers(:level=>@range, :strand=>@strand).empty?%>
-      <div class="row ">
+      <div class="row ifa_milestone_data ">
         <%= ass.created_at.strftime("%b %d, %Y")%>:&nbsp;&nbsp;<%= ass.correct_answers(:level=>@range, :strand=>@strand).size%> of <%= ass.total_answers(:level=>@range, :strand=>@strand).size%>&nbsp;Correct
         <% nothing_to_show = false %>
       </div>
     <% end %>
   <% end %>
   <% if nothing_to_show%>
-      <div class="row ">
-        No Data for this Milestone
-      </div>
+    <div class="row ifa_milestone_data ">
+      No Data for this Milestone
+    </div>
   <% end %>
 </div>

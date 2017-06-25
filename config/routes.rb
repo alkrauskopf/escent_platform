@@ -495,6 +495,9 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/repo/assessment/view' => 'ifa/assessment_repo#static_assessment'   # ifa_repo_assessment_view_path
   get '/ifa/repo/assessment/classroom/assign' => 'ifa/assessment_repo#classroom_assign'   # ifa_repo_assessment_classroom_assign_path
 
+  get '/ifa/take' => 'ifa/submission#index'   # ifa_assessment_take_path
+  get '/ifa/submission/take' => 'ifa/submission#submit_assessment'    # ifa_submission_take_path
+
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path
   post '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

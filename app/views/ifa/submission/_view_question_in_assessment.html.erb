@@ -1,0 +1,100 @@
+<% @q_content_public_id = 0 -%>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 ">
+      <hr>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+
+<div class="row">
+  <div class="col-md-2">
+    <div class="question_label">
+      Question <%= num %>
+    </div>
+  </div>
+  <div class="col-md-8 ">
+    <% image_width = quest.image_enlarge? ? "100%" : "50%" %>
+    <% if quest.question_image.present? %>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 question_image">
+          <%#= image_tag quest.question_image, width= image_width %>
+          <img src="<%= quest.question_image %>" width= <%=image_width%> />
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    <% end %>
+    <% if !quest.content.nil? -%>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+        <% @q_content_public_id = quest.content.public_id -%>
+        <% if quest.content.image? %>
+          <div class="question_image" >
+            <img src="<%= quest.content.source_file.url %>" width= <%=image_width%> />
+          </div>
+        <% end -%>
+        <% if quest.content.pdf? -%>
+          <div class="question_pdf" >
+            <a href="<%= quest.content.source_file.url %>" target="_blank">View PDF:</a>&nbsp;<%= quest.content.title.titleize  %></a>
+          </div>
+        <% end -%>
+        <% if quest.content.embed_code? -%>
+          <div class="question_video" >
+            <%= quest.content.content_object.html_safe %>
+          </div>
+        <% end -%>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    <% end -%>
+    <% unless quest.act_question_reading.nil? -%>
+      <div class="row question_reading" >
+        <%= quest.act_question_reading.reading.html_safe %>
+      </div>
+    <% end -%>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+   <div class="question_box">
+     <div class="question_text">
+      <%= simple_format quest.question.html_safe %>
+     </div>
+     <div>
+       <table id="choicess">
+         <style type="text/css" media="screen">
+           table,tr,td { border:medium}
+           table tr:hover{
+             background-color: transparent;
+           }
+         </style><tbody>
+         <% if quest.question_type =="MC" -%>
+             <% quest.choices.each do |chc| -%>
+                 <tr>
+                   <td class="question_check" >
+                     <%=  check_box_tag "ans_check[]", value = chc.id ,checked = false %>
+                   </td>
+                   <td	class="question_choice"  >
+                     <%= simple_format chc.choice %>
+                   </td>
+                 </tr>
+             <% end -%>
+         <% else -%>
+             <tr>
+               <td	colspan=2 width = 100% style="vertical-align:top; text-align:left; padding-top:0px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
+                 <%= hidden_field_tag "short_ans[quest_id][]", quest.id %>
+                 <%= text_area_tag "short_ans[answer][]", "", :rows => 3, :cols => 50, :maxlength => 255 %>
+               </td>
+             </tr>
+         <% end -%>
+         </tbody>
+       </table>
+     </div>
+   </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>

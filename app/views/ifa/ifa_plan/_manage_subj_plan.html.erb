@@ -24,8 +24,6 @@
             <% plan = @current_user.ifa_plan_subject(subject) %>
             <%= render :partial =>  "/ifa/ifa_plan/show_plan", :locals=>{:plan=> plan}%>
             <%= render :partial =>  "/ifa/ifa_plan/teacher_remarks", :locals=>{:plan=> plan, :remarks => plan.remarks, :show_form=>false} %>
-            <%= @classroom.nil? ? 'Nil Classroom': @classroom.id %>
-            <%= plan.nil? ? 'Nil Plan': plan.id %>
             <div class= "precision_prep_panel">
               <div class="ifa_plan_header_label">
                 <%= pluralize(plan.milestones.size, ' Student Milestone') %>

@@ -18,13 +18,7 @@
                                                                                  :blue=> 'Improvement Idea',
                                                                                  :body=> improvements(milestone.strand, milestone.range, milestone.standard), :height=> 400, :width=> 650 } %>
     </div>
-    <% if milestone.achieved?%>
-      <div class="row ifa_milestone_show_button">
-        <% achievement_level(milestone.strand, milestone.range).times do %>
-          <i class="star_achievement"></i>
-        <% end %>
-      </div>
-    <% else %>
+    <% if !milestone.achieved?%>
       <div class="row ifa_milestone_show_button">
         <span class="button_blue" id="milestone_show_change<%=milestone.public_id%>">
           <%= 'Change' %>
@@ -39,8 +33,16 @@
   </div>
   <div class="col-md-6">
     <div class="row ifa_milestone_show_descript">
-      <div style="font-weight:bold">My Plan:</div>
-      <div>
+      <div style="font-weight:bold">My Milestone Plan:
+        <% if milestone.achieved?%>
+          <span class="ifa_milestone_achieved">
+            <% achievement_level(milestone.strand, milestone.range).times do %>
+                <i class="star_achievement"></i>
+            <% end %>
+          </span>
+        <% end %>
+      </div>
+      <div class="ifa_plan_text">
         <%= simple_format milestone.description.nil? ? 'None' : milestone.description%>
       </div>
     </div>
@@ -57,7 +59,7 @@
     <hr>
     <div class="row ifa_milestone_show_descript">
       <div style="font-weight:bold">My Evidence:</div>
-      <div>
+      <div class="ifa_plan_text">
         <%= simple_format milestone.evidence.nil? ? 'None Documented' : milestone.evidence%>
       </div>
     </div>

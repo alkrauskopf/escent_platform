@@ -74,6 +74,16 @@ class ApplicationController < ActionController::Base
     @current_ifa_options = @current_provider.nil? ? nil : @current_provider.ifa_org_option
   end
 
+  def classroom_authorized?
+    if (@current_user.nil? || @current_classroom.nil?)
+      org = @current_organization.nil? ? Organization.default : @current_organization
+      redirect_to organization_view_path(:organization_id => org)
+    elsif !@current_user_app_admin && (!@current_classroom.ifa_enabled? || !@current_classroom.all_users.include?(@current_user))
+      org = @current_organization.nil? ? Organization.default : @current_organization
+      redirect_to organization_view_path(:organization_id => org)
+    end
+  end
+
   def current_org_current_app_provider?
     unless (!@current_organization.nil? && !@current_application.nil? && @current_organization.provider?(@current_application))
       org = @current_organization.nil? ? Organization.default : @current_organization

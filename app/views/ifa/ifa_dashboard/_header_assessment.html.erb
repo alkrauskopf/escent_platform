@@ -11,7 +11,7 @@
   </div>
   <div class="col-md-8 ">
     <div class="row dashboard_title_3">
-      <%= @assessment['subject'].name %> Assessment Taken <%= time_ago_in_words(@assessment['taken_time']).sub(/about /, '') + " ago" %>
+      Your Last Assessment Was Taken <%= time_ago_in_words(@assessment['taken_time']).sub(/about /, '') + " ago" %>
     </div>
     <div class="row dashboard_title_3">
       <%= pluralize(@assessment['answer_count'], ' Answer Choice') %> |

@@ -47,7 +47,8 @@ Rails.application.config.assets.precompile += [
     'apps/time_learning.css',
     'app_maintenance/ifa.css',
     'ifa/assessment.css',
-    'ifa/repo.css'
+    'ifa/repo.css',
+    'ifa/submission.css'
       ]
 #
 #Javascript

@@ -1,0 +1,2 @@
+module Ifa::SubmissionHelper
+end

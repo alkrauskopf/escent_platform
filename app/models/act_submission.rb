@@ -40,6 +40,15 @@ class ActSubmission < ActiveRecord::Base
     self.act_subject
   end
 
+  def self.for_assessment(assessment)
+    if !assessment.nil?
+      where('act_assessment_id = ?', assessment.id).order('created_at DESC')
+    end
+  end
+
+
+
+
   def self.final_for_subject_window(subject, begin_date, end_date)
     where('act_subject_id = ? AND date_finalized >= ? AND date_finalized <= ? AND is_final', subject.id, begin_date, end_date)
   end
@@ -50,11 +59,11 @@ class ActSubmission < ActiveRecord::Base
 
   def correct_answers(options = {})
     if options[:level] && options[:strand]
-      answers = self.act_answers.correct.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+      answers = self.act_answers.correct.selected.select{|a| !a.act_question.nil? && a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
     elsif options[:level]
-      answers = self.act_answers.correct.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+      answers = self.act_answers.correct.selected.select{|a| !a.act_question.nil? && a.act_question.of_mastery_level?(options[:level])}
     elsif options[:strand]
-      answers = self.act_answers.correct.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+      answers = self.act_answers.correct.selected.select{|a| !a.act_question.nil? && a.act_question.of_strand?(options[:strand])}
     else
       answers = self.act_answers.correct.selected
     end
@@ -63,11 +72,11 @@ class ActSubmission < ActiveRecord::Base
 
   def answer_points(options = {})
     if options[:level] && options[:strand]
-      answers = self.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+      answers = self.act_answers.selected.select{|a| !a.act_question.nil? && a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
     elsif options[:level]
-      answers = self.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+      answers = self.act_answers.selected.select{|a| !a.act_question.nil? && a.act_question.of_mastery_level?(options[:level])}
     elsif options[:strand]
-      answers = self.act_answers.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+      answers = self.act_answers.selected.select{|a| !a.act_question.nil? && a.act_question.of_strand?(options[:strand])}
     else
       answers = self.act_answers.selected
     end
@@ -76,11 +85,11 @@ class ActSubmission < ActiveRecord::Base
 
   def answers_selected(options = {})
     if options[:level] && options[:strand]
-      answers = self.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+      answers = self.act_answers.selected.select{|a| !a.act_question.nil? && a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
     elsif options[:level]
-      answers = self.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+      answers = self.act_answers.selected.select{|a| !a.act_question.nil? && a.act_question.of_mastery_level?(options[:level])}
     elsif options[:strand]
-      answers = self.act_answers.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+      answers = self.act_answers.selected.select{|a| !a.act_question.nil? && a.act_question.of_strand?(options[:strand])}
     else
       answers = self.act_answers.selected
     end
@@ -89,11 +98,11 @@ class ActSubmission < ActiveRecord::Base
 
   def incorrect_answers(options = {})
     if options[:level] && options[:strand]
-      answers = self.act_answers.incorrect.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+      answers = self.act_answers.incorrect.selected.select{|a| !a.act_question.nil? && a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
     elsif options[:level]
-      answers = self.act_answers.incorrect.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+      answers = self.act_answers.incorrect.selected.select{|a| !a.act_question.nil? && a.act_question.of_mastery_level?(options[:level])}
     elsif options[:strand]
-      answers = self.act_answers.incorrect.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+      answers = self.act_answers.incorrect.selected.select{|a| !a.act_question.nil? && a.act_question.of_strand?(options[:strand])}
     else
       answers = self.act_answers.incorrect.selected
     end
@@ -102,11 +111,11 @@ class ActSubmission < ActiveRecord::Base
 
   def total_answers(options = {})
     if options[:level] && options[:strand]
-      answers = self.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+      answers = self.act_answers.selected.select{|a| !a.act_question.nil? && a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
     elsif options[:level]
-      answers = self.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+      answers = self.act_answers.selected.select{|a| !a.act_question.nil? && a.act_question.of_mastery_level?(options[:level])}
     elsif options[:strand]
-      answers = self.act_answers.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+      answers = self.act_answers.selected.select{|a| !a.act_question.nil? && a.act_question.of_strand?(options[:strand])}
     else
       answers = self.act_answers.selected
     end

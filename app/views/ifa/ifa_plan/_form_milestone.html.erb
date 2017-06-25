@@ -1,7 +1,11 @@
 <div id="milestone<%=milestone.public_id%>">
   <div class="row ifa_milestone_header_row" >
-    <div class='col-md-8 ifa_milestone_range_select' id="range_select_<%=milestone.public_id%>">
-      <%=  select(milestone.public_id, :range, ranges.collect{|r| [(r.label_with_sat),r.public_id]},{:prompt => 'Select Score Range'}) %>
+    <div class="col-md-4 ifa_milestone_range_label">
+      Pick Your Target Level =>
+    </div>
+
+    <div class='col-md-4 ifa_milestone_range_select' id="range_select_<%=milestone.public_id%>">
+      <%=  select(milestone.public_id, :range, ranges.collect{|r| [(r.label_with_sat),r.public_id]},{:prompt => 'Milestone Mastery Level'}) %>
     </div>
     <div class='col-md-4'>
       <span class="button_orange" id="milestone_cancel<%=milestone.public_id%>">
@@ -13,22 +17,28 @@
     <div class="ifa_milestone_edit_box ">
       <div class="row ifa_milestone_edit_row">
         <div class="ifa_milestone_mastery">
-          <%=milestone.range.label_with_sat.html_safe %>
+          <%=milestone.range.label_without_sat.html_safe %>&nbsp;|&nbsp;<%=milestone.strand.abbrev.upcase %>
         </div>
       </div>
-      <div class="row ifa_milestone_edit_row ">
-        <div class="ifa_milestone_benchmark">
-          <div class="col-md-2 ifa_milestone_benchmark_count">
-            <%=pluralize(@benchmarks.size, ' Benchmark')%>
-          </div>
-          <div class="col-md-9 ">
-            <% @benchmarks.each_with_index do |benchmark, idx| %>
-              <%= benchmark.description.html_safe%>
-              <hr>
-            <% end %>
+      <% if !@benchmarks.empty? %>
+        <div class="row ifa_milestone_edit_row ">
+          <div class="ifa_milestone_benchmark">
+            <div class="col-md-2 ifa_milestone_benchmark_count">
+              <%=pluralize(@benchmarks.size, ' Benchmark')%>
+            </div>
+            <div class="col-md-9 ">
+              <% @benchmarks.each_with_index do |benchmark, idx| %>
+                  <div class="ifa_milestone_benchmark_text">
+                    <span class="ifa_milestone_benchmark_source">
+                      <%=benchmark.source_standard.abbrev %>:
+                    </span>&nbsp;<%= benchmark.description.html_safe%>
+                  </div>
+              <% end %>
+            </div>
           </div>
         </div>
-      </div>
+        <hr>
+      <% end %>
       <% if !@improvements.empty? %>
         <div class="row ifa_milestone_edit_row ">
           <div class="ifa_milestone_benchmark">
@@ -37,14 +47,14 @@
             </div>
             <div class="col-md-9 ">
               <% @improvements.each_with_index do |improvement, idx| %>
-                  <div>
-                    <%=(idx+1).to_s%>)&nbsp;
-                    <%= improvement.description.html_safe%>
+                  <div class="ifa_milestone_benchmark_text">
+                      <%=(idx+1).to_s%>:&nbsp;<%= improvement.description.html_safe%>
                   </div>
               <% end %>
             </div>
           </div>
         </div>
+        <hr>
       <% end %>
       <% if !@evidences.empty? %>
         <div class="row ifa_milestone_edit_row ">
@@ -54,20 +64,19 @@
             </div>
             <div class="col-md-9 ">
               <% @evidences.each_with_index do |evidence, idx| %>
-                  <div>
-                    <%=(idx+1).to_s%>)&nbsp;
-                    <%= evidence.description.html_safe%>
-                  </div>
+                <div class="ifa_milestone_benchmark_text">
+                    <%=(idx+1).to_s%>:&nbsp;<%= evidence.description.html_safe%>
+                </div>
               <% end %>
             </div>
+            <hr>
           </div>
         </div>
+        <hr>
       <% end %>
-      <hr>
-      <div class="row ifa_milestone_edit_footer_row">
-          <div class="col-md-2">
 
-          </div>
+      <div class="row ifa_milestone_edit_footer_row">
+          <div class="col-md-2"></div>
           <div class="col-md-9">
             <p>My Plan</p>
             <%= text_area :description, milestone.public_id, :rows=>10, :cols => 70, :value => milestone.description,

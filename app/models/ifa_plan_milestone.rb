@@ -38,7 +38,7 @@ class IfaPlanMilestone < ActiveRecord::Base
   end
 
   def self.for_strand(strand)
-    where('act_standard_id = ?', strand.id).order('updated_at DESC')
+    where('act_standard_id = ?', strand.id).includes(:act_score_range).order('is_achieved ASC, act_score_ranges.lower_score DESC')
   end
 
   def range

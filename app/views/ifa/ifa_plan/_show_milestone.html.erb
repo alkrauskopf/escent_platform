@@ -47,16 +47,18 @@
       </div>
     </div>
     <hr>
-    <div class="row ifa_milestone_show_descript">
-      <div id="student_assessments<%=milestone.id%>">
-        <div class="resource_levels_close" >
-          <%= link_to '', ifa_plan_student_cell_data_path(:organization_id => @current_organization, :student_id => @current_user.public_id, :act_score_range_id => milestone.range.public_id, :act_standard_id => milestone.strand.public_id,) %>
-          Relevant Assessment Data
-          <span></span>
+    <% if !milestone.range.nil? && !milestone.strand.nil? %>
+      <div class="row ifa_milestone_show_descript">
+        <div id="student_assessments<%=milestone.id%>">
+          <div class="resource_levels_close" >
+            <%= link_to '', ifa_plan_student_cell_data_path(:organization_id => @current_organization, :student_id => @current_user.public_id, :act_score_range_id => milestone.range.public_id, :act_standard_id => milestone.strand.public_id,) %>
+            Relevant Assessment Data
+            <span></span>
+          </div>
         </div>
       </div>
-    </div>
-    <hr>
+      <hr>
+    <% end %>
     <div class="row ifa_milestone_show_descript">
       <div style="font-weight:bold">My Evidence:</div>
       <div class="ifa_plan_text">

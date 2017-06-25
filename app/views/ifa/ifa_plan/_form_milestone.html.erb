@@ -29,9 +29,10 @@
             <div class="col-md-9 ">
               <% @benchmarks.each_with_index do |benchmark, idx| %>
                   <div class="ifa_milestone_benchmark_text">
-                    <span class="ifa_milestone_benchmark_source">
-                      <%=benchmark.source_standard.abbrev %>:
-                    </span>&nbsp;<%= benchmark.description.html_safe%>
+                    <div class="ifa_milestone_benchmark_source">
+                      <%=benchmark.strand_origin.standard.abbrev %>:&nbsp;<%=benchmark.strand_origin.name %>
+                    </div>
+                    <%= benchmark.description.html_safe%>
                   </div>
               <% end %>
             </div>

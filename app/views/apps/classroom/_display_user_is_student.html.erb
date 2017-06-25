@@ -19,10 +19,10 @@
 				<tr>
 					<td width = 200px style ="vertical-align:top; padding-top:0px; padding-left:00px; padding-bottom:5px">
 
-            <%= link_to 'Assessments', ifa_assessment_take_path(:organization_id => @current_organization,:classroom_id => classroom, :topic_id => topic), class: 'btn btn-primary btn-xs' %>
+            <%#= link_to 'Assessments', ifa_assessment_take_path(:organization_id => @current_organization,:classroom_id => classroom, :topic_id => topic), class: 'btn btn-primary btn-xs' %>
             <!-- NEW IFA Stuff -->
             <% if !@current_classroom_period.nil? %>
-              <%#= link_to 'Assessments', ifa_take_path(:organization_id => @current_organization,:classroom_id => classroom.id, :period_id => @current_classroom_period.id, :topic_id => (topic.nil? ? nil : topic.id)), class: 'btn btn-primary btn-xs' %>
+              <%= link_to 'Assessments', ifa_take_path(:organization_id => @current_organization,:classroom_id => classroom.id, :period_id => @current_classroom_period.id, :topic_id => (topic.nil? ? nil : topic.id)), class: 'btn btn-primary btn-xs' %>
 					  <% end %>
                 </td>
 				</tr>

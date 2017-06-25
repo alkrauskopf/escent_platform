@@ -390,9 +390,10 @@
 }
 .ifa_milestone_benchmark_source {
   padding:0em 0em 0em 0em;
-  font-weight:bold;
+  font-weight:normal;
+  text-decoration: underline;
+  font-size:14px;
   text-align:left;
-  color:$dark_text;
 }
 
 .ifa_milestone_edit_footer_row {

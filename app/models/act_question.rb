@@ -74,12 +74,28 @@ class ActQuestion < ActiveRecord::Base
     ActQuestion.all.select{|q| q.mastery_level.nil? || q.strand.nil?}
   end
 
+  def self.mc
+    where('question_type = ?', 'MC')
+  end
+
+  def self.sa
+    where('question_type = ?', 'SA')
+  end
+
   def self.by_date
     order('updated_at DESC')
   end
 
   def active?
     self.is_active
+  end
+
+  def self.for_test
+    where('is_active')
+  end
+
+  def correct_choices
+    self.act_choices.correct
   end
 
   def self.enabled

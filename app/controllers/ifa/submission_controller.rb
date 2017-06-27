@@ -13,9 +13,9 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
 
     def index
       current_student_plan
-      @last_submission = @current_user.act_submissions.for_subject(@current_subject).empty? ? nil : @current_user.act_submissions.for_subject(@current_subject).last
+      get_current_submission
+      @last_submission = !@current_submission.nil? ? @current_submission : (@current_user.act_submissions.for_subject(@current_subject).empty? ? nil : @current_user.act_submissions.for_subject(@current_subject).last)
       @suggested_topics = @current_student_plan.nil? ? [] : @current_student_plan.classroom_lus(@current_classroom)
-
       @assessment_subjects = @current_user.act_submissions.collect{|s| s.act_subject}.uniq rescue []
       @dashboard_subjects = @current_user.ifa_dashboards.collect{|s| s.act_subject}.compact.uniq rescue []
       start_date = @current_provider.ifa_org_option.begin_school_year
@@ -29,7 +29,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     end
 
 
-    def submit_assessment
+    def take_assessment
       get_current_assessment
       if params[:function]=="Assess"
         @teacher_list = @current_classroom_period.teachers
@@ -41,7 +41,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
         @preview = true
       end
 
-      render :layout => "assessment"
+      render 'assessment_form', :layout => "assessment"
     end
 
     def submission_teacher_select
@@ -50,31 +50,43 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       render :partial => "submit_assessment_button"
     end
 
-    def take_assessment
-      initialize_parameters
-      @ifa_classroom = @current_classroom
-      @current_subject = @current_classroom.act_subject
-      @last_submission = @current_user.act_submissions.for_subject(@current_subject).empty? ? nil : @current_user.act_submissions.for_subject(@current_subject).last
-      @current_student_plan = @current_user.ifa_plan_for(@current_subject)
-      @suggested_topics = @current_student_plan.nil? ? [] : @current_student_plan.classroom_lus(@current_classroom)
-      @assessment_subjects = @current_user.act_submissions.collect{|s| s.act_subject}.uniq rescue []
-      @dashboard_subjects = @current_user.ifa_dashboards.collect{|s| s.act_subject}.compact.uniq rescue []
-      start_date = @current_provider.ifa_org_option.begin_school_year
-      prepare_ifa_dashboard(@current_user, start_date, Date.today)
-#    @current_student_dashboards = @current_user.ifa_dashboards.for_subject_since(@current_classroom.act_subject,(@current_provider.ifa_org_option.begin_school_year - 1.years)).reverse
-      @classroom_assessment_list = @current_classroom.act_assessments.active.lock rescue []
-
-#  @suggested_topics = @current_classroom.topics.select{|t| t.act_score_ranges.for_standard(@current_standard).first.upper_score >= @current_sms && t.act_score_ranges.for_standard(@current_standard).first.lower_score <= @current_sms}rescue nil
-
-      if params[:function] == "Success"
-        @success = true
+    def submit_assessment
+      get_current_assessment
+      get_current_teacher
+      if create_current_submission?
+        if sa_answers_completed?
+          if mc_answers_completed?
+            score_submission
+            if auto_finalize?
+              @current_submission.finalize_new(true, @current_submission.teacher_id, @current_provider.master_standard)
+            end
+            if auto_notify?
+              UserMailer.assessment_submission(teacher, @current_user,@current_classroom,
+                                               @current_organization, !auto_finalize?, request.host_with_port).deliver
+            end
+            submission_failed = false
+            if submission_failed
+              @current_submission.destroy
+              flash[:error] = 'Assessment Destroyed'
+            else
+              flash[:notice] = 'Submitted'
+            end
+          else
+            @current_submission.destroy
+            flash[:error] = 'Problem With Multiple Choice Logging Assessment Destroyed'
+          end
+        else
+          @current_submission.destroy
+          flash[:error] = 'Problem With Short Answer Logging - Assessment Destroyed'
+        end
       end
-      @success = true
-      student_assessment_dashboard(@last_submission)
-      assessment_header_info(@last_submission, ActMaster.default_std)
-      user_ifa_plans
-      find_dashboard_update_start_dates(@current_user)
+      redirect_to ifa_take_path(:organization_id => @current_organization, :classroom_id => @current_classroom.id,
+                                :period_id => @current_classroom_period.id, :act_submission_is => (@current_submission.nil? ? nil : @current_submission.id),
+                                :topic_id => (@current_topic.nil? ? nil : @current_topic.id))
     end
+    ###############
+
+    ###############
 
   private
 
@@ -84,8 +96,150 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     end
   end
 
+  def get_current_submission
+    if params[:act_submission_id]
+      @current_submission = ActSubmission.find_by_id(params[:act_submission_id]) rescue nil
+    end
+  end
+
+  def get_current_teacher
+    if params[:teacher_id]
+      @current_teacher = User.find_by_id(params[:teacher_id]) rescue nil
+    end
+  end
+
   def current_student_plan
     @current_student_plan = @current_user.ifa_plan_for(@current_subject)
+  end
+
+  def create_current_submission?
+    @current_submission = ActSubmission.new
+    @current_submission.organization_id = @current_organization.id
+    @current_submission.user_id = @current_user.id
+    @current_submission.classroom_id = @current_classroom.nil? ? nil: @current_classroom.id
+    @current_submission.teacher_id = @current_teacher.nil? ? nil: @current_teacher.id
+    @current_submission.act_assessment_id = @current_assessment.nil? ? nil: @current_assessment.id
+    @current_submission.act_subject_id = @current_assessment.nil? ? nil: @current_assessment.act_subject_id
+    @current_submission.duration = assessment_duration
+    @current_submission.student_comment = params[:act_submission][:student_comment]
+    if @current_submission.save
+      submitted = true
+    else
+      flash[:error] = @current_submission.errors.full_messages.to_sentence
+      submitted = false
+    end
+    submitted
+  end
+
+  def sa_answers_completed?
+    sa_complete = true
+    if params[:short_ans]
+      params[:short_ans][:quest_id].each_with_index do |id, idx|
+        question = ActQuestion.find_by_id(id) rescue nil
+        if !question.nil?
+          answer = ActAnswer.new
+          answer.act_assessment_id = @current_submission.act_assessment_id
+          answer.user_id = @current_submission.user_id
+          answer.organization_id = @current_submission.organization_id
+          answer.classroom_id = @current_submission.classroom_id
+          answer.teacher_id = @current_submission.teacher_id
+          answer.act_question_id = id
+          answer.was_selected = true
+          answer.is_correct = true
+          answer.is_calibrated = question.is_calibrated
+          answer.act_choice_id = 0
+          answer.points = 0.0
+          answer.short_answer = params[:short_ans][:answer][idx]
+          unless @current_submission.act_answers << answer
+            sa_complete = false
+          end
+        end
+      end
+    end
+    sa_complete
+  end
+
+  def mc_answers_completed?
+    @mc_checked_count = 0
+    @mc_missed_count = 0
+    mc_complete = true
+    @current_submission.update_attributes(:tot_choices => (params[:ans_check].nil? ? 0 : params[:ans_check].size),
+                                          :tot_points => (params[:ans_check].nil? ? 0.0 : params[:ans_check].map{|aid| ActChoice.find_by_id(aid)}.select{|a| a.correct?}.size.to_f))
+    # Selected Choices
+    selected_choices = []
+    if params[:ans_check]
+        params[:ans_check].each_with_index do |choice_id, idx|
+          choice = ActChoice.find_by_id(choice_id) rescue nil
+          if !choice.nil?
+            selected_choices << choice
+            answer = ActAnswer.new
+            answer.act_assessment_id = @current_submission.act_assessment_id
+            answer.user_id = @current_submission.user_id
+            answer.organization_id = @current_submission.organization_id
+            answer.classroom_id = @current_submission.classroom_id
+            answer.teacher_id = @current_submission.teacher_id
+            answer.act_question_id = choice.act_question_id
+            answer.was_selected = true
+            answer.is_correct = choice.correct?
+            answer.is_calibrated = choice.act_question.is_calibrated
+            answer.act_choice_id = choice_id
+            answer.points = choice.correct? ? 1.0 : 0.0
+            unless @current_submission.act_answers << answer
+              mc_complete = false
+            else
+              @mc_checked_count += 1
+            end
+          end
+        end
+    end
+    # Unselected Correct Choices
+    @current_assessment.correct_test_choices.each do |choice|
+      if !selected_choices.include?(choice)
+        answer = ActAnswer.new
+        answer.act_assessment_id = @current_submission.act_assessment_id
+        answer.user_id = @current_submission.user_id
+        answer.organization_id = @current_submission.organization_id
+        answer.classroom_id = @current_submission.classroom_id
+        answer.teacher_id = @current_submission.teacher_id
+        answer.act_question_id = choice.act_question_id
+        answer.was_selected = false
+        answer.is_correct = true
+        answer.is_calibrated = choice.act_question.is_calibrated
+        answer.act_choice_id = choice.id
+        answer.points = 0.0
+        unless @current_submission.act_answers << answer
+          mc_complete = false
+        else
+          @mc_missed_count += 1
+        end
+      end
+    end
+    mc_complete
+  end
+
+  def score_submission
+    @current_submission.act_submission_scores.destroy_all
+    submission_score = ActSubmissionScore.new(:act_master_id => @current_provider.master_standard.id)
+    submission_score.est_sms = @current_submission.standard_scoring_rule
+    submission_score.final_sms = @current_submission.standard_scoring_rule
+    @current_submission.act_submission_scores << submission_score
+  end
+
+  def auto_finalize?
+    params[:short_ans].nil? && @current_classroom.ifa_classroom_option.is_ifa_auto_finalize
+  end
+
+  def auto_notify?
+    @current_classroom.ifa_classroom_option.is_ifa_notify
+  end
+
+  def assessment_duration
+    if params[:begin_time]
+      duration = (Time.now - DateTime.parse(params[:begin_time])).to_i
+    else
+      duration = 0
+    end
+    duration
   end
 
   def user_ifa_plans

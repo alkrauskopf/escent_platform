@@ -205,6 +205,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/maintenance/ifa/tool_c' => 'app_maintenance/ifa#tool_c' # app_maintenance_ifa_tool_c_url
   get '/app/maintenance/ifa/tool_d' => 'app_maintenance/ifa#tool_d' # app_maintenance_ifa_tool_d_url
   get '/app/maintenance/ifa/tool_e' => 'app_maintenance/ifa#tool_e' # app_maintenance_ifa_tool_e_url
+  get '/app/maintenance/ifa/tool_f' => 'app_maintenance/ifa#tool_f' # app_maintenance_ifa_tool_f_url
 
 
   # APPS Shared
@@ -496,8 +497,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/repo/assessment/classroom/assign' => 'ifa/assessment_repo#classroom_assign'   # ifa_repo_assessment_classroom_assign_path
 
   get '/ifa/take' => 'ifa/submission#index'   # ifa_take_path
-  get '/ifa/submission/take' => 'ifa/submission#submit_assessment'    # ifa_submission_take_path
-  post '/ifa/submission/submit' => 'ifa/submission#add_submission'    # ifa_submission_submit_path
+  get '/ifa/submission/take' => 'ifa/submission#take_assessment'    # ifa_submission_take_path
+  post '/ifa/submission/submit' => 'ifa/submission#submit_assessment'    # ifa_submission_submit_path
   get '/ifa/submission/teacher' => 'ifa/submission#submission_teacher_select'  # ifa_submission_teacher_url
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path

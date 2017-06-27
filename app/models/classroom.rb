@@ -144,6 +144,10 @@ class Classroom < ActiveRecord::Base
     where('status = ? && is_prep', 'active')
   end
 
+  def self.all_precision_prep
+    where('is_prep')
+  end
+
   def self.precision_prep_provider(provider)
     where('is_prep').select{|c| c.organization.app_provider(CoopApp.ifa) == provider}
   end

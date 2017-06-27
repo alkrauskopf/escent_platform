@@ -1,4 +1,4 @@
-<div id="tool_e">
+<div id="tool_ex">
   <div class="row tool_row">
     <div class="col-md-2"></div>
     <div class="col-md-1">
@@ -28,7 +28,7 @@
         var url = "<%= app_maintenance_ifa_tool_e_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
         jQ.get(url, {}, function(data) {
           jQ("#tools").html(data);
-          jQ("#ools").show();
+          jQ("#tools").show();
         });
       })
     });

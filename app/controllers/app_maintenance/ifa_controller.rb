@@ -140,6 +140,26 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     render :partial =>  "tools", :locals=>{}
   end
 
+  def tool_f
+    @tool_f_classroom_assess_misalign_count = 0
+    @tool_f_misaligned_destroys = 0
+    @tool_f_classroom_count = 0
+    Classroom.all_precision_prep.each do |classroom|
+      misalign = false
+      classroom.act_assessments.each do |ass|
+        if ass.act_subject != classroom.act_subject
+          @tool_f_classroom_assess_misalign_count += 1
+          misalign = true
+          classroom.act_assessment_classrooms.for_assessment(ass).destroy_all
+          @tool_f_misaligned_destroys += 1
+        end
+      end
+        @tool_f_classroom_count += misalign ? 1 : 0
+    end
+    @tool_f_summary = 'Tool F Summary'
+    render :partial =>  "tools", :locals=>{}
+  end
+
   def standard_maint_select
     standards
     render :partial =>  "manage_standards", :locals=>{}

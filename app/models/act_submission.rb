@@ -15,8 +15,14 @@ class ActSubmission < ActiveRecord::Base
   has_many :ifa_student_levels, :dependent => :destroy
   has_many :ifa_question_logs, :dependent => :destroy
   
-  validates_presence_of :teacher_id, :message => 'You Must Identify Your Teacher' 
-  
+  validates_presence_of :teacher_id, :message => 'No Teacher Identified - '
+  validates_presence_of :act_assessment_id, :message => 'No Assessment Identified - '
+  validates_presence_of :user_id, :message => 'No User Identified - '
+  validates_presence_of :classroom_id, :message => 'No Classroom Identified - '
+  validates_presence_of :act_subject_id, :message => 'No Assessment Subject Identified - '
+  validates_presence_of :organization_id, :message => 'No Organization Identified - '
+  validates_numericality_of :duration, :greater_than => 0, :message => 'No Duration - '
+
   scope :final, :conditions => { :is_final => true }
   scope :not_final, :conditions => { :is_final => false }
   scope :auto_finalized, :conditions => { :is_auto_finalized => true }
@@ -45,8 +51,6 @@ class ActSubmission < ActiveRecord::Base
       where('act_assessment_id = ?', assessment.id).order('created_at DESC')
     end
   end
-
-
 
 
   def self.final_for_subject_window(subject, begin_date, end_date)
@@ -149,6 +153,44 @@ class ActSubmission < ActiveRecord::Base
     total_answers
   end
 
+  def finalize_new(auto, reviewer_id, standard)
+    finalized = false
+    ###   Suspend Question Logging For Now
+      self.act_assessment.questions_for_test.each do |quest|
+        self.log_ifa_question(quest)
+      end   # End Question Loop
+    self.reviewer_id = reviewer_id
+    self.is_auto_finalized = auto
+    self.is_final = true
+    self.is_user_dashboarded = false
+    self.is_org_dashboarded = false
+    self.is_classroom_dashboarded = false
+    self.date_finalized = Time.now
+    if self.act_submission_scores.for_standard(standard).empty?
+      submission_score = ActSubmissionScore.new(:act_master_id => standard.id)
+      submission_score.est_sms = self.standard_scoring_rule
+      submission_score.final_sms = self.standard_scoring_rule
+      self.act_submission_scores << submission_score
+    else
+      base_score = self.act_submission_scores.for_standard(standard).first
+      base_score.update_attributes(:final_sms => self.standard_scoring_rule)
+    end
+    if self.save
+      # Update User Dashboard Only
+      self.auto_ifa_dashboard_update(self.user)
+      # Update First Classroom & Org Dashboard of Period
+      unless self.period_dashboard?(self.classroom)
+        self.auto_ifa_dashboard_update(self.classroom)
+      end
+      unless self.period_dashboard?(self.organization)
+        self.auto_ifa_dashboard_update(self.organization)
+      end
+      finalized = true
+    end
+    finalized
+  end
+
+
   def finalize(auto, reviewer_id)
     finalized = false
     if self.organization.ifa_org_option
@@ -227,6 +269,18 @@ class ActSubmission < ActiveRecord::Base
         delta = (self.act_assessment.upper_score(standard) - standard.lowest_upper_score(self.act_subject)).to_f
         score = standard.lowest_upper_score(self.act_subject) + (delta * score_pct).to_i
       end
+    end
+    score
+  end
+
+  def standard_scoring_rule
+    score_pct = (self.tot_choices.nil? || (self.tot_choices == 0) || self.tot_points.nil?) ? 0.0 : (self.tot_points/self.tot_choices.to_f)
+    score = 0
+    if !self.act_assessment.nil? && !self.act_assessment.lower_level.nil? && !self.act_assessment.upper_level.nil?
+      min_score = self.act_assessment.lower_level.lower_score
+      max_score = self.act_assessment.upper_level.upper_score
+        delta = (max_score - min_score).to_f
+        score = min_score + (delta * score_pct).to_i
     end
     score
   end
@@ -313,14 +367,14 @@ class ActSubmission < ActiveRecord::Base
           entity_dashboard.cal_submission_points += self.act_answers.calibrated.collect{|a|a.points}.sum
           entity_dashboard.cal_submission_answers += self.act_answers.calibrated.selected.size
         end
-        # entity_dashboard_xx.update_attributes(params[:ifa_dashboard])
         entity_dashboard.save
       end
 
-      ifa_org_option = Organization.find_by_id(entity_dashboard.organization_id).ifa_org_option rescue nil
-      if ifa_org_option
-        ifa_org_option.act_masters.each do |mstr|
-          self.ifa_question_logs.each do |log|
+  #    ifa_org_option = Organization.find_by_id(entity_dashboard.organization_id).ifa_org_option rescue nil
+  #    if ifa_org_option
+   #     ifa_org_option.act_masters.each do |mstr|
+      mstr = ActMaster.default
+      self.ifa_question_logs.each do |log|
             q_range = log.act_question.act_score_ranges.for_standard(mstr).first rescue nil
             q_strand = log.act_question.act_standards.for_standard(mstr).first rescue nil
             if q_range && q_strand
@@ -374,8 +428,8 @@ class ActSubmission < ActiveRecord::Base
             # dashboard_sms.update_attributes(params[:ifa_dashboard_sms_score])
             dashboard_sms.save
           end
-        end  # end Master Loop
-      end
+  #      end  # end Master Loop
+  #    end
     end  # no IFA ORG Options
   end # Already Dashboarded Condition
 
@@ -414,8 +468,9 @@ class ActSubmission < ActiveRecord::Base
       question_log.save
 
 ### update Question Performance
-
-      self.organization.ifa_org_option.act_masters.each do |mstr|
+#   JUst One Standard Now
+ #     self.organization.ifa_org_option.act_masters.each do |mstr|
+        mstr = ActMaster.default
         student_latest_dashboard = self.user.ifa_dashboards.for_subject(self.act_subject).last rescue nil
         student_latest_scores = student_latest_dashboard.ifa_dashboard_sms_scores.for_standard(mstr).first rescue nil
         student_range = ActScoreRange.for_standard(mstr).for_subject_sms(self.act_subject, student_latest_scores.sms_finalized).first rescue nil
@@ -495,7 +550,7 @@ class ActSubmission < ActiveRecord::Base
           end
         end   # end condition if student has existing baseline score
 
-      end  # End Master Loop for Question Performance
+   #   end  # End Master Loop for Question Performance
     end
   end
 end

@@ -39,5 +39,8 @@ class ActChoice < ActiveRecord::Base
     self.is_correct
   end
 
+  def self.correct
+    where('is_correct')
+  end
 
 end

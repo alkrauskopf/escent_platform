@@ -26,12 +26,12 @@
   color:$dark_text;
   font-size:14px;
   background-color: white;
-  border:3px solid #ddd;
+  border-top:3px solid #ddd;
 }
 .question_list_box {
   margin: 2em 2em 0em 2em;
   padding: 3em 0em 2em 0em;
-  border:1px solid #000;
+  border-top:1px solid #000;
 }
 
 .assess_header_ctr {
@@ -90,10 +90,17 @@
   font-family: Verdana,Arial,Helvetica,sans-serif;
   margin:2em 0em 0em 0em;
   text-align:left;
+  font-weight:normal;
+  font-size:13px;
+  color:$dark_text;
+  border:0px solid #ddd;
+}
+.assess_form_end_label {
+  padding-left: 2em;
+  text-align:left;
   font-weight:bold;
   font-size:13px;
   color:$blue_text;
-  border:0px solid #ddd;
 }
 
 .assess_submit_row {

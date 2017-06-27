@@ -19,6 +19,7 @@
     <div class="col-md-10">
       <div class= 'panel_subtitle_blue'>
         Period: <%= @current_classroom_period.name.upcase  %> | <%= @current_classroom_period.teacher_list %>
+        <%= render :partial => "/shared/error_and_notice" %>
       </div>
     </div>
     <div class="col-md-1 "></div>

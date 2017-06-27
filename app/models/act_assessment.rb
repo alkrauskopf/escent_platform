@@ -83,6 +83,18 @@ class ActAssessment < ActiveRecord::Base
     self.act_questions.uniq
   end
 
+  def questions_for_test
+    self.act_questions.for_test
+  end
+
+  def correct_test_choices
+    self.questions_for_test.map{|q| q.correct_choices}.flatten
+  end
+
+  def all_test_choices
+    self.questions_for_test.map{|q| q.act_choices}.flatten
+  end
+
   def active_questions
     self.act_questions.uniq.select{|q| q.active?}
   end

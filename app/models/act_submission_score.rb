@@ -7,4 +7,5 @@ class ActSubmissionScore < ActiveRecord::Base
   
   scope :for_standard, lambda{|standard| {:conditions => ["act_master_id = ? ", standard.id]}}
 
+
 end

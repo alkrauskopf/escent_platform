@@ -4,7 +4,9 @@
       <%= @current_organization.provider_app_name(@current_application)%> Maintenance Tools
     </div>
   </div>
+  <%= render :partial => 'tool_f' %>
   <%= render :partial => 'tool_e' %>
+  <div id="tool_ax">
   <div class="row tool_row">
     <div class="col-md-2"></div>
     <div class="col-md-1">
@@ -40,11 +42,13 @@
         var url = "<%= app_maintenance_ifa_tool_a_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
         jQ.get(url, {}, function(data) {
           jQ("#tools").html(data);
-          jQ("#ools").show();
+          jQ("#tools").show();
         });
       })
     });
   </script>
+  </div>
+  <div id="tool_bx">
   <div class="row tool_row">
     <div class="col-md-2"></div>
     <div class="col-md-1">
@@ -76,11 +80,13 @@
         var url = "<%= app_maintenance_ifa_tool_b_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
         jQ.get(url, {}, function(data) {
           jQ("#tools").html(data);
-          jQ("#ools").show();
+          jQ("#tools").show();
         });
       })
     });
   </script>
+  </div>
+  <div id="tool_cx">
   <div class="row tool_row">
     <div class="col-md-2"></div>
     <div class="col-md-1">
@@ -111,11 +117,13 @@
         var url = "<%= app_maintenance_ifa_tool_c_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
         jQ.get(url, {}, function(data) {
           jQ("#tools").html(data);
-          jQ("#ools").show();
+          jQ("#tools").show();
         });
       })
     });
   </script>
+  </div>
+  <div id="tool_dx">
   <div class="row tool_row">
     <div class="col-md-2"></div>
     <div class="col-md-1">
@@ -141,9 +149,10 @@
         var url = "<%= app_maintenance_ifa_tool_d_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
         jQ.get(url, {}, function(data) {
           jQ("#tools").html(data);
-          jQ("#ools").show();
+          jQ("#tools").show();
         });
       })
     });
   </script>
+</div>
 </div>

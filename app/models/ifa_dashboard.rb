@@ -95,4 +95,26 @@ class IfaDashboard < ActiveRecord::Base
   def score_boundary_maximum(standard)
     self.ifa_dashboard_cells.for_standard(standard).collect{|c| c.act_score_range.upper_score}.max
   end
+
+  def level_range(standard)
+    self.ifa_dashboard_cells.levels_for_standard(standard)
+  end
+
+  def calculated_standard_score(standard, option={})
+    score = 0
+    if option[:calibrated]
+      pct_score = self.calibrated_answers > 1 ? (self.cal_points/self.calibrated_answers.to_f) : 0.0
+    else
+      pct_score = self.finalized_answers > 1 ? (self.fin_points/self.finalized_answers.to_f) : 0.0
+    end
+    if pct_score > 0.25
+      max_score = self.level_range(standard).last.upper_score
+      upper_min_score = self.level_range(standard).first.upper_score
+      score = upper_min_score + (pct_score * ((max_score.to_f - upper_min_score.to_f)).to_i)
+    else
+      score = self.level_range(standard).first.upper_score
+    end
+    score
+  end
+
 end

@@ -6,16 +6,16 @@
     </div>
   </div>
   <div class="col-md-6">
-      <div class= "assess_header_ctr">
-        <%= @preview ? 'Classroom Name Here' : @current_classroom.name.upcase %>
-      </div>
+    <div class= "assess_header_ctr">
+      <%= @preview ? 'Classroom Name Here' : @current_classroom.name.upcase %>
+    </div>
   </div>
   <div class="col-md-3">
-     <div class="assess_header_margin_right">
-        <% if @current_user.picture.present? -%>
+    <div class="assess_header_margin_right">
+      <% if @current_user.picture.present? -%>
           <%= image_tag @current_user.picture.url(:small_thumb) %>
-        <% end %>
-     </div>
+      <% end %>
+    </div>
   </div>
 </div>
 <div class="row">
@@ -53,29 +53,30 @@
   <div class="col-md-3"></div>
 </div>
 <%= form_for(:act_submission, :url => ifa_submission_submit_path(:organization_id => @current_organization, :classroom_id => (@current_classroom.nil? ? nil : @current_classroom.id),
-                                                                 :topic_id => (@current_topic.nil? ? nil :@current_topic.id),
-                                                                 :act_assessment_id => @current_assessment.id, :begin_time => @begin_time, :function => "Submit"), html: { id: "id"}) do |form| -%>
-  <%= render :partial => "/shared/error_and_notice" %>
-  <div class="question_list_box">
-    <% @current_assessment.active_questions.each_with_index do |quest,idx| %>
-      <%= render :partial => "view_question_in_assessment" , :locals => {:quest => quest, :num => idx+1} %>
-    <% end -%>
-    <div class="eoa">
-      - - End - -
+                                                                 :topic_id => (@current_topic.nil? ? nil :@current_topic.id), :period_id => @current_classroom_period.id,
+                                                                 :act_assessment_id => @current_assessment.id, :begin_time => @begin_time), html: { id: "id"}) do |form| -%>
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="question_list_box">
+      <% @current_assessment.questions_for_test.each_with_index do |quest,idx| %>
+          <%= render :partial => "view_question_in_assessment" , :locals => {:quest => quest, :num => idx+1} %>
+      <% end -%>
+      <div class="eoa">
+        - - End - -
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8 assess_form_end">
-      Optional Comment: <%= text_field :act_submission, :student_comment, :size => 55, :maxlength => 150 %>
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8 assess_form_end">
+        <span class=".assess_form_end_label">Optional Comment:</span>
+        <%= text_field :act_submission, :student_comment, :size => 55, :maxlength => 150 %>
+      </div>
+      <div class="col-md-2"></div>
     </div>
-    <div class="col-md-2"></div>
-  </div>
-  <div class="row">
-    <div class="col-md-2" ></div>
-    <div class="col-md-8 assess_submit_row">
+    <div class="row">
+      <div class="col-md-2" ></div>
+      <div class="col-md-8 assess_submit_row">
         <%= render :partial => "submit_assessment_button" %>
+      </div>
+      <div class="col-md-2" ></div>
     </div>
-    <div class="col-md-2" ></div>
-	</div>	
 <% end -%>

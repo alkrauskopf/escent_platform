@@ -1,0 +1,75 @@
+<div id="review_pending" >
+  <div class="row">
+    <div class="ifa_panel_title">
+      <%= pluralize(@pending_classroom_submissions.size, ' Pending Assessment') %>&nbsp;For Review
+    </div>
+  </div>
+  <% if !@pending_teacher_submissions.empty? %>
+    <div class="row">
+      <div class="col-md-2">
+        <div  class="ifa_pending_destroy">
+          <span id = "destroy_all" class = "btn btn-danger btn-xs">Destroy ALL Yours</span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div  class="ifa_pending_destroy_label">
+          (You Have <%= pluralize(@pending_teacher_submissions.size, ' Pending Submission') %>)
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class="row ">
+    <div class="ifa_panel_list">
+      <table class="table table-striped pending">
+        <tbody >
+        <% for ass in @pending_classroom_submissions do -%>
+            <tr id="<%= ass.public_id %>" >
+              <td  class="created">
+                <%= ass.created_at.strftime("%m-%d-%y") %>
+              </td>
+              <td  class="user">
+                <%= ass.user.last_name %>/<%=ass.teacher.last_name%>
+              </td>
+              <td  class="assessment">
+                <%= ass.act_assessment ? ass.act_assessment.name.titleize : 'No Assessment Found' %><br/>
+                <%= ass.act_subject ? ass.act_subject.name.titleize: 'No Subject Found' %>
+              </td>
+              <td class="review">
+                <%= link_to "REVIEW", ifa_submission_review_final_path(:organization_id => @current_organization,
+                                                                       :classroom_id => @current_classroom.id, :topic_id => (!@current_topic.nil? ? @current_topic.id : nil),
+                                                                       :act_submission_id => ass.id), :class=>'button_gray' %>
+              </td>
+              <td  class="ifa_pending_destroy">
+                <span id = "destroy_it_<%=ass.id %>" class = "btn btn-danger btn-xs">Destroy </span>
+              </td>
+            </tr>
+            <script type="text/javascript">
+              jQ(document).ready(function() {
+                jQ("#destroy_it_<%=ass.id %>").click(function() {
+                  var url = "<%= ifa_submission_pending_destroy_url(:organization_id => @current_organization,
+                              :classroom_id => @current_classroom.id, :topic_id => (!@current_topic.nil? ? @current_topic.id : nil), :act_submission_id => ass.id) %>";
+                  jQ.get(url,{},  function(data) {
+                    jQ("#review_pending").html(data);
+                    jQ("#review_pending").show();
+                  });
+                })
+              });
+            </script>
+        <% end %>
+			</tbody>
+		</table>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  jQ(document).ready(function() {
+    jQ("#destroy_all").click(function() {
+      var url = "<%= ifa_submission_pending_destroy_all_url(:organization_id => @current_organization,
+                              :classroom_id => @current_classroom.id, :topic_id => (!@current_topic.nil? ? @current_topic.id : nil)) %>";
+      jQ.get(url,{},  function(data) {
+        jQ("#review_pending").html(data);
+        jQ("#review_pending").show();
+      });
+    })
+  });
+</script>

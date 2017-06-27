@@ -4,6 +4,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
 
     before_filter :current_classroom
     before_filter :current_user_classroom_period?, :only=>[:index]
+    before_filter :current_user_classroom_teacher?, :only=>[:teacher_review]
     before_filter :current_app_superuser
     before_filter :current_user_app_admin
     before_filter :classroom_authorized?, :only=>[:index]
@@ -20,14 +21,52 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       @dashboard_subjects = @current_user.ifa_dashboards.collect{|s| s.act_subject}.compact.uniq rescue []
       start_date = @current_provider.ifa_org_option.begin_school_year
       prepare_ifa_dashboard(@current_user, start_date, Date.today)
-      @classroom_assessment_list = @current_classroom.act_assessments.active rescue []
-      @success = true
+      @classroom_assessment_list = @current_classroom.available_assessments rescue []
       student_assessment_dashboard(@last_submission)
-      assessment_header_info(@last_submission, ActMaster.default_std)
+      assessment_header_info(@last_submission, @current_standard)
       user_ifa_plans
       find_dashboard_update_start_dates(@current_user)
     end
 
+    def teacher_review
+      classroom_submissions
+      @assessment_subjects = @all_submitted_assessments.collect{|s| s.act_subject}.uniq rescue []
+      @student_list = @current_classroom.participants
+      @current_classroom_dashboards = @current_classroom.ifa_dashboards
+      aggregate_dashboard_cell_hashes(@current_classroom_dashboards, @current_classroom.act_subject, @current_standard)
+      aggregate_dashboard_header_info(@current_classroom_dashboards, @current_classroom.act_subject, @current_standard, @current_classroom)
+
+    end
+
+    def window_dashboard
+      get_entity
+      start_date = Date.new(params[:start_yr].to_i, params[:start_mth].to_i, 1)
+      end_date = Date.new(params[:end_yr].to_i, params[:end_mth].to_i, 1).end_of_month
+      @dashboards = @entity.ifa_dashboards.subject_between_periods(@current_subject, start_date, end_date)
+      aggregate_dashboard_cell_hashes(@dashboards, @current_subject, @current_standard)
+      aggregate_dashboard_header_info(@dashboards, @current_subject, @current_standard, @entity)
+
+      render :partial => "ifa/ifa_dashboard/dashboard",
+             :locals=>{:dashboard => @entity, :subject => @current_subject, :standard=>@current_standard, :cell_corrects=>@cell_correct,
+                       :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
+                       :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve}
+    end
+
+    def destroy_pending
+      get_current_submission
+      if @current_submission
+        @current_submission.destroy
+      end
+      classroom_submissions
+      render :partial => "/ifa/submission/teacher_review_pending"
+    end
+
+    def destroy_all_pending
+      classroom_submissions
+      @pending_teacher_submissions.destroy_all
+      classroom_submissions
+      render :partial => "/ifa/submission/teacher_review_pending"
+    end
 
     def take_assessment
       get_current_assessment
@@ -36,18 +75,21 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
         @current_teacher = @teacher_list.size == 1 ? @teacher_list.first : nil
         @preview = false
         @begin_time = Time.now
+        @view_mode = 'Take'
       else
         @teacher_list = []
-        @preview = true
+        @view_mode = 'Preview'
       end
 
-      render 'assessment_form', :layout => "assessment"
+      render :layout => "assessment"
     end
 
     def submission_teacher_select
       @current_teacher = User.find_by_id(params[:teacher_id])
       @teacher_list = @current_classroom_period.teachers
-      render :partial => "submit_assessment_button"
+      render :partial => "submit_assessment_button", :locals=>{:view_mode => 'Take', :organization => @current_organization,
+                                                                 :classroom => @current_classroom, :classroom_period => @current_classroom_period,
+                                                                 :teacher => @current_teacher, :teacher_list => @teacher_list}
     end
 
     def submit_assessment
@@ -84,11 +126,52 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
                                 :period_id => @current_classroom_period.id, :act_submission_is => (@current_submission.nil? ? nil : @current_submission.id),
                                 :topic_id => (@current_topic.nil? ? nil : @current_topic.id))
     end
+
+    def review_assessment
+      get_current_submission
+      if @current_submission
+        @current_assessment = @current_submission.act_assessment
+      end
+      if params[:function] == "Submit"
+        @reviewer = @current_user
+        sa_credits_ok = true
+        # SA Questions?
+        if params[:credit]
+          params[:credit].each do |question_id,value|
+            answer = @submission.act_answers.select{|a| a.act_question_id == question_id.to_i}.first
+            credit = value.to_f/4.0
+            unless answer.update_attributes(:points => credit)
+              sa_credits_ok = false
+            end
+          end  # end of SA Answer loop
+        end  # end of Check for SA credit
+        if sa_credits_ok
+          @submission.finalize(false, @reviewer.id)
+          #finalize_submission(@submission)
+        end
+        unless @finalized
+          flash[:error] = @submission.errors.full_messages.to_sentence
+        end
+        redirect_to ifa_teacher_review_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic)
+      else
+        render :layout => "assessment"
+      end
+    end
     ###############
 
     ###############
 
   private
+
+  def pending_classroom_assessments
+
+  end
+
+  def classroom_submissions
+    @teacher_classroom_submissions = @current_classroom.act_submissions.for_teacher(@current_user)
+    @pending_teacher_submissions = @current_classroom.act_submissions.pending(:teacher=>@current_user)
+    @pending_classroom_submissions = @current_classroom.act_submissions.pending
+  end
 
   def get_current_assessment
     if params[:act_assessment_id]
@@ -131,6 +214,19 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     submitted
   end
 
+
+  def get_entity
+    if params[:entity_class] == 'User'
+      @entity = User.find_by_public_id(params[:entity_id]) rescue nil
+    elsif params[:entity_class] == 'Classroom'
+      @entity = Classroom.find_by_public_id(params[:entity_id]) rescue nil
+    elsif params[:entity_class] == 'Organization'
+      @entity = Organization.find_by_public_id(params[:entity_id]) rescue nil
+    else
+      @entity = nil
+    end
+  end
+
   def sa_answers_completed?
     sa_complete = true
     if params[:short_ans]
@@ -160,8 +256,6 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
   end
 
   def mc_answers_completed?
-    @mc_checked_count = 0
-    @mc_missed_count = 0
     mc_complete = true
     @current_submission.update_attributes(:tot_choices => (params[:ans_check].nil? ? 0 : params[:ans_check].size),
                                           :tot_points => (params[:ans_check].nil? ? 0.0 : params[:ans_check].map{|aid| ActChoice.find_by_id(aid)}.select{|a| a.correct?}.size.to_f))
@@ -186,8 +280,6 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
             answer.points = choice.correct? ? 1.0 : 0.0
             unless @current_submission.act_answers << answer
               mc_complete = false
-            else
-              @mc_checked_count += 1
             end
           end
         end
@@ -209,8 +301,6 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
         answer.points = 0.0
         unless @current_submission.act_answers << answer
           mc_complete = false
-        else
-          @mc_missed_count += 1
         end
       end
     end

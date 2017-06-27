@@ -1,0 +1,104 @@
+<div id="teacher_review">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <div class= 'panel_title_blue'>
+        NEW Stuff <%= @current_classroom.course_name.upcase  %> Review | <%= @current_user.full_name %>
+      </div>
+    </div>
+    <div class="col-md-1 ">
+      <div class="row ifa_take_right">
+        <span class="button_gray">
+          <%= link_to 'Return', offering_view_path(:organization_id => @current_organization, :topic_id => @topic, :id => @current_classroom) %>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <div class= 'panel_subtitle_blue'>
+        Period: <%= @current_classroom_period.name.upcase  %> | <%= @current_classroom_period.teacher_list %>
+        <%= render :partial => "/shared/error_and_notice" %>
+      </div>
+    </div>
+    <div class="col-md-1 "></div>
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="row dashboard_box">
+        <div class="col-md-12 ">
+          <% if !@current_classroom_dashboards.empty? %>
+              <%= render :partial => "ifa/ifa_dashboard/dashboard",
+                         :locals=>{:dashboard => @current_classroom, :subject => @current_classroom.act_subject, :standard=>@current_standard, :cell_corrects=>@cell_correct,
+                                   :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
+                                   :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve} %>
+          <% end %>
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+
+  <div id="control_panel" >
+    <ul>
+      <li>
+        <%  tab_1_label = "Pending Assessments" %>
+        <a href="#tabs-1"><span class="tab_label">
+        <%= tab_1_label %></span></a>
+      </li>
+      <li>
+        <%  tab_2_label = "Student Assessments" %>
+        <a href="#tabs-2"><span class="tab_label">
+        <%= tab_2_label %></span></a>
+      </li>
+      <li>
+        <%  tab_3_label = " Classroom Growth" %>
+        <a href="#tabs-3"><span class="tab_label">
+        <%= tab_3_label %></span></a>
+      </li>
+      <li>
+        <%  tab_4_label = @current_classroom.act_subject.name + " Student Plans" %>
+        <a href="#tabs-4"><span class="tab_label">
+        <%= tab_4_label %></span></a>
+      </li>
+    </ul>
+
+    <div id="tabs-1" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%#= render :partial => "/apps/assessment/teacher_review_pending" %>
+        <%= render :partial => "/ifa/submission/teacher_review_pending" %>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-2" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%#= render :partial => "/apps/assessment/teacher_review_assessments" %>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-3" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%#= render :partial => "/apps/assessment/teacher_review_growth" %>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-4" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%#= render :partial => "/ifa/ifa_plan/teacher_review_plans", :locals=>{:students => @student_list, :subject => @classroom.act_subject} %>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
+<script type="text/javascript" charset="utf-8">
+  jQ(document).ready(function(){
+    jQ('#control_panel').tabs();
+  });
+</script>
+</div>

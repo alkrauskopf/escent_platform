@@ -12,4 +12,7 @@ class IfaDashboardCell < ActiveRecord::Base
   scope :with_strand_id, lambda{|strand_id| {:conditions => ["act_standard_id = ? ", strand_id]}}
   scope :for_standard, lambda{|standard | {:conditions => ["act_master_id = ? ", standard.id]}}
 
+  def self.levels_for_standard(standard)
+    where('act_master_id = ?', standard.id).map{|c| c.act_score_range}.uniq.sort_by{|r| r.lower_score}
+  end
 end

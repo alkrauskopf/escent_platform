@@ -42,6 +42,22 @@ class ActSubmission < ActiveRecord::Base
     self.is_final
   end
 
+  def self.pending(options={})
+    if options[:teacher]
+      where('teacher_id = ? && is_final = ?', options[:teacher].id, false).order('created_at DESC')
+    else
+      where('is_final = ?', false).order('created_at DESC')
+    end
+  end
+
+  def self.final(options={})
+    if options[:teacher]
+      where('teacher_id = ? && is_final', options[:teacher].id).order('created_at DESC')
+    else
+      where('is_final').order('created_at DESC')
+    end
+  end
+
   def subject
     self.act_subject
   end
@@ -51,7 +67,6 @@ class ActSubmission < ActiveRecord::Base
       where('act_assessment_id = ?', assessment.id).order('created_at DESC')
     end
   end
-
 
   def self.final_for_subject_window(subject, begin_date, end_date)
     where('act_subject_id = ? AND date_finalized >= ? AND date_finalized <= ? AND is_final', subject.id, begin_date, end_date)
@@ -153,12 +168,18 @@ class ActSubmission < ActiveRecord::Base
     total_answers
   end
 
+
+  def score_for(standard)
+    self.act_submission_scores.for_standard(standard).empty? ? nil :self.act_submission_scores.for_standard(standard).first
+  end
+
+
   def finalize_new(auto, reviewer_id, standard)
     finalized = false
-    ###   Suspend Question Logging For Now
-      self.act_assessment.questions_for_test.each do |quest|
-        self.log_ifa_question(quest)
-      end   # End Question Loop
+    ###   No need for question log
+    #  self.act_assessment.questions_for_test.each do |quest|
+    #    self.log_ifa_question_new(quest, standard)
+    #  end   # End Question Loop
     self.reviewer_id = reviewer_id
     self.is_auto_finalized = auto
     self.is_final = true
@@ -166,68 +187,163 @@ class ActSubmission < ActiveRecord::Base
     self.is_org_dashboarded = false
     self.is_classroom_dashboarded = false
     self.date_finalized = Time.now
-    if self.act_submission_scores.for_standard(standard).empty?
+    if self.score_for(standard).nil?
       submission_score = ActSubmissionScore.new(:act_master_id => standard.id)
       submission_score.est_sms = self.standard_scoring_rule
       submission_score.final_sms = self.standard_scoring_rule
       self.act_submission_scores << submission_score
     else
-      base_score = self.act_submission_scores.for_standard(standard).first
-      base_score.update_attributes(:final_sms => self.standard_scoring_rule)
+      self.score_for(standard).update_attributes(:final_sms => self.standard_scoring_rule)
     end
     if self.save
       # Update User Dashboard Only
-      self.auto_ifa_dashboard_update(self.user)
-      # Update First Classroom & Org Dashboard of Period
-      unless self.period_dashboard?(self.classroom)
-        self.auto_ifa_dashboard_update(self.classroom)
+      self.auto_ifa_dashboard_update_new(self.user, standard)
+      # Only Automatically Update First Classroom & Org Dashboard of Period
+      #
+      # Now, Try updating always
+      # if !self.period_dashboard?(self.classroom)
+      # Don't Classroom dashboard Submissions with incompatible subjects
+      if self.act_subject_id == self.classroom.act_subject_id
+        self.auto_ifa_dashboard_update_new(self.classroom, standard)
       end
-      unless self.period_dashboard?(self.organization)
-        self.auto_ifa_dashboard_update(self.organization)
-      end
+      # end
+      # if !self.period_dashboard?(self.organization)
+        self.auto_ifa_dashboard_update_new(self.organization, standard)
+      # end
       finalized = true
     end
     finalized
   end
 
-
-  def finalize(auto, reviewer_id)
-    finalized = false
-    if self.organization.ifa_org_option
-      self.act_assessment.act_questions.each do |quest|
-        self.log_ifa_question(quest)
-      end   # End Question Loop
+  def period_dashboard?(entity)
+    if entity.class.to_s == 'Organization'
+      dashboard = self.organization.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first ? true : false
+    elsif entity.class.to_s == 'Classroom'
+      dashboard = self.classroom.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first ? true : false
+    elsif entity.class.to_s == 'User'
+      dashboard = self.user.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first ? true : false
+    else
+      dashboard = false
     end
-    self.reviewer_id = reviewer_id
-    self.is_auto_finalized = auto
-    self.is_final = true
-    self.is_user_dashboarded = false
-    self.is_org_dashboarded = false
-    self.is_classroom_dashboarded = false
-    self.date_finalized = Time.now
-    self.tot_points = self.total_points
-    self.tot_choices = self.total_choices
-    self.act_submission_scores.each do |std|
-      fin_sms = self.is_auto_finalized ? std.est_sms : self.standard_assessment_score(std.act_master)
-      std.update_attributes(:final_sms => fin_sms)
-    end
-   # if self.update_attributes params[:act_submission]
-    if self.save
-      # Update User Dashboard Only
-      self.auto_ifa_dashboard_update(self.user)
-      # Update First Classroom & Org Dashboard of Period
-      unless self.period_dashboard?(self.classroom)
-        self.auto_ifa_dashboard_update(self.classroom)
-      end
-      unless self.period_dashboard?(self.organization)
-        self.auto_ifa_dashboard_update(self.organization)
-      end
-      finalized = true
-    end
-    finalized
+    dashboard
   end
 
-  def dashboard_it(dashboard_class)
+  def auto_ifa_dashboard_update_new(entity, standard)
+    if entity.class.to_s == "User"
+      if self.is_user_dashboarded
+        already_dashboarded = true
+      else
+        already_dashboarded = false
+        entity_dashboard = self.user.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first rescue nil
+        dashboardable_id = self.user_id
+        self.update_attributes(:is_user_dashboarded => true)
+      end
+    elsif entity.class.to_s == "Classroom"
+      if self.is_classroom_dashboarded
+        already_dashboarded = true
+      else
+        already_dashboarded = false
+        entity_dashboard = self.classroom.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first rescue nil
+        dashboardable_id = self.classroom_id
+        self.update_attributes(:is_classroom_dashboarded => true)
+      end
+    elsif entity.class.to_s == "Organization"
+      if self.is_org_dashboarded
+        already_dashboarded = true
+      else
+        already_dashboarded = false
+        entity_dashboard = self.organization.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first rescue nil
+        dashboardable_id = self.organization_id
+        self.update_attributes(:is_org_dashboarded => true)
+      end
+    end
+    if !already_dashboarded
+      if entity_dashboard.nil?
+        entity_dashboard = IfaDashboard.new
+        entity_dashboard.ifa_dashboardable_id = dashboardable_id
+        entity_dashboard.ifa_dashboardable_type = entity.class.to_s
+        entity_dashboard.period_end = self.created_at.to_date.at_end_of_month
+        entity_dashboard.organization_id = self.classroom.organization_id
+        entity_dashboard.act_subject_id = self.act_subject_id
+        entity_dashboard.assessments_taken = 1
+        entity_dashboard.finalized_assessments = 1
+        entity_dashboard.calibrated_assessments = self.act_assessment.is_calibrated ? 1: 0
+        entity_dashboard.finalized_answers = self.act_answers.selected.size rescue 0
+        entity_dashboard.calibrated_answers = self.act_answers.calibrated.selected.size rescue 0
+        entity_dashboard.cal_submission_answers = self.act_assessment.is_calibrated ? self.act_answers.calibrated.selected.size : 0
+        entity_dashboard.finalized_duration = self.duration
+        entity_dashboard.calibrated_duration = self.act_assessment.is_calibrated ?  self.duration : 0
+        entity_dashboard.fin_points = self.act_answers.collect{|a|a.points}.sum rescue 0.0
+        entity_dashboard.cal_points = self.act_answers.calibrated.collect{|a|a.points}.sum rescue 0.0
+        entity_dashboard.cal_submission_points = self.act_assessment.is_calibrated ? self.act_answers.calibrated.collect{|a|a.points}.sum : 0
+        entity_dashboard.save
+      else
+        entity_dashboard.assessments_taken += 1
+        entity_dashboard.finalized_assessments += 1
+        entity_dashboard.finalized_answers += self.act_answers.selected.size
+        entity_dashboard.calibrated_answers += self.act_answers.calibrated.selected.size
+        entity_dashboard.finalized_duration += self.duration
+        entity_dashboard.fin_points += self.act_answers.collect{|a|a.points}.sum
+        entity_dashboard.cal_points += self.act_answers.calibrated.collect{|a|a.points}.sum
+        if self.act_assessment.is_calibrated
+          entity_dashboard.calibrated_assessments += 1
+          entity_dashboard.calibrated_duration += self.duration
+          entity_dashboard.cal_submission_points += self.act_answers.calibrated.collect{|a|a.points}.sum
+          entity_dashboard.cal_submission_answers += self.act_answers.calibrated.selected.size
+        end
+        entity_dashboard.save
+      end
+
+      #  Standard is now passed parameter and elimiate Question log
+      self.act_answers.selected.each do |answer|
+        if !answer.mastery_level.nil? && !answer.strand.nil?
+          q_strand = answer.strand
+          q_range = answer.mastery_level
+          dashboard_cell = entity_dashboard.ifa_dashboard_cells.with_range_id(q_range.id).with_strand_id(q_strand.id).first
+          unless dashboard_cell
+            dashboard_cell = IfaDashboardCell.new
+            dashboard_cell.act_master_id = standard.id
+            dashboard_cell.act_score_range_id = q_range.id
+            dashboard_cell.act_standard_id = q_strand.id
+            dashboard_cell.finalized_answers = 1
+            dashboard_cell.calibrated_answers = answer.act_question.is_calibrated ? 1 : 0
+            dashboard_cell.fin_points = answer.points
+            dashboard_cell.cal_points = answer.act_question.is_calibrated ? answer.points : 0.0
+            entity_dashboard.ifa_dashboard_cells << dashboard_cell
+          else
+            dashboard_cell.finalized_answers += 1
+            dashboard_cell.calibrated_answers += answer.act_question.is_calibrated ? 1 : 0
+            dashboard_cell.fin_points += answer.points
+            dashboard_cell.cal_points += answer.act_question.is_calibrated ? answer.points : 0.0
+            dashboard_cell.save
+          end
+        end
+      end  # end of answers
+
+      dashboard_sms = entity_dashboard.ifa_dashboard_sms_scores.for_standard(standard).first rescue nil
+      #     up_to_date = entity_dashboard.period_end
+      #    up_to_date = Date.today
+      #    since_date = (up_to_date - self.organization.ifa_org_option.sms_calc_cycle.days).to_date rescue Date.today.at_end_of_month
+      #   h_threshold = self.organization.ifa_org_option.sms_h_threshold rescue 0.75
+      if !dashboard_sms.nil?
+        dashboard_sms = IfaDashboardSmsScore.new
+        dashboard_sms.act_master_id = standard.id
+        dashboard_sms.ifa_dashboard_id = entity_dashboard.id
+      end
+      dashboard_sms.score_range_min = entity_dashboard.level_range(standard).first.lower_score rescue 0
+      dashboard_sms.score_range_max = entity_dashboard.level_range(standard).last.upper_score rescue 0
+      dashboard_sms.standard_score = entity_dashboard.calculated_standard_score(standard, :calibrated => false)
+      dashboard_sms.standard_score_cal = entity_dashboard.calculated_standard_score(standard, :calibrated => true)
+      dashboard_sms.sms_finalized = standard.sms_for_dashboard(entity_dashboard, :calibrated => false)
+      dashboard_sms.sms_calibrated = standard.sms_for_dashboard(entity_dashboard, :calibrated => true)
+      dashboard_sms.baseline_score = standard.base_score(entity, self.act_subject)
+      entity_dashboard.ifa_dashboard_sms_scores << dashboard_sms
+      dashboard_sms.save
+    end # Already Dashboarded Condition
+  end
+
+
+  def dashboard_it_new(dashboard_class)
     self.auto_ifa_dashboard_update(dashboard_class)
   end
 
@@ -304,6 +420,51 @@ class ActSubmission < ActiveRecord::Base
     min_max_score
   end
 
+  #####   Original Finalize & Dashboarding methods
+
+  def finalize(auto, reviewer_id)
+    finalized = false
+    if self.organization.ifa_org_option
+      self.act_assessment.act_questions.each do |quest|
+        self.log_ifa_question(quest)
+      end   # End Question Loop
+    end
+    self.reviewer_id = reviewer_id
+    self.is_auto_finalized = auto
+    self.is_final = true
+    self.is_user_dashboarded = false
+    self.is_org_dashboarded = false
+    self.is_classroom_dashboarded = false
+    self.date_finalized = Time.now
+    self.tot_points = self.total_points
+    self.tot_choices = self.total_choices
+    self.act_submission_scores.each do |std|
+      fin_sms = self.is_auto_finalized ? std.est_sms : self.standard_assessment_score(std.act_master)
+      std.update_attributes(:final_sms => fin_sms)
+    end
+    # if self.update_attributes params[:act_submission]
+    if self.save
+      # Update User Dashboard Only
+      self.auto_ifa_dashboard_update(self.user)
+      # Only Automatically Update First Classroom & Org Dashboard of Period
+      #
+      # Now, Try updating always
+      if !self.period_dashboard?(self.classroom)
+        self.auto_ifa_dashboard_update(self.classroom)
+      end
+      if !self.period_dashboard?(self.organization)
+        self.auto_ifa_dashboard_update(self.organization)
+      end
+      finalized = true
+    end
+    finalized
+  end
+
+
+  def dashboard_it(dashboard_class)
+    self.auto_ifa_dashboard_update(dashboard_class)
+  end
+
   def auto_ifa_dashboard_update(entity)
     if entity.class.to_s == "User"
       if self.is_user_dashboarded
@@ -370,81 +531,67 @@ class ActSubmission < ActiveRecord::Base
         entity_dashboard.save
       end
 
-  #    ifa_org_option = Organization.find_by_id(entity_dashboard.organization_id).ifa_org_option rescue nil
-  #    if ifa_org_option
-   #     ifa_org_option.act_masters.each do |mstr|
-      mstr = ActMaster.default
+          ifa_org_option = Organization.find_by_id(entity_dashboard.organization_id).ifa_org_option rescue nil
+          if ifa_org_option
+           ifa_org_option.act_masters.each do |mstr|
       self.ifa_question_logs.each do |log|
-            q_range = log.act_question.act_score_ranges.for_standard(mstr).first rescue nil
-            q_strand = log.act_question.act_standards.for_standard(mstr).first rescue nil
-            if q_range && q_strand
-              dashboard_cell = entity_dashboard.ifa_dashboard_cells.with_range_id(q_range.id).with_strand_id(q_strand.id).first
-              unless dashboard_cell
-                dashboard_cell = IfaDashboardCell.new
-                dashboard_cell.act_master_id = mstr.id
-                dashboard_cell.act_score_range_id = q_range.id
-                dashboard_cell.act_standard_id = q_strand.id
-                dashboard_cell.finalized_answers = log.choices
-                dashboard_cell.calibrated_answers = log.is_calibrated ? log.choices : 0
-                dashboard_cell.fin_points = log.earned_points
-                dashboard_cell.cal_points = log.is_calibrated ? log.earned_points : 0.0
+        q_range = log.act_question.act_score_ranges.for_standard(mstr).first rescue nil
+        q_strand = log.act_question.act_standards.for_standard(mstr).first rescue nil
+        if q_range && q_strand
+          dashboard_cell = entity_dashboard.ifa_dashboard_cells.with_range_id(q_range.id).with_strand_id(q_strand.id).first
+          unless dashboard_cell
+            dashboard_cell = IfaDashboardCell.new
+            dashboard_cell.act_master_id = mstr.id
+            dashboard_cell.act_score_range_id = q_range.id
+            dashboard_cell.act_standard_id = q_strand.id
+            dashboard_cell.finalized_answers = log.choices
+            dashboard_cell.calibrated_answers = log.is_calibrated ? log.choices : 0
+            dashboard_cell.fin_points = log.earned_points
+            dashboard_cell.cal_points = log.is_calibrated ? log.earned_points : 0.0
 #              dashboard_cell.finalized_hover = target_hovers(entity, self.act_subject, q_range, q_strand, entity_dashboard_xx.period_end.beginning_of_month, 75, false)
 #              dashboard_cell.calibrated_hover = target_hovers(entity, self.act_subject, q_range, q_strand, entity_dashboard_xx.period_end.beginning_of_month, 75, true)
-                entity_dashboard.ifa_dashboard_cells << dashboard_cell
-              else
-                dashboard_cell.finalized_answers += log.choices
-                dashboard_cell.calibrated_answers += log.is_calibrated ? log.choices : 0
-                dashboard_cell.fin_points += log.earned_points
-                dashboard_cell.cal_points += log.is_calibrated ? log.earned_points : 0.0
-#              dashboard_cell.finalized_hover = target_hovers(entity, self.act_subject, q_range, q_strand, entity_dashboard_xx.period_end.beginning_of_month, 75, false)
-#              dashboard_cell.calibrated_hover = target_hovers(entity, self.act_subject, q_range, q_strand, entity_dashboard_xx.period_end.beginning_of_month, 75, true)
-               # dashboard_cell.update_attributes(params[:ifa_dashboard_cell])
-                dashboard_cell.save
-              end
-            end
-          end    # End Log Loop
-
-          dashboard_sms = entity_dashboard.ifa_dashboard_sms_scores.for_standard(mstr).first
-          up_to_date = Date.today
-          since_date = (up_to_date - self.organization.ifa_org_option.sms_calc_cycle.days).to_date rescue Date.today.at_end_of_month
-          h_threshold = self.organization.ifa_org_option.sms_h_threshold rescue 0.75
-          unless dashboard_sms
-            dashboard_sms = IfaDashboardSmsScore.new
-            dashboard_sms.act_master_id = mstr.id
-            dashboard_sms.score_range_min = self.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
-            dashboard_sms.score_range_max = self.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
-            dashboard_sms.sms_finalized = mstr.sms_for_period(entity, self.act_subject, entity_dashboard.period_ending, h_threshold, false)
-            dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, self.act_subject, entity_dashboard.period_ending, h_threshold, true)
-            dashboard_sms.baseline_score = mstr.base_score(entity, self.act_subject)
-            entity_dashboard.ifa_dashboard_sms_scores << dashboard_sms
+            entity_dashboard.ifa_dashboard_cells << dashboard_cell
           else
-            new_min = self.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
-            if (new_min < dashboard_sms.score_range_min && new_min != 0) then dashboard_sms.score_range_min = new_min end
-            new_max =  self.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
-            if (new_max > dashboard_sms.score_range_max && new_max != 0) then dashboard_sms.score_range_max =  new_max end
-            dashboard_sms.sms_finalized = mstr.sms_for_period(entity, self.act_subject, entity_dashboard.period_ending, h_threshold, false)
-            dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, self.act_subject, entity_dashboard.period_ending, h_threshold, true)
-            dashboard_sms.baseline_score = mstr.base_score(entity, self.act_subject)
-            # dashboard_sms.update_attributes(params[:ifa_dashboard_sms_score])
-            dashboard_sms.save
+            dashboard_cell.finalized_answers += log.choices
+            dashboard_cell.calibrated_answers += log.is_calibrated ? log.choices : 0
+            dashboard_cell.fin_points += log.earned_points
+            dashboard_cell.cal_points += log.is_calibrated ? log.earned_points : 0.0
+#              dashboard_cell.finalized_hover = target_hovers(entity, self.act_subject, q_range, q_strand, entity_dashboard_xx.period_end.beginning_of_month, 75, false)
+#              dashboard_cell.calibrated_hover = target_hovers(entity, self.act_subject, q_range, q_strand, entity_dashboard_xx.period_end.beginning_of_month, 75, true)
+# dashboard_cell.update_attributes(params[:ifa_dashboard_cell])
+            dashboard_cell.save
           end
-  #      end  # end Master Loop
-  #    end
+        end
+      end    # End Log Loop
+
+      dashboard_sms = entity_dashboard.ifa_dashboard_sms_scores.for_standard(mstr).first
+      up_to_date = Date.today
+      since_date = (up_to_date - self.organization.ifa_org_option.sms_calc_cycle.days).to_date rescue Date.today.at_end_of_month
+      h_threshold = self.organization.ifa_org_option.sms_h_threshold rescue 0.75
+      unless dashboard_sms
+        dashboard_sms = IfaDashboardSmsScore.new
+        dashboard_sms.act_master_id = mstr.id
+        dashboard_sms.score_range_min = self.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
+        dashboard_sms.score_range_max = self.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
+        dashboard_sms.sms_finalized = mstr.sms_for_period(entity, self.act_subject, entity_dashboard.period_ending, h_threshold, false)
+        dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, self.act_subject, entity_dashboard.period_ending, h_threshold, true)
+        dashboard_sms.baseline_score = mstr.base_score(entity, self.act_subject)
+        entity_dashboard.ifa_dashboard_sms_scores << dashboard_sms
+      else
+        new_min = self.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.lower_score rescue 0
+        if (new_min < dashboard_sms.score_range_min && new_min != 0) then dashboard_sms.score_range_min = new_min end
+        new_max =  self.act_assessment.act_assessment_score_ranges.for_standard(mstr).first.upper_score rescue 0
+        if (new_max > dashboard_sms.score_range_max && new_max != 0) then dashboard_sms.score_range_max =  new_max end
+        dashboard_sms.sms_finalized = mstr.sms_for_period(entity, self.act_subject, entity_dashboard.period_ending, h_threshold, false)
+        dashboard_sms.sms_calibrated = mstr.sms_for_period(entity, self.act_subject, entity_dashboard.period_ending, h_threshold, true)
+        dashboard_sms.baseline_score = mstr.base_score(entity, self.act_subject)
+        # dashboard_sms.update_attributes(params[:ifa_dashboard_sms_score])
+        dashboard_sms.save
+      end
+            end  # end Master Loop
+          end
     end  # no IFA ORG Options
   end # Already Dashboarded Condition
-
-  def period_dashboard?(entity)
-    if entity.class.to_s == 'Organization'
-      dashboard = self.organization.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first ? true : false
-    elsif entity.class.to_s == 'Classroom'
-      dashboard = self.classroom.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first ? true : false
-    elsif entity.class.to_s == 'User'
-      dashboard = self.user.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first ? true : false
-    else
-      dashboard = false
-    end
-    dashboard
-  end
 
   def log_ifa_question(question)
     existing_question = self.ifa_question_logs.for_question(question).first rescue nil
@@ -469,88 +616,89 @@ class ActSubmission < ActiveRecord::Base
 
 ### update Question Performance
 #   JUst One Standard Now
- #     self.organization.ifa_org_option.act_masters.each do |mstr|
-        mstr = ActMaster.default
-        student_latest_dashboard = self.user.ifa_dashboards.for_subject(self.act_subject).last rescue nil
-        student_latest_scores = student_latest_dashboard.ifa_dashboard_sms_scores.for_standard(mstr).first rescue nil
-        student_range = ActScoreRange.for_standard(mstr).for_subject_sms(self.act_subject, student_latest_scores.sms_finalized).first rescue nil
-        question_range_student = question.ifa_question_performances.for_range(student_range).first rescue nil
-        q_earned_points = self.act_answers.for_question(question).collect{|a|a.points}.sum rescue 0.0
-        q_answers = self.act_answers.for_question(question).selected.size  rescue 0
+#     self.organization.ifa_org_option.act_masters.each do |mstr|
+      mstr = ActMaster.default
+      student_latest_dashboard = self.user.ifa_dashboards.for_subject(self.act_subject).last rescue nil
+      student_latest_scores = student_latest_dashboard.ifa_dashboard_sms_scores.for_standard(mstr).first rescue nil
+      student_range = ActScoreRange.for_standard(mstr).for_subject_sms(self.act_subject, student_latest_scores.sms_finalized).first rescue nil
+      question_range_student = question.ifa_question_performances.for_range(student_range).first rescue nil
+      q_earned_points = self.act_answers.for_question(question).collect{|a|a.points}.sum rescue 0.0
+      q_answers = self.act_answers.for_question(question).selected.size  rescue 0
 
-        if student_range
-          if question_range_student
-            question_range_student.students += 1
-            question_range_student.answers += q_answers
-            question_range_student.points += q_earned_points
-            # question_range_student.update_attributes(params[:ifa_question_performance])
-            question_range_student.save
-          else
-            question_range_student = IfaQuestionPerformance.new
-            question_range_student.act_score_range_id = student_range.id
-            question_range_student.students = 1
-            question_range_student.points = q_earned_points
-            question_range_student.answers = q_answers
-            question_range_student.calibrated_students = 0
-            question_range_student.calibrated_student_answers = 0
-            question_range_student.calibrated_student_points = 0.0
-            question_range_student.baseline_students = 0
-            question_range_student.baseline_answers = 0
-            question_range_student.baseline_points = 0.0
-            question.ifa_question_performances << question_range_student
-          end
-        end   # end condition if student has existing sms score
-        student_calibrated_range = ActScoreRange.for_standard(mstr).for_subject_sms(self.act_subject, student_latest_scores.sms_calibrated).first rescue nil
-        question_range_cal_student = question.ifa_question_performances.for_range(student_calibrated_range).first rescue nil
-        if student_calibrated_range
-          if question_range_cal_student
-            question_range_cal_student.calibrated_students += 1
-            question_range_cal_student.calibrated_student_answers += q_answers
-            question_range_cal_student.calibrated_student_points += q_earned_points
-            # question_range_cal_student.update_attributes(params[:ifa_question_performance])
-            question_range_cal_student.save
-          else
-            question_range_cal_student = IfaQuestionPerformance.new
-            question_range_cal_student.act_score_range_id = student_calibrated_range.id
-            question_range_cal_student.students = 0
-            question_range_cal_student.points = 0.0
-            question_range_cal_student.answers = 0
-            question_range_cal_student.calibrated_students = 1
-            question_range_cal_student.calibrated_student_answers = q_answers
-            question_range_cal_student.calibrated_student_points = q_earned_points
-            question_range_cal_student.baseline_students = 0
-            question_range_cal_student.baseline_points = 0.0
-            question_range_cal_student.baseline_answers = 0
-            question.ifa_question_performances << question_range_cal_student
-          end
-        end   # end condition if student has existing calibrated sms score
-        student_baseline_score = self.user.ifa_user_baseline_scores.for_subject(self.act_subject).for_standard(mstr).first.score rescue nil
-        student_baseline_range = ActScoreRange.for_standard(mstr).for_subject_sms(self.act_subject, student_baseline_score).first rescue nil
-        question_range_base_student = question.ifa_question_performances.for_range(student_baseline_range).first rescue nil
-        if student_baseline_range
-          if question_range_base_student
-            question_range_base_student.baseline_students += 1
-            question_range_base_student.baseline_answers += q_answers
-            question_range_base_student.baseline_points += q_earned_points
-            # question_range_base_student.update_attributes(params[:ifa_question_performance])
-            question_range_base_student.save
-          else
-            question_range_base_student = IfaQuestionPerformance.new
-            question_range_base_student.act_score_range_id = student_baseline_range.id
-            question_range_base_student.students = 0
-            question_range_base_student.points = 0.0
-            question_range_base_student.answers = 0
-            question_range_base_student.calibrated_students = 0
-            question_range_base_student.calibrated_student_answers = 0
-            question_range_base_student.calibrated_student_points = 0.0
-            question_range_base_student.baseline_students = 1
-            question_range_base_student.baseline_answers = q_answers
-            question_range_base_student.baseline_points = q_earned_points
-            question.ifa_question_performances << question_range_base_student
-          end
-        end   # end condition if student has existing baseline score
+      if student_range
+        if question_range_student
+          question_range_student.students += 1
+          question_range_student.answers += q_answers
+          question_range_student.points += q_earned_points
+          # question_range_student.update_attributes(params[:ifa_question_performance])
+          question_range_student.save
+        else
+          question_range_student = IfaQuestionPerformance.new
+          question_range_student.act_score_range_id = student_range.id
+          question_range_student.students = 1
+          question_range_student.points = q_earned_points
+          question_range_student.answers = q_answers
+          question_range_student.calibrated_students = 0
+          question_range_student.calibrated_student_answers = 0
+          question_range_student.calibrated_student_points = 0.0
+          question_range_student.baseline_students = 0
+          question_range_student.baseline_answers = 0
+          question_range_student.baseline_points = 0.0
+          question.ifa_question_performances << question_range_student
+        end
+      end   # end condition if student has existing sms score
+      student_calibrated_range = ActScoreRange.for_standard(mstr).for_subject_sms(self.act_subject, student_latest_scores.sms_calibrated).first rescue nil
+      question_range_cal_student = question.ifa_question_performances.for_range(student_calibrated_range).first rescue nil
+      if student_calibrated_range
+        if question_range_cal_student
+          question_range_cal_student.calibrated_students += 1
+          question_range_cal_student.calibrated_student_answers += q_answers
+          question_range_cal_student.calibrated_student_points += q_earned_points
+          # question_range_cal_student.update_attributes(params[:ifa_question_performance])
+          question_range_cal_student.save
+        else
+          question_range_cal_student = IfaQuestionPerformance.new
+          question_range_cal_student.act_score_range_id = student_calibrated_range.id
+          question_range_cal_student.students = 0
+          question_range_cal_student.points = 0.0
+          question_range_cal_student.answers = 0
+          question_range_cal_student.calibrated_students = 1
+          question_range_cal_student.calibrated_student_answers = q_answers
+          question_range_cal_student.calibrated_student_points = q_earned_points
+          question_range_cal_student.baseline_students = 0
+          question_range_cal_student.baseline_points = 0.0
+          question_range_cal_student.baseline_answers = 0
+          question.ifa_question_performances << question_range_cal_student
+        end
+      end   # end condition if student has existing calibrated sms score
+      student_baseline_score = self.user.ifa_user_baseline_scores.for_subject(self.act_subject).for_standard(mstr).first.score rescue nil
+      student_baseline_range = ActScoreRange.for_standard(mstr).for_subject_sms(self.act_subject, student_baseline_score).first rescue nil
+      question_range_base_student = question.ifa_question_performances.for_range(student_baseline_range).first rescue nil
+      if student_baseline_range
+        if question_range_base_student
+          question_range_base_student.baseline_students += 1
+          question_range_base_student.baseline_answers += q_answers
+          question_range_base_student.baseline_points += q_earned_points
+          # question_range_base_student.update_attributes(params[:ifa_question_performance])
+          question_range_base_student.save
+        else
+          question_range_base_student = IfaQuestionPerformance.new
+          question_range_base_student.act_score_range_id = student_baseline_range.id
+          question_range_base_student.students = 0
+          question_range_base_student.points = 0.0
+          question_range_base_student.answers = 0
+          question_range_base_student.calibrated_students = 0
+          question_range_base_student.calibrated_student_answers = 0
+          question_range_base_student.calibrated_student_points = 0.0
+          question_range_base_student.baseline_students = 1
+          question_range_base_student.baseline_answers = q_answers
+          question_range_base_student.baseline_points = q_earned_points
+          question.ifa_question_performances << question_range_base_student
+        end
+      end   # end condition if student has existing baseline score
 
-   #   end  # End Master Loop for Question Performance
+      #   end  # End Master Loop for Question Performance
     end
   end
+
 end

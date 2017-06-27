@@ -46,6 +46,13 @@ class ActAnswer < ActiveRecord::Base
      end
   end
 
+  def mastery_level
+    self.act_question.mastery_level
+  end
+
+  def strand
+    self.act_question.strand
+  end
 
 
   def target_students(answers, target)

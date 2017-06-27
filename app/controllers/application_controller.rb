@@ -92,6 +92,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_user_classroom_teacher?
+    if @current_classroom_period.nil? && !@current_classroom.nil?
+      redirect_to offering_view_path(:organization_id => @current_organization, :topic_id => nil, :id => @current_classroom)
+    elsif !@current_classroom.nil? && !@current_user.teacher_for_org?(@current_organization)
+      redirect_to offering_view_path(:organization_id => @current_organization, :topic_id => nil, :id => @current_classroom)
+    elsif @current_classroom.nil?
+      redirect_to organization_view_path(:organization_id => @current_organization)
+    end
+  end
+
   def current_org_current_app_provider?
     unless (!@current_organization.nil? && !@current_application.nil? && @current_organization.provider?(@current_application))
       org = @current_organization.nil? ? Organization.default : @current_organization

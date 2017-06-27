@@ -1,0 +1,12 @@
+<%= render :partial => "assessment_form",
+           :locals=>{:view_mode => 'Preview',
+                     :organization => @current_organization,
+                     :classroom => @current_classroom,
+                     :user => @current_user,
+                     :classroom_period => @current_classroom_period,
+                     :topic => @current_topic,
+                     :assessment => @current_assessment,
+                     :teacher => @current_teacher,
+                     :teacher_list => @teacher_list,
+                     :begin_time => @begin_time
+           } %>

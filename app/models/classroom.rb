@@ -202,7 +202,11 @@ class Classroom < ActiveRecord::Base
   def ifa_retake_days
     self.ifa_classroom_option ? (self.ifa_classroom_option.days_til_repeat == nil ? 0 : self.ifa_classroom_option.days_til_repeat) : 0
   end
-    
+
+  def available_assessments
+    self.act_assessments.active.sort_by{|a| a.lower_level.lower_score}
+  end
+
   def active?
       self.status == "active"
   end
@@ -333,7 +337,7 @@ class Classroom < ActiveRecord::Base
   end
 
   def participants
-    self.students
+    self.students.sort{|a,b| a.last_name <=> b.last_name}
   end
 
   def leaders_and_students

@@ -7,7 +7,7 @@ class Ifa::ApplicationController < ApplicationController
   before_filter :current_standard
 
   def current_standard
-      @current_standard ||= @current_provider.master_standard
+      @current_standard ||= (params[:act_master_id] ? ActMaster.find_by_id(params[:act_master_id]) : @current_provider.master_standard)
   end
 
   def current_classroom

@@ -500,6 +500,12 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/submission/take' => 'ifa/submission#take_assessment'    # ifa_submission_take_path
   post '/ifa/submission/submit' => 'ifa/submission#submit_assessment'    # ifa_submission_submit_path
   get '/ifa/submission/teacher' => 'ifa/submission#submission_teacher_select'  # ifa_submission_teacher_url
+  get '/ifa/submission/teacher/review' => 'ifa/submission#teacher_review'   # ifa_submission_teacher_review_path
+  get '/ifa/dashboard/window' => 'ifa/submission#window_dashboard' #  ifa_dashboard_window_url
+  get '/ifa/submission/pending_destroy' => 'ifa/submission#destroy_pending'    # ifa_submission_pending_destroy_url
+  get '/ifa/submission/pending_destroy_all' => 'ifa/submission#destroy_all_pending'    # ifa_submission_pending_destroy_all_url
+  get '/ifa/submission/review/final' => 'ifa/submission#review_assessment'    # ifa_submission_review_final_path
+  post '/ifa/submission/review/final' => 'ifa/submission#final_assessment_reviewx'    # ifa_submission_review_final_path
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

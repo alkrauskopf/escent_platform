@@ -1,0 +1,33 @@
+
+ <div>
+   <table class="table table-bordered table-hover answer_box">
+     <tbody>
+      <% if question.question_type =="MC" -%>
+          <% answer_choices = submission.mc_answers_for_question(question) %>
+         <% question.choices.each do |chc| -%>
+             <tr>
+               <td>
+                  <% if answer_choices.include?(chc) %>
+                    <% if chc.correct? %>
+                       <span class='selected_symbol'><i class='correct_answer answer_symbol'></i></span>
+                     <% else %>
+                         <span class='selected_symbol'><i class='incorrect_answer answer_symbol'></i></span>
+                     <% end %>
+                  <% end %>
+               </td>
+               <td	class="question_choice"  >
+                 <% symbol_text = chc.correct? ? ("<span class='answer_symbol'>&nbsp;<i class='star_achievement'></i></span>") : '' %>
+                 <%= simple_format(chc.choice + symbol_text) %>
+               </td>
+             </tr>
+         <% end -%>
+      <% else -%>
+         <tr>
+           <td	colspan=2 class="sa_answer_box">
+             <%= simple_format((submission.short_answer_for_question(question).nil? ? nil : submission.short_answer_for_question(question).short_answer)) %>
+           </td>
+         </tr>
+     <% end -%>
+     </tbody>
+   </table>
+ </div>

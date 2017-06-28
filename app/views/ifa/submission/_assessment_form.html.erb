@@ -7,7 +7,7 @@
   </div>
   <div class="col-md-6">
       <div class= "assess_header_ctr">
-        <%= view_mode == 'Preview' ? 'Classroom Name Here' : classroom.name.upcase %>
+        <%= form_heading %>
       </div>
   </div>
   <div class="col-md-3">
@@ -21,12 +21,12 @@
 <div class="row">
   <div class="col-md-3">
     <div class= "assess_header_margin_left">
-      <%= view_mode == 'Preview' ? 'Teacher Names' : classroom_period.teacher_list %>
+      <%= form_left %>
     </div>
   </div>
   <div class="col-md-6">
     <div class= "assess_subheader_ctr">
-      <%= Time.now.strftime("%B %d, %Y")%>
+      <%= form_time.strftime("%B %d, %Y")%>
     </div>
   </div>
   <div class="col-md-3">
@@ -42,6 +42,10 @@
         <span class="button_gray">
           <%= link_to 'Return', ifa_take_path(:organization_id => organization, :classroom_id => classroom.id, :period_id => classroom_period.id, :topic_id => (topic.nil? ? nil : topic.id)), :confirm => "Are You Sure? You Have Not Submitted Your Assessment." %>
         </span>
+      <% elsif view_mode == 'Review' -%>
+        <span class="button_gray">
+          <%= link_to 'Return', ifa_submission_teacher_review_path(:organization_id => organization,:classroom_id => classroom.id, :period_id => (classroom_period.nil? ? nil : classroom_period.id), :topic_id => (topic.nil? ? nil : topic.id)) %>
+        </span>
       <% end -%>
     </div>
   </div>
@@ -52,33 +56,45 @@
   </div>
   <div class="col-md-3"></div>
 </div>
-<%= form_for(:act_submission, :url => ifa_submission_submit_path(:organization_id => organization, :classroom_id => (classroom.nil? ? nil : classroom.id),
-                                                                 :topic_id => (topic.nil? ? nil :topic.id), :period_id => (classroom_period.nil? ? nil : classroom_period.id),
-                                                                 :act_assessment_id => assessment.id, :begin_time => begin_time), html: { id: "id"}) do |form| -%>
-  <%= render :partial => "/shared/error_and_notice" %>
-  <div class="question_list_box">
-    <% @current_assessment.questions_for_test.each_with_index do |quest,idx| %>
-      <%= render :partial => "view_question_in_assessment" , :locals => {:quest => quest, :num => idx+1} %>
-    <% end -%>
-    <div class="eoa">
-      - - End - -
-    </div>
+
+<%= render :partial => "/shared/error_and_notice" %>
+<div class="question_list_box">
+  <% assessment.questions_for_test.each_with_index do |quest,idx| %>
+    <%= render :partial => "view_question_in_assessment" , :locals => {:submission => submission, :quest => quest, :num => idx+1, :review => (view_mode == 'Review')} %>
+  <% end -%>
+</div>
+<% if view_mode != 'Review' %>
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8 assess_form_end">
+    <span class="assess_form_end_label">End of Assessment:</span>
+    <%= text_field :act_submission, :student_comment, :size => 55, :maxlength => 150, :placeholder => 'Optional Comment' %>
   </div>
-  <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8 assess_form_end">
-      <span class=".assess_form_end_label">Optional Comment:</span>
-      <%= text_field :act_submission, :student_comment, :size => 55, :maxlength => 150 %>
+  <div class="col-md-2"></div>
+</div>
+<% else %>
+    <div class="row comment_box">
+      <div class="col-md-1"></div>
+      <div class="col-md-2 student_comment_label">
+        Student Comment:
+      </div>
+      <div class="col-md-8 student_comment">
+        <%= simple_format(submission.student_comment == '' ? '- none -' : submission.student_comment) %>
+      </div>
     </div>
-    <div class="col-md-2"></div>
+  <div class="row reviewer_end_row">
+    <div class="col-md-3"></div>
+    <div class="col-md-8">
+      <%= text_area :act_submission, :teacher_comment, :rows => 3, :cols => 70, :placeholder => 'Reviewer Comment', :value => @current_submission.teacher_comment  %>
+    </div>
+    <div class="col-md-1"></div>
   </div>
-  <div class="row">
-    <div class="col-md-2" ></div>
-    <div class="col-md-8 assess_submit_row">
-        <%= render :partial => "submit_assessment_button", :locals=>{:view_mode => view_mode, :organization => organization,
-                                                                     :classroom => classroom, :classroom_period => classroom_period,
-                                                                     :teacher => teacher, :teacher_list => teacher_list} %>
+  <div class="row reviewer_end_row_final">
+    <div class="col-md-3"></div>
+    <div class="col-md-8 ">
+      <%= check_box :act_submission, :is_final %> &nbsp;&nbsp;Finalize?
     </div>
-    <div class="col-md-2" ></div>
-	</div>	
-<% end -%>
+    <div class="col-md-1"></div>
+  </div>
+<% end %>
+

@@ -24,6 +24,12 @@ class ActAnswer < ActiveRecord::Base
   scope :calibrated, :conditions => { :is_calibrated => true }
 
 
+  def self.answer_choices(question)
+    where('act_question_id = ? && was_selected', question.id).map{|a| a.act_choice}
+  end
+  def self.short_answer(question)
+    where('act_question_id = ? && was_selected', question.id).first rescue nil
+  end
   def self.selected_and_after(after_date)
     where('created_at >= ? AND was_selected', after_date)
   end

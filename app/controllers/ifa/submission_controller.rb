@@ -87,9 +87,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     def submission_teacher_select
       @current_teacher = User.find_by_id(params[:teacher_id])
       @teacher_list = @current_classroom_period.teachers
-      render :partial => "submit_assessment_button", :locals=>{:view_mode => 'Take', :organization => @current_organization,
-                                                                 :classroom => @current_classroom, :classroom_period => @current_classroom_period,
-                                                                 :teacher => @current_teacher, :teacher_list => @teacher_list}
+      render :partial => "submit_assessment_button", :locals=>{:view_mode => 'Take'}
     end
 
     def submit_assessment
@@ -127,7 +125,12 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
                                 :topic_id => (@current_topic.nil? ? nil : @current_topic.id))
     end
 
-    def review_assessment
+    def teacher_review_submission
+      get_current_submission
+      render 'review_assessment', :layout => "assessment"
+    end
+
+    def teacher_review_update
       get_current_submission
       if @current_submission
         @current_assessment = @current_submission.act_assessment

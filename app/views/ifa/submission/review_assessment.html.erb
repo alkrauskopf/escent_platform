@@ -1,12 +1,23 @@
-<%= render :partial => "assessment_form",
-           :locals=>{:view_mode => 'Preview',
-                     :organization => @current_organization,
-                     :classroom => @current_classroom,
-                     :user => @current_user,
-                     :classroom_period => @current_classroom_period,
-                     :topic => @current_topic,
-                     :assessment => @current_assessment,
-                     :teacher => @current_teacher,
-                     :teacher_list => @teacher_list,
-                     :begin_time => @begin_time
-           } %>
+<%= form_for(:act_submission, :url => ifa_submission_review_final_path(:organization_id => @current_organization, :act_submission_id => @current_submission.id)) do |form| -%>
+    <%= render :partial => "assessment_form",
+               :locals=>{:view_mode => 'Review',
+                         :form_heading => (@current_classroom.name.upcase + ' Assessment Review'),
+                         :form_left => (@current_submission.teacher ? @current_submission.teacher.last_name : 'Former Teacher'),
+                         :form_time => @current_submission.created_at,
+                         :submission => @current_submission,
+                         :organization => @current_submission.organization,
+                         :classroom => @current_submission.classroom,
+                         :classroom_period => @current_classroom_period,
+                         :topic => @current_topic,
+                         :user => @current_submission.user,
+                         :assessment => @current_submission.act_assessment,
+                         :form => form
+               } %>
+    <div class="row">
+      <div class="col-md-2" ></div>
+      <div class="col-md-8 assess_submit_row">
+        <%= render :partial => "submit_review_button"%>
+      </div>
+      <div class="col-md-2" ></div>
+    </div>
+<% end -%>

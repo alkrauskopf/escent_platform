@@ -76,6 +76,14 @@ class ActSubmission < ActiveRecord::Base
     where('act_subject_id = ? AND date_finalized >= ? AND is_final', subject.id, begin_date)
   end
 
+  def mc_answers_for_question(question)
+    self.act_answers.answer_choices(question)
+  end
+
+  def short_answer_for_question(question)
+    self.act_answers.short_answer(question)
+  end
+
   def correct_answers(options = {})
     if options[:level] && options[:strand]
       answers = self.act_answers.correct.selected.select{|a| !a.act_question.nil? && a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}

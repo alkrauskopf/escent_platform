@@ -57,6 +57,7 @@
        <div class="question_text">
         <%= simple_format quest.question.html_safe %>
        </div>
+       <% if !review %>
        <div>
          <table id="choicess">
            <style type="text/css" media="screen">
@@ -87,6 +88,9 @@
            </tbody>
          </table>
        </div>
+       <% else %>
+       <%= render :partial => "view_question_review", :locals=>{:submission => submission, :question => quest} %>
+       <% end %>
      </div>
     </div>
     <div class="col-md-1"></div>

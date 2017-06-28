@@ -1,27 +1,27 @@
 <div id="assessment_submission" >
   <div class="row">
     <div class="col-md-2"></div>
-    <% teacher_name = !teacher.nil? ? teacher.last_name : "Select Your Teacher" -%>
+    <% teacher_name = !@current_teacher.nil? ? @current_teacher.last_name : "Select Your Teacher" -%>
     <div class= 'col-md-5 '>
-      <% button_class = (teacher.nil? || (view_mode == 'Preview')) ? 'btn btn-primary btn-xs disabled' : 'btn btn-primary btn-xs enabled' %>
+      <% button_class = (@current_teacher.nil? || (view_mode == 'Preview')) ? 'btn btn-primary btn-xs disabled' : 'btn btn-primary btn-xs enabled' %>
       <div class=" assess_button">
-        <input type="hidden" name="teacher_id" value="<%= teacher.nil? ? 0 : teacher.id %>">
+        <input type="hidden" name="teacher_id" value="<%= @current_teacher.nil? ? 0 : @current_teacher.id %>">
         <%= submit_tag 'Submit Assessment',:class => button_class, :confirm => "Are You Sure?" %>
         <span class='assess_button_label'>
-          <%= teacher.nil? ? 'Teacher?' : teacher.last_name%>
+          <%= @current_teacher.nil? ? 'Teacher?' : @current_teacher.last_name%>
         </span>
       </div>
     </div>
     <div class= 'col-md-5 '>
-      <% if (view_mode != 'Preview') && teacher_list.size > 1 %>
+      <% if (view_mode != 'Preview') && @teacher_list.size > 1 %>
         <div id="teacher_select" class="assess_teacher_select">
-          <%= select(:submission, :teacher_id, teacher_list.collect{|d| [d.last_name, d.id]}, :prompt => teacher_name) %>
+          <%= select(:submission, :teacher_id, @teacher_list.collect{|d| [d.last_name, d.id]}, :prompt => teacher_name) %>
         </div>
         <script type="text/javascript">
           jQ(document).ready(function() {
             jQ("#teacher_select").change(function(){
               var teacher_id = jQ('#submission_teacher_id').val();
-              var url = "<%= ifa_submission_teacher_path(:organization_id => organization, :classroom_id => classroom.id, :period_id => classroom_period.id ) %>";
+              var url = "<%= ifa_submission_teacher_path(:organization_id => @current_organization, :classroom_id => @current_classroom.id, :period_id => @current_classroom_period.id ) %>";
               jQ.get(url, {'teacher_id':teacher_id}, function(data) {
                 jQ("#assessment_submission").html(data);
                 jQ("#assessment_submission").show();

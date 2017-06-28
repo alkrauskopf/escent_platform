@@ -29,7 +29,7 @@
                 <%= pluralize(plan.milestones.size, ' Student Milestone') %>
               </div>
             </div>
-            <% ActStandard.for_standard_and_subject(ActMaster.default, subject).each do |strand| %>
+            <% ActStandard.for_standard_and_subject(@current_standard, subject).each do |strand| %>
               <%= render :partial =>  "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@current_user.ifa_plan_subject(subject), :strand => strand, :new_milestone=>nil}%>
             <% end %>
           </div>

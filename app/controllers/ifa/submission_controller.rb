@@ -9,7 +9,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     before_filter :current_user_app_admin
     before_filter :classroom_authorized?, :only=>[:index]
     before_filter :current_subject, :except => []
-    before_filter :clear_notification, :except => [:index]
+    before_filter :clear_notification, :except => [:index,:teacher_review]
     before_filter :provider_options, :except => []
 
     def index
@@ -35,7 +35,6 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       @current_classroom_dashboards = @current_classroom.ifa_dashboards
       aggregate_dashboard_cell_hashes(@current_classroom_dashboards, @current_classroom.act_subject, @current_standard)
       aggregate_dashboard_header_info(@current_classroom_dashboards, @current_classroom.act_subject, @current_standard, @current_classroom)
-
     end
 
     def window_dashboard
@@ -132,33 +131,26 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
 
     def teacher_review_update
       get_current_submission
-      if @current_submission
-        @current_assessment = @current_submission.act_assessment
-      end
-      if params[:function] == "Submit"
-        @reviewer = @current_user
-        sa_credits_ok = true
-        # SA Questions?
-        if params[:credit]
-          params[:credit].each do |question_id,value|
-            answer = @submission.act_answers.select{|a| a.act_question_id == question_id.to_i}.first
-            credit = value.to_f/4.0
-            unless answer.update_attributes(:points => credit)
-              sa_credits_ok = false
-            end
-          end  # end of SA Answer loop
-        end  # end of Check for SA credit
-        if sa_credits_ok
-          @submission.finalize(false, @reviewer.id)
-          #finalize_submission(@submission)
+      if params[:commit] == 'Finalize' || params[:commit] == 'Save Only'
+        if params[:act_submission]
+          @current_submission.update_attributes(:teacher_comment => params[:act_submission][:teacher_comment], :reviewer_id => params[:reviewer_id])
         end
-        unless @finalized
-          flash[:error] = @submission.errors.full_messages.to_sentence
+        if params[:question_id]
+          sa_answers_review
         end
-        redirect_to ifa_teacher_review_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic)
+        if params[:commit] == 'Finalize'
+          if @current_submission.finalize_new(false, params[:reviewer_id], @current_provider.master_standard)
+            flash[:notice] = 'Assessment Finalized'
+          else
+            flash[:error] = "Problem Occurred WhileFinalizing Assessment"
+          end
+        else
+          flash[:notice] = "Assessment Review Data Save, Not Finalized"
+        end
       else
-        render :layout => "assessment"
+        flash[:notice] = "Assessment Review Cancelled"
       end
+      redirect_to ifa_submission_teacher_review_path(:organization_id => @current_organization,:classroom_id => @current_classroom.id, :period_id => (@current_classroom_period.nil? ? nil : @current_classroom_period.id), :topic_id => (@current_topic.nil? ? nil : @current_topic.id))
     end
     ###############
 
@@ -256,6 +248,17 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       end
     end
     sa_complete
+  end
+  def sa_answers_review
+    params[:question_id].each do |question_id|
+      question = ActQuestion.find_by_id(question_id) rescue nil
+      answer = @current_submission.short_answer_for_question(question)
+      if !question.nil? && !answer.nil? && !params[:short_ans][question_id].nil?
+       if params[:short_ans][question_id] != ''
+         answer.update_attributes(:points=>(params[:short_ans][question_id].to_f/100.0))
+       end
+      end
+    end
   end
 
   def mc_answers_completed?

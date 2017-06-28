@@ -13,7 +13,7 @@ class ActAnswer < ActiveRecord::Base
 
   scope :incorrect, :conditions => { :is_correct => false }
   scope :correct, :conditions => { :is_correct => true }
-  scope :selected, :conditions => { :was_selected => true }
+#  scope :selected, :conditions => { :was_selected => true }
   scope :since, lambda{| begin_date| {:conditions => ["created_at >= ?", begin_date]}}
   scope :until, lambda{| end_date| {:conditions => ["created_at <= ?", end_date]}}
   scope :for_teacher, lambda{|teacher| {:conditions => ["teacher_id = ? ", teacher.id]}}
@@ -23,6 +23,20 @@ class ActAnswer < ActiveRecord::Base
   scope :for_question, lambda{|question| {:conditions => ["act_question_id = ? ", question.id]}}
   scope :calibrated, :conditions => { :is_calibrated => true }
 
+
+  SCORES = [
+      [ "0%", 0 ],
+      [ "50%", 50 ],
+      [ "100%", 100 ]
+  ]
+
+  def self.not_selected
+    where('was_selected = ?', false)
+  end
+
+  def self.selected
+    where('was_selected')
+  end
 
   def self.answer_choices(question)
     where('act_question_id = ? && was_selected', question.id).map{|a| a.act_choice}

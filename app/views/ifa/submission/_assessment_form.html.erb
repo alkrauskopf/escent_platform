@@ -42,10 +42,6 @@
         <span class="button_gray">
           <%= link_to 'Return', ifa_take_path(:organization_id => organization, :classroom_id => classroom.id, :period_id => classroom_period.id, :topic_id => (topic.nil? ? nil : topic.id)), :confirm => "Are You Sure? You Have Not Submitted Your Assessment." %>
         </span>
-      <% elsif view_mode == 'Review' -%>
-        <span class="button_gray">
-          <%= link_to 'Return', ifa_submission_teacher_review_path(:organization_id => organization,:classroom_id => classroom.id, :period_id => (classroom_period.nil? ? nil : classroom_period.id), :topic_id => (topic.nil? ? nil : topic.id)) %>
-        </span>
       <% end -%>
     </div>
   </div>
@@ -86,13 +82,6 @@
     <div class="col-md-3"></div>
     <div class="col-md-8">
       <%= text_area :act_submission, :teacher_comment, :rows => 3, :cols => 70, :placeholder => 'Reviewer Comment', :value => @current_submission.teacher_comment  %>
-    </div>
-    <div class="col-md-1"></div>
-  </div>
-  <div class="row reviewer_end_row_final">
-    <div class="col-md-3"></div>
-    <div class="col-md-8 ">
-      <%= check_box :act_submission, :is_final %> &nbsp;&nbsp;Finalize?
     </div>
     <div class="col-md-1"></div>
   </div>

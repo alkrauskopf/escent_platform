@@ -181,13 +181,8 @@ class ActSubmission < ActiveRecord::Base
     self.act_submission_scores.for_standard(standard).empty? ? nil :self.act_submission_scores.for_standard(standard).first
   end
 
-
   def finalize_new(auto, reviewer_id, standard)
     finalized = false
-    ###   No need for question log
-    #  self.act_assessment.questions_for_test.each do |quest|
-    #    self.log_ifa_question_new(quest, standard)
-    #  end   # End Question Loop
     self.reviewer_id = reviewer_id
     self.is_auto_finalized = auto
     self.is_final = true
@@ -195,6 +190,8 @@ class ActSubmission < ActiveRecord::Base
     self.is_org_dashboarded = false
     self.is_classroom_dashboarded = false
     self.date_finalized = Time.now
+    self.tot_points = self.total_points
+    self.tot_choices = self.total_choices
     if self.score_for(standard).nil?
       submission_score = ActSubmissionScore.new(:act_master_id => standard.id)
       submission_score.est_sms = self.standard_scoring_rule
@@ -410,7 +407,7 @@ class ActSubmission < ActiveRecord::Base
   end
 
   def total_points
-    self.act_answers.collect{|a|a.points}.sum rescue 0.0
+    self.act_answers.map{|a|a.points}.sum rescue 0.0
   end
 
   def total_choices

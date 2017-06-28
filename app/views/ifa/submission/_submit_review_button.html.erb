@@ -1,15 +1,25 @@
 <div id="review_submission" >
   <div class="row">
-    <div class="col-md-2"></div>
-    <div class= 'col-md-5 '>
-      <div class=" assess_button">
-        <%= submit_tag 'Submit Review',:class => 'btn btn-primary btn-xs enabled', :confirm => "Are You Sure?" %>
+    <div class="col-md-2">
         <span class='assess_button_label'>
           <%= @current_user.last_name%>
         </span>
+    </div>
+    <div class= 'col-md-3 '>
+      <div class= "assess_button">
+        <%= submit_tag 'Finalize',:class => 'button_blue enabled' %>
       </div>
     </div>
-    <div class= 'col-md-5 '></div>
+    <div class= 'col-md-3 '>
+      <div class= "assess_button">
+        <%= submit_tag 'Save Only',:class => 'button_orange enabled' %>
+      </div>
+    </div>
+    <div class= 'col-md-3 '>
+      <div class= "assess_button">
+        <%= submit_tag 'Cancel',:class => 'button_gray enabled' %>
+      </div>
+    </div>
   </div>
 </div>
 

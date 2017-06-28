@@ -1,4 +1,6 @@
-<%= form_for(:act_submission, :url => ifa_submission_review_final_path(:organization_id => @current_organization, :act_submission_id => @current_submission.id)) do |form| -%>
+<%= form_for(:act_submission, :url => ifa_submission_review_final_path(:organization_id => @current_organization, :classroom_id => @current_classroom.id,
+    :period_id => (@current_classroom_period.nil? ? nil : @current_classroom_period.id), :topic_id => (@current_topic.nil? ? nil : @current_topic.id),
+     :act_submission_id => @current_submission.id, :reviewer_id => @current_user.id)) do |form| -%>
     <%= render :partial => "assessment_form",
                :locals=>{:view_mode => 'Review',
                          :form_heading => (@current_classroom.name.upcase + ' Assessment Review'),
@@ -20,4 +22,5 @@
       </div>
       <div class="col-md-2" ></div>
     </div>
+    <hr>
 <% end -%>

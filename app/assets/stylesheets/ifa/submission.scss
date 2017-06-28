@@ -240,6 +240,11 @@
 .sa_answer_box {
   margin: 1em 0em 1em 0em;
 }
+.sa_answer_score {
+  padding: 0em 0em 1em 0em;
+  font-size:18px;
+  color:$blue_text;
+}
 .comment_box {
   margin: 0em 0em 0em 0em;
   padding: 1em 0em 1em 0em;
@@ -262,6 +267,17 @@
   float:right;
 }
 
+
+.ifa_panel_list {
+  padding-bottom:1em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  font-weight:normal;
+  font-size:16px;
+  color:$dark_text
+}
 
 .ifa_modal_header {
   color:$red_text;

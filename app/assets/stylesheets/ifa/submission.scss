@@ -777,3 +777,84 @@ font-weight:normal;
   text-align:left;
   color:$red_text;
 }
+.teacher_review_period_box {
+  margin:0em 0em 0em 0em;
+}
+
+.teacher_review_text {
+  margin: .5em 0em .5em 0em;
+  padding: 1em 1em 1em 1em;
+  background-color:white;
+  border:3px solid #ddd;
+  line-height:1.75em;
+  border-radius: 10px;
+  color:$dark_text;
+  text-align:left;
+  word-wrap: break-word;
+  font-weight:normal;
+  font-size:15px;
+}
+
+.techer_review_header_label {
+  padding:0em 2em 0em 2em;
+  text-align:right;
+  color:$light_text;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.teacher_review_panel_title {
+  width:100%;
+  margin-top:1em;
+  padding-bottom:1em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:16px;
+  color:$blue_text;
+}
+.teacher_review_students_box {
+  margin:0em 0em 0em 0em;
+  border:1px solid #ddd;
+  color:$dark_text;
+  border-radius: 0px;
+  font-size:14px;
+}
+.teacher_review_student_box {
+  margin:0em 0em 0em 0em;
+  padding:1em 2em 1em 2em;
+  border:1px solid #ddd;
+  color:$dark_text;
+  border-radius: 0px;
+  font-size:14px;
+}
+.teacher_review_student_header {
+  padding:1em 2em .5em 2em;
+  color:$blue_text;
+}
+.teacher_review_student_header .name {
+  font-weight:bold;
+  font-size:14px;
+}
+.teacher_review_student_subs {
+  margin:.5em 0em 0em 0em;
+  border-top:1px solid #ddd;
+  max-height: 10em;
+  overflow: scroll;
+  color:$dark_text;
+  font-size:14px;
+}
+.teacher_review_student_subs .submission {
+  padding:.5em 2em .5em 0em;
+  line-height:1.5em;
+  font-size:15px;
+  color:$dark_text;
+}
+.teacher_review_student_subs .sub_date {
+  padding: 0em 2em 0em 0em;
+  text-align:right;
+  color:$dark_text;
+}
+.teacher_review_student_subs .score {
+  color:$red_text;
+}

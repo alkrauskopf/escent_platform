@@ -49,14 +49,14 @@
   <div id="control_panel" >
     <ul>
       <li>
-        <%  tab_1_label = "Pending Assessments" %>
-        <a href="#tabs-1"><span class="tab_label">
-        <%= tab_1_label %></span></a>
-      </li>
-      <li>
         <%  tab_2_label = "Student Assessments" %>
         <a href="#tabs-2"><span class="tab_label">
         <%= tab_2_label %></span></a>
+      </li>
+      <li>
+        <%  tab_1_label = "Pending Assessments" %>
+        <a href="#tabs-1"><span class="tab_label">
+        <%= tab_1_label %></span></a>
       </li>
       <li>
         <%  tab_3_label = " Classroom Growth" %>
@@ -73,7 +73,6 @@
     <div id="tabs-1" class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10">
-        <%#= render :partial => "/apps/assessment/teacher_review_pending" %>
         <%= render :partial => "/ifa/submission/teacher_review_pending" %>
       </div>
       <div class="col-md-1"></div>
@@ -81,7 +80,7 @@
     <div id="tabs-2" class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10">
-        <%#= render :partial => "/apps/assessment/teacher_review_assessments" %>
+        <%= render :partial => "/ifa/submission/teacher_periods" %>
       </div>
       <div class="col-md-1"></div>
     </div>

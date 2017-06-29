@@ -60,30 +60,42 @@
   <% end -%>
 </div>
 <% if view_mode != 'Review' %>
-<div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8 assess_form_end">
-    <span class="assess_form_end_label">End of Assessment:</span>
-    <%= text_field :act_submission, :student_comment, :size => 55, :maxlength => 150, :placeholder => 'Optional Comment' %>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 assess_form_end">
+      <span class="assess_form_end_label">End of Assessment:</span>
+      <%= text_field :act_submission, :student_comment, :size => 55, :maxlength => 150, :placeholder => 'Optional Comment' %>
+    </div>
+    <div class="col-md-2"></div>
   </div>
-  <div class="col-md-2"></div>
-</div>
 <% else %>
+  <div class="row comment_box">
+    <div class="col-md-1"></div>
+    <div class="col-md-2 student_comment_label">
+      Student Comment:
+    </div>
+    <div class="col-md-8 student_comment">
+      <%= simple_format(submission.student_comment == '' ? '- none -' : submission.student_comment) %>
+    </div>
+  </div>
+  <% if submission.final? %>
     <div class="row comment_box">
       <div class="col-md-1"></div>
       <div class="col-md-2 student_comment_label">
-        Student Comment:
+        Teacher Comment:
       </div>
       <div class="col-md-8 student_comment">
-        <%= simple_format(submission.student_comment == '' ? '- none -' : submission.student_comment) %>
+        <%= simple_format(submission.teacher_comment == '' ? '- none -' : submission.teacher_comment) %>
       </div>
     </div>
-  <div class="row reviewer_end_row">
-    <div class="col-md-3"></div>
-    <div class="col-md-8">
-      <%= text_area :act_submission, :teacher_comment, :rows => 3, :cols => 70, :placeholder => 'Reviewer Comment', :value => @current_submission.teacher_comment  %>
+  <% else %>
+    <div class="row reviewer_end_row">
+      <div class="col-md-3"></div>
+      <div class="col-md-8">
+        <%= text_area :act_submission, :teacher_comment, :rows => 3, :cols => 70, :placeholder => 'Reviewer Comment', :value => @current_submission.teacher_comment  %>
+      </div>
+      <div class="col-md-1"></div>
     </div>
-    <div class="col-md-1"></div>
-  </div>
+  <% end %>
 <% end %>
 

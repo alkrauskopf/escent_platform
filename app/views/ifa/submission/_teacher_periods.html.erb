@@ -1,0 +1,23 @@
+<div id="review_pending" >
+  <div class="row">
+    <div class="ifa_panel_title">
+      <%= pluralize(@current_classroom.classroom_periods.size, ' Period') %>
+    </div>
+  </div>
+<% @current_classroom.classroom_periods.each do |classroom_period| %>
+
+<div class="teacher_review_period_box ">
+  <div class= "precision_prep_gold_panel">
+    <div class="teacher_review_header_label">
+      <%= classroom_period.name%> | <%= pluralize(@classroom_students[classroom_period].size, ' Student') %>
+    </div>
+  </div>
+  <div class="teacher_review_students_box">
+    <% @classroom_students[classroom_period].each do |student|%>
+        <%= render :partial =>  "teacher_period_student", :locals=>{:period => classroom_period, :student => student,
+        :assessments => student.assessments_taken(:subject => classroom_period.classroom.act_subject)} %>
+    <% end %>
+  </div>
+</div>
+<% end %>
+</div>

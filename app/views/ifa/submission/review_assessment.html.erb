@@ -15,12 +15,14 @@
                          :assessment => @current_submission.act_assessment,
                          :form => form
                } %>
-    <div class="row">
-      <div class="col-md-2" ></div>
-      <div class="col-md-8 assess_submit_row">
-        <%= render :partial => "submit_review_button"%>
+    <% if !@current_submission.final? %>
+      <div class="row">
+        <div class="col-md-2" ></div>
+        <div class="col-md-8 assess_submit_row">
+          <%= render :partial => "submit_review_button"%>
+        </div>
+        <div class="col-md-2" ></div>
       </div>
-      <div class="col-md-2" ></div>
-    </div>
+    <% end %>
     <hr>
 <% end -%>

@@ -7,6 +7,7 @@ class ActSubmission < ActiveRecord::Base
   belongs_to :classroom
   belongs_to :organization
   belongs_to :act_subject
+  belongs_to :act_master
   belongs_to :teacher, :class_name => 'User', :foreign_key => "teacher_id"
   has_one :subject, :through => :act_assessment, :source => 'act_subject'
   
@@ -60,6 +61,30 @@ class ActSubmission < ActiveRecord::Base
 
   def subject
     self.act_subject
+  end
+
+  def upper_bound_score
+    self.act_assessment.nil? ? 0 : self.act_assessment.upper_level.upper_score
+  end
+
+  def lower_bound_score
+    self.act_assessment.nil? ? 0 : self.act_assessment.lower_level.lower_score
+  end
+
+  def assessment_standard
+    self.act_assessment.nil? ? nil : (self.act_assessment.act_master.nil? ? nil : self.act_assessment.act_master)
+  end
+
+  def standard_abbrev
+    self.act_master.nil? ? '' : abbrev
+  end
+
+  def assessment_name
+    self.act_assessment.nil? ? 'Removed Assessment' : self.act_assessment.name
+  end
+
+  def strand_string
+    self.act_assessment.nil? ? 'Unknown Strands' : self.act_assessment.strand_string
   end
 
   def self.for_assessment(assessment)
@@ -190,6 +215,8 @@ class ActSubmission < ActiveRecord::Base
     self.is_org_dashboarded = false
     self.is_classroom_dashboarded = false
     self.date_finalized = Time.now
+    self.upper_score_bound = self.upper_bound_score
+    self.lower_score_bound = self.lower_bound_score
     self.tot_points = self.total_points
     self.tot_choices = self.total_choices
     if self.score_for(standard).nil?

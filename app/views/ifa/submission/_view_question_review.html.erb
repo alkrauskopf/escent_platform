@@ -35,10 +35,12 @@
          <div class="col-md-4">
            Current Score:&nbsp;<%= number_with_precision(submission.short_answer_for_question(question).points, :precision => 1) %>
          </div>
-         <%= hidden_field_tag "question_id[]", question.id %>
-         <div class="col-md-6">
-           <%=  select(:short_ans, question.id, ActAnswer::SCORES, :prompt => 'Score Answer') %>
-         </div>
+         <% if !submission.final? %>
+           <%= hidden_field_tag "question_id[]", question.id %>
+           <div class="col-md-6">
+             <%=  select(:short_ans, question.id, ActAnswer::SCORES, :prompt => 'Score Answer') %>
+           </div>
+         <% end %>
        </div>
    <% end%>
  </div>

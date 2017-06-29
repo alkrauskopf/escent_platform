@@ -31,7 +31,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     def teacher_review
       classroom_submissions
       @assessment_subjects = @all_submitted_assessments.collect{|s| s.act_subject}.uniq rescue []
-      @student_list = @current_classroom.participants
+      classroom_periods_students
       @current_classroom_dashboards = @current_classroom.ifa_dashboards
       aggregate_dashboard_cell_hashes(@current_classroom_dashboards, @current_classroom.act_subject, @current_standard)
       aggregate_dashboard_header_info(@current_classroom_dashboards, @current_classroom.act_subject, @current_standard, @current_classroom)
@@ -152,18 +152,22 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       end
       redirect_to ifa_submission_teacher_review_path(:organization_id => @current_organization,:classroom_id => @current_classroom.id, :period_id => (@current_classroom_period.nil? ? nil : @current_classroom_period.id), :topic_id => (@current_topic.nil? ? nil : @current_topic.id))
     end
+
+
     ###############
 
     ###############
 
   private
 
-  def pending_classroom_assessments
-
+  def classroom_periods_students
+    @classroom_students = {}
+    @current_classroom.classroom_periods.each do |per|
+      @classroom_students[per] = per.students
+    end
   end
 
   def classroom_submissions
-    @teacher_classroom_submissions = @current_classroom.act_submissions.for_teacher(@current_user)
     @pending_teacher_submissions = @current_classroom.act_submissions.pending(:teacher=>@current_user)
     @pending_classroom_submissions = @current_classroom.act_submissions.pending
   end
@@ -198,8 +202,10 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     @current_submission.teacher_id = @current_teacher.nil? ? nil: @current_teacher.id
     @current_submission.act_assessment_id = @current_assessment.nil? ? nil: @current_assessment.id
     @current_submission.act_subject_id = @current_assessment.nil? ? nil: @current_assessment.act_subject_id
+    @current_submission.act_master_id = @current_assessment.nil? ? nil: @current_assessment.act_master_id
     @current_submission.duration = assessment_duration
     @current_submission.student_comment = params[:act_submission][:student_comment]
+    @current_submission.teacher_comment = ''
     if @current_submission.save
       submitted = true
     else

@@ -160,6 +160,56 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     render :partial =>  "tools", :locals=>{}
   end
 
+  def tool_g
+    @tool_g_submission_count = 0
+    @tool_g_submission_nil_standard = 0
+    @tool_g_level_count = 0
+    @tool_g_no_level_count = 0
+    @tool_g_standard_count = 0
+    @tool_g_good_standard_count = 0
+    @tool_g_failed_std_update = 0
+    @tool_g_no_assessment_count = 0
+    @tool_g_no_standard_count = 0
+    ActSubmission.all.each do |submission|
+      @tool_g_submission_count += 1
+      if submission.act_master.nil?
+        @tool_g_submission_nil_standard += 1
+      end
+        if submission.act_assessment
+          if submission.act_assessment.upper_level
+            if submission.act_assessment.upper_level.act_master == @current_standard
+              if submission.update_attributes(:act_master_id => @current_standard.id)
+              @tool_g_good_standard_count += 1
+              if submission.act_assessment.upper_level && submission.act_assessment.lower_level
+                submission.update_attributes(:upper_score_bound => submission.upper_bound_score, :lower_score_bound => submission.lower_bound_score,)
+                @tool_g_level_count += 1
+              else
+                @tool_g_no_level_count += 1
+              end
+              else
+                @tool_g_failed_std_update += 1
+                submission.destroy
+              end
+            else
+              @tool_g_wrong_standard_count += 1
+            end
+          end
+        else
+          submission.destroy
+          @tool_g_no_assessment_count += 1
+        end
+    end
+    @tool_g_bad_assess_count = 0
+      ActAssessment.all.each do |ass|
+        if ass.upper_level.act_master != @current_standard
+          @tool_g_bad_assess_count += 1
+        end
+      end
+
+    @tool_g_summary = 'Tool G Summary'
+    render :partial =>  "tools", :locals=>{}
+  end
+
   def standard_maint_select
     standards
     render :partial =>  "manage_standards", :locals=>{}

@@ -1,7 +1,7 @@
 <div id="review_pending" >
   <div class="row">
     <div class="ifa_panel_title">
-      <%= pluralize(@current_classroom.classroom_periods.size, ' Period') %>
+      <%= pluralize(@current_classroom.classroom_periods.size, @current_classroom.name + ' Period') %>
     </div>
   </div>
 <% @current_classroom.classroom_periods.each do |classroom_period| %>

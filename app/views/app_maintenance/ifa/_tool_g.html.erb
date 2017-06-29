@@ -1,0 +1,41 @@
+<div id="tool_gx">
+  <div class="row tool_row">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_g" class='button_gray enabled'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Assign Upper/Lower Submission Levels & Assign Standard to Submissions
+      <% if !@tool_g_summary.nil? %>
+        <div class="row tool_sumry">
+          <%=@tool_g_summary %><br/>
+          <%= pluralize(@tool_g_submission_count, ' Total Submission') %><br/>
+          <%= pluralize(@tool_g_submission_nil_standard, ' Total Submission') %> Initially With Nil Standard<br/>
+          <%= pluralize(@tool_g_good_standard_count, ' Submission') %> Updated With Good Assessment Standard<br/>
+          <%= pluralize(@tool_g_failed_std_update, ' FAILED Update Submission') %> Destroyed<br/>
+          <%= pluralize(@tool_g_wrong_standard_count, ' Submission') %> With Bad Assessment Standard<br/>
+          <%= pluralize(@tool_g_level_count, ' Submission') %> Updated With Assessment Having Good Upper and Lower Levels<br/>
+          <%= pluralize(@tool_g_no_level_count, ' Submission') %> With Assessment Having No Upper or Lower Level<br/>
+          <%= pluralize(@tool_g_no_assessment_count, ' Submission') %> With No Assessment and Destroyed<br/><br/>
+
+          <%= pluralize(@tool_g_bad_assess_count, ' Assessment') %> With Bad Level<br/>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_g").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_g_url(:organization_id => @current_organization) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tools").html(data);
+          jQ("#tools").show();
+        });
+      })
+    });
+  </script>
+</div>

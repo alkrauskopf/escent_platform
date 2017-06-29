@@ -76,7 +76,7 @@ class ActSubmission < ActiveRecord::Base
   end
 
   def standard_abbrev
-    self.act_master.nil? ? '' : abbrev
+    self.act_master.nil? ? '' : self.act_master.abbrev
   end
 
   def assessment_name

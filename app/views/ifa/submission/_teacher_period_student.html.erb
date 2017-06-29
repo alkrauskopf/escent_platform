@@ -15,11 +15,11 @@
               <%= submission.created_at.strftime("%m-%d-%y") %>
             </div>
             <div class="col-md-7">
-              <%= submission.assessment_name%> |
-              <%= submission.standard_abbrev%>:&nbsp; <%= submission.lower_score_bound%>&nbsp;-&nbsp;<%= submission.upper_score_bound%>&nbsp;|
-              &nbsp;<% submission.strand_string %><br/>
+              <%= submission.assessment_name%><br/>
+              <%= submission.standard_abbrev%>:&nbsp; <%= submission.lower_score_bound%>&nbsp;-&nbsp;<%= submission.upper_score_bound%>&nbsp;
+              &nbsp;<%= submission.strand_string %><br/>
               <span class="score">
-                Score:&nbsp;<%= number_with_precision(submission.tot_points, :precision => 1) %>&nbsp;Out Of <%=submission.tot_choices %>
+                Scored&nbsp;<%= number_with_precision(submission.tot_points, :precision => 1) %>&nbsp; Of <%=submission.tot_choices %>
               </span>
             </div>
             <div class="col-md-2">

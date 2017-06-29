@@ -1,0 +1,36 @@
+<div id="tool_hx">
+  <div class="row tool_row">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_h" class='button_gray enabled'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Count Submissions with Correct Points and Total Choices
+      <% if !@tool_h_summary.nil? %>
+        <div class="row tool_sumry">
+          <%=@tool_g_summary %><br/>
+          <%= pluralize(@tool_h_submission_count, ' Total Submission') %><br/>
+          <%= pluralize(@tool_h_points_equal, ' Submission') %> With CORRECT Point Total<br/>
+          <%= pluralize(@tool_h_points_not_equal, ' Submission') %> With INCORRECT Point Total<br/>
+          <%= pluralize(@tool_h_choices_equal, ' Submission') %> With CORRECT Choice Total<br/>
+          <%= pluralize(@tool_h_choices_not_equal, ' Submission') %> With INCORRECT Choice Total<br/><br/>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_h").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_h_url(:organization_id => @current_organization) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tools").html(data);
+          jQ("#tools").show();
+        });
+      })
+    });
+  </script>
+</div>

@@ -21,6 +21,31 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     current_level
   end
 
+  def tool_h
+    @tool_h_submission_count = 0
+    @tool_h_points_equal = 0
+    @tool_h_points_not_equal = 0
+    @tool_h_choices_equal = 0
+    @tool_h_choices_not_equal = 0
+    ActSubmission.all.each do |submission|
+      @tool_h_submission_count += 1
+      if submission.tot_points == submission.total_points
+        @tool_h_points_equal += 1
+      else
+        submission.update_attributes(:tot_points => submission.total_points)
+        @tool_h_points_not_equal += 1
+      end
+      if submission.tot_choices == submission.total_choices
+        @tool_h_choices_equal += 1
+      else
+        submission.update_attributes(:tot_choices => submission.total_choices)
+        @tool_h_choices_not_equal += 1
+      end
+    end
+    @tool_h_summary = 'Tool H Summary'
+    render :partial =>  "tools", :locals=>{}
+  end
+
   def tool_a
     @tool_question_in_asses = ActQuestion.all.select{|q| !q.act_assessments.empty?}
     @tool_questions_multi_level = @tool_question_in_asses.select{|q| q.act_score_ranges.size > 1}
@@ -178,34 +203,35 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
         if submission.act_assessment
           if submission.act_assessment.upper_level
             if submission.act_assessment.upper_level.act_master == @current_standard
-              if submission.update_attributes(:act_master_id => @current_standard.id)
+              if true #submission.update_attributes(:act_master_id => @current_standard.id)
               @tool_g_good_standard_count += 1
               if submission.act_assessment.upper_level && submission.act_assessment.lower_level
-                submission.update_attributes(:upper_score_bound => submission.upper_bound_score, :lower_score_bound => submission.lower_bound_score,)
+                # submission.update_attributes(:upper_score_bound => submission.upper_bound_score, :lower_score_bound => submission.lower_bound_score,)
                 @tool_g_level_count += 1
               else
                 @tool_g_no_level_count += 1
               end
               else
                 @tool_g_failed_std_update += 1
-                submission.destroy
+                # submission.destroy
               end
             else
               @tool_g_wrong_standard_count += 1
             end
           end
         else
-          submission.destroy
+          # submission.destroy
           @tool_g_no_assessment_count += 1
         end
     end
     @tool_g_bad_assess_count = 0
-      ActAssessment.all.each do |ass|
+    if false
+    ActAssessment.all.each do |ass|
         if ass.upper_level.act_master != @current_standard
           @tool_g_bad_assess_count += 1
         end
       end
-
+    end
     @tool_g_summary = 'Tool G Summary'
     render :partial =>  "tools", :locals=>{}
   end

@@ -102,19 +102,21 @@ class Ifa::ApplicationController < ApplicationController
 
   def dashboard_header_info(dashboard, subject, standard)
     @dashboard = {}
-    @dashboard['id'] = dashboard.id
-    @dashboard['name'] = dashboard.entity_name
-    @dashboard['subject'] = subject
-    @dashboard['standard'] = standard
-    @dashboard['standard_score'] = dashboard.score_for_standard(standard).nil? ? nil : dashboard.score_for_standard(standard).sms_finalized
-    @dashboard['sat_score'] = ActScoreRange.sat_score(standard, subject, @dashboard['standard_score'])
-    @dashboard['assess_count'] = dashboard.assessments_taken
-    @dashboard['answer_count'] = dashboard.finalized_answers
-    @dashboard['total_points'] = dashboard.fin_points.nil? ? 0.0 : dashboard.fin_points
-    @dashboard['total_duration'] = dashboard.finalized_duration
-    @dashboard['proficiency'] = @dashboard['answer_count'] == 0 ? 0 : (100.0 * @dashboard['total_points']/@dashboard['answer_count'].to_f).round
-    @dashboard['period_end'] = dashboard.period_end
-    @dashboard['efficiency'] = @dashboard['total_points'] == 0.0 ? 0 : (@dashboard['total_duration'].to_f/@dashboard['total_points']).round
+    if !dashboard.nil?
+      @dashboard['id'] = dashboard.id
+      @dashboard['name'] = dashboard.entity_name
+      @dashboard['subject'] = subject
+      @dashboard['standard'] = standard
+      @dashboard['standard_score'] = dashboard.score_for_standard(standard).nil? ? nil : dashboard.score_for_standard(standard).standard_score
+      @dashboard['sat_score'] = ActScoreRange.sat_score(standard, subject, @dashboard['standard_score'])
+      @dashboard['assess_count'] = dashboard.assessments_taken
+      @dashboard['answer_count'] = dashboard.finalized_answers
+      @dashboard['total_points'] = dashboard.fin_points.nil? ? 0.0 : dashboard.fin_points
+      @dashboard['total_duration'] = dashboard.finalized_duration
+      @dashboard['proficiency'] = @dashboard['answer_count'] == 0 ? 0 : (100.0 * @dashboard['total_points']/@dashboard['answer_count'].to_f).round
+      @dashboard['period_end'] = dashboard.period_end
+      @dashboard['efficiency'] = @dashboard['total_points'] == 0.0 ? 0 : (@dashboard['total_duration'].to_f/@dashboard['total_points']).round
+    end
   end
 
   def dashboard_cell_hashes(dashboard, subject, standard)

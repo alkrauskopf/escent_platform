@@ -21,6 +21,23 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     current_level
   end
 
+  def tool_i
+    @tool_i_dashboard_count = 0
+    @tool_i_dashboard_user_nil = 0
+    @tool_i_dashboard_classroom_nil = 0
+    @tool_i_dashboard_org_nil = 0
+    IfaDashboard.all.each do |dashboard|
+      @tool_i_dashboard_count += 1
+      if dashboard.period_end.nil?
+        @tool_i_dashboard_user_nil += dashboard.ifa_dashboardable_type == 'User' ? 1:0
+        @tool_i_dashboard_classroom_nil += dashboard.ifa_dashboardable_type == 'Classroom' ? 1:0
+        @tool_i_dashboard_org_nil += dashboard.ifa_dashboardable_type == 'Organization' ? 1:0
+      end
+    end
+    @tool_i_summary = 'Tool I Summary'
+    render :partial =>  "tools", :locals=>{}
+  end
+
   def tool_h
     @tool_h_submission_count = 0
     @tool_h_points_equal = 0

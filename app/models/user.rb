@@ -926,6 +926,16 @@ class User < ActiveRecord::Base
     assessments
   end
 
+
+  def dashboards(options = {})
+    if options[:subject]
+      dashboards = self.ifa_dashboards.for_subject(options[:subject]).order('period_end DESC')
+    else
+      dashboards = self.act_submissions.final.order('created_at DESC')
+    end
+    dashboards
+  end
+
 #
 #  ctl
 #

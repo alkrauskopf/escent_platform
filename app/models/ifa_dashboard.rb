@@ -16,7 +16,7 @@ class IfaDashboard < ActiveRecord::Base
       {:conditions => ["act_subject_id = ? && period_end >= ?", subject.id,  begin_date], :order => "period_end ASC" }
       }
   scope :for_subject, lambda{|subject|
-      {:conditions => ["act_subject_id = ? ", subject.id], :order => "period_end ASC" }
+      {:conditions => ["act_subject_id = ? ", subject.id]}
       }
 
   scope :since, lambda{|date|
@@ -43,9 +43,14 @@ class IfaDashboard < ActiveRecord::Base
     IfaDashboard.where("ifa_dashboardable_type = ? AND ifa_dashboardable_id = ? AND period_end = ?", entity_class, entity_id, period ).first
   end
 
+  def self.by_date
+    order('period_end DESC')
+  end
+
   def period_beginning
     self.period_end.beginning_of_month
   end
+
   def period_ending
     self.period_end.end_of_month
   end

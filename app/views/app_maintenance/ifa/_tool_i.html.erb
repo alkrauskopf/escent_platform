@@ -1,0 +1,35 @@
+<div id="tool_ix">
+  <div class="row tool_row">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_i" class='button_gray enabled'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Count Dashboards with Nil Dates
+      <% if !@tool_i_summary.nil? %>
+        <div class="row tool_sumry">
+          <%=@tool_i_summary %><br/>
+          <%= pluralize(@tool_i_dashboard_count, ' Total Dashboard') %><br/>
+          <%= pluralize(@tool_i_dashboard_user_nil, ' User Dashboard') %> With NIL Period<br/>
+          <%= pluralize(@tool_i_dashboard_classroom_nil, ' Classroom Dashboard') %> With NIL Period<br/>
+          <%= pluralize(@tool_i_dashboard_org_nil, ' Organization Dashboard') %> With NIL Period<br/><br/>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_i").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_i_url(:organization_id => @current_organization) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tools").html(data);
+          jQ("#tools").show();
+        });
+      })
+    });
+  </script>
+</div>

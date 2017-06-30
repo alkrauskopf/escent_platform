@@ -1,4 +1,4 @@
-<div id="review_pending" >
+<div id="review_students" >
   <div class="row">
     <div class="ifa_panel_title">
       <%= pluralize(@current_classroom.classroom_periods.size, @current_classroom.name + ' Period') %>
@@ -15,7 +15,8 @@
   <div class="teacher_review_students_box">
     <% @classroom_students[classroom_period].each do |student|%>
         <%= render :partial =>  "teacher_period_student", :locals=>{:period => classroom_period, :student => student,
-        :assessments => student.assessments_taken(:subject => classroom_period.classroom.act_subject)} %>
+                                          :assessments => student.assessments_taken(:subject => classroom_period.classroom.act_subject),
+                                          :dashboards => student.dashboards(:subject => classroom_period.classroom.act_subject)} %>
     <% end %>
   </div>
 </div>

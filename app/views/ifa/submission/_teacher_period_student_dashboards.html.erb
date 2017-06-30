@@ -1,0 +1,35 @@
+<div id="teacher_student_dashboard_<%=period.id%><%=student.public_id%>">
+  <div class="row teacher_review_student_header" >
+    <div class="col-md-3 name"></div>
+    <div class="col-md-2 heading">
+      <%= pluralize(dashboards.size, ' Dashboard') %>
+    </div>
+    <% student_per = period.id.to_s + student.id.to_s %>
+    <div class="col-md-5">
+      <div id="student_dashboard_<%= student_per %>">
+        <%=  select( :user_dashboard, student_per, dashboards.collect{|d| [(dashboard_label(d, @current_standard)), d.id]}, {:prompt => "Select Dashboard"}) %>
+      </div>
+    </div>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#student_dashboard_<%= student_per %>").change(function(){
+          var dashboard_id = jQ('#user_dashboard_<%=student_per%>').val();
+          var url = "<%= ifa_submission_review_student_dashboard_url(:organization_id => @current_organization, :student_id => student.id,
+           :classroom_id => period.classroom.id, :period_id => period.id) %>";
+          jQ.get(url, {'ifa_dashboard_id': dashboard_id}, function(data) {
+            jQ("#teacher_student_dashboard_<%=period.id%><%=student.public_id%>").html(data);
+            jQ("#teacher_student_dashboard_<%=period.id%><%=student.public_id%>").show();
+          });
+        })
+      });
+    </script>
+  </div>
+  <% if !dashboard.nil? %>
+    <div class="teacher_review_dashboard" >
+      <%= render :partial => "ifa/ifa_dashboard/dashboard",
+                 :locals=>{:dashboard => dashboard, :subject => dashboard.act_subject, :standard=>@current_standard, :cell_corrects=>@cell_correct,
+                           :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
+                           :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve} %>
+    </div>
+  <% end %>
+</div>

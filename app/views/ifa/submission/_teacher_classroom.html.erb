@@ -1,0 +1,10 @@
+<div id="review_classroom" >
+  <div class="row">
+    <div class="ifa_panel_title">
+      <%= pluralize(@current_classroom.ifa_dashboards.size, @current_classroom.name + ' Dashboard') %>
+    </div>
+  </div>
+  <% @current_classroom.ifa_dashboards.by_date.each do |dashboard| %>
+      <%= render :partial =>  "teacher_classroom_dashboard", :locals=>{:dashboard => dashboard, :dashboard_display => false} %>
+  <% end %>
+</div>

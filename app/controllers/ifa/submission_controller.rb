@@ -37,6 +37,23 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       aggregate_dashboard_header_info(@current_classroom_dashboards, @current_classroom.act_subject, @current_standard, @current_classroom)
     end
 
+    def review_student_dashboard
+      get_current_student
+      get_current_dashboard
+      format_dashboard(@current_dashboard, @current_classroom.act_subject, @current_standard)
+      render :partial =>  "teacher_period_student_dashboards", :locals=>{:period => @current_classroom_period,
+                                                                         :student => @current_student,
+                                                                         :dashboards => @current_student.dashboards(:subject => @current_classroom.act_subject),
+                                                                         :dashboard => @current_dashboard}
+    end
+
+    def review_classroom_dashboard
+      get_current_dashboard
+      format_dashboard(@current_dashboard, @current_dashboard.act_subject, @current_standard)
+      display_db = params[:display] == 'true' ? true:false
+      render :partial =>  "teacher_classroom_dashboard", :locals=>{:dashboard => @current_dashboard, :dashboard_display => display_db}
+    end
+
     def window_dashboard
       get_entity
       start_date = Date.new(params[:start_yr].to_i, params[:start_mth].to_i, 1)
@@ -160,6 +177,13 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
 
   private
 
+    def format_dashboard(dashboard, subject, standard)
+      dashboard_cell_hashes(dashboard, subject, standard)
+      dashboard_header_info(dashboard, subject, standard)
+     # dashboardable_submissions(dashboard, subject )
+    end
+
+
   def classroom_periods_students
     @classroom_students = {}
     @current_classroom.classroom_periods.each do |per|
@@ -170,6 +194,22 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
   def classroom_submissions
     @pending_teacher_submissions = @current_classroom.act_submissions.pending(:teacher=>@current_user)
     @pending_classroom_submissions = @current_classroom.act_submissions.pending
+  end
+
+  def classroom_dashboards
+
+  end
+
+  def get_current_student
+    if params[:student_id]
+      @current_student = User.find_by_id(params[:student_id]) rescue nil
+    end
+  end
+
+  def get_current_dashboard
+    if params[:ifa_dashboard_id]
+      @current_dashboard = IfaDashboard.find_by_id(params[:ifa_dashboard_id]) rescue nil
+    end
   end
 
   def get_current_assessment

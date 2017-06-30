@@ -208,6 +208,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/maintenance/ifa/tool_f' => 'app_maintenance/ifa#tool_f' # app_maintenance_ifa_tool_f_url
   get '/app/maintenance/ifa/tool_g' => 'app_maintenance/ifa#tool_g' # app_maintenance_ifa_tool_g_url
   get '/app/maintenance/ifa/tool_h' => 'app_maintenance/ifa#tool_h' # app_maintenance_ifa_tool_h_url
+  get '/app/maintenance/ifa/tool_i' => 'app_maintenance/ifa#tool_i' # app_maintenance_ifa_tool_i_url
 
 
   # APPS Shared
@@ -508,6 +509,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/submission/pending_destroy_all' => 'ifa/submission#destroy_all_pending'    # ifa_submission_pending_destroy_all_url
   get '/ifa/submission/review/final' => 'ifa/submission#teacher_review_submission'    # ifa_submission_review_final_path
   post '/ifa/submission/review/final' => 'ifa/submission#teacher_review_update'    # ifa_submission_review_final_path
+  get '/ifa/submission/review/student/dashboard' => 'ifa/submission#review_student_dashboard'    # ifa_submission_review_student_dashboard_path
+  get '/ifa/submission/review/classroom/dashboard' => 'ifa/submission#review_classroom_dashboard'    # ifa_submission_review_classroom_dashboard_path
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

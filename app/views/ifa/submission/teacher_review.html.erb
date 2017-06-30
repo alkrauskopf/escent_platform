@@ -49,14 +49,14 @@
   <div id="control_panel" >
     <ul>
       <li>
-        <%  tab_2_label = "Student Assessments" %>
-        <a href="#tabs-2"><span class="tab_label">
-        <%= tab_2_label %></span></a>
-      </li>
-      <li>
         <%  tab_1_label = "Pending Assessments" %>
         <a href="#tabs-1"><span class="tab_label">
         <%= tab_1_label %></span></a>
+      </li>
+      <li>
+        <%  tab_2_label = "Student Growth" %>
+        <a href="#tabs-2"><span class="tab_label">
+        <%= tab_2_label %></span></a>
       </li>
       <li>
         <%  tab_3_label = " Classroom Growth" %>
@@ -78,23 +78,19 @@
       <div class="col-md-1"></div>
     </div>
     <div id="tabs-2" class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
+      <div class="col-md-12">
         <%= render :partial => "/ifa/submission/teacher_periods" %>
       </div>
-      <div class="col-md-1"></div>
     </div>
     <div id="tabs-3" class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
-        <%#= render :partial => "/apps/assessment/teacher_review_growth" %>
+      <div class="col-md-12">
+        <%= render :partial => "/ifa/submission/teacher_classroom" %>
       </div>
-      <div class="col-md-1"></div>
     </div>
     <div id="tabs-4" class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10">
-        <%#= render :partial => "/ifa/ifa_plan/teacher_review_plans", :locals=>{:students => @student_list, :subject => @classroom.act_subject} %>
+        <%= render :partial => "/ifa/ifa_plan/teacher_review_plans", :locals=>{:students => @current_classroom.participants, :subject => @current_classroom.act_subject} %>
       </div>
       <div class="col-md-1"></div>
     </div>

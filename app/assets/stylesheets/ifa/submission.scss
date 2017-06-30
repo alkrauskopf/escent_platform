@@ -608,7 +608,7 @@
 
 .dashboard_box {
   padding:0em 0em 0em 0em;
-  background-color:white;
+  background-color:$dashboard_background;
   border:0px solid #ddd;
 }
 .dashboard_table {
@@ -836,12 +836,27 @@ font-weight:normal;
   font-weight:bold;
   font-size:14px;
 }
+.teacher_review_student_header .heading {
+  font-weight:normal;
+  text-align:left;
+  font-size:14px;
+}
 .teacher_review_student_subs {
   margin:.5em 0em 0em 0em;
   border-top:1px solid #ddd;
   max-height: 10em;
   overflow: scroll;
   color:$dark_text;
+  font-size:14px;
+}
+.teacher_review_dashboard_box {
+  margin:1em 0em 4em 0em;
+}
+.teacher_review_dashboard {
+  margin:1em 0em 2em 0em;
+  padding:1em 1em 2em 1em;
+  border-top:1px solid #ddd;
+  background-color: $dashboard_background;
   font-size:14px;
 }
 .teacher_review_student_subs .submission {

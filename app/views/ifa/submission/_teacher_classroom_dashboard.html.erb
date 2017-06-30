@@ -1,0 +1,37 @@
+<div id="teacher_classroom_dashboard_<%=dashboard.id%>">
+  <% display_label = dashboard_display ? 'Hide Dashboard' : 'View Dashboard' %>
+  <div class="teacher_review_dashboard_box ">
+    <div class= "precision_prep_slay_panel">
+      <div class="row">
+        <div class="col-md-3">
+          <%= dashboard.period_end.strftime("%b %Y") %>
+        </div>
+        <div class="col-md-6">
+          <%= pluralize(dashboard.finalized_assessments, ' Assessment') %> | <%= dashboard_score(dashboard, @current_standard) %>
+        </div>
+        <div class="col-md-3">
+          <span id = "classroom_dashboard_<%= dashboard.id %>" class = "button_gray"><%= display_label%> </span>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#classroom_dashboard_<%= dashboard.id %>").click(function(){
+          var url = "<%= ifa_submission_review_classroom_dashboard_url(:organization_id => @current_organization, :ifa_dashboard_id => dashboard.id, :display => !dashboard_display) %>";
+          jQ.get(url, {}, function(data) {
+            jQ("#teacher_classroom_dashboard_<%=dashboard.id%>").html(data);
+            jQ("#teacher_classroom_dashboard_<%=dashboard.id%>").show();
+          });
+        })
+      });
+    </script>
+    <% if dashboard_display %>
+      <div class=" teacher_review_dashboard" >
+          <%= render :partial => "ifa/ifa_dashboard/dashboard",
+                     :locals=>{:dashboard => dashboard, :subject => dashboard.act_subject, :standard=>@current_standard, :cell_corrects=>@cell_correct,
+                               :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
+                               :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve} %>
+      </div>
+    <% end %>
+  </div>
+</div>

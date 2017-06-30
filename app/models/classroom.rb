@@ -265,7 +265,8 @@ class Classroom < ActiveRecord::Base
  
   def students
     self.classroom_periods.collect{|cp| cp.students}.compact.flatten.uniq
-  end 
+  end
+
   def teachers
     self.classroom_periods.collect{|cp| cp.classroom_period_users.teachers}.flatten.collect{|u| u.user}.compact.uniq
   end  

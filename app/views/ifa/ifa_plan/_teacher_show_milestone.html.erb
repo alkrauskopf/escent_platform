@@ -24,13 +24,6 @@
                                                                                      :blue=> 'Improvement Idea',
                                                                                      :body=> improvements(milestone.strand, milestone.range, milestone.standard), :height=> 400, :width=> 650 } %>
         </div>
-        <% if milestone.achieved?%>
-          <div class="row ifa_milestone_show_button">
-            <% achievement_level(milestone.strand, milestone.range).times do %>
-              <i class="star_achievement"></i>
-            <% end %>
-          </div>
-        <% end %>
         <div class="row ifa_milestone_show_button">
           <% a_label = milestone.achieved? ? 'Undo Achievement':'Achieved' %>
           <% a_class = milestone.achieved? ? 'button_orange':'button_green' %>
@@ -40,9 +33,16 @@
         </div>
       </div>
       <div class="col-md-8" style="padding-top:1em; padding-bottom:1.5em;">
-        <div class="row ifa_milestone_teacher_show_descript">
-          <div style="font-weight:bold">Plan:</div>
-          <div>
+        <div class="row ifa_milestone_show_descript">
+          <div style="font-weight:bold">Plan:
+            <% if milestone.achieved?%>
+              <span class="ifa_milestone_achieved">
+                <% achievement_level(milestone.strand, milestone.range).times do %>
+                    <i class="star_achievement"></i>
+                <% end %>
+              </span>
+            <% end %></div>
+          <div class="ifa_plan_text">
             <%= simple_format milestone.description.nil? ? 'None' : milestone.description%>
           </div>
         </div>
@@ -59,7 +59,7 @@
         <hr>
         <div class="row ifa_milestone_show_descript">
           <div style="font-weight:bold">Evidence:</div>
-          <div>
+          <div class="ifa_plan_text">
             <%= simple_format milestone.evidence.nil? ? 'None Documented' : milestone.evidence%>
           </div>
         </div>

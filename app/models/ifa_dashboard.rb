@@ -44,7 +44,7 @@ class IfaDashboard < ActiveRecord::Base
   end
 
   def self.by_date
-    order('period_end DESC')
+    order('period_end').reverse
   end
 
   def period_beginning

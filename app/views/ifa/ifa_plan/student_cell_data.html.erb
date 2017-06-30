@@ -1,4 +1,4 @@
-<div class="row ifa_plan_text">
+<div class="ifa_plan_text">
   <% nothing_to_show = true %>
   <% @assessments.each do |ass| %>
     <% if !ass.total_answers(:level=>@range, :strand=>@strand).empty?%>

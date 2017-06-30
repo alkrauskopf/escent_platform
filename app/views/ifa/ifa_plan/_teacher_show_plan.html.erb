@@ -1,13 +1,13 @@
-<div  class="ifa_plan_teacher_show_box ">
+<div  class="ifa_plan_show_box ">
   <% if !plan.nil? %>
     <div class= "precision_prep_panel">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
-        <%= plan.subject_area.name.upcase %> Growth Plan
-      </div>
       <div class="col-md-3">
         <%= student.full_name.titleize %>
       </div>
+      <div class="col-md-6">
+        <%= plan.subject_area.name.upcase %> Growth Plan
+      </div>
+      <div class="col-md-3"></div>
     </div>
     <div class="row ">
       <div class="col-md-6">
@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="ifa_plan_show_row">
+        <div class="ifa_plan_teacher_show_row">
           <div class="ifa_plan_label">
             Goals:
           </div>

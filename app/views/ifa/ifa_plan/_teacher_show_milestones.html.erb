@@ -6,7 +6,9 @@
   </div>
   <div class="ifa_plan_teacher_milestones">
     <% milestones.each do |milestone|%>
+      <div class="ifa_milestone_box">
         <%= render :partial =>  "/ifa/ifa_plan/teacher_show_milestone", :locals=>{:milestone => milestone} %>
+      </div>
     <% end %>
   </div>
 </div>

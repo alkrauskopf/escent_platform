@@ -32,6 +32,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
         @tool_i_dashboard_user_nil += dashboard.ifa_dashboardable_type == 'User' ? 1:0
         @tool_i_dashboard_classroom_nil += dashboard.ifa_dashboardable_type == 'Classroom' ? 1:0
         @tool_i_dashboard_org_nil += dashboard.ifa_dashboardable_type == 'Organization' ? 1:0
+      #  dashboard.destroy
       end
     end
     @tool_i_summary = 'Tool I Summary'

@@ -1,0 +1,90 @@
+<div id="tool_px">
+  <div class="row tool_row">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_p" class='button_gray enabled'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Compare Dashboards With Submission Data.
+      <% if !@tool_p_summary.nil? %>
+        <div class="row tool_sumry">
+          <%=@tool_p_summary %><br/>
+          <% ActSubject.plannable.each do |subject| %>
+            <strong><%= subject.name %></strong></br>
+            <%= pluralize(@tool_p_user_db_count[subject], ' Total User Dashboard') %><br/>
+            <%= pluralize(@tool_p_bad_user_sub_db[subject], ' User Dashboard') %> With InCorrect Submission Totals<br/>
+
+            <%= pluralize(@tool_p_classroom_db_count[subject], ' Total Classroom Dashboard') %><br/>
+            <%= pluralize(@tool_p_bad_classroom_sub_db[subject], ' Classroom Dashboard') %> With InCorrect Submission Totals<br/>
+
+            <%= pluralize(@tool_p_org_db_count[subject], ' Total Org Dashboard') %><br/>
+            <%= pluralize(@tool_p_bad_org_sub_db[subject], ' Org Dashboard') %> With InCorrect Submission Totals<br/>
+
+            <%= pluralize(@tool_p_bad_entity_db[subject], ' Unkown Entity Dashboard') %><br/>
+
+            <br/>
+          <% end %>
+        </div>
+      <% end %>
+      <% if @tool_p_reconcile %>
+          <div class="row">
+            <div class="col-md-2">
+            <span id = "tool_pp" class='button_gray enabled'>
+              <%='GO' %>
+            </span>
+            </div>
+            <div class="col-md-9">
+              Adjust
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+            <span id = "tool_ppp" class='button_gray enabled'>
+              <%='GO' %>
+            </span>
+            </div>
+            <div class="col-md-9">
+              Adjust
+            </div>
+          </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_p").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_p_url(:organization_id => @current_organization, :reconcile_them => 'No') %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tool_px").html(data);
+          jQ("#tool_px").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_pp").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_p_url(:organization_id => @current_organization, :reconcile_them => 'Adjust1') %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tool_px").html(data);
+          jQ("#tool_px").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_ppp").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_p_url(:organization_id => @current_organization, :reconcile_them => 'Adjust2') %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tool_px").html(data);
+          jQ("#tool_px").show();
+        });
+      })
+    });
+  </script>
+</div>

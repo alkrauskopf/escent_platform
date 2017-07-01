@@ -71,8 +71,28 @@ class IfaDashboard < ActiveRecord::Base
     self.ifa_dashboard_cells.for_standard(standard)
   end
 
+  def total_points
+    self.ifa_dashboard_cells.map{|c| c.fin_points}.sum
+  end
+
+  def total_c_points
+    self.ifa_dashboard_cells.map{|c| c.cal_points}.sum
+  end
+
+  def total_answers
+    self.ifa_dashboard_cells.map{|c| c.finalized_answers}.sum
+  end
+
+  def total_c_answers
+    self.ifa_dashboard_cells.map{|c| c.calibrated_answers}.sum
+  end
+
   def entity_class
     self.ifa_dashboardable.class.to_s
+  end
+
+  def entity_unkown?
+    self.entity_class != 'User' && self.entity_class != 'Classroom' && self.entity_class != 'Organization'
   end
 
   def entity_name

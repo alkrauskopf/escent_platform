@@ -21,6 +21,132 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     current_level
   end
 
+  def tool_p
+    @tool_p_user_db_count = {}
+    @tool_p_classroom_db_count = {}
+    @tool_p_org_db_count = {}
+    @tool_p_bad_user_sub_db = {}
+    @tool_p_bad_classroom_sub_db = {}
+    @tool_p_bad_org_sub_db = {}
+    @tool_p_bad_entity_db = {}
+
+    @tool_p_summary = 'Tool P Analysis Complete'
+    ActSubject.plannable.each do |subject|
+      @tool_p_user_db_count[subject] = 0
+      @tool_p_bad_user_sub_db[subject] = 0
+      @tool_p_classroom_db_count[subject] = 0
+      @tool_p_bad_classroom_sub_db[subject] = 0
+      @tool_p_org_db_count[subject] = 0
+      @tool_p_bad_org_sub_db[subject] = 0
+      @tool_p_bad_entity_db[subject] = 0
+
+      IfaDashboard.for_subject(subject).each do |dashboard|
+        @tool_p_user_db_count[subject] += dashboard.entity_class == 'User' ? 1 : 0
+        @tool_p_classroom_db_count[subject] += dashboard.entity_class == 'Classroom' ? 1 : 0
+        @tool_p_org_db_count[subject] += dashboard.entity_class == 'Organization' ? 1 : 0
+        begin_date = dashboard.period_end.beginning_of_month
+        end_date = dashboard.period_end
+        submissions = dashboard.ifa_dashboardable.act_submissions.for_subject(subject).submission_period(begin_date, end_date).final
+        if dashboard.entity_class == 'User'
+          @tool_p_bad_user_sub_db[subject] += dashboard.assessments_taken != submissions.size ? 1:0
+
+        elsif dashboard.entity_class == 'Classroom'
+          @tool_p_bad_classroom_sub_db[subject] += dashboard.assessments_taken != submissions.size ? 1:0
+
+        elsif dashboard.entity_class == 'Organization'
+          @tool_p_bad_org_sub_db[subject] += dashboard.assessments_taken != submissions.size ? 1:0
+
+        else
+          @tool_p_bad_entity_db[subject] += 1
+        end
+
+        if params[:reconcile_them] == 'Adjust2'
+        #  Adjust DB Totals to Equal Cell Totals
+          @tool_p_reconcile = false
+          @tool_p_summary = 'DB Scores Reconciled 2'
+        end
+        if params[:reconcile_them] == 'Adjust1'
+          #  Adjust DB Totals to Equal Cell Totals
+          @tool_p_reconcile = false
+          @tool_p_summary = 'DB Scores Reconciled 1'
+        end
+      end
+    end
+    if params[:reconcile_them] == 'No'
+      @tool_p_reconcile = true
+      @tool_p_summary = 'Tool P RECONCILE PENDING'
+    end
+    render :partial =>  "tool_p", :locals=>{}
+  end
+
+  def tool_o
+    @tool_o_initial_db_count = IfaDashboard.all.size
+    @tool_o_wrong_fpoints_total = 0
+    @tool_o_wrong_cpoints_total = 0
+    @tool_o_extra_std_cell = 0
+    @tool_o_no_std_cell = 0
+    @tool_o_wrong_fanswer_total = 0
+    @tool_o_wrong_canswer_total = 0
+    @tool_o_no_std_cell_deleted = 0
+    @tool_o_bad_level_cell_deleted = 0
+    @tool_o_no_std_db_deleted = 0
+    @tool_o_db_score_updated = 0
+    @tool_o_db_plannable = 0
+    @tool_o_bad_subject_db_deleted = 0
+    @tool_o_bad_entity = 0
+    @tool_o_summary = 'Tool O Analysis Complete'
+    IfaDashboard.all.each do |dashboard|
+      @tool_o_bad_entity += dashboard.entity_unkown? ? 1 : 0
+      @tool_o_no_std_cell += dashboard.cells_for_standard(@current_standard).empty? ? 1 : 0
+      @tool_o_extra_std_cell += (dashboard.cells_for_standard(@current_standard).size != dashboard.ifa_dashboard_cells.size) ? 1 : 0
+      @tool_o_wrong_fpoints_total += dashboard.fin_points != dashboard.total_points ? 1 : 0
+      @tool_o_wrong_cpoints_total += dashboard.cal_points != dashboard.total_c_points ? 1 : 0
+      @tool_o_wrong_fanswer_total += dashboard.finalized_answers != dashboard.total_answers ? 1 : 0
+      @tool_o_wrong_canswer_total += dashboard.calibrated_answers != dashboard.total_c_answers ? 1 : 0
+      @tool_o_db_plannable += !ActSubject.plannable.include?(dashboard.act_subject) ? 1 : 0
+      if params[:reconcile_them] == 'Reconcile'
+        #  Adjust DB Totals to Equal Cell Totals
+        if (dashboard.fin_points != dashboard.total_points) ||
+            (dashboard.cal_points != dashboard.total_c_points) ||
+            (dashboard.finalized_answers != dashboard.total_answers) ||
+            (dashboard.calibrated_answers != dashboard.total_c_answers)
+
+          dashboard.update_attributes(:fin_points => dashboard.total_points, :cal_points => dashboard.total_c_points,
+          :finalized_answers => dashboard.total_answers, :calibrated_answers => dashboard.total_c_answers)
+          @tool_o_db_score_updated += 1
+          @tool_o_reconcile = false
+          @tool_o_summary = 'DB Scores Reconciled'
+        end
+      end
+      if params[:reconcile_them] == 'Remove'
+      #  remoce Non Standard DBs and Cells
+        if (dashboard.cells_for_standard(@current_standard).size != dashboard.ifa_dashboard_cells.size)
+          dashboard.ifa_dashboard_cells.each do |cell|
+            if cell.act_master_id != @current_standard.id
+              cell.destroy
+              @tool_o_no_std_cell_deleted += 1
+            elsif cell.act_score_range.nil? || cell.act_standard.nil? || (cell.act_score_range.act_master_id != @current_standard.id) || (cell.act_standard.act_master_id != @current_standard.id)
+              cell.destroy
+              @tool_o_bad_level_cell_deleted += 1
+            end
+          end
+        end
+        if dashboard.cells_for_standard(@current_standard).empty? || !ActSubject.plannable.include?(dashboard.act_subject)
+          @tool_o_no_std_db_deleted += dashboard.cells_for_standard(@current_standard).empty? ? 1 : 0
+          @tool_o_bad_subject_db_deleted += !ActSubject.plannable.include?(dashboard.act_subject) ? 1 : 0
+          dashboard.destroy
+        end
+        @tool_o_reconcile = false
+        @tool_o_summary = 'Non-Standard DBs & Cells Removed'
+      end
+    end
+    if params[:reconcile_them] == 'No'
+      @tool_o_reconcile = true
+      @tool_o_summary = 'Tool O RECONCILE PENDING'
+    end
+    render :partial =>  "tool_o", :locals=>{}
+  end
+
   def tool_n
     @tool_n_until_date = Date.today - 4.years
     @tool_n_initial_db_count = IfaDashboard.all.size

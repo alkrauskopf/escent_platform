@@ -214,6 +214,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/maintenance/ifa/tool_l' => 'app_maintenance/ifa#tool_l' # app_maintenance_ifa_tool_l_url
   get '/app/maintenance/ifa/tool_m' => 'app_maintenance/ifa#tool_m' # app_maintenance_ifa_tool_m_url
   get '/app/maintenance/ifa/tool_n' => 'app_maintenance/ifa#tool_n' # app_maintenance_ifa_tool_n_url
+  get '/app/maintenance/ifa/tool_o' => 'app_maintenance/ifa#tool_o' # app_maintenance_ifa_tool_o_url
+  get '/app/maintenance/ifa/tool_p' => 'app_maintenance/ifa#tool_p' # app_maintenance_ifa_tool_p_url
 
 
   # APPS Shared

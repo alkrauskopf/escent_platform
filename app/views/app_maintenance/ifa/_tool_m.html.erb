@@ -1,0 +1,58 @@
+<div id="tool_mx">
+  <div class="row tool_row">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_m" class='button_gray enabled'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Destroy Submissions Older Than Four Years Ago
+      <% if !@tool_m_summary.nil? %>
+        <div class="row tool_sumry">
+          <%=@tool_m_summary %><br/>
+          <%= pluralize(@tool_m_initial_sub_count, ' Total Submission') %><br/>
+          <%= pluralize(@tool_m_destroy_subs_count, ' Submission Destroy') %> Before Of <%= @tool_m_until_date.strftime("%b %d, %Y") %><br/>
+          <%= pluralize(@tool_m_destroy_answers_count, ' Answer Destroy') %><br/>
+          <br/>
+        </div>
+      <% end %>
+      <% if @tool_m_destroy %>
+        <div class="row">
+          <div class="col-md-2">
+            <span id = "tool_mm" class='button_gray enabled'>
+              <%='GO' %>
+            </span>
+          </div>
+          <div class="col-md-9">
+            Destroy Submissions
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_m").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_m_url(:organization_id => @current_organization, :destroy_them => 'No') %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tool_mx").html(data);
+          jQ("#tool_mx").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_mm").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_m_url(:organization_id => @current_organization, :destroy_them => 'Yes') %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tool_mx").html(data);
+          jQ("#tool_mx").show();
+        });
+      })
+    });
+  </script>
+</div>

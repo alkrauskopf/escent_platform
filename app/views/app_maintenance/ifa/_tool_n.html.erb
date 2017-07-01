@@ -1,0 +1,60 @@
+<div id="tool_nx">
+  <div class="row tool_row">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_n" class='button_gray enabled'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Destroy Dashboards Older Than Four Years Ago
+      <% if !@tool_n_summary.nil? %>
+        <div class="row tool_sumry">
+          <%=@tool_n_summary %><br/>
+          <%= pluralize(@tool_n_initial_db_count, ' Total Dashboard') %><br/>
+          <%= pluralize(@tool_n_destroy_db_count, ' TOTAL Dashboard Destroy') %> Before Of <%= @tool_n_until_date.strftime("%b %d, %Y") %><br/>
+          <%= pluralize(@tool_n_destroy_user_db_count, ' USER Dashboard Destroy') %> Before Of <%= @tool_n_until_date.strftime("%b %d, %Y") %><br/>
+          <%= pluralize(@tool_n_destroy_classroom_db_count, ' CLASSROOM Dashboard Destroy') %> Before Of <%= @tool_n_until_date.strftime("%b %d, %Y") %><br/>
+          <%= pluralize(@tool_n_destroy_org_db_count, ' ORG Dashboard Destroy') %> Before Of <%= @tool_n_until_date.strftime("%b %d, %Y") %><br/>
+          <br/>
+        </div>
+      <% end %>
+      <% if @tool_n_destroy %>
+        <div class="row">
+          <div class="col-md-2">
+            <span id = "tool_nn" class='button_gray enabled'>
+              <%='GO' %>
+            </span>
+          </div>
+          <div class="col-md-9">
+            Destroy Dashboards
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_n").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_n_url(:organization_id => @current_organization, :destroy_them => 'No') %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tool_nx").html(data);
+          jQ("#tool_nx").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_nn").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_n_url(:organization_id => @current_organization, :destroy_them => 'Yes') %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tool_nx").html(data);
+          jQ("#tool_nx").show();
+        });
+      })
+    });
+  </script>
+</div>

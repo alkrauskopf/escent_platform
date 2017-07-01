@@ -21,6 +21,46 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     current_level
   end
 
+  def tool_n
+    @tool_n_until_date = Date.today - 4.years
+    @tool_n_initial_db_count = IfaDashboard.all.size
+    @tool_n_destroy_db_count = IfaDashboard.since(@tool_n_until_date).count
+    @tool_n_destroy_user_db_count = 0
+    @tool_n_destroy_classroom_db_count = 0
+    @tool_n_destroy_org_db_count = 0
+    @tool_n_summary = 'Tool N Nothing to DESTROY'
+    IfaDashboard.since(@tool_n_until_date).each do |dashboard|
+      @tool_n_destroy_user_db_count += dashboard.entity_class == 'User' ? 1 : 0
+      @tool_n_destroy_classroom_db_count += dashboard.entity_class == 'Classroom' ? 1 : 0
+      @tool_n_destroy_org_db_count += dashboard.entity_class == 'Organization' ? 1 : 0
+      if params[:destroy_them] == 'Yes'
+        dashboard.destroy
+        @tool_n_destroy = false
+        @tool_n_summary = 'Tool N DESTROY Complete'
+      else
+        @tool_n_destroy = true
+        @tool_n_summary = 'Tool N DESTROY PENDING'
+      end
+    end
+    render :partial =>  "tool_n", :locals=>{}
+  end
+
+  def tool_m
+    @tool_m_until_date = Date.today - 4.years
+    @tool_m_initial_sub_count = ActSubmission.all.size
+    @tool_m_destroy_subs_count = ActSubmission.until(@tool_m_until_date).count
+    @tool_m_destroy_answers_count = ActSubmission.until(@tool_m_until_date).collect{|s| s.act_answers.size}.sum
+    if params[:destroy_them] == 'Yes'
+      ActSubmission.until(@tool_m_until_date).destroy_all
+      @tool_m_destroy = false
+      @tool_m_summary = 'Tool M DESTROY Complete'
+    else
+      @tool_m_destroy = true
+      @tool_m_summary = 'Tool M DESTROY PENDING'
+    end
+    render :partial =>  "tool_m", :locals=>{}
+  end
+
   def tool_l
     @tool_l_db_count = 0
     @tool_l_classroom_db_count = 0

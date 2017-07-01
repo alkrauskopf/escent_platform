@@ -8,7 +8,7 @@
       </span>
     </div>
     <div class="col-md-8">
-      Count Submissions with Correct Points and Total Choices
+      Count Submission Having Correct Points and Total Choices, Adjust Incorrect Ones
       <% if !@tool_h_summary.nil? %>
         <div class="row tool_sumry">
           <%=@tool_g_summary %><br/>
@@ -27,8 +27,8 @@
       jQ("#tool_h").click(function(){
         var url = "<%= app_maintenance_ifa_tool_h_url(:organization_id => @current_organization) %>";
         jQ.get(url, {}, function(data) {
-          jQ("#tools").html(data);
-          jQ("#tools").show();
+          jQ("#tool_hx").html(data);
+          jQ("#tool_hx").show();
         });
       })
     });

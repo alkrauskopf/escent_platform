@@ -1,0 +1,37 @@
+<div id="tool_lx">
+  <div class="row tool_row">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_l" class='button_gray enabled'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Count Classroom Dashboards With Incompatible Subjects
+      <% if !@tool_l_summary.nil? %>
+        <div class="row tool_sumry">
+          <%=@tool_l_summary %><br/>
+          <%= pluralize(@tool_l_db_count, ' Total Dashboard') %><br/>
+          <%= pluralize(@tool_l_classroom_db_count, ' Classroom Dashboard') %><br/>
+          <%= pluralize(@tool_l_inconsistent_count, ' Classroom Dashboard') %> With Mismatch Classroom & Dashboard Subjects<br/>
+          <%= pluralize(@tool_l_db_no_subject_count, ' Classroom Dashboard') %> With NO Subject<br/>
+          <%= pluralize(@tool_l_db_no_classroom_count, ' Classroom Dashboard') %> With NO Classroom<br/>
+          <br/>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_l").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_l_url(:organization_id => @current_organization) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tool_lx").html(data);
+          jQ("#tool_lx").show();
+        });
+      })
+    });
+  </script>
+</div>

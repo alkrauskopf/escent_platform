@@ -71,6 +71,10 @@ class IfaDashboard < ActiveRecord::Base
     self.ifa_dashboard_cells.for_standard(standard)
   end
 
+  def entity_class
+    self.ifa_dashboardable.class.to_s
+  end
+
   def entity_name
     if self.ifa_dashboardable.nil?
       name = "Undefined"

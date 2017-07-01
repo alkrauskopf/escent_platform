@@ -1,0 +1,38 @@
+<div id="tool_bx">
+  <div class="row tool_row">
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_b" class='button_gray disabled'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Assign Levels & Strands to All Questions  (Already Done.)
+      <% if !@tool_b_summary.nil? %>
+          <div class="row tool_sumry">
+            <%=@tool_b_summary %><br/>
+            <%= pluralize(@tool_b_level_nil, ' Nil Level Question') %><br/>
+            <%= pluralize(@tool_b_level_updateable, ' Populated Level Question') %><br/>
+            <%= pluralize(@tool_b_level_updated, ' Updated Level With Current Std Question') %><br/><br/>
+            <%= pluralize(@tool_b_strand_nil, ' Nil Strand Question') %><br/>
+            <%= pluralize(@tool_b_strand_updateable, ' Populated Strand Question') %><br/>
+            <%= pluralize(@tool_b_strand_updated, ' Updated Strand With Current Std Question') %><br/><br/>
+            <%= pluralize(@tool_b_compatible_update, ' Compatible Level/Strand Update') %><br/>
+            <%= pluralize(@tool_b_no_level, ' Strand, No Level Question') %>&nbsp;<%= pluralize(@tool_b_no_strand, ' Level, No Strand Question') %>
+          </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#tool_b").click(function(){
+          var url = "<%= app_maintenance_ifa_tool_b_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
+          jQ.get(url, {}, function(data) {
+            jQ("#tool_bx").html(data);
+            jQ("#tool_bx").show();
+          });
+        })
+      });
+    </script>
+  </div>
+</div>

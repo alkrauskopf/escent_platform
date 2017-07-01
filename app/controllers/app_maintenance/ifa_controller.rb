@@ -21,6 +21,69 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     current_level
   end
 
+  def tool_l
+    @tool_l_db_count = 0
+    @tool_l_classroom_db_count = 0
+    @tool_l_inconsistent_count = 0
+    @tool_l_db_no_subject_count = 0
+    @tool_l_db_no_classroom_count = 0
+    IfaDashboard.all.each do |dashboard|
+      @tool_l_db_count += 1
+      if dashboard.entity_class == 'Classroom'
+        @tool_l_classroom_db_count += 1
+        if !dashboard.act_subject
+          @tool_l_db_no_subject_count += 1
+        end
+        if !dashboard.ifa_dashboardable
+          @tool_l_db_no_classroom_count += 1
+        end
+        if dashboard.ifa_dashboardable && dashboard.act_subject && dashboard.ifa_dashboardable.act_subject != dashboard.act_subject
+          @tool_l_inconsistent_count += 1
+        end
+      end
+        # answer.destroy
+    end
+    @tool_l_summary = 'Tool L Summary'
+    render :partial =>  "tool_l", :locals=>{}
+  end
+
+  def tool_k
+    @tool_k_answer_count = 0
+    @tool_k_orphan_answer_count = 0
+    ActAnswer.all.each do |answer|
+      @tool_k_answer_count += 1
+      if !answer.act_submission
+        @tool_k_orphan_answer_count += 1
+        # answer.destroy
+      end
+    end
+    @tool_k_summary = 'Tool K Summary'
+    render :partial =>  "tool_k", :locals=>{}
+  end
+
+  def tool_j
+    @tool_j_question_count = 0
+    @tool_j_orphan_question_count = 0
+    @tool_j_orphan_no_answers = 0
+    @tool_j_orphan_with_answers = 0
+    @tool_j_orphan_questions = []
+    ActQuestion.all.each do |question|
+      @tool_j_question_count += 1
+      if question.act_assessment_act_questions.empty?
+        @tool_j_orphan_question_count += 1
+        if question.act_answers.empty?
+          @tool_j_orphan_no_answers += 1
+          question.destroy
+        else
+          @tool_j_orphan_with_answers += 1
+          @tool_j_orphan_questions << question
+        end
+      end
+    end
+    @tool_j_summary = 'Tool J Summary'
+    render :partial =>  "tool_j", :locals=>{}
+  end
+
   def tool_i
     @tool_i_dashboard_count = 0
     @tool_i_dashboard_user_nil = 0
@@ -36,7 +99,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       end
     end
     @tool_i_summary = 'Tool I Summary'
-    render :partial =>  "tools", :locals=>{}
+    render :partial =>  "tool_i", :locals=>{}
   end
 
   def tool_h
@@ -61,7 +124,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       end
     end
     @tool_h_summary = 'Tool H Summary'
-    render :partial =>  "tools", :locals=>{}
+    render :partial =>  "tool_h", :locals=>{}
   end
 
   def tool_a
@@ -77,9 +140,10 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     @tool_a_nil_level = ActQuestion.all.select{|q| (q.mastery_level.nil?)}
     @tool_a_nil_strand = ActQuestion.all.select{|q| (q.strand.nil?)}
     @tool_a_nil_level_strand = ActQuestion.all.select{|q| (q.mastery_level.nil? && q.strand.nil?)}
-    @tool_a_summary = 'Summary'
-    render :partial =>  "tools", :locals=>{}
+    @tool_a_summary = 'Tool A Summary'
+    render :partial =>  "tool_a", :locals=>{}
   end
+
   def tool_b
     @tool_b_level_nil = 0
     @tool_b_level_updateable = 0
@@ -121,8 +185,8 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       end
     end
 
-    @tool_b_summary = 'Summary'
-    render :partial =>  "tools", :locals=>{}
+    @tool_b_summary = 'Tool B Summary'
+    render :partial =>  "tool_b", :locals=>{}
   end
 
   def tool_c
@@ -147,24 +211,26 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       @tool_c_with_strand += q.strand ? 1 : 0
       q.destroy
     end
-    @tool_c_summary = 'Summary'
-    render :partial =>  "tools", :locals=>{}
+    @tool_c_summary = ' Tool C Summary'
+    render :partial =>  "tool_c", :locals=>{}
   end
 
   def tool_d
     @tool_d_assessment_count = ActAssessment.all.size
     @tool_d_empty_assessment = 0
+    @tool_d_recon_assessment = 0
 
     ActAssessment.all.each do |a|
       if a.act_questions.empty?
         @tool_d_empty_assessment += 1
-        a.destroy
+       # a.destroy
       else
-        a.reconstitute
+        @tool_d_recon_assessment += 1
+       # a.reconstitute
       end
     end
-    @tool_d_summary = 'Tool d Summary'
-    render :partial =>  "tools", :locals=>{}
+    @tool_d_summary = 'Tool D Summary'
+    render :partial =>  "tool_d", :locals=>{}
   end
 
 
@@ -180,7 +246,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       end
     end
     @tool_e_summary = 'Tool E Summary'
-    render :partial =>  "tools", :locals=>{}
+    render :partial =>  "tool_e", :locals=>{}
   end
 
   def tool_f
@@ -200,7 +266,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
         @tool_f_classroom_count += misalign ? 1 : 0
     end
     @tool_f_summary = 'Tool F Summary'
-    render :partial =>  "tools", :locals=>{}
+    render :partial =>  "tool_f", :locals=>{}
   end
 
   def tool_g
@@ -251,7 +317,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       end
     end
     @tool_g_summary = 'Tool G Summary'
-    render :partial =>  "tools", :locals=>{}
+    render :partial =>  "tool_g", :locals=>{}
   end
 
   def standard_maint_select

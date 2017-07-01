@@ -8,7 +8,7 @@
       </span>
     </div>
     <div class="col-md-8">
-      Assign Upper/Lower Submission Levels & Assign Standard to Submissions
+      Assign Upper/Lower Levels and Assign Standard To Submission (Updates Already Done. Verify Below)
       <% if !@tool_g_summary.nil? %>
         <div class="row tool_sumry">
           <%=@tool_g_summary %><br/>
@@ -32,8 +32,8 @@
       jQ("#tool_g").click(function(){
         var url = "<%= app_maintenance_ifa_tool_g_url(:organization_id => @current_organization) %>";
         jQ.get(url, {}, function(data) {
-          jQ("#tools").html(data);
-          jQ("#tools").show();
+          jQ("#tool_gx").html(data);
+          jQ("#tool_gx").show();
         });
       })
     });

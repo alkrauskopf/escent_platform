@@ -1,0 +1,33 @@
+<div id="tool_dx">
+  <div class="row tool_row">
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+        <span id = "tool_d" class='button_gray disabled'>
+          <%='GO' %>
+        </span>
+    </div>
+    <div class="col-md-8">
+      Reconsitute All Assessments   (Already Done. Adjust Code to perform updates again.)
+      <% if !@tool_d_summary.nil? %>
+          <div class="row tool_sumry">
+            <%=@tool_d_summary %><br/>
+            <%= pluralize(@tool_d_assessment_count, ' Assessment') %><br/>
+            <%= pluralize(@tool_d_empty_assessment, ' Empty Assessment') %> Destroyed<br/>
+            <%= pluralize(@tool_d_recon_assessment, ' Already Reconstituted Assessment') %> <br/>
+          </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#tool_d").click(function(){
+          var url = "<%= app_maintenance_ifa_tool_d_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
+          jQ.get(url, {}, function(data) {
+            jQ("#tool_dx").html(data);
+            jQ("#tool_dx").show();
+          });
+        })
+      });
+    </script>
+  </div>
+</div>

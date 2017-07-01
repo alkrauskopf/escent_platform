@@ -1,0 +1,34 @@
+<div id="tool_kx">
+  <div class="row tool_row">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_k" class='button_gray enabled'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Count Orphan Answers, Not Connected to a Submission
+      <% if !@tool_k_summary.nil? %>
+        <div class="row tool_sumry">
+          <%=@tool_k_summary %><br/>
+          <%= pluralize(@tool_k_answer_count, ' Total Answer') %><br/>
+          <%= pluralize(@tool_k_orphan_answer_count, ' Orphan Answer') %> With No Submission<br/>
+          <br/>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_k").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_k_url(:organization_id => @current_organization) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tool_kx").html(data);
+          jQ("#tool_kx").show();
+        });
+      })
+    });
+  </script>
+</div>

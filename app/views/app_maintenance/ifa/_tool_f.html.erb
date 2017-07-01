@@ -7,13 +7,13 @@
       </span>
     </div>
     <div class="col-md-8">
-      Find Mis-Aligned Subjects For Classrooms &  Assessments
+      Find Classrooms &  Assessments with Different Subjects
       <% if !@tool_f_summary.nil? %>
         <div class="row tool_sumry">
           <%=@tool_f_summary %><br/>
           <%= pluralize(@tool_f_classroom_count, ' Classroom') %> With Misaligned Assessment <br/>
           <%= pluralize(@tool_f_classroom_assess_misalign_count, ' Misaligned Assessment') %><br/>
-          <%= pluralize(@tool_f_misaligned_destroys, ' Misalign') %> Destroyed<br/><br/>
+          <%= pluralize(@tool_f_misaligned_destroys, ' Misalign Assessment') %> Removed From Classroom Pool<br/><br/>
         </div>
       <% end %>
     </div>
@@ -24,8 +24,8 @@
       jQ("#tool_f").click(function(){
         var url = "<%= app_maintenance_ifa_tool_f_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
         jQ.get(url, {}, function(data) {
-          jQ("#tools").html(data);
-          jQ("#tools").show();
+          jQ("#tool_fx").html(data);
+          jQ("#tool_fx").show();
         });
       })
     });

@@ -8,7 +8,7 @@
       </span>
     </div>
     <div class="col-md-8">
-      Count Dashboards with Nil Dates
+      Count Dashboards with Nil Dates (Adjust Code to Destroy Bad Dashboards
       <% if !@tool_i_summary.nil? %>
         <div class="row tool_sumry">
           <%=@tool_i_summary %><br/>
@@ -26,8 +26,8 @@
       jQ("#tool_i").click(function(){
         var url = "<%= app_maintenance_ifa_tool_i_url(:organization_id => @current_organization) %>";
         jQ.get(url, {}, function(data) {
-          jQ("#tools").html(data);
-          jQ("#tools").show();
+          jQ("#tool_ix").html(data);
+          jQ("#tool_ix").show();
         });
       })
     });

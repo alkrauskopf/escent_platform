@@ -1,0 +1,37 @@
+<div id="tool_cx">
+  <div class="row tool_row">
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_c" class='button_gray enabled'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Destroy Untagged Questions (Already Done After Questions were tagged. OK to perform again)
+      <% if !@tool_c_summary.nil? %>
+          <div class="row tool_sumry">
+            <%=@tool_c_summary %><br/>
+            <%= pluralize(@tool_c_question_count, ' Untagged Question') %><br/>
+            <%= pluralize(@tool_c_with_answer, ' Untagged Question') %> With Answers<br/>
+            <%= pluralize(@tool_c_tot_answer, ' Total Question Answer') %><br/>
+            <%= pluralize(@tool_c_with_assessment, ' Untagged Question') %> With Assessments<br/>
+            <%= pluralize(@tool_c_tot_assessment, ' Total Question Aassessment') %><br/>
+            <%= pluralize(@tool_c_with_level, ' Untagged Question') %> With Level<br/>
+            <%= pluralize(@tool_c_with_strand, ' Untagged Question') %> With Stran<br/>
+          </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#tool_c").click(function(){
+          var url = "<%= app_maintenance_ifa_tool_c_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
+          jQ.get(url, {}, function(data) {
+            jQ("#tool_cx").html(data);
+            jQ("#tool_cx").show();
+          });
+        })
+      });
+    </script>
+  </div>
+</div>

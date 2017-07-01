@@ -1,161 +1,19 @@
-<div id="tools">
+<div >
   <div class="row standard_row">
     <div class="strand_label">
       <%= @current_organization.provider_app_name(@current_application)%> Maintenance Tools
     </div>
   </div>
+  <%= render :partial => 'tool_l' %>
+  <%= render :partial => 'tool_k' %>
+  <%= render :partial => 'tool_j' %>
   <%= render :partial => 'tool_i' %>
   <%= render :partial => 'tool_h' %>
   <%= render :partial => 'tool_g' %>
   <%= render :partial => 'tool_f' %>
   <%= render :partial => 'tool_e' %>
-  <div id="tool_ax">
-  <div class="row tool_row">
-    <div class="col-md-2"></div>
-    <div class="col-md-1">
-      <span id = "tool_a" class='button_gray'>
-        <%='GO' %>
-      </span>
-    </div>
-    <div class="col-md-8">
-      Summarize Question Info
-      <% if !@tool_a_summary.nil? %>
-        <div class="row tool_sumry">
-          <%=@tool_a_summary %><br/><br/>
-          <%= pluralize(@tool_a_compatible.size, ' Level/Strand Compatible Question') %><br/>
-          <%= pluralize(@tool_a_incompatible.size, ' Level/Strand Incompatible Question') %><br/><br/>
-          <%= pluralize(@tool_a_nil_level.size, ' Nil Level Question') %><br/>
-          <%= pluralize(@tool_a_nil_strand.size, ' Nil Strand Question') %><br/>
-          <%= pluralize(@tool_a_nil_level_strand.size, ' Nil Level & Strand Question') %><br/><br/>
-          <%= pluralize(@tool_question_in_asses.size, ' Asessment Question') %><br/>
-          <%= pluralize(@tool_questions_multi_level.size, ' Multi-level') %><br/>
-          <%= pluralize(@tool_questions_multi_strand.size, ' Multi-strand') %><br/>
-          <%= pluralize(@tool_questions_no_level.size, ' No-level') %><br/>
-          <%= pluralize(@tool_questions_no_strand.size, ' No-strand') %><br/>
-          <%= pluralize(@tool_questions_nil_level.size, ' Nil-level') %><br/>
-          <%= pluralize(@tool_questions_nil_strand.size, ' Nil-strand') %>
-        </div>
-      <% end %>
-    </div>
-    <div class="col-md-1"></div>
-  </div>
-  <script type="text/javascript">
-    jQ(document).ready(function() {
-      jQ("#tool_a").click(function(){
-        var url = "<%= app_maintenance_ifa_tool_a_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
-        jQ.get(url, {}, function(data) {
-          jQ("#tools").html(data);
-          jQ("#tools").show();
-        });
-      })
-    });
-  </script>
-  </div>
-  <div id="tool_bx">
-  <div class="row tool_row">
-    <div class="col-md-2"></div>
-    <div class="col-md-1">
-      <span id = "tool_b" class='button_gray disabled'>
-        <%='GO' %>
-      </span>
-    </div>
-    <div class="col-md-8">
-      Assign Levels & Strands
-      <% if !@tool_b_summary.nil? %>
-          <div class="row tool_sumry">
-            <%=@tool_b_summary %><br/>
-            <%= pluralize(@tool_b_level_nil, ' Nil Level Question') %><br/>
-            <%= pluralize(@tool_b_level_updateable, ' Populated Level Question') %><br/>
-            <%= pluralize(@tool_b_level_updated, ' Updated Level With Current Std Question') %><br/><br/>
-            <%= pluralize(@tool_b_strand_nil, ' Nil Strand Question') %><br/>
-            <%= pluralize(@tool_b_strand_updateable, ' Populated Strand Question') %><br/>
-            <%= pluralize(@tool_b_strand_updated, ' Updated Strand With Current Std Question') %><br/><br/>
-            <%= pluralize(@tool_b_compatible_update, ' Compatible Level/Strand Update') %><br/>
-            <%= pluralize(@tool_b_no_level, ' Strand, No Level Question') %>&nbsp;<%= pluralize(@tool_b_no_strand, ' Level, No Strand Question') %>
-          </div>
-      <% end %>
-    </div>
-    <div class="col-md-1"></div>
-  </div>
-  <script type="text/javascript">
-    jQ(document).ready(function() {
-      jQ("#tool_b").click(function(){
-        var url = "<%= app_maintenance_ifa_tool_b_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
-        jQ.get(url, {}, function(data) {
-          jQ("#tools").html(data);
-          jQ("#tools").show();
-        });
-      })
-    });
-  </script>
-  </div>
-  <div id="tool_cx">
-  <div class="row tool_row">
-    <div class="col-md-2"></div>
-    <div class="col-md-1">
-      <span id = "tool_c" class='button_gray enabled'>
-        <%='GO' %>
-      </span>
-    </div>
-    <div class="col-md-8">
-      Destroy Untagged Questions
-      <% if !@tool_c_summary.nil? %>
-          <div class="row tool_sumry">
-            <%=@tool_c_summary %><br/>
-            <%= pluralize(@tool_c_question_count, ' Untagged Question') %><br/>
-            <%= pluralize(@tool_c_with_answer, ' Untagged Question') %> With Answers<br/>
-            <%= pluralize(@tool_c_tot_answer, ' Total Question Answer') %><br/>
-            <%= pluralize(@tool_c_with_assessment, ' Untagged Question') %> With Assessments<br/>
-            <%= pluralize(@tool_c_tot_assessment, ' Total Question Aassessment') %><br/>
-            <%= pluralize(@tool_c_with_level, ' Untagged Question') %> With Level<br/>
-            <%= pluralize(@tool_c_with_strand, ' Untagged Question') %> With Stran<br/>
-          </div>
-      <% end %>
-    </div>
-    <div class="col-md-1"></div>
-  </div>
-  <script type="text/javascript">
-    jQ(document).ready(function() {
-      jQ("#tool_c").click(function(){
-        var url = "<%= app_maintenance_ifa_tool_c_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
-        jQ.get(url, {}, function(data) {
-          jQ("#tools").html(data);
-          jQ("#tools").show();
-        });
-      })
-    });
-  </script>
-  </div>
-  <div id="tool_dx">
-  <div class="row tool_row">
-    <div class="col-md-2"></div>
-    <div class="col-md-1">
-      <span id = "tool_d" class='button_gray enabled'>
-        <%='GO' %>
-      </span>
-    </div>
-    <div class="col-md-8">
-      Re-Tag All Assessments
-      <% if !@tool_d_summary.nil? %>
-          <div class="row tool_sumry">
-            <%=@tool_d_summary %><br/>
-            <%= pluralize(@tool_d_assessment_count, ' Assessment') %><br/>
-            <%= pluralize(@tool_d_empty_assessment, ' Empty Assessment') %> Destroyed<br/>
-          </div>
-      <% end %>
-    </div>
-    <div class="col-md-1"></div>
-  </div>
-  <script type="text/javascript">
-    jQ(document).ready(function() {
-      jQ("#tool_d").click(function(){
-        var url = "<%= app_maintenance_ifa_tool_d_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id) %>";
-        jQ.get(url, {}, function(data) {
-          jQ("#tools").html(data);
-          jQ("#tools").show();
-        });
-      })
-    });
-  </script>
-</div>
+  <%= render :partial => 'tool_d' %>
+  <%= render :partial => 'tool_c' %>
+  <%= render :partial => 'tool_b' %>
+  <%= render :partial => 'tool_a' %>
 </div>

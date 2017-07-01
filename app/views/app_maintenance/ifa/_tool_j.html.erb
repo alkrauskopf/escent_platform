@@ -1,0 +1,40 @@
+<div id="tool_jx">
+  <div class="row tool_row">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_j" class='button_gray enabled'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Count Orphan Questions Not Assigned to An Assessment
+      <% if !@tool_j_summary.nil? %>
+        <div class="row tool_sumry">
+          <%=@tool_j_summary %><br/>
+          <%= pluralize(@tool_j_question_count, ' Total Question') %><br/>
+          <%= pluralize(@tool_j_orphan_question_count, ' Orphan Question') %><br/>
+          <%= pluralize(@tool_j_orphan_no_answers, ' Orphan Question') %> With NO Answers Destroyed<br/>
+          <%= pluralize(@tool_j_orphan_with_answers, ' Orphan Question') %> WITH Answers<br/>
+          <% @tool_j_orphan_questions.each do |orphan| %>
+          <%= orphan.user ? orphan.user.last_name : 'No Name' %> | <%= orphan.act_subject ? orphan.act_subject.name : 'No Subject' %> | <%= orphan.created_at.strftime("%b %Y") %>
+               | <%= pluralize(orphan.act_answers.size, ' Answer') %><br/>
+          <% end %>
+          <br/>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_j").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_j_url(:organization_id => @current_organization) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tool_jx").html(data);
+          jQ("#tool_jx").show();
+        });
+      })
+    });
+  </script>
+</div>

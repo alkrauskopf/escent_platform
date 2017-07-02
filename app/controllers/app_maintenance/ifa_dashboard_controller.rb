@@ -33,6 +33,22 @@ class AppMaintenance::IfaDashboardController < AppMaintenance::ApplicationContro
       render :partial => 'entity_dashboard_analyze', :locals => {:dashboard => @current_dashboard, :analyze => true}
     end
 
+    def redash
+      current_dashboard
+      flash[:notice] = "Dashboard Re-Dashed"
+      render :partial => 'entity_dashboard_analyze', :locals => {:dashboard => @current_dashboard, :analyze => false}
+    end
+
+
+    def destroy
+      current_dashboard
+      @current_entity = @current_dashboard.ifa_dashboardable
+     # @current_dashboard.destroy
+      flash[:notice] = "Dashboard Destroyed"
+      entity_list
+      render :partial => 'entity_dashboard_analyze', :locals => {:dashboard => nil, :analyze => false}
+    end
+
   private
 
     def get_current_entity

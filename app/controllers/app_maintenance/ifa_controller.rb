@@ -128,10 +128,13 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
             if cell.act_master_id != @current_standard.id
               cell.destroy
               @tool_o_no_std_cell_deleted += 1
-            elsif cell.act_score_range.nil? || cell.act_standard.nil? || (cell.act_score_range.act_master_id != @current_standard.id) || (cell.act_standard.act_master_id != @current_standard.id)
-              cell.destroy
-              @tool_o_bad_level_cell_deleted += 1
             end
+          end
+        end
+        dashboard.ifa_dashboard_cells.each do |cell|
+          if cell.act_score_range.nil? || cell.act_standard.nil? || cell.act_score_range.act_master != @current_standard || cell.act_standard.act_master != @current_standard
+            cell.destroy
+            @tool_o_bad_level_cell_deleted += 1
           end
         end
         if (dashboard.ifa_dashboard_sms_scores.for_standard(@current_standard).size != dashboard.ifa_dashboard_sms_scores.size)

@@ -20,8 +20,10 @@
           <%= pluralize(@tool_o_bad_entity, ' Dashboard') %> With Bad Entity<br/>
           <%= pluralize(@tool_o_db_plannable, ' Dashboard') %> With Non-Plannable Subject<br/>
           <%= pluralize(@tool_o_extra_std_cell, ' Dashboard') %> With Cells Having extra Standard Cells<br/>
+          <%= pluralize(@tool_o_extra_std_score, ' Dashboard') %> With Extra Standard Score Records<br/>
           <%= pluralize(@tool_o_no_std_cell, ' Dashboard') %> With NO <%= @current_standard.abbrev%> Cells<br/><br/>
           <%= pluralize(@tool_o_no_std_cell_deleted, ' Dashboard Cell') %> Destroyed NOT <%= @current_standard.abbrev%><br/>
+          <%= pluralize(@tool_o_no_std_score_deleted, ' Dashboard Score') %> Destroyed NOT <%= @current_standard.abbrev%><br/>
           <%= pluralize(@tool_o_bad_level_cell_deleted, ' Dashboard Cell') %> Destroyed With BAD <%= @current_standard.abbrev%> Levels<br/>
           <%= pluralize(@tool_o_bad_subject_db_deleted , ' Dashboard') %> Destroyed With Non-Plannable Subject<br/>
           <%= pluralize(@tool_o_no_std_db_deleted, ' Dashboard') %> Destroyed With NO <%= @current_standard.abbrev%> Cells<br/>

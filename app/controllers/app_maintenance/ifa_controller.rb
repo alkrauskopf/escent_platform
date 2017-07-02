@@ -84,10 +84,12 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     @tool_o_wrong_fpoints_total = 0
     @tool_o_wrong_cpoints_total = 0
     @tool_o_extra_std_cell = 0
+    @tool_o_extra_std_score = 0
     @tool_o_no_std_cell = 0
     @tool_o_wrong_fanswer_total = 0
     @tool_o_wrong_canswer_total = 0
     @tool_o_no_std_cell_deleted = 0
+    @tool_o_no_std_score_deleted = 0
     @tool_o_bad_level_cell_deleted = 0
     @tool_o_no_std_db_deleted = 0
     @tool_o_db_score_updated = 0
@@ -99,6 +101,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       @tool_o_bad_entity += dashboard.entity_unkown? ? 1 : 0
       @tool_o_no_std_cell += dashboard.cells_for_standard(@current_standard).empty? ? 1 : 0
       @tool_o_extra_std_cell += (dashboard.cells_for_standard(@current_standard).size != dashboard.ifa_dashboard_cells.size) ? 1 : 0
+      @tool_o_extra_std_score += (dashboard.ifa_dashboard_sms_scores.for_standard(@current_standard).size != dashboard.ifa_dashboard_sms_scores.size) ? 1 : 0
       @tool_o_wrong_fpoints_total += dashboard.fin_points != dashboard.total_points ? 1 : 0
       @tool_o_wrong_cpoints_total += dashboard.cal_points != dashboard.total_c_points ? 1 : 0
       @tool_o_wrong_fanswer_total += dashboard.finalized_answers != dashboard.total_answers ? 1 : 0
@@ -128,6 +131,14 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
             elsif cell.act_score_range.nil? || cell.act_standard.nil? || (cell.act_score_range.act_master_id != @current_standard.id) || (cell.act_standard.act_master_id != @current_standard.id)
               cell.destroy
               @tool_o_bad_level_cell_deleted += 1
+            end
+          end
+        end
+        if (dashboard.ifa_dashboard_sms_scores.for_standard(@current_standard).size != dashboard.ifa_dashboard_sms_scores.size)
+          dashboard.ifa_dashboard_sms_scores.each do |score|
+            if score.act_master_id != @current_standard.id
+              score.destroy
+              @tool_o_no_std_score_deleted += 1
             end
           end
         end

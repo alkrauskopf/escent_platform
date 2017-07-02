@@ -2,69 +2,69 @@
   <%= analyze ? 'ANALYZE' : '' %>
   <div class = "dashboard_anal_box">
     <div class="row">
-    <div class= "col-md-2 ">
-      <p>
-        <%= dashboard.period_end.strftime("%b %Y") %>
-      </p>
-      <p>
-        <%= dashboard.org_name%>
-      </p>
-      <% if dashboard.redashed? %>
-        <div class=" assessment_disabled">
-          Re-Dashed
-        </div>
-      <% end %>
-    </div>
-    <div class= "col-md-3">
-      <div class="">
+      <div class= "col-md-2 ">
         <p>
-          <%= pluralize( dashboard.assessments_taken, ' Assessment')%> Taken
+          <%= dashboard.period_end.strftime("%b %Y") %>
         </p>
         <p>
-          <%= pluralize( dashboard.finalized_assessments, ' Finalized Assessment')%>
+          <%= dashboard.org_name%>
         </p>
-        <p>
-          <%= pluralize( dashboard.calibrated_assessments, ' Calibrated Assessment')%>
-        </p>
-        <p>
-          <%= pluralize( dashboard.finalized_duration, ' Second') %> Duration
-        </p>
-        <p>
-          <%= pluralize( dashboard.calibrated_duration, ' Second') %> Duration Calibrated
-        </p>
+        <% if dashboard.redashed? %>
+          <div class=" assessment_disabled">
+            Re-Dashed
+          </div>
+        <% end %>
       </div>
-    </div>
-    <div class= "col-md-3">
-      <div class="">
-        <p>
-          <%= pluralize( dashboard.finalized_answers, ' Answer')%>
-        </p>
-        <p>
-          <%= pluralize( dashboard.calibrated_answers, ' Calibrated Answer')%>
-        </p>
-        <p>
-          <%= pluralize( dashboard.cal_submission_answers, ' Cal Assessment Answer')%>
-        </p>
-        <p>
-          <%= number_with_precision(dashboard.fin_points, :precision => 1) %>&nbsp;&nbsp;Total Points
-        </p>
-        <p>
-          <%= number_with_precision(dashboard.cal_points, :precision => 1) %>&nbsp;&nbsp;Calibrated Points
-        </p>
-        <p>
-          <%= number_with_precision(dashboard.cal_submission_points, :precision => 1) %>&nbsp;&nbsp;Points of Calibrated Assessment
-        </p>
-      </div>
-    </div>
-    <div class= "col-md-2">
-      <div class="row">
-        <div class="col-md-12 assessment_pool_button">
-          <span class="button_orange" id="db_analyze<%=dashboard.id%>">
-            ANALYZE
-          </span>
+      <div class= "col-md-3">
+        <div class="">
+          <p>
+            <%= pluralize( dashboard.assessments_taken, ' Assessment')%> Taken
+          </p>
+          <p>
+            <%= pluralize( dashboard.finalized_assessments, ' Finalized Assessment')%>
+          </p>
+          <p>
+            <%= pluralize( dashboard.calibrated_assessments, ' Calibrated Assessment')%>
+          </p>
+          <p>
+            <%= pluralize( dashboard.finalized_duration, ' Second') %> Duration
+          </p>
+          <p>
+            <%= pluralize( dashboard.calibrated_duration, ' Second') %> Duration Calibrated
+          </p>
         </div>
       </div>
-    </div>
+      <div class= "col-md-3">
+        <div class="">
+          <p>
+            <%= pluralize( dashboard.finalized_answers, ' Answer')%>
+          </p>
+          <p>
+            <%= pluralize( dashboard.calibrated_answers, ' Calibrated Answer')%>
+          </p>
+          <p>
+            <%= pluralize( dashboard.cal_submission_answers, ' Cal Assessment Answer')%>
+          </p>
+          <p>
+            <%= number_with_precision(dashboard.fin_points, :precision => 1) %>&nbsp;&nbsp;Total Points
+          </p>
+          <p>
+            <%= number_with_precision(dashboard.cal_points, :precision => 1) %>&nbsp;&nbsp;Calibrated Points
+          </p>
+          <p>
+            <%= number_with_precision(dashboard.cal_submission_points, :precision => 1) %>&nbsp;&nbsp;Points of Calibrated Assessment
+          </p>
+        </div>
+      </div>
+      <div class= "col-md-2">
+        <div class="row">
+          <div class="col-md-12 assessment_pool_button">
+            <span class="button_orange" id="db_analyze<%=dashboard.id%>">
+              ANALYZE
+            </span>
+          </div>
+        </div>
+      </div>
       <script type="text/javascript">
         jQ(document).ready(function() {
           jQ("#db_analyze<%=dashboard.id%>").click(function(){
@@ -76,47 +76,108 @@
           })
         });
       </script>
-  </div>
-  <div class="row">
-    <div class= "col-md-2 ">
-      <p>
-        <%= pluralize( dashboard.ifa_dashboard_sms_scores.size, ' Score Record')%>
-      </p>
     </div>
-    <div class= "col-md-8 ">
-      <% dashboard.ifa_dashboard_sms_scores.each do |sms| %>
+    <div class="row">
+      <div class= "col-md-2 ">
         <p>
-          <%= sms.act_master.abbrev %> | Min/Max&nbsp;<%= sms.score_range_min %>/<%= sms.score_range_max %> |
-          SMS All/Cal&nbsp;<%= sms.sms_finalized %>/<%= sms.sms_calibrated %> | STD Score All/Cal&nbsp;<%= sms.standard_score %>/<%= sms.standard_score_cal %> |
-          User Baseline:<%= sms.baseline_score.nil? ? 'None' :  sms.baseline_score %>
+          <%= pluralize( dashboard.ifa_dashboard_sms_scores.size, ' Score Record')%>
         </p>
-      <% end %>
+      </div>
+      <div class= "col-md-8 ">
+        <% dashboard.ifa_dashboard_sms_scores.each do |sms| %>
+          <table class="table db_table">
+            <tbody>
+            <colgroup>
+              <col style="width:25%; text-align:center;">
+              <col style="width:25%; text-align:center;">
+              <col style="width:25%; text-align:center;">
+              <col style="width:25%; text-align:center;">
+            </colgroup>
+            <tr>
+              <th>
+                <%= sms.act_master.abbrev %> Min - Max
+              </th>
+              <th>
+                SMS All/Cal
+              </th>
+              <th>
+                Standard Score
+                <br/>All/Cal
+              </th>
+              <th>
+                User Baseline
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <%= sms.score_range_min %> - <%= sms.score_range_max %>
+              </td>
+              <td>
+                <%= sms.sms_finalized %>/<%= sms.sms_calibrated %>
+              </td>
+              <td>
+                <%= sms.standard_score %>/<%= sms.standard_score_cal %>
+              </td>
+              <td>
+                <%= sms.baseline_score.nil? ? 'None' :  sms.baseline_score %>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        <% end %>
+      </div>
     </div>
-  </div>
-  <div class="row ">
-    <div class= "col-md-3">
-      <p>
-        <%= pluralize( dashboard.ifa_dashboard_cells.for_standard(@current_standard).size, @current_standard.abbrev + ' Cell')%>
-      </p>
-      <p>
-        <%= pluralize( dashboard.ifa_dashboard_cells.size, ' Total Cell')%>
-      </p>
+    <div class="row ">
+      <div class= "col-md-2">
+        <p>
+          <%= pluralize( dashboard.ifa_dashboard_cells.for_standard(@current_standard).size, @current_standard.abbrev + ' Cell')%>
+        </p>
+        <p>
+          <%= pluralize( dashboard.ifa_dashboard_cells.size, ' Total Cell')%>
+        </p>
+      </div>
+      <div class= "col-md-9">
+        <table class="table db_table">
+          <tbody>
+            <colgroup>
+              <col style="width:25%; text-align:center;">
+              <col style="width:25%; text-align:center;">
+              <col style="width:25%; text-align:center;">
+              <col style="width:25%; text-align:center;">
+            </colgroup>
+            <tr>
+              <th>
+                RANGE
+              </th>
+              <th>
+                STRAND
+              </th>
+              <th>
+                Performance (All)
+              </th>
+              <th>
+                Performance (Cal)
+              </th>
+            </tr>
+            <% dashboard.ifa_dashboard_cells.for_standard(@current_standard).each do |cell| %>
+              <tr>
+                <td>
+                  <%= cell.act_score_range.range %>
+                </td>
+                <td>
+                  <%= cell.act_standard.abbrev %>
+                </td>
+                <td>
+                  <%= number_with_precision(cell.fin_points, :precision => 1) %>&nbsp;of&nbsp;<%= cell.finalized_answers %>
+                </td>
+                <td>
+                  <%= number_with_precision(cell.cal_points, :precision => 1) %>&nbsp;of&nbsp;<%= cell.calibrated_answers %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class= "col-md-8">
-      <% dashboard.ifa_dashboard_cells.for_standard(@current_standard).each do |cell| %>
-        <div class="row">
-          <div class="col-md-4">
-            <%= cell.act_score_range.range %>/<%= cell.act_standard.abbrev %>
-          </div>
-          <div class="col-md-4">
-          <%= number_with_precision(cell.fin_points, :precision => 1) %>&nbsp;of&nbsp;<%= cell.finalized_answers %>
-          </div>
-          <div class="col-md-4">
-            <%= number_with_precision(cell.cal_points, :precision => 1) %>&nbsp;of&nbsp;<%= cell.calibrated_answers %> (Cal)
-          </div>
-        </div>
-      <% end %>
-    </div>
-  </div>
   </div>
 </div>

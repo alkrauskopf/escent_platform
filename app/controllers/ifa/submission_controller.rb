@@ -360,11 +360,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
   end
 
   def score_submission
-    @current_submission.act_submission_scores.destroy_all
-    submission_score = ActSubmissionScore.new(:act_master_id => @current_provider.master_standard.id)
-    submission_score.est_sms = @current_submission.standard_scoring_rule
-    submission_score.final_sms = @current_submission.standard_scoring_rule
-    @current_submission.act_submission_scores << submission_score
+    @current_submission.score_it!(@current_provider.master_standard.id)
   end
 
   def auto_finalize?

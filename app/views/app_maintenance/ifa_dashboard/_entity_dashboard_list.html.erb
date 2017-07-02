@@ -1,0 +1,35 @@
+<div id="entity_dashboards_<%= entity_class %>">
+  <div class="row repo_pool_select">
+    <div class="col-md-1 "></div>
+    <div class="col-md-10">
+      <div id="select_<%=entity_class%>">
+        <%=  select( :entity, entity_class, @entities[entity_class].collect{|s| [s.name, s.id]}, {:prompt => "Select " + entity_class}) %>
+      </div>
+    </div>
+    <div class="col-md-1 "></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#select_<%=entity_class%>").change(function(){
+        var entity_id = jQ('#entity_<%=entity_class%>').val();
+        var url = "<%= app_dashboard_entity_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :entity_class => entity_class) %>";
+        jQ.get(url, {'entity_id': entity_id}, function(data) {
+          jQ("#entity_dashboards_<%= entity_class %>").html(data);
+          jQ("#entity_dashboards_<%= entity_class %>").show();
+        });
+      })
+    });
+  </script>
+  <% if @current_entity %>
+    <div class="row repo_pool_list">
+      <div class= "col-md-12 ">
+        <div class="precision_prep_gold_panel">
+          <%= @current_entity.name %> | <%= pluralize(@current_entity.ifa_dashboards.for_subject(@current_subject).size, ' Dashboard') %>
+        </div>
+      </div>
+    </div>
+    <% @current_entity.ifa_dashboards.for_subject(@current_subject).by_date.each do |db| %>
+      <%= render :partial => 'entity_dashboard_analyze', :locals => {:dashboard => db, :analyze => false} %>
+    <% end %>
+  <% end %>
+</div>

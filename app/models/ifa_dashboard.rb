@@ -43,6 +43,22 @@ class IfaDashboard < ActiveRecord::Base
     IfaDashboard.where("ifa_dashboardable_type = ? AND ifa_dashboardable_id = ? AND period_end = ?", entity_class, entity_id, period ).first
   end
 
+  def self.for_entity_class(entity_class)
+    IfaDashboard.where("ifa_dashboardable_type = ?", entity_class).order('period_end DESC')
+  end
+
+  def org_name
+    self.organization.nil? ? 'No Organization' : self.organization.short_name
+  end
+
+  def redashed?
+    self.is_replaced
+  end
+
+  def self.redashed
+    where("is_replaced", false).order('period_end').reverse
+  end
+
   def self.by_date
     order('period_end').reverse
   end
@@ -85,6 +101,10 @@ class IfaDashboard < ActiveRecord::Base
 
   def total_c_answers
     self.ifa_dashboard_cells.map{|c| c.calibrated_answers}.sum
+  end
+
+  def entity
+    self.ifa_dashboardable
   end
 
   def entity_class

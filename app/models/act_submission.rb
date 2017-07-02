@@ -201,6 +201,13 @@ class ActSubmission < ActiveRecord::Base
     total_answers
   end
 
+  def score_it!(standard)
+    self.act_submission_scores.destroy_all
+    submission_score = ActSubmissionScore.new(:act_master_id => standard.id)
+    submission_score.est_sms = self.standard_scoring_rule
+    submission_score.final_sms = self.standard_scoring_rule
+    self.act_submission_scores << submission_score
+  end
 
   def score_for(standard)
     self.act_submission_scores.for_standard(standard).empty? ? nil :self.act_submission_scores.for_standard(standard).first
@@ -217,6 +224,8 @@ class ActSubmission < ActiveRecord::Base
     self.date_finalized = Time.now
     self.upper_score_bound = self.upper_bound_score
     self.lower_score_bound = self.lower_bound_score
+    self.tot_points = self.total_points
+    self.tot_choices = self.total_choices
     self.tot_points = self.total_points
     self.tot_choices = self.total_choices
     if self.score_for(standard).nil?
@@ -300,32 +309,31 @@ class ActSubmission < ActiveRecord::Base
         entity_dashboard.assessments_taken = 1
         entity_dashboard.finalized_assessments = 1
         entity_dashboard.calibrated_assessments = self.act_assessment.is_calibrated ? 1: 0
-        entity_dashboard.finalized_answers = self.act_answers.selected.size rescue 0
-        entity_dashboard.calibrated_answers = self.act_answers.calibrated.selected.size rescue 0
-        entity_dashboard.cal_submission_answers = self.act_assessment.is_calibrated ? self.act_answers.calibrated.selected.size : 0
+        entity_dashboard.finalized_answers = self.tot_choices rescue 0
+        entity_dashboard.calibrated_answers = self.cal_choices rescue 0
+        entity_dashboard.cal_submission_answers = self.act_assessment.is_calibrated ? self.cal_choices : 0
         entity_dashboard.finalized_duration = self.duration
         entity_dashboard.calibrated_duration = self.act_assessment.is_calibrated ?  self.duration : 0
-        entity_dashboard.fin_points = self.act_answers.collect{|a|a.points}.sum rescue 0.0
-        entity_dashboard.cal_points = self.act_answers.calibrated.collect{|a|a.points}.sum rescue 0.0
-        entity_dashboard.cal_submission_points = self.act_assessment.is_calibrated ? self.act_answers.calibrated.collect{|a|a.points}.sum : 0
+        entity_dashboard.fin_points = self.tot_points rescue 0.0
+        entity_dashboard.cal_points = self.cal_points rescue 0.0
+        entity_dashboard.cal_submission_points = self.act_assessment.is_calibrated ? self.cal_points : 0.0
         entity_dashboard.save
       else
         entity_dashboard.assessments_taken += 1
         entity_dashboard.finalized_assessments += 1
-        entity_dashboard.finalized_answers += self.act_answers.selected.size
-        entity_dashboard.calibrated_answers += self.act_answers.calibrated.selected.size
+        entity_dashboard.finalized_answers += self.tot_choices
+        entity_dashboard.calibrated_answers += self.cal_choices
         entity_dashboard.finalized_duration += self.duration
-        entity_dashboard.fin_points += self.act_answers.collect{|a|a.points}.sum
-        entity_dashboard.cal_points += self.act_answers.calibrated.collect{|a|a.points}.sum
+        entity_dashboard.fin_points += self.tot_points
+        entity_dashboard.cal_points += self.cal_points
         if self.act_assessment.is_calibrated
           entity_dashboard.calibrated_assessments += 1
           entity_dashboard.calibrated_duration += self.duration
-          entity_dashboard.cal_submission_points += self.act_answers.calibrated.collect{|a|a.points}.sum
-          entity_dashboard.cal_submission_answers += self.act_answers.calibrated.selected.size
+          entity_dashboard.cal_submission_points += self.cal_points
+          entity_dashboard.cal_submission_answers += self.tot_points
         end
         entity_dashboard.save
       end
-
       #  Standard is now passed parameter and elimiate Question log
       self.act_answers.selected.each do |answer|
         if !answer.mastery_level.nil? && !answer.strand.nil?
@@ -436,9 +444,14 @@ class ActSubmission < ActiveRecord::Base
   def total_points
     self.act_answers.map{|a|a.points}.sum rescue 0.0
   end
-
+  def total_cal_points
+    self.act_answers.select{|a| a.is_calibrated}.map{|a|a.points}.sum rescue 0.0
+  end
   def total_choices
     self.act_answers.selected.size rescue 0
+  end
+  def total_cal_choices
+    self.act_answers.select{|a| a.is_calibrated}.map{|a|a.selected}.sum rescue 0
   end
 
   def self.min_max_score(entity, subject, period_end, standard)
@@ -470,6 +483,8 @@ class ActSubmission < ActiveRecord::Base
     self.date_finalized = Time.now
     self.tot_points = self.total_points
     self.tot_choices = self.total_choices
+    self.cal_points = self.total_cal_points
+    self.tot_choices = self.total_cal_choices
     self.act_submission_scores.each do |std|
       fin_sms = self.is_auto_finalized ? std.est_sms : self.standard_assessment_score(std.act_master)
       std.update_attributes(:final_sms => fin_sms)
@@ -537,32 +552,31 @@ class ActSubmission < ActiveRecord::Base
         entity_dashboard.assessments_taken = 1
         entity_dashboard.finalized_assessments = 1
         entity_dashboard.calibrated_assessments = self.act_assessment.is_calibrated ? 1: 0
-        entity_dashboard.finalized_answers = self.act_answers.selected.size rescue 0
-        entity_dashboard.calibrated_answers = self.act_answers.calibrated.selected.size rescue 0
-        entity_dashboard.cal_submission_answers = self.act_assessment.is_calibrated ? self.act_answers.calibrated.selected.size : 0
+        entity_dashboard.finalized_answers = self.tot_choices rescue 0
+        entity_dashboard.calibrated_answers = self.cal_choices rescue 0
+        entity_dashboard.cal_submission_answers = self.act_assessment.is_calibrated ? self.cal_choices : 0
         entity_dashboard.finalized_duration = self.duration
         entity_dashboard.calibrated_duration = self.act_assessment.is_calibrated ?  self.duration : 0
-        entity_dashboard.fin_points = self.act_answers.collect{|a|a.points}.sum rescue 0.0
-        entity_dashboard.cal_points = self.act_answers.calibrated.collect{|a|a.points}.sum rescue 0.0
-        entity_dashboard.cal_submission_points = self.act_assessment.is_calibrated ? self.act_answers.calibrated.collect{|a|a.points}.sum : 0
+        entity_dashboard.fin_points = self.tot_points rescue 0.0
+        entity_dashboard.cal_points = self.cal_points rescue 0.0
+        entity_dashboard.cal_submission_points = self.act_assessment.is_calibrated ? self.cal_points : 0.0
         entity_dashboard.save
       else
         entity_dashboard.assessments_taken += 1
         entity_dashboard.finalized_assessments += 1
-        entity_dashboard.finalized_answers += self.act_answers.selected.size
-        entity_dashboard.calibrated_answers += self.act_answers.calibrated.selected.size
+        entity_dashboard.finalized_answers += self.tot_choices
+        entity_dashboard.calibrated_answers += self.cal_choices
         entity_dashboard.finalized_duration += self.duration
-        entity_dashboard.fin_points += self.act_answers.collect{|a|a.points}.sum
-        entity_dashboard.cal_points += self.act_answers.calibrated.collect{|a|a.points}.sum
+        entity_dashboard.fin_points += self.tot_points
+        entity_dashboard.cal_points += self.cal_points
         if self.act_assessment.is_calibrated
           entity_dashboard.calibrated_assessments += 1
           entity_dashboard.calibrated_duration += self.duration
-          entity_dashboard.cal_submission_points += self.act_answers.calibrated.collect{|a|a.points}.sum
-          entity_dashboard.cal_submission_answers += self.act_answers.calibrated.selected.size
+          entity_dashboard.cal_submission_points += self.cal_points
+          entity_dashboard.cal_submission_answers += self.cal_choices
         end
         entity_dashboard.save
       end
-
           ifa_org_option = Organization.find_by_id(entity_dashboard.organization_id).ifa_org_option rescue nil
           if ifa_org_option
            ifa_org_option.act_masters.each do |mstr|

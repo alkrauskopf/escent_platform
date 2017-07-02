@@ -217,6 +217,11 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/maintenance/ifa/tool_o' => 'app_maintenance/ifa#tool_o' # app_maintenance_ifa_tool_o_url
   get '/app/maintenance/ifa/tool_p' => 'app_maintenance/ifa#tool_p' # app_maintenance_ifa_tool_p_url
 
+  get '/app/dashboard' => 'app_maintenance/ifa_dashboard#index' # app_dashboard_path
+  get '/app/dashboard/subject/select' => 'app_maintenance/ifa_dashboard#subject_select' # app_dashboard_subject_select_path
+  get '/app/dashboard/entity/select' => 'app_maintenance/ifa_dashboard#entity_select' # app_dashboard_entity_select_url
+  get '/app/dashboard/analyze' => 'app_maintenance/ifa_dashboard#analyze' # app_dashboard_analyze_url
+
 
   # APPS Shared
   get '/app/owner/maintenance' => 'apps/owner_maintenance#index'

@@ -1,0 +1,2 @@
+module AppMaintenance::IfaDashboardHelper
+end

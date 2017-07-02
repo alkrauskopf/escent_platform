@@ -1,0 +1,82 @@
+<div id="manage_dashboard">
+  <div class= 'row panel_title_blue'>
+    <%= @current_application.app_abbrev(:provider=>@current_provider) %> | <%= @current_subject.name %> Dashboard Analysis
+  </div>
+  <hr>
+  <div class="maintenance_box">
+  <div class="row standard_row">
+    <div class= "col-md-6">
+      <div class="standard_label">
+        <%= @current_standard.name %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="subject_select" id="subject_id">
+        <%=  select(:act, :subject_id, ActSubject.plannable.collect{|m| [m.name,m.id]},{:prompt => @current_subject.name}) %>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#subject_id").change(function(){
+        var subject_id = jQ('#act_subject_id').val();
+        var url = "<%= app_dashboard_subject_select_url(:organization_id => @current_organization) %>";
+        jQ.get(url, {'act_subject_id': subject_id}, function(data) {
+          jQ("#manage_dashboard").html(data);
+          jQ("#manage_dashbaord").show();
+        });
+      })
+    });
+  </script>
+
+  </div>
+  <div id="control_panel" >
+    <ul>
+      <li>
+        <%  tab_2_label = "User" %>
+        <a href="#tabs-2"><span class="tab_label">
+		    <%= tab_2_label %></span></a>
+      </li>
+      <li>
+        <%  tab_3_label = "Classroom" %>
+        <a href="#tabs-3"><span class="tab_label">
+		    <%= tab_3_label %></span></a>
+      </li>
+      <li>
+        <%  tab_4_label = "Organization" %>
+        <a href="#tabs-4"><span class="tab_label">
+		    <%= tab_4_label %></span></a>
+      </li>
+    </ul>
+
+    <div id="tabs-2" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial =>  "manage_dashboard_class", :locals=>{:entity_class => 'User'}%>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-3" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial =>  "manage_dashboard_class", :locals=>{:entity_class => 'Classroom'}%>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-4" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial =>  "manage_dashboard_class", :locals=>{:entity_class => 'Organization'}%>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+
+  </div>
+
+  <br style="clear:both" />
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function(){
+      jQ('#control_panel').tabs();
+    });
+  </script>
+</div>

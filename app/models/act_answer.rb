@@ -10,6 +10,8 @@ class ActAnswer < ActiveRecord::Base
   belongs_to :organization  
   belongs_to :classroom
   has_one :act_subject, :through => :act_submission
+  has_one :mastery_level, :through => :act_question
+  has_one :strand, :through => :act_question
 
   scope :incorrect, :conditions => { :is_correct => false }
   scope :correct, :conditions => { :is_correct => true }
@@ -34,6 +36,9 @@ class ActAnswer < ActiveRecord::Base
     where('was_selected = ?', false)
   end
 
+  def self.selected_level_strand(level, strand)
+    where("was_selected").select{|a| a.mastery_level == level && a.strand == strand}
+  end
   def self.selected
     where('was_selected')
   end

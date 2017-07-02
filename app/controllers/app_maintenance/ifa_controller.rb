@@ -1243,4 +1243,58 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       @source_strand_id = nil
     end
   end
+
+  def redashboard(dashboard)
+    subject = dashboard.act_subject
+    standard = @current_standard
+    begin_date = dashboard.period_end.beginning_of_month
+    end_date = dashboard.period_end
+    submissions = dashboard.entity.act_submissions.for_subject(subject).submission_period(begin_date, end_date).final
+    cal_submissions = submissions.select{|s| s.act_assessment.calibrate?}
+    new_dashboard = IfaDashboard.new
+    new_dashboard = dashboard.clone
+    new_dashboard.assessments_taken = submissions.size
+    new_dashboard.finalized_assessments = submissions.size
+    new_dashboard.calibrated_assessments = cal_submissions.size
+    new_dashboard.finalized_answers = submissions.map{|s| s.tot_choices}.sum
+    new_dashboard.calibrated_answers = submissions.map{|s| s.cal_choices}.sum
+    new_dashboard.finalized_duration = submissions.map{|s| s.duration}.sum
+    new_dashboard.calibrated_duration = cal_submissions.map{|s| s.duration}.sum
+    new_dashboard.fin_points = submissions.map{|s| s.tot_points}.sum
+    new_dashboard.cal_points = submissions.map{|s| s.cal_points}.sum
+    new_dashboard.cal_submission_points = cal_submissions.map{|s| s.cal_points}.sum
+    new_dashboard.cal_submission_answers = cal_submissions.map{|s| s.cal_choices}.sum
+    if new_dashboard.save
+      standard.mastery_levels(subject).each do |level|
+        standard.strands(subject).each do |strand|
+          selected_answers = submissions.map{|s| s.act_answers.selected_level_strand(level,strand)}.flatten
+          calibrated_answers = selected_answers.select{|a| a.is_calibrated}
+          if !selected_answers.empty?
+            dashboard_cell = IfaDashboardCell.new
+            dashboard_cell.act_master_id = standard.id
+            dashboard_cell.act_score_range_id = level.id
+            dashboard_cell.act_standard_id = strand.id
+            dashboard_cell.finalized_answers = selected_answers.size
+            dashboard_cell.calibrated_answers = calibrated_answers.size
+            dashboard_cell.fin_points = selected_answers.map{|a| a.points}.sum
+            dashboard_cell.cal_points = calibrated_answers.map{|a| a.points}.sum
+            new_dashboard.ifa_dashboard_cells << dashboard_cell
+          end
+        end
+      end
+      dashboard_score = IfaDashboardSmsScore.new
+      dashboard_score.act_master_id = standard.id
+      dashboard_score.score_range_min = new_dashboard.level_range(standard).first.lower_score rescue 0
+      dashboard_score.score_range_max = new_dashboard.level_range(standard).last.upper_score rescue 0
+      dashboard_score.standard_score = new_dashboard.calculated_standard_score(standard, :calibrated => false)
+      dashboard_score.standard_score_cal = new_dashboard.calculated_standard_score(standard, :calibrated => true)
+      dashboard_score.sms_finalized = standard.sms_for_dashboard(new_dashboard, :calibrated => false)
+      dashboard_score.sms_calibrated = standard.sms_for_dashboard(new_dashboard, :calibrated => true)
+      dashboard_score.baseline_score = standard.base_score(entity, self.act_subject)
+      new_dashboard.ifa_dashboard_sms_scores << dashboard_score
+      dashboard_sms.save
+
+      dashboard.update_attributes(:is_replaced => true)
+    end
+  end
 end

@@ -229,12 +229,14 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
 
   def tool_k
     @tool_k_answer_count = 0
-    @tool_k_orphan_answer_count = 0
+    @tool_k_s_orphan_answer_count = 0
+    @tool_k_q_orphan_answer_count = 0
     ActAnswer.all.each do |answer|
       @tool_k_answer_count += 1
-      if !answer.act_submission
-        @tool_k_orphan_answer_count += 1
-        # answer.destroy
+      if !answer.act_submission || !answer.act_question
+        @tool_k_s_orphan_answer_count += !answer.act_submission ? 1 : 0
+        @tool_k_q_orphan_answer_count += !answer.act_question ? 1 : 0
+        answer.destroy
       end
     end
     @tool_k_summary = 'Tool K Summary'

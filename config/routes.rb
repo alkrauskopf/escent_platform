@@ -225,6 +225,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/dashboard/destroy' => 'app_maintenance/ifa_dashboard#destroy' # app_dashboard_destroy_url
   get '/app/submissions/entity/select' => 'app_maintenance/ifa_dashboard#submission_entity_select' # app_submissions_entity_select
   get '/app/submissions/period/analyze' => 'app_maintenance/ifa_dashboard#submission_period_analyze' # app_submissions_period_analyze
+  get '/app/submissions/redash' => 'app_maintenance/ifa_dashboard#submissions_redash' # app_submissions_redash
 
 
   # APPS Shared

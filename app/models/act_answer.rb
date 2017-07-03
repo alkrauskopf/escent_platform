@@ -72,7 +72,7 @@ class ActAnswer < ActiveRecord::Base
   end
 
   def mastery_level
-    self.act_question.mastery_level
+    self.act_question.nil? ? nil : self.act_question.mastery_level
   end
 
   def strand

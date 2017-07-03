@@ -37,7 +37,9 @@
         </div>
       </div>
       <div class = "row dashboard_anal_box">
-        <%= render :partial => 'entity_submission_period_summary', :locals => {:period => period, :current_entity => @current_entity} %>
+        <%= render :partial => 'entity_submission_period_summary', :locals => {:period => period, :current_submission_list => @current_entity_submissions[period],
+                                                                               :current_entity => @current_entity,
+                                                                               :current_dashboards => @current_entity_dashboards[period] } %>
       </div>
       <% end %>
   <% end %>

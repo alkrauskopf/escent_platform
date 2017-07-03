@@ -50,6 +50,9 @@ class ActSubmission < ActiveRecord::Base
   def self.month_periods_final
     where('is_final').order('created_at DESC').map{|s| s.created_at.end_of_month}.uniq
   end
+  def self.month_periods
+    order('created_at DESC').map{|s| s.created_at.end_of_month}.uniq
+  end
   def self.classroom_list_final
     where('is_final').map{|s| s.classroom}.compact.uniq.sort_by{|c| c.course_name}
   end
@@ -59,6 +62,7 @@ class ActSubmission < ActiveRecord::Base
   def self.user_list_final
     where('is_final').map{|s| s.user}.compact.uniq.sort_by{|u| u.last_name}
   end
+
   def self.pending(options={})
     if options[:teacher]
       where('teacher_id = ? && is_final = ?', options[:teacher].id, false).order('created_at DESC')
@@ -272,18 +276,18 @@ class ActSubmission < ActiveRecord::Base
     end
     if self.save
       # Update User Dashboard Only
-      self.auto_ifa_dashboard_update_new(self.user, standard)
+      self.auto_ifa_dashboard_update_new(self.user, standard, :overide => false)
       # Only Automatically Update First Classroom & Org Dashboard of Period
       #
       # Now, Try updating always
       # if !self.period_dashboard?(self.classroom)
       # Don't Classroom dashboard Submissions with incompatible subjects
       if self.act_subject_id == self.classroom.act_subject_id
-        self.auto_ifa_dashboard_update_new(self.classroom, standard)
+        self.auto_ifa_dashboard_update_new(self.classroom, standard, :overide => false)
       end
       # end
       # if !self.period_dashboard?(self.organization)
-        self.auto_ifa_dashboard_update_new(self.organization, standard)
+        self.auto_ifa_dashboard_update_new(self.organization, standard, :overide => false)
       # end
       finalized = true
     end
@@ -303,9 +307,9 @@ class ActSubmission < ActiveRecord::Base
     dashboard
   end
 
-  def auto_ifa_dashboard_update_new(entity, standard)
+  def auto_ifa_dashboard_update_new(entity, standard, options = {})
     if entity.class.to_s == "User"
-      if self.is_user_dashboarded
+      if self.is_user_dashboarded && !options[:overide]
         already_dashboarded = true
       else
         already_dashboarded = false
@@ -314,7 +318,7 @@ class ActSubmission < ActiveRecord::Base
         self.update_attributes(:is_user_dashboarded => true)
       end
     elsif entity.class.to_s == "Classroom"
-      if self.is_classroom_dashboarded
+      if self.is_classroom_dashboarded && !options[:overide]
         already_dashboarded = true
       else
         already_dashboarded = false
@@ -323,7 +327,7 @@ class ActSubmission < ActiveRecord::Base
         self.update_attributes(:is_classroom_dashboarded => true)
       end
     elsif entity.class.to_s == "Organization"
-      if self.is_org_dashboarded
+      if self.is_org_dashboarded && !options[:overide]
         already_dashboarded = true
       else
         already_dashboarded = false
@@ -399,7 +403,7 @@ class ActSubmission < ActiveRecord::Base
       #    up_to_date = Date.today
       #    since_date = (up_to_date - self.organization.ifa_org_option.sms_calc_cycle.days).to_date rescue Date.today.at_end_of_month
       #   h_threshold = self.organization.ifa_org_option.sms_h_threshold rescue 0.75
-      if !dashboard_sms.nil?
+      if dashboard_sms.nil?
         dashboard_sms = IfaDashboardSmsScore.new
         dashboard_sms.act_master_id = standard.id
         dashboard_sms.ifa_dashboard_id = entity_dashboard.id

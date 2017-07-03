@@ -238,9 +238,14 @@
   color: $red_text;
 }
 .submission_pool_button {
-  padding:.5em 0em 0em 1em;
+  padding:0em 0em 1em 0em;
 }
 .submission_pool_list {
   border:0px solid #ddd;
   margin: 2em 0em 1em 0em;
+}
+.submission_db_found {
+  text-align:center;
+  color: $blue_text;
+  font-weight:bold;
 }

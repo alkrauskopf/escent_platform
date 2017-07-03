@@ -1,90 +1,94 @@
-<div id="period_summary<%= current_entity.class.to_s%><%=current_entity.id%>">
-  <% id_key = current_entity.class.to_s + current_entity.id.to_s + period.to_s %>
-  <% stats = ActSubmission.submission_stats(@current_entity_submissions[period]) %>
-    <%= render :partial => "/shared/error_and_notice" %>
-      <div class= "col-md-10 ">
-        <table class="table db_table">
-          <tbody>
-          <colgroup>
-            <col style="width:25%; text-align:center;">
-            <col style="width:25%; text-align:center;">
-            <col style="width:25%; text-align:center;">
-            <col style="width:25%; text-align:center;">
-          </colgroup>
-          <tr>
-            <th>
-              <%= @current_standard.abbrev%> Assessments Taken
-            </th>
-            <th>
-              Dashboarding
-            </th>
-            <th>
-             Points/Answers/Duration
-            </th>
-            <th>
-              Teacher List
-            </th>
-          </tr>
-          <tr>
-            <td>
-              <%= stats[0] %> Finalized<br/>
-              <%= stats[1] %> Calibrated
-            </td>
-            <td>
-              <%= stats[2] %> User<br/>
-              <%= stats[3] %> Classroom<br/>
-              <%= stats[4] %> Organization<br/>
-            </td>
-            <td>
-              <%= number_with_precision(stats[5], :precision=>1) %> of <%= stats[6] %> Total<br/>
-              <%= number_with_precision(stats[7], :precision=>1) %> of <%= stats[8] %> Calibrated<br/>
-              <%= number_with_precision((stats[9].to_f/60.0), :precision=>1) %> Duration (Min)
-            </td>
-            <td>
-              <%= stats[10].map{|t| t.last_name}.join(', ') %>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+<div id="period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.strftime("%Y%b")%>">
+  <% id_key = current_entity.class.to_s + current_entity.id.to_s + period.strftime("%Y%b") %>
+  <% stats = ActSubmission.submission_stats(current_submission_list) %>
+  <%= render :partial => "/shared/error_and_notice" %>
+  <div class= "col-md-12 ">
+    <div class="row">
+      <div class="col-md-6 submission_db_found">
+        <%= pluralize(current_dashboards.size, ' ' + current_entity.class.to_s + ' Dashboard')%> Found
       </div>
-      <div class= "col-md-2">
-        <div class="row">
-          <div class="submission_pool_button">
-                <span class="button_gray" id="sub_view<%=id_key%>">
-                  Analyze
-                </span>
-          </div>
+      <% db_label = current_dashboards.empty? ? "Generate Dashboard" : "Replace Dashboard" %>
+      <div class= "col-md-3">
+        <div class="submission_pool_button">
+          <span class="button_blue" id="sub_view<%=id_key%>">
+            Analyze
+          </span>
         </div>
         <script type="text/javascript">
           jQ(document).ready(function() {
             jQ("#sub_view<%= id_key%>").click(function(){
               var url = "<%= app_submissions_period_analyze_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
-                    :entity_id => current_entity.nil? ? '' : current_entity.id,:entity_class => current_entity.nil? ? '' : current_entity.class.to_s, :period => period) %>";
+                :entity_id => current_entity.nil? ? '' : current_entity.id,:entity_class => current_entity.nil? ? '' : current_entity.class.to_s, :period => period) %>";
               jQ.get(url, {'period': period}, function(data) {
-                jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%>").html(data);
-                jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%>").show();
+                jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.strftime("%Y%b")%>").html(data);
+                jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.strftime("%Y%b")%>").show();
               });
             })
           });
         </script>
-        <div class="row">
-          <div class="col-md-12 assessment_pool_button">
-            <span class="button_orange" id="db_redash<%= id_key%>">
-              Re-Dash
-            </span>
-          </div>
+      </div>
+      <div class= "col-md-3">
+        <div class="submission_pool_button">
+          <span class="button_orange" id="submission_redash_<%=id_key%>">
+            <%= db_label %>
+          </span>
         </div>
       </div>
       <script type="text/javascript">
         jQ(document).ready(function() {
-          jQ("#db_redash<%= id_key%>").click(function(){
-            var url = "<%= app_dashboard_redash_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
-                    :entity_id => current_entity.nil? ? '' : current_entity.id,:entity_class => current_entity.nil? ? '' : current_entity.class.to_s, :period => period) %>";
+          jQ("#submission_redash_<%=id_key%>").click(function(){
+            var url = "<%= app_submissions_redash_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+                :entity_id => current_entity.id, :entity_class => current_entity.class.to_s, :period => period) %>";
             jQ.get(url, {}, function(data) {
-              jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%>").html(data);
-              jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%>").show();
+              jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.strftime("%Y%b")%>").html(data);
+              jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.strftime("%Y%b")%>").show();
             });
           })
         });
       </script>
-</div>
+      </div>
+    </div>
+    <table class="table db_table">
+      <tbody>
+        <colgroup>
+          <col style="width:25%; text-align:center;">
+          <col style="width:25%; text-align:center;">
+          <col style="width:25%; text-align:center;">
+          <col style="width:25%; text-align:center;">
+        </colgroup>
+        <tr>
+          <th>
+            <%= @current_standard.abbrev%> Assessments Taken
+          </th>
+          <th>
+            Dashboarding
+          </th>
+          <th>
+           Points/Answers/Duration
+          </th>
+          <th>
+            Teacher List
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <%= stats[0] %> Finalized<br/>
+            <%= stats[1] %> Calibrated
+          </td>
+          <td>
+            <%= stats[2] %> User<br/>
+            <%= stats[3] %> Classroom<br/>
+            <%= stats[4] %> Organization<br/>
+          </td>
+          <td>
+            <%= number_with_precision(stats[5], :precision=>1) %> of <%= stats[6] %> Total<br/>
+            <%= number_with_precision(stats[7], :precision=>1) %> of <%= stats[8] %> Calibrated<br/>
+            <%= number_with_precision((stats[9].to_f/60.0), :precision=>1) %> Duration (Min)
+          </td>
+          <td>
+            <%= stats[10].map{|t| t.last_name}.join(', ') %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

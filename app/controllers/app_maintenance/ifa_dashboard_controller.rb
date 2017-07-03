@@ -43,6 +43,25 @@ class AppMaintenance::IfaDashboardController < AppMaintenance::ApplicationContro
       render :partial =>  "entity_submission_period_analyze", :locals => {:entity_class => params[:entity_class]}
     end
 
+    def submissions_redash
+      get_current_entity
+      get_current_period
+      @current_dashboards = @current_entity.ifa_dashboards.for_subject(@current_subject).for_period(@current_period)
+      if !@current_dashboards.empty?
+        @current_dashboards.destroy_all
+      end
+      submissions = @current_entity.act_submissions.for_subject(@current_subject).submission_period(@current_period.beginning_of_month, @current_period.end_of_month)
+      submissions.each do |sub|
+        if sub.final?
+          sub.auto_ifa_dashboard_update_new(@current_entity, @current_standard, :overide => true)
+        end
+      end
+      @current_dashboards = @current_entity.ifa_dashboards.for_subject(@current_subject).for_period(@current_period)
+      render :partial => 'entity_submission_period_summary', :locals => {:period => @current_period, :current_submission_list => submissions,
+                                                                         :current_entity => @current_entity,
+                                                                          :current_dashboards => @current_dashboards}
+    end
+
     def analyze
       current_dashboard
       render :partial => 'entity_dashboard_analyze', :locals => {:dashboard => @current_dashboard, :analyze => true}
@@ -98,9 +117,11 @@ class AppMaintenance::IfaDashboardController < AppMaintenance::ApplicationContro
 
     def entity_submissions
       @current_entity_submissions = {}
-      @current_submission_periods = @current_entity.act_submissions.for_subject(@current_subject).month_periods_final
+      @current_entity_dashboards = {}
+      @current_submission_periods = @current_entity.act_submissions.for_subject(@current_subject).month_periods
       @current_submission_periods.each do |period|
         @current_entity_submissions[period] =  @current_entity.act_submissions.for_subject(@current_subject).submission_period(period.beginning_of_month, period.end_of_month)
+        @current_entity_dashboards[period] = @current_entity.ifa_dashboards.for_subject(@current_subject).for_period(period.strftime("%Y-%m-%d"))
       end
     end
 

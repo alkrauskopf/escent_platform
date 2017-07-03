@@ -164,12 +164,12 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   def tool_n
     @tool_n_until_date = Date.today - 4.years
     @tool_n_initial_db_count = IfaDashboard.all.size
-    @tool_n_destroy_db_count = IfaDashboard.since(@tool_n_until_date).count
+    @tool_n_destroy_db_count = IfaDashboard.up_to(@tool_n_until_date).count
     @tool_n_destroy_user_db_count = 0
     @tool_n_destroy_classroom_db_count = 0
     @tool_n_destroy_org_db_count = 0
     @tool_n_summary = 'Tool N Nothing to DESTROY'
-    IfaDashboard.since(@tool_n_until_date).each do |dashboard|
+    IfaDashboard.up_to(@tool_n_until_date).each do |dashboard|
       @tool_n_destroy_user_db_count += dashboard.entity_class == 'User' ? 1 : 0
       @tool_n_destroy_classroom_db_count += dashboard.entity_class == 'Classroom' ? 1 : 0
       @tool_n_destroy_org_db_count += dashboard.entity_class == 'Organization' ? 1 : 0

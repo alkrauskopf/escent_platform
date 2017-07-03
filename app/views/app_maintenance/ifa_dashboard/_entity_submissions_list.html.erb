@@ -1,0 +1,44 @@
+<div id="entity_submissions_<%= entity_class %>">
+  <div class="row repo_pool_select">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="col-md-1 "></div>
+    <div class="col-md-10">
+      <div id="sub_<%=entity_class%>">
+        <%=  select( :submis, entity_class, @submission_entities[entity_class].collect{|s| [s.name, s.id]}, {:prompt => "Select " + entity_class}) %>
+      </div>
+    </div>
+    <div class="col-md-1 "></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#sub_<%=entity_class%>").change(function(){
+        var submis_id = jQ('#submis_<%=entity_class%>').val();
+        var url = "<%= app_submissions_entity_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+        :period => @current_period, :entity_class => entity_class) %>";
+        jQ.get(url, {'entity_id': submis_id}, function(data) {
+          jQ("#entity_submissions_<%= entity_class %>").html(data);
+          jQ("#entity_submissions_<%= entity_class %>").show();
+        });
+      })
+    });
+  </script>
+  <% if @current_entity %>
+    <% panel_class = entity_class == 'User' ? "precision_prep_slay_panel" : (entity_class == 'Classroom' ? "precision_prep_army_panel" : "precision_prep_blue_panel") %>
+    <% @current_submission_periods.each do |period| %>
+      <div class="row submission_pool_list">
+        <div class= <%=panel_class%>>
+          <div class= "col-md-2 ">
+            <%= period.strftime("%b %Y") %>
+          </div>
+          <div class= "col-md-8 ">
+            <%=@current_entity.name %> | <%= pluralize( @current_entity_submissions[period].size, @current_subject.name + ' Assessment') %>
+          </div>
+          <div class= "col-md-2 "></div>
+        </div>
+      </div>
+      <div class = "row dashboard_anal_box">
+        <%= render :partial => 'entity_submission_period_summary', :locals => {:period => period, :current_entity => @current_entity} %>
+      </div>
+      <% end %>
+  <% end %>
+</div>

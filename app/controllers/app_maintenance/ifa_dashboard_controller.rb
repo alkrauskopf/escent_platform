@@ -13,19 +13,34 @@ class AppMaintenance::IfaDashboardController < AppMaintenance::ApplicationContro
     before_filter :prep_classrooms
 
     def index
-      entity_list
-
+      dashboard_entities
+      submission_entities
     end
 
     def subject_select
-      entity_list
+      dashboard_entities
+      submission_entities
       render :partial =>  "manage_dashboards", :locals=>{}
     end
 
-    def entity_select
+    def dashboard_entity_select
       get_current_entity
-      entity_list
+      dashboard_entities
       render :partial =>  "entity_dashboard_list", :locals => {:entity_class => params[:entity_class]}
+    end
+
+    def submission_entity_select
+      get_current_entity
+      submission_entities
+      entity_submissions
+      render :partial =>  "entity_submissions_list", :locals => {:entity_class => params[:entity_class]}
+    end
+
+    def submission_period_analyze
+      get_current_entity
+      get_current_period
+      submission_entities
+      render :partial =>  "entity_submission_period_analyze", :locals => {:entity_class => params[:entity_class]}
     end
 
     def analyze
@@ -63,11 +78,30 @@ class AppMaintenance::IfaDashboardController < AppMaintenance::ApplicationContro
       end
     end
 
-    def entity_list
+    def get_current_period
+      @current_period = Date.parse(params[:period])
+    end
+
+    def dashboard_entities
       @entities = {}
       @entities['User'] = @current_subject.ifa_dashboards.for_entity_class('User').map{|d| d.entity}.compact.uniq.sort_by{|e| e.name}
       @entities['Classroom'] = @current_subject.ifa_dashboards.for_entity_class('Classroom').map{|d| d.entity}.compact.uniq.sort_by{|e| e.name}
       @entities['Organization'] = @current_subject.ifa_dashboards.for_entity_class('Organization').map{|d| d.entity}.compact.uniq.sort_by{|e| e.name}
+    end
+
+    def submission_entities
+      @submission_entities = {}
+      @submission_entities['User'] = @current_subject.act_submissions.user_list_final
+      @submission_entities['Classroom'] = @current_subject.act_submissions.classroom_list_final
+      @submission_entities['Organization'] = @current_subject.act_submissions.organization_list_final
+    end
+
+    def entity_submissions
+      @current_entity_submissions = {}
+      @current_submission_periods = @current_entity.act_submissions.for_subject(@current_subject).month_periods_final
+      @current_submission_periods.each do |period|
+        @current_entity_submissions[period] =  @current_entity.act_submissions.for_subject(@current_subject).submission_period(period.beginning_of_month, period.end_of_month)
+      end
     end
 
     def current_standard

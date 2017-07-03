@@ -24,7 +24,7 @@ class ActSubmission < ActiveRecord::Base
   validates_presence_of :organization_id, :message => 'No Organization Identified - '
   validates_numericality_of :duration, :greater_than => 0, :message => 'No Duration - '
 
-  scope :final, :conditions => { :is_final => true }
+  scope :final, :conditions => { :is_final => true }, :order => 'created_at DESC'
   scope :not_final, :conditions => { :is_final => false }
   scope :auto_finalized, :conditions => { :is_auto_finalized => true }
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
@@ -43,6 +43,22 @@ class ActSubmission < ActiveRecord::Base
     self.is_final
   end
 
+  def calibrated?
+    self.act_assessment.nil? ? false : self.act_assessment.calibrated?
+  end
+
+  def self.month_periods_final
+    where('is_final').order('created_at DESC').map{|s| s.created_at.end_of_month}.uniq
+  end
+  def self.classroom_list_final
+    where('is_final').map{|s| s.classroom}.compact.uniq.sort_by{|c| c.course_name}
+  end
+  def self.organization_list_final
+    where('is_final').map{|s| s.organization}.compact.uniq.sort_by{|o| o.short_name}
+  end
+  def self.user_list_final
+    where('is_final').map{|s| s.user}.compact.uniq.sort_by{|u| u.last_name}
+  end
   def self.pending(options={})
     if options[:teacher]
       where('teacher_id = ? && is_final = ?', options[:teacher].id, false).order('created_at DESC')
@@ -57,6 +73,24 @@ class ActSubmission < ActiveRecord::Base
     else
       where('is_final').order('created_at DESC')
     end
+  end
+
+  #    Submission Analysis Stats
+
+  def self.submission_stats(submission_list)
+    submission_stats = []
+    submission_stats = [submission_list.select{|s| s.is_final}.size,
+                        submission_list.select{|s| s.calibrated?}.size,
+                        submission_list.select{|s| s.is_user_dashboarded}.size,
+                        submission_list.select{|s| s.is_classroom_dashboarded}.size,
+                        submission_list.select{|s| s.is_org_dashboarded}.size,
+                        submission_list.map{|s| s.tot_points}.sum,
+                        submission_list.map{|s| s.tot_choices}.sum,
+                        submission_list.map{|s| s.cal_points}.sum,
+                        submission_list.map{|s| s.tot_choices}.sum,
+                        submission_list.map{|s| s.duration}.sum,
+                        submission_list.map{|s| s.teacher}.compact.uniq
+                        ]
   end
 
   def subject

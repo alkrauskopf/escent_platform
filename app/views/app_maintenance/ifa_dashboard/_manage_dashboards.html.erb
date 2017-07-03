@@ -33,19 +33,34 @@
   <div id="control_panel" >
     <ul>
       <li>
-        <%  tab_2_label = "User" %>
+        <%  tab_2_label = "User Dashboards" %>
         <a href="#tabs-2"><span class="tab_label">
 		    <%= tab_2_label %></span></a>
       </li>
       <li>
-        <%  tab_3_label = "Classroom" %>
+        <%  tab_3_label = "Classroom Dashboards" %>
         <a href="#tabs-3"><span class="tab_label">
 		    <%= tab_3_label %></span></a>
       </li>
       <li>
-        <%  tab_4_label = "Organization" %>
+        <%  tab_4_label = "Organization Dashboards" %>
         <a href="#tabs-4"><span class="tab_label">
 		    <%= tab_4_label %></span></a>
+      </li>
+      <li>
+        <%  tab_5_label = "User Submissions" %>
+        <a href="#tabs-5"><span class="tab_label">
+		    <%= tab_5_label %></span></a>
+      </li>
+      <li>
+        <%  tab_6_label = "Classroom Submissions" %>
+        <a href="#tabs-6"><span class="tab_label">
+		    <%= tab_6_label %></span></a>
+      </li>
+      <li>
+        <%  tab_7_label = "Organization Submissions" %>
+        <a href="#tabs-7"><span class="tab_label">
+		    <%= tab_7_label %></span></a>
       </li>
     </ul>
 
@@ -70,7 +85,27 @@
       </div>
       <div class="col-md-1"></div>
     </div>
-
+    <div id="tabs-5" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial =>  "manage_submissions_class", :locals=>{:entity_class => 'User'}%>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-6" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial =>  "manage_submissions_class", :locals=>{:entity_class => 'Classroom'}%>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-7" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial =>  "manage_submissions_class", :locals=>{:entity_class => 'Organization'}%>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
   </div>
 
   <br style="clear:both" />

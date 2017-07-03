@@ -1,0 +1,9 @@
+<div class="dashboard_<%=entity_class%>">
+  <div class="row standard_row">
+    <div class="strand_label">
+      Submissions For <%= pluralize(@submission_entities[entity_class].size,  @current_subject.name  + ' ' + entity_class)%>
+    </div>
+  </div>
+
+  <%= render :partial =>  "entity_submissions_list", :locals => {:entity_class => entity_class} %>
+</div>

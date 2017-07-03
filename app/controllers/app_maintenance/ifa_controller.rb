@@ -162,7 +162,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   end
 
   def tool_n
-    @tool_n_until_date = Date.today - 4.years
+    @tool_n_until_date = Date.today - 3.years
     @tool_n_initial_db_count = IfaDashboard.all.size
     @tool_n_destroy_db_count = IfaDashboard.up_to(@tool_n_until_date).count
     @tool_n_destroy_user_db_count = 0
@@ -186,7 +186,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   end
 
   def tool_m
-    @tool_m_until_date = Date.today - 4.years
+    @tool_m_until_date = Date.today - 3.years
     @tool_m_initial_sub_count = ActSubmission.all.size
     @tool_m_destroy_subs_count = ActSubmission.until(@tool_m_until_date).count
     @tool_m_destroy_answers_count = ActSubmission.until(@tool_m_until_date).collect{|s| s.act_answers.size}.sum
@@ -221,7 +221,6 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
           @tool_l_inconsistent_count += 1
         end
       end
-        # answer.destroy
     end
     @tool_l_summary = 'Tool L Summary'
     render :partial =>  "tool_l", :locals=>{}
@@ -277,7 +276,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
         @tool_i_dashboard_user_nil += dashboard.ifa_dashboardable_type == 'User' ? 1:0
         @tool_i_dashboard_classroom_nil += dashboard.ifa_dashboardable_type == 'Classroom' ? 1:0
         @tool_i_dashboard_org_nil += dashboard.ifa_dashboardable_type == 'Organization' ? 1:0
-      #  dashboard.destroy
+        dashboard.destroy
       end
     end
     @tool_i_summary = 'Tool I Summary'

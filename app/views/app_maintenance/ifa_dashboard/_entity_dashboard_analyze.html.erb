@@ -61,48 +61,12 @@
         <div class= "col-md-2">
           <div class="row">
             <div class="col-md-12 assessment_pool_button">
-              <span class="button_blue" id="db_analyze<%=dashboard.id%>">
-                Analyze
-              </span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 assessment_pool_button">
-              <span class="button_orange" id="db_redash<%=dashboard.id%>">
-                Re-Dash
-              </span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 assessment_pool_button">
               <span class="button_red" id="db_destroy<%=dashboard.id%>">
                 Destroy
               </span>
             </div>
           </div>
         </div>
-        <script type="text/javascript">
-          jQ(document).ready(function() {
-            jQ("#db_analyze<%=dashboard.id%>").click(function(){
-              var url = "<%= app_dashboard_analyze_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :ifa_dashboard_id => dashboard.id) %>";
-              jQ.get(url, {}, function(data) {
-                jQ("#dashboard_anayze_<%= dashboard.id %>").html(data);
-                jQ("#dashboard_anayze_<%= dashboard.id %>").show();
-              });
-            })
-          });
-        </script>
-        <script type="text/javascript">
-          jQ(document).ready(function() {
-            jQ("#db_redash<%=dashboard.id%>").click(function(){
-              var url = "<%= app_dashboard_redash_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :ifa_dashboard_id => dashboard.id) %>";
-              jQ.get(url, {}, function(data) {
-                jQ("#dashboard_anayze_<%= dashboard.id %>").html(data);
-                jQ("#dashboard_anayze_<%= dashboard.id %>").show();
-              });
-            })
-          });
-        </script>
         <script type="text/javascript">
           jQ(document).ready(function() {
             jQ("#db_destroy<%=dashboard.id%>").click(function(){

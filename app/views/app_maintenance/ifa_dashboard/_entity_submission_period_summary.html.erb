@@ -8,6 +8,7 @@
         <%= pluralize(current_dashboards.size, ' ' + current_entity.class.to_s + ' Dashboard')%> Found
       </div>
       <% db_label = current_dashboards.empty? ? "Generate Dashboard" : "Replace Dashboard" %>
+      <% if false %>
       <div class= "col-md-3">
         <div class="submission_pool_button">
           <span class="button_blue" id="sub_view<%=id_key%>">
@@ -27,6 +28,7 @@
           });
         </script>
       </div>
+      <% end %>
       <div class= "col-md-3">
         <div class="submission_pool_button">
           <span class="button_orange" id="submission_redash_<%=id_key%>">

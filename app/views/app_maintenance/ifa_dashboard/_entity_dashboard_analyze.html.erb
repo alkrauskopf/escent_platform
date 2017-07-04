@@ -18,54 +18,52 @@
           <% end %>
         </div>
         <div class= "col-md-3">
-          <div class="">
-            <p>
-              <%= pluralize( dashboard.assessments_taken, ' Assessment')%> Taken
-            </p>
-            <p>
-              <%= pluralize( dashboard.finalized_assessments, ' Finalized Assessment')%>
-            </p>
-            <p>
-              <%= pluralize( dashboard.calibrated_assessments, ' Calibrated Assessment')%>
-            </p>
-            <p>
-              <%= pluralize( dashboard.finalized_duration, ' Second') %> Duration
-            </p>
-            <p>
-              <%= pluralize( dashboard.calibrated_duration, ' Second') %> Duration Calibrated
-            </p>
-          </div>
+          <p>
+            <%= pluralize( dashboard.assessments_taken, ' Assessment')%> Taken
+          </p>
+          <p>
+            <%= pluralize( dashboard.finalized_assessments, ' Finalized Assessment')%>
+          </p>
+          <p>
+            <%= pluralize( dashboard.calibrated_assessments, ' Calibrated Assessment')%>
+          </p>
+          <p>
+            <%= pluralize( dashboard.finalized_duration, ' Second') %> Duration
+          </p>
+          <p>
+            <%= pluralize( dashboard.calibrated_duration, ' Second') %> Duration Calibrated
+          </p>
         </div>
         <div class= "col-md-3">
-          <div class="">
-            <p>
-              <%= pluralize( dashboard.finalized_answers, ' Answer')%>
-            </p>
-            <p>
-              <%= pluralize( dashboard.calibrated_answers, ' Calibrated Answer')%>
-            </p>
-            <p>
-              <%= pluralize( dashboard.cal_submission_answers, ' Cal Assessment Answer')%>
-            </p>
-            <p>
-              <%= number_with_precision(dashboard.fin_points, :precision => 1) %>&nbsp;&nbsp;Total Points
-            </p>
-            <p>
-              <%= number_with_precision(dashboard.cal_points, :precision => 1) %>&nbsp;&nbsp;Calibrated Points
-            </p>
-            <p>
-              <%= number_with_precision(dashboard.cal_submission_points, :precision => 1) %>&nbsp;&nbsp;Points of Calibrated Assessment
-            </p>
-          </div>
+          <p>
+            <%= pluralize( dashboard.finalized_answers, ' Answer')%>
+          </p>
+          <p>
+            <%= pluralize( dashboard.calibrated_answers, ' Calibrated Answer')%>
+          </p>
+          <p>
+            <%= pluralize( dashboard.cal_submission_answers, ' Cal Assessment Answer')%>
+          </p>
+          <p>
+            <%= number_with_precision(dashboard.fin_points, :precision => 1) %>&nbsp;&nbsp;Total Points
+          </p>
+          <p>
+            <%= number_with_precision(dashboard.cal_points, :precision => 1) %>&nbsp;&nbsp;Calibrated Points
+          </p>
+          <p>
+            <%= number_with_precision(dashboard.cal_submission_points, :precision => 1) %>&nbsp;&nbsp;Points of Calibrated Assessment
+          </p>
         </div>
         <div class= "col-md-2">
-          <div class="row">
-            <div class="col-md-12 assessment_pool_button">
-              <span class="button_red" id="db_destroy<%=dashboard.id%>">
-                Destroy
-              </span>
+          <% if false %>
+            <div class="row">
+              <div class="col-md-12 assessment_pool_button">
+                <span class="button_red" id="db_destroy<%=dashboard.id%>">
+                  Destroy
+                </span>
+              </div>
             </div>
-          </div>
+          <% end %>
         </div>
         <script type="text/javascript">
           jQ(document).ready(function() {

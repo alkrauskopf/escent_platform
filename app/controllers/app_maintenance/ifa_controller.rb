@@ -181,6 +181,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     else
       @tool_k_s_orphan_answer_count = ActAnswer.all.select{|a| a.act_submission.nil?}.size
       @tool_k_q_orphan_answer_count = ActAnswer.all.select{|a| a.act_question.nil?}.size
+      @tool_k_answer_count = ActAnswer.all.size
       @tool_k_destroy = true
       @tool_k_summary = 'Tool K DESTROY PENDING'
     end

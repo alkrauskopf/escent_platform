@@ -91,7 +91,7 @@ class ActSubmission < ActiveRecord::Base
                         submission_list.map{|s| s.tot_points}.sum,
                         submission_list.map{|s| s.tot_choices}.sum,
                         submission_list.map{|s| s.cal_points}.sum,
-                        submission_list.map{|s| s.tot_choices}.sum,
+                        submission_list.map{|s| s.cal_choices}.sum,
                         submission_list.map{|s| s.duration}.sum,
                         submission_list.map{|s| s.teacher}.compact.uniq
                         ]

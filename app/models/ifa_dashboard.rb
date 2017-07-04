@@ -12,35 +12,59 @@ class IfaDashboard < ActiveRecord::Base
   has_many :ifa_dashboard_cells, :dependent => :destroy
   has_many :ifa_dashboard_sms_scores, :dependent => :destroy 
 
-  scope :for_subject_since, lambda{|subject, begin_date|
-      {:conditions => ["act_subject_id = ? && period_end >= ?", subject.id,  begin_date], :order => "period_end ASC" }
-      }
+#  scope :for_subject_since, lambda{|subject, begin_date|
+#      {:conditions => ["act_subject_id = ? && period_end >= ?", subject.id,  begin_date], :order => "period_end ASC" }
+#      }
   scope :for_subject, lambda{|subject|
       {:conditions => ["act_subject_id = ? ", subject.id]}
       }
 
-  scope :since, lambda{|date|
-      {:conditions => ["period_end >= ? ", date], :order => "period_end ASC" }
-      }
+ # scope :since, lambda{|date|
+ #     {:conditions => ["period_end >= ? ", date], :order => "period_end ASC" }
+ #     }
 
-  scope :up_to, lambda{|date|
-      {:conditions => ["period_end <= ? ", date], :order => "period_end ASC" }
-      }
+ # scope :up_to, lambda{|date|
+ #     {:conditions => ["period_end <= ? ", date], :order => "period_end ASC" }
+ #     }
 
-  scope :for_period, lambda{|date|
-      {:conditions => ["period_end = ? ", date]}
-      }
+#  scope :for_period, lambda{|date|
+#      {:conditions => ["period_end = ? ", date]}
+#      }
 
-  scope :org_subject_after_date, lambda{|entity_class, org, subject, period|
-    {:conditions => ["organization_id = ? AND act_subject_id = ? AND ifa_dashboardable_type = ? AND period_end >= ?", org.id, subject.id, entity_class, period ]}
-  }
 
-  scope :for_subject_between, lambda{|subject, begin_date, end_date|
-    {:conditions => ["act_subject_id = ? && period_end >= ? && period_end <= ?", subject.id,  begin_date, end_date], :order => "period_end ASC" }
-  }
+#  scope :for_subject_between, lambda{|subject, begin_date, end_date|
+#    {:conditions => ["act_subject_id = ? && period_end >= ? && period_end <= ?", subject.id,  begin_date, end_date], :order => "period_end ASC" }
+#  }
+
+  def self.for_subject_between(subject, begin_date, end_date)
+    period_end = end_date.class == 'Date' ? end_date.end_of_month : end_date.to_date.end_of_month
+    period_begin = begin_date.class == 'Date' ? begin_date.end_of_month : begin_date.to_date.end_of_month
+    where("act_subject_id = ? && period_end >= ? && period_end <= ?", subject.id,  period_begin, period_end).order('period_end ASC')
+  end
+
+  def self.for_subject_since(subject, begin_date)
+    period_begin = begin_date.class == 'Date' ? begin_date.end_of_month : begin_date.to_date.end_of_month
+    where("act_subject_id = ? && period_end >= ?", subject.id,  period_begin).order('period_end ASC')
+  end
+
+  def self.up_to(end_date)
+    period_end = end_date.class == 'Date' ? end_date.end_of_month : end_date.to_date.end_of_month
+    where("period_end <= ? ", period_end).order('period_end ASC')
+  end
+
+  def self.since(end_date)
+    period_end = end_date.class == 'Date' ? end_date.end_of_month : end_date.to_date.end_of_month
+    where("period_end >= ? ", period_end).order('period_end ASC')
+  end
+
+  def self.for_period(period)
+    period_end = period.class == 'Date' ? period.end_of_month : period.to_date.end_of_month
+    where('period_end = ?', period_end)
+  end
 
   def self.for_entity(entity_class, entity_id, period)
-    IfaDashboard.where("ifa_dashboardable_type = ? AND ifa_dashboardable_id = ? AND period_end = ?", entity_class, entity_id, period ).first
+    period_end = period.class == 'Date' ? period.end_of_month : period.to_date.end_of_month
+    IfaDashboard.where("ifa_dashboardable_type = ? AND ifa_dashboardable_id = ? AND period_end = ?", entity_class, entity_id, period_end ).first
   end
 
   def self.for_entity_class(entity_class)
@@ -72,11 +96,14 @@ class IfaDashboard < ActiveRecord::Base
   end
 
   def self.subject_between_periods(subject, start_date, end_date)
-    where('act_subject_id = ? && period_end >= ? && period_end <= ?', subject.id, start_date, end_date)
+    period_end = end_date.class == 'Date' ? end_date.end_of_month : end_date.to_date.end_of_month
+    period_begin = start_date.class == 'Date' ? start_date.end_of_month : start_date.to_date.end_of_month
+    where('act_subject_id = ? && period_end >= ? && period_end <= ?', subject.id, period_begin, period_end)
   end
 
   def self.for_subject_period(subject, period_date)
-    where('act_subject_id = ? && period_end = ?', subject.id, period_date).first rescue nil
+    period_end = period_date.class == 'Date' ? period_date.end_of_month : period_date.to_date.end_of_month
+    where('act_subject_id = ? && period_end = ?', subject.id, period_end).first rescue nil
   end
 
   def cell_for(level, strand)

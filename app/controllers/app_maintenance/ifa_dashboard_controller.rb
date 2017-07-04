@@ -121,7 +121,8 @@ class AppMaintenance::IfaDashboardController < AppMaintenance::ApplicationContro
       @current_submission_periods = @current_entity.act_submissions.for_subject(@current_subject).month_periods
       @current_submission_periods.each do |period|
         @current_entity_submissions[period] =  @current_entity.act_submissions.for_subject(@current_subject).submission_period(period.beginning_of_month, period.end_of_month)
-        @current_entity_dashboards[period] = @current_entity.ifa_dashboards.for_subject(@current_subject).for_period(period.strftime("%Y-%m-%d"))
+        byebug
+        @current_entity_dashboards[period] = @current_entity.ifa_dashboards.for_subject(@current_subject).for_period(period.to_date)
       end
     end
 

@@ -59,17 +59,6 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
         else
           @tool_p_bad_entity_db[subject] += 1
         end
-
-        if params[:reconcile_them] == 'Adjust2'
-        #  Adjust DB Totals to Equal Cell Totals
-          @tool_p_reconcile = false
-          @tool_p_summary = 'DB Scores Reconciled 2'
-        end
-        if params[:reconcile_them] == 'Adjust1'
-          #  Adjust DB Totals to Equal Cell Totals
-          @tool_p_reconcile = false
-          @tool_p_summary = 'DB Scores Reconciled 1'
-        end
       end
     end
     if params[:reconcile_them] == 'No'
@@ -107,52 +96,6 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       @tool_o_wrong_fanswer_total += dashboard.finalized_answers != dashboard.total_answers ? 1 : 0
       @tool_o_wrong_canswer_total += dashboard.calibrated_answers != dashboard.total_c_answers ? 1 : 0
       @tool_o_db_plannable += !ActSubject.plannable.include?(dashboard.act_subject) ? 1 : 0
-      if params[:reconcile_them] == 'Reconcile'
-        #  Adjust DB Totals to Equal Cell Totals
-        if (dashboard.fin_points != dashboard.total_points) ||
-            (dashboard.cal_points != dashboard.total_c_points) ||
-            (dashboard.finalized_answers != dashboard.total_answers) ||
-            (dashboard.calibrated_answers != dashboard.total_c_answers)
-
-          dashboard.update_attributes(:fin_points => dashboard.total_points, :cal_points => dashboard.total_c_points,
-          :finalized_answers => dashboard.total_answers, :calibrated_answers => dashboard.total_c_answers)
-          @tool_o_db_score_updated += 1
-          @tool_o_reconcile = false
-          @tool_o_summary = 'DB Scores Reconciled'
-        end
-      end
-      if params[:reconcile_them] == 'Remove'
-      #  remoce Non Standard DBs and Cells
-        if (dashboard.cells_for_standard(@current_standard).size != dashboard.ifa_dashboard_cells.size)
-          dashboard.ifa_dashboard_cells.each do |cell|
-            if cell.act_master_id != @current_standard.id
-              cell.destroy
-              @tool_o_no_std_cell_deleted += 1
-            end
-          end
-        end
-        dashboard.ifa_dashboard_cells.each do |cell|
-          if cell.act_score_range.nil? || cell.act_standard.nil? || cell.act_score_range.act_master != @current_standard || cell.act_standard.act_master != @current_standard
-            cell.destroy
-            @tool_o_bad_level_cell_deleted += 1
-          end
-        end
-        if (dashboard.ifa_dashboard_sms_scores.for_standard(@current_standard).size != dashboard.ifa_dashboard_sms_scores.size)
-          dashboard.ifa_dashboard_sms_scores.each do |score|
-            if score.act_master_id != @current_standard.id
-              score.destroy
-              @tool_o_no_std_score_deleted += 1
-            end
-          end
-        end
-        if dashboard.cells_for_standard(@current_standard).empty? || !ActSubject.plannable.include?(dashboard.act_subject)
-          @tool_o_no_std_db_deleted += dashboard.cells_for_standard(@current_standard).empty? ? 1 : 0
-          @tool_o_bad_subject_db_deleted += !ActSubject.plannable.include?(dashboard.act_subject) ? 1 : 0
-          dashboard.destroy
-        end
-        @tool_o_reconcile = false
-        @tool_o_summary = 'Non-Standard DBs & Cells Removed'
-      end
     end
     if params[:reconcile_them] == 'No'
       @tool_o_reconcile = true
@@ -174,7 +117,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       @tool_n_destroy_classroom_db_count += dashboard.entity_class == 'Classroom' ? 1 : 0
       @tool_n_destroy_org_db_count += dashboard.entity_class == 'Organization' ? 1 : 0
       if params[:destroy_them] == 'Yes'
-        dashboard.destroy
+        #dashboard.destroy
         @tool_n_destroy = false
         @tool_n_summary = 'Tool N DESTROY Complete'
       else
@@ -227,18 +170,20 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   end
 
   def tool_k
-    @tool_k_answer_count = 0
-    @tool_k_s_orphan_answer_count = 0
-    @tool_k_q_orphan_answer_count = 0
-    ActAnswer.all.each do |answer|
-      @tool_k_answer_count += 1
-      if !answer.act_submission || !answer.act_question
-        @tool_k_s_orphan_answer_count += !answer.act_submission ? 1 : 0
-        @tool_k_q_orphan_answer_count += !answer.act_question ? 1 : 0
-        answer.destroy
-      end
-    end
     @tool_k_summary = 'Tool K Summary'
+    if params[:destroy_them] == 'Yes'
+      ActAnswer.all.select{|a| a.act_submission.nil? || a.act_question.nil?}.each.destroy
+      @tool_k_destroy = false
+      @tool_k_s_orphan_answer_count = 0
+      @tool_k_q_orphan_answer_count = 0
+      @tool_k_answer_count = ActAnswer.all.size
+      @tool_k_summary = 'Tool K DESTROY Complete'
+    else
+      @tool_k_s_orphan_answer_count = ActAnswer.all.select{|a| a.act_submission.nil?}.size
+      @tool_k_q_orphan_answer_count = ActAnswer.all.select{|a| a.act_question.nil?}.size
+      @tool_k_destroy = true
+      @tool_k_summary = 'Tool K DESTROY PENDING'
+    end
     render :partial =>  "tool_k", :locals=>{}
   end
 
@@ -254,7 +199,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
         @tool_j_orphan_question_count += 1
         if question.act_answers.empty?
           @tool_j_orphan_no_answers += 1
-          question.destroy
+          #question.destroy
         else
           @tool_j_orphan_with_answers += 1
           @tool_j_orphan_questions << question
@@ -276,7 +221,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
         @tool_i_dashboard_user_nil += dashboard.ifa_dashboardable_type == 'User' ? 1:0
         @tool_i_dashboard_classroom_nil += dashboard.ifa_dashboardable_type == 'Classroom' ? 1:0
         @tool_i_dashboard_org_nil += dashboard.ifa_dashboardable_type == 'Organization' ? 1:0
-        dashboard.destroy
+       # dashboard.destroy
       end
     end
     @tool_i_summary = 'Tool I Summary'
@@ -407,7 +352,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
        # a.destroy
       else
         @tool_d_recon_assessment += 1
-       # a.reconstitute
+        a.reconstitute
       end
     end
     @tool_d_summary = 'Tool D Summary'
@@ -468,17 +413,12 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
         if submission.act_assessment
           if submission.act_assessment.upper_level
             if submission.act_assessment.upper_level.act_master == @current_standard
-              if true #submission.update_attributes(:act_master_id => @current_standard.id)
               @tool_g_good_standard_count += 1
               if submission.act_assessment.upper_level && submission.act_assessment.lower_level
                 # submission.update_attributes(:upper_score_bound => submission.upper_bound_score, :lower_score_bound => submission.lower_bound_score,)
                 @tool_g_level_count += 1
               else
                 @tool_g_no_level_count += 1
-              end
-              else
-                @tool_g_failed_std_update += 1
-                # submission.destroy
               end
             else
               @tool_g_wrong_standard_count += 1

@@ -8,7 +8,7 @@
       </span>
     </div>
     <div class="col-md-8">
-      Count Orphan Answers, Not Connected to a Submission Or Question
+      Identify Orphan Answers, (With NO Submission Or Question)
       <% if !@tool_k_summary.nil? %>
         <div class="row tool_sumry">
           <%=@tool_k_summary %><br/>
@@ -18,13 +18,36 @@
           <br/>
         </div>
       <% end %>
+      <% if @tool_k_destroy %>
+          <div class="row">
+            <div class="col-md-2">
+            <span id = "tool_kk" class='button_gray enabled'>
+              <%='GO' %>
+            </span>
+            </div>
+            <div class="col-md-9">
+              Destroy Orphan Answers
+            </div>
+          </div>
+      <% end %>
     </div>
     <div class="col-md-1"></div>
   </div>
   <script type="text/javascript">
     jQ(document).ready(function() {
       jQ("#tool_k").click(function(){
-        var url = "<%= app_maintenance_ifa_tool_k_url(:organization_id => @current_organization) %>";
+        var url = "<%= app_maintenance_ifa_tool_k_url(:organization_id => @current_organization, :destroy_them => 'No') %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tool_kx").html(data);
+          jQ("#tool_kx").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_kk").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_k_url(:organization_id => @current_organization, :destroy_them => 'Yes') %>";
         jQ.get(url, {}, function(data) {
           jQ("#tool_kx").html(data);
           jQ("#tool_kx").show();

@@ -14,7 +14,7 @@
           <%=@tool_j_summary %><br/>
           <%= pluralize(@tool_j_question_count, ' Total Question') %><br/>
           <%= pluralize(@tool_j_orphan_question_count, ' Orphan Question') %><br/>
-          <%= pluralize(@tool_j_orphan_no_answers, ' Orphan Question') %> With NO Answers Destroyed<br/>
+          <%= pluralize(@tool_j_orphan_no_answers, ' Orphan Question') %> With NO Answers Can Be Destroyed?<br/>
           <%= pluralize(@tool_j_orphan_with_answers, ' Orphan Question') %> WITH Answers<br/>
           <% @tool_j_orphan_questions.each do |orphan| %>
           <%= orphan.user ? orphan.user.last_name : 'No Name' %> | <%= orphan.act_subject ? orphan.act_subject.name : 'No Subject' %> | <%= orphan.created_at.strftime("%b %Y") %>

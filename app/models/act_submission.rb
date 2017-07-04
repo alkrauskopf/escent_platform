@@ -276,18 +276,18 @@ class ActSubmission < ActiveRecord::Base
     end
     if self.save
       # Update User Dashboard Only
-      self.auto_ifa_dashboard_update_new(self.user, standard, :overide => false)
+      self.auto_ifa_dashboard_update_new(self.user, standard)
       # Only Automatically Update First Classroom & Org Dashboard of Period
       #
       # Now, Try updating always
       # if !self.period_dashboard?(self.classroom)
       # Don't Classroom dashboard Submissions with incompatible subjects
       if self.act_subject_id == self.classroom.act_subject_id
-        self.auto_ifa_dashboard_update_new(self.classroom, standard, :overide => false)
+        self.auto_ifa_dashboard_update_new(self.classroom, standard)
       end
       # end
       # if !self.period_dashboard?(self.organization)
-        self.auto_ifa_dashboard_update_new(self.organization, standard, :overide => false)
+        self.auto_ifa_dashboard_update_new(self.organization, standard)
       # end
       finalized = true
     end
@@ -307,33 +307,43 @@ class ActSubmission < ActiveRecord::Base
     dashboard
   end
 
-  def auto_ifa_dashboard_update_new(entity, standard, options = {})
+  def set_dashboardable(entity,on_off)
     if entity.class.to_s == "User"
-      if self.is_user_dashboarded && !options[:overide]
+      self.update_attributes(:is_user_dashboarded => on_off)
+    elsif entity.class.to_s == "Classroom"
+      self.update_attributes(:is_classroom_dashboarded => on_off)
+    elsif entity.class.to_s == "Organization"
+      self.update_attributes(:is_org_dashboarded => on_off)
+    end
+  end
+
+  def auto_ifa_dashboard_update_new(entity, standard)
+    if entity.class.to_s == "User"
+      if self.is_user_dashboarded
         already_dashboarded = true
       else
         already_dashboarded = false
         entity_dashboard = self.user.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first rescue nil
         dashboardable_id = self.user_id
-        self.update_attributes(:is_user_dashboarded => true)
+        self.set_dashboardable(entity, true)
       end
     elsif entity.class.to_s == "Classroom"
-      if self.is_classroom_dashboarded && !options[:overide]
+      if self.is_classroom_dashboarded
         already_dashboarded = true
       else
         already_dashboarded = false
         entity_dashboard = self.classroom.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first rescue nil
         dashboardable_id = self.classroom_id
-        self.update_attributes(:is_classroom_dashboarded => true)
+        self.set_dashboardable(entity, true)
       end
     elsif entity.class.to_s == "Organization"
-      if self.is_org_dashboarded && !options[:overide]
+      if self.is_org_dashboarded
         already_dashboarded = true
       else
         already_dashboarded = false
         entity_dashboard = self.organization.ifa_dashboards.for_subject(self.act_subject).for_period(self.created_at.to_date.at_end_of_month).first rescue nil
         dashboardable_id = self.organization_id
-        self.update_attributes(:is_org_dashboarded => true)
+        self.set_dashboardable(entity, true)
       end
     end
     if !already_dashboarded

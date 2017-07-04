@@ -46,20 +46,28 @@ class AppMaintenance::IfaDashboardController < AppMaintenance::ApplicationContro
     def submissions_redash
       get_current_entity
       get_current_period
-      @current_dashboards = @current_entity.ifa_dashboards.for_subject(@current_subject).for_period(@current_period)
-      if !@current_dashboards.empty?
-        @current_dashboards.destroy_all
-      end
-      submissions = @current_entity.act_submissions.for_subject(@current_subject).submission_period(@current_period.beginning_of_month, @current_period.end_of_month)
-      submissions.each do |sub|
+      current_period_submissions.each do |sub|
         if sub.final?
-          sub.auto_ifa_dashboard_update_new(@current_entity, @current_standard, :overide => true)
+          sub.auto_ifa_dashboard_update_new(@current_entity, @current_standard)
         end
       end
-      @current_dashboards = @current_entity.ifa_dashboards.for_subject(@current_subject).for_period(@current_period)
-      render :partial => 'entity_submission_period_summary', :locals => {:period => @current_period, :current_submission_list => submissions,
+      render :partial => 'entity_submission_period_summary', :locals => {:period => @current_period, :current_submission_list => current_period_submissions,
                                                                          :current_entity => @current_entity,
-                                                                          :current_dashboards => @current_dashboards}
+                                                                          :current_dashboards => current_period_dashboards}
+    end
+
+    def submissions_dashboardable_reset
+      get_current_entity
+      get_current_period
+      if !current_period_dashboards.empty?
+        current_period_dashboards.destroy_all
+      end
+      current_period_submissions.each do |sub|
+        sub.set_dashboardable(@current_entity, false)
+      end
+      render :partial => 'entity_submission_period_summary', :locals => {:period => @current_period, :current_submission_list => current_period_submissions,
+                                                                         :current_entity => @current_entity,
+                                                                         :current_dashboards => current_period_dashboards}
     end
 
     def analyze
@@ -121,10 +129,31 @@ class AppMaintenance::IfaDashboardController < AppMaintenance::ApplicationContro
       @current_submission_periods = @current_entity.act_submissions.for_subject(@current_subject).month_periods
       @current_submission_periods.each do |period|
         @current_entity_submissions[period] =  @current_entity.act_submissions.for_subject(@current_subject).submission_period(period.beginning_of_month, period.end_of_month)
-        byebug
-        @current_entity_dashboards[period] = @current_entity.ifa_dashboards.for_subject(@current_subject).for_period(period.to_date)
+        @current_entity_dashboards[period] = @current_entity.ifa_dashboards.for_subject(@current_subject).for_period(period)
       end
     end
+
+    def current_period_submissions
+      if @current_entity && @current_subject && @current_period
+        submissions = @current_entity.act_submissions.for_subject(@current_subject).submission_period(@current_period.beginning_of_month, @current_period.end_of_month)
+      else
+        submissions = []
+      end
+      submissions
+    end
+
+    def reset_submission_dashboardable
+
+    end
+
+    def current_period_dashboards
+      if @current_entity && @current_subject && @current_period
+        dashboards = @current_entity.ifa_dashboards.for_subject(@current_subject).for_period(@current_period)
+      else
+        dashboards = []
+      end
+      dashboards
+      end
 
     def current_standard
       if params[:act_master_id]
@@ -218,60 +247,6 @@ class AppMaintenance::IfaDashboardController < AppMaintenance::ApplicationContro
         @current_dashboard = @current_student.ifa_dashboards.for_subject(@current_subject).for_period(@current_period).first rescue nil
       else
         @current_dashboard = nil
-      end
-    end
-
-    def redashboard(dashboard)
-      subject = dashboard.act_subject
-      standard = @current_standard
-      begin_date = dashboard.period_end.beginning_of_month
-      end_date = dashboard.period_end
-      submissions = dashboard.entity.act_submissions.for_subject(subject).submission_period(begin_date, end_date).final
-      cal_submissions = submissions.select{|s| s.act_assessment.calibrate?}
-      new_dashboard = IfaDashboard.new
-      new_dashboard = dashboard.clone
-      new_dashboard.assessments_taken = submissions.size
-      new_dashboard.finalized_assessments = submissions.size
-      new_dashboard.calibrated_assessments = cal_submissions.size
-      new_dashboard.finalized_answers = submissions.map{|s| s.tot_choices}.sum
-      new_dashboard.calibrated_answers = submissions.map{|s| s.cal_choices}.sum
-      new_dashboard.finalized_duration = submissions.map{|s| s.duration}.sum
-      new_dashboard.calibrated_duration = cal_submissions.map{|s| s.duration}.sum
-      new_dashboard.fin_points = submissions.map{|s| s.tot_points}.sum
-      new_dashboard.cal_points = submissions.map{|s| s.cal_points}.sum
-      new_dashboard.cal_submission_points = cal_submissions.map{|s| s.cal_points}.sum
-      new_dashboard.cal_submission_answers = cal_submissions.map{|s| s.cal_choices}.sum
-      if new_dashboard.save
-        standard.mastery_levels(subject).each do |level|
-          standard.strands(subject).each do |strand|
-            selected_answers = submissions.map{|s| s.act_answers.selected_level_strand(level,strand)}.flatten
-            calibrated_answers = selected_answers.select{|a| a.is_calibrated}
-            if !selected_answers.empty?
-              dashboard_cell = IfaDashboardCell.new
-              dashboard_cell.act_master_id = standard.id
-              dashboard_cell.act_score_range_id = level.id
-              dashboard_cell.act_standard_id = strand.id
-              dashboard_cell.finalized_answers = selected_answers.size
-              dashboard_cell.calibrated_answers = calibrated_answers.size
-              dashboard_cell.fin_points = selected_answers.map{|a| a.points}.sum
-              dashboard_cell.cal_points = calibrated_answers.map{|a| a.points}.sum
-              new_dashboard.ifa_dashboard_cells << dashboard_cell
-            end
-          end
-        end
-        dashboard_score = IfaDashboardSmsScore.new
-        dashboard_score.act_master_id = standard.id
-        dashboard_score.score_range_min = new_dashboard.level_range(standard).first.lower_score rescue 0
-        dashboard_score.score_range_max = new_dashboard.level_range(standard).last.upper_score rescue 0
-        dashboard_score.standard_score = new_dashboard.calculated_standard_score(standard, :calibrated => false)
-        dashboard_score.standard_score_cal = new_dashboard.calculated_standard_score(standard, :calibrated => true)
-        dashboard_score.sms_finalized = standard.sms_for_dashboard(new_dashboard, :calibrated => false)
-        dashboard_score.sms_calibrated = standard.sms_for_dashboard(new_dashboard, :calibrated => true)
-        dashboard_score.baseline_score = standard.base_score(entity, self.act_subject)
-        new_dashboard.ifa_dashboard_sms_scores << dashboard_score
-        dashboard_sms.save
-
-        dashboard.update_attributes(:is_replaced => true)
       end
     end
 end

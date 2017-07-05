@@ -52,7 +52,7 @@ class AppMaintenance::IfaDashboardController < AppMaintenance::ApplicationContro
         end
       end
       render :partial => 'entity_submission_period_summary', :locals => {:period => @current_period, :current_submission_list => current_period_submissions,
-                                                                         :current_entity => @current_entity,
+                                                                         :current_entity => @current_entity, :view_subs => params[:view_subs],
                                                                           :current_dashboards => current_period_dashboards}
     end
 
@@ -66,7 +66,25 @@ class AppMaintenance::IfaDashboardController < AppMaintenance::ApplicationContro
         sub.set_dashboardable(@current_entity, false)
       end
       render :partial => 'entity_submission_period_summary', :locals => {:period => @current_period, :current_submission_list => current_period_submissions,
-                                                                         :current_entity => @current_entity,
+                                                                         :current_entity => @current_entity, :view_subs => params[:view_subs],
+                                                                         :current_dashboards => current_period_dashboards}
+    end
+
+    def submissions_view
+      get_current_entity
+      get_current_period
+      render :partial => 'entity_submission_period_summary', :locals => {:period => @current_period, :current_submission_list => current_period_submissions,
+                                                                         :current_entity => @current_entity, :view_subs => (params[:view_subs] == 'View' ? 'Hide' : 'View'),
+                                                                         :current_dashboards => current_period_dashboards}
+    end
+
+    def submission_destroy
+      get_current_entity
+      get_current_period
+      current_submission
+      @current_submission.destroy_it
+      render :partial => 'entity_submission_period_summary', :locals => {:period => @current_period, :current_submission_list => current_period_submissions,
+                                                                         :current_entity => @current_entity, :view_subs => params[:view_subs],
                                                                          :current_dashboards => current_period_dashboards}
     end
 
@@ -105,6 +123,14 @@ class AppMaintenance::IfaDashboardController < AppMaintenance::ApplicationContro
       end
     end
 
+    def current_submission
+      if params[:act_submission_id]
+        @current_submission = ActSubmission.find_by_id(params[:act_submission_id])
+      else
+        @current_submission = nil
+      end
+    end
+
     def get_current_period
       @current_period = Date.parse(params[:period])
     end
@@ -140,10 +166,6 @@ class AppMaintenance::IfaDashboardController < AppMaintenance::ApplicationContro
         submissions = []
       end
       submissions
-    end
-
-    def reset_submission_dashboardable
-
     end
 
     def current_period_dashboards

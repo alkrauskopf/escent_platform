@@ -95,7 +95,7 @@ class IfaDashboard < ActiveRecord::Base
 
   def self.for_subject_period(subject, period_date)
     period_end = period_date.class == 'Date' ? period_date.end_of_month : period_date.to_date.end_of_month
-    where('act_subject_id = ? && period_end = ?', subject.id, period_end).first rescue nil
+    where('act_subject_id = ? && period_end = ?', subject.id, period_end)
   end
 
   def redash?

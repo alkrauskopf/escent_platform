@@ -103,16 +103,22 @@ class ActSubmission < ActiveRecord::Base
 
   def destroy_it
     if self.dashboarded?('User')
-      db = self.user.ifa_dashboards.for_subject_period(self.act_subject, self.created_at)
-      db.redash_needed
+      db = self.user.ifa_dashboards.for_subject_period(self.act_subject, self.created_at).first rescue nil
+      if !db.nil?
+        db.redash_needed
+      end
     end
     if self.dashboarded?('Classroom')
-      db = self.classroom.ifa_dashboards.for_subject_period(self.act_subject, self.created_at)
-      db.redash_needed
+      db = self.classroom.ifa_dashboards.for_subject_period(self.act_subject, self.created_at).first rescue nil
+      if !db.nil?
+        db.redash_needed
+      end
     end
     if self.dashboarded?('Organization')
-      db = self.organization.ifa_dashboards.for_subject_period(self.act_subject, self.created_at)
-      db.redash_needed
+      db = self.organization.ifa_dashboards.for_subject_period(self.act_subject, self.created_at).first rescue nil
+      if !db.nil?
+        db.redash_needed
+      end
     end
     self.destroy
   end

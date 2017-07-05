@@ -1,5 +1,6 @@
 <div id="period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.to_date.to_s%>">
   <% id_key = current_entity.class.to_s + current_entity.id.to_s + period.to_date.to_s %>
+  <% view_label = view_subs == 'Hide' ? 'View Assessments' : 'Hide Assessments' %>
   <% stats = ActSubmission.submission_stats(current_submission_list) %>
   <%= render :partial => "/shared/error_and_notice" %>
   <div class= "col-md-12 ">
@@ -29,7 +30,7 @@
           jQ(document).ready(function() {
             jQ("#sub_reset<%= id_key%>").click(function(){
               var url = "<%= app_submissions_reset_dashboardable_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
-                :entity_id => current_entity.id, :entity_class => current_entity.class.to_s, :period => period) %>";
+                :entity_id => current_entity.id, :entity_class => current_entity.class.to_s, :period => period, :view_subs => view_subs) %>";
               jQ.get(url, {}, function(data) {
                 jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.to_date.to_s%>").html(data);
                 jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.to_date.to_s %>").show();
@@ -49,7 +50,7 @@
         jQ(document).ready(function() {
           jQ("#submission_redash_<%=id_key%>").click(function(){
             var url = "<%= app_submissions_redash_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
-                :entity_id => current_entity.id, :entity_class => current_entity.class.to_s, :period => period) %>";
+                :entity_id => current_entity.id, :entity_class => current_entity.class.to_s, :period => period, :view_subs => view_subs) %>";
             jQ.get(url, {}, function(data) {
               jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.to_date.to_s%>").html(data);
               jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.to_date.to_s %>").show();
@@ -102,4 +103,38 @@
         </tr>
       </tbody>
     </table>
+  <div class= "col-md-12 ">
+    <div class="row">
+      <div class= "col-md-4">
+        <div class="submission_pool_button">
+          <span class="button_blue" id="sub_view<%=id_key%>">
+            <%= view_label %>
+          </span>
+        </div>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ("#sub_view<%= id_key%>").click(function(){
+              var url = "<%= app_submissions_view_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+                :entity_id => current_entity.id, :entity_class => current_entity.class.to_s, :period => period, :view_subs => view_subs) %>";
+              jQ.get(url, {}, function(data) {
+                jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.to_date.to_s%>").html(data);
+                jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.to_date.to_s %>").show();
+              });
+            })
+          });
+        </script>
+      </div>
+    </div>
   </div>
+  <% if view_subs == 'View'%>
+      <div class= "row ">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <%= render :partial => 'entity_period_submissions', :locals => {:current_submission_list => current_submission_list,
+                                                                          :current_entity => current_entity, :entity_class => current_entity.class.to_s,
+                                                                          :period => period, :view_subs => view_subs, :id_key => id_key, :view_subs => view_subs} %>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+  <% end %>
+</div>

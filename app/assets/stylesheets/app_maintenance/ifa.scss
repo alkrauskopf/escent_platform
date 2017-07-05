@@ -257,3 +257,32 @@
   font-style: italic;
   font-weight:bold;
 }
+.submission_period_box {
+  padding:0em 0em 0em 0em;
+  max-height: 35em;
+  overflow: scroll;
+  border:1px solid #ddd;
+  font-size:13px;
+  color: $dark_text;
+}
+.submission_period_row {
+  padding:.5em 0em .5em 0em;
+  border:1px solid #ddd;
+  font-size:13px;
+  color: $dark_text;
+}
+.submission_period_row .dates {
+  padding: 1em 0em .5em 2em;
+  font-weight:bold;
+  font-size:13px;
+  color: $blue_text;
+}
+.submission_period_row .view {
+  padding: .5em 0em 0em 2em;
+  font-size:13px;
+}
+.submission_period_row .names {
+  font-weight:bold;
+  font-size:13px;
+  color: $blue_text;
+}

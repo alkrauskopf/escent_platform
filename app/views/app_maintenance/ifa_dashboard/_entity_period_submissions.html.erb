@@ -1,0 +1,59 @@
+<div id="period_submissions_<%=id_key%>" >
+  <div class="row">
+    <div class="ifa_panel_title">
+      <%= pluralize(current_submission_list.size, ' Assessment') %>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="submission_period_box">
+      <% current_submission_list.each do |submission| %>
+          <div class="row submission_period_row">
+            <div class="col-md-2">
+              <div class="row dates">
+                <%= submission.created_at.strftime("%m-%d-%y") %>
+              </div>
+              <div class="row view">
+                <%= link_to "View ", ifa_submission_review_final_path(:organization_id => @current_organization,
+                                                                      :classroom_id => submission.classroom.id, :topic_id => nil,
+                                                                      :act_submission_id => submission.id), {:class => "button_gray", :target => "_blank"} %>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <span class="names">
+                <%= submission.user ? submission.user.last_name : 'Former Student' %> | <%= submission.teacher ? submission.teacher.last_name : 'Former Teacher' %>
+              </span>
+              &nbsp;<%= submission.final? ? 'Finalized' : 'Not Finalized' %><br/>
+              <%= submission.assessment_name%><br/>
+              <%= submission.standard_abbrev%>:&nbsp; <%= submission.lower_score_bound%>&nbsp;-&nbsp;<%= submission.upper_score_bound%>&nbsp;
+              &nbsp;<%= submission.strand_string %><br/>
+              Scored&nbsp;<%= number_with_precision(submission.tot_points, :precision => 1) %>&nbsp; Of <%=submission.tot_choices %>,&nbsp;<%= number_with_precision(submission.duration.to_f/60.0, :precision=>1)%> Minutes<br/>
+              User-boarded: <%= submission.dashboarded?('User') ? 'YES' : 'NO' %>,&nbsp;
+              Classroom-boarded: <%= submission.dashboarded?('Classroom') ? 'YES' : 'NO' %>,&nbsp;
+              Org-boarded: <%= submission.dashboarded?('Organization') ? 'YES' : 'NO' %>
+            </div>
+            <div class="col-md-1">
+              <div class="submission_pool_button">
+                <span class="button_red" id="sub_destroy<%=id_key%><%=submission.id%>">
+                  Destroy
+                </span>
+              </div>
+              <script type="text/javascript">
+                jQ(document).ready(function() {
+                  jQ("#sub_destroy<%=id_key%><%=submission.id%>").click(function(){
+                    var url = "<%= app_submissions_view_destroy_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+                                        :entity_id => current_entity.id, :entity_class => current_entity.class.to_s, :period => period,
+                                        :act_submission_id => submission.id, :view_subs => view_subs) %>";
+                    jQ.get(url, {}, function(data) {
+                      jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.to_date.to_s%>").html(data);
+                      jQ("#period_summary<%= current_entity.class.to_s%><%=current_entity.id%><%= period.to_date.to_s %>").show();
+                    });
+                  })
+                });
+              </script>
+            </div>
+
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>

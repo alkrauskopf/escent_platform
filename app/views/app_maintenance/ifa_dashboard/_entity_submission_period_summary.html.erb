@@ -6,6 +6,18 @@
     <div class="row">
       <div class="col-md-4 submission_db_found">
         <%= pluralize(current_dashboards.size, ' ' + current_entity.class.to_s + ' Dashboard')%> Found
+        <% stat_idx = current_entity.class.to_s == 'User' ? 2 : (current_entity.class.to_s == 'Classroom' ? 3 : 4) %>
+        <% if current_dashboards.size > 1 || (current_dashboards.first && current_dashboards.first.redash?)  ||
+             (current_dashboards.empty? && stats[stat_idx] > 0) || stats[0] < stats[stat_idx]%>
+          <div class="row submission_redash_needed">
+            Reset Dashboard Needed
+          </div>
+        <% end %>
+        <% if stats[0] > stats[stat_idx] %>
+          <div class="row submission_redash_needed">
+            Submissions Need To Be Dashboarded
+          </div>
+        <% end %>
       </div>
       <div class= "col-md-4">
         <div class="submission_pool_button">

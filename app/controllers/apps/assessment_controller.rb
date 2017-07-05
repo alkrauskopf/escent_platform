@@ -783,7 +783,7 @@ class Apps::AssessmentController < Apps::ApplicationController
   def destroy_pending
     initialize_parameters
     if @submission
-      @submission.destroy
+      @submission.destroy_it
     end
     @all_submitted_assessments = @classroom.act_submissions.for_teacher(@current_user)
     @pending_assessments = @all_submitted_assessments.select{|s|!s.is_final}.sort{ |a,b| b.created_at <=> a.created_at }

@@ -106,6 +106,14 @@ class IfaDashboard < ActiveRecord::Base
     where('act_subject_id = ? && period_end = ?', subject.id, period_end).first rescue nil
   end
 
+  def redash?
+    self.needs_redash
+  end
+
+  def redash_needed
+    self.update_attributes(:needs_redash => true)
+  end
+
   def cell_for(level, strand)
     self.ifa_dashboard_cells.for_range_and_strand(level, strand).empty? ? nil : self.ifa_dashboard_cells.for_range_and_strand(level, strand).first rescue nil
   end

@@ -71,7 +71,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     def destroy_pending
       get_current_submission
       if @current_submission
-        @current_submission.destroy
+        @current_submission.destroy_it
       end
       classroom_submissions
       render :partial => "/ifa/submission/teacher_review_pending"
@@ -122,17 +122,17 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
             end
             submission_failed = false
             if submission_failed
-              @current_submission.destroy
+              @current_submission.destroy_it
               flash[:error] = 'Assessment Destroyed'
             else
               flash[:notice] = 'Submitted'
             end
           else
-            @current_submission.destroy
+            @current_submission.destroy_it
             flash[:error] = 'Problem With Multiple Choice Logging Assessment Destroyed'
           end
         else
-          @current_submission.destroy
+          @current_submission.destroy_it
           flash[:error] = 'Problem With Short Answer Logging - Assessment Destroyed'
         end
       end

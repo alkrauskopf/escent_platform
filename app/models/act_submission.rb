@@ -97,6 +97,26 @@ class ActSubmission < ActiveRecord::Base
                         ]
   end
 
+  def dashboarded?(entity_class)
+    entity_class == 'User' ? self.is_user_dashboarded : (entity_class == 'Classroom' ? self.is_classroom_dashboarded : self.is_org_dashboarded)
+  end
+
+  def destroy_it
+    if self.dashboarded?('User')
+      db = self.user.ifa_dashboards.for_subject_period(self.act_subject, self.created_at)
+      db.redash_needed
+    end
+    if self.dashboarded?('Classroom')
+      db = self.classroom.ifa_dashboards.for_subject_period(self.act_subject, self.created_at)
+      db.redash_needed
+    end
+    if self.dashboarded?('Organization')
+      db = self.organization.ifa_dashboards.for_subject_period(self.act_subject, self.created_at)
+      db.redash_needed
+    end
+    self.destroy
+  end
+
   def subject
     self.act_subject
   end

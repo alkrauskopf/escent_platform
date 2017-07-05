@@ -26,7 +26,8 @@
   <div class="col-md-1"></div>
   <div class="col-md-10 ">
     <%= pluralize(@aggregate['assess_count'], ' Assessment') %> |
-    <%= pluralize(@aggregate['answer_count'], ' Answer Choice') %> |
+    <%= pluralize(@aggregate['answer_count'], ' Answer') %> |&nbsp;
+    <%= pluralize(number_with_precision(@aggregate['total_points'], :precision => 0), ' Point')%> |
     <%= @aggregate['proficiency']%>% Proficiency |
     <%= @aggregate['efficiency']%> Secs/Point
   </div>

@@ -14,7 +14,7 @@
       Your Last Assessment Was Taken <%= time_ago_in_words(@assessment['taken_time']).sub(/about /, '') + " ago" %>
     </div>
     <div class="row dashboard_title_3">
-      <%= pluralize(@assessment['answer_count'], ' Answer Choice') %> |
+      <%= pluralize(@assessment['answer_count'], ' Answer') %> |
       <%= pluralize(number_with_precision(@assessment['total_points'], :precision => 0), ' Point') %> |
       <%= pluralize(number_with_precision(@assessment['duration_minutes'], :precision => 1), ' Minute') %> |
       <%= @assessment['proficiency']%>% | <%= @assessment['efficiency']%> Secs/Point

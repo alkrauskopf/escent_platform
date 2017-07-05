@@ -85,7 +85,9 @@
         <tr>
           <td>
             <%= stats[0] %> Finalized<br/>
-            <%= stats[1] %> Calibrated
+            <%= stats[11] %>  Not Finalized<br/>
+            <%= stats[1] %> Calibrated</br>
+            Range: <%= stats[14] %> - <%= stats[15] %>
           </td>
           <td>
             <%= stats[2] %> User Dashboarded<br/>
@@ -93,9 +95,11 @@
             <%= stats[4] %> Organization Dashboarded<br/>
           </td>
           <td>
-            <%= number_with_precision(stats[5], :precision=>1) %> of <%= stats[6] %> Total<br/>
+            <%= number_with_precision(stats[12], :precision=>1) %> of <%= stats[13] %> Finalized<br/>
             <%= number_with_precision(stats[7], :precision=>1) %> of <%= stats[8] %> Calibrated<br/>
-            <%= number_with_precision((stats[9].to_f/60.0), :precision=>1) %> Duration (Min)
+            <%= number_with_precision(stats[5], :precision=>1) %> of <%= stats[6] %> Total<br/>
+            <%= number_with_precision((stats[9].to_f/60.0), :precision=>1) %> (Min) | <%= stats[9] %> (Sec)<br/>
+            <%= number_with_precision((stats[9].to_f/stats[5]), :precision=>0) %> Secs/Point
           </td>
           <td>
             <%= stats[10].map{|t| t.last_name}.join(', ') %>

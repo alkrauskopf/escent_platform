@@ -22,16 +22,16 @@
             <%= pluralize( dashboard.assessments_taken, ' Assessment')%> Taken
           </p>
           <p>
-            <%= pluralize( dashboard.finalized_assessments, ' Finalized Assessment')%>
+            <%= pluralize( dashboard.finalized_assessments, ' Assessment')%> Finalized
+          </p>
+          <p>
+            <%= dashboard.finalized_duration %> Duration (Secs)
           </p>
           <p>
             <%= pluralize( dashboard.calibrated_assessments, ' Calibrated Assessment')%>
           </p>
           <p>
-            <%= pluralize( dashboard.finalized_duration, ' Second') %> Duration
-          </p>
-          <p>
-            <%= pluralize( dashboard.calibrated_duration, ' Second') %> Duration Calibrated
+            <%= dashboard.calibrated_duration %> Cal Duration (Secs)
           </p>
         </div>
         <div class= "col-md-3">
@@ -39,19 +39,19 @@
             <%= pluralize( dashboard.finalized_answers, ' Answer')%>
           </p>
           <p>
-            <%= pluralize( dashboard.calibrated_answers, ' Calibrated Answer')%>
+            <%= number_with_precision(dashboard.fin_points, :precision => 1) %>&nbsp;&nbsp;Total Points
+          </p>
+          <p>
+            <%= pluralize( dashboard.calibrated_answers, '  Answer')%> (Cal)
+          </p>
+          <p>
+            <%= number_with_precision(dashboard.cal_points, :precision => 1) %>&nbsp;Points (Cal)
           </p>
           <p>
             <%= pluralize( dashboard.cal_submission_answers, ' Cal Assessment Answer')%>
           </p>
           <p>
-            <%= number_with_precision(dashboard.fin_points, :precision => 1) %>&nbsp;&nbsp;Total Points
-          </p>
-          <p>
-            <%= number_with_precision(dashboard.cal_points, :precision => 1) %>&nbsp;&nbsp;Calibrated Points
-          </p>
-          <p>
-            <%= number_with_precision(dashboard.cal_submission_points, :precision => 1) %>&nbsp;&nbsp;Points of Calibrated Assessment
+            <%= number_with_precision(dashboard.cal_submission_points, :precision => 1) %>&nbsp;Cal Assessment Points
           </p>
         </div>
         <div class= "col-md-2">

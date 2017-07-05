@@ -93,7 +93,12 @@ class ActSubmission < ActiveRecord::Base
                         submission_list.map{|s| s.cal_points}.sum,
                         submission_list.map{|s| s.cal_choices}.sum,
                         submission_list.map{|s| s.duration}.sum,
-                        submission_list.map{|s| s.teacher}.compact.uniq
+                        submission_list.map{|s| s.teacher}.compact.uniq,
+                        submission_list.select{|s| !s.is_final}.size,
+                        submission_list.map{|s| (s.is_final ? s.tot_points : 0)}.sum,
+                        submission_list.map{|s| (s.is_final ? s.tot_choices : 0)}.sum,
+                        submission_list.map{|s| (s.lower_score_bound.nil? ? 0 : s.lower_score_bound)}.min,
+                        submission_list.map{|s| (s.upper_score_bound.nil? ? 99999 : s.upper_score_bound)}.max
                         ]
   end
 

@@ -309,6 +309,27 @@
   padding-bottom:1em;
 }
 
+.ifa_modal_std {
+  margin:.5em 2em .5em 2em;
+  border:0px solid #ddd;
+  line-height: 1.5em;
+  color: $red_text;
+  font-weight: normal;
+  text-align: left;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+.ifa_modal_std_src {
+  padding-left: 1em;
+  text-decoration:none;
+  color: $red_text;
+  font-weight: normal;
+  text-align: left;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
 .ifa_container {
   width: 100%;
   margin: 0 auto;

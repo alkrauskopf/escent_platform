@@ -10,7 +10,8 @@
       <div class="col-md-1"></div>
       <div class="col-md-10 ">
         <%= pluralize(@dashboard['assess_count'], ' Assessment') %> |
-        <%= pluralize(@dashboard['answer_count'], ' Answer Choice') %> |
+        <%= pluralize(@dashboard['answer_count'], ' Answer') %> |
+        <%= pluralize(number_with_precision(@dashboard['total_points'], :precision => 0), ' Point')%> |
         <%= @dashboard['proficiency']%>% Proficiency |
         <%= @dashboard['efficiency']%> Secs/Point
       </div>

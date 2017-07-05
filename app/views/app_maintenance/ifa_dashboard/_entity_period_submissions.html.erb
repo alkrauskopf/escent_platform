@@ -24,6 +24,10 @@
               </span>
               &nbsp;<%= submission.final? ? 'Finalized' : 'Not Finalized' %><br/>
               <%= submission.assessment_name%><br/>
+              <%= pluralize(submission.tot_choices, ' Answer') %> |
+              <%= pluralize(number_with_precision(submission.tot_points, :precision => 0), ' Point') %> |
+              <%= pluralize(submission.cal_choices, ' Cal Answer') %> |
+              <%= pluralize(number_with_precision(submission.cal_points, :precision => 0), ' Cal Point') %><br/>
               <%= submission.standard_abbrev%>:&nbsp; <%= submission.lower_score_bound%>&nbsp;-&nbsp;<%= submission.upper_score_bound%>&nbsp;
               &nbsp;<%= submission.strand_string %><br/>
               Scored&nbsp;<%= number_with_precision(submission.tot_points, :precision => 1) %>&nbsp; Of <%=submission.tot_choices %>,&nbsp;<%= number_with_precision(submission.duration.to_f/60.0, :precision=>1)%> Minutes<br/>

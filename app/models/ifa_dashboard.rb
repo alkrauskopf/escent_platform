@@ -75,14 +75,6 @@ class IfaDashboard < ActiveRecord::Base
     self.organization.nil? ? 'No Organization' : self.organization.short_name
   end
 
-  def redashed?
-    self.is_replaced
-  end
-
-  def self.redashed
-    where("is_replaced", false).order('period_end').reverse
-  end
-
   def self.by_date
     order('period_end').reverse
   end

@@ -77,31 +77,18 @@
       <% end %>
 
       <div class="row ifa_milestone_edit_footer_row">
-          <div class="col-md-2"></div>
+          <div class="col-md-2">
+            <div class="row ifa_milestone_edit_button">
+              <div class="button_blue" id="milestone_update<%=milestone.public_id%>">
+                <%= 'Update' %>
+              </div>
+            </div>
+          </div>
           <div class="col-md-9">
             <p>My Plan</p>
             <%= text_area :description, milestone.public_id, :rows=>10, :cols => 70, :value => milestone.description,
                           :placeholder => 'Action Steps'%>
           </div>
-      </div>
-      <div class="row ifa_milestone_edit_footer_row">
-        <div class="col-md-2">
-          <div class="row ifa_milestone_edit_button">
-            <div class="button_blue" id="milestone_update<%=milestone.public_id%>">
-              <%= 'Update' %>
-            </div>
-          </div>
-          <div class="row ifa_milestone_edit_button">
-            <div class="button_orange" id="milestone_cancel_2<%=milestone.public_id%>">
-              <%= 'Cancel' %>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-9">
-          <p>My Evidence</p>
-          <%= text_area :evidence, milestone.public_id, :rows=>10, :cols => 70, :value => milestone.evidence,
-                        :placeholder => 'Growth Evidence '%>
-        </div>
       </div>
       <script type="text/javascript">
         jQ(document).ready(function() {

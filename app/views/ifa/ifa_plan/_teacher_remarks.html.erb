@@ -1,5 +1,5 @@
 <div id="plan_remarks_<%=plan.public_id%>">
-  <div class= "precision_prep_panel">
+  <div class= "precision_prep_green_panel">
     <div class="col-md-3">
       <% if !show_form && @current_user.teacher_for_org?(@current_organization)%>&nbsp;
         <span class="button_gray ifa_remark_button" id="show_remark_form_<%=plan.id%>">
@@ -7,21 +7,24 @@
         </span>
       <% end %>
     </div>
-    <div class="col-md-9 ifa_plan_header_label">
+    <div class="col-md-6 ifa_plan_header_label">
       <%= pluralize(remarks.size, ' Teacher Remark') %>
     </div>
+    <div class="col-md-3"></div>
   </div>
-  <% if show_form %>
-    <div>
-     <%= render :partial =>  "/ifa/ifa_plan/form_remark", :locals=>{:plan=> plan} %>
+  <div class="ifa_subject_plan_content">
+    <% if show_form %>
+      <div>
+       <%= render :partial =>  "/ifa/ifa_plan/form_remark", :locals=>{:plan=> plan} %>
+      </div>
+    <% else %>
+    <div class="ifa_plan_teacher_remarks">
+      <% remarks.each do |remark|%>
+        <%= render :partial =>  "/ifa/ifa_plan/teacher_show_remark", :locals=>{:remark => remark} %>
+      <% end %>
     </div>
-  <% else %>
-  <div class="ifa_plan_teacher_remarks">
-    <% remarks.each do |remark|%>
-      <%= render :partial =>  "/ifa/ifa_plan/teacher_show_remark", :locals=>{:remark => remark} %>
     <% end %>
   </div>
-  <% end %>
 </div>
 <script type="text/javascript">
   jQ(document).ready(function() {

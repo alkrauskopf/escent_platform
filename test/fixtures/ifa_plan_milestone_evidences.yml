@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ifa_plan_milestone_id: 1
+  name: MyString
+  description: MyText
+
+two:
+  ifa_plan_milestone_id: 1
+  name: MyString
+  description: MyText

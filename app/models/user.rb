@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
                     :styles => { :thumb => "118x166#", :med_thumb => "80x112#", :small_thumb => "50x50#" }
   validates_attachment :picture,
                        content_type: {content_type: ['image/gif', 'image/jpeg', 'image/png', 'image/pjpeg', 'image/x-png']}
-  validates_with AttachmentSizeValidator, attributes: :picture, less_than: 500.kilobytes
+  validates_with AttachmentSizeValidator, attributes: :picture, less_than: 2.megabytes
   validate :picture_width
   belongs_to :act_master
   belongs_to :organization, :foreign_key => "home_org_id" 
@@ -1326,7 +1326,7 @@ class User < ActiveRecord::Base
 #  IFA methods
 #
   def ifa_plan_subject(subject)
-    self.ifa_plans.for_subject(subject).last
+    self.ifa_plans.for_subject(subject).first
   end
 
   def show_ifa_plan_form?(subject)

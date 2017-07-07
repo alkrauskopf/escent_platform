@@ -3,7 +3,7 @@
     <div class="col-md-1"></div>
     <div class="col-md-10">
       <div class= 'panel_title_blue'>
-        NEW Stuff <%= @current_classroom.course_name.upcase  %> Review | <%= @current_user.full_name %>
+        <%= @current_classroom.course_name.upcase  %> Review | <%= @current_user.full_name %>
       </div>
     </div>
     <div class="col-md-1 ">
@@ -95,9 +95,9 @@
       <div class="col-md-1"></div>
     </div>
   </div>
-<script type="text/javascript" charset="utf-8">
-  jQ(document).ready(function(){
-    jQ('#control_panel').tabs();
-  });
-</script>
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function(){
+      jQ('#control_panel').tabs();
+    });
+  </script>
 </div>

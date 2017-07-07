@@ -59,43 +59,45 @@
     </div>
     <div class="col-md-1 "></div>
   </div>
-</div>
 
-<div id="control_panel" >
-  <ul>
-    <li>
-      <%  tab_1_label = " My Assessment Pool " %>
-      <a href="#tabs-1"><span class="tab_label">
-      <%= tab_1_label %></span></a>
-    </li>
-    <li>
-      <%  tab_2_label = " My Growth " %>
-      <a href="#tabs-2"><span class="tab_label">
-      <%= tab_2_label %></span></a>
-    </li>
-    <% ActSubject.plannable.each do |subj| %>
+  <div id="control_panel" >
+    <ul>
       <li>
-        <%  tab_2_label = 'My ' + subj.name + ' Plan' %>
-        <a href="#tabs-3<%= subj.id.to_s%>"><span class="tab_label">
+        <%  tab_1_label = " My Assessment Pool " %>
+        <a href="#tabs-1"><span class="tab_label">
+        <%= tab_1_label %></span></a>
+      </li>
+      <li>
+        <%  tab_2_label = " My Growth " %>
+        <a href="#tabs-2"><span class="tab_label">
         <%= tab_2_label %></span></a>
       </li>
-    <% end %>
-  </ul>
-  <div id="tabs-1" class="row">
-    <%= render :partial => "list_classroom_assessments"  -%>
-  </div>
-	<div id="tabs-2" class="row">
-    <%= render :partial => "your_growth"  -%>
-    <%#=    render :partial => "/ifa/ifa_dashboard/student_history", :locals=>{:subjects => @assessment_subjects} %>
-  </div>
-  <% ActSubject.plannable.each do |subj| %>
-    <div id="tabs-3<%= subj.id.to_s%>" class="row">
-      <%=    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => subj, :show_form => @current_user.show_ifa_plan_form?(subj)} %>
+      <% ActSubject.plannable.each do |subj| %>
+        <li>
+          <%  tab_2_label = 'My ' + subj.name + ' Plan' %>
+          <a href="#tabs-3<%= subj.id.to_s%>"><span class="tab_label">
+          <%= tab_2_label %></span></a>
+        </li>
+      <% end %>
+    </ul>
+    <div id="tabs-1" class="row">
+      <div class="col-md-12">
+        <%= render :partial => "list_classroom_assessments"  -%>
+      </div>
     </div>
-  <% end %>
-
-  <br style="clear:both" />
-
+    <div id="tabs-2" class="row">
+      <div class="col-md-12">
+        <%= render :partial => "your_growth"  -%>
+      </div>
+    </div>
+    <% ActSubject.plannable.each do |subj| %>
+      <div id="tabs-3<%= subj.id.to_s%>" class="row">
+        <div class="col-md-12">
+          <%= render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => subj, :show_form => @current_user.show_ifa_plan_form?(subj)} %>
+        </div>
+      </div>
+    <% end %>
+  </div>
   <script type="text/javascript" charset="utf-8">
     jQ(document).ready(function(){
       jQ('#control_panel').tabs();

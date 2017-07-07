@@ -31,6 +31,19 @@
   font-size:16px;
 }
 
+.ifa_subject_plan_box {
+  margin:0em 0em 0em 0em;
+  border:1px solid #ddd;
+  background-color: $panel_background_ifa;
+}
+.ifa_subject_plan_content {
+  padding:.5em 0em 1em 0em;
+}
+
+
+
+
+
 .assessment_container {
   width: 100%;
   margin: 0 auto;
@@ -383,8 +396,8 @@
 }
 
 .ifa_plan_teacher_remarks {
-  border-bottom:1px solid #ddd;
-  max-height: 15em;
+  border-bottom:0px solid #ddd;
+  max-height: 20em;
   overflow: scroll;
 }
 
@@ -417,9 +430,14 @@
   font-family: Verdana,Arial,Helvetica,sans-serif;
   font-size:15px;
 }
+.ifa_strand_box {
+  margin:0em 0em 0em 0em;
+  padding: 0em 0em 0em 0em;
+  border:3px solid #ddd;
+}
 .ifa_milestone_box {
-  margin:0em 1em 0em 1em;
-  padding: 3em 0em 3em 0em;
+  margin:0em 0em 0em 0em;
+  padding: 0em 0em 0em 0em;
   border-bottom:3px solid #000;
 }
 .ifa_milestone_data {
@@ -428,6 +446,9 @@
 }
 .ifa_milestone_panel {
   margin: .5em 0em 0em 0em;
+}
+.precision_milestone_panel {
+  @extend .panel-heading;
 }
 
 .ifa_milestone_panel_descript {
@@ -506,8 +527,15 @@
   padding:2em 0em .5em 3em;
 }
 
-.ifa_milestone_show_row {
+.ifa_milestone_show_header_row {
+  padding: .5em 0em 1.5em 0em;
   text-align:left;
+  border-bottom:0px solid #ddd;
+}
+.ifa_milestone_show_content_row {
+  padding: 0em 0em 2em 0em;
+  text-align:left;
+  border-bottom:3px dashed #000;
 }
 .ifa_milestone_show_time {
   padding:1em 0em .5em 3em;
@@ -517,31 +545,71 @@
 }
 
 .ifa_milestone_show_range {
-  padding:1em 0em .5em 3em;
+  padding:.5em 0em 0em 0em;
+  text-align:center;
   font-weight:bold;
   font-family: Verdana,Arial,Helvetica,sans-serif;
   color:$red_text;
-  font-size:13px;
+  font-size:17px;
 }
 
 .ifa_milestone_show_benchmarks {
-  padding:1em 0em 0em 3em;
+  padding:.5em 0em .5em 0em;
+  text-align:center;
+  text-weight:normal;
   font-family: Verdana,Arial,Helvetica,sans-serif;
-  text-decoration:underline;
   color:$blue_text;
-  font-size:14px;
+  font-size:13px;
 }
 
 .ifa_milestone_show_button {
-  padding:2em 0em .5em 3em;
+  padding:1em 0em .5em 2em;
 }
+
+.ifa_milestone_destroy_button {
+  float:right;
+  padding:1em 3em .5em 6em;
+}
+
 .ifa_milestone_achieved {
-  padding-left:4em;
+  padding: 1em 0em 0em 0em;
  }
+
+.ifa_milestone_achieved_date {
+  padding: 1em 0em 0em 1em;
+  color:$red_text;
+  font-size:14px;
+}
+
 .ifa_milestone_show_descript {
   padding:0em 0em 0em 0em;
+  font-weight:normal;
   color:$dark_text;
   font-size:14px;
+}
+.ifa_milestone_show_label {
+  padding:0em 0em 0em 1em;
+  text-align:left;
+  font-weight:bold;
+  font-size:15px;
+}
+.ifa_milestone_show_evidence {
+  padding:0em 0em 1em 0em;
+  font-weight:normal;
+  color:$dark_text;
+  font-size:16px;
+}
+.ifa_milestone_add_evidence_button {
+  padding:0em 0em 0em 3em;
+  font-weight:normal;
+  color:$dark_text;
+  font-size:16px;
+}
+.ifa_milestone_add_evidence_box {
+  font-weight:normal;
+  text-align:left;
+  color:$dark_text;
+  font-size:15px;
 }
 
 .ifa_plan_edit_box {
@@ -595,7 +663,7 @@
 }
 
 .ifa_plan_text {
-  margin: .5em 1em .5em 1em;
+  margin: 0em 1em .5em 0em;
   padding: 1em 1em 1em 1em;
   background-color:white;
   border:3px solid #ddd;
@@ -609,10 +677,10 @@
 }
 
 .ifa_plan_header_label {
-  padding:0em 2em 0em 2em;
-  text-align:right;
-  color:$light_text;
-  font-size:13px;
+  padding:.5em 0em 0em 0em;
+  text-align:center;
+  color:white;
+  font-size:14px;
   font-weight:bold;
 }
 

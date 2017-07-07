@@ -1,4 +1,4 @@
-<div id="strand_milestone<%=strand.public_id%>">
+<div id="strand_milestones<%=strand.public_id%>">
   <div class="precision_prep_panel "  style="color: <%= strand.strand_font%>; background-color:<%= strand.strand_background %>">
     <div class="row ifa_milestone_panel">
       <div class="col-md-2">
@@ -10,35 +10,36 @@
       </div>
       <div class="col-md-8">
         <%= pluralize(plan.strand_milestones(strand).size, ' Milestone')%> | <%= strand.name %>
-      <% if !strand.description.nil? && !strand.description.empty? %>
+        <% if !strand.description.nil? && !strand.description.empty? %>
           <div class="row ifa_milestone_panel_descript">
             <%= simple_format strand.description %>
           </div>
         <% end %>
       </div>
-      <div class="col-md-2 "> </div>
     </div>
   </div>
-  <% if new_milestone %>
-    <%= render :partial =>  "/ifa/ifa_plan/form_milestone", :locals=>{:milestone => new_milestone, :ranges => ranges}%>
-  <% else %>
-    <div class="row ">
+  <div class="precision_milestone_panel">
+    <% if new_milestone %>
+      <div class="row ">
+        <%= render :partial =>  "/ifa/ifa_plan/form_milestone", :locals=>{:milestone => new_milestone, :ranges => ranges}%>
+      </div>
+    <% else %>
       <% plan.strand_milestones(strand).each do |milestone| %>
-        <div class="ifa_milestone_box">
-          <%= render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => milestone}%>
+        <div class="ifa_milestone_show_content_row">
+          <%= render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => milestone, :evidence_form => 'No'}%>
         </div>
-      <% end %>
-    </div>
-  <% end %>
+        <% end %>
+    <% end %>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ('#create_milestone_<%=strand.id%>').click(function() {
+        var url = "<%= ifa_milestone_create_url(:organization_id => @current_organization, :act_standard_id => strand.public_id, :ifa_plan_id => plan.public_id) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#strand_milestones<%=strand.public_id%>").html(data);
+          jQ("#strand_milestones<%=strand.public_id%>").show();
+        });
+      })
+    });
+  </script>
+  </div>
 </div>
-<script type="text/javascript">
-  jQ(document).ready(function() {
-    jQ('#create_milestone_<%=strand.id%>').click(function() {
-      var url = "<%= ifa_milestone_create_url(:organization_id => @current_organization, :act_standard_id => strand.public_id, :ifa_plan_id => plan.public_id) %>";
-      jQ.get(url, {}, function(data) {
-        jQ("#strand_milestone<%=strand.public_id%>").html(data);
-        jQ("#strand_milestone<%=strand.public_id%>").show();
-      });
-    })
-  });
-</script>

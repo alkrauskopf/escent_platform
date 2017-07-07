@@ -477,6 +477,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/remark/destroy' => 'ifa/ifa_plan#plan_teacher_remark_destroy' #  ifa_remark_destroy_url
   get '/ifa/remark/show/form' => 'ifa/ifa_plan#remark_show_form' #  ifa_remark_show_form_url
   get '/ifa/plan/student/cell/data' => 'ifa/ifa_plan#student_cell_data' #  ifa_plan_student_cell_data_path
+  get '/ifa/milestone/evidence/form' => 'ifa/ifa_plan#show_evidence_form' #  ifa_milestone_evidence_form_url
+  get '/ifa/plan/student/evidence/show' => 'ifa/ifa_plan#student_attachments' #  ifa_plan_student_evidence_show_path
 
   get '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path
   post '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path

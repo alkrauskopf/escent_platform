@@ -1,11 +1,11 @@
-class Ifa::IfaPlanController < ApplicationController
+class Ifa::IfaPlanController < Ifa::ApplicationController
 #  helper :all # include all helpers, all the time
 
-  before_filter :set_ifa, :except=>[]
-  before_filter :current_app_enabled_for_current_org?, :except=>[]
+ # before_filter :set_ifa, :except=>[]
+ # before_filter :current_app_enabled_for_current_org?, :except=>[]
   before_filter :current_user_app_authorized?, :only=>[:index]
   before_filter :current_user_app_admin?, :only=>[]
-  before_filter :current_ifa_options
+ # before_filter :current_ifa_options
   before_filter :current_app_superuser, :only=>[:index]
   before_filter :clear_notification, :except => [:take_assessment]
   before_filter :increment_app_views, :only=>[:index]
@@ -70,7 +70,9 @@ class Ifa::IfaPlanController < ApplicationController
     set_plan
     set_strand
     if @user_plan && @strand
-      @user_plan.ifa_plan_milestones << IfaPlanMilestone.create(:act_standard_id=>@strand.id)
+      new_milestone = IfaPlanMilestone.new(:act_standard_id=>@strand.id)
+      new_milestone.achieve_date = Time.now
+      @user_plan.ifa_plan_milestones << new_milestone
     end
     @milestone = @user_plan.ifa_plan_milestones.last
     benchmarks_improvements
@@ -120,7 +122,7 @@ class Ifa::IfaPlanController < ApplicationController
 
   def milestone_achieve_toggle
     set_milestone
-    @milestone.update_attributes(:is_achieved=>!@milestone.is_achieved)
+    @milestone.update_attributes(:is_achieved=>!@milestone.is_achieved, :achieve_date => Time.now)
     render :partial =>  "/ifa/ifa_plan/teacher_show_milestone", :locals=>{:milestone => @milestone}
   end
 
@@ -180,7 +182,17 @@ class Ifa::IfaPlanController < ApplicationController
     @assessments = @student.assessments_taken(:subject=>@strand.subject_area)
   end
 
+  def show_evidence_form
+    current_milestone
+    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'Yes'}
+  end
+
   private
+
+
+  def current_milestone
+    @current_milestone = IfaPlanMilestone.find_by_id(params[:ifa_plan_milestone_id])
+  end
 
   def set_subject
     @subject = ActSubject.find(params[:subject_id]) rescue nil

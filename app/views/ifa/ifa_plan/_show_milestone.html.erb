@@ -20,7 +20,7 @@
     </div>
     <div class="col-md-6 ">
       <div class="ifa_milestone_show_range">
-        Milestone <%= milestone.strand.abbrev %> &nbsp;<%= !milestone.range.nil? ? milestone.range.range : '' %>
+        Milestone for <%= milestone.strand.abbrev %> &nbsp;<%= !milestone.range.nil? ? milestone.range.range : '' %>
       </div>
       <div class="ifa_milestone_show_benchmarks">
         <% if !benchmarks(milestone.strand, milestone.range, milestone.standard).empty? %>
@@ -57,7 +57,7 @@
       <% if !milestone.achieved?%>
         <div class="ifa_milestone_show_button">
           <span class="button_blue" id="milestone_show_change<%=milestone.public_id%>">
-            <%= 'Update Plan' %>
+            <%= 'Change Plan Info' %>
           </span>
         </div>
       <% end %>
@@ -69,12 +69,11 @@
       </div>
       </div>
   </div>
-  <hr>
   <div class="ifa_milestone_show_evidence">
-    <% if !milestone.achieved? && evidence_form == 'Yes' %>
-      Display Form
+    <% if @current_evidence %>
+    <%#= render :partial => "show_milestone_evidence", :locals => {} %>
     <% else %>
-      <div class="row ifa_milestone_show_evidence ">
+      <div class="row ifa_milestone_show_evidence_row ">
         <div class=" col-md-2"></div>
         <div class=" col-md-7">
           <div id="student_assessments<%=milestone.id%>">
@@ -92,19 +91,15 @@
         <div class=" col-md-2 ">
           <% if !milestone.achieved?%>
             <div class="ifa_milestone_add_evidence_button">
-              <span class="button_gray" id="milestone_evidence_add<%=milestone.public_id%>">
-                <%= 'Add Evidence' %>
+              <span  id="milestone_evidence_add<%#=milestone.public_id%>">
+                <%= link_to 'Add Evidence', ifa_milestone_evidence_edit_path(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id), {:class=>"button_gray", :target=> '_blank'} %>
               </span>
             </div>
           <% end %>
         </div>
         <div class="col-md-9">
           <div class='ifa_milestone_add_evidence_box'>
-            <% if milestone.evidences.empty? %>
-              No Evidence Attachments
-            <% else %>
-              Render Table List
-            <% end %>
+            <%= render :partial => "/ifa/ifa_plan/evidence_list", :locals => {:milestone => milestone} %>
           </div>
         </div>
         <div class="col-md-1"></div>

@@ -40,9 +40,9 @@
   padding:.5em 0em 1em 0em;
 }
 
-
-
-
+.pool_check_box {
+  padding:1.5em 0em .5em 0em;
+}
 
 .assessment_container {
   width: 100%;
@@ -535,7 +535,7 @@
 .ifa_milestone_show_content_row {
   padding: 0em 0em 2em 0em;
   text-align:left;
-  border-bottom:3px dashed #000;
+  border-bottom:7px solid $blue_panel;
 }
 .ifa_milestone_show_time {
   padding:1em 0em .5em 3em;
@@ -590,17 +590,23 @@
 .ifa_milestone_show_label {
   padding:0em 0em 0em 1em;
   text-align:left;
-  font-weight:bold;
+  font-weight:normal;
   font-size:15px;
 }
 .ifa_milestone_show_evidence {
+  padding:1em 0em 1em 0em;
+  font-weight:normal;
+  color:$dark_text;
+  font-size:16px;
+}
+.ifa_milestone_show_evidence_row {
   padding:0em 0em 1em 0em;
   font-weight:normal;
   color:$dark_text;
   font-size:16px;
 }
 .ifa_milestone_add_evidence_button {
-  padding:0em 0em 0em 3em;
+  padding:1.5em 0em 0em 3em;
   font-weight:normal;
   color:$dark_text;
   font-size:16px;
@@ -610,6 +616,28 @@
   text-align:left;
   color:$dark_text;
   font-size:15px;
+}
+.ifa_milestone_evidence_edit_box {
+    margin: .5em 0em .5em 0em;
+    padding: 1em 1em 1em 4em;
+    background-color:$panel_background_ifa;
+    border:3px solid #ddd;
+    line-height:1.75em;
+    border-radius: 10px;
+    color:$red_text;
+    text-align:left;
+    word-wrap: break-word;
+    font-weight:normal;
+    font-size:16px;
+  }
+.ifa_milestone_evidence_edit_box .name {
+  text-align:right;
+  padding-right:1em;
+}
+.ifa_milestone_evidence_edit_row {
+  margin: 0em 0em 0em 0em;
+  padding: 1.5em 0em .5em 0em;
+  font-size: 15px;
 }
 
 .ifa_plan_edit_box {
@@ -963,4 +991,44 @@ font-weight:normal;
   font-size:12px;
   font-weight:bold;
   color:$red_text;
+}
+
+.milestone_evidence_list_header {
+  padding:1em 0em .5em 2em;
+  font-weight:normal;
+  color:$dark_text;
+  font-size:15px;
+}
+.milestone_evidence_list_refresh {
+  padding:1.5em 0em .5em 0em;
+  font-weight:normal;
+  color:$dark_text;
+  font-size:10px;
+}
+
+.milestone_evidence_list {
+  color:$blue_text;
+}
+.milestone_evidence_list .name {
+  color:$blue_text;
+  line-height:1.5em;
+  font-weight:normal;
+  text-align:left;
+  font-family:Georgia, "Times New Roman", Times, serif;
+  font-size:16px;
+}
+.milestone_evidence_list .type {
+  color:$blue_text;
+  line-height:1.5em;
+  font-weight:bold;
+  text-align:center;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size:13px;
+}
+.milestone_evidence_list .function {
+  color:$dark_text;
+  font-weight:normal;
+  text-align:center;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size:13px;
 }

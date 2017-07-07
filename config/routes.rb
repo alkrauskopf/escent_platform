@@ -477,8 +477,13 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/remark/destroy' => 'ifa/ifa_plan#plan_teacher_remark_destroy' #  ifa_remark_destroy_url
   get '/ifa/remark/show/form' => 'ifa/ifa_plan#remark_show_form' #  ifa_remark_show_form_url
   get '/ifa/plan/student/cell/data' => 'ifa/ifa_plan#student_cell_data' #  ifa_plan_student_cell_data_path
-  get '/ifa/milestone/evidence/form' => 'ifa/ifa_plan#show_evidence_form' #  ifa_milestone_evidence_form_url
-  get '/ifa/plan/student/evidence/show' => 'ifa/ifa_plan#student_attachments' #  ifa_plan_student_evidence_show_path
+  get '/ifa/milestone/evidence/form' => 'ifa/ifa_plan#evidence_form' #  ifa_milestone_evidence_form_url
+  get '/ifa/milestone/evidence/cancel' => 'ifa/ifa_plan#evidence_cancel' #  ifa_milestone_evidence_cancel_url
+  get '/ifa/milestone/evidence/updatex' => 'ifa/ifa_plan#evidence_updatex' #  ifa_milestone_evidence_update_url
+  get '/ifa/milestone/evidence/edit' => 'ifa/ifa_plan#evidence_edit' #  ifa_milestone_evidence_edit_path
+  post '/ifa/milestone/evidence/update' => 'ifa/ifa_plan#evidence_update' #  ifa_milestone_evidence_update_path
+  get '/ifa/milestone/evidence/show' => 'ifa/ifa_plan#evidence_show' #  ifa_milestone_evidence_show_path
+  get '/ifa/milestone/evidence/list' => 'ifa/ifa_plan#evidence_list' #  ifa_milestone_evidence_list_path
 
   get '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path
   post '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path

@@ -1,77 +1,78 @@
 <div id="plan_milestone_evidence<%=milestone.id%>">
-      <div class="row ifa_plan_edit_row">
-        <div class="edit_label">
-          Add Evidence of Your <%= milestone.strand.abbrev %> &nbsp;<%= !milestone.range.nil? ? milestone.range.range : '' %> Growth
-        </div>
-        <div class="explain">
-          You can attach files:  Pictures or PDF documents.<br/>
-          Or<br/>
-          You add Text, Links, and Video Streams in the text-box below.
-        </div>
+  <% milestone_label = milestone.strand.abbrev + (!milestone.range.nil? ? (' ' + milestone.range.range) : '') %>
+  <div class= 'row panel_title_blue'>
+    Add Evidence of Your <%= milestone_label %> Growth
+  </div>
+  <hr>
+  <div class="row">
+    <%= render :partial => "/shared/error_and_notice" %>
+  </div>
+  <%= form_for(:ifa_plan_milestone_evidence, :url => ifa_milestone_evidence_update_path(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id,
+                                                                                        :ifa_plan_milestone_evidence_id => @current_evidence.id, :function => function), :html => {:multipart => true}) do |form| -%>
+    <div class="row ifa_milestone_evidence_edit_box">
+      <div class="col-md-2 name">
+        Dear <%= @current_user.first_name %>:
       </div>
-      <div class="row ifa_plan_text_box">
-        <%= file_field_tag '_question[question_image]' %>
+      <div class="col-md-10 ">
+        Upload a Picture or PDF evidence of your <%= milestone_label %> growth.<br/>
+        Or, Add Text, Links, and Video Streams in the Text-box.<br/>
+        Then, close this browser window when you're done.
       </div>
-      <div class="row ifa_plan_text_box">
-        <%= text_area :ifa_milestone, milestone.id, :class =>"tinymce", :rows => 5, :cols => 70, :placeholder => 'Formulate Question', :value => @current_question.question  %>
+      <div class="col-md-1"></div>
+    </div>
+    <div class="row ifa_milestone_evidence_edit_row">
+      <div class="col-md-2">
+        Title:
+      </div>
+      <div class="col-md-9">
+        <%= text_field :ifa_plan_milestone_evidence, :name, :size => 40, :placeholder => 'Required', :value => @current_evidence.name  %>
+      </div>
+    </div>
+    <div class="row ifa_milestone_evidence_edit_row">
+      <div class="col-md-2">
+        Explanation:
+      </div>
+      <% placeholder = 'Please explain why this is evidence of your ' + milestone_label + ' growth.' %>
+      <div class="col-md-9">
+        <%= text_area :ifa_plan_milestone_evidence, :explanation, :rows => 5, :cols => 70, :placeholder => placeholder, :value => @current_evidence.explanation  %>
+      </div>
+    </div>
+    <div class="row ifa_milestone_evidence_edit_row">
+      <div class="col-md-2">
+        Picture or PDF<br/>
+        (< 7meg)
+      </div>
+      <div class="col-md-3">
+        <%= file_field_tag 'ifa_plan_milestone_evidence[evidence]', :value => @current_evidence.evidence %>
+      </div>
+      <% if @current_evidence.evidence.present? %>
+        <div class="col-md-2">
+          <%= @current_evidence.attachment_type == 'Image' ? (image_tag @current_evidence.evidence(:small_thumb)) : @current_evidence.attachment_type %>
+        </div>
+        <div class=" col-md-4 pool_check_box">
+          <%= check_box :attachment, :delete %>&nbsp;&nbsp;Remove Attachment
+        </div>
+      <% end %>
+    </div>
+    <div class="row ifa_milestone_evidence_edit_row">
+      <div class="col-md-2">
+        Text,<br/>
+        Links,<br>
+        Video Streams
+      </div>
+      <div class="col-md-9">
+        <%= text_area :ifa_plan_milestone_evidence, :documentation, :class =>"tinymce", :rows => 5, :cols => 70, :value => @current_evidence.documentation  %>
         <%= tinymce %>
       </div>
-      <div class="row ifa_plan_text_box">
-        <div class="col-md-2"></div>
-        <div class="col-md-10">
-          <%= text_area :needs, plan.public_id, :rows=>10, :cols => 60, :value => plan.needs%>
-        </div>
+    </div>
+    <div class="row ifa_milestone_evidence_edit_row">
+      <div class="col-md-2">
+        <%= @current_evidence.content_type %>
       </div>
-      <hr>
-      <div class="row ifa_plan_edit_row">
-        <div class="edit_label">
-          Your <%=plan.act_subject.name %> Goals
-        </div>
-        <div class="explain">
-          In the coming year, what do you hope to master in <%=plan.act_subject.name %>? Be as specific as possible.
-        </div>
+      <div class="col-md-9">
+        <%= form.submit function + ' Evidence', :class =>"button_blue" %>
       </div>
-      <div class="row ifa_plan_text_box">
-        <div class="col-md-2"></div>
-        <div class="col-md-10">
-          <%= text_area :goals, plan.public_id, :rows=>10, :cols => 60, :value => plan.goals%>
-        </div>
-      </div>
-      <div class="row ifa_plan_edit_row">
-        <div class="col-md-2 label">
-          <span class="button_blue" id="plan_update<%=plan.id%>">
-            <%= 'Update' %>
-          </span>
-        </div>
-        <div class="col-md-8 ifa_edit_text"></div>
-        <div class="col-md-2 label">
-          <span class="button_orange" id="plan_cancel<%=plan.id%>">
-            Cancel
-          </span>
-        </div>
-      </div>
-  <script type="text/javascript">
-    jQ(document).ready(function() {
-      jQ("#plan_cancel<%=plan.id%>").click(function(){
-        var url = "<%= ifa_plan_update_cancel_url(:organization_id => @current_organization, :act_subject_id => plan.act_subject) %>";
-          jQ.get(url, {}, function(data) {
-            jQ("#manage_plan_<%=plan.act_subject.public_id%>").html(data);
-            jQ("#manage_plan_<%=plan.act_subject.public_id%>").show();
-          });
-        })
-      });
-  </script>
-  <script type="text/javascript">
-    jQ(document).ready(function() {
-      jQ("#plan_update<%=plan.id%>").click(function(){
-        var needs = jQ("#needs_<%=plan.public_id%>").val();
-        var goals = jQ("#goals_<%=plan.public_id%>").val();
-        var url = "<%= ifa_plan_update_url(:organization_id => @current_organization, :ifa_plan_id => plan.public_id) %>";
-        jQ.get(url, {'needs':needs, 'goals':goals}, function(data) {
-          jQ("#manage_plan_<%=plan.act_subject.public_id%>").html(data);
-          jQ("#manage_plan_<%=plan.act_subject.public_id%>").show();
-        });
-      })
-    });
-  </script>
+    </div>
+  <% end %>
+  <hr>
 </div>

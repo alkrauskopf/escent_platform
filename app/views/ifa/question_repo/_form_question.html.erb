@@ -57,7 +57,7 @@
         </div>
         <div class="col-md-3 repo_label_field">
           <% if @current_question.question_image.present? %>
-            <%= image_tag @current_question.question_image(:assessment) %>
+            <%= image_tag @current_question.question_image(:small_thumb) %>
           <% end %>
         </div>
       </div>

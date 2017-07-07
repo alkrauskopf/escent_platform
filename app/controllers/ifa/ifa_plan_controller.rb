@@ -1,6 +1,8 @@
 class Ifa::IfaPlanController < Ifa::ApplicationController
 #  helper :all # include all helpers, all the time
 
+  layout "ifa_submission", :only=>[:evidence_edit, :evidence_update]
+
  # before_filter :set_ifa, :except=>[]
  # before_filter :current_app_enabled_for_current_org?, :except=>[]
   before_filter :current_user_app_authorized?, :only=>[:index]
@@ -83,6 +85,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
 
   def milestone_change
     set_milestone
+    byebug
     benchmarks_improvements
     render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@milestone.plan, :strand => @milestone.strand,
                                                                      :new_milestone => @milestone,
@@ -182,13 +185,108 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     @assessments = @student.assessments_taken(:subject=>@strand.subject_area)
   end
 
-  def show_evidence_form
+  def evidence_form
     current_milestone
-    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'Yes'}
+    current_evidence
+    if @current_evidence.nil?
+      @current_evidence = IfaPlanMilestoneEvidence.new
+      evidence = 'New'
+    else
+      evidence = 'Edit'
+    end
+    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => evidence}
+  end
+
+  def evidence_cancel
+    current_milestone
+    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'No'}
+  end
+
+  def evidence_edit
+    current_milestone
+    current_evidence
+    if @current_evidence.nil?
+      @current_evidence = IfaPlanMilestoneEvidence.new
+      @function = 'New'
+    else
+      @function = 'Edit'
+    end
+  end
+
+  def evidence_update
+    current_milestone
+    if evidence_update_function == 'New'
+      new_evidence
+      if @current_milestone.evidences << @current_evidence
+        flash[:notice] = 'Evidence Saved | Add Another'
+        @current_evidence = IfaPlanMilestoneEvidence.new
+      else
+        flash[:error] = @current_evidence.errors.full_messages.to_sentence
+      end
+    else
+      current_evidence
+      update_evidence
+    end
+    @function = evidence_update_function
+    render 'evidence_edit'
+  end
+
+  def evidence_show
+    current_evidence
+    current_milestone
+    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'No'}
+  end
+
+  def evidence_list
+    current_milestone
+    render :partial => "/ifa/ifa_plan/evidence_list", :locals => {:milestone => @current_milestone}
+  end
+
+  def evidence_updatex
+    current_milestone
+    #NEED TO Fgure out how to do Form in Partial
+    current_evidence
+    if @current_evidence.nil?
+      @current_evidence = IfaPlanMilestoneEvidence.new
+      evidence = 'New'
+    else
+      evidence = 'Edit'
+    end
+    render :partial => "form_milestone_evidence", :locals => {:milestone => @current_milestone, :function => evidence}
   end
 
   private
 
+  def new_evidence
+    @current_evidence = IfaPlanMilestoneEvidence.new
+    @current_evidence.name = params[:ifa_plan_milestone_evidence][:name]
+    @current_evidence.explanation = params[:ifa_plan_milestone_evidence][:explanation]
+    @current_evidence.documentation = params[:ifa_plan_milestone_evidence][:documentation]
+    @current_evidence.evidence = params[:ifa_plan_milestone_evidence][:evidence]
+  end
+  def update_evidence
+    new_attach = params[:ifa_plan_milestone_evidence][:evidence] ? params[:ifa_plan_milestone_evidence][:evidence] : @current_evidence.evidence
+    if (params[:attachment] && params[:attachment][:delete] == '1')
+      new_attach = nil
+    end
+    if @current_evidence.update_attributes(:name => params[:ifa_plan_milestone_evidence][:name],
+                                       :explanation => params[:ifa_plan_milestone_evidence][:explanation],
+                                       :documentation => params[:ifa_plan_milestone_evidence][:documentation],
+                                       :evidence => new_attach)
+      flash[:notice] = 'Evidence Updated'
+    else
+      flash[:error] = @current_evidence.errors.full_messages.to_sentence
+    end
+
+  end
+
+  def evidence_update_function
+    params[:function]
+  end
+
+  def current_evidence
+    @current_evidence = IfaPlanMilestoneEvidence.find_by_id(params[:ifa_plan_milestone_evidence_id]) rescue nil
+  end
 
   def current_milestone
     @current_milestone = IfaPlanMilestone.find_by_id(params[:ifa_plan_milestone_id])

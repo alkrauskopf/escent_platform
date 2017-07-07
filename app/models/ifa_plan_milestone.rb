@@ -18,6 +18,10 @@ class IfaPlanMilestone < ActiveRecord::Base
     where('is_achieved').order('updated_at DESC')
   end
 
+  def evidence_by_date
+    self.evidences.by_date
+  end
+
   def self.not_achieved
     where('is_achieved = ?', false).order('updated_at DESC')
   end

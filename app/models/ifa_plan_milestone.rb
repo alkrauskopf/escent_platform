@@ -10,6 +10,10 @@ class IfaPlanMilestone < ActiveRecord::Base
   has_one :student, :through => :ifa_plan, :source=>:user
   has_many :evidences, :class_name => IfaPlanMilestoneEvidence
 
+  def name
+    name = (self.strand.nil? ? 'No Strand' : self.strand.abbrev) + ' ' + (self.range.nil? ? 'No Levle' : self.range.range)
+  end
+
   def achieved?
     self.is_achieved
   end

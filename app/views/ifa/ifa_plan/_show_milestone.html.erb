@@ -20,7 +20,7 @@
     </div>
     <div class="col-md-6 ">
       <div class="ifa_milestone_show_range">
-        Milestone for <%= milestone.strand.abbrev %> &nbsp;<%= !milestone.range.nil? ? milestone.range.range : '' %>
+        Milestone for <%= milestone.name %>
       </div>
       <div class="ifa_milestone_show_benchmarks">
         <% if !benchmarks(milestone.strand, milestone.range, milestone.standard).empty? %>

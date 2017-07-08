@@ -1,11 +1,9 @@
 <div id="evidence_list_<%=milestone.id%>">
   <div class="row">
-    <div class="col-md-4 milestone_evidence_list_header">
+    <div class="col-md-7 milestone_evidence_list_header">
       <%= pluralize(milestone.evidences.size, ' Evidence Attachment') %>
-    </div>
-    <div class="col-md-7 milestone_evidence_list_refresh">
       <% if !milestone.achieved? %>
-        <span class="button_gray" id="evidence_refresh_<%=milestone.id%>">
+        <span class="evidence_refresh" id="evidence_refresh_<%=milestone.id%>">
           Refresh List
         </span>
       <% end %>
@@ -14,22 +12,42 @@
   <% milestone.evidence_by_date.each do |evidence| %>
     <div class="ifa_plan_text">
       <div class="row milestone_evidence_list">
-        <div class= "col-md-9 name">
-          <%= evidence.name %>&nbsp;<%=evidence.content_type%><br/>
-          <span class="type">
-            <%= evidence.content_type %>
-          </span>
-        </div>
-        <div class= "col-md-1 function">
-          <span class="button_gray" id="evidence_show_<%=evidence.id%>">
-            <%= 'View' %>
-          </span>
-        </div>
-        <div class= "col-md-1 function">
-          <% if evidence.updateable?(@current_user) %>
-              <%= link_to 'Change', ifa_milestone_evidence_edit_path(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id,
-                                                                     :ifa_plan_milestone_evidence_id => evidence.id), {:class => "button_gray", :target=> '_blank'} %>
+        <div class= "col-md-8 name">
+          <%= evidence.name.titleize %>
+          <% if !evidence.explanation.nil? && !evidence.explanation.empty? %>
+            <br/>
+            <span class="explanation">
+              <%= evidence.explanation %>
+            </span>
           <% end %>
+        </div>
+        <div class= "col-md-3">
+          <div class="row">
+            <div class= "col-md-6">
+              <div class="function">
+                <% if evidence.updateable?(@current_user) %>
+                    <%= link_to 'Change', ifa_milestone_evidence_edit_path(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id,
+                                                                           :ifa_plan_milestone_evidence_id => evidence.id), {:class => "button_gray", :target=> '_blank'} %>
+                <% end %>
+              </div>
+            </div>
+            <div class= "col-md-6">
+              <% if evidence.html? %>
+                <div class="function">
+                  <%= link_to 'View', ifa_milestone_evidence_show_html_path(:organization_id => @current_organization, :ifa_plan_milestone_evidence_id => evidence.id), {:class => "button_gray", :target=> '_blank'} %>
+                </div>
+              <% elsif evidence.image? || evidence.pdf? %>
+                <div class="function">
+                  <a href="<%= evidence.evidence %>" target="_blank">
+                    <span class="button_gray">View</span></a>
+                </div>
+              <% else %>
+                <div class="function">
+                  - No Info -
+                </div>
+              <% end %>
+            </div>
+          </div>
         </div>
       </div>
       <script type="text/javascript">

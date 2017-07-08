@@ -1005,6 +1005,14 @@ font-weight:normal;
   color:$dark_text;
   font-size:10px;
 }
+.evidence_refresh {
+  padding:0em 0em 0em 1em;
+  cursor:pointer;
+  font-weight:normal;
+  text-decoration:underline;
+  color:$blue_text;
+  font-size:10px;
+}
 
 .milestone_evidence_list {
   color:$blue_text;
@@ -1015,7 +1023,17 @@ font-weight:normal;
   font-weight:normal;
   text-align:left;
   font-family:Georgia, "Times New Roman", Times, serif;
-  font-size:16px;
+  font-size:18px;
+}
+.milestone_evidence_list .explanation {
+  color:$blue_text;
+  line-height:1.25em;
+  font-style: italic;
+  font-weight:normal;
+  color:$dark_text;
+  text-align:left;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size:14px;
 }
 .milestone_evidence_list .type {
   color:$blue_text;
@@ -1026,9 +1044,72 @@ font-weight:normal;
   font-size:13px;
 }
 .milestone_evidence_list .function {
+  padding:0em 0em .5em .5em;
   color:$dark_text;
   font-weight:normal;
   text-align:center;
   font-family: Verdana,Arial,Helvetica,sans-serif;
   font-size:13px;
+}
+.evidence_display_box {
+  margin: 2em 0em 2em 0em;
+  padding: 1em 3em 3em 3em;
+  border:3px solid #000;
+  border-radius: 10px;
+}
+.evidence_display_box .attachment_box {
+  padding: 2em 5em 0em 5em;
+}
+
+.evidence_image {
+  border:3px solid #ddd;
+  margin:2em 0em 2em 0em;
+  padding:1em 1em 1em 1em;
+  text-align:center;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.evidence_pdf {
+  border:0px solid #ddd;
+  margin:2em 0em 2em 0em;
+  padding:1em 1em 1em 1em;
+  text-align:center;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.evidence_pdf_button {
+  padding:.5em .5em .5em .5em;
+  font-weight:bold;
+  font-size:14px;
+}
+.evidence_header_ctr {
+  padding:2em 0em 0em 0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:bold;
+  font-size:20px;
+  color:$dark_text;
+}
+
+.evidence_subheader_ctr {
+  padding:0em 0em 0em 0em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:bold;
+  font-size:16px;
+  color:$blue_text;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+}
+.evidence_subheader_exp {
+  padding:1em 5em 1em 5em;
+  word-wrap:break-word;
+  text-align:left;
+  font-weight:normal;
+  font-style: italic;
+  font-size:14px;
+  color:$blue_text;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+}
+.evidence_documentation_box {
+  margin: 0em 0em 2em 0em;
+  padding: 5em 5em 5em 5em;
+  border-top:3px solid #000;
 }

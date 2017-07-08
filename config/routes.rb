@@ -484,6 +484,7 @@ EscentPartners::Application.routes.draw do |map|
   post '/ifa/milestone/evidence/update' => 'ifa/ifa_plan#evidence_update' #  ifa_milestone_evidence_update_path
   get '/ifa/milestone/evidence/show' => 'ifa/ifa_plan#evidence_show' #  ifa_milestone_evidence_show_path
   get '/ifa/milestone/evidence/list' => 'ifa/ifa_plan#evidence_list' #  ifa_milestone_evidence_list_path
+  get '/ifa/milestone/evidence/show/html' => 'ifa/ifa_plan#show_html' #  ifa_milestone_evidence_show_html_path
 
   get '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path
   post '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path

@@ -1,0 +1,64 @@
+<div id="show_html">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class= "evidence_header_ctr">
+        <%= @current_evidence.student.nil? ? 'Former Student': @current_evidence.student.full_name %> Evidence For
+        <%= @current_evidence.milestone.nil? ? 'No Milestone' : @current_evidence.milestone.name %>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class= "evidence_subheader_ctr">
+        <%= @current_evidence.name %>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <% if @current_evidence.explanation? %>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class= "evidence_subheader_exp">
+        <%= @current_evidence.explanation %>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <% end %>
+  <hr>
+  <div class="row">
+    <div class="col-md-1" ></div>
+    <div class="col-md-10 evidence_display_box">
+
+      <% if @current_evidence.attachment_type == 'Image' %>
+          <div class="row attachment_box">
+            <div class="evidence_image">
+              <img src="<%= @current_evidence.evidence %>" width= '100%' />
+            </div>
+            <hr>
+          </div>
+      <% elsif @current_evidence.attachment_type == 'PDF' %>
+          <div class="row attachment_box">
+            <div class="evidence_pdf">
+              <a href="<%= @current_evidence.evidence %>" target="_blank">
+                <span class="button_green evidence_pdf_button">View Attached PDF</span></a>
+            </div>
+            <hr>
+          </div>
+      <% end %>
+
+      <div class="row attachment_box">
+          <%= @current_evidence.documentation.html_safe %>
+      </div>
+
+    </div>
+    <div class="col-md-1" ></div>
+  </div>
+
+  <hr>
+</div>

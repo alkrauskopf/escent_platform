@@ -242,6 +242,11 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     render :partial => "/ifa/ifa_plan/evidence_list", :locals => {:milestone => @current_milestone}
   end
 
+  def show_html
+    current_evidence
+    render :layout => "assessment"
+  end
+
   def evidence_updatex
     current_milestone
     #NEED TO Fgure out how to do Form in Partial

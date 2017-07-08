@@ -14,9 +14,42 @@ class IfaPlanMilestoneEvidence < ActiveRecord::Base
 
   validates_presence_of :name, :message => 'You Must Name Your Evidence '
 
+  def milestone
+    self.ifa_plan_milestone
+  end
+
+  def plan
+    !self.milestone.nil? ? self.milestone.ifa_plan : nil
+  end
+
+  def student
+    !self.plan.nil? ? self.plan.user : nil
+  end
+
   def self.by_date
     order('updated_at DESC')
   end
+
+  def image?
+    self.attachment_type == 'Image'
+  end
+
+  def pdf?
+    self.attachment_type == 'PDF'
+  end
+
+  def html?
+    !self.documentation.nil? && !self.documentation.empty?
+  end
+
+  def attach_and_html?
+    (self.image? || self.pdf?) && self.html?
+  end
+
+  def explanation?
+    !self.explanation.nil? && !self.explanation.empty?
+  end
+
 
   def content_type
     if self.evidence.present?

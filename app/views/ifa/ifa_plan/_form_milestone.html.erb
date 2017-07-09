@@ -1,23 +1,24 @@
-<div id="milestone<%=milestone.public_id%>">
+<div id="milestone_<%= strand.id %>">
+  <% milestone_id = milestone.id.nil? ? '0' : milestone.id.to_s %>
   <div class="row ifa_milestone_header_row" >
     <div class="col-md-4 ifa_milestone_range_label">
       Pick Your Target Level =>
     </div>
 
-    <div class='col-md-4 ifa_milestone_range_select' id="range_select_<%=milestone.public_id%>">
-      <%=  select(milestone.public_id, :range, ranges.collect{|r| [(r.label_with_sat),r.public_id]},{:prompt => 'Milestone Mastery Level'}) %>
+    <div class='col-md-4 ifa_milestone_range_select' id="range_select_<%=milestone_id%>">
+      <%=  select(milestone_id, :range, ranges.collect{|r| [(r.label_with_sat),r.id]},{:prompt => 'Milestone Mastery Level'}) %>
     </div>
     <div class='col-md-4'>
-      <span class="button_orange" id="milestone_cancel<%=milestone.public_id%>">
+      <span class="button_orange" id="milestone_cancel<%=milestone_id%>">
         <%= 'Cancel' %>
       </span>
     </div>
   </div>
-  <% if milestone.range? %>
+  <% if @current_range %>
     <div class="ifa_milestone_edit_box ">
       <div class="row ifa_milestone_edit_row">
         <div class="ifa_milestone_mastery">
-          <%=milestone.range.label_without_sat.html_safe %>&nbsp;|&nbsp;<%=milestone.strand.abbrev.upcase %>
+          <%= @current_range.label_without_sat.html_safe %>&nbsp;|&nbsp;<%=strand.abbrev.upcase %>
         </div>
       </div>
       <% if !@benchmarks.empty? %>
@@ -79,37 +80,37 @@
       <div class="row ifa_milestone_edit_footer_row">
           <div class="col-md-2">
             <div class="row ifa_milestone_edit_button">
-              <div class="button_blue" id="milestone_update<%=milestone.public_id%>">
-                <%= 'Update' %>
+              <div class="button_blue" id="milestone_update<%=milestone_id%>">
+                <%= function + ' Milestone' %>
               </div>
             </div>
           </div>
           <div class="col-md-9">
             <p>My Plan</p>
-            <%= text_area :description, milestone.public_id, :rows=>10, :cols => 70, :value => milestone.description,
-                          :placeholder => 'Action Steps'%>
+            <%= text_area :description, milestone_id, :rows=>10, :cols => 70, :value => milestone.description,
+                          :placeholder => 'Action Steps' %>
           </div>
       </div>
       <script type="text/javascript">
         jQ(document).ready(function() {
-          jQ("#milestone_update<%=milestone.public_id%>").click(function(){
-            var description = jQ('#description_<%=milestone.public_id%>').val();
-            var evidence = jQ('#evidence_<%=milestone.public_id%>').val();
-            var url = "<%= ifa_milestone_update_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.public_id) %>";
-            jQ.get(url, {'description':description, 'evidence':evidence}, function(data) {
-              jQ("#strand_milestone<%=milestone.act_standard.public_id%>").html(data);
-              jQ("#strand_milestone<%=milestone.act_standard.public_id%>").show();
+          jQ("#milestone_update<%=milestone_id%>").click(function(){
+            var description = jQ('#description_<%=milestone_id%>').val();
+            var url = "<%= ifa_milestone_update_url(:organization_id => @current_organization, :ifa_plan_milestone_id => (milestone.id.nil? ? 0 : milestone.id),
+                        :act_score_range_id => @current_range.id, :ifa_plan_id => plan.id, :act_standard_id => strand.id, :function => function) %>";
+            jQ.get(url, {'description':description}, function(data) {
+              jQ("#strand_milestones<%=strand.public_id%>").html(data);
+              jQ("#strand_milestones<%=strand.public_id%>").show();
             });
           })
         });
       </script>
       <script type="text/javascript">
         jQ(document).ready(function() {
-          jQ("#milestone_cancel_2<%=milestone.public_id%>").click(function(){
-            var url = "<%= ifa_milestone_update_cancel_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.public_id) %>";
+          jQ("#milestone_cancel_2<%=milestone_id%>").click(function(){
+            var url = "<%= ifa_milestone_update_cancel_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id, :ifa_plan_id => plan.id, :act_standard_id => strand.id, :function => function) %>";
             jQ.get(url, {}, function(data) {
-              jQ("#strand_milestone<%=milestone.act_standard.public_id%>").html(data);
-              jQ("#strand_milestone<%=milestone.act_standard.public_id%>").show();
+              jQ("#strand_milestones<%=strand.public_id%>").html(data);
+              jQ("#strand_milestones<%=strand.public_id%>").show();
             });
           })
         });
@@ -118,23 +119,23 @@
   <% end %>
   <script type="text/javascript">
     jQ(document).ready(function() {
-      jQ("#range_select_<%=milestone.public_id%>").change(function(){
-        var range_id = jQ('#<%=milestone.public_id%>_range').val();
-        var url = "<%= ifa_milestone_range_select_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.public_id) %>";
+      jQ("#range_select_<%=milestone_id%>").change(function(){
+        var range_id = jQ('#<%=milestone_id%>_range').val();
+        var url = "<%= ifa_milestone_range_select_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id, :ifa_plan_id => plan.id, :act_standard_id => strand.id, :function => function) %>";
         jQ.get(url, {'act_score_range_id': range_id}, function(data) {
-          jQ("#milestone<%=milestone.public_id%>").html(data);
-          jQ("#milestone<%=milestone.public_id%>").show();
+          jQ("#milestone_<%= strand.id %>").html(data);
+          jQ("#milestone_<%= strand.id %>").show();
         });
       })
     });
   </script>
   <script type="text/javascript">
     jQ(document).ready(function() {
-      jQ("#milestone_cancel<%=milestone.public_id%>").click(function(){
-        var url = "<%= ifa_milestone_update_cancel_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.public_id) %>";
+      jQ("#milestone_cancel<%=milestone_id%>").click(function(){
+        var url = "<%= ifa_milestone_update_cancel_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id, :ifa_plan_id => plan.id, :act_standard_id => strand.id, :function => function) %>";
         jQ.get(url, {}, function(data) {
-          jQ("#strand_milestone<%=milestone.act_standard.public_id%>").html(data);
-          jQ("#strand_milestone<%=milestone.act_standard.public_id%>").show();
+          jQ("#strand_milestones<%=strand.public_id%>").html(data);
+          jQ("#strand_milestones<%=strand.public_id%>").show();
         });
       })
     });

@@ -1,0 +1,62 @@
+<div id="tool_qx">
+  <div class="row tool_row">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+      <span id = "tool_q" class='button_gray enabled'>
+        <%='GO' %>
+      </span>
+    </div>
+    <div class="col-md-8">
+      Count IFA Plans with wrong/incomplete standards(Destroy Bad Dashboards?)
+      <% if !@tool_q_summary.nil? %>
+        <div class="row tool_sumry">
+          <%=@tool_q_summary %><br/>
+          <%= pluralize(@tool_q_plan_count, ' Total IFA Plan') %><br/>
+          <%= pluralize(@tool_q_milestone_count, ' Total IFA Plan Milestone') %><br/>
+          <%= pluralize(@tool_q_plan_bad_level_std_count, ' User Plan') %> With Incorrect Level Standard <%=@current_standard.abbrev %><br/>
+          <%= pluralize(@tool_q_plan_bad_strand_std_count, ' User Plan') %> With Incorrect Strand Standard <%=@current_standard.abbrev %><br/>
+          <%= pluralize(@tool_q_plan_bad_level_sbj_count, ' User Plan') %> With Incorrect Level Subject<br/>
+          <%= pluralize(@tool_q_plan_bad_strand_sbj_count, ' User Plan') %> With Incorrect Strand Subject<br/><br/>
+          <%= pluralize(@tool_q_destroyable_milestone_count, ' Destroyable Milestone') %> <br/>
+          <%= pluralize(@tool_q_destroyed_milestone_count, ' Destroyed Milestone') %> <br/><br/>
+        </div>
+      <% end %>
+      <% if @tool_q_destroy %>
+          <div class="row">
+            <div class="col-md-2">
+              <span id = "tool_qq" class='button_gray enabled'>
+                <%='GO' %>
+              </span>
+            </div>
+            <div class="col-md-9">
+              Destroy Bad Plan Milestones
+            </div>
+          </div>
+      <% end %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_q").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_q_url(:organization_id => @current_organization, :destroy_them => 'No') %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tool_qx").html(data);
+          jQ("#tool_qx").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#tool_qq").click(function(){
+        var url = "<%= app_maintenance_ifa_tool_q_url(:organization_id => @current_organization, :destroy_them => 'Yes') %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#tool_qx").html(data);
+          jQ("#tool_qx").show();
+        });
+      })
+    });
+  </script>
+</div>

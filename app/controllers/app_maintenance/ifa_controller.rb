@@ -21,6 +21,48 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     current_level
   end
 
+  def tool_q
+    @tool_q_plan_count = IfaPlan.all.size
+    @tool_q_milestone_count = 0
+    @tool_q_plan_bad_level_std_count = 0
+    @tool_q_plan_bad_strand_std_count = 0
+    @tool_q_plan_bad_level_sbj_count = 0
+    @tool_q_plan_bad_strand_sbj_count = 0
+    @tool_q_destroyable_milestone_count = 0
+    @tool_q_destroyed_milestone_count = 0
+    IfaPlan.all.each do |plan|
+      @tool_q_milestone_count += plan.milestones.size
+      plan.milestones.each do |milestone|
+        destroy_it = false
+        if (plan.act_subject != milestone.range_subject)
+          @tool_q_plan_bad_level_sbj_count += 1
+          destroy_it = true
+        end
+        if (plan.act_subject != milestone.strand_subject)
+          @tool_q_plan_bad_strand_sbj_count += 1
+          destroy_it = true
+        end
+        if (@current_standard != milestone.range_standard)
+          @tool_q_plan_bad_level_std_count += 1
+          destroy_it = true
+        end
+        if (@current_standard != milestone.standard)
+          @tool_q_plan_bad_strand_std_count += 1
+          destroy_it = true
+        end
+        @tool_q_destroyable_milestone_count +=  destroy_it ? 1 : 0
+
+        if params[:destroy_them] == 'Yes' && destroy_it
+          milestone.destroy
+          @tool_q_destroyed_milestone_count += 1
+        end
+      end
+    end
+    @tool_q_destroy = true
+    @tool_q_summary = 'Tool Q SUMMARY'
+    render :partial =>  "tool_q", :locals=>{}
+  end
+
   def tool_p
     @tool_p_user_db_count = {}
     @tool_p_classroom_db_count = {}

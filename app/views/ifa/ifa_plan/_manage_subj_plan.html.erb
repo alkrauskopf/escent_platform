@@ -31,16 +31,17 @@
             <%= pluralize(plan.milestones.size, ' Student Milestone') %>
           </div>
         </div>
+
         <div class="row ifa_subject_plan_content">
           <div class="col-md-12">
-            <% ActStandard.for_standard_and_subject(@current_standard, subject).each do |strand| %>
-              <%= render :partial =>  "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@current_user.ifa_plan_subject(subject), :strand => strand, :new_milestone=>nil}%>
+            <% plan.strands(@current_standard).each do |strand| %>
+              <%= render :partial =>  "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>plan, :strand => strand, :milestone_form => 'No'}%>
             <% end %>
           </div>
         </div>
       </div>
     <% else %>
-          <%= render :partial =>  "/ifa/ifa_plan/form_plan", :locals=>{:plan=>@current_user.ifa_plan_subject(subject)}%>
+          <%= render :partial =>  "/ifa/ifa_plan/form_plan", :locals=>{:plan=>plan}%>
         <% end %>
       <% end %>
 

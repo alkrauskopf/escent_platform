@@ -70,57 +70,66 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
 
   def milestone_create
     set_plan
-    set_strand
-    if @user_plan && @strand
-      new_milestone = IfaPlanMilestone.new(:act_standard_id=>@strand.id)
-      new_milestone.achieve_date = Time.now
-      @user_plan.ifa_plan_milestones << new_milestone
-    end
-    @milestone = @user_plan.ifa_plan_milestones.last
+    current_strand
+    @current_milestone = IfaPlanMilestone.new(:act_standard_id=>@current_strand.id)
     benchmarks_improvements
-    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
-                                                                     :new_milestone => @milestone,
-                                                                     :ranges => strand_ranges(@strand)}
+    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @current_strand,
+                                                                     :milestone_form => 'New',
+                                                                     :ranges => strand_ranges(@current_strand)}
   end
 
   def milestone_change
     set_milestone
-    byebug
+    @current_range = @current_milestone.range
+    @current_strand = @current_milestone.strand
     benchmarks_improvements
-    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@milestone.plan, :strand => @milestone.strand,
-                                                                     :new_milestone => @milestone,
+    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@current_milestone.plan, :strand => @current_strand,
+                                                                    :milestone_form => 'Change',
                                                                      :ranges => strand_ranges(@milestone.strand)}
   end
 
   def milestone_update
-    set_milestone
-    @milestone.update_attributes(:description=>params[:description])
-    @milestone.update_attributes(:evidence=>params[:evidence])
-    milestone_destroy?(@milestone, false)
-    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
-                                                                     :new_milestone => false, :ranges => @ranges}
+    current_strand
+    current_range
+    set_plan
+    if new_milestone?
+      @current_milestone = IfaPlanMilestone.new
+      @current_milestone.act_score_range_id = @current_range.id
+      @current_milestone.act_standard_id = @current_strand.id
+      @current_milestone.description = params[:description]
+      @current_milestone.achieve_date = Time.now
+      @user_plan.milestones << @current_milestone
+    else
+      current_milestone
+      @current_milestone.update_attributes(:description=>params[:description], :act_score_range_id => @current_range.id)
+    end
+    set_plan
+    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @current_strand,
+                                                                    :milestone_form => 'No', :ranges => @user_plan.ranges(@current_standard)}
   end
 
   def milestone_update_cancel
-    set_milestone
-    milestone_destroy?(@milestone, false)
-    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
-                                                                     :new_milestone => false, :ranges => @ranges}
+    set_plan
+    current_strand
+    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @current_strand,
+                                                                    :milestone_form => 'No', :ranges => @user_plan.ranges(@current_standard)}
   end
 
   def milestone_destroy
-    set_milestone
-    milestone_destroy?(@milestone, true)
-    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
-                                                                     :new_milestone => false, :ranges => @ranges}
+    current_milestone
+    current_strand
+    set_plan
+    @current_milestone.destroy
+    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @current_strand,
+                                                                    :milestone_form => 'No', :ranges => @user_plan.ranges(@current_standard)}
   end
 
   def milestone_achieved
-    set_milestone
-    @milestone.update_attributes(:is_achieved=>true)
-    milestone_destroy?(@milestone, false)
-    render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @strand,
-                                                                     :new_milestone => false, :ranges => @ranges}
+    current_milestone
+    @current_milestone.update_attributes(:is_achieved=>true, :achieve_date => Time.now)
+    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'No'}
+  #  render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@current_milestone.plan, :strand => @current_milestone.strand,
+  #                                                                  :milestone_form => 'No', :ranges => strand_ranges(@current_milestone.strand)}
   end
 
   def milestone_achieve_toggle
@@ -130,11 +139,13 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def milestone_range_select
-    set_milestone
-    set_range
-    @milestone.update_attributes(:act_score_range_id=>@range.id)
+    set_plan
+    current_milestone
+    @current_milestone ||= IfaPlanMilestone.new
+    current_strand
+    current_range
     benchmarks_improvements
-    render :partial =>  "/ifa/ifa_plan/form_milestone", :locals=>{:milestone => @milestone, :ranges => strand_ranges(@milestone.strand)}
+    render :partial =>  "/ifa/ifa_plan/form_milestone", :locals=>{:milestone => @current_milestone, :function => milestone_function, :plan => @user_plan, :strand => @current_strand, :ranges => @user_plan.ranges(@current_standard)}
   end
 
   def plan_teacher_review
@@ -218,7 +229,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     if evidence_update_function == 'New'
       new_evidence
       if @current_milestone.evidences << @current_evidence
-        flash[:notice] = 'Evidence Saved | Add Another'
+        flash[:notice] = 'Evidence Saved | Add More Evidence, Or Close Browser Window'
         @current_evidence = IfaPlanMilestoneEvidence.new
       else
         flash[:error] = @current_evidence.errors.full_messages.to_sentence
@@ -269,6 +280,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     @current_evidence.documentation = params[:ifa_plan_milestone_evidence][:documentation]
     @current_evidence.evidence = params[:ifa_plan_milestone_evidence][:evidence]
   end
+
   def update_evidence
     new_attach = params[:ifa_plan_milestone_evidence][:evidence] ? params[:ifa_plan_milestone_evidence][:evidence] : @current_evidence.evidence
     if (params[:attachment] && params[:attachment][:delete] == '1')
@@ -282,7 +294,6 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     else
       flash[:error] = @current_evidence.errors.full_messages.to_sentence
     end
-
   end
 
   def evidence_update_function
@@ -297,6 +308,22 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     @current_milestone = IfaPlanMilestone.find_by_id(params[:ifa_plan_milestone_id])
   end
 
+  def current_range
+    @current_range = ActScoreRange.find_by_id(params[:act_score_range_id])
+  end
+
+  def current_strand
+    @current_strand = ActStandard.find_by_id(params[:act_standard_id])
+  end
+
+  def new_milestone?
+    params[:function] && params[:function] == 'New'
+  end
+
+  def milestone_function
+    params[:function]
+  end
+
   def set_subject
     @subject = ActSubject.find(params[:subject_id]) rescue nil
     if @subject.nil?
@@ -305,7 +332,10 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def set_plan
-    @user_plan = IfaPlan.find_by_public_id(params[:ifa_plan_id])
+    @user_plan = IfaPlan.find_by_public_id(params[:ifa_plan_id]) rescue nil
+    if @user_plan.nil?
+      @user_plan = IfaPlan.find_by_id(params[:ifa_plan_id]) rescue nil
+    end
   end
 
   def set_milestone
@@ -317,7 +347,10 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def set_strand
-    @strand = ActStandard.find_by_public_id(params[:act_standard_id])
+    @strand = ActStandard.find_by_public_id(params[:act_standard_id]) rescue nil
+    if @strand.nil?
+      @strand = ActStandard.find_by_id(params[:act_standard_id]) rescue nil
+    end
   end
 
   def set_range
@@ -343,10 +376,10 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def benchmarks_improvements
-    if @milestone && @milestone.range? && @milestone.strand? && @milestone.standard?
-      @benchmarks = @milestone.standard.benchmarks_for_strand_range(@milestone.strand, @milestone.range)
-      @improvements = @milestone.standard.improvements_for_strand_range(@milestone.strand, @milestone.range)
-      @evidences = @milestone.standard.evidence_for_strand_range(@milestone.strand, @milestone.range)
+    if @current_range && @current_strand && @current_standard
+      @benchmarks = @current_standard.benchmarks_for_strand_range(@current_strand, @current_range)
+      @improvements = @current_standard.improvements_for_strand_range(@current_strand, @current_range)
+      @evidences = @current_standard.evidence_for_strand_range(@current_strand, @current_range)
     else
       @benchmarks = []
       @improvements = []
@@ -354,10 +387,16 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     end
   end
 
+  def milestone_properties
+    @user_plan = @current_milestone.plan
+    @current_strand = @current_milestone.strand
+    @ranges = strand_ranges(@current_milestone.strand)
+  end
+
   def milestone_destroy?(milestone,force)
-    @user_plan = @milestone.plan
-    @strand = @milestone.strand
-    @ranges = strand_ranges(@milestone.strand)
+    @user_plan = @current_milestone.plan
+    @strand = @current_milestone.strand
+    @ranges = strand_ranges(@current_milestone.strand)
     if milestone.description.nil? || milestone.description.empty? || force
       milestone.destroy
     end

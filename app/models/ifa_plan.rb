@@ -25,8 +25,12 @@ class IfaPlan < ActiveRecord::Base
     self.act_subject
   end
 
-  def standard
-    self.act_master
+  def ranges(standard)
+    self.act_subject ? standard.mastery_levels(self.act_subject) : []
+  end
+
+  def strands(standard)
+    self.act_subject ? standard.strands(self.act_subject) : []
   end
 
   def self.for_subject(subject)

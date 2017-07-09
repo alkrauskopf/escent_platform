@@ -2,7 +2,7 @@
   <div class="precision_prep_panel "  style="color: <%= strand.strand_font%>; background-color:<%= strand.strand_background %>">
     <div class="row ifa_milestone_panel">
       <div class="col-md-2">
-        <% if !new_milestone %>
+        <% if milestone_form == 'No' %>
           <div class="button_gray" id="create_milestone_<%=strand.id%>">
             Create Milestone
           </div>
@@ -19,9 +19,9 @@
     </div>
   </div>
   <div class="precision_milestone_panel">
-    <% if new_milestone %>
+    <% if milestone_form != 'No' %>
       <div class="row ">
-        <%= render :partial =>  "/ifa/ifa_plan/form_milestone", :locals=>{:milestone => new_milestone, :ranges => ranges}%>
+        <%= render :partial =>  "/ifa/ifa_plan/form_milestone", :locals=>{:milestone => @current_milestone, :function => milestone_form, :plan => plan, :strand => strand, :ranges => ranges}%>
       </div>
     <% else %>
       <% plan.strand_milestones(strand).each do |milestone| %>
@@ -33,7 +33,7 @@
   <script type="text/javascript">
     jQ(document).ready(function() {
       jQ('#create_milestone_<%=strand.id%>').click(function() {
-        var url = "<%= ifa_milestone_create_url(:organization_id => @current_organization, :act_standard_id => strand.public_id, :ifa_plan_id => plan.public_id) %>";
+        var url = "<%= ifa_milestone_create_url(:organization_id => @current_organization, :act_standard_id => strand.id, :ifa_plan_id => plan.id) %>";
         jQ.get(url, {}, function(data) {
           jQ("#strand_milestones<%=strand.public_id%>").html(data);
           jQ("#strand_milestones<%=strand.public_id%>").show();

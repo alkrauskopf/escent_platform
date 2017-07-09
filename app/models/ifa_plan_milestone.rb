@@ -1,7 +1,7 @@
 class IfaPlanMilestone < ActiveRecord::Base
   include PublicPersona
 
-  attr_accessible :act_score_range_id, :act_standard_id, :description, :ifa_plan_id, :is_achieved, :evidence
+  attr_accessible :act_score_range_id, :act_standard_id, :description, :ifa_plan_id, :is_achieved, :evidence, :achieve_date
 
   belongs_to :ifa_plan
   belongs_to :act_standard
@@ -46,7 +46,8 @@ class IfaPlanMilestone < ActiveRecord::Base
   end
 
   def self.for_strand(strand)
-    where('act_standard_id = ?', strand.id).includes(:act_score_range).order('is_achieved ASC, act_score_ranges.lower_score DESC')
+    where('act_standard_id = ?', strand.id).includes(:act_score_range).order('is_achieved ASC, act_score_ranges.lower_score ASC')
+  #  where('act_standard_id = ?', strand.id).order('is_achieved ASC')
   end
 
   def range
@@ -75,6 +76,18 @@ class IfaPlanMilestone < ActiveRecord::Base
 
   def standard?
     !self.standard.nil?
+  end
+
+  def strand_subject
+    self.strand? ? self.strand.act_subject : nil
+  end
+
+  def range_subject
+    self.range? ? self.range.act_subject : nil
+  end
+
+  def range_standard
+    self.range? ? self.range.act_master : nil
   end
 
 end

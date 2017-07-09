@@ -3,7 +3,7 @@
     <div class="col-md-3">
       <% if !milestone.achieved?%>
           <div class="ifa_milestone_show_button">
-          <span class="button_green" id="milestone_show_achieved<%=milestone.public_id%>">
+          <span class="button_green" id="milestone_show_achieved<%=milestone.id%>">
             <%= 'ACHIEVE?' %>
           </span>
           </div>
@@ -45,7 +45,7 @@
     <div class="col-md-3">
       <% if !milestone.achieved? %>
         <div class="ifa_milestone_destroy_button">
-          <span class="button_red" id="milestone_show_destroy<%=milestone.public_id%>">
+          <span class="button_red" id="milestone_show_destroy<%=milestone.id%>">
             <%= 'DESTROY' %>
           </span>
         </div>
@@ -56,7 +56,7 @@
     <div class="col-md-2 ">
       <% if !milestone.achieved?%>
         <div class="ifa_milestone_show_button">
-          <span class="button_blue" id="milestone_show_change<%=milestone.public_id%>">
+          <span class="button_blue" id="milestone_show_change<%=milestone.id%>">
             <%= 'Change Plan Info' %>
           </span>
         </div>
@@ -91,9 +91,7 @@
         <div class=" col-md-2 ">
           <% if !milestone.achieved?%>
             <div class="ifa_milestone_add_evidence_button">
-              <span  id="milestone_evidence_add<%#=milestone.public_id%>">
                 <%= link_to 'Add Evidence', ifa_milestone_evidence_edit_path(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id), {:class=>"button_gray", :target=> '_blank'} %>
-              </span>
             </div>
           <% end %>
         </div>
@@ -120,40 +118,40 @@
   </script>
   <script type="text/javascript">
     jQ(document).ready(function() {
-      jQ("#milestone_show_destroy<%=milestone.public_id%>").click(function(){
-        var url = "<%= ifa_milestone_destroy_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.public_id) %>";
+      jQ("#milestone_show_destroy<%=milestone.id%>").click(function(){
+        var url = "<%= ifa_milestone_destroy_url(:organization_id => @current_organization, :ifa_plan_id => milestone.plan.id, :act_standard_id => milestone.strand.id, :ifa_plan_milestone_id => milestone.id) %>";
         jQ.get(url, {}, function(data) {
-          jQ("#strand_milestone<%=milestone.act_standard.public_id%>").html(data);
-          jQ("#strand_milestone<%=milestone.act_standard.public_id%>").show();
+          jQ("#strand_milestones<%=milestone.strand.public_id%>").html(data);
+          jQ("#strand_milestones<%=milestone.strand.public_id%>").show();
         });
       })
     });
   </script>
   <script type="text/javascript">
     jQ(document).ready(function() {
-      jQ("#milestone_show_change<%=milestone.public_id%>").click(function(){
+      jQ("#milestone_show_change<%=milestone.id%>").click(function(){
         var url = "<%= ifa_milestone_change_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.public_id) %>";
         jQ.get(url, {}, function(data) {
-          jQ("#strand_milestone<%=milestone.act_standard.public_id%>").html(data);
-          jQ("#strand_milestone<%=milestone.act_standard.public_id%>").show();
+          jQ("#strand_milestones<%=milestone.strand.public_id%>").html(data);
+          jQ("#strand_milestones<%=milestone.strand.public_id%>").show();
         });
       })
     });
   </script>
   <script type="text/javascript">
     jQ(document).ready(function() {
-      jQ("#milestone_show_achieved<%=milestone.public_id%>").click(function(){
-        var url = "<%= ifa_milestone_achieved_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.public_id) %>";
+      jQ("#milestone_show_achieved<%=milestone.id%>").click(function(){
+        var url = "<%= ifa_milestone_achieved_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id) %>";
         jQ.get(url, {}, function(data) {
-          jQ("#strand_milestone<%=milestone.act_standard.public_id%>").html(data);
-          jQ("#strand_milestone<%=milestone.act_standard.public_id%>").show();
+          jQ("#plan_milestone<%=milestone.id%>").html(data);
+          jQ("#plan_milestone<%=milestone.id%>").show();
         });
       })
     });
   </script>
   <script type="text/javascript">
     jQ(document).ready(function() {
-      jQ("#milestone_evidence_add<%=milestone.public_id%>").click(function(){
+      jQ("#milestone_evidence_add<%=milestone.id%>").click(function(){
         var url = "<%= ifa_milestone_evidence_form_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id) %>";
         jQ.get(url, {}, function(data) {
           jQ("#plan_milestone<%=milestone.id%>").html(data);

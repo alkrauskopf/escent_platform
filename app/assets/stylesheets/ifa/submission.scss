@@ -572,11 +572,11 @@
 }
 
 .ifa_milestone_achieved {
-  padding: 1em 0em 0em 0em;
+  padding: 1em 0em 0em 1em;
  }
 
 .ifa_milestone_achieved_date {
-  padding: 1em 0em 0em 1em;
+  padding: 1em 0em 0em 0em;
   color:$red_text;
   font-size:14px;
 }
@@ -1112,4 +1112,37 @@ font-weight:normal;
   margin: 0em 0em 2em 0em;
   padding: 5em 5em 5em 5em;
   border-top:3px solid #000;
+}
+.teacher_review_student_plan {
+  margin: .5em 0em .5em 0em;
+  padding: 1em 1em 1em 1em;
+  background-color:white;
+  border:1px solid $slay_panel;
+  line-height:1.25em;
+  border-radius: 10px;
+  color:$dark_text;
+  text-align:left;
+  word-wrap: break-word;
+  font-weight:normal;
+  font-size:15px;
+}
+.teacher_review_student_plan .name {
+  color:$blue_text;
+  font-weight:bold;
+  font-size:15px;
+}
+.teacher_review_student_plan .noplan {
+  color:$red_text;
+  font-weight:bold;
+  font-size:11px;
+}
+.teacher_review_student_plan .view {
+  color:$dark_text;
+  font-weight:normal;
+  font-size:11px;
+}
+.teacher_review_student_plan .stat {
+  color:$blue_text;
+  font-weight:normal;
+  font-size:13px;
 }

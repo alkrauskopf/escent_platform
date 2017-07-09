@@ -9,6 +9,10 @@ class IfaPlanRemark < ActiveRecord::Base
     order('updated_at DESC')
   end
 
+  def destroyable?(user)
+    self.teacher? && user == self.teacher
+  end
+
   def plan
     self.ifa_plan
   end

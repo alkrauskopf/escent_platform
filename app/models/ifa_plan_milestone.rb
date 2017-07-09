@@ -37,6 +37,7 @@ class IfaPlanMilestone < ActiveRecord::Base
   def self.open_for_range_strand(range, strand)
     where('act_score_range_id = ? && act_standard_id = ? && is_achieved = ?', range.id, strand.id, false)
   end
+
   def self.achieved_for_range_strand(range, strand)
     where('act_score_range_id = ? && act_standard_id = ? && is_achieved', range.id, strand.id)
   end

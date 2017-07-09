@@ -15,6 +15,18 @@ class IfaPlan < ActiveRecord::Base
     self.is_accepted
   end
 
+  def updateable?(user)
+    self.user == user
+  end
+
+  def remarkable?(user)
+    user.teacher?
+  end
+
+  def achieveable?(user)
+    remarkable?(user) || updateable?(user)
+  end
+
   def incomplete?
     self.needs.nil? || self.goals.nil?
   end
@@ -43,6 +55,10 @@ class IfaPlan < ActiveRecord::Base
 
   def milestones
     self.ifa_plan_milestones
+  end
+
+  def evidence_list
+    self.milestones.map{|m| m.evidences}.flatten
   end
 
   def remarks

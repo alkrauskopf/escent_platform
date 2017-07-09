@@ -1,7 +1,7 @@
 <div id="plan_remarks_<%=plan.public_id%>">
   <div class= "precision_prep_green_panel">
     <div class="col-md-3">
-      <% if !show_form && @current_user.teacher_for_org?(@current_organization)%>&nbsp;
+      <% if plan.remarkable?(@current_user) %>
         <span class="button_gray ifa_remark_button" id="show_remark_form_<%=plan.id%>">
           Add Remark
         </span>

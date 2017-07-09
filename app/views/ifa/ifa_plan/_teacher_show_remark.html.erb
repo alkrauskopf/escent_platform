@@ -10,7 +10,7 @@
         <div>
           <%=remark.teacher_name %>
         </div>
-        <% if remark.teacher? && @current_user == remark.teacher %>
+        <% if remark.destroyable?(@current_user) %>
           <div class="ifa_remark_button" style="padding:.5em 0em 0em 2em;">
             <span class='button_red' id="remark_destroy<%=remark.public_id%>">
               Destroy
@@ -23,7 +23,7 @@
             <%= image_tag remark.teacher.picture.url(:small_thumb) %>
         <% end %>
       </div>
-      <div class="col-md-8 ifa_remark_show_remark">
+      <div class="col-md-7 ifa_remark_show_remark">
         <%= simple_format ('"' + remark.remarks + '"') %>
       </div>
     </div>

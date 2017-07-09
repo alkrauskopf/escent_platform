@@ -1,9 +1,9 @@
 <div class="ifa_plan_text">
   <% nothing_to_show = true %>
   <% @assessments.each do |ass| %>
-    <% if !ass.total_answers(:level=>@range, :strand=>@strand).empty?%>
+    <% if !ass.total_answers(:level=>@current_range, :strand=>@current_strand).empty?%>
       <div class="row ifa_milestone_data ">
-        <%= ass.created_at.strftime("%b %d, %Y")%>:&nbsp;&nbsp;<%= ass.correct_answers(:level=>@range, :strand=>@strand).size%> of <%= ass.total_answers(:level=>@range, :strand=>@strand).size%>&nbsp;Correct
+        <%= ass.created_at.strftime("%b %d, %Y")%>:&nbsp;&nbsp;<%= ass.correct_answers(:level=>@current_range, :strand=>@current_strand).size%> of <%= ass.total_answers(:level=>@current_range, :strand=>@current_strand).size%>&nbsp;Correct
         <% nothing_to_show = false %>
       </div>
     <% end %>

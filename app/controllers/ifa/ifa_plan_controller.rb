@@ -38,7 +38,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       @current_user.ifa_plans << IfaPlan.create(:act_subject_id=>@subject.id)
     end
     @user_plan = @current_user.ifa_plan_subject(@subject)
-    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => @subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_user, :subject => @subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
   end
 
   def plan_update
@@ -47,7 +47,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     if @user_plan
       @user_plan.update_attributes(:needs=>params[:needs],:goals=>params[:goals])
     end
-    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => @user_plan.act_subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_user, :subject => @user_plan.act_subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
   end
 
   def plan_update_2
@@ -55,17 +55,19 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     if @user_plan
       @user_plan.update_attributes(:needs=>params[:ifa_plan][:needs],:goals=>params[:ifa_plan][:goals])
     end
-    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => @user_plan.act_subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_user, :subject => @user_plan.act_subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
   end
 
   def plan_show_form
     set_subject
-    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => @subject, :show_form => true}
+    @user_plan = @current_user.ifa_plan_subject(@subject)
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_user, :subject => @subject, :show_form => true}
   end
 
   def plan_update_cancel
     set_subject
-    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => @subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
+    @user_plan = @current_user.ifa_plan_subject(@subject)
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_user, :subject => @subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
   end
 
   def milestone_create
@@ -149,15 +151,18 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def plan_teacher_review
-    set_subject
-    set_classroom
-    set_student
-    @plan = @student.ifa_plan_subject(@subject) rescue nil
-    @remarks = @plan.nil? ? [] : @plan.remarks
-    @new_remark = IfaPlanRemark.new
-    @milestones= @plan.nil? ? nil:@plan.ifa_plan_milestones.by_last_updated
-    render :partial =>  "/ifa/ifa_plan/teacher_show_plan", :locals=>{:milestones => @milestones, :remarks => @remarks,
-                        :plan => @plan, :student=>@student}
+    current_subject
+    current_student
+    @user_plan = @current_student.ifa_plan_subject(@current_subject) rescue nil
+    @remarks = @user_plan.nil? ? [] : @user_plan.remarks
+    @milestones= @user_plan.nil? ? nil : @user_plan.ifa_plan_milestones.by_last_updated
+    render :partial => "/ifa/ifa_plan/teacher_review_plan", :locals=>{:student_plan => @user_plan, :student => @current_student, :subject => @current_subject, :show => "Yes"}
+  end
+
+  def plan_teacher_review_close
+    current_subject
+    current_student
+    render :partial => '/ifa/ifa_plan/teacher_review_plan', :locals=>{:student => @current_student, :subject => @current_subject, :show => 'No'}
   end
 
   def plan_teacher_remark_update
@@ -188,12 +193,10 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def student_cell_data
-    set_strand
-    set_range
+    current_strand
+    current_range
     set_student
-  #  @correct_answers = @student.ifa_correct_answers(@strand.subject_area, :level=>@range, :strand=>@strand)
-  #  @total_answers = @student.ifa_total_answers(@strand.subject_area, :level=>@range, :strand=>@strand)
-    @assessments = @student.assessments_taken(:subject=>@strand.subject_area)
+    @assessments = @current_student.assessments_taken(:subject=>@current_strand.subject_area)
   end
 
   def evidence_form
@@ -325,10 +328,13 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def set_subject
-    @subject = ActSubject.find(params[:subject_id]) rescue nil
-    if @subject.nil?
-      @subject = ActSubject.find_by_public_id(params[:act_subject_id]) rescue nil
+    @current_subject = ActSubject.find(params[:subject_id]) rescue nil
+    if @current_subject.nil?
+      @current_subject = ActSubject.find_by_public_id(params[:act_subject_id]) rescue nil
     end
+  end
+  def current_subject
+    @current_subject = ActSubject.find_by_id(params[:act_subject_id]) rescue nil
   end
 
   def set_plan
@@ -358,7 +364,11 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def set_student
-    @student = User.find_by_public_id(params[:student_id]) rescue nil
+    @current_student = User.find_by_public_id(params[:student_id]) rescue nil
+  end
+
+  def current_student
+    @current_student = User.find_by_id(params[:student_id]) rescue nil
   end
 
   def set_classroom

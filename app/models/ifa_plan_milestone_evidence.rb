@@ -72,8 +72,8 @@ class IfaPlanMilestoneEvidence < ActiveRecord::Base
   end
 
   def updateable?(user)
-    !self.ifa_plan_milestone.nil? && !self.ifa_plan_milestone.achieved? && !self.ifa_plan_milestone.ifa_plan.nil? && !self.ifa_plan_milestone.ifa_plan.user.nil? &&
-        (self.ifa_plan_milestone.ifa_plan.user == user)
+    !self.ifa_plan_milestone.nil? && !self.ifa_plan_milestone.achieved? && !self.ifa_plan_milestone.ifa_plan.nil? &&
+        self.ifa_plan_milestone.ifa_plan.updateable?(user)
   end
 
   def attachment_type

@@ -2,22 +2,29 @@
   <div class="row ifa_milestone_show_header_row">
     <div class="col-md-3">
       <% if !milestone.achieved?%>
+        <% if milestone.plan.achieveable?(@current_user) %>
           <div class="ifa_milestone_show_button">
-            <% if milestone.plan.achieveable?(@current_user) %>
-              <span class="button_green" id="milestone_show_achieved<%=milestone.id%>">
-                <%= 'ACHIEVE?' %>
-              </span>
-            <% end %>
+            <span class="button_green" id="milestone_show_achieved<%=milestone.id%>">
+              <%= 'ACHIEVE?' %>
+            </span>
           </div>
+        <% end %>
       <% else %>
-          <div class="ifa_milestone_achieved">
-            <% achievement_level(milestone.strand, milestone.range).times do %>
-                <i class="star_achievement"></i>
-            <% end %>
-            <span class="ifa_milestone_achieved_date">
+        <% if milestone.plan.remarkable?(@current_user) %>
+          <div class="ifa_milestone_show_button">
+            <span class="button_orange" id="milestone_show_achieved<%=milestone.id%>">
+              <%= 'Re-Open' %>
+            </span><br/>
+          </div>
+        <% end %>
+        <div class="ifa_milestone_achieved">
+          <% achievement_level(milestone.strand, milestone.range).times do %>
+            <i class="star_achievement"></i>
+          <% end %>
+          <span class="ifa_milestone_achieved_date">
             <br/><%= !milestone.achieve_date.nil? ? time_ago_in_words(milestone.achieve_date).sub(/about /, '') + " ago" : ''%>
           </span>
-          </div>
+        </div>
       <% end %>
     </div>
     <div class="col-md-6 ">

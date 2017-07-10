@@ -1,16 +1,20 @@
 <div id="plan_remarks_<%=plan.public_id%>">
-  <div class= "precision_prep_green_panel">
-    <div class="col-md-3">
-      <% if plan.remarkable?(@current_user) %>
-        <span class="button_gray ifa_remark_button" id="show_remark_form_<%=plan.id%>">
-          Add Remark
-        </span>
-      <% end %>
+  <div class= "precision_milestone_panel ifa_plan_teacher_remark_box">
+    <div class="row">
+      <div class="col-md-3">
+        <% if plan.remarkable?(@current_user) %>
+          <span class="button_blue ifa_remark_button" id="show_remark_form_<%=plan.id%>">
+            Add Remark
+          </span>
+        <% end %>
+      </div>
+      <div class="col-md-7 ">
+
+      </div>
+      <div class="col-md-2 ifa_plan_remarks_label">
+        <%= pluralize(remarks.size, ' Teacher Remark') %>
+      </div>
     </div>
-    <div class="col-md-6 ifa_plan_header_label">
-      <%= pluralize(remarks.size, ' Teacher Remark') %>
-    </div>
-    <div class="col-md-3"></div>
   </div>
   <div class="ifa_subject_plan_content">
     <% if show_form %>

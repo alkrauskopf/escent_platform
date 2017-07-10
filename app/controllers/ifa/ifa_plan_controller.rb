@@ -128,10 +128,8 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
 
   def milestone_achieved
     current_milestone
-    @current_milestone.update_attributes(:is_achieved=>true, :achieve_date => Time.now)
+    @current_milestone.update_attributes(:is_achieved=>!@current_milestone.is_achieved, :achieve_date => Time.now)
     render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'No'}
-  #  render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@current_milestone.plan, :strand => @current_milestone.strand,
-  #                                                                  :milestone_form => 'No', :ranges => strand_ranges(@current_milestone.strand)}
   end
 
   def milestone_achieve_toggle

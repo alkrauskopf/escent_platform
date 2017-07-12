@@ -117,7 +117,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
               @current_submission.finalize_new(true, @current_submission.teacher_id, @current_provider.master_standard)
             end
             if auto_notify?
-              UserMailer.assessment_submission(teacher, @current_user,@current_classroom,
+              UserMailer.assessment_submission(@current_teacher, @current_user,@current_classroom,
                                                @current_organization, !auto_finalize?, request.host_with_port).deliver
             end
             submission_failed = false

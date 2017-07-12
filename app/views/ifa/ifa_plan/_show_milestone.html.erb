@@ -135,7 +135,7 @@
   <script type="text/javascript">
     jQ(document).ready(function() {
       jQ("#milestone_show_change<%=milestone.id%>").click(function(){
-        var url = "<%= ifa_milestone_change_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.public_id) %>";
+        var url = "<%= ifa_milestone_change_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id) %>";
         jQ.get(url, {}, function(data) {
           jQ("#strand_milestones<%=milestone.strand.public_id%>").html(data);
           jQ("#strand_milestones<%=milestone.strand.public_id%>").show();

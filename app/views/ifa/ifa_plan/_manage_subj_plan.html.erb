@@ -39,7 +39,11 @@
         </div>
       </div>
     <% else %>
-          <%= render :partial =>  "/ifa/ifa_plan/form_plan", :locals=>{:plan=>student_plan}%>
+          <% if !student_plan.user.nil? && !student_plan.act_subject.nil? %>
+            <%= render :partial =>  "/ifa/ifa_plan/form_plan", :locals=>{:plan=>student_plan}%>
+          <% else %>
+            Plan's Student or Subject Do Not Exist
+          <% end %>
         <% end %>
       <% end %>
 
@@ -58,7 +62,7 @@
 <script type="text/javascript">
   jQ(document).ready(function() {
     jQ('#show_form_<%=subject.id%>').click(function() {
-      var url = "<%= ifa_plan_show_form_url(:organization_id => @current_organization, :subject_id => subject.id) %>";
+      var url = "<%= ifa_plan_show_form_url(:organization_id => @current_organization, :act_subject_id => subject.id) %>";
       jQ.get(url, {}, function(data) {
         jQ("#manage_plan_<%=student.id%><%=subject.public_id%>").html(data);
         jQ("#manage_plan_<%=student.id%><%=subject.public_id%>").show();

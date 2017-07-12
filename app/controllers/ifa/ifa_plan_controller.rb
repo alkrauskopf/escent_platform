@@ -59,15 +59,15 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def plan_show_form
-    set_subject
-    @user_plan = @current_user.ifa_plan_subject(@subject)
-    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_user, :subject => @subject, :show_form => true}
+    current_subject
+    @user_plan = @current_user.ifa_plan_subject(@current_subject)
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_user, :subject => @current_subject, :show_form => true}
   end
 
   def plan_update_cancel
-    set_subject
-    @user_plan = @current_user.ifa_plan_subject(@subject)
-    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_user, :subject => @subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
+    current_subject
+    @user_plan = @current_user.ifa_plan_subject(@current_subject)
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_user, :subject => @current_subject, :show_form => @current_user.show_ifa_plan_form?(@current_subject)}
   end
 
   def milestone_create
@@ -81,13 +81,13 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def milestone_change
-    set_milestone
+    current_milestone
     @current_range = @current_milestone.range
     @current_strand = @current_milestone.strand
     benchmarks_improvements
     render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@current_milestone.plan, :strand => @current_strand,
                                                                     :milestone_form => 'Change',
-                                                                     :ranges => strand_ranges(@milestone.strand)}
+                                                                     :ranges => strand_ranges(@current_milestone.strand)}
   end
 
   def milestone_update

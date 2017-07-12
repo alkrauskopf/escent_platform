@@ -234,6 +234,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     @current_student_plan = @current_user.ifa_plan_for(@current_subject)
   end
 
+
   def create_current_submission?
     @current_submission = ActSubmission.new
     @current_submission.organization_id = @current_organization.id
@@ -242,7 +243,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     @current_submission.teacher_id = @current_teacher.nil? ? nil: @current_teacher.id
     @current_submission.act_assessment_id = @current_assessment.nil? ? nil: @current_assessment.id
     @current_submission.act_subject_id = @current_assessment.nil? ? nil: @current_assessment.act_subject_id
-    @current_submission.act_master_id = @current_assessment.nil? ? nil: @current_assessment.act_master_id
+    @current_submission.act_master_id = @current_provider.master_standard.id
     @current_submission.duration = assessment_duration
     @current_submission.student_comment = params[:act_submission][:student_comment]
     @current_submission.teacher_comment = ''
@@ -360,7 +361,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
   end
 
   def score_submission
-    @current_submission.score_it!(@current_provider.master_standard.id)
+    @current_submission.score_it!(@current_provider.master_standard)
   end
 
   def auto_finalize?

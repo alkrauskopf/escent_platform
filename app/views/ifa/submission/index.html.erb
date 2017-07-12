@@ -93,7 +93,7 @@
     <% ActSubject.plannable.each do |subj| %>
       <div id="tabs-3<%= subj.id.to_s%>" class="row">
         <div class="col-md-12">
-          <%= render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student => @current_user, :subject => subj, :show_form => @current_user.show_ifa_plan_form?(subj)} %>
+          <%= render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @current_user.ifa_plan_subject(subj), :student => @current_user, :subject => subj, :show_form => @current_user.show_ifa_plan_form?(subj)} %>
         </div>
       </div>
     <% end %>

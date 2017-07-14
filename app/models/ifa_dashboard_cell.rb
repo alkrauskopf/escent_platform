@@ -16,4 +16,12 @@ class IfaDashboardCell < ActiveRecord::Base
     where('act_master_id = ?', standard.id).map{|c| c.act_score_range}.uniq.sort_by{|r| r.lower_score}
   end
 
+  def self.for_standard(standard)
+    where('act_master_id = ?', standard.id)
+  end
+
+  def self.for_level(level)
+    where('act_score_range_id = ?', level.id)
+  end
+
 end

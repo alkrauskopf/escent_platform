@@ -114,6 +114,10 @@ class IfaDashboard < ActiveRecord::Base
     self.ifa_dashboard_cells.for_standard(standard)
   end
 
+  def cells_for_level(level)
+    self.ifa_dashboard_cells.for_level(level)
+  end
+
   def total_points
     self.ifa_dashboard_cells.map{|c| c.fin_points}.sum
   end
@@ -128,6 +132,22 @@ class IfaDashboard < ActiveRecord::Base
 
   def total_c_answers
     self.ifa_dashboard_cells.map{|c| c.calibrated_answers}.sum
+  end
+
+  def total_level_points(level)
+    self.cells_for_level(level).map{|c| c.fin_points}.sum
+  end
+
+  def total_level_c_points(level)
+    self.cells_for_level(level).map{|c| c.cal_points}.sum
+  end
+
+  def total_level_answers(level)
+    self.cells_for_level(level).map{|c| c.finalized_answers}.sum
+  end
+
+  def total_level_c_answers(level)
+    self.cells_for_level(level).map{|c| c.calibrated_answers}.sum
   end
 
   def entity
@@ -191,6 +211,21 @@ class IfaDashboard < ActiveRecord::Base
       score = self.level_range(standard).first.upper_score
     end
     score
+  end
+
+  def calculated_weighted_score(standard, option={})
+    weighted_score = 0.0
+    standard.mastery_levels(self.act_subject).each do |level|
+      cell_level_answers = option[:calibrated] ? self.total_level_c_answers(level).to_f : self.total_level_answers(level).to_f
+      cell_level_points = option[:calibrated] ? self.total_level_c_points(level) : self.total_level_points(level)
+      total_answers = option[:calibrated] ? self.calibrated_answers.to_f : self.finalized_answers.to_f
+      if cell_level_answers != 0
+        delta = level.upper_score - level.lower_score
+        level_position = level.lower_score.to_f + delta.to_f * cell_level_points/cell_level_answers
+        weighted_score += level_position * cell_level_answers
+      end
+    end
+    weighted_score == 0.0 ? standard.mastery_levels(self.act_subject).first.lower_score : (weighted_score/total_answers).to_i
   end
 
 end

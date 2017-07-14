@@ -39,6 +39,11 @@ class ActAnswer < ActiveRecord::Base
   def self.selected_level_strand(level, strand)
     where("was_selected").select{|a| a.mastery_level == level && a.strand == strand}
   end
+
+  def self.selected_level(level)
+    where("was_selected").select{|a| a.mastery_level == level}
+  end
+
   def self.selected
     where('was_selected')
   end

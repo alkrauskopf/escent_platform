@@ -273,9 +273,21 @@ class ActSubmission < ActiveRecord::Base
   def score_it!(standard)
     self.act_submission_scores.destroy_all
     submission_score = ActSubmissionScore.new(:act_master_id => standard.id)
-    submission_score.est_sms = self.standard_scoring_rule
-    submission_score.final_sms = self.standard_scoring_rule
+    submission_score.est_sms = self.weighted_scoring_rule(standard)
+    submission_score.final_sms = self.weighted_scoring_rule(standard)
     self.act_submission_scores << submission_score
+  end
+
+  def weighted_scoring_rule(standard)
+    weighted_score = 0.0
+    standard.mastery_levels(self.subject).each do |level|
+      if self.answers_selected(:level=>level) != 0
+        delta = level.upper_score - level.lower_score
+        level_position = level.lower_score.to_f + delta.to_f * self.answer_points(:level=>level)/self.answers_selected(:level=>level).to_f
+        weighted_score += level_position * self.answers_selected(:level=>level).to_f
+      end
+    end
+    weighted_score == 0.0 ? self.lower_bound_score : (weighted_score/self.tot_choices.to_f).to_i
   end
 
   def score_for(standard)
@@ -299,11 +311,11 @@ class ActSubmission < ActiveRecord::Base
     self.tot_choices = self.total_choices
     if self.score_for(standard).nil?
       submission_score = ActSubmissionScore.new(:act_master_id => standard.id)
-      submission_score.est_sms = self.standard_scoring_rule
-      submission_score.final_sms = self.standard_scoring_rule
+      submission_score.est_sms = self.weighted_scoring_rule(standard)
+      submission_score.final_sms = self.weighted_scoring_rule(standard)
       self.act_submission_scores << submission_score
     else
-      self.score_for(standard).update_attributes(:final_sms => self.standard_scoring_rule)
+      self.score_for(standard).update_attributes(:final_sms => self.weighted_scoring_rule(standard))
     end
     if self.save
       # Update User Dashboard Only
@@ -451,8 +463,8 @@ class ActSubmission < ActiveRecord::Base
       end
       dashboard_sms.score_range_min = entity_dashboard.level_range(standard).first.lower_score rescue 0
       dashboard_sms.score_range_max = entity_dashboard.level_range(standard).last.upper_score rescue 0
-      dashboard_sms.standard_score = entity_dashboard.calculated_standard_score(standard, :calibrated => false)
-      dashboard_sms.standard_score_cal = entity_dashboard.calculated_standard_score(standard, :calibrated => true)
+      dashboard_sms.standard_score = entity_dashboard.calculated_weighted_score(standard, :calibrated => false)
+      dashboard_sms.standard_score_cal = entity_dashboard.calculated_weighted_score(standard, :calibrated => true)
       dashboard_sms.sms_finalized = standard.sms_for_dashboard(entity_dashboard, :calibrated => false)
       dashboard_sms.sms_calibrated = standard.sms_for_dashboard(entity_dashboard, :calibrated => true)
       dashboard_sms.baseline_score = standard.base_score(entity, self.act_subject)

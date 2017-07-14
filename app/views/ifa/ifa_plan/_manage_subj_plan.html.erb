@@ -1,13 +1,4 @@
 <div id="manage_plan_<%=student.id%><%=subject.public_id%>">
-  <% if student_plan.nil? %>
-    <div class="row precision_milestone_panel ifa_panel_title">
-      <% if @current_user == student %>
-        <div class="button_blue" id="create_plan_<%=subject.id%>">
-          Create Plan
-        </div>
-      <% end %>
-    </div>
-  <% else %>
     <% if !show_form %>
       <div  class="ifa_subject_plan_box ">
         <div class= "precision_prep_gold_panel">
@@ -39,14 +30,8 @@
         </div>
       </div>
     <% else %>
-          <% if !student_plan.user.nil? && !student_plan.act_subject.nil? %>
-            <%= render :partial =>  "/ifa/ifa_plan/form_plan", :locals=>{:plan=>student_plan}%>
-          <% else %>
-            Plan's Student or Subject Do Not Exist
-          <% end %>
-        <% end %>
-      <% end %>
-
+      <%= render :partial =>  "/ifa/ifa_plan/form_plan", :locals=>{:plan=>student_plan, :student => student, :subject => subject}%>
+    <% end %>
 </div>
 <script type="text/javascript">
   jQ(document).ready(function() {

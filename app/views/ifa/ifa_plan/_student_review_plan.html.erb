@@ -1,0 +1,78 @@
+<div id="student_plan_<%=subject.id%><%=student.id%>" >
+  <div class="teacher_review_student_plan">
+    <div class="row">
+      <div class="col-md-3 name">
+        <%= subject.name %>
+      </div>
+      <% if show != 'No' && !student_plan.nil?%>
+        <div class="col-md-2 view">
+          <span id = "view_close_plan_<%=student.id%><%=subject.id%>" class='button_blue'>
+            Close Plan
+          </span>
+        </div>
+      <% else %>
+        <div class="col-md-2 view">
+          <% if !student_plan.nil? %>
+            <span id = "view_plan_<%=student.id%><%=subject.id%>" class='button_blue'>
+              View Plan
+            </span>
+          <% else %>
+            <span id = "create_plan_<%=student.id%><%=subject.id%>" class='button_green'>
+              Create Plan
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+      <div class="col-md-3 stat">
+        <% if !student_plan.nil? %>
+          <%= pluralize(student_plan.milestones.size, ' Milestone') %><br/><%= student_plan.milestones.achieved.size %> Completed
+        <% end %>
+      </div>
+      <div class="col-md-4 stat">
+        <% if !student_plan.nil? %>
+            <%= pluralize(student_plan.evidence_list.size, ' Evidence Attachment') %><br/>
+            <%= pluralize(student_plan.remarks.size, ' Teacher Remark') %>
+        <% end %>
+      </div>
+    </div>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#view_plan_<%=student.id%><%=subject.id%>").click(function(){
+          var url = "<%= ifa_plan_student_review_url(:organization_id => @current_organization, :act_subject_id => subject.id, :student_id => student.id, :show=>'Yes') %>";
+          jQ.get(url, {}, function(data) {
+            jQ("#student_plan_<%=subject.id%><%=student.id%>").html(data);
+            jQ("#student_plan_<%=subject.id%><%=student.id%>").show();
+          });
+        })
+      });
+    </script>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#create_plan_<%=student.id%><%=subject.id%>").click(function(){
+          var url = "<%= ifa_plan_student_review_url(:organization_id => @current_organization, :act_subject_id => subject.id, :student_id => student.id, :show=>'Create') %>";
+          jQ.get(url, {}, function(data) {
+            jQ("#student_plan_<%=subject.id%><%=student.id%>").html(data);
+            jQ("#student_plan_<%=subject.id%><%=student.id%>").show();
+          });
+        })
+      });
+    </script>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#view_close_plan_<%=student.id%><%=subject.id%>").click(function(){
+          var url = "<%= ifa_plan_student_review_close_url(:organization_id => @current_organization, :act_subject_id => subject.id, :student_id => student.id) %>";
+          jQ.get(url, {}, function(data) {
+            jQ("#student_plan_<%=subject.id%><%=student.id%>").html(data);
+            jQ("#student_plan_<%=subject.id%><%=student.id%>").show();
+          });
+        })
+      });
+    </script>
+    <% if show != 'No' %>
+        <% show_form = show == 'Create' ? true : false %>
+      <div>
+        <%= render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => student_plan, :student => student, :subject => subject, :show_form => show_form} %>
+      </div>
+    <% end %>
+  </div>
+</div>

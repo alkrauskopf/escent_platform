@@ -2,17 +2,17 @@
   <div class="teacher_review_student_plan">
     <% student_plan = student.ifa_plan_subject(subject) rescue nil%>
     <div class="row">
-      <div class="col-md-2 name">
-        <%= student.last_name_first%>
+      <div class="col-md-3 name">
+        <%= student.last_name_first %>
       </div>
       <% if show == 'Yes' %>
-        <div class="col-md-3 view">
+        <div class="col-md-2 view">
           <span id = "view_close_plan_<%=student.id%><%=subject.id%>" class='button_gray'>
             Close Plan
           </span>
         </div>
       <% else %>
-        <div class="col-md-3 view">
+        <div class="col-md-2 view">
           <% if !student_plan.nil? %>
             <span id = "view_plan_<%=student.id%><%=subject.id%>" class='button_gray'>
               View Plan

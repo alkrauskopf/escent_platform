@@ -1,67 +1,58 @@
 <div  class="ifa_plan_edit_box ">
       <div class="row ifa_plan_edit_row">
         <div class="edit_label">
-          Your <%=plan.act_subject.name %> Needs
+          Your <%=subject.name %> Needs
         </div>
-        <div class="explain">
-          Review your <%=plan.act_subject.name %> data.&nbsp;
-          Reflect upon,and explain, your Needs & Challenges.
-        </div>
+        <% needs_placeholder = 'Reflect upon your ' +  subject.name + ' data. Explain your Needs and Challenges.' %>
       </div>
       <div class="row ifa_plan_text_box">
         <div class="col-md-2"></div>
         <div class="col-md-10">
-          <%= text_area :needs, plan.public_id, :rows=>10, :cols => 60, :value => plan.needs%>
+          <%= text_area :needs, subject.public_id, :rows=>10, :cols => 60, :placeholder => needs_placeholder, :value => plan.needs%>
         </div>
       </div>
       <hr>
       <div class="row ifa_plan_edit_row">
         <div class="edit_label">
-          Your <%=plan.act_subject.name %> Goals
+          Your <%= subject.name %> Goals
         </div>
-        <div class="explain">
-          In the coming year, what do you hope to master in <%=plan.act_subject.name %>? Be as specific as possible.
-        </div>
+        <% goals_placeholder = 'In the coming year, what do you hope to master in ' +  subject.name + '? Be as specific as possible.' %>
       </div>
       <div class="row ifa_plan_text_box">
         <div class="col-md-2"></div>
         <div class="col-md-10">
-          <%= text_area :goals, plan.public_id, :rows=>10, :cols => 60, :value => plan.goals%>
+          <%= text_area :goals, subject.public_id, :rows=>10, :cols => 60, :placeholder => goals_placeholder, :value => plan.goals%>
         </div>
       </div>
       <div class="row ifa_plan_edit_row">
         <div class="col-md-2 label">
-          <span class="button_blue" id="plan_update<%=plan.id%>">
+          <span class="button_blue" id="plan_update<%=subject.id%>">
             <%= 'Update' %>
           </span>
         </div>
-        <div class="col-md-8 ifa_edit_text"></div>
-        <div class="col-md-2 label">
-          <span class="button_orange" id="plan_cancel<%=plan.id%>">
-            Cancel
-          </span>
-        </div>
+        <div class="col-md-10 ifa_edit_text"></div>
       </div>
   <script type="text/javascript">
     jQ(document).ready(function() {
-      jQ("#plan_cancel<%=plan.id%>").click(function(){
-        var url = "<%= ifa_plan_update_cancel_url(:organization_id => @current_organization, :act_subject_id => plan.act_subject.id) %>";
+      jQ("#plan_cancel<%=subject.id%>").click(function(){
+        var url = "<%= ifa_plan_update_cancel_url(:organization_id => @current_organization, :student_id => student.id, :act_subject_id => subject.id) %>";
           jQ.get(url, {}, function(data) {
-            jQ("#manage_plan_<%=plan.user.id%><%=plan.act_subject.public_id%>").html(data);
-            jQ("#manage_plan_<%=plan.user.id%><%=plan.act_subject.public_id%>").show();
+            jQ("#manage_plan_<%=student.id%><%=subject.public_id%>").html(data);
+            jQ("#manage_plan_<%=student.id%><%=subject.public_id%>").show();
           });
         })
       });
   </script>
   <script type="text/javascript">
     jQ(document).ready(function() {
-      jQ("#plan_update<%=plan.id%>").click(function(){
-        var needs = jQ("#needs_<%=plan.public_id%>").val();
-        var goals = jQ("#goals_<%=plan.public_id%>").val();
-        var url = "<%= ifa_plan_update_url(:organization_id => @current_organization, :ifa_plan_id => plan.public_id) %>";
+      jQ("#plan_update<%=subject.id%>").click(function(){
+        var needs = jQ("#needs_<%=subject.public_id%>").val();
+        var goals = jQ("#goals_<%=subject.public_id%>").val();
+        var url = "<%= ifa_plan_update_url(:organization_id => @current_organization, :student_id => student.id,
+              :act_subject_id => subject.id, :ifa_plan_id => (plan.id.nil? ? nil : plan.id)) %>";
         jQ.get(url, {'needs':needs, 'goals':goals}, function(data) {
-          jQ("#manage_plan_<%=plan.user.id%><%=plan.act_subject.public_id%>").html(data);
-          jQ("#manage_plan_<%=plan.user.id%><%=plan.act_subject.public_id%>").show();
+          jQ("#manage_plan_<%=student.id%><%=subject.public_id%>").html(data);
+          jQ("#manage_plan_<%=student.id%><%=subject.public_id%>").show();
         });
       })
     });

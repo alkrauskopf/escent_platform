@@ -68,17 +68,15 @@
         <%= tab_1_label %></span></a>
       </li>
       <li>
-        <%  tab_2_label = " My Growth " %>
+        <%  tab_2_label = " My Dashboards " %>
         <a href="#tabs-2"><span class="tab_label">
         <%= tab_2_label %></span></a>
       </li>
-      <% ActSubject.plannable.each do |subj| %>
-        <li>
-          <%  tab_2_label = 'My ' + subj.name + ' Plan' %>
-          <a href="#tabs-3<%= subj.id.to_s%>"><span class="tab_label">
-          <%= tab_2_label %></span></a>
-        </li>
-      <% end %>
+      <li>
+        <%  tab_3_label = 'My Growth Plans' %>
+        <a href="#tabs-3"><span class="tab_label">
+        <%= tab_3_label %></span></a>
+      </li>
     </ul>
     <div id="tabs-1" class="row">
       <div class="col-md-12">
@@ -90,13 +88,11 @@
         <%= render :partial => "your_growth"  -%>
       </div>
     </div>
-    <% ActSubject.plannable.each do |subj| %>
-      <div id="tabs-3<%= subj.id.to_s%>" class="row">
-        <div class="col-md-12">
-          <%= render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @current_user.ifa_plan_subject(subj), :student => @current_user, :subject => subj, :show_form => @current_user.show_ifa_plan_form?(subj)} %>
-        </div>
+    <div id="tabs-3" class="row">
+      <div class="col-md-12">
+        <%= render :partial => "/ifa/ifa_plan/student_review_plans" %>
       </div>
-    <% end %>
+    </div>
   </div>
   <script type="text/javascript" charset="utf-8">
     jQ(document).ready(function(){

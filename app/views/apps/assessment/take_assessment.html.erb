@@ -76,11 +76,12 @@
     <%= render :partial => "your_growth"  -%>
     <%#=    render :partial => "/ifa/ifa_dashboard/student_history", :locals=>{:subjects => @assessment_subjects} %>
   </div>
-  <% ActSubject.plannable.each do |subj| %>
-    <div id="tabs-3<%= subj.id.to_s%>" class="row">
-      <%=    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:subject => subj, :show_form => @current_user.show_ifa_plan_form?(subj)} %>
+
+    <div id="tabs-3" class="row">
+      <div class="col-md-12">
+        <%= render :partial => "/ifa/ifa_plan/student_review_plans" %>
+      </div>
     </div>
-  <% end %>
 
   <br style="clear:both" />
 

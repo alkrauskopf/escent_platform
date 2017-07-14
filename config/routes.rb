@@ -462,7 +462,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/plan/subject' => 'ifa/ifa_plan#plan_subject' #  ifa_plan_subject_path
   get '/ifa/plan/create' => 'ifa/ifa_plan#plan_create' #  ifa_plan_create_url
   get '/ifa/plan/show/form' => 'ifa/ifa_plan#plan_show_form' #  ifa_plan_show_form_url
-  get '/ifa/plan/update' => 'ifa/ifa_plan#plan_update' #  ifa_plan_update_url
+  get '/ifa/plan/update' => 'ifa/ifa_plan#plan_update_2' #  ifa_plan_update_url
   post '/ifa/plan/update' => 'ifa/ifa_plan#plan_update_2' #  ifa_plan_update_url
   get '/ifa/plan/update/cancel' => 'ifa/ifa_plan#plan_update_cancel' #  ifa_plan_update_cancel_url
   get '/ifa/milestone/create' => 'ifa/ifa_plan#milestone_create' #  ifa_milestone_create_url
@@ -474,6 +474,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/milestone/achieved' => 'ifa/ifa_plan#milestone_achieved' #  ifa_milestone_achieved_url
   get '/ifa/plan/teacher/review' => 'ifa/ifa_plan#plan_teacher_review' #  ifa_plan_teacher_review_path
   get '/ifa/plan/teacher/review/close' => 'ifa/ifa_plan#plan_teacher_review_close' #  ifa_plan_teacher_review_close_path
+  get '/ifa/plan/student/review' => 'ifa/ifa_plan#plan_student_review' #  ifa_plan_student_review_path
+  get '/ifa/plan/student/review/close' => 'ifa/ifa_plan#plan_student_review_close' #  ifa_plan_student_review_close_path
   get '/ifa/milestone/achieve/toggle' => 'ifa/ifa_plan#milestone_achieve_toggle' #  ifa_milestone_achieve_toggle_url
   get '/ifa/remark/add' => 'ifa/ifa_plan#plan_teacher_remark_update' #  ifa_remark_add_url
   get '/ifa/remark/destroy' => 'ifa/ifa_plan#plan_teacher_remark_destroy' #  ifa_remark_destroy_url

@@ -51,11 +51,16 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def plan_update_2
-    set_plan
-    if @user_plan
-      @user_plan.update_attributes(:needs=>params[:ifa_plan][:needs],:goals=>params[:ifa_plan][:goals])
+    current_subject
+    current_student
+    current_plan
+    if @current_plan
+      @current_plan.update_attributes(:needs=>params[:needs],:goals=>params[:goals])
+    else
+      @current_plan = IfaPlan.create(:act_subject_id => @current_subject.id, :needs=>params[:needs], :goals=>params[:goals])
+      @current_student.ifa_plans << @current_plan
     end
-    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_user, :subject => @user_plan.act_subject, :show_form => @current_user.show_ifa_plan_form?(@subject)}
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @current_student.ifa_plan_subject(@current_subject), :student => @current_student, :subject => @current_subject, :show_form => false}
   end
 
   def plan_show_form
@@ -66,8 +71,9 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
 
   def plan_update_cancel
     current_subject
-    @user_plan = @current_user.ifa_plan_subject(@current_subject)
-    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_user, :subject => @current_subject, :show_form => @current_user.show_ifa_plan_form?(@current_subject)}
+    current_student
+    @user_plan = @current_student.ifa_plan_subject(@current_subject) rescue nil
+    render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_student, :subject => @current_subject, :show_form => @current_user.show_ifa_plan_form?(@current_subject)}
   end
 
   def milestone_create
@@ -161,6 +167,26 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     current_subject
     current_student
     render :partial => '/ifa/ifa_plan/teacher_review_plan', :locals=>{:student => @current_student, :subject => @current_subject, :show => 'No'}
+  end
+
+  def plan_student_review
+    current_subject
+    current_student
+    if params[:show] == 'Create'
+      @user_plan = IfaPlan.new
+    else
+      @user_plan = @current_student.ifa_plan_subject(@current_subject) rescue nil
+    end
+    @remarks = @user_plan.nil? ? [] : @user_plan.remarks
+    @milestones= @user_plan.nil? ? nil : @user_plan.ifa_plan_milestones.by_last_updated
+    render :partial => "/ifa/ifa_plan/student_review_plan", :locals=>{:student_plan => @user_plan, :student => @current_student, :subject => @current_subject, :show => params[:show]}
+  end
+
+  def plan_student_review_close
+    current_subject
+    current_student
+    @user_plan = @current_student.ifa_plan_subject(@current_subject) rescue nil
+    render :partial => '/ifa/ifa_plan/student_review_plan', :locals=>{:student_plan => @user_plan, :student => @current_student, :subject => @current_subject, :show => 'No'}
   end
 
   def plan_teacher_remark_update
@@ -340,6 +366,9 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     if @user_plan.nil?
       @user_plan = IfaPlan.find_by_id(params[:ifa_plan_id]) rescue nil
     end
+  end
+  def current_plan
+    @current_plan = IfaPlan.find_by_id(params[:ifa_plan_id]) rescue nil
   end
 
   def set_milestone

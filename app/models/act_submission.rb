@@ -287,7 +287,7 @@ class ActSubmission < ActiveRecord::Base
         weighted_score += level_position * self.answers_selected(:level=>level).to_f
       end
     end
-    weighted_score == 0.0 ? self.lower_bound_score : (weighted_score/self.tot_choices.to_f).to_i
+    (weighted_score == 0.0 || self.tot_choices == 0) ? self.lower_bound_score : (weighted_score/self.tot_choices.to_f).to_i
   end
 
   def score_for(standard)

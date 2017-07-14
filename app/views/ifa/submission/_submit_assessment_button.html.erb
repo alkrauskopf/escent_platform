@@ -6,7 +6,7 @@
       <% button_class = (@current_teacher.nil? || (view_mode == 'Preview')) ? 'btn btn-primary btn-xs disabled' : 'btn btn-primary btn-xs enabled' %>
       <div class=" assess_button">
         <input type="hidden" name="teacher_id" value="<%= @current_teacher.nil? ? 0 : @current_teacher.id %>">
-        <%= submit_tag 'Submit Assessment',:class => button_class, :confirm => "Are You Sure?" %>
+          <%= submit_tag 'Submit Assessment', :id=>'btnSubmit', :class => button_class, :confirm => "Are You Sure?" %>
         <span class='assess_button_label'>
           <%= @current_teacher.nil? ? 'Teacher?' : @current_teacher.last_name%>
         </span>
@@ -30,6 +30,14 @@
           });
         </script>
       <% end -%>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#formAssess").submit(function(){
+            jQ("#btnSubmit").attr("disabled", true);
+            return true;
+          });
+        });
+      </script>
     </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 
 <%= form_for(:act_submission, :url => ifa_submission_submit_path(:organization_id => @current_organization, :classroom_id => (@current_classroom.nil? ? nil : @current_classroom.id),
                                                                  :topic_id => (@current_topic.nil? ? nil :@current_topic.id), :period_id => (@current_classroom_period.nil? ? nil : @current_classroom_period.id),
-                                                                 :act_assessment_id => @current_assessment.id, :begin_time => @begin_time), html: { id: "id"}) do |form| -%>
+                                                                 :act_assessment_id => @current_assessment.id, :begin_time => @begin_time), html: { id: "formAssess"}) do |form| -%>
     <%= render :partial => "assessment_form",
              :locals=>{:view_mode => @view_mode,
                        :form_heading => (@view_mode == 'Take' ? @current_classroom.name.upcase  : 'Assessment Preview'),

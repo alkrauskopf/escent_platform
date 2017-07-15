@@ -9,7 +9,7 @@ class ActGenre < ActiveRecord::Base
   end
 
   def self.active
-    where('is_active')
+    where('is_active').order('name ASC')
   end
 
 end

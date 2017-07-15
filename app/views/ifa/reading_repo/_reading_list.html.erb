@@ -1,0 +1,111 @@
+<div id="reading_pool">
+  <div class="row repo_pool_select">
+    <div class="col-md-1 "></div>
+    <div class="col-md-5">
+      <div id="read_user_select">
+        <%=  select( :reading_user, :id, ActRelReading.creators.collect{|s| [(s.last_name + ' | ' + s.organization.short_name), s.id]}, {:prompt => "Reading Creator"}) %>
+      </div>
+    </div>
+    <div class="col-md-5 ">
+      <div id="read_subject_select">
+        <%=  select( :reading_subject, :id,  ActSubject.all_subjects.collect{|s| [s.name , s.id]}, {:prompt => "Reading Subject"}) %>
+      </div>
+    </div>
+    <div class="col-md-1 "></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#read_user_select").change(function(){
+        var entity_id = jQ('#reading_user_id').val();
+        var url = "<%= ifa_repo_reading_pool_select_url(:organization_id => @current_organization, :entity_class => 'User') %>";
+        jQ.get(url, {'entity_id': entity_id}, function(data) {
+          jQ("#reading_pool").html(data);
+          jQ("#reading_pool").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#read_subject_select").change(function(){
+        var entity_id = jQ('#reading_subject_id').val();
+        var url = "<%= ifa_repo_reading_pool_select_url(:organization_id => @current_organization, :entity_class => 'ActSubject') %>";
+        jQ.get(url, {'entity_id': entity_id}, function(data) {
+          jQ("#reading_pool").html(data);
+          jQ("#reading_pool").show();
+        });
+      })
+    });
+  </script>
+  <% if @entity_readings %>
+    <div class="row repo_pool_list">
+      <div class= "col-md-12 ">
+        <div class="repo_panel repo_pool_header_label">
+          <%= pluralize(@entity_readings.size, ' ' + (@current_entity.nil? ? 'Empty':@current_entity.name) + ' Reading') %>
+        </div>
+      </div>
+    </div>
+    <% @entity_readings.each do |reading| %>
+      <div class="row repo_pool_text">
+        <div class= "col-md-3 assessment_pool_name">
+          <div >
+            <%= reading.act_subject.name %>
+          </div>
+          <div >
+            <%= reading.user ? reading.user.last_name.upcase : 'Former User' %>
+          </div>
+        </div>
+        <div class= "col-md-5">
+          <div class="assessment_pool_name">
+            <p>
+              <%= reading.label%>
+            </p>
+            <p>
+              <%= reading.genre.nil? ? 'No Genre' : reading.genre.name %>
+            </p>
+            <p>
+              Supports <%= pluralize(reading.questions.size, ' Question') %>
+            </p>
+          </div>
+        </div>
+        <div class= "col-md-2">
+          <div class="row assessment_pool_button">
+            <%= link_to "View", ifa_repo_reading_show_path(:organization_id => @current_organization, :act_reading_id => reading.id,), {:class => 'button_gray', :target => '_blank'}%>
+          </div>
+        </div>
+        <div class= "col-md-2">
+          <% if reading.updateable?(@current_user)%>
+            <div class="row">
+              <div class="col-md-12 assessment_pool_button">
+                <%= link_to 'Update', ifa_repo_reading_edit_path(:organization_id => @current_organization, :act_reading_id => reading.id),
+                            {:style => 'color:white', :class => "button_link_blue", :target => '_blank'} %>
+              </div>
+            </div>
+          <% end %>
+          <% if reading.destroyable?(@current_user) %>
+            <div class="row">
+              <div class="col-md-12 assessment_pool_button">
+                <span id = "destroy_<%=reading.id%>" class="button_red">
+                  Destroy
+                </span>
+              </div>
+            </div>
+            <script type="text/javascript">
+              jQ(document).ready(function() {
+                jQ("#destroy_<%=reading.id%>").click(function(){
+                  var url = "<%= ifa_repo_reading_destroy_url(:organization_id => @current_organization,
+                              :entity_class => (@current_entity.nil? ? '' : @current_entity.class.to_s), :entity_id => (@current_entity.nil? ? 0 :@current_entity.id), :act_reading_id => reading.id ) %>";
+                  jQ.get(url, {}, function(data) {
+                    jQ("#reading_pool").html(data);
+                    jQ("#reading_pool").show();
+                  });
+                })
+              });
+            </script>
+          <% end %>
+        </div>
+      </div>
+      <hr>
+    <% end %>
+  <% end %>
+</div>

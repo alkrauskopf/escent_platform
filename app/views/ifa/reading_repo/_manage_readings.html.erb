@@ -1,0 +1,16 @@
+<div class="question_pool_box">
+  <div class="row">
+    <div class="col-md-3 "></div>
+    <div class="col-md-6 ">
+      <div class="ifa_panel_title">
+        Related Reading Repository: <%= pluralize(@active_readings.size, " Available Reading") %>
+      </div>
+    </div>
+    <div class="col-md-3 repo_create_button">
+      <%= link_to 'Create Reading', ifa_repo_reading_add_path(:organization_id => @current_organization),
+                  {:style => 'color:white', :class => "button_link_blue", :target => '_blank'} %>
+    </div>
+  </div>
+  <hr>
+  <%= render :partial =>  "/ifa/reading_repo/reading_list"%>
+</div>

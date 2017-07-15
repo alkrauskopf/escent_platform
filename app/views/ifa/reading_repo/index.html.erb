@@ -1,0 +1,50 @@
+<div id="ifa_reading_repo" class="repo_box">
+  <div class= 'row panel_title_blue'>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <%=@function.upcase %>&nbsp;Reading
+    </div>
+  </div>
+  <hr>
+  <%= render :partial => "/shared/error_and_notice" %>
+  <% if @function == 'Create'%>
+    <%= form_for(:act_reading,
+                 :url => ifa_repo_reading_create_path(:organization_id => @current_organization, :act_genre_id => @current_genre.nil? ? nil : @current_genre.id,
+                                                      :act_subject_id => @current_subject.nil? ? nil : @current_subject.id, :function => @function), :id=>"formRepo") do |form| -%>
+      <%= render :partial =>  "form_reading", :locals=>{}%>
+      <div class="row repo_submit_button">
+        <div class="col-md-6">
+          <%= form.submit @function + ' Reading', :id=>"btnSubmit", :class =>"update_button button_blue" %>
+        </div>
+        <div class="col-md-6"></div>
+      </div>
+    <% end %>
+  <% else%>
+    <div class= 'row panel_subtitle_blue'>
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <%=@current_reading.subject.nil? ? 'No Subject' : @current_reading.subject.name.upcase %>&nbsp;|&nbsp;
+        <%=@current_reading.genre.nil? ? 'No Genre' : @current_reading.genre.name.upcase %>
+      </div>
+    </div>
+    <%= form_for(:act_reading,
+                 :url => ifa_repo_reading_update_path(:organization_id => @current_organization, :act_reading_id => @current_reading.id, :function => @function), :id=>"formRepo") do |form| -%>
+      <%= render :partial =>  "form_reading", :locals=>{}%>
+      <div class="row repo_button_row">
+        <div class="col-md-3 repo_submit_button">
+          <%= form.submit @function + ' Reading', :id=>"btnSubmit", :class =>"update_button button_blue" %>
+        </div>
+        <div class="col-md-6"></div>
+
+      </div>
+    <% end %>
+  <% end %>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#formRepo").submit(function(){
+        jQ("#btnSubmit").attr("disabled", true);
+        return true;
+      });
+    });
+  </script>
+</div>

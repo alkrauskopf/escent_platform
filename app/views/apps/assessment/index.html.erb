@@ -46,14 +46,14 @@
 		    <%= tab_1_label %></span></a>
       </li>
       <li>
-        <%  tab_2_label = "Related Readings" %>
-        <a href="#tabs-2"><span class="tab_label">
-        <%= tab_2_label %></span></a>
-      </li>
-      <li>
         <%  tab_3_label = "Assessments" %>
         <a href="#tabs-3"><span class="tab_label">
 	    	<%= tab_3_label %></span></a>
+      </li>
+      <li>
+        <%  tab_2_label = "Related Readings" %>
+        <a href="#tabs-2"><span class="tab_label">
+        <%= tab_2_label %></span></a>
       </li>
       <% ActSubject.plannable.each do |subj| %>
         <li>
@@ -76,18 +76,18 @@
         <%= render :partial => "/ifa/question_repo/manage_questions" %>
       </div>
     </div>
-    <div id="tabs-2" class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
-        <%= render :partial => "/apps/assessment/manage_readings" %>
-      </div>
-      <div class="col-md-1"></div>
-    </div>
     <div id="tabs-3" class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10">
-        <%#= render :partial => "/apps/assessment/manage_assessments" %>
         <%= render :partial => "/ifa/assessment_repo/manage_assessments" %>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-2" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%#= render :partial => "/apps/assessment/manage_readings" %>
+        <%= render :partial => "/ifa/reading_repo/manage_readings" %>
       </div>
       <div class="col-md-1"></div>
     </div>

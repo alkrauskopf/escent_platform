@@ -531,6 +531,15 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/repo/assessment/view' => 'ifa/assessment_repo#static_assessment'   # ifa_repo_assessment_view_path
   get '/ifa/repo/assessment/classroom/assign' => 'ifa/assessment_repo#classroom_assign'   # ifa_repo_assessment_classroom_assign_path
 
+  get '/ifa/repo/reading/add' => 'ifa/reading_repo#index'    # ifa_repo_reading_add_path
+  post '/ifa/repo/reading/add' => 'ifa/reading_repo#index'    # ifa_repo_reading_add_path
+  post '/ifa/repo/reading/create' => 'ifa/reading_repo#create'    # ifa_repo_reading_create_url
+  post '/ifa/repo/reading/update' => 'ifa/reading_repo#update'    # ifa_repo_reading_update_url
+  get '/ifa/repo/reading/pool/select' => 'ifa/reading_repo#reading_list'    # ifa_repo_reading_pool_select_path
+  get '/ifa/repo/reading/show' => 'ifa/reading_repo#show' #  ifa_repo_reading_show_path
+  get '/ifa/repo/reading/edit' => 'ifa/reading_repo#edit'    # ifa_repo_reading_edit_path
+  get '/ifa/repo/reading/destroy' => 'ifa/reading_repo#destroy'    # ifa_repo_reading_destroy_path
+
   get '/ifa/take' => 'ifa/submission#index'   # ifa_take_path
   get '/ifa/submission/take' => 'ifa/submission#take_assessment'    # ifa_submission_take_path
   post '/ifa/submission/submit' => 'ifa/submission#submit_assessment'    # ifa_submission_submit_path

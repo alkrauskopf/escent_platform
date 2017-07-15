@@ -1,0 +1,36 @@
+<div id="show_html">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class= "evidence_header_ctr">
+        <%= @current_reading.user.nil? ? 'Former Teacher': @current_reading.user.full_name %>&nbsp;|&nbsp;
+        <%= @current_reading.organization.nil? ? 'Former Org': @current_reading.organization.short_name %>&nbsp;|&nbsp;
+        <%= @current_reading.subject.nil? ? 'No Subject' : @current_reading.subject.name %>&nbsp;|&nbsp;
+        <%= @current_reading.genre.nil? ? 'No Genre' : @current_reading.genre.name %>
+
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class= "evidence_subheader_ctr">
+        <%= @current_reading.label %>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-1" ></div>
+    <div class="col-md-10 evidence_display_box">
+      <div class="row attachment_box">
+          <%= @current_reading.reading.html_safe %>
+      </div>
+    </div>
+    <div class="col-md-1" ></div>
+  </div>
+  <hr>
+</div>

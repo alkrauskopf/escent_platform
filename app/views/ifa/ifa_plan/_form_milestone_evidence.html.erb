@@ -7,72 +7,75 @@
   <div class="row">
     <%= render :partial => "/shared/error_and_notice" %>
   </div>
-  <%= form_for(:ifa_plan_milestone_evidence, :url => ifa_milestone_evidence_update_path(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id,
-                                                                                        :ifa_plan_milestone_evidence_id => @current_evidence.id, :function => function), :html => {:multipart => true}) do |form| -%>
-    <div class="row ifa_milestone_evidence_edit_box">
-      <div class="col-md-2 name">
-        Dear <%= @current_user.first_name %>:
+  <% if function != 'Destroyed' %>
+    <%= form_for(:ifa_plan_milestone_evidence, :url => ifa_milestone_evidence_update_path(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id,
+                                                                                          :ifa_plan_milestone_evidence_id => @current_evidence.id, :function => function), :html => {:multipart => true}) do |form| -%>
+      <div class="row ifa_milestone_evidence_edit_box">
+        <div class="col-md-2 name">
+          Dear <%= @current_user.first_name %>:
+        </div>
+        <div class="col-md-10 ">
+          Upload a Picture or PDF evidence of your <%= milestone_label %> growth.<br/>
+          Or, Add Text, Links, and Video Streams in the Text-box.<br/>
+          Then, close this browser window when you're done.
+        </div>
+        <div class="col-md-1"></div>
       </div>
-      <div class="col-md-10 ">
-        Upload a Picture or PDF evidence of your <%= milestone_label %> growth.<br/>
-        Or, Add Text, Links, and Video Streams in the Text-box.<br/>
-        Then, close this browser window when you're done.
-      </div>
-      <div class="col-md-1"></div>
-    </div>
-    <div class="row ifa_milestone_evidence_edit_row">
-      <div class="col-md-2">
-        Title:
-      </div>
-      <div class="col-md-9">
-        <%= text_field :ifa_plan_milestone_evidence, :name, :size => 40, :placeholder => 'Required', :value => @current_evidence.name  %>
-      </div>
-    </div>
-    <div class="row ifa_milestone_evidence_edit_row">
-      <div class="col-md-2">
-        Explanation:
-      </div>
-      <% placeholder = 'Please explain why this is evidence of your ' + milestone_label + ' growth.' %>
-      <div class="col-md-9">
-        <%= text_area :ifa_plan_milestone_evidence, :explanation, :rows => 5, :cols => 70, :placeholder => placeholder, :value => @current_evidence.explanation  %>
-      </div>
-    </div>
-    <div class="row ifa_milestone_evidence_edit_row">
-      <div class="col-md-2">
-        Picture or PDF<br/>
-        (< 7meg)
-      </div>
-      <div class="col-md-3">
-        <%= file_field_tag 'ifa_plan_milestone_evidence[evidence]', :value => @current_evidence.evidence %>
-      </div>
-      <% if @current_evidence.evidence.present? %>
+      <div class="row ifa_milestone_evidence_edit_row">
         <div class="col-md-2">
-          <%= @current_evidence.attachment_type == 'Image' ? (image_tag @current_evidence.evidence(:small_thumb)) : @current_evidence.attachment_type %>
+          Title:
         </div>
-        <div class=" col-md-4 pool_check_box">
-          <%= check_box :attachment, :delete %>&nbsp;&nbsp;Remove Attachment
+        <div class="col-md-9">
+          <%= text_field :ifa_plan_milestone_evidence, :name, :size => 40, :placeholder => 'Required', :value => @current_evidence.name  %>
         </div>
-      <% end %>
-    </div>
-    <div class="row ifa_milestone_evidence_edit_row">
-      <div class="col-md-2">
-        Text,<br/>
-        Links,<br>
-        Video Streams
       </div>
-      <div class="col-md-9">
-        <%= text_area :ifa_plan_milestone_evidence, :documentation, :class =>"tinymce", :rows => 5, :cols => 70, :value => @current_evidence.documentation  %>
-        <%= tinymce %>
+      <div class="row ifa_milestone_evidence_edit_row">
+        <div class="col-md-2">
+          Explanation:
+        </div>
+        <% placeholder = 'Please explain why this is evidence of your ' + milestone_label + ' growth.' %>
+        <div class="col-md-9">
+          <%= text_area :ifa_plan_milestone_evidence, :explanation, :rows => 5, :cols => 70, :placeholder => placeholder, :value => @current_evidence.explanation  %>
+        </div>
       </div>
-    </div>
-    <div class="row ifa_milestone_evidence_edit_row">
-      <div class="col-md-2">
-        <%= @current_evidence.content_type %>
+      <div class="row ifa_milestone_evidence_edit_row">
+        <div class="col-md-2">
+          Picture or PDF<br/>
+          (< 7meg)
+        </div>
+        <div class="col-md-3">
+          <%= file_field_tag 'ifa_plan_milestone_evidence[evidence]', :value => @current_evidence.evidence %>
+        </div>
+        <% if @current_evidence.evidence.present? %>
+          <div class="col-md-2">
+            <%= @current_evidence.attachment_type == 'Image' ? (image_tag @current_evidence.evidence(:small_thumb)) : @current_evidence.attachment_type %>
+          </div>
+          <div class=" col-md-4 pool_check_box">
+            <%= check_box :attachment, :delete %>&nbsp;&nbsp;Remove Attachment
+          </div>
+        <% end %>
       </div>
-      <div class="col-md-9">
-        <%= form.submit function + ' Evidence', :class =>"button_blue" %>
+      <div class="row ifa_milestone_evidence_edit_row">
+        <div class="col-md-2">
+          Text,<br/>
+          Links,<br>
+          Video Streams
+        </div>
+        <div class="col-md-9">
+          <%= text_area :ifa_plan_milestone_evidence, :documentation, :class =>"tinymce", :rows => 5, :cols => 70, :value => @current_evidence.documentation  %>
+          <%= tinymce %>
+        </div>
       </div>
-    </div>
+      <div class="row ifa_milestone_evidence_edit_row">
+        <div class="col-md-2">
+          <%= @current_evidence.content_type %>
+        </div>
+        <div class="col-md-6">
+          <%= form.submit function + ' Evidence', :class =>"button_blue" %>
+        </div>
+        <div class="col-md-4"></div>
+      </div>
+    <% end %>
   <% end %>
   <hr>
 </div>

@@ -1079,12 +1079,22 @@ font-weight:normal;
   font-size:13px;
 }
 .milestone_evidence_list .function {
-  padding:0em 0em .5em .5em;
+  padding:0em 0em .5em 0em;
   color:$dark_text;
   font-weight:normal;
   text-align:center;
   font-family: Verdana,Arial,Helvetica,sans-serif;
   font-size:13px;
+}
+.milestone_evidence_list .destroy {
+  padding:0em 0em 0em 0em;
+  color:$red_text;
+  cursor:pointer;
+  text-decoration:underline;
+  font-weight:normal;
+  text-align:right;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  font-size:11px;
 }
 .evidence_display_box {
   margin: 2em 0em 2em 0em;

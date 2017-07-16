@@ -235,6 +235,13 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => evidence}
   end
 
+  def evidence_destroy
+    current_evidence
+    @current_milestone = @current_evidence.milestone
+    @current_evidence.destroy
+    render :partial => "/ifa/ifa_plan/evidence_list", :locals => {:milestone => @current_milestone}
+  end
+
   def evidence_cancel
     current_milestone
     render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'No'}
@@ -285,18 +292,6 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     render :layout => "assessment"
   end
 
-  def evidence_updatex
-    current_milestone
-    #NEED TO Fgure out how to do Form in Partial
-    current_evidence
-    if @current_evidence.nil?
-      @current_evidence = IfaPlanMilestoneEvidence.new
-      evidence = 'New'
-    else
-      evidence = 'Edit'
-    end
-    render :partial => "form_milestone_evidence", :locals => {:milestone => @current_milestone, :function => evidence}
-  end
 
   private
 

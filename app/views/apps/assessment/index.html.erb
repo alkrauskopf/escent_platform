@@ -77,36 +77,28 @@
       </div>
     </div>
     <div id="tabs-3" class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
+      <div class="col-md-12">
         <%= render :partial => "/ifa/assessment_repo/manage_assessments" %>
       </div>
-      <div class="col-md-1"></div>
     </div>
     <div id="tabs-2" class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
+      <div class="col-md-12">
         <%#= render :partial => "/apps/assessment/manage_readings" %>
         <%= render :partial => "/ifa/reading_repo/manage_readings" %>
       </div>
-      <div class="col-md-1"></div>
     </div>
     <% ActSubject.plannable.each do |subj| %>
       <div id="tabs-4<%= subj.id.to_s%>" class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
+        <div class="col-md-12">
         <%= render :partial => "/ifa/ifa_plan/teacher_review_plans", :locals=>{:students => @prep_students[subj], :subject => subj} %>
         </div>
-        <div class="col-md-1"></div>
       </div>
     <% end %>
     <% if @admin -%>
       <div id="tabs-7" class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
+        <div class="col-md-12">
           <%= render :partial => "/apps/assessment/manage_baselines" %>
         </div>
-        <div class="col-md-1"></div>
       </div>
     <% end %>
   </div>

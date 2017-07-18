@@ -1,0 +1,121 @@
+<div id="resource_pool">
+  <div class="row resource_pool_select">
+    <div class="col-md-1 "></div>
+    <div class="col-md-5">
+      <div id="user_select">
+        <%=  select( :res_user, :id, @pool_filters['User'].map{|u| [(u.last_name), u.id]}, {:prompt => "Resource Contributor"}) %>
+      </div>
+    </div>
+    <div class="col-md-5 ">
+      <div id="type_select">
+        <%=  select( :res_type, :id, @pool_filters['Type'].map{|t| [(t.name), t.id]}, {:prompt => "Resource Type"}) %>
+      </div>
+    </div>
+    <div class="col-md-1 "></div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#user_select").change(function(){
+        var entity_id = jQ('#res_user_id').val();
+        var url = "<%= rl_resource_filter_url(:organization_id => @current_organization, :entity_class => 'User') %>";
+        jQ.get(url, {'entity_id': entity_id}, function(data) {
+          jQ("#resource_pool").html(data);
+          jQ("#resource_pool").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#type_select").change(function(){
+        var entity_id = jQ('#res_type_id').val();
+        var url = "<%= rl_resource_filter_url(:organization_id => @current_organization, :entity_class => 'ContentObjectTypeGroup') %>";
+        jQ.get(url, {'entity_id': entity_id}, function(data) {
+          jQ("#resource_pool").html(data);
+          jQ("#resource_pool").show();
+        });
+      })
+    });
+  </script>
+
+    <div class="row resource_pool_list">
+      <div class= "col-md-12 ">
+        <div class="resource_pool_panel resource_pool_header_label">
+          <%= pluralize(@resource_pool.size, ' ' + (@current_entity.nil? ? 'Total':@current_entity.name) + ' Resources') %>
+        </div>
+      </div>
+    </div>
+    <% @resource_pool.each do |res| %>
+      <div class="row resource_pool_text">
+        <div class= "col-md-2 resource_pool_name">
+          <div >
+            <%= !res.user.nil? ? res.user.last_name_first : 'Former User' %>
+          </div>
+          <div >
+            <%= res.content_group_name%>
+          </div>
+        </div>
+        <div class= "col-md-4">
+          <div class="resource_pool_name">
+            <p>
+              <%= res.title%>
+            </p>
+          </div>
+          <div >
+            <%= !res.subject_area.nil? ? res.subject_area.name : 'Former Subject' %>
+          </div>
+          <div >
+            Used In <%= pluralize(res.classrooms.size, 'Classroom')%>
+          </div>
+        </div>
+        <div class= "col-md-3 resource_pool_name">
+          <p>
+            <%= pluralize(res.act_questions.size, 'Assessment Question') %>
+          </p>
+          <p>
+            <%= res.act_subject ? res.act_subject.name : 'No Benchmark Tags' %>
+          </p>
+          <p>
+            Level: <%= res.target_score_range.nil? || res.target_score_range.strip.empty? ? '-none-' : res.target_score_range %>
+          </p>
+          <% res.act_standards.each do |strand| %>
+            <p>
+              <%= strand.abbrev %>
+            </p>
+          <% end %>
+        </div>
+        <div class= "col-md-2">
+          <div class="row resource_pool_button">
+            <%= link_to "View", resource_view_path(:organization_id => @current_organization, :id => res), {:target => "_blank"}%>
+          </div>
+          <div class="row">
+            <div class="col-md-12 resource_pool_button">
+              <%= link_to 'Edit', rl_edit_path(:organization_id => @current_organization, :content_id => res.id), {:class => 'button_gray'} %>
+            </div>
+          </div>
+          <% if res.destroyable? %>
+            <div class="row">
+              <div class="col-md-12 assessment_pool_button">
+                <span id = "destroy_<%=res.id%>" class="button_red">
+                  Destroy
+                </span>
+              </div>
+            </div>
+            <script type="text/javascript">
+              jQ(document).ready(function() {
+                jQ("#destroy_<%=res.id%>").click(function(){
+                  var url = "<%= rl_destroy_url(:organization_id => @current_organization, :content_id => res.id,
+                  :entity_id => (@current_entity.nil? ? nil : @current_entity.id ), :entity_class => (@current_entity.nil? ? nil : @current_entity.class.to_s )) %>";
+                  jQ.get(url, {}, function(data) {
+                    jQ("#resource_pool").html(data);
+                    jQ("#resource_pool").show();
+                  });
+                })
+              });
+            </script>
+          <% end %>
+        </div>
+      </div>
+      <hr>
+    <% end %>
+</div>

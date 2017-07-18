@@ -351,14 +351,12 @@ class Apps::TimeLearningController < ApplicationController
       video.publish_end_date = Time.now.advance(:years=>20)
       video.content_object = @tlt_session.tlt_session_video.embed_code
       video.content_object_type = ContentObjectType.find_by_content_object_type("HTML")
-      video.content_upload_source = ContentUploadSource.ctl.first        
       video.terms_of_service = true
       video.is_delete = false
       video.caption = ""
       video.source_url=""
       video.source_name=""
-      video.content_resource_type= ContentResourceType.ctl.first     
-      video.resource_type = ContentResourceType.ctl.first.name
+      video.content_resource_type= ContentResourceType.ctl.first
       video.target_score_range = "-na-"
       video.act_subject_id = @tlt_session.subject_area.act_subject_id
       if video.save       

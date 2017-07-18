@@ -15,4 +15,8 @@ class ContentResourceType < ActiveRecord::Base
     ContentResourceType.where('name LIKE ?', '%' + query + '%').order('name')
   end
 
+  def self.by_name
+   order('name ASC')
+  end
+
 end

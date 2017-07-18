@@ -1,0 +1,32 @@
+<div class="row resource_edit_box">
+  <% if !@current_resource.nil?%>
+      <div class="row resource_edit_row">
+        <div class="col-md-3 resource_label_field">
+          Resource Title
+        </div>
+        <div class="col-md-9 resource_text_field">
+          <%= text_field :content, :title, :size => 55, :maxlength => 150, :value => @current_resource.nil? ? nil : @current_resource.title %>
+        </div>
+      </div>
+      <%= render :partial => "resource_group" %>
+      <%= render :partial => "resource_subject_type" %>
+      <% if @current_standard %>
+        <%= render :partial => "resource_precision_prep" %>
+      <% end %>
+      <%= render :partial => "resource_description" %>
+      <div class="row resource_edit_row">
+        <div class="col-md-1 resource_label_field"></div>
+        <div class="col-md-11 resource_text_field">
+          <div class="row resource_strand_row">
+            <div class="col-md-1 resource_strand_check_box">
+              <%= check_box :content, :terms_of_service %>
+            </div>
+            <div class="col-md-10">
+              Yes, I am authorized to make this submission according to the
+              <%= link_to 'Terms of Service', ep_tos_path, :target => '_blank' %> .
+            </div>
+          </div>
+        </div>
+      </div>
+  <% end %>
+</div>

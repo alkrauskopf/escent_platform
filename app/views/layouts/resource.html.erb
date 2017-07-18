@@ -58,45 +58,32 @@
 			})
 		</script>
 	</head>
+
   <body  class="container iwing_page_background">
-  <div class="row">
-    <div class="resource_container">
-      <%= render(:partial => "/shared/masthead") %>
-      <div id='header'>
-        <%= render(:partial => "/shared/login") %>
-      </div>
-      <!-- close sidebar class div -->
-      <div class="panel_content">
-        <% if @current_organization.can_be_displayed?(@current_user)-%>
-            <%= yield %>
-        <% else -%>
-            <div class="sorry">
-              We're Sorry. <%= @current_organization.name %>&nbsp;is currently not available.
-            </div>
-        <% end -%>
-      </div>
-      <!-- close main_content div -->
-      <div style="clear:both">
-        &nbsp;
-      </div>
-      <div class="bottom"></div>
-      <div class="iwing_footer">
-        <div class="iwing_header_and_footer_bars">
-          <%= render(:partial => "/shared/footer") %>
+    <div class="row">
+      <div class="rl_container">
+        <%= render(:partial => "/shared/masthead") %>
+        <div id="header">
+          <%= render(:partial => "/shared/login") %>
+        </div>
+        <div class="panel_content">
+          <%= yield %>
+        </div>
+        <!-- close main_content div -->
+        <div style="clear:both">
+          &nbsp;
+        </div>
+        <div class="bottom"></div>
+        <div class="iwing_footer">
+          <div class="iwing_header_and_footer_bars">
+            <%= render(:partial => "/shared/footer") %>
+          </div>
+        </div>
+        <%= render(:partial => '/layouts/footer_tos_pp') %>
+        <div id="loading" style="display:none;">
+          <%= image_tag asset_path('ajax-loader.gif') %>
         </div>
       </div>
-      <%= render(:partial => '/layouts/footer_tos_pp') %>
-      <div id="loading" style="display:none;">
-        <%= image_tag asset_path('ajax-loader.gif') %>
-      </div>
     </div>
-    <script type="text/javascript">
-      try {
-        var pageTracker = _gat._getTracker("UA-10167834-1");
-        pageTracker._trackPageview();
-      } catch (err) {
-      }
-    </script>
-  </div>
   </body>
 </html>

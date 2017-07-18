@@ -1229,7 +1229,7 @@ class User < ActiveRecord::Base
   end
 
   def content_admin_for_org?(org)
-    self.has_authority?(AuthorizationLevel.app_library_administrator(CoopApp.core), org, :superuser => true)
+    self.content_manager_for_org?(org)
   end
 
   def content_admin?

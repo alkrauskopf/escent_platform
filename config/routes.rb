@@ -48,7 +48,7 @@ EscentPartners::Application.routes.draw do |map|
 
   # CORE Resource (Content)
 #  get '/resource/view' => 'site/site#static_resource'    #  resource_view_path
-  get '/resource/view' => 'apps/resource_library#static_resource'    #  resource_view_path
+#  get '/resource/view' => 'apps/resource_library#static_resource'    #  resource_view_path
   get '/resource/new' => 'site/contents#submit_resource'
   post '/resource/new' => 'site/contents#submit_resource'
   get '/resource/show' => 'site/contents#index'
@@ -62,6 +62,18 @@ EscentPartners::Application.routes.draw do |map|
   get '/resource/group/show' => 'site/contents#show_group_content'
   get '/resource/group/select' => 'site/contents#select_content_group'
   put '/resource/destroy' => 'site/contents#destroy_selected'
+
+  # CORE Resource Library
+
+  get '/resource/view' => 'apps/resource_library#static_resource'    #  resource_view_path
+  get '/rl/manage' => 'apps/resource_library#index'   #  rl_manage_path
+  get '/rl/add' => 'apps/resource_library#add'   #  rl_add_path
+  get '/rl/edit' => 'apps/resource_library#edit'   #  rl_edit_path
+  post '/rl/create' => 'apps/resource_library#create'   #  rl_create_path
+  get '/rl/destroy' => 'apps/resource_library#destroy'   #  rl_edit_path
+  get '/rl/group' => 'apps/resource_library#group_select'   #  rl_group_path
+  get '/rl/prep/subject' => 'apps/resource_library#prep_subject_select'   #  rl_prep_subject_path
+  get '/rl/resource/filter' => 'apps/resource_library#pool_filter_select'   #  rl_resource_filter_path
 
   # CORE Organization
 #  get '/organization/view' => 'site/site#static_organization', :requirements => {:organization_id => /[a-f\d]{16}/}  #  organization_view_path

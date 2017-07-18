@@ -1,0 +1,2 @@
+module Rl::ResourceLibraryHelper
+end

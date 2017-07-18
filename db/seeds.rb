@@ -24,6 +24,21 @@
 
   create_ifa_standards = false
 
+  add_subject = true
+
+  deactivate_content_types = true
+
+  if deactivate_content_types
+    ContentObjectTypeGroup.find_by_name('VIDEO').update_attributes(:is_active => false)
+    ContentObjectTypeGroup.find_by_name('COMPRESSED').update_attributes(:is_active => false)
+    ContentObjectTypeGroup.find_by_name('AUDIO').update_attributes(:is_active => false)
+    ContentObjectTypeGroup.find_by_name('EMBED CODE').update_attributes(:name => 'VIDEO STREAM', :content_format => 'Text Block')
+    ContentObjectTypeGroup.find_by_name('LINK').update_attributes(:content_format => 'String')
+  end
+
+  if add_subject
+    ActSubject.create({'name' => 'Geometry/Measurement/Statistics', 'is_plannable' => 1})
+  end
 
   if create_ifa_standards
 #  Assumes ActMaster Table was dropped then recreated

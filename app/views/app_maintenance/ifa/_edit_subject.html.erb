@@ -2,7 +2,7 @@
   <div class="row ">
     <div class="col-md-1 "></div>
     <div class="col-md-10 ">
-      <%=subject.name%>, <%=subject.plannable? ? 'Plannable' : 'Not Plannable'%>
+      <%=subject.name%> | <%=subject.plannable? ? ' Plannable' : ' Not Plannable'%> | <%=subject.active? ? ' Active' : ' InActive'%> | <%=subject.posit %>
     </div>
   </div>
   <div class="row">
@@ -12,20 +12,28 @@
       </span>
     </div>
     <div class="col-md-6 ifa_edit_text">
-      <%= text_area :name, subject.id, :rows=>1, :cols => 60, :value => subject.name %>
+      <%= text_area :subj_name, subject.id, :rows=>1, :cols => 60, :value => subject.name %>
     </div>
-    <div class="col-md-4 ifa_edit_text">
+    <div class="col-md-2 ifa_edit_text">
       <%= text_area :is_plannable, subject.id, :rows=>1, :cols => 1, :value => subject.plannable? ? 'Y':'N' %>
+    </div>
+    <div class="col-md-2 ifa_edit_text">
+      <%= text_area :subj_active, subject.id, :rows=>1, :cols => 1, :value => subject.active? ? 'Y':'N' %>
+    </div>
+    <div class="col-md-2 ifa_edit_text">
+      <%= text_area :subj_pos, subject.id, :rows=>1, :cols => 1, :value => subject.posit %>
     </div>
   </div>
 
   <script type="text/javascript">
     jQ(document).ready(function() {
       jQ("#subject_<%=subject.id%>").click(function(){
-        var name = jQ('#name_<%=subject.id%>').val();
+        var name = jQ('#subj_name_<%=subject.id%>').val();
         var plannable = jQ('#is_plannable_<%=subject.id%>').val();
+        var active = jQ('#subj_active_<%=subject.id%>').val();
+        var position = jQ('#subj_pos_<%=subject.id%>').val();
         var url = "<%= app_maintenance_ifa_subject_update_url(:organization_id => @current_organization, :subject_id=> subject.id) %>";
-        jQ.get(url, {'name':name, 'is_plannable':plannable}, function(data) {
+        jQ.get(url, {'name':name, 'is_plannable':plannable, 'is_active':active, 'position':position}, function(data) {
           jQ("#edit_subject_<%= subject.id %>").html(data);
           jQ("#edit_subject_<%= subject.id %>").show();
         });

@@ -1101,11 +1101,6 @@ class Organization < ActiveRecord::Base
     start_date
   end
 
-  
-  def uniq_resource_subjects
-    all = self.contents.active
-    subjects = all.collect{|rsrc| rsrc.subject_area_old}.uniq
-  end
 
   def uniq_classroom_subjects
     self.classrooms.active.collect{|clsrm| clsrm.subject_area}.compact.uniq.sort_by{|s| s.name}

@@ -1,0 +1,30 @@
+<div id="rl_add" class="resource_manage_box">
+  <div class= 'row resource_title'>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <%=@function.upcase %>&nbsp;Resource
+    </div>
+  </div>
+  <hr>
+  <%= render :partial => "/shared/error_and_notice" %>
+  <% if @function == 'Create'%>
+    <%= form_for(:content,
+                 :url => rl_create_path(:organization_id => @current_organization), :html => {:id=>"formResource", :multipart => true}) do |form| -%>
+      <%= render :partial =>  "form_resource", :locals=>{}%>
+      <div class="row resource_button_row">
+        <div class="col-md-1"></div>
+        <div class="col-md-6">
+          <%= submit_tag @function + ' Resource', :id=>"btnSubmit", :class =>"update_button button_blue" %>
+        </div>
+      </div>
+    <% end %>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#formResource").submit(function(){
+          jQ("#btnSubmit").attr("disabled", true);
+          return true;
+        });
+      });
+    </script>
+  <% end %>
+</div>

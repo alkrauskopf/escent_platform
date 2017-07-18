@@ -1,0 +1,21 @@
+<div class="resource_manage_box">
+  <div class="row">
+    <div class="col-md-3 "></div>
+    <div class="col-md-6 ">
+      <div class="resource_title">
+        Your Resource Library Pool Has <%= pluralize(@resource_pool.size, " Resource") %>
+      </div>
+    </div>
+    <div class="col-md-3 "></div>
+  </div>
+  <div class="row">
+    <div class="col-md-5 "></div>
+    <div class="col-md-2 resource_add_row">
+      <%= link_to 'Add Resource', rl_add_path(:organization_id => @current_organization),
+                  {:style => 'color:white', :class => "button_link_blue edit_button"} %>
+    </div>
+    <div class="col-md-5 "></div>
+  </div>
+  <hr>
+  <%= render :partial =>  "/apps/resource_library/resource_pool_list"%>
+</div>

@@ -29,7 +29,7 @@ class ActSubject < ActiveRecord::Base
 
 
   def self.all_subjects
-    where('id != ?', 99).order('name ASC')
+    where('is_enabled').order('posit ASC')
   end
 
   def self.ew
@@ -62,6 +62,14 @@ class ActSubject < ActiveRecord::Base
 
   def self.plannable
     where('is_plannable')
+  end
+
+  def active?
+    self.is_enabled
+  end
+
+  def self.active
+    where('is_enabled')
   end
 
     def available_questions(user, level, strand)

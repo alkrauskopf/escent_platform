@@ -1,0 +1,608 @@
+
+<div style ="text-align:center; color: #C83A14; font-size:18px; margin-top:5px; font-weight:bold">
+
+	<br/>
+	<strong><%= @current_organization.medium_name %>&nbsp;Resource Library Submission</strong>
+</div>
+
+	
+<div class="flash_notice" style="display:none;"></div>	
+	<%= render :partial => "/shared/error_and_notice" %>
+
+<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
+	  <%= link_to 'Select RETURN Destination From Header Bar', organization_view_path(:organization_id => @current_organization) %>
+</div>
+
+
+
+<div class="Form clear">
+<%= form_for(:content, :url => resource_new_path(:organization_id => @current_organization, :function => 'Submit'), :html => { :multipart => true}) do |form| -%>
+
+
+
+<div class="formBox">
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+            Title:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+         <%= text_field :content, :title, :size => 55, :maxlength => 150 %>
+		 <span style="color:#C73914;">*</span>
+        </div>
+    </div>
+
+		<% formats = @content.valid_formats -%>		
+	    <div class="FormRow">
+			<div class="FormRowTitle">
+				<div class="tip_format" title="<%=formats%>">File Format:</div>
+			</div>	
+				<div class="FormRowData" style= "margin-left:25px">
+
+	        <select name="content_object_type[content_object_type_group]" id="content_object_type_content_object_type_group">
+	            <option value="">Select Format</option>
+	            <option value=1 <%= @content_object_group == 1 ? 'selected':'' %>>VIDEO</option>
+	            <option value=2 <%= @content_object_group == 2 ? 'selected':'' %>>IMAGE</option>
+	            <option value=3 <%= @content_object_group == 3 ? 'selected':'' %>>AUDIO</option>
+	<!-- ALK use TEXT option for EMBED CODE Toolbar appearance is sporadic, can't view original contents on update, and can't seem to replace with new contents. -->
+		        <option value=4 <%= @content_object_group == 4 ? 'selected':'' %>>EMBED CODE</option>
+	            <option value=5 <%= @content_object_group == 5 ? 'selected':'' %>>LINK</option>
+	<!-- ALK Remove COMPRESS option for now. Streamline for Pilot. Has questionable value. 
+				<option value=6 <%= @content_object_group == 6 ? 'selected':'' %>>COMPRESSED</option>
+	-->
+	            <option value=7 <%= @content_object_group == 7 ? 'selected':'' %>>PDF</option>
+				<option value=8 <%= @content_object_group == 8 ? 'selected':'' %>>MS WORD,EXCEL,PPT</option>
+			</select>
+			<span style="color:#C73914;">*</span>
+				</div>
+	    </div>
+
+			
+	    <p id="content_link" style="display: <%= @content_object_group == 5 ? 'block' : 'none' %>;">
+	      	<%= label_tag 'content_content_object', 'Link:' %>
+    	    <%= text_field :object,:link, :size => 55%>
+	    </p>
+		
+		<p id="content_upload_panel" style="display: <%= (@content_object_group == 2 ||  @content_object_group ==  1) ? 'block' : 'none' %>;">
+		    <%= label_tag 'content_content_object', 'File:' %>
+		    <%= file_field_tag "content[source_file]" %>
+		</p>
+		
+		<p id="content_editor_panel" style="display: <%= @content_object_group == 4 ? 'block' : 'none' %>;">
+	        <%= label_tag 'content_content_object', 'Embed Code:' %>
+            <%= text_area  :object,:embed, :rows => 7, :cols => 75%>
+
+	    </p>
+		
+		<p id="content_preview_panel" style="display:<%= @content_object_group == 1 ? 'block' : 'none'  %>;">
+    		<%= label_tag 'source_file_preview', 'Preview Image:' %>
+	    	<%= file_field_tag "content[source_file_preview]" %>
+		</p>		
+
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Subject Area:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+		<%#= label_tag 'content_title', 'Subject Area:' %>
+        <%#= text_field  :content, :subject_area, :size => 30, :maxlength => 50, :id => "select_subject_area", :class=>"text" %>
+		<%=  select(:content, :subject_area_id, SubjectArea.all(:order => "name").collect{|s| [s.name, s.id]}, {:prompt => "Select Subject Area"}) %>
+		<span style="color:#C73914;">*</span>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Type of Resource:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+        <%=  select(:content, :content_resource_type_id, ContentResourceType.all(:order => "name").collect{|d| [d.name, d.id]}, {:prompt => "Please Select"}) %>
+        <span style="color:#C73914;">*</span>
+        </div>		
+    </div>
+	
+	<div class="FormRow">
+      <div class="FormRowTitle">
+			<div class="FormRowData" style= "margin-left:25px">&nbsp;</div>
+	  </div>
+    </div>
+
+	<div class="FormRow">
+		<div class="FormRowTitle"><%=@current_standard.abbrev %> ASSESSMENT INFO</div>
+
+			<div class="FormRowData" style= "margin-left:25px">
+
+				<%=  select(:content, :act_subject_id, ActSubject.all.collect{|d| [d.name, d.id]},{:prompt => @current_standard.abbrev + " Subject"}) %>
+
+			</div>
+	</div>
+	<% prompt_line = "Select " + @current_standard.abbrev + " Mastery Level" -%>
+	<div class="FormRow">
+		<div class="FormRowTitle">&nbsp; </div>			
+			<div class="FormRowData" style= "margin-left:25px">			
+ 				<table id="act_english" class="standards" style="display: none; width:80%;"> 
+				<tbody>
+ 				<style type="text/css" media="screen">
+	    		table,tr,td { border:none; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>
+				
+ 					<tr>
+						<td colspan=2>
+					<!--		<%#=  select(:eng, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 2, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>  -->
+              <%=  select(:eng, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, ActSubject.ew).collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
+            </td>
+ 					</tr>
+				<!--	<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 2, @current_standard.id]) rescue nil %>  -->
+          <% standards = ActStandard.for_standard_and_subject(@current_standard, ActSubject.ew) %>
+
+					<% for std in standards do -%>
+ 					<tr>
+						<td style="width:15px">
+						<%#=  select(:act_standard_content, :id, ActStandard.find(:all, :conditions => ["act_subject_id =?", :act_subject_id], :order => "name").collect{|s| [s.name, s.id]},{:prompt => "Select ENGLISH Standard", :multple => true}) %>
+						<%=  check_box_tag "std_check[]", value = std.id ,checked = false %>
+
+						</td>
+						<td style="color:#C73914; width:600px">
+						<%=  std.name %>
+						</td>
+ 					</tr> 				
+					<% end -%>
+				</tbody>
+ 			</table>
+			
+			<table id="act_math" class="standards" style="display: none; width:80%;"> 
+				<tbody>
+ 				<style type="text/css" media="screen">
+	    		table,tr,td { border:none; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>
+				
+ 					<tr>
+						<td colspan=2>
+  <!--				<%#=  select(:math, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 1, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>  -->
+              <%=  select(:math, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, ActSubject.math).collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
+  						</td>
+ 					</tr>
+			<!--		<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 1, @current_standard.id]) rescue nil %>  -->
+          <% standards = ActStandard.for_standard_and_subject(@current_standard, ActSubject.math) %>
+
+					<% for std in standards do -%>
+ 					<tr>
+						<td style="width:15px">
+						<%#=  select(:act_standard_content, :id, ActStandard.find(:all, :conditions => ["act_subject_id =?", :act_subject_id], :order => "name").collect{|s| [s.name, s.id]},{:prompt => "Select ENGLISH Standard", :multple => true}) %>
+						<%=  check_box_tag "std_check[]", value = std.id ,checked = false %>
+
+						</td>
+						<td style="color:#C73914; width:600px">
+						<%=  std.name %>
+						</td>
+ 					</tr> 				
+					<% end -%>
+				</tbody>
+ 			</table>
+			
+			<table id="act_read" class="standards" style="display: none; width:80%;"> 
+				<tbody>
+ 				<style type="text/css" media="screen">
+	    		table,tr,td { border:none; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>
+				
+ 					<tr>
+						<td colspan=2>
+  <!--				<%#=  select(:read, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 3, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>  -->
+              <%=  select(:read, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, ActSubject.rl).collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
+  						</td>
+ 					</tr>
+			<!--		<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 3, @current_standard.id]) rescue nil%>  -->
+        <% standards = ActStandard.for_standard_and_subject(@current_standard, ActSubject.rl)%>
+
+					<% for std in standards do -%>
+ 					<tr>
+						<td style="width:15px">
+						<%#=  select(:act_standard_content, :id, ActStandard.find(:all, :conditions => ["act_subject_id =?", :act_subject_id], :order => "name").collect{|s| [s.name, s.id]},{:prompt => "Select ENGLISH Standard", :multple => true}) %>
+						<%=  check_box_tag "std_check[]", value = std.id ,checked = false %>
+
+						</td>
+						<td style="color:#C73914; width:600px">
+						<%=  std.name %>
+						</td>
+ 					</tr> 				
+					<% end -%>
+				</tbody>
+ 			</table>
+			
+			<table id="act_science" class="standards" style="display: none; width:80%;"> 
+				<tbody>
+ 				<style type="text/css" media="screen">
+	    		table,tr,td { border:none; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>
+				
+ 					<tr>
+						<td colspan=2>
+				<!--	<%#=  select(:sci, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 4, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>  -->
+              <%=  select(:sci, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, ActSubject.science).collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
+  						</td>
+ 					</tr>
+			<!--		<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 4, @current_standard.id])rescue nil %> -->
+        <% standards = ActStandard.for_standard_and_subject(@current_standard, ActSubject.science) %>
+
+					<% for std in standards do -%>
+ 					<tr>
+						<td style="width:15px">
+						<%#=  select(:act_standard_content, :id, ActStandard.find(:all, :conditions => ["act_subject_id =?", :act_subject_id], :order => "name").collect{|s| [s.name, s.id]},{:prompt => "Select ENGLISH Standard", :multple => true}) %>
+						<%=  check_box_tag "std_check[]", value = std.id ,checked = false %>
+
+						</td>
+						<td style="color:#C73914; width:600px">
+						<%=  std.name %>
+						</td>
+ 					</tr> 				
+					<% end -%>
+				</tbody>
+ 			</table>
+
+			
+			<table id="act_write" class="standards" style="display: none; width:80%;"> 
+				<tbody>
+ 				<style type="text/css" media="screen">
+	    		table,tr,td { border:none; }
+				table tr:hover{
+        		background-color: transparent;
+      			}
+    			</style>
+				
+ 					<tr>
+						<td colspan=2>
+		<!--			<%#=  select(:wrt, :act_score_range_id, ActScoreRange.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 5, @current_standard.id],:order => "upper_score").collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %> -->
+              <%=  select(:wrt, :act_score_range_id, ActScoreRange.for_standard_and_subject(@current_standard, ActSubject.ss).collect{|s| [s.range, s.id]},{:prompt => prompt_line}) %>
+            </td>
+ 					</tr>
+				<!--	<%# standards = ActStandard.find(:all, :conditions => ["act_subject_id =? && act_master_id = ?", 5, @current_standard.id]) rescue nil %> -->
+        <% standards = ActStandard.for_standard_and_subject(@current_standard, ActSubject.ss) %>
+
+					<% for std in standards do -%>
+ 					<tr>
+						<td style="width:15px">
+						<%#=  select(:act_standard_content, :id, ActStandard.find(:all, :conditions => ["act_subject_id =?", :act_subject_id], :order => "name").collect{|s| [s.name, s.id]},{:prompt => "Select ENGLISH Standard", :multple => true}) %>
+						<%=  check_box_tag "std_check[]", value = std.id ,checked = false %>
+
+						</td>
+						<td style="color:#C73914; width:600px">
+						<%=  std.name %>
+						</td>
+ 					</tr> 				
+					<% end -%>
+				</tbody>
+ 			</table>
+			
+		<p id="not_applic" class="standards" style="display: none; "></p>
+	
+			</div>
+		</div>
+	
+	
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Useful Keywords:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+    	<%#= label_tag 'content_title', 'Useful Keywords:' %>
+    	<%= text_area :content, :caption, :rows => 2, :cols => 75, :maxlength => 255 %> 
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Please Tell Others About This Resource And Why They Might Find It Helpful
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+    	<%#= label_tag 'content_description', 'Please Tell Others About This Resource And Why They Might Find It Helpful' %>
+ 	   <%= text_area :content, :description, :rows => 7, :cols => 75, :maxlength => 4000 %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		From Where, or From Whom Did You Obtain This Resource?
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+    	<%#= label_tag 'content_title', 'From Where, or From Whom Did You Obtain This Resource?' %>
+	    <%= text_field :content, :source_name, :size => 55, :maxlength => 255 %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		If There Is One, What Is Their URL?
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+    	<%#= label_tag 'content_title', 'If There Is One, What Is Their URL?' %>
+   		<%= text_field :content, :source_url, :size => 55, :maxlength => 255 %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Availability Date:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+	    <%#= label_tag 'content_title', 'Availability Date:' %>
+	    <%= date_select(:content, :publish_start_date, :order=>[:month, :day, :year], :start_year => Time.now.year - 2, :end_year => Time.now.year + 20) %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Expiration Date:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+ 	   <%#= label_tag 'content_title', 'Expiration Date:' %>
+ 	   <%= date_select(:content, :publish_end_date, :order=>[:month, :day, :year], :start_year => Time.now.year, :end_year => Time.now.year + 20) %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+		<br/>
+		Status:
+        </div>
+        <div class="FormRowData" style= "margin-left:25px">
+   		<br/>
+    	<%#= label_tag 'content_status_id', 'Status:' %>
+    	<%= select("content", "content_status_id", ContentStatus.not_deleted.collect {|p|  [ p.name, p.id ] }, :prompt => "Select a status") %>
+        </div>
+    </div>
+
+	<div class="FormRow">
+      <div class="FormRowTitle">
+        </div>
+   		<br/> 
+		  <div class="FormRowData" style= "padding-left:25px">
+ 
+		<%= check_box :content, :terms_of_service %>
+ 	    Yes, I am authorized to make this submission according to the 
+		<%= link_to 'Terms of Service', ep_tos_path, :target => '_blank' %> .
+         </div>
+    </div>
+
+		<div class="FormRow submit_warp">
+			<br/>
+			<%= submit_tag 'Submit Resource', :class =>"fsn-button ui-button ui-state-default ui-corner-all save" %>
+		</div>	
+
+	</div>	
+<% end -%>	
+</div>
+
+<br/>
+	
+<div style="width:100%; text-align:left;  font-size:12px; padding:10px;">
+	  <%= link_to "Select RETURN Destination From Header Bar", organization_view_path(:organization_id => @current_organization) %>
+</div>
+
+<style type="text/css" media="screen">
+.FormRowData { width: auto; }
+.form_title { display: block; font-family: Verdana,Arial,Helvetica,sans-serif; font-size:12px;	padding:10px 0; }
+.FormSectionTitle { margin-top: 10px;}
+* html .FormRow { float: none; display: block; width: 530px; }
+</style>
+
+
+<!-- ALK Auto complete for Subject & Resource Type -->
+
+<script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function() {
+		var url = "<%= resource_subjects_url(:organization_id => @current_organization) %>";
+		jQ("#select_subject_area").autocomplete(url, {
+                                        				autoFill: false,
+                                        				mustMatch: true,
+                                        				matchContains: false
+                                        		});			
+		var url = "<%= resource_types_url(:organization_id => @current_organization) %>";
+		jQ("#select_resource_type").autocomplete(url, {
+                                        				autoFill: true,
+                                        				mustMatch: false,
+                                        				matchContains: false
+                                        		});																			
+   	});
+				
+</script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+		var content_object_type = jQ("#content_object_type_content_object_type_group");
+        
+        content_object_type.change(function(){
+            jQ("#content_editor_panel").css("display", "none");
+            jQ("#content_upload_panel").css("display", "none");
+            jQ("#content_preview_panel").css("display", "none");
+            jQ("#content_link").css("display", "none");
+            
+            switch (content_object_type.val()) {
+                case "1": //Video
+                    jQ("#content_upload_panel").css("display", "block");
+                    jQ("#content_preview_panel").css("display", "block");
+                    break;
+                    
+                case "4": //Article (HTML)
+                    jQ("#content_editor_panel").css("display", "block");
+                    break;
+                    
+                case "5": //Link 
+                    jQ("#content_link").css("display", "block");
+                    break;
+                    
+                default:
+                    jQ("#content_upload_panel").css("display", "block");
+            }
+        });
+/*
+        if (tinyMCE.getInstanceById("content_editor")) {
+            initTinyMCE();
+        }
+		
+        tinyMCE.execCommand("mceAddControl", false, 'content_editor');
+ */
+        jQ("#loading").hide();
+        jQ("#save_button").bind("click", function(e){
+            jQ("#loading").show();
+        });
+    })
+</script>
+
+<script type="text/javascript">
+        jQuery(document).ready(function(){
+        jQ(".standards").hide();
+        jQ("#content_act_subject_id").change(function(){
+        jQ(".standards").hide();
+		var selected_subj = jQ("#content_act_subject_id");
+            switch(jQ(this).val()){
+               case "1":
+               jQ("#act_math").show();
+               //jQ("#not_applic").show();
+               break;
+                         
+               case "2":
+               jQ("#act_english").show();
+               break;
+                          
+               case "3":
+               jQ("#act_read").show();
+			   // jQ("#not_applic").show();
+               break;
+                         
+               case "4":
+               jQ("#act_science").show();
+			   // jQ("#not_applic").show();
+               break;			   
+                        
+               case "5":
+               jQ("#act_write").show();
+			   // jQ("#not_applic").show();
+               break;			   
+
+               default:
+               jQ("#not_applic").show();              
+             }
+           });
+         });
+ </script>
+
+
+
+
+<script type="text/javascript" charset="utf-8">
+	jQ(document).ready(function() {
+	  if (jQ('#topic_setting_values_attributes_0_value_roles:checked').val() == "roles"){
+		  jQ("#roles_participation_settings").show();
+	  }else{
+		  jQ("#roles_participation_settings").hide();
+	  }
+		jQ('#topic_setting_values_attributes_0_value_roles').click(function() {
+	    jQ('#roles_participation_settings').show('slow');
+	  });
+	  jQ('#topic_setting_values_attributes_0_value_all').click(function() {
+	    jQ('#roles_participation_settings').hide('slow');
+	  });
+
+			//topic_setting_values_attributes_0_value_roles
+		//	 var AUTH_TOKEN = "<%= protect_against_forgery? ? form_authenticity_token : '' %>";
+		//	 jQ.ajaxSetup({data:{authenticity_token : AUTH_TOKEN}});
+
+		jQ("form.ajax").submit(function() {
+			var action = jQ(this).attr("action");					
+			jQ("textarea.mceEditor", this).each(function() {
+				jQ(this).val(tinyMCE.get(this.id).getContent());
+			});
+			var post_data = $(this).serialize()
+		  jQ.post(action, post_data, function(data) {
+				jQ("#topics_panel").html(data);
+			});
+
+	    return false;
+	  });
+
+    /*              initTinyMCE();
+
+		if (tinyMCE.getInstanceById("topic_instructional_remarks") ) {
+			initTinyMCE();
+		}
+		tinyMCE.execCommand("mceAddControl", false, 'topic_instructional_remarks');
+
+
+		if (tinyMCE.getInstanceById("topic_assignments") ) {
+			initTinyMCE();
+		}
+		tinyMCE.execCommand("mceAddControl", false, 'topic_assignments');
+		*/
+		jQ("#FormBoxWarp").accordion({autoHeight: false});
+
+		// jQ("#topic_content").sortable({
+		// 	items : 'tr',
+		// 	placeholder : 'ui-state-highlight',
+		// 	update : save_contents
+		// }).disableSelection();
+
+		jQ("#no_publish_end_date").change(function() {
+		  	if (jQ("#no_publish_end_date").attr("checked")) {
+					jQ("#publish_end_date_panel").slideUp("slow");
+				} else {
+					jQ("#publish_end_date_panel").slideDown("slow");
+				}
+		});		
+	})
+</script>
+
+<script>
+jQ(function(){
+jQ('div.tip_format').qtip({
+   content: { text: false },
+      position: {
+      corner: {
+         target: 'bottomMiddle',
+         tooltip: 'middleTop'
+      }
+   },
+   style: { 
+      name: 'blue',
+	  border: {
+         width: 1,
+         radius: 1,
+         color: '#99911a'
+      },
+      width: 180,
+  }
+,
+   show: 'mouseover',
+   hide: 'mouseout'
+});
+});
+</script>

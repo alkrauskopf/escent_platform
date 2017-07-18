@@ -11,7 +11,7 @@ class ActStandard < ActiveRecord::Base
   has_many :topics, :through => :act_standard_topics, :order => "position"  
 
   has_many :act_standard_contents, :dependent => :destroy  
-  has_many :contents, :through => :act_standard_contents, :order => "position"   
+  has_many :contents, :through => :act_standard_contents, :order => "position"
 
   has_many :act_question_act_standards, :dependent => :destroy  
   has_many :act_questions, :through => :act_question_act_standards

@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :current_organization
   before_filter :current_user
+  before_filter :current_resource
   before_filter :current_application
   before_filter :core_enabled_for_current_org?
 
@@ -24,6 +25,11 @@ class ApplicationController < ActionController::Base
     @current_provider = @current_organization.nil? ? nil : @current_organization.app_provider(@current_application)
   end
 
+  def set_core
+    @current_application = CoopApp.core
+    @current_provider = @current_organization.nil? ? nil : @current_organization.app_provider(@current_application)
+  end
+
   def set_classroom
     @current_application = CoopApp.classroom
     @current_provider = @current_organization.nil? ? nil : @current_organization.app_provider(@current_application)
@@ -32,6 +38,10 @@ class ApplicationController < ActionController::Base
   # Accesses the current registrant from the session.
   def current_user
     @current_user ||= (session[:user_id] && User.find(session[:user_id]) rescue nil) || nil
+  end
+
+  def current_resource
+    @current_resource ||= (params[:content_id] ? Content.find(params[:content_id]) : nil)
   end
 
   def current_organization
@@ -105,6 +115,12 @@ class ApplicationController < ActionController::Base
     unless (!@current_organization.nil? && !@current_application.nil? && @current_organization.provider?(@current_application))
       org = @current_organization.nil? ? Organization.default : @current_organization
       redirect_to organization_view_path(:organization_id => org)
+    end
+  end
+
+  def current_user_km_authorized?
+    if (@current_user.nil? || !(@current_user.teacher_for_org?(@current_organization) || @current_user.content_manager_for_org?(@current_organization)))
+      redirect_to :controller => "/site/site", :action => :static_organization, :organization_id => @current_organization, :coop_app_id => CoopApp.core
     end
   end
 

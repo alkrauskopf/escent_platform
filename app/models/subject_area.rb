@@ -31,7 +31,10 @@ class SubjectArea < ActiveRecord::Base
     where('name LIKE ?', '%' + query + '%').order('name')
   end
 
- 
+  def self.by_name
+   order('name ASC')
+  end
+
   def self.all_parents
     where('parent_id is NULL').order('name')
   end

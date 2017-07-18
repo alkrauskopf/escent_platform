@@ -601,7 +601,8 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
 
   def subject_update
     @subject = ActSubject.find_by_id(params[:subject_id]) rescue nil
-    @subject.update_attributes(:name=>params[:name], :is_plannable => (params[:is_plannable] == 'Y' ? true:false))
+    @subject.update_attributes(:name=>params[:name], :is_plannable => (params[:is_plannable] == 'Y' ? true:false), :is_enabled => (params[:is_active] == 'Y' ? true:false),
+    :posit => params[:position])
     render :partial =>  "edit_subject", :locals=>{:subject => @subject}
   end
 

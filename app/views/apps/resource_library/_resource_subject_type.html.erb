@@ -1,0 +1,26 @@
+<div id='resource_subject_type' >
+  <div class="row resource_edit_row">
+    <div class="col-md-3 resource_label_field">
+      Subject Area
+    </div>
+    <div class="col-md-9 resource_select_field">
+      <span id="subject_select">
+        <%= select(:content, :subject_area_id, Content::RL_SUBJECT_AREAS,
+                 :selected => !@current_resource.nil? ? @current_resource.subject_area_id : nil,
+                 :prompt => 'Select Subject Area') %>
+      </span>
+    </div>
+  </div>
+  <div class="row resource_edit_row">
+    <div class="col-md-3 resource_label_field">
+      Resource Type
+    </div>
+    <div class="col-md-9 resource_select_field">
+      <span id="type_select">
+        <%= select(:content, :content_resource_type_id, Content::RL_USE_TYPES,
+                   :selected => !@current_resource.nil? ? @current_resource.content_resource_type_id : nil,
+                   :prompt => 'Select Type Of Resource') %>
+      </span>
+    </div>
+  </div>
+</div>

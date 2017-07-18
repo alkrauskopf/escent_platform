@@ -35,6 +35,10 @@ class ActMaster < ActiveRecord::Base
     self.act_standards.for_subject(subject).active
   end
 
+  def active_strands(subject)
+    self.act_standards.active_strands(:subject=>subject)
+  end
+
   def abbrev_view(user)
     (user && user.sat_view?) ? 'SAT' : self.abbrev.upcase
   end

@@ -1,0 +1,51 @@
+<div id='resource_prep' >
+  <div class="row resource_edit_row">
+    <div class="col-md-3 resource_label_field">
+      Optional Precision Prep Tags
+    </div>
+    <div class="col-md-9 resource_select_field">
+      <span id="prep_subject_select">
+        <%= select(:act_subject, :id, Content::RL_ACTSUBJECTS,
+                 :selected => !@current_subject.nil? ? @current_subject.id : nil,
+                 :prompt => 'Precision Prep Benchmarks') %>
+      </span>
+    </div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#prep_subject_select").change(function(){
+        var subject_id = jQ('#act_subject_id').val();
+        var url = "<%= rl_prep_subject_url(:organization_id => @current_organization) %>";
+        jQ.get(url, {'act_subject_id': subject_id}, function(data) {
+          jQ("#resource_prep").html(data);
+          jQ("#resource_prep").show();
+        });
+      })
+    });
+  </script>
+  <% if !@current_subject.nil? %>
+    <div class="row resource_prep_box">
+      <div class="col-md-3 resource_label_field"></div>
+      <div class="col-md-9">
+        <div class="row resource_prep_header">
+          <span id="prep_level_select">
+            <%= select(:content, :target_score_range, @current_standard.mastery_levels(@current_subject).map{|l| [l.range, l.range]},
+                       :selected => !@current_resource.nil? ? @current_resource.target_score_range : nil,
+                       :prompt => 'Select Mastery Level') %>
+          </span>
+        </div>
+        <% @current_standard.strands(@current_subject).each do |strand| %>
+          <div class="row resource_strand_row">
+            <div class="col-md-1 resource_strand_check_box">
+              <% checkit = @current_resource.nil? ? false : @current_resource.act_standards.include?(strand) %>
+              <%=  check_box_tag "strand_check[]", value = strand.id ,checked = checkit %>
+            </div>
+            <div class="col-md-10">
+              <%=  strand.abbrev.upcase %> | <%=strand.name %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

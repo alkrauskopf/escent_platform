@@ -1,0 +1,50 @@
+<div id='resource_group' >
+  <div class="row resource_edit_row">
+    <div class="col-md-3 resource_label_field">
+      Resource Type
+    </div>
+    <div class="col-md-9 resource_select_field">
+      <span id="group_select">
+        <%= select(:group, :type_id, Content::RL_TYPES,
+                 :selected => !@current_group.nil? ? @current_group.id : nil,
+                 :prompt => 'Select Type') %>
+      </span>
+    </div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#group_select").change(function(){
+        var group_id = jQ('#group_type_id').val();
+        var url = "<%= rl_group_url(:organization_id => @current_organization) %>";
+        jQ.get(url, {'group_id': group_id}, function(data) {
+          jQ("#resource_group").html(data);
+          jQ("#resource_group").show();
+        });
+      })
+    });
+  </script>
+  <% if !@current_group.nil? %>
+    <div class="row resource_edit_row">
+      <div class="col-md-3 resource_label_field">
+        <%= @current_group.name %>
+      </div>
+      <% if @current_group.needs_attachment? %>
+        <div class="col-md-9 resource_select_field">
+          <%= file_field_tag 'content[source_file]', :value => @current_resource.nil? ? '' : @current_resource.source_file%>
+        </div>
+      <% elsif @current_group.needs_string? %>
+        <div class="col-md-9 resource_text_field">
+          <%= text_field :object,:link, :size => 55, :placeholder => 'Paste In URL', :value => @current_resource.nil? ? '' : @current_resource.content_object%>
+        </div>
+    <% elsif @current_group.needs_text_block? %>
+        <div class="col-md-9 resource_select_field">
+          <%= text_area  :object,:embed, :rows => 7, :cols => 75, :placeholder => 'Paste In Embed Code', :value => @current_resource.nil? ? '' : @current_resource.content_object%>
+        </div>
+      <% else %>
+        <div class="col-md-9 resource_text_field">
+          Unknown Group Type
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

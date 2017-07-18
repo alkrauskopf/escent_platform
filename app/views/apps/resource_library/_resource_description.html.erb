@@ -1,0 +1,63 @@
+<div id='resource_subject_type' >
+  <div class="row resource_edit_row">
+    <div class="col-md-3 resource_label_field">
+      Useful Keywords
+    </div>
+    <div class="col-md-9 resource_text_field">
+      <%= text_area :content, :caption, :rows => 2, :cols => 75, :maxlength => 255, :value => !@current_resource.nil? ? @current_resource.caption : '',
+                  :placeholder => "Useful Keywords to faciliate searches."%>
+    </div>
+  </div>
+  <div class="row resource_edit_row">
+    <div class="col-md-3 resource_label_field">
+      Description
+    </div>
+    <div class="col-md-9 resource_text_field">
+      <%= text_area :content, :description, :rows => 7, :cols => 75, :maxlength => 4000, :value => !@current_resource.nil? ? @current_resource.description : '',
+                    :placeholder => "Describe the Resource, explaining why it s helpful to others."%>
+    </div>
+  </div>
+  <div class="row resource_edit_row">
+    <div class="col-md-3 resource_label_field">
+      Source
+    </div>
+    <div class="col-md-9 resource_text_field">
+      <%= text_field :content, :source_name, :size => 55, :maxlength => 255, :value => !@current_resource.nil? ? @current_resource.source_name : '',
+                     :placeholder => "Where did the Resource come from?"%>
+    </div>
+  </div>
+  <div class="row resource_edit_row">
+    <div class="col-md-3 resource_label_field">
+      Source URL, if any.
+    </div>
+    <div class="col-md-9 resource_text_field">
+      <%= text_field :content, :source_url, :size => 55, :maxlength => 255, :value => !@current_resource.nil? ? @current_resource.source_url : '',
+                     :placeholder => "Paste URL"%>
+    </div>
+  </div>
+  <div class="row resource_edit_row">
+    <div class="col-md-3 resource_label_field">
+      Availability Date
+    </div>
+    <div class="col-md-9 resource_text_field">
+      <%= date_select(:content, :publish_start_date, :order=>[:month, :day, :year], :start_year => Time.now.year - 2, :end_year => Time.now.year + 20) %>
+    </div>
+  </div>
+  <div class="row resource_edit_row">
+    <div class="col-md-3 resource_label_field">
+      Expiration Date
+    </div>
+    <div class="col-md-9 resource_text_field">
+      <%= date_select(:content, :publish_end_date, :order=>[:month, :day, :year], :start_year => Time.now.year, :end_year => Time.now.year + 20, :value => Time.now.year + 20) %>
+    </div>
+  </div>
+  <div class="row resource_edit_row">
+    <div class="col-md-3 resource_label_field">
+      Status
+    </div>
+    <div class="col-md-9 resource_text_field">
+      <%= select("content", "content_status_id", ContentStatus.not_deleted.collect {|p|  [ p.name, p.id ] },
+                 :selected => @current_resource.nil? ? ContentStatus.available.id : @current_resource.content_status_id, :prompt => "Select Status") %>
+    </div>
+  </div>
+</div>

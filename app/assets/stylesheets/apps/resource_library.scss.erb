@@ -1,14 +1,168 @@
-
 @import "application-variables.scss";
+@import 'bootstrap';
+
+
+
+.edit_button {
+  font-size:14px;
+}
+
+.update_button {
+  font-size:18px;
+}
 
 .resource_container {
   width: 100%;
   margin: 0 auto;
 }
-
+.resource_button_row {
+  padding:1em 0em 2em 3em;
+  text-align: left;
+  font-size:16px;
+}
 .resource_content {
   background: $panel_background;
 }
+.resource_panel_title {
+  width:100%;
+  margin-top:1em;
+  padding-bottom:1em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:16px;
+  color:$blue_text;
+}
+
+.resource_manage_box {
+  margin:0em 0em 0em 0em;
+  padding:2em 1em 2em 1em;
+  border-radius: 10px;
+  border:3px solid #ddd;
+  background-color: $panel_background_ifa;
+}
+
+.precision_resource_panel {
+  @extend .panel-heading;
+  border-top:3px solid $gold_panel;
+}
+
+.resource_add_row {
+  margin:0em 0em 0em 0em;
+  padding:0em 0em 0em 3em;
+}
+
+.resource_title {
+  margin: 1em 0em 1em 0em;
+  font-size:16px;
+  text-align:center;
+  font-weight:bold;
+  color:$blue_text;
+}
+
+.resource_subtitle {
+  margin: 1em 0em 1em 0em;
+  font-size:15em;
+  color:$blue_text;
+}
+
+.resource_edit_box {
+  margin: 0em 0em 0em 0em;
+  border: 0px solid #ddd;
+  font-size: 15px;
+}
+.resource_edit_row {
+  padding: 1em 0em 2em 0em;
+  border: 0px solid #ddd;
+}
+
+.resource_text_field {
+  padding-left: 1em;
+  vertical-align:top;
+  float: left;
+  color:$dark_text;
+}
+.resource_select_field {
+  padding-left: 1em;
+  vertical-align:top;
+  float: left;
+  color:$blue_text;
+}
+.resource_label_field {
+  padding-right:1em;
+  text-align: right;
+  vertical-align:top;
+  color:$dark_text;
+}
+.resource_prep_box {
+  padding: 0em 0em 2em 0em;
+  border: 0px solid #ddd;
+}
+.resource_prep_header {
+  text-align: left;
+  padding:1em 0em .5em 1em;
+  font-size:16px;
+  vertical-align:top;
+  color:$blue_text;
+}
+.resource_prep_field {
+  text-align: left;
+  padding:1em 0em .5em 1em;
+  font-size:14px;
+  vertical-align:top;
+  color:$blue_text;
+}
+.resource_strand_row {
+  font-size:18px;
+}
+.resource_strand_check_box {
+  padding-left:3em;
+}
+
+.resource_pool_select {
+  font-size:14px;
+  color:$red_text;
+  font-weight:normal;
+}
+.resource_pool_list {
+  border:0px solid #ddd;
+  padding: 4em 0em 3em 0em;
+}
+.resource_pool_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $blue_panel;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:16px;
+}
+.resource_pool_header_label {
+  font-weight:bold;
+  text-align:center;
+  vertical-align:middle;
+}
+.resource_pool_text {
+  padding-top:1em;
+  padding-bottom:.5em;
+  font-size:12px;
+  color:$dark_text;
+  font-weight:normal;
+  text-align:left;
+  vertical-align:top;
+}
+.rsource_pool_name {
+  font-style: normal;
+  font-size:15px;
+  color:$blue_text;
+}
+.resource_pool_button {
+  padding:1em 1em 1em 1em;
+}
+
+
+
 
 .resource_header {
   padding-top:.5em;

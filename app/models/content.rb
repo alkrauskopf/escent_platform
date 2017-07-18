@@ -2,11 +2,9 @@ class Content < ActiveRecord::Base
   include PublicPersona
   
   belongs_to :organization
-  belongs_to :child_content,:class_name => "Content"
   belongs_to :content_status
   belongs_to :user
   belongs_to :content_object_type
-  belongs_to :content_upload_source
   belongs_to :act_subject
   belongs_to :subject_area
   belongs_to :content_resource_type
@@ -36,7 +34,7 @@ class Content < ActiveRecord::Base
   has_many :coop_app_resources, :dependent => :destroy  
 
   validates_presence_of :title
-  validates_presence_of :content_object_type_id, :message => "- Invalid File Extension or File Name, No Periods in File Name."
+  validates_presence_of :content_object_type_id, :message => 'Invalid File Name or File Type'
  #
  # ALK Addition
   validates_presence_of :subject_area_id, :message => "- Invalid Subject Area"
@@ -46,11 +44,17 @@ class Content < ActiveRecord::Base
   attr_accessor :except_terms_or_service_vaild
 
   validates_format_of :source_url, :with => /^((http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?)*$/,
-                      :message => 'not valid, format http://www.escentpartners.com', :allow_nil => true
+                      :message => 'not valid URL format', :allow_nil => true
 
   has_attached_file :source_file,
                     :path => ":rails_root/public/resourcelibrary/:id/:style/:basename.:extension",
                     :url => "/resourcelibrary/:id/:style/:basename.:extension"
+
+ # validates_attachment :source_file,
+ #                      content_type: {content_type: ['image/gif', 'image/jpeg', 'image/png', 'image/pjpeg', 'image/x-png',
+ #                          "application/vnd.ms-office","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+ #                                     "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+ #                                    'application/pdf', 'application/x-pdf']}
 
   has_attached_file :source_file_preview,
                     :path => ":rails_root/public/resourcelibrary/:id/:style/:basename.:extension",
@@ -186,26 +190,16 @@ class Content < ActiveRecord::Base
   scope :with_content_upload_source, lambda { |source_id| { :conditions => { :content_upload_source_id => source_id } } }
 
   IFA_TYPES = [
-      ["Video Stream", 'EMBED CODE'],
+      ["Video Stream", 'VIDEO STREAM'],
       ["Image", 'IMAGE'],
       ["PDF", 'PDF']
   ]
 
-      after_initialize :after_initialize_method
-  def after_initialize_method
-    unless self.publish_start_date
-      self.publish_start_date = Time.now
-    end
-    unless self.publish_end_date
-      self.publish_end_date = self.publish_start_date.advance(:years => 10)
-    end
-    if self.publish_start_date == self.publish_end_date
-      self.publish_end_date = self.publish_start_date.advance(:years => 10)
-    end
-    unless self.content_status
-      self.content_status_id = 1
-    end
-  end
+  RL_TYPES = ContentObjectTypeGroup.active.map{|g| [g.name, g.id]}
+  RL_SUBJECT_AREAS = SubjectArea.by_name.map{|s| [s.name, s.id]}
+  RL_USE_TYPES = ContentResourceType.by_name.map{|s| [s.name, s.id]}
+  RL_ACTSUBJECTS = ActSubject.all_subjects.map{|s| [s.name, s.id]}
+
 
   def self.available_to_user(user)
     if user.nil?
@@ -304,6 +298,10 @@ class Content < ActiveRecord::Base
 
   def deleted?
     self.is_delete || self.content_status.name == "Deleted"
+  end
+
+  def destroyable?
+    self.act_questions.empty?
   end
 
   def pendingx?
@@ -452,11 +450,16 @@ class Content < ActiveRecord::Base
 
   def embed_code?
     if self.content_object_type && self.content_object_type.content_object_type_group
-      self.content_object_type.content_object_type_group.name == "EMBED CODE"
+      self.content_object_type.content_object_type_group.name == "VIDEO STREAM"
     else
       false
     end
   end
+
+  def video_stream?
+    self.embed_code?
+  end
+
   def pdf?
     if self.content_object_type && self.content_object_type.content_object_type_group
       self.content_object_type.content_object_type_group.name == "PDF"
@@ -479,8 +482,30 @@ class Content < ActiveRecord::Base
     end
   end
 
+  def office_doc?
+    self.content_group_name == 'WORD, EXCEL, or PPT'
+  end
+
+  def previewable?
+    self.pdf? || self.image?
+  end
+
   def content_group_name
-    self.content_object_type.content_object_type_group.name
+    if !self.content_object_type.nil? && !self.content_object_type.content_object_type_group.nil?
+     name = self.content_object_type.content_object_type_group.name
+    else
+      name = nil
+    end
+    name
+  end
+
+  def content_group
+    if !self.content_object_type.nil?
+      group = self.content_object_type.content_object_type_group
+    else
+      group = nil
+    end
+    group
   end
 
   def favorite_of
@@ -504,12 +529,6 @@ class Content < ActiveRecord::Base
     leaders << c.leaders
     end
   leaders.uniq
-  end 
-
-
-  def set_content_upload_source(source_name)
-    source = ContentUploadSource.find_by_name(source_name)
-    self.update_attribute(:content_upload_source_id, source.id)
   end
   
   def make_as_delete

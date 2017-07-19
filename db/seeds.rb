@@ -24,9 +24,9 @@
 
   create_ifa_standards = false
 
-  add_subject = true
+  add_subject = false
 
-  deactivate_content_types = true
+  deactivate_content_types = false
 
   if deactivate_content_types
     ContentObjectTypeGroup.find_by_name('VIDEO').update_attributes(:is_active => false)

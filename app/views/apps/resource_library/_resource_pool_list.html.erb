@@ -1,15 +1,22 @@
 <div id="resource_pool">
   <div class="row resource_pool_select">
     <div class="col-md-1 "></div>
-    <div class="col-md-5">
+    <div class="col-md-3">
       <div id="user_select">
-        <%=  select( :res_user, :id, @pool_filters['User'].map{|u| [(u.last_name), u.id]}, {:prompt => "Resource Contributor"}) %>
+        <%=  select( :res_user, :id, @pool_filters['User'].map{|u| [(u.last_name), u.id]}, {:prompt => "Contributor"}) %>
       </div>
     </div>
-    <div class="col-md-5 ">
+    <div class="col-md-3 ">
       <div id="type_select">
-        <%=  select( :res_type, :id, @pool_filters['Type'].map{|t| [(t.name), t.id]}, {:prompt => "Resource Type"}) %>
+        <%=  select( :res_type, :id, @pool_filters['Type'].map{|t| [(t.name), t.id]}, {:prompt => "Format"}) %>
       </div>
+    </div>
+    <div class="col-md-3 ">
+      <% if !@pool_filters['Prep'].empty? %>
+        <div id="prep_select">
+          <%=  select( :res_prep, :id, @pool_filters['Prep'].map{|t| [(t.name), t.id]}, {:prompt => "Learning Progression"}) %>
+        </div>
+      <% end %>
     </div>
     <div class="col-md-1 "></div>
   </div>
@@ -37,60 +44,78 @@
       })
     });
   </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#prep_select").change(function(){
+        var entity_id = jQ('#res_prep_id').val();
+        var url = "<%= rl_resource_filter_url(:organization_id => @current_organization, :entity_class => 'ActSubject') %>";
+        jQ.get(url, {'entity_id': entity_id}, function(data) {
+          jQ("#resource_pool").html(data);
+          jQ("#resource_pool").show();
+        });
+      })
+    });
+  </script>
 
     <div class="row resource_pool_list">
       <div class= "col-md-12 ">
         <div class="resource_pool_panel resource_pool_header_label">
-          <%= pluralize(@resource_pool.size, ' ' + (@current_entity.nil? ? 'Total':@current_entity.name) + ' Resources') %>
+          <%= pluralize(@resource_pool.size, ' ' + (@current_entity.nil? ? 'Total':@current_entity.name) + ' Resources') %> In Your Pool
         </div>
       </div>
     </div>
+  <div class="resource_pool_list_box">
     <% @resource_pool.each do |res| %>
-      <div class="row resource_pool_text">
+      <div class="row resource_pool_row">
         <div class= "col-md-2 resource_pool_name">
-          <div >
-            <%= !res.user.nil? ? res.user.last_name_first : 'Former User' %>
-          </div>
+          <p class="title" >
+            <%= !res.user.nil? ? res.user.last_name : 'Former User' %>
+          </p>
           <div >
             <%= res.content_group_name%>
           </div>
+          <p class="status" >
+            <% status_class = res.content_status.name.downcase %>
+            <span class=<%=status_class%>>
+              <%= res.content_status.name%>
+            </span>
+          </p>
         </div>
-        <div class= "col-md-4">
-          <div class="resource_pool_name">
-            <p>
-              <%= res.title%>
-            </p>
-          </div>
-          <div >
+        <div class= "col-md-4 resource_pool_name">
+          <p class="title">
+            <%= res.title%>
+          </p>
+          <p >
             <%= !res.subject_area.nil? ? res.subject_area.name : 'Former Subject' %>
-          </div>
+          </p>
+          <p >
+            <%= !res.content_resource_type.nil? ? res.content_resource_type.name : 'Unknown Type' %>
+          </p>
           <div >
             Used In <%= pluralize(res.classrooms.size, 'Classroom')%>
           </div>
         </div>
-        <div class= "col-md-3 resource_pool_name">
-          <p>
-            <%= pluralize(res.act_questions.size, 'Assessment Question') %>
-          </p>
-          <p>
-            <%= res.act_subject ? res.act_subject.name : 'No Benchmark Tags' %>
+        <div class= "col-md-4 resource_pool_name">
+          <p class="title">
+            <%= (!res.act_subject.nil? && res.act_subject.active?) ? res.act_subject.name : 'No Benchmark Tags' %>
           </p>
           <p>
             Level: <%= res.target_score_range.nil? || res.target_score_range.strip.empty? ? '-none-' : res.target_score_range %>
           </p>
-          <% res.act_standards.each do |strand| %>
-            <p>
-              <%= strand.abbrev %>
-            </p>
-          <% end %>
+           <p>
+             <%= res.act_standards.abbrev_string %>
+           </p>
+          <p>
+            <%= pluralize(res.act_questions.size, 'Assessment Question') %>
+          </p>
         </div>
-        <div class= "col-md-2">
-          <div class="row resource_pool_button">
-            <%= link_to "View", resource_view_path(:organization_id => @current_organization, :id => res), {:target => "_blank"}%>
+        <div class= "col-md-1">
+          <div class="row">
+            <%= link_to "View Details", resource_view_path(:organization_id => @current_organization, :id => res), {:target => "_blank"}%>
           </div>
           <div class="row">
             <div class="col-md-12 resource_pool_button">
-              <%= link_to 'Edit', rl_edit_path(:organization_id => @current_organization, :content_id => res.id), {:class => 'button_gray'} %>
+              <%= link_to 'Edit', rl_edit_path(:organization_id => @current_organization, :content_id => res.id), {:class => 'button_blue'} %>
             </div>
           </div>
           <% if res.destroyable? %>
@@ -116,6 +141,7 @@
           <% end %>
         </div>
       </div>
-      <hr>
     <% end %>
+  </div>
+  <hr>
 </div>

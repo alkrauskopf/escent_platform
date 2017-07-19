@@ -45,6 +45,32 @@ class Apps::ResourceLibraryController < ApplicationController
     render 'add'
   end
 
+  def edit
+    current_resource
+    @current_subject = @current_resource.act_subject
+    @current_group = @current_resource.content_group
+    @function = 'Update'
+    render 'add'
+  end
+
+  def update
+    current_group
+    current_subject
+    current_resource
+    @current_resource.update_attributes(params[:content])
+    populate_params
+    if @current_resource.save
+      precision_prep_tags
+      flash[:notice] = "Resource Update"
+      @current_subject = @current_resource.act_subject
+      @current_group = @current_resource.content_group
+    else
+      flash[:error] = @current_resource.errors.full_messages.to_sentence
+    end
+    @function = 'Update'
+    render 'add'
+  end
+
   def destroy
     current_resource
     @current_resource.destroy
@@ -109,7 +135,14 @@ class Apps::ResourceLibraryController < ApplicationController
     if @current_resource.previewable? && params[:content][:source_file]
       @current_resource.source_file_preview =  params[:content][:source_file]
     end
-    byebug
+    if @current_resource.link? || @current_resource.video_stream?
+      if @current_resource.source_file
+        @current_resource.source_file.destroy
+      end
+      if @current_resource.source_file_preview
+        @current_resource.source_file_preview.destroy
+      end
+    end
   end
 
 
@@ -141,9 +174,11 @@ class Apps::ResourceLibraryController < ApplicationController
 
   def precision_prep_tags
     @current_resource.act_standard_contents.destroy_all
-    params[:strand_check].each do |strand_id|
-      strand_join = ActStandardContent.new(:act_standard_id => strand_id)
-      @current_resource.act_standard_contents << strand_join
+    if params[:strand_check]
+      params[:strand_check].each do |strand_id|
+        strand_join = ActStandardContent.new(:act_standard_id => strand_id)
+        @current_resource.act_standard_contents << strand_join
+      end
     end
   end
 
@@ -178,23 +213,26 @@ class Apps::ResourceLibraryController < ApplicationController
   end
 
   def resource_pool
-    @resource_pool = knowledge_manager? ? @current_organization.contents : @current_user.contents
+    @resource_pool = knowledge_manager? ? (@current_organization.contents + @current_user.contents).uniq : @current_user.contents
     resource_pool_filters
     if !@current_entity.nil?
       if @current_entity.class.to_s == 'User'
-        @resource_pool = @resource_pool.select{|r| r.user == @current_entity}.sort{|a,b| b.updated_at <=> a.updated_at}
+        @resource_pool = @resource_pool.select{|r| r.user == @current_entity}
       elsif @current_entity.class.to_s == 'ContentObjectTypeGroup'
-        @resource_pool = @resource_pool.select{|r| r.content_group == @current_entity}.sort{|a,b| b.updated_at <=> a.updated_at}
+        @resource_pool = @resource_pool.select{|r| r.content_group == @current_entity}
       elsif @current_entity.class.to_s == 'ActSubject'
-        @resource_pool = @resource_pool.select{|r| r.act_subject_id == @current_entity.id}.sort{|a,b| b.updated_at <=>a.updated_at}
+        @resource_pool = @resource_pool.select{|r| r.act_subject_id == @current_entity.id}
       end
     end
+    @resource_pool.sort!{|a,b| b.updated_at <=>a.updated_at}
   end
 
   def resource_pool_filters
     @pool_filters = {}
     @pool_filters['User'] = @resource_pool.map{|r| r.user}.compact.uniq.sort_by{|u| u.last_name}
-    @pool_filters['Type'] = knowledge_manager? ? ContentObjectTypeGroup.all_by_name : ContentObjectTypeGroup.active
+  #  @pool_filters['Type'] = knowledge_manager? ? ContentObjectTypeGroup.all_by_name : ContentObjectTypeGroup.active
+    @pool_filters['Type'] = @resource_pool.map{|r| r.content_group}.compact.uniq.sort_by{|g| g.name}
+    @pool_filters['Prep'] = @current_organization.app_enabled?(CoopApp.ifa) ? ActSubject.active_plannable : []
   end
 
     def initialize_std_parameters

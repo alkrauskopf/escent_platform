@@ -1,8 +1,12 @@
 <div id="rl_add" class="resource_manage_box">
   <div class= 'row resource_title'>
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
       <%=@function.upcase %>&nbsp;Resource
+    </div>
+    <div class="col-md-3">
+      <%= link_to 'Return', rl_manage_path(:organization_id => @current_organization),
+                  {:class => "button_gray edit_button"} %>
     </div>
   </div>
   <hr>
@@ -26,5 +30,25 @@
         });
       });
     </script>
+  <% else %>
+      <%= form_for(:content,
+                   :url => rl_update_path(:organization_id => @current_organization, :content_id => @current_resource.id), :html => {:id=>"formResource2", :multipart => true}) do |form| -%>
+          <%= render :partial =>  "form_resource", :locals=>{}%>
+          <div class="row resource_button_row">
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+              <%= submit_tag @function + ' Resource', :id=>"btnSubmit2", :class =>"update_button button_blue" %>
+            </div>
+          </div>
+      <% end %>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#formResource2").submit(function(){
+            jQ("#btnSubmit2").attr("disabled", true);
+            return true;
+          });
+        });
+      </script>
+
   <% end %>
 </div>

@@ -70,6 +70,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/rl/add' => 'apps/resource_library#add'   #  rl_add_path
   get '/rl/edit' => 'apps/resource_library#edit'   #  rl_edit_path
   post '/rl/create' => 'apps/resource_library#create'   #  rl_create_path
+  post '/rl/update' => 'apps/resource_library#update'   #  rl_update_path
   get '/rl/destroy' => 'apps/resource_library#destroy'   #  rl_edit_path
   get '/rl/group' => 'apps/resource_library#group_select'   #  rl_group_path
   get '/rl/prep/subject' => 'apps/resource_library#prep_subject_select'   #  rl_prep_subject_path

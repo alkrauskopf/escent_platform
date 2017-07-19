@@ -8,7 +8,7 @@
     </div>
     <div class="col-md-1">
       <% if content.editable_by_user?(@current_user ? @current_user : nil)-%>
-        <%= button_to  "Edit", resource_edit_path(:organization_id => content.organization, :content_id => content, :function => "Edit"), :class =>"btn btn-primary btn-xs" %>
+        <%#= button_to  "Edit", resource_edit_path(:organization_id => content.organization, :content_id => content, :function => "Edit"), :class =>"btn btn-primary btn-xs" %>
       <% end -%>
     </div>
   </div>
@@ -106,5 +106,5 @@
     </div>
   <% end -%>
   <hr>
-  <%= render(:partial => "resource") %>
+  <%#= render(:partial => "resource") %>
 </div>

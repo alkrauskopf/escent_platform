@@ -88,4 +88,8 @@ class ActStandard < ActiveRecord::Base
   def assessments
     self.act_assessments
   end
+
+  def self.abbrev_string
+    where('is_active').map{|s| s.abbrev.upcase}.join(', ')
+  end
 end

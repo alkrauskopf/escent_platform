@@ -57,9 +57,6 @@
       <p>
         <%= pluralize(content.views, ' View') %>
       </p>
-      <% unless content.star_rating.nil?%>
-          Rating:&nbsp;<%=content.star_rating.rating %>,&nbsp;<small>(<%= pluralize(content.star_rating.votes, 'Vote') %>)</small>
-      <% end %>
       <p>
         <%=pluralize(content.favorite_of.size, ' User Tag')%>
       </p>

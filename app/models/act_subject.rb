@@ -64,6 +64,10 @@ class ActSubject < ActiveRecord::Base
     where('is_plannable')
   end
 
+  def self.active_plannable
+    where('is_enabled && is_plannable').order('posit ASC')
+  end
+
   def active?
     self.is_enabled
   end

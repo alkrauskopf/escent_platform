@@ -28,7 +28,7 @@
     </div>
     <div class="col-md-6 ">
       <div class='ifa_panel_title'>
-        <%= @current_organization.short_name %> Assessment Dashboards
+        <%= @current_organization.short_name %> Learning Progressions
       </div>
       <div class='summary_dashboard_panel'>
         <%= render :partial => "/apps/assessment/ifa_summary_brief" %>
@@ -55,13 +55,6 @@
         <a href="#tabs-2"><span class="tab_label">
         <%= tab_2_label %></span></a>
       </li>
-      <% ActSubject.plannable.each do |subj| %>
-        <li>
-          <%  tab_4_label = subj.name + ' Plans' %>
-          <a href="#tabs-4<%= subj.id.to_s%>"><span class="tab_label">
-          <%= tab_4_label %></span></a>
-        </li>
-      <% end %>
       <% if @admin -%>
         <li>
           <%  tab_7_label = "Student Baseline Scores" %>
@@ -87,13 +80,6 @@
         <%= render :partial => "/ifa/reading_repo/manage_readings" %>
       </div>
     </div>
-    <% ActSubject.plannable.each do |subj| %>
-      <div id="tabs-4<%= subj.id.to_s%>" class="row">
-        <div class="col-md-12">
-        <%= render :partial => "/ifa/ifa_plan/teacher_review_plans", :locals=>{:students => @prep_students[subj], :subject => subj} %>
-        </div>
-      </div>
-    <% end %>
     <% if @admin -%>
       <div id="tabs-7" class="row">
         <div class="col-md-12">

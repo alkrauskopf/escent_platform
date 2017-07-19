@@ -21,6 +21,11 @@
         <a href="#tabs-4"><span class="tab_label">
         <%= tab_4_label %></span></a>
       </li>
+      <li>
+        <%  tab_5_label = @current_organization.short_name + " Growth Plans" %>
+        <a href="#tabs-5"><span class="tab_label">
+        <%= tab_5_label %></span></a>
+      </li>
     </ul>
     <div id="tabs-1" >
 	    <div class="containerx dashboard_listing">
@@ -146,6 +151,11 @@
       <% end -%>
     </div>
     <div class="col-md-1"></div>
+  </div>
+  <div id="tabs-5" class="row">
+    <div class="col-md-12">
+      <%= render :partial => "/ifa/ifa_plan/teacher_review_plans", :locals=>{:students => @prep_students[@current_subject], :subject => @current_subject} %>
+    </div>
   </div>
     <script type="text/javascript" charset="utf-8">
       jQ(document).ready(function() {

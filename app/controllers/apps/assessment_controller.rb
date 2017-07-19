@@ -35,9 +35,6 @@ class Apps::AssessmentController < Apps::ApplicationController
       @current_user_questions = @current_user.act_questions
       @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}
       @threshold = Time.now - @current_provider.ifa_org_option.sms_calc_cycle.days
-
-
-      student_growth_plans
       prepare_summary_data
       find_dashboard_update_start_dates(@current_organization)
       question_creators_strands
@@ -802,6 +799,7 @@ class Apps::AssessmentController < Apps::ApplicationController
     aggregate_dashboard_cell_hashes(@organization_dashboards, @current_subject, @current_standard)
     aggregate_dashboard_header_info(@organization_dashboards, @current_subject, @current_standard, @current_organization)
     org_analysys_instance_variables
+    student_growth_plans
   end
 
   def growth_dashboards

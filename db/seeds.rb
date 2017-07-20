@@ -31,10 +31,11 @@
   add_benchmark_types = true
 
   if add_benchmark_types
-    ActBenchType.create({'name' => 'evidence', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
-                             'for_list' => 1, 'for_static' => 1, 'long_name' => 'Evidence Outcome', 'description' => 'What must be demonstated or achieved.'})
-    ActBenchType.create({'name' => 'example', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
-                             'for_list' => 1, 'for_static' => 1, 'long_name' => 'Example', 'description' => 'An example explaining the benchmark.'})
+  #  ActBenchType.create({'name' => 'evidence', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
+  #                           'for_list' => 1, 'for_static' => 1, 'long_name' => 'Evidence Outcome', 'description' => 'What must be demonstated or achieved.'})
+  #  ActBenchType.create({'name' => 'example', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
+  #                           'for_list' => 1, 'for_static' => 1, 'long_name' => 'Example', 'description' => 'An example explaining the benchmark.'})
+    ActBenchType.find_by_id(2).update_attributes('name' => 'suggestion')
   end
 
   if deactivate_content_types

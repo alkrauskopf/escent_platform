@@ -12,7 +12,7 @@ class ActBenchType < ActiveRecord::Base
   scope :for_static, :conditions => { :for_statis => true }
 
   def self.improvement(std)
-    where('act_master_id = ? && name = ?', std.id, 'improvement' ).first rescue nil
+    where('act_master_id = ? && name = ?', std.id, 'suggestion' ).first rescue nil
   end
   def self.benchmark(std)
     where('act_master_id = ? && name = ?', std.id, 'benchmark' ).first rescue nil

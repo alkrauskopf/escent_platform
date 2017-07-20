@@ -412,10 +412,12 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       @benchmarks = @current_standard.benchmarks_for_strand_range(@current_strand, @current_range)
       @improvements = @current_standard.improvements_for_strand_range(@current_strand, @current_range)
       @evidences = @current_standard.evidence_for_strand_range(@current_strand, @current_range)
+      @examples = @current_standard.examples_for_strand_range(@current_strand, @current_range)
     else
       @benchmarks = []
       @improvements = []
       @evidences = []
+      @examples = []
     end
   end
 

@@ -35,4 +35,44 @@
      <% end %>
    </div>
  <% end %>
+ <% if !@evidences.empty? %>
+     <hr>
+     <div class= 'lu_benchmark_list'>
+       <div class="type_title">
+         <%= pluralize(@evidences.size, ' Evidence Goal') %>
+       </div>
+       <% @evidences.each.with_index do |evidence, idx| %>
+           <div class="row">
+             <div class="col-md-1">
+               <div class="benchmark_index">
+                 <%= (idx+1).to_s %>)
+               </div>
+             </div>
+             <div class="col-md-10 benchmark_descript">
+               <%= evidence.description.html_safe %>
+             </div>
+           </div>
+       <% end %>
+     </div>
+ <% end %>
+ <% if !@examples.empty? %>
+     <hr>
+     <div class= 'lu_benchmark_list'>
+       <div class="type_title">
+         <%= pluralize(@examples.size, ' Example') %>
+       </div>
+       <% @examples.each.with_index do |example, idx| %>
+           <div class="row">
+             <div class="col-md-1">
+               <div class="benchmark_index">
+                 <%= (idx+1).to_s %>)
+               </div>
+             </div>
+             <div class="col-md-10 benchmark_descript">
+               <%= example.description.html_safe %>
+             </div>
+           </div>
+       <% end %>
+     </div>
+ <% end %>
  <hr>

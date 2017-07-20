@@ -20,4 +20,7 @@ class ActBenchType < ActiveRecord::Base
   def self.evidence(std)
     where('act_master_id = ? && name = ?', std.id, 'evidence' ).first rescue nil
   end
+  def self.example(std)
+    where('act_master_id = ? && name = ?', std.id, 'example' ).first rescue nil
+  end
 end

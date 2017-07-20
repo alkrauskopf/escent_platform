@@ -28,6 +28,15 @@
 
   deactivate_content_types = false
 
+  add_benchmark_types = true
+
+  if add_benchmark_types
+    ActBenchType.create({'name' => 'evidence', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
+                             'for_list' => 1, 'for_static' => 1, 'long_name' => 'Evidence Outcome', 'description' => 'What must be demonstated or achieved.'})
+    ActBenchType.create({'name' => 'example', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
+                             'for_list' => 1, 'for_static' => 1, 'long_name' => 'Example', 'description' => 'An example explaining the benchmark.'})
+  end
+
   if deactivate_content_types
     ContentObjectTypeGroup.find_by_name('VIDEO').update_attributes(:is_active => false)
     ContentObjectTypeGroup.find_by_name('COMPRESSED').update_attributes(:is_active => false)

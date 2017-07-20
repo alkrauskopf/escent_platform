@@ -62,7 +62,7 @@
         <div class="row ifa_milestone_edit_row ">
           <div class="ifa_milestone_benchmark">
             <div class="col-md-2 ifa_milestone_benchmark_count">
-              <%=pluralize(@evidences.size, ' Evidence')%>
+              <%=pluralize(@evidences.size, ' Evidence Goal')%>
             </div>
             <div class="col-md-9 ">
               <% @evidences.each_with_index do |evidence, idx| %>
@@ -75,6 +75,24 @@
           </div>
         </div>
         <hr>
+      <% end %>
+      <% if !@examples.empty? %>
+          <div class="row ifa_milestone_edit_row ">
+            <div class="ifa_milestone_benchmark">
+              <div class="col-md-2 ifa_milestone_benchmark_count">
+                <%=pluralize(@examples.size, ' Example')%>
+              </div>
+              <div class="col-md-9 ">
+                <% @examples.each_with_index do |example, idx| %>
+                    <div class="ifa_milestone_benchmark_text">
+                      <%=(idx+1).to_s%>:&nbsp;<%= example.description.html_safe%>
+                    </div>
+                <% end %>
+              </div>
+              <hr>
+            </div>
+          </div>
+          <hr>
       <% end %>
 
       <div class="row ifa_milestone_edit_footer_row">

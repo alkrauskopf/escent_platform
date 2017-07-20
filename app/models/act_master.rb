@@ -60,6 +60,9 @@ class ActMaster < ActiveRecord::Base
   def evidence_for_strand_range(strand, mastery)
     self.act_benches_for_strand_mastery(strand, mastery, ActBenchType.evidence(self))
   end
+  def examples_for_strand_range(strand, mastery)
+    self.act_benches_for_strand_mastery(strand, mastery, ActBenchType.example(self))
+  end
 
   def self.default_std
     ActMaster.default

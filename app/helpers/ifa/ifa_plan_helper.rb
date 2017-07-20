@@ -43,6 +43,22 @@ module Ifa::IfaPlanHelper
     improvements
   end
 
+  def evidences(strand, range, standard)
+    evidences = []
+    if !range.nil? && !strand.nil? && !standard.nil?
+      evidences = standard.evidence_for_strand_range(strand, range)
+    end
+    evidences
+  end
+
+  def examples(strand, range, standard)
+    examples = []
+    if !range.nil? && !strand.nil? && !standard.nil?
+      examples = standard.examples_for_strand_range(strand, range)
+    end
+    examples
+  end
+
   def last_ifa_dashboard(entity, subject)
     entity.last_ifa_dashboard(subject)
   end

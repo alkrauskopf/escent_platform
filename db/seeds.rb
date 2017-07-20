@@ -28,7 +28,7 @@
 
   deactivate_content_types = false
 
-  add_benchmark_types = true
+  add_benchmark_types = false
 
   if add_benchmark_types
   #  ActBenchType.create({'name' => 'evidence', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,

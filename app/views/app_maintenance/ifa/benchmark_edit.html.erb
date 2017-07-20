@@ -1,5 +1,5 @@
 <div class= 'row panel_title_blue'>
-  Edit Benchmark<br/><%=@current_strand.subject_area.name %> | <%= @current_strand.name %> | <%= mastery_label(@current_level, true)%>
+  Edit Benchmark<br/><%=@current_strand.subject_area.name %> | <%= @current_strand.name %> | <%= @current_standard.abbrev %> <%= mastery_label(@current_level, false)%>
 </div>
 <hr>
 <div class="container Form_Container">
@@ -8,6 +8,11 @@
                                                                              :act_standard_id=>@current_strand.id,
                                                                              :act_score_range_id => @current_level.id,
                                                                              :act_benchmark_id => @current_benchmark.id)) do |f| %>
+    <div class= 'row panel_subtitle_blue'>
+      <% if !ActBench.all_for_level_strand( @current_level, @current_strand).empty? %>
+          Taken <%= @current_strand.abbrev %> | <%= @current_level.range %> Positions: <%= ActBench.all_for_level_strand( @current_level, @current_strand).map{|b| b.pos}.sort_by{|p| p}.join(', ') %>
+      <% end %>
+    </div>
     <%= render :partial => "form_benchmark" %>
     <%= render :partial => "benchmark_source" %>
     <div class="row ifa_edit_row">

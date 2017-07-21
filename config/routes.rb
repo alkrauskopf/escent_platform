@@ -179,7 +179,9 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/maintenance/ifa/std_select' => 'app_maintenance/ifa#standard_select' # app_maintenance_ifa_std_select_url
   get '/app/maintenance/ifa/strand_select' => 'app_maintenance/ifa#strand_select' # app_maintenance_ifa_strand_select_url
   get '/app/maintenance/ifa/b_strand_select' => 'app_maintenance/ifa#bench_strand_select' # app_maintenance_ifa_b_strand_select_url
+  get '/app/maintenance/ifa/b_level_select' => 'app_maintenance/ifa#bench_level_select' # app_maintenance_ifa_b_level_select_url
   get '/app/maintenance/ifa/b_level_change' => 'app_maintenance/ifa#bench_level_change' # app_maintenance_ifa_b_level_change_url
+  get '/app/maintenance/ifa/b_strand_change' => 'app_maintenance/ifa#bench_strand_change' # app_maintenance_ifa_b_strand_change_url
   get '/app/maintenance/ifa/strand/update' => 'app_maintenance/ifa#strand_update' # app_maintenance_ifa_strand_update_url
   get '/app/maintenance/ifa/strand/toggle' => 'app_maintenance/ifa#strand_toggle' # app_maintenance_ifa_strand_toggle_url
   get '/app/maintenance/ifa/strand/destroy' => 'app_maintenance/ifa#strand_destroy' # app_maintenance_ifa_strand_destroy_url
@@ -204,6 +206,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/maintenance/ifa/benchmark/toggle' => 'app_maintenance/ifa#benchmark_toggle' # app_maintenance_ifa_benchmark_toggle_url
   get '/app/maintenance/ifa/benchmark/destroy' => 'app_maintenance/ifa#benchmark_destroy' # app_maintenance_ifa_benchmark_destroy_url
   get '/app/maintenance/ifa/benchmark/refresh' => 'app_maintenance/ifa#benchmark_refresh' # app_maintenance_ifa_benchmark_refresh_url
+  get '/app/maintenance/ifa/benchmark/refresh_l' => 'app_maintenance/ifa#benchmark_refresh_l' # app_maintenance_ifa_benchmark_refresh_l_url
   post '/app/maintenance/ifa/benchmark/update' => 'app_maintenance/ifa#benchmark_update' # app_maintenance_ifa_benchmark_create_path
   get '/app/maintenance/ifa/benchmark/source' => 'app_maintenance/ifa#benchmark_source' # app_maintenance_ifa_benchmark_source_url
   get '/app/maintenance/ifa/genre/update' => 'app_maintenance/ifa#genre_update' # app_maintenance_ifa_genre_update_url

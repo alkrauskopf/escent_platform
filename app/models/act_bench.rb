@@ -75,8 +75,21 @@ class ActBench < ActiveRecord::Base
     self.source_strand ? self.source_strand : self.act_standard
   end
 
+  def source?
+    !self.source_level.nil? || !self.source_strand.nil?
+  end
+
   def source_compatible?
-    (self.source_level.nil? && self.source_strand.nil?) || (self.source_level && self.source_strand && (self.source_level.standard = self.source_strand.standard))
+    (self.source_level.nil? && self.source_strand.nil?) || (self.source_level && self.source_strand && (self.source_level.standard == self.source_strand.standard))
+  end
+
+  def source_incompatible?
+    if !self.source_level.nil? || !self.source_strand.nil?
+      incompat = self.source_level.nil? || self.source_strand.nil? || self.source_level.standard != self.source_strand.standard
+    else
+      incompat = false
+    end
+    incompat
   end
 
   def self.active

@@ -573,19 +573,40 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   end
 
   def bench_level_change
-    active_strands
     get_strand
     get_level
+    active_strands
+    active_levels
     current_benchmark
-    @current_benchmark.update_attributes(:act_score_range_id => @current_level.id)
-    current_strand_benchmarks
+    @current_benchmark.update_attributes(:act_score_range_id => params[:new_range_id])
+    params[:by] == 'strand' ? current_strand_benchmarks : current_level_benchmarks
+    render :partial =>  "manage_benchmarks", :locals=>{}
+  end
+
+  def bench_strand_change
+    get_strand
+    get_level
+    active_strands
+    active_levels
+    current_benchmark
+    @current_benchmark.update_attributes(:act_standard_id => params[:new_strand_id])
+    params[:by] == 'strand' ? current_strand_benchmarks : current_level_benchmarks
     render :partial =>  "manage_benchmarks", :locals=>{}
   end
 
   def bench_strand_select
     active_strands
+    active_levels
     get_strand
     current_strand_benchmarks
+    render :partial =>  "manage_benchmarks", :locals=>{}
+  end
+
+  def bench_level_select
+    active_levels
+    active_strands
+    get_level
+    current_level_benchmarks
     render :partial =>  "manage_benchmarks", :locals=>{}
   end
 
@@ -704,34 +725,42 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
 
   def benchmark_refresh
     get_strand
+    active_strands
     active_levels
     current_strand_benchmarks
-    render :partial =>  "manage_benchmarks_strand", :locals=>{:strand => @current_strand}
+    render :partial =>  "manage_benchmarks_strand", :locals=>{:strand => @current_strand, :levels => @active_levels, :strands => @active_strands}
   end
 
-  def benchmark_source_x
-    benchmark_source_standards
-    render :partial =>  "benchmark_source", :locals => {:source_standard => @benchmark_source_standard, :source_level => nil, :source_strand => nil}
+  def benchmark_refresh_l
+    get_level
+    active_strands
+    active_levels
+    current_level_benchmarks
+    render :partial =>  "manage_benchmarks_level", :locals=>{:level => @current_level, :levels => @active_levels, :strands => @active_strands}
   end
+
 
   def benchmark_toggle
     current_benchmark
     active_levels
+    active_strands
     @current_benchmark.update_attributes(:is_active=> !@current_benchmark.is_active)
     render :partial =>  "show_benchmark",  :locals=>{:strand => @current_benchmark.strand, :level => @current_benchmark.mastery_level,
-                                                     :levels => @active_levels, :benchmark => @current_benchmark, :benchmark_id => @current_benchmark.public_id}
+                                                     :levels => @active_levels, :strands => @active_strands, :by => params[:by],
+                                                     :benchmark => @current_benchmark, :benchmark_id => @current_benchmark.public_id}
   end
 
   def benchmark_destroy
     current_benchmark
     active_levels
+    active_strands
     strand = @current_benchmark.strand
     level = @current_benchmark.mastery_level
     benchmark_id = @current_benchmark.public_id
     if @current_benchmark.destroy
       flash[:notice] = "Benchmark Destroyed"
     end
-    render :partial =>  "show_benchmark",  :locals=>{:strand => strand, :level => level, :levels => @active_levels, :benchmark => nil, :benchmark_id => benchmark_id}
+    render :partial =>  "show_benchmark",  :locals=>{:strand => strand, :level => level, :strands => @active_strands, :levels => @active_levels, :benchmark => nil, :benchmark_id => benchmark_id, :by => params[:by]}
   end
 
   def benchmark_add
@@ -763,6 +792,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     @current_benchmark.user_id = @current_user.id
     @current_benchmark.organization_id = @current_organization.id
     @current_benchmark.description = params[:act_bench][:description]
+    @current_benchmark.is_active = true
     get_source_level_strand_ids
     @current_benchmark.source_level_id = @source_level_id
     @current_benchmark.source_strand_id = @source_strand_id
@@ -962,9 +992,19 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
 
   def current_strand_benchmarks
     @current_strand_benchmarks = {}
+    @current_level_strands = nil
     @current_strand_levels = @current_standard.mastery_levels(@current_subject)
     @current_standard.mastery_levels(@current_subject).each do |level|
       @current_strand_benchmarks[level] = ActBench.all_for_level_strand(level, @current_strand)
+    end
+  end
+
+  def current_level_benchmarks
+    @current_level_benchmarks = {}
+    @current_strand_levels = nil
+    @current_level_strands = @current_standard.strands(@current_subject)
+    @current_standard.strands(@current_subject).each do |strand|
+      @current_level_benchmarks[strand] = ActBench.all_for_level_strand(@current_level, strand)
     end
   end
 

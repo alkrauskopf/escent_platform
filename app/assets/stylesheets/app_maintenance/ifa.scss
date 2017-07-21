@@ -57,7 +57,11 @@
   color:white;
 }
 .benchmark_strand_select {
-  padding: 2em 0em 1em 25em;
+  padding: 2em 0em 1em 0em;
+  text-align:center;
+}
+.benchmark_level_select {
+  padding: 2em 0em 1em 0em;
   text-align:center;
 }
 .benchmark_level_change {
@@ -116,12 +120,12 @@
   padding: 1.5em 0em .5em 1em;
   font-size:13px;
 }
-.bench_type {
+.bench_left {
+  padding:0em 0em 0em 1em;
   text-align:right;
   font-weight:bold;
   color:$dark_text;
   font-size: 12px;
-  padding: 1em 2em 0em 0em;
 }
 
 .benchmark_descript {
@@ -129,11 +133,16 @@
   line-height:1.5em;
   font-weight:normal;
   color:$dark_text;
-  font-size: 15px;
+  font-size: 16px;
   padding: 1em 1em .5em 2em;
 }
+.benchmark_descript .bench_type {
+  padding: 0em 0em 0em 0em;
+  font-weight:bold;
+  font-size: 12px;
+}
 .benchmark_descript .questions {
-  padding: 1em 0em 0em 0em;
+  padding: .5em 0em 0em 0em;
   color:$red_text;
   font-size: 14px;
 }
@@ -145,24 +154,23 @@
   margin: 0em 0em 0em 0em;
 }
 .benchmark_source {
+   text-align:left;
+   font-weight:normal;
+   color:$blue_text;
+   font-size: 14px;
+   padding: 1em 0em 0em 1em;
+ }
+.benchmark_source_label {
   text-align:left;
   font-weight:normal;
   color:$blue_text;
   font-size: 14px;
-  padding: 1em 0em 0em 1em;
+  padding: .5em 0em 0em 1em;
 }
-.benchmark_source_cell {
-  text-align:left;
-  font-weight:normal;
-  color:$blue_text;
-  font-size: 13px;
-  margin: 0em 0em 0em 0em;
-}
-.benchmark_source_err {
+.benchmark_source .err {
   color:$red_text;
   font-style: italic;
-  font-size:11px;
-  margin: .5em 0em .5em 0em;
+  font-size:13px;
 }
 .options_standards_indicator {
   width:10%;

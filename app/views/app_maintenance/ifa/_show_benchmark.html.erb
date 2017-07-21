@@ -1,98 +1,127 @@
-<div class="row benchmark_row" id="show_benchmark<%=benchmark_id%>">
-  <%= render :partial => "/shared/error_and_notice" %>
-  <% if !benchmark.nil? %>
-    <div class="col-md-2">
-      <div class="row benchmark_add">
-        <div class="col-md-6">
-        <%= link_to 'Edit', app_maintenance_ifa_benchmark_edit_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_standard_id=>strand.id, :act_score_range_id=>level.id, :act_benchmark_id => benchmark.id), {:target=>'_blank'}  %>
-        </div>
-        <div class="col-md-6">
-          <% button_color = benchmark.active? ? 'button_green':'button_orange'%>
-          <% button_label = benchmark.active? ? ' Active ':' Not Active '%>
-          <span class=<%=button_color%> id="toggle_benchmark_active<%=benchmark.id%>">
-            <%=button_label%>
-          </span>
-        </div>
-      </div>
-      <div class="row bench_type">
-        <%= benchmark.pos %> -
-        <%= benchmark.type_name %>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div class="row ">
-        <div class="col-md-8 ">
-          <div class="benchmark_source">
-            Source:&nbsp;<%= benchmark.source_standard.name %>
-          </div>
-        </div>
-        <div class="col-md-4  benchmark_level_change">
-          <div id="bench_level_<%=benchmark.id%>">
-            <%=  select(:b_level, benchmark.id, levels.collect{|s| [(@current_standard.abbrev + ': ' +s.range),s.id]},{:prompt => 'Move To Another Level'}) %>
-          </div>
-        </div>
-        <script type="text/javascript">
-          jQ(document).ready(function() {
-            jQ("#bench_level_<%= benchmark.id%>").change(function(){
-              var level_id = jQ('#b_level_<%= benchmark.id%>').val();
-              var url = "<%= app_maintenance_ifa_b_level_change_url(:organization_id => @current_organization, :act_benchmark_id => benchmark.id,
-                          :act_subject_id => @current_subject.id, :act_master_id => @current_standard.id, :act_standard_id => strand.id ) %>";
-              jQ.get(url,{'act_score_range_id': level_id},  function(data) {
-                jQ("#manage_benchmarks").html(data);
-                jQ("#manage_benchmarks").show();
-              });
-            })
-          });
-        </script>
-      </div>
-      <% if !benchmark.source_level.nil? || !benchmark.source_strand.nil? %>
+<div id="show_benchmark<%=benchmark_id%>">
+  <div class="row benchmark_row">
+    <%= render :partial => "/shared/error_and_notice" %>
+    <% if !benchmark.nil? %>
+      <div class="col-md-2">
         <div class="row ">
-          <div class="col-md-8  benchmark_source_cell">
-            <%= benchmark.source_level.nil? ? '' : (benchmark.source_level.range) %>
-            <%= benchmark.source_strand.nil? ? '' : (' ' + benchmark.source_strand.name) %>
-            <% if benchmark.source_compatible? %>
-                <div class="benchmark_source_err">
-                  <%= benchmark.source_compatible? ? '' : 'Incompatible Standard Source for Level and Strand' %>
-                </div>
+          <div class="benchmark_add">
+          <%= link_to 'Edit', app_maintenance_ifa_benchmark_edit_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+                                                                      :act_standard_id=>strand.id, :act_score_range_id=>level.id, :act_benchmark_id => benchmark.id), {:class=>'button_gray', :target=>'_blank'}  %>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="benchmark_add">
+            <% button_color = benchmark.active? ? 'button_green':'button_orange'%>
+            <% button_label = benchmark.active? ? ' Active ':' Not Active '%>
+            <span class=<%=button_color%> id="toggle_benchmark_active<%=benchmark.id%>">
+              <%=button_label%>
+            </span>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="benchmark_add">
+            <% if benchmark.destroyable? %>
+              <span class="button_red" id="benchmark_destroy<%=benchmark.id%>">
+                Destroy
+              </span>
             <% end %>
           </div>
         </div>
-      <% end %>
-      <div class="row benchmark_descript">
-        <%=benchmark.description.nil? ? '' : benchmark.description.html_safe %>
-        <div class="questions">
-          Tagged By <%= pluralize(benchmark.act_questions.size, ' Question') %>
-        </div>
       </div>
-    </div>
-    <div class="col-md-2 benchmark_add">
-      <% if benchmark.destroyable? %>
-      <span class="button_red" id="benchmark_destroy<%=benchmark.id%>">
-        Destroy
-      </span>
-     <% end %>
-    </div>
-    <script type="text/javascript">
-      jQ(document).ready(function() {
-        jQ("#toggle_benchmark_active<%=benchmark.id%>").click(function() {
-          var url = "<%= app_maintenance_ifa_benchmark_toggle_url(:organization_id => @current_organization, :act_benchmark_id => benchmark.id) %>";
-          jQ.get(url,{},  function(data) {
-            jQ("#show_benchmark<%=benchmark_id%>").html(data);
-            jQ("#show_benchmark<%=benchmark_id%><%=level.public_id%>").show();
-          });
-        })
-      });
-    </script>
-    <script type="text/javascript">
-      jQ(document).ready(function() {
-        jQ("#benchmark_destroy<%=benchmark.id%>").click(function() {
-          var url = "<%= app_maintenance_ifa_benchmark_destroy_url(:organization_id => @current_organization, :act_benchmark_id => benchmark.id)%>";
-          jQ.get(url,{},  function(data) {
-            jQ("#show_benchmark<%=benchmark_id%>").html(data);
-            jQ("#show_benchmark<%=benchmark_id%>").show();
-          });
-        })
-      });
-    </script>
-  <% end %>
+      <div class="col-md-9">
+        <div class="row ">
+          <div class="col-md-12 ">
+            <div class="benchmark_source">
+              Source:&nbsp;
+              <% if benchmark.source_incompatible? %>
+                <span class="err">
+                   Incompatible Level and Strand
+                </span>
+              <% else %>
+                <%= benchmark.source_standard.name %>
+              <% end %>
+              <% if benchmark.source? %>
+                &nbsp;|&nbsp;
+                <%= benchmark.source_level.nil? ? 'No Source Level' : (benchmark.source_level.standard.abbrev + ': ' + benchmark.source_level.range) %> |
+                <%= benchmark.source_strand.nil? ? 'No Source Strand' : (benchmark.source_strand.standard.abbrev + ': ' + benchmark.source_strand.name) %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="benchmark_descript">
+            <div class="bench_type">
+              <%= benchmark.pos %>) <%= benchmark.type_name %>
+            </div>
+            <%=benchmark.description.nil? ? '' : benchmark.description.html_safe %>
+            <div class="questions">
+              Tagged By <%= pluralize(benchmark.act_questions.size, ' Question') %>
+            </div>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col-md-6 benchmark_level_change">
+            <div id="bench_level_<%=benchmark.id%>">
+              <%=  select(:b_level, benchmark.id, levels.collect{|s| [(@current_standard.abbrev + ': ' +s.range),s.id]},{:prompt => 'Move To Another ' + @current_standard.abbrev + ' Level'}) %>
+            </div>
+          </div>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ("#bench_level_<%= benchmark.id%>").change(function(){
+                var level_id = jQ('#b_level_<%= benchmark.id%>').val();
+                var url = "<%= app_maintenance_ifa_b_level_change_url(:organization_id => @current_organization, :act_benchmark_id => benchmark.id, :by => by,
+                              :act_subject_id => @current_subject.id, :act_master_id => @current_standard.id, :act_standard_id => strand.id, :act_score_range_id => level.id ) %>";
+                jQ.get(url,{'new_range_id': level_id},  function(data) {
+                  jQ("#manage_benchmarks").html(data);
+                  jQ("#manage_benchmarks").show();
+                });
+              })
+            });
+          </script>
+          <div class="col-md-6 benchmark_level_change">
+            <div id="bench_strand_<%=benchmark.id%>">
+              <%=  select(:b_strand, benchmark.id, strands.collect{|s| [(s.name),s.id]},{:prompt => 'Move To Another ' + @current_standard.abbrev + ' Strand'}) %>
+            </div>
+          </div>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ("#bench_strand_<%= benchmark.id%>").change(function(){
+                var strand_id = jQ('#b_strand_<%= benchmark.id%>').val();
+                var url = "<%= app_maintenance_ifa_b_strand_change_url(:organization_id => @current_organization, :act_benchmark_id => benchmark.id, :by => by,
+                              :act_subject_id => @current_subject.id, :act_master_id => @current_standard.id, :act_score_range_id => level.id, :act_standard_id => strand.id ) %>";
+                jQ.get(url,{'new_strand_id': strand_id},  function(data) {
+                  jQ("#manage_benchmarks").html(data);
+                  jQ("#manage_benchmarks").show();
+                });
+              })
+            });
+          </script>
+        </div>
+
+      </div>
+      <div class="col-md-1"></div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#toggle_benchmark_active<%=benchmark.id%>").click(function() {
+            var url = "<%= app_maintenance_ifa_benchmark_toggle_url(:organization_id => @current_organization, :act_benchmark_id => benchmark.id, :by => by) %>";
+            jQ.get(url,{},  function(data) {
+              jQ("#show_benchmark<%=benchmark_id%>").html(data);
+              jQ("#show_benchmark<%=benchmark_id%><%=level.public_id%>").show();
+            });
+          })
+        });
+      </script>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#benchmark_destroy<%=benchmark.id%>").click(function() {
+            var url = "<%= app_maintenance_ifa_benchmark_destroy_url(:organization_id => @current_organization, :act_benchmark_id => benchmark.id, :by => by)%>";
+            jQ.get(url,{},  function(data) {
+              jQ("#show_benchmark<%=benchmark_id%>").html(data);
+              jQ("#show_benchmark<%=benchmark_id%>").show();
+            });
+          })
+        });
+      </script>
+    <% end %>
+  </div>
 </div>

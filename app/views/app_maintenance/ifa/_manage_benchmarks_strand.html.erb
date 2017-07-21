@@ -17,12 +17,15 @@
           <%= @current_standard.abbrev %> <%=level.range %>&nbsp;|&nbsp;<%= pluralize(@current_strand_benchmarks[level].size, ' Benchmark')%>
         </div>
         <div class="col-md-2 benchmark_add">
-          <%= link_to 'Add Benchmark', app_maintenance_ifa_benchmark_add_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_standard_id=>strand.id, :act_score_range_id=>level.id), {:target=>'_blank'}  %>
+          <%= link_to 'Add Benchmark', app_maintenance_ifa_benchmark_add_path(:organization_id => @current_organization,
+                                                                              :act_subject_id => @current_subject.id, :act_standard_id=>strand.id,
+                                                                              :act_score_range_id=>level.id), {:target=>'_blank'}  %>
         </div>
       </div>
     <div class="benchmark_list">
       <% @current_strand_benchmarks[level].each do |benchmark| %>
-        <%= render :partial =>  "show_benchmark", :locals=>{:strand => strand, :level => level, :levels => levels, :benchmark => benchmark, :benchmark_id => benchmark.public_id}%>
+        <%= render :partial =>  "show_benchmark", :locals=>{:strand => strand, :level => level, :strands => strands, :by => 'strand',
+                                                            :levels => levels, :benchmark => benchmark, :benchmark_id => benchmark.public_id}%>
         <hr>
       <% end %>
     </div>
@@ -32,7 +35,8 @@
   <script type="text/javascript">
     jQ(document).ready(function() {
       jQ("#benchmark_refresh<%=strand.id%>").click(function() {
-        var url = "<%= app_maintenance_ifa_benchmark_refresh_url(:organization_id => @current_organization, :act_master_id => @current_standard.id, :act_subject_id => @current_subject.id, :act_standard_id => strand.id)%>";
+        var url = "<%= app_maintenance_ifa_benchmark_refresh_url(:organization_id => @current_organization, :act_master_id => @current_standard.id,
+        :act_subject_id => @current_subject.id, :act_standard_id => strand.id)%>";
         jQ.get(url,{},  function(data) {
           jQ("#strand_benchmarks<%=strand.id %>").html(data);
           jQ("#strand_benchmarks<%=strand.id %>").show();

@@ -1,0 +1,45 @@
+<div id="level_benchmarks<%=level.id %>">
+  <div class="row precision_panel" style="color: <%= level.score_font%>; background-color:<%= level.score_background %>">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <%= @current_standard.abbrev %> Level: <%= level.range %>
+    </div>
+    <div class="col-md-2">
+      <span class="button_gray" id="benchmark_refresh<%=level.id%>">
+        Refresh Benchmarks
+      </span>
+    </div>
+  </div>
+  <div class="benchmark_box">
+    <% strands.each do |strand| %>
+      <div class="row benchmark_level_row" style="color: <%= strand.strand_font%>; background-color:<%= strand.strand_background %>">
+        <div class="col-md-10 benchmark_level">
+          <%= @current_standard.abbrev %> <%=strand.name %>&nbsp;|&nbsp;<%= pluralize(@current_level_benchmarks[strand].size, ' Benchmark')%>
+        </div>
+        <div class="col-md-2 benchmark_add">
+          <%= link_to 'Add Benchmark', app_maintenance_ifa_benchmark_add_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_standard_id=>strand.id, :act_score_range_id=>level.id), {:target=>'_blank'}  %>
+        </div>
+      </div>
+    <div class="benchmark_list">
+      <% @current_level_benchmarks[strand].each do |benchmark| %>
+        <%= render :partial =>  "show_benchmark", :locals=>{:strand => strand, :level => level, :strands => strands, :by => 'level',
+                                                            :levels => levels, :benchmark => benchmark, :benchmark_id => benchmark.public_id}%>
+        <hr>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+  <hr>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#benchmark_refresh<%=level.id%>").click(function() {
+        var url = "<%= app_maintenance_ifa_benchmark_refresh_l_url(:organization_id => @current_organization, :act_master_id => @current_standard.id,
+        :act_subject_id => @current_subject.id, :act_score_range_id => level.id)%>";
+        jQ.get(url,{},  function(data) {
+          jQ("#level_benchmarks<%=level.id %>").html(data);
+          jQ("#level_benchmarks<%=level.id %>").show();
+        });
+      })
+    });
+  </script>
+</div>

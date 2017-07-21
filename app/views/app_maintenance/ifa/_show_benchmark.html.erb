@@ -1,28 +1,52 @@
 <div class="row benchmark_row" id="show_benchmark<%=benchmark_id%>">
   <%= render :partial => "/shared/error_and_notice" %>
   <% if !benchmark.nil? %>
-    <div class="col-md-1 benchmark_add">
-      <%= link_to 'Edit', app_maintenance_ifa_benchmark_edit_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_standard_id=>strand.id, :act_score_range_id=>level.id, :act_benchmark_id => benchmark.id), {:target=>'_blank'}  %>
+    <div class="col-md-2">
+      <div class="row benchmark_add">
+        <div class="col-md-6">
+        <%= link_to 'Edit', app_maintenance_ifa_benchmark_edit_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_standard_id=>strand.id, :act_score_range_id=>level.id, :act_benchmark_id => benchmark.id), {:target=>'_blank'}  %>
+        </div>
+        <div class="col-md-6">
+          <% button_color = benchmark.active? ? 'button_green':'button_orange'%>
+          <% button_label = benchmark.active? ? ' Active ':' Not Active '%>
+          <span class=<%=button_color%> id="toggle_benchmark_active<%=benchmark.id%>">
+            <%=button_label%>
+          </span>
+        </div>
+      </div>
+      <div class="row bench_type">
+        <%= benchmark.pos %> -
+        <%= benchmark.type_name %>
+      </div>
     </div>
-    <div class="col-md-1 benchmark_add">
-      <% button_color = benchmark.active? ? 'button_green':'button_orange'%>
-      <% button_label = benchmark.active? ? ' Active ':' Not Active '%>
-      <span class=<%=button_color%> id="toggle_benchmark_active<%=benchmark.id%>">
-        <%=button_label%>
-      </span>
-    </div>
-    <div class="col-md-9">
+    <div class="col-md-8">
       <div class="row ">
-        <div class="col-md-3 bench_type">
-          <%=benchmark.pos %>)&nbsp;<%= benchmark.type_name %>
+        <div class="col-md-8 ">
+          <div class="benchmark_source">
+            Source:&nbsp;<%= benchmark.source_standard.name %>
+          </div>
         </div>
-        <div class="col-md-7  benchmark_source">
-          <%= benchmark.source_standard.name %>
+        <div class="col-md-4  benchmark_level_change">
+          <div id="bench_level_<%=benchmark.id%>">
+            <%=  select(:b_level, benchmark.id, levels.collect{|s| [(@current_standard.abbrev + ': ' +s.range),s.id]},{:prompt => 'Move To Another Level'}) %>
+          </div>
         </div>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ("#bench_level_<%= benchmark.id%>").change(function(){
+              var level_id = jQ('#b_level_<%= benchmark.id%>').val();
+              var url = "<%= app_maintenance_ifa_b_level_change_url(:organization_id => @current_organization, :act_benchmark_id => benchmark.id,
+                          :act_subject_id => @current_subject.id, :act_master_id => @current_standard.id, :act_standard_id => strand.id ) %>";
+              jQ.get(url,{'act_score_range_id': level_id},  function(data) {
+                jQ("#manage_benchmarks").html(data);
+                jQ("#manage_benchmarks").show();
+              });
+            })
+          });
+        </script>
       </div>
       <% if !benchmark.source_level.nil? || !benchmark.source_strand.nil? %>
         <div class="row ">
-          <div class="col-md-3 bench_type"></div>
           <div class="col-md-8  benchmark_source_cell">
             <%= benchmark.source_level.nil? ? '' : (benchmark.source_level.range) %>
             <%= benchmark.source_strand.nil? ? '' : (' ' + benchmark.source_strand.name) %>
@@ -36,9 +60,12 @@
       <% end %>
       <div class="row benchmark_descript">
         <%=benchmark.description.nil? ? '' : benchmark.description.html_safe %>
+        <div class="questions">
+          Tagged By <%= pluralize(benchmark.act_questions.size, ' Question') %>
+        </div>
       </div>
     </div>
-    <div class="col-md-1 benchmark_add">
+    <div class="col-md-2 benchmark_add">
       <% if benchmark.destroyable? %>
       <span class="button_red" id="benchmark_destroy<%=benchmark.id%>">
         Destroy

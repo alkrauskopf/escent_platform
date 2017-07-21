@@ -1,20 +1,30 @@
 <div id="manage_benchmarks">
-  <% if true || @current_standard == @current_provider.master_standard %>
-    <div class="row standard_row">
-      <div class="strand_label">
-        Manage <%= @current_standard.abbrev + " " + @current_subject.name + ' Benchmarks' %>
-      </div>
+  <div class="row panel_title_blue">
+    <div class="strand_label">
+      Manage <%= @current_standard.abbrev + " " + @current_subject.name + ' Benchmarks' %>
     </div>
-    <div class="row standard_row">
-      <% @strands.each do |strand| %>
-          <%= render :partial =>  "manage_benchmarks_strand", :locals=>{:strand => strand}%>
-      <% end %>
-    </div>
-  <% else %>
-    <div class="row standard_row">
-      <div class="strand_label">
-        Benchmarks Are Defined Only For  <%= @current_provider.master_standard.name %>
+  </div>
+  <% if !@active_strands.empty? %>
+      <div class="benchmark_strand_select" id="bench_standard_id">
+        <%=  select(:b, :standard_id, @active_strands.collect{|s| [s.name,s.id]},{:prompt => 'Select Strand'}) %>
       </div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#bench_standard_id").change(function(){
+            var standard_id = jQ('#b_standard_id').val();
+            var url = "<%= app_maintenance_ifa_b_strand_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_master_id => @current_standard.id ) %>";
+            jQ.get(url, {'act_standard_id': standard_id}, function(data) {
+              jQ("#manage_benchmarks").html(data);
+              jQ("#manage_benchmarks").show();
+            });
+          })
+        });
+      </script>
+  <% end %>
+  <hr>
+  <% if @current_strand_levels %>
+    <div class="row">
+      <%= render :partial =>  "manage_benchmarks_strand", :locals=>{:strand => @current_strand, :levels => @current_strand_levels}%>
     </div>
   <% end %>
 </div>

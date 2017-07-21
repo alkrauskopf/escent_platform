@@ -93,12 +93,12 @@
 .benchmark_box {
   margin: 0em 0em 0em 0em;
   padding: 0em 1em 0em 1em;
-  border:1px solid #ddd;
+  background-color: $panel_background_ifa;
+  border:1px solid $dark_text;
   font-size:12px;
 }
-.benchmark_blist {
-  padding: 0em 1em 0em 1em;
-  border:0px solid #ddd;
+.benchmark_list {
+  padding: 0em 0em 0em 0em;
   line-height:1.3em;
   font-size:12px;
 }

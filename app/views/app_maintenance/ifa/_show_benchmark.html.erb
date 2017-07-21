@@ -29,6 +29,14 @@
         </div>
       </div>
       <div class="col-md-9">
+        <div class="row">
+          <div class="benchmark_descript_type">
+            <%= benchmark.pos %>)&nbsp;
+            <span class="type">
+               <%= benchmark.type_name %>
+            </span>
+          </div>
+        </div>
         <div class="row ">
           <div class="col-md-12 ">
             <div class="benchmark_source">
@@ -50,9 +58,6 @@
         </div>
         <div class="row">
           <div class="benchmark_descript">
-            <div class="bench_type">
-              <%= benchmark.pos %>) <%= benchmark.type_name %>
-            </div>
             <%=benchmark.description.nil? ? '' : benchmark.description.html_safe %>
             <div class="questions">
               Tagged By <%= pluralize(benchmark.act_questions.size, ' Question') %>

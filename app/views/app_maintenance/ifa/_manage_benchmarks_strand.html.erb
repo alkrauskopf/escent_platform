@@ -26,7 +26,6 @@
       <% @current_strand_benchmarks[level].each do |benchmark| %>
         <%= render :partial =>  "show_benchmark", :locals=>{:strand => strand, :level => level, :strands => strands, :by => 'strand',
                                                             :levels => levels, :benchmark => benchmark, :benchmark_id => benchmark.public_id}%>
-        <hr>
       <% end %>
     </div>
     <% end %>

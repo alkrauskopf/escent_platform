@@ -59,6 +59,8 @@
 .benchmark_strand_select {
   padding: 2em 0em 1em 0em;
   text-align:center;
+  color:$red_text;
+  font-size:16px;
 }
 .benchmark_level_select {
   padding: 2em 0em 1em 0em;
@@ -113,7 +115,8 @@
 }
 
 .benchmark_row {
-  padding: 0em 0em .5em 0em;
+  padding: 1.5em 0em 1em 0em;
+  border-bottom:1px solid $dark_text;
 }
 .benchmark_add {
   text-align:left;
@@ -127,7 +130,18 @@
   color:$dark_text;
   font-size: 12px;
 }
-
+.benchmark_descript_type {
+  text-align:left;
+  line-height:1.5em;
+  font-weight:normal;
+  color:$dark_text;
+  font-size: 13px;
+  padding: 0em 0em 0em 2em;
+}
+.benchmark_descript_type .type {
+  padding: 0em 0em 0em 0em;
+  font-weight:bold;
+}
 .benchmark_descript {
   text-align:left;
   line-height:1.5em;
@@ -136,11 +150,7 @@
   font-size: 16px;
   padding: 1em 1em .5em 2em;
 }
-.benchmark_descript .bench_type {
-  padding: 0em 0em 0em 0em;
-  font-weight:bold;
-  font-size: 12px;
-}
+
 .benchmark_descript .questions {
   padding: .5em 0em 0em 0em;
   color:$red_text;

@@ -744,7 +744,9 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     current_benchmark
     active_levels
     active_strands
-    @current_benchmark.update_attributes(:is_active=> !@current_benchmark.is_active)
+    if params[:function] == 'Active'
+      @current_benchmark.update_attributes(:is_active=> !@current_benchmark.is_active)
+    end
     render :partial =>  "show_benchmark",  :locals=>{:strand => @current_benchmark.strand, :level => @current_benchmark.mastery_level,
                                                      :levels => @active_levels, :strands => @active_strands, :by => params[:by],
                                                      :benchmark => @current_benchmark, :benchmark_id => @current_benchmark.public_id}

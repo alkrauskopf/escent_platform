@@ -51,23 +51,18 @@
                 <div class="bench_dashboard_cell_total">
                   <%= @bench_total[hashkey] %> Enabled
                 </div>
-
+                <hr>
                 <div class="row bench_dashboard_cell_subtotal_row">
                   <% @bench_types_hdr[hashkey].each_with_index do |t,idx| %>
-                    <div class="col-md-3">
-                      <span class="heading "><%= @bench_types_hdr[hashkey][idx]%></span><br/>
-                      <span class="stat "><%= @bench_types[hashkey][idx]%></span>
-                    </div>
+                    <%= @bench_types_hdr[hashkey][idx]%>(<%= @bench_types[hashkey][idx]%>)&nbsp;
                   <% end %>
                 </div>
                 <div class="row bench_dashboard_cell_subtotal_row">
                   <% @bench_sources_hdr[hashkey].each_with_index do |t,idx| %>
-                      <div class="col-md-3">
-                        <span class="heading "><%= @bench_sources_hdr[hashkey][idx]%></span><br/>
-                        <span class="stat "><%= @bench_sources[hashkey][idx]%></span>
-                      </div>
+                    <%= @bench_sources_hdr[hashkey][idx]%>(<%= @bench_sources[hashkey][idx]%>)&nbsp;
                   <% end %>
                 </div>
+                <hr>
                 <div class="row bench_dashboard_maint_row">
                   <div class="bench_dashboard_maint_update">
                     <span id="view_benchmarks<%=ml.id%><%=s.id%>">

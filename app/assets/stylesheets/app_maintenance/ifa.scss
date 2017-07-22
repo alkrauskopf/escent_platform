@@ -104,8 +104,7 @@
 }
 
 .benchmark_level_row {
-  margin: 0em 0em 0em 0em;
-  padding: .25em 0em .25em 0em;
+  padding: 0em 0em 0em 0em;;
 }
 
 .benchmark_level {
@@ -318,4 +317,98 @@
   font-weight:bold;
   font-size:13px;
   color: $blue_text;
+}
+.bench_dashboard_box {
+  margin:1em 0em 1em 0em;
+  padding:0em 0em 0em 0em;
+  background-color:white;
+  border:1px solid #ddd;
+}
+.bench_dashboard_header {
+  padding:1em 0em 1em 2em;
+  color:$blue_text;
+  font-size:14px;
+  vertical-align:middle;
+  text-align:center;
+  line-height:2em;
+  font-weight:normal;
+}
+.bench_dashboard_header1 {
+  color:$red_text;
+  font-weight:bold;
+}
+.bench_dashboard_label {
+  padding:0em 0em 0em 2em;
+  color:$blue_text;
+  font-size:12px;
+  vertical-align:middle;
+  text-align:left;
+  line-height:2em;
+}
+.bench_dashboard_strand_header {
+  padding:1em 0em 1em 0em;
+  font-size:15px;
+  word-wrap:break-word;
+  text-align:center;
+  vertical-align:middle;
+  font-weight:normal;
+}
+.bench_dashboard_cells {
+  padding: 1em 2em 1em 1em;
+  vertical-align:middle;
+  text-align:left;
+  border:1px solid #000;
+  color:$blue_text;
+  line-height:1.3em;
+  font-size:12px;
+  font-weight:normal;
+}
+.bench_dashboard_cell_total {
+  padding: 0em 0em 1em 0em;
+  text-align:center;
+  color:$red_text;
+  font-size:13px;
+  font-weight:bold;
+}
+.bench_dashboard_cell_subtotal {
+  padding: 0em 0em 1em 0em;
+  text-align:center;
+  color:$blue_text;
+  font-size:12px;
+  font-weight:normal;
+}
+.bench_dashboard_cell_subtotal_row {
+  padding: 0em 0em 1em 0em;
+  text-align:left;
+  color:$red_text;
+  font-size:11px;
+  font-weight:normal;
+}
+.bench_dashboard_cell_subtotal_row .heading {
+  text-decoration:underline;
+  text-align:center;
+}
+.bench_dashboard_cell_subtotal_row .stat {
+  text-align:center;
+}
+.bench_dashboard_levels {
+  color:$red_text;
+  padding: 1em 0em 1em 1em;
+  border:1px solid #ddd;
+  vertical-align:middle;
+  text-align:center;
+  font-size:13px;
+  font-weight:normal;
+}
+.bench_dashboard_maint_row {
+  color:$blue_text;
+  padding: .5em 0em 1em 1em;
+  text-align:center;
+  font-size:12px;
+}
+.bench_dashboard_maint_update {
+  padding: 0em 0em .5em 0em;
+  color:$blue_text;
+  cursor:pointer;
+  text-decoration:underline;
 }

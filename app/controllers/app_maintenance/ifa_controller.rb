@@ -19,6 +19,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     current_strand
     levels
     active_levels
+    benchmark_dashboard
     current_level
   end
 
@@ -573,42 +574,62 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   end
 
   def bench_level_change
-    get_strand
-    get_level
+    cell_strand
+    cell_level
     active_strands
     active_levels
     current_benchmark
     @current_benchmark.update_attributes(:act_score_range_id => params[:new_range_id])
-    params[:by] == 'strand' ? current_strand_benchmarks : current_level_benchmarks
-    render :partial =>  "manage_benchmarks", :locals=>{}
+    benchmark_dashboard
+    render :partial =>  "manage_benchmarks_cell", :locals=>{:strand => @cell_strand, :level => @cell_level}
   end
 
   def bench_strand_change
-    get_strand
-    get_level
+    cell_strand
+    cell_level
     active_strands
     active_levels
     current_benchmark
     @current_benchmark.update_attributes(:act_standard_id => params[:new_strand_id])
-    params[:by] == 'strand' ? current_strand_benchmarks : current_level_benchmarks
+    benchmark_dashboard
+    render :partial =>  "manage_benchmarks_cell", :locals=>{:strand => @cell_strand, :level => @cell_level}
+  end
+
+  def bench_cell_select
+    active_strands
+    active_levels
+    cell_strand
+    cell_level
+    benchmark_dashboard
+  #  current_strand_benchmarks(:level => @cell_level)
     render :partial =>  "manage_benchmarks", :locals=>{}
   end
 
-  def bench_strand_select
+  def benchmark_view_close
+    active_strands
+    active_levels
+    benchmark_dashboard
+    render :partial =>  "manage_benchmarks", :locals=>{}
+  end
+
+  def bench_strand_select_x
     active_strands
     active_levels
     get_strand
+    benchmark_dashboard
     current_strand_benchmarks
     render :partial =>  "manage_benchmarks", :locals=>{}
   end
 
-  def bench_level_select
+  def bench_level_select_x
     active_levels
     active_strands
     get_level
+    benchmark_dashboard
     current_level_benchmarks
     render :partial =>  "manage_benchmarks", :locals=>{}
   end
+
 
   def strand_update
     strands
@@ -739,6 +760,12 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     render :partial =>  "manage_benchmarks_level", :locals=>{:level => @current_level, :levels => @active_levels, :strands => @active_strands}
   end
 
+  def benchmark_dashboard_refresh
+    active_strands
+    active_levels
+    benchmark_dashboard
+    render :partial =>  "benchmark_dashboard"
+  end
 
   def benchmark_toggle
     current_benchmark
@@ -992,12 +1019,18 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     end
   end
 
-  def current_strand_benchmarks
+  def current_strand_benchmarks(options={})
     @current_strand_benchmarks = {}
     @current_level_strands = nil
-    @current_strand_levels = @current_standard.mastery_levels(@current_subject)
-    @current_standard.mastery_levels(@current_subject).each do |level|
-      @current_strand_benchmarks[level] = ActBench.all_for_level_strand(level, @current_strand)
+    if options[:level]
+      @current_strand_levels = Array.new
+      @current_strand_levels << options[:level]
+      @current_strand_benchmarks[options[:level]] = ActBench.all_for_level_strand(options[:level], @current_strand)
+    else
+      @current_strand_levels = @current_standard.mastery_levels(@current_subject)
+      @current_standard.mastery_levels(@current_subject).each do |level|
+        @current_strand_benchmarks[level] = ActBench.all_for_level_strand(level, @current_strand)
+      end
     end
   end
 
@@ -1010,11 +1043,74 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     end
   end
 
+  def benchmark_dashboard
+    @cell_benchmarks = {}
+    @bench_dashboard_hdr = {}
+    @bench_total = {}
+    @bench_types = {}
+    @bench_types_hdr = {}
+    @bench_sources = {}
+    @bench_sources_hdr = {}
+    @types = @current_standard.act_bench_types
+    @sources = ActMaster.national
+    @bench_dashboard_hdr[0] = @types.map{|t| (t.abbrev + ' = ' + t.name.titleize)}.join(',  ')
+    @bench_total['all'] = 0
+    @active_levels.each do |level|
+      @bench_total[level.range] = 0
+    end
+    @active_strands.each do |strand|
+      @bench_total[strand.abbrev] = 0
+      @active_levels.each do |level|
+        ls = level.id.to_s + strand.id.to_s
+        @cell_benchmarks[ls] = ActBench.for_level_strand(level, strand)
+        @bench_total[ls] = ActBench.for_level_strand(level, strand).size
+        @bench_total[strand.abbrev] += @bench_total[ls]
+        @bench_total[level.range] += @bench_total[ls]
+        @bench_total['all'] += @bench_total[ls]
+        @bench_types_hdr[ls] = []
+        @bench_types[ls] = []
+        @types.each do |b_type|
+          @bench_types_hdr[ls] << b_type.abbrev
+          @bench_types[ls] << ActBench.for_level_strand_type(level, strand, b_type).size
+        end
+        @bench_sources_hdr[ls] = []
+        @bench_sources[ls] = []
+        @sources.each do |std|
+          @bench_sources_hdr[ls] << std.abbrev
+          @bench_sources[ls] << @cell_benchmarks[ls].select{|b| b.source_standard == std}.size
+        end
+      end
+    end
+  end
+
   def get_strand
     if params[:act_standard_id]
       @current_strand = ActStandard.find_by_id(params[:act_standard_id]) rescue nil
     else
       @current_strand = nil
+    end
+  end
+
+  def cell_strand
+    if params[:act_standard_id]
+      @cell_strand = ActStandard.find_by_id(params[:act_standard_id]) rescue nil
+    else
+      @cell_strand = nil
+    end
+  end
+
+  def get_level
+    if params[:act_score_range_id]
+      @current_level = ActScoreRange.find_by_id(params[:act_score_range_id]) rescue nil
+    else
+      @current_level = nil
+    end
+  end
+  def cell_level
+    if params[:act_score_range_id]
+      @cell_level = ActScoreRange.find_by_id(params[:act_score_range_id]) rescue nil
+    else
+      @cell_level = nil
     end
   end
 
@@ -1277,14 +1373,6 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     @prep_classrooms = @current_subject.nil? ? [] : @current_subject.classrooms.precision_prep_provider(@current_organization)
   end
 
-  def get_level
-    if params[:act_score_range_id]
-      @current_level = ActScoreRange.find_by_id(params[:act_score_range_id]) rescue nil
-    else
-      @current_level = nil
-    end
-  end
-
   def current_benchmark
     if params[:act_benchmark_id]
       @current_benchmark = ActBench.find_by_id(params[:act_benchmark_id]) rescue nil
@@ -1296,7 +1384,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   end
 
   def benchmark_source_standards
-    @source_standards = ActMaster.all - [@current_standard]
+    @source_standards = ActMaster.national - [@current_standard]
     @source_levels = @source_standards.collect{|s| s.mastery_levels(@current_subject)}.flatten.compact.sort_by{|l| [l.standard.abbrev, l.lower_score]}
     @source_strands = @source_standards.collect{|s| s.strands(@current_subject)}.flatten.compact.sort_by{|s| [s.standard.abbrev, s.name]}
   end

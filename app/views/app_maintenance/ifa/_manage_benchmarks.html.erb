@@ -4,6 +4,14 @@
       <%= @current_subject.name + ' | ' +  @current_standard.abbrev + ' Benchmarks' %>
     </div>
   </div>
+  <hr>
+  <% if @cell_strand && @cell_level%>
+    <div class="row">
+      <%= render :partial =>  "manage_benchmarks_strand", :locals=>{:strand => @cell_strand}%>
+    </div>
+  <% end %>
+  <%= render :partial =>  "benchmark_dashboard", :locals=>{}%>
+  <% if false %>
   <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-5">
@@ -46,14 +54,5 @@
       <% end %>
     </div>
   </div>
-  <hr>
-  <% if @current_strand_levels %>
-    <div class="row">
-      <%= render :partial =>  "manage_benchmarks_strand", :locals=>{:strand => @current_strand, :strands => @active_strands, :levels => @current_strand_levels}%>
-    </div>
-  <% elsif @current_level_strands %>
-      <div class="row">
-        <%= render :partial =>  "manage_benchmarks_level", :locals=>{:level => @current_level, :levels => @active_levels, :strands => @current_level_strands}%>
-      </div>
   <% end %>
 </div>

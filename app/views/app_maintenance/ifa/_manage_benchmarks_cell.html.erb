@@ -1,0 +1,8 @@
+<div id="cell_benchmarks<%=strand.id %><%=level.id%>">
+    <div class="benchmark_list">
+      <% ls = level.id.to_s + strand.id.to_s %>
+      <% @cell_benchmarks[ls].each do |benchmark| %>
+        <%= render :partial =>  "show_benchmark", :locals=>{:strand => strand, :level => level, :benchmark => benchmark}%>
+      <% end %>
+    </div>
+</div>

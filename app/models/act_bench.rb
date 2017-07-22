@@ -36,8 +36,20 @@ class ActBench < ActiveRecord::Base
     where('act_score_range_id = ? AND act_standard_id = ?', sr.id, strand.id).order('pos ASC')
   end
 
+  def self.for_strand(strand)
+    where('act_standard_id = ? AND is_active', strand.id).order('pos ASC')
+  end
+
+  def self.for_level( sr)
+    where('act_score_range_id = ? AND is_active', sr.id).order('pos ASC')
+  end
+
   def self.for_level_strand( sr, strand)
     where('act_score_range_id = ? AND act_standard_id = ? AND is_active', sr.id, strand.id).order('pos ASC')
+  end
+
+  def self.for_level_strand_type( sr, strand, btype)
+    for_level_strand( sr, strand).select{|b| b.act_bench_type == btype}
   end
 
   def self.for_co_gle(gle)

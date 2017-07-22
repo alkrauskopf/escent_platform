@@ -1,33 +1,50 @@
 <div id="strand_benchmarks<%=strand.id %>">
   <div class="row precision_panel" style="color: <%= strand.strand_font%>; background-color:<%= strand.strand_background %>">
-    <div class="col-md-2"></div>
+    <div class="col-md-2">
+      <span class="button_gray" id="benchmark_close<%=strand.id%>">
+        Close View
+      </span>
+    </div>
     <div class="col-md-8">
       <%= strand.name %>
     </div>
     <div class="col-md-2">
-      <span class="button_gray" id="benchmark_refresh<%=strand.id%>">
-        Refresh Benchmarks
-      </span>
+      <% if false %>
+        <span class="button_gray" id="benchmark_refresh<%=strand.id%>">
+          All Strand Benchmarks
+        </span>
+      <% end %>
     </div>
   </div>
   <div class="benchmark_box">
-    <% levels.each do |level| %>
-      <div class="row benchmark_level_row" style="color: <%= level.score_font%>; background-color:<%= level.score_background %>">
+    <% if @cell_level.nil? %>
+      <% @active_levels.each do |level| %>
+       <% ls = level.id.to_s + strand.id.to_s %>
+        <div class="row benchmark_level_row" style="color: <%= level.score_font%>; background-color:<%= level.score_background %>">
+          <div class="col-md-10 benchmark_level">
+            <%= @current_standard.abbrev %> <%=level.range %>&nbsp;|&nbsp;<%= pluralize(@cell_benchmarks[ls].size, ' Benchmark')%>
+          </div>
+          <div class="col-md-2 benchmark_add">
+            <%= link_to 'Add Benchmark', app_maintenance_ifa_benchmark_add_path(:organization_id => @current_organization,
+                                                                                :act_subject_id => @current_subject.id, :act_standard_id=>strand.id,
+                                                                                :act_score_range_id=>level.id), {:target=>'_blank'}  %>
+          </div>
+        </div>
+      <%= render :partial =>  "manage_benchmarks_cell", :locals=>{:strand => strand, :level => level} %>
+      <% end %>
+    <% else %>
+      <% ls = @cell_level.id.to_s + strand.id.to_s %>
+      <div class="row benchmark_level_row" style="color: <%= @cell_level.score_font%>; background-color:<%= @cell_level.score_background %>">
         <div class="col-md-10 benchmark_level">
-          <%= @current_standard.abbrev %> <%=level.range %>&nbsp;|&nbsp;<%= pluralize(@current_strand_benchmarks[level].size, ' Benchmark')%>
+          <%= @current_standard.abbrev %> <%=@cell_level.range %>&nbsp;|&nbsp;<%= pluralize(@cell_benchmarks[ls].size, ' Benchmark')%>
         </div>
         <div class="col-md-2 benchmark_add">
           <%= link_to 'Add Benchmark', app_maintenance_ifa_benchmark_add_path(:organization_id => @current_organization,
                                                                               :act_subject_id => @current_subject.id, :act_standard_id=>strand.id,
-                                                                              :act_score_range_id=>level.id), {:target=>'_blank'}  %>
+                                                                              :act_score_range_id=>@cell_level.id), {:target=>'_blank'}  %>
         </div>
       </div>
-    <div class="benchmark_list">
-      <% @current_strand_benchmarks[level].each do |benchmark| %>
-        <%= render :partial =>  "show_benchmark", :locals=>{:strand => strand, :level => level, :strands => strands, :by => 'strand',
-                                                            :levels => levels, :benchmark => benchmark, :benchmark_id => benchmark.public_id}%>
-      <% end %>
-    </div>
+      <%= render :partial =>  "manage_benchmarks_cell", :locals=>{:strand => strand, :level => @cell_level} %>
     <% end %>
   </div>
   <hr>
@@ -39,6 +56,18 @@
         jQ.get(url,{},  function(data) {
           jQ("#strand_benchmarks<%=strand.id %>").html(data);
           jQ("#strand_benchmarks<%=strand.id %>").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#benchmark_close<%=strand.id%>").click(function() {
+        var url = "<%= app_maintenance_ifa_benchmark_close_url(:organization_id => @current_organization, :act_master_id => @current_standard.id,
+        :act_subject_id => @current_subject.id)%>";
+        jQ.get(url,{},  function(data) {
+          jQ("#manage_benchmarks").html(data);
+          jQ("#manage_benchmarks").show();
         });
       })
     });

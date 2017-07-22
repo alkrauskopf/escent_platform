@@ -179,6 +179,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/maintenance/ifa/std_select' => 'app_maintenance/ifa#standard_select' # app_maintenance_ifa_std_select_url
   get '/app/maintenance/ifa/strand_select' => 'app_maintenance/ifa#strand_select' # app_maintenance_ifa_strand_select_url
   get '/app/maintenance/ifa/b_strand_select' => 'app_maintenance/ifa#bench_strand_select' # app_maintenance_ifa_b_strand_select_url
+  get '/app/maintenance/ifa/b_cell_select' => 'app_maintenance/ifa#bench_cell_select' # app_maintenance_ifa_b_cell_select_url
   get '/app/maintenance/ifa/b_level_select' => 'app_maintenance/ifa#bench_level_select' # app_maintenance_ifa_b_level_select_url
   get '/app/maintenance/ifa/b_level_change' => 'app_maintenance/ifa#bench_level_change' # app_maintenance_ifa_b_level_change_url
   get '/app/maintenance/ifa/b_strand_change' => 'app_maintenance/ifa#bench_strand_change' # app_maintenance_ifa_b_strand_change_url
@@ -207,6 +208,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/app/maintenance/ifa/benchmark/destroy' => 'app_maintenance/ifa#benchmark_destroy' # app_maintenance_ifa_benchmark_destroy_url
   get '/app/maintenance/ifa/benchmark/refresh' => 'app_maintenance/ifa#benchmark_refresh' # app_maintenance_ifa_benchmark_refresh_url
   get '/app/maintenance/ifa/benchmark/refresh_l' => 'app_maintenance/ifa#benchmark_refresh_l' # app_maintenance_ifa_benchmark_refresh_l_url
+  get '/app/maintenance/ifa/b_dashboard/refresh' => 'app_maintenance/ifa#benchmark_dashboard_refresh' # app_maintenance_ifa_b_dashboard_refresh_l_url
+  get '/app/maintenance/ifa/benchmark/close' => 'app_maintenance/ifa#benchmark_view_close' # app_maintenance_ifa_benchmark_close_url
   post '/app/maintenance/ifa/benchmark/update' => 'app_maintenance/ifa#benchmark_update' # app_maintenance_ifa_benchmark_create_path
   get '/app/maintenance/ifa/benchmark/source' => 'app_maintenance/ifa#benchmark_source' # app_maintenance_ifa_benchmark_source_url
   get '/app/maintenance/ifa/genre/update' => 'app_maintenance/ifa#genre_update' # app_maintenance_ifa_genre_update_url

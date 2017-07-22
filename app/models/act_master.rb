@@ -21,7 +21,7 @@ class ActMaster < ActiveRecord::Base
   has_many :ifa_user_baseline_scores
   has_many :act_submissions
      
-  scope :national, :conditions => { :is_national => true}  
+  scope :national, :conditions => { :is_national => true}, :order => "abbrev"
   scope :act, :conditions => { :abbrev_old => "ACT"}
   scope :all, :order => "abbrev"
   scope  :co,  :conditions => { :abbrev => "CO"}

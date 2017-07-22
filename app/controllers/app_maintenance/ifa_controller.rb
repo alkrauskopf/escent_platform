@@ -540,7 +540,9 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     strands
     current_strand
     levels
+    active_strands
     active_levels
+    benchmark_dashboard
     render :partial =>  "manage_standard", :locals=>{}
   end
 

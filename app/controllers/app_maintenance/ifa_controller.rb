@@ -1056,7 +1056,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     @types = @current_standard.act_bench_types
     @sources = ActMaster.national
     @bench_dashboard_hdr[0] = @types.map{|t| (t.abbrev + ' = ' + t.name.titleize)}.join(',  ')
-    @bench_total['all'] = @current_subject.act_benches.for_standard(@current_standard).size
+    @bench_total['all'] = 0
     @bench_total['enabled'] = 0
     @active_levels.each do |level|
       @bench_total[level.range] = 0
@@ -1065,11 +1065,12 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       @bench_total[strand.abbrev] = 0
       @active_levels.each do |level|
         ls = level.id.to_s + strand.id.to_s
-        @cell_benchmarks[ls] = ActBench.for_level_strand(level, strand)
-        @bench_total[ls] = ActBench.for_level_strand(level, strand).size
+        @cell_benchmarks[ls] = ActBench.enabled_for_level_strand(level, strand)
+        @bench_total[ls] = ActBench.enabled_for_level_strand(level, strand).size
         @bench_total[strand.abbrev] += @bench_total[ls]
         @bench_total[level.range] += @bench_total[ls]
         @bench_total['enabled'] += @bench_total[ls]
+        @bench_total['all'] += ActBench.all_for_level_strand(level, strand).size
         @bench_types_hdr[ls] = []
         @bench_types[ls] = []
         @types.each do |b_type|

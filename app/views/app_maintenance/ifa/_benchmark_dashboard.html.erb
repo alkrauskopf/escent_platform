@@ -4,7 +4,7 @@
     <% strnd_width = ((100 - level_width)/@active_strands.size).to_f.to_i.to_s + '%'%>
     <div class="col-md-12 bench_dashboard_header">
       <div class="row bench_dashboard_header1">
-          <%= pluralize(@bench_total['all'], 'Enabled Benchmark') %>
+          <%= pluralize(@bench_total['all'], ' Benchmark') %> | <%= @bench_total['enabled'] %> Enabled
       </div>
       <div class="row">
         <%= @bench_dashboard_hdr[0] %>

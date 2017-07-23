@@ -1065,7 +1065,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       @bench_total[strand.abbrev] = 0
       @active_levels.each do |level|
         ls = level.id.to_s + strand.id.to_s
-        @cell_benchmarks[ls] = ActBench.enabled_for_level_strand(level, strand)
+        @cell_benchmarks[ls] = ActBench.all_for_level_strand(level, strand)
         @bench_total[ls] = ActBench.enabled_for_level_strand(level, strand).size
         @bench_total[strand.abbrev] += @bench_total[ls]
         @bench_total[level.range] += @bench_total[ls]
@@ -1081,7 +1081,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
         @bench_sources[ls] = []
         @sources.each do |std|
           @bench_sources_hdr[ls] << std.abbrev
-          @bench_sources[ls] << @cell_benchmarks[ls].select{|b| b.source_standard == std}.size
+          @bench_sources[ls] << ActBench.enabled_for_level_strand(level, strand).select{|b| b.source_standard == std}.size
         end
       end
     end

@@ -57,13 +57,16 @@ class ActBench < ActiveRecord::Base
   end
 
   def benchmark?
-    self.act_bench_type.name.upcase == 'BENCHMARK'
+    self.act_bench_type.abbrev.upcase == 'B'
   end
   def improvement?
-    self.act_bench_type.name.upcase == 'IMPROVEMENT'
+    self.act_bench_type.abbrev.upcase == 'S'
   end
   def evidence?
-    self.act_bench_type.name.upcase == 'EVIDENCE'
+    self.act_bench_type.abbrev.upcase == 'E'
+  end
+  def exemplar?
+    self.act_bench_type.abbrev.upcase == 'X'
   end
 
   def active?

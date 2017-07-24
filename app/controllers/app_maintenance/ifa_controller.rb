@@ -794,9 +794,18 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     render :partial =>  "show_benchmark",  :locals=>{:strand => strand, :level => level, :strands => @active_strands, :levels => @active_levels, :benchmark => nil, :benchmark_id => benchmark_id, :by => params[:by]}
   end
 
+  def benchmark_standard_select
+    current_benchmark
+    @benchmark_standard = ActMaster.find_by_id(params[:bench_standard_id]) rescue nil
+    benchmark_source_standards
+    @current_benchmark ||= ActBench.new
+    render :partial => "benchmark_source"
+  end
+
   def benchmark_add
     get_strand
     get_level
+    @benchmark_standard = nil
     benchmark_source_standards
     @bench_types = @current_level.standard.act_bench_types
     @current_benchmark = ActBench.new
@@ -807,6 +816,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     get_strand
     get_level
     current_benchmark
+    @benchmark_standard = @current_benchmark.other_source_standard
     benchmark_source_standards
     @bench_types = @current_level.standard.act_bench_types
   end
@@ -839,6 +849,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     else
       flash[:error] = @current_benchmark.errors.full_messages.to_sentence
     end
+    @benchmark_standard = @current_benchmark.other_source_standard
     benchmark_source_standards
     render :benchmark_add
   end
@@ -863,6 +874,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     else
       flash[:error] = @current_benchmark.errors.full_messages.to_sentence
     end
+    @benchmark_standard = @current_benchmark.other_source_standard
     benchmark_source_standards
     render :benchmark_edit
   end
@@ -1389,8 +1401,13 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
 
   def benchmark_source_standards
     @source_standards = ActMaster.national - [@current_standard]
-    @source_levels = @source_standards.collect{|s| s.mastery_levels(@current_subject)}.flatten.compact.sort_by{|l| [l.standard.abbrev, l.lower_score]}
-    @source_strands = @source_standards.collect{|s| s.strands(@current_subject)}.flatten.compact.sort_by{|s| [s.standard.abbrev, s.name]}
+    if !@benchmark_standard.nil?
+      @source_levels = @benchmark_standard.mastery_levels(@current_subject).sort_by{|l| [l.standard.abbrev, l.lower_score]}
+      @source_strands = @benchmark_standard.strands(@current_subject).sort_by{|s| [s.standard.abbrev, s.name]}
+    else
+      @source_levels = []
+      @source_strands = []
+    end
   end
 
   def get_source_level_strand_ids

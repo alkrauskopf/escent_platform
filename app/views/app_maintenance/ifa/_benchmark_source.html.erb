@@ -1,41 +1,55 @@
 <div id="benchmark_source" >
-  <% label = 'Source Standard' %>
-  <% if !@current_benchmark.source_level.nil? && !@current_benchmark.source_strand.nil? %>
-    <% label = 'Source: ' + (@current_benchmark.source_level.standard == @current_benchmark.source_strand.standard ?
-        @current_benchmark.source_level.standard.name : 'Incomaptible Standard for Level & Strand') %>
-  <% elsif !@current_benchmark.source_level.nil?%>
-    <% label = 'Level Source: ' + @current_benchmark.source_level.standard.name + ' | Strand Not Identified' %>
-  <% elsif !@current_benchmark.source_strand.nil?%>
-      <% label = 'Strand Source: ' + @current_benchmark.source_strand.standard.name + ' | Level Not Identified' %>
-  <% end %>
-
   <div class="row source_tag_row1">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-      <%= label %>
+      <div id="master_id">
+        <%=  select(:act, :master_id, @source_standards.collect{|m| [m.abbrev,m.id]},{:prompt => 'If Applicable, Select Source Standard'}) %>
+      </div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#master_id").change(function(){
+            var master_id = jQ('#act_master_id').val();
+            var url = "<%= app_maintenance_ifa_b_std_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :act_benchmark_id => @current_benchmark.id.nil? ? nil: @current_benchmark.id ) %>";
+            jQ.get(url, {'bench_standard_id': master_id}, function(data) {
+              jQ("#benchmark_source").html(data);
+              jQ("#benchmark_source").show();
+            });
+          })
+        });
+      </script>
     </div>
     <div class="col-md-2"></div>
   </div>
-  <div class="row source_tag_row2">
-    <div class="col-md-2"></div>
-    <div class="col-md-4">
-      <%= @current_benchmark.source_level ? (@current_benchmark.source_level.range) : 'No Source Level'%>
-    </div>
-    <div class="col-md-4">
-      <%= @current_benchmark.source_strand ? (@current_benchmark.source_strand.name) : 'No Source Strand'%>
-    </div>
-    <div class="col-md-2"></div>
-  </div>
-  <% if !@source_levels.empty? && !@source_strands.empty? %>
-    <div class="row ifa_edit_row">
+
+  <% if !@benchmark_standard.nil? %>
+    <div class="row source_tag_row1">
       <div class="col-md-2"></div>
-      <div class="col-md-4 ifa_edit_text">
-        <%=  select(:act_bench, :source_level_id, @source_levels.collect{|s| [( s.standard.abbrev + ': ' + s.range),s.id]}<<['No Source Level', 0],{:prompt => 'Source Mastery Level'}) %>
-      </div>
-      <div class="col-md-4 ifa_edit_text">
-        <%=  select(:act_bench, :source_strand_id, @source_strands.collect{|s| [(s.standard.abbrev + ': ' +  s.name),s.id]}<<['No Source Strand', 0],{:prompt => 'Source Knoweldge Strand'}) %>
+      <div class="col-md-8 header">
+        Source:&nbsp;<%= @benchmark_standard.name %>
       </div>
       <div class="col-md-2"></div>
     </div>
+    <div class="row source_tag_row2">
+      <div class="col-md-2"></div>
+      <div class="col-md-4 select">
+        <%= @current_benchmark.source_level ? (@current_benchmark.source_strand.standard.abbrev + ': ' + @current_benchmark.source_level.range) : ('No ' + @benchmark_standard.abbrev + ' Source Level')%>
+      </div>
+      <div class="col-md-4 select">
+        <%= @current_benchmark.source_strand ? (@current_benchmark.source_strand.standard.abbrev + ': ' + @current_benchmark.source_strand.name) : ('No ' + @benchmark_standard.abbrev + ' Source Strand')%>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+    <% if !@source_levels.empty? && !@source_strands.empty? %>
+      <div class="row ifa_edit_row">
+        <div class="col-md-2"></div>
+        <div class="col-md-4 ifa_edit_text">
+          <%=  select(:act_bench, :source_level_id, @source_levels.collect{|s| [( s.standard.abbrev + ': ' + s.range),s.id]}<<['No Source Level', 0],{:prompt => 'Select ' + @benchmark_standard.abbrev + ' Mastery Level'}) %>
+        </div>
+        <div class="col-md-4 ifa_edit_text">
+          <%=  select(:act_bench, :source_strand_id, @source_strands.collect{|s| [(s.standard.abbrev + ': ' +  s.name),s.id]}<<['No Source Strand', 0],{:prompt => 'Select ' + @benchmark_standard.abbrev + ' Knowledge Strand'}) %>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    <% end %>
   <% end %>
 </div>

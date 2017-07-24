@@ -8,11 +8,10 @@
                                                                              :act_standard_id=>@current_strand.id,
                                                                              :act_score_range_id => @current_level.id)) do |f| %>
     <div class= 'row panel_subtitle_blue'>
-      <% if !ActBench.all_for_level_strand( @current_level, @current_strand).empty? %>
-          Taken <%= @current_strand.abbrev %> | <%= @current_level.range %> Positions: <%= ActBench.all_for_level_strand( @current_level, @current_strand).map{|b| b.pos}.sort_by{|p| p}.join(', ') %>
-      <% end %>
+      Taken <%= @current_strand.abbrev %> | <%= @current_level.range %> Positions:
+      <%= !ActBench.all_for_level_strand( @current_level, @current_strand).empty? ? ActBench.all_for_level_strand( @current_level, @current_strand).map{|b| b.pos}.sort_by{|p| p}.join(', ') : 'None' %>
+      <hr>
     </div>
-    <hr>
     <%= render :partial => "form_benchmark" %>
     <%= render :partial => "benchmark_source" %>
       <div class="row ifa_edit_row">

@@ -8,7 +8,7 @@
     </div>
     <div class="col-md-6">
       <div class="standard_select" id="master_id">
-        <%=  select(:act, :master_id, ActMaster.all.collect{|m| [m.abbrev,m.id]},{:prompt => @current_standard.abbrev}) %>
+        <%=  select(:act, :master_id, ActMaster.national.collect{|m| [m.abbrev,m.id]},{:prompt => @current_standard.abbrev}) %>
       </div>
     </div>
   </div>

@@ -235,7 +235,7 @@
   font-weight:normal;
 }
 .source_tag_row1 {
-  margin: 2em 0em 0em 0em;
+  padding: 2em 0em 0em 0em;
   color:$red_text;
   line-height:1.5em;
   text-align:center;
@@ -247,6 +247,14 @@
   line-height:1.5em;
   text-align:center;
   font-size:14px;
+}
+.source_tag_row2 .select{
+  padding: 0em 0em 0em 2em;
+  text-align:left;
+  font-size:14px;
+}
+.source_tag_row1 .header{
+  font-weight:bold;
 }
 .dashboard_anal_box {
   margin:0em 0em 0em 0em;

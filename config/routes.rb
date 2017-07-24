@@ -204,6 +204,7 @@ EscentPartners::Application.routes.draw do |map|
   post '/app/maintenance/ifa/benchmark/add' => 'app_maintenance/ifa#benchmark_add' # app_maintenance_ifa_benchmark_add_path
   post '/app/maintenance/ifa/benchmark/create' => 'app_maintenance/ifa#benchmark_create' # app_maintenance_ifa_benchmark_create_path
   get '/app/maintenance/ifa/benchmark/edit' => 'app_maintenance/ifa#benchmark_edit' # app_maintenance_ifa_benchmark_edit_path
+  get '/app/maintenance/ifa/b_std_select' => 'app_maintenance/ifa#benchmark_standard_select' # app_maintenance_ifa_b_std_select_url
   get '/app/maintenance/ifa/benchmark/toggle' => 'app_maintenance/ifa#benchmark_toggle' # app_maintenance_ifa_benchmark_toggle_url
   get '/app/maintenance/ifa/benchmark/destroy' => 'app_maintenance/ifa#benchmark_destroy' # app_maintenance_ifa_benchmark_destroy_url
   get '/app/maintenance/ifa/benchmark/refresh' => 'app_maintenance/ifa#benchmark_refresh' # app_maintenance_ifa_benchmark_refresh_url

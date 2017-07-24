@@ -28,6 +28,22 @@ class ActBench < ActiveRecord::Base
   scope :for_type, lambda{|btype| {:conditions => ["act_bench_type_id = ? ", btype.id]}}
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
 
+  def student_viewable?
+    self.active? && self.is_s_viewable
+  end
+
+  def taggable?
+    self.active? && self.is_q_taggable
+  end
+
+  def self.student_benchmarks
+    where('is_active AND is_s_viewable')
+  end
+
+  def self.teacher_benchmarks
+    where('is_active AND is_q_taggable')
+  end
+
   def self.for_scorerange_strand(benches, sr, strand)
     benches.where('act_score_range_id = ? AND act_standard_id = ? AND is_active', sr.id, strand.id).order('pos ASC')
   end

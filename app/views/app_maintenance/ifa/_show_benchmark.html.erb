@@ -18,6 +18,24 @@
         </div>
         <div class="row ">
           <div class="benchmark_add">
+            <% button_color = benchmark.is_s_viewable ? 'button_green':'button_orange'%>
+            <% button_label = benchmark.is_s_viewable ? ' Yes ':' No '%>
+            <span class=<%=button_color%> id="toggle_benchmark_viewable<%=benchmark.id%>">
+              <%=button_label%>
+            </span>&nbsp;Student View?
+          </div>
+        </div>
+        <div class="row ">
+          <div class="benchmark_add">
+            <% button_color = benchmark.is_q_taggable ? 'button_green':'button_orange'%>
+            <% button_label = benchmark.is_q_taggable ? ' Yes ':' No '%>
+            <span class=<%=button_color%> id="toggle_benchmark_tagable<%=benchmark.id%>">
+              <%=button_label%>
+            </span>&nbsp;Question Tagable?
+          </div>
+        </div>
+        <div class="row ">
+          <div class="benchmark_add">
             <% button_color = benchmark.active? ? 'button_green':'button_orange'%>
             <% button_label = benchmark.active? ? ' Active ':' Not Active '%>
             <span class=<%=button_color%> id="toggle_benchmark_active<%=benchmark.id%>">
@@ -112,6 +130,28 @@
 
       </div>
       <div class="col-md-1"></div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#toggle_benchmark_viewable<%=benchmark.id%>").click(function() {
+            var url = "<%= app_maintenance_ifa_benchmark_toggle_url(:organization_id => @current_organization, :act_benchmark_id => benchmark.id, :function => 'View') %>";
+            jQ.get(url,{},  function(data) {
+              jQ("#show_benchmark<%= benchmark.nil? ? '0' :  benchmark.public_id%>").html(data);
+              jQ("#show_benchmark<%= benchmark.nil? ? '0' :  benchmark.public_id%>").show();
+            });
+          })
+        });
+      </script>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ("#toggle_benchmark_tagable<%=benchmark.id%>").click(function() {
+              var url = "<%= app_maintenance_ifa_benchmark_toggle_url(:organization_id => @current_organization, :act_benchmark_id => benchmark.id, :function => 'Tag') %>";
+              jQ.get(url,{},  function(data) {
+                jQ("#show_benchmark<%= benchmark.nil? ? '0' :  benchmark.public_id%>").html(data);
+                jQ("#show_benchmark<%= benchmark.nil? ? '0' :  benchmark.public_id%>").show();
+              });
+            })
+          });
+        </script>
       <script type="text/javascript">
         jQ(document).ready(function() {
           jQ("#toggle_benchmark_active<%=benchmark.id%>").click(function() {

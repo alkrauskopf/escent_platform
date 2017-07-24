@@ -775,6 +775,10 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     active_strands
     if params[:function] == 'Active'
       @current_benchmark.update_attributes(:is_active=> !@current_benchmark.is_active)
+    elsif params[:function] == 'View'
+      @current_benchmark.update_attributes(:is_s_viewable=> !@current_benchmark.is_s_viewable)
+    elsif params[:function] == 'Tag'
+      @current_benchmark.update_attributes(:is_q_taggable=> !@current_benchmark.is_q_taggable)
     end
     render :partial =>  "show_benchmark",  :locals=>{:strand => @current_benchmark.strand, :level => @current_benchmark.mastery_level,
                                                      :levels => @active_levels, :strands => @active_strands, :by => params[:by],
@@ -1065,16 +1069,24 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     @bench_types_hdr = {}
     @bench_sources = {}
     @bench_sources_hdr = {}
+    @bench_for_student = {}
+    @bench_taggable = {}
     @types = @current_standard.act_bench_types
     @sources = ActMaster.national
     @bench_dashboard_hdr[0] = @types.map{|t| (t.abbrev + ' = ' + t.name.titleize)}.join(',  ')
     @bench_total['all'] = 0
     @bench_total['enabled'] = 0
+    @bench_for_student['all'] = 0
+    @bench_taggable['all'] = 0
     @active_levels.each do |level|
       @bench_total[level.range] = 0
+      @bench_for_student[level.range] = 0
+      @bench_taggable[level.range] = 0
     end
     @active_strands.each do |strand|
       @bench_total[strand.abbrev] = 0
+      @bench_for_student[strand.abbrev] = 0
+      @bench_taggable[strand.abbrev] = 0
       @active_levels.each do |level|
         ls = level.id.to_s + strand.id.to_s
         @cell_benchmarks[ls] = ActBench.all_for_level_strand(level, strand)
@@ -1095,6 +1107,14 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
           @bench_sources_hdr[ls] << std.abbrev
           @bench_sources[ls] << ActBench.all_for_level_strand(level, strand).select{|b| b.source_standard == std}.size
         end
+        @bench_for_student[ls] = ActBench.all_for_level_strand(level, strand).student_benchmarks.size
+        @bench_for_student[strand.abbrev] += @bench_for_student[ls]
+        @bench_for_student[level.range] += @bench_for_student[ls]
+        @bench_for_student['all'] += @bench_for_student[ls]
+        @bench_taggable[ls] = ActBench.all_for_level_strand(level, strand).teacher_benchmarks.size
+        @bench_taggable[strand.abbrev] += @bench_taggable[ls]
+        @bench_taggable[level.range] += @bench_taggable[ls]
+        @bench_taggable['all'] += @bench_taggable[ls]
       end
     end
   end

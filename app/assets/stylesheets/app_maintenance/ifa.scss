@@ -364,6 +364,9 @@
   vertical-align:middle;
   font-weight:normal;
 }
+.bench_dashboard_strand_header .subheader {
+  font-size:13px;
+}
 .bench_dashboard_cells {
   padding: 1em 2em 1em 1em;
   vertical-align:middle;
@@ -413,6 +416,9 @@
   text-align:center;
   font-size:13px;
   font-weight:normal;
+}
+.bench_dashboard_levels .subheader{
+  font-size:12px;
 }
 .bench_dashboard_maint_row {
   color:$blue_text;

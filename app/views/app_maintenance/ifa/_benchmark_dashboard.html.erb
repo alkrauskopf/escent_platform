@@ -5,6 +5,7 @@
     <div class="col-md-12 bench_dashboard_header">
       <div class="row bench_dashboard_header1">
           <%= pluralize(@bench_total['all'], ' Benchmark') %> | <%= @bench_total['enabled'] %> Enabled
+        | <%= @bench_for_student['all'] %> Student Viewable | <%= @bench_taggable['all'] %> Question Tag-able
       </div>
       <div class="row">
         <%= @bench_dashboard_hdr[0] %>
@@ -36,14 +37,24 @@
         </td>
         <% @active_strands.each do |s|%>
             <td class=" bench_dashboard_strand_header tip_std" title="<center><%= s.name.titleize %></center>"  style="width:<%=strnd_width%>; background:<%= s.strand_background%>; color:<%= s.strand_font%>"  >
-              <%= s.abbrev.upcase %><br/><%= @bench_total[s.abbrev] %> Enabled
+              <%= s.abbrev.upcase %><br/>
+              <span class="subheader">
+                <%= @bench_total[s.abbrev] %> Enabled<br/>
+                <%= @bench_for_student[s.abbrev] %> Student<br/>
+                <%= @bench_taggable[s.abbrev] %> Tag-able
+              </span>
             </td>
         <% end -%>
       </tr>
         <% @active_levels.each do |ml|%>
           <tr>
             <td class="bench_dashboard_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
-              <%= @current_standard.abbrev %>&nbsp;<%=ml.range%><br/><%= @bench_total[ml.range] %> Enabled
+              <%= @current_standard.abbrev %>&nbsp;<%=ml.range%><br/>
+              <span class="subheader">
+                <%= @bench_total[ml.range] %> Enabled</br>
+                <%= @bench_for_student[ml.range] %> Student</br>
+                <%= @bench_taggable[ml.range] %> Tag-able
+              </span>
             </td>
             <% @active_strands.each do |s|%>
               <% hashkey = ml.id.to_s + s.id.to_s %>
@@ -61,6 +72,12 @@
                   <% @bench_sources_hdr[hashkey].each_with_index do |t,idx| %>
                     <%= @bench_sources_hdr[hashkey][idx]%>:<span class="stat"><%= @bench_sources[hashkey][idx]%></span>&nbsp;
                   <% end %>
+                </div>
+                <div class="row bench_dashboard_cell_subtotal_row">
+                  Student:<span class="stat"><%= @bench_for_student[hashkey]%></span>
+                </div>
+                <div class="row bench_dashboard_cell_subtotal_row">
+                  Tag-able:<span class="stat"><%= @bench_taggable[hashkey]%></span>
                 </div>
                 <hr>
                 <div class="row bench_dashboard_maint_row">

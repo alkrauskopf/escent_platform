@@ -259,10 +259,10 @@ class Apps::ClassroomController < ApplicationController
       benchmark = ActBenchType.benchmark(@mastery_level.act_master)
       evidence = ActBenchType.evidence(@mastery_level.act_master)
       example = ActBenchType.example(@mastery_level.act_master)
-      @benches = benchmark.nil? ? [] : benchmark.act_benches.for_strand(@strand).for_mastery_level(@mastery_level)
-      @improvements = improve.nil? ? [] : improve.act_benches.for_strand(@strand).for_mastery_level(@mastery_level)
-      @evidences = evidence.nil? ? [] : evidence.act_benches.for_strand(@strand).for_mastery_level(@mastery_level)
-      @examples = improve.nil? ? [] : example.act_benches.for_strand(@strand).for_mastery_level(@mastery_level)
+      @benches = benchmark.nil? ? [] : benchmark.act_benches.enabled_for_level_strand(@mastery_level, @strand).student_benchmarks
+      @improvements = improve.nil? ? [] : improve.act_benches.enabled_for_level_strand(@mastery_level, @strand).student_benchmarks
+      @evidences = evidence.nil? ? [] : evidence.act_benches.enabled_for_level_strand(@mastery_level, @strand).student_benchmarks
+      @examples = improve.nil? ? [] : example.act_benches.enabled_for_level_strand(@mastery_level, @strand).student_benchmarks
     end
   end
 

@@ -9,18 +9,18 @@ class ActBenchType < ActiveRecord::Base
   scope :for_resource_panel, :conditions => { :for_resource_panel => true }
   scope :for_dashboard, :conditions => { :for_dashbaord => true }
   scope :for_list, :conditions => { :for_list => true }
-  scope :for_static, :conditions => { :for_statis => true }
+  scope :for_static, :conditions => { :for_static => true }
 
   def self.improvement(std)
-    where('act_master_id = ? && name = ?', std.id, 'suggestion' ).first rescue nil
+    where('act_master_id = ? && abbrev = ?', std.id, 'S' ).first rescue nil
   end
   def self.benchmark(std)
-    where('act_master_id = ? && name = ?', std.id, 'benchmark' ).first rescue nil
+    where('act_master_id = ? && abbrev = ?', std.id, 'B' ).first rescue nil
   end
   def self.evidence(std)
-    where('act_master_id = ? && name = ?', std.id, 'evidence' ).first rescue nil
+    where('act_master_id = ? && abbrev = ?', std.id, 'E' ).first rescue nil
   end
   def self.example(std)
-    where('act_master_id = ? && name = ?', std.id, 'example' ).first rescue nil
+    where('act_master_id = ? && abbrev = ?', std.id, 'X' ).first rescue nil
   end
 end

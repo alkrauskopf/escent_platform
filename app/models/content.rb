@@ -281,7 +281,7 @@ class Content < ActiveRecord::Base
   end
   
   def active?
-    (!self.deleted? && !self.expired? && !self.pending?)
+    (!self.deleted? && !self.expired?)
   end
 
   def available?

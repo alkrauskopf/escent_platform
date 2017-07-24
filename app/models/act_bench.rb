@@ -52,7 +52,7 @@ class ActBench < ActiveRecord::Base
     where('act_score_range_id = ? AND act_standard_id = ? AND is_active', sr.id, strand.id).order('pos ASC')
   end
 
-  def self.for_level_strand_type( sr, strand, btype)
+  def self.enabled_level_strand_type( sr, strand, btype)
     enabled_for_level_strand( sr, strand).select{|b| b.act_bench_type == btype}
   end
 

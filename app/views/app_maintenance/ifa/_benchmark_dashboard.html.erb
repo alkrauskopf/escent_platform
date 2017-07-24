@@ -36,14 +36,14 @@
         </td>
         <% @active_strands.each do |s|%>
             <td class=" bench_dashboard_strand_header tip_std" title="<center><%= s.name.titleize %></center>"  style="width:<%=strnd_width%>; background:<%= s.strand_background%>; color:<%= s.strand_font%>"  >
-              <%= s.abbrev.upcase %><br/><%= @bench_total[s.abbrev] %> Total
+              <%= s.abbrev.upcase %><br/><%= @bench_total[s.abbrev] %> Enabled
             </td>
         <% end -%>
       </tr>
         <% @active_levels.each do |ml|%>
           <tr>
             <td class="bench_dashboard_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
-              <%= @current_standard.abbrev %>&nbsp;<%=ml.range%><br/><%= @bench_total[ml.range] %> Total
+              <%= @current_standard.abbrev %>&nbsp;<%=ml.range%><br/><%= @bench_total[ml.range] %> Enabled
             </td>
             <% @active_strands.each do |s|%>
               <% hashkey = ml.id.to_s + s.id.to_s %>
@@ -54,12 +54,12 @@
                 <hr>
                 <div class="row bench_dashboard_cell_subtotal_row">
                   <% @bench_types_hdr[hashkey].each_with_index do |t,idx| %>
-                    <%= @bench_types_hdr[hashkey][idx]%>(<%= @bench_types[hashkey][idx]%>)&nbsp;
+                    <%= @bench_types_hdr[hashkey][idx]%>:<span class="stat"><%= @bench_types[hashkey][idx]%></span>&nbsp;
                   <% end %>
                 </div>
                 <div class="row bench_dashboard_cell_subtotal_row">
                   <% @bench_sources_hdr[hashkey].each_with_index do |t,idx| %>
-                    <%= @bench_sources_hdr[hashkey][idx]%>(<%= @bench_sources[hashkey][idx]%>)&nbsp;
+                    <%= @bench_sources_hdr[hashkey][idx]%>:<span class="stat"><%= @bench_sources[hashkey][idx]%></span>&nbsp;
                   <% end %>
                 </div>
                 <hr>

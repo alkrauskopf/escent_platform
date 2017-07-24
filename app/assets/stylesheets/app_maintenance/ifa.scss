@@ -401,7 +401,9 @@
   text-align:center;
 }
 .bench_dashboard_cell_subtotal_row .stat {
-  text-align:center;
+  color:$dark_text;
+  font-size:12px;
+  font-weight: bold;
 }
 .bench_dashboard_levels {
   color:$red_text;

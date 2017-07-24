@@ -1087,13 +1087,13 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
         @bench_types[ls] = []
         @types.each do |b_type|
           @bench_types_hdr[ls] << b_type.abbrev
-          @bench_types[ls] << ActBench.for_level_strand_type(level, strand, b_type).size
+          @bench_types[ls] << ActBench.enabled_level_strand_type(level, strand, b_type).size
         end
         @bench_sources_hdr[ls] = []
         @bench_sources[ls] = []
         @sources.each do |std|
           @bench_sources_hdr[ls] << std.abbrev
-          @bench_sources[ls] << ActBench.enabled_for_level_strand(level, strand).select{|b| b.source_standard == std}.size
+          @bench_sources[ls] << ActBench.all_for_level_strand(level, strand).select{|b| b.source_standard == std}.size
         end
       end
     end

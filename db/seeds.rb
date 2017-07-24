@@ -28,14 +28,14 @@
 
   deactivate_content_types = false
 
-  add_benchmark_types = true
+  add_benchmark_types = false
 
   if add_benchmark_types
   #  ActBenchType.create({'name' => 'evidence', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
   #                           'for_list' => 1, 'for_static' => 1, 'long_name' => 'Evidence Outcome', 'description' => 'What must be demonstated or achieved.'})
   #  ActBenchType.create({'name' => 'example', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
   #                           'for_list' => 1, 'for_static' => 1, 'long_name' => 'Example', 'description' => 'An example explaining the benchmark.'})
-    ActBenchType.find_by_abbrev('X').update_attributes('name' => 'exemplar')
+  #  ActBenchType.find_by_abbrev('X').update_attributes('name' => 'exemplar')
   #  ActBenchType.all.each do |t|
   #    if t.name == 'benchmark'
   #      t.update_attributes('abbrev' => 'B')

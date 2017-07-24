@@ -56,6 +56,9 @@
   margin-left:5em;
   color:white;
 }
+.manage_benchmarks_box {
+  padding: 0em 1em 0em 1em;
+}
 .benchmark_strand_select {
   padding: 2em 0em 1em 0em;
   text-align:center;
@@ -327,8 +330,8 @@
   color: $blue_text;
 }
 .bench_dashboard_box {
-  margin:1em 0em 1em 0em;
-  padding:0em 0em 0em 0em;
+  margin:.5em 0em 1em 0em;
+  padding:1em 1em 1em 1em;
   background-color:white;
   border:1px solid #ddd;
 }

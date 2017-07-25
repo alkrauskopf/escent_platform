@@ -29,7 +29,9 @@
   <% if @quest_total %>
     <% if @question_list%>
       <div class="row repo_manage_box">
-        <%= render :partial =>  "cell_questions"%>
+        <div class="col-md-12">
+          <%= render :partial =>  "cell_questions"%>
+        </div>
       </div>
     <% end %>
     <%= render :partial =>  "dashboard", :locals=>{}%>

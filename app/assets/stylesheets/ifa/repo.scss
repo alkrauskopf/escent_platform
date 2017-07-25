@@ -478,7 +478,8 @@
 }
 .repo_pool_text {
   padding-top:1em;
-  padding-bottom:.5em;
+  padding-bottom:1em;
+  border-bottom:1px solid #000;
   font-size:12px;
   color:$dark_text;
   font-weight:normal;

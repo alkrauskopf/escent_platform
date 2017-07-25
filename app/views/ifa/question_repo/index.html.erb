@@ -3,7 +3,8 @@
     <div class= 'row panel_title_blue'>
       <div class="col-md-2"></div>
       <div class="col-md-8">
-        <%=@function.upcase %>&nbsp;<%=@current_subject.name %> Question
+        <%=@function.upcase %>&nbsp;<%=@current_subject.name %> Question<br/>
+        <%= @current_standard.abbrev %>: <%= @current_strand.abbrev %> | <%= @current_level.range %>
       </div>
       <div class="col-md-2">
         <%= link_to  "Back", self.send(@current_application.link_path,{:organization_id => @current_organization}), :class => "button_gray" %>

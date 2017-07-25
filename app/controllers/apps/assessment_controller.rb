@@ -23,8 +23,8 @@ class Apps::AssessmentController < Apps::ApplicationController
     initialize_parameters
     if @current_provider.ifa_org_option
       @ifa_classroom = params[:classroom_id] ? Classroom.find_by_public_id(params[:classroom_id]) : @current_organization.classrooms.active.first
-      @master = ActMaster.find_standard('ACT')
-      @co_master = ActMaster.find_standard('CO')
+   #   @master = ActMaster.find_standard('ACT')
+   #   @co_master = ActMaster.find_standard('CO')
       @readings = ActRelReading.all
       @readings.sort!{|a,b| a.act_genre.name <=> b.act_genre.name}
       @assessments = ActAssessment.active rescue []
@@ -3633,4 +3633,5 @@ end
       @current_standard = ActMaster.find_by_id(params[:standard_id]) rescue nil
     end
   end
+
  end

@@ -9,7 +9,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
   before_filter :current_subject, :except => [:index]
   before_filter :clear_notification, :except => []
 
-  def index
+  def index_old
     ifa_subjects
     get_current_assessment
     if params[:act_subject] && params[:act_subject][:id] && params[:act_subject][:id] != ''
@@ -20,6 +20,32 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     related_readings
     @function = 'Create'
     @current_question = ActQuestion.new
+  end
+
+  def index
+    ifa_subjects
+    get_subject
+    get_level
+    get_strand
+    get_current_assessment
+    related_readings
+    @function = 'Create'
+    @current_question = ActQuestion.new
+  end
+
+  def subject_select
+    get_subject
+    question_dashboard
+    render :partial => "manage_questions"
+  end
+
+  def cell_show
+    get_subject
+    get_level
+    get_strand
+    question_dashboard
+    @question_list = @current_subject.act_questions.all_for_level_strand(@current_level, @current_strand)
+    render :partial => "manage_questions"
   end
 
   def reading_select
@@ -83,6 +109,9 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
   def edit
     get_current_question
     ifa_subjects
+    get_subject
+    @current_level = @current_question.mastery_level
+    @current_strand = @current_question.strand
     related_readings
     @function = 'Update'
     available_strands_levels(@current_question)
@@ -95,6 +124,9 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
 
   def create
     ifa_subjects
+    get_subject
+    get_level
+    get_strand
     related_readings
     get_current_reading
     get_current_assessment
@@ -291,8 +323,8 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
 
   def update_question
     @current_question.act_rel_reading_id = params[:act_rel_reading_id] == '0' ? nil : params[:act_rel_reading_id].to_i
-    @current_question.act_standard_id = params[:act_question][:act_standard_id] == '' ? @current_question.act_standard_id : params[:act_question][:act_standard_id]
-    @current_question.act_score_range_id = params[:act_question][:act_score_range_id] == '' ? @current_question.act_score_range_id : params[:act_question][:act_score_range_id]
+    @current_question.act_standard_id = @current_strand.id
+    @current_question.act_score_range_id = @current_level.id
     #  transition from many levels & strands
     adjust_levels_strands
     #
@@ -361,4 +393,74 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     end
   end
 
+  def get_subject
+    if params[:act_subject_id]
+      @current_subject = ActSubject.find_by_id(params[:act_subject_id]) rescue nil
+    else
+      @current_subject = nil
+    end
+  end
+
+  def question_dashboard
+
+    @dashboard = {}
+    @cell_questions = {}
+    @quest_total = {}
+    @quest_benchmarks = {}
+    @quest_assessments = {}
+    @quest_total['all'] = 0
+    @quest_total['enabled'] = 0
+    @quest_total['calibrated'] = 0
+    @quest_benchmarks['all'] = 0
+    @quest_assessments['all'] = 0
+    @dashboard['strands'] = @current_standard.strands(@current_subject)
+    @dashboard['levels'] = @current_standard.mastery_levels(@current_subject)
+    @dashboard['levels'].each do |level|
+      @quest_total[level.range] = 0
+      @quest_total['cal'+level.range] = 0
+      @quest_benchmarks[level.range] = 0
+      @quest_assessments[level.range] = 0
+    end
+    @dashboard['strands'].each do |strand|
+      @quest_total[strand.abbrev] = 0
+      @quest_total['cal'+strand.abbrev] = 0
+      @quest_benchmarks[strand.abbrev] = 0
+      @quest_assessments[strand.abbrev] = 0
+      @dashboard['levels'].each do |level|
+        ls = level.id.to_s + strand.id.to_s
+        @cell_questions[ls] = @current_subject.act_questions.all_for_level_strand(level, strand)
+        @quest_total[ls] = @current_subject.act_questions.enabled_for_level_strand(level, strand).size
+        @quest_total[strand.abbrev] += @quest_total[ls]
+        @quest_total[level.range] += @quest_total[ls]
+        @quest_total['enabled'] += @quest_total[ls]
+        @quest_total['all'] += @cell_questions[ls].size
+        @quest_total['cal'+ ls] = @cell_questions[ls].select{|q| q.calibrated?}.size
+        @quest_total['calibrated'] += @quest_total['cal'+ ls]
+        @quest_total['cal'+level.range] += @quest_total['cal'+ ls]
+        @quest_total['cal'+strand.abbrev] += @quest_total['cal'+ ls]
+        @quest_assessments[ls] =  @cell_questions[ls].map{|q| q.assessment_count}.sum
+        @quest_assessments[strand.abbrev] += @quest_assessments[ls]
+        @quest_assessments[level.range] += @quest_assessments[ls]
+        @quest_assessments['all'] += @quest_assessments[ls]
+        @quest_benchmarks[ls] =  @cell_questions[ls].map{|q| q.benchmark_count}.sum
+        @quest_benchmarks[strand.abbrev] += @quest_benchmarks[ls]
+        @quest_benchmarks[level.range] += @quest_benchmarks[ls]
+        @quest_benchmarks['all'] += @quest_benchmarks[ls]
+      end
+    end
+  end
+  def get_level
+    if params[:act_score_range_id]
+      @current_level = ActScoreRange.find_by_id(params[:act_score_range_id]) rescue nil
+    else
+      @current_level = nil
+    end
+  end
+  def get_strand
+    if params[:act_standard_id]
+      @current_strand = ActStandard.find_by_id(params[:act_standard_id]) rescue nil
+    else
+      @current_strand = nil
+    end
+  end
 end

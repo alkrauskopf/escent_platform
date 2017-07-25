@@ -1,0 +1,27 @@
+<div class="repo_manage_box">
+  <div class="row">
+    <div class="ifa_panel_title">
+      Question Repository: <%= pluralize(@active_questions.size.to_s, " Available Question") %>
+    </div>
+  </div>
+  <div class="row">
+    <%= form_for(:subject, :url => ifa_repo_question_add_path(:organization_id => @current_organization)) do |form| -%>
+    <div class="col-md-4 "></div>
+    <div class="col-md-2 ">
+      <div class="repo_select">
+        <%=  select( :act_subject, :id, ActSubject.all_subjects.collect{|s| [s.name, s.id]}, {:prompt => ActSubject.all_subjects.first.name}) %>
+      </div>
+    </div>
+    <div class="col-md-6 ">
+      <div class="repo_submit">
+        <%= form.submit 'Create Question', :class => "btn btn-primary btn-xs" %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+
+  <hr>
+  <% if !@current_subject.nil? %>
+    <%#= render :partial =>  "/ifa/question_repo/question_list"%>
+  <% end %>
+</div>

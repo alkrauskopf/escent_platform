@@ -73,7 +73,7 @@ class ActSubject < ActiveRecord::Base
   end
 
   def self.active
-    where('is_enabled')
+    where('is_enabled').order('posit ASC')
   end
 
     def available_questions(user, level, strand)

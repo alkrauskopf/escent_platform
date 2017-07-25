@@ -515,7 +515,8 @@ EscentPartners::Application.routes.draw do |map|
 
   get '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path
   post '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path
-  get '/ifa/repo/subject/select' => 'ifa/question_repo#subject_select'    # ifa_repo_subject_select_path
+  get '/ifa/repo/q_subject/select' => 'ifa/question_repo#subject_select'    # ifa_repo_q_subject_select_path
+  get '/ifa/repo/q_cell/show' => 'ifa/question_repo#cell_show'    # ifa_repo_q_cell_show_path
   post '/ifa/repo/question/create' => 'ifa/question_repo#create'    # ifa_repo_question_create_url
   get '/ifa/repo/question/edit' => 'ifa/question_repo#edit'    # ifa_repo_question_edit_path
   get '/ifa/repo/question/new' => 'ifa/question_repo#new'    # ifa_repo_question_new_url

@@ -1,24 +1,37 @@
-<div class="repo_manage_box">
+<div id="question_repo" >
   <div class="row">
     <div class="ifa_panel_title">
-      Question Repository: <%= pluralize(@active_questions.size.to_s, " Available Question") %>
+      <%= @current_subject ? @current_subject.name : @current_standard.abbrev %>&nbsp;Question Repository <%= @quest_total ? ': ' + pluralize(@quest_total['all'], " Available Question"): '' %>
     </div>
   </div>
-  <div class="row">
-    <%= form_for(:subject, :url => ifa_repo_question_add_path(:organization_id => @current_organization)) do |form| -%>
-    <div class="col-md-4 "></div>
-    <div class="col-md-2 ">
-      <div class="repo_select">
-        <%=  select( :act_subject, :id, ActSubject.all_subjects.collect{|s| [s.name, s.id]}, {:prompt => ActSubject.all_subjects.first.name}) %>
+  <div class="row standard_row">
+    <div class= "col-md-4"></div>
+    <div class="col-md-6">
+      <div class="subject_select" id="q_subject_id">
+        <%=  select(:act, :subject_id, ActSubject.all_subjects.collect{|m| [m.name,m.id]},{:prompt => 'Select Subject'}) %>
       </div>
     </div>
-    <div class="col-md-6 ">
-      <div class="repo_submit">
-        <%= form.submit 'Create Question', :class => "btn btn-primary btn-xs" %>
-      </div>
-    </div>
-    <% end %>
   </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#q_subject_id").change(function(){
+        var subject_id = jQ('#act_subject_id').val();
+        var url = "<%= ifa_repo_q_subject_select_url(:organization_id => @current_organization) %>";
+        jQ.get(url, {'act_subject_id': subject_id}, function(data) {
+          jQ("#question_repo").html(data);
+          jQ("#question_repo").show();
+        });
+      })
+    });
+  </script>
+
   <hr>
-  <%= render :partial =>  "/ifa/question_repo/question_list"%>
+  <% if @quest_total %>
+    <% if @question_list%>
+      <div class="row repo_manage_box">
+        <%= render :partial =>  "cell_questions"%>
+      </div>
+    <% end %>
+    <%= render :partial =>  "dashboard", :locals=>{}%>
+  <% end %>
 </div>

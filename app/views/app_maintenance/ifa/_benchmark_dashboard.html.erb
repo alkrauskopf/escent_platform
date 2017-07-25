@@ -1,4 +1,4 @@
-<div id="benchamrk_dashboard_<%=@current_subject.id%>">
+<div id="benchmark_dashboard_<%=@current_subject.id%>">
   <div class="row bench_dashboard_box">
     <% level_width = 10 %>
     <% strnd_width = ((100 - level_width)/@active_strands.size).to_f.to_i.to_s + '%'%>
@@ -28,8 +28,8 @@
                 var url = "<%= app_maintenance_ifa_b_dashboard_refresh_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
                 :act_master_id => @current_standard.id)%>";
                 jQ.get(url,{},  function(data) {
-                  jQ("#benchamrk_dashboard_<%=@current_subject.id%>").html(data);
-                  jQ("#benchamrk_dashboard_<%=@current_subject.id%>").show();
+                  jQ("#benchmark_dashboard_<%=@current_subject.id%>").html(data);
+                  jQ("#benchmark_dashboard_<%=@current_subject.id%>").show();
                 });
               })
             });

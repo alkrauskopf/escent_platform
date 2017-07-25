@@ -106,8 +106,23 @@ class ActQuestion < ActiveRecord::Base
     level.nil? ? [] : where('act_score_range_id = ?', level.id)
   end
 
+  def assessment_count
+    self.act_assessments.size
+  end
+  def benchmark_count
+    self.act_benches.size
+  end
+
   def self.for_strand(strand)
     strand.nil? ? [] : where('act_standard_id = ?', strand.id)
+  end
+
+  def self.all_for_level_strand(level, strand)
+    (!strand.nil? && !level.nil?) ?  where('act_standard_id = ? && act_score_range_id = ?', strand.id, level.id) : []
+  end
+
+  def self.enabled_for_level_strand(level, strand)
+    (!strand.nil? && !level.nil?) ?  where('act_standard_id = ? && act_score_range_id = ? && is_active', strand.id, level.id) : []
   end
 
   def self.for_user(user)

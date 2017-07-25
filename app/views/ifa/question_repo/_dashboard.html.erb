@@ -1,0 +1,143 @@
+<div id="question_dashboard_<%=@current_subject.id%>">
+  <div class="row repo_dashboard_box">
+    <% level_width = 10 %>
+    <% strnd_width = ((100 - level_width)/@dashboard['strands'].size).to_f.to_i.to_s + '%'%>
+    <div class="col-md-12 repo_dashboard_header">
+      <div class="row repo_dashboard_header1">
+        <%=@current_subject.name %>: <%= pluralize(@quest_total['all'], ' Question') %> | <%= @quest_total['enabled'] %> Enabled |
+        <%= @quest_total['calibrated'] %> Calibrated
+      </div>
+    </div>
+    <div class="col-md-12 repo_dashboard_header2">
+        <%= pluralize(@quest_assessments['all'], ' Assessment Assignment') %> | <%= pluralize(@quest_benchmarks['all'], ' Benchmark Tag') %>
+    </div>
+    <table >
+      <tbody >
+      <tr>
+        <td class="repo_dashboard_label">
+          <div class="row ">
+            <div class="repo_refresh">
+            <span class="button_gray" id="dashboard_refresh<%=@current_subject.id%>">
+              Refresh
+            </span>
+            </div>
+          </div>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ("#dashboard_refresh<%=@current_subject.id%>").click(function() {
+                var url = "<%= ifa_repo_q_subject_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id)%>";
+                jQ.get(url,{},  function(data) {
+                  jQ("#question_repo").html(data);
+                  jQ("#question_repo").show();
+                });
+              })
+            });
+          </script>
+        </td>
+        <% @dashboard['strands'].each do |s|%>
+          <td class=" repo_dashboard_strand_header tip_std" title="<center><%= s.name.titleize %></center>"  style="width:<%=strnd_width%>; background:<%= s.strand_background%>; color:<%= s.strand_font%>"  >
+            <%= s.abbrev.upcase %><br/>
+            <span class="subheader">
+              <%= @quest_total[s.abbrev] %> Enabled<br/>
+              <%= @quest_total['cal'+s.abbrev] %> Cal<br/>
+              <%= @quest_assessments[s.abbrev] %> Assmnts<br/>
+              <%= @quest_benchmarks[s.abbrev] %> Bnchmrks
+            </span>
+          </td>
+        <% end -%>
+      </tr>
+        <% @dashboard['levels'].each do |ml|%>
+          <tr>
+            <td class="repo_dashboard_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
+              <%= @current_standard.abbrev %>&nbsp;<%=ml.range%><br/>
+              <span class="subheader">
+                <%= @quest_total[ml.range] %> Enabled<br/>
+                <%= @quest_total['cal'+ml.range] %> Cal<br/>
+                <%= @quest_assessments[ml.range] %> Assmnts<br/>
+                <%= @quest_benchmarks[ml.range] %> Bnchmrks
+              </span>
+            </td>
+            <% @dashboard['strands'].each do |s|%>
+              <% hashkey = ml.id.to_s + s.id.to_s %>
+              <td class="repo_dashboard_cells" >
+                <div class="repo_dashboard_cell_total">
+                  <%= @quest_total[hashkey] %> Enabled
+                </div>
+                <hr>
+                <div class="row repo_dashboard_cell_subtotal_row">
+                 <%= @quest_total['cal'+hashkey] %> Calibrated
+                </div>
+                <div class="row repo_dashboard_cell_subtotal_row">
+                  <%= pluralize(@quest_assessments[hashkey], ' Assessment') %>
+                </div>
+                <div class="row repo_dashboard_cell_subtotal_row">
+                   <%= pluralize(@quest_benchmarks[hashkey], ' Benchmark') %>
+                </div>
+                <hr>
+                <div class="row repo_dashboard_maint_row">
+                  <% if @quest_total[hashkey] != 0 %>
+                    <% label = @quest_total[hashkey] == 1 ? ' It' : ' Them' %>
+                    <div class="repo_dashboard_maint_update">
+                      <span id="view_questions<%=ml.id%><%=s.id%>">
+                        View<%= label%>
+                      </span>
+                    </div>
+                    <script type="text/javascript">
+                      jQ(document).ready(function() {
+                        jQ("#view_questions<%=ml.id%><%=s.id%>").click(function() {
+                          var url = "<%= ifa_repo_q_cell_show_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+                            :act_master_id => @current_standard.id, :act_standard_id => s.id, :act_score_range_id => ml.id)%>";
+                          jQ.get(url,{},  function(data) {
+                            jQ("#question_repo").html(data);
+                            jQ("#question_repo").show();
+                          });
+                        })
+                      });
+                    </script>
+                  <% end %>
+                  <div >
+                    <%= link_to 'Add Question', ifa_repo_question_add_path(:organization_id => @current_organization,
+                                                                                  :act_subject_id => @current_subject.id, :act_standard_id=>s.id,
+                                                                                  :act_score_range_id=>ml.id), {:target=>'_blank'}  %>
+                  </div>
+                </div>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+  jQ(function(){
+    jQ('td.tip_std').qtip({
+      content: { text: false },
+      position: {
+        corner: {
+          target: 'topMiddle',
+          tooltip: 'bottomMiddle'
+        }
+      },
+      style: {
+        name: 'cream',
+        border: {
+          width: 0,
+          radius: 0,
+          color: '#99911a'
+        },
+        width: 250,
+        tip: { // Now an object instead of a string
+          corner: 'bottomMiddle', // We declare our corner within the object using the corner sub-option
+          color: '#99911a',
+          size: {
+            x: 20, // Be careful that the x and y values refer to coordinates on screen, not height or width.
+            y : 8 // Depending on which corner your tooltip is at, x and y could mean either height or width!
+          }
+        }  }
+      ,
+      show: 'mouseover',
+      hide: 'mouseout'
+    });
+  });
+</script>

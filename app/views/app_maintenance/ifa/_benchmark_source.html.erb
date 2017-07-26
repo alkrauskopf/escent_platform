@@ -32,7 +32,7 @@
     <div class="row source_tag_row2">
       <div class="col-md-2"></div>
       <div class="col-md-4 select">
-        <%= @current_benchmark.source_level ? (@current_benchmark.source_strand.standard.abbrev + ': ' + @current_benchmark.source_level.range) : ('No ' + @benchmark_standard.abbrev + ' Source Level')%>
+        <%= @current_benchmark.source_level ? (@current_benchmark.source_level.standard.abbrev + ': ' + @current_benchmark.source_level.range) : ('No ' + @benchmark_standard.abbrev + ' Source Level')%>
       </div>
       <div class="col-md-4 select">
         <%= @current_benchmark.source_strand ? (@current_benchmark.source_strand.standard.abbrev + ': ' + @current_benchmark.source_strand.name) : ('No ' + @benchmark_standard.abbrev + ' Source Strand')%>

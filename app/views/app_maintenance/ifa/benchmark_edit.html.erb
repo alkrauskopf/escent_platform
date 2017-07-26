@@ -7,6 +7,7 @@
   <%= form_for(:act_bench, :url => app_maintenance_ifa_benchmark_update_path(:organization_id => @current_organization,
                                                                              :act_standard_id=>@current_strand.id,
                                                                              :act_score_range_id => @current_level.id,
+                                                                             :act_subject_id => @current_subject.id,
                                                                              :act_benchmark_id => @current_benchmark.id)) do |f| %>
     <div class= 'row panel_subtitle_blue'>
       <% if !ActBench.all_for_level_strand( @current_level, @current_strand).empty? %>

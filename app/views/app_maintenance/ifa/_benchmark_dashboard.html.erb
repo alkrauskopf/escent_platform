@@ -1,116 +1,118 @@
 <div id="benchmark_dashboard_<%=@current_subject.id%>">
-  <div class="row bench_dashboard_box">
-    <% level_width = 10 %>
-    <% strnd_width = ((100 - level_width)/@active_strands.size).to_f.to_i.to_s + '%'%>
-    <div class="col-md-12 bench_dashboard_header">
-      <div class="row bench_dashboard_header1">
-          <%= pluralize(@bench_total['all'], ' Benchmark') %> | <%= @bench_total['enabled'] %> Enabled
-        | <%= @bench_for_student['all'] %> Student Viewable | <%= @bench_taggable['all'] %> Question Tag-able
+  <% if !@active_strands.empty? && !@active_levels.empty? %>
+    <div class="row bench_dashboard_box">
+      <% level_width = 10 %>
+      <% strnd_width = ((100 - level_width)/@active_strands.size).to_f.to_i.to_s + '%'%>
+      <div class="col-md-12 bench_dashboard_header">
+        <div class="row bench_dashboard_header1">
+            <%= pluralize(@bench_total['all'], ' Benchmark') %> | <%= @bench_total['enabled'] %> Enabled
+          | <%= @bench_for_student['all'] %> Student Viewable | <%= @bench_taggable['all'] %> Question Tag-able
+        </div>
+        <div class="row">
+          <%= @bench_dashboard_hdr[0] %>
+        </div>
       </div>
-      <div class="row">
-        <%= @bench_dashboard_hdr[0] %>
-      </div>
-    </div>
-    <table >
-      <tbody >
-      <tr>
-        <td class="bench_dashboard_label">
-          <div class="row ">
-            <div class="benchmark_add">
-            <span class="button_gray" id="dashboard_refresh<%=@current_subject.id%>">
-              Refresh
-            </span>
+      <table >
+        <tbody >
+        <tr>
+          <td class="bench_dashboard_label">
+            <div class="row ">
+              <div class="benchmark_add">
+              <span class="button_gray" id="dashboard_refresh<%=@current_subject.id%>">
+                Refresh
+              </span>
+              </div>
             </div>
-          </div>
-          <script type="text/javascript">
-            jQ(document).ready(function() {
-              jQ("#dashboard_refresh<%=@current_subject.id%>").click(function() {
-                var url = "<%= app_maintenance_ifa_b_dashboard_refresh_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
-                :act_master_id => @current_standard.id)%>";
-                jQ.get(url,{},  function(data) {
-                  jQ("#benchmark_dashboard_<%=@current_subject.id%>").html(data);
-                  jQ("#benchmark_dashboard_<%=@current_subject.id%>").show();
-                });
-              })
-            });
-          </script>
-        </td>
-        <% @active_strands.each do |s|%>
-            <td class=" bench_dashboard_strand_header tip_std" title="<center><%= s.name.titleize %></center>"  style="width:<%=strnd_width%>; background:<%= s.strand_background%>; color:<%= s.strand_font%>"  >
-              <%= s.abbrev.upcase %><br/>
-              <span class="subheader">
-                <%= @bench_total[s.abbrev] %> Enabled<br/>
-                <%= @bench_for_student[s.abbrev] %> Student<br/>
-                <%= @bench_taggable[s.abbrev] %> Tag-able
-              </span>
-            </td>
-        <% end -%>
-      </tr>
-        <% @active_levels.each do |ml|%>
-          <tr>
-            <td class="bench_dashboard_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
-              <%= @current_standard.abbrev %>&nbsp;<%=ml.range%><br/>
-              <span class="subheader">
-                <%= @bench_total[ml.range] %> Enabled</br>
-                <%= @bench_for_student[ml.range] %> Student</br>
-                <%= @bench_taggable[ml.range] %> Tag-able
-              </span>
-            </td>
-            <% @active_strands.each do |s|%>
-              <% hashkey = ml.id.to_s + s.id.to_s %>
-              <td class="bench_dashboard_cells" >
-                <div class="bench_dashboard_cell_total">
-                  <%= @bench_total[hashkey] %> Enabled
-                </div>
-                <hr>
-                <div class="row bench_dashboard_cell_subtotal_row">
-                  <% @bench_types_hdr[hashkey].each_with_index do |t,idx| %>
-                    <%= @bench_types_hdr[hashkey][idx]%>:<span class="stat"><%= @bench_types[hashkey][idx]%></span>&nbsp;
-                  <% end %>
-                </div>
-                <div class="row bench_dashboard_cell_subtotal_row">
-                  <% @bench_sources_hdr[hashkey].each_with_index do |t,idx| %>
-                    <%= @bench_sources_hdr[hashkey][idx]%>:<span class="stat"><%= @bench_sources[hashkey][idx]%></span>&nbsp;
-                  <% end %>
-                </div>
-                <div class="row bench_dashboard_cell_subtotal_row">
-                  Student:<span class="stat"><%= @bench_for_student[hashkey]%></span>
-                </div>
-                <div class="row bench_dashboard_cell_subtotal_row">
-                  Tag-able:<span class="stat"><%= @bench_taggable[hashkey]%></span>
-                </div>
-                <hr>
-                <div class="row bench_dashboard_maint_row">
-                  <div class="bench_dashboard_maint_update">
-                    <span id="view_benchmarks<%=ml.id%><%=s.id%>">
-                      View Them
-                    </span>
-                  </div>
-                  <script type="text/javascript">
-                    jQ(document).ready(function() {
-                      jQ("#view_benchmarks<%=ml.id%><%=s.id%>").click(function() {
-                        var url = "<%= app_maintenance_ifa_b_cell_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
-                          :act_master_id => @current_standard.id, :act_standard_id => s.id, :act_score_range_id => ml.id)%>";
-                        jQ.get(url,{},  function(data) {
-                          jQ("#manage_benchmarks").html(data);
-                          jQ("#manage_benchmarks").show();
-                        });
-                      })
-                    });
-                  </script>
-                  <div >
-                    <%= link_to 'Add One', app_maintenance_ifa_benchmark_add_path(:organization_id => @current_organization,
-                                                                                  :act_subject_id => @current_subject.id, :act_standard_id=>s.id,
-                                                                                  :act_score_range_id=>ml.id), {:target=>'_blank'}  %>
-                  </div>
-                </div>
+            <script type="text/javascript">
+              jQ(document).ready(function() {
+                jQ("#dashboard_refresh<%=@current_subject.id%>").click(function() {
+                  var url = "<%= app_maintenance_ifa_b_dashboard_refresh_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+                  :act_master_id => @current_standard.id)%>";
+                  jQ.get(url,{},  function(data) {
+                    jQ("#benchmark_dashboard_<%=@current_subject.id%>").html(data);
+                    jQ("#benchmark_dashboard_<%=@current_subject.id%>").show();
+                  });
+                })
+              });
+            </script>
+          </td>
+          <% @active_strands.each do |s|%>
+              <td class=" bench_dashboard_strand_header tip_std" title="<center><%= s.name.titleize %></center>"  style="width:<%=strnd_width%>; background:<%= s.strand_background%>; color:<%= s.strand_font%>"  >
+                <%= s.abbrev.upcase %><br/>
+                <span class="subheader">
+                  <%= @bench_total[s.abbrev] %> Enabled<br/>
+                  <%= @bench_for_student[s.abbrev] %> Student<br/>
+                  <%= @bench_taggable[s.abbrev] %> Tag-able
+                </span>
               </td>
-            <% end %>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+          <% end -%>
+        </tr>
+          <% @active_levels.each do |ml|%>
+            <tr>
+              <td class="bench_dashboard_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
+                <%= @current_standard.abbrev %>&nbsp;<%=ml.range%><br/>
+                <span class="subheader">
+                  <%= @bench_total[ml.range] %> Enabled</br>
+                  <%= @bench_for_student[ml.range] %> Student</br>
+                  <%= @bench_taggable[ml.range] %> Tag-able
+                </span>
+              </td>
+              <% @active_strands.each do |s|%>
+                <% hashkey = ml.id.to_s + s.id.to_s %>
+                <td class="bench_dashboard_cells" >
+                  <div class="bench_dashboard_cell_total">
+                    <%= @bench_total[hashkey] %> Enabled
+                  </div>
+                  <hr>
+                  <div class="row bench_dashboard_cell_subtotal_row">
+                    <% @bench_types_hdr[hashkey].each_with_index do |t,idx| %>
+                      <%= @bench_types_hdr[hashkey][idx]%>:<span class="stat"><%= @bench_types[hashkey][idx]%></span>&nbsp;
+                    <% end %>
+                  </div>
+                  <div class="row bench_dashboard_cell_subtotal_row">
+                    <% @bench_sources_hdr[hashkey].each_with_index do |t,idx| %>
+                      <%= @bench_sources_hdr[hashkey][idx]%>:<span class="stat"><%= @bench_sources[hashkey][idx]%></span>&nbsp;
+                    <% end %>
+                  </div>
+                  <div class="row bench_dashboard_cell_subtotal_row">
+                    Student:<span class="stat"><%= @bench_for_student[hashkey]%></span>
+                  </div>
+                  <div class="row bench_dashboard_cell_subtotal_row">
+                    Tag-able:<span class="stat"><%= @bench_taggable[hashkey]%></span>
+                  </div>
+                  <hr>
+                  <div class="row bench_dashboard_maint_row">
+                    <div class="bench_dashboard_maint_update">
+                      <span id="view_benchmarks<%=ml.id%><%=s.id%>">
+                        View Them
+                      </span>
+                    </div>
+                    <script type="text/javascript">
+                      jQ(document).ready(function() {
+                        jQ("#view_benchmarks<%=ml.id%><%=s.id%>").click(function() {
+                          var url = "<%= app_maintenance_ifa_b_cell_select_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
+                            :act_master_id => @current_standard.id, :act_standard_id => s.id, :act_score_range_id => ml.id)%>";
+                          jQ.get(url,{},  function(data) {
+                            jQ("#manage_benchmarks").html(data);
+                            jQ("#manage_benchmarks").show();
+                          });
+                        })
+                      });
+                    </script>
+                    <div >
+                      <%= link_to 'Add One', app_maintenance_ifa_benchmark_add_path(:organization_id => @current_organization,
+                                                                                    :act_subject_id => @current_subject.id, :act_standard_id=>s.id,
+                                                                                    :act_score_range_id=>ml.id), {:target=>'_blank'}  %>
+                    </div>
+                  </div>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
 </div>
 <script>
   jQ(function(){

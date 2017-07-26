@@ -73,6 +73,12 @@
               <% else %>
                 <%= benchmark.source_standard.name %>
               <% end %>
+              <% if benchmark.source_subject_mismatch? %>
+                <br/>
+                <span class="err">
+                   Benchmark Subject Is Not The Same As Source Subject
+                </span>
+              <% end %>
               <% if benchmark.source? %>
                 &nbsp;|&nbsp;
                 <%= benchmark.source_level.nil? ? 'No Source Level' : (benchmark.source_level.range) %> |
@@ -83,7 +89,7 @@
         </div>
         <div class="row">
           <div class="benchmark_descript">
-            <%=benchmark.description.nil? ? '' : benchmark.description.html_safe %>
+            "<%=benchmark.description.nil? ? '' : benchmark.description.html_safe %>"
             <div class="questions">
               Tagged By <%= pluralize(benchmark.act_questions.size, ' Question') %>
             </div>

@@ -126,6 +126,18 @@ class ActBench < ActiveRecord::Base
     end
     incompat
   end
+  def source_subject_mismatch?
+    incompat = false
+    if !self.source_level.nil? || !self.source_strand.nil?
+      if !self.source_level.nil? && (self.source_level.act_subject != self.act_subject)
+        incompat = true
+      end
+      if !self.source_strand.nil? && (self.source_strand.act_subject != self.act_subject)
+        incompat = true
+      end
+    end
+    incompat
+  end
 
   def self.active
     where('is_active').order('pos ASC')

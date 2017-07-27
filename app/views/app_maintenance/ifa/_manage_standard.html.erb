@@ -20,7 +20,7 @@
     </div>
     <div class="col-md-6">
       <div class="standard_select" id="subject_id">
-        <%=  select(:act, :subject_id, ActSubject.no_na.collect{|s| [s.name,s.id]},{:prompt => @current_subject.name}) %>
+        <%=  select(:act, :subject_id, ActSubject.all_subjects.collect{|s| [s.name,s.id]},{:prompt => @current_subject.name}) %>
       </div>
     </div>
   </div>

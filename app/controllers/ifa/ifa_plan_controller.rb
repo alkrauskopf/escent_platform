@@ -107,6 +107,12 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       @current_milestone.description = params[:description]
       @current_milestone.achieve_date = Time.now
       @user_plan.milestones << @current_milestone
+      if @user_plan.notifyable?
+        PrecisionPrepMailer.milestone_created_guardian(@current_user, @current_milestone, request.host_with_port).deliver
+      end
+      if !@user_plan.teachers_to_notify(@current_organization).empty?
+        PrecisionPrepMailer.milestone_created_teacher(@current_user, @user_plan.teachers_to_notify(@current_organization), @current_milestone, request.host_with_port).deliver
+      end
     else
       current_milestone
       @current_milestone.update_attributes(:description=>params[:description], :act_score_range_id => @current_range.id)

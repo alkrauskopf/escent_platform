@@ -272,6 +272,10 @@ class User < ActiveRecord::Base
     users.collect{|u| u.preferred_email}.compact.uniq.join(", ")
   end
 
+  def guardian_email_list
+    self.guardians.empty? ? '' : self.guardians.map{|g| g.email_address}.uniq.join(", ")
+  end
+
   def home_organization
     self.organization
   end

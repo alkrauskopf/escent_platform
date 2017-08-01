@@ -1,0 +1,15 @@
+Please be informed that <%= @user_name %> has created a new Precision Prep learning milestone.<br/>
+<br />
+<br/>
+If you are responsible for this student,  please promptly review the objectives for:<br/><br/>
+Subject Area => <strong><%= @subject_area %></strong><br/><br/>
+Knowledge Strand=> <strong><%= @strand_name %></strong><br/><br/>
+Mastery Level=> <strong><%= @mastery_level %></strong><br/><br/>
+
+<br/>
+To date, <%= @user_name %> has achieved <strong><%=@plan.milestones.achieved.size %>-of-<%=pluralize(@plan.milestones.size, ' milestone')%></strong> for
+<strong><%= @subject_area %></strong>.
+<br/><br/>
+Thank you for continuing to support <%= @user_name %>.<br/>
+<br>
+

@@ -10,9 +10,6 @@ class UserGuardian < ActiveRecord::Base
                       :allow_nil => false
 
 
-  def self.email_list
-    self.map{|g| g.email_address}.uniq.join(", ")
-  end
 
   def full_name
     "#{self.first_name} #{self.last_name}"

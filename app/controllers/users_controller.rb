@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
-  layout "site"
+#  layout "site"
+  layout "user"
   
-  before_filter :current_organization
-  before_filter :current_user, :only => [:edit_user_bio, :member_public_profile, :remove_this_organization, :add_this_organization, :toggle_favorite_organization, :add_this_colleague, :remove_this_colleague, :add_this_favorite_resource, :remove_this_favorite_resource, :add_this_favorite_classroom, :toggle_favorite_classroom, :edit_picture, :edit_profile, :change_home_org , :change_password, :edit_talents, :favorite_of]
+#  before_filter :current_organization
+#  before_filter :current_user, :only => [:edit_user_bio, :member_public_profile, :remove_this_organization, :add_this_organization, :toggle_favorite_organization, :add_this_colleague, :remove_this_colleague, :add_this_favorite_resource, :remove_this_favorite_resource, :add_this_favorite_classroom, :toggle_favorite_classroom, :edit_picture, :edit_profile, :change_home_org , :change_password, :edit_talents, :favorite_of]
   protect_from_forgery :except => [ :login]
  
-  before_filter :clear_notification
+  before_filter :clear_notification, :except => [:edit]
   
   def clear_notification
     flash[:notice] = nil
@@ -20,7 +21,7 @@ class UsersController < ApplicationController
       
         if User.find_by_email_address(@user.email_address).nil?
           @user.verification_code = User::generate_password(16)
-          @user.set_default_registration_values(@current_organization.id)         
+          @user.set_default_registration_values
           
           if valid_captcha?(params[:captcha_id], params[:access][:registration_code])
             if @user.save
@@ -58,6 +59,21 @@ class UsersController < ApplicationController
     @user = User.find_by_public_id(params[:user])
     render :layout => 'fsn'
   end
+
+  def edit
+    if request.post?
+      alias_user = User.find_by_alt_login(params[:user][:alt_login]) rescue nil
+      if alias_user.nil? || alias_user == @current_user || params[:user][:alt_login].blank?
+        if @current_user.update_attributes(params[:user])
+          flash[:notice] = "Profile Updated Successfully"
+        else
+          flash[:error] = @current_user.errors.full_messages.to_sentence
+        end
+      else
+        flash[:error] = 'Alternate Login ID, ' + params[:user][:alt_login] + ', Already Taken'
+      end
+    end
+  end
   
   def edit_profile
     @user = @current_user
@@ -86,20 +102,20 @@ class UsersController < ApplicationController
        @user.errors[:base] << ('A user exists for alias: ' + alias_id)
       end
  
-      phil_words = params[:user][:philosophy].split
-      cred_words = params[:user][:credentials].split
-      phil_words.each do |w|
-        if w.length > 50 then
-          valid_input = false
-          @user.errors[:base] << ('A Philosophy Word Is Too Long')
-        end
-      end
-      cred_words.each do |w|
-        if w.length > 50 then
-          valid_input = false
-          @user.errors[:base] << ('A Credential Word Is Too Long')
-        end
-      end
+    #  phil_words = params[:user][:philosophy].split
+    #  cred_words = params[:user][:credentials].split
+    #  phil_words.each do |w|
+    #    if w.length > 50 then
+    #      valid_input = false
+    #      @user.errors[:base] << ('A Philosophy Word Is Too Long')
+    #    end
+    #  end
+    #  cred_words.each do |w|
+    #    if w.length > 50 then
+    #      valid_input = false
+    #      @user.errors[:base] << ('A Credential Word Is Too Long')
+    #    end
+    #  end
       if valid_input
         if @user.update_attributes(params[:user])
           flash[:notice] = "Profile Updated Successfully"
@@ -351,6 +367,15 @@ end
       end
       redirect_to user_edit_path(:organization_id => @current_organization)
     end   
+  end
+
+  def password_change
+    if @current_user.update_attributes(params[:user])
+      flash[:notice] = "Password changed"
+    else
+      flash[:error] = @current_user.errors.full_messages.to_sentence
+    end
+    redirect_to user_edit_path(:organization_id => @current_organization)
   end
 
   private

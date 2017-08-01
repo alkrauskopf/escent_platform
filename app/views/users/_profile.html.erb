@@ -45,7 +45,7 @@
             </div>
             <% org = @user.organization.nil? ? @current_organization : @user.organization%>
             <div class="FormRowData">
-                <%=  select(:user, :home_org_id, org_list.collect{|o| [o.name, o.id]}, :value => org.id, :prompt => org.medium_name)  %>
+              <%=  select(:user, :organization_id, org_list.collect{|o| [o.name, o.id]}, :selcted => org.id, :prompt => org.medium_name)  %>
             </div>
         </div>
     <% end %>

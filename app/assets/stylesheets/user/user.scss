@@ -1,0 +1,63 @@
+
+@import "application-variables.scss";
+@import 'bootstrap';
+
+.panel_box {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  color:white;
+  text-align:center;
+  vertical-align:middle;
+  min-height:2.5em;
+  font-size:15px;
+}
+.user_edit_box {
+  padding: 1em 2em 2em 2em;
+  font-size: 14px;
+}
+.user_picture_box {
+  padding: 0em 0em 0em 5em;
+}
+.user_name_box {
+  padding: 0em 0em 1em 0em;
+  font-size:18px;
+}
+.user_email_box {
+  padding: 0em 0em 1em 0em;
+  font-size:16px;
+  font-weight:normal;
+}
+.user_edit_row {
+   padding: 0em 0em 2em 0em;
+ }
+.user_password_row {
+  padding: .5em 0em .5em 0em;
+  text-align:left;
+  font-weight:normal;
+  color:$red_text;
+  font-size:14px;
+}
+.user_password_button {
+  float:left;
+  padding: 1em 0em 0em 0em;
+  font-size:11px;
+}
+.user_label_field {
+  padding-right:1em;
+  text-align: right;
+  font-size:15px;
+  color:$dark_text;
+}
+.user_school_label {
+  font-size:12px;
+  color:$blue_text;
+  font-weight:bold;
+}
+
+.user_text_field {
+  float: left;
+  color:$dark_text;
+}
+.update_button {
+  font-size:15px;
+}

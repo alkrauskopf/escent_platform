@@ -1,0 +1,108 @@
+<div id="user_profile_form" class="row user_edit_box">
+  <div class= 'row panel_title_blue'>
+    <div class="col-md-3 user_picture_box">
+      <% if @current_user.picture.present?%>
+          <%= image_tag @current_user.picture(:med_thumb) %>
+      <% else %>
+          <%= image_tag 'member_med_ico.gif' %>
+      <% end %>
+    </div>
+    <div class="col-md-6 ">
+      <div class="user_name_box">
+        <%=@current_user.full_name %> Profile
+      </div>
+      <div class="user_email_box">
+        Account ID:&nbsp;<%=@current_user.email_address %>
+      </div>
+      <div class="user_email_box">
+        <%=@current_user.organization ? @current_user.organization.name : 'School Not Defined' %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <%= render :partial =>  "password_reset", :locals=>{}%>
+    </div>
+  </div>
+  <hr>
+  <%= render :partial => "/shared/error_and_notice" %>
+  <%= form_for(:user, :url => user_edit_path(:organization_id => @current_organization), :html => {:multipart => true}) do |form| -%>
+    <div class="row user_edit_row">
+      <div class="col-md-4 user_label_field">
+        First Name
+      </div>
+      <div class="col-md-8 user_text_field">
+        <%= text_field :user, :first_name, :size => 15, :maxlength => 25,  :value => @current_user.first_name  %>
+      </div>
+    </div>
+    <div class="row user_edit_row">
+      <div class="col-md-4 user_label_field">
+        Last Name
+      </div>
+      <div class="col-md-8 user_text_field">
+        <%= text_field :user, :last_name, :size => 25, :maxlength => 35,  :value => @current_user.last_name  %>
+      </div>
+    </div>
+    <div class="row user_edit_row">
+      <div class="col-md-4 user_label_field">
+        Alternate Login ID:
+      </div>
+      <div class="col-md-8 user_text_field">
+        <%= text_field :user, :alt_login, :size => 25, :maxlength => 25,  :value => @current_user.alt_login, :placeholder => '8 Characters Minimum'  %>
+      </div>
+    </div>
+    <div class="row user_edit_row">
+      <div class="col-md-4 user_label_field">
+        Email Notifications Go To:
+      </div>
+      <div class="col-md-8 user_text_field">
+        <%= text_field :user, :preferred_email, :size => 50, :maxlength => 25,  :value => @current_user.preferred_email  %>
+      </div>
+    </div>
+    <div class="row user_edit_row">
+      <div class="col-md-4 user_label_field">
+        Contact Phone:
+      </div>
+      <div class="col-md-8 user_text_field">
+        <%= text_field :user, :phone, :size => 20, :maxlength => 20,  :value => @current_user.phone, :placeholder => 'xxx-xxx-xxxx'  %>
+      </div>
+    </div>
+    <div class="row user_edit_row">
+      <div class="col-md-4 user_label_field">
+        Zip Code:
+      </div>
+      <div class="col-md-8 user_text_field">
+        <%= text_field :user, :postal_code, :size => 10, :maxlength => 10,  :value => @current_user.postal_code %>
+      </div>
+    </div>
+    <div class="row user_edit_row">
+      <div class="col-md-4 user_label_field">
+        State:
+      </div>
+      <div class="col-md-8 user_text_field">
+        <%= select(:user, "state_province", User::STATES, :selected=> @current_user.state_province) %>
+      </div>
+    </div>
+    <input type="hidden" name="user[country]" value="US" />
+    <div class="row user_edit_row">
+      <div class="col-md-4 user_label_field">
+        Re-Assign Your School:
+      </div>
+      <div class="col-md-8 user_text_field">
+        <%= select(:user, "organization_id", Organization.registerable.collect{|o| [o.name, o.id]}, :selected=> @current_user.organization_id) %>
+      </div>
+    </div>
+    <div class="row user_edit_row">
+      <div class="col-md-4 user_label_field">
+        Your Picture:
+      </div>
+      <div class="col-md-6 user_text_field">
+        <%= file_field_tag 'user[picture]' %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2 "></div>
+      <div class="col-md-6">
+        <%= form.submit 'Update Profile', :class =>"update_button button_blue" %>
+      </div>
+    </div>
+  <% end %>
+</div>

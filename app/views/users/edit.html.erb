@@ -1,0 +1,5 @@
+<div id="user_profile" class="panel_box">
+  <% if !@current_user.nil? %>
+    <%= render :partial =>  "user_form", :locals=>{}%>
+  <% end %>
+</div>

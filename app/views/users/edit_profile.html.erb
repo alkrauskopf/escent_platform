@@ -28,6 +28,12 @@
 				<div class="FormRowFull"><i>(Does Not Alter Email ID for Sign-in)</i></div>
 	    </div>
 
+			<div class="FormRow">
+				<div class="FormRowTitle">Guardian Email:</div>
+				<div class="FormRowData"><%= text_field :user, :guardian_email, :class=>"text", :size=>"50" %></div>
+				<div class="FormRowFull"><i>(Optional)</i></div>
+			</div>
+
 		<!-- ALK include "Contact Phone # Info and option to display in Public Profile -->
 		  <div class="FormRow">
 				<div class="FormRowTitle">Contact Phone #:</div>
@@ -71,26 +77,26 @@
       </div>
 
       <input type="hidden" name="user[country]" value="US" />
-
+			<!-- ALK Include Label used for Website in Profile
 	    <div class="FormRow">
 				<div class="FormRowTitle">Your Website: (e.g. http://my_site.com) </div>
-				<div class="FormRowData"><%= text_field :user, :personal_url, :class=>"text", :size=>"50" %></div>
-	    </div>
-		<!-- ALK Include Label used for Website in Profile -->
-		<div class="FormRow">
-				<div class="FormRowTitle">Label of Your Website Link: (e.g. "My Facebook Page" or "More Information")</div>
-				<div class="FormRowData"><%= text_field :user, :website_referred_as, :class=>"text", :size=>"20" %></div>
+				<div class="FormRowData"><%#= text_field :user, :personal_url, :class=>"text", :size=>"50" %></div>
 	    </div>
 
-	<!--  ALK Added -->
+		<div class="FormRow">
+				<div class="FormRowTitle">Label of Your Website Link: (e.g. "My Facebook Page" or "More Information")</div>
+				<div class="FormRowData"><%#= text_field :user, :website_referred_as, :class=>"text", :size=>"20" %></div>
+	    </div>
+
 	  <div class="FormRow">
       <div class="FormRowTitle">Credentials: </div>
-      <div class="FormRowData"><%= text_area :user, :credentials, :class=>"text", :cols => 70, :rows => 2 %></div>
+      <div class="FormRowData"><%#= text_area :user, :credentials, :class=>"text", :cols => 70, :rows => 2 %></div>
     </div>
 	  <div class="FormRow">
       <div class="FormRowTitle">Personal Philosophy: </div>
-      <div class="FormRowData"><%= text_area :user, :philosophy, :class=>"text", :cols => 70, :rows => 2 %></div>
+      <div class="FormRowData"><%#= text_area :user, :philosophy, :class=>"text", :cols => 70, :rows => 2 %></div>
     </div>
+    -->
 
       <h3 class="title_large_blue">Upload a profile picture</h3>
       <div class="FormRow" style="position: relative;">

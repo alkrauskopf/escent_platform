@@ -25,11 +25,14 @@ EscentPartners::Application.routes.draw do |map|
 
   # CORE User
   get '/user/registration/successful' => 'users#registration_successful'   #  user_registration_successful_path
-  get '/user/edit' => 'users#edit_profile'
-  post '/user/edit' => 'users#edit_profile'
+#  get '/user/edit' => 'users#edit_profile'
+#  post '/user/edit' => 'users#edit_profile'
+  get '/user/edit' => 'users#edit'
+  post '/user/edit' => 'users#edit'
   get '/user/view' => 'users#member_public_profile'
   post '/user/edit_home' => 'users#change_home_org'
   post '/user/edit_password' => 'users#change_password'
+  post '/user/password/change' => 'users#password_change'  # user_password_change_path
   get '/user/assign_std' => 'users#assign_standard_view'
   get '/user/toggle_org' => 'users#toggle_favorite_organization'
   get '/user/toggle_offering' => 'users#toggle_favorite_classroom'
@@ -513,7 +516,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/milestone/evidence/show/html' => 'ifa/ifa_plan#show_html' #  ifa_milestone_evidence_show_html_path
   get '/ifa/milestone/evidence/destroy' => 'ifa/ifa_plan#evidence_destroy' #  ifa_milestone_evidence_destroy_path
 
-  get '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path
+  get '/ifa/repoMoveTo Another /question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path
   post '/ifa/repo/question/add' => 'ifa/question_repo#index'    # ifa_repo_question_add_path
   get '/ifa/repo/q_subject/select' => 'ifa/question_repo#subject_select'    # ifa_repo_q_subject_select_path
   get '/ifa/repo/q_cell/show' => 'ifa/question_repo#cell_show'    # ifa_repo_q_cell_show_path

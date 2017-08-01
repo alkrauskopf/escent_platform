@@ -11,9 +11,10 @@ class User < ActiveRecord::Base
   validates_attachment :picture,
                        content_type: {content_type: ['image/gif', 'image/jpeg', 'image/png', 'image/pjpeg', 'image/x-png']}
   validates_with AttachmentSizeValidator, attributes: :picture, less_than: 2.megabytes
-  validate :picture_width
+#  validate :picture_width
   belongs_to :act_master
-  belongs_to :organization, :foreign_key => "home_org_id" 
+ # belongs_to :organization, :foreign_key => "home_org_id"
+  belongs_to :organization
   has_many :tlt_dashboards, :dependent => :destroy
 
   has_many :addresses, :dependent => :destroy
@@ -108,6 +109,8 @@ class User < ActiveRecord::Base
                       :allow_nil => false
   validates_format_of :preferred_email, :with => /^[\w._%+-]+@[\w.-]+\.[\w]{2,6}$/, :message => 'invalid format', 
                       :allow_nil => false
+  validates_format_of :guardian_email, :with => /^[\w._%+-]+@[\w.-]+\.[\w]{2,6}$/, :message => 'invalid format',
+                      :allow_nil => true
 # uniqueness validation causes problem with nil "country" on member edit.???                       
 #  validates_uniqueness_of :alt_login, :allow_blank => true, :allow_nil => true, :message =>"Alias ID has already been taken."
   validates_length_of :alt_login, :minimum => 8, :allow_blank => true, :allow_nil => true, :message =>"Alias ID must be at least 8 characters."
@@ -269,7 +272,7 @@ class User < ActiveRecord::Base
   end
 
   def home_organization
-    Organization.find_by_id(self.home_org_id) rescue nil
+    self.organization
   end
 
   def image_present?
@@ -332,8 +335,7 @@ class User < ActiveRecord::Base
   
   def current_grade_level
     grade_level = 0
-    home_org = self.home_organization rescue nil
-    if self.student_demographic && home_org
+    if self.student_demographic && self.organization
       if self.student_demographic.grade_base_date && self.student_demographic.grade_level_base
         grade_delta = ((Date.today.to_time - self.student_demographic.grade_base_date.to_time)/(60*60*24*365)).to_i
         grade_level = self.student_demographic.grade_level_base + grade_delta
@@ -552,9 +554,7 @@ class User < ActiveRecord::Base
     assess_list = self.act_assessments.calibrated.where('updated_at >= ? && updated_at <= ?',  start_date, end_date)
   end  
   
-  def set_default_registration_values(org_id)
-    self.home_org_id = self.home_org_id.nil? ? org_id : self.home_org_id
-    self.organization_id = self.home_org_id
+  def set_default_registration_values
     self.is_suspended = false
     self.Provider_of_Texting_Service = "No Texting Wanted" if self.Provider_of_Texting_Service.nil?
     self.preferred_email = email_address
@@ -1464,7 +1464,7 @@ class User < ActiveRecord::Base
   private
 
   def picture_width
-    required_width  = 300
+    required_width  = 1000
     if picture.queued_for_write[:original]
       dimensions = Paperclip::Geometry.from_file(picture.queued_for_write[:original].path)
       errors.add(:picture, "Width can't be greater than #{required_width}") unless dimensions.width <= required_width

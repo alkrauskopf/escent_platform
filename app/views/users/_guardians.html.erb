@@ -1,0 +1,110 @@
+<div id="user_guardian_<%=student.id%>">
+  <%= render :partial => "/shared/error_and_notice" %>
+  <div class="guardian_edit_header">
+    <%= pluralize(student.guardians.size, ' Guardian Contact') %>
+  </div>
+  <% if !student.guardians.empty?%>
+    <div class="guardian_edit_box">
+      <% student.guardians.each do |guardian| %>
+        <div class="row guardian_list_box">
+          <div class="col-md-2 " ></div>
+          <div class="col-md-1 guardian_list_button" >
+            <span id = "destroy_guardian_<%=guardian.id%>" class="button_red">
+             Remove
+            </span>
+          </div>
+          <div class="col-md-1 guardian_list_button" >
+            <% if guardian != @current_guardian %>
+              <span id = "change_guardian_<%=guardian.id%>" class="button_gray">
+               Change
+              </span>
+            <% end %>
+          </div>
+          <div class="col-md-2 guardian_list_row" >
+            <%= guardian.full_name %>
+          </div>
+          <div class="col-md-2 guardian_list_row" >
+            <%= guardian.email_address %>
+          </div>
+          <div class="col-md-2 guardian_list_row" >
+            Phone:&nbsp;<%= guardian.phone %>
+          </div>
+        </div>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ("#destroy_guardian_<%=guardian.id%>").click(function(){
+              var url = "<%= user_guardian_destroy_url(:organization_id => @current_organization, :student_id => student.id, :guardian_id => guardian.id) %>";
+              jQ.get(url, {}, function(data) {
+                jQ("#user_guardian_<%=student.id%>").html(data);
+                jQ("#user_guardian_<%=student.id%>").show();
+              });
+            })
+          });
+        </script>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ("#change_guardian_<%=guardian.id%>").click(function(){
+              var url = "<%= user_guardian_change_url(:organization_id => @current_organization, :student_id => student.id, :guardian_id => guardian.id) %>";
+              jQ.get(url, {}, function(data) {
+                jQ("#user_guardian_<%=student.id%>").html(data);
+                jQ("#user_guardian_<%=student.id%>").show();
+              });
+            })
+          });
+        </script>
+      <% end %>
+    </div>
+  <% end %>
+  <div class="guardian_edit_box">
+    <% script_id = function=='Add' ? 'add_guardian' : 'update_guardian' %>
+    <div class="row ">
+      <div class="col-md-1" >
+        <span id = "<%= script_id%>" class="button_blue">
+         <%= function %>
+        </span>
+      </div>
+      <div class="col-md-2">
+        <%= text_field :guardian, :first_name, :size => 15, :value=> @current_guardian.nil? ? nil : @current_guardian.first_name, :placeholder=>'First Name' %>
+      </div>
+      <div class="col-md-3">
+        <%= text_field :guardian, :last_name, :size => 25, :value=> @current_guardian.nil? ? nil : @current_guardian.last_name, :placeholder=>'Guardian Last Name' %>
+      </div>
+      <div class="col-md-4">
+        <%= text_field :guardian, :email_address, :size => 35, :value=> @current_guardian.nil? ? nil : @current_guardian.email_address, :placeholder=>'guardian@email.com' %>
+      </div>
+      <div class="col-md-2">
+        <%= text_field :guardian, :phone, :size => 12, :value=> @current_guardian.nil? ? nil : @current_guardian.phone, :placeholder=>'xxx-xxx-xxxx' %>
+      </div>
+    </div>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#add_guardian").click(function(){
+          var first_name = jQ('#guardian_first_name').val();
+          var last_name = jQ('#guardian_last_name').val();
+          var email = jQ('#guardian_email_address').val();
+          var phone = jQ('#guardian_phone').val();
+          var url = "<%= user_guardian_add_url(:organization_id => @current_organization, :student_id => student.id) %>";
+          jQ.get(url, {'first_name': first_name, 'last_name': last_name, 'email_address':email, 'phone':phone}, function(data) {
+            jQ("#user_guardian_<%=student.id%>").html(data);
+            jQ("#user_guardian_<%=student.id%>").show();
+          });
+        })
+      });
+    </script>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#update_guardian").click(function(){
+          var first_name = jQ('#guardian_first_name').val();
+          var last_name = jQ('#guardian_last_name').val();
+          var email = jQ('#guardian_email_address').val();
+          var phone = jQ('#guardian_phone').val();
+          var url = "<%= user_guardian_update_url(:organization_id => @current_organization, :student_id => student.id, :guardian_id => @current_guardian.nil? ? nil: @current_guardian.id) %>";
+          jQ.get(url, {'first_name': first_name, 'last_name': last_name, 'email_address':email, 'phone':phone}, function(data) {
+            jQ("#user_guardian_<%=student.id%>").html(data);
+            jQ("#user_guardian_<%=student.id%>").show();
+          });
+        })
+      });
+    </script>
+  </div>
+</div>

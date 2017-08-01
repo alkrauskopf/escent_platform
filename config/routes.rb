@@ -33,6 +33,10 @@ EscentPartners::Application.routes.draw do |map|
   post '/user/edit_home' => 'users#change_home_org'
   post '/user/edit_password' => 'users#change_password'
   post '/user/password/change' => 'users#password_change'  # user_password_change_path
+  get '/user/guardian/add' => 'users#guardian_add'     # user_guardian_add_path
+  get '/user/guardian/change' => 'users#guardian_change'     # user_guardian_change_path
+  get '/user/guardian/destroy' => 'users#guardian_destroy'     # user_guardian_destroy_path
+  get '/user/guardian/update' => 'users#guardian_update'     # user_guardian_update_path
   get '/user/assign_std' => 'users#assign_standard_view'
   get '/user/toggle_org' => 'users#toggle_favorite_organization'
   get '/user/toggle_offering' => 'users#toggle_favorite_classroom'

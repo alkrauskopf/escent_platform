@@ -82,6 +82,8 @@ class User < ActiveRecord::Base
 
   has_many :ifa_plans, :dependent => :destroy
   has_many :ifa_plan_remarks
+
+  has_many :guardians, :class_name => 'UserGuardian'
       
   validates_confirmation_of :email_address
   validates_confirmation_of :password
@@ -109,8 +111,7 @@ class User < ActiveRecord::Base
                       :allow_nil => false
   validates_format_of :preferred_email, :with => /^[\w._%+-]+@[\w.-]+\.[\w]{2,6}$/, :message => 'invalid format', 
                       :allow_nil => false
-  validates_format_of :guardian_email, :with => /^[\w._%+-]+@[\w.-]+\.[\w]{2,6}$/, :message => 'invalid format',
-                      :allow_nil => true
+
 # uniqueness validation causes problem with nil "country" on member edit.???                       
 #  validates_uniqueness_of :alt_login, :allow_blank => true, :allow_nil => true, :message =>"Alias ID has already been taken."
   validates_length_of :alt_login, :minimum => 8, :allow_blank => true, :allow_nil => true, :message =>"Alias ID must be at least 8 characters."

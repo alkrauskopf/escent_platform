@@ -11,6 +11,50 @@
   min-height:2.5em;
   font-size:15px;
 }
+.guardian_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $gold_panel;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:15px;
+}
+.guardian_header_label {
+  font-weight:bold;
+  text-align:center;
+}
+.guardian_row {
+  padding:.5em 0em 0em 0em;
+  font-size:14px;
+  color:$dark_text;
+  text-align:left;
+}
+
+.guardian_edit_header {
+  padding: 0em 0em 1em 0em;
+  font-size: 16px;
+  color:$blue_text;
+  text-align:center;
+}
+.guardian_list_box {
+  padding: 0em 0em 1em 0em;
+  font-size: 14px;
+  color:$dark_text;
+}
+.guardian_list_row {
+  padding: .5em 1em 1em 1em;
+  text-align:left;
+}
+.guardian_list_button {
+  padding: .5em 0em 0em 0em;
+}
+.guardian_edit_box {
+  padding: 1em 1em 1em 1em;
+  font-size: 14px;
+  color:$dark_text;
+}
 .user_edit_box {
   padding: 1em 2em 2em 2em;
   font-size: 14px;

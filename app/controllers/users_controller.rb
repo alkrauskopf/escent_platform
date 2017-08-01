@@ -73,6 +73,57 @@ class UsersController < ApplicationController
         flash[:error] = 'Alternate Login ID, ' + params[:user][:alt_login] + ', Already Taken'
       end
     end
+    @current_guardian = UserGuardian.new
+  end
+
+  def guardian_add
+    student = User.find_by_id(params[:student_id])
+    @current_guardian = UserGuardian.new
+    @current_guardian.first_name = params[:first_name]
+    @current_guardian.last_name = params[:last_name]
+    @current_guardian.email_address = params[:email_address]
+    @current_guardian.phone = params[:phone]
+    if student.guardians << @current_guardian
+      flash[:notice] = 'Guardian Contact Added'
+      @current_guardian = UserGuardian.new
+    else
+      flash[:error] = @current_guardian.errors.full_messages.to_sentence
+    end
+    render :partial =>  "guardians", :locals=>{:student=>student, :function => 'Add'}
+  end
+
+  def guardian_change
+    student = User.find_by_id(params[:student_id])
+    @current_guardian = UserGuardian.find_by_id(params[:guardian_id]) rescue nil
+    render :partial =>  "guardians", :locals=>{:student=>student, :function => 'Change'}
+  end
+
+  def guardian_update
+    student = User.find_by_id(params[:student_id])
+    @current_guardian = UserGuardian.find_by_id(params[:guardian_id]) rescue nil
+    if !@current_guardian.nil?
+      @current_guardian.first_name = params[:first_name]
+      @current_guardian.last_name = params[:last_name]
+      @current_guardian.email_address = params[:email_address]
+      @current_guardian.phone = params[:phone]
+      if @current_guardian.save
+        flash[:notice] = nil
+      else
+        flash[:error] = @current_guardian.errors.full_messages.to_sentence
+      end
+    end
+    @current_guardian = UserGuardian.new
+    render :partial =>  "guardians", :locals=>{:student=>student, :function => 'Add'}
+  end
+
+  def guardian_destroy
+    student = User.find_by_id(params[:student_id])
+    guardian = UserGuardian.find_by_id(params[:guardian_id]) rescue nil
+    if !guardian.nil?
+      guardian.destroy
+    end
+    @current_guardian = UserGuardian.new
+    render :partial =>  "guardians", :locals=>{:student=>student, :function => 'Add'}
   end
   
   def edit_profile

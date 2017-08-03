@@ -23,7 +23,7 @@ class IfaPlan < ActiveRecord::Base
     !self.user.guardians.empty?
   end
 
-  def teachers_to_notify(org)
+  def relevant_teachers(org)
     org.classrooms.for_subject(self.act_subject).precision_prep.map{|c| c.teachers_for_student(self.user)}.flatten.compact.uniq
   end
 

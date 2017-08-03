@@ -31,50 +31,44 @@
 			}
 			a.continue:hover {
 				text-decoration: underline;
-            } #ep_bottom {
-                width: 900px;
-                background: url(<%= asset_path('main_container_bottom_secondary.jpg') %>) top left no-repeat;
-                top: 0px;
-                left: 0x;
-              	height: auto;
-                position: relative;
-			}
+            }
+
+      #ep_bottom {
+        margin:19em 3em 0em 0em;
+        background: url(<%= asset_path('main_container_bottom_secondary.jpg') %>) top left no-repeat;
+        height: 7em;
+			    }
 		</style>
 
-        <title>Escent Partners, LLC</title>
+        <title>Precision School Improvement, LLC</title>
     </head>
     <body>
         <div id="container">
         	
-            <div id="home_header">
+            <div id="join_header" class="row">
+							<div class="col-md-7"></div>
+							<div class="col-md-4">
+								<img src="<%=asset_path('psi_logo_large.png') %>", width="100%" />
+								<%#= image_tag asset_path('psi_logo_large.png', :width => 20) %>
+							</div>
+							<div class="col-md-1"></div>
+						</div>
 
-            </div>
-            <div id="home_body">
-                <div id="main_content">
-                    <%= yield %>
-                </div>
+            <div class="row join_container">
+							<div id="main_content">
+									<%= yield %>
+							</div>
+						</div>
+          <div id="ep_bottom">
+          </div>
 
-	<div style="clear:both">
-		<div id="ep_bottom">
-		 	<table   style="width:950px; border:0px ">
-				<tbody>
-				<style type="text/css" media="screen">
-			    table,tr,td {border:0px ;}
-				table tr:hover{
-		        background-color: transparent;
-		      }
-		    	</style>
-					<tr style=" border:0px ">
-						<td  style="width:900px; height:130px; border:0px; vertical-align:bottom; text-align:center">
-              <%= render(:partial => '/layouts/footer_tos_pp') %>
-			            </td>
-					</tr>
-				</tbody>					
-			</table>
+          <div class="row registration_footer">
+            <%= render(:partial => '/layouts/footer_tos_pp') %>
+          </div>
+
 		</div>	
 	</div>
-            </div>
-        </div>
+
 
     </body>
 </html>

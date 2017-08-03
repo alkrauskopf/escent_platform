@@ -110,8 +110,8 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       if @user_plan.notifyable?
         PrecisionPrepMailer.milestone_created_guardian(@current_user, @current_milestone, request.host_with_port).deliver
       end
-      if !@user_plan.teachers_to_notify(@current_organization).empty?
-        PrecisionPrepMailer.milestone_created_teacher(@current_user, @user_plan.teachers_to_notify(@current_organization), @current_milestone, request.host_with_port).deliver
+      if !@user_plan.relevant_teachers(@current_organization).empty?
+        PrecisionPrepMailer.milestone_created_teacher(@current_user, @user_plan.relevant_teachers(@current_organization), @current_milestone, request.host_with_port).deliver
       end
     else
       current_milestone

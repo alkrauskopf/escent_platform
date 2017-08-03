@@ -33,13 +33,12 @@
       a.continue:hover {
         text-decoration: underline;
             }
-        #ep_bottom {
-          width: 900px;
-          background: url(<%= asset_path('main_container_bottom_secondary.jpg') %>) top left no-repeat;
-          top: 0px;
-          left: 0px;
-          height: auto;
-          position: relative;
+      #ep_bottom {
+        width:100%;
+        margin:1em 0em 2em 0em;
+        background: url(<%= asset_path('main_container_bottom_secondary.jpg') %>) top left no-repeat;
+        height: auto;
+        position: relative;
         }
     </style>
   </head>
@@ -51,24 +50,11 @@
         <div id="main_content">
             <%= yield %>
         </div>
-        <div style="clear:both">
-          <div id="ep_bottom">
-            <table   style="width:950px; border:0px ">
-              <tbody>
-              <style type="text/css" media="screen">
-                table,tr,td {border:0px ;}
-              table tr:hover{
-                  background-color: transparent;
-                }
-                </style>
-                <tr style=" border:0px ">
-                  <td  style="width:900px; height:130px; border:0px; vertical-align:bottom; text-align:center">
-                    <%= render(:partial => '/layouts/footer_tos_pp') %>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div id="ep_bottom">
+        </div>
+        <div class="row registration_footer">xx
+          <%= render(:partial => '/layouts/footer_tos_pp') %>
+          vv
         </div>
       </div>
     </div>

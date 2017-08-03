@@ -1,6 +1,6 @@
 <div id="student_review_plans" >
   <div class="precision_milestone_panel">
-    <% ActSubject.plannable.each do |subject| %>
+    <% ActSubject.active_plannable.each do |subject| %>
       <%= render :partial => '/ifa/ifa_plan/student_review_plan', :locals=>{:student_plan => (@current_user.ifa_plan_subject(subject) rescue nil),
                                                                             :student => @current_user, :subject => subject, :show => 'No'} %>
     <% end %>

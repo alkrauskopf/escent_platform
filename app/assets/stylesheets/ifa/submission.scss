@@ -295,14 +295,16 @@
 
 
 .ifa_panel_list {
-  padding-bottom:1em;
-  padding-left:0em;
-  padding-top:0em;
   word-wrap:break-word;
   text-align:left;
   font-weight:normal;
-  font-size:16px;
+  font-size:14px;
   color:$dark_text
+}
+.ifa_panel_list .name {
+  color:$prep_panel;
+  font-weight:bold;
+  font-size:12px;
 }
 
 .ifa_modal_header {
@@ -934,9 +936,11 @@ font-weight:normal;
   font-weight:normal;
 }
 .ifa_pending_destroy {
+  padding-top:.5em;
   font-size:11px;
   float:right;
 }
+
 .ifa_pending_destroy_label {
   font-size:13px;
   text-align:left;
@@ -987,28 +991,35 @@ font-weight:normal;
 }
 .teacher_review_student_box {
   margin:0em 0em 0em 0em;
-  padding:1em 2em 1em 2em;
-  border:1px solid #ddd;
+  padding:1em 2em 1em 1em;
+  border-bottom:1px solid $prep_panel;
   color:$dark_text;
   border-radius: 0px;
   font-size:14px;
 }
 .teacher_review_student_header {
-  padding:1em 2em .5em 2em;
-  color:$blue_text;
+  padding:1em 0em .5em 0em;
+  color:$dark_text;
 }
 .teacher_review_student_header .name {
   font-weight:bold;
-  font-size:14px;
+  font-size:12px;
 }
 .teacher_review_student_header .heading {
+  padding: .5em 0em 0em 0em;
   font-weight:normal;
   text-align:left;
-  font-size:14px;
+  font-size:12px;
+}
+.teacher_review_dashboard_select {
+  padding:0em 0em 0em 0em;
+  color:$red_text;
+  font-size:11px;
 }
 .teacher_review_student_subs {
   margin:.5em 0em 0em 0em;
-  border-top:1px solid #ddd;
+  border:1px solid #ddd;
+  background-color:$panel_background;
   max-height: 10em;
   overflow: scroll;
   color:$dark_text;
@@ -1025,9 +1036,9 @@ font-weight:normal;
   font-size:14px;
 }
 .teacher_review_student_subs .submission {
-  padding:.5em 2em .5em 0em;
+  padding:1em 2em 1em 1em;
   line-height:1.5em;
-  font-size:15px;
+  font-size:14px;
   color:$dark_text;
 }
 .teacher_review_student_subs .sub_date {
@@ -1171,6 +1182,30 @@ font-weight:normal;
   padding: 5em 5em 5em 5em;
   border-top:3px solid #000;
 }
+.precision_prep_review_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $prep_panel;
+  color:white;
+  text-align:center;
+  vertical-align:middle;
+  min-height:3em;
+  font-size:16px;
+}
+
+.precision_prep_review_box {
+  padding: 1em 1em 1em 1em;
+  background-color:$panel_background_ifa;
+  border:1px solid $prep_panel;
+  line-height:1.25em;
+  border-radius: 10px;
+  color:$dark_text;
+  text-align:left;
+  word-wrap: break-word;
+  font-weight:normal;
+  font-size:15px;
+}
+
 .teacher_review_student_plans {
   padding: 1em 1em 1em 1em;
   background-color:$panel_background_ifa;
@@ -1184,8 +1219,8 @@ font-weight:normal;
   font-size:15px;
 }
 .teacher_student_plan_row {
-  padding: 1em 0em 1em 0em;
-  border-bottom:1px dashed #ddd;
+  padding: 1.5em 1em 1.5em 1em;
+  border-bottom:1px solid $prep_panel;
   color:$dark_text;
 }
 .teacher_review_student_plan {
@@ -1260,8 +1295,9 @@ font-weight:normal;
 .teacher_subject_plan_name {
   margin: 0em 3em 0em 0em;
   text-align:right;
-  font-size:14px;
-  font-weight:normal;
+  color:$prep_panel;
+  font-size:12px;
+  font-weight:bold;
 }
 .teacher_subject_plan_view {
   padding: 0em 1em 0em 0em;

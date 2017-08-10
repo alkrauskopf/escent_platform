@@ -1,23 +1,24 @@
 <div id="review_students" >
-  <div class="row">
-    <div class="ifa_panel_title">
-      <%= pluralize(@current_classroom.classroom_periods.size, @current_classroom.name + ' Period') %>
-    </div>
-  </div>
-<% @current_classroom.classroom_periods.each do |classroom_period| %>
-  <div class="teacher_review_period_box ">
-    <div class= "precision_prep_slay_panel">
-      <div class="teacher_review_header_label">
-        <%= classroom_period.name%> | <%= pluralize(@classroom_students[classroom_period].size, ' Student') %>
+  <% @current_classroom.classroom_periods.each do |classroom_period| %>
+    <div class="teacher_review_period_box ">
+      <div class= "precision_prep_review_panel">
+        <div class="row">
+          <div class="col-md-12">
+            Period: <%= classroom_period.name%> | <%= pluralize(@classroom_students[classroom_period].size, ' Student') %>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="teacher_review_students_box">
-      <% @classroom_students[classroom_period].each do |student|%>
-          <%= render :partial =>  "teacher_period_student", :locals=>{:period => classroom_period, :student => student,
-                                            :assessments => student.assessments_taken(:subject => classroom_period.classroom.act_subject),
-                                            :dashboards => student.dashboards(:subject => classroom_period.classroom.act_subject)} %>
-      <% end %>
-    </div>
-  </div>
-<% end %>
+    <% if !@classroom_students[classroom_period].empty? %>
+      <div class="precision_milestone_panel">
+        <div class="precision_prep_review_box">
+          <% @classroom_students[classroom_period].each do |student|%>
+            <%= render :partial =>  "teacher_period_student", :locals=>{:period => classroom_period, :student => student,
+                                              :assessments => student.assessments_taken(:subject => classroom_period.classroom.act_subject),
+                                              :dashboards => student.dashboards(:subject => classroom_period.classroom.act_subject)} %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
 </div>

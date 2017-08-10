@@ -1,11 +1,7 @@
 <div id="teacher_student_dashboard_<%=period.id%><%=student.public_id%>">
-  <div class="row teacher_review_student_header" >
-    <div class="col-md-3 name"></div>
-    <div class="col-md-2 heading">
-      <%= pluralize(dashboards.size, ' Dashboard') %>
-    </div>
+  <div class="row" >
     <% student_per = period.id.to_s + student.id.to_s %>
-    <div class="col-md-5">
+    <div class="col-md-5 teacher_review_dashboard_select">
       <div id="student_dashboard_<%= student_per %>">
         <%=  select( :user_dashboard, student_per, dashboards.collect{|d| [(dashboard_label(d, @current_standard)), d.id]}, {:prompt => "Select Dashboard"}) %>
       </div>

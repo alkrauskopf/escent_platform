@@ -1,36 +1,42 @@
 <div id="teacher_student_<%=period.id%><%=student.public_id%>">
   <div class="teacher_review_student_box">
     <div class="row teacher_review_student_header" >
-      <div class="col-md-3 name">
+      <div class="col-md-2 name">
         <%=student.last_name_first%>
+        <div class="heading">
+          <%= pluralize(assessments.size, ' Assessment') %>
+        </div>
+        <div class="heading">
+          <%= pluralize(dashboards.size, ' Dashboard') %>
+        </div>
       </div>
-      <div class="col-md-9 heading">
-        <%= pluralize(assessments.size, ' Assessment') %>&nbsp;Taken
-      </div>
-    </div>
-    <div class="teacher_review_student_subs" >
-      <% assessments.each do |submission| %>
-          <div class="row submission">
-            <div class="col-md-2 sub_date">
-              <%= submission.created_at.strftime("%m-%d-%y") %>
-            </div>
-            <div class="col-md-7">
-              <%= submission.assessment_name%><br/>
-              <%= submission.standard_abbrev%>:&nbsp; <%= submission.lower_score_bound%>&nbsp;-&nbsp;<%= submission.upper_score_bound%>&nbsp;
-              &nbsp;<%= submission.strand_string %><br/>
-              <span class="score">
-                Scored&nbsp;<%= number_with_precision(submission.tot_points, :precision => 1) %>&nbsp; Of <%=submission.tot_choices %>
-              </span>
-            </div>
-            <div class="col-md-2">
-              <%= link_to "View ", ifa_submission_review_final_path(:organization_id => @current_organization,
-                                                                     :classroom_id => submission.classroom.id, :topic_id => nil,
-                                                                     :act_submission_id => submission.id), {:class => "button_gray", :target => "_blank"} %>
-            </div>
+      <div class="col-md-10">
+        <% if !assessments.empty? %>
+          <div class="teacher_review_student_subs" >
+            <% assessments.each do |submission| %>
+                <div class="row submission">
+                  <div class="col-md-2 sub_date">
+                    <%= submission.created_at.strftime("%m-%d-%y") %>
+                  </div>
+                  <div class="col-md-7">
+                    <%= submission.assessment_name%><br/>
+                    <%= submission.standard_abbrev%>:&nbsp; <%= submission.lower_score_bound%>&nbsp;-&nbsp;<%= submission.upper_score_bound%>&nbsp;
+                    &nbsp;<%= submission.strand_string %><br/>
+                <span class="score">
+                  Scored&nbsp;<%= number_with_precision(submission.tot_points, :precision => 1) %>&nbsp; Of <%=submission.tot_choices %>
+                </span>
+                  </div>
+                  <div class="col-md-2">
+                    <%= link_to "View ", ifa_submission_review_final_path(:organization_id => @current_organization,
+                                                                          :classroom_id => submission.classroom.id, :topic_id => nil,
+                                                                          :act_submission_id => submission.id), {:class => "button_gray", :target => "_blank"} %>
+                  </div>
+                </div>
+            <% end %>
           </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
-    <hr>
     <%= render :partial =>  "teacher_period_student_dashboards", :locals=>{:period => period, :student => student, :dashboards => dashboards, :dashboard => nil} %>
   </div>
 </div>

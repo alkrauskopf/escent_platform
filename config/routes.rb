@@ -575,6 +575,7 @@ EscentPartners::Application.routes.draw do |map|
 
   get '/ifa/take' => 'ifa/submission#index'   # ifa_take_path
   get '/ifa/submission/take' => 'ifa/submission#take_assessment'    # ifa_submission_take_path
+  post '/ifa/submission/take' => 'ifa/submission#take_assessment'    # ifa_submission_take_path
   post '/ifa/submission/submit' => 'ifa/submission#submit_assessment'    # ifa_submission_submit_path
   get '/ifa/submission/teacher' => 'ifa/submission#submission_teacher_select'  # ifa_submission_teacher_url
   get '/ifa/submission/teacher/review' => 'ifa/submission#teacher_review'   # ifa_submission_teacher_review_path

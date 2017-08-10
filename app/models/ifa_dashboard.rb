@@ -7,8 +7,6 @@ class IfaDashboard < ActiveRecord::Base
   belongs_to :organization
   belongs_to :act_subject
 
-  
-  
   has_many :ifa_dashboard_cells, :dependent => :destroy
   has_many :ifa_dashboard_sms_scores, :dependent => :destroy 
 

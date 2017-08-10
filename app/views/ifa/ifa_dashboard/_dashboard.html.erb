@@ -1,68 +1,70 @@
 <div id="entity_dashboard_<%= dashboard.nil? ? '' : dashboard.public_id %>">
   <% if !dashboard.nil? %>
     <div class="row dashboard_box">
-      <% if !@dashboardable.nil? %>
-          <%= render :partial => "/ifa/ifa_dashboard/header_dashboardables", :locals => {:dashboard => dashboard} %>
-      <% end %>
-      <% if !@dashboard.nil? %>
-        <%= render :partial => "/ifa/ifa_dashboard/header_dashboard" %>
-      <% end %>
-      <% if !@assessment.nil? %>
-          <%= render :partial => "/ifa/ifa_dashboard/header_assessment" %>
-      <% end %>
-      <% if !@aggregate.nil? %>
-          <%= render :partial => "/ifa/ifa_dashboard/header_aggregate", :locals => {:dashboard => dashboard} %>
-      <% end %>
-    </div>
-    <div class="row dashboard_box">
-      <% strands = standard.strands(subject) %>
-      <% level_width = 14 %>
-      <% strnd_width = ((100 - level_width)/strands.size).to_f.to_i.to_s + '%'%>
-      <div class="row dashboard_bench_label">
-        View Benchmarks, Click on Cell
-      </div>
-      <table >
-        <tbody >
-        <tr>
-          <td class="dashboard_achieve_label">
-            <% if @current_student_plan %>
-              <i class="star_achievement"></i> &nbsp; Mastered<br/>
-              <i class="wrench_work"></i> &nbsp; Work Focus
-            <% end %>
-          </td>
-          <% strands.each do |s|%>
-              <td class=" dashboard_strand_header tip_std" title="<center><%= s.name.titleize %></center>"  style="width:<%=strnd_width%>; background:<%= s.strand_background%>; color:<%= s.strand_font%>"  >
-                <%= s.abbrev.upcase %>
-              </td>
-          <% end -%>
-        </tr>
-        <% standard.mastery_levels(subject).each do |ml|%>
-            <tr>
-              <td class="dashboard_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
-                <%= mastery_label_br(ml, true).html_safe %>
-              </td>
-              <% standard.strands(subject).each do |s|%>
-                  <td class="dashboard_cells"  style="background:<%=cell_color[hash_key(ml,s)]%>; color:<%= cell_font[hash_key(ml,s)]%>; " >
-                    <% if cell_milestones[hash_key(ml,s)]%>
-                        <div class="dashboard_milestone"><i class="wrench_work"></i></div>
-                    <% end %>
-                    <% if cell_achieves[hash_key(ml,s)]%>
-                        <div class="dashboard_milestone"><i class="star_achievement"></i></div>
-                    <% end %>
-                    <a id="b_<%= dashboard.public_id %><%= ml.id.to_s %><%= s.id.to_s %>" href="">
-                      <%= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s + '<br/>' +
-                          number_with_precision(cell_pcts[hash_key(ml,s)], :precision => 0) + '%').html_safe : ' _ '%>
-                    </a>
-                    <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + dashboard.public_id + ml.id.to_s + s.id.to_s),
-                                                                                               :titl=> (mastery_label(ml, false) + " | " + s.name),
-                                                                                               :blue=> 'Benchmark',
-                                                                                               :body=> benchmarks(s, ml, @current_standard), :height=> 400, :width=> 650 } %>
-
-              <% end %>
-            </tr>
+      <div class="row dashboard_box_in">
+        <% if !@dashboardable.nil? %>
+            <%= render :partial => "/ifa/ifa_dashboard/header_dashboardables", :locals => {:dashboard => dashboard} %>
         <% end %>
-        </tbody>
-      </table>
+        <% if !@dashboard.nil? %>
+          <%= render :partial => "/ifa/ifa_dashboard/header_dashboard" %>
+        <% end %>
+        <% if !@assessment.nil? %>
+            <%= render :partial => "/ifa/ifa_dashboard/header_assessment" %>
+        <% end %>
+        <% if !@aggregate.nil? %>
+            <%= render :partial => "/ifa/ifa_dashboard/header_aggregate", :locals => {:dashboard => dashboard} %>
+        <% end %>
+      </div>
+      <div class="dashboard_box_in">
+        <% strands = standard.strands(subject) %>
+        <% level_width = 14 %>
+        <% strnd_width = ((100 - level_width)/strands.size).to_f.to_i.to_s + '%'%>
+        <div class="row dashboard_bench_label">
+          View Benchmarks, Click on Cell
+        </div>
+        <table >
+          <tbody >
+          <tr>
+            <td class="dashboard_achieve_label">
+              <% if @current_student_plan %>
+                <i class="star_achievement"></i> &nbsp; Mastered<br/>
+                <i class="wrench_work"></i> &nbsp; Work Focus
+              <% end %>
+            </td>
+            <% strands.each do |s|%>
+                <td class=" dashboard_strand_header tip_std" title="<center><%= s.name.titleize %></center>"  style="width:<%=strnd_width%>; background:<%= s.strand_background%>; color:<%= s.strand_font%>"  >
+                  <%= s.abbrev.upcase %>
+                </td>
+            <% end -%>
+          </tr>
+          <% standard.mastery_levels(subject).each do |ml|%>
+              <tr>
+                <td class="dashboard_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
+                  <%= mastery_label_br(ml, true).html_safe %>
+                </td>
+                <% standard.strands(subject).each do |s|%>
+                    <td class="dashboard_cells"  style="background:<%=cell_color[hash_key(ml,s)]%>; color:<%= cell_font[hash_key(ml,s)]%>; " >
+                      <% if cell_milestones[hash_key(ml,s)]%>
+                          <div class="dashboard_milestone"><i class="wrench_work"></i></div>
+                      <% end %>
+                      <% if cell_achieves[hash_key(ml,s)]%>
+                          <div class="dashboard_milestone"><i class="star_achievement"></i></div>
+                      <% end %>
+                      <a id="b_<%= dashboard.public_id %><%= ml.id.to_s %><%= s.id.to_s %>" href="">
+                        <%= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s + '<br/>' +
+                            number_with_precision(cell_pcts[hash_key(ml,s)], :precision => 0) + '%').html_safe : ' _ '%>
+                      </a>
+                      <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + dashboard.public_id + ml.id.to_s + s.id.to_s),
+                                                                                                 :titl=> (mastery_label(ml, false) + " | " + s.name),
+                                                                                                 :blue=> 'Benchmark',
+                                                                                                 :body=> benchmarks(s, ml, @current_standard), :height=> 400, :width=> 650 } %>
+
+                <% end %>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   <% end %>
 </div>

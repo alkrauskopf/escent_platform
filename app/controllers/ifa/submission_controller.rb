@@ -19,6 +19,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       @suggested_topics = @current_student_plan.nil? ? [] : @current_student_plan.classroom_lus(@current_classroom)
       @assessment_subjects = @current_user.act_submissions.collect{|s| s.act_subject}.uniq rescue []
       @dashboard_subjects = @current_user.ifa_dashboards.collect{|s| s.act_subject}.compact.uniq rescue []
+      entity_dashboards(@current_user)
       start_date = @current_provider.ifa_org_option.begin_school_year
       prepare_ifa_dashboard(@current_user, start_date, Date.today)
       @classroom_assessment_list = @current_classroom.available_assessments rescue []
@@ -176,6 +177,10 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     ###############
 
   private
+
+    def entity_dashboards(entity)
+      @entity_dashboards = entity.ifa_dashboards.by_date
+    end
 
     def format_dashboard(dashboard, subject, standard)
       dashboard_cell_hashes(dashboard, subject, standard)

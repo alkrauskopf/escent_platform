@@ -1,6 +1,7 @@
 <div class="row ifa_panel_title">
-  <%= pluralize(@classroom.act_assessments.active.lock.size, ' Available Assessment') %>
+
 </div>
+
 <% student_submissions = @current_user.act_submissions.for_classroom(@classroom) -%>
 <% unless @classroom.act_assessments.active.lock.empty? %>
   <% for ass in @classroom.act_assessments.active.lock.sort{|a,b| b.updated_at <=> a.updated_at}do -%>

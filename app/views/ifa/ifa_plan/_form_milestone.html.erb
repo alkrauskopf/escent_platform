@@ -1,5 +1,5 @@
-<div id="milestone_<%= strand.id %>">
-  <% milestone_id = milestone.id.nil? ? '0' : milestone.id.to_s %>
+<div id="milestone_<%= strand.id %><%=milestone.id.nil? ? '0' : milestone.id.to_s %>">
+  <% milestone_id = milestone.id.nil? ? (strand.id.to_s + '0') : (strand.id.to_s + milestone.id.to_s) %>
   <div class="row ifa_milestone_header_row" >
     <div class="col-md-4 ifa_milestone_range_label">
       Pick Your Target Level =>
@@ -141,8 +141,8 @@
         var range_id = jQ('#<%=milestone_id%>_range').val();
         var url = "<%= ifa_milestone_range_select_url(:organization_id => @current_organization, :ifa_plan_milestone_id => milestone.id, :ifa_plan_id => plan.id, :act_standard_id => strand.id, :function => function) %>";
         jQ.get(url, {'act_score_range_id': range_id}, function(data) {
-          jQ("#milestone_<%= strand.id %>").html(data);
-          jQ("#milestone_<%= strand.id %>").show();
+          jQ("#milestone_<%= strand.id %><%=milestone.id.nil? ? '0' : milestone.id.to_s %>").html(data);
+          jQ("#milestone_<%= strand.id %><%=milestone.id.nil? ? '0' : milestone.id.to_s %>").show();
         });
       })
     });

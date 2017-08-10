@@ -1,43 +1,43 @@
 <div id="plan_remarks_<%=plan.public_id%>">
-  <div class= "precision_milestone_panel ifa_plan_teacher_remark_box">
-    <div class="row">
-      <div class="col-md-3">
-        <% if plan.remarkable?(@current_user) %>
-          <span class="button_blue ifa_remark_button" id="show_remark_form_<%=plan.id%>">
-            Add Remark
-          </span>
+  <% if plan.remarkable?(@current_user)  || !remarks.empty? %>
+    <div class= "precision_milestone_panel ifa_plan_teacher_remark_box">
+      <div class="row">
+        <div class="col-md-3">
+          <% if plan.remarkable?(@current_user) && !show_form %>
+            <span class="button_blue ifa_remark_button" id="show_remark_form_<%=plan.id%>">
+              Add Remark
+            </span>
+          <% end %>
+        </div>
+        <div class="col-md-6 ifa_plan_remarks_label">
+          <%= pluralize(remarks.size, ' Teacher Remark') %>
+        </div>
+        <div class="col-md-3 "></div>
+      </div>
+    </div>
+    <div class="ifa_subject_plan_content">
+      <% if show_form %>
+        <div>
+         <%= render :partial =>  "/ifa/ifa_plan/form_remark", :locals=>{:plan=> plan} %>
+        </div>
+      <% else %>
+      <div class="ifa_plan_teacher_remarks">
+        <% remarks.each do |remark|%>
+          <%= render :partial =>  "/ifa/ifa_plan/teacher_show_remark", :locals=>{:remark => remark} %>
         <% end %>
       </div>
-      <div class="col-md-7 ">
-
-      </div>
-      <div class="col-md-2 ifa_plan_remarks_label">
-        <%= pluralize(remarks.size, ' Teacher Remark') %>
-      </div>
-    </div>
-  </div>
-  <div class="ifa_subject_plan_content">
-    <% if show_form %>
-      <div>
-       <%= render :partial =>  "/ifa/ifa_plan/form_remark", :locals=>{:plan=> plan} %>
-      </div>
-    <% else %>
-    <div class="ifa_plan_teacher_remarks">
-      <% remarks.each do |remark|%>
-        <%= render :partial =>  "/ifa/ifa_plan/teacher_show_remark", :locals=>{:remark => remark} %>
       <% end %>
     </div>
-    <% end %>
-  </div>
-</div>
-<script type="text/javascript">
-  jQ(document).ready(function() {
-    jQ("#show_remark_form_<%=plan.id%>").click(function(){
-      var url = "<%= ifa_remark_show_form_url(:organization_id => @current_organization, :ifa_plan_id => plan.public_id, :classroom_id => (@classroom.nil? ? nil : @classroom.public_id)) %>";
-      jQ.get(url, {}, function(data) {
-        jQ("#plan_remarks_<%=plan.public_id%>").html(data);
-        jQ("#plan_remarks_<%=plan.public_id%>").show();
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#show_remark_form_<%=plan.id%>").click(function(){
+          var url = "<%= ifa_remark_show_form_url(:organization_id => @current_organization, :ifa_plan_id => plan.public_id, :classroom_id => (@classroom.nil? ? nil : @classroom.public_id)) %>";
+          jQ.get(url, {}, function(data) {
+            jQ("#plan_remarks_<%=plan.public_id%>").html(data);
+            jQ("#plan_remarks_<%=plan.public_id%>").show();
+          });
+        })
       });
-    })
-  });
-</script>
+    </script>
+  <% end %>
+</div>

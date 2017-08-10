@@ -11,9 +11,35 @@
       <div class="col-md-8 ifa_plan_strand_header">
         <%= pluralize(plan.strand_milestones(strand).size, ' Milestone')%> | <%= strand.name %>
         <% if !strand.description.nil? && !strand.description.empty? %>
-          <div class="row ifa_milestone_panel_descript">
-            <%= simple_format strand.description %>
+            <div id="strand_header<%=strand.id%>" class="row ifa_milestone_panel_descript">
+              <div id="strand_show<%=strand.id%>" class="col-md-12 show_hide">
+                Explain <%= strand.abbrev %>
+              </div>
+            </div>
+            <div id="strand_descript<%=strand.id%>"class="row ifa_milestone_panel_descript">
+              <div id="strand_hide<%=strand.id%>" class="col-md-12 show_hide">
+                Hide
+              </div>
+              <div class="row col-md-12">
+                <%= simple_format strand.description %>
+              </div>
           </div>
+            <script type="text/javascript">
+              jQ(document).ready(function() {
+                jQ("#strand_header<%=strand.id%>").show();
+                jQ("#strand_descript<%=strand.id%>").hide();
+
+                jQ("#strand_show<%=strand.id%>").click(function() {
+                  jQ("#strand_header<%=strand.id%>").hide();
+                  jQ("#strand_descript<%=strand.id%>").slideDown("slow");
+                })
+
+                jQ("#strand_hide<%=strand.id%>").click(function() {
+                  jQ("#strand_descript<%=strand.id%>").slideUp("slow");
+                  jQ("#strand_header<%=strand.id%>").show();
+                })
+              });
+            </script>
         <% end %>
       </div>
       <div class="col-md-2"></div>

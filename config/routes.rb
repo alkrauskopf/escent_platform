@@ -486,6 +486,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/user/options/toggle/filter' => 'apps/assessment#user_option_toggle_user_filter' #  ifa_user_options_toggle_filter_url
   get '/ifa/user/switch/standard' => 'apps/assessment#switch_standard_view' #  ifa_user_switch_standard_url
 
+  get '/ifa/plan/student' => 'ifa/ifa_plan#student_plan' #  ifa_student_plan_path
+  post '/ifa/plan/student' => 'ifa/ifa_plan#student_plan' #  ifa_student_plan_path
   get '/ifa/plan/std/select' => 'ifa/ifa_plan#select_standard' #  ifa_plan_std_select_url
   get '/ifa/plan/subject/select' => 'ifa/ifa_plan#select_subject' #  ifa_plan_subject_select_url
   get '/ifa/plan/subject' => 'ifa/ifa_plan#plan_subject' #  ifa_plan_subject_path

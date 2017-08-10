@@ -30,14 +30,27 @@
   padding-right:0em;
   font-size:16px;
 }
-
+.precision_prep_plan_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $plan_panel;
+  color:white;
+  text-align:center;
+  vertical-align:middle;
+  min-height:3.5em;
+  font-size:16px;
+}
 .ifa_subject_plan_box {
   margin:0em 0em 0em 0em;
-  border:1px solid #ddd;
+  border:1px solid $plan_panel;
   background-color: $panel_background_ifa;
 }
 .ifa_subject_plan_content {
   padding:.5em 0em 1em 0em;
+}
+.ifa_subject_plan_name {
+  text-align:left;
+  padding:0em 0em 0em 0em;
 }
 
 .pool_check_box {
@@ -397,7 +410,7 @@
 }
 
 .ifa_plan_teacher_remark_box {
-  border-top:3px solid $gold_panel;
+  border-top:0px solid $gold_panel;
   color:$red_text;
 }
 
@@ -408,10 +421,11 @@
 }
 
 .ifa_plan_teacher_remark {
-  margin:0em 0em 1em 0em;
+  margin:0em 0em 0em 0em;
+  padding:.5em 0em .5em 0em;
   text-align:left;
   background-color: $panel_background_ifa;
-  border-top:1px solid #ddd;
+  border-top:1px dashed #ddd;
   border-radius: 0px;
   font-size:13px;
 }
@@ -738,14 +752,13 @@
   font-weight:bold;
 }
 .ifa_plan_remarks_label {
-  padding:.5em 0em 0em 0em;
-  text-align:left;
+  padding:0em 0em 0em 0em;
+  text-align:center;
   vertical-align:middle;
-  color:$dark_text;
-  font-size:12px;
-  font-weight:bold;
+  color:$plan_panel;
+  font-size:14px;
+  font-weight:normal;
 }
-
 
 .ifa_panel_title {
   width:100%;
@@ -1158,11 +1171,28 @@ font-weight:normal;
   padding: 5em 5em 5em 5em;
   border-top:3px solid #000;
 }
+.teacher_review_student_plans {
+  padding: 1em 1em 1em 1em;
+  background-color:$panel_background_ifa;
+  border:1px solid $slay_panel;
+  line-height:1.25em;
+  border-radius: 10px;
+  color:$dark_text;
+  text-align:left;
+  word-wrap: break-word;
+  font-weight:normal;
+  font-size:15px;
+}
+.teacher_student_plan_row {
+  padding: 1em 0em 1em 0em;
+  border-bottom:1px dashed #ddd;
+  color:$dark_text;
+}
 .teacher_review_student_plan {
   margin: .5em 0em .5em 0em;
   padding: 1em 1em 1em 1em;
   background-color:$panel_background_ifa;
-  border:1px solid $slay_panel;
+  border:0px solid $slay_panel;
   line-height:1.25em;
   border-radius: 10px;
   color:$dark_text;
@@ -1190,4 +1220,65 @@ font-weight:normal;
   color:$blue_text;
   font-weight:normal;
   font-size:13px;
+}
+.student_plan_stats {
+  vertical-align:middle;
+  color:$plan_panel;
+  font-size:14px;
+  font-weight:normal;
+  text-align:center;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+}
+.student_subject_plan_row {
+  padding: 1.5em 0em 1.5em 0em;
+  vertical-align:middle;
+}
+.student_subject_plan_view {
+  padding: 0em 1em 0em 0em;
+  float:right;
+  font-size:14px;
+  font-weight:normal;
+}
+
+.student_subject_plan_label {
+  padding: 0em 0em 0em 0em;
+  vertical-align:middle;
+  text-align:left;
+  color:$blue_text;
+  font-size:14px;
+  font-weight:normal;
+}
+.student_subject_plan_label .sumry{
+  color:$dark_text;
+  font-size:12px;
+  font-weight:normal;
+}
+.teacher_subject_plan_row {
+  padding: .5em 0em .5em 0em;
+  vertical-align:middle;
+}
+.teacher_subject_plan_name {
+  margin: 0em 3em 0em 0em;
+  text-align:right;
+  font-size:14px;
+  font-weight:normal;
+}
+.teacher_subject_plan_view {
+  padding: 0em 1em 0em 0em;
+  float:right;
+  font-size:12px;
+  font-weight:normal;
+}
+.teacher_subject_plan_label {
+  padding: 0em 0em 0em 0em;
+  vertical-align:middle;
+  text-align:left;
+  color:$dark_text;
+  font-size:12px;
+  font-weight:normal;
+}
+.teacher_subject_plan_label .sumry{
+  color:$dark_text;
+  font-size:10px;
+  font-weight:normal;
 }

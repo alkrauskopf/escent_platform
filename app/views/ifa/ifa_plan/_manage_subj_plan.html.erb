@@ -1,23 +1,17 @@
 <div id="manage_plan_<%=student.id%><%=subject.public_id%>">
     <% if !show_form %>
       <div  class="ifa_subject_plan_box ">
-        <div class= "precision_prep_gold_panel">
-          <div class="col-md-3">
-            <% if student_plan.updateable?(@current_user) %>
-              <div class="button_gray ifa_plan_button" id="show_form_<%=subject.id%>">
-                Update Needs/Goals
-              </div>
-            <% end %>
+        <div class= "precision_prep_plan_panel">
+          <div class="col-md-5 ifa_subject_plan_name">
+            Growth Plan: <%= student.full_name.titleize %>
           </div>
-          <div class="col-md-6">
-            <%= subject.name.upcase %> Growth Plan
+          <div class="col-md-5 ifa_subject_plan_name">
+            <%= subject.name.upcase %>
           </div>
-          <div class="col-md-3">
-            <%= student.full_name.titleize %>
-          </div>
+          <div class="col-md-2"></div>
         </div>
         <div class="ifa_subject_plan_content">
-          <%= render :partial =>  "/ifa/ifa_plan/show_plan", :locals=>{:plan=> student_plan}%>
+          <%= render :partial =>  "/ifa/ifa_plan/show_plan", :locals=>{:plan=> student_plan, :subject => subject, :student=>student}%>
         </div>
         <%= render :partial =>  "/ifa/ifa_plan/teacher_remarks", :locals=>{:plan=> student_plan, :remarks => student_plan.remarks, :show_form=>false} %>
 
@@ -44,14 +38,4 @@
     })
   });
 </script>
-<script type="text/javascript">
-  jQ(document).ready(function() {
-    jQ('#show_form_<%=subject.id%>').click(function() {
-      var url = "<%= ifa_plan_show_form_url(:organization_id => @current_organization, :act_subject_id => subject.id) %>";
-      jQ.get(url, {}, function(data) {
-        jQ("#manage_plan_<%=student.id%><%=subject.public_id%>").html(data);
-        jQ("#manage_plan_<%=student.id%><%=subject.public_id%>").show();
-      });
-    })
-  });
-</script>
+

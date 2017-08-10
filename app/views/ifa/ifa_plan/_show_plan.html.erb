@@ -1,9 +1,37 @@
 
+  <div class="row">
+    <div class="ifa_plan_show_row">
+      <div class="col-md-2">
+        <% if plan.updateable?(@current_user) %>
+          <div class="button_gray ifa_plan_button" id="show_form_<%=subject.id%>">
+            Update Needs/Goals
+          </div>
+        <% end %>
+      </div>
+      <div class="col-md-8 student_plan_stats">
+        <%= plan.milestones.achieved.size%> of <%=pluralize( plan.milestones.size, ' Milestone')%> Completed |
+        <%= pluralize(plan.evidence_list.size, ' Evidence Attachment') %> |
+        <%= pluralize(plan.remarks.size, ' Teacher Remark') %>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ('#show_form_<%=subject.id%>').click(function() {
+        var url = "<%= ifa_plan_show_form_url(:organization_id => @current_organization, :act_subject_id => subject.id) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#manage_plan_<%=student.id%><%=subject.public_id%>").html(data);
+          jQ("#manage_plan_<%=student.id%><%=subject.public_id%>").show();
+        });
+      })
+    });
+  </script>
   <div class="row ">
     <div class="col-md-6">
       <div class="ifa_plan_show_row">
         <div class="ifa_plan_label">
-          <%= plan.act_subject.name %>&nbsp;Needs & Challenges:
+          Needs & Challenges
         </div>
         <div class="ifa_plan_text">
           <%= simple_format plan.needs%>
@@ -13,7 +41,7 @@
     <div class="col-md-6">
       <div class="ifa_plan_show_row">
         <div class="ifa_plan_label">
-          <%= plan.act_subject.name %>&nbsp;Goals:
+          Goals
         </div>
         <div class="ifa_plan_text">
           <%= simple_format plan.goals %>

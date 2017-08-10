@@ -1,0 +1,8 @@
+<div id="student_plan_<%=subject.id%><%=student.id%>" >
+  <div class="teacher_review_student_plan">
+    <% show_form = @show == 'Create' ? true : false %>
+    <div>
+      <%= render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @current_plan, :student => @current_student, :subject => @current_subject, :show_form => show_form} %>
+    </div>
+  </div>
+</div>

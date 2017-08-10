@@ -1,8 +1,43 @@
 <div id="student_review_plans" >
+  <div class="row ifa_panel_title">
+    <%= pluralize(@current_user.ifa_plans.size, @current_user.last_name + ' Growth Plan') %>
+  </div>
+  <hr>
   <div class="precision_milestone_panel">
     <% ActSubject.active_plannable.each do |subject| %>
-      <%= render :partial => '/ifa/ifa_plan/student_review_plan', :locals=>{:student_plan => (@current_user.ifa_plan_subject(subject) rescue nil),
-                                                                            :student => @current_user, :subject => subject, :show => 'No'} %>
+      <% if @current_user.ifa_plans.for_subject(subject).empty? %>
+        <% button_label = 'Create Plan' %>
+        <% button_class = 'button_green' %>
+      <% else %>
+        <% button_label = 'View Plan' %>
+        <% button_class = 'button_blue' %>
+      <% end %>
+      <div class="row student_subject_plan_row">
+        <div class="col-md-2"></div>
+        <div class="col-md-3 ">
+          <div class="student_subject_plan_view">
+            <%= form_tag(ifa_plan_student_path(:organization_id=>@current_organization, :student_id => @current_user.id,
+                                                       :act_subject_id => subject.id), :target => "_blank") do  -%>
+              <%= submit_tag button_label, :class =>button_class  %>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-md-6 student_subject_plan_label">
+          <%= subject.name + ' Plan' %>
+            <div class="sumry">
+              <% if !@current_user.ifa_plans.for_subject(subject).empty? %>
+                <% plan = @current_user.ifa_plans.for_subject(subject).first %>
+                (<%= plan.milestones.achieved.size%> of <%=pluralize( plan.milestones.size, ' Milestone')%> Completed |
+                <%= pluralize(plan.evidence_list.size, ' Evidence Attachment') %> |
+                <%= pluralize(plan.remarks.size, ' Teacher Remark') %>)
+              <% else %>
+                &nbsp;
+              <% end %>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+      </div>
     <% end %>
   </div>
 </div>

@@ -1,7 +1,7 @@
 class Ifa::IfaPlanController < Ifa::ApplicationController
 #  helper :all # include all helpers, all the time
 
-  layout "ifa_submission", :only=>[:evidence_edit, :evidence_update]
+  layout "ifa_submission", :only=>[:evidence_edit, :evidence_update, :student_plan]
 
  # before_filter :set_ifa, :except=>[]
  # before_filter :current_app_enabled_for_current_org?, :except=>[]
@@ -11,6 +11,18 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   before_filter :current_app_superuser, :only=>[:index]
   before_filter :clear_notification, :except => [:take_assessment]
   before_filter :increment_app_views, :only=>[:index]
+
+  def student_plan
+    current_subject
+    current_student
+    @current_plan = @current_student.ifa_plans.for_subject(@current_subject).empty? ? nil : @current_student.ifa_plans.for_subject(@current_subject).first
+    if @current_plan.nil?
+      @current_plan = IfaPlan.new
+      @show = 'Create'
+    else
+      @show = 'Yes'
+    end
+  end
 
   def select_standard
     @current_standard = ActMaster.find_by_id(params[:act_master_id]) rescue nil

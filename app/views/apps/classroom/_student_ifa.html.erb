@@ -1,0 +1,61 @@
+<div class="left_panel_box">
+  <div class="offering_panel_header ">
+    <span class="offering_panel_text"><%= student.full_name %>&nbsp;Growth & Roadmaps</span>
+  </div>
+  <div class="left_panel_noscroll_box">
+    <div class="row ifa_assessment_row">
+      <% if !current_period.nil? %>
+        <div class="col-md-3">
+          <%= link_to 'Assess', ifa_take_path(:organization_id => @current_organization,:classroom_id => classroom.id, :period_id => current_period.id, :topic_id => (topic.nil? ? nil : topic.id)), class: 'button_blue' %>
+        </div>
+        <div class="col-md-9 ass_label">
+          <%= pluralize(student.act_submissions.for_subject(classroom.act_subject).size, ' Assessment') %>&nbsp;|
+          <%= pluralize(student.ifa_dashboards.for_subject(classroom.act_subject).size, ' Dashboard') %>
+        </div>
+      <% else %>
+          No Classroom Period Defined
+      <% end %>
+    </div>
+    <% if classroom.ifa_plannable? %>
+      <div class="row ">
+        <div class="col-md-12 left_panel_title_row ">
+          <%=student.first_name%> Has Created <%= pluralize(student.ifa_plans.size, ' Roadmap')%>
+        </div>
+      </div>
+      <% ActSubject.active_plannable.each do |subject| %>
+        <% if student.ifa_plans.for_subject(subject).empty? %>
+          <% button_label = 'Create' %>
+          <% button_class = 'button_green' %>
+        <% else %>
+          <% button_label = 'Roadmap' %>
+          <% button_class = 'button_light_blue' %>
+        <% end %>
+        <div class="left_panel_row">
+          <div class="row ">
+            <div class="col-md-3 ">
+              <div class="left_panel_button">
+                <%= form_tag(ifa_plan_student_path(:organization_id=>@current_organization, :student_id => student.id,
+                                                           :act_subject_id => subject.id), :target => "_blank") do  -%>
+                  <%= submit_tag button_label, :class =>button_class  %>
+                <% end %>
+              </div>
+            </div>
+            <div class="col-md-9 left_panel_label">
+              <%= subject.name %>
+                <div class="sumry">
+                  <% if !student.ifa_plans.for_subject(subject).empty? %>
+                    <% plan = student.ifa_plans.for_subject(subject).first %>
+                    (<%= pluralize(plan.milestones.achieved.size, ' Achieved Milestone')%> |
+                    <%= plan.evidence_list.size %>&nbsp;Evidence |
+                    <%= pluralize(plan.remarks.size, ' Remark') %>)
+                  <% else %>
+                    &nbsp;
+                  <% end %>
+                </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

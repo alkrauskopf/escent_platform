@@ -291,13 +291,14 @@ class ApplicationController < ActionController::Base
   def toggle_app_provider(app, provider)
     if provider.app_settings(app).nil?
       create_app_settings(app, provider, true, true, true, app.abbrev, app.name, provider.id)
+      on_off = true
     else
       abbrev = provider.app_settings(app).alt_abbrev.nil? ? app.abbrev : provider.app_settings(app).alt_abbrev
       name = provider.app_settings(app).alt_name.nil? ? app.name : provider.app_settings(app).alt_name
       if provider.app_settings(app).is_owner
         provider.provided_app_orgs(app,true).each do |org|
           update_app_settings(app, org, org.app_settings(app).is_owner, false, org.app_settings(app).is_allowed, '', '', nil)
-          org.reset_org_option(app)
+          org.reset_org_option(app, false)
         end
         update_app_settings(app, provider, false, false, provider.app_settings(app).is_allowed, abbrev, name, nil)
       else

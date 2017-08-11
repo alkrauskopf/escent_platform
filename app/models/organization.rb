@@ -528,7 +528,11 @@ class Organization < ActiveRecord::Base
   end
     
   def ifa_enabled?
-    app_enabled?(CoopApp.ifa)
+    self.app_enabled?(CoopApp.ifa)
+  end
+
+  def ifa_plannable?
+    self.ifa_enabled?  && self.ifa_org_option  && self.ifa_org_option.is_plannable
   end
   
   def app_enabled?(app)
@@ -690,7 +694,7 @@ class Organization < ActiveRecord::Base
     self.elt_cases.submitted.sort_by{|c| c.submit_date}.last
   end
 
-  def set_org_options(app, create)  
+  def set_org_options(app, create)
     if app.ifa?
       create ? self.ifa_set_org_options : self.ifa_remove_org_options
     end    
@@ -702,26 +706,26 @@ class Organization < ActiveRecord::Base
     end    
     if app.elt?  && create
       unless self.elt_org_option
-        self.reset_org_option(app)
+        self.reset_org_option(app, create)
       end
     end  
   end
      
   def ifa_set_org_options
-      unless self.ifa_org_option
-        options = IfaOrgOption.new
-        options.organization_id = self.id
-        options.days_til_repeat = 0
-        options.sms_calc_cycle = 30
-        options.sms_h_threshold = 0.75
-        options.pct_correct_red = 60
-        options.pct_correct_green = 80
-        options.months_for_questions = 3
-        options.begin_school_year = Date.today
-        self.ifa_org_option = options
-        self.ifa_org_option.act_masters<<ActMaster.default_std
-        self.ifa_org_option.ifa_org_option_act_masters.first.update_attributes(:is_default => true)
-       end
+    unless self.ifa_org_option
+      options = IfaOrgOption.new
+      options.organization_id = self.id
+      options.days_til_repeat = 0
+      options.sms_calc_cycle = 30
+      options.sms_h_threshold = 0.75
+      options.pct_correct_red = 60
+      options.pct_correct_green = 80
+      options.months_for_questions = 3
+      options.begin_school_year = Date.today
+      self.ifa_org_option = options
+      self.ifa_org_option.act_masters<<ActMaster.default_std
+      self.ifa_org_option.ifa_org_option_act_masters.first.update_attributes(:is_default => true)
+     end
   end   
  
   def itl_set_org_options
@@ -768,23 +772,27 @@ class Organization < ActiveRecord::Base
      end
   end
 
-  def reset_org_option(app)
+  def reset_org_option(app, on)
     if app.elt?
-      if self.elt_org_option
+      if self.elt_org_option && !on
         self.elt_org_option.destroy
       end
-      options = EltOrgOption.new
-      options.organization_id = self.id
-      options.owner_org_id = CoopApp.elt.owner.id
-      options.elt_cycle_id = nil
-      options.elt_framework_id = nil
-      self.elt_org_option = options
+      if self.elt_org_option.nil? && on
+        options = EltOrgOption.new
+        options.organization_id = self.id
+        options.owner_org_id = CoopApp.elt.owner.id
+        options.elt_cycle_id = nil
+        options.elt_framework_id = nil
+        self.elt_org_option = options
+      end
     end
     if app.ifa?
-      if self.ifa_org_option
+      if self.ifa_org_option && !on
         self.ifa_org_option.destroy
       end
-      ifa_set_org_options
+      if self.ifa_org_option.nil? && on
+        ifa_set_org_options
+      end
     end
   end
     
@@ -821,7 +829,6 @@ class Organization < ActiveRecord::Base
   def precision_prep_students(subject)
     self.classrooms.precision_prep_subject(subject).collect{|c| c.students}.flatten.compact.uniq.sort_by{|s| s.last_name}
   end
-
 
   def knowledge_strands
     self.ifa_standards.collect{|s| s.act_standards}.flatten

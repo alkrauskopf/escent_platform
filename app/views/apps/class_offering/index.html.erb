@@ -12,7 +12,6 @@
           <% end %>
         </div>
         <hr>
-       <%#= render :partial => "affiliate_information_brief_left" %>
       </div>
     <div>
       <% unless @classroom.teachers.size.zero? -%>
@@ -23,136 +22,21 @@
           <br/>
           <!-- Leader Message to Participants -->
           <% if @classroom.leaders.include?(@current_user) then -%>
-             <%= render :partial => "apps/classroom/display_user_is_teacher", :locals=> {:classroom => @classroom} %>
+             <%= render :partial => "apps/classroom/display_user_is_teacher", :locals=> {:classroom => @classroom, :current_period => @current_classroom_period, :topic=> @topic} %>
           <% elsif @current_user.student_of_classroom?(@classroom) && @classroom.leaders.size > 0 -%>
-             <%= render :partial => "apps/classroom/display_user_is_student", :locals=> {:classroom => @classroom, :topic=> @topic} %>
+             <%= render :partial => "apps/classroom/display_user_is_student", :locals=> {:classroom => @classroom, :current_period => @current_classroom_period, :topic=> @topic} %>
           <% end -%>
         <% end -%>
       <% else %>
         <span class='no_leaders'>No Leaders Assigned</span>
       <% end %>
     </div>
-    <% unless @classroom.contents.active.empty? -%>
-        <div class="offering_panel_box">
-          <div class="offering_panel_header ">
-            <span class="offering_panel_text">General Material</span>
-          </div>
-          <div>
-            <div class="offering_page_text">
-              <% if @classroom.viewable_by?(@current_user)-%>
-                  <% @classroom.contents.active.each do |rsrc| -%>
-                      <% if rsrc.content_object_type.content_object_type_group_id == 3 %>
-                          <%= javascript_include_tag "audio-player.js" %>
-                          Listen To: <%= rsrc.title %> : <%= show_audio_player(rsrc.source_file.url) %>
-                          <br/>
-                      <% elsif rsrc.content_object_type.content_object_type_group_id == 7  %>
-                          <a href="<%= rsrc.source_file.url %>" target="_blank"><%= rsrc.title  %></a>
-                          <br/>
-                      <% elsif rsrc.content_object_type.content_object_type_group_id == 8  %>
-                          <a href="<%= rsrc.source_file.url %>" target="_blank"><%= rsrc.title %> </a>
-                          <br/>
-                      <% elsif rsrc.content_object_type.content_object_type_group_id == 5 %>
-                          <a href="<%= rsrc.content_object %>" target="_blank"><%= rsrc.title %></a>
-                          <br/>
-                      <% else %>
-                      <% end %>
-                      <% if ![3,5,7,8].include?(rsrc.content_object_type.content_object_type_group_id) %>
-                          <div style="width:525px;  min-height:104px; border:0px solid black;">
-                            <% if rsrc.content_object_type.content_object_type_group_id == 2 %>
-                                <br/>
-                                <img src="<%= rsrc.source_file.url %>" width="200" />
-                            <% end -%>
-                          </div>
-                      <% end %>
-                  <% end -%>
-              <% end -%>
-            </div>
-          </div>
-        </div>
-    <% end -%>
-    <div class="offering_panel_box">
-      <div class="offering_panel_header ">
-        <span class="offering_panel_text">Learning Units</span>
-      </div>
-      <% if @classroom.viewable_by?(@current_user)-%>
-        <style type="text/css" media="screen">
-          table,tr,td { border:none; }
-        </style>
-        <table style = 'width:100%'>
-          <tbody>
-            <% if @classroom.topics.empty? -%>
-              <tr>
-                <td width = 12% style="font-size:10px; vertical-align:middle; padding-left: 0px; padding-top:0px; padding-bottom:5px">
-                  &nbsp;
-                </td>
-                <td width = 88% style="font-size:11px;vertical-align:middle; color:#C73914; line-height:1.2em;padding-bottom:10px">
-                  <i>No Learning Units </i>
-                </td>
-              </tr>
-            <% else-%>
-              <% @classroom.topics.each do |t| %>
-                <tr>
-                  <td width = 12% style=" font-size:10px; vertical-align:middle;  line-height:1.4em; padding-left: 0px; padding-top:0px; padding-bottom:0px">
-                    <%= t.estimated_start_date.nil? ? "" : t.estimated_start_date.strftime("%b-%d")%>
-                  </td>
-                  <td width = 88% style="font-size:11.5px;vertical-align:middle;  line-height:1.4em; padding-bottom:0px">
-                    <%= link_to t.title, offering_view_path(:organization_id => @current_organization, :topic_id => t, :id => @classroom) %><br>
-                  </td>
-                </tr>
-              <% end -%>
-            <% end -%>
-          </tbody>
-        </table>
-        <% unless @sms_topics.nil?%>
-          <% unless @sms_topics.empty? || @student_sms_score == 0 %>
-            <div class="offering_panel_box">
-              <div class="offering_panel_header ">
-                <span class="offering_panel_text">Level <%= @student_sms_score %> Learning Units For You</span>
-              </div>
-              <div>
-                <div class="offering_page_text">
-                  <%@sms_topics.each do |t| %>
-                      <% link_string = t.classroom.organization.short_name + ": " + t.classroom.course_name  + "/" + t.title.titleize -%>
-                      <%= link_to link_string, offering_view_path(:organization_id => t.classroom.organization, :topic_id => t, :id => t.classroom) %><br>
-                  <% end %>
-                  <br style="clear:both" />
-                </div>
-              </div>
-            </div>
-          <% end %>
-        <% end %>
-      <% end -%>
-      <% unless @classroom.classroom_referrals.empty? %>
-        <div class="offering_panel_box">
-          <div class="offering_panel_header ">
-            <span class="offering_panel_text">Related Units</span>
-          </div>
-          <style type="text/css" media="screen">
-            table,tr,td { border:none; }
-          </style>
-          <table class="tablesorter" style = "margin-left:5px">
-            <tbody>
-              <% for topic in @classroom.referenced_topics do -%>
-                <% unless topic.nil? -%>
-                  <tr>
-                    <td width = 25% style=" font-size:9px; vertical-align:middle; padding-left: 0px; padding-top:0px; padding-bottom:5px">
-                      <% if topic.classroom.organization.logo.file? %>
-                        <%= image_tag topic.classroom.organization.logo.url(:small_thumb) %>
-                      <% end %>
-                    </td>
-                    <td width = 75% style="font-size:10px;vertical-align:middle; line-height:1.2em;padding-bottom:10px">
-                      <% link_string = topic.title %>
-                      <%= link_to link_string, offering_view_path(:organization_id => topic.classroom.organization, :topic_id => topic, :id => topic.classroom) %>
-                      </br><%= topic.classroom.course_name %>
-                    </td>
-                  </tr>
-                <% end -%>
-              <% end -%>
-            </tbody>
-          </table>
-        </div>
+    <% if @classroom.viewable_by?(@current_user)-%>
+      <% unless @classroom.contents.active.empty? -%>
+          <%= render :partial => "/apps/classroom/general_resources", :locals => {:resources => @classroom.contents.active} %>
       <% end %>
-    </div>
+      <%= render :partial => "/apps/classroom/student_learning_units", :locals => {:student => @current_user, :classroom => @classroom} %>
+    <% end %>
     </div>
   </div>
   <div class='col-md-7'>

@@ -157,21 +157,23 @@ class Classroom < ActiveRecord::Base
   end
 
   def ifa_enable
-    if self.organization.ifa_org_option
+    if self.organization.ifa_enabled?
       ifa_option = IfaClassroomOption.new
       ifa_option.is_ifa_notify = true
       ifa_option.is_ifa_auto_finalize = false
       ifa_option.act_subject_id = self.act_subject_id
-      ifa_option.act_master_id = self.organization.ifa_standards.first ? self.organization.ifa_standards.first.id : ActMaster.all.first.id rescue nil
+      ifa_option.act_master_id =  nil
       ifa_option.is_calibrated = false
       ifa_option.is_user_filtered = false
-      ifa_option.days_til_repeat = self.organization.ifa_org_option.days_til_repeat
-      self.ifa_classroom_option = ifa_option
+    #  ifa_option.days_til_repeat = self.organization.ifa_org_option.days_til_repeat
+      ifa_option.days_til_repeat = 0
+      ifa_option.classroom_id = self.id
+      ifa_option.save
     end
   end
 
   def ifa_enabled?
-    self.ifa_classroom_option ? true : false
+    (self.ifa_classroom_option && self.organization.ifa_enabled? && self.act_subject) ? true : false
   end
 
   def last_ifa_dashboard(subject)
@@ -186,6 +188,9 @@ class Classroom < ActiveRecord::Base
     self.subject_area.act_subject rescue nil
   end
 
+  def ifa_plannable?
+    self.ifa_enabled? && self.organization.ifa_plannable?
+  end
 
   def ifa_disable
       self.ifa_classroom_option.destroy rescue nil

@@ -1,0 +1,44 @@
+<div class="left_panel_box">
+  <div class="offering_panel_header ">
+    <span class="offering_panel_text"><%=pluralize(resources.size, ' General Material')%></span>
+  </div>
+  <div class="left_panel_scroll_box">
+    <% resources.each do |rsrc| %>
+      <% if rsrc.image? && rsrc.source_file.present?%>
+        <div class="row left_panel_resource_image">
+          <img src="<%= rsrc.source_file %>" width= 50% />
+        </div>
+      <% end %>
+      <% if rsrc.link? && !rsrc.content_object.blank?%>
+          <div class="row left_panel_resource_row">
+          <div class="col-md-3 left_panel_resource_button">
+            <a href="<%= rsrc.content_object %>" target="_blank" >View Site</a>
+          </div>
+          <div class="col-md-9 ">
+            <%= rsrc.title.titleize  %>
+          </div>
+        </div>
+      <% end %>
+      <% if rsrc.pdf? && rsrc.source_file.present?%>
+          <div class="row left_panel_resource_row">
+          <div class="col-md-3 left_panel_resource_button">
+            <a href="<%= rsrc.source_file.url %>" target="_blank" >View PDF</a>
+          </div>
+          <div class="col-md-9 ">
+            <%= rsrc.title.titleize  %>
+          </div>
+        </div>
+      <% end %>
+      <% if rsrc.office_doc? && rsrc.source_file.present?%>
+          <div class="row left_panel_resource_row">
+            <div class="col-md-3 left_panel_resource_button">
+              <a href="<%= rsrc.source_file.url %>" target="_blank">View Doc</a>
+            </div>
+            <div class="col-md-9">
+              <%= rsrc.title.titleize  %>
+            </div>
+          </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

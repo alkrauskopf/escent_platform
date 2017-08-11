@@ -34,7 +34,7 @@
                 <div class="sumry">
                   <% if !@current_user.ifa_plans.for_subject(subject).empty? %>
                     <% plan = @current_user.ifa_plans.for_subject(subject).first %>
-                    (<%= plan.milestones.achieved.size%> of <%=pluralize( plan.milestones.size, ' Milestone')%> Completed |
+                    (<%= plan.milestones.achieved.size%> of <%=pluralize( plan.milestones.size, ' Milestone')%> Achieved |
                     <%= pluralize(plan.evidence_list.size, ' Evidence Attachment') %> |
                     <%= pluralize(plan.remarks.size, ' Teacher Remark') %>)
                   <% else %>

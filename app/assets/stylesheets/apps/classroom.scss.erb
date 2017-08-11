@@ -10,6 +10,95 @@
   width: 100%;
   margin: 0 auto;
 }
+.left_panel_box {
+  padding:0em 0em 1.5em 0em;
+  font-size:12px;
+}
+.left_panel_scroll_box {
+  border: 1px dashed #ddd;
+  overflow:scroll;
+  max-height:20em;
+}
+.left_panel_noscroll_box {
+  border: 1px dashed #ddd;
+}
+.left_panel_plan_list {
+  border: 0px dashed #ddd;
+  overflow:scroll;
+  max-height:10em;
+}
+.left_panel_title_row {
+  padding: .5em 0em .5em 0em;
+  text-align:center;
+  font-weight:bold;
+  font-size:11px;
+  color:$dark_text;
+}
+.left_panel_subtitle_row {
+  padding: .5em 0em .5em 4em;
+  text-align:left;
+  font-weight:normal;
+  font-style:italic;
+  font-size:11px;
+  color:$dark-text;
+}
+.left_panel_button {
+  padding: 0em 1em 0em 0em;
+  float:right;
+  font-size:10px;
+  font-weight:normal;
+}
+.left_panel_link {
+  padding: .5em 0em 0em 3em;
+  font-size:10px;
+  text-align:left;
+  color:$dark_text;
+}
+.left_panel_row {
+  padding: .5em 0em .5em 0em;
+  vertical-align:middle;
+}
+.left_panel_label {
+  padding: .5em 0em 0em 0em;
+  vertical-align:middle;
+  text-align:left;
+  color:$blue_text;
+  font-size:12px;
+  font-weight:normal;
+}
+.left_panel_label .sumry{
+  color:$dark_text;
+  font-size:11px;
+  font-weight:normal;
+}
+.left_panel_label .name{
+  font-weight:bold;
+  color:$dark_text;
+}
+.left_panel_resource_image {
+  margin: .5em 0em .5em 8em;
+}
+.left_panel_resource_row {
+  padding: .5em 0em .5em 0em;
+  text-align:left;
+  color:$blue_text;
+  font-size:11px;
+  font-weight:normal;
+}
+.left_panel_resource_button {
+  padding: 0em 1em 0em 0em;
+  text-align:right;
+}
+
+
+.ifa_assessment_row {
+  padding:1em 0em 0em 2em;
+  font-size:10px;
+}
+.ifa_assessment_row .ass_label {
+  color:$blue_text;
+  font-size:12px;
+}
 
 .offering_create_box {
   margin-bottom:1em;
@@ -308,12 +397,8 @@
 }
 
 .offering_teachers {
-  padding-top:.5em;
-  padding-bottom: .5em;
-  width: 100%;
-  color:$blue_text;
-  font-size:12px;
-  text-align:left;
+  padding-top:0em;
+  padding-bottom: 1em;
 }
 .offering_teachers .pics {
   margin:.5em 0em .5em 2em;
@@ -323,9 +408,8 @@
 }
 
 .offering_students {
-  padding-top:.5em;
+  padding-top:0em;
   padding-bottom: 1em;
-  width: 100%;
 }
 
 .lu_discussion_closed {

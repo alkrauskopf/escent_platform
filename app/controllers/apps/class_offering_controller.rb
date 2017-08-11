@@ -43,7 +43,6 @@ class Apps::ClassOfferingController < ApplicationController
         end
         @sms_topics = teacher_fav_topics.select{|t| t.act_score_range.for_standard(@current_standard).first.upper_score >= @student_sms_score && t.act_score_range.for_standard(@current_standard).first.lower_score <= @student_sms_score} rescue nil
       end
-
     end
     if @current_topic
       @discussions = @current_topic.discussions.active.parent_id_blank(:order_by =>  "created_at DESC")

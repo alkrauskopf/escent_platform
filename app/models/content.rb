@@ -481,7 +481,13 @@ class Content < ActiveRecord::Base
       false
     end
   end
-
+  def audio?
+    if self.content_object_type && self.content_object_type.content_object_type_group
+      self.content_object_type.content_object_type_group.name == "AUDIO"
+    else
+      false
+    end
+  end
   def office_doc?
     self.content_group_name == 'WORD, EXCEL, or PPT'
   end

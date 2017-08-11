@@ -113,7 +113,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/admin/family/authorize' => 'admin/our_family#toggle_authorization'
   get '/admin/family/owner_authorize' => 'admin/our_family#toggle_app_authorization'
   get '/admin/provider/app/name' => 'admin/our_organization#edit_app_alt_name'
-  get '/admin/provider/app/enable' => 'admin/our_organization#provider_app_enable'
+  get '/admin/provider/app/enable' => 'admin/our_organization#provider_app_enable'   # admin_provider_app_enable_
 
   # CORE Maintenance
   get '/core/maint/status' => 'apps/owner_maintenance#core_maintain_statuses'

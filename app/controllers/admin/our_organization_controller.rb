@@ -187,9 +187,10 @@ class Admin::OurOrganizationController < Admin::ApplicationController
       create_app_settings(app, @current_organization, false, true, true, "", "", provider_id)
       @current_organization.set_org_options(app, true) 
     else
-      update_app_settings(app, @current_organization, @current_organization.app_settings(app).is_owner, !@current_organization.app_settings(app).is_selected, @current_organization.app_settings(app).is_allowed, @current_organization.app_settings(app).alt_abbrev,  @current_organization.app_settings(app).alt_name, provider_id)
+      switch_selected = !@current_organization.app_settings(app).is_selected
+      update_app_settings(app, @current_organization, @current_organization.app_settings(app).is_owner, switch_selected , @current_organization.app_settings(app).is_allowed, @current_organization.app_settings(app).alt_abbrev,  @current_organization.app_settings(app).alt_name, provider_id)
       @current_organization = Organization.find_by_public_id(params[:organization_id])rescue nil
-      @current_organization.set_org_options(app, @current_organization.app_settings(app).is_selected)
+      @current_organization.set_org_options(app, switch_selected)
     end
 
     render :partial => "admin/our_organization/coop_apps"
@@ -227,8 +228,9 @@ class Admin::OurOrganizationController < Admin::ApplicationController
         end
       else
         create_app_settings(app, org, false, true, true, "", "", @current_organization.id)
+        on_off = true
       end
-      org.reset_org_option(app)
+      org.reset_org_option(app, on_off)
     end    
     render :partial => "admin/our_organization/provider_apps"
   end

@@ -36,6 +36,7 @@ class Apps::ResourceLibraryController < ApplicationController
     if @current_user.contents << @current_resource
       precision_prep_tags
       flash[:notice] = "Resource Saved | Add Another"
+      @current_user.add_as_favorite_to(@current_resource)
       @current_resource = Content.new
       @current_group = nil
     else

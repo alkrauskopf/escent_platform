@@ -17,7 +17,7 @@
       <% available_to_submit = last_submit.nil? ? true : (last_submit.created_at <= (Time.now - @current_classroom.ifa_classroom_option.days_til_repeat.days)) %>
       <% log_label = last_submit.nil? ? 'Not Yet Taken' : (' Taken ' + (time_ago_in_words(last_submit.created_at).sub(/about /, '') + " ago")) %>
       <% log_class = last_submit.nil? ? 'take_not_taken' : 'take_taken' %>
-      <% button_class = last_submit.nil? ? 'button_link_blue' : 'button_link_light_blue' %>
+      <% button_class = last_submit.nil? ? 'button_blue' : 'button_light_blue' %>
       <% button_label = last_submit.nil? ? 'Take' : 'Retake' %>
       <% button_on_off =  available_to_submit ? nil : 'disabled' -%>
       <div class="row ifa_take_list">

@@ -18,35 +18,40 @@
   </div>
   <div class="precision_milestone_panel">
     <div class="precision_prep_review_box">
-      <table class="table table-striped pending ">
-        <tbody >
         <% for ass in @pending_classroom_submissions do -%>
-            <tr id="<%= ass.public_id %>" >
-              <td  class="ifa_panel_list">
-                <%= ass.created_at.strftime("%m-%d-%y") %>
-              </td>
-              <td class="ifa_panel_list">
-                <span class="name">
-                  <%= ass.user.last_name %>/<%=ass.teacher.last_name%>
-                </span>
-              </td>
-              <td  class="ifa_panel_list">
-                <%= ass.act_assessment ? ass.act_assessment.name.titleize : 'No Assessment Found' %><br/>
-                <%= ass.act_subject ? ass.act_subject.name.titleize: 'No Subject Found' %>
-              </td>
-              <td class="ifa_panel_list">
-                <%= link_to "REVIEW", ifa_submission_review_final_path(:organization_id => @current_organization,
+          <div class="student_subject_plan_row">
+            <div id="<%= ass.public_id %>" class="row">
+              <div  class="col-md-2 ifa_panel_list">
+                <div class="date">
+                  <%= ass.created_at.strftime("%m-%d-%y") %>
+                </div>
+              </div>
+              <div class="col-md-1 ifa_panel_list">
+                <div class="button">
+                  <%= link_to "REVIEW", ifa_submission_review_final_path(:organization_id => @current_organization,
                                                                        :classroom_id => @current_classroom.id, :topic_id => (!@current_topic.nil? ? @current_topic.id : nil),
                                                                        :act_submission_id => ass.id), :class=>'button_gray'%>
-              </td>
-              <td class="ifa_panel_list">
+                </div>
+              </div>
+              <div class="col-md-3 ifa_panel_list">
+                <div class="name">
+                  <%= ass.user.last_name %>/<%=ass.teacher.last_name%>
+                </div>
+              </div>
+              <div  class="col-md-4 ifa_panel_list">
+                <div class="take_title"><%= ass.act_assessment.name.titleize%></div>
+                <div class="take_level"><%= ass.act_assessment.min_score%>&nbsp;-&nbsp;<%= ass.act_assessment.max_score%>
+                  &nbsp;|&nbsp;<%= ass.act_assessment.act_subject.name%>&nbsp;|&nbsp;<%= pluralize(ass.act_assessment.questions_for_test.size, ' Question')%>
+                </div>
+              </div>
+              <div class="col-md-1 ifa_panel_list">
                 <% if @pending_teacher_submissions.include?(ass) %>
                   <div class="ifa_pending_destroy">
                     <span id = "destroy_it_<%=ass.id %>" class = "btn btn-danger btn-xs">Destroy </span>
                   </div>
                 <% end %>
-              </td>
-            </tr>
+              </div>
+            </div>
             <script type="text/javascript">
               jQ(document).ready(function() {
                 jQ("#destroy_it_<%=ass.id %>").click(function() {
@@ -59,9 +64,8 @@
                 })
               });
             </script>
-        <% end %>
-			</tbody>
-		</table>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

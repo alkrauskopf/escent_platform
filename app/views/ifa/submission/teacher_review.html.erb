@@ -29,9 +29,9 @@
     <div class="col-md-1 "></div>
   </div>
   <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-      <div class="row dashboard_box">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <div class="row">
         <div class="col-md-12 ">
           <% if !@current_classroom_dashboards.empty? %>
               <%= render :partial => "ifa/ifa_dashboard/dashboard",
@@ -39,11 +39,10 @@
                                    :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
                                    :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve} %>
           <% end %>
-          <hr>
         </div>
       </div>
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-1"></div>
   </div>
 
   <div id="control_panel" >

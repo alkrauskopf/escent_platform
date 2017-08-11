@@ -1,5 +1,15 @@
 <div id="review_classroom" >
-  <% @current_classroom.ifa_dashboards.by_date.each do |dashboard| %>
-      <%= render :partial =>  "teacher_classroom_dashboard", :locals=>{:dashboard => dashboard, :dashboard_display => false} %>
+  <% if !@current_classroom.ifa_dashboards.empty? %>
+    <% @current_classroom.ifa_dashboards.by_date.each do |dashboard| %>
+        <%= render :partial =>  "teacher_classroom_dashboard", :locals=>{:dashboard => dashboard, :dashboard_display => false} %>
+    <% end %>
+  <% else %>
+    <div class="teacher_review_dashboard_box ">
+      <div class= "precision_prep_review_panel">
+        <div class="row">
+          * * * No <%= @current_classroom.name %> Dashboards * * *
+        </div>
+      </div>
+    </div>
   <% end %>
 </div>

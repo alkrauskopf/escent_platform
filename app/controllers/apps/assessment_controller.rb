@@ -3590,8 +3590,9 @@ end
   end
    def org_analysys_instance_variables
      @dashboard_name = @current_organization.medium_name
-     @org_family = (@current_provider == @current_organization) ? @current_organization.provided_app_orgs(@current_application, true)
-     : @current_organization.active_siblings_same_type
+  #   @org_family = (@current_provider == @current_organization) ? @current_organization.provided_app_orgs(@current_application, true)
+ #    : @current_organization.active_siblings_same_type
+     @app_orgs = @current_provider.provided_app_orgs(@current_application, true)
      @current_org_dashboards = @current_organization.ifa_dashboards.for_subject(@current_subject).reverse
    #  @current_org_dashboards =IfaDashboard.org_subject_after_date('Organization', @current_organization, @current_subject, @current_provider.ifa_org_option.begin_school_year).reverse
      @classroom_list =(@current_provider == @current_organization) ? @current_organization.precision_prep_provider_classrooms(@current_subject)

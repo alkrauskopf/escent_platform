@@ -1,0 +1,19 @@
+<div id="org_dbs_<%=organization.public_id%><%=subject.id%>" >
+  <div class="precision_milestone_panel">
+    <div class="precision_prep_review_box">
+      <div class="subject_organization_db_title">
+        <%= organization.short_name.upcase %>&nbsp;|&nbsp;<%= subject.name %>&nbsp;|&nbsp;<%= pluralize(dashboards.size, ' Dashboard') %>
+      </div>
+      <div class="row subject_organization_db_row">
+        <div class="col-md-12">
+          <div id="subject_dashboard_<%= organization.public_id %>" >
+            <%= render :partial  => "ifa/ifa_dashboard/list_subject_dashboards", :locals=>{:subject => subject, :entity_dashboards => dashboards, :entity => organization, :view_code => view_code } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

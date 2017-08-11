@@ -1,0 +1,9 @@
+<div id="subject_dashboard_<%= @entity.public_id %>" >
+  <% if !@entity_dashboards.empty? -%>
+      <%= render :partial  => "ifa/ifa_dashboard/list_subject_dashboards", :locals=>{:subject => @current_subject, :entity_dashboards => @entity_dashboards, :entity => @entity, :view_code=>entity.class.to_s } %>
+  <% else %>
+    <div>
+      * * * No Assessment Data On Record * * *
+    </div>
+  <% end %>
+</div>

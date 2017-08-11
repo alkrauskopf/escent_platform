@@ -11,42 +11,20 @@
   <div class="precision_milestone_panel">
     <div class="precision_prep_review_box">
       <% @dashboard_subjects.each do |sub| -%>
-        <div class="row ">
-          <div class="col-md-12">
-            <div class="growth_subject_row">
-              <%= sub.name.titleize.upcase %>
+        <div class="subject_growth_box">
+          <div class="row subject_growth_row">
+            <div class="col-md-12">
+                <%= sub.name.titleize.upcase %>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-md-12">
+              <div class="subject_growth_row">
+                <%= render :partial  => "ifa/ifa_dashboard/list_subject_dashboards", :locals=>{:subject => sub, :entity_dashboards => @entity_dashboards[sub], :entity => @current_user, :view_code=>'S' } %>
+              </div>
             </div>
           </div>
         </div>
-        <div class="row ">
-          <div class="col-md-1"></div>
-          <div class="col-md-10">
-            <div class="growth_dashboard_row">
-              <table id="<%= sub.public_id %>">
-                <tbody>
-              <% @entity_dashboards.each do |db| -%>
-                  <% col_label = db.period_end.strftime("%B, %Y") %>
-                  <tr>
-                    <td class="authorization_levels_close">
-                      <%= link_to '', ifa_dashboards_entity_path(:organization_id => @current_organization,  :classroom_id => @classroom, :subject_id => @current_subject.id,  :dashboard_id => db, :period => db.period_end,:details => @show_details) %>
-                      <%= col_label %>
-                      <span></span>
-                    </td>
-                  </tr>
-              <% end -%>
-                </tbody>
-              </table>
-              <script type="text/javascript" charset="utf-8">
-                jQ(document).ready(function() {
-                  jQ('#<%= sub.public_id%> .authorization_levels_close').toggleAuthorizationLevels();
-                  jQ('#<%= sub.public_id%> .authorization_levels_open').toggleAuthorizationLevels();
-                });
-              </script>
-            </div>
-          </div>
-          <div class="col-md-1"></div>
-        </div>
-        <hr>
       <% end -%>
     </div>
   </div>

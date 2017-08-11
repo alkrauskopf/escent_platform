@@ -1,0 +1,28 @@
+<div id="list_dbs_<%=subject.id%><%=entity.public_id%>" >
+  <% view_code ||= 'N'%>
+  <div class="row ">
+    <div class="col-md-12 ">
+      <table id="<%=subject.id%><%=entity.public_id%><%=view_code%>">
+        <tbody>
+        <% entity_dashboards.each do |db| -%>
+            <% col_label = db.period_end.strftime("%B, %Y") %>
+            <tr>
+              <td class="authorization_levels_close">
+                <%= link_to '', ifa_dashboards_entity_path(:organization_id => @current_organization, :subject_id => subject.id,  :dashboard_id => db, :period => db.period_end,:details => nil) %>
+                <%= col_label %>
+                <span></span>
+              </td>
+            </tr>
+        <% end -%>
+        </tbody>
+      </table>
+      <script type="text/javascript" charset="utf-8">
+        jQ(document).ready(function() {
+          jQ('#<%=subject.id%><%=entity.public_id%><%=view_code%> .authorization_levels_close').toggleAuthorizationLevels();
+          jQ('#<%=subject.id%><%=entity.public_id%><%=view_code%> .authorization_levels_open').toggleAuthorizationLevels();
+        });
+      </script>
+    </div>
+  </div>
+</div>
+

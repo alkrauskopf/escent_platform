@@ -2,10 +2,17 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
 
   layout "ifa", :only=>[]
 
-  def growth_dashboards
+
+  def growth_dashboards  # used by 'student_history' partial which appears to be inactive.
     get_subject
     get_entity
     @submission_months = @entity.act_submissions.final_for_subject_since(@current_subject, @current_ifa_options.begin_school_year).collect{|s| s.date_finalized.beginning_of_month}.uniq.sort_by{ |d| d }.reverse
+  end
+
+  def entity_subject_dashboards
+    current_subject
+    get_entity
+    @entity_dashboards = @entity.ifa_dashboards.for_subject(@current_subject).by_date
   end
 
   def entity_dashboard
@@ -46,6 +53,9 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
 
   def get_subject
     @current_subject = ActSubject.find_by_id(params[:subject_id]) rescue nil
+  end
+  def current_subject
+    @current_subject = ActSubject.find_by_id(params[:act_subject_id]) rescue nil
   end
 
   def get_dashboard

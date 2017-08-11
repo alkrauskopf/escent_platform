@@ -27,130 +27,28 @@
         <%= tab_1_label %></span></a>
       </li>
     </ul>
-    <div id="tabs-1" >
-	    <div class="containerx dashboard_listing">
-        <% if !@org_family.size.zero? -%>
-          <table id="network_levels">
-            <tbody>
-              <% @org_family.each do |hs| %>
-                <% school_label = hs.name.upcase + ",&nbsp;" + hs.contact_name -%>
-                <tr>
-                  <td class="resource_levels_close">
-                    <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "organization", :subject_id => @current_subject.id, :id => hs) %>
-                    <%= school_label.html_safe %>
-                    <span></span>
-                  </td>
-                </tr>
-              <% end -%>
-            </tbody>
-          </table>
-        <% else -%>
-          <div >
-            * * *  No Siblings In Network  * * *
-          </div>
-        <% end -%>
-      </div>
+  <div id="tabs-1" class="row">
+    <div class="col-md-12">
+      <%= render :partial => "/ifa/ifa_dashboard/subject_network_dashboards", :locals=>{:schools => @app_orgs, :subject => @current_subject} %>
     </div>
-  <script type="text/javascript" charset="utf-8">
-    jQ(document).ready(function() {
-      jQ('#network_levels .resource_levels_close').toggleResourceLevels();
-      jQ('#network_levels .resource_levels_open').toggleResourceLevels();
-    });
-  </script>
+  </div>
 
-    <div id="tabs-2" class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
-        <% if !@current_org_dashboards.size.zero? -%>
-            <table id="org_levels" class="teacher_review_list">
-              <tbody>
-              <% @current_org_dashboards.each do |db| -%>
-                  <% col_label = db.period_end.strftime("%B, %Y") -%>
-                  <% sms = @current_user.standard_view.sms_for_dashboard(db) %>
-                  <% col_label = db.period_end.strftime("%B, %Y") + ", " + scores_with_sat_equivalent(sms, @current_user.standard_view, db.act_subject) %>
-                  <tr>
-                    <td class="resource_levels_close">
-                      <%= link_to '', ifa_dashboards_entity_path(:organization_id => @current_organization,  :subject_id => @current_subject.id,  :dashboard_id => db) %>
-                      <%= col_label.html_safe %>
-                      <span></span>
-                    </td>
-                  </tr>
-              <% end -%>
-              </tbody>
-            </table>
-        <% else -%>
-            <div>
-              * * *   No Data For <%= @current_subject.name.upcase %>   * * *
-            </div>
-        <% end -%>
-      </div>
-      <div class="col-md-1"></div>
+  <div id="tabs-2" class="row">
+    <div class="col-md-12">
+      <%= render :partial => "/ifa/ifa_dashboard/subject_org_dashboards", :locals=>{:dashboards => @current_org_dashboards, :organization=>@current_organization, :subject => @current_subject, :view_code=>'O'} %>
     </div>
-    <script type="text/javascript" charset="utf-8">
-      jQ(document).ready(function() {
-        jQ('#org_levels .resource_levels_close').toggleResourceLevels();
-        jQ('#org_levels .resource_levels_open').toggleResourceLevels();
-      });
-    </script>
+  </div>
 
   <div id="tabs-3" class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-      <% if !@classroom_list.size.zero? -%>
-        <table id="classroom_levels">
-          <tbody>
-            <% @classroom_list.each do |clsrm| %>
-              <% classroom_label = clsrm.organization.short_name + " - " + clsrm.course_name.upcase + ",&nbsp;" + truncate(clsrm.teacher_list, :omission => "...", :length => 23) -%>
-              <tr>
-                <td class="resource_levels_close">
-                  <%= link_to '', ifa_dashboards_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "classroom", :subject_id => @current_subject.id, :id => clsrm) %>
-                  <%= classroom_label.html_safe %>
-                  <span></span>
-                </td>
-              </tr>
-            <% end -%>
-          </tbody>
-        </table>
-      <% else -%>
-        <div>
-          * * *   No Classroom Data For <%= @current_subject.name.upcase %>   * * *
-        </div>
-      <% end -%>
-      </div>
-      <div class="col-md-1"></div>
+    <div class="col-md-12">
+      <%= render :partial => "/ifa/ifa_dashboard/subject_classroom_dashboards", :locals=>{:classrooms => @classroom_list, :subject => @current_subject} %>
     </div>
-    <script type="text/javascript" charset="utf-8">
-      jQ(document).ready(function() {
-        jQ('#classroom_levels .resource_levels_close').toggleResourceLevels();
-        jQ('#classroom_levels .resource_levels_open').toggleResourceLevels();
-      });
-    </script>
+  </div>
 
   <div id="tabs-4" class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-      <% if !@student_list.size.zero? -%>
-        <table id="user_levels">
-          <tbody>
-            <% @student_list.each do |student| %>
-              <% student_label = student.organization.short_name + ' - ' + student.last_name.upcase + ",&nbsp;" + student.first_name -%>
-              <tr>
-                <td class="resource_levels_close">
-                  <%= link_to '', ifa_dashboard_growth_path(:organization_id => @current_organization, :classroom_id => @classroom, :topic_id => @topic, :group => "student", :subject_id => @current_subject.id, :id => student) %>
-                  <%= student_label.html_safe %>
-                  <span></span>
-                </td>
-              </tr>
-            <% end -%>
-          </tbody>
-        </table>
-      <% else -%>
-        <div>
-          * * *   No Student Data For <%= @current_subject.name.upcase %>   * * *
-        </div>
-      <% end -%>
+    <div class="col-md-12">
+      <%= render :partial => "/ifa/ifa_dashboard/subject_student_dashboards", :locals=>{:students => @student_list, :subject => @current_subject} %>
     </div>
-    <div class="col-md-1"></div>
   </div>
   <div id="tabs-5" class="row">
     <div class="col-md-12">

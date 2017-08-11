@@ -303,8 +303,26 @@
 }
 .ifa_panel_list .name {
   color:$prep_panel;
+  padding:1em 0em 0em 0em;
   font-weight:bold;
   font-size:12px;
+}
+.ifa_panel_list .title {
+  color:$prep_panel;
+  font-weight:bold;
+  font-size:12px;
+}
+.ifa_panel_list .date {
+  color:$prep_panel;
+  text-align:right;
+  padding:1em 1em 0em 0em;
+  font-weight:normal;
+  font-size:12px;
+}
+.ifa_panel_list .button {
+  padding:1em 0em 0em 0em;
+  font-weight:normal;
+  font-size:11px;
 }
 
 .ifa_modal_header {
@@ -371,8 +389,8 @@
 }
 
 .ifa_take_list {
-  padding:1em 0em 1em 0em;
-  border-bottom: 1px solid $prep_panel;
+  padding:1.5em 0em 1.5em 0em;
+  border-bottom: 1px dashed $prep_panel;
   color:$dark_text;
   font-size:14px;
 }
@@ -400,19 +418,16 @@
   font-weight: normal;
   font-size:12px;
 }
-.growth_subject_row {
-  padding: 1em 0em 1em 5em;
+.subject_growth_box {
+  padding: 1.5em 2em 1em 5em;
+  border-bottom:1px dashed $prep_panel;
   color:$dark_text;
+}
+.subject_growth_row {
+  padding: 0em 0em 0em 0em;
   font-weight: bold;
   font-size:13px;
 }
-.growth_dashbaord_row {
-  padding: 1em 0em 1em 0em;
-  color:$dark_text;
-  font-weight: normal;
-  font-size:13px;
-}
-
 .ifa_plan_show_box {
   margin:0em 0em 1em 0em;
   word-wrap: break-word;
@@ -1039,7 +1054,7 @@ font-weight:normal;
 .teacher_review_student_box {
   margin:0em 0em 0em 0em;
   padding:1em 2em 1em 1em;
-  border-bottom:1px solid $prep_panel;
+  border-bottom:1px dashed $prep_panel;
   color:$dark_text;
   border-radius: 0px;
   font-size:14px;
@@ -1267,7 +1282,7 @@ font-weight:normal;
 }
 .teacher_student_plan_row {
   padding: 1.5em 1em 1.5em 1em;
-  border-bottom:1px solid $prep_panel;
+  border-bottom:1px dashed $prep_panel;
   color:$dark_text;
 }
 .teacher_review_student_plan {
@@ -1312,7 +1327,8 @@ font-weight:normal;
   font-family: Verdana,Arial,Helvetica,sans-serif;
 }
 .student_subject_plan_row {
-  padding: 1.5em 0em 1.5em 0em;
+  padding: 2em 0em 2em 0em;
+  border-bottom:1px dashed $prep_panel;
   vertical-align:middle;
 }
 .student_subject_plan_view {
@@ -1364,4 +1380,26 @@ font-weight:normal;
   color:$dark_text;
   font-size:10px;
   font-weight:normal;
+}
+.subject_student_db_row {
+  padding: 1.5em 1em 1.5em 1em;
+  border-bottom:1px dashed $prep_panel;
+  color:$dark_text;
+}
+.subject_student_name {
+  margin: 0em 3em 0em 0em;
+  text-align:right;
+  color:$prep_panel;
+  font-size:14px;
+  font-weight:bold;
+}
+.subject_organization_db_title{
+  padding: 1.5em 2em 0em 2em;
+  font-size:14px;
+  color:$prep_panel;
+  font-weight:bold;
+}
+
+.subject_organization_db_row {
+  padding: 0em 2em 1.5em 4em;
 }

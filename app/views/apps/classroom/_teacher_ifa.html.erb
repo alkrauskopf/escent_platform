@@ -1,6 +1,6 @@
 <div class="left_panel_box">
   <div class="offering_panel_header ">
-    <span class="offering_panel_text"><%= classroom.act_subject.name %> Growth & Roadmaps</span>
+    <span class="offering_panel_text"><%= classroom.act_subject.name %> Growth & Growth Plans</span>
   </div>
   <div class="left_panel_noscroll_box">
     <div class="row ifa_assessment_row">
@@ -23,15 +23,17 @@
         <% classroom.students.each do |student| %>
           <% if student.ifa_plans.for_subject(classroom.act_subject).empty? %>
             <% link_label = 'No Plan' %>
+            <% link_class = '' %>
           <% else %>
             <% link_label = 'View Plan' %>
+            <% link_class = 'view' %>
           <% end %>
           <div class="left_panel_row">
             <div class="row ">
               <div class="col-md-3 ">
                 <div class="left_panel_link">
                   <%= link_label == 'No Plan' ? link_label : (link_to link_label, ifa_plan_student_path(:organization_id=>@current_organization, :student_id => student.id,
-                                                             :act_subject_id => classroom.act_subject.id), :target => "_blank")  %>
+                                                             :act_subject_id => classroom.act_subject.id), :class => link_class, :target => "_blank")  %>
                 </div>
               </div>
               <div class="col-md-9 left_panel_label">

@@ -33,9 +33,14 @@ class Apps::ResourceLibraryController < ApplicationController
     @current_resource = Content.new(params[:content])
     populate_params
     @current_resource.organization_id = @current_organization.id
+    prep_admin
+    if @prep_admin
+      prep_classrooms
+    end
     if @current_user.contents << @current_resource
       precision_prep_tags
-      flash[:notice] = "Resource Saved | Add Another"
+      precision_prep_folders
+      flash[:notice] = "Resource Saved | Added To " + @folder_count.to_s + " Folders | Create Another"
       @current_user.add_as_favorite_to(@current_resource)
       @current_resource = Content.new
       @current_group = nil
@@ -50,6 +55,10 @@ class Apps::ResourceLibraryController < ApplicationController
     current_resource
     @current_subject = @current_resource.act_subject
     @current_group = @current_resource.content_group
+    prep_admin
+    if @prep_admin
+      prep_classrooms
+    end
     @function = 'Update'
     render 'add'
   end
@@ -60,9 +69,14 @@ class Apps::ResourceLibraryController < ApplicationController
     current_resource
     @current_resource.update_attributes(params[:content])
     populate_params
+    prep_admin
+    if @prep_admin
+      prep_classrooms
+    end
     if @current_resource.save
       precision_prep_tags
-      flash[:notice] = "Resource Update"
+      precision_prep_folders
+      flash[:notice] = "Resource Update | Added To " + @folder_count.to_s + " Folders "
       @current_subject = @current_resource.act_subject
       @current_group = @current_resource.content_group
     else
@@ -87,29 +101,33 @@ class Apps::ResourceLibraryController < ApplicationController
 
   def prep_subject_select
     current_subject
+    prep_admin
+    if @prep_admin
+      prep_classrooms
+    end
     @current_level = nil
     render :partial => "resource_precision_prep"
   end
 
-    def static_resource
-      initialize_std_parameters
-      if params[:id]
-        @content = Content.find_by_public_id(params[:id])
-      else
-        @content = @current_organization.contents.first
-      end
-      @content_topics = []
-      if @content
-        @mastery_level = @content.act_score_ranges.for_standard(@current_standard).first rescue nil
-        @strands = @content.act_standards.for_standard(@current_standard) rescue nil
-        @discussions = @content.discussions.active.parent_id_blank(:order_by =>  "created_at DESC")
-        @content_topics = @content.topics.active
-        @current_subject = @content.act_subject rescue nil
-      else
-        @discussions = []
-      end
-      @content_org = @content.organization ? @content.organization : Organization.ep_default.first
+  def static_resource
+    initialize_std_parameters
+    if params[:id]
+      @content = Content.find_by_public_id(params[:id])
+    else
+      @content = @current_organization.contents.first
     end
+    @content_topics = []
+    if @content
+      @mastery_level = @content.act_score_ranges.for_standard(@current_standard).first rescue nil
+      @strands = @content.act_standards.for_standard(@current_standard) rescue nil
+      @discussions = @content.discussions.active.parent_id_blank(:order_by =>  "created_at DESC")
+      @content_topics = @content.topics.active
+      @current_subject = @content.act_subject rescue nil
+    else
+      @discussions = []
+    end
+    @content_org = @content.organization ? @content.organization : Organization.ep_default.first
+  end
 
   private
 
@@ -171,6 +189,49 @@ class Apps::ResourceLibraryController < ApplicationController
       end
     end
     content_object
+  end
+
+  def precision_prep_folders
+    @folder_count = 0
+    current_standard
+    if @prep_admin && @prep_classrooms && @current_subject && @current_standard && @current_resource && params[:content][:target_score_range] && params[:folder_populate] && params[:folder_populate] == 'true'
+      mastery_level = @current_subject.act_score_ranges.for_range(params[:content][:target_score_range], @current_standard)
+      if !mastery_level.nil?
+        @prep_classrooms.map{|c| c.topics}.flatten.each do |topic|
+          if !(topic.strands & @current_resource.strands).empty?
+            folder = topic.positioned_folders.with_mastery(mastery_level).empty? ? nil : topic.positioned_folders.with_mastery(mastery_level).first
+            assign_resource_to_topic(@current_resource, topic, folder)
+          else
+            if !topic.topic_contents.for_resource(@current_resource).empty?
+              unassign_resource_from_topic(@current_resource, topic)
+            end
+          end
+        end
+      end
+    end
+  end
+
+  def assign_resource_to_topic(resource, topic, folder)
+    folder_id = folder.nil? ? nil : folder.id
+    folder_pos = folder.nil? ? 0 : (folder.contents.size + 1)
+    if topic.topic_contents.for_resource(resource).empty?
+      new_tc = TopicContent.new
+      new_tc.content_id = resource.id
+      new_tc.folder_id = folder_id
+      new_tc.position = folder_pos
+      topic.topic_contents<<new_tc
+    else
+      existing_tc = topic.topic_contents.for_resource(resource).first
+      existing_tc.update_attributes(:folder_id => folder_id, :position => folder_pos)
+    end
+      @folder_count += 1
+  end
+
+  def unassign_resource_from_topic(resource, topic)
+    byebug
+    if !topic.topic_contents.for_resource(resource).empty?
+      topic.topic_contents.for_resource(resource).destroy_all
+    end
   end
 
   def precision_prep_tags
@@ -236,7 +297,16 @@ class Apps::ResourceLibraryController < ApplicationController
     @pool_filters['Prep'] = @current_organization.app_enabled?(CoopApp.ifa) ? ActSubject.active_plannable : []
   end
 
-    def initialize_std_parameters
-      @standards = ActStandard.all.collect{|s|[s.standard]}.uniq.sort
-    end
+  def initialize_std_parameters
+    @standards = ActStandard.all.collect{|s|[s.standard]}.uniq.sort
+  end
+
+  def prep_admin
+    @prep_admin = @current_user.app_superuser?(CoopApp.ifa) && (@current_organization == @current_organization.app_provider(CoopApp.ifa))
+  end
+
+  def prep_classrooms
+    @prep_classrooms = @current_subject.classrooms.precision_prep_provider(@current_organization.app_provider(CoopApp.ifa))
+  end
+
 end

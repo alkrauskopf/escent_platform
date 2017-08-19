@@ -326,6 +326,10 @@ class Content < ActiveRecord::Base
     self.act_score_ranges.active.sort_by{|ml| [ml.standard.abbrev, ml.range]}
   end
 
+  def strands
+    self.act_standards
+  end
+
   def editable_by_user?(user)
     edit = false
     unless user.nil? || !self.organization
@@ -481,6 +485,7 @@ class Content < ActiveRecord::Base
       false
     end
   end
+
   def audio?
     if self.content_object_type && self.content_object_type.content_object_type_group
       self.content_object_type.content_object_type_group.name == "AUDIO"
@@ -488,6 +493,7 @@ class Content < ActiveRecord::Base
       false
     end
   end
+
   def office_doc?
     self.content_group_name == 'WORD, EXCEL, or PPT'
   end

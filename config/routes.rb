@@ -346,7 +346,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/admin/lu/strand' => 'apps/classroom#assign_lu_strand'     #  offering_admin_lu_strand_url
   get '/offering/admin/resources' => 'apps/classroom#offering_resources'     #  offering_admin_resources_path
   get '/offering/admin/strands' => 'apps/classroom#offering_strands'     #  offering_admin_strands_path
-  get '/offering/admin/resource/assign' => 'apps/classroom#add_remove_resource'
+  get '/offering/admin/resource/assign' => 'apps/classroom#add_remove_resource'   # offering_admin_resource_assign
   get '/offering/admin/resource/feature' => 'apps/classroom#toggle_lu_featured_resource'
   get '/offering/admin/folders' => 'apps/classroom#offering_folders'     #   offering_admin_folders_path
   get '/offering/folder/mastery' => 'apps/classroom#offering_folder_masteries'     #   offering_folder_mastery_path

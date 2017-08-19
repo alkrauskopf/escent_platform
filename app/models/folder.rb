@@ -34,6 +34,10 @@ class Folder < ActiveRecord::Base
     self.standards_tagged? ?  self.act_score_ranges.sort_by{|sr| [sr.act_master.abbrev,sr.act_subject.name, sr.lower_score]} : []
   end
 
+  def self.with_mastery(mastery)
+    where('folder_mastery_levels.act_score_range_id = ?', mastery.id).includes(:folder_mastery_levels)
+  end
+
   def mastery_string
     string = ''
     if self.standards_tagged?

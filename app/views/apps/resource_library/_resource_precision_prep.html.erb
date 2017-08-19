@@ -24,28 +24,45 @@
     });
   </script>
   <% if !@current_subject.nil? %>
-    <div class="row resource_prep_box">
-      <div class="col-md-3 resource_label_field"></div>
-      <div class="col-md-9">
-        <div class="row resource_prep_header">
-          <span id="prep_level_select">
-            <%= select(:content, :target_score_range, @current_standard.mastery_levels(@current_subject).map{|l| [l.range, l.range]},
-                       :selected => !@current_resource.nil? ? @current_resource.target_score_range : nil,
-                       :prompt => 'Select Mastery Level') %>
-          </span>
-        </div>
-        <% @current_standard.strands(@current_subject).each do |strand| %>
-          <div class="row resource_strand_row">
-            <div class="col-md-1 resource_strand_check_box">
-              <% checkit = @current_resource.nil? ? false : @current_resource.act_standards.include?(strand) %>
-              <%=  check_box_tag "strand_check[]", value = strand.id ,checked = checkit %>
-            </div>
-            <div class="col-md-10">
-              <%=  strand.abbrev.upcase %> | <%=strand.name %>
-            </div>
-          </div>
-        <% end %>
+    <div class="resource_prep_box">
+      <div class="row resource_prep_mastery">
+        <span id="prep_level_select">
+          <%= select(:content, :target_score_range, @current_standard.mastery_levels(@current_subject).map{|l| [l.range, l.range]},
+                     :selected => !@current_resource.nil? ? @current_resource.target_score_range : nil,
+                     :prompt => 'Select Mastery Level') %>
+        </span>
       </div>
+      <% @current_standard.strands(@current_subject).each do |strand| %>
+        <div class="row resource_strand_row">
+          <div class="col-md-1 resource_strand_check_box">
+            <% checkit = @current_resource.nil? ? false : @current_resource.act_standards.include?(strand) %>
+            <%=  check_box_tag "strand_check[]", value = strand.id ,checked = checkit %>
+          </div>
+          <div class="col-md-10">
+            <%=  strand.abbrev.upcase %> | <%=strand.name %>
+          </div>
+        </div>
+      <% end %>
     </div>
+    <% if @prep_admin %>
+      <div class="resource_prep_box">
+        <div class="row resource_strand_row">
+          <div class="col-md-1 resource_strand_check_box">
+            <%=  check_box_tag "folder_populate", value = true ,checked = true %>
+          </div>
+          <div class="col-md-10 resource_label_field">
+            Populate Resource Folders in <%= pluralize(@prep_classrooms.size, ' Offering')%>?
+          </div>
+        </div>
+        <div class="row resource_prep_classrooms">
+          <div class="col-md-1"></div>
+          <div class="col-md-10 ">
+            <% @prep_classrooms.each do |classroom| %>
+              <%= classroom.organization.short_name %> | <%=classroom.name %></br>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
   <% end %>
 </div>

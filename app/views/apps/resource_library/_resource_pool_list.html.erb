@@ -92,7 +92,7 @@
             <%= !res.content_resource_type.nil? ? res.content_resource_type.name : 'Unknown Type' %>
           </p>
           <div >
-            Used In <%= pluralize(res.classrooms.size, 'Classroom')%>
+            Used In <%= pluralize(res.topics.size, 'Learning Unit')%>
           </div>
         </div>
         <div class= "col-md-4 resource_pool_name">

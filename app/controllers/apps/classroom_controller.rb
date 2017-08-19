@@ -1033,13 +1033,13 @@ class Apps::ClassroomController < ApplicationController
   end
 
   def add_resource_to_lu_folder(rsrc, lu, folder) 
-      if lu.topic_contents.for_resource(rsrc).size == 1
-        unless folder.nil?
-          lu.topic_contents.for_resource(rsrc).first.update_attributes(:folder_id => folder.id)
-        else
-          lu.topic_contents.for_resource(rsrc).first.update_attributes(:folder_id => nil)          
-        end
+    if lu.topic_contents.for_resource(rsrc).size == 1
+      unless folder.nil?
+        lu.topic_contents.for_resource(rsrc).first.update_attributes(:folder_id => folder.id)
+      else
+        lu.topic_contents.for_resource(rsrc).first.update_attributes(:folder_id => nil)
       end
+    end
   end
 
   def remove_resource_from_lu_folder(rsrc, lu, folder) 

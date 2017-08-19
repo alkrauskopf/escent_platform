@@ -433,6 +433,9 @@ class Classroom < ActiveRecord::Base
     end
   end
 
+  def folders_with_mastery(mastery)
+    self.topics.map{|t| t.folders}.flatten.uniq.select{|f| f.mastery_levels.include?(mastery)}
+  end
 
   private
 

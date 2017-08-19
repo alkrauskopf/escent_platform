@@ -111,6 +111,10 @@ class ActScoreRange < ActiveRecord::Base
     subj.nil? ? [] : where('standard = ? && act_subject_id = ?',standard, subj.id).order('upper_score ASC')
   end
 
+  def self.for_range(mastery, standard)
+    where('is_active AND act_master_id = ?', standard.id).select{|m| m.range == mastery}.first
+  end
+
   ### Below should include is_active condition
   def self.for_standard_and_subject(standard, subject)
     subj = subject.class.to_s == 'Fixnum' ? (ActSubject.find_by_id(subject) rescue nil) : subject

@@ -1,5 +1,5 @@
 class Admin::ApplicationController < ApplicationController
-  layout "site"
+  layout "admin/admin"
 #  include OrganizationRegistration
   
   before_filter :current_organization

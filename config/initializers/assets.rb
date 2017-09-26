@@ -49,7 +49,8 @@ Rails.application.config.assets.precompile += [
     'ifa/assessment.css',
     'ifa/repo.css',
     'ifa/submission.css',
-    'user/user.css'
+    'user/user.css',
+    'search/search.css'
       ]
 #
 #Javascript

@@ -156,7 +156,7 @@ class Organization < ActiveRecord::Base
         conditions << "\s+#{keyword}" 
     end
     conditions.unshift condition_strings.join(" OR ")
-    order_by = (options[:order] || "organizations.name")    
+    order_by = (options[:order] || "name")
     {:conditions => conditions, :order => order_by}
   }
 
@@ -1053,7 +1053,10 @@ class Organization < ActiveRecord::Base
    (self.nick_name.empty? || self.nick_name.nil?) ? self.short_name : self.nick_name
   end
  
- 
+ def learning_units
+   self.classrooms.map{|c| c.topics.active}.compact.flatten
+ end
+
   def self_resources_used_by_others_not_uniq
      classrooms = self.classrooms.active
      topics = classrooms.collect{|c| c.topics}.flatten
@@ -1183,6 +1186,10 @@ class Organization < ActiveRecord::Base
   def org_followers 
       fol_auths = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.friend, self).collect{|a| a.user}
   end
+
+  def friends
+    self.org_followers
+  end
   
   def administrators 
       admins = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.administrator, self).collect{|a| a.user}
@@ -1278,7 +1285,6 @@ class Organization < ActiveRecord::Base
   def itl_observers 
       trackers = Authorization.where('scope_type = ? AND authorization_level_id = ? AND scope_id = ?', 'Organization', AuthorizationLevel.itl_observer, self).collect{|a| a.user}
   end
-
 
   def itl_observer_list
     unless self.itl_observers.empty?

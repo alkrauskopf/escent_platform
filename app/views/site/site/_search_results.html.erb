@@ -132,7 +132,7 @@
 						<br/>
 						<strong>Teaches:</strong> <% item_found.lead_classrooms.each do |c| %>
 							<% if !c.nil? %>
-												&nbsp;
+                &nbsp;
 							<% link_string = c.course_name + ", " + c.organization.short_name -%>
 							<%= link_to link_string, offering_view_path(:organization_id => c.organization, :id => c) %>
 							<% end %>

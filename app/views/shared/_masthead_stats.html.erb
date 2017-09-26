@@ -1,0 +1,45 @@
+<div id="masthead_stats">
+  <% if !db_search || @current_user.nil? %>
+    <div class="row masthead_stats">
+      <div class="col-md-12 ">
+        <%= pluralize(Organization.count, ' Organization')%>&nbsp;|&nbsp;
+        <%= pluralize(Classroom.count, ' Offering')%>&nbsp;|&nbsp;
+        <%= pluralize(User.count, ' People')%>&nbsp;|&nbsp;
+        <%= pluralize(Content.count, ' Library Resource')%>&nbsp;
+        <% if @current_user %>
+          <span id = "masthead_search" class="button_gray">
+            Search
+          </span>
+        <% end %>
+      </div>
+    </div>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ("#masthead_search").click(function(){
+          var url = "<%= search_select_url(:organization_id => @current_organization) %>";
+          jQ.get(url, {}, function(data) {
+            jQ("#masthead_stats").html(data);
+            jQ("#masthead_stats").show();
+          });
+        })
+      });
+    </script>
+  <% elsif db_search && @current_user %>
+    <%= form_tag search_path(:organization_id => @current_organization, :method => :get) do -%>
+      <div class="row ">
+        <div class='masthead_search'>
+          <div class="col-md-5"></div>
+          <div class="col-md-3 masthead_keywords" >
+            <%= text_field_tag "keywords", @keywords, :placeholder => 'search words' %>
+          </div>
+          <div class='col-md-3 masthead_entity_select'>
+            <%=  select(:search, :type, @search_entities,{:prompt => 'Search For What?'}) %>
+          </div>
+          <div class="col-md-1 masthead_find">
+            <%= submit_tag 'Find', :class =>"button_blue" %>
+          </div>
+        </div>
+      </div>
+    <% end -%>
+  <% end %>
+</div>

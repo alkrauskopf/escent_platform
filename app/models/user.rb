@@ -222,7 +222,7 @@ class User < ActiveRecord::Base
     condition_strings = []
     conditions = []
     keywords.parse_keywords.each do |keyword| 
-      condition_strings << '(verified_at IS NOT NULL AND first_name LIKE ? OR last_name LIKE ?)'
+      condition_strings << '(first_name LIKE ? OR last_name LIKE ?)'
       conditions << "%#{keyword}%"
       conditions << "%#{keyword}%"
     end

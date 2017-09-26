@@ -61,11 +61,12 @@ class Classroom < ActiveRecord::Base
     condition_strings = []
     conditions = []
     keywords.parse_keywords.each do |keyword| 
-      condition_strings << '(course_name REGEXP ? OR course_name REGEXP ? OR topics.title REGEXP ? OR topics.title REGEXP ?)'
+ #     condition_strings << '(course_name REGEXP ? OR course_name REGEXP ? OR topics.title REGEXP ? OR topics.title REGEXP ?)'
+        condition_strings << '(course_name REGEXP ? OR course_name REGEXP ?)'
         conditions << "^#{keyword}"
         conditions << "\s+#{keyword}"
-        conditions << "^#{keyword}"
-        conditions << "\s+#{keyword}" 
+   #     conditions << "^#{keyword}"
+   #     conditions << "\s+#{keyword}"
     end
     conditions.unshift condition_strings.join(" OR ")
     order_by = (options[:order] || "course_name")
@@ -274,7 +275,8 @@ class Classroom < ActiveRecord::Base
 
   def teachers
     self.classroom_periods.collect{|cp| cp.classroom_period_users.teachers}.flatten.collect{|u| u.user}.compact.uniq
-  end  
+  end
+
   def users
     self.classroom_periods.collect{|cp| cp.classroom_period_users}.flatten.collect{|u| u.user}.compact.uniq
   end  

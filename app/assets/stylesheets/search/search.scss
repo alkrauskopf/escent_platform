@@ -1,0 +1,711 @@
+
+@import "application-variables.scss";
+@import 'bootstrap';
+
+.search_box {
+  padding: 0em 0em 2em 0em;
+  min-height:35em;
+}
+
+.search_list_select {
+  font-size:14px;
+  color:$red_text;
+  font-weight:normal;
+}
+
+.search_item_list {
+  border:0px solid #ddd;
+  margin: 2em 0em 1em 0em;
+}
+.search_panel_org {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $blue_panel;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+}
+.search_panel_resource {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $marsh_panel;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+}
+.search_panel_people {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $slay_panel;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+}
+.search_panel_offering {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $gold_panel;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+}
+.search_header_label {
+  font-weight:bold;
+  text-align:center;
+  vertical-align:middle;
+  font-size:15px;
+}
+.search_header_keywords {
+  padding: 0em 0em 0em 3em;
+  font-size:12px;
+  font-weight:normal;
+  font-style:italic;
+}
+
+.search_items_text {
+  padding-top:1em;
+  padding-bottom:1em;
+  border-bottom:1px solid #000;
+  font-size:12px;
+  color:$dark_text;
+  font-weight:normal;
+  text-align:left;
+  vertical-align:top;
+}
+
+.search_item_name {
+  padding-top:0em;
+  line-height:1.5em;
+  font-size:14px;
+  color:$blue_text;
+}
+
+.search_item_name .subname{
+  font-style:italic;
+  line-height:1.5em;
+  font-size:12px;
+}
+.search_item_logo {
+  padding:0em 0em 0em 1em;
+}
+.search_item_go {
+  padding:1em 0em 0em 1em;
+  font-size:10px;
+}
+
+.search_item_address {
+  font-size:13px;
+  color:$dark_text;
+}
+
+.search_item_contact {
+  font-size:13px;
+  color:$dark_text;
+}
+.search_item_no_contact {
+  font-size:12px;
+  font-style:italic;
+  color:$red_text;
+}
+
+.search_item_stats {
+  font-size:12px;
+  color:$dark_text;
+}
+
+.ifa_panel_title {
+  width:100%;
+  margin-top:1em;
+  padding-bottom:1em;
+  word-wrap:break-word;
+  text-align:center;
+  font-weight:normal;
+  font-size:16px;
+  color:$blue_text;
+}
+
+.question_align{
+  padding:.25em 0em .5em 0em;
+  font-size:18px;
+  color:$thumb_purple;
+}
+.question_sequence{
+  padding:.25em 0em .5em 0em;
+  font-size:18px;
+  color:$thumb_green;
+}
+
+.repo_manage_box {
+  margin:0em 0em 0em 0em;
+  padding:2em 1em 2em 1em;
+  border-radius: 10px;
+  border:3px solid #ddd;
+  background-color: $panel_background_ifa;
+}
+.repo_dashboard_box {
+  margin:.5em 0em 1em 0em;
+  padding:1em 1em 1em 1em;
+  background-color:white;
+  border:1px solid #ddd;
+}
+.repo_dashboard_header {
+  padding:1em 0em 1em 2em;
+  color:$blue_text;
+  font-size:14px;
+  vertical-align:middle;
+  text-align:center;
+  line-height:2em;
+  font-weight:normal;
+}
+.repo_dashboard_header1 {
+  color:$red_text;
+  font-weight:bold;
+}
+.repo_dashboard_header2 {
+  padding:0em 0em 1em 0em;
+  color:$blue_text;
+  font-size:14px;
+  vertical-align:middle;
+  text-align:center;
+  line-height:2em;
+  font-weight:normal;
+}
+
+.repo_dashboard_label {
+  padding:0em 0em 0em 2em;
+  color:$blue_text;
+  font-size:12px;
+  vertical-align:middle;
+  text-align:left;
+  line-height:2em;
+}
+.repo_refresh {
+  text-align:left;
+  padding: 1.5em 0em .5em 1em;
+  font-size:13px;
+}
+.repo_dashboard_strand_header {
+  padding:1em 0em 1em 0em;
+  font-size:15px;
+  word-wrap:break-word;
+  text-align:center;
+  vertical-align:middle;
+  font-weight:normal;
+}
+.repo_dashboard_strand_header .subheader {
+  font-size:13px;
+}
+.repo_dashboard_levels {
+  color:$red_text;
+  padding: 0em 0em 1em 1em;
+  border:1px solid #ddd;
+  vertical-align:middle;
+  text-align:center;
+  font-size:13px;
+  font-weight:normal;
+}
+.repo_dashboard_levels .subheader{
+  font-size:12px;
+}
+.repo_dashboard_cells {
+  padding: 1em 2em 1em 1em;
+  vertical-align:middle;
+  text-align:left;
+  border:1px solid #000;
+  color:$blue_text;
+  line-height:1.3em;
+  font-size:12px;
+  font-weight:normal;
+}
+.repo_dashboard_cell_total {
+  padding: 0em 0em 0em 0em;
+  text-align:center;
+  color:$red_text;
+  font-size:13px;
+  font-weight:bold;
+}
+.repo_dashboard_maint_row {
+  color:$blue_text;
+  padding: 0em 0em 1em 1em;
+  text-align:center;
+  font-size:12px;
+}
+.repo_dashboard_maint_update {
+  padding: 0em 0em .5em 0em;
+  color:$blue_text;
+  cursor:pointer;
+  text-decoration:underline;
+}
+.repo_dashboard_cell_subtotal_row {
+  padding: 0em 0em 0em 0em;
+  text-align:center;
+  word-wrap:break-word;
+  line-height:2em;
+  color:$dark_text;
+  font-size:12px;
+  font-weight:normal;
+}
+
+.repo_box_subtitle {
+  margin: 1em 0em 1em 0em;
+  font-size:15em;
+  color:$blue_text;
+}
+
+.repo_select_row {
+  margin: .5em 0em .5em 0em;
+  font-size:15px;
+  color:$blue_text;
+}
+.repo_label_field {
+  padding-right:1em;
+  text-align: right;
+  font-size:14px;
+  color:$dark_text;
+}
+.repo_button_row {
+  margin:2.5em 0em .5em 1em;
+  text-align: left;
+  font-size:16px;
+}
+.repo_create_button {
+  padding:1.5em 0em 0em 3em;
+  text-align: left;
+  font-size:14px;
+}
+.repo_submit_button {
+  padding:1em 0em 2em 3em;
+  text-align: left;
+  font-size:14px;
+}
+
+.repo_select_field {
+  float: left;
+  font-size:14px;
+  color:$dark_text;
+}
+
+.repo_edit_box {
+  margin: 0em 0em 0em 0em;
+  font-size: 14px;
+}
+.repo_edit_row {
+  margin: .5em 0em 1em 0em;
+}
+
+.repo_text_field {
+  float: left;
+  color:$dark_text;
+}
+
+.repo_create_header {
+  margin: .5em 0em 1.5em 0em;
+  text-align:center;
+  font-size:16px;
+  font-weight:bold;
+  color:$red_text;
+}
+.repo_tags_box {
+  padding:0em 0em 2em 0em;
+  border:1px solid #ddd;
+}
+
+.repo_q_choice_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $gold_panel;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:16px;
+}
+.repo_assessment_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $assess_green1;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:16px;
+}
+.repo_assessment_pool_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $assess_green2;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:16px;
+}
+.repo_q_bench_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $blue_panel;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:16px;
+}
+.repo_q_rl_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $green_panel;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:16px;
+}
+.repo_header_label {
+  font-weight:bold;
+  text-align:center;
+}
+.repo_header_button {
+  font-size:11px;
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+}
+.repo_header_filter {
+  font-weight:normal;
+  text-align:center;
+  font-size:13px;
+}
+.repo_assess_sumry_row {
+  padding: .5em 0em 1em 0em;
+  color:$blue_text;
+  text-align:left;
+  font-weight:normal;
+  font-size:18px;
+}
+.repo_filter_row {
+  padding: 1.5em 0em 1.5em 0em;
+  font-size:13px;
+}
+.repo_filter_select {
+  padding: 0em 0em 0em 3em;
+}
+
+.repo_pool_header {
+  padding-left: 5em;
+  font-weight:bold;
+  text-align:left;
+}
+.repo_tag_row {
+  color:$red_text;
+  line-height:1.5em;
+  text-align:center;
+  font-size:14px;
+}
+.update_button {
+  font-size:18px;
+}
+.new_choice_table {
+  margin: 1em 1em 0em 1em;
+  font-style:normal;
+  font-size:12px;
+  color: $dark_text;
+}
+.question_pool_row {
+  margin: 1em 0em 1em 0em;
+  font-style:normal;
+  font-size:12px;
+  color: $dark_text;
+}
+.question_table {
+  margin: 1em 1em 0em 1em;
+  font-style:normal;
+  font-size:12px;
+  color: $dark_text;
+}
+.question_table_header {
+  text-align:center;
+  vertical-align:middle;
+}
+.question_table_button {
+  font-size:11px;
+  text-align:center;
+  vertical-align:middle;
+}
+.question_table_position {
+  padding-left:2em;
+  font-size:15px;
+  text-align:center;
+  vertical-align:middle;
+}
+.question_table_type {
+  padding-left:0em;
+  font-size:11px;
+  text-align:left;
+  vertical-align:top;
+}
+.choice_table {
+  margin: 1em 1em 0em 1em;
+  font-style:normal;
+  font-size:12px;
+  color: $dark_text;
+}
+.choice_table_button {
+  font-size:13px;
+  text-align:center;
+  vertical-align:middle;
+}
+.choice_table_header {
+  text-align:center;
+  vertical-align:middle;
+}
+.choice_table_correct {
+  padding-left:2em;
+  font-size:18px;
+  text-align:center;
+  vertical-align:middle;
+}
+.choice_table_position {
+  padding-left:2em;
+  font-size:15px;
+  text-align:center;
+  vertical-align:middle;
+}
+.benchmark_table {
+  margin: 1em 1em 0em 1em;
+  font-style:normal;
+  font-size:16px;
+  color: $dark_text;
+}
+.benchmark_table_row {
+  border-bottom:1px solid #ddd;
+}
+.benchmark_table_button {
+  padding:1em 0em .5em 0em;
+  font-size:13px;
+  text-align:center;
+  vertical-align:top;
+}
+.benchmark_table_source {
+  padding:1em 0em .5em 0em;
+  font-size:14px;
+  color: $red_text;
+  line-height:1.5em;
+  text-align:center;
+  vertical-align:top;
+}
+.benchmark_table_descript {
+  padding:1em 1em 1em 1em;
+  text-align:left;
+  vertical-align:top;
+  line-height:1.5em;
+  font-size:15px;
+  color: $dark_text;
+}
+.rl_attachment_name {
+  font-size:19px;
+  color: $blue_text;
+}
+.rl_attachment_type {
+  font-size:14px;
+  color: $red_text;
+}
+.rl_table {
+  margin: 1em 1em 0em 1em;
+  font-style:normal;
+  border:1px solid #ddd;
+  font-size:13px;
+  line-height:2em;
+  color: $dark_text;
+}
+
+.rl_table_header {
+  padding-top:.5em;
+  padding-bottom:.5em;
+  font-size:14px;
+  color:$red_text;
+  font-weight:bold;
+  text-align:center;
+  vertical-align:middle;
+}
+
+.rl_table_button {
+  font-size:13px;
+  text-align:center;
+  vertical-align:middle;
+}
+.rl_table_row {
+  padding-top:.5em;
+  padding-bottom:.5em;
+  font-size:13px;
+}
+.question_pool_box {
+  border:0px solid #ddd;
+}
+
+.assessment_question_box {
+  border:1px solid #ddd;
+  max-height: 50em;
+  overflow: scroll;
+}
+.assessment_classroom_box {
+  border:1px solid #ddd;
+  max-height: 3oem;
+  overflow: scroll;
+}
+
+
+.question_pool_header {
+  padding-top:.5em;
+  padding-bottom:.5em;
+  font-size:14px;
+  color:$red_text;
+  font-weight:bold;
+  text-align:center;
+  vertical-align:middle;
+}
+
+.question_pool_level {
+  line-height:1.5em;
+  font-size:11px;
+  font-weight:bold;
+  color:$red_text;
+}
+
+.question_pool_image {
+  padding:1em 1em 1em 1em;
+}
+.question_pool_reading {
+  padding-top:1em;
+  line-height:1.5em;
+  font-size:13px;
+}
+.question_pool_tags {
+  padding-top:1em;
+  line-height:1.5em;
+}
+.question_disabled {
+  font-style: italic;
+  font-size:11px;
+  font-weight:bold;
+  color:$red_text;
+}
+.preview_box {
+  border:1px solid #ddd;
+  margin: 0em 2em 0em 2em;
+  min-height:35em;
+}
+.pool_check_box {
+  padding:1.5em 0em .5em 0em;
+}
+.question_assessments {
+  margin: 2em 0em 0em 0em;
+  line-height:1.5em;
+  font-size:16px;
+  text-align:left;
+  font-weight:normal;
+  color:$blue_text;
+}
+.assessment_position {
+  font-size:13px;
+  text-align:left;
+}
+.assessment_pool_name {
+  font-style: normal;
+  font-size:15px;
+  color:$blue_text;
+}
+.assessment_pool_comment {
+  font-style: normal;
+  font-size:13px;
+  color:$dark_text;
+}
+.assessment_pool_stats {
+  padding-top:1em;
+  line-height:1.5em;
+}
+.assessment_pool_button {
+  padding:1em 1em 1em 1em;
+}
+
+.static_assess_creation {
+  line-height:2.0em;
+  color:$red_text;
+  margin:0em 0em 0em 2em;
+  font-size:16px;
+}
+.static_assess_left {
+  margin: 1em 0em 1em 1em;
+}
+.static_assess_top_panel {
+  margin: 0em 1em 0em 1em;
+  background-color:white;
+  border:0px solid #ddd;
+  line-height:1.5em;
+  border-radius: 0px;
+  padding-bottom:0em;
+  padding-left:0em;
+  padding-top:0em;
+  word-wrap:break-word;
+  text-align:left;
+  font-weight:normal;
+  font-size:18px;
+  color:$red-text;
+  /* font-family:Georgia, "Times New Roman", Times, serif;  */
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.classroom_list_row {
+  padding: 0em 0em 0em 2em;
+  font-style:normal;
+  vertical-align:middle;
+  text-align:left;
+  font-size:15px;
+  color: $blue_text;
+}
+.performance_cell {
+  padding:1em 0em 1em 0em;
+  font-style: normal;
+  text-align:center;
+  font-size:15px;
+  color:$dark_text;
+}
+.static_assess_table_box {
+  margin:.5em 0em 1.5em 0em;
+}
+.static_assess_question {
+  padding:.5em 0em 0em 0em;
+  text-align:left;
+  font-style: italic;
+  font-size:14px;
+  color:$blue_text;
+}
+.static_assess_question_view {
+  padding:1.5em 0em 0em 1em;
+  text-align:center;
+  font-size:12px;
+}
+.static_assess_q_level {
+  padding:.5em 0em 0em 0em;
+  text-align:left;
+  font-size:12px;
+  font-weight:bold;
+  color:$red_text;
+}
+.assessment_classroom_header {
+  margin:0em 0em .5em 0em;
+  text-align:center;
+  font-size:15px;
+  color:$blue_text;
+  font-weight:normal;
+}
+.assessment_classroom_list {
+  font-size:13px;
+  color:$dark_text;
+  font-weight:normal;
+}
+.assessment_disabled {
+  font-size:12px;
+  color:$red_text;
+  font-weight:bold;
+}

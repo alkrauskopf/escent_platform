@@ -1,0 +1,98 @@
+<div id="search_results_org">
+  <% if false %>
+    <div class="row search_list_select">
+      <div class="col-md-1 "></div>
+      <div class="col-md-5">
+        <div id="user_select">
+          User Select
+          <%#=  select( :user, :id, @question_creators.collect{|s| [(s.last_name + ' | ' + s.organization.short_name), s.id]}, {:prompt => "Select A Question Creator"}) %>
+        </div>
+      </div>
+      <div class="col-md-5 ">
+        <div id="strand_select">
+          Strand Select
+          <%#=  select( :act_standard, :id,  @current_strands.collect{|s| [(s.act_subject.name + ' | ' +s.abbrev.upcase), s.id]}.push([' Untagged Questions', 0]), {:prompt => "Select A Question Strand"}) %>
+        </div>
+      </div>
+      <div class="col-md-1 "></div>
+    </div>
+  <% end %>
+  <div class="row search_item_list">
+    <div class= "col-md-1"></div>
+    <div class= "col-md-10 ">
+      <div class="search_panel_org search_header_label">
+        <%= pluralize(items_size, ' Organization') %>&nbsp;Found
+        <% if !keywords.nil? %>
+          <span class="search_header_keywords">
+            search string => "<%= keywords %>"
+          </span>
+        <% end %>
+      </div>
+      <% items.each do |item| %>
+        <div class="row search_items_text">
+          <div class= "col-md-2">
+            <% if item.logo.present? %>
+              <div class="search_item_logo">
+                <%= image_tag item.logo.url :small_thumb %>
+              </div>
+            <% end %>
+            <div class="search_item_go">
+              <%= link_to 'Platform Page', organization_view_path(:organization_id => item), :class => 'button_blue' %>
+            </div>
+            </div>
+          <div class= "col-md-3">
+            <div class="search_item_name">
+              <%= item.name %>
+              <div class = 'subname'>
+                (<%= item.short_name %>)
+              </div>
+            </div>
+            <div class="search_item_address">
+              <% address = item.default_address ? item.default_address : item.addresses.first -%>
+              <%=  address.city if address.city %>
+              <%= ',' if address.city and address.state %>
+              <%= address.state if address.state %>
+            </div>
+          </div>
+          <div class= "col-md-3">
+            <% if !item.contact_name.empty? %>
+              <div class="search_item_contact">
+                <%= item.contact_name %><%= item.contact_role.empty? ? '' : (', ' + item.contact_role)%>
+                <% if !item.contact_phone.empty? %>
+                  <div><%= item.contact_phone  %></div>
+                <% end %>
+                <% if !item.contact_email.empty? %>
+                  <div><%= item.contact_email  %></div>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="search_item_no_contact">
+                No Contact Info
+              </div>
+            <% end %>
+          </div>
+          <div class= "col-md-4">
+            <div class="search_item_stats">
+              <%= pluralize(item.learning_units.size, ' Learning Unit')%>&nbsp;|
+              <%= pluralize(item.contents.size, ' Library Resource')%>
+            </div>
+            <div class="search_item_stats">
+              <%= pluralize(item.friends.size, ' User')%>&nbsp;|
+              <%= pluralize(item.teachers.size, ' Registered Teacher')%>
+              <% if item.app_enabled?(CoopApp.ifa) %>
+                <div><%= pluralize(item.act_submissions.size, ' Student Assessment')%></div>
+              <% end %>
+              <% if item.app_enabled?(CoopApp.ctl) %>
+                  <div><%= pluralize(item.itl_summaries.size, ' Classroom Observation')%></div>
+              <% end %>
+              <% if item.app_enabled?(CoopApp.elt) %>
+                  <div><%= pluralize(item.elt_cases.size, ' Diagnostic Activity')%></div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+</div>

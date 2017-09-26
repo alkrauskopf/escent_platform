@@ -897,11 +897,11 @@ class Site::SiteController < Site::ApplicationController
   end
   
   def search
+
     search_user = @current_user ? @current_user : nil 
     @filter_type = "None" 
     @filter = params[:filter] || "-- No Filter --"
-
-    @search_type = params[:search_type] || "Resource"
+    @search_type = (params[:search] && params[:search][:type]) ?  params[:search][:type] : "Resource"
     load_search_fields
     @order_by = params[:order_by]
 
@@ -1359,7 +1359,8 @@ class Site::SiteController < Site::ApplicationController
   
   def load_search_fields
     if params[:commit]
-      @keywords = params[:prev_keywords]
+   #   @keywords = params[:prev_keywords]
+      @keywords = params[:keywords]
     else
       @keywords = params[:keywords]
       @filter = "-- No Filter --"
@@ -1372,7 +1373,7 @@ class Site::SiteController < Site::ApplicationController
       #
       # ALK change Search Type from "Causes" to "Classrooms"
       #
-    elsif @search_type == "Classrooms"
+    elsif @search_type == "Offerings"
       @search_fields = ["Learning Unit", "Subject Area", "Organization"]
     else
       @search_fields = ["Title/Description", "Subject Area", "Organization"]

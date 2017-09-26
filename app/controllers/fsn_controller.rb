@@ -17,6 +17,10 @@ class FsnController < ApplicationController
     end
   end
 
+  def masthead_search
+    render :partial => "shared/masthead_stats", :locals=>{:db_search => true}
+  end
+
    private
    
   def initalialize_parameters

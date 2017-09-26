@@ -1,0 +1,64 @@
+<div id="search_results_resource">
+  <div class="row search_item_list">
+    <div class= "col-md-1"></div>
+    <div class= "col-md-10 ">
+      <div class="search_panel_resource search_header_label">
+        <%= pluralize(items_size, ' Library Resource') %>&nbsp;Found
+        <% if !keywords.nil? %>
+          <span class="search_header_keywords">
+            search string => "<%= keywords %>"
+          </span>
+        <% end %>
+      </div>
+      <% items.each do |item| %>
+          <div class="row search_items_text">
+            <div class= "col-md-2">
+              <% if item.organization && item.organization.logo.present? %>
+                <div class="search_item_logo">
+                  <%= image_tag item.organization.logo.url :small_thumb %>
+                </div>
+              <% end %>
+              <div class="search_item_go">
+                <%= link_to 'Resource Page', resource_view_path(:organization_id => @current_organization, :id => item), :class => 'button_blue', :target=> '_blank' %>
+              </div>
+            </div>
+            <div class= "col-md-4">
+              <div class="search_item_name">
+                <%= item.title %>
+              </div>
+              <div class="search_item_stats">
+                Contributed <%= time_ago_in_words(item.created_at.to_s, include_seconds = false) %> ago
+              </div>
+              <div class="search_item_stats">
+                <%= item.user.nil? ? 'By Former User' : item.user.full_name %>
+              </div>
+            </div>
+            <div class= "col-md-3">
+              <div class="search_item_stats">
+                <%= item.subject_area.nil? ? 'Undefined Subject' : item.subject_area.name %>
+              </div>
+              <div class="search_item_stats">
+                <%= item.content_resource_type.nil? ? 'Undefined Type' : item.content_resource_type.name %>
+              </div>
+              <div class="search_item_stats">
+                <%= item.content_group.nil? ? 'Undefined Format' : item.content_group.name %>
+              </div>
+            </div>
+            <div class= "col-md-3">
+              <% if !item.mastery_levels.empty? || !item.strands.empty? %>
+                <div class="search_item_stats">
+                  <%= item.mastery_levels.empty? ? 'No Mastery Levels' : ('Mastery: ' + item.mastery_level_list) %>
+                </div>
+                <div class="search_item_stats">
+                  <%= item.strands.empty? ? 'No Strands' : (item.strand_list) %>
+                </div>
+              <% else %>
+                No Competency Model Tags
+              <% end %>
+            </div>
+          </div>
+      <% end %>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+</div>

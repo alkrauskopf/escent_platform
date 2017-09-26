@@ -326,8 +326,16 @@ class Content < ActiveRecord::Base
     self.act_score_ranges.active.sort_by{|ml| [ml.standard.abbrev, ml.range]}
   end
 
+  def mastery_level_list
+    self.mastery_levels.collect{|l| l.range}.join(', ')
+  end
+
   def strands
     self.act_standards
+  end
+
+  def strand_list
+    self.strands.collect{|s| s.abbrev}.join(', ')
   end
 
   def editable_by_user?(user)

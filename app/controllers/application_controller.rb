@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   before_filter :current_resource
   before_filter :current_application
   before_filter :core_enabled_for_current_org?
+  before_filter :search_entities
 
 
   def core_enabled_for_current_org?
@@ -22,17 +23,17 @@ class ApplicationController < ActionController::Base
 
   def set_ifa
     @current_application = CoopApp.ifa
-    @current_provider = @current_organization.nil? ? nil : @current_organization.app_provider(@current_application)
+    current_provider
   end
 
   def set_core
     @current_application = CoopApp.core
-    @current_provider = @current_organization.nil? ? nil : @current_organization.app_provider(@current_application)
+    current_provider
   end
 
   def set_classroom
     @current_application = CoopApp.classroom
-    @current_provider = @current_organization.nil? ? nil : @current_organization.app_provider(@current_application)
+    current_provider
   end
 
   # Accesses the current registrant from the session.
@@ -50,11 +51,20 @@ class ApplicationController < ActionController::Base
 
   def current_application
     @current_application ||= CoopApp.find_by_public_id(params[:coop_app_id]) rescue CoopApp.core
+    current_provider
+  end
+
+  def current_provider
+    @current_provider ||= (@current_organization.nil? || @current_application.nil?) ? nil : @current_organization.app_provider(@current_application)
   end
 
   def current_app_superuser
     @current_app_superuser = @current_user && @current_application && @current_user.app_superuser?(@current_application)
     @current_app_superuser
+  end
+
+  def search_entities
+    @search_entities = ['Resources', 'Organizations', 'Offerings', 'People']
   end
 
   def increment_app_views
@@ -83,6 +93,13 @@ class ApplicationController < ActionController::Base
 
   def current_ifa_options
     @current_ifa_options = @current_provider.nil? ? nil : @current_provider.ifa_org_option
+  end
+
+  def search_authorized?
+    if @current_user.nil?
+      org = @current_organization.nil? ? Organization.default : @current_organization
+      redirect_to organization_view_path(:organization_id => org)
+    end
   end
 
   def classroom_authorized?

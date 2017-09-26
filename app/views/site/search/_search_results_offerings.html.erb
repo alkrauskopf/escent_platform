@@ -1,0 +1,70 @@
+<div id="search_results_offering">
+  <div class="row search_item_list">
+    <div class= "col-md-1"></div>
+    <div class= "col-md-10 ">
+      <div class="search_panel_offering search_header_label">
+        <%= pluralize(items_size, ' Offering') %>&nbsp;Found
+        <% if !keywords.nil? %>
+          <span class="search_header_keywords">
+            search string => "<%= keywords %>"
+          </span>
+        <% end %>
+      </div>
+      <% items.each do |item| %>
+          <div class="row search_items_text">
+            <div class= "col-md-2">
+              <% if item.organization && item.organization.logo.present? %>
+                <div class="search_item_logo">
+                  <%= image_tag item.organization.logo.url :small_thumb %>
+                </div>
+                <div class="search_item_go">
+                  <%= link_to 'Platform Page', offering_view_path(:organization_id => item.organization, :id => item), :class => 'button_blue' %>
+                </div>
+              <% end %>
+            </div>
+            <div class= "col-md-3">
+              <div class="search_item_name">
+                <%= item.course_name %>
+              </div>
+              <div class="search_item_address">
+                <% item.organization.nil? ? 'No Organization' : item.organization.name %>
+              </div>
+              <div class="search_item_address">
+                <%= pluralize(item.teachers.size, ' Leader') %>:&nbsp;<%= item.teacher_list %>
+              </div>
+              <div class="search_item_address">
+                <%= pluralize(item.students.size, ' Student') %>
+              </div>
+            </div>
+            <div class= "col-md-4">
+              <div class="search_item_stats">
+                <%= pluralize(item.learning_units.size, ' Learning Unit')%>
+              </div>
+              <% item.learning_units.each do |lu| %>
+                <div class="search_item_stats">
+                  <%= lu.title %>
+                </div>
+              <% end %>
+            </div>
+            <div class= "col-md-3">
+              <% if item.ifa_enabled? && !item.organization.nil?%>
+                <div class="search_item_stats">
+                  <% provider = item.organization.app_provider(CoopApp.ifa) %>
+                  <%= CoopApp.ifa.app_abbrev(:provider=>provider) %> Enabled
+                </div>
+                <div class="search_item_stats">
+                  <%= pluralize(item.act_submissions.size, ' Student Assessment') %>
+                </div>
+              <% end %>
+              <% if item.precision_prep? %>
+                <div class="search_item_stats">
+                  Precision Prep
+                </div>
+              <% end %>
+            </div>
+          </div>
+      <% end %>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+</div>

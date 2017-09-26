@@ -8,6 +8,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/root' => 'fsn#index'
   get '/privacy' => 'fsn#privacy'   #   privacy_path
   get '/terms' => 'fsn#terms'   #   terms_path
+  get '/search_select' => 'fsn#masthead_search'   #   search_select_url
 
   # <%= link_to 'Edit Profile', user_edit_path %>
   #     <a href="/profile/edit">Edit Profile</a>
@@ -93,10 +94,13 @@ EscentPartners::Application.routes.draw do |map|
   get '/organization/view/resources' => 'site/site#summarize_org_resources'
 
   # CORE Search
-  get '/search' => 'site/site#search'
-  post '/search' => 'site/site#search'
-  get '/site/content/search' => 'site/site#search'
+ # get '/search' => 'site/site#search'
+ # post '/search' => 'site/site#search'
+#  get '/site/content/search' => 'site/site#search'
   get '/search/autocomplete' => 'site/site#keywords_autocomplete'
+  # New Search Controller
+  get '/search' => 'site/search#search'
+  post '/search' => 'site/search#search'
 
   # CORE Admin
   get '/admin' => 'admin/application#index'

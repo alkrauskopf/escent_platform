@@ -1,0 +1,47 @@
+<div id="search_results_people">
+  <div class="row search_item_list">
+    <div class= "col-md-1"></div>
+    <div class= "col-md-10 ">
+      <div class="search_panel_people search_header_label">
+        <%= pluralize(items_size, ' Person') %>&nbsp;Found
+        <% if !keywords.nil? %>
+          <span class="search_header_keywords">
+            search string => "<%= keywords %>"
+          </span>
+        <% end %>
+      </div>
+      <% items.each do |item| %>
+        <div class="row search_items_text">
+          <div class= "col-md-2">
+            <% if item.picture.present? %>
+              <div class="search_item_logo">
+                <%= image_tag item.picture.url :small_thumb %>
+              </div>
+            <% elsif item.organization && item.organization.logo.present? %>
+              <div class="search_item_logo">
+                <%= image_tag item.organization.logo.url :small_thumb %>
+              </div>
+            <% end %>
+          </div>
+          <div class= "col-md-4">
+            <div class="search_item_name">
+              <%= item.full_name %>
+            </div>
+            <% if item.organization%>
+              <div class="search_item_logo">
+                <%= link_to item.organization.name, organization_view_path(:organization_id => item.organization), :target => '_blank' %>
+              </div>
+            <% end %>
+          </div>
+          <div class= "col-md-3">
+
+          </div>
+          <div class= "col-md-3">
+
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class= "col-md-1"></div>
+  </div>
+</div>

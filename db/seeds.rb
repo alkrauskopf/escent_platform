@@ -24,7 +24,7 @@
 
   create_ifa_standards = false
 
-  add_subject = false
+  add_subject = true
 
   deactivate_content_types = false
 
@@ -57,6 +57,7 @@
   end
 
   if add_subject
+    # did for tcpj 9/25/17
     ActSubject.create({'name' => 'Geometry/Measurement/Statistics', 'is_plannable' => 1})
   end
 
@@ -78,7 +79,7 @@
     ActMaster.create({'name' => 'ACT College Readiness Standards', 'abbrev' => 'ACTNEW',
                       'source' => 'http://www.precisionschoolimprovement.com/', 'abbrev_old' => 'PP',
                       'is_national' => 1, 'is_default' => 0})
-end
+  end
 
 
     if initialize_act_sat_map

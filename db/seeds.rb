@@ -26,9 +26,9 @@
 
   add_subject = false
 
-  deactivate_content_types = true
+  deactivate_content_types = false
 
-  add_benchmark_types = true
+  add_benchmark_types = false
 
   if add_benchmark_types
     # did for tcpj 9/25/17

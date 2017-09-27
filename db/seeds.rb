@@ -22,7 +22,7 @@
 
   initialize_act_sat_map = false     # make true if act_sat_map needs to be restored again
 
-  create_ifa_standards = false
+  create_ifa_standards = true
 
   add_subject = false
 
@@ -84,7 +84,7 @@
   end
 
 
-    if initialize_act_sat_map
+  if initialize_act_sat_map
     ActSatMap.destroy_all
     #  ACT English & Writing
     ActMaster.act_std.act_score_ranges.for_subject(ActSubject.ew).each do |act_range|

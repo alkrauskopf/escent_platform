@@ -24,31 +24,32 @@
 
   create_ifa_standards = false
 
-  add_subject = true
+  add_subject = false
 
-  deactivate_content_types = false
+  deactivate_content_types = true
 
-  add_benchmark_types = false
+  add_benchmark_types = true
 
   if add_benchmark_types
-  #  ActBenchType.create({'name' => 'evidence', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
-  #                           'for_list' => 1, 'for_static' => 1, 'long_name' => 'Evidence Outcome', 'description' => 'What must be demonstated or achieved.'})
-  #  ActBenchType.create({'name' => 'example', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
-  #                           'for_list' => 1, 'for_static' => 1, 'long_name' => 'Example', 'description' => 'An example explaining the benchmark.'})
-  #  ActBenchType.find_by_abbrev('X').update_attributes('name' => 'exemplar')
-  #  ActBenchType.all.each do |t|
-  #    if t.name == 'benchmark'
-  #      t.update_attributes('abbrev' => 'B')
-  #    elsif t.name == 'suggestion'
-  #      t.update_attributes('abbrev' => 'S')
-  #    elsif t.name == 'evidence'
-  #      t.update_attributes('abbrev' => 'E')
-  #    elsif t.name == 'example'
-  #      t.update_attributes('abbrev' => 'X')
-  #    end
+    # did for tcpj 9/25/17
+    ActBenchType.create({'name' => 'evidence', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
+                             'for_list' => 1, 'for_static' => 1, 'long_name' => 'Evidence Outcome', 'description' => 'What must be demonstated or achieved.'})
+    ActBenchType.create({'name' => 'exemplar', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
+                             'for_list' => 1, 'for_static' => 1, 'long_name' => 'Example', 'description' => 'An example explaining the benchmark.'})
+    ActBenchType.all.each do |t|
+      if t.name == 'benchmark'
+        t.update_attributes('abbrev' => 'B')
+      elsif t.name == 'suggestion'
+        t.update_attributes('abbrev' => 'S')
+      elsif t.name == 'evidence'
+        t.update_attributes('abbrev' => 'E')
+      elsif t.name == 'exemplar'
+        t.update_attributes('abbrev' => 'X')
+      end
   end
 
   if deactivate_content_types
+    # did for tcpj 9/25/17
     ContentObjectTypeGroup.find_by_name('VIDEO').update_attributes(:is_active => false)
     ContentObjectTypeGroup.find_by_name('COMPRESSED').update_attributes(:is_active => false)
     ContentObjectTypeGroup.find_by_name('AUDIO').update_attributes(:is_active => false)

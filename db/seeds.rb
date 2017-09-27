@@ -46,6 +46,7 @@
       elsif t.name == 'exemplar'
         t.update_attributes('abbrev' => 'X')
       end
+    end
   end
 
   if deactivate_content_types

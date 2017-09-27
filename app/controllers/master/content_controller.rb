@@ -1,5 +1,5 @@
 class Master::ContentController < Master::ApplicationController
-  layout "crud"
+
   before_filter :find_content, :only => [:edit, :show, :delete]
   require "rexml/document"
   def index

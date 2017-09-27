@@ -1,5 +1,5 @@
 class Master::ApplicationController < ApplicationController
-  layout "crud"
+  layout "master/crud"
 
 #  include OrganizationRegistration
   

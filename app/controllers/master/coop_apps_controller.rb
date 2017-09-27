@@ -1,5 +1,5 @@
 class Master::CoopAppsController < Master::ApplicationController
-  layout "crud"
+
   before_filter :find_organization, :only => [:edit, :show, :delete]
   before_filter :initialize_parameters
   

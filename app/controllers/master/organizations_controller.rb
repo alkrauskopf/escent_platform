@@ -1,5 +1,5 @@
 class Master::OrganizationsController < Master::ApplicationController
-  layout "crud"
+
   before_filter :find_organization, :only => [:edit, :show, :delete]
   
   def index

@@ -1,7 +1,5 @@
 class Master::ActSubmissionsController < Master::ApplicationController
 
-  layout "crud"
-  
   before_filter :find_submission, :only => [:edit, :show, :delete]
   
   def index

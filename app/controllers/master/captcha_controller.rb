@@ -1,7 +1,5 @@
 class Master::CaptchaController < Master::ApplicationController
 
-    layout "crud"
-
     before_filter :set_captcha, only: [:destroy_captcha]
 
     def index

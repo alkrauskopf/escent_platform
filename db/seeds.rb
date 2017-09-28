@@ -22,7 +22,7 @@
 
   initialize_act_sat_map = false     # make true if act_sat_map needs to be restored again
 
-  create_ifa_standards = true
+  create_ifa_standards = false
 
   add_subject = false
 

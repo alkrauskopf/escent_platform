@@ -64,19 +64,19 @@
   end
 
   if create_ifa_standards
-#  Assumes ActMaster Table was dropped then recreated
 
-    ActMaster.create({'name' => 'Precision Growth Model', 'abbrev' => 'PP',
+
+    ActMaster.find_by_id(1).update_attributes('name' => 'Precision Growth Model', 'abbrev' => 'PP',
                                'source' => 'Precision School Improvement', 'abbrev_old' => 'ACT',
-                               'is_national' => 1, 'is_default' => 1})
+                               'is_national' => 1, 'is_default' => 1)
 
-    ActMaster.create({'name' => 'Colorado State Education Standards', 'abbrev' => 'CO',
+    ActMaster.find_by_id(2).update_attributes('name' => 'Colorado State Education Standards', 'abbrev' => 'CO',
                       'source' => 'http://www.cde.state.co.us/cdeassess/UAS/CoAcademicStandards.html', 'abbrev_old' => 'CO',
-                      'is_national' => 0, 'is_default' => 0})
+                      'is_national' => 0, 'is_default' => 0)
 
-    ActMaster.create({'name' => 'Common Core Standards', 'abbrev' => 'CC',
+    ActMaster.find_by_id(3).update_attributes('name' => 'Common Core Standards', 'abbrev' => 'CC',
                       'source' => 'http://www.corestandards.org', 'abbrev_old' => 'CC',
-                      'is_national' => 1, 'is_default' => 0})
+                      'is_national' => 1, 'is_default' => 0)
 
     ActMaster.create({'name' => 'ACT College Readiness Standards', 'abbrev' => 'ACTNEW',
                       'source' => 'http://www.precisionschoolimprovement.com/', 'abbrev_old' => 'PP',

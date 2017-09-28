@@ -819,7 +819,7 @@ class Organization < ActiveRecord::Base
   end
 
   def master_standard
-    self.ifa_org_option && self.ifa_org_option.master_standard ? self.ifa_org_option.master_standard : nil
+    self.ifa_org_option && self.ifa_org_option.master_standard ? self.ifa_org_option.master_standard : ActMaster.default
   end
 
   def master_standard?

@@ -9,7 +9,7 @@ class Apps::AssessmentController < Apps::ApplicationController
 
   before_filter :set_ifa, :except=>[]
   before_filter :ifa_allowed?, :except=>[]
-#  before_filter :current_user_app_authorized?, :except=>[:topic_standards_benchmarks]
+# before_filter :current_user_app_authorized?, :except=>[:topic_standards_benchmarks]
   before_filter :current_user_app_authorized?, :only=>[:index]
   before_filter :current_user_app_admin?, :only=>[]
   before_filter :current_ifa_options

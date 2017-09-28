@@ -71,6 +71,7 @@ class ActMaster < ActiveRecord::Base
   def self.default
     where('is_default').first
   end
+
   def self.all_defaults
     where('is_default')
   end

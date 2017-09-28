@@ -32,10 +32,10 @@
 
   if add_benchmark_types
     # did for tcpj 9/25/17
-    ActBenchType.create({'name' => 'evidence', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
-                             'for_list' => 1, 'for_static' => 1, 'long_name' => 'Evidence Outcome', 'description' => 'What must be demonstated or achieved.'})
-    ActBenchType.create({'name' => 'exemplar', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
-                             'for_list' => 1, 'for_static' => 1, 'long_name' => 'Example', 'description' => 'An example explaining the benchmark.'})
+#    ActBenchType.create({'name' => 'evidence', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
+#                             'for_list' => 1, 'for_static' => 1, 'long_name' => 'Evidence Outcome', 'description' => 'What must be demonstated or achieved.'})
+#    ActBenchType.create({'name' => 'exemplar', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,
+#                             'for_list' => 1, 'for_static' => 1, 'long_name' => 'Example', 'description' => 'An example explaining the benchmark.'})
     ActBenchType.all.each do |t|
       if t.name == 'benchmark'
         t.update_attributes('abbrev' => 'B')
@@ -43,6 +43,8 @@
         t.update_attributes('abbrev' => 'S')
       elsif t.name == 'evidence'
         t.update_attributes('abbrev' => 'E')
+      elsif t.name == 'improvement'
+        t.update_attributes('abbrev' => 'I')
       elsif t.name == 'exemplar'
         t.update_attributes('abbrev' => 'X')
       end

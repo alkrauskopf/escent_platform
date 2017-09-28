@@ -44,7 +44,7 @@
       elsif t.name == 'evidence'
         t.update_attributes('abbrev' => 'E')
       elsif t.name == 'improvement'
-        t.update_attributes('abbrev' => 'I')
+        t.update_attributes('name' => 'suggestion', 'abbrev' => 'S')
       elsif t.name == 'exemplar'
         t.update_attributes('abbrev' => 'X')
       end

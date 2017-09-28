@@ -31,7 +31,7 @@ class Apps::AssessmentController < Apps::ApplicationController
       @active_assessments = ActAssessment.active rescue []    # for IFA rewrite to rid @assessments variable
       @active_questions = ActQuestion.active rescue []
       @active_readings = ActRelReading.by_label   # for IFA rewrite to rid @readings variable
-      @current_standard = @current_provider.master_standard
+      @current_standard = @current_provider.master_standard.nil? ? ActMaster.default : @current_provider.master_standard
       @current_user_questions = @current_user.act_questions
       @assessments.sort!{|a,b| a.act_subject_id <=> b.act_subject_id}
       @threshold = Time.now - @current_provider.ifa_org_option.sms_calc_cycle.days

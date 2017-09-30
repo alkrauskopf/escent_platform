@@ -80,7 +80,7 @@ class Site::SearchController < ApplicationController
   end
 
   def resource_filters(items_found)
-    strand_list = items_found.map{|i| i.strands.select{|s| !s.act_subject.nil? && s.active}}.compact.flatten.uniq.sort_by{|s| s.act_subject.name}
+    strand_list = items_found.map{|i| i.strands.select{|s| !s.act_subject.nil? && s.active?}}.compact.flatten.uniq.sort_by{|s| s.act_subject.name}
     @resource_strand_filters =  strand_list.collect{|s| [(s.act_subject.name + ' | ' + s.name), s.id]} << ['All Strands', 0]
     subject_list = items_found.map{|i| i.subject_area}.compact.flatten.uniq.sort_by{|s| s.name}
     @resource_subject_filters =  subject_list.collect{|s| [s.name, s.id]} << ['All Subjects', 0]

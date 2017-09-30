@@ -2,8 +2,8 @@
   <% if !db_search || @current_user.nil? %>
     <div class="row masthead_stats">
       <div class="col-md-12 ">
-        <%= pluralize(Organization.count, ' Organization')%>&nbsp;|&nbsp;
-        <%= pluralize(Classroom.count, ' Offering')%>&nbsp;|&nbsp;
+        <%= pluralize(Organization.active.count, ' Organization')%>&nbsp;|&nbsp;
+        <%= pluralize(Classroom.active.count, ' Offering')%>&nbsp;|&nbsp;
         <%= pluralize(User.count, ' People')%>&nbsp;|&nbsp;
         <%= pluralize(Content.count, ' Library Resource')%>&nbsp;
         <% if @current_user %>

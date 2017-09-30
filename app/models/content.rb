@@ -416,6 +416,10 @@ class Content < ActiveRecord::Base
     end
   end
 
+  def for_subject?(subject)
+    (self.subject_area && (self.subject_area == subject || self.subject_area.parent_subject == subject)) ? true : false
+  end
+
   def irr_resource?
     self.itl_blackbelt && self.itl_blackbelt.tlt_session
   end

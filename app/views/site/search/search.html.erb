@@ -1,13 +1,7 @@
 <div class="search_box">
   <div id="search-result" class="clear">
-    <div class= 'row panel_title_blue'>
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <%= @search_type %>&nbsp;Search Results
-      </div>
-      <div class="col-md-2"></div>
-    </div>
-
+    <%= render :partial => 'search_filters', :locals => {:items => @items_found, :items_size => @items_size,
+                                                         :search_type => @search_type, :keywords => @keywords, :results_page => @page} %>
     <%= render :partial => 'search_results', :locals => {:items => @items_found, :items_size => @items_size,
                                                        :search_type => @search_type, :keywords => @keywords} %>
   </div>

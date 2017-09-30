@@ -1,0 +1,88 @@
+<div class= 'row panel_title_blue'>
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <%= search_type %>&nbsp;Search Results | Page&nbsp;<%= results_page%>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<% if search_type == 'Resources' && (@resource_strand_filters.size > 1 || @resource_subject_filters.size > 1)%>
+  <%= form_tag search_path(:organization_id => @current_organization, :keywords => keywords, :search_type => search_type, :method => :get) do -%>
+    <div class="row filter_select_box">
+      <div class="col-md-2 "></div>
+      <div class="col-md-2 filter_button">
+        <%= submit_tag 'Filter Results', :class =>"button_light_blue" %>
+      </div>
+      <div class="col-md-7">
+        <% if @resource_strand_filters.size > 1 %>
+          <div class="row filter_select_row">
+            <%=  select( :filter, :r_strand, @resource_strand_filters, {:prompt => "By Knowledge Strand"}) %>
+          </div>
+        <% end %>
+        <% if @resource_subject_filters.size > 1 %>
+          <div class="row filter_select_row">
+            <%=  select( :filter, :r_subject, @resource_subject_filters, {:prompt => "By Subject Area"}) %>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-md-1 "></div>
+    </div>
+  <% end %>
+  <hr>
+<% end -%>
+<% if search_type == 'People' && (@people_org_filters.size > 1 )%>
+    <%= form_tag search_path(:organization_id => @current_organization, :keywords => keywords, :page_search => search_type, :method => :get) do -%>
+        <div class="row filter_select_box">
+          <div class="col-md-2 "></div>
+          <div class="col-md-2 filter_button">
+            <%= submit_tag 'Filter Results', :class =>"button_light_blue" %>
+          </div>
+          <div class="col-md-7">
+            <% if @people_org_filters.size > 1 %>
+                <div class="row filter_select_row">
+                  <%=  select( :filter, :p_org, @people_org_filters, {:prompt => "By Organization"}) %>
+                </div>
+            <% end %>
+          </div>
+          <div class="col-md-1 "></div>
+        </div>
+    <% end %>
+    <hr>
+<% end -%>
+<% if search_type == 'Organizations' && (@org_type_filters.size > 1 )%>
+    <%= form_tag search_path(:organization_id => @current_organization, :keywords => keywords, :page_search => search_type, :method => :get) do -%>
+        <div class="row filter_select_box">
+          <div class="col-md-2 "></div>
+          <div class="col-md-2 filter_button">
+            <%= submit_tag 'Filter Results', :class =>"button_light_blue" %>
+          </div>
+          <div class="col-md-7">
+            <% if @org_type_filters.size > 1 %>
+                <div class="row filter_select_row">
+                  <%=  select( :filter, :o_type, @org_type_filters, {:prompt => "By Type"}) %>
+                </div>
+            <% end %>
+          </div>
+          <div class="col-md-1 "></div>
+        </div>
+    <% end %>
+    <hr>
+<% end -%>
+<% if search_type == 'Offerings' && (@offering_subject_filters.size > 1 )%>
+    <%= form_tag search_path(:organization_id => @current_organization, :keywords => keywords, :page_search => search_type, :method => :get) do -%>
+        <div class="row filter_select_box">
+          <div class="col-md-2 "></div>
+          <div class="col-md-2 filter_button">
+            <%= submit_tag 'Filter Results', :class =>"button_light_blue" %>
+          </div>
+          <div class="col-md-7">
+            <% if @offering_subject_filters.size > 1 %>
+                <div class="row filter_select_row">
+                  <%=  select( :filter, :c_subject, @offering_subject_filters, {:prompt => "By Subject"}) %>
+                </div>
+            <% end %>
+          </div>
+          <div class="col-md-1 "></div>
+        </div>
+    <% end %>
+    <hr>
+<% end -%>

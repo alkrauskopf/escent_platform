@@ -322,6 +322,10 @@ class Classroom < ActiveRecord::Base
     end
   end
 
+  def for_subject?(subject)
+    (self.subject_area && (self.subject_area == subject || self.subject_area.parent_subject == subject)) ? true : false
+  end
+
   def homework_enabled?
     self.homework_option
   end

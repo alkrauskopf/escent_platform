@@ -9,6 +9,11 @@
             search string => "<%= keywords %>"
           </span>
         <% end %>
+        <% if !@search_filters.empty? %>
+          <span class="search_header_keywords">
+            <%=pluralize(@search_filters.size, ' Filter' )%> => <%= @search_filters.join(' | ') %>
+          </span>
+        <% end %>
       </div>
       <% items.each do |item| %>
           <div class="row search_items_text">

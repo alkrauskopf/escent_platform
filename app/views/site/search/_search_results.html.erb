@@ -2,17 +2,11 @@
   <% partial = 'search_results_' +  search_type.downcase %>
   <%= render :partial => partial, :locals => {:items => items, :items_size => items_size, :keywords => keywords} %>
   <div class="digg_pagination">
-    <%= will_paginate @items_found, :params => {:organization_id=> @current_organization.public_id, :keywords => keywords, :page_search => search_type } %>
+    <%= will_paginate @items_found, :params => {:organization_id=> @current_organization.public_id, :keywords => keywords, :page_search => search_type,
+                                                :page_resource_strand_filter_id => @filter_resource_strand_id,
+                                                :page_resource_subject_filter_id => @filter_resource_subject_id,
+                                                :page_people_org_filter_id  => @filter_people_org_id,
+                                                :page_org_type_filter_id  => @filter_org_type_id,
+                                                :page_offering_subject_filter_id => @filter_offering_subject_id} %>
   </div>
-
-<!--
-<script type="text/javascript" charset="utf-8">
-  jQ(document).ready(function(){
-    jQ('div.pagination a').live('click', function() {
-      jQ("#search-result").load(this.href);
-      return false
-    })
-  });
-</script>
--->
 

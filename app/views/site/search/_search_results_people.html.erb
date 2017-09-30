@@ -9,10 +9,15 @@
             search string => "<%= keywords %>"
           </span>
         <% end %>
+        <% if !@search_filters.empty? %>
+          <span class="search_header_keywords">
+            <%=pluralize(@search_filters.size, ' Filter' )%> => <%= @search_filters.join(' | ') %>
+          </span>
+        <% end %>
       </div>
       <% items.each do |item| %>
         <div class="row search_items_text">
-          <div class= "col-md-2">
+          <div class= "col-md-3">
             <% if item.picture.present? %>
               <div class="search_item_logo">
                 <%= image_tag item.picture.url :small_thumb %>
@@ -34,9 +39,17 @@
             <% end %>
           </div>
           <div class= "col-md-3">
-
+            <div class="search_item_stats">
+              <%= pluralize(item.contents.size, ' Library Contribution') %>
+            </div>
+            <div class="search_item_stats">
+              <%= pluralize(item.favorite_classrooms.size, ' Tagged Classroom') %>
+            </div>
+            <div class="search_item_stats">
+              <%= pluralize(item.favorite_organizations.size, ' Tagged Organization') %>
+            </div>
           </div>
-          <div class= "col-md-3">
+          <div class= "col-md-2">
 
           </div>
         </div>

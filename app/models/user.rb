@@ -956,8 +956,7 @@ class User < ActiveRecord::Base
   def belt_rank
     self.itl_belt_rank ? self.itl_belt_rank.rank : ''
   end
- 
-  
+
 #
 #   APP Authorized?
 ##

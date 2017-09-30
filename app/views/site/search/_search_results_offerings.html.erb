@@ -9,6 +9,11 @@
             search string => "<%= keywords %>"
           </span>
         <% end %>
+        <% if !@search_filters.empty? %>
+          <span class="search_header_keywords">
+            <%=pluralize(@search_filters.size, ' Filter' )%> => <%= @search_filters.join(' | ') %>
+          </span>
+        <% end %>
       </div>
       <% items.each do |item| %>
           <div class="row search_items_text">
@@ -22,9 +27,9 @@
                 </div>
               <% end %>
             </div>
-            <div class= "col-md-3">
+            <div class= "col-md-4">
               <div class="search_item_name">
-                <%= item.course_name %>
+                <%= item.course_name %>&nbsp;|&nbsp;<%= item.subject_area.name %>
               </div>
               <div class="search_item_address">
                 <% item.organization.nil? ? 'No Organization' : item.organization.name %>
@@ -65,6 +70,5 @@
           </div>
       <% end %>
     </div>
-    <div class= "col-md-1"></div>
   </div>
 </div>

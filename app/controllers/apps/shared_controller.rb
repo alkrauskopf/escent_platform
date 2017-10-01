@@ -276,7 +276,7 @@ class Apps::SharedController < Site::ApplicationController
 
   def assign_folder_position
     if @folder && !@folder.position_for_scope(params[:scope_id].to_i, params[:scope_type]).nil?
-      @folder.position_for_scope(params[:scope_id].to_i, params[:scope_type]).update_attributes(:position => params[:position].to_i)
+      @folder.position_for_scope(params[:scope_id].to_i, params[:scope_type]).update_attributes(:pos => params[:position].to_i, :position => params[:position].to_i)
     end
   render :partial => "/apps/classroom/offering_folders", :locals => {:admin => true, :app => @app}
   end
@@ -300,7 +300,7 @@ class Apps::SharedController < Site::ApplicationController
 
   def assign_lu_folder_position
     if @folder && @topic
-      @folder.position_for_scope(@topic.id, @topic.class.to_s).update_attributes(:position => params[:position].to_i)
+      @folder.position_for_scope(@topic.id, @topic.class.to_s).update_attributes(:pos => params[:position].to_i, :position => params[:position].to_i)
     end
     render :partial => "/apps/classroom/offering_folder_setup", :locals => {:admin => true, :app=> @app, :lu=> @topic}
   end
@@ -492,7 +492,8 @@ class Apps::SharedController < Site::ApplicationController
       folder_pos= FolderPosition.new
       folder_pos.scope_id = scope.id
       folder_pos.scope_type = scope.class.to_s
-      folder_pos.position = scope.folder_positions.all.empty? ? 1 : scope.folder_positions.all.last.position + 1
+      folder_pos.pos = scope.folder_positions.all.size + 1
+      folder_pos.position = folder_pos.pos
       folder.folder_positions << folder_pos
     end
   end

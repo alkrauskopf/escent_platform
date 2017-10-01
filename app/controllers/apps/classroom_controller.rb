@@ -367,7 +367,7 @@ class Apps::ClassroomController < ApplicationController
         unless @topic.contents.include?(tc.content)
           new_tc = TopicContent.new
           new_tc.content_id = tc.content_id
-          new_tc.folder_id = (tc.folder && @topic.positioned_folders.include?( tc.folder)) ? tc.folder_id : nil
+          new_tc.folder_id = (tc.folder && @topic.resource_folders.include?( tc.folder)) ? tc.folder_id : nil
           new_tc.position = tc.position
           @topic.topic_contents<<new_tc 
         end

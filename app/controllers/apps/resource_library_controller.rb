@@ -199,7 +199,7 @@ class Apps::ResourceLibraryController < ApplicationController
       if !mastery_level.nil?
         @prep_classrooms.map{|c| c.topics}.flatten.each do |topic|
           if !(topic.strands & @current_resource.strands).empty?
-            folder = topic.positioned_folders.with_mastery(mastery_level).empty? ? nil : topic.positioned_folders.with_mastery(mastery_level).first
+            folder = topic.resource_folders.with_mastery(mastery_level).empty? ? nil : topic.resource_folders.with_mastery(mastery_level).first
             assign_resource_to_topic(@current_resource, topic, folder)
           else
             if !topic.topic_contents.for_resource(@current_resource).empty?

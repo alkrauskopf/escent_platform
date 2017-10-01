@@ -25,7 +25,7 @@
             <tr>
               <td class="resource_levels_close">
                 <%= link_to '', offering_admin_folder_setup_path(:organization_id => @current_organization, :topic_id => lu) %>
-                Setup Folders: <small> <%= pluralize(lu.positioned_folders.size, "Folder") %></small>
+                Setup Folders: <small> <%= pluralize(lu.resource_folders.size, "Folder") %></small>
                 <span></span>
               </td>
             </tr>

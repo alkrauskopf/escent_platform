@@ -52,7 +52,7 @@ class Folder < ActiveRecord::Base
 
   def self.by_position(folders)
    unless folders.empty?
-     folders.sort_by{|f| f.folder_positions.first.position}
+     folders.sort_by{|f| f.folder_positions.first.pos}
    else
      []
    end

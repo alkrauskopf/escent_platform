@@ -1,7 +1,7 @@
 
 	<table id="folder_levels">
 		<tbody> 
-		 	<% Folder.by_position(topic.positioned_folders).each do |folder| %>
+		 	<% topic.resource_folders.each do |folder| %>
 				<% unless folder.no_lu_contents?(topic)%>
 					<tr>
             <% if folder.show?(topic)%>

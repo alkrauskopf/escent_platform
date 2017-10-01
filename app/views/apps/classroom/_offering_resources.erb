@@ -20,22 +20,24 @@
 		<table   style="width:750px; border:1px solid #ddd;">
 			<tbody id="topic_content">
 				<% unless lu.nil? -%>
-					<% Folder.by_position(lu.folders).each do |folder| -%>
-						<tr>
-							<th  colspan=7 style=" border:0px solid #ddd; font-size:13px; padding-top:4px; padding-bottom:4px; vertical-align:middle; text-align:left; line-height:1.4em; color:#C73914; font-weight:normal;">
-								<%= folder.parent ? (folder.parent.name + ': ' + folder.name) : folder.name  %>
-							</th>
-						</tr>						
-						<% lu.resources_for_folder(folder).each do |rsrc| -%>
-							<% if !rsrc.nil? -%>
-		    					<%= render :partial => "apps/classroom/offering_resources_line", :locals => {:app => app, :folder=> folder, :offering => offering, :lu=>lu, :rsrc=> rsrc, :pool_class => pool_class, :pool_filter => pool_filter, :filters => filters, :pool=>pool, :header=>header}  %>
-							<% end %>
-						<% end -%>
-						<tr>
-							<td  colspan=7 style=" border:0px solid #ddd; line-height:1.0em; font-size:10px; padding-top:0px; padding-left:0px; vertical-align:top; text-align:left;  color: #2061a5; font-weight:normal;">
-								&nbsp;
-							</td>
-						</tr>					
+					<% lu.resource_folders.each do |folder| -%>
+						<% if !lu.resources_for_folder(folder).empty? %>
+              <tr>
+                <th  colspan=7 style=" border:0px solid #ddd; font-size:13px; padding-top:4px; padding-bottom:4px; vertical-align:middle; text-align:left; line-height:1.4em; color:#C73914; font-weight:normal;">
+                  <%= folder.parent ? (folder.parent.name + ': ' + folder.name) : folder.name  %>
+                </th>
+              </tr>
+              <% lu.resources_for_folder(folder).each do |rsrc| -%>
+                <% if !rsrc.nil? -%>
+                    <%= render :partial => "apps/classroom/offering_resources_line", :locals => {:app => app, :folder=> folder, :offering => offering, :lu=>lu, :rsrc=> rsrc, :pool_class => pool_class, :pool_filter => pool_filter, :filters => filters, :pool=>pool, :header=>header}  %>
+                <% end %>
+              <% end -%>
+              <tr>
+                <td  colspan=7 style=" border:0px solid #ddd; line-height:1.0em; font-size:10px; padding-top:0px; padding-left:0px; vertical-align:top; text-align:left;  color: #2061a5; font-weight:normal;">
+                  &nbsp;
+                </td>
+              </tr>
+            <% end -%>
 					<% end -%>
 				<% end -%>
 				<% (lu.nil? ? offering.contents.active.compact : lu.unfoldered_resources.sort_by).each_with_index do |rsrc,idx| -%>

@@ -13,10 +13,10 @@
 				</tr>
 				<tr  >
 					<td class='folder_select' id = "assign_folder_<%= lu.public_id %>">
-						<%=  select(:folder_assign, lu.public_id, (@current_organization.folders - lu.positioned_folders).sort_by{|f| f.name}.collect{|f| [truncate(f.name, :omission => "...", :length => 40), f.public_id]},{:include_blank =>'Add ' + @current_organization.short_name + ' Folder'}) %>
+						<%=  select(:folder_assign, lu.public_id, (@current_organization.folders - lu.resource_folders).sort_by{|f| f.name}.collect{|f| [truncate(f.name, :omission => "...", :length => 40), f.public_id]},{:include_blank =>'Add ' + @current_organization.short_name + ' Folder'}) %>
 					</td>
 					<td class='folder_select' id = "remove_folder_<%= lu.public_id %>">
-						<%=  select(:folder_remove, lu.public_id, lu.positioned_folders.select{|f| f.topic_contents.for_lu(lu).empty?}.sort_by{|f| f.name}.collect{|f| [truncate(f.name, :omission => "...", :length => 40), f.public_id]},{:include_blank =>'Remove Emptied Folder'}) %>
+						<%=  select(:folder_remove, lu.public_id, lu.resource_folders.select{|f| f.topic_contents.for_lu(lu).empty?}.sort_by{|f| f.name}.collect{|f| [truncate(f.name, :omission => "...", :length => 40), f.public_id]},{:include_blank =>'Remove Emptied Folder'}) %>
 					</td>				
 				</tr>
 			</tbody>
@@ -50,13 +50,13 @@
 			<thead>
 				<tr>
 					<th colspan = 4 class='folder_header'>
-            <%= pluralize(lu.positioned_folders.size, (lu.title + " Folder")) -%>
+            <%= pluralize(lu.resource_folders.size, (lu.title + " Folder")) -%>
 					</th>
 				</tr>
 			</thead>
-      <% if !lu.positioned_folders.empty? %>
+      <% if !lu.resource_folders.empty? %>
 			<tbody>
-				<% Folder.by_position(lu.positioned_folders).each do |folder| %>
+				<% lu.resource_folders.each do |folder| %>
 					<tr class="folder_row">
 						<td class="position" id = "assign_position_<%= folder.public_id %>">
 							<%=  select(:folder_position, folder.public_id, [*1...lu.folder_positions.size + 1], {:include_blank =>'Position (' + lu.folder_position(folder).to_s + ')'}) %>

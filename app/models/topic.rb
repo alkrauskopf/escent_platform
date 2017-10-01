@@ -11,7 +11,7 @@ class Topic < ActiveRecord::Base
   has_many :setting_values, :as => :scope, :dependent => :destroy
   has_many :topic_contents, :dependent => :destroy
   has_many :contents, :through => :topic_contents, :order => "position"
-  has_many :folder_positions, :as=>:scope, :dependent => :destroy, :order => "position"
+  has_many :folder_positions, :as=>:scope, :dependent => :destroy, :order => "pos"
   has_many :positioned_folders,:through => :folder_positions, :source => :folder, :uniq=>true
   has_many :folders, :through => :topic_contents, :uniq=>true
   has_many :classroom_referrals, :dependent => :destroy
@@ -85,7 +85,11 @@ class Topic < ActiveRecord::Base
   end
 
   def folder_position(folder)
-    self.folder_positions.for_folder(folder).empty? ? 0 : self.folder_positions.for_folder(folder).first.position
+    self.folder_positions.for_folder(folder).empty? ? 0 : self.folder_positions.for_folder(folder).first.pos
+  end
+
+  def resource_folders
+    self.folder_positions.sort_by{|fp| fp.pos}.map{|fp| fp.folder}.compact.uniq
   end
 
   def embed_codes

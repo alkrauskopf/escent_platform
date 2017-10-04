@@ -1,6 +1,6 @@
 <div class="left_panel_box">
   <div class="offering_panel_header ">
-    <span class="offering_panel_text"><%=pluralize(resources.size, ' General Material')%></span>
+    <span class="offering_panel_text"><%=pluralize(resources.size, ' General Resources')%></span>
   </div>
   <div class="left_panel_scroll_box">
     <% resources.each do |rsrc| %>
@@ -12,30 +12,30 @@
       <% if rsrc.link? && !rsrc.content_object.blank?%>
           <div class="row left_panel_resource_row">
           <div class="col-md-3 left_panel_resource_button">
-            <a href="<%= rsrc.content_object %>" target="_blank" >View Site</a>
+            <a href="<%= rsrc.content_object %>" target="_blank" >View</a>
           </div>
           <div class="col-md-9 ">
-            <%= rsrc.title.titleize  %>
+            <%= rsrc.title  %>
           </div>
         </div>
       <% end %>
       <% if rsrc.pdf? && rsrc.source_file.present?%>
           <div class="row left_panel_resource_row">
           <div class="col-md-3 left_panel_resource_button">
-            <a href="<%= rsrc.source_file.url %>" target="_blank" >View PDF</a>
+            <a href="<%= rsrc.source_file.url %>" target="_blank" >View</a>
           </div>
           <div class="col-md-9 ">
-            <%= rsrc.title.titleize  %>
+            <%= rsrc.title %>
           </div>
         </div>
       <% end %>
       <% if rsrc.office_doc? && rsrc.source_file.present?%>
           <div class="row left_panel_resource_row">
             <div class="col-md-3 left_panel_resource_button">
-              <a href="<%= rsrc.source_file.url %>" target="_blank">View Doc</a>
+              <a href="<%= rsrc.source_file.url %>" target="_blank">View</a>
             </div>
             <div class="col-md-9">
-              <%= rsrc.title.titleize  %>
+              <%= rsrc.title  %>
             </div>
           </div>
       <% end %>

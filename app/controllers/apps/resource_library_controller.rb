@@ -306,7 +306,7 @@ class Apps::ResourceLibraryController < ApplicationController
   end
 
   def prep_classrooms
-    @prep_classrooms = @current_subject.classrooms.precision_prep_provider(@current_organization.app_provider(CoopApp.ifa))
+    @prep_classrooms = (!@current_subject.nil? && !@current_subject.classrooms.empty? && @current_organization.app_enabled?(CoopApp.ifa)) ? @current_subject.classrooms.precision_prep_provider(@current_organization.app_provider(CoopApp.ifa)) : []
   end
 
 end

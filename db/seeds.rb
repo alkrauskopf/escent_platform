@@ -14,9 +14,7 @@
 
   initialize_master_app_provider = false     # make true if ifa_pilot needs to be restored again
 
-  create_a_resource_type = false
-
-  create_a_subject_area = false
+  create_a_resource_type = true
 
   create_object_type = false
 
@@ -24,7 +22,9 @@
 
   create_ifa_standards = false
 
-  add_subject = false
+  add_act_subject = false
+
+  add_subject_area = false
 
   deactivate_content_types = false
 
@@ -60,9 +60,13 @@
     ContentObjectTypeGroup.find_by_name('LINK').update_attributes(:content_format => 'String')
   end
 
-  if add_subject
+  if add_act_subject
     # did for tcpj 9/25/17
     ActSubject.create({'name' => 'Geometry/Measurement/Statistics', 'is_plannable' => 1})
+  end
+
+  if add_subject_area
+
   end
 
   if create_ifa_standards
@@ -195,17 +199,17 @@
   end
 
   if create_a_resource_type
-    if ContentResourceType.where(['name =?', 'Budget']).empty?
-      ContentResourceType.create('name' => 'Budget', 'descript' => 'Budget Document')
-    end
-    if ContentResourceType.where(['name =?', 'Proposal']).empty?
-      ContentResourceType.create('name' => 'Proposal', 'descript' => 'Proposal Document')
-    end
-    if ContentResourceType.where(['name =?', 'Evidence']).empty?
-      ContentResourceType.create('name' => 'Evidence', 'descript' => 'Performance Evidence')
-    end
-    if ContentResourceType.where(['name =?', 'Exemplar']).empty?
-      ContentResourceType.create('name' => 'Exemplar', 'descript' => 'An Example.')
+  #  if ContentResourceType.where(['name =?', 'Budget']).empty?
+  #    ContentResourceType.create('name' => 'Budget', 'descript' => 'Budget Document')
+  #  end
+  #  if ContentResourceType.where(['name =?', 'Proposal']).empty?
+  #    ContentResourceType.create('name' => 'Proposal', 'descript' => 'Proposal Document')
+  #  end
+  #  if ContentResourceType.where(['name =?', 'Evidence']).empty?
+  #    ContentResourceType.create('name' => 'Evidence', 'descript' => 'Performance Evidence')
+  #  end
+    if ContentResourceType.where(['name =?', 'Testing Tip/Strategy']).empty?
+      ContentResourceType.create('name' => 'Testing Tip/Strategy', 'descript' => 'An SAT, or other, Test Tip.')
     end
   end
 

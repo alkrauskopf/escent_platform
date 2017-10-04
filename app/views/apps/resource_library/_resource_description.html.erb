@@ -38,22 +38,39 @@
   <div class="row resource_edit_row">
     <div class="col-md-3 resource_label_field">
       Availability Date
+      <% if !@current_resource.nil? && !@current_resource.publish_start_date.nil? %>
+        <span class="resource_label_date">
+          <%= @current_resource.publish_start_date.strftime("%b %d, %Y")%>
+        </span>
+      <% end %>
     </div>
     <div class="col-md-9 resource_text_field">
-      <%= date_select(:content, :publish_start_date, :order=>[:month, :day, :year], :start_year => Time.now.year - 2, :end_year => Time.now.year + 20) %>
+      <%= date_select(:content, :publish_start_date, :order=>[:month, :day, :year], :start_year => Time.now.year - 2, :end_year => Time.now.year + 20,
+          :default => (!@current_resource.nil? && !@current_resource.publish_start_date.nil?) ? @current_resource.publish_start_date : Time.now) %>
     </div>
   </div>
   <div class="row resource_edit_row">
     <div class="col-md-3 resource_label_field">
       Expiration Date
+      <% if !@current_resource.nil? && !@current_resource.publish_end_date.nil? %>
+        <span class="resource_label_date">
+          <%= @current_resource.publish_end_date.strftime("%b %d, %Y")%>
+        </span>
+      <% end %>
     </div>
     <div class="col-md-9 resource_text_field">
-      <%= date_select(:content, :publish_end_date, :order=>[:month, :day, :year], :start_year => Time.now.year, :end_year => Time.now.year + 20, :value => Time.now.year + 20) %>
+      <%= date_select(:content, :publish_end_date, :order=>[:month, :day, :year], :start_year => Time.now.year, :end_year => Time.now.year + 20,
+          :default => (!@current_resource.nil? && !@current_resource.publish_end_date.nil?) ? @current_resource.publish_end_date : (Time.now + 15.years)) %>
     </div>
   </div>
   <div class="row resource_edit_row">
     <div class="col-md-3 resource_label_field">
       Status
+      <% if !@current_resource.nil? && !@current_resource.content_status.nil? %>
+        <span class="resource_label_date">
+          <%= @current_resource.content_status.name%>
+        </span>
+      <% end %>
     </div>
     <div class="col-md-9 resource_text_field">
       <%= select("content", "content_status_id", ContentStatus.not_deleted.collect {|p|  [ p.name, p.id ] },

@@ -13,30 +13,30 @@
         </div>
         <hr>
       </div>
-    <div>
-      <% unless @classroom.teachers.size.zero? -%>
-        <%= render :partial => "apps/classroom/register_student", :locals=> {:classroom => @classroom} %>
-        <%= render :partial => "apps/classroom/display_teachers", :locals=> {:classroom => @classroom} %>
-          <!-- Messaging Table -->
-        <% unless !@classroom.active_for?(@current_user) || !@classroom.viewable_by?(@current_user)-%>
-          <br/>
-          <!-- Leader Message to Participants -->
-          <% if @classroom.leaders.include?(@current_user) then -%>
-             <%= render :partial => "apps/classroom/display_user_is_teacher", :locals=> {:classroom => @classroom, :current_period => @current_classroom_period, :topic=> @topic} %>
-          <% elsif @current_user.student_of_classroom?(@classroom) && @classroom.leaders.size > 0 -%>
-             <%= render :partial => "apps/classroom/display_user_is_student", :locals=> {:classroom => @classroom, :current_period => @current_classroom_period, :topic=> @topic} %>
+      <div>
+        <% unless @classroom.teachers.size.zero? -%>
+          <%= render :partial => "apps/classroom/register_student", :locals=> {:classroom => @classroom} %>
+          <%= render :partial => "apps/classroom/display_teachers", :locals=> {:classroom => @classroom} %>
+            <!-- Messaging Table -->
+          <% unless !@classroom.active_for?(@current_user) || !@classroom.viewable_by?(@current_user)-%>
+            <br/>
+            <!-- Leader Message to Participants -->
+            <% if @classroom.leaders.include?(@current_user) then -%>
+               <%= render :partial => "apps/classroom/display_user_is_teacher", :locals=> {:classroom => @classroom, :current_period => @current_classroom_period, :topic=> @topic} %>
+            <% elsif @current_user.student_of_classroom?(@classroom) && @classroom.leaders.size > 0 -%>
+               <%= render :partial => "apps/classroom/display_user_is_student", :locals=> {:classroom => @classroom, :current_period => @current_classroom_period, :topic=> @topic} %>
+            <% end -%>
           <% end -%>
-        <% end -%>
-      <% else %>
-        <span class='no_leaders'>No Leaders Assigned</span>
-      <% end %>
-    </div>
-    <% if @classroom.viewable_by?(@current_user)-%>
-      <% unless @classroom.contents.active.empty? -%>
+        <% else %>
+          <span class='no_leaders'>No Leaders Assigned</span>
+        <% end %>
+      </div>
+      <% if @classroom.viewable_by?(@current_user)-%>
+        <%= render :partial => "/apps/classroom/student_learning_units", :locals => {:student => @current_user, :classroom => @classroom} %>
+        <% unless @classroom.contents.active.empty? -%>
           <%= render :partial => "/apps/classroom/general_resources", :locals => {:resources => @classroom.contents.active} %>
+        <% end %>
       <% end %>
-      <%= render :partial => "/apps/classroom/student_learning_units", :locals => {:student => @current_user, :classroom => @classroom} %>
-    <% end %>
     </div>
   </div>
   <div class='col-md-7'>

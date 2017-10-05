@@ -21,7 +21,7 @@
         </div>
       <% end %>
     <% end %>
-    <% if student.offerings.size > 1 %>
+    <% if !student.nil? && student.offerings.size > 1 %>
         <div class="row ">
           <div class="col-md-12 left_panel_subtitle_row ">
             - - - Other <%=student.first_name%> Subjects - - -

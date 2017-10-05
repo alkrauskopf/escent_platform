@@ -96,6 +96,14 @@ class Folder < ActiveRecord::Base
     !self.hidden?(lu.id, lu.class.to_s)
   end
 
+  def teacher_only?(lu)
+    self.for_teacher?(lu.id, lu.class.to_s)
+  end
+
+  def for_teacher?(scope_id, scope_type)
+    self.position_for_scope(scope_id, scope_type).nil? ? false : self.position_for_scope(scope_id, scope_type).for_teacher
+  end
+
   def hide?(lu)
     self.hidden?(lu.id, lu.class.to_s)
   end

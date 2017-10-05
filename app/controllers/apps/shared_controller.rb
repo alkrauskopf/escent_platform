@@ -307,8 +307,14 @@ class Apps::SharedController < Site::ApplicationController
 
   def assign_lu_folder_toggle_show
     if @folder && @topic
-      folder = @folder.position_for_scope(@topic.id, @topic.class.to_s)
-      folder.update_attributes(:is_hidden => !folder.is_hidden)
+      if params[:function] == 'H'
+        folder = @folder.position_for_scope(@topic.id, @topic.class.to_s)
+        folder.update_attributes(:is_hidden => !folder.is_hidden)
+      end
+      if params[:function] == 'T'
+        folder = @folder.position_for_scope(@topic.id, @topic.class.to_s)
+        folder.update_attributes(:for_teacher => !folder.for_teacher)
+      end
     end
     render :partial => "/apps/classroom/offering_folder_setup", :locals => {:admin => true, :app=> @app, :lu=> @topic}
   end

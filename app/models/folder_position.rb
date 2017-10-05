@@ -12,5 +12,7 @@ class FolderPosition < ActiveRecord::Base
   scope :for_folder, lambda{|folder| {:conditions => ["folder_id = ?", folder.id], :order=>'pos'}}
   scope :hidden, :conditions => ["is_hidden = ?", true],  :order => "pos"
   scope :visible, :conditions => ["is_hidden = ?", false],  :order => "pos"
+  scope :teacher_only, :conditions => ["for_teacher = ?", true],  :order => "pos"
+  scope :for_all, :conditions => ["for_teacher = ?", false],  :order => "pos"
 
 end

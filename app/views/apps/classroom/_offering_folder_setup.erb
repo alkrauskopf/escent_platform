@@ -49,7 +49,7 @@
     <table class="lu_admin_folder_box">
 			<thead>
 				<tr>
-					<th colspan = 4 class='folder_header'>
+					<th colspan = 5 class='folder_header'>
             <%= pluralize(lu.resource_folders.size, (lu.title + " Folder")) -%>
 					</th>
 				</tr>
@@ -65,9 +65,21 @@
             <td class="activate" id="toggle_show_<%= folder.public_id %>">
               <%= (image_tag show_button,:width => 12) -%>
             </td>
+            <% show_t_button = folder.teacher_only?(lu) ? "button_enabled.png" : "button_disabled.png" -%>
+            <td class="activate" id="toggle_show_t_<%= folder.public_id %>">
+              <%= (image_tag show_t_button,:width => 12) -%>
+            </td>
+            <% hide_class = folder.show?(lu) ? "folder_row_blue" : "folder_row_red" %>
+            <% teacher_class = folder.teacher_only?(lu) ? "folder_row_red" : "folder_row_blue" %>
             <td class="description">
 							<%= folder.parent ? (folder.parent.name + ' / <strong>' + folder.name + '</strong>').html_safe : ('<strong>' + folder.name + '</strong>').html_safe  %>
               (<%= pluralize(lu.topic_contents.for_folder(folder).size, " Resource") %>)
+              <div class=<%= hide_class%>>
+                <%= folder.show?(lu) ? "Show Folder" : "Hide Folder" %>
+              </div>
+              <div class=<%= teacher_class%>>
+                <%= folder.teacher_only?(lu) ? "Teacher Only" : "For All" %>
+              </div>
 						</td>
             <td class="mastery">
               <% folder.mastery_levels.each do |ml| %>
@@ -91,7 +103,18 @@
           <script type="text/javascript">
             jQ(document).ready(function() {
               jQ('#toggle_show_<%= folder.public_id %>').click(function() {
-                var url = "<%= offering_admin_lu_folder_toggle_url(:organization_id => @current_organization, :topic_id => lu, :folder_id => folder ) %>";
+                var url = "<%= offering_admin_lu_folder_toggle_url(:organization_id => @current_organization, :topic_id => lu, :folder_id => folder, :function => 'H'  ) %>";
+                jQ.get(url, {}, function(data) {
+                  jQ("#offering_folder_setup_<%=lu.id%>").html(data);
+                  jQ("#offering_folder_setup_<%=lu.id%>").show();
+                });
+              })
+            });
+          </script>
+          <script type="text/javascript">
+            jQ(document).ready(function() {
+              jQ('#toggle_show_t_<%= folder.public_id %>').click(function() {
+                var url = "<%= offering_admin_lu_folder_toggle_url(:organization_id => @current_organization, :topic_id => lu, :folder_id => folder, :function => 'T' ) %>";
                 jQ.get(url, {}, function(data) {
                   jQ("#offering_folder_setup_<%=lu.id%>").html(data);
                   jQ("#offering_folder_setup_<%=lu.id%>").show();

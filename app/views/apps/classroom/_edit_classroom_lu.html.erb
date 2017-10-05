@@ -4,7 +4,11 @@
 		<%= @current_organization.medium_name %> Learning Unit Maintainence
   </div>
   <div class= 'row panel_subtitle_blue'>
-		<%=lu.classroom.course_name.upcase %><%= lu.classroom.active? ? '' : "<span style='font-size:10px;color: #C83A14;'>  (Not Active)</span>" %>:&nbsp;<%=lu.title %>
+		<%=lu.classroom.course_name.upcase %>:
+    <% if !lu.classroom.active? %>
+      <span style='font-size:10px;color: #C83A14;'>  (Not Active) </span>
+    <% end %>
+    <%=lu.title %>
 	</div>
   <div class= 'row panel_subsubtitle_blue'>
 		<%= lu.estimated_start_date.strftime("%b %d, %Y")%> - <%= lu.estimated_end_date.strftime("%b %d, %Y")%>

@@ -89,7 +89,7 @@ class Topic < ActiveRecord::Base
   end
 
   def resource_folders
-    self.folder_positions.sort_by{|fp| fp.pos}.map{|fp| fp.folder}.compact.uniq
+    self.folder_positions.empty? ? [] : self.folder_positions.sort_by{|fp| fp.pos}.map{|fp| fp.folder}.compact.uniq
   end
 
   def embed_codes

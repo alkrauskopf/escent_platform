@@ -11,7 +11,7 @@
   <div class="col-md-3"></div>
 </div>
 <div>
-  <%= form_tag user_register_path(:organization_id => @current_organization) do %>
+  <%= form_for(user_register_path(:organization_id => @current_organization), html: { id: "formAssess"}) do |form| %>
   <div class="row " >
     <div class="col-md-1"></div>
     <div class="col-md-8">
@@ -23,13 +23,22 @@
     <div class="row registration_form" >
       <div class="col-md-2"></div>
       <div class="col-md-2 registration_join">
-        <%= button_to " Join ", {}, :class => "button_blue registration_button" %>
+        <%#= button_to " Join ", {}, :id=>'btnJoin', :class => "button_blue registration_button" %>
+        <%= submit_tag " Join ", :id=>'btnSubmit', :class => "button_blue registration_button" %>
       </div>
       <div class="col-md-8 registration_policy">
         Your email address will not be shared. See <%= link_to 'Privacy Policy', privacy_path,  :target => '_blank' %>
       </div>
     </div>
   <%end %>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#formAssess").submit(function(){
+        jQ("#btnSubmit").attr("disabled", true);
+        return true;
+      });
+    });
+  </script>
 	<div class="clear:both;">	</div>
 </div>
 

@@ -2,7 +2,7 @@
   <div class="teacher_review_period_box ">
     <div class= "precision_prep_review_panel">
       <div class="teacher_review_header_label">
-      <%= pluralize(students.size, subject.name + ' Student') %>
+      <%= pluralize(students.size, ' Student') %>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
               <%= pluralize(plan.evidence_list.size, ' Evidence Attachment') %> |
               <%= pluralize(plan.remarks.size, ' Teacher Remark') %>
             <% else %>
-              No Plan
+              No <%= subject.name %> Plan
             <% end %>
           </div>
         </div>

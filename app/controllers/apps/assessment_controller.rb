@@ -799,7 +799,7 @@ class Apps::AssessmentController < Apps::ApplicationController
     aggregate_dashboard_cell_hashes(@organization_dashboards, @current_subject, @current_standard)
     aggregate_dashboard_header_info(@organization_dashboards, @current_subject, @current_standard, @current_organization)
     org_analysys_instance_variables
-    student_growth_plans
+#    student_growth_plans
   end
 
   def growth_dashboards

@@ -325,7 +325,7 @@ class ActSubmission < ActiveRecord::Base
       # Now, Try updating always
       # if !self.period_dashboard?(self.classroom)
       # Don't Classroom dashboard Submissions with incompatible subjects
-      if self.act_subject_id == self.classroom.act_subject_id
+      if self.act_subject_id == self.classroom.act_subject.id
         self.auto_ifa_dashboard_update_new(self.classroom, standard)
       end
       # end

@@ -24,7 +24,7 @@
 
   add_act_subject = false
 
-  add_subject_area = true
+  add_subject_area = false
 
   deactivate_content_types = false
 

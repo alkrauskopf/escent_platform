@@ -138,7 +138,8 @@ class Classroom < ActiveRecord::Base
   end
 
   def self.for_subject(subject)
-    where('act_subject_id = ?', subject.id)
+    includes(:subject_area).where('subject_areas.act_subject_id = ?', subject.id)
+  #  where('act_subject_id = ?', subject.id)
   end
 
   def self.precision_prep
@@ -154,7 +155,12 @@ class Classroom < ActiveRecord::Base
   end
 
   def self.precision_prep_subject(subject)
-    where('act_subject_id = ? && status = ? && is_prep', subject.id, 'active')
+    includes(:subject_area).where('subject_areas.act_subject_id = ? && status = ? && is_prep', subject.id, 'active')
+   # where('act_subject_id = ? && status = ? && is_prep', subject.id, 'active')
+  end
+
+  def self.ifa_enabled_subject(subject)
+    includes(:subject_area).where('subject_areas.act_subject_id = ? && status = ?', subject.id, 'active').select{|c| c.ifa_enabled?}
   end
 
   def ifa_enable

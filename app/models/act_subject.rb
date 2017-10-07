@@ -40,6 +40,14 @@ class ActSubject < ActiveRecord::Base
     where('name = ?', 'Mathematics').first
   end
 
+  def self.math_number
+    where('name = ?', 'Numbers, Algebra, Functions').first
+  end
+
+  def self.math_geo_stat
+    where('name = ?', 'Geometry, Measurement, Statistics').first
+  end
+
   def self.rl
     where('name = ?', 'Reading, Literature').first
   end

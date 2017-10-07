@@ -24,7 +24,7 @@
 
   add_act_subject = false
 
-  add_subject_area = false
+  add_subject_area = true
 
   deactivate_content_types = false
 
@@ -66,7 +66,9 @@
   end
 
   if add_subject_area
-
+    SubjectArea.find_by_name('Geometry').update_attributes('name' => 'Geom/Measrmnt/Stat', 'act_subject_id' => ActSubject.math_geo_stat.id)
+    SubjectArea.find_by_name('Statistics').update_attributes('act_subject_id' => ActSubject.math_geo_stat.id)
+    SubjectArea.find_by_name('Algebra').update_attributes('name' => 'Nmbrs/Algebra/Funcs', 'act_subject_id' => ActSubject.math_number.id)
   end
 
   if create_ifa_standards

@@ -68,9 +68,11 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     current_plan
     if @current_plan
       @current_plan.update_attributes(:needs=>params[:needs],:goals=>params[:goals])
+      PrecisionPrepMailer.plan_updated_student(@current_student, @current_plan, request.host_with_port).deliver
     else
       @current_plan = IfaPlan.create(:act_subject_id => @current_subject.id, :needs=>params[:needs], :goals=>params[:goals])
       @current_student.ifa_plans << @current_plan
+      PrecisionPrepMailer.plan_created_student(@current_student, @current_plan, request.host_with_port).deliver
     end
     render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @current_student.ifa_plan_subject(@current_subject), :student => @current_student, :subject => @current_subject, :show_form => false}
   end
@@ -119,15 +121,14 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       @current_milestone.description = params[:description]
       @current_milestone.achieve_date = Time.now
       @user_plan.milestones << @current_milestone
-      if @user_plan.notifyable?
-        PrecisionPrepMailer.milestone_created_guardian(@current_user, @current_milestone, request.host_with_port).deliver
-      end
+      PrecisionPrepMailer.milestone_created_student(@current_user, @current_milestone, request.host_with_port).deliver
       if !@user_plan.relevant_teachers(@current_organization).empty?
         PrecisionPrepMailer.milestone_created_teacher(@current_user, @user_plan.relevant_teachers(@current_organization), @current_milestone, request.host_with_port).deliver
       end
     else
       current_milestone
       @current_milestone.update_attributes(:description=>params[:description], :act_score_range_id => @current_range.id)
+      PrecisionPrepMailer.milestone_updated_student(@current_user, @current_milestone, request.host_with_port).deliver
     end
     set_plan
     render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @current_strand,

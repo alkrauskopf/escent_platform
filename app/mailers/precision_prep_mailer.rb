@@ -15,6 +15,78 @@ class PrecisionPrepMailer < ActionMailer::Base
     end
   end
 
+  def plan_created_student(user, plan, ep_host)
+      @user_name = user.first_name
+      @full_name = user.full_name
+      @school_name = user.organization.short_name
+      @subject_area = plan.subject_area.name
+      @needs = plan.needs.blank? ? 'Not Defined'  : plan.needs
+      @goals = plan.goals.blank? ? 'Not Defined'  : plan.goals
+      @miles_defined = plan.milestones.size
+      @miles_achieved = plan.milestones.achieved.size
+      @recipients = user.guardians.empty? ? user.preferred_email : (user.preferred_email + ', ' + user.guardian_email_list)
+      @subject_line = 'Growth Plan Created'
+      @ep_host = ep_host
+      @from = 'precision_plan<noreply@PrecisionSchoolImprovement.com>'
+      unless @recipients.blank?
+        mail(to:@recipients , subject: @subject_line, from: @from, date: DateTime.now)
+      end
+  end
+
+  def plan_updated_student(user, plan, ep_host)
+    @user_name = user.first_name
+    @full_name = user.full_name
+    @school_name = user.organization.short_name
+    @subject_area = plan.subject_area.name
+    @needs = plan.needs.blank? ? 'Not Defined'  : plan.needs
+    @goals = plan.goals.blank? ? 'Not Defined'  : plan.goals
+    @miles_defined = plan.milestones.size
+    @miles_achieved = plan.milestones.achieved.size
+    @recipients = user.guardians.empty? ? user.preferred_email : (user.preferred_email + ', ' + user.guardian_email_list)
+    @subject_line = 'Growth Plan Updated'
+    @ep_host = ep_host
+    @from = 'precision_plan<noreply@PrecisionSchoolImprovement.com>'
+    unless @recipients.blank?
+      mail(to:@recipients , subject: @subject_line, from: @from, date: DateTime.now)
+    end
+  end
+
+  def milestone_created_student(user, milestone, ep_host)
+    @user_name = user.first_name
+    @full_name = user.full_name
+    @school_name = user.organization.short_name
+    @milestone = milestone
+    @plan = milestone.ifa_plan
+    @subject_area = @plan.subject_area.name
+    @strand_name = @milestone.strand.name.titleize
+    @mastery_level = @milestone.range.range
+    @recipients = user.guardians.empty? ? user.preferred_email : (user.preferred_email + ', ' + user.guardian_email_list)
+    @subject_line = 'Milestone Created'
+    @ep_host = ep_host
+    @from = 'precision_plan<noreply@PrecisionSchoolImprovement.com>'
+    unless @recipients.blank?
+      mail(to:@recipients , subject: @subject_line, from: @from, date: DateTime.now)
+    end
+  end
+
+  def milestone_updated_student(user, milestone, ep_host)
+    @user_name = user.first_name
+    @full_name = user.full_name
+    @school_name = user.organization.short_name
+    @milestone = milestone
+    @plan = milestone.ifa_plan
+    @subject_area = @plan.subject_area.name
+    @strand_name = @milestone.strand.name.titleize
+    @mastery_level = @milestone.range.range
+    @recipients = user.guardians.empty? ? user.preferred_email : (user.preferred_email + ', ' + user.guardian_email_list)
+    @subject_line = 'Milestone Updated'
+    @ep_host = ep_host
+    @from = 'precision_plan<noreply@PrecisionSchoolImprovement.com>'
+    unless @recipients.blank?
+      mail(to:@recipients , subject: @subject_line, from: @from, date: DateTime.now)
+    end
+  end
+
   def milestone_created_guardian(user, milestone, ep_host)
     if !user.guardians.empty?
       @user_name = user.first_name

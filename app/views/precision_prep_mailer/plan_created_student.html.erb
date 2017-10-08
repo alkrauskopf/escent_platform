@@ -1,0 +1,36 @@
+Dear <%= @user_name %>:<br/>
+<br />
+Thank you for creating your <strong><%= @subject_area %></strong> growth plan.<br/>
+<br/>
+Here are some important things to remember:<br/>
+<ul>
+  <li>
+    Your plan stays with you year-over-year, to prepare you for the SAT's or ACTs.
+  </li><br/>
+  <li>
+    Your plan will be composed of milestones, steps, that will lead toward your goals as fast as you are able.
+  </li><br/>
+  <li>
+    Each milestone is determined by <u>your</u> individual needs, <%= @user_name %>, not by anybody else's needs.
+    When you achieve a milestone your teachers will be notified, and, if you would like, so too will your parent/guardian.
+  </li><br/>
+  <li>
+    <strong>IMPORTANT:</strong> The purpose of taking an assessment is to help <u>you</u> identify <u>your</u> particular needs, NOT to determine a grade.
+    Assessment results are for you, <%= @user_name %>. They will help you see the things that <u>you</u> should focus on, and the things you should not worry about quite yet.
+  </li><br/>
+  <li>
+    Following your plan is like spinning a wheel, <%= @user_name %>: You first <u>identify</u> your unique needs, then <u>focus</u> on the work to address them, then <u>produce evidence</u> that you've mastered the need.
+    Then, keep repeating this cycle. The faster your wheel spins, the faster you'll move toward your goals.
+  </li><br/>
+  <li>
+    Your teachers will help you "spin the wheel." But remember, <%= @user_name %>, it's your wheel to spin.
+  </li><br/>
+</ul>
+<br/>
+<%= @full_name.upcase %> | <%= @subject_area.upcase %></br>
+<%=simple_format ('NEEDS/CHALLENGES:<br/>' + @needs)%>
+<%=simple_format ('GOALS:<br/>' + @goals)%>
+<%= pluralize(@miles_defined, 'Milestone')%>&nbsp;Defined<br/>
+<%= pluralize(@miles_achieved, 'Milestone')%>&nbsp;Achieved<br/>
+<br/>
+ - Precision Prep Team at <%= @school_name %>

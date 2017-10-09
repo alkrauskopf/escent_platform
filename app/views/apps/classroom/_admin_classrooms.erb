@@ -44,6 +44,16 @@
 						</td>
 					</tr>
 				<% end -%>
+        <% if !@ifa_provider.nil? && !@ifa_app_name.nil? && !@ifa_subjects.empty?-%>
+          <tr  style="width:700px; border:0px solid #ddd;" >
+            <td  colspan=2 style="border:0px solid #ddd; padding-top:3px; vertical-align:middle; text-align:center; font-size:12px">
+              &nbsp;
+            </td>
+            <td  style=" border:0px solid #ddd; padding-top:3px; vertical-align:middle; text-align:center; font-size:12px">
+              <%=  select(:act, :subject_id, @ifa_subjects,{:include_blank => 'Select ' + @ifa_app_name + " Subject"}) %>
+            </td>
+          </tr>
+        <% end -%>
 			</tbody>
 		</table>
 
@@ -52,8 +62,9 @@ jQ(document).ready(function() {
 	jQ('#add_classroom').click(function() {
 		var classroom = jQ('#classroom_course_name').val();
 		var child_id = jQ('#child_child_subject').val();
+    var act_subject_id = jQ('#act_subject_id').val();
 		var url = "<%= offering_admin_add_url(:organization_id => @current_organization, :parent_subject_id => parent_id) %>";
-			jQ.get(url, {'classroom_name':classroom, 'child_subject_id': child_id }, function(data) {
+			jQ.get(url, {'classroom_name':classroom, 'child_subject_id': child_id, 'act_subject_id': act_subject_id }, function(data) {
 			jQ("#classroom_add").html(data); 
 	   		jQ("#classroom_add").show();
 			});

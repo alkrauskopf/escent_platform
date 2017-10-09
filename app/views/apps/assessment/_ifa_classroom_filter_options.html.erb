@@ -4,7 +4,7 @@
 	<div id="options_table1">
 
 				<% master = @classroom.ifa_classroom_option.act_master -%>
-				<% subject = @classroom.ifa_classroom_option.act_subject -%>
+				<% subject = @classroom.act_subject -%>
 				<% unless master -%>
 					<% master = ActMaster.first -%>
 				<% end -%>

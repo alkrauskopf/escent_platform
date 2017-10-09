@@ -25,7 +25,8 @@ class Classroom < ActiveRecord::Base
   has_one   :total_view, :as => :entity, :dependent => :destroy
   
   belongs_to   :subject_area
-  has_one   :act_subject, :through => :subject_area
+  belongs_to   :act_subject
+ # has_one   :act_subject, :through => :subject_area
   has_many :act_assessment_classrooms, :dependent => :destroy
   has_many :act_assessments, :through => :act_assessment_classrooms, :order => "position"
   has_many :act_submissions
@@ -169,7 +170,7 @@ class Classroom < ActiveRecord::Base
       ifa_option.is_ifa_notify = true
       ifa_option.is_ifa_auto_finalize = false
       ifa_option.act_subject_id = self.act_subject_id
-      ifa_option.act_master_id =  nil
+      ifa_option.act_master_id =  self.organization.app_provider(CoopApp.ifa).master_standard
       ifa_option.is_calibrated = false
       ifa_option.is_user_filtered = false
     #  ifa_option.days_til_repeat = self.organization.ifa_org_option.days_til_repeat
@@ -191,8 +192,9 @@ class Classroom < ActiveRecord::Base
   def ifa_subject
     self.subject_area.act_subject rescue nil
   end
-  def act_subject
-    self.subject_area.act_subject rescue nil
+
+  def ifable?
+    self.organization.app_enabled?(CoopApp.ifa) && !self.act_subject.nil?
   end
 
   def ifa_plannable?

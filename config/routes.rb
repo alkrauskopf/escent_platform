@@ -333,6 +333,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/admin/name/update' => 'apps/classroom#change_classroom_name'
   get '/offering/admin/subject/update' => 'apps/classroom#change_classroom_subject'
   get '/offering/admin/parent/subject' => 'apps/classroom#change_parent_subject'
+  get '/offering/admin/act/subject' => 'apps/classroom#change_act_subject'  #   get offering_admin_act_subject_url
   get '/offering/admin/periods' => 'apps/classroom#offering_periods'
   get '/offering/admin/period/add' => 'apps/classroom#add_period'
   get '/offering/admin/period/edit' => 'apps/classroom#edit_period'

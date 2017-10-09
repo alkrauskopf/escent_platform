@@ -19,9 +19,9 @@
         <td  class="toggle_button" id="toggle_open" >
 						<%= (image_tag open_button,:width => 12) -%>
 				</td>
-				<% if @current_organization.ifa_enabled? %>
+				<% if offering.ifable? %>
           <td class="option_label">
-            IFA&nbsp;<%= offering.ifa_enabled? ? "On" : "Off" %>
+            <%=CoopApp.ifa.abbrev%>&nbsp;<%= offering.ifa_enabled? ? "On" : "Off" %>
           </td>
           <% ifa_button = offering.ifa_enabled? ? "button_enabled.png" : "button_disabled.png" -%>
 					<td  class="toggle_button" id="toggle_ifa">
@@ -44,20 +44,20 @@
 			</tr>
 		</tbody>					
 	</table>
-	<% if @current_organization.ifa_enabled? && offering.ifa_classroom_option -%>
+	<% if offering.ifable? && offering.ifa_classroom_option -%>
 		<table class="options_table">
 			<tbody>
 				<tr >
 					<% ifa_notify_button = offering.ifa_notify? ? "button_enabled.png" : "button_disabled.png" -%>
           <td class="option_label">
-            IFA Notifications&nbsp;<%= offering.ifa_notify? ? "On" : "Off" %>
+            <%=CoopApp.ifa.abbrev%> Notifications&nbsp;<%= offering.ifa_notify? ? "On" : "Off" %>
           </td>
           <td class="toggle_button" id="toggle_ifa_notify">
 							<%= (image_tag ifa_notify_button,:width => 12) -%>
 					</td>
 					<% ifa_finalize_button = offering.ifa_auto_finalize? ? "button_enabled.png" : "button_disabled.png" -%>
           <td class="option_label">
-            IFA Auto-finalize&nbsp;<%= offering.ifa_auto_finalize? ? "On" : "Off" %>
+            <%=CoopApp.ifa.abbrev%> Auto-finalize&nbsp;<%= offering.ifa_auto_finalize? ? "On" : "Off" %>
           </td>
           <td class="toggle_button" id="toggle_ifa_finalize">
 							<%= (image_tag ifa_finalize_button,:width => 12) -%>
@@ -76,7 +76,7 @@
 					</td>
           <% prep_button = offering.precision_prep? ? "button_enabled.png" : "button_disabled.png" -%>
           <td class="option_label">
-            Precision Prep&nbsp;<%= offering.precision_prep? ? "Yes" : "No" %>
+            <%= @ifa_app_name %>&nbsp;<%= offering.precision_prep? ? "Yes" : "No" %>
           </td>
           <td class="toggle_button" id="toggle_precision_prep">
             <%= (image_tag prep_button,:width => 12) -%>

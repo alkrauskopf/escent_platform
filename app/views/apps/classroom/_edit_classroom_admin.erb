@@ -65,6 +65,17 @@
         <%=  select(:child, :child_subject, parent.all_children.sort_by{|a| [a.name]}.collect{|s| [s.name, s.id]},{:include_blank => prompt_label}) %>
       </td>
     </tr>
+    <% if !@ifa_provider.nil? && !@ifa_app_name.nil? && !@ifa_subjects.empty?-%>
+      <tr>
+        <td   colspan=2 id="label_col"></td>
+        <td   class="text_col" id = "select_ifa_subject">
+          <%=  select(:act, :subject_id,  @ifa_subjects, {:include_blank => 'Select ' + @ifa_app_name + ' Subject'}) %>
+        </td>
+        <td  class="text_col" >
+          <%= classroom.act_subject ? classroom.act_subject.name : ('No ' + @ifa_app_name + ' Subject Defined') %>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
 <script type="text/javascript">
@@ -116,6 +127,19 @@ jQ(document).ready(function() {
 			});
 	})
 });
+</script>
+
+<script type="text/javascript">
+  jQ(document).ready(function() {
+    jQ('#select_ifa_subject').change(function() {
+      var act_subject_id = jQ('#act_subject_id').val();
+      var url = "<%= offering_admin_act_subject_url(:organization_id => @current_organization, :classroom_id => classroom) %>";
+      jQ.get(url, {'act_subject_id': act_subject_id}, function(data) {
+        jQ("#classroom_edit").html(data);
+        jQ("#classroom_edit").show();
+      });
+    })
+  });
 </script>
 
 

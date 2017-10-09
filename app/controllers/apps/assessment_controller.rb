@@ -2536,28 +2536,28 @@ end
  
   @assessment_pool = []
   if @classroom.ifa_classroom_option
-    if @classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered && @classroom.ifa_classroom_option.act_subject_id
-      @assessment_pool = @current_user.act_assessments.where('is_active AND is_calibrated AND act_subject_id = ?', @classroom.ifa_classroom_option.act_subject.id)
+    if @classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered && @classroom.act_subject_id
+      @assessment_pool = @current_user.act_assessments.where('is_active AND is_calibrated AND act_subject_id = ?', @classroom.act_subject.id)
     end
-    if @classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered && !@classroom.ifa_classroom_option.act_subject_id
+    if @classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered && !@classroom.act_subject_id
       @assessment_pool = @current_user.act_assessments.active.calibrated
     end
-    if !@classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered  && @classroom.ifa_classroom_option.act_subject_id
-      @assessment_pool = @current_user.act_assessments.active.where('act_subject_id = ?', @classroom.ifa_classroom_option.act_subject.id)
+    if !@classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered  && @classroom.act_subject_id
+      @assessment_pool = @current_user.act_assessments.active.where('act_subject_id = ?', @classroom.act_subject.id)
     end
-    if @classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && @classroom.ifa_classroom_option.act_subject_id
-      @assessment_pool = @classroom.ifa_classroom_option.act_subject.act_assessments.where('is_active AND is_calibrated')
+    if @classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && @classroom.act_subject_id
+      @assessment_pool = @classroom.act_subject.act_assessments.where('is_active AND is_calibrated')
     end
-    if @classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && !@classroom.ifa_classroom_option.act_subject_id
+    if @classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && !@classroom.act_subject_id
       @assessment_pool = ActAssessment.active.calibrated
     end
-    if !@classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && @classroom.ifa_classroom_option.act_subject_id
-      @assessment_pool = @classroom.ifa_classroom_option.act_subject.act_assessments.active
+    if !@classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && @classroom.act_subject_id
+      @assessment_pool = @classroom.act_subject.act_assessments.active
     end
-    if !@classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered  && !@classroom.ifa_classroom_option.act_subject_id
+    if !@classroom.ifa_classroom_option.is_calibrated && @classroom.ifa_classroom_option.is_user_filtered  && !@classroom.act_subject_id
       @assessment_pool = @current_user.act_assessments.active
     end
-    if !@classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && !@classroom.ifa_classroom_option.act_subject_id
+    if !@classroom.ifa_classroom_option.is_calibrated && !@classroom.ifa_classroom_option.is_user_filtered  && !@classroom.act_subject_id
       @assessment_pool = ActAssessment.active
     end
     if @classroom.ifa_classroom_option.max_score_filter && @classroom.ifa_classroom_option.act_master_id

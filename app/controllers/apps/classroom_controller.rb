@@ -22,6 +22,7 @@ class Apps::ClassroomController < ApplicationController
     else
       @admin_orgs = @current_user.app_admin_orgs(@current_application).select{|o| o != @current_organization}
     end
+    ifa_instance_variables
   end
 
   def utilities
@@ -127,7 +128,8 @@ class Apps::ClassroomController < ApplicationController
      subject = SubjectArea.find_by_id(params[:parent_subject_id]) rescue nil     
     end
     @classroom.subject_area_id = subject.nil? ? nil : subject.id
-    @classroom.act_subject_id = subject.nil? ? nil : subject.act_subject_id
+    ifa_subject = ActSubject.find_by_id(params[:act_subject_id]) rescue nil
+    @classroom.act_subject_id = ifa_subject.nil? ? nil : ifa_subject.id
     if @classroom.save
       flash[:notice] = 'Offering Successfully Created.'
       new_name = ""
@@ -135,6 +137,7 @@ class Apps::ClassroomController < ApplicationController
       flash[:error] = @classroom.errors.full_messages
       new_name = params[:classroom_name]
     end
+    ifa_instance_variables
     render :partial => "admin_classrooms", :locals => {:admin => @admin, :parent=> nil, :name =>new_name} 
   end
 
@@ -164,28 +167,42 @@ class Apps::ClassroomController < ApplicationController
   
   def identify_parent_subject
     initialize_parameters
-    
+    ifa_instance_variables
     if params[:parent_subject_id]
       parent = SubjectArea.find_by_id(params[:parent_subject_id]) rescue nil
     else
       parent=nil
     end
-    render :partial => "admin_classrooms", :locals => {:admin => @admin, :parent=> parent, :name => params[:classroom_name]} 
+    render :partial => "admin_classrooms", :locals => {:admin => @admin, :parent=> parent, :name => params[:classroom_name]}
   end
 
   def change_parent_subject
     initialize_parameters
-    
     if params[:parent_subject_id]
       parent = SubjectArea.find_by_id(params[:parent_subject_id]) rescue nil
     else
       parent = @classroom.parent_subject
     end
+    ifa_instance_variables
     render :partial => "edit_classroom", :locals => {:admin => @admin, :parent=> parent, :classroom => @classroom, :app=> @app}
+  end
+
+  def change_act_subject
+    initialize_parameters
+    if params[:act_subject_id]
+      subject = ActSubject.find_by_id(params[:act_subject_id]) rescue nil
+      @classroom.update_attributes(:act_subject_id => (subject.nil? ? nil : subject.id))
+      if @classroom.act_subject.nil?
+        @classroom.ifa_disable
+      end
+    end
+    ifa_instance_variables
+    render :partial => "edit_classroom", :locals => {:admin => @admin, :parent=> @classroom.parent_subject, :classroom => @classroom, :app=> @app}
   end
   
   def setup_classroom
     initialize_parameters
+    ifa_instance_variables
   end
   
   def setup_classroom_lu
@@ -467,6 +484,7 @@ class Apps::ClassroomController < ApplicationController
      flash[:error] = @classroom.errors.full_messages       
     end    
     refresh_classroom
+    ifa_instance_variables
     render :partial => "edit_classroom", :locals => {:admin => @admin, :parent=> @classroom.parent_subject, :parent_reset => false, :classroom => @classroom, :name=> @classroom.course_name} 
   end
   
@@ -479,6 +497,7 @@ class Apps::ClassroomController < ApplicationController
      flash[:error] = @classroom.errors.full_messages       
     end    
     refresh_classroom
+    ifa_instance_variables
     render :partial => "edit_classroom", :locals => {:admin => @admin, :parent=> @classroom.parent_subject, :classroom => @classroom, :app=>@app} 
   end
   
@@ -495,6 +514,7 @@ class Apps::ClassroomController < ApplicationController
      flash[:error] = @classroom.errors.full_messages       
     end    
     refresh_classroom
+    ifa_instance_variables
     render :partial => "edit_classroom", :locals => {:admin => @admin, :parent=> @classroom.parent_subject, :classroom => @classroom, :app=>@app} 
   end
 
@@ -667,6 +687,7 @@ class Apps::ClassroomController < ApplicationController
       @classroom.status == "active" ? @classroom.update_attributes(:status => nil) : @classroom.update_attributes(:status => "active")
     end
     refresh_classroom
+    ifa_instance_variables
     render :partial => "edit_classroom", :locals => {:admin => @admin, :app => @app, :parent=> @classroom.parent_subject, :classroom => @classroom} 
   end
 
@@ -803,6 +824,7 @@ class Apps::ClassroomController < ApplicationController
       @classroom.update_attributes(:is_prep =>!@classroom.is_prep)
     end
     refresh_classroom
+    ifa_instance_variables
     render :partial => "offering_options", :locals=>{:offering => @classroom}
   end
 
@@ -1105,5 +1127,10 @@ class Apps::ClassroomController < ApplicationController
       new_position.is_hidden = orig_position.nil? ? false : orig_position.is_hidden
       @new_offering.folder.folder_positions << new_position
     end
+  end
+  def ifa_instance_variables
+    @ifa_provider = @current_organization.app_enabled?(CoopApp.ifa) ?  @current_organization.app_provider(CoopApp.ifa) : nil
+    @ifa_app_name = @current_organization.app_enabled?(CoopApp.ifa) ?  CoopApp.ifa.app_name(:provider=>@ifa_provider) : nil
+    @ifa_subjects = @current_organization.app_enabled?(CoopApp.ifa) ? ([['-na-', 0]] + ActSubject.active.map{|s| [s.name, s.id]}) : []
   end
 end

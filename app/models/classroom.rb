@@ -180,6 +180,15 @@ class Classroom < ActiveRecord::Base
     end
   end
 
+  def subject_area_act_subject
+    if self.subject_area && self.subject_area.act_subject
+      subject_ifa = ActSubject.active.include?(self.subject_area.act_subject) ? self.subject_area.act_subject : nil
+    else
+      subject_ifa = nil
+    end
+    subject_ifa
+  end
+
   def ifa_enabled?
     (self.ifa_classroom_option && self.organization.ifa_enabled? && self.act_subject) ? true : false
   end

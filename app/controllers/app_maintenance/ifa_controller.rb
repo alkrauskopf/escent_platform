@@ -23,6 +23,26 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     current_level
   end
 
+  def tool_r
+    @tool_r_classroom_total = Classroom.all.size
+    @tool_r_classroom_count = 0
+    @tool_r_not_enabled_count = 0
+    Classroom.all.each do |clsrm|
+      if clsrm.organization.app_enabled?(CoopApp.ifa)
+        act_subject_id = clsrm.subject_area_act_subject.nil? ? nil : clsrm.subject_area_act_subject.id
+        if clsrm.act_subject_id != act_subject_id
+          clsrm.update_attributes(:act_subject_id => act_subject_id)
+          @tool_r_classroom_count += 1
+        end
+      else
+        clsrm.update_attributes(:act_subject_id => nil)
+        @tool_r_not_enabled_count += 1
+      end
+    end
+    @tool_r_summary = 'Tool R SUMMARY'
+    render :partial =>  "tool_r", :locals=>{}
+  end
+
   def tool_q
     @tool_q_plan_count = IfaPlan.all.size
     @tool_q_milestone_count = 0

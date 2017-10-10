@@ -86,7 +86,7 @@
     </div>
     <div id="tabs-4" class="row">
       <div class="col-md-12">
-        <%= render :partial => "/ifa/ifa_plan/teacher_review_plans", :locals=>{:students => @current_classroom.students, :subject => @current_classroom.act_subject} %>
+        <%= render :partial => "/ifa/ifa_plan/teacher_review_plans", :locals=>{:students => @current_classroom.students, :subject => @current_classroom.act_subject, :entity => @current_classroom} %>
       </div>
     </div>
   </div>

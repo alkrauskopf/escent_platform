@@ -311,6 +311,20 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     render :layout => "assessment"
   end
 
+  def plan_review_dashboard
+    current_subject
+    if params[:entity_class] == "Organization"
+      entity = Organization.find_by_id(params[:entity_id]) rescue nil
+      students = entity.nil? ? [] : (entity == @current_provider ? entity.precision_prep_provider_students
+      : entity.classrooms.for_subject(@current_subject).precision_prep_students)
+    else
+      entity = Classroom.find_by_id(params[:entity_id]) rescue nil
+      students = entity.participants
+    end
+    dashboard_entity_students(params[:db_type], @current_subject, students, entity)
+    db_view = params[:db_view] == "View" ? true:false
+    render :partial => "/ifa/ifa_plan/teacher_review_dashboard", :locals=>{:subject=> @current_subject, :db_type => params[:db_type], :entity => entity, :db_view => db_view }
+  end
 
   private
 
@@ -455,4 +469,30 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     end
   end
 
+  def dashboard_entity_students(db_type, subject, students, entity)
+    @plan_dashboard = {}
+    @plan_dashboard['none'] = []
+    @current_standard.act_score_ranges.active.for_subject(subject).each do |level|
+      @current_standard.act_standards.active.for_subject(subject).each do |strand|
+        hashkey = level.id.to_s + strand.id.to_s
+        @plan_dashboard[hashkey] = []
+      end
+    end
+    students.each do |student|
+      milestones = student.ifa_plans.for_subject(subject).empty? ? [] : (db_type == 'M' ? student.ifa_plans.for_subject(subject).first.milestones.not_achieved : student.ifa_plans.for_subject(subject).first.milestones.achieved)
+      if milestones.empty?
+        @plan_dashboard['none']<<student
+      else
+        milestones.map{|m| (m.range.id.to_s + m.strand.id.to_s)}.uniq.each do |hashkey|
+        @plan_dashboard[hashkey]<<student
+      end
+      end
+      @active_strands = ActStandard.all_for_standard_and_subject(@current_standard, subject).active
+      @active_levels = ActScoreRange.for_standard_and_subject(@current_standard, @current_subject)
+      @plan_dashboard['header1'] = entity.name + ' | ' + subject.name
+      @plan_dashboard['type'] = (db_type == 'M' ? 'Work-In-Process' : 'Plan Achievements')
+      @plan_dashboard['header2'] = (db_type == 'M' ? 'With No Milestones' : 'With No Achievements')
+  end
+
+  end
 end

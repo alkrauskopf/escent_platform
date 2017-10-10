@@ -1,5 +1,11 @@
 <div id="review_plans_<%=subject.id%>" >
   <div class="teacher_review_period_box ">
+    <%= render :partial => "/ifa/ifa_plan/teacher_review_dashboard", :locals=>{:subject=> subject, :db_type => 'M', :entity => entity, :db_view => false} %>
+  </div>
+  <div class="teacher_review_period_box ">
+    <%= render :partial => "/ifa/ifa_plan/teacher_review_dashboard", :locals=>{:subject=> subject, :db_type => 'A', :entity => entity, :db_view => false} %>
+  </div>
+  <div class="teacher_review_period_box ">
     <div class= "precision_prep_review_panel">
       <div class="teacher_review_header_label">
       <%= pluralize(students.size, ' Student') %>

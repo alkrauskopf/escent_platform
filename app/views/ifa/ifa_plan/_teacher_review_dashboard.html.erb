@@ -1,0 +1,32 @@
+<div id="review_dashboard_<%=db_type%><%=subject.id%>" >
+  <div class="teacher_review_period_box ">
+    <div class="row ">
+      <% button_label = db_view ? 'Close' : 'View' %>
+      <% button_color = db_view ? 'button_orange' : 'button_blue' %>
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <span id = "toggle_db_<%=db_type%>" class='<%= button_color %>'>
+          <%= button_label %>
+        </span>
+        <span class="dashboard_label">
+          <%= db_type == "M" ? 'Work-In-Process Dashboard' : 'Achievement Dashboard'%>
+        </span>
+      </div>
+    </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#toggle_db_<%=db_type%>").click(function(){
+        var url = "<%= ifa_plan_review_dashboard_url(:organization_id => @current_organization, :act_subject_id => subject.id,
+          :entity_id => entity.id, :entity_class => entity.class.to_s, :db_type=> db_type, :db_view => button_label) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#review_dashboard_<%=db_type%><%=subject.id%>").html(data);
+          jQ("#review_dashboard_<%=db_type%><%=subject.id%>").show();
+        });
+      })
+    });
+  </script>
+    <% if db_view %>
+        <%= render :partial => "/ifa/ifa_plan/plans_dashboard", :locals=>{:subject=>subject} %>
+    <% end %>
+  </div>
+</div>

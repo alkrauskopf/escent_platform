@@ -1010,6 +1010,14 @@ font-weight:normal;
 }
 .teacher_review_period_box {
   margin:0em 0em 0em 0em;
+  padding:1em 0em .5em 0em;
+}
+.teacher_review_period_box .dashboard_label {
+  font-size:13px;
+  text-align:left;
+  font-weight:bold;
+  color:$red_text;
+  padding:0em 0em 0em 1em;
 }
 
 .teacher_review_text {

@@ -139,8 +139,8 @@ class Classroom < ActiveRecord::Base
   end
 
   def self.for_subject(subject)
-    includes(:subject_area).where('subject_areas.act_subject_id = ?', subject.id)
-  #  where('act_subject_id = ?', subject.id)
+  #  includes(:subject_area).where('subject_areas.act_subject_id = ?', subject.id)
+    where('act_subject_id = ?', subject.id)
   end
 
   def self.precision_prep

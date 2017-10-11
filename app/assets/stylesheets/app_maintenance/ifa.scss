@@ -400,6 +400,15 @@
   font-size:11px;
   font-weight:normal;
 }
+.bench_dashboard_cell_plan_row {
+  padding: 0em 1em 0em 1em;
+  text-align:left;
+  word-wrap:break-word;
+  line-height:2em;
+  color:$blue_text;
+  font-size:11px;
+  font-weight:normal;
+}
 .bench_dashboard_cell_subtotal_row .heading {
   text-align:center;
 }
@@ -431,4 +440,16 @@
   color:$blue_text;
   cursor:pointer;
   text-decoration:underline;
+}
+.plan_other_label {
+  text-align:center;
+  padding: 1.5em 0em .5em 1em;
+  color:$red_text;
+  font-size:13px;
+}
+.plan_other_students {
+  text-align:left;
+  padding: 1.5em 0em .5em 1em;
+  color:$red_text;
+  font-size:13px;
 }

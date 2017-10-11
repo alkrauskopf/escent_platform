@@ -490,7 +490,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       @active_strands = ActStandard.all_for_standard_and_subject(@current_standard, subject).active
       @active_levels = ActScoreRange.for_standard_and_subject(@current_standard, @current_subject)
       @plan_dashboard['header1'] = entity.name + ' | ' + subject.name
-      @plan_dashboard['type'] = (db_type == 'M' ? 'Work-In-Process' : 'Plan Achievements')
+      @plan_dashboard['type'] = (db_type == 'M' ? 'Work-In-Process' : 'Milestone Mastery')
       @plan_dashboard['header2'] = (db_type == 'M' ? 'With No Milestones' : 'With No Achievements')
   end
 

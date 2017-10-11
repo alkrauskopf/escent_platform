@@ -7,16 +7,15 @@
         <div class="row bench_dashboard_header1">
           <%= @plan_dashboard['header1'] %>
         </div>
-        <div class="row">
-          <%= pluralize(@plan_dashboard['none'].size, ' Student')%>&nbsp;<%= @plan_dashboard['header2'] %>
-        </div>
       </div>
       <table >
         <tbody >
           <tr>
             <td class="bench_dashboard_label">
+              <% type_class = db_type == 'M' ? 'wrench_work' : 'star_achievement' %>
               <div class="row ">
                 <div class="benchmark_add">
+                  <i class="<%= type_class %>"></i> &nbsp;
                   <%= @plan_dashboard['type'] %>
                 </div>
               </div>
@@ -37,15 +36,11 @@
                 <td class="bench_dashboard_cells" >
                   <div class="row bench_dashboard_cell_subtotal_row">
                     <% @plan_dashboard[hashkey].each_with_index do |student| %>
-                      <div class="statx">
-                        <%= student.last_name_first%>
+                      <div >
+                        <%= link_to student.last_name_first, ifa_plan_student_path(:organization_id=>@current_organization, :student_id => student.id,
+                                                           :act_subject_id => subject.id), :target => "_blank"  -%>
                       </div>
                     <% end %>
-                  </div>
-                  <div >
-                    <%#= link_to 'Add One', app_maintenance_ifa_benchmark_add_path(:organization_id => @current_organization,
-                                                                                  :act_subject_id => @current_subject.id, :act_standard_id=>s.id,
-                                                                                  :act_score_range_id=>ml.id), {:target=>'_blank'}  %>
                   </div>
                 </td>
               <% end %>
@@ -54,12 +49,12 @@
           <tr>
             <td class="bench_dashboard_label">
               <div class="row ">
-                <div class="benchmark_add">
-                  Other Students
+                <div class="plan_other_label">
+                  <%= pluralize(@plan_dashboard['none'].size, ' Other Student')%>
                 </div>
               </div>
             </td>
-            <td colspan=<%=@active_strands.size%> >
+            <td colspan=<%=@active_strands.size%> class="plan_other_students">
               <%= @plan_dashboard['none'].map{|s| s.full_name}.join(' | ') %>
             </td>
           </tr>

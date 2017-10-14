@@ -2,7 +2,7 @@
   <div class="teacher_review_period_box ">
     <div class= "precision_prep_review_panel">
       <div class="teacher_review_header_label">
-      <%= pluralize(students.size, subject.name + ' Student') %>
+      <%= pluralize(students.size, @student_dashboards['name'] + ' Student') %>
       </div>
     </div>
   </div>
@@ -14,7 +14,7 @@
             <div class="col-md-12 subject_student_name">
               <table id="subj_dbs_<%=student.id %>">
                 <tbody>
-                  <% student_label = student.last_name_first.upcase + ' (' + student.ifa_dashboards.for_subject(subject).size.to_s + ')' %>
+                  <% student_label = student.last_name_first.upcase + ' (' + @student_dashboards[student.id].size.to_s + ')' %>
                   <tr>
                     <td class="resource_levels_close">
                       <%= link_to '', ifa_dashboards_entity_subject_path(:organization_id => @current_organization, :entity_class => "User", :act_subject_id => subject.id, :entity_id => student) %>

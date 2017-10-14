@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_provider
-    @current_provider ||= (@current_organization.nil? || @current_application.nil?) ? nil : @current_organization.app_provider(@current_application)
+    @current_provider = (@current_organization.nil? || @current_application.nil?) ? nil : @current_organization.app_provider(@current_application)
   end
 
   def current_app_superuser

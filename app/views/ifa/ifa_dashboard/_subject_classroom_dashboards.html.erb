@@ -2,7 +2,7 @@
   <div class="teacher_review_period_box ">
     <div class= "precision_prep_review_panel">
       <div class="teacher_review_header_label">
-      <%= pluralize(classrooms.size, subject.name + ' Classroom') %>
+      <%= pluralize(classrooms.size, @classroom_dashboards['name'] + ' Classroom') %>
       </div>
     </div>
   </div>

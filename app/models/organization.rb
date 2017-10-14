@@ -243,8 +243,12 @@ class Organization < ActiveRecord::Base
     !self.parent.nil?
   end
 
+  def no_parent?
+  self.parent.nil?
+  end
+
   def parent_or_self
-    (self.parent? || self.parent.nil?) ? self : self.parent
+    self.no_parent? ? self : self.parent
   end
 
   def all_children
@@ -488,7 +492,11 @@ class Organization < ActiveRecord::Base
   end
 
   def precision_prep_provider_classrooms(subject)
-    self.provided_app_orgs(CoopApp.ifa, true).collect{|o| o.classrooms.precision_prep_subject(subject)}.flatten.sort_by{|c| [c.organization.name, c.name]}
+    self.provided_app_orgs(CoopApp.ifa, true).collect{|o| (o.classrooms.empty? ? []: o.classrooms.precision_prep_subject(subject))}.flatten.sort_by{|c| [c.organization.name, c.name]}
+  end
+
+  def precision_prep_provider_subject_students(subject)
+    self.precision_prep_provider_classrooms(subject).map{|c| c.students}.compact.flatten.uniq.sort_by{|s| [s.organization.name, s.last_name]}
   end
 
   def precision_prep_provider_students
@@ -828,6 +836,10 @@ class Organization < ActiveRecord::Base
 
   def precision_prep_students(subject)
     self.classrooms.precision_prep_subject(subject).collect{|c| c.students}.flatten.compact.uniq.sort_by{|s| s.last_name}
+  end
+
+  def ifa_students(subject)
+    self.classrooms.ifa_enabled_subject(subject).collect{|c| c.students}.flatten.compact.uniq.sort_by{|s| s.last_name}
   end
 
   def knowledge_strands

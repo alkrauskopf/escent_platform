@@ -155,13 +155,25 @@ class Classroom < ActiveRecord::Base
     where('is_prep').select{|c| c.organization.app_provider(CoopApp.ifa) == provider}
   end
 
+  def self.precision_prep_students
+    where('is_prep && status = ?', 'active').collect{|c| c.students}.flatten.uniq
+  end
+
   def self.precision_prep_subject(subject)
-    includes(:subject_area).where('subject_areas.act_subject_id = ? && status = ? && is_prep', subject.id, 'active')
-   # where('act_subject_id = ? && status = ? && is_prep', subject.id, 'active')
+   # includes(:subject_area).where('subject_areas.act_subject_id = ? && status = ? && is_prep', subject.id, 'active')
+    where('act_subject_id = ? && status = ? && is_prep', subject.id, 'active')
   end
 
   def self.ifa_enabled_subject(subject)
-    includes(:subject_area).where('subject_areas.act_subject_id = ? && status = ?', subject.id, 'active').select{|c| c.ifa_enabled?}
+    where('act_subject_id = ? && status = ? && is_ifa', subject.id, 'active')
+  end
+
+  def self.ifa_students_subject(subject)
+    where('is_ifa && act_subject_id = ? && status = ?', subject.id, 'active').map{|c| c.students}.flatten.uniq.sort{|a,b| a.last_name <=> b.last_name}
+  end
+
+  def self.precision_prep_students_subject(subject)
+    where('act_subject_id = ? && status = ? && is_prep', subject.id, 'active').map{|c| c.students}.flatten.uniq.sort{|a,b| a.last_name <=> b.last_name}
   end
 
   def ifa_enable
@@ -176,8 +188,15 @@ class Classroom < ActiveRecord::Base
     #  ifa_option.days_til_repeat = self.organization.ifa_org_option.days_til_repeat
       ifa_option.days_til_repeat = 0
       ifa_option.classroom_id = self.id
-      ifa_option.save
+      if ifa_option.save
+        self.update_attributes(:is_ifa => true)
+      end
     end
+  end
+
+  def ifa_disable
+    self.ifa_classroom_option.destroy rescue nil
+    self.update_attributes(:is_ifa => false)
   end
 
   def subject_area_act_subject
@@ -189,8 +208,12 @@ class Classroom < ActiveRecord::Base
     subject_ifa
   end
 
+  def ifa_on?
+    self.is_ifa
+  end
+
   def ifa_enabled?
-    (self.ifa_classroom_option && self.organization.ifa_enabled? && self.act_subject) ? true : false
+    (self.ifa_classroom_option && self.organization.ifa_enabled? && self.act_subject && self.ifa_on?) ? true : false
   end
 
   def last_ifa_dashboard(subject)
@@ -208,10 +231,6 @@ class Classroom < ActiveRecord::Base
 
   def ifa_plannable?
     self.ifa_enabled? && self.organization.ifa_plannable?
-  end
-
-  def ifa_disable
-      self.ifa_classroom_option.destroy rescue nil
   end
 
   def ifa_notify?
@@ -280,10 +299,6 @@ class Classroom < ActiveRecord::Base
 
   def with_tlt_sessions
     !self.tlt_sessions.empty?
-  end
-
-  def self.precision_prep_students
-    where('status = ? && is_prep', 'active').collect{|c| c.students}.flatten.uniq
   end
  
   def students

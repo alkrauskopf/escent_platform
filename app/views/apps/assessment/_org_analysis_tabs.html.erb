@@ -29,13 +29,13 @@
     </ul>
   <div id="tabs-1" class="row">
     <div class="col-md-12">
-      <%= render :partial => "/ifa/ifa_dashboard/subject_network_dashboards", :locals=>{:schools => @app_orgs, :subject => @current_subject} %>
+      <%= render :partial => "/ifa/ifa_dashboard/subject_network_dashboards", :locals=>{:schools => @network, :subject => @current_subject} %>
     </div>
   </div>
 
   <div id="tabs-2" class="row">
     <div class="col-md-12">
-      <%= render :partial => "/ifa/ifa_dashboard/subject_org_dashboards", :locals=>{:dashboards => @current_org_dashboards, :organization=>@current_organization, :subject => @current_subject, :view_code=>'O'} %>
+      <%= render :partial => "/ifa/ifa_dashboard/subject_org_dashboards", :locals=>{:dashboards => @org_dashboards[@current_organization.id], :organization=>@current_organization, :subject => @current_subject, :view_code=>'O'} %>
     </div>
   </div>
 

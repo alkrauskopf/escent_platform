@@ -1,6 +1,6 @@
 <div id="entity_dashboard_<%= dashboard.nil? ? '' : dashboard.public_id %>">
   <% if !dashboard.nil? %>
-    <div class="row dashboard_box">
+    <div class="rowx dashboard_box">
       <div class="row dashboard_box_in">
         <% if false && !@dashboardable.nil? %>
             <%= render :partial => "/ifa/ifa_dashboard/header_dashboardables", :locals => {:dashboard => dashboard} %>

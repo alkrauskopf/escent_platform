@@ -28,9 +28,13 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   def student_plan_dashboard
     current_subject
     current_student
+    @entity_dashboard = @current_student.last_ifa_dashboard(@current_subject)
     @current_plan = @current_student.ifa_plans.for_subject(@current_subject).empty? ? nil : @current_student.ifa_plans.for_subject(@current_subject).first
     @show = params[:show]
     @show_db = params[:show_db] == 'Show' ? 'Hide': 'Show'
+    dashboard_cell_hashes(@entity_dashboard, @current_subject, @current_standard)
+    dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
+    dashboardable_submissions(@entity_dashboard, @current_subject )
     render :partial => "/ifa/ifa_plan/student_plan_dashboard", :locals=>{}
   end
 

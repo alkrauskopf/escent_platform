@@ -6,7 +6,7 @@
     <div class="row ifa_assessment_row">
       <% if !current_period.nil? %>
         <div class="col-md-3">
-          <%= link_to 'Assess', ifa_take_path(:organization_id => @current_organization,:classroom_id => classroom.id, :period_id => current_period.id, :topic_id => (topic.nil? ? nil : topic.id)), class: 'button_blue' %>
+          <%= link_to 'Assess Needs', ifa_take_path(:organization_id => @current_organization,:classroom_id => classroom.id, :period_id => current_period.id, :topic_id => (topic.nil? ? nil : topic.id)), class: 'button_blue' %>
         </div>
         <div class="col-md-9 ass_label">
           <%= pluralize(student.act_submissions.for_subject(classroom.act_subject).size, ' Assessment') %>&nbsp;|

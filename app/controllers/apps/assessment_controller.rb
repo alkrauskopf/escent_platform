@@ -3590,27 +3590,25 @@ end
   end
    def org_analysys_instance_variables
      @dashboard_name = @current_organization.medium_name
-  #   @org_family = (@current_provider == @current_organization) ? @current_organization.provided_app_orgs(@current_application, true)
- #    : @current_organization.active_siblings_same_type
-  #   @app_orgs = @current_provider.provided_app_orgs(@current_application, false)
-
-   #  @current_org_dashboards =IfaDashboard.org_subject_after_date('Organization', @current_organization, @current_subject, @current_provider.ifa_org_option.begin_school_year).reverse
      @classroom_list =(@current_provider == @current_organization) ? @current_organization.precision_prep_provider_classrooms(@current_subject)
          : @current_organization.classrooms.ifa_enabled_subject(@current_subject).sort{|a,b| a.course_name <=> b.course_name}
-     @student_list = (@current_provider == @current_organization) ? @current_organization.precision_prep_provider_subject_students(@current_subject)
-     : @current_organization.classrooms.ifa_students_subject(@current_subject)
-     @prep_classrooms = @current_organization.classrooms.active.precision_prep
      @classroom_dashboards = {}
+     @classroom_list_label = {}
      @classroom_dashboards['name'] = ((@current_provider == @current_organization) ? @current_application.app_name(:provider=>@current_provider)
      : (@current_organization.short_name)) + ', ' + @current_subject.name
      @classroom_list.each do |classroom|
        @classroom_dashboards[classroom.id] = classroom.ifa_dashboards.for_subject(@current_subject).reverse
+       @classroom_list_label[classroom.id] = @current_provider == @current_organization ? (' | ' + classroom.organization.short_name) : ''
      end
+     @student_list = (@current_provider == @current_organization) ? @current_organization.precision_prep_provider_subject_students(@current_subject)
+     : @current_organization.classrooms.ifa_students_subject(@current_subject)
      @student_dashboards = {}
+     @student_list_label = {}
      @student_dashboards['name'] = ((@current_provider == @current_organization) ? @current_application.app_name(:provider=>@current_provider)
      : (@current_organization.short_name)) + ', ' + @current_subject.name
      @student_list.each do |stud|
        @student_dashboards[stud.id] = stud.ifa_dashboards.for_subject(@current_subject).reverse
+       @student_list_label[stud.id] = @current_provider == @current_organization ? (' | ' + stud.organization.short_name) : ''
      end
      @org_dashboards = {}
      @org_dashboards['name'] = ((@current_provider == @current_organization) ? @current_application.app_name(:provider=>@current_provider)

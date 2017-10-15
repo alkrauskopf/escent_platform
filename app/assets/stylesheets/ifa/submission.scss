@@ -1262,7 +1262,23 @@ font-weight:normal;
   min-height:3em;
   font-size:16px;
 }
-
+.student_plan_dashboard_box {
+  margin: 0em 0em 0em 0em;
+  padding: 1em 0em 1em 0em;
+  background-color:$panel_background_ifa;
+  border:0px solid $slay_panel;
+  line-height:1.25em;
+  border-radius: 10px;
+  color:$dark_text;
+  text-align:left;
+  word-wrap: break-word;
+  font-weight:normal;
+  font-size:15px;
+}
+.student_plan_dashboard_button {
+  float:right;
+  padding:0em 3em 0em 0em;
+}
 .precision_prep_review_box {
   padding: 1em 1em 1em 1em;
   background-color:$panel_background_ifa;

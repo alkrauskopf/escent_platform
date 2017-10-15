@@ -2,7 +2,7 @@
   <% if !dashboard.nil? %>
     <div class="row dashboard_box">
       <div class="row dashboard_box_in">
-        <% if !@dashboardable.nil? %>
+        <% if false && !@dashboardable.nil? %>
             <%= render :partial => "/ifa/ifa_dashboard/header_dashboardables", :locals => {:dashboard => dashboard} %>
         <% end %>
         <% if !@dashboard.nil? %>

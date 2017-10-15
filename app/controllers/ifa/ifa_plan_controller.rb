@@ -16,12 +16,22 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     current_subject
     current_student
     @current_plan = @current_student.ifa_plans.for_subject(@current_subject).empty? ? nil : @current_student.ifa_plans.for_subject(@current_subject).first
+    @show_db = 'Show'
     if @current_plan.nil?
       @current_plan = IfaPlan.new
       @show = 'Create'
     else
       @show = 'Yes'
     end
+  end
+
+  def student_plan_dashboard
+    current_subject
+    current_student
+    @current_plan = @current_student.ifa_plans.for_subject(@current_subject).empty? ? nil : @current_student.ifa_plans.for_subject(@current_subject).first
+    @show = params[:show]
+    @show_db = params[:show_db] == 'Show' ? 'Hide': 'Show'
+    render :partial => "/ifa/ifa_plan/student_plan_dashboard", :locals=>{}
   end
 
   def select_standard

@@ -1,4 +1,9 @@
 <div id="student_plan_<%=@current_subject.id%><%=@current_student.id%>" >
+  <% if false %>
+    <div class="student_plan_dashboard_box">
+      <%= render :partial => "/ifa/ifa_plan/student_plan_dashboard", :locals=>{} %>
+    </div>
+  <% end %>
   <div class="teacher_review_student_plan">
     <% show_form = @show == 'Create' ? true : false %>
     <div>

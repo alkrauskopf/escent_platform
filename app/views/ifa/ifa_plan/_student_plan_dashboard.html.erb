@@ -1,0 +1,18 @@
+<div id="student_plan_dashboard_<%=@current_subject.id%><%=@current_student.id%>" >
+  <div class="student_plan_dashboard_button">
+   <span class="button_gray ifa_remark_button" id="show_plan_db_<%=@current_plan.id%>">
+    <%= @show_db %> Dashboard
+    </span>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#show_plan_db_<%=@current_plan.id%>").click(function(){
+        var url = "<%= ifa_plan_student_dashboard_url(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :student_id => @current_student.id, :show=>@show, :show_db => @show_db) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#student_plan_dashboard_<%=@current_subject.id%><%=@current_student.id%>").html(data);
+          jQ("#student_plan_dashboard_<%=@current_subject.id%><%=@current_student.id%>").show();
+        });
+      })
+    });
+  </script>
+</div>

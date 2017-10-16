@@ -22,8 +22,7 @@
           <% if !@organization_dashboards.empty? %>
               <%= render :partial => "ifa/ifa_dashboard/dashboard",
                          :locals=>{:dashboard => @current_organization, :subject => @current_subject, :standard=>@current_user.standard_view, :cell_corrects=>@cell_correct,
-                                   :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
-                                   :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve} %>
+                                   :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font} %>
           <% end %>
         </div>
       </div>

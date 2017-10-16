@@ -27,6 +27,9 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       assessment_header_info(@last_submission, @current_standard)
       user_ifa_plans
       find_dashboard_update_start_dates(@current_user)
+      db_users = []
+      db_users << @current_user
+      dashboard_plan_markers(db_users, @current_subject, @current_standard)
     end
 
     def teacher_review
@@ -36,12 +39,16 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       @current_classroom_dashboards = @current_classroom.ifa_dashboards
       aggregate_dashboard_cell_hashes(@current_classroom_dashboards, @current_classroom.act_subject, @current_standard)
       aggregate_dashboard_header_info(@current_classroom_dashboards, @current_classroom.act_subject, @current_standard, @current_classroom)
+      db_users = []
+      db_users << @current_classroom.students
+      dashboard_plan_markers(@current_classroom.students, @current_classroom.act_subject, @current_standard)
     end
 
     def review_student_dashboard
       get_current_student
       get_current_dashboard
       format_dashboard(@current_dashboard, @current_classroom.act_subject, @current_standard)
+      dashboard_plan_markers(dashboard_users(@current_dashboard), @current_classroom.act_subject, @current_standard)
       render :partial =>  "teacher_period_student_dashboards", :locals=>{:period => @current_classroom_period,
                                                                          :student => @current_student,
                                                                          :dashboards => @current_student.dashboards(:subject => @current_classroom.act_subject),
@@ -52,6 +59,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       get_current_dashboard
       format_dashboard(@current_dashboard, @current_dashboard.act_subject, @current_standard)
       display_db = params[:display] == 'true' ? true:false
+      dashboard_plan_markers(dashboard_users(@current_dashboard), @current_dashboard.act_subject, @current_standard)
       render :partial =>  "teacher_classroom_dashboard", :locals=>{:dashboard => @current_dashboard, :dashboard_display => display_db}
     end
 
@@ -65,8 +73,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
 
       render :partial => "ifa/ifa_dashboard/dashboard",
              :locals=>{:dashboard => @entity, :subject => @current_subject, :standard=>@current_standard, :cell_corrects=>@cell_correct,
-                       :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
-                       :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve}
+                       :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font}
     end
 
     def destroy_pending

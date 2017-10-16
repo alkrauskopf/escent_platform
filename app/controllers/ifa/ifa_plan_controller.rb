@@ -34,7 +34,10 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     @show_db = params[:show_db] == 'Show' ? 'Hide': 'Show'
     dashboard_cell_hashes(@entity_dashboard, @current_subject, @current_standard)
     dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
-    dashboardable_submissions(@entity_dashboard, @current_subject )
+    dashboardable_submissions(@entity_dashboard, @current_subject)
+    db_users = []
+    db_users << @current_student
+    dashboard_plan_markers(db_users, @current_subject, @current_standard)
     render :partial => "/ifa/ifa_plan/student_plan_dashboard", :locals=>{}
   end
 

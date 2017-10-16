@@ -22,6 +22,7 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     dashboard_cell_hashes(@entity_dashboard, @current_subject, @current_standard)
     dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
     dashboardable_submissions(@entity_dashboard, @current_subject )
+    dashboard_plan_markers(dashboard_users(@entity_dashboard), @current_subject, @current_standard)
   end
 
   def dashboard_submissions
@@ -45,8 +46,7 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     dashboardable_submissions(@entity_dashboard, @current_subject )
     render :partial => "ifa/ifa_dashboard/dashboard",
         :locals=>{:dashboard => @entity_dashboard, :subject => @current_subject, :standard => @current_user.standard_view, :cell_corrects=>@cell_correct,
-                  :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
-                  :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve}
+                  :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font}
   end
 
   private

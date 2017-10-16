@@ -40,8 +40,7 @@
       <% if !@last_submission.nil? %>
           <%= render :partial => "ifa/ifa_dashboard/dashboard",
                      :locals=>{:dashboard => @last_submission, :subject => @last_submission.subject, :standard=>@current_standard, :cell_corrects=>@cell_correct,
-                               :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
-                                :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve} %>
+                               :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font} %>
       <% end %>
       <hr>
     </div>

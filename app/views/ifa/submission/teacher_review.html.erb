@@ -36,8 +36,7 @@
           <% if !@current_classroom_dashboards.empty? %>
               <%= render :partial => "ifa/ifa_dashboard/dashboard",
                          :locals=>{:dashboard => @current_classroom, :subject => @current_classroom.act_subject, :standard=>@current_standard, :cell_corrects=>@cell_correct,
-                                   :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font,
-                                   :cell_milestones=>@cell_milestone, :cell_achieves=>@cell_achieve} %>
+                                   :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font} %>
           <% end %>
         </div>
       </div>

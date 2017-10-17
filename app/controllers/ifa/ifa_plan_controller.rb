@@ -500,15 +500,15 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       if milestones.empty?
         @plan_dashboard['none']<<student
       else
-        milestones.map{|m| (m.range.id.to_s + m.strand.id.to_s)}.uniq.each do |hashkey|
+        milestones.map{|m| (m.range.id.to_s + m.strand.id.to_s)}.uniq.compact.each do |hashkey|
         @plan_dashboard[hashkey]<<student
       end
-      end
-      @active_strands = ActStandard.all_for_standard_and_subject(@current_standard, subject).active
-      @active_levels = ActScoreRange.for_standard_and_subject(@current_standard, @current_subject)
-      @plan_dashboard['header1'] = entity.name + ' | ' + subject.name
-      @plan_dashboard['type'] = (db_type == 'M' ? 'Work-In-Process' : 'Milestone Mastery')
-      @plan_dashboard['header2'] = (db_type == 'M' ? 'With No Milestones' : 'With No Achievements')
+    end
+    @active_strands = ActStandard.all_for_standard_and_subject(@current_standard, subject).active
+    @active_levels = ActScoreRange.for_standard_and_subject(@current_standard, @current_subject)
+    @plan_dashboard['header1'] = entity.name + ' | ' + subject.name
+    @plan_dashboard['type'] = (db_type == 'M' ? 'Work-In-Process' : 'Milestone Mastery')
+    @plan_dashboard['header2'] = (db_type == 'M' ? 'With No Milestones' : 'With No Achievements')
   end
 
   end

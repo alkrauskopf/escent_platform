@@ -19,7 +19,7 @@
       </div>
       <div class="col-md-2">
         <div class="col-md-9 repo_select_field">
-          <%=  select(:ifa_org_option, :standard_id,  ActMaster.all.collect{|s| [s.abbrev,s.id]}, :value => @current_ifa_options.master_standard ? @current_ifa_options.standard_id : 1 ) %>
+          <%=  select(:ifa_org_option, :standard_id,  ActMaster.all.collect{|s| [s.abbrev,s.id]}, :selected => @current_ifa_options.master_standard ? @current_ifa_options.standard_id : ActMaster.default.id ) %>
         </div>
       </div>
       <div class="col-md-6 options_label">

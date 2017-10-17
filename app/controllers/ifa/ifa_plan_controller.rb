@@ -513,6 +513,4 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     @plan_dashboard['type'] = (db_type == 'M' ? 'Work-In-Process' : 'Milestone Mastery')
     @plan_dashboard['header2'] = (db_type == 'M' ? 'With No Milestones' : 'With No Achievements')
   end
-
-  end
 end

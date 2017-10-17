@@ -501,7 +501,10 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
         @plan_dashboard['none']<<student
       else
         milestones.map{|m| (m.range.id.to_s + m.strand.id.to_s)}.uniq.compact.each do |hashkey|
-        @plan_dashboard[hashkey]<<student
+          if @plan_dashboard[hashkey]
+            @plan_dashboard[hashkey]<<student
+          end
+        end
       end
     end
     @active_strands = ActStandard.all_for_standard_and_subject(@current_standard, subject).active

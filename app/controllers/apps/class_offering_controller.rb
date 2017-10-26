@@ -18,7 +18,7 @@ class Apps::ClassOfferingController < ApplicationController
     initialize_std_parameters
  #   @classroom = params[:id] ? Classroom.find_by_public_id(params[:id]) : @current_organization.classrooms.active.first
     if @current_user
-      redirect_to organization_view_path(:organization_id => @classroom.organization)
+    #  redirect_to organization_view_path(:organization_id => @classroom.organization)
     end
     @classroom.increment_views
     if @current_user

@@ -228,7 +228,6 @@ class Apps::ResourceLibraryController < ApplicationController
   end
 
   def unassign_resource_from_topic(resource, topic)
-    byebug
     if !topic.topic_contents.for_resource(resource).empty?
       topic.topic_contents.for_resource(resource).destroy_all
     end

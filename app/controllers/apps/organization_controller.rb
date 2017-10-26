@@ -10,7 +10,7 @@
 
     def static_organization
       unless @current_organization.default?
-        initialize_std_parameters
+      #  initialize_std_parameters
       else
         redirect_to  root_path
       end

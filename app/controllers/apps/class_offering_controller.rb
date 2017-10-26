@@ -14,9 +14,12 @@ class Apps::ClassOfferingController < ApplicationController
 
   def index
     current_app_enabled_for_current_org?
-    initialize_site_parameters
-    initialize_std_parameters
+  #  initialize_site_parameters
+ #   initialize_std_parameters
  #   @classroom = params[:id] ? Classroom.find_by_public_id(params[:id]) : @current_organization.classrooms.active.first
+    if @current_user
+      redirect_to organization_view_path(:organization_id => @classroom.organization)
+    end
     @classroom.increment_views
     if @current_user
       @clsrm_leaders = @current_user.student_of_classroom?(@classroom) ? @classroom.teachers_for_student(@current_user) : @classroom.leaders
@@ -50,7 +53,6 @@ class Apps::ClassOfferingController < ApplicationController
       @discussions = []
     end
     render :layout => 'offering'
-    # rescue
     #  redirect_to organization_view_path(:organization_id => @classroom.organization)
   end
 

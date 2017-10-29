@@ -1,0 +1,83 @@
+								<div id="<%= id%>dialog" title= "<%=header_row%>">
+                  <div class="ifa_modal_header">
+                    <%=titl%>
+                  </div>
+                  <% if !strand.description.empty? %>
+                    <div class="row">
+                      <div class="ifa_modal_box">
+                        <%=strand.description.html_safe %>
+                      </div>
+                    </div>
+                  <% end %>
+
+                  <div class="row dashboard_milestone_box">
+                    <%= form_for(:ifa_milestone,
+                                 :url => ifa_milestone_update_dashboard_path(:organization_id => @current_organization, :ifa_plan_milestone_id => 0,
+                                                                             :act_score_range_id => mastery.id, :ifa_plan_id => plan_id,
+                                                                             :act_standard_id => strand.id, :function => function)) do |form| -%>
+                      <div class="col-md-2">
+                        <div class="row ifa_milestone_edit_button">
+                            <%= form.submit function + ' Milestone', :class =>"update_button button_blue" %>
+                        </div>
+                      </div>
+                      <div class="col-md-9">
+                        <%= text_area :ifa_milestone, :description, :rows=>10, :cols => 70,
+                                      :placeholder => ('Describe What You Will Do Master This Milestone') %>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class="ifa_modal_title">
+                      Level <%= mastery_label(mastery, false)%><%= benchmarks(strand, mastery, standard).size == 1 ? ' Benchmark' : ' Benchmarks' %>
+                  </div>
+                  <div class="row">
+                    <div class="ifa_modal_box">
+                      <% benchmarks(strand, mastery, standard).each_with_index do |benchmark| %>
+                        <%= benchmark.description.html_safe%>
+                        <% if benchmark.source_standard %>
+                          <span class="ifa_modal_std_src">
+                            <%= benchmark.source_standard.abbrev.upcase %>
+                            <%=benchmark.source_level ? (': ' + benchmark.source_level.range) : '' %>
+                            <%=benchmark.source_strand ? (' | ' + benchmark.source_strand.abbrev) : '' %>
+                          </span>
+                        <% end %>
+                        <hr>
+                      <% end %>
+                    </div>
+                  </div>
+                  <% if !improvements(strand, mastery, standard).empty? %>
+                    <div class="ifa_modal_title">
+                      Level <%= mastery_label(mastery, false)%><%= improvements(strand, mastery, standard).size == 1 ? ' Improvement Idea' : ' Improvement Ideas' %>
+                    </div>
+                    <div class="row">
+                      <div class="ifa_modal_box">
+                        <% improvements(strand, mastery, standard).each_with_index do |improvement| %>
+                          <%= improvement.description.html_safe%>
+                          <hr>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+								</div>
+<script type="text/javascript" charset="utf-8">
+    	jQ(document).ready(function() {
+
+    	    jQ("#<%= id%>dialog").dialog({
+    	            bgiframe: true,
+    	            autoOpen: false,
+    	            width: <%=width%>,
+    	            height: <%=height%>,
+    	            modal: true,
+    				buttons: {
+    					 Close: function(){
+    		                        jQ(this).dialog('close');
+    		                    }
+    				}
+        	    }
+    		);					
+			
+    		jQ('#<%= id%>').click(function(event){
+    		    jQ("#<%= id%>dialog").dialog('open');
+    			 event.preventDefault();
+    		})
+    });
+</script>

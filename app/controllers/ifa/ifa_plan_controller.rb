@@ -22,23 +22,32 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       @show = 'Create'
     else
       @show = 'Yes'
+      if @current_plan.milestones.empty?
+        create_student_dashboard(@current_student, @current_subject, @current_standard)
+        @show_db = 'Hide'
+      end
     end
   end
 
   def student_plan_dashboard
     current_subject
     current_student
-    @entity_dashboard = @current_student.last_ifa_dashboard(@current_subject)
     @current_plan = @current_student.ifa_plans.for_subject(@current_subject).empty? ? nil : @current_student.ifa_plans.for_subject(@current_subject).first
     @show = params[:show]
     @show_db = params[:show_db] == 'Show' ? 'Hide': 'Show'
-    dashboard_cell_hashes(@entity_dashboard, @current_subject, @current_standard)
-    dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
-    dashboardable_submissions(@entity_dashboard, @current_subject)
+    create_student_dashboard(@current_student, @current_subject, @current_standard)
+    render :partial => "/ifa/ifa_plan/student_plan_dashboard", :locals=>{}
+  end
+
+  def create_student_dashboard(student, subject, standard)
+    @entity_dashboard = student.last_ifa_dashboard(subject)
+    dashboard_cell_hashes(@entity_dashboard, subject, standard)
+    dashboard_milestone_links(student, subject, standard)
+    dashboard_header_info(@entity_dashboard, subject, standard)
+    dashboardable_submissions(@entity_dashboard, subject)
     db_users = []
     db_users << @current_student
-    dashboard_plan_markers(db_users, @current_subject, @current_standard)
-    render :partial => "/ifa/ifa_plan/student_plan_dashboard", :locals=>{}
+    dashboard_plan_markers(db_users, subject, standard)
   end
 
   def select_standard
@@ -62,6 +71,15 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def plan_create
+    current_subject
+    current_student
+    new_plan = IfaPlan.new(params[:ifa_plan])
+    new_plan.act_subject_id = @current_subject.id
+    @current_student.ifa_plans << new_plan
+    redirect_to ifa_plan_student_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :student_id=> @current_student.id)
+  end
+
+  def plan_create_x
     set_subject
     if @current_user.ifa_plan_subject(@subject).nil?
       @current_user.ifa_plans << IfaPlan.create(:act_subject_id=>@subject.id)
@@ -142,14 +160,30 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       if !@user_plan.relevant_teachers(@current_organization).empty?
         PrecisionPrepMailer.milestone_created_teacher(@current_user, @user_plan.relevant_teachers(@current_organization), @current_milestone, request.host_with_port).deliver
       end
-    else
-      current_milestone
-      @current_milestone.update_attributes(:description=>params[:description], :act_score_range_id => @current_range.id)
-      PrecisionPrepMailer.milestone_updated_student(@current_user, @current_milestone, request.host_with_port).deliver
     end
     set_plan
     render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @current_strand,
                                                                     :milestone_form => 'No', :ranges => @user_plan.ranges(@current_standard)}
+  end
+
+  def milestone_update_dashboard
+    current_strand
+    current_range
+    set_plan
+    if new_milestone?
+      @current_milestone = IfaPlanMilestone.new
+      @current_milestone.act_score_range_id = @current_range.id
+      @current_milestone.act_standard_id = @current_strand.id
+      @current_milestone.description = params[:ifa_milestone][:description]
+      @current_milestone.achieve_date = Time.now
+      @user_plan.milestones << @current_milestone
+      PrecisionPrepMailer.milestone_created_student(@current_user, @current_milestone, request.host_with_port).deliver
+      if !@user_plan.relevant_teachers(@current_organization).empty?
+        PrecisionPrepMailer.milestone_created_teacher(@current_user, @user_plan.relevant_teachers(@current_organization), @current_milestone, request.host_with_port).deliver
+      end
+    end
+    redirect_to ifa_plan_student_path(:organization_id=>@current_organization, :student_id => @current_user.id,
+                                      :act_subject_id => @current_strand.act_subject.id)
   end
 
   def milestone_update_cancel
@@ -389,7 +423,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def new_milestone?
-    params[:function] && params[:function] == 'New'
+    params[:function] && (params[:function] == 'New' || params[:function] == 'Add')
   end
 
   def milestone_function
@@ -513,4 +547,6 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     @plan_dashboard['type'] = (db_type == 'M' ? 'Work-In-Process' : 'Milestone Mastery')
     @plan_dashboard['header2'] = (db_type == 'M' ? 'With No Milestones' : 'With No Achievements')
   end
+
 end
+

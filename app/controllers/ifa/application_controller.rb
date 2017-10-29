@@ -153,6 +153,22 @@ class Ifa::ApplicationController < ApplicationController
     end
   end
 
+  def dashboard_milestone_links(user, subject, standard)
+    @milestone_links = {}
+    plan = user.ifa_plans.for_subject(subject).empty? ? nil : user.ifa_plans.for_subject(subject).first
+    @milestone_links['plan_id'] = plan.nil? ? 0 : plan.id
+    if !subject.nil? && !plan.nil? && @cell_total
+      standard.act_score_ranges.active.for_subject(subject).each do |level|
+        standard.act_standards.active.for_subject(subject).each do |strand|
+          hash_key = level.id.to_s + strand.id.to_s
+          if @cell_total[hash_key] && @cell_total[hash_key] > 0
+            @milestone_links[hash_key] = plan.milestones.open_for_range_strand(level, strand).empty? ? 'Add' : nil
+          end
+        end
+      end
+    end
+  end
+
   def dashboardable_submissions(dashboard, subject)
     @dashboardable = {}
     if !dashboard.nil? && dashboard.period_end && dashboard.ifa_dashboardable

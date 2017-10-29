@@ -40,6 +40,14 @@ class IfaDashboard < ActiveRecord::Base
     where("act_subject_id = ? && period_end >= ? && period_end <= ?", subject.id,  period_begin, period_end).order('period_end ASC')
   end
 
+  def user
+    self.ifa_dashboardable_type == 'User' ? self.ifa_dashboardable : nil
+  end
+
+  def subject
+    self.act_subject
+  end
+
   def self.for_subject_since(subject, begin_date)
     period_begin = begin_date.class == 'Date' ? begin_date.end_of_month : begin_date.to_date.end_of_month
     where("act_subject_id = ? && period_end >= ?", subject.id,  period_begin).order('period_end ASC')

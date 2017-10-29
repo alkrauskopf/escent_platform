@@ -500,12 +500,14 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/plan/subject/select' => 'ifa/ifa_plan#select_subject' #  ifa_plan_subject_select_url
   get '/ifa/plan/subject' => 'ifa/ifa_plan#plan_subject' #  ifa_plan_subject_path
   get '/ifa/plan/create' => 'ifa/ifa_plan#plan_create' #  ifa_plan_create_url
+  post '/ifa/plan/create' => 'ifa/ifa_plan#plan_create' #  ifa_plan_create_url
   get '/ifa/plan/show/form' => 'ifa/ifa_plan#plan_show_form' #  ifa_plan_show_form_url
   get '/ifa/plan/update' => 'ifa/ifa_plan#plan_update_2' #  ifa_plan_update_url
   post '/ifa/plan/update' => 'ifa/ifa_plan#plan_update_2' #  ifa_plan_update_url
   get '/ifa/plan/update/cancel' => 'ifa/ifa_plan#plan_update_cancel' #  ifa_plan_update_cancel_url
   get '/ifa/milestone/create' => 'ifa/ifa_plan#milestone_create' #  ifa_milestone_create_url
   get '/ifa/milestone/update' => 'ifa/ifa_plan#milestone_update' #  ifa_milestone_update_url
+  post '/ifa/milestone/update/dashboard' => 'ifa/ifa_plan#milestone_update_dashboard' #  ifa_milestone_update_dashboard_url
   get '/ifa/milestone/update/cancel' => 'ifa/ifa_plan#milestone_update_cancel' #  ifa_milestone_update_cancel_url
   get '/ifa/milestone/range/select' => 'ifa/ifa_plan#milestone_range_select' # ifa_milestone_range_select_url
   get '/ifa/milestone/destroy' => 'ifa/ifa_plan#milestone_destroy' #  ifa_milestone_destroy_url

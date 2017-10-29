@@ -14,12 +14,8 @@ class Apps::ClassOfferingController < ApplicationController
 
   def index
     current_app_enabled_for_current_org?
-    initialize_site_parameters
-    initialize_std_parameters
- #   @classroom = params[:id] ? Classroom.find_by_public_id(params[:id]) : @current_organization.classrooms.active.first
-    if @current_user
-    #  redirect_to organization_view_path(:organization_id => @classroom.organization)
-    end
+#    initialize_site_parameters
+#    initialize_std_parameters
     @classroom.increment_views
     if @current_user
       @clsrm_leaders = @current_user.student_of_classroom?(@classroom) ? @classroom.teachers_for_student(@current_user) : @classroom.leaders
@@ -53,7 +49,6 @@ class Apps::ClassOfferingController < ApplicationController
       @discussions = []
     end
     render :layout => 'offering'
-    #  redirect_to organization_view_path(:organization_id => @classroom.organization)
   end
 
   private
@@ -96,7 +91,7 @@ class Apps::ClassOfferingController < ApplicationController
     @other_active_topics = @current_classroom ? @current_classroom.topics.active.collect{|t| t} - [@current_classroom.featured_topic || @current_classroom.topics.active.first] : []
   end
 
-  def initialize_site_parameters
+  def initialize_site_parameters_x
     if params[:organization_id]
       @current_organization = Organization.find_by_public_id(params[:organization_id]) rescue nil
     end
@@ -108,7 +103,7 @@ class Apps::ClassOfferingController < ApplicationController
     end
   end
 
-  def initialize_std_parameters
+  def initialize_std_parameters_x
     @standards = ActStandard.all.collect{|s|[s.standard]}.uniq.sort
     if @current_user
       @std_view = @current_user.std_view.to_s

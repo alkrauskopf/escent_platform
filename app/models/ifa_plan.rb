@@ -93,8 +93,12 @@ class IfaPlan < ActiveRecord::Base
     !self.ifa_plan_milestones.achieved_for_range_strand(range, strand).empty?
   end
 
+  def milestone_strands
+    self.ifa_plan_milestones.map{|m| m.strand}.compact.uniq.sort_by{|s| s.pos}
+  end
+
   def open_milestone_strands
-    self.ifa_plan_milestones.not_achieved.map{|m| m.strand}.compact.uniq
+    self.ifa_plan_milestones.not_achieved.map{|m| m.strand}.compact.uniq.sort_by{|s| s.pos}
   end
 
   def open_milestone_strands_abbrev

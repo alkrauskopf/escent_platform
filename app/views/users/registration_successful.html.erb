@@ -7,17 +7,10 @@
         You Are A Superuser<br/><br/>
       <% end %>
 	 </div>
-  <div class="title_large_red">School:
-    <span class="title_large_blue"><%=@user.organization.name%></span>
-    <br/><br/>
-  </div>
-  <div class="title_large_red">User ID:
-    <span class="title_large_blue"><%=@user.email_address%></span>
-    <br/><br/>
-  </div>
   <div class="title_large_red">Next Step: Click
     <span class="title_large_blue" style="text-decoration:underline"><%= link_to "Here", organization_view_path(:organization_id => @user.organization) %></span>
-    And Sign In
+    And Sign In With User ID:
+    <span class="title_large_blue"><%=@user.email_address%></span>
     <br/><br/>
   </div>
 	<div class="title_large_red">

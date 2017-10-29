@@ -17,14 +17,18 @@
 
         <div class="row ifa_subject_plan_content">
           <div class="col-md-12">
-            <% student_plan.strands(@current_standard).each do |strand| %>
+            <% student_plan.milestone_strands.each do |strand| %>
               <%= render :partial =>  "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>student_plan, :strand => strand, :milestone_form => 'No'}%>
             <% end %>
           </div>
         </div>
       </div>
     <% else %>
-      <%= render :partial =>  "/ifa/ifa_plan/form_plan", :locals=>{:plan=>student_plan, :student => student, :subject => subject}%>
+      <% if @show == 'Create' %>
+          <%= render :partial =>  "/ifa/ifa_plan/form_plan_create", :locals=>{:plan=>student_plan, :student => student, :subject => subject}%>
+      <% else %>
+        <%= render :partial =>  "/ifa/ifa_plan/form_plan", :locals=>{:plan=>student_plan, :student => student, :subject => subject}%>
+      <% end %>
     <% end %>
 </div>
 <script type="text/javascript">

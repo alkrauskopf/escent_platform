@@ -1,0 +1,34 @@
+<div  class="ifa_plan_edit_box ">
+  <%= form_for(:ifa_plan, :url => ifa_plan_create_path(:organization_id => @current_organization, :act_subject_id => subject.id, :student_id => student.id)) do |form| -%>
+      <div class="row ifa_plan_edit_row">
+        <div class="edit_label">
+          Your <%=subject.name %> Needs
+        </div>
+        <% needs_placeholder = 'Reflect upon your ' +  subject.name + ' data. Explain your Needs and Challenges.' %>
+      </div>
+      <div class="row ifa_plan_text_box">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+          <%= text_area :ifa_plan, :needs, :rows=>10, :cols => 60, :placeholder => needs_placeholder, :value => plan.needs%>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-md-2 ifa_plan_text_submit">
+          <%= form.submit 'Create Plan', :class=> 'button_blue'%>
+        </div>
+        <div class="col-md-10 ifa_edit_text"></div>
+      </div>
+      <div class="row ifa_plan_edit_row">
+        <div class="edit_label">
+          Your <%= subject.name %> Goals
+        </div>
+        <% goals_placeholder = 'In the coming year, what do you hope to master in ' +  subject.name + '? Be as specific as possible.' %>
+      </div>
+      <div class="row ifa_plan_text_box">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+          <%= text_area :ifa_plan, :goals, :rows=>10, :cols => 60, :placeholder => goals_placeholder, :value => plan.goals %>
+        </div>
+      </div>
+  <% end %>
+</div>

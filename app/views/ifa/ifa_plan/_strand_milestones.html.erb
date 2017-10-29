@@ -1,73 +1,75 @@
 <div id="strand_milestones<%=strand.public_id%>">
-  <div class="precision_milestone_panel "  style="color: <%= strand.strand_font%>; background-color:<%= strand.strand_background %>">
-    <div class="row ifa_milestone_panel">
-      <div class="col-md-2">
-        <% if milestone_form == 'No' && plan.updateable?(@current_user)%>
-          <div class="button_gray" id="create_milestone_<%=strand.id%>">
-            Create Milestone
-          </div>
-        <% end %>
-      </div>
-      <div class="col-md-8 ifa_plan_strand_header">
-        <%= pluralize(plan.strand_milestones(strand).size, ' Milestone')%> | <%= strand.name %>
-        <% if !strand.description.nil? && !strand.description.empty? %>
-            <div id="strand_header<%=strand.id%>" class="row ifa_milestone_panel_descript">
-              <div id="strand_show<%=strand.id%>" class="col-md-12 show_hide">
-                Explain <%= strand.abbrev %>
-              </div>
+  <% if !plan.strand_milestones(strand).empty? %>
+    <div class="precision_milestone_panel "  style="color: <%= strand.strand_font%>; background-color:<%= strand.strand_background %>">
+      <div class="row ifa_milestone_panel">
+        <div class="col-md-2">
+          <% if milestone_form == 'No' && plan.updateable?(@current_user)%>
+            <div class="button_gray" id="create_milestone_<%=strand.id%>">
+              Create Milestone
             </div>
-            <div id="strand_descript<%=strand.id%>"class="row ifa_milestone_panel_descript">
-              <div id="strand_hide<%=strand.id%>" class="col-md-12 show_hide">
-                Hide
-              </div>
-              <div class="row col-md-12">
-                <%= simple_format strand.description %>
-              </div>
-          </div>
-            <script type="text/javascript">
-              jQ(document).ready(function() {
-                jQ("#strand_header<%=strand.id%>").show();
-                jQ("#strand_descript<%=strand.id%>").hide();
-
-                jQ("#strand_show<%=strand.id%>").click(function() {
-                  jQ("#strand_header<%=strand.id%>").hide();
-                  jQ("#strand_descript<%=strand.id%>").slideDown("slow");
-                })
-
-                jQ("#strand_hide<%=strand.id%>").click(function() {
-                  jQ("#strand_descript<%=strand.id%>").slideUp("slow");
-                  jQ("#strand_header<%=strand.id%>").show();
-                })
-              });
-            </script>
-        <% end %>
-      </div>
-      <div class="col-md-2"></div>
-    </div>
-  </div>
-  <div class="precision_milestone_panel">
-    <% if milestone_form != 'No' && plan.updateable?(@current_user) %>
-      <div class="row ">
-        <%= render :partial =>  "/ifa/ifa_plan/form_milestone", :locals=>{:milestone => @current_milestone, :function => milestone_form, :plan => plan, :strand => strand, :ranges => ranges}%>
-      </div>
-    <% else %>
-      <% plan.strand_milestones(strand).each do |milestone| %>
-        <div class="ifa_milestone_show_content_rowx">
-          <%= render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => milestone, :evidence_form => 'No'}%>
+          <% end %>
         </div>
-        <div class="precision_milestone_break_panel"></div>
-        <% end %>
-    <% end %>
-  <script type="text/javascript">
-    jQ(document).ready(function() {
-      jQ('#create_milestone_<%=strand.id%>').click(function() {
-        var url = "<%= ifa_milestone_create_url(:organization_id => @current_organization, :act_standard_id => strand.id, :ifa_plan_id => plan.id) %>";
-        jQ.get(url, {}, function(data) {
-          jQ("#strand_milestones<%=strand.public_id%>").html(data);
-          jQ("#strand_milestones<%=strand.public_id%>").show();
-        });
-      })
-    });
-  </script>
-  </div>
+        <div class="col-md-8 ifa_plan_strand_header">
+          <%= pluralize(plan.strand_milestones(strand).size, ' Milestone')%> | <%= strand.name %>
+          <% if !strand.description.nil? && !strand.description.empty? %>
+              <div id="strand_header<%=strand.id%>" class="row ifa_milestone_panel_descript">
+                <div id="strand_show<%=strand.id%>" class="col-md-12 show_hide">
+                  Explain <%= strand.abbrev %>
+                </div>
+              </div>
+              <div id="strand_descript<%=strand.id%>"class="row ifa_milestone_panel_descript">
+                <div id="strand_hide<%=strand.id%>" class="col-md-12 show_hide">
+                  Hide
+                </div>
+                <div class="row col-md-12">
+                  <%= simple_format strand.description %>
+                </div>
+            </div>
+              <script type="text/javascript">
+                jQ(document).ready(function() {
+                  jQ("#strand_header<%=strand.id%>").show();
+                  jQ("#strand_descript<%=strand.id%>").hide();
+
+                  jQ("#strand_show<%=strand.id%>").click(function() {
+                    jQ("#strand_header<%=strand.id%>").hide();
+                    jQ("#strand_descript<%=strand.id%>").slideDown("slow");
+                  })
+
+                  jQ("#strand_hide<%=strand.id%>").click(function() {
+                    jQ("#strand_descript<%=strand.id%>").slideUp("slow");
+                    jQ("#strand_header<%=strand.id%>").show();
+                  })
+                });
+              </script>
+          <% end %>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    </div>
+    <div class="precision_milestone_panel">
+      <% if milestone_form != 'No' && plan.updateable?(@current_user) %>
+        <div class="row ">
+          <%= render :partial =>  "/ifa/ifa_plan/form_milestone", :locals=>{:milestone => @current_milestone, :function => milestone_form, :plan => plan, :strand => strand, :ranges => ranges}%>
+        </div>
+      <% else %>
+        <% plan.strand_milestones(strand).each do |milestone| %>
+          <div class="ifa_milestone_show_content_rowx">
+            <%= render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => milestone, :evidence_form => 'No'}%>
+          </div>
+          <div class="precision_milestone_break_panel"></div>
+          <% end %>
+      <% end %>
+    <script type="text/javascript">
+      jQ(document).ready(function() {
+        jQ('#create_milestone_<%=strand.id%>').click(function() {
+          var url = "<%= ifa_milestone_create_url(:organization_id => @current_organization, :act_standard_id => strand.id, :ifa_plan_id => plan.id) %>";
+          jQ.get(url, {}, function(data) {
+            jQ("#strand_milestones<%=strand.public_id%>").html(data);
+            jQ("#strand_milestones<%=strand.public_id%>").show();
+          });
+        })
+      });
+    </script>
+    </div>
+  <% end %>
 </div>

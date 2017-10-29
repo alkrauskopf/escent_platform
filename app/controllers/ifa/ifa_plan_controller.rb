@@ -108,6 +108,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     current_subject
     current_student
     current_plan
+    @show_gd = 'Show'
     if @current_plan
       @current_plan.update_attributes(:needs=>params[:needs],:goals=>params[:goals])
       PrecisionPrepMailer.plan_updated_student(@current_student, @current_plan, request.host_with_port).deliver

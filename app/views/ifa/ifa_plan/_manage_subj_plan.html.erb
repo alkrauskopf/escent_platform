@@ -2,13 +2,15 @@
     <% if !show_form %>
       <div  class="ifa_subject_plan_box ">
         <div class= "precision_prep_plan_panel">
-          <div class="col-md-5 ifa_subject_plan_name">
-            Growth Plan: <%= student.full_name.titleize %>
+          <div class="col-md-3 ifa_subject_plan_student">
+            <%= student.full_name.titleize %>
           </div>
-          <div class="col-md-5 ifa_subject_plan_name">
+          <div class="col-md-6 ifa_subject_plan_name">
             <%= subject.name.upcase %>
           </div>
-          <div class="col-md-2"></div>
+          <div class="col-md-3 ifa_plan_header_count">
+            <%= student_plan.milestones.achieved.size%> of <%=pluralize( student_plan.milestones.size, ' Milestone')%> Completed
+          </div>
         </div>
         <div class="ifa_subject_plan_content">
           <%= render :partial =>  "/ifa/ifa_plan/show_plan", :locals=>{:plan=> student_plan, :subject => subject, :student=>student}%>

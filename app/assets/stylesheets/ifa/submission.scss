@@ -48,8 +48,12 @@
 .ifa_subject_plan_content {
   padding:.5em 0em 1em 0em;
 }
-.ifa_subject_plan_name {
+.ifa_subject_plan_student {
   text-align:left;
+  padding:0em 0em 0em 2em;
+}
+.ifa_subject_plan_name {
+  text-align:center;
   padding:0em 0em 0em 0em;
 }
 
@@ -456,7 +460,7 @@
   color:$dark_text;
 }
 .ifa_remark_button {
-  margin:.5em 0em 0em 1em;
+  margin:1em 0em 0em 3em;
   font-size:11px;
   font-family: Verdana,Arial,Helvetica,sans-serif;
 }
@@ -526,6 +530,13 @@
 .ifa_plan_milestone_header {
   text-align: center;
   font-size:15px;
+  color:white;
+  font-weight:normal;
+}
+.ifa_plan_header_count {
+  text-align:right;
+  padding: 0em 2em 0em 0em;
+  font-size:13px;
   color:white;
   font-weight:normal;
 }
@@ -822,9 +833,9 @@
   font-weight:bold;
 }
 .ifa_plan_remarks_label {
-  padding:0em 0em 0em 0em;
-  text-align:center;
-  vertical-align:middle;
+  padding:1em 0em 0em 0em;
+  text-align:left;
+  vertical-align:bottom;
   color:$plan_panel;
   font-size:14px;
   font-weight:normal;

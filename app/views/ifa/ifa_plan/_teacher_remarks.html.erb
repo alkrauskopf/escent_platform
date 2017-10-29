@@ -2,17 +2,16 @@
   <% if plan.remarkable?(@current_user)  || !remarks.empty? %>
     <div class= "precision_milestone_panel ifa_plan_teacher_remark_box">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
           <% if plan.remarkable?(@current_user) && !show_form %>
             <span class="button_blue ifa_remark_button" id="show_remark_form_<%=plan.id%>">
               Add Remark
             </span>
           <% end %>
         </div>
-        <div class="col-md-6 ifa_plan_remarks_label">
+        <div class="col-md-10 ifa_plan_remarks_label">
           <%= pluralize(remarks.size, ' Teacher Remark') %>
         </div>
-        <div class="col-md-3 "></div>
       </div>
     </div>
     <div class="ifa_subject_plan_content">

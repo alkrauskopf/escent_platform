@@ -12,6 +12,9 @@
             <%= student_plan.milestones.achieved.size%> of <%=pluralize( student_plan.milestones.size, ' Milestone')%> Completed
           </div>
         </div>
+        <div class="student_plan_guardian_box">
+          <%= render :partial => "/ifa/ifa_plan/student_plan_guardian", :locals=>{} %>
+        </div>
         <div class="ifa_subject_plan_content">
           <%= render :partial =>  "/ifa/ifa_plan/show_plan", :locals=>{:plan=> student_plan, :subject => subject, :student=>student}%>
         </div>

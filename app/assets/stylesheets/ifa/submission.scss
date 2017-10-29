@@ -46,7 +46,7 @@
   background-color: $panel_background_ifa;
 }
 .ifa_subject_plan_content {
-  padding:.5em 0em 1em 0em;
+  padding:0em 0em 1em 0em;
 }
 .ifa_subject_plan_student {
   text-align:left;
@@ -448,7 +448,7 @@
 }
 
 .ifa_plan_show_row {
-  margin:1em 2em 1em 2em;
+  margin:0em 2em 0em 2em;
   font-family:Georgia, "Times New Roman", Times, serif;
 }
 
@@ -1304,13 +1304,13 @@ font-weight:normal;
   font-size:16px;
 }
 .student_plan_guardian_box {
-  margin: 0em 0em 0em 0em;
-  padding: 0em 0em 1em 0em;
+  margin: 1em 0em 0em 0em;
+  padding: 0em 0em 0em 0em;
   background-color:$panel_background_ifa;
   border-bottom:0px dashed $border-gray;
   line-height:1.25em;
   border-radius: 0px;
-  color:$dark_text;
+  color:$red_text;
   text-align:left;
   word-wrap: break-word;
   font-weight:normal;
@@ -1347,10 +1347,11 @@ font-weight:normal;
   font-size:14px;
 }
 .student_plan_guardians {
-  padding:1em 0em 0em 0em;
+  padding:0em 0em 0em 0em;
   text-align:center;
   vertical-align:middle;
-  color:$dark_text;
+  font-style: italic;
+  color:$red_text;
   font-size:13px;
 }
 .precision_prep_review_box {

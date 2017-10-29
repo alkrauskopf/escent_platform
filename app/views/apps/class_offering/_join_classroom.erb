@@ -7,7 +7,6 @@
       <div class="col-md-2 key_box">
         <% if !@classroom.open? && !@current_classroom_period.nil?%>
           <%=  text_field(:registration, :key, :value=>'', :placeholder=>'Key Code', :size=> 8) %>
-          <br/><%= @classroom.registration_key %>
         <% end %>
       </div>
       <div class="col-md-2 join_button">

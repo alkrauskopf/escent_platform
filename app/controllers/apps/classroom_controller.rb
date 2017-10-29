@@ -444,12 +444,10 @@ class Apps::ClassroomController < ApplicationController
   
   def self_register_student
     initialize_parameters
-    @period = @classroom.classroom_periods.first
-    if @classroom.classroom_periods.size > 1 && params[:registration][:period_id] != ""
-      @period = ClassroomPeriod.find_by_public_id(params[:period_id]) rescue nil
-      unless @period
-        @period = ClassroomPeriod.find_by_id(params[:registration][:period_id]) rescue nil
-      end
+    if !@classroom.classroom_periods.empty? && @classroom.classroom_periods.size == 1
+      @period = @classroom.classroom_periods.first
+    else
+      @period = ClassroomPeriod.find_by_id(params[:registration][:period_id]) rescue nil
     end
     if @period && @student
       if (@classroom.open? || params[:registration][:key]==@classroom.registration_key)
@@ -458,7 +456,6 @@ class Apps::ClassroomController < ApplicationController
       end
     end
     redirect_to offering_view_path(:organization_id => @current_organization, :id => @classroom)
-  #  render :partial => "apps/classroom/register_student", :locals=> {:classroom => @classroom}
   end
   
   def self_unregister_student
@@ -467,7 +464,14 @@ class Apps::ClassroomController < ApplicationController
     if period && @student
       remove_student_from_period(@student, period)
     end
-    render :partial => "apps/classroom/register_student", :locals=> {:classroom => @classroom}
+    redirect_to offering_view_path(:organization_id => @current_organization, :id => @classroom)
+#    render :partial => "apps/classroom/register_student", :locals=> {:classroom => @classroom}
+  end
+
+  def self_register_period_select
+    @classroom = Classroom.find_by_public_id(params[:classroom_id]) rescue nil
+    @current_classroom_period = ClassroomPeriod.find_by_id(params[:period_id]) rescue nil
+    render :partial => "apps/class_offering/join_classroom"
   end
   
   def edit_classroom
@@ -829,6 +833,13 @@ class Apps::ClassroomController < ApplicationController
   end
 
    private
+
+  def current_period
+    @current_classroom_period = @classroom.period_for_student(@current_user)
+    if @current_classroom_period.nil?
+      @current_classroom_period = (@classroom.classroom_periods.empty? || @classroom.classroom_periods.size > 1) ? nil : @classroom.classroom_periods.first
+    end
+  end
 
   def classroom_allowed?
     @current_application = CoopApp.classroom

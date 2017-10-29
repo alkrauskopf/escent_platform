@@ -19,7 +19,7 @@ class Apps::ClassOfferingController < ApplicationController
     @classroom.increment_views
     if @current_user
       @clsrm_leaders = @current_user.student_of_classroom?(@classroom) ? @classroom.teachers_for_student(@current_user) : @classroom.leaders
-      @current_classroom_period = @classroom.period_for_student(@current_user)
+      current_period
     else
       @clsrm_leaders = @classroom.leaders
       @current_classroom_period = nil
@@ -55,6 +55,13 @@ class Apps::ClassOfferingController < ApplicationController
 
   def classroom_allowed?
     current_app_enabled_for_current_org?
+  end
+
+  def current_period
+    @current_classroom_period = @classroom.period_for_student(@current_user)
+    if @current_classroom_period.nil?
+      @current_classroom_period = (@classroom.classroom_periods.empty? || @classroom.classroom_periods.size > 1) ? nil : @classroom.classroom_periods.first
+    end
   end
 
   # NEEDS Re-Write:   Victor rewrite find_featured_topic method for tcpj

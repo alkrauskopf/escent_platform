@@ -305,6 +305,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/offering/view' => 'apps/class_offering#index'   # offering_view_path
   get '/offering/register' => 'apps/classroom#register_classroom'    # offering_register_path
   post '/self/offering/register' => 'apps/classroom#self_register_student'  # self_offering_register_path
+  get '/self/offering/register/period' => 'apps/classroom#self_register_period_select'  # self_offering_register_period_path
   # site/site
 #  get '/offering/view' => 'site/site#static_classroom'   # offering_view
   get '/offering/homework' => 'site/site#submit_homework'

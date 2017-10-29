@@ -1,0 +1,45 @@
+
+<div id="join_classroom" class= "row offering_join_box">
+	<% if !@classroom.classroom_periods.empty? %>
+    <% button_class = @current_classroom_period.nil? ? 'button_gray disabled' : 'button_green enabled' %>
+    <%= form_for(:registration, :url => self_offering_register_path(:organization_id => @current_organization,
+                                                                      :student_id => @current_user, :classroom_id => @classroom), html: { id: "formJoin"}) do |form| -%>
+      <div class="col-md-2 key_box">
+        <% if !@classroom.open? && !@current_classroom_period.nil?%>
+          <%=  text_field(:registration, :key, :value=>'', :placeholder=>'Key Code', :size=> 8) %>
+          <br/><%= @classroom.registration_key %>
+        <% end %>
+      </div>
+      <div class="col-md-2 join_button">
+        <%= submit_tag "Join", :id=>'btnSubmit', :class => button_class %>
+      </div>
+      <% if @classroom.classroom_periods.size == 1 %>
+        <div class="col-md-8 one_period">
+          <%= @classroom.classroom_periods.first.name %>
+        </div>
+      <% else %>
+        <div id="period_select" class="col-md-8 period_list">
+          <%=  select(:registration, :period_id, @classroom.classroom_periods.sort_by{|a| [a.name]}.collect{|t| [t.name, t.id]},
+                      :selected => @current_classroom_period.nil? ? 0 : @current_classroom_period.id,
+                      :prompt =>(@current_classroom_period.nil? ? 'Select Your Period':@current_classroom_period.name)) %>
+        </div>
+      <% end %>
+    <% end %>
+	<% else -%>
+    <div class="col-md-12 no_period">
+		  No Periods Available
+    </div>
+	<% end -%>
+</div>
+<script type="text/javascript">
+  jQ(document).ready(function() {
+    jQ("#period_select").change(function(){
+      var period_id = jQ('#registration_period_id').val();
+      var url = "<%= self_offering_register_period_path(:organization_id => @current_organization, :user_id => @current_user, :classroom_id => @classroom ) %>";
+      jQ.get(url, {'period_id':period_id}, function(data) {
+        jQ("#join_classroom").html(data);
+        jQ("#join_classroom").show();
+      });
+    })
+  });
+</script>

@@ -17,6 +17,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     current_student
     @current_plan = @current_student.ifa_plans.for_subject(@current_subject).empty? ? nil : @current_student.ifa_plans.for_subject(@current_subject).first
     @show_db = 'Show'
+    @show_gd = 'Show'
     if @current_plan.nil?
       @current_plan = IfaPlan.new
       @show = 'Create'
@@ -37,6 +38,12 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     @show_db = params[:show_db] == 'Show' ? 'Hide': 'Show'
     create_student_dashboard(@current_student, @current_subject, @current_standard)
     render :partial => "/ifa/ifa_plan/student_plan_dashboard", :locals=>{}
+  end
+
+  def student_guardian
+    current_student
+    @show_gd = params[:show_gd] == 'Show' ? 'Hide': 'Show'
+    render :partial => "/ifa/ifa_plan/student_plan_guardian", :locals=>{}
   end
 
   def create_student_dashboard(student, subject, standard)

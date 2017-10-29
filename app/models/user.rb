@@ -276,6 +276,10 @@ class User < ActiveRecord::Base
     self.guardians.empty? ? '' : self.guardians.map{|g| g.email_address}.uniq.join(", ")
   end
 
+  def guardian_name_list
+    self.guardians.empty? ? '' : self.guardians.map{|g| g.full_name}.uniq.join(", ")
+  end
+
   def home_organization
     self.organization
   end

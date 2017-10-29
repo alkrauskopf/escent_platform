@@ -496,6 +496,7 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/plan/student' => 'ifa/ifa_plan#student_plan' #  ifa_plan_student_path
   post '/ifa/plan/student' => 'ifa/ifa_plan#student_plan' #  ifa_plan_student_path
   get '/ifa/plan/student/dashboard' => 'ifa/ifa_plan#student_plan_dashboard' #  ifa_plan_student_dashboard_path
+  get '/ifa/plan/student/guardian' => 'ifa/ifa_plan#student_guardian' #  ifa_plan_student_guardian_path
   get '/ifa/plan/review/dashboard' => 'ifa/ifa_plan#plan_review_dashboard' #  ifa_plan_review_dashboard
   get '/ifa/plan/std/select' => 'ifa/ifa_plan#select_standard' #  ifa_plan_std_select_url
   get '/ifa/plan/subject/select' => 'ifa/ifa_plan#select_subject' #  ifa_plan_subject_select_url

@@ -1,6 +1,6 @@
 <div id="student_plan_guardian_<%=@current_student.id%>">
-  <% button_color = @show_gd == 'Hide' ? 'button_orange' : 'button_gray' %>
-  <% button_label = @show_gd == 'Hide' ? 'Done Changes' : (@current_student.guardians.empty? ? 'Add Guardian' : 'Change Guardian') %>
+  <% button_color = @show_gd == 'Hide' ? 'button_orange' : 'button_blue' %>
+  <% button_label = @show_gd == 'Hide' ? 'Done' : (@current_student.guardians.empty? ? 'Add Guardian' : 'Change Guardian') %>
   <% if @show_gd == 'Hide' %>
     <div class="row">
       <div class="col-md-2"></div>
@@ -13,6 +13,7 @@
     </div>
     <div class="student_plan_guardian_update">
       <%= render :partial => "users/guardians", :locals=>{:student => @current_student, :function => 'Add'} %>
+      <hr>
     </div>
   <% else %>
     <div class="row">

@@ -1,36 +1,37 @@
-Dear <%= @user_name %>:<br/>
+Dear <%= @student_first_name %>:<br/>
 <br />
-Thank you for creating your <strong><%= @subject_area %></strong> growth plan.<br/>
+You have initiated an ACT/SAT preparation plan for <strong><%= @subject_area %></strong>.<br/>
 <br/>
-Here are some important things to remember:<br/>
+Please remember:<br/>
 <ul>
   <li>
     Your plan stays with you year-over-year, to prepare you for the SAT's or ACTs.
   </li><br/>
   <li>
-    Your plan will be composed of milestones, steps, that will lead toward your goals as fast as you are able.
+    You will add milestones that will lead toward your goals as fast as you are able.
   </li><br/>
   <li>
-    Each milestone is determined by <u>your</u> individual needs, <%= @user_name %>, not by anybody else's needs.
-    When you achieve a milestone your teachers will be notified, and, if you would like, so too will your parent/guardian.
+    Each milestone is determined by <u>your</u> individual needs, <%= @student_first_name %>.
+    When you achieve a milestone your teachers will be notified.
   </li><br/>
   <li>
-    <strong>IMPORTANT:</strong> The purpose of taking an assessment is to help <u>you</u> identify <u>your</u> particular needs, NOT to determine a grade.
-    Assessment results are for you, <%= @user_name %>. They will help you see the things that <u>you</u> should focus on, and the things you should not worry about quite yet.
+    Assessments are NOT for determining a grade. Their purpose is to help you identify your particular <span style="text-decoration:underline">needs</span> and point to the things you should focus on.
   </li><br/>
   <li>
-    Following your plan is like spinning a wheel, <%= @user_name %>: You first <u>identify</u> your unique needs, then <u>focus</u> on the work to address them, then <u>produce evidence</u> that you've mastered the need.
-    Then, keep repeating this cycle. The faster your wheel spins, the faster you'll move toward your goals.
-  </li><br/>
-  <li>
-    Your teachers will help you "spin the wheel." But remember, <%= @user_name %>, it's your wheel to spin.
+    Keep your eyes on your dashboards, <%= @student_first_name%>. Notice how they show your progress toward your ACT/SAT goals.
   </li><br/>
 </ul>
 <br/>
-<%= @full_name.upcase %> | <%= @subject_area.upcase %></br>
-<%=simple_format ('NEEDS/CHALLENGES:<br/>' + @needs)%>
-<%=simple_format ('GOALS:<br/>' + @goals)%>
-<%= pluralize(@miles_defined, 'Milestone')%>&nbsp;Defined<br/>
-<%= pluralize(@miles_achieved, 'Milestone')%>&nbsp;Achieved<br/>
+My Overarching Needs/Challenges for <%= @subject_area %>: </span>
+<ul>
+  <span style="font-style:italic; font-size:16px;"><%=simple_format (@plan_needs)%></span>
+</ul>
+My Overarching Goal for <%= @subject_area %>: </span>
+<ul>
+  <span style="font-style:italic; font-size:16px;"><%=simple_format (@plan_goals)%></span>
+</ul>
+<br/><small>(cc: <%= @guardian_cc %>)</small>
 <br/>
- - Precision Prep Team at <%= @school_name %>
+<%= render :partial => 'prep_outreach_student', :locals => {:school_name=> @school_name, :student_name => @student_first_name, :organization_id => @organization.public_id,
+                                                            :student_id=>@student.public_id} %>
+

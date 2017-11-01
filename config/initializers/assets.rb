@@ -51,7 +51,8 @@ Rails.application.config.assets.precompile += [
     'ifa/submission.css',
     'user/user.css',
     'search/search.css',
-    'master/crud.css'
+    'master/crud.css',
+    'prep/precision_prep.css'
       ]
 #
 #Javascript

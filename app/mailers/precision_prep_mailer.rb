@@ -9,118 +9,171 @@ class PrecisionPrepMailer < ActionMailer::Base
     @subject_line = @sender.full_name + ' Submitted An Assessment'
     @ep_host = ep_host
     @review_msg = must_review ? 'Your Review Of The Assessment Is Required.' : 'Assessment Results Have Been Automatically Finalized.'
-    @from = 'precision_assessment<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'ACT/SAT_prep_assessment<noreply@PrecisionSchoolImprovement.com>'
     unless @recipients.blank? || @sender.blank?
       mail(to: @recipient, subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
   def plan_created_student(user, plan, ep_host)
-      @user_name = user.first_name
-      @full_name = user.full_name
-      @school_name = user.organization.short_name
-      @subject_area = plan.subject_area.name
-      @needs = plan.needs.blank? ? 'Not Defined'  : plan.needs
-      @goals = plan.goals.blank? ? 'Not Defined'  : plan.goals
-      @miles_defined = plan.milestones.size
-      @miles_achieved = plan.milestones.achieved.size
-      @recipients = user.guardians.empty? ? user.preferred_email : (user.preferred_email + ', ' + user.guardian_email_list)
-      @subject_line = 'Growth Plan Created'
-      @ep_host = ep_host
-      @from = 'precision_plan<noreply@PrecisionSchoolImprovement.com>'
-      unless @recipients.blank?
-        mail(to:@recipients , subject: @subject_line, from: @from, date: DateTime.now)
-      end
+    student_info(user)
+    org_info(user.organization)
+    guardian_cc(user)
+    plan_info(plan)
+    @recipient_list = user.preferred_email
+    @subject_line = 'ACT/SAT Prep Plan Created'
+    @ep_host = ep_host
+    @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    if !@recipient_list.nil? && !@recipient_list.empty?
+      mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
+    end
   end
 
-  def plan_updated_student(user, plan, ep_host)
-    @user_name = user.first_name
-    @full_name = user.full_name
-    @school_name = user.organization.short_name
-    @subject_area = plan.subject_area.name
-    @needs = plan.needs.blank? ? 'Not Defined'  : plan.needs
-    @goals = plan.goals.blank? ? 'Not Defined'  : plan.goals
-    @miles_defined = plan.milestones.size
-    @miles_achieved = plan.milestones.achieved.size
-    @recipients = user.guardians.empty? ? user.preferred_email : (user.preferred_email + ', ' + user.guardian_email_list)
-    @subject_line = 'Growth Plan Updated'
-    @ep_host = ep_host
-    @from = 'precision_plan<noreply@PrecisionSchoolImprovement.com>'
-    unless @recipients.blank?
-      mail(to:@recipients , subject: @subject_line, from: @from, date: DateTime.now)
+  def plan_created_guardian(user, plan, ep_host)
+    if !user.guardians.empty?
+      student_info(user)
+      org_info(user.organization)
+      guardian_cc(user)
+      plan_info(plan)
+      @subject_line = 'ACT/SAT Prep Plan Created'
+      @ep_host = ep_host
+      @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+      user.guardians.each do |guardian|
+        guardian_info(guardian)
+        mail(to:guardian.email_address , subject: @subject_line, from: @from, date: DateTime.now)
+      end
     end
   end
 
   def milestone_created_student(user, milestone, ep_host)
-    @user_name = user.first_name
-    @full_name = user.full_name
-    @school_name = user.organization.short_name
-    @milestone = milestone
-    @plan = milestone.ifa_plan
-    @subject_area = @plan.subject_area.name
-    @strand_name = @milestone.strand.name.titleize
-    @mastery_level = @milestone.range.range
-    @recipients = user.guardians.empty? ? user.preferred_email : (user.preferred_email + ', ' + user.guardian_email_list)
-    @subject_line = 'Milestone Created'
+    student_info(user)
+    org_info(user.organization)
+    milestone_info(milestone)
+    guardian_cc(user)
+    @recipient_list = user.preferred_email
+    @subject_line = @school_name + ' ACT/SAT Prep Milestone Notification'
     @ep_host = ep_host
-    @from = 'precision_plan<noreply@PrecisionSchoolImprovement.com>'
-    unless @recipients.blank?
-      mail(to:@recipients , subject: @subject_line, from: @from, date: DateTime.now)
-    end
-  end
-
-  def milestone_updated_student(user, milestone, ep_host)
-    @user_name = user.first_name
-    @full_name = user.full_name
-    @school_name = user.organization.short_name
-    @milestone = milestone
-    @plan = milestone.ifa_plan
-    @subject_area = @plan.subject_area.name
-    @strand_name = @milestone.strand.name.titleize
-    @mastery_level = @milestone.range.range
-    @recipients = user.guardians.empty? ? user.preferred_email : (user.preferred_email + ', ' + user.guardian_email_list)
-    @subject_line = 'Milestone Updated'
-    @ep_host = ep_host
-    @from = 'precision_plan<noreply@PrecisionSchoolImprovement.com>'
-    unless @recipients.blank?
-      mail(to:@recipients , subject: @subject_line, from: @from, date: DateTime.now)
+    @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    if !@recipient_list.nil? && !@recipient_list.empty?
+      mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
   def milestone_created_guardian(user, milestone, ep_host)
     if !user.guardians.empty?
-      @user_name = user.first_name
-      @school_name = user.organization.short_name
-      @milestone = milestone
-      @plan = milestone.ifa_plan
-      @subject_area = milestone.ifa_plan.subject_area.name
-      @strand_name = @milestone.strand.name.titleize
-      @mastery_level = @milestone.range.range
-      @recipients = user.guardian_email_list
-      @subject_line = 'Learning Milestone Notification'
+      student_info(user)
+      org_info(user.organization)
+      milestone_info(milestone)
+      @subject_line = @school_name + ' ACT/SAT Milestone: Guardian Notification'
       @ep_host = ep_host
-      @from = 'precision_plan<noreply@PrecisionSchoolImprovement.com>'
+      @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+      user.guardians.each do |guardian|
+        guardian_info(guardian)
+        mail(to:guardian.email_address , subject: @subject_line, from: @from, date: DateTime.now)
+      end
+    end
+  end
+
+  def milestone_created_teacher(user, teachers, milestone, ep_host)
+    if !teachers.empty?
+      student_info(user)
+      org_info(user.organization)
+      milestone_info(milestone)
+      guardian_cc(user)
+      plan_info(@plan)
+      @recipients = User.preferred_email_list(teachers)
+      @subject_line = user.last_name + ' Learning Milestone Notification'
+      @ep_host = ep_host
+      @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
       unless @recipients.blank?
         mail(to:@recipients , subject: @subject_line, from: @from, date: DateTime.now)
       end
     end
   end
 
-  def milestone_created_teacher(user, teachers, milestone, ep_host)
-    @user_name = user.full_name
-    @school_name = user.organization.short_name
-    @milestone = milestone
-    @plan = milestone.ifa_plan
-    @subject_area = milestone.ifa_plan.subject_area.name
-    @strand_name = @milestone.strand.name.titleize
-    @mastery_level = @milestone.range.range
-    @recipients = User.preferred_email_list(teachers)
-    @subject_line = user.last_name + ' Learning Milestone Notification'
+  def prep_student_inquiry(user, org, ep_host)
+    student_info(user)
+    org_info(org)
+    guardian_cc(user)
+    @recipient_list = org.ifa_admin_email_list
+    @subject_line = user.last_name + ' Precision Prep Inquiry'
     @ep_host = ep_host
-    @from = 'precision_plan<noreply@PrecisionSchoolImprovement.com>'
-    unless @recipients.blank?
-      mail(to:@recipients , subject: @subject_line, from: @from, date: DateTime.now)
+    @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    unless @recipient_list == ''
+      mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
     end
   end
 
+  def prep_guardian_inquiry(user, guardian, org, ep_host)
+    student_info(user)
+    org_info(org)
+    guardian_cc(user)
+    guardian_info(guardian)
+    @recipient_list = org.ifa_admin_email_list
+    @subject_line = guardian.full_name + ' Precision Prep Inquiry'
+    @ep_host = ep_host
+    @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    unless @recipient_list == ''
+      mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
+    end
+  end
+
+  def prep_guardian_add(user, guardian, ep_host)
+    student_info(user)
+    guardian_cc(user)
+    guardian_info(guardian)
+    org_info(user.organization)
+    @recipient_list = @guardian_email + ', ' + @student_email
+    @subject_line = @student.last_name + ' Student Guardian Identified'
+    @ep_host = ep_host
+    @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    unless @recipient_list == ''
+      mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
+    end
+  end
+
+  private
+
+  def student_info(student)
+    @student_first_name = student.first_name
+    @student_full_name = student.full_name
+    @student = student
+    @student_email = @student.preferred_email
+    @student_phone = (@student.phone.nil? || @student.phone == '') ? 'Not Known' : @student.phone
+  end
+
+  def guardian_info(guardian)
+    @guardian_full_name = guardian.full_name
+    @guardian_email = guardian.email_address
+    @guardian_phone = (guardian.phone.nil? || guardian.phone == '') ? 'Not Known' :guardian.phone
+    @guardian_id = guardian.public_id
+    @guardian_first_name = guardian.first_name == '' ? 'Guardian' : guardian.first_name
+  end
+
+  def org_info(org)
+    @school_name = org.short_name
+    @school_full_name = org.name
+    @organization = org
+  end
+
+  def plan_info(plan)
+    @subject_area = plan.subject_area.name
+    @plan_needs = plan.needs.blank? ? 'Not Defined'  : plan.needs
+    @plan_goals = plan.goals.blank? ? 'Not Defined'  : plan.goals
+    @miles_defined = plan.milestones.size
+    @miles_achieved = plan.milestones.achieved.size
+  end
+
+  def milestone_info(milestone)
+    @milestone = milestone
+    @plan = milestone.ifa_plan
+    @subject_area = @plan.subject_area.name
+    @strand_name = milestone.strand.name.titleize
+    @mastery_level = milestone.range.range
+  end
+
+  def guardian_cc(user)
+    @guardian_cc = user.guardians.empty? ? 'No Guardians' : (user.guardian_name_list)
+    @guardian_count = user.guardians.size
+  end
 end

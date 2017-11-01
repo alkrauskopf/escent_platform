@@ -1350,6 +1350,22 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def ifa_admin_email_list
+    unless self.ifa_admins.empty?
+      self.ifa_admins.sort_by{|u| u.last_name}.collect{|t| t.preferred_email}.uniq.join(", ")
+    else
+      ""
+    end
+  end
+
+  def ifa_admin_full_names
+    unless self.ifa_admins.empty?
+      self.ifa_admins.sort_by{|u| u.last_name}.collect{|t| t.full_name}.uniq.join(", ")
+    else
+      ""
+    end
+  end
+
  
   def coaches
     self.authorizations.for_level(AuthorizationLevel.app_observer(CoopApp.ctl)).collect{ |a| a.user}.compact.uniq

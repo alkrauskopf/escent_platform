@@ -1,11 +1,13 @@
-Dear <%= @user_name %>:<br/>
+Dear <%= @student_first_name %>:<br/>
 <br />
-<strong><%= @subject_area %></strong> milestone created.<br/><br/>
+You created a new <strong><%= @subject_area %></strong> milestone.<br/><br/>
 Knowledge Strand: <strong><%= @strand_name %></strong><br/><br/>
-Mastery Level: <strong><%= @mastery_level %></strong>
-<%=simple_format ('Milestone: ' + @milestone.description)%>
-<br/>
-Here are some important things to remember:<br/>
+Mastery Level: <strong><%= @mastery_level %></strong><br/><br/>
+<span style="text-decoration:underline; font-size:16px;">You Identified The Following Action Plan</span>
+<ul>
+  <span style="font-style:italic; font-size:16px;"><%=simple_format (@milestone.description)%></span>
+</ul>
+Remember:<br/>
 <ul>
   <li>
     Your teacher will guide you on ways to achieve this milestone.
@@ -15,8 +17,11 @@ Here are some important things to remember:<br/>
   </li>
 </ul>
 <br/>
-To date, you have achieved <strong><%=@plan.milestones.achieved.size %>-of-<%=pluralize(@plan.milestones.size, ' milestone')%></strong> for
+So far, you have achieved <strong><%=@plan.milestones.achieved.size %>-of-<%=pluralize(@plan.milestones.size, ' milestone')%></strong> for
 <strong><%= @subject_area %></strong>.
 <br/>
 <br/>
-- Precision Prep Team at <%= @school_name %>
+- Your ACT/SAT Prep Team at <%= @school_name %>
+<br/><br/><small>(cc: <%= @guardian_cc %>)</small>
+<%= render :partial => 'prep_outreach_student', :locals => {:school_name=> @school_name, :student_name => @student_first_name, :organization_id => @organization.public_id,
+                                                            :student_id=>@student.public_id} %>

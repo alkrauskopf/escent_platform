@@ -903,4 +903,8 @@ EscentPartners::Application.routes.draw do |map|
   get '/pdf/elt/case' => 'apps/app_pdf#elt_case'
   #=======================================================
 
+  # Precision Prep
+  get 'precision/interest/student' => 'ifa/precision_prep#interest_student'  # precision_interest_student_url
+  get 'precision/interest/guardian' => 'ifa/precision_prep#interest_guardian'  # precision_interest_guardian_url
+
 end

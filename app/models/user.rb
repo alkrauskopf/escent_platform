@@ -83,7 +83,7 @@ class User < ActiveRecord::Base
   has_many :ifa_plans, :dependent => :destroy
   has_many :ifa_plan_remarks
 
-  has_many :guardians, :class_name => 'UserGuardian'
+  has_many :guardians, :class_name => 'UserGuardian', :dependent=> :destroy
       
   validates_confirmation_of :email_address
   validates_confirmation_of :password

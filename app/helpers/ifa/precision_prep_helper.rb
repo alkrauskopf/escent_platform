@@ -1,0 +1,2 @@
+module Ifa::PrecisionPrepHelper
+end

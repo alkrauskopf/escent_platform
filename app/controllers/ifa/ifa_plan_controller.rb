@@ -111,11 +111,13 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     @show_gd = 'Show'
     if @current_plan
       @current_plan.update_attributes(:needs=>params[:needs],:goals=>params[:goals])
-      PrecisionPrepMailer.plan_updated_student(@current_student, @current_plan, request.host_with_port).deliver
+    #  PrecisionPrepMailer.plan_created_student(@current_student, @current_plan, request.host_with_port).deliver
+    #  PrecisionPrepMailer.plan_created_guardian(@current_student, @current_plan, request.host_with_port).deliver
     else
       @current_plan = IfaPlan.create(:act_subject_id => @current_subject.id, :needs=>params[:needs], :goals=>params[:goals])
       @current_student.ifa_plans << @current_plan
       PrecisionPrepMailer.plan_created_student(@current_student, @current_plan, request.host_with_port).deliver
+      PrecisionPrepMailer.plan_created_guardian(@current_student, @current_plan, request.host_with_port).deliver
     end
     render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @current_student.ifa_plan_subject(@current_subject), :student => @current_student, :subject => @current_subject, :show_form => false}
   end
@@ -165,6 +167,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       @current_milestone.achieve_date = Time.now
       @user_plan.milestones << @current_milestone
       PrecisionPrepMailer.milestone_created_student(@current_user, @current_milestone, request.host_with_port).deliver
+      PrecisionPrepMailer.milestone_created_guardian(@current_user, @current_milestone, request.host_with_port).deliver
       if !@user_plan.relevant_teachers(@current_organization).empty?
         PrecisionPrepMailer.milestone_created_teacher(@current_user, @user_plan.relevant_teachers(@current_organization), @current_milestone, request.host_with_port).deliver
       end
@@ -186,9 +189,8 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       @current_milestone.achieve_date = Time.now
       @user_plan.milestones << @current_milestone
       PrecisionPrepMailer.milestone_created_student(@current_user, @current_milestone, request.host_with_port).deliver
-      if !@user_plan.relevant_teachers(@current_organization).empty?
-        PrecisionPrepMailer.milestone_created_teacher(@current_user, @user_plan.relevant_teachers(@current_organization), @current_milestone, request.host_with_port).deliver
-      end
+      PrecisionPrepMailer.milestone_created_guardian(@current_user, @current_milestone, request.host_with_port).deliver
+      PrecisionPrepMailer.milestone_created_teacher(@current_user, @user_plan.relevant_teachers(@current_organization), @current_milestone, request.host_with_port).deliver
     end
     redirect_to ifa_plan_student_path(:organization_id=>@current_organization, :student_id => @current_user.id,
                                       :act_subject_id => @current_strand.act_subject.id)

@@ -1,0 +1,36 @@
+Dear <%= @guardian_first_name %>:<br/>
+<br />
+<%= @student_full_name%> has initiated an ACT/SAT preparation plan for <strong><%= @subject_area %></strong>.<br/>
+<br/>
+Please remember:<br/>
+<ul>
+  <li>
+    The plan stays with <%= @student_first_name%> year-over-year in preparation for the SAT's or ACTs.
+  </li><br/>
+  <li>
+    <%= @student_first_name%> will add milestones to the plan that are based upon individualized needs and ACT/SAT benchmarks.
+  </li><br/>
+  <li>
+    When <%= @student_first_name%> masters a milestone, evidence of this will be added to the plan, needs will be assessed again,
+    and <%= @student_first_name%> will identify a new, higher level, milestone to master.
+  </li><br/>
+  <li>
+    <%= @student_first_name%> can move from milestone to milestone as fast as <%= @student_first_name%> is able.
+  </li><br/>
+  <li>
+    A dashboard showing progress toward ACT/SAT goals will always be available for <%= @student_first_name%> to show you.
+  </li><br/>
+</ul>
+<span style="text-decoration:underline"><%=@student_first_name %> Identified The Following Initial Plan Information</span>
+<br/><br/>
+My Overarching Needs/Challenges for <%= @subject_area %>: </span>
+<ul>
+  <span style="font-style:italic; font-size:16px;"><%=simple_format (@plan_needs)%></span>
+</ul>
+My Overarching Goal for <%= @subject_area %>: </span>
+<ul>
+  <span style="font-style:italic; font-size:16px;"><%=simple_format (@plan_goals)%></span>
+</ul>
+
+<%= render :partial => 'prep_outreach_guardian', :locals => {:school_name=> @school_name, :student_name => @student_first_name,
+                                                             :organization_id => @organization.public_id, :guardian_id=>@guardian_id} %>

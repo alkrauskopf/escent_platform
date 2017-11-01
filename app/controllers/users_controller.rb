@@ -85,6 +85,9 @@ class UsersController < ApplicationController
     @current_guardian.phone = params[:phone]
     if student.guardians << @current_guardian
       flash[:notice] = 'Guardian Contact Added'
+      if @current_organization.ifa_enabled?
+        PrecisionPrepMailer.prep_guardian_add(student, @current_guardian, request.host_with_port).deliver
+      end
       @current_guardian = UserGuardian.new
     else
       flash[:error] = @current_guardian.errors.full_messages.to_sentence

@@ -1,5 +1,6 @@
 class UserGuardian < ActiveRecord::Base
   attr_accessible :email_address, :first_name, :last_name, :phone, :user_id
+  include PublicPersona
 
   belongs_to :user
 
@@ -21,5 +22,9 @@ class UserGuardian < ActiveRecord::Base
 
   def last_name_first
     "#{self.last_name}, #{self.first_name}"
+  end
+
+  def student
+    self.user
   end
 end

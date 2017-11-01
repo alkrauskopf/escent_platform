@@ -1,0 +1,56 @@
+<div class="thank_you_box">
+  <% if @notify_success %>
+    <div class="row">
+      <div class="col-md-7"></div>
+      <div class="col-md-4">
+        <% if @current_organization.logo.present? %>
+          <%=image_tag @current_organization.logo %>
+        <% else %>
+          <%= @current_organization.name %>
+        <%end%>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div>
+      <p>
+        Dear <%= @current_guardian.first_name %>:
+      </p>
+      <p>
+        Thank you for asking about the after-school program at <%= @current_organization.name %> called <span style="font-weight:bold">Precision Prep</span>.
+      </p>
+      <p>
+        Following are the <%= @current_organization.short_name %> teachers that have been informed of your interest:
+      </p>
+      <ul style="margin-left: 10px;">
+        <% @current_organization.ifa_admins.each do |admin| %>
+          <li style="margin-left: 10px;">
+            <%= admin.full_name %>
+          </li>
+        <% end %>
+      </ul>
+      <p>
+        <%=@current_student.first_name %> is participating in an in-school ACT/SAT preparation program using the tools and methods of
+        <a style="text-decoration: underline" href="http://www.precisionschoolimprovement.com/?child_id=76&id=64" target="_blank">Precision School Improvement</a>.
+      </p>
+      <p>
+        The purpose of the <span style="font-style:italic;">after-school</span> program is to give students, such as <%=@current_student.first_name %>, more time to work on their personalized plans to achieve ACT/SAT goals,
+        and to provide you a means to visibly monitor their trajectory toward their goals. The program involves SAT testing strategies.
+        More important, the program involves students learning how to self-assess their personal learning needs in terms of ACT & SAT benchmarks, and helping each student master those needs.
+      </p>
+      <p>
+        Thank you again for your interest in Precision Prep, <%= @current_guardian.first_name %>.  You will be contacted shortly regarding the program at <%= @current_organization.short_name %>.
+      </p>
+    </div>
+  <% else %>
+    <div class="interest_fail">
+      <p>
+        We're sorry. A problem occurred with your request.
+      </p>
+      <% @err_msgs.each do |msg| %>
+        <p>
+          <%= msg %>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+</div>

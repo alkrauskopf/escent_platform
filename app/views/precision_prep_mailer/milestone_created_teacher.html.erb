@@ -1,15 +1,19 @@
-Please be informed that <%= @user_name %> has created a new Precision Prep learning milestone.<br/>
+<%= @student_full_name %> has created a new ACT/SAT prep plan milestone.<br/>
 <br />
 <br/>
-If you are responsible for this student,  please promptly review the objectives for:<br/><br/>
+Please provide feedback if you are responsible for <%= @student_first_name %>:<br/><br/>
 Subject Area => <strong><%= @subject_area %></strong><br/><br/>
 Knowledge Strand=> <strong><%= @strand_name %></strong><br/><br/>
 Mastery Level=> <strong><%= @mastery_level %></strong><br/><br/>
-
+<span style="text-decoration:underline; font-size:16px;"><%= @student_first_name %> Identified The Following Action Plan</span>
+<ul>
+  <span style="font-style:italic; font-size:16px;"><%=simple_format (@milestone.description)%></span>
+</ul>
 <br/>
-To date, <%= @user_name %> has achieved <strong><%=@plan.milestones.achieved.size %>-of-<%=pluralize(@plan.milestones.size, ' milestone')%></strong> for
+<%=pluralize(@guardian_count, ' Guardian')%> Notified: <%= @guardian_cc %><br/><br/>
+To date, <%= @student_first_name %> has achieved <strong><%=@miles_achieved %>-of-<%=pluralize(@miles_defined, ' milestone')%></strong> for
 <strong><%= @subject_area %></strong>.
 <br/><br/>
-Thank you for continuing to support <%= @user_name %>.<br/>
+Thank you for supporting <%= @student_first_name %>.<br/>
 <br>
 

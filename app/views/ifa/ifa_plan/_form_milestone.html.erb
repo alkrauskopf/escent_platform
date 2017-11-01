@@ -1,24 +1,21 @@
 <div id="milestone_<%= strand.id %><%=milestone.id.nil? ? '0' : milestone.id.to_s %>">
   <% milestone_id = milestone.id.nil? ? (strand.id.to_s + '0') : (strand.id.to_s + milestone.id.to_s) %>
-  <div class="row ifa_milestone_header_row" >
-    <div class="col-md-4 ifa_milestone_range_label">
-      Pick Your Target Level =>
-    </div>
+  <% if false %>
+    <div class="row ifa_milestone_header_row" >
+      <div class="col-md-4 ifa_milestone_range_label">
+      </div>
 
-    <div class='col-md-4 ifa_milestone_range_select' id="range_select_<%=milestone_id%>">
-      <%=  select(milestone_id, :range, ranges.collect{|r| [(r.label_with_sat),r.id]},{:prompt => 'Milestone Mastery Level'}) %>
+      <div class='col-md-4 ifa_milestone_range_select' id="range_select_<%=milestone_id%>">
+        <%#=  select(milestone_id, :range, ranges.collect{|r| [(r.label_with_sat),r.id]},{:prompt => 'Milestone Mastery Level'}) %>
+      </div>
+
     </div>
-    <div class='col-md-4'>
-      <span class="button_orange" id="milestone_cancel<%=milestone_id%>">
-        <%= 'Cancel' %>
-      </span>
-    </div>
-  </div>
+  <% end %>
   <% if @current_range %>
     <div class="ifa_milestone_edit_box ">
       <div class="row ifa_milestone_edit_row">
-        <div class="ifa_milestone_mastery">
-          <%= @current_range.label_without_sat.html_safe %>&nbsp;|&nbsp;<%=strand.abbrev.upcase %>
+        <div class="ifa_milestone_show_range">
+          Milestone for <%= milestone.nil? ? 'Unkown Strand/Level' : milestone.name %>
         </div>
       </div>
       <% if !@benchmarks.empty? %>
@@ -102,12 +99,18 @@
                 <%= function + ' Milestone' %>
               </div>
             </div>
+            <div class="row ifa_milestone_edit_button">
+              <div class="button_orange" id="milestone_cancel<%=milestone_id%>">
+                <%= 'Cancel' %>
+              </div>
+            </div>
           </div>
-          <div class="col-md-9">
-            <p>My Plan</p>
+          <div class="col-md-8">
             <%= text_area :description, milestone_id, :rows=>10, :cols => 70, :value => milestone.description,
                           :placeholder => 'Action Steps' %>
           </div>
+        <div class='col-md-2'>
+        </div>
       </div>
       <script type="text/javascript">
         jQ(document).ready(function() {

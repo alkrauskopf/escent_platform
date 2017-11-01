@@ -158,6 +158,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   def milestone_update
     current_strand
     current_range
+    current_milestone
     set_plan
     if new_milestone?
       @current_milestone = IfaPlanMilestone.new
@@ -171,6 +172,8 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       if !@user_plan.relevant_teachers(@current_organization).empty?
         PrecisionPrepMailer.milestone_created_teacher(@current_user, @user_plan.relevant_teachers(@current_organization), @current_milestone, request.host_with_port).deliver
       end
+    elsif @current_milestone
+      @current_milestone.update_attributes(:description=> params[:description])
     end
     set_plan
     render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @current_strand,
@@ -421,7 +424,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def current_milestone
-    @current_milestone = IfaPlanMilestone.find_by_id(params[:ifa_plan_milestone_id])
+    @current_milestone = IfaPlanMilestone.find_by_id(params[:ifa_plan_milestone_id]) rescue nil
   end
 
   def current_range

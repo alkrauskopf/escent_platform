@@ -10,8 +10,6 @@ class UserGuardian < ActiveRecord::Base
   validates_format_of :email_address, :with => /^[\w._%+-]+@[\w.-]+\.[\w]{2,6}$/, :message => 'invalid format',
                       :allow_nil => false
 
-
-
   def full_name
     "#{self.first_name} #{self.last_name}"
   end
@@ -26,5 +24,9 @@ class UserGuardian < ActiveRecord::Base
 
   def student
     self.user
+  end
+
+  def self.for_org(org)
+    where('users.organization_id = ?', org.id).includes(:users)
   end
 end

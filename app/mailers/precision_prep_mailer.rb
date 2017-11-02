@@ -41,6 +41,7 @@ class PrecisionPrepMailer < ActionMailer::Base
       user.guardians.each do |guardian|
         guardian_info(guardian)
         mail(to:guardian.email_address , subject: @subject_line, from: @from, date: DateTime.now)
+        guardian.increment_notify
       end
     end
   end
@@ -70,6 +71,7 @@ class PrecisionPrepMailer < ActionMailer::Base
       user.guardians.each do |guardian|
         guardian_info(guardian)
         mail(to:guardian.email_address , subject: @subject_line, from: @from, date: DateTime.now)
+        guardian.increment_notify
       end
     end
   end
@@ -129,6 +131,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
     unless @recipient_list == ''
       mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
+      guardian.increment_notify
     end
   end
 

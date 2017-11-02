@@ -83,6 +83,8 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     new_plan = IfaPlan.new(params[:ifa_plan])
     new_plan.act_subject_id = @current_subject.id
     @current_student.ifa_plans << new_plan
+    PrecisionPrepMailer.plan_created_student(@current_student, new_plan, request.host_with_port).deliver
+    PrecisionPrepMailer.plan_created_guardian(@current_student, new_plan, request.host_with_port).deliver
     redirect_to ifa_plan_student_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id, :student_id=> @current_student.id)
   end
 

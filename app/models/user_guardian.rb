@@ -1,5 +1,5 @@
 class UserGuardian < ActiveRecord::Base
-  attr_accessible :email_address, :first_name, :last_name, :phone, :user_id
+  attr_accessible :email_address, :first_name, :last_name, :phone, :user_id, :notify_count, :inquiry_count
   include PublicPersona
 
   belongs_to :user
@@ -28,5 +28,13 @@ class UserGuardian < ActiveRecord::Base
 
   def self.for_org(org)
     where('users.organization_id = ?', org.id).includes(:users)
+  end
+
+  def increment_notify
+    self.update_attributes(:notify_count => self.notify_count+1)
+  end
+
+  def increment_inquiry
+    self.update_attributes(:inquiry_count => self.inquiry_count+1)
   end
 end

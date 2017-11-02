@@ -37,6 +37,7 @@ class Ifa::PrecisionPrepController < ApplicationController
       end
     else
       PrecisionPrepMailer.prep_guardian_inquiry(@current_student, @current_guardian, @current_organization, request.host_with_port).deliver
+      @current_guardian.increment_inquiry
     end
   end
 

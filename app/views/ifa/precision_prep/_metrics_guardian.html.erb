@@ -52,9 +52,10 @@
           <% student.guardians.each do |guard| %>
             <% metric_class = guard.inquiry_count == 0 ? 'quiet' : 'alarm'%>
             <div class="<%=metric_class%>">
-              <%= guard.full_name %>&nbsp;|&nbsp;
-              <%=guard.email_address %>&nbsp;|&nbsp;
-              <%= pluralize(guard.notify_count, ' Notification')%>&nbsp;|&nbsp;
+              <%= guard.full_name %>,&nbsp;
+              <%=guard.email_address %>,&nbsp;
+              <%=guard.phone.empty? ? 'No Phone' : guard.phone %>,&nbsp;
+              <%= pluralize(guard.notify_count, ' Notification')%>,&nbsp;
               <%= pluralize(guard.inquiry_count, ' Inquiry')%>
             </div>
           <% end %>

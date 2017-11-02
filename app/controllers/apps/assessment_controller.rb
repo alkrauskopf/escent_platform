@@ -39,7 +39,6 @@ class Apps::AssessmentController < Apps::ApplicationController
       find_dashboard_update_start_dates(@current_organization)
       question_creators_strands
       assessment_creators
-      guardian_students(@current_organization)
     else
       redirect_to organization_view_path(:organization_id => @current_organization)
     end
@@ -3655,7 +3654,4 @@ end
     end
   end
 
-  def guardian_students(org)
-   @guardian_students = org.current_students.select{|s| !s.guardians.empty?}
-  end
  end

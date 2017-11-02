@@ -793,6 +793,81 @@
   color:$dark_text;
 }
 
+.manage_metrics_box {
+  margin: 1em 0em 1em 0em;
+  font-size:13px;
+  font-weight:normal;
+  color:$dark_text;
+  border:0px solid #ddd;
+}
+.metrics_row {
+  padding:0em 0em 1em 0em;
+  font-size:14px;
+  color:$red_text;
+}
+.metrics_title {
+  font-weight:bold;
+  font-size:14px;
+  color:$red_text;
+}
+.metrics_box {
+  margin: 0em 3em 0em 3em;
+  padding: 2em 2em 2em 2em;
+  background-color:$panel_background_ifa;
+  border:1px solid $border-gray;
+  line-height:1.25em;
+  border-radius: 10px;
+  color:$red_text;
+  text-align:left;
+  word-wrap: break-word;
+  font-weight:normal;
+  font-size:15px;
+}
+.metrics_pool_select {
+  font-size:14px;
+  color:$red_text;
+  font-weight:normal;
+}
+.metrics_list {
+  margin: 2em 0em 0em 1em;
+}
+.metrics_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $slay_panel;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:16px;
+}
+.metric_panel_label {
+  font-weight:bold;
+  text-align:center;
+  vertical-align:middle;
+}
+.metrics_list_row {
+  padding-top:1em;
+  padding-bottom:0em;
+  border-bottom:0px solid #000;
+  font-size:14px;
+  color:$dark_text;
+  font-weight:normal;
+  text-align:left;
+  vertical-align:top;
+  line-height:2em;
+}
+.metrics_list_row .alarm{
+  color:$red_text;
+  font-weight:bold;
+}
+.metrics_list_row .quiet{
+  color:$dark_text;
+}
+.metrics_list_row .count{
+  font-size:13px;
+}
+
 .ifa_plan_box {
   margin: 1em 0em 1em 0em;
   font-size:13px;

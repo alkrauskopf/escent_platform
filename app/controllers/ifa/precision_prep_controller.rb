@@ -1,4 +1,4 @@
-class Ifa::PrecisionPrepController < ApplicationController
+class Ifa::PrecisionPrepController < Ifa::ApplicationController
   layout "precision_prep"
 
   before_filter :current_student
@@ -39,6 +39,21 @@ class Ifa::PrecisionPrepController < ApplicationController
       PrecisionPrepMailer.prep_guardian_inquiry(@current_student, @current_guardian, @current_organization, request.host_with_port).deliver
       @current_guardian.increment_inquiry
     end
+  end
+
+  def metrics_close
+    render :partial => "/ifa/precision_prep/manage_metrics", :locals=>{:s_metric=>false, :t_metrics=>false, :g_metrics=>false}
+  end
+
+  def metrics_guardian
+    @metrics_org_list = []
+    @metrics_org_list << @current_organization
+    @guardian_organization = @current_organization
+    @students = @guardian_organization.current_students_with_guardian
+    @notify_count = @students.map{|s| s.guardian_notify_count}.sum
+    @inquiry_count = @students.map{|s| s.guardian_inquiry_count}.sum
+    @no_guardian = @guardian_organization.current_students.size - @students.size
+    render :partial => "/ifa/precision_prep/manage_metrics", :locals=>{:s_metric=>false, :t_metrics=>false, :g_metrics=>true}
   end
 
   private

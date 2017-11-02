@@ -280,6 +280,13 @@ class User < ActiveRecord::Base
     self.guardians.empty? ? '' : self.guardians.map{|g| g.full_name}.uniq.join(", ")
   end
 
+  def guardian_inquiry_count
+    self.guardians.map{|g| g.inquiry_count}.sum
+  end
+
+  def guardian_notify_count
+    self.guardians.map{|g| g.notify_count}.sum
+  end
   def home_organization
     self.organization
   end

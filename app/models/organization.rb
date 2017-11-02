@@ -1380,9 +1380,13 @@ class Organization < ActiveRecord::Base
   
   def current_students 
       self.classrooms.active.collect{|c| c.students}.flatten.uniq
-  end 
- 
-   def students_beginning_with(letter) 
+  end
+
+  def current_students_with_guardian
+    self.current_students.select{|s| !s.guardians.empty?}
+  end
+
+  def students_beginning_with(letter)
       self.current_students.select{|u| u.last_name[0].chr.upcase == letter.upcase}
   end
  

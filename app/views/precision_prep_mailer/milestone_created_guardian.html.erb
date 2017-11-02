@@ -1,6 +1,6 @@
 Dear <%= @guardian_first_name %>:
 <br/><br/>
-<%= @student_first_name %> has created a new ACT/SAT personal growth plan milestone.
+<%= @student_first_name %> has created a new SAT/ACT personal growth plan milestone.
 <br />
 <br/>
 Subject Area => <strong><%= @subject_area %></strong><br/><br/>
@@ -10,7 +10,7 @@ Mastery Level => <strong><%= @mastery_level %></strong><br/><br/>
 <ul>
   <span style="font-style:italic; font-size:16px;"><%=simple_format (@milestone.description)%></span>
 </ul>
-To date, <%= @student_first_name %> has achieved <%=@plan.milestones.achieved.size %>-of-<%=pluralize(@plan.milestones.size, ' milestone')%> toward ACT/SAT goals.
+To date, <%= @student_first_name %> has achieved <%=@plan.milestones.achieved.size %>-of-<%=pluralize(@plan.milestones.size, ' milestone')%> toward SAT/ACT goals.
 <br/><br/>
 
 <%= render :partial => 'prep_outreach_guardian', :locals => {:school_name=> @school_name, :student_name => @student_first_name,

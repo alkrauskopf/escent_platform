@@ -9,7 +9,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @subject_line = @sender.full_name + ' Submitted An Assessment'
     @ep_host = ep_host
     @review_msg = must_review ? 'Your Review Of The Assessment Is Required.' : 'Assessment Results Have Been Automatically Finalized.'
-    @from = 'ACT/SAT_prep_assessment<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'SAT/ACT_prep_assessment<noreply@PrecisionSchoolImprovement.com>'
     unless @recipients.blank? || @sender.blank?
       mail(to: @recipient, subject: @subject_line, from: @from, date: DateTime.now)
     end
@@ -21,9 +21,9 @@ class PrecisionPrepMailer < ActionMailer::Base
     guardian_cc(user)
     plan_info(plan)
     @recipient_list = user.preferred_email
-    @subject_line = 'ACT/SAT Prep Plan Created'
+    @subject_line = 'SAT/ACT Prep Plan Created'
     @ep_host = ep_host
-    @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
     if !@recipient_list.nil? && !@recipient_list.empty?
       mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
     end
@@ -35,9 +35,9 @@ class PrecisionPrepMailer < ActionMailer::Base
       org_info(user.organization)
       guardian_cc(user)
       plan_info(plan)
-      @subject_line = 'ACT/SAT Prep Plan Created'
+      @subject_line = 'SAT/ACT Prep Plan Created'
       @ep_host = ep_host
-      @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+      @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
       user.guardians.each do |guardian|
         guardian_info(guardian)
         mail(to:guardian.email_address , subject: @subject_line, from: @from, date: DateTime.now)
@@ -51,9 +51,9 @@ class PrecisionPrepMailer < ActionMailer::Base
     milestone_info(milestone)
     guardian_cc(user)
     @recipient_list = user.preferred_email
-    @subject_line = @school_name + ' ACT/SAT Prep Milestone Notification'
+    @subject_line = @school_name + ' SAT/ACT Prep Milestone Notification'
     @ep_host = ep_host
-    @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
     if !@recipient_list.nil? && !@recipient_list.empty?
       mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
     end
@@ -64,9 +64,9 @@ class PrecisionPrepMailer < ActionMailer::Base
       student_info(user)
       org_info(user.organization)
       milestone_info(milestone)
-      @subject_line = @school_name + ' ACT/SAT Milestone: Guardian Notification'
+      @subject_line = @school_name + ' SAT/ACT Milestone: Guardian Notification'
       @ep_host = ep_host
-      @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+      @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
       user.guardians.each do |guardian|
         guardian_info(guardian)
         mail(to:guardian.email_address , subject: @subject_line, from: @from, date: DateTime.now)
@@ -84,7 +84,7 @@ class PrecisionPrepMailer < ActionMailer::Base
       @recipients = User.preferred_email_list(teachers)
       @subject_line = user.last_name + ' Learning Milestone Notification'
       @ep_host = ep_host
-      @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+      @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
       unless @recipients.blank?
         mail(to:@recipients , subject: @subject_line, from: @from, date: DateTime.now)
       end
@@ -98,7 +98,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @recipient_list = org.ifa_admin_email_list
     @subject_line = user.last_name + ' Precision Prep Inquiry'
     @ep_host = ep_host
-    @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
     unless @recipient_list == ''
       mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
     end
@@ -112,7 +112,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @recipient_list = org.ifa_admin_email_list
     @subject_line = guardian.full_name + ' Precision Prep Inquiry'
     @ep_host = ep_host
-    @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
     unless @recipient_list == ''
       mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
     end
@@ -126,7 +126,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @recipient_list = @guardian_email + ', ' + @student_email
     @subject_line = @student.last_name + ' Student Guardian Identified'
     @ep_host = ep_host
-    @from = 'ACT/SAT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
     unless @recipient_list == ''
       mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
     end

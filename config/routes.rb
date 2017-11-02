@@ -908,6 +908,8 @@ EscentPartners::Application.routes.draw do |map|
   get 'precision/interest/guardian' => 'ifa/precision_prep#interest_guardian'  # precision_interest_guardian_url
   get 'precision/metrics/close' => 'ifa/precision_prep#metrics_close'  # precision_metrics_close_url
   get 'precision/metrics/guardian' => 'ifa/precision_prep#metrics_guardian'  # precision_metrics_guardian_url
+  get 'precision/metrics/teacher' => 'ifa/precision_prep#metrics_teacher'  # precision_metrics_guardian_url
   get 'precision/metrics/guardian_filter' => 'ifa/precision_prep#guardian_filter'  # precision_metrics_guardian_filter_url
+  get 'precision/metrics/teacher_filter' => 'ifa/precision_prep#teacher_filter'  # precision_metrics_teacher_filter_url
 
 end

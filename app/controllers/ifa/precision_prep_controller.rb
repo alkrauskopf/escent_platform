@@ -46,15 +46,27 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
   end
 
   def guardian_filter
-    @guardian_organization = Organization.find_by_id(params[:entity_id])
+    @metric_organization = Organization.find_by_id(params[:entity_id])
     guardian_metrics
     render :partial => 'metrics_guardian'
   end
 
   def metrics_guardian
-    @guardian_organization = @current_organization
+    @metric_organization = @current_organization
     guardian_metrics
     render :partial => "/ifa/precision_prep/manage_metrics", :locals=>{:s_metric=>false, :t_metrics=>false, :g_metrics=>true}
+  end
+
+  def teacher_filter
+    @metric_organization = Organization.find_by_id(params[:entity_id])
+    teacher_metrics
+    render :partial => 'metrics_teacher'
+  end
+
+  def metrics_teacher
+    @metric_organization = @current_organization
+    teacher_metrics
+    render :partial => "/ifa/precision_prep/manage_metrics", :locals=>{:s_metric=>false, :t_metrics=>true, :g_metrics=>false}
   end
 
   private
@@ -72,11 +84,28 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
     if @current_organization == @current_provider
       @metrics_org_list = @current_organization.provided_app_orgs(@current_application, false)
     else
-      @metrics_org_list << @guardian_organization
+      @metrics_org_list << @metric_organization
     end
-    @students = @guardian_organization.current_students_with_guardian
+    @students = @metric_organization.current_students_with_guardian
     @notify_count = @students.map{|s| s.guardian_notify_count}.sum
     @inquiry_count = @students.map{|s| s.guardian_inquiry_count}.sum
-    @no_guardian = @guardian_organization.current_students.size - @students.size
+    @no_guardian = @metric_organization.current_students.size - @students.size
+  end
+
+  def teacher_metrics
+    @metrics_org_list = []
+    if @current_organization == @current_provider
+      @metrics_org_list = @current_organization.provided_app_orgs(@current_application, false)
+    else
+      @metrics_org_list << @metric_organization
+    end
+    @teachers = @metric_organization.ifa_classroom_teachers
+    @teachers_with_remark = @teachers.select{|t| !t.ifa_plan_remarks.empty?}
+    @remark_count = @teachers.map{|t| t.ifa_plan_remarks.size}.sum
+    @no_remarks = @teachers.size - @teachers_with_remark.size
+    @student_list = {}
+    @teachers.each do |teacher|
+      @student_list[teacher] = teacher.ifa_plan_remarks.empty? ? 'No Plan Remarks Made' : teacher.remarked_student_list
+    end
   end
 end

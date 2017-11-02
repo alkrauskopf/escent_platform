@@ -212,6 +212,10 @@ class Classroom < ActiveRecord::Base
     self.is_ifa
   end
 
+  def self.ifa_on
+    where('is_ifa')
+  end
+
   def ifa_enabled?
     (self.ifa_classroom_option && self.organization.ifa_enabled? && self.act_subject && self.ifa_on?) ? true : false
   end
@@ -274,8 +278,6 @@ class Classroom < ActiveRecord::Base
   def joinable_by?(user)
     (user && !user.student_of_classroom?(self) && !user.teacher_of_classroom?(self) && !self.classroom_periods.empty?)
   end
-
-
 
   def sequence_resources
   resources = self.classroom_contents.sort_by{|cc|cc.position}

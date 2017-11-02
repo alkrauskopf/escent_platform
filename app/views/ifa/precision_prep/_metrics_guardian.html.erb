@@ -25,7 +25,7 @@
   <div class="row metrics_list">
     <div class= "col-md-12 ">
       <div class="metrics_panel metric_panel_label">
-        <%= pluralize(@students.size, @guardian_organization.short_name + ' Student') %> With Guardian&nbsp;|&nbsp;
+        <%= pluralize(@students.size, @metric_organization.short_name + ' Student') %> With Guardian&nbsp;|&nbsp;
         <%= pluralize(@notify_count, ' Notification')%>,&nbsp;
         <%= pluralize(@inquiry_count, ' Inquiry')%>
       </div>

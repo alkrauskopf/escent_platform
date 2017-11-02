@@ -287,6 +287,19 @@ class User < ActiveRecord::Base
   def guardian_notify_count
     self.guardians.map{|g| g.notify_count}.sum
   end
+
+  def remarked_plans
+    self.ifa_plan_remarks.map{|r| r.ifa_plan}.compact.uniq
+  end
+
+  def remarked_students
+    self.remarked_plans.map{|p| p.user}.compact.uniq.sort_by{|s| s.last_name}
+  end
+
+  def remarked_student_list
+    self.remarked_students.map{|s| s.last_name}.join(' | ')
+  end
+
   def home_organization
     self.organization
   end

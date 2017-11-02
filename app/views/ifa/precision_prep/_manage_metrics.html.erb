@@ -35,6 +35,37 @@
       </div>
     <% end %>
   </div>
+  <div class="manage_metrics_box">
+    <% if t_metrics %>
+        <div class="metrics_box">
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-1">
+              <span id = "metrics_close" class='button_orange enabled'>
+                <%='Close' %>
+              </span>
+            </div>
+            <div class="col-md-10 metrics_title">
+              Teacher Engagment
+            </div>
+          </div>
+          <%= render :partial => 'metrics_teacher' %>
+        </div>
+    <% else %>
+        <div class="row metrics_row">
+          <div class="col-md-4"></div>
+          <div class="col-md-1">
+          <span id = "teacher" class='button_gray enabled'>
+            <%='View' %>
+          </span>
+          </div>
+          <div class="col-md-3">
+            Teacher Engagement
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+    <% end %>
+  </div>
   <script type="text/javascript">
     jQ(document).ready(function() {
       jQ("#metrics_close").click(function(){
@@ -50,6 +81,17 @@
     jQ(document).ready(function() {
       jQ("#guardian").click(function(){
         var url = "<%= precision_metrics_guardian_url(:organization_id => @current_organization) %>";
+        jQ.get(url, {}, function(data) {
+          jQ("#metrics").html(data);
+          jQ("#metrics").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#teacher").click(function(){
+        var url = "<%= precision_metrics_teacher_url(:organization_id => @current_organization) %>";
         jQ.get(url, {}, function(data) {
           jQ("#metrics").html(data);
           jQ("#metrics").show();

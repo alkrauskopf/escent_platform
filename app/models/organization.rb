@@ -842,6 +842,10 @@ class Organization < ActiveRecord::Base
     self.classrooms.ifa_enabled_subject(subject).collect{|c| c.students}.flatten.compact.uniq.sort_by{|s| s.last_name}
   end
 
+  def ifa_classroom_teachers
+    self.classrooms.active.ifa_on.map{|c| c.teachers}.flatten.compact.uniq.sort_by{|t| t.last_name}
+  end
+
   def knowledge_strands
     self.ifa_standards.collect{|s| s.act_standards}.flatten
   end
@@ -1366,7 +1370,6 @@ class Organization < ActiveRecord::Base
     end
   end
 
- 
   def coaches
     self.authorizations.for_level(AuthorizationLevel.app_observer(CoopApp.ctl)).collect{ |a| a.user}.compact.uniq
   end

@@ -45,14 +45,15 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
     render :partial => "/ifa/precision_prep/manage_metrics", :locals=>{:s_metric=>false, :t_metrics=>false, :g_metrics=>false}
   end
 
+  def guardian_filter
+    @guardian_organization = Organization.find_by_id(params[:entity_id])
+    guardian_metrics
+    render :partial => 'metrics_guardian'
+  end
+
   def metrics_guardian
-    @metrics_org_list = []
-    @metrics_org_list << @current_organization
     @guardian_organization = @current_organization
-    @students = @guardian_organization.current_students_with_guardian
-    @notify_count = @students.map{|s| s.guardian_notify_count}.sum
-    @inquiry_count = @students.map{|s| s.guardian_inquiry_count}.sum
-    @no_guardian = @guardian_organization.current_students.size - @students.size
+    guardian_metrics
     render :partial => "/ifa/precision_prep/manage_metrics", :locals=>{:s_metric=>false, :t_metrics=>false, :g_metrics=>true}
   end
 
@@ -64,5 +65,18 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
 
   def current_guardian
     @current_guardian = UserGuardian.find_by_public_id(params[:guardian_id]) rescue nil
+  end
+
+  def guardian_metrics
+    @metrics_org_list = []
+    if @current_organization == @current_provider
+      @metrics_org_list = @current_organization.provided_app_orgs(@current_application, false)
+    else
+      @metrics_org_list << @guardian_organization
+    end
+    @students = @guardian_organization.current_students_with_guardian
+    @notify_count = @students.map{|s| s.guardian_notify_count}.sum
+    @inquiry_count = @students.map{|s| s.guardian_inquiry_count}.sum
+    @no_guardian = @guardian_organization.current_students.size - @students.size
   end
 end

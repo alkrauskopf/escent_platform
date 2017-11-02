@@ -1,20 +1,19 @@
 <div id="guardian_metrics">
   <% if @metrics_org_list.size > 1 %>
   <div class="row metrics_pool_select">
-    <div class="col-md-1 "></div>
-    <div class="col-md-5">
+    <div class="col-md-7 "></div>
+    <div class="col-md-4">
       <div id="org_select">
         <%=  select( :school, :id, @metrics_org_list.collect{|s| [(s.short_name), s.id]}, {:prompt => "Select Organization"}) %>
       </div>
     </div>
-    <div class="col-md-5 "></div>
     <div class="col-md-1 "></div>
   </div>
   <script type="text/javascript">
     jQ(document).ready(function() {
       jQ("#org_select").change(function(){
         var entity_id = jQ('#school_id').val();
-        var url = "<%= precision_metrics_filter_url(:organization_id => @current_organization, :filter_class=>'Organization') %>";
+        var url = "<%= precision_metrics_guardian_filter_url(:organization_id => @current_organization) %>";
         jQ.get(url, {'entity_id': entity_id}, function(data) {
           jQ("#guardian_metrics").html(data);
           jQ("#guardian_metrics").show();

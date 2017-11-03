@@ -824,7 +824,14 @@
   font-size:15px;
 }
 .metrics_image {
-  margin: 2em 0em 3em 0em;
+  margin: 2em 4em 4em 4em;
+  padding: 3em 0em 3em 0em;
+  background-color:white;
+  border:1px solid $border-gray;
+  line-height:1.25em;
+  border-radius: 10px;
+  color:$blue_text;
+  font-size:15px;
 }
 .metrics_pool_select {
   margin: 1em 0em 0em 0em;

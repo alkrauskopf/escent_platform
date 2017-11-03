@@ -71,7 +71,13 @@
       <div class= "col-md-3">
         <% metric_class = @student_list['p'+student.id.to_s] != 0 ? 'quiet' : 'alarm'%>
         <div class="<%=metric_class%>">
-          <%= student.last_name_first %>&nbsp;
+          <% if @student_list['p'+student.id.to_s] != 0 %>
+            <%= link_to student.last_name_first, ifa_plan_student_path(:organization_id=>@metric_organization, :student_id => student.id,
+            :act_subject_id => @current_subject.id), {:target => "_blank"}  %>
+          <% else %>
+            <%= student.last_name_first %>
+          <% end %>
+          &nbsp;
           <div class="count">
             (<%= @student_list['p'+student.id.to_s] != 0 ? 'Active Plan':'No Plan' %>)
           </div>

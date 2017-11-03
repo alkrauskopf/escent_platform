@@ -1380,7 +1380,15 @@ class Organization < ActiveRecord::Base
       ""
     end
   end
-  
+
+  def current_ifa_students
+    self.classrooms.active.ifa_on.collect{|c| c.students}.flatten.uniq
+  end
+
+  def current_ifa_students_with_guardian
+    self.current_students.select{|s| !s.guardians.empty?}
+  end
+
   def current_students 
       self.classrooms.active.collect{|c| c.students}.flatten.uniq
   end

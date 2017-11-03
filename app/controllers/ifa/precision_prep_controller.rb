@@ -86,10 +86,10 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
     else
       @metrics_org_list << @metric_organization
     end
-    @students = @metric_organization.current_students_with_guardian
+    @students = @metric_organization.current_ifa_students_with_guardian
     @notify_count = @students.map{|s| s.guardian_notify_count}.sum
     @inquiry_count = @students.map{|s| s.guardian_inquiry_count}.sum
-    @no_guardian = @metric_organization.current_students.size - @students.size
+    @no_guardian = @metric_organization.current_ifa_students.size - @students.size
   end
 
   def teacher_metrics

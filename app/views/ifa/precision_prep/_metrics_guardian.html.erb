@@ -32,11 +32,12 @@
     </div>
   </div>
   <div class="row metrics_list_row">
-    <div class = 'col-md-12 quiet'>
-      <%= pluralize(@no_guardian, ' Student')%> With No Guardian Contact Information
+    <div class = 'col-md-12 summary'>
+      <div>
+        <%= pluralize(@no_guardian, ' Student')%> With No Guardian Contact Information
+      </div>
     </div>
   </div>
-  <hr>
   <% @students.each do |student| %>
     <div class="row metrics_list_row">
       <div class= "col-md-3">

@@ -835,6 +835,10 @@
 .metrics_list {
   margin: 2em 0em 0em 1em;
 }
+.metrics_list_box {
+  max-height: 50em;
+  overflow: scroll;
+}
 .metrics_panel {
   @extend .panel-heading;
   margin: 0em 0em 0em 0em;
@@ -909,7 +913,6 @@
   color:$dark_text;
 }
 
-
 .standard_label {
   float:right;
 }
@@ -924,12 +927,6 @@
   margin-left:15em;
 }
 
-
-
-
-
-
-
 .ifa_edit_row {
   margin:2em 0em 0em 0em;
 }
@@ -941,10 +938,6 @@
 .ifa_edit_text {
   text-align:left;
 }
-
-
-
-
 
 .ifa_milestone_show_box {
   margin:0em 2em 1em 2em;

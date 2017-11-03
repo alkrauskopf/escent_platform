@@ -66,31 +66,33 @@
       </div>
     </div>
   </div>
-  <% @students.each do |student| %>
-    <div class="row metrics_list_row">
-      <div class= "col-md-3">
-        <% metric_class = @student_list['p'+student.id.to_s] != 0 ? 'quiet' : 'alarm'%>
-        <div class="<%=metric_class%>">
-          <% if @student_list['p'+student.id.to_s] != 0 %>
-            <%= link_to student.last_name_first, ifa_plan_student_path(:organization_id=>@metric_organization, :student_id => student.id,
-            :act_subject_id => @current_subject.id), {:target => "_blank"}  %>
-          <% else %>
-            <%= student.last_name_first %>
-          <% end %>
-          &nbsp;
-          <div class="count">
-            (<%= @student_list['p'+student.id.to_s] != 0 ? 'Active Plan':'No Plan' %>)
+  <div class="metrics_list_box">
+    <% @students.each do |student| %>
+      <div class="row metrics_list_row">
+        <div class= "col-md-3">
+          <% metric_class = @student_list['p'+student.id.to_s] != 0 ? 'quiet' : 'alarm'%>
+          <div class="<%=metric_class%>">
+            <% if @student_list['p'+student.id.to_s] != 0 %>
+              <%= link_to student.last_name_first, ifa_plan_student_path(:organization_id=>@metric_organization, :student_id => student.id,
+              :act_subject_id => @current_subject.id), {:target => "_blank"}  %>
+            <% else %>
+              <%= student.last_name_first %>
+            <% end %>
+            &nbsp;
+            <div class="count">
+              (<%= @student_list['p'+student.id.to_s] != 0 ? 'Active Plan':'No Plan' %>)
+            </div>
+          </div>
+        </div>
+        <div class= "col-md-9">
+          <div class="<%=metric_class%>">
+            <%= pluralize(@student_list['wm'+student.id.to_s], ' Milestone') %>&nbsp;In-Process&nbsp;|&nbsp;
+            <%= @student_list['am'+student.id.to_s] %> Mastered&nbsp;|&nbsp;
+            <%= pluralize(@student_list['e'+student.id.to_s], ' Evidence Submit')%>
           </div>
         </div>
       </div>
-      <div class= "col-md-9">
-        <div class="<%=metric_class%>">
-          <%= pluralize(@student_list['wm'+student.id.to_s], ' Milestone') %>&nbsp;In-Process&nbsp;|&nbsp;
-          <%= @student_list['am'+student.id.to_s] %> Mastered&nbsp;|&nbsp;
-          <%= pluralize(@student_list['e'+student.id.to_s], ' Evidence Submit')%>
-        </div>
-      </div>
-    </div>
-    <hr>
-  <% end %>
+      <hr>
+    <% end %>
+  </div>
 </div>

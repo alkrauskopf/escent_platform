@@ -37,23 +37,25 @@
       </div>
     </div>
   </div>
-  <% @teachers.each do |teacher| %>
-    <div class="row metrics_list_row">
-      <div class= "col-md-3">
-        <% metric_class = !teacher.ifa_plan_remarks.empty? ? 'quiet' : 'alarm'%>
-        <div class="<%=metric_class%>">
-          <%= teacher.last_name_first %>&nbsp;
-          <span class="count">
-            (<%= teacher.ifa_plan_remarks.size %>)
-          </span>
+  <div class="metrics_list_box">
+    <% @teachers.each do |teacher| %>
+      <div class="row metrics_list_row">
+        <div class= "col-md-3">
+          <% metric_class = !teacher.ifa_plan_remarks.empty? ? 'quiet' : 'alarm'%>
+          <div class="<%=metric_class%>">
+            <%= teacher.last_name_first %>&nbsp;
+            <span class="count">
+              (<%= teacher.ifa_plan_remarks.size %>)
+            </span>
+          </div>
+        </div>
+        <div class= "col-md-9">
+          <div class="<%=metric_class%>">
+            <%= @student_list[teacher] %>
+          </div>
         </div>
       </div>
-      <div class= "col-md-9">
-        <div class="<%=metric_class%>">
-          <%= @student_list[teacher] %>
-        </div>
-      </div>
-    </div>
-    <hr>
-  <% end %>
+      <hr>
+    <% end %>
+  </div>
 </div>

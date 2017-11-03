@@ -1382,7 +1382,7 @@ class Organization < ActiveRecord::Base
   end
 
   def current_ifa_students
-    self.classrooms.active.ifa_on.collect{|c| c.students}.flatten.uniq
+    self.classrooms.active.ifa_on.collect{|c| c.students}.flatten.compact.uniq.sort_by{|u| u.last_name}
   end
 
   def current_ifa_students_with_guardian

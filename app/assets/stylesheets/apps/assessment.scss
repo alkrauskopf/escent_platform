@@ -823,6 +823,9 @@
   font-weight:normal;
   font-size:15px;
 }
+.metrics_image {
+  margin: 2em 0em 3em 0em;
+}
 .metrics_pool_select {
   margin: 1em 0em 0em 0em;
   font-size:14px;
@@ -857,6 +860,14 @@
   text-align:left;
   vertical-align:top;
   line-height:2em;
+}
+.metrics_list_row .summary{
+  padding-top:1em;
+  padding-bottom:1em;
+  border-bottom:1px solid #000;
+  font-size:14px;
+  text-align:center;
+  color:$blue_text;
 }
 .metrics_list_names {
   padding:0em 0em 1em 0em;

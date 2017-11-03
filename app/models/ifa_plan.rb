@@ -41,6 +41,7 @@ class IfaPlan < ActiveRecord::Base
   def complete?
     !self.needs.nil? && !self.goals.nil?
   end
+
   def subject_area
     self.act_subject
   end

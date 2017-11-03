@@ -1,0 +1,90 @@
+<div id="student_metrics">
+  <div class="row metrics_pool_select">
+    <div class="col-md-4 "></div>
+    <div class="col-md-3">
+      <% if @metrics_org_list.size > 1 %>
+        <div id="org_select">
+          <%=  select( :school, :id, @metrics_org_list.collect{|s| [(s.short_name), s.id]}, {:prompt => "Select Organization"}) %>
+        </div>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ("#org_select").change(function(){
+              var entity_id = jQ('#school_id').val();
+              var url = "<%= precision_metrics_student_org_filter_url(:organization_id => @current_organization, :act_subject_id=> @current_subject.id) %>";
+              jQ.get(url, {'entity_id': entity_id}, function(data) {
+                jQ("#student_metrics").html(data);
+                jQ("#student_metrics").show();
+              });
+            })
+          });
+        </script>
+      <% end %>
+    </div>
+    <div class="col-md-4">
+      <div id="sub_select">
+        <%=  select( :metric, :subject, ActSubject.plannable.collect{|s| [(s.name), s.id]}, :selected=>@current_subject.id, :prompt => @current_subject.name) %>
+      </div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#sub_select").change(function(){
+            var act_subject_id = jQ('#metric_subject').val();
+            var url = "<%= precision_metrics_student_subject_filter_url(:organization_id => @current_organization, :metric_org_id => @metric_organization.id) %>";
+            jQ.get(url, {'act_subject_id': act_subject_id}, function(data) {
+              jQ("#student_metrics").html(data);
+              jQ("#student_metrics").show();
+            });
+          })
+        });
+      </script>
+    </div>
+    <div class="col-md-1 "></div>
+  </div>
+  <div class="row metrics_list">
+    <div class= "col-md-12 ">
+      <div class="metrics_panel metric_panel_label">
+        <%= pluralize(@students.size, @metric_organization.short_name + ' Student') %>&nbsp;|&nbsp;<%=@current_subject.name%>
+      </div>
+    </div>
+  </div>
+  <div class="row metrics_list_row">
+    <div class = 'col-md-12 summary'>
+     <div>
+       <%= @student_list['pct_plans'] %>% of Students Have A Plan&nbsp;|&nbsp;
+       <%= pluralize(@student_list['plans'], ' Plan')%> for <%= pluralize(@students.size, ' Student')%>
+      </div>
+      <div>
+        <%= @student_list['pct_wm'] %>% Students Have A Working Milestone&nbsp;|&nbsp;
+        <%= pluralize(@student_list['wm_yes'], ' Student')%> Have <%= pluralize(@student_list['workstones'], ' In-Process Milestone')%>
+      </div>
+      <div>
+        <%= @student_list['pct_am'] %>% Students Have Mastered A Milestone&nbsp;|&nbsp;
+        <%= pluralize(@student_list['am_yes'], ' Student')%> Mastered <%= pluralize(@student_list['achievestones'], ' Milestone')%>
+      </div>
+      <div>
+        <%= @student_list['pct_e'] %>% Students Have Submitted Evidence&nbsp;|&nbsp;
+        <%= pluralize(@student_list['e_yes'], ' Student')%> Made <%= pluralize(@student_list['evidence'], ' Evidence Submit')%>
+      </div>
+    </div>
+  </div>
+  <% @students.each do |student| %>
+    <div class="row metrics_list_row">
+      <div class= "col-md-3">
+        <% metric_class = @student_list['p'+student.id.to_s] != 0 ? 'quiet' : 'alarm'%>
+        <div class="<%=metric_class%>">
+          <%= student.last_name_first %>&nbsp;
+          <div class="count">
+            (<%= @student_list['p'+student.id.to_s] != 0 ? 'Active Plan':'No Plan' %>)
+          </div>
+        </div>
+      </div>
+      <div class= "col-md-9">
+        <div class="<%=metric_class%>">
+          <%= pluralize(@student_list['wm'+student.id.to_s], ' Milestone') %>&nbsp;In-Process&nbsp;|&nbsp;
+          <%= @student_list['am'+student.id.to_s] %> Mastered&nbsp;|&nbsp;
+          <%= pluralize(@student_list['e'+student.id.to_s], ' Evidence Submit')%>
+        </div>
+      </div>
+    </div>
+    <hr>
+  <% end %>
+</div>

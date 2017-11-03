@@ -858,6 +858,11 @@
   vertical-align:top;
   line-height:2em;
 }
+.metrics_list_names {
+  padding:0em 0em 1em 0em;
+  font-size:13px;
+  line-height:1.5em;
+}
 .metrics_list_row .alarm{
   color:$red_text;
   font-weight:bold;

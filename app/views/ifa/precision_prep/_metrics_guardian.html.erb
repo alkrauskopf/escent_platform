@@ -48,15 +48,17 @@
           </div>
         </div>
       </div>
-      <div class= "col-md-9">
+      <div class= "col-md-9 ">
           <% student.guardians.each do |guard| %>
             <% metric_class = guard.inquiry_count == 0 ? 'quiet' : 'alarm'%>
-            <div class="<%=metric_class%>">
+            <div class="<%=metric_class%> metrics_list_names">
               <%= guard.full_name %>,&nbsp;
               <%=guard.email_address %>,&nbsp;
-              <%=guard.phone.empty? ? 'No Phone' : guard.phone %>,&nbsp;
-              <%= pluralize(guard.notify_count, ' Notification')%>,&nbsp;
-              <%= pluralize(guard.inquiry_count, ' Inquiry')%>
+              <%=guard.phone.empty? ? 'No Phone' : guard.phone %>
+              <div class="count">
+                <%= pluralize(guard.notify_count, ' Notification')%>,&nbsp;
+                <%= pluralize(guard.inquiry_count, ' Inquiry')%>
+              </div>
             </div>
           <% end %>
       </div>

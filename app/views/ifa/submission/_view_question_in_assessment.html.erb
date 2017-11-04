@@ -65,17 +65,23 @@
              table tr:hover{
                background-color: transparent;
              }
-           </style><tbody>
+           </style>
+           <tbody>
            <% if quest.question_type =="MC" -%>
                <% quest.choices.each do |chc| -%>
-                   <tr>
-                     <td class="question_check" >
-                       <%=  check_box_tag "ans_check[]", value = chc.id ,checked = false %>
-                     </td>
-                     <td	class="question_choice"  >
-                       <%= simple_format chc.choice %>
-                     </td>
-                   </tr>
+                 <tr>
+                   <td class="question_correct">
+                     <% if (superstudent && chc.correct?) %>
+                       <i class="star_achievement"></i>
+                     <% end %>
+                   </td>
+                  <td class="question_check" >
+                     <%=  check_box_tag "ans_check[]", value = chc.id ,checked = false %>
+                   </td>
+                   <td	class="question_choice"  >
+                     <%= simple_format (chc.choice) %>
+                   </td>
+                 </tr>
                <% end -%>
            <% else -%>
                <tr>

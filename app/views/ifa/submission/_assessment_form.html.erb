@@ -56,7 +56,8 @@
 <%= render :partial => "/shared/error_and_notice" %>
 <div class="question_list_box">
   <% assessment.questions_for_test.each_with_index do |quest,idx| %>
-    <%= render :partial => "view_question_in_assessment" , :locals => {:submission => submission, :quest => quest, :num => idx+1, :review => (view_mode == 'Review')} %>
+    <%= render :partial => "view_question_in_assessment" , :locals => {:submission => submission, :quest => quest, :num => idx+1,
+                                                                       :review => (view_mode == 'Review'), :superstudent => @current_user.ifa_superstudent_for_org?(@current_organization) } %>
   <% end -%>
 </div>
 <% if view_mode != 'Review' %>

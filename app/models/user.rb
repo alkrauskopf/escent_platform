@@ -1065,6 +1065,10 @@ class User < ActiveRecord::Base
     self.has_authority?(AuthorizationLevel.app_administrator(CoopApp.ifa), org, :superuser => true)
   end
 
+  def ifa_superstudent_for_org?(org)
+    self.has_authority?(AuthorizationLevel.app_superstudent(CoopApp.ifa), org, :superuser => true)
+  end
+
 #####################    STAT Authorizations
 
   def stat_authorized?(org)

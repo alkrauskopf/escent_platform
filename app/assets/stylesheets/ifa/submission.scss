@@ -236,13 +236,20 @@
   font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
   color:$dark_text;
 }
+.question_correct {
+  padding-top:.5em;
+  text-align:right;
+  vertical-align:middle;
+  font-size:14px;
+  color:green;
+}
 .question_check {
   width:10%;
   padding-bottom:0em;
   padding-left:0em;
   padding-top:1em;
   float:right;
-  vertical-align:top;
+  vertical-align:middle;
   font-size:12px;
   color:$dark_text;
 }
@@ -251,7 +258,7 @@
   padding-bottom:0em;
   padding-left:1.5em;
   padding-right:1em;
-  padding-top:1em;
+  padding-top:.5em;
   vertical-align:top;
   text-align:left;
   font-size:15px;

@@ -76,6 +76,15 @@ class AuthorizationLevel < ActiveRecord::Base
     levels.empty? ? nil : levels.first
   end
 
+  def self.app_superstudent(app)
+    if app.nil?
+      levels = []
+    else
+      levels = self.where('name = ? AND coop_app_id = ?', 'superstudent', app.id )
+    end
+    levels.empty? ? nil : levels.first
+  end
+
   def self.app_administrators
     self.where('name = ?', 'administrator' )
   end
@@ -148,6 +157,7 @@ class AuthorizationLevel < ActiveRecord::Base
     end
     levels.empty? ? nil : levels.first
   end
+
   def self.app_knowledge_managers
     self.where('name = ?', 'knowledge_manager' )
   end

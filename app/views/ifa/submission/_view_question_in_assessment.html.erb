@@ -94,6 +94,13 @@
            </tbody>
          </table>
        </div>
+       <% if superstudent%>
+         <div class="question_text">
+           <div class="mastery">
+            <%= quest.mastery_level.nil? ? 'No Level' : quest.mastery_level.range %>
+           </div>
+         </div>
+       <% end %>
        <% else %>
        <%= render :partial => "view_question_review", :locals=>{:submission => submission, :question => quest} %>
        <% end %>

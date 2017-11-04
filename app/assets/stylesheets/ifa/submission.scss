@@ -236,6 +236,13 @@
   font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
   color:$dark_text;
 }
+.question_text .mastery{
+  padding:1em 0em 0em 2em;
+  font-size:17px;
+  font-weight:normal;
+  text-align:left;
+  color:$red_text;
+}
 .question_correct {
   padding-top:.5em;
   text-align:right;

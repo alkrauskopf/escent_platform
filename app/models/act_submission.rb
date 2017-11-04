@@ -279,6 +279,33 @@ class ActSubmission < ActiveRecord::Base
   end
 
   def weighted_scoring_rule(standard)
+    level_delta = {}
+    level_pct = {}
+    top_level = nil
+    standard.mastery_levels(self.subject).each do |level|
+      level_delta[level] = (level.upper_score - level.lower_score).to_f
+      if self.answers_selected(:level=>level) != 0
+        top_level = level
+        level_pct[level] =  self.answer_points(:level=>level)/self.answers_selected(:level=>level).to_f
+      # test  level_pct[level] = 0.50
+      else
+        level_pct[level] = 1.0
+      end
+    end
+    weighted_score = top_level.nil? ? 0.0 : (standard.mastery_levels(self.subject).first.lower_score.to_f +
+        standard.mastery_levels(self.subject).map{|lvl| (top_level.lower_score < lvl.lower_score ? 0.0 : (level_delta[lvl] * level_pct[lvl]))}.sum)
+ #   if !top_level.nil?
+ #     weighted_score = standard.mastery_levels(self.subject).first.lower_score.to_f
+ #     standard.mastery_levels(self.subject).each do |lvl|
+ #     weighted_score += top_level.lower_score < lvl.lower_score ? 0.0 : (level_delta[lvl] * level_pct[lvl])
+ #     end
+ #   else
+ #     weighted_score = 0.0
+ #   end
+    weighted_score.to_i
+  end
+
+  def weighted_scoring_rule_old(standard)
     weighted_score = 0.0
     standard.mastery_levels(self.subject).each do |level|
       if self.answers_selected(:level=>level) != 0

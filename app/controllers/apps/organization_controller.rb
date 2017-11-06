@@ -9,10 +9,27 @@
 
 
     def static_organization
-      unless @current_organization.default?
-        initialize_std_parameters
-      else
+      if @current_organization.default?
         redirect_to  root_path
+      elsif @current_user
+        @prep_app = CoopApp.ifa
+        @prep_provider = @current_organization.app_enabled?(@prep_app) ? @current_organization.app_provider(@prep_app) : nil
+        @prep_student = @current_organization.current_ifa_students.include?(@current_user)
+        @prep_teacher = @current_organization.current_ifa_teachers.include?(@current_user)
+        @offering_app = CoopApp.classroom
+        @offering_provider = @current_organization.app_enabled?(@offering_app) ? @current_organization.app_provider(@offering_app) : nil
+        @offering_list = {}
+        if !@offering_provider.nil?
+          @user_offerings = @current_user.active_offerings_org(@current_organization)
+          @user_offerings.each do |clsrm|
+            @offering_list['ifa'+ clsrm.id.to_s] = clsrm.ifa_on?
+            @offering_list['t'+ clsrm.id.to_s] = @current_user.teacher_of_classroom?(clsrm)
+            @offering_list['s'+ clsrm.id.to_s] = @current_user.student_of_classroom?(clsrm)
+            @offering_list['per'+ clsrm.id.to_s] = current_period(clsrm)
+          end
+        end
+        prepare_summary_data
+        #   initialize_std_parameters
       end
     end
 
@@ -34,7 +51,7 @@
       end
       if !@folder.nil?
       @foldered_offerings = (@display == "Offering") ? (@current_organization.active_offerings_in_folder(@folder)) :
-          (@current_organization.active_offerings_in_folder(@folder).select{|c| c.featured_topic})
+        (@current_organization.active_offerings_in_folder(@folder).select{|c| c.featured_topic})
       else
         @foldered_offerings = []
       end
@@ -57,5 +74,19 @@
         @current_standard = ActMaster.all.first
       end
     end
+  def current_period(clsrm)
+    @current_classroom_period = clsrm.period_for_student(@current_user)
+    if @current_classroom_period.nil?
+      @current_classroom_period = (clsrm.classroom_periods.empty? || clsrm.classroom_periods.size > 1) ? nil : clsrm.classroom_periods.first
+    end
+    @current_classroom_period
+  end
 
+  def prepare_summary_data
+    @subjects = ActSubject.plannable
+    @total_submissions = []
+    @subjects.each_with_index do |subj, idx|
+      @total_submissions[idx] = @current_organization.act_submissions.for_subject(subj).size
+    end
+  end
 end

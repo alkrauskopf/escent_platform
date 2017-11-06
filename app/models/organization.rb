@@ -191,6 +191,10 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def brand_color
+    self.style_setting_value_named("Header and Footer Bars")
+  end
+
   def self.highschools
     self.where('organization_type_id = ?', OrganizationType.highschool)
   end
@@ -842,7 +846,7 @@ class Organization < ActiveRecord::Base
     self.classrooms.ifa_enabled_subject(subject).collect{|c| c.students}.flatten.compact.uniq.sort_by{|s| s.last_name}
   end
 
-  def ifa_classroom_teachers
+  def current_ifa_teachers
     self.classrooms.active.ifa_on.map{|c| c.teachers}.flatten.compact.uniq.sort_by{|t| t.last_name}
   end
 

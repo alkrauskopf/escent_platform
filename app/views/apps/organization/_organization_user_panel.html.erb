@@ -1,0 +1,55 @@
+<div class= 'user_panel'>
+  <div class="row">
+    <div class="col-md-6 ">
+      <div class="user_side_panel">
+        <% if !@prep_provider.nil? && @prep_teacher%>
+            <div class="user_org_panel" style = "background-color: <%=@current_organization.brand_color%>">
+              <%= @current_organization.short_name %> Student Dashboards & Plans
+            </div>
+            <div class="organization_panel_text">
+              <div class="teacher_box">
+                <%= render :partial => "/apps/assessment/ifa_summary_brief" %>
+              </div>
+            </div>
+        <% elsif !@prep_provider.nil? && @prep_student%>
+          <div class="user_org_panel" style = "background-color: <%=@current_organization.brand_color%>">
+            <%= user.first_name %>&nbsp;has&nbsp;<%= pluralize(user.ifa_plans.size, @prep_app.app_name(:provider=>@prep_provider) + ' Plan') %>
+          </div>
+          <div class="organization_panel_text">
+            <%= render :partial => 'apps/classroom/student_plannable_list', :locals=>{:classroom => nil, :student=> @current_user} %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="user_side_panel">
+        <% if !@user_offerings.empty? %>
+            <div class="user_org_panel" style = "background-color: <%=@current_organization.brand_color%>">
+              <%= user.first_name %> Joined&nbsp;<%= pluralize(@user_offerings.size, ' Offering') %>
+            </div>
+            <div class="organization_user_panel_text">
+              <% @user_offerings.each do |clsrm| %>
+                <div class="row offering_row">
+                  <%= link_to 'View', offering_view_path(:organization_id => @current_organization,  :id => clsrm), :class=> "button_gray" %>&nbsp;&nbsp;
+                  <span class="offering_link">
+                    <%= clsrm.course_name%>
+                  </span>
+                  <% if @offering_list['ifa'+ clsrm.id.to_s] && !@offering_list['per'+ clsrm.id.to_s].nil? && @offering_list['s'+ clsrm.id.to_s]%>
+                    <span class="assess_link">
+                      <%= link_to 'Assess Needs', ifa_take_path(:organization_id => @current_organization,:classroom_id => clsrm.id,
+                                                           :period_id => @offering_list['per'+ clsrm.id.to_s].id, :topic_id =>  nil), :style=>'font-size:10px;', :class=>'button_blue'%>
+                    </span>
+                  <% elsif @offering_list['ifa'+ clsrm.id.to_s] && !@offering_list['per'+ clsrm.id.to_s].nil? && @offering_list['t'+ clsrm.id.to_s]%>
+                    <span class="assess_link">
+                      <%= link_to 'Assessments', ifa_submission_teacher_review_path(:organization_id => @current_organization,:classroom_id => clsrm.id,
+                                                                :period_id => @offering_list['per'+ clsrm.id.to_s].id, :topic_id =>  nil), :style=>'font-size:10px;', :class=>'button_blue'%>
+                    </span>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

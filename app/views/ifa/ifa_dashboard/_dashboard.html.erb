@@ -47,13 +47,13 @@
                   <% if @plan_markers %>
                     <div class="row">
                       <div class="col-md-6 dashboard_milestone">
-                        <% if @plan_markers['w' + hash_key(ml,s)] > 0%>
+                        <% if !@plan_markers['w' + hash_key(ml,s)].nil? && @plan_markers['w' + hash_key(ml,s)] > 0%>
                           <span class="multiplier"><%= @plan_markers['w' + hash_key(ml,s)]%></span>
                           <i class="wrench_work"></i>
                         <% end %>
                       </div>
                       <div class="col-md-6 dashboard_milestone">
-                        <% if @plan_markers['a' + hash_key(ml,s)] > 0%>
+                        <% if !@plan_markers['a' + hash_key(ml,s)].nil? && @plan_markers['a' + hash_key(ml,s)] > 0%>
                           <span class="multiplier"><%= @plan_markers['a' + hash_key(ml,s)]%></span>
                           <i class="star_achievement"></i>
                         <% end %>

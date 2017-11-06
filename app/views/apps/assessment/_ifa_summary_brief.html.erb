@@ -4,16 +4,14 @@
       <div class="summary_dashboards" id="dashboard_data">
         <% @subjects.each_with_index do |subj, idx|%>
           <div class="row summary_dashboard_row">
-            <div class="col-md-2">
-              <% if @admin -%>
-               <%= button_to  "Dashboards", ifa_org_analysis_path(:organization_id => @current_organization,:subject_id => subj.id), :class => "btn btn-primary btn-xs" %>
-              <% end -%>
+            <div class="col-md-3">
+             <%= button_to  "Dashboards", ifa_org_analysis_path(:organization_id => @current_organization,:subject_id => subj.id), :style=> 'font-size:12px', :class => "btn btn-primary btn-xs" %>
             </div>
             <div class="col-md-9">
               <%=subj.name %>:&nbsp;
-              <span style=" font-size: 12px; " >
+              <div style=" font-size: 11px; " >
                 (<%= pluralize(@total_submissions[idx], ' Assessment') %>)
-              </span>
+              </div>
             </div>
           </div>
         <% end %>

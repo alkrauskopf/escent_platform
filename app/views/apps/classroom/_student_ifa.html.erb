@@ -22,45 +22,7 @@
           <%= pluralize(student.ifa_plans.size, ' Growth Plan')%>
         </div>
       </div>
-      <% ActSubject.active_plannable.each do |subject| %>
-        <% if student.ifa_plans.for_subject(subject).empty? %>
-          <% button_label = 'Create Plan' %>
-        <% else %>
-          <% button_label = 'View Plan' %>
-        <% end %>
-        <% if subject == classroom.act_subject %>
-            <% button_class = 'red_text' %>
-        <% else %>
-            <% button_class = 'blue_text' %>
-        <% end %>
-        <div class="left_panel_row">
-          <div class="row ">
-            <div class="col-md-3 ">
-              <div class="left_panel_link">
-                <%#= form_tag(ifa_plan_student_path(:organization_id=>@current_organization, :student_id => student.id,
-                                                           :act_subject_id => subject.id), :target => "_blank") do  -%>
-                  <%#= submit_tag button_label, :class =>button_class  %>
-                <%# end %>
-                <%= link_to button_label, ifa_plan_student_path(:organization_id=>@current_organization, :student_id => student.id,
-                                                           :act_subject_id => subject.id), :class=>button_class, :target => "_blank"  -%>
-              </div>
-            </div>
-            <div class="col-md-9 left_panel_label">
-             <span class="<%=button_class%>"> <%= subject.name %></span>
-                <div class="sumry">
-                  <% if !student.ifa_plans.for_subject(subject).empty? %>
-                    <% plan = student.ifa_plans.for_subject(subject).first %>
-                    (<%= pluralize(plan.milestones.achieved.size, ' Achieved Milestone')%> |
-                    <%= plan.evidence_list.size %>&nbsp;Evidence |
-                    <%= pluralize(plan.remarks.size, ' Remark') %>)
-                  <% else %>
-                    &nbsp;
-                  <% end %>
-                </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
+        <%= render :partial => 'apps/classroom/student_plannable_list', :locals=>{:classroom => classroom, :student=> student} %>
     <% end %>
   </div>
 </div>

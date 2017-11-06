@@ -1,6 +1,6 @@
 <div class="organization_panel">
   <div class="organization_panel_header">
-    TOOLS USED
+    <%= @current_organization.short_name %> Tools
   </div>
   <div class="organization_panel_text">
     <%= render :partial => "static_organization_apps"%>
@@ -9,7 +9,7 @@
 
 <div class="organization_panel">
   <div class="organization_panel_header">
-    LEARNING UNITS IN-PROGRESS
+    <%= @current_organization.short_name %> Units In Progress
   </div>
   <div class="organization_panel_text">
     <%= render :partial => "static_organization_classrooms", :locals=>{:display=>"lu"}%>

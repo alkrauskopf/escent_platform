@@ -294,14 +294,6 @@ class ActSubmission < ActiveRecord::Base
     end
     weighted_score = top_level.nil? ? 0.0 : (standard.mastery_levels(self.subject).first.lower_score.to_f +
         standard.mastery_levels(self.subject).map{|lvl| (top_level.lower_score < lvl.lower_score ? 0.0 : (level_delta[lvl] * level_pct[lvl]))}.sum)
- #   if !top_level.nil?
- #     weighted_score = standard.mastery_levels(self.subject).first.lower_score.to_f
- #     standard.mastery_levels(self.subject).each do |lvl|
- #     weighted_score += top_level.lower_score < lvl.lower_score ? 0.0 : (level_delta[lvl] * level_pct[lvl])
- #     end
- #   else
- #     weighted_score = 0.0
- #   end
     weighted_score.to_i
   end
 

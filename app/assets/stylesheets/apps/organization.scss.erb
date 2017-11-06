@@ -95,6 +95,15 @@
   line-height: 1.5em;
   font-family:Verdana, Arial, Helvetica, sans-serif;
 }
+
+.user_panel {
+  margin:1em 0em 1em 0em;
+}
+
+.user_side_panel {
+  padding:0em 3em 0em 3em;
+}
+
 .organization_panel {
   width:90%;
   padding-top:1em;
@@ -149,11 +158,24 @@
 }
 
 .organization_panel_text {
+  margin: .5em 0em 0em 0em;
   font-size: 12px;
-  text-align:center;
+  text-align:left;
+  vertical-align:middle;
+  color: $blue_text;
+}
+.organization_panel_text .teacher_box{
+  padding: 1em 0em 0em 0em;
+}
+
+.organization_user_panel_text {
+  margin: .5em 3em 0em 3em;
+  font-size: 14px;
+  text-align:left;
   vertical-align:middle;
   color: $dark_text;
 }
+
 .organization_offerings {
   margin-left: 0em;
   width:99%;
@@ -178,9 +200,14 @@
 }
 .offering_row {
   padding-top:.5em;
-  padding-bottom:.5em;
+  padding-bottom:1em;
 }
 .offering_link {
-  font-weight:bold;
-  color:$blue_text;
+  font-weight:normal;
+}
+.assess_link {
+  padding: 0em 0em 0em 2em;
+  font-size:12px;
+  font-weight:normal;
+  color:$red_text;
 }

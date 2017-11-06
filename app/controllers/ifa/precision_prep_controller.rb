@@ -120,7 +120,7 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
     else
       @metrics_org_list << @metric_organization
     end
-    @teachers = @metric_organization.ifa_classroom_teachers
+    @teachers = @metric_organization.current_ifa_teachers
     @teachers_with_remark = @teachers.select{|t| !t.ifa_plan_remarks.empty?}
     @remark_count = @teachers.map{|t| t.ifa_plan_remarks.size}.sum
     @no_remarks = @teachers.size - @teachers_with_remark.size

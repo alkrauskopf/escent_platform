@@ -1,16 +1,16 @@
 <div class= 'container'>
-  <% if false && @current_user %>
-    <%= @current_user.full_name %>
-  <% else %>
-    <%= render :partial => "organization_heading"%>
-    <hr>
-    <div class= 'row'>
-      <div class="col-md-6">
-        <%= render :partial => "organization_left_panel"%>
-      </div>
-      <div class='col-md-6'>
-        <%= render :partial => "organization_right_panel"%>
-      </div>
-    </div>
+  <%= render :partial => "organization_heading"%>
+  <hr>
+  <% if @current_user %>
+      <%= render :partial => "organization_user_panel", :locals=> {:user=>@current_user} %>
+  <hr>
   <% end %>
+  <div class= 'row'>
+    <div class="col-md-6">
+      <%= render :partial => "organization_left_panel"%>
+    </div>
+    <div class='col-md-6'>
+      <%= render :partial => "organization_right_panel"%>
+    </div>
+  </div>
 </div>

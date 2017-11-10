@@ -387,7 +387,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
 
   def available_benchmarks(question)
     if !question.strand.nil? && !question.mastery_level.nil?
-      @available_benchmarks = ActBench.enabled_for_level_strand(question.mastery_level, question.strand).teacher_benchmarks.select{|b| b.benchmark?}
+      @available_benchmarks = @current_standard.active_benches_strand_range(question.strand, question.mastery_level, ActBenchType.benchmark(@current_standard), :teacher=>'Y')
     else
       @available_benchmarks = []
     end

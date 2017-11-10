@@ -67,11 +67,11 @@ class ActMaster < ActiveRecord::Base
   def active_benches_strand_range(strand, mastery, bench_type, options={})
     if !strand.nil? && !mastery.nil? && !bench_type.nil?
       if options[:student] && options[:teacher] && options[:student]=='Y' && options[:teacher] == 'Y'
-        benches = self.act_benches.where('act_standard_id = ? AND act_score_range_id = ? AND act_bench_type_id = ? AND is_s_viewable AND is_q_viewable AND is_active', strand.id, mastery.id, bench_type.id).order('pos')
+        benches = self.act_benches.where('act_standard_id = ? AND act_score_range_id = ? AND act_bench_type_id = ? AND is_s_viewable AND is_q_taggable AND is_active', strand.id, mastery.id, bench_type.id).order('pos')
       elsif options[:student] && options[:student]=='Y'
         benches = self.act_benches.where('act_standard_id = ? AND act_score_range_id = ? AND act_bench_type_id = ? AND is_s_viewable AND is_active', strand.id, mastery.id, bench_type.id).order('pos')
       elsif options[:teacher] && options[:teacher] == 'Y'
-        benches = self.act_benches.where('act_standard_id = ? AND act_score_range_id = ? AND act_bench_type_id = ? AND is_q_viewable AND is_active', strand.id, mastery.id, bench_type.id).order('pos')
+        benches = self.act_benches.where('act_standard_id = ? AND act_score_range_id = ? AND act_bench_type_id = ? AND is_q_taggable AND is_active', strand.id, mastery.id, bench_type.id).order('pos')
       else
         benches = self.act_benches.where('act_standard_id = ? AND act_score_range_id = ? AND act_bench_type_id = ? AND is_active', strand.id, mastery.id, bench_type.id).order('pos')
       end

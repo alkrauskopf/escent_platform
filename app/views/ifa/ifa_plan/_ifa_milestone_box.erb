@@ -31,7 +31,7 @@
                   </div>
                   <div class="row">
                     <div class="ifa_modal_box">
-                      <% benchmarks(strand, mastery, standard).each_with_index do |benchmark| %>
+                      <% benchmarks.each_with_index do |benchmark| %>
                         <%= benchmark.description.html_safe%>
                         <% if benchmark.source_standard %>
                           <span class="ifa_modal_std_src">
@@ -44,13 +44,13 @@
                       <% end %>
                     </div>
                   </div>
-                  <% if !improvements(strand, mastery, standard).empty? %>
+                  <% if !suggestions.empty? %>
                     <div class="ifa_modal_title">
-                      Level <%= mastery_label(mastery, false)%><%= improvements(strand, mastery, standard).size == 1 ? ' Improvement Idea' : ' Improvement Ideas' %>
+                      Level <%= mastery_label(mastery, false)%><%= suggestions.size == 1 ? ' Improvement Idea' : ' Improvement Ideas' %>
                     </div>
                     <div class="row">
                       <div class="ifa_modal_box">
-                        <% improvements(strand, mastery, standard).each_with_index do |improvement| %>
+                        <% suggestions.each_with_index do |improvement| %>
                           <%= improvement.description.html_safe%>
                           <hr>
                         <% end %>

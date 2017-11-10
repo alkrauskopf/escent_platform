@@ -19,7 +19,8 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     get_subject
     get_dashboard
     get_current_plan(@current_subject)
-    dashboard_cell_hashes(@entity_dashboard, @current_subject, @current_standard)
+    student_view = @current_user.teacher? ? 'N':'Y'
+    dashboard_cell_hashes(@entity_dashboard, @current_subject, @current_standard, :student => student_view )
     dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
     dashboardable_submissions(@entity_dashboard, @current_subject )
     dashboard_plan_markers(dashboard_users(@entity_dashboard), @current_subject, @current_standard)

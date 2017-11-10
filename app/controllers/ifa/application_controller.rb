@@ -115,16 +115,24 @@ class Ifa::ApplicationController < ApplicationController
     end
   end
 
-  def dashboard_cell_hashes(dashboard, subject, standard)
+  def dashboard_cell_hashes(dashboard, subject, standard, options={})
     @cell_total = {}
     @cell_correct = {}
     @cell_pct = {}
     @cell_color = {}
     @cell_font = {}
+    @cell_benchmarks = {}
+    @cell_suggestions = {}
+    @cell_examples = {}
+    @cell_evidence = {}
     if !dashboard.nil? && !subject.nil?
       standard.act_score_ranges.active.for_subject(subject).each do |level|
         standard.act_standards.active.for_subject(subject).each do |strand|
           hash_key = level.id.to_s + strand.id.to_s
+          @cell_benchmarks[hash_key]=standard.active_benches_strand_range(strand, level, ActBenchType.benchmark(standard), options)
+          @cell_suggestions[hash_key]=standard.active_benches_strand_range(strand, level, ActBenchType.improvement(standard), options)
+          @cell_examples[hash_key]=standard.active_benches_strand_range(strand, level, ActBenchType.example(standard), options)
+          @cell_evidence[hash_key]=standard.active_benches_strand_range(strand, level, ActBenchType.evidence(standard), options)
           db_cell = dashboard.cell_for(level, strand)
           if !db_cell.nil?
             total_points = db_cell.fin_points
@@ -187,10 +195,18 @@ class Ifa::ApplicationController < ApplicationController
     @cell_pct = {}
     @cell_color = {}
     @cell_font = {}
+    @cell_benchmarks = {}
+    @cell_suggestions = {}
+    @cell_examples = {}
+    @cell_evidence = {}
     if !submission.nil? && !submission.subject.nil?
       @current_standard.act_score_ranges.active.for_subject(submission.subject).each do |level|
         @current_standard.act_standards.active.for_subject(submission.subject).each do |strand|
           hash_key = level.id.to_s + strand.id.to_s
+          @cell_benchmarks[hash_key]=@current_standard.active_benches_strand_range(strand, level, ActBenchType.benchmark(@current_standard), :student=>'Y')
+          @cell_suggestions[hash_key]=@current_standard.active_benches_strand_range(strand, level, ActBenchType.improvement(@current_standard), :student=>'Y')
+          @cell_examples[hash_key]=@current_standard.active_benches_strand_range(strand, level, ActBenchType.example(@current_standard), :student=>'Y')
+          @cell_evidence[hash_key]=@current_standard.active_benches_strand_range(strand, level, ActBenchType.evidence(@current_standard), :student=>'Y')
           #         correct_ans = submission.correct_answers(:level=>level, :strand=>strand).size
           #         total_ans = submission.total_answers(:level=>level, :strand=>strand).size
           total_points = submission.answer_points(:level=>level, :strand=>strand)

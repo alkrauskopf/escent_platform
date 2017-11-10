@@ -16,6 +16,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     current_subject
     current_student
     @current_plan = @current_student.ifa_plans.for_subject(@current_subject).empty? ? nil : @current_student.ifa_plans.for_subject(@current_subject).first
+    plan_benchmarks
     @show_db = 'Show'
     @show_gd = 'Show'
     if @current_plan.nil?
@@ -48,7 +49,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
 
   def create_student_dashboard(student, subject, standard)
     @entity_dashboard = student.last_ifa_dashboard(subject)
-    dashboard_cell_hashes(@entity_dashboard, subject, standard)
+    dashboard_cell_hashes(@entity_dashboard, subject, standard, :student=>'Y')
     dashboard_milestone_links(student, subject, standard)
     dashboard_header_info(@entity_dashboard, subject, standard)
     dashboardable_submissions(@entity_dashboard, subject)
@@ -563,5 +564,27 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     @plan_dashboard['header2'] = (db_type == 'M' ? 'With No Milestones' : 'With No Achievements')
   end
 
+  def plan_benchmarks
+    @plan_benchmarks = {}
+    @plan_suggestions = {}
+    @plan_evidence = {}
+    @plan_examples = {}
+    if !@current_plan.nil?
+      @current_plan.milestones.each do |milestone|
+        hash_key = milestone.range.id.to_s + milestone.strand.id.to_s
+        if @current_plan.remarkable?(@current_user)
+          @plan_benchmarks[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.benchmark(@current_standard))
+          @plan_suggestions[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.improvement(@current_standard))
+          @plan_examples[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.example(@current_standard))
+          @plan_evidence[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.evidence(@current_standard))
+        else
+          @plan_benchmarks[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.benchmark(@current_standard), :student=>'Y')
+          @plan_suggestions[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.improvement(@current_standard), :student=>'Y')
+          @plan_examples[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.example(@current_standard), :student=>'Y')
+          @plan_evidence[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.evidence(@current_standard), :student=>'Y')
+        end
+      end
+    end
+  end
 end
 

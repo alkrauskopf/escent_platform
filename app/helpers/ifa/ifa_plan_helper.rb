@@ -30,7 +30,7 @@ module Ifa::IfaPlanHelper
   def benchmarks(strand, range, standard)
     benchmarks = []
     if !range.nil? && !strand.nil? && !standard.nil?
-      benchmarks = standard.benchmarks_for_strand_range(strand, range)
+      benchmarks = standard.active_benches_strand_range(strand, range, ActBenchType.benchmark(standard))
     end
     benchmarks
   end
@@ -38,7 +38,7 @@ module Ifa::IfaPlanHelper
   def improvements(strand, range, standard)
     improvements = []
     if !range.nil? && !strand.nil? && !standard.nil?
-      improvements = standard.improvements_for_strand_range(strand, range)
+      improvements = standard.active_benches_strand_range(strand, range, ActBenchType.improvement(standard))
     end
     improvements
   end
@@ -46,7 +46,7 @@ module Ifa::IfaPlanHelper
   def evidences(strand, range, standard)
     evidences = []
     if !range.nil? && !strand.nil? && !standard.nil?
-      evidences = standard.evidence_for_strand_range(strand, range)
+      evidences = standard.active_benches_strand_range(strand, range, ActBenchType.evidence(standard))
     end
     evidences
   end
@@ -54,7 +54,7 @@ module Ifa::IfaPlanHelper
   def examples(strand, range, standard)
     examples = []
     if !range.nil? && !strand.nil? && !standard.nil?
-      examples = standard.examples_for_strand_range(strand, range)
+      examples = standard.active_benches_strand_range(strand, range, ActBenchType.example(standard))
     end
     examples
   end

@@ -60,16 +60,16 @@
                       </div>
                     </div>
                   <% end %>
-                  <a id="b_<%= dashboard.public_id %><%= ml.id.to_s %><%= s.id.to_s %>" href="">
-                    <%#= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s + '<br/>' +
-                        number_with_precision(cell_pcts[hash_key(ml,s)], :precision => 0) + '%').html_safe : ' _ '%>
-                    <%= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s).html_safe : ' _ '%>
-                  </a>
-                  <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + dashboard.public_id + ml.id.to_s + s.id.to_s),
-                                                                                             :titl=> (mastery_label(ml, false) + " | " + s.name),
-                                                                                             :blue=> 'Benchmark',
-                                                                                             :body=> benchmarks(s, ml, @current_standard), :height=> 400, :width=> 650 } %>
-                  <% if @milestone_links && !@milestone_links[hash_key(ml,s)].nil?%>
+                    <a id="b_<%= dashboard.public_id %><%= ml.id.to_s %><%= s.id.to_s %>" href="">
+                      <%#= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s + '<br/>' +
+                          number_with_precision(cell_pcts[hash_key(ml,s)], :precision => 0) + '%').html_safe : ' _ '%>
+                      <%= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s).html_safe : ' _ '%>
+                    </a>
+                    <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + dashboard.public_id + ml.id.to_s + s.id.to_s),
+                                                                                               :titl=> (mastery_label(ml, false) + " | " + s.name),
+                                                                                               :blue=> 'Benchmark',
+                                                                                               :body=> @cell_benchmarks[hash_key(ml,s)], :height=> 400, :width=> 650 } %>
+                      <% if @milestone_links && !@milestone_links[hash_key(ml,s)].nil?%>
                       <% header_row = ((!dashboard.nil? && dashboard.user) ? dashboard.user.full_name : 'Unknown User') + ' | ' +
                           (dashboard.subject ? dashboard.subject.name : 'Unknown Subject') + ' | ' +
                           @milestone_links[hash_key(ml,s)] + ' Milestone' %>
@@ -82,6 +82,7 @@
                                                                                             :titl=> (s.name),
                                                                                             :function=> @milestone_links[hash_key(ml,s)],
                                                                                             :plan_id => @milestone_links['plan_id'], :strand => s, :mastery=>ml, :standard=> @current_standard,
+                                                                                            :benchmarks=> @cell_benchmarks[hash_key(ml,s)], :suggestions=> @cell_suggestions[hash_key(ml,s)],
                                                                                             :height=> 600, :width=> 850 } %>
                     </div>
                   <% end %>

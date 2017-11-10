@@ -50,7 +50,8 @@
       <% else %>
         <% plan.strand_milestones(strand).each do |milestone| %>
           <div class="ifa_milestone_show_content_rowx">
-            <%= render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => milestone, :evidence_form => 'No'}%>
+            <%= render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => milestone, :evidence_form => 'No',
+                :milestone_benchmarks => @plan_benchmarks[hash_key(milestone.range, milestone.strand)], :milestone_suggestions => @plan_suggestions[hash_key(milestone.range, milestone.strand)]}%>
           </div>
           <div class="precision_milestone_break_panel"></div>
           <% end %>

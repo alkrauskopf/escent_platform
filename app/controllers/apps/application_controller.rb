@@ -65,10 +65,19 @@ class Apps::ApplicationController < ApplicationController
     @cell_pct = {}
     @cell_color = {}
     @cell_font = {}
+    @cell_benchmarks = {}
+    @cell_suggestions = {}
+    @cell_examples = {}
+    @cell_evidence = {}
+    student = @current_user.teacher? ? 'N':'Y'
     if !dashboards.empty? && !subject.nil?
       standard.act_score_ranges.active.for_subject(subject).each do |level|
         standard.act_standards.active.for_subject(subject).each do |strand|
           hash_key = level.id.to_s + strand.id.to_s
+          @cell_benchmarks[hash_key]=@current_standard.active_benches_strand_range(strand, level, ActBenchType.benchmark(@current_standard), :student=>student)
+          @cell_suggestions[hash_key]=@current_standard.active_benches_strand_range(strand, level, ActBenchType.improvement(@current_standard), :student=>student)
+          @cell_examples[hash_key]=@current_standard.active_benches_strand_range(strand, level, ActBenchType.example(@current_standard), :student=>student)
+          @cell_evidence[hash_key]=@current_standard.active_benches_strand_range(strand, level, ActBenchType.evidence(@current_standard), :student=>student)
           db_cells = dashboards.collect{|d| d.cell_for(level, strand)}.compact
           if !db_cells.empty?
             total_points = db_cells.collect{|c| c.fin_points}.compact.sum

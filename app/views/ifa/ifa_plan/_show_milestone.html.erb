@@ -29,25 +29,35 @@
     </div>
     <div class="col-md-6 ">
       <div class="ifa_milestone_show_range">
-        Milestone for <%= milestone.name %>
+        <%= milestone.plan.user ? (milestone.plan.user.first_name + ' ') : ''%>Milestone for <%= milestone.name %>
       </div>
       <div class="ifa_milestone_show_benchmarks">
         <% if milestone_benchmarks && !milestone_benchmarks.empty? %>
-          <span style ="text-decoration:underline;">
-            <a id="b_<%= milestone.id.to_s %>" href="">View Benchmarks</a>
-            <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
-                                                                                     :blue=> 'Benchmark',
-                                                                                     :body=> milestone_benchmarks, :height=> 400, :width=> 650 } %>
-          </span>
+          <a id="b_<%= milestone.id.to_s %>" class="button_gray" href="">Benchmarks</a>
+          <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
+                                                                                   :blue=> 'Benchmark',
+                                                                                   :body=> milestone_benchmarks, :height=> 400, :width=> 650 } %>
         <% end %>
-        &nbsp;&nbsp;&nbsp;
         <% if milestone_suggestions && !milestone_suggestions.empty? %>
-          <span style ="text-decoration:underline;">
-            <a id="i_<%= milestone.id.to_s %>" href="">View Improvement Ideas</a>
-            <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('i_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
-                                                                                       :blue=> 'Suggestion',
-                                                                                       :body=> milestone_suggestions, :height=> 400, :width=> 650 } %>
-          </span>
+          &nbsp;&nbsp;&nbsp;
+          <a id="i_<%= milestone.id.to_s %>" class="button_gray" href="">Suggestions</a>
+          <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('i_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
+                                                                                     :blue=> 'Suggestion',
+                                                                                     :body=> milestone_suggestions, :height=> 400, :width=> 650 } %>
+        <% end %>
+        <% if milestone_examples && !milestone_examples.empty? %>
+          &nbsp;&nbsp;&nbsp;
+          <a id="x_<%= milestone.id.to_s %>" class="button_gray" href="">Exemplars</a>
+          <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('x_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
+                                                                                     :blue=> 'Example',
+                                                                                     :body=> milestone_examples, :height=> 400, :width=> 650 } %>
+        <% end %>
+        <% if milestone_evidence && !milestone_evidence.empty? %>
+            &nbsp;&nbsp;&nbsp;
+            <a id="e_<%= milestone.id.to_s %>" class="button_gray" href="">Evidence</a>
+            <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('e_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
+                                                                                       :blue=> 'Evidence',
+                                                                                       :body=> milestone_evidence, :height=> 400, :width=> 650 } %>
         <% end %>
       </div>
     </div>

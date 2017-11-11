@@ -169,7 +169,7 @@ class Ifa::ApplicationController < ApplicationController
       standard.act_score_ranges.active.for_subject(subject).each do |level|
         standard.act_standards.active.for_subject(subject).each do |strand|
           hash_key = level.id.to_s + strand.id.to_s
-          if @cell_total[hash_key] && @cell_total[hash_key] > 0
+          if (user == @current_user && @cell_total[hash_key] && @cell_total[hash_key] > 0)
             @milestone_links[hash_key] = plan.milestones.open_for_range_strand(level, strand).empty? ? 'Add' : nil
           end
         end

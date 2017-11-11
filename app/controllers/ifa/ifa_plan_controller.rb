@@ -226,13 +226,21 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   def milestone_achieved
     current_milestone
     @current_milestone.update_attributes(:is_achieved=>!@current_milestone.is_achieved, :achieve_date => Time.now)
-    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'No'}
+    @current_plan=@current_milestone.plan
+    plan_benchmarks
+    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'No',
+                                                                  :milestone_benchmarks => @plan_benchmarks[hash_key(@current_milestone.range, @current_milestone.strand)], :milestone_suggestions => @plan_suggestions[hash_key(@current_milestone.range, @current_milestone.strand)],
+                                                                  :milestone_examples => @plan_examples[hash_key(@current_milestone.range, @current_milestone.strand)], :milestone_evidence => @plan_evidence[hash_key(@current_milestone.range, @current_milestone.strand)]}
   end
 
   def milestone_achieve_toggle
     set_milestone
     @milestone.update_attributes(:is_achieved=>!@milestone.is_achieved, :achieve_date => Time.now)
-    render :partial =>  "/ifa/ifa_plan/teacher_show_milestone", :locals=>{:milestone => @milestone}
+    @current_plan=@milestone.plan
+    plan_benchmarks
+    render :partial =>  "/ifa/ifa_plan/teacher_show_milestone", :locals=>{:milestone => @milestone,
+                                                                          :milestone_benchmarks => @plan_benchmarks[hash_key(@milestone.range, @milestone.strand)], :milestone_suggestions => @plan_suggestions[hash_key(@milestone.range, @milestone.strand)],
+                                                                          :milestone_examples => @plan_examples[hash_key(@milestone.range, @milestone.strand)], :milestone_evidence => @plan_evidence[hash_key(@milestone.range, @milestone.strand)]}
   end
 
   def milestone_range_select
@@ -323,7 +331,11 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     else
       evidence = 'Edit'
     end
-    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => evidence}
+    @current_plan=@current_milestone.plan
+    plan_benchmarks
+    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => evidence,
+                                                                  :milestone_benchmarks => @plan_benchmarks[hash_key(@current_milestone.range, @current_milestone.strand)], :milestone_suggestions => @plan_suggestions[hash_key(@current_milestone.range, @current_milestone.strand)],
+                                                                  :milestone_examples => @plan_examples[hash_key(@current_milestone.range, @current_milestone.strand)], :milestone_evidence => @plan_evidence[hash_key(@current_milestone.range, @current_milestone.strand)]}
   end
 
   def evidence_destroy
@@ -335,7 +347,11 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
 
   def evidence_cancel
     current_milestone
-    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'No'}
+    @current_plan=@current_milestone.plan
+    plan_benchmarks
+    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'No',
+                                                                  :milestone_benchmarks => @plan_benchmarks[hash_key(@current_milestone.range, @current_milestone.strand)], :milestone_suggestions => @plan_suggestions[hash_key(@current_milestone.range, @current_milestone.strand)],
+                                                                  :milestone_examples => @plan_examples[hash_key(@current_milestone.range, @current_milestone.strand)], :milestone_evidence => @plan_evidence[hash_key(@current_milestone.range, @current_milestone.strand)]}
   end
 
   def evidence_edit
@@ -370,7 +386,11 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   def evidence_show
     current_evidence
     current_milestone
-    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'No'}
+    @current_plan=@current_milestone.plan
+    plan_benchmarks
+    render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'No',
+                                                                  :milestone_benchmarks => @plan_benchmarks[hash_key(@current_milestone.range, @current_milestone.strand)], :milestone_suggestions => @plan_suggestions[hash_key(@current_milestone.range, @current_milestone.strand)],
+                                                                  :milestone_examples => @plan_examples[hash_key(@current_milestone.range, @current_milestone.strand)], :milestone_evidence => @plan_evidence[hash_key(@current_milestone.range, @current_milestone.strand)]}
   end
 
   def evidence_list
@@ -577,20 +597,29 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     @plan_examples = {}
     if !@current_plan.nil?
       @current_plan.milestones.each do |milestone|
-        hash_key = milestone.range.id.to_s + milestone.strand.id.to_s
+        hashkey = hash_key(milestone.range, milestone.strand)
         if @current_plan.remarkable?(@current_user)
-          @plan_benchmarks[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.benchmark(@current_standard))
-          @plan_suggestions[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.improvement(@current_standard))
-          @plan_examples[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.example(@current_standard))
-          @plan_evidence[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.evidence(@current_standard))
+          @plan_benchmarks[hashkey]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.benchmark(@current_standard))
+          @plan_suggestions[hashkey]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.improvement(@current_standard))
+          @plan_examples[hashkey]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.example(@current_standard))
+          @plan_evidence[hashkey]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.evidence(@current_standard))
         else
-          @plan_benchmarks[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.benchmark(@current_standard), :student=>'Y')
-          @plan_suggestions[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.improvement(@current_standard), :student=>'Y')
-          @plan_examples[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.example(@current_standard), :student=>'Y')
-          @plan_evidence[hash_key]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.evidence(@current_standard), :student=>'Y')
+          @plan_benchmarks[hashkey]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.benchmark(@current_standard), :student=>'Y')
+          @plan_suggestions[hashkey]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.improvement(@current_standard), :student=>'Y')
+          @plan_examples[hashkey]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.example(@current_standard), :student=>'Y')
+          @plan_evidence[hashkey]=@current_standard.active_benches_strand_range(milestone.strand, milestone.range, ActBenchType.evidence(@current_standard), :student=>'Y')
         end
       end
     end
+  end
+
+  def hash_key(range, strand)
+    if !range.nil? && !strand.nil?
+      key = range.id.to_s + strand.id.to_s
+    else
+      key = ''
+    end
+    key
   end
 end
 

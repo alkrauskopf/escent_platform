@@ -13,16 +13,36 @@
           Last Updated: <%= time_ago_in_words(milestone.updated_at).sub(/about /, '') + " ago" %>
         </div>
         <div class="row ifa_milestone_show_benchmarks">
-          <a id="b_<%= milestone.id.to_s %>" href="">View Benchmarks</a>
-          <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
-                                                                                     :blue=> 'Benchmark',
-                                                                                     :body=> benchmarks(milestone.strand, milestone.range, milestone.standard), :height=> 400, :width=> 650 } %>
+          <% if milestone_benchmarks && !milestone_benchmarks.empty? %>
+              <a id="b_<%= milestone.id.to_s %>" class="button_gray" href="">Benchmarks</a>
+              <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
+                                                                                         :blue=> 'Benchmark',
+                                                                                         :body=> milestone_benchmarks, :height=> 400, :width=> 650 } %>
+          <% end %>
         </div>
         <div class="row ifa_milestone_show_benchmarks">
-          <a id="i_<%= milestone.id.to_s %>" href="">View Improvement Ideas</a>
-          <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('i_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
-                                                                                     :blue=> 'Suggestion',
-                                                                                     :body=> improvements(milestone.strand, milestone.range, milestone.standard), :height=> 400, :width=> 650 } %>
+          <% if milestone_suggestions && !milestone_suggestions.empty? %>
+              <a id="i_<%= milestone.id.to_s %>" class="button_gray" href="">Suggestions</a>
+              <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('i_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
+                                                                                         :blue=> 'Suggestion',
+                                                                                         :body=> milestone_suggestions, :height=> 400, :width=> 650 } %>
+          <% end %>
+        </div>
+        <div class="row ifa_milestone_show_benchmarks">
+          <% if milestone_examples && !milestone_examples.empty? %>
+              <a id="x_<%= milestone.id.to_s %>" class="button_gray" href="">Exemplars</a>
+              <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('x_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
+                                                                                         :blue=> 'Example',
+                                                                                         :body=> milestone_examples, :height=> 400, :width=> 650 } %>
+          <% end %>
+        </div>
+        <div class="row ifa_milestone_show_benchmarks">
+          <% if milestone_evidence && !milestone_evidence.empty? %>
+              <a id="e_<%= milestone.id.to_s %>" class="button_gray" href="">Evidence</a>
+              <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('e_' + milestone.id.to_s), :titl=> (mastery_label(milestone.range, false) + " | " + milestone.strand.name),
+                                                                                         :blue=> 'Evidence',
+                                                                                         :body=> milestone_evidence, :height=> 400, :width=> 650 } %>
+          <% end %>
         </div>
         <div class="row ifa_milestone_show_button">
           <% a_label = milestone.achieved? ? 'Undo Achievement':'Achieved' %>

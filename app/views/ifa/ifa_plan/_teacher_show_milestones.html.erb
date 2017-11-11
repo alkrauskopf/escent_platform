@@ -7,7 +7,9 @@
   <div class="ifa_plan_teacher_milestones">
     <% milestones.each do |milestone|%>
       <div class="ifa_milestone_box">
-        <%= render :partial =>  "/ifa/ifa_plan/teacher_show_milestone", :locals=>{:milestone => milestone} %>
+        <%= render :partial =>  "/ifa/ifa_plan/teacher_show_milestone", :locals=>{:milestone => milestone,
+                                                                                  :milestone_benchmarks => @plan_benchmarks[hash_key(milestone.range, milestone.strand)], :milestone_suggestions => @plan_suggestions[hash_key(milestone.range, milestone.strand)],
+                                                                                  :milestone_examples => @plan_examples[hash_key(milestone.range, milestone.strand)], :milestone_evidence => @plan_evidence[hash_key(milestone.range, milestone.strand)]} %>
       </div>
     <% end %>
   </div>

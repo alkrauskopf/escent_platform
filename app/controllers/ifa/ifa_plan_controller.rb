@@ -153,6 +153,8 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     @current_range = @current_milestone.range
     @current_strand = @current_milestone.strand
     benchmarks_improvements
+    @current_plan=@current_milestone.plan
+    plan_benchmarks
     render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@current_milestone.plan, :strand => @current_strand,
                                                                     :milestone_form => 'Change',
                                                                      :ranges => strand_ranges(@current_milestone.strand)}
@@ -179,6 +181,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       @current_milestone.update_attributes(:description=> params[:description])
     end
     set_plan
+    plan_benchmarks
     render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @current_strand,
                                                                     :milestone_form => 'No', :ranges => @user_plan.ranges(@current_standard)}
   end
@@ -205,6 +208,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   def milestone_update_cancel
     set_plan
     current_strand
+    plan_benchmarks
     render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @current_strand,
                                                                     :milestone_form => 'No', :ranges => @user_plan.ranges(@current_standard)}
   end
@@ -214,6 +218,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     current_strand
     set_plan
     @current_milestone.destroy
+    plan_benchmarks
     render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @current_strand,
                                                                     :milestone_form => 'No', :ranges => @user_plan.ranges(@current_standard)}
   end
@@ -461,6 +466,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     if @user_plan.nil?
       @user_plan = IfaPlan.find_by_id(params[:ifa_plan_id]) rescue nil
     end
+    @current_plan = @user_plan
   end
   def current_plan
     @current_plan = IfaPlan.find_by_id(params[:ifa_plan_id]) rescue nil

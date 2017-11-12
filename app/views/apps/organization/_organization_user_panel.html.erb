@@ -13,7 +13,7 @@
             </div>
         <% elsif !@prep_provider.nil? && @prep_student%>
           <div class="user_org_panel" style = "background-color: <%=@current_organization.brand_color%>">
-            <%= user.first_name %>&nbsp;has&nbsp;<%= pluralize(user.ifa_plans.size, @prep_app.app_name(:provider=>@prep_provider) + ' Plan') %>
+            <%= user.first_name %>:&nbsp;<%= pluralize(user.ifa_plans.size, @prep_app.app_name(:provider=>@prep_provider) + ' Plan') %>
           </div>
           <div class="organization_panel_text">
             <%= render :partial => 'apps/classroom/student_plannable_list', :locals=>{:classroom => nil, :student=> @current_user} %>
@@ -25,7 +25,7 @@
       <div class="user_side_panel">
         <% if !@user_offerings.empty? %>
             <div class="user_org_panel" style = "background-color: <%=@current_organization.brand_color%>">
-              <%= user.first_name %> Joined&nbsp;<%= pluralize(@user_offerings.size, ' Offering') %>
+              <%= user.first_name %>:&nbsp;<%= pluralize(@user_offerings.size, ' Offering') %>
             </div>
             <div class="organization_user_panel_text">
               <% @user_offerings.each do |clsrm| %>

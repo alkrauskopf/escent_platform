@@ -222,7 +222,7 @@ class Classroom < ActiveRecord::Base
 
   def last_ifa_dashboard(subject)
     self.ifa_dashboards.for_subject(subject).empty? ? nil :
-        self.ifa_dashboards.for_subject(subject).first
+        self.ifa_dashboards.for_subject(subject).last
   end
 
   def ifa_subject

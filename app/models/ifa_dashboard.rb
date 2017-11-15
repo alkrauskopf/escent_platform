@@ -14,7 +14,7 @@ class IfaDashboard < ActiveRecord::Base
 #      {:conditions => ["act_subject_id = ? && period_end >= ?", subject.id,  begin_date], :order => "period_end ASC" }
 #      }
   scope :for_subject, lambda{|subject|
-      {:conditions => ["act_subject_id = ? ", subject.id]}
+      {:conditions => ["act_subject_id = ? ", subject.id], :order => "period_end ASC"}
       }
 
  # scope :since, lambda{|date|

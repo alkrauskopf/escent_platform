@@ -300,6 +300,8 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     new_remark.teacher_name = @current_user.last_name_first
     new_remark.course_name = @classroom.nil? ? '' : @classroom.name
     @user_plan.ifa_plan_remarks << new_remark
+    PrecisionPrepMailer.remark_student(@user_plan.user, @user_plan, new_remark.remarks, @current_user, request.host_with_port).deliver
+    PrecisionPrepMailer.remark_guardian(@user_plan.user, @user_plan, new_remark.remarks, @current_user, request.host_with_port).deliver
     render :partial =>  "/ifa/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>false}
   end
 

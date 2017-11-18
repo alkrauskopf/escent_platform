@@ -135,6 +135,41 @@ class PrecisionPrepMailer < ActionMailer::Base
     end
   end
 
+  def remark_student(student, plan, remark, teacher, ep_host)
+    student_info(student)
+    org_info(student.organization)
+    plan_info(plan)
+    teacher_info(teacher)
+    guardian_cc(student)
+    @remark = remark
+    @recipient_list = student.preferred_email
+    @subject_line = @school_name + ' SAT/ACT Prep Teacher Remark'
+    @ep_host = ep_host
+    @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    if !@recipient_list.nil? && !@recipient_list.empty?
+      mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
+    end
+  end
+
+  def remark_guardian(student, plan, remark, teacher, ep_host)
+    if !student.guardians.empty?
+      student_info(student)
+      org_info(student.organization)
+      plan_info(plan)
+      teacher_info(teacher)
+      @recipient_list = student.preferred_email
+      @remark = remark
+      @subject_line = @school_name + ' SAT/ACT Prep Teacher Remark'
+      @ep_host = ep_host
+      @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+      student.guardians.each do |guardian|
+        guardian_info(guardian)
+        mail(to:guardian.email_address , subject: @subject_line, from: @from, date: DateTime.now)
+        guardian.increment_notify
+      end
+    end
+  end
+
   private
 
   def student_info(student)
@@ -153,6 +188,13 @@ class PrecisionPrepMailer < ActionMailer::Base
     @guardian_first_name = guardian.first_name == '' ? 'Guardian' : guardian.first_name
   end
 
+  def teacher_info(teacher)
+    @teacher_full_name = teacher.full_name
+    @teacher_last_name = teacher.last_name
+    @teacher = teacher
+    @teacher_email = @teacher.preferred_email
+  end
+
   def org_info(org)
     @school_name = org.short_name
     @school_full_name = org.name
@@ -161,6 +203,7 @@ class PrecisionPrepMailer < ActionMailer::Base
 
   def plan_info(plan)
     @subject_area = plan.subject_area.name
+    @plan = plan
     @plan_needs = plan.needs.blank? ? 'Not Defined'  : plan.needs
     @plan_goals = plan.goals.blank? ? 'Not Defined'  : plan.goals
     @miles_defined = plan.milestones.size
@@ -179,5 +222,6 @@ class PrecisionPrepMailer < ActionMailer::Base
   def guardian_cc(user)
     @guardian_cc = user.guardians.empty? ? 'No Guardians' : (user.guardian_name_list)
     @guardian_count = user.guardians.size
+    @cc_list = user.guardian_name_list
   end
 end

@@ -171,6 +171,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @milestone = milestone
     @plan = milestone.ifa_plan
     @subject_area = @plan.subject_area.name
+    @act_subject = @plan.subject_area
     @strand_name = milestone.strand.name.titleize
     @mastery_level = milestone.range.range
   end

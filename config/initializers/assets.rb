@@ -52,7 +52,8 @@ Rails.application.config.assets.precompile += [
     'user/user.css',
     'search/search.css',
     'master/crud.css',
-    'prep/precision_prep.css'
+    'prep/precision_prep.css',
+    'premailer/premailer.css'
       ]
 #
 #Javascript

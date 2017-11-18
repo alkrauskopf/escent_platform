@@ -41,6 +41,20 @@ class ApplicationController < ActionController::Base
     @current_user ||= (session[:user_id] && User.find(session[:user_id]) rescue nil) || nil
   end
 
+  def current_user?
+    if @current_user.nil?
+      redirect_to organization_view_path(:organization_id => @current_organization)
+    end
+    true
+  end
+
+  def current_user_teacher?
+    if !(current_user? && @current_user.teacher?)
+      redirect_to organization_view_path(:organization_id => @current_organization)
+    end
+    true
+  end
+
   def current_resource
     @current_resource ||= (params[:content_id] ? Content.find(params[:content_id]) : nil)
   end

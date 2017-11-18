@@ -5,6 +5,9 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
 
  # before_filter :set_ifa, :except=>[]
  # before_filter :current_app_enabled_for_current_org?, :except=>[]
+  before_filter :current_user?
+  before_filter :current_user_teacher?, :only=>[]
+  before_filter :current_user_app_admin?, :only=>[]
   before_filter :current_user_app_authorized?, :only=>[:index]
   before_filter :current_user_app_admin?, :only=>[]
  # before_filter :current_ifa_options

@@ -1,0 +1,41 @@
+
+@import "application-variables.scss";
+@import 'bootstrap';
+
+.panel_box {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  color:white;
+  text-align:center;
+  vertical-align:middle;
+  min-height:2.5em;
+  font-size:15px;
+}
+.guardian_panel {
+  @extend .panel-heading;
+  margin: 0em 0em 0em 0em;
+  background-color: $gold_panel;
+  color:white;
+  text-align:left;
+  vertical-align:middle;
+  min-height:2.0em;
+  font-size:15px;
+}
+.guardian_header_label {
+  font-weight:bold;
+  text-align:center;
+}
+.guardian_row {
+  padding:.5em 0em 0em 5em;
+  font-size:20px;
+  color:#a40a15;
+  font-weight:normal;
+  text-align:left;
+}
+
+.learn_button {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-xs;
+  font-size:11px;
+}

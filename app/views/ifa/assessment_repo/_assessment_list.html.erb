@@ -87,6 +87,10 @@
         <div class= "col-md-2">
           <div class="row assessment_pool_button">
             <%= link_to "PreView", ifa_submission_take_path(:organization_id => @current_organization, :act_assessment_id => ass.id,
+                                                            :classroom_id => (@current_classroom.nil? ? nil : @current_classroom.id),
+                                                            :topic_id => (@topic.nil? ? nil : @topic.id),
+                                                            :period_id =>(@current_periond.nil? ? nil : @current_classroom_period.id),
+                                                            :teacher_id => (@current_teacher.nil? ? '': @current_teacher.id),
                                                               :function => "preview"), {:class => 'button_gray', :target => '_blank'}%>
           </div>
           <% if @current_user.id == ass.user_id || @current_user_app_admin %>

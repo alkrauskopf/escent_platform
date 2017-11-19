@@ -1,4 +1,4 @@
-
+<div id="classroom_period_assessements_<%= @current_classroom.id.to_s%>">
 <div class="teacher_review_period_box ">
   <div class= "precision_prep_review_panel">
     <div class="row">
@@ -8,38 +8,63 @@
     </div>
   </div>
 </div>
+<div class="teacher_review_period_box ">
+  <div class="row">
+    <div class="col-md-5 teacher_label">
+      <%= @current_teacher.nil? ? 'Identify Your Teacher' : 'Assessments Submitted To: ' + @current_teacher.last_name %>
+    </div>
+    <% if @teacher_list.size > 1 %>
+      <div id="teacher_select" class="col-md-7 assess_teacher_select">
+        <%= select(:submission, :teacher_id, @teacher_list.collect{|d| [d.last_name, d.id]}, :prompt => 'Identify Your Teacher') %>
+      </div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#teacher_select").change(function(){
+            var teacher_id = jQ('#submission_teacher_id').val();
+            var url = "<%= ifa_submission_teacher_path(:organization_id => @current_organization, :classroom_id => @current_classroom.id, :period_id => @current_classroom_period.id ) %>";
+            jQ.get(url, {'teacher_id':teacher_id}, function(data) {
+              jQ("#classroom_period_assessements_<%= @current_classroom.id.to_s%>").html(data);
+              jQ("#classroom_period_assessements_<%= @current_classroom.id.to_s%>").show();
+            });
+          })
+        });
+      </script>
+    <% end -%>
+  </div>
+</div>
 <% student_submissions = @current_user.act_submissions.for_classroom(@current_classroom) -%>
 <% if !@current_classroom.act_assessments.active.empty? %>
     <div class="precision_milestone_panel">
       <div class="precision_prep_review_box">
     <% for ass in @current_classroom.act_assessments.active.sort{|a,b| b.updated_at <=> a.updated_at}do -%>
       <% last_submit = @current_user.act_submissions.for_classroom(@current_classroom).for_assessment(ass).first rescue nil %>
-      <% available_to_submit = last_submit.nil? ? true : (last_submit.created_at <= (Time.now - @current_classroom.ifa_classroom_option.days_til_repeat.days)) %>
+      <% available_to_submit = (last_submit.nil? && @current_teacher) ? true : (@current_teacher && last_submit.created_at <= (Time.now - @current_classroom.ifa_classroom_option.days_til_repeat.days)) %>
       <% log_label = last_submit.nil? ? 'Not Yet Taken' : (' Taken ' + (time_ago_in_words(last_submit.created_at).sub(/about /, '') + " ago")) %>
       <% log_class = last_submit.nil? ? 'take_not_taken' : 'take_taken' %>
-      <% button_class = last_submit.nil? ? 'button_blue' : 'button_light_blue' %>
-      <% button_label = last_submit.nil? ? 'Take' : 'Retake' %>
+      <% button_color = last_submit.nil? ? 'button_blue' : 'button_light_blue' %>
+      <% button_label = (last_submit.nil? ? 'Take' : 'Retake') + ' for ' + (@current_teacher.nil? ?  '?' : @current_teacher.last_name) %>
       <% button_on_off =  available_to_submit ? nil : 'disabled' -%>
       <div class="row ifa_take_list">
         <div class="col-md-3 <%= log_class%>">
           <%= log_label %>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-3">
           <%= form_tag(ifa_submission_take_path(:organization_id => @current_organization, :classroom_id => @current_classroom.id,
                                                :period_id => @current_classroom_period.id, :topic_id => (@topic.nil? ? nil : @topic.id),
-                                               :act_assessment_id => ass.id, :function => "Assess")) do %>
-            <%= submit_tag button_label, :class => button_class, :disabled => button_on_off %>
+                                               :act_assessment_id => ass.id, :teacher_id => (@current_teacher.nil? ? '': @current_teacher.id),
+                                                :function => "Assess")) do %>
+            <%= submit_tag button_label, :class => button_color, :disabled => button_on_off %>
           <% end %>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-6">
           <div class="take_title"><%= ass.name.titleize%></div>
           <div class="take_level"><%= ass.min_score%>&nbsp;-&nbsp;<%= ass.max_score%>
             &nbsp;|&nbsp;<%= ass.act_subject.name%>&nbsp;|&nbsp;<%= pluralize(ass.questions_for_test.size, ' Question')%>
           </div>
         </div>
-        <div class="col-md-1"></div>
       </div>
     <% end %>
     </div>
   </div>
 <% end -%>
+</div>

@@ -15,6 +15,8 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     def index
       current_student_plan
       get_current_submission
+      get_current_teacher
+      assessment_pool_info
       @last_submission = !@current_submission.nil? ? @current_submission : (@current_user.act_submissions.for_subject(@current_subject).empty? ? nil : @current_user.act_submissions.for_subject(@current_subject).last)
       @suggested_topics = @current_student_plan.nil? ? [] : @current_student_plan.classroom_lus(@current_classroom)
       @assessment_subjects = @current_user.act_submissions.collect{|s| s.act_subject}.uniq rescue []
@@ -22,7 +24,6 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       entity_subject_dashboards(@current_user)
       start_date = @current_provider.ifa_org_option.begin_school_year
       prepare_ifa_dashboard(@current_user, start_date, Date.today)
-      @classroom_assessment_list = @current_classroom.available_assessments rescue []
       student_assessment_dashboard(@last_submission)
       assessment_header_info(@last_submission, @current_standard)
       user_ifa_plans
@@ -94,14 +95,12 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
 
     def take_assessment
       get_current_assessment
+      get_current_teacher
       if params[:function]=="Assess"
-        @teacher_list = @current_classroom_period.teachers
-        @current_teacher = @teacher_list.size == 1 ? @teacher_list.first : nil
         @preview = false
         @begin_time = Time.now
         @view_mode = 'Take'
       else
-        @teacher_list = []
         @view_mode = 'Preview'
       end
 
@@ -109,9 +108,9 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     end
 
     def submission_teacher_select
-      @current_teacher = User.find_by_id(params[:teacher_id])
-      @teacher_list = @current_classroom_period.teachers
-      render :partial => "submit_assessment_button", :locals=>{:view_mode => 'Take'}
+      get_current_teacher
+      assessment_pool_info
+      render :partial => "list_classroom_assessments"
     end
 
     def submit_assessment
@@ -242,7 +241,16 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
   def get_current_teacher
     if params[:teacher_id]
       @current_teacher = User.find_by_id(params[:teacher_id]) rescue nil
+    elsif @current_classroom_period && @current_classroom_period.teachers.size == 1
+      @current_teacher = @current_classroom_period.teachers.first
+    else
+      @current_teacher = nil
     end
+  end
+
+  def assessment_pool_info
+    @classroom_assessment_list = @current_classroom.available_assessments rescue []
+    @teacher_list = @current_classroom_period.teachers
   end
 
   def current_student_plan

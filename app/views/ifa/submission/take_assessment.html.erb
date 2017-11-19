@@ -5,7 +5,7 @@
     <%= render :partial => "assessment_form",
              :locals=>{:view_mode => @view_mode,
                        :form_heading => (@view_mode == 'Take' ? @current_classroom.name.upcase  : 'Assessment Preview'),
-                       :form_left => (@view_mode == 'Take' ? @current_classroom_period.teacher_list  : 'Teacher Names'),
+                       :form_left => (@current_teacher ? ('Submit To ' + @current_teacher.last_name) : 'Submit To Teacher Name'),
                        :form_time => Time.now,
                        :submission => @current_submission,
                        :organization => @current_organization,
@@ -13,6 +13,7 @@
                        :classroom_period => @current_classroom_period,
                        :topic => @current_topic,
                        :user => @current_user,
+                       :teacher => @current_teacher,
                        :assessment => @current_assessment,
                        :form => form
              } %>

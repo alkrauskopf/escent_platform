@@ -19,6 +19,10 @@
     </div>
     <div class="col-md-2">
       <%= link_to "PreView", ifa_submission_take_path(:organization_id => @current_organization, :act_assessment_id => @current_assessment.id,
+                                                      :classroom_id => (@current_classroom.nil? ? nil : @current_classroom.id),
+                                                      :topic_id => (@topic.nil? ? nil : @topic.id),
+                                                      :period_id =>(@current_periond.nil? ? nil : @current_classroom_period.id),
+                                                      :teacher_id => (@current_teacher.nil? ? '': @current_teacher.id),
                                                         :function => "preview"), {:class => "update_button button_light_blue", :target => "_blank"} %>
     </div>
   </div>

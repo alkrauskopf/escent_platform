@@ -34,6 +34,7 @@
 
 .guardian_edit_header {
   padding: 0em 0em 1em 0em;
+  font-weight:normal;
   font-size: 16px;
   color:$blue_text;
   text-align:center;
@@ -52,6 +53,7 @@
 }
 .guardian_edit_box {
   padding: 1em 1em 1em 1em;
+  font-weight:normal;
   font-size: 14px;
   color:$dark_text;
 }
@@ -104,4 +106,34 @@
 }
 .update_button {
   font-size:15px;
+}
+.registration_success_box {
+  padding:3em 3em 5em 3em;
+  font-size:15px;
+  font-weight:bold;
+}
+.registration_success_box .instruct{
+  padding:0em 0em 2em 0em;
+  text-align:center;
+  color:$red_text;
+}
+.registration_success_box .instruct2{
+  padding:0em 0em 2em 0em;
+  text-align:center;
+  color:$red_text;
+  font-weight:normal;
+}
+.registration_success_box .instruct .label{
+  font-size:15px;
+  color:$blue_text;
+}
+.registration_success_box .instruct .superuser{
+  padding-left:3em;
+  color:$dark_text;
+  font-style: italic;
+  font-size:16px;
+}
+.registration_success_box .instruct2 .link{
+  color:$blue_text;
+  font-size:18px;
 }

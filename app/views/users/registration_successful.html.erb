@@ -1,19 +1,24 @@
-<div style= "width:700px;">
-    <div class="title_large_red"><br/><br/>
-    	You're Registered
-      <span class="title_large_blue"><%= @user.full_name %></span>
-	 	<br/><br/>
-      <% if @user.superuser? %>
-        You Are A Superuser<br/><br/>
-      <% end %>
-	 </div>
-  <div class="title_large_red">Next Step: Click
-    <span class="title_large_blue" style="text-decoration:underline"><%= link_to "Here", organization_view_path(:organization_id => @user.organization) %></span>
-    And Sign In With User ID:
-    <span class="title_large_blue"><%=@user.email_address%></span>
-    <br/><br/>
+
+  <div class = "registration_success_box">
+      <div class="row instruct">
+        You're Registered
+        <span class="label"><%= @user.full_name %></span>
+        <% if @user.superuser? %>
+          <span class="superuser">You Are A Superuser</span>
+        <% end %>
+     </div>
+    <% if @user.organization.app_enabled?(CoopApp.ifa) %>
+      <div class="row instruct2">
+        Please update your guardian information below.
+      </div>
+    <% end %>
+    <div class="row instruct2">
+      Sign In Above With ID:
+      <span class="link"><%=@user.email_address%></span>
+    </div>
+    <% if @user.organization.app_enabled?(CoopApp.ifa) %>
+      <hr>
+      <%= render :partial =>  "guardians", :locals=>{:student=>@user, :function => 'Add'}%>
+      <hr>
+    <% end %>
   </div>
-	<div class="title_large_red">
-  		Thanks!
-	</div>
-</div>

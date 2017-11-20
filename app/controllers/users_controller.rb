@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 #  before_filter :current_user, :only => [:edit_user_bio, :member_public_profile, :remove_this_organization, :add_this_organization, :toggle_favorite_organization, :add_this_colleague, :remove_this_colleague, :add_this_favorite_resource, :remove_this_favorite_resource, :add_this_favorite_classroom, :toggle_favorite_classroom, :edit_picture, :edit_profile, :change_home_org , :change_password, :edit_talents, :favorite_of]
   protect_from_forgery :except => [ :login]
  
-  before_filter :clear_notification, :except => [:edit]
+  before_filter :clear_notification, :except => [:edit, :registration_successful]
   
   def clear_notification
     flash[:notice] = nil
@@ -16,8 +16,10 @@ class UsersController < ApplicationController
   def register
     if request.get?
       @user = User.new
+      @user_guardian = UserGuardian.new
     else
       @user = User.new params[:user]
+      @user_guardian = UserGuardian.new params[:user_guardian]
       
         if User.find_by_email_address(@user.email_address).nil?
           @user.verification_code = User::generate_password(16)
@@ -26,6 +28,9 @@ class UsersController < ApplicationController
           if valid_captcha?(params[:captcha_id], params[:access][:registration_code])
             if @user.save
      #  Initialize First User as Superuser
+              unless @user.guardians << @user_guardian
+                @user_guardian.errors[:base] << (@user_guardian.errors.full_messages.to_sentence)
+              end
               if User.all.size == 1
                 @user.make_superuser!
               end
@@ -57,7 +62,10 @@ class UsersController < ApplicationController
   
   def registration_successful
     @user = User.find_by_public_id(params[:user])
-    render :layout => 'fsn'
+    @current_organization = @user.organization
+    if @current_user
+      redirect_to organization_view_path(:organization_id => @current_organization)
+    end
   end
 
   def edit
@@ -92,6 +100,7 @@ class UsersController < ApplicationController
     else
       flash[:error] = @current_guardian.errors.full_messages.to_sentence
     end
+    student = User.find_by_id(params[:student_id])
     render :partial =>  "guardians", :locals=>{:student=>student, :function => 'Add'}
   end
 

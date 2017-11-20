@@ -2,9 +2,7 @@
   <div class="col-md-7 ">
     Already Registered? <a href= <%= organization_view_path(:organization_id => @current_organization)%>>Cancel</a>
   </div>
-  <div class="col-md-5">
-    All Fields Are Required
-  </div>
+  <div class="col-md-5"></div>
 </div>
 <div class="row registration_form" >
   <div class="col-md-3 registration_form_label">
@@ -63,6 +61,33 @@
     <%= password_field :user, :password_confirmation, :class => "registration_form_box", :size => "50", :placeholder=>'Confirm Password' %>
   </div>
 </div>
+<div class="row registration_form" >
+  <div class="col-md-3 registration_form_label">
+    Guardian Name:
+  </div>
+  <div class="col-md-4">
+    <%= text_field :user_guardian, :first_name, :placeholder => 'First Name', :class=>"registration_form_box", :size=>"20" %>
+  </div>
+  <div class="col-md-5">
+    <%= text_field :user_guardian, :last_name, :placeholder => 'Last Name', :class=>"registration_form_box", :size=>"30" %>
+  </div>
+</div>
+<div class="row registration_form" >
+  <div class="col-md-3 registration_form_label">
+    Guardian Email:
+  </div>
+  <div class="col-md-9">
+    <%= text_field :user_guardian, :email_address, :placeholder => 'name@example.com', :class=>"registration_form_box", :size=>"50" %>
+  </div>
+</div>
+<div class="row registration_form" >
+  <div class="col-md-3 registration_form_label">
+    Guardian Phone:
+  </div>
+  <div class="col-md-9">
+    <%= text_field :user_guardian, :phone, :placeholder => 'xxx-xxx-xxxx', :class=>"registration_form_box", :size=>"15" %>
+  </div>
+</div>
 <input type="hidden" name="user[country]" value="US" />
 <% captcha = captcha_pick %>
 <% if !captcha.nil? %>
@@ -71,7 +96,12 @@
       <%= image_tag captcha.image(:thumb) %>
     </div>
     <div class="col-md-9 ">
-      <%= text_field :access, :registration_code, :class=>"registration_form_box", :size=>"20", :placeholder=>"What's in the picture?" %>
+      <div class="row">
+        <%= text_field :access, :registration_code, :class=>"registration_form_box", :size=>"15" %>
+      </div>
+      <div class="row registration_captcha_prompt">
+        What's in the picture?
+      </div>
     </div>
   </div>
   <input type="hidden" name="captcha_id" value= <%= captcha.id %> />

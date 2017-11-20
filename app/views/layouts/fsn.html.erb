@@ -6,8 +6,9 @@
         <meta name="keywords" content="" />
       <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
       <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-        <%= stylesheet_link_tag "screen" %>
-        <%= stylesheet_link_tag "fsn" %>
+      <%= stylesheet_link_tag "screen" %>
+      <%= stylesheet_link_tag "fsn" %>
+      <%= stylesheet_link_tag 'user/user' %>
         <%= stylesheet_link_tag 'fsn/jquery-ui-1.7.1.custom.css' %>
         <%= javascript_include_tag 'prototype' %>
         <%= javascript_include_tag 'jquery-1.3.2.min.js' %>
@@ -34,7 +35,7 @@
             }
 
       #ep_bottom {
-        margin:19em 3em 0em 0em;
+        margin:27em 3em 0em 0em;
         background: url(<%= asset_path('main_container_bottom_secondary.jpg') %>) top left no-repeat;
         height: 7em;
 			    }

@@ -132,6 +132,8 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
 
   def plan_show_form
     current_subject
+    @current_student = @current_user
+    plan_benchmarks
     @user_plan = @current_user.ifa_plan_subject(@current_subject)
     render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_user, :subject => @current_subject, :show_form => true}
   end

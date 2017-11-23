@@ -1,5 +1,5 @@
 <div id="manage_plan_<%=student.id%><%=subject.public_id%>">
-    <% if !show_form %>
+    <% if true || !show_form %>
       <div  class="ifa_subject_plan_box ">
         <div class= "precision_prep_plan_panel">
           <div class="col-md-3 ifa_subject_plan_student">
@@ -16,7 +16,7 @@
           <%= render :partial => "/ifa/ifa_plan/student_plan_guardian", :locals=>{} %>
         </div>
         <div class="ifa_subject_plan_content">
-          <%= render :partial =>  "/ifa/ifa_plan/show_plan", :locals=>{:plan=> student_plan, :subject => subject, :student=>student}%>
+          <%#= render :partial =>  "/ifa/ifa_plan/show_plan", :locals=>{:plan=> student_plan, :subject => subject, :student=>student}%>
         </div>
         <%= render :partial =>  "/ifa/ifa_plan/teacher_remarks", :locals=>{:plan=> student_plan, :remarks => student_plan.remarks, :show_form=>false} %>
 

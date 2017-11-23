@@ -18,19 +18,20 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   def student_plan
     current_subject
     current_student
-    @current_plan = @current_student.ifa_plans.for_subject(@current_subject).empty? ? nil : @current_student.ifa_plans.for_subject(@current_subject).first
+    @current_plan = @current_student.ifa_plan_for(@current_subject)
     plan_benchmarks
     @show_db = 'Show'
     @show_gd = 'Show'
     if @current_plan.nil?
       @current_plan = IfaPlan.new
-      @show = 'Create'
-    else
-      @show = 'Yes'
-      if @current_plan.milestones.empty?
-        create_student_dashboard(@current_student, @current_subject, @current_standard)
-        @show_db = 'Hide'
-      end
+      @current_plan.act_subject_id = @current_subject.id
+      @current_student.ifa_plans << @current_plan
+      @current_plan = @current_student.ifa_plan_for(@current_subject)
+    end
+    @show = 'Yes'
+    if @current_plan.milestones.empty?
+      create_student_dashboard(@current_student, @current_subject, @current_standard)
+      @show_db = 'Hide'
     end
   end
 
@@ -125,6 +126,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       PrecisionPrepMailer.plan_created_student(@current_student, @current_plan, request.host_with_port).deliver
       PrecisionPrepMailer.plan_created_guardian(@current_student, @current_plan, request.host_with_port).deliver
     end
+    plan_benchmarks
     render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @current_student.ifa_plan_subject(@current_subject), :student => @current_student, :subject => @current_subject, :show_form => false}
   end
 
@@ -137,6 +139,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   def plan_update_cancel
     current_subject
     current_student
+    plan_benchmarks
     @user_plan = @current_student.ifa_plan_subject(@current_subject) rescue nil
     render :partial => "/ifa/ifa_plan/manage_subj_plan", :locals=>{:student_plan => @user_plan, :student => @current_student, :subject => @current_subject, :show_form => @current_user.show_ifa_plan_form?(@current_subject)}
   end

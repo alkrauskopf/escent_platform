@@ -66,6 +66,14 @@ class IfaPlan < ActiveRecord::Base
     self.ifa_plan_milestones
   end
 
+  def milestone_for_cell(level,strand)
+    self.ifa_plan_milestones.for_range_strand(level, strand).empty? ? nil : self.ifa_plan_milestones.for_range_strand(level, strand).last
+  end
+
+  def evidences_for_cell(level,strand)
+    self.milestone_for_cell(level,strand).nil? ? []: self.milestone_for_cell(level,strand).evidences
+  end
+
   def evidence_list
     self.milestones.map{|m| m.evidences}.flatten
   end

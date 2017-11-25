@@ -12,12 +12,15 @@
                                                                                           :ifa_plan_milestone_evidence_id => @current_evidence.id, :function => function), :html => {:multipart => true}) do |form| -%>
       <div class="row ifa_milestone_evidence_edit_box">
         <div class="col-md-2 name">
-          Dear <%= @current_user.first_name %>:
+          <%= @current_user.first_name %>:
         </div>
         <div class="col-md-10 ">
-          Upload a Picture or PDF evidence of your <%= milestone_label %> growth.<br/>
-          Or, Add Text, Links, and Video Streams in the Text-box.<br/>
-          Then, close this browser window when you're done.
+          As evidence of your <%= milestone_label %> mastery:<br/>
+          <ul>
+            <li>-  Upload Picture or PDF as evidence, or</li>
+            <li>-  Add Text, Links, or Video Streams in the Text-box</li>
+            <li>-  Close this browser window when you're done</li>
+          </ul>
         </div>
         <div class="col-md-1"></div>
       </div>
@@ -33,7 +36,7 @@
         <div class="col-md-2">
           Explanation:
         </div>
-        <% placeholder = 'Please explain why this is evidence of your ' + milestone_label + ' growth.' %>
+        <% placeholder = 'Why is this evidence of your ' + milestone_label + ' mastery?' %>
         <div class="col-md-9">
           <%= text_area :ifa_plan_milestone_evidence, :explanation, :rows => 5, :cols => 70, :placeholder => placeholder, :value => @current_evidence.explanation  %>
         </div>

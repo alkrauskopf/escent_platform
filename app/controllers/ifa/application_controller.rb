@@ -163,14 +163,16 @@ class Ifa::ApplicationController < ApplicationController
 
   def dashboard_milestone_links(user, subject, standard)
     @milestone_links = {}
-    plan = user.ifa_plans.for_subject(subject).empty? ? nil : user.ifa_plans.for_subject(subject).first
+    plan = user.ifa_plan_for(subject)
     @milestone_links['plan_id'] = plan.nil? ? 0 : plan.id
     if !subject.nil? && !plan.nil? && @cell_total
       standard.act_score_ranges.active.for_subject(subject).each do |level|
         standard.act_standards.active.for_subject(subject).each do |strand|
           hash_key = level.id.to_s + strand.id.to_s
           if (user == @current_user && @cell_total[hash_key] && @cell_total[hash_key] > 0)
-            @milestone_links[hash_key] = plan.milestones.open_for_range_strand(level, strand).empty? ? 'Add' : nil
+            @milestone_links[hash_key] = plan.milestones.open_for_range_strand(level, strand).empty? ? 'Add Milestone' : 'Evidence'
+            @milestone_links[hash_key + 'milestone'] = plan.milestone_for_cell(level,strand)
+            @milestone_links[hash_key + 'evidence'] = plan.evidences_for_cell(level,strand).size.to_s
           end
         end
       end

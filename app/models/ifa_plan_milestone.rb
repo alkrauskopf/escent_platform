@@ -42,6 +42,10 @@ class IfaPlanMilestone < ActiveRecord::Base
     where('act_score_range_id = ? && act_standard_id = ? && is_achieved', range.id, strand.id)
   end
 
+  def self.for_range_strand(range, strand)
+    where('act_score_range_id = ? && act_standard_id = ?', range.id, strand.id)
+  end
+
   def self.by_last_updated
     order('updated_at DESC')
   end

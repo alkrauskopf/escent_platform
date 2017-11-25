@@ -60,30 +60,35 @@
                       </div>
                     </div>
                   <% end %>
-                    <a id="b_<%= dashboard.public_id %><%= ml.id.to_s %><%= s.id.to_s %>" href="">
-                      <%#= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s + '<br/>' +
-                          number_with_precision(cell_pcts[hash_key(ml,s)], :precision => 0) + '%').html_safe : ' _ '%>
-                      <%= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s).html_safe : ' _ '%>
-                    </a>
-                    <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + dashboard.public_id + ml.id.to_s + s.id.to_s),
-                                                                                               :titl=> (mastery_label(ml, false) + " | " + s.name),
-                                                                                               :blue=> 'Benchmark',
-                                                                                               :body=> @cell_benchmarks[hash_key(ml,s)], :height=> 400, :width=> 650 } %>
-                      <% if @milestone_links && !@milestone_links[hash_key(ml,s)].nil?%>
-                      <% header_row = ((!dashboard.nil? && dashboard.user) ? dashboard.user.full_name : 'Unknown User') + ' | ' +
-                          (dashboard.subject ? dashboard.subject.name : 'Unknown Subject') + ' | ' +
-                          @milestone_links[hash_key(ml,s)] + ' Milestone' %>
+                  <a id="b_<%= dashboard.public_id %><%= ml.id.to_s %><%= s.id.to_s %>" href="">
+                    <%#= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s + '<br/>' +
+                        number_with_precision(cell_pcts[hash_key(ml,s)], :precision => 0) + '%').html_safe : ' _ '%>
+                    <%= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s).html_safe : ' _ '%>
+                  </a>
+                  <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + dashboard.public_id + ml.id.to_s + s.id.to_s),
+                                                                                             :titl=> (mastery_label(ml, false) + " | " + s.name),
+                                                                                             :blue=> 'Benchmark',
+                                                                                             :body=> @cell_benchmarks[hash_key(ml,s)], :height=> 400, :width=> 650 } %>
+                  <% if @milestone_links && !@milestone_links[hash_key(ml,s)].nil?%>
+                    <% header_row = ((!dashboard.nil? && dashboard.user) ? dashboard.user.full_name : 'Unknown User') + ' | ' +
+                    (dashboard.subject ? dashboard.subject.name : 'Unknown Subject') + ' | ' +
+                    @milestone_links[hash_key(ml,s)] %>
                     <div class=" dashboard_milestone_link">
-                      <a id="m_<%= dashboard.public_id %><%= ml.id.to_s %><%= s.id.to_s %>" href="">
-                        <%= @milestone_links[hash_key(ml,s)] %> Milestone
-                      </a>
-                      <%= render :partial => "/ifa/ifa_plan/ifa_milestone_box", :locals => {:id => ('m_' + dashboard.public_id + ml.id.to_s + s.id.to_s),
-                                                                                            :header_row => header_row,
-                                                                                            :titl=> (s.name),
-                                                                                            :function=> @milestone_links[hash_key(ml,s)],
-                                                                                            :plan_id => @milestone_links['plan_id'], :strand => s, :mastery=>ml, :standard=> @current_standard,
-                                                                                            :benchmarks=> @cell_benchmarks[hash_key(ml,s)], :suggestions=> @cell_suggestions[hash_key(ml,s)],
-                                                                                            :height=> 600, :width=> 850 } %>
+                      <% if @milestone_links[hash_key(ml,s)] == 'Add Milestone'%>
+                        <a class="button_blue" id="m_<%= dashboard.public_id %><%= ml.id.to_s %><%= s.id.to_s %>" href="">
+                          <%= @milestone_links[hash_key(ml,s)] %>
+                        </a>
+                        <%= render :partial => "/ifa/ifa_plan/ifa_milestone_box", :locals => {:id => ('m_' + dashboard.public_id + ml.id.to_s + s.id.to_s),
+                                                                                              :header_row => header_row,
+                                                                                              :titl=> (s.name),
+                                                                                              :function=> @milestone_links[hash_key(ml,s)],
+                                                                                              :plan_id => @milestone_links['plan_id'], :strand => s, :mastery=>ml, :standard=> @current_standard,
+                                                                                              :benchmarks=> @cell_benchmarks[hash_key(ml,s)], :suggestions=> @cell_suggestions[hash_key(ml,s)],
+                                                                                              :height=> 600, :width=> 850 } %>
+                        <% elsif  !@milestone_links[hash_key(ml,s) + 'milestone'].nil?%>
+                          <% link_label = @milestone_links[hash_key(ml,s)] + ' (' + @milestone_links[hash_key(ml,s) + 'evidence'] + ')'%>
+                        <%= link_to link_label, ifa_milestone_evidence_edit_path(:organization_id => @current_organization, :ifa_plan_milestone_id => @milestone_links[hash_key(ml,s) + 'milestone'].id), {:class=>'button_gray', :target=> '_blank'} %>
+                      <% end %>
                     </div>
                   <% end %>
                 </td>

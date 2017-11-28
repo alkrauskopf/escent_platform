@@ -474,7 +474,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
   end
 
   def new_milestone?
-    params[:function] && (params[:function] == 'New' || params[:function] == 'Add')
+    params[:function] && (params[:function] == 'New' || params[:function] == 'Add' || params[:function] == 'Add Milestone')
   end
 
   def milestone_function
@@ -582,7 +582,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       end
     end
     students.each do |student|
-      milestones = student.ifa_plans.for_subject(subject).empty? ? [] : (db_type == 'M' ? student.ifa_plans.for_subject(subject).first.milestones.not_achieved : student.ifa_plans.for_subject(subject).first.milestones.achieved)
+      milestones = student.ifa_plan_for(subject).nil? ? [] : (db_type == 'M' ? student.ifa_plan_for(subject).milestones.not_achieved : student.ifa_plan_for(subject).milestones.achieved)
       if milestones.empty?
         @plan_dashboard['none']<<student
       else

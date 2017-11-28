@@ -1,6 +1,6 @@
 
 <% ActSubject.active_plannable.each do |subject| %>
-  <% if student.ifa_plans.for_subject(subject).empty? %>
+  <% if student.ifa_plan_for(subject).nil? %>
     <% button_label = 'Create Plan' %>
   <% else %>
     <% button_label = 'View Plan' %>
@@ -25,8 +25,8 @@
       <div class="col-md-9 left_panel_label">
        <span class="<%=button_class%>"> <%= subject.name %></span>
           <div class="sumry">
-            <% if !student.ifa_plans.for_subject(subject).empty? %>
-              <% plan = student.ifa_plans.for_subject(subject).first %>
+            <% if !student.ifa_plan_for(subject).nil? %>
+              <% plan = student.ifa_plan_for(subject) %>
               (<%= pluralize(plan.milestones.achieved.size, ' Achieved Milestone')%> |
               <%= plan.evidence_list.size %>&nbsp;Evidence |
               <%= pluralize(plan.remarks.size, ' Remark') %>)

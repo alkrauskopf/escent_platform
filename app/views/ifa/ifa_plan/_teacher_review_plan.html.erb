@@ -1,6 +1,6 @@
 <div id="review_student_plan_<%=subject.id%><%=student.id%>" >
   <div class="teacher_review_student_plan">
-    <% student_plan = student.ifa_plan_subject(subject) rescue nil%>
+    <% student_plan = student.ifa_plan_for(subject)%>
     <div class="row">
       <div class="col-md-3 name">
         <%= student.last_name_first %>

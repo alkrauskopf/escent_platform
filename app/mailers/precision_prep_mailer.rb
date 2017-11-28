@@ -100,7 +100,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @recipient_list = org.ifa_admin_email_list
     @subject_line = user.last_name + ' Precision Prep Inquiry'
     @ep_host = ep_host
-    @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'SAT/ACT Prep Inquiry<noreply@PrecisionSchoolImprovement.com>'
     unless @recipient_list == ''
       mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
     end
@@ -114,7 +114,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @recipient_list = org.ifa_admin_email_list
     @subject_line = guardian.full_name + ' Precision Prep Inquiry'
     @ep_host = ep_host
-    @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'SAT/ACT Prep Inquiry<noreply@PrecisionSchoolImprovement.com>'
     unless @recipient_list == ''
       mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
     end

@@ -1370,7 +1370,7 @@ class User < ActiveRecord::Base
 #  IFA methods
 #
   def ifa_plan_subject(subject)
-    self.ifa_plans.for_subject(subject).first
+    self.ifa_plan_for(subject)
   end
 
   def show_ifa_plan_form?(subject)

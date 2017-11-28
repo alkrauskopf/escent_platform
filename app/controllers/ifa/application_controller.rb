@@ -351,15 +351,30 @@ class Ifa::ApplicationController < ApplicationController
 
   def dashboard_plan_markers(users, subject, standard)
     @plan_markers = {}
+    @plan_markers['w_total']=0
+    @plan_markers['a_total']=0
     if !users.empty? && !subject.nil?
+      standard.act_standards.active.for_subject(subject).each do |strand|
+        @plan_markers['w_tot_s' + strand.id.to_s]=0
+        @plan_markers['a_tot_s' + strand.id.to_s]=0
+      end
       standard.act_score_ranges.active.for_subject(subject).each do |level|
+        @plan_markers['w_tot_l' + level.id.to_s]=0
+        @plan_markers['a_tot_l' + level.id.to_s]=0
         standard.act_standards.active.for_subject(subject).each do |strand|
           hash_key = level.id.to_s + strand.id.to_s
           @plan_markers['w'+hash_key] = 0
           @plan_markers['a'+hash_key] = 0
-          users.map{ |u| (u.ifa_plans.empty? ? []: u.ifa_plans.for_subject(subject))}.flatten.compact.each do |plan|
+         # users.map{ |u| (u.ifa_plans.empty? ? []: u.ifa_plans.for_subject(subject))}.flatten.compact.each do |plan|
+          users.map{ |u| (u.ifa_plan_for(subject).nil? ? nil : u.ifa_plan_for(subject))}.flatten.compact.each do |plan|
             @plan_markers['w'+hash_key] += plan.milestones.open_for_range_strand(level, strand).size
             @plan_markers['a'+hash_key] += plan.milestones.achieved_for_range_strand(level, strand).size
+            @plan_markers['w_tot_s' + strand.id.to_s] += plan.milestones.open_for_range_strand(level, strand).size
+            @plan_markers['a_tot_s' + strand.id.to_s] += plan.milestones.achieved_for_range_strand(level, strand).size
+            @plan_markers['w_tot_l' + level.id.to_s] += plan.milestones.open_for_range_strand(level, strand).size
+            @plan_markers['a_tot_l' + level.id.to_s] += plan.milestones.achieved_for_range_strand(level, strand).size
+            @plan_markers['w_total'] += plan.milestones.open_for_range_strand(level, strand).size
+            @plan_markers['a_total'] += plan.milestones.achieved_for_range_strand(level, strand).size
           end
         end
       end

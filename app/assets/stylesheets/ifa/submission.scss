@@ -6,14 +6,14 @@
   @extend .glyphicon;
   @extend .glyphicon-star;
   color:$gold_star;
-  padding-right:0em;
+  padding:0em 0em 0em 0em;
   font-size:16px;
 }
 .wrench_work {
   @extend .glyphicon;
   @extend .glyphicon-wrench;
   color:$blue_wrench;
-  padding-right:0em;
+  padding:0em 0em 0em 0em;
   font-size:16px;
 }
 .correct_answer {
@@ -913,12 +913,13 @@
 .dashboard_milestone {
   padding: 0em 0em 0em 0em;
   text-align:left;
+  vertical-align:top;
 }
 
 .dashboard_milestone .multiplier {
-  padding: 0em 0em 0em 1em;
+  padding: 0em 0em 0em 1.5em;
   vertical-align:top;
-  font-size: 10px;
+  font-size: 12px;
   color:$dark_text;
 }
 

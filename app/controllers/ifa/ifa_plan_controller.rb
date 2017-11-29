@@ -173,20 +173,13 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     current_range
     current_milestone
     set_plan
-    if new_milestone?
-      @current_milestone = IfaPlanMilestone.new
-      @current_milestone.act_score_range_id = @current_range.id
-      @current_milestone.act_standard_id = @current_strand.id
-      @current_milestone.description = params[:description]
-      @current_milestone.achieve_date = Time.now
-      @user_plan.milestones << @current_milestone
-      PrecisionPrepMailer.milestone_created_student(@current_user, @current_milestone, request.host_with_port).deliver
-      PrecisionPrepMailer.milestone_created_guardian(@current_user, @current_milestone, request.host_with_port).deliver
-      if !@user_plan.relevant_teachers(@current_organization).empty?
-        PrecisionPrepMailer.milestone_created_teacher(@current_user, @user_plan.relevant_teachers(@current_organization), @current_milestone, request.host_with_port).deliver
+    if @current_milestone
+      prev_teacher_id = @current_milestone.teacher_id.nil? ? '0' : @current_milestone.teacher_id.to_s
+      if @current_milestone.update_attributes(:description=> params[:description], :teacher_id => params[:teacher_id]=='0' ? nil : params[:teacher_id].to_i)
+        if (prev_teacher_id != params[:teacher_id]) && (params[:teacher_id] != '0')
+          PrecisionPrepMailer.milestone_new_teacher(@current_user, new_milestone_teacher, @current_milestone, request.host_with_port).deliver
+        end
       end
-    elsif @current_milestone
-      @current_milestone.update_attributes(:description=> params[:description])
     end
     set_plan
     plan_benchmarks
@@ -203,11 +196,16 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       @current_milestone.act_score_range_id = @current_range.id
       @current_milestone.act_standard_id = @current_strand.id
       @current_milestone.description = params[:ifa_milestone][:description]
+      @current_milestone.teacher_id = params[:ifa_milestone][:teacher_id] == '0' ? nil : params[:ifa_milestone][:teacher_id].to_i
       @current_milestone.achieve_date = Time.now
       @user_plan.milestones << @current_milestone
       PrecisionPrepMailer.milestone_created_student(@current_user, @current_milestone, request.host_with_port).deliver
       PrecisionPrepMailer.milestone_created_guardian(@current_user, @current_milestone, request.host_with_port).deliver
-      PrecisionPrepMailer.milestone_created_teacher(@current_user, @user_plan.relevant_teachers(@current_organization), @current_milestone, request.host_with_port).deliver
+      if @current_milestone.teacher
+        PrecisionPrepMailer.milestone_created_teacher(@current_user, @current_milestone.teacher, @current_milestone, request.host_with_port).deliver
+      else
+        PrecisionPrepMailer.milestone_created_teacher_group(@current_user, @user_plan.relevant_teachers(@current_organization), @current_milestone, request.host_with_port).deliver
+      end
     end
     redirect_to ifa_plan_student_path(:organization_id=>@current_organization, :student_id => @current_user.id,
                                       :act_subject_id => @current_strand.act_subject.id)
@@ -479,6 +477,10 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
 
   def milestone_function
     params[:function]
+  end
+
+  def new_milestone_teacher
+    User.find_by_id(params[:teacher_id]) rescue nil
   end
 
   def set_subject

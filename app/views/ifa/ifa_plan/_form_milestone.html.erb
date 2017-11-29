@@ -96,7 +96,7 @@
           <div class="col-md-2">
             <div class="row ifa_milestone_edit_button">
               <div class="button_blue" id="milestone_update<%=milestone_id%>">
-                <%= function + ' Milestone' %>
+                <%= function %>
               </div>
             </div>
             <div class="row ifa_milestone_edit_button">
@@ -106,8 +106,16 @@
             </div>
           </div>
           <div class="col-md-8">
-            <%= text_area :description, milestone_id, :rows=>10, :cols => 70, :value => milestone.description,
-                          :placeholder => 'Action Steps' %>
+            <div class="row ifa_milestone_teacher_select">
+              <div class="col-md-2 ifa_milestone_teacher_select_label">Teacher:</div>
+              <div>
+                <%=  select(:teacher_id, milestone_id,   teachers.collect{|t| [t.last_name, t.id]}<<["Not Listed", 0], :selected => milestone.teacher.nil? ? 0 : milestone.teacher_id) %>
+              </div>
+            </div>
+            <div class="row">
+              <%= text_area :description, milestone_id, :rows=>10, :cols => 70, :value => milestone.description,
+                            :placeholder => 'Action Steps' %>
+            </div>
           </div>
         <div class='col-md-2'>
         </div>
@@ -116,9 +124,10 @@
         jQ(document).ready(function() {
           jQ("#milestone_update<%=milestone_id%>").click(function(){
             var description = jQ('#description_<%=milestone_id%>').val();
+            var teacher_id = jQ('#teacher_id_<%=milestone_id%>').val();
             var url = "<%= ifa_milestone_update_url(:organization_id => @current_organization, :ifa_plan_milestone_id => (milestone.id.nil? ? 0 : milestone.id),
                         :act_score_range_id => @current_range.id, :ifa_plan_id => plan.id, :act_standard_id => strand.id, :function => function) %>";
-            jQ.get(url, {'description':description}, function(data) {
+            jQ.get(url, {'description':description, 'teacher_id':teacher_id}, function(data) {
               jQ("#strand_milestones<%=strand.public_id%>").html(data);
               jQ("#strand_milestones<%=strand.public_id%>").show();
             });

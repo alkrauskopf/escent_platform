@@ -9,7 +9,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @subject_line = @sender.full_name + ' Submitted An Assessment'
     @ep_host = ep_host
     @review_msg = must_review ? 'Your Review Of The Assessment Is Required.' : 'Assessment Results Have Been Automatically Finalized.'
-    @from = 'SAT/ACT_prep_assessment<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'SAT/ACT Prep Assessment<noreply@PrecisionSchoolImprovement.com>'
     unless @recipients.blank? || @sender.blank?
       mail(to: @recipient, subject: @subject_line, from: @from, date: DateTime.now)
     end
@@ -23,7 +23,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @recipient_list = user.preferred_email
     @subject_line = 'SAT/ACT Prep Plan Created'
     @ep_host = ep_host
-    @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'SAT/ACT Prep Plan<noreply@PrecisionSchoolImprovement.com>'
     if !@recipient_list.nil? && !@recipient_list.empty?
       mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
     end
@@ -37,7 +37,7 @@ class PrecisionPrepMailer < ActionMailer::Base
       plan_info(plan)
       @subject_line = 'SAT/ACT Prep Plan Created'
       @ep_host = ep_host
-      @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+      @from = 'SAT/ACT Prep Plan<noreply@PrecisionSchoolImprovement.com>'
       user.guardians.each do |guardian|
         guardian_info(guardian)
         mail(to:guardian.email_address , subject: @subject_line, from: @from, date: DateTime.now)
@@ -54,7 +54,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @recipient_list = user.preferred_email
     @subject_line = @school_name + ' SAT/ACT Prep Milestone Notification'
     @ep_host = ep_host
-    @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'SAT/ACT Prep Plan<noreply@PrecisionSchoolImprovement.com>'
     if !@recipient_list.nil? && !@recipient_list.empty?
       mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
     end
@@ -67,7 +67,7 @@ class PrecisionPrepMailer < ActionMailer::Base
       milestone_info(milestone)
       @subject_line = @school_name + ' SAT/ACT Milestone: Guardian Notification'
       @ep_host = ep_host
-      @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+      @from = 'SAT/ACT Prep Plan<noreply@PrecisionSchoolImprovement.com>'
       user.guardians.each do |guardian|
         guardian_info(guardian)
         mail(to:guardian.email_address , subject: @subject_line, from: @from, date: DateTime.now)
@@ -76,7 +76,35 @@ class PrecisionPrepMailer < ActionMailer::Base
     end
   end
 
-  def milestone_created_teacher(user, teachers, milestone, ep_host)
+  def milestone_created_teacher(user, teacher, milestone, ep_host)
+    if !teacher.nil?
+      student_info(user)
+      org_info(user.organization)
+      milestone_info(milestone)
+      guardian_cc(user)
+      plan_info(@plan)
+      @subject_line = user.last_name + ' Milestone Notification'
+      @ep_host = ep_host
+      @from = 'SAT/ACT Prep Plan<noreply@PrecisionSchoolImprovement.com>'
+      mail(to:teacher.preferred_email , subject: @subject_line, from: @from, date: DateTime.now)
+    end
+  end
+
+  def milestone_new_teacher(user, teacher, milestone, ep_host)
+    if !teacher.nil?
+      student_info(user)
+      org_info(user.organization)
+      milestone_info(milestone)
+      guardian_cc(user)
+      plan_info(@plan)
+      @subject_line = user.last_name + ' Milestone Notification'
+      @ep_host = ep_host
+      @from = 'SAT/ACT Prep Plan<noreply@PrecisionSchoolImprovement.com>'
+      mail(to:teacher.preferred_email , subject: @subject_line, from: @from, date: DateTime.now)
+    end
+  end
+
+  def milestone_created_teacher_group(user, teachers, milestone, ep_host)
     if !teachers.empty?
       student_info(user)
       org_info(user.organization)
@@ -84,9 +112,9 @@ class PrecisionPrepMailer < ActionMailer::Base
       guardian_cc(user)
       plan_info(@plan)
       @recipients = User.preferred_email_list(teachers)
-      @subject_line = user.last_name + ' Learning Milestone Notification'
+      @subject_line = user.last_name + ' Milestone Notification'
       @ep_host = ep_host
-      @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+      @from = 'SAT/ACT Prep Plan<noreply@PrecisionSchoolImprovement.com>'
       unless @recipients.blank?
         mail(to:@recipients , subject: @subject_line, from: @from, date: DateTime.now)
       end
@@ -128,7 +156,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @recipient_list = @guardian_email + ', ' + @student_email
     @subject_line = @student.last_name + ' Student Guardian Identified'
     @ep_host = ep_host
-    @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'SAT/ACT Prep Plan<noreply@PrecisionSchoolImprovement.com>'
     unless @recipient_list == ''
       mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
       guardian.increment_notify
@@ -145,7 +173,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @recipient_list = student.preferred_email
     @subject_line = @school_name + ' SAT/ACT Prep Teacher Remark'
     @ep_host = ep_host
-    @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+    @from = 'SAT/ACT Prep Plan<noreply@PrecisionSchoolImprovement.com>'
     if !@recipient_list.nil? && !@recipient_list.empty?
       mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
     end
@@ -161,7 +189,7 @@ class PrecisionPrepMailer < ActionMailer::Base
       @remark = remark
       @subject_line = @school_name + ' SAT/ACT Prep Teacher Remark'
       @ep_host = ep_host
-      @from = 'SAT/ACT_prep_plan<noreply@PrecisionSchoolImprovement.com>'
+      @from = 'SAT/ACT Prep Plan<noreply@PrecisionSchoolImprovement.com>'
       student.guardians.each do |guardian|
         guardian_info(guardian)
         mail(to:guardian.email_address , subject: @subject_line, from: @from, date: DateTime.now)
@@ -217,6 +245,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @act_subject = @plan.subject_area
     @strand_name = milestone.strand.name.titleize
     @mastery_level = milestone.range.range
+    @teacher_name = milestone.teacher.nil? ? nil : milestone.teacher.full_name
   end
 
   def guardian_cc(user)

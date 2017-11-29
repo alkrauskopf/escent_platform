@@ -45,7 +45,7 @@
     <div class="precision_milestone_panel">
       <% if milestone_form != 'No' && plan.updateable?(@current_user) %>
         <div class="row ">
-          <%= render :partial =>  "/ifa/ifa_plan/form_milestone", :locals=>{:milestone => @current_milestone, :function => milestone_form, :plan => plan, :strand => strand, :ranges => ranges}%>
+          <%= render :partial =>  "/ifa/ifa_plan/form_milestone", :locals=>{:milestone => @current_milestone, :function => milestone_form, :plan => plan, :teachers => plan.relevant_teachers(@current_organization), :strand => strand, :ranges => ranges}%>
         </div>
       <% else %>
         <% plan.strand_milestones(strand).each do |milestone| %>

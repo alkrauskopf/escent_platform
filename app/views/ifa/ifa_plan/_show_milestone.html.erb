@@ -76,16 +76,21 @@
       <% if !milestone.achieved? && milestone.plan.updateable?(@current_user)%>
         <div class="ifa_milestone_show_button">
           <span class="button_blue" id="milestone_show_change<%=milestone.id%>">
-            <%= 'Change Milestone' %>
+            <%= 'Change' %>
           </span>
         </div>
       <% end %>
     </div>
     <div class="col-md-8 ifa_milestone_show_label">
-      <div class="ifa_plan_text">
-        <%= simple_format milestone.description.nil? ? 'Not Defined' : milestone.description%>
+      <div class="row ifa_plan_text">
+        <div >
+          <%= simple_format milestone.description.nil? ? 'Not Defined' : milestone.description%>
+        </div>
+        <div class="ifa_plan_teacher">
+          Teacher:&nbsp;<%= milestone.teacher.nil? ? 'Not Identified' : milestone.teacher.last_name %>
+        </div>
       </div>
-      </div>
+    </div>
   </div>
   <div class="ifa_milestone_show_evidence">
     <div class="row ifa_milestone_show_evidence_row ">

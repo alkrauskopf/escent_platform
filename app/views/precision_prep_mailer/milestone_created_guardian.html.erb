@@ -1,11 +1,14 @@
 Dear <%= @guardian_first_name %>:
 <br/><br/>
-<%= @student_first_name %> has created a new SAT/ACT personal growth plan milestone.
-<br />
+<%= @student_first_name %> has created a new SAT/ACT Prep milestone.
+<br/>
 <br/>
 Subject Area => <strong><%= @subject_area %></strong><br/><br/>
 Knowledge Strand => <strong><%= @strand_name %></strong><br/><br/>
 Mastery Level => <strong><%= @mastery_level %></strong><br/><br/>
+<% if !@teacher_name.nil? %>
+  Teacher => <strong><%= @teacher_name %></strong><br/><br/>
+<% end %>
 <span style="text-decoration:underline; font-size:16px;"><%= @student_first_name %> Identified The Following Action Plan</span>
 <ul>
   <span style="font-style:italic; font-size:16px;"><%=simple_format (@milestone.description)%></span>

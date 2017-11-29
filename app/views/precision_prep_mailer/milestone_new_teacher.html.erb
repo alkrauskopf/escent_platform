@@ -1,5 +1,4 @@
-<strong><%= @student_full_name %></strong> has created a new SAT/ACT prep plan milestone and identified you
-as the overseeing teacher:<br/><br/>
+<strong><%= @student_full_name %></strong> has identified you as the overseeing teacher an SAT/ACT prep milestone:<br/><br/>
 Please <span style="text-decoration:underline"><%= link_to "Click Here", ifa_plan_student_url(:organization_id => @organization, :act_subject_id => @act_subject.id, :student_id => @student.id, :host => @ep_host )%></span> to
  review the milestone and provide appropriate guidance.<br/><br/>
 Subject Area => <strong><%= @subject_area %></strong><br/><br/>
@@ -10,7 +9,6 @@ Mastery Level=> <strong><%= @mastery_level %></strong><br/><br/>
   <span style="font-style:italic; font-size:16px;"><%=simple_format (@milestone.description)%></span>
 </ul>
 <br/>
-<%=pluralize(@guardian_count, ' Guardian')%> Notified: <%= @guardian_cc %><br/><br/>
 To date, <%= @student_first_name %> has achieved <strong><%=@miles_achieved %>-of-<%=pluralize(@miles_defined, ' milestone')%></strong> for
 <strong><%= @subject_area %></strong>.
 <br/><br/>

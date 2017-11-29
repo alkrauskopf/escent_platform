@@ -1,11 +1,12 @@
 class IfaPlanMilestone < ActiveRecord::Base
   include PublicPersona
 
-  attr_accessible :act_score_range_id, :act_standard_id, :description, :ifa_plan_id, :is_achieved, :evidence, :achieve_date
+  attr_accessible :act_score_range_id, :act_standard_id, :description, :ifa_plan_id, :is_achieved, :evidence, :achieve_date, :teacher_id
 
   belongs_to :ifa_plan
   belongs_to :act_standard
   belongs_to :act_score_range
+  belongs_to :teacher, :class_name=> 'User', :foreign_key => :teacher_id
   has_one :act_subject, :through => :ifa_plan
   has_one :student, :through => :ifa_plan, :source=>:user
   has_many :evidences, :class_name => IfaPlanMilestoneEvidence

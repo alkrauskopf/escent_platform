@@ -1,7 +1,6 @@
-<strong><%= @student_full_name %></strong> has created a new SAT/ACT prep plan milestone and identified you
-as the overseeing teacher:<br/><br/>
-Please <span style="text-decoration:underline"><%= link_to "Click Here", ifa_plan_student_url(:organization_id => @organization, :act_subject_id => @act_subject.id, :student_id => @student.id, :host => @ep_host )%></span> to
- review the milestone and provide appropriate guidance.<br/><br/>
+<strong><%= @student_full_name %></strong> has created a new SAT/ACT prep plan milestone.<br/>
+<br />
+Please <span style="text-decoration:underline"><%= link_to "Click Here", ifa_plan_student_url(:organization_id => @organization, :act_subject_id => @act_subject.id, :student_id => @student.id, :host => @ep_host )%></span> to review plan and provide feedback if you are responsible for <%= @student_first_name %>:<br/><br/>
 Subject Area => <strong><%= @subject_area %></strong><br/><br/>
 Knowledge Strand=> <strong><%= @strand_name %></strong><br/><br/>
 Mastery Level=> <strong><%= @mastery_level %></strong><br/><br/>

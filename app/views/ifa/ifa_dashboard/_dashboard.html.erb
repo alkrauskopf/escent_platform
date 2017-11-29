@@ -65,14 +65,14 @@
                   <div class="row">
                     <div class="col-md-6 dashboard_milestone">
                       <% if !@plan_markers['w_tot_l' + ml.id.to_s].nil?%>
-                          <span style="color:<%= ml.score_font%>" class="multiplier"><%= @plan_markers['w_tot_l' + ml.id.to_s]%></span>
-                          <i class="white_wrench"></i>
+                        <span style="color:<%= ml.score_font%>" class="multiplier"><%= @plan_markers['w_tot_l' + ml.id.to_s]%></span>
+                        <i class="white_wrench"></i>
                       <% end %>
                     </div>
                     <div class="col-md-6 dashboard_milestone">
                       <% if !@plan_markers['a_tot_l' + ml.id.to_s].nil?%>
-                          <span style="color:<%= ml.score_font%>"  class="multiplier"><%= @plan_markers['a_tot_l' + ml.id.to_s]%></span>
-                          <i class="white_star"></i>
+                        <span style="color:<%= ml.score_font%>"  class="multiplier"><%= @plan_markers['a_tot_l' + ml.id.to_s]%></span>
+                        <i class="white_star"></i>
                       <% end %>
                     </div>
                   </div>
@@ -119,8 +119,9 @@
                                                                                               :titl=> (s.name),
                                                                                               :function=> @milestone_links[hash_key(ml,s)],
                                                                                               :plan_id => @milestone_links['plan_id'], :strand => s, :mastery=>ml, :standard=> @current_standard,
+                                                                                              :teachers => @milestone_links['teachers'],
                                                                                               :benchmarks=> @cell_benchmarks[hash_key(ml,s)], :suggestions=> @cell_suggestions[hash_key(ml,s)],
-                                                                                              :height=> 600, :width=> 850 } %>
+                                                                                              :height=> 700, :width=> 850 } %>
                         <% elsif  !@milestone_links[hash_key(ml,s) + 'milestone'].nil?%>
                           <% link_label = @milestone_links[hash_key(ml,s)] + ' (' + @milestone_links[hash_key(ml,s) + 'evidence'] + ')'%>
                         <%= link_to link_label, ifa_milestone_evidence_edit_path(:organization_id => @current_organization, :ifa_plan_milestone_id => @milestone_links[hash_key(ml,s) + 'milestone'].id), {:class=>'button_gray', :target=> '_blank'} %>

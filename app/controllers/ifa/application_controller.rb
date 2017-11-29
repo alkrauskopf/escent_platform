@@ -165,6 +165,7 @@ class Ifa::ApplicationController < ApplicationController
     @milestone_links = {}
     plan = user.ifa_plan_for(subject)
     @milestone_links['plan_id'] = plan.nil? ? 0 : plan.id
+    @milestone_links['teachers'] = plan.nil? ? [] : plan.relevant_teachers(@current_organization)
     if !subject.nil? && !plan.nil? && @cell_total
       standard.act_score_ranges.active.for_subject(subject).each do |level|
         standard.act_standards.active.for_subject(subject).each do |strand|

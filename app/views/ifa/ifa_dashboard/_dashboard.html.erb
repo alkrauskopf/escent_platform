@@ -27,8 +27,8 @@
           <tr>
             <td class="dashboard_achieve_label">
               <% if @plan_markers %>
-                <i class="star_achievement"></i> &nbsp; Mastered&nbsp;(<%= @plan_markers['a_total']%>)<br/>
-                <i class="wrench_work"></i> &nbsp; Working&nbsp;(<%= @plan_markers['w_total']%>)
+                <i class="green_star"></i> &nbsp; Mastered&nbsp;(<%= @plan_markers['a_total']%>)<br/>
+                <i class="blue_wrench"></i> &nbsp; Working&nbsp;(<%= @plan_markers['w_total']%>)
               <% end %>
             </td>
             <% strands.each do |s|%>
@@ -37,20 +37,20 @@
                   <%= s.abbrev.upcase %>
                 </div>
                 <% if @plan_markers %>
-                    <div class="row">
-                      <div class="col-md-6 dashboard_milestone">
-                        <% if !@plan_markers['w_tot_s' + s.id.to_s].nil?%>
-                            <span style="color:<%= s.strand_font%>" class="multiplier"><%= @plan_markers['w_tot_s' + s.id.to_s]%></span>
-                            <i style="color:<%= s.strand_font%>" class="wrench_work"></i>
-                        <% end %>
-                      </div>
-                      <div class="col-md-6 dashboard_milestone">
-                        <% if !@plan_markers['a_tot_s' + s.id.to_s].nil?%>
-                            <span style="color:<%= s.strand_font%>"  class="multiplier"><%= @plan_markers['a_tot_s' + s.id.to_s]%></span>
-                            <i  style="color:<%= s.strand_font%>" class="star_achievement"></i>
-                        <% end %>
-                      </div>
+                  <div class="row">
+                    <div class="col-md-6 dashboard_milestone">
+                      <% if !@plan_markers['w_tot_s' + s.id.to_s].nil?%>
+                          <span style="color:<%= s.strand_font%>" class="multiplier"><%= @plan_markers['w_tot_s' + s.id.to_s]%></span>
+                          <i class="white_wrench"></i>
+                      <% end %>
                     </div>
+                    <div class="col-md-6 dashboard_milestone">
+                      <% if !@plan_markers['a_tot_s' + s.id.to_s].nil?%>
+                        <span style="color:<%= s.strand_font%>"  class="multiplier"><%= @plan_markers['a_tot_s' + s.id.to_s]%></span>
+                        <i class="white_star"></i>
+                      <% end %>
+                    </div>
+                  </div>
                 <% end %>
               </td>
             <% end -%>
@@ -62,20 +62,20 @@
                   <%= mastery_label_br(ml, true).html_safe %>
                 </div>
                 <% if @plan_markers %>
-                    <div class="row">
-                      <div class="col-md-6 dashboard_milestone">
-                        <% if !@plan_markers['w_tot_l' + ml.id.to_s].nil?%>
-                            <span style="color:<%= ml.score_font%>" class="multiplier"><%= @plan_markers['w_tot_l' + ml.id.to_s]%></span>
-                            <i style="color:<%= ml.score_font%>" class="wrench_work"></i>
-                        <% end %>
-                      </div>
-                      <div class="col-md-6 dashboard_milestone">
-                        <% if !@plan_markers['a_tot_l' + ml.id.to_s].nil?%>
-                            <span style="color:<%= ml.score_font%>"  class="multiplier"><%= @plan_markers['a_tot_l' + ml.id.to_s]%></span>
-                            <i style="color:<%= ml.score_font%>" class="star_achievement"></i>
-                        <% end %>
-                      </div>
+                  <div class="row">
+                    <div class="col-md-6 dashboard_milestone">
+                      <% if !@plan_markers['w_tot_l' + ml.id.to_s].nil?%>
+                          <span style="color:<%= ml.score_font%>" class="multiplier"><%= @plan_markers['w_tot_l' + ml.id.to_s]%></span>
+                          <i class="white_wrench"></i>
+                      <% end %>
                     </div>
+                    <div class="col-md-6 dashboard_milestone">
+                      <% if !@plan_markers['a_tot_l' + ml.id.to_s].nil?%>
+                          <span style="color:<%= ml.score_font%>"  class="multiplier"><%= @plan_markers['a_tot_l' + ml.id.to_s]%></span>
+                          <i class="white_star"></i>
+                      <% end %>
+                    </div>
+                  </div>
                 <% end %>
               </td>
               <% standard.strands(subject).each do |s|%>
@@ -85,13 +85,13 @@
                       <div class="col-md-6 dashboard_milestone">
                         <% if !@plan_markers['w' + hash_key(ml,s)].nil? && @plan_markers['w' + hash_key(ml,s)] > 0%>
                           <span class="multiplier"><%= @plan_markers['w' + hash_key(ml,s)]%></span>
-                          <i class="wrench_work"></i>
+                          <i class="blue_wrench"></i>
                         <% end %>
                       </div>
                       <div class="col-md-6 dashboard_milestone">
                         <% if !@plan_markers['a' + hash_key(ml,s)].nil? && @plan_markers['a' + hash_key(ml,s)] > 0%>
                           <span class="multiplier"><%= @plan_markers['a' + hash_key(ml,s)]%></span>
-                          <i class="star_achievement"></i>
+                          <i class="green_star"></i>
                         <% end %>
                       </div>
                     </div>

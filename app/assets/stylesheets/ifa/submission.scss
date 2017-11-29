@@ -9,6 +9,34 @@
   padding:0em 0em 0em 0em;
   font-size:16px;
 }
+.white_star {
+  @extend .glyphicon;
+  @extend .glyphicon-star;
+  color:$white_star;
+  padding:0em 0em 0em 0em;
+  font-size:16px;
+}
+.green_star {
+  @extend .glyphicon;
+  @extend .glyphicon-star;
+  color:$green_star;
+  padding:0em 0em 0em 0em;
+  font-size:16px;
+}
+.blue_wrench {
+  @extend .glyphicon;
+  @extend .glyphicon-wrench;
+  color:$blue_wrench;
+  padding:0em 0em 0em 0em;
+  font-size:16px;
+}
+.white_wrench {
+  @extend .glyphicon;
+  @extend .glyphicon-wrench;
+  color:$white_wrench;
+  padding:0em 0em 0em 0em;
+  font-size:16px;
+}
 .wrench_work {
   @extend .glyphicon;
   @extend .glyphicon-wrench;

@@ -82,6 +82,7 @@ class User < ActiveRecord::Base
 
   has_many :ifa_plans, :dependent => :destroy
   has_many :ifa_plan_remarks
+  has_many :responsible_milestones, :class_name => 'IfaPlanMilestone', :foreign_key => "teacher_id"
 
   has_many :guardians, :class_name => 'UserGuardian', :dependent=> :destroy
       

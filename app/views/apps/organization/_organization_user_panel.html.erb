@@ -37,7 +37,13 @@
                   <% if @offering_list['ifa'+ clsrm.id.to_s] && !@offering_list['per'+ clsrm.id.to_s].nil? && @offering_list['s'+ clsrm.id.to_s]%>
                     <div class="assess_link">
                       <%= link_to 'Assess Needs', ifa_take_path(:organization_id => @current_organization,:classroom_id => clsrm.id,
-                                                           :period_id => @offering_list['per'+ clsrm.id.to_s].id, :topic_id =>  nil), :style=>'font-size:10px;', :class=>'button_blue'%>
+                                                           :period_id => @offering_list['per'+ clsrm.id.to_s].id, :topic_id =>  nil), :style=>'font-size:10px;', :id=>'btnLink', :class=>'button_blue'%>
+                      <script type="text/javascript">
+                        jQ(document).click(function() {
+                            jQ("#btnLink").attr("disabled", true);
+                            return true;
+                        });
+                      </script>
                     </div>
                   <% elsif @offering_list['ifa'+ clsrm.id.to_s] && !@offering_list['per'+ clsrm.id.to_s].nil? && @offering_list['t'+ clsrm.id.to_s]%>
                     <div class="assess_link">

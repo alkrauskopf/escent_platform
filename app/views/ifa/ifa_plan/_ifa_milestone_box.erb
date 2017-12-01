@@ -13,7 +13,7 @@
                   <%= form_for(:ifa_milestone,
                                :url => ifa_milestone_update_dashboard_path(:organization_id => @current_organization, :ifa_plan_milestone_id => 0,
                                                                            :act_score_range_id => mastery.id, :ifa_plan_id => plan_id,
-                                                                           :act_standard_id => strand.id, :function => function)) do |form| -%>
+                                                                           :act_standard_id => strand.id, :function => function), html: { id: id+'formMilestone'}) do |form| -%>
                     <div class="dashboard_milestone_box">
                       <% if !teachers.empty? %>
                         <div class="row ifa_milestone_teacher_select">
@@ -26,8 +26,16 @@
                       <div class="row">
                         <div class="col-md-2">
                           <div class="row ifa_milestone_edit_button">
-                              <%= form.submit function, :class =>"update_button button_blue" %>
+                              <%= form.submit function, :id=>id+'btnSubmit', :class =>"update_button button_blue" %>
                           </div>
+                          <script type="text/javascript">
+                            jQ(document).ready(function() {
+                              jQ("#<%=id%>formMilestone").submit(function(){
+                                jQ("#<%=id%>btnSubmit").attr("disabled", true);
+                                return true;
+                              });
+                            });
+                          </script>
                         </div>
                         <div class="col-md-9">
                           <%= text_area :ifa_milestone, :description, :rows=>5, :cols => 70,

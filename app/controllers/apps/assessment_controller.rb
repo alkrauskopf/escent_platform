@@ -795,7 +795,7 @@ class Apps::AssessmentController < Apps::ApplicationController
     start_date = @current_provider.ifa_org_option.begin_school_year.beginning_of_month
     end_date = Date.today.end_of_month
     @organization_dashboards = @current_organization.ifa_dashboards.subject_between_periods(@current_subject, start_date, end_date) rescue []
-    aggregate_dashboard_cell_hashes(@organization_dashboards, @current_subject, @current_standard)
+   # aggregate_dashboard_cell_hashes(@organization_dashboards, @current_subject, @current_standard)
     aggregate_dashboard_header_info(@organization_dashboards, @current_subject, @current_standard, @current_organization)
     org_analysys_instance_variables
 #    student_growth_plans

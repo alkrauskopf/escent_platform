@@ -15,126 +15,128 @@
             <%= render :partial => "/ifa/ifa_dashboard/header_aggregate", :locals => {:dashboard => dashboard} %>
         <% end %>
       </div>
-      <div class="dashboard_box_in">
-        <% strands = standard.strands(subject) %>
-        <% level_width = 14 %>
-        <% strnd_width = ((100 - level_width)/strands.size).to_f.to_i.to_s + '%'%>
-        <div class="row dashboard_bench_label">
-          View Benchmarks, Click on Cell
-        </div>
-        <table >
-          <tbody >
-          <tr>
-            <td class="dashboard_achieve_label">
-              <% if @plan_markers %>
-                <i class="green_star"></i> &nbsp; Mastered&nbsp;(<%= @plan_markers['a_total']%>)<br/>
-                <i class="blue_wrench"></i> &nbsp; Working&nbsp;(<%= @plan_markers['w_total']%>)
-              <% end %>
-            </td>
-            <% strands.each do |s|%>
-              <td class=" dashboard_strand_header tip_std" title="<center><%= s.name.titleize %></center>"  style="width:<%=strnd_width%>; background:<%= s.strand_background%>; color:<%= s.strand_font%>"  >
-                <div class="row">
-                  <%= s.abbrev.upcase %>
-                </div>
-                <% if @plan_markers %>
-                  <div class="row">
-                    <div class="col-md-6 dashboard_milestone">
-                      <% if !@plan_markers['w_tot_s' + s.id.to_s].nil?%>
-                          <span style="color:<%= s.strand_font%>" class="multiplier"><%= @plan_markers['w_tot_s' + s.id.to_s]%></span>
-                          <i class="white_wrench"></i>
-                      <% end %>
-                    </div>
-                    <div class="col-md-6 dashboard_milestone">
-                      <% if !@plan_markers['a_tot_s' + s.id.to_s].nil?%>
-                        <span style="color:<%= s.strand_font%>"  class="multiplier"><%= @plan_markers['a_tot_s' + s.id.to_s]%></span>
-                        <i class="white_star"></i>
-                      <% end %>
-                    </div>
-                  </div>
-                <% end %>
-              </td>
-            <% end -%>
-          </tr>
-          <% standard.mastery_levels(subject).each do |ml|%>
+      <% if !cell_totals.nil? %>
+        <div class="dashboard_box_in">
+          <% strands = standard.strands(subject) %>
+          <% level_width = 14 %>
+          <% strnd_width = ((100 - level_width)/strands.size).to_f.to_i.to_s + '%'%>
+          <div class="row dashboard_bench_label">
+            View Benchmarks, Click on Cell
+          </div>
+          <table >
+            <tbody >
             <tr>
-              <td class="dashboard_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
-                <div class="row">
-                  <%= mastery_label_br(ml, true).html_safe %>
-                </div>
+              <td class="dashboard_achieve_label">
                 <% if @plan_markers %>
-                  <div class="row">
-                    <div class="col-md-6 dashboard_milestone">
-                      <% if !@plan_markers['w_tot_l' + ml.id.to_s].nil?%>
-                        <span style="color:<%= ml.score_font%>" class="multiplier"><%= @plan_markers['w_tot_l' + ml.id.to_s]%></span>
-                        <i class="white_wrench"></i>
-                      <% end %>
-                    </div>
-                    <div class="col-md-6 dashboard_milestone">
-                      <% if !@plan_markers['a_tot_l' + ml.id.to_s].nil?%>
-                        <span style="color:<%= ml.score_font%>"  class="multiplier"><%= @plan_markers['a_tot_l' + ml.id.to_s]%></span>
-                        <i class="white_star"></i>
-                      <% end %>
-                    </div>
-                  </div>
+                  <i class="green_star"></i> &nbsp; Mastered&nbsp;(<%= @plan_markers['a_total']%>)<br/>
+                  <i class="blue_wrench"></i> &nbsp; Working&nbsp;(<%= @plan_markers['w_total']%>)
                 <% end %>
               </td>
-              <% standard.strands(subject).each do |s|%>
-                <td class="dashboard_cells"  style="background:<%=cell_color[hash_key(ml,s)]%>; color:<%= cell_font[hash_key(ml,s)]%>; " >
+              <% strands.each do |s|%>
+                <td class=" dashboard_strand_header tip_std" title="<center><%= s.name.titleize %></center>"  style="width:<%=strnd_width%>; background:<%= s.strand_background%>; color:<%= s.strand_font%>"  >
+                  <div class="row">
+                    <%= s.abbrev.upcase %>
+                  </div>
                   <% if @plan_markers %>
                     <div class="row">
                       <div class="col-md-6 dashboard_milestone">
-                        <% if !@plan_markers['w' + hash_key(ml,s)].nil? && @plan_markers['w' + hash_key(ml,s)] > 0%>
-                          <span class="multiplier"><%= @plan_markers['w' + hash_key(ml,s)]%></span>
-                          <i class="blue_wrench"></i>
+                        <% if !@plan_markers['w_tot_s' + s.id.to_s].nil?%>
+                            <span style="color:<%= s.strand_font%>" class="multiplier"><%= @plan_markers['w_tot_s' + s.id.to_s]%></span>
+                            <i class="white_wrench"></i>
                         <% end %>
                       </div>
                       <div class="col-md-6 dashboard_milestone">
-                        <% if !@plan_markers['a' + hash_key(ml,s)].nil? && @plan_markers['a' + hash_key(ml,s)] > 0%>
-                          <span class="multiplier"><%= @plan_markers['a' + hash_key(ml,s)]%></span>
-                          <i class="green_star"></i>
+                        <% if !@plan_markers['a_tot_s' + s.id.to_s].nil?%>
+                          <span style="color:<%= s.strand_font%>"  class="multiplier"><%= @plan_markers['a_tot_s' + s.id.to_s]%></span>
+                          <i class="white_star"></i>
                         <% end %>
                       </div>
                     </div>
                   <% end %>
-                  <a id="b_<%= dashboard.public_id %><%= ml.id.to_s %><%= s.id.to_s %>" href="">
-                    <%#= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s + '<br/>' +
-                        number_with_precision(cell_pcts[hash_key(ml,s)], :precision => 0) + '%').html_safe : ' _ '%>
-                    <%= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s).html_safe : ' _ '%>
-                  </a>
-                  <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + dashboard.public_id + ml.id.to_s + s.id.to_s),
-                                                                                             :titl=> (mastery_label(ml, false) + " | " + s.name),
-                                                                                             :blue=> 'Benchmark',
-                                                                                             :body=> @cell_benchmarks[hash_key(ml,s)], :height=> 400, :width=> 650 } %>
-                  <% if @milestone_links && !@milestone_links[hash_key(ml,s)].nil?%>
-                    <% header_row = ((!dashboard.nil? && dashboard.user) ? dashboard.user.full_name : 'Unknown User') + ' | ' +
-                    (dashboard.subject ? dashboard.subject.name : 'Unknown Subject') + ' | ' +
-                    @milestone_links[hash_key(ml,s)] %>
-                    <div class=" dashboard_milestone_link">
-                      <% if @milestone_links[hash_key(ml,s)] == 'Add Milestone'%>
-                        <a class="button_blue" id="m_<%= dashboard.public_id %><%= ml.id.to_s %><%= s.id.to_s %>" href="">
-                          <%= @milestone_links[hash_key(ml,s)] %>
-                        </a>
-                        <%= render :partial => "/ifa/ifa_plan/ifa_milestone_box", :locals => {:id => ('m_' + dashboard.public_id + ml.id.to_s + s.id.to_s),
-                                                                                              :header_row => header_row,
-                                                                                              :titl=> (s.name),
-                                                                                              :function=> @milestone_links[hash_key(ml,s)],
-                                                                                              :plan_id => @milestone_links['plan_id'], :strand => s, :mastery=>ml, :standard=> @current_standard,
-                                                                                              :teachers => @milestone_links['teachers'],
-                                                                                              :benchmarks=> @cell_benchmarks[hash_key(ml,s)], :suggestions=> @cell_suggestions[hash_key(ml,s)],
-                                                                                              :height=> 700, :width=> 850 } %>
-                        <% elsif  !@milestone_links[hash_key(ml,s) + 'milestone'].nil?%>
-                          <% link_label = @milestone_links[hash_key(ml,s)] + ' (' + @milestone_links[hash_key(ml,s) + 'evidence'] + ')'%>
-                        <%= link_to link_label, ifa_milestone_evidence_edit_path(:organization_id => @current_organization, :ifa_plan_milestone_id => @milestone_links[hash_key(ml,s) + 'milestone'].id), {:class=>'button_gray', :target=> '_blank'} %>
-                      <% end %>
+                </td>
+              <% end -%>
+            </tr>
+            <% standard.mastery_levels(subject).each do |ml|%>
+              <tr>
+                <td class="dashboard_levels" style="background:<%= ml.score_background%>; color:<%= ml.score_font%>">
+                  <div class="row">
+                    <%= mastery_label_br(ml, true).html_safe %>
+                  </div>
+                  <% if @plan_markers %>
+                    <div class="row">
+                      <div class="col-md-6 dashboard_milestone">
+                        <% if !@plan_markers['w_tot_l' + ml.id.to_s].nil?%>
+                          <span style="color:<%= ml.score_font%>" class="multiplier"><%= @plan_markers['w_tot_l' + ml.id.to_s]%></span>
+                          <i class="white_wrench"></i>
+                        <% end %>
+                      </div>
+                      <div class="col-md-6 dashboard_milestone">
+                        <% if !@plan_markers['a_tot_l' + ml.id.to_s].nil?%>
+                          <span style="color:<%= ml.score_font%>"  class="multiplier"><%= @plan_markers['a_tot_l' + ml.id.to_s]%></span>
+                          <i class="white_star"></i>
+                        <% end %>
+                      </div>
                     </div>
                   <% end %>
                 </td>
-              <% end %>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
-      </div>
+                <% standard.strands(subject).each do |s|%>
+                  <td class="dashboard_cells"  style="background:<%=cell_color[hash_key(ml,s)]%>; color:<%= cell_font[hash_key(ml,s)]%>; " >
+                    <% if @plan_markers %>
+                      <div class="row">
+                        <div class="col-md-6 dashboard_milestone">
+                          <% if !@plan_markers['w' + hash_key(ml,s)].nil? && @plan_markers['w' + hash_key(ml,s)] > 0%>
+                            <span class="multiplier"><%= @plan_markers['w' + hash_key(ml,s)]%></span>
+                            <i class="blue_wrench"></i>
+                          <% end %>
+                        </div>
+                        <div class="col-md-6 dashboard_milestone">
+                          <% if !@plan_markers['a' + hash_key(ml,s)].nil? && @plan_markers['a' + hash_key(ml,s)] > 0%>
+                            <span class="multiplier"><%= @plan_markers['a' + hash_key(ml,s)]%></span>
+                            <i class="green_star"></i>
+                          <% end %>
+                        </div>
+                      </div>
+                    <% end %>
+                    <a id="b_<%= dashboard.public_id %><%= ml.id.to_s %><%= s.id.to_s %>" href="">
+                      <%#= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s + '<br/>' +
+                          number_with_precision(cell_pcts[hash_key(ml,s)], :precision => 0) + '%').html_safe : ' _ '%>
+                      <%= cell_totals[hash_key(ml,s)] > 0 ? (cell_corrects[hash_key(ml,s)].to_s + ' of ' + cell_totals[hash_key(ml,s)].to_s).html_safe : ' _ '%>
+                    </a>
+                    <%= render :partial => "/apps/shared/help_box_ifa_benchmarks", :locals => {:id => ('b_' + dashboard.public_id + ml.id.to_s + s.id.to_s),
+                                                                                               :titl=> (mastery_label(ml, false) + " | " + s.name),
+                                                                                               :blue=> 'Benchmark',
+                                                                                               :body=> @cell_benchmarks[hash_key(ml,s)], :height=> 400, :width=> 650 } %>
+                    <% if @milestone_links && !@milestone_links[hash_key(ml,s)].nil?%>
+                      <% header_row = ((!dashboard.nil? && dashboard.user) ? dashboard.user.full_name : 'Unknown User') + ' | ' +
+                      (dashboard.subject ? dashboard.subject.name : 'Unknown Subject') + ' | ' +
+                      @milestone_links[hash_key(ml,s)] %>
+                      <div class=" dashboard_milestone_link">
+                        <% if @milestone_links[hash_key(ml,s)] == 'Add Milestone'%>
+                          <a class="button_blue" id="m_<%= dashboard.public_id %><%= ml.id.to_s %><%= s.id.to_s %>" href="">
+                            <%= @milestone_links[hash_key(ml,s)] %>
+                          </a>
+                          <%= render :partial => "/ifa/ifa_plan/ifa_milestone_box", :locals => {:id => ('m_' + dashboard.public_id + ml.id.to_s + s.id.to_s),
+                                                                                                :header_row => header_row,
+                                                                                                :titl=> (s.name),
+                                                                                                :function=> @milestone_links[hash_key(ml,s)],
+                                                                                                :plan_id => @milestone_links['plan_id'], :strand => s, :mastery=>ml, :standard=> @current_standard,
+                                                                                                :teachers => @milestone_links['teachers'],
+                                                                                                :benchmarks=> @cell_benchmarks[hash_key(ml,s)], :suggestions=> @cell_suggestions[hash_key(ml,s)],
+                                                                                                :height=> 700, :width=> 850 } %>
+                          <% elsif  !@milestone_links[hash_key(ml,s) + 'milestone'].nil?%>
+                            <% link_label = @milestone_links[hash_key(ml,s)] + ' (' + @milestone_links[hash_key(ml,s) + 'evidence'] + ')'%>
+                          <%= link_to link_label, ifa_milestone_evidence_edit_path(:organization_id => @current_organization, :ifa_plan_milestone_id => @milestone_links[hash_key(ml,s) + 'milestone'].id), {:class=>'button_gray', :target=> '_blank'} %>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
     <% else %>
       <div class="row dashboard_title_1">
         <div class="col-md-1"></div>

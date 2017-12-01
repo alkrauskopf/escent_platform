@@ -345,11 +345,11 @@ class ActSubmission < ActiveRecord::Base
       # if !self.period_dashboard?(self.classroom)
       # Don't Classroom dashboard Submissions with incompatible subjects
       if self.act_subject_id == self.classroom.act_subject.id
-        self.auto_ifa_dashboard_update_new(self.classroom, standard)
+      #  self.auto_ifa_dashboard_update_new(self.classroom, standard)
       end
       # end
       # if !self.period_dashboard?(self.organization)
-        self.auto_ifa_dashboard_update_new(self.organization, standard)
+      #  self.auto_ifa_dashboard_update_new(self.organization, standard)
       # end
       finalized = true
     end

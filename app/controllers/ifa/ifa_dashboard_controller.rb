@@ -57,7 +57,7 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     student_view = @current_user.teacher? ? 'N':'Y'
     dashboard_cell_hashes(@entity_dashboard, @current_subject, @current_standard, :student => student_view )
     dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
-    dashboard_plan_markers(dashboard_users(@entity_dashboard), @current_subject, @current_standard)
+    # dashboard_plan_markers(dashboard_users(@entity_dashboard), @current_subject, @current_standard)
   end
 
   def dashboard_submissions

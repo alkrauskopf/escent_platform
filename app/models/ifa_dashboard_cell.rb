@@ -26,6 +26,10 @@ class IfaDashboardCell < ActiveRecord::Base
     where('act_score_range_id = ?', level.id)
   end
 
+  def self.cell(level, strand)
+    where('cell = ?', (level.id.to_s + '|' + strand.id.to_s )).first rescue nil
+  end
+
   private
 
   def cell_id

@@ -112,8 +112,12 @@ class IfaDashboard < ActiveRecord::Base
     self.update_attributes(:needs_redash => true)
   end
 
-  def cell_for(level, strand)
+  def old_cell_for(level, strand)
     self.ifa_dashboard_cells.for_range_and_strand(level, strand).empty? ? nil : self.ifa_dashboard_cells.for_range_and_strand(level, strand).first rescue nil
+  end
+
+  def cell_for(level, strand)
+    self.ifa_dashboard_cells.cell(level,strand)
   end
 
   def cells_for_standard(standard)

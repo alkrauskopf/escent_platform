@@ -17,7 +17,7 @@
                   <% classroom_label = classroom.name + @classroom_list_label[classroom.id] + ' (' + classroom.ifa_dashboards.for_subject(subject).size.to_s + ')' %>
                   <tr>
                     <td class="resource_levels_close">
-                      <%= link_to '', ifa_dashboards_entity_subject_path(:organization_id => @current_organization, :entity_class => "Classroom", :act_subject_id => subject.id, :entity_id => classroom) %>
+                      <%= link_to '', ifa_dashboards_entity_subject_path(:organization_id => @current_organization, :entity_class => "Classroom", :subject_id => subject.id, :entity_id => classroom) %>
                       <%= classroom_label %>
                       <span></span>
                     </td>

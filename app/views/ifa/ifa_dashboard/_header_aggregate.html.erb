@@ -41,7 +41,7 @@
       var end_mth = jQ('#dashboard_end_date_2i').val();
       var end_yr = jQ('#dashboard_end_date_1i').val();
       var url = "<%= ifa_dashboard_window_url(:organization_id => @current_organization, :entity_id => @aggregate['entity'].public_id,
-      :entity_class => @aggregate['entity'].class.to_s, :act_subject_id => @aggregate['subject'].id, :act_master_id => @aggregate['standard'].id) %>";
+      :entity_class => @aggregate['entity'].class.to_s, :subject_id => @aggregate['subject'].id) %>";
       jQ.get(url, {'start_mth':start_mth, 'start_yr':start_yr, 'end_mth':end_mth, 'end_yr':end_yr }, function(data) {
         jQ("#entity_dashboard_<%= dashboard.public_id %>").html(data);
         jQ("#entity_dashboard_<%= dashboard.public_id %>").show();

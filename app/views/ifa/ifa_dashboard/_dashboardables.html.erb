@@ -1,0 +1,56 @@
+<div id="dashboardables_<%=@current_subject.id%>" >
+  <% if !@dashboardable_submissions_notice.empty?%>
+    <div class="dashboardable_box">
+      <% if @dashboardable_entities.nil? %>
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-1 ">
+            <span class="button_orange dashboardable_button" id="process_<%=@current_subject.id%>">
+              Review
+            </span>
+            <script type="text/javascript">
+              jQ(document).ready(function() {
+                jQ("#process_<%=@current_subject.id%>").click(function(){
+                  var url = "<%= ifa_dashboards_dash_process_url(:organization_id => @current_organization, :subject_id => @current_subject.id) %>";
+                  jQ.get(url, {}, function(data) {
+                    jQ("#dashboardables_<%=@current_subject.id%>").html(data);
+                    jQ("#dashboardables_<%=@current_subject.id%>").show();
+                  });
+                })
+              });
+            </script>
+          </div>
+          <div class="col-md-8 ">
+            <%= @dashboardable_submissions_notice %>
+          </div>
+        </div>
+      <% else %>
+        <% @dashboardable_entities.each do |entity| %>
+          <div class="row dashboardable_row">
+            <div class="col-md-3"></div>
+            <div class="col-md-1 ">
+              <span class="button_blue dashboardable_button" id="dash_it_<%=@current_subject.id%><%=entity.id%>">
+                Process
+              </span>
+              <script type="text/javascript">
+                jQ(document).ready(function() {
+                  jQ("#dash_it_<%=@current_subject.id%><%=entity.id%>").click(function(){
+                    var url = "<%= ifa_dashboards_dashit_url(:organization_id => @current_organization, :subject_id => @current_subject.id, :entity_id => entity, :entity_class=> entity.class.to_s) %>";
+                    jQ.get(url, {}, function(data) {
+                      jQ("#dashboardables_<%=@current_subject.id%>").html(data);
+                      jQ("#dashboardables_<%=@current_subject.id%>").show();
+                    });
+                  })
+                });
+              </script>
+            </div>
+            <div class="col-md-8 ">
+              Update <%= entity.class.to_s %> Dashboard For <%= entity.name %>. <%=pluralize(@dashboardable_counts[entity], ' Assessment') %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+

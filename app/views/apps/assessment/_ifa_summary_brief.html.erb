@@ -5,7 +5,8 @@
         <% @subjects.each_with_index do |subj, idx|%>
           <div class="row summary_dashboard_row">
             <div class="col-md-3">
-             <%= button_to  "Dashboards", ifa_org_analysis_path(:organization_id => @current_organization,:subject_id => subj.id), :style=> 'font-size:12px', :class => "btn btn-primary btn-xs" %>
+              <%#= button_to  "Dashboards", ifa_org_analysis_path(:organization_id => @current_organization,:subject_id => subj.id), :style=> 'font-size:12px', :class => "btn btn-primary btn-xs" %>
+              <%= button_to  "Dashboards", ifa_subject_analysis_path(:organization_id => @current_organization,:subject_id => subj.id), :style=> 'font-size:12px', :class => "btn btn-primary btn-xs" %>
             </div>
             <div class="col-md-9">
               <%=subj.name %>:&nbsp;

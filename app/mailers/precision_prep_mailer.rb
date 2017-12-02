@@ -201,24 +201,24 @@ class PrecisionPrepMailer < ActionMailer::Base
   private
 
   def student_info(student)
-    @student_first_name = student.first_name
-    @student_full_name = student.full_name
+    @student_first_name = student.first_name.titleize
+    @student_full_name = student.full_name.titleize
     @student = student
     @student_email = @student.preferred_email
     @student_phone = (@student.phone.nil? || @student.phone == '') ? 'Not Known' : @student.phone
   end
 
   def guardian_info(guardian)
-    @guardian_full_name = guardian.full_name
+    @guardian_full_name = guardian.full_name.titleize
     @guardian_email = guardian.email_address
     @guardian_phone = (guardian.phone.nil? || guardian.phone == '') ? 'Not Known' :guardian.phone
     @guardian_id = guardian.public_id
-    @guardian_first_name = guardian.first_name == '' ? 'Guardian' : guardian.first_name
+    @guardian_first_name = guardian.first_name == '' ? 'Guardian' : guardian.first_name.titleize
   end
 
   def teacher_info(teacher)
-    @teacher_full_name = teacher.full_name
-    @teacher_last_name = teacher.last_name
+    @teacher_full_name = teacher.full_name.titleize
+    @teacher_last_name = teacher.last_name.titleize
     @teacher = teacher
     @teacher_email = @teacher.preferred_email
   end
@@ -245,7 +245,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @act_subject = @plan.subject_area
     @strand_name = milestone.strand.name.titleize
     @mastery_level = milestone.range.range
-    @teacher_name = milestone.teacher.nil? ? nil : milestone.teacher.full_name
+    @teacher_name = milestone.teacher.nil? ? nil : milestone.teacher.full_name.titleize
   end
 
   def guardian_cc(user)

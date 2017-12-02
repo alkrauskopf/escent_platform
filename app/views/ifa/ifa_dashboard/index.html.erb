@@ -3,7 +3,7 @@
     <div class="col-md-1"></div>
     <div class="col-md-10">
       <div class= 'panel_title_blue'>
-        <%= @current_subject.name %> Review
+        <%= @current_organization.short_name %> | <%= @current_subject.name %> Review
       </div>
     </div>
     <div class="col-md-1 ">
@@ -13,7 +13,7 @@
     </div>
   </div>
   <hr>
-  <%= render :partial => "/shared/error_and_notice" %>
+  <%= render :partial => "ifa/ifa_dashboard/dashboardables" %>
   <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-10">
@@ -21,7 +21,7 @@
         <div class="col-md-12 ">
           <% if !@organization_dashboards.empty? %>
               <%= render :partial => "ifa/ifa_dashboard/dashboard",
-                         :locals=>{:dashboard => @current_organization, :subject => @current_subject, :standard=>@current_user.standard_view,
+                         :locals=>{:dashboard => @current_organization, :subject => @current_subject, :standard=>@current_standard,
                                    :cell_corrects=>@cell_correct.nil? ? nil : @cell_correct,
                                    :cell_totals=>@cell_total.nil? ? nil : @cell_total,
                                    :cell_pcts=>@cell_pct.nil? ? nil : @cell_pct,
@@ -33,5 +33,5 @@
     </div>
     <div class="col-md-1"></div>
   </div>
-  <%= render :partial => "/apps/assessment/org_analysis_tabs" %>
+  <%= render :partial => "/ifa/ifa_dashboard/index_tabs" %>
 </div>

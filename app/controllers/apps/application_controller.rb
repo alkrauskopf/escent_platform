@@ -106,7 +106,7 @@ class Apps::ApplicationController < ApplicationController
     end
   end
 
-  def aggregate_dashboard_header_info(dashboards, subject, standard, entity)
+  def x_aggregate_dashboard_header_info(dashboards, subject, standard, entity)
     @aggregate = {}
     @aggregate['entity'] = entity
     @aggregate['subject'] = subject

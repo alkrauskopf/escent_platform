@@ -102,6 +102,19 @@ class ActSubmission < ActiveRecord::Base
                         ]
   end
 
+  def self.dashboardable(entity_class, options = {})
+    if options[:subject]
+      dashboardables = entity_class == 'User' ? self.for_subject(options[:subject]).final.not_user_dashboarded :
+          (entity_class == 'Classroom' ? self.for_subject(options[:subject]).final.not_classroom_dashboarded :
+              self.for_subject(options[:subject]).final.not_org_dashboarded)
+    else
+      dashboardables = entity_class == 'User' ? self.final.not_user_dashboarded :
+          (entity_class == 'Classroom' ? self.final.not_classroom_dashboarded :
+              self.final.not_org_dashboarded)
+    end
+    dashboardables
+  end
+
   def dashboarded?(entity_class)
     entity_class == 'User' ? self.is_user_dashboarded : (entity_class == 'Classroom' ? self.is_classroom_dashboarded : self.is_org_dashboarded)
   end

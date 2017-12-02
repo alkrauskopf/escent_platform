@@ -56,7 +56,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     dashboard_cell_hashes(@entity_dashboard, subject, standard, :student=>'Y')
     dashboard_milestone_links(student, subject, standard)
     dashboard_header_info(@entity_dashboard, subject, standard)
-    dashboardable_submissions(@entity_dashboard, subject)
+ #   dashboardable_submissions(@entity_dashboard, subject)
     db_users = []
     db_users << @current_student
     dashboard_plan_markers(db_users, subject, standard)

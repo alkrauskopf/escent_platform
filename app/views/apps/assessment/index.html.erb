@@ -1,6 +1,6 @@
 <div>
   <div class= 'row panel_title_blue'>
-    <%= @current_organization.short_name %>&nbsp;<%= @current_application.app_name(:provider=>@current_provider) %>
+   <%= @current_organization.short_name %>&nbsp;<%= @current_application.app_name(:provider=>@current_provider) %>
   </div>
   <% if @current_app_superuser && @current_organization == @current_provider%>
     <div class="row">

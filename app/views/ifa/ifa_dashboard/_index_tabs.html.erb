@@ -1,0 +1,66 @@
+<div id="index_tabs"%>
+  <div id="control_panel" >
+    <ul>
+      <li>
+        <%  tab_5_label = "Student Plans" %>
+        <a href="#tabs-5"><span class="tab_label">
+        <%= tab_5_label %></span></a>
+      </li>
+      <li>
+        <%  tab_4_label = "Student Dashboards" %>
+        <a href="#tabs-4"><span class="tab_label">
+        <%= tab_4_label %></span></a>
+      </li>
+      <li>
+        <%  tab_3_label = "Classroom Dashboards" %>
+        <a href="#tabs-3"><span class="tab_label">
+        <%= tab_3_label %></span></a>
+      </li>
+      <li>
+        <%  tab_2_label = "School Dashboards" %>
+        <a href="#tabs-2"><span class="tab_label">
+        <%= tab_2_label %></span></a>
+      </li>
+      <li>
+        <%  tab_1_label = "Network Growth" %>
+        <a href="#tabs-1"><span class="tab_label">
+        <%= tab_1_label %></span></a>
+      </li>
+    </ul>
+    <div id="tabs-1" class="row">
+      <div class="col-md-12">
+        <%= render :partial => "/ifa/ifa_dashboard/subject_network_dashboards", :locals=>{:schools => @org_list, :subject => @current_subject} %>
+      </div>
+    </div>
+
+    <div id="tabs-2" class="row">
+      <div class="col-md-12">
+        <%= render :partial => "/ifa/ifa_dashboard/subject_org_dashboards", :locals=>{:dashboards => @org_dashboards[@current_organization.id], :organization=>@current_organization, :subject => @current_subject, :view_code=>'O'} %>
+      </div>
+    </div>
+
+    <div id="tabs-3" class="row">
+      <div class="col-md-12">
+        <%= render :partial => "/ifa/ifa_dashboard/subject_classroom_dashboards", :locals=>{:classrooms => @classroom_list, :subject => @current_subject} %>
+      </div>
+    </div>
+
+    <div id="tabs-4" class="row">
+      <div class="col-md-12">
+        <%= render :partial => "/ifa/ifa_dashboard/subject_student_dashboards", :locals=>{:students => @student_list, :subject => @current_subject} %>
+      </div>
+    </div>
+
+    <div id="tabs-5" class="row">
+      <div class="col-md-12">
+        <%= render :partial => "/ifa/ifa_plan/teacher_review_plans", :locals=>{:students => @student_list, :subject => @current_subject, :entity => @current_organization} %>
+      </div>
+    </div>
+  </div>
+  <br style="clear:both" />
+  <script type="text/javascript" charset="utf-8">
+    jQ(document).ready(function(){
+      jQ('#control_panel').tabs();
+    });
+  </script>
+</div>

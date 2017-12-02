@@ -1,4 +1,4 @@
-EscentPartners::Application.routes.draw do |map|
+EscentPartners::Application.routes.draw do
 
 #  mount Wirispluginengine::Engine => 'wirispluginengine'
   # You can have the root of your site routed with "root"
@@ -591,7 +591,6 @@ EscentPartners::Application.routes.draw do |map|
   post '/ifa/submission/submit' => 'ifa/submission#submit_assessment'    # ifa_submission_submit_path
   get '/ifa/submission/teacher' => 'ifa/submission#submission_teacher_select'  # ifa_submission_teacher_url
   get '/ifa/submission/teacher/review' => 'ifa/submission#teacher_review'   # ifa_submission_teacher_review_path
-  get '/ifa/dashboard/window' => 'ifa/submission#window_dashboard' #  ifa_dashboard_window_url
   get '/ifa/submission/pending_destroy' => 'ifa/submission#destroy_pending'    # ifa_submission_pending_destroy_url
   get '/ifa/submission/pending_destroy_all' => 'ifa/submission#destroy_all_pending'    # ifa_submission_pending_destroy_all_url
   get '/ifa/submission/review/final' => 'ifa/submission#teacher_review_submission'    # ifa_submission_review_final_path
@@ -636,8 +635,13 @@ EscentPartners::Application.routes.draw do |map|
   get '/ifa/dashboard/entity' => 'apps/assessment#entity_dashboard' #  ifa_dashboard_entity_path
   get '/ifa/dashboard/range_change' => 'apps/assessment#range_change_dashboard' #  ifa_dashboard_range_change_url
 
+  get '/ifa/subject_analysis' => 'ifa/ifa_dashboard#index'    # ifa_subject_analysis_path
+  post '/ifa/subject_analysis' => 'ifa/ifa_dashboard#index'    # ifa_subject_analysis_path
+  get '/ifa/dashboard/window' => 'ifa/ifa_dashboard#window_dashboard' #  ifa_dashboard_window_url
   get '/ifa/dashboards/growth' => 'ifa/ifa_dashboard#growth_dashboards' #  ifa_dashboards_growth_path
   get '/ifa/dashboards/entity' => 'ifa/ifa_dashboard#entity_dashboard' #  ifa_dashboards_entity_path
+  get '/ifa/dashboards/dashit' => 'ifa/ifa_dashboard#dashboard_entity_submissions' #  ifa_dashboards_dashit_url
+  get '/ifa/dashboards/dash_process' => 'ifa/ifa_dashboard#dashboard_submissions_process' #  ifa_dashboards_dash_process_url
   get '/ifa/dashboards/entity/subject' => 'ifa/ifa_dashboard#entity_subject_dashboards' #  ifa_dashboards_entity_subject_path
   get '/ifa/dashboards/submissions' => 'ifa/ifa_dashboard#dashboard_submissions' #  ifa_dashboards_submissions_url
 

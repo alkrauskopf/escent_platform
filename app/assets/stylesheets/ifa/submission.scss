@@ -908,7 +908,20 @@
   font-size:16px;
   color:$blue_text;
 }
-
+.dashboardable_box {
+  margin:1em 2em 1em 2em;
+  color:$red_text;
+  font-size:15px;
+}
+.dashboardable_button {
+  margin:0em 0em 0em 0em;
+  font-size:12px;
+}
+.dashboardable_row {
+  padding:1em 2em 1em 2em;
+  color:$blue_text;
+  font-size:15px;
+}
 .dashboard_box {
   margin: 1em 0em 1em 0em;
   padding:0em 0em 0em 0em;

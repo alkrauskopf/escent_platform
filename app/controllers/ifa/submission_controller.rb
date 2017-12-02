@@ -64,19 +64,6 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       render :partial =>  "teacher_classroom_dashboard", :locals=>{:dashboard => @current_dashboard, :dashboard_display => display_db}
     end
 
-    def window_dashboard
-      get_entity
-      start_date = Date.new(params[:start_yr].to_i, params[:start_mth].to_i, 1)
-      end_date = Date.new(params[:end_yr].to_i, params[:end_mth].to_i, 1).end_of_month
-      @dashboards = @entity.ifa_dashboards.subject_between_periods(@current_subject, start_date, end_date)
-      aggregate_dashboard_cell_hashes(@dashboards, @current_subject, @current_standard)
-      aggregate_dashboard_header_info(@dashboards, @current_subject, @current_standard, @entity)
-
-      render :partial => "ifa/ifa_dashboard/dashboard",
-             :locals=>{:dashboard => @entity, :subject => @current_subject, :standard=>@current_standard, :cell_corrects=>@cell_correct,
-                       :cell_totals=>@cell_total, :cell_pcts=>@cell_pct, :cell_color=>@cell_color, :cell_font=>@cell_font}
-    end
-
     def destroy_pending
       get_current_submission
       if @current_submission

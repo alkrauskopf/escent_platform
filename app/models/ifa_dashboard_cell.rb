@@ -1,6 +1,8 @@
 class IfaDashboardCell < ActiveRecord::Base
   include PublicPersona
 
+  before_save :cell_id
+
   belongs_to :ifa_dashboard
   belongs_to :act_master
   belongs_to :act_score_range
@@ -22,6 +24,12 @@ class IfaDashboardCell < ActiveRecord::Base
 
   def self.for_level(level)
     where('act_score_range_id = ?', level.id)
+  end
+
+  private
+
+  def cell_id
+    self.cell = self.act_score_range_id.to_s + '|' + self.act_standard_id.to_s
   end
 
 end

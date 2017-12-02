@@ -30,7 +30,7 @@
 
   add_benchmark_types = false
 
-  add_dashboard_cell_id = true
+  add_dashboard_cell_id = false
 
   if add_dashboard_cell_id
     IfaDashboardCell.all.each do |db_cell|

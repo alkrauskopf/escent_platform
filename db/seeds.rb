@@ -32,6 +32,7 @@
 
   add_dashboard_cell_id = false
 
+
   if add_dashboard_cell_id
     IfaDashboardCell.all.each do |db_cell|
       db_cell.update_attributes('cell' => (db_cell.act_score_range_id.to_s + '|' + db_cell.act_standard_id.to_s))

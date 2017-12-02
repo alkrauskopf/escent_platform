@@ -30,6 +30,14 @@
 
   add_benchmark_types = false
 
+  add_dashboard_cell_id = true
+
+  if add_dashboard_cell_id
+    IfaDashboardCell.all.each do |db_cell|
+      db_cell.update_attributes('cell' => (db_cell.act_score_range_id.to_s + '|' + db_cell.act_standard_id.to_s))
+    end
+  end
+
   if add_benchmark_types
     # did for tcpj 9/25/17
 #    ActBenchType.create({'name' => 'evidence', 'standard' => 'act', 'act_master_id' => 1, 'for_resource_panel' => 1, 'for_dash_board' => 1,

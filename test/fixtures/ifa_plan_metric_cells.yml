@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ifa_plan_metric_id: 1
+  cell: MyString
+  plans: 1
+  in_process: 1
+  acheived: 1
+  remarks: 1
+  evidences: 1
+
+two:
+  ifa_plan_metric_id: 1
+  cell: MyString
+  plans: 1
+  in_process: 1
+  acheived: 1
+  remarks: 1
+  evidences: 1

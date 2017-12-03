@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  entity_id: 1
+  entity_type: MyString
+  act_subject_id: 1
+  is_uptodate: false
+
+two:
+  entity_id: 1
+  entity_type: MyString
+  act_subject_id: 1
+  is_uptodate: false

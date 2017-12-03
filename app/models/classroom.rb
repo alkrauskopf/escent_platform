@@ -32,7 +32,8 @@ class Classroom < ActiveRecord::Base
   has_many :act_submissions
   has_many :act_answers
   has_many :ifa_dashboards, :as => :ifa_dashboardable, :order => "period_end asc", :dependent => :destroy
-  has_one  :ifa_classroom_option, :dependent => :destroy 
+  has_many :ifa_plan_metrics, :as => :entity, :dependent => :destroy
+  has_one  :ifa_classroom_option, :dependent => :destroy
   has_many :ifa_question_logs
   has_many :tlt_sessions 
   has_many :tlt_dashboards

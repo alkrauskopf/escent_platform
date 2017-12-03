@@ -15,6 +15,7 @@ class ActSubject < ActiveRecord::Base
   has_many :co_standards   
   has_many :co_grade_levels  
   has_many :ifa_dashboards
+  has_many :ifa_plan_metrics
   has_many :ifa_classroom_options
   has_many :ifa_question_logs
   has_many :blogs

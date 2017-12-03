@@ -58,6 +58,7 @@ class Organization < ActiveRecord::Base
   has_one :ifa_org_option, :dependent => :destroy
   has_many :act_snapshots
   has_many :ifa_dashboards, :as => :ifa_dashboardable, :order => "period_end asc", :dependent => :destroy
+  has_many :ifa_plan_metrics, :as => :entity, :dependent => :destroy
   has_many :ifa_question_logs
   has_many :tlt_sessions, :dependent => :destroy 
   has_many :itl_summaries 

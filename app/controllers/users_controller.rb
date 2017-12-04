@@ -28,8 +28,11 @@ class UsersController < ApplicationController
           if valid_captcha?(params[:captcha_id], params[:access][:registration_code])
             if @user.save
      #  Initialize First User as Superuser
-              unless @user.guardians << @user_guardian
-                @user_guardian.errors[:base] << (@user_guardian.errors.full_messages.to_sentence)
+              @user_guardian.user_id = @user.id
+              if @user_guardian.save
+                if @user.organization.ifa_enabled?
+                  PrecisionPrepMailer.prep_guardian_add(@user, @user_guardian, request.host_with_port).deliver
+                end
               end
               if User.all.size == 1
                 @user.make_superuser!

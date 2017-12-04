@@ -1,0 +1,22 @@
+<div id="plan_markers<%=subject.id%><%=entity.public_id%>" >
+  <div class="row ">
+    <div class="col-md-1 "></div>
+    <div class="col-md-10 dashboard_marker_update">
+      <span id="markers_<%=subject.id%><%=entity.public_id%>" class="link">
+        Refresh</span><%=entity.name %> Plan Markers<span class="warn">(May Take A While)</span>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#markers_<%=subject.id%><%=entity.public_id%>").click(function(){
+            var url = "<%= ifa_dashboards_markers_url(:organization_id => @current_organization, :subject_id => subject.id, :entity_id => entity.public_id, :entity_class => entity.class.to_s) %>";
+            jQ.get(url, {}, function(data) {
+              jQ("#plan_markers<%=subject.id%><%=entity.public_id%>").html(data);
+              jQ("#plan_markers<%=subject.id%><%=entity.public_id%>").show();
+            });
+          })
+        });
+      </script>
+    </div>
+    <div class="col-md-1 "></div>
+  </div>
+</div>
+

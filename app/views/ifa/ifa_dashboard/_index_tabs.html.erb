@@ -21,15 +21,17 @@
         <a href="#tabs-2"><span class="tab_label">
         <%= tab_2_label %></span></a>
       </li>
+      <!--
       <li>
-        <%  tab_1_label = "Network Growth" %>
+        <%#  tab_1_label = "Network Growth" %>
         <a href="#tabs-1"><span class="tab_label">
-        <%= tab_1_label %></span></a>
+        <%#= tab_1_label %></span></a>
       </li>
+      -->
     </ul>
     <div id="tabs-1" class="row">
       <div class="col-md-12">
-        <%= render :partial => "/ifa/ifa_dashboard/subject_network_dashboards", :locals=>{:schools => @org_list, :subject => @current_subject} %>
+        <%#= render :partial => "/ifa/ifa_dashboard/subject_network_dashboards", :locals=>{:schools => @org_list, :subject => @current_subject} %>
       </div>
     </div>
 

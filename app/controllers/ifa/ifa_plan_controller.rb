@@ -27,6 +27,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       @current_plan.act_subject_id = @current_subject.id
       @current_student.ifa_plans << @current_plan
       @current_plan = @current_student.ifa_plan_for(@current_subject)
+      IfaPlanMetric.plan(@current_student, @current_subject, @current_standard, 'New')
     end
     @show = 'Yes'
     if @current_plan.milestones.empty?
@@ -201,6 +202,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       @user_plan.milestones << @current_milestone
       PrecisionPrepMailer.milestone_created_student(@current_user, @current_milestone, request.host_with_port).deliver
       PrecisionPrepMailer.milestone_created_guardian(@current_user, @current_milestone, request.host_with_port).deliver
+      IfaPlanMetric.milestone(@current_milestone, 'New')
       if @current_milestone.teacher
         PrecisionPrepMailer.milestone_created_teacher(@current_user, @current_milestone.teacher, @current_milestone, request.host_with_port).deliver
       else
@@ -224,6 +226,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     current_strand
     set_plan
     @current_milestone.destroy
+    IfaPlanMetric.milestone(@current_milestone, 'Destroy')
     plan_benchmarks
     render :partial => "/ifa/ifa_plan/strand_milestones", :locals=>{:plan=>@user_plan, :strand => @current_strand,
                                                                     :milestone_form => 'No', :ranges => @user_plan.ranges(@current_standard)}
@@ -231,8 +234,10 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
 
   def milestone_achieved
     current_milestone
+    toggle = @current_milestone.achieved? ? 'Undo' : 'Do'
     @current_milestone.update_attributes(:is_achieved=>!@current_milestone.is_achieved, :achieve_date => Time.now)
     @current_plan=@current_milestone.plan
+    IfaPlanMetric.milestone_achieved(@current_milestone, toggle)
     plan_benchmarks
     render :partial =>  "/ifa/ifa_plan/show_milestone", :locals=>{:milestone => @current_milestone, :evidence_form => 'No',
                                                                   :milestone_benchmarks => @plan_benchmarks[hash_key(@current_milestone.range, @current_milestone.strand)], :milestone_suggestions => @plan_suggestions[hash_key(@current_milestone.range, @current_milestone.strand)],
@@ -305,6 +310,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     @user_plan.ifa_plan_remarks << new_remark
     PrecisionPrepMailer.remark_student(@user_plan.user, @user_plan, new_remark.remarks, @current_user, request.host_with_port).deliver
     PrecisionPrepMailer.remark_guardian(@user_plan.user, @user_plan, new_remark.remarks, @current_user, request.host_with_port).deliver
+    IfaPlanMetric.remark(@user_plan.user, @user_plan.subject_area, @current_standard, 'New')
     render :partial =>  "/ifa/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>false}
   end
 
@@ -313,6 +319,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     set_classroom
     set_remark
     @remark.destroy
+    IfaPlanMetric.remark(@current_student, @current_subject, @current_standard, 'Destroy')
     render :partial =>  "/ifa/ifa_plan/teacher_remarks", :locals=>{:plan=> @user_plan, :remarks => @user_plan.remarks, :classroom => @classroom, :show_form=>false}
   end
 
@@ -350,6 +357,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
     current_evidence
     @current_milestone = @current_evidence.milestone
     @current_evidence.destroy
+    IfaPlanMetric.evidence_metric(@current_milestone, 'Destroy')
     render :partial => "/ifa/ifa_plan/evidence_list", :locals => {:milestone => @current_milestone}
   end
 
@@ -379,6 +387,7 @@ class Ifa::IfaPlanController < Ifa::ApplicationController
       new_evidence
       if @current_milestone.evidences << @current_evidence
         flash[:notice] = 'Evidence Saved | Add More Evidence, Or Close Browser Window'
+        IfaPlanMetric.evidence_metric(@current_milestone, 'New')
         @current_evidence = IfaPlanMilestoneEvidence.new
       else
         flash[:error] = @current_evidence.errors.full_messages.to_sentence

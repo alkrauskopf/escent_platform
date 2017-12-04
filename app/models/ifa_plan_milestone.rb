@@ -27,24 +27,44 @@ class IfaPlanMilestone < ActiveRecord::Base
     self.evidences.by_date
   end
 
+  def evidence_count
+    self.evidences.size
+  end
+
   def self.not_achieved
     where('is_achieved = ?', false).order('updated_at DESC')
   end
 
   def open_for_range_strand?(range, strand)
-    self.act_score_range_id = range.id &&  self.act_standard_id = strand.id && !self.is_achieved
+    self.act_score_range_id == range.id &&  self.act_standard_id == strand.id && !self.is_achieved
   end
 
   def self.open_for_range_strand(range, strand)
     where('act_score_range_id = ? && act_standard_id = ? && is_achieved = ?', range.id, strand.id, false)
   end
 
-  def self.achieved_for_range_strand(range, strand)
-    where('act_score_range_id = ? && act_standard_id = ? && is_achieved', range.id, strand.id)
-  end
-
   def self.for_range_strand(range, strand)
     where('act_score_range_id = ? && act_standard_id = ?', range.id, strand.id)
+  end
+
+  def self.open_for_strand(strand)
+    where('act_standard_id = ? && is_achieved = ?', strand.id, false)
+  end
+
+  def self.achieved_for_strand(strand)
+    where('act_standard_id = ? && is_achieved = ?', strand.id, true)
+  end
+
+  def self.open_for_range(range)
+    where('act_score_range_id = ? && is_achieved = ?', range.id, false)
+  end
+
+  def self.achieved_for_range(range)
+    where('act_score_range_id = ? && is_achieved = ?', range.id, true)
+  end
+
+  def self.achieved_for_range_strand(range, strand)
+    where('act_score_range_id = ? && act_standard_id = ? && is_achieved', range.id, strand.id)
   end
 
   def self.by_last_updated
@@ -53,9 +73,11 @@ class IfaPlanMilestone < ActiveRecord::Base
 
   def self.for_strand(strand)
     where('act_standard_id = ?', strand.id).includes(:act_score_range).order('is_achieved ASC, act_score_ranges.lower_score ASC')
-  #  where('act_standard_id = ?', strand.id).order('is_achieved ASC')
   end
 
+  def self.for_range(range)
+    where('act_score_range_id = ?', range.id)
+  end
   def range
     self.act_score_range
   end

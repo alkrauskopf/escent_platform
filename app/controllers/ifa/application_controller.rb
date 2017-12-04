@@ -350,7 +350,32 @@ class Ifa::ApplicationController < ApplicationController
       @classroom_set['used'+ ass.id.to_s] = ass.classrooms
   end
 
-  def dashboard_plan_markers(users, subject, standard)
+  def dashboard_plan_markers(dashboard, subject, standard)
+    entity = dashboard.ifa_dashboardable rescue nil
+      if !entity.nil?
+      metric = entity.ifa_plan_metrics.metric_table(subject)
+      @plan_markers = {}
+      @plan_markers['w_total']=metric.metrics.in_cell('total').in_process rescue 0
+      @plan_markers['a_total']=metric.metrics.in_cell('total').achieved rescue 0
+      if !subject.nil?
+        standard.act_standards.active.for_subject(subject).each do |strand|
+          @plan_markers['w_tot_s' + strand.id.to_s]=metric.metrics.in_cell('strand'+ strand.id.to_s).in_process rescue 0
+          @plan_markers['a_tot_s' + strand.id.to_s]=metric.metrics.in_cell('strand'+ strand.id.to_s).achieved rescue 0
+        end
+        standard.act_score_ranges.active.for_subject(subject).each do |level|
+          @plan_markers['w_tot_l' + level.id.to_s]=metric.metrics.in_cell('level'+ level.id.to_s).in_process rescue 0
+          @plan_markers['a_tot_l' + level.id.to_s]=metric.metrics.in_cell('level'+ level.id.to_s).achieved rescue 0
+          standard.act_standards.active.for_subject(subject).each do |strand|
+            hash_key = level.id.to_s + strand.id.to_s
+            @plan_markers['w'+hash_key] = metric.metrics.in_cell(level.id.to_s + '|' + strand.id.to_s).in_process rescue 0
+            @plan_markers['a'+hash_key] = metric.metrics.in_cell(level.id.to_s + '|' + strand.id.to_s).achieved rescue 0
+          end
+        end
+      end
+    end
+  end
+
+  def dashboard_plan_markers_old(users, subject, standard)
     @plan_markers = {}
     @plan_markers['w_total']=0
     @plan_markers['a_total']=0

@@ -57,7 +57,8 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     student_view = @current_user.teacher? ? 'N':'Y'
     dashboard_cell_hashes(@entity_dashboard, @current_subject, @current_standard, :student => student_view )
     dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
-    # dashboard_plan_markers(dashboard_users(@entity_dashboard), @current_subject, @current_standard)
+    dashboard_plan_markers(@entity_dashboard, @current_subject, @current_standard)
+ #   dashboard_plan_markers_old(dashboard_users(@entity_dashboard), @current_subject, @current_standard)
   end
 
   def dashboard_submissions
@@ -101,6 +102,13 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     dashboardable_submissions_notice
     org_dashboardables(@current_subject)
     render :partial  => "ifa/ifa_dashboard/dashboardables"
+  end
+
+  def dashboard_marker_refresh
+    get_entity
+    get_subject
+    IfaPlanMetric.reinitialize(@entity, @current_subject, @current_standard)
+    render :partial => "/ifa/ifa_dashboard/plan_marker_refresh", :locals=>{:subject=>@current_subject, :entity=>@entity}
   end
 
   private

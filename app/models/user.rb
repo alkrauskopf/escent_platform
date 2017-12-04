@@ -803,9 +803,15 @@ class User < ActiveRecord::Base
     self.classroom_periods.map{|p| p.classroom.active? ? p.classroom : nil }.compact.uniq.sort_by{|o| o.course_name} rescue []
   end
 
+
+  def active_ifa_offerings(subject)
+    self.classroom_periods.map{|p| (p.classroom.active? && p.classroom.ifa_on? && (p.classroom.act_subject_id == subject.id)) ? p.classroom : nil }.compact.uniq.sort_by{|o| o.course_name} rescue []
+  end
+
   def active_offerings_org(org)
     self.active_offerings.empty? ? [] : self.active_offerings.select{|c| c.organization_id == org.id}
   end
+
 
   def periods_taught(org)
     self.classroom_period_users.teachers.collect{|pu| pu.classroom_period}.compact.select{|p| p.classroom.organization_id == org.id} rescue []

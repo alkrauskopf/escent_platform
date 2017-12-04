@@ -926,7 +926,7 @@
   margin: 1em 0em 1em 0em;
   padding:0em 0em 0em 0em;
   background-color:$dashboard_background;
-  border:1px solid #ddd;
+  border:0px solid #ddd;
 }
 .dashboard_box_in {
   padding:1em 1em 1em 1em;
@@ -937,6 +937,24 @@
   background-color:white;
 }
 
+.dashboard_marker_update {
+  margin: 0em 0em 0em 0em;
+  font-size:12px;
+  text-align:right;
+  vertical-align:top;
+  color:$dark_text;
+}
+.dashboard_marker_update .link{
+  padding: 0em 1em 0em 0em;
+  cursor:pointer;
+  text-decoration: underline;
+  color:$blue_text;
+}
+.dashboard_marker_update .warn{
+  padding: 0em 0em 0em 1em;
+  font-style:italic;
+  color:$red_text;
+}
 .dashboard_levels {
   color:$dark_text;
   padding: 1em 0em 1em 0em;

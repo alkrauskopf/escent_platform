@@ -122,5 +122,4 @@ class IfaPlan < ActiveRecord::Base
     self.open_milestone_ranges.map{|r| r.lower_score}.min.to_s + ' - ' + self.open_milestone_ranges.map{|r| r.upper_score}.max.to_s
   end
 
-
 end

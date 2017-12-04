@@ -1,5 +1,6 @@
 <div id="list_dbs_<%=subject.id%><%=entity.public_id%>" >
   <% view_code ||= 'N'%>
+  <%= render :partial => "/ifa/ifa_dashboard/plan_marker_refresh", :locals=>{:subject=>subject, :entity=>entity} %>
   <div class="row ">
     <div class="col-md-12 ">
       <table id="<%=subject.id%><%=entity.public_id%><%=view_code%>">

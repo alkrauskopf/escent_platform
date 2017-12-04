@@ -1,5 +1,6 @@
 <div id="growth_dashboard_<%= @entity.public_id %>" class="container dashboard_listing">
   <% if !@submission_months.empty? -%>
+      growth_dashboards
       <table id="<%= @entity.public_id %>">
         <tbody>
           <% @submission_months.each do |mnth| -%>

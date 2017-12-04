@@ -936,22 +936,38 @@
   margin:2em 0em 2em 2em;
   background-color:white;
 }
+.dashboard_marker_text_box {
+  margin: 0em 2em 0em 2em;
+  line-height: 1.7em;
+  font-size:14px;
+  text-align:left;
+  font-weight:normal;
+  color:$blue_text;
+}
+
+.dashboard_marker_refresh_row {
+  padding: 0em 0em 1em 2em;
+  font-size:15px;
+  text-align:left;
+  font-weight:bold;
+  color:$blue_text;
+}
 
 .dashboard_marker_update {
   margin: 0em 0em 0em 0em;
-  font-size:12px;
-  text-align:right;
+  font-size:16px;
+  text-align:left;
+  font-weight:normal;
   vertical-align:top;
   color:$dark_text;
 }
 .dashboard_marker_update .link{
-  padding: 0em 1em 0em 0em;
-  cursor:pointer;
-  text-decoration: underline;
-  color:$blue_text;
+  margin: 0em 2em 0em 0em;
+  font-size:12px;
 }
-.dashboard_marker_update .warn{
-  padding: 0em 0em 0em 1em;
+.dashboard_marker_update .updated{
+  padding: 0em 0em 0em 2em;
+  font-size:13px;
   font-style:italic;
   color:$red_text;
 }

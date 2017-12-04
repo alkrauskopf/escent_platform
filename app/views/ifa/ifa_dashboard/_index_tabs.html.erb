@@ -28,6 +28,11 @@
         <%#= tab_1_label %></span></a>
       </li>
       -->
+      <li>
+        <%  tab_8_label = "Tools" %>
+        <a href="#tabs-8"><span class="tab_label">
+        <%= tab_8_label %></span></a>
+      </li>
     </ul>
     <div id="tabs-1" class="row">
       <div class="col-md-12">
@@ -56,6 +61,12 @@
     <div id="tabs-5" class="row">
       <div class="col-md-12">
         <%= render :partial => "/ifa/ifa_plan/teacher_review_plans", :locals=>{:students => @student_list, :subject => @current_subject, :entity => @current_organization} %>
+      </div>
+    </div>
+
+    <div id="tabs-8" class="row">
+      <div class="col-md-12">
+        <%= render :partial => "/ifa/ifa_dashboard/dashboarding_tools", :locals=>{:organization=>@current_organization, :subject => @current_subject, :classrooms => @classroom_list, :students => @student_list} %>
       </div>
     </div>
   </div>

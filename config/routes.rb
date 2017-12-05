@@ -645,6 +645,7 @@ EscentPartners::Application.routes.draw do
   get '/ifa/dashboards/entity/subject' => 'ifa/ifa_dashboard#entity_subject_dashboards' #  ifa_dashboards_entity_subject_path
   get '/ifa/dashboards/submissions' => 'ifa/ifa_dashboard#dashboard_submissions' #  ifa_dashboards_submissions_url
   get '/ifa/dashboards/markers' => 'ifa/ifa_dashboard#dashboard_marker_refresh' #  ifa_dashboards_markers_url
+  get '/ifa/dashboards/markers/all' => 'ifa/ifa_dashboard#dashboard_marker_refresh_all' #  ifa_dashboards_markers_all_url
 
   get '/ifa/related_reading' => 'apps/assessment#get_related_reading' #  ifa_related_reading_url
   post '/ifa/related_reading/add' => 'apps/assessment#add_reading' #  ifa_related_reading_add_path

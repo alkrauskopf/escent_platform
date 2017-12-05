@@ -50,6 +50,11 @@
           <div class="row dashboard_marker_refresh_row">
             Student Dashboards | <%=subject.name %>
           </div>
+          <div class="row subject_student_db_row">
+            <div class="col-md-12 subject_student_name">
+              <%= render :partial => "/ifa/ifa_dashboard/plan_marker_refresh_all", :locals=>{:subject=>subject, :entity_list=> students, :entity_class=>'User'} %>
+            </div>
+          </div>
           <% students.each do |student| -%>
               <div class="row subject_student_db_row">
                 <div class="col-md-12 subject_student_name">

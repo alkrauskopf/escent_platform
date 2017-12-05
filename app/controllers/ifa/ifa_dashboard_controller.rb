@@ -111,6 +111,24 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     render :partial => "/ifa/ifa_dashboard/plan_marker_refresh", :locals=>{:subject=>@current_subject, :entity=>@entity}
   end
 
+  def dashboard_marker_refresh_all
+    get_subject
+    if entity_class == 'Organization'
+      @entity_list = []
+      @entity_list << @current_organization
+    elsif entity_class == 'Classroom'
+      @entity_list = @current_organization.classrooms.ifa_enabled_subject(@current_subject)
+    elsif entity_class == 'User'
+      @entity_list = @current_organization.classrooms.ifa_students_subject(@current_subject)
+    else
+      @entity_list = []
+    end
+    @entity_list.each do |entity|
+      IfaPlanMetric.reinitialize(entity, @current_subject, @current_standard)
+    end
+    render :partial => "/ifa/ifa_dashboard/plan_marker_refresh_all", :locals=>{:subject=>@current_subject, :entity_class=>entity_class}
+  end
+
   private
 
   def get_subject
@@ -126,15 +144,19 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
   end
 
   def get_entity
-    if params[:entity_class] == 'Organization'
+    if entity_class == 'Organization'
       @entity =  Organization.find_by_public_id(params[:entity_id])
-    elsif params[:entity_class] == 'Classroom'
+    elsif entity_class == 'Classroom'
       @entity =  Classroom.find_by_public_id(params[:entity_id])
-    elsif params[:entity_class] == 'User'
+    elsif entity_class == 'User'
       @entity =  User.find_by_public_id(params[:entity_id])
     else
       @entity = nil
     end
+  end
+
+  def entity_class
+    params[:entity_class]
   end
 
   def get_current_plan(subject)

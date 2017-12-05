@@ -1,0 +1,23 @@
+<div id="plan_markers_all<%=subject.id%><%=entity_class%>" >
+  <div class="row ">
+    <div class="col-md-1 "></div>
+    <div class="col-md-10 dashboard_marker_update">
+      <span id="markers_<%=subject.id%><%=entity_class%>" class="button_gray link">
+        Refresh All
+      </span> <%= pluralize(entity_list.size, entity_class + ' Dashboard Marker') %>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#markers_<%=subject.id%><%=entity_class%>").click(function(){
+            var url = "<%= ifa_dashboards_markers_all_url(:organization_id => @current_organization, :subject_id => subject.id, :entity_class => entity_class) %>";
+            jQ.get(url, {}, function(data) {
+              jQ("#plan_markers_all<%=subject.id%><%=entity_class%>").html(data);
+              jQ("#plan_markers_all<%=subject.id%><%=entity_class%>").show();
+            });
+          })
+        });
+      </script>
+    </div>
+    <div class="col-md-1 "></div>
+  </div>
+</div>
+

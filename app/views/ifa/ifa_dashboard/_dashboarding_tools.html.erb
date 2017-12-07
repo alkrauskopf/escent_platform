@@ -28,7 +28,7 @@
       </div>
     </div>
   </div>
-      <% if !classrooms.empty? -%>
+  <% if !classrooms.empty? -%>
     <div class="precision_milestone_panel">
       <div class="precision_prep_review_box">
         <div class="row dashboard_marker_refresh_row">
@@ -45,25 +45,26 @@
     </div>
   <% end %>
   <% if !students.empty? -%>
-      <div class="precision_milestone_panel">
-        <div class="precision_prep_review_box">
-          <div class="row dashboard_marker_refresh_row">
-            Student Dashboards | <%=subject.name %>
-          </div>
+    <div class="precision_milestone_panel">
+      <div class="precision_prep_review_box">
+        <div class="row dashboard_marker_refresh_row">
+          Student Dashboards | <%=subject.name %>
+        </div>
+        <% if false %>
           <div class="row subject_student_db_row">
             <div class="col-md-12 subject_student_name">
               <%= render :partial => "/ifa/ifa_dashboard/plan_marker_refresh_all", :locals=>{:subject=>subject, :entity_list=> students, :entity_class=>'User'} %>
             </div>
           </div>
-          <% students.each do |student| -%>
-              <div class="row subject_student_db_row">
-                <div class="col-md-12 subject_student_name">
-                  <%= render :partial => "/ifa/ifa_dashboard/plan_marker_refresh", :locals=>{:subject=>subject, :entity=>student} %>
-                </div>
-              </div>
-          <% end %>
-        </div>
+        <% end %>
+        <% students.each do |student| -%>
+          <div class="row subject_student_db_row">
+            <div class="col-md-12 subject_student_name">
+              <%= render :partial => "/ifa/ifa_dashboard/plan_marker_refresh", :locals=>{:subject=>subject, :entity=>student} %>
+            </div>
+          </div>
+        <% end %>
       </div>
+    </div>
   <% end %>
 </div>
-

@@ -224,6 +224,10 @@ class IfaPlanMetric < ActiveRecord::Base
 
   def update_cell(cell_name, options = {})
     metric_cell = self.metrics.in_cell(cell_name) rescue nil
+    if metric_cell.nil?
+      self.new_cell(cell_name)
+      metric_cell = self.metrics.in_cell(cell_name) rescue nil
+    end
     if !metric_cell.nil?
       metric_cell.update_attributes(:plans => metric_cell.plans + (options[:plan] ? options[:plan] : 0),
                                     :in_process => metric_cell.in_process + (options[:in_process] ? options[:in_process] : 0),

@@ -1,0 +1,20 @@
+ <!-- start button -->
+  <tr>
+    <td align="left" bgcolor="#ffffff">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td align="center" bgcolor="#ffffff" style="padding: 0em 0em 0em 0em;">
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td align="center" bgcolor="#E1F4DB" style="border-radius: 6px;">
+                  <span rel="noopener noreferrer" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">
+                    <%= link_to (student.last_name + " SAT/ACT Prep Plan"), ifa_plan_student_url(:organization_id => school, :act_subject_id => subject.id, :student_id => student.id, :host => ep_host ) %>
+                  </span>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>

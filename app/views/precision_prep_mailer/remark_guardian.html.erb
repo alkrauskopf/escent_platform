@@ -1,20 +1,47 @@
-Dear <%= @guardian_first_name %>:<br/>
-<br />
-A teacher just added a remark to your student's SAT/ACT Prep plan.<br/>
-<br/>
-Student:  <strong><%= @student_full_name%></strong><br/><br/>
-Teacher:  <strong><%= @teacher_full_name %></strong> (<%= @teacher_email %>)<br/><br/>
-Prep Plan:  <strong><%= @subject_area %></strong><br/><br/>
-<%= @teacher_last_name %> said to <%= @student_first_name %>:<br/>
-<ul>
-  <span style="font-style:italic; font-size:16px;"><%=@remark%></span>
-</ul>
-<br/>
-You're encouraged to ask <%= @student_first_name %> to login <span style="text-decoration:underline"><%= link_to "HERE", organization_view_url(:organization_id => @organization, :host => @ep_host )%></span>
-and explain how the process will help <%= @student_first_name %> work toward SAT/ACT goals.
-And please remember that all data are diagnostic, not evaluative.
-<br/><br/>
-Thank you.
-<br/><br/>
-<%= render :partial => 'prep_outreach_guardian', :locals => {:school_name=> @school_name, :student_name => @student_first_name,
-                                                             :organization_id => @organization.public_id, :guardian_id=>@guardian_id} %>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 800px;">
+  <!-- start copy -->
+  <tr>
+    <td bgcolor="#ffffff" align="left" style="padding: 1.5em 2em .5em 2em; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 20px; line-height: 1.5em;">
+      <h2 align="center" style="margin: .5em 0em .5em 0em;  color:#3F7990; font-weight: bold; ">
+        <%= @school_name %> SAT/ACT Prep: <%= @student_full_name %>
+      </h2>
+      <h4 align="center" style="margin: .5em 0em 1em 0em;  color:#3F7990; font-weight: normal; ">
+        Teacher Remark Notification To Guardian
+      </h4>
+      <p style="padding: 0em 0em 0em 0em; ">Dear <%= @guardian_first_name %>:</p>
+      <p style="padding: .5em 0em 0em 0em;">
+        A teacher just added a remark to your student's SAT/ACT Prep plan.
+      </p>
+      <p style="padding: 0em 0em 0em 0em;  font-weight: normal;">
+        Student: <span style="font-weight:bold;color:#3F7990;"><%= @student_full_name%></span>
+      </p>
+      <p style="padding: 0em 0em 0em 0em; font-weight: normal;">
+        Teacher: <span style="font-weight:bold; color:#3F7990;"><%= @teacher_full_name %></span>&nbsp;
+        <span style="font-weight:normal; font-size:14px; color:#3F7990;">(<%= @teacher_email %>)</span>
+      </p>
+      <p style="padding: 0em 0em 0em 0em; font-weight: normal;">
+        Subject: <span style="font-weight:bold; color:#3F7990;"><%= @subject_area %></span>
+      </p>
+      <p style="padding: .5em 0em 0em 0em;">
+        Remark:
+      </p>
+      <p style="padding: 0em 3em 0em 3em; color:#3F7990; font-weight: normal; font-style:italic;">
+        <%=@remark%>
+      </p>
+      <p style="padding: 0em 0em 0em 0em;">
+        You're encouraged to ask <%= @student_first_name %> to login, below,
+        and explain how the process will help <%= @student_first_name %> work toward SAT/ACT goals. And please remember that all data are diagnostic, not evaluative.
+      </p>
+    </td>
+  </tr>
+  <!-- end copy -->
+
+  <!-- start button -->
+  <%= render :partial => 'button_school_link', :locals => {:school_name=> @school_name, :school => @organization, :ep_host => @ep_host} %>
+  <!-- end button -->
+
+  <!-- start copy -->
+  <%= render :partial => 'prep_outreach_guardian_new', :locals => {:school_name=> @school_name, :student_name => @student_first_name,
+                                                                   :organization_id => @organization.public_id, :guardian_id=>@guardian_id} %>
+  <!-- end copy -->
+</table>

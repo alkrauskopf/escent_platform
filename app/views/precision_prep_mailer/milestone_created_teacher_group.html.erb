@@ -1,15 +1,51 @@
-<strong><%= @student_full_name %></strong> has created a new SAT/ACT prep plan milestone.<br/>
-<br />
-Please <span style="text-decoration:underline"><%= link_to "Click Here", ifa_plan_student_url(:organization_id => @organization, :act_subject_id => @act_subject.id, :student_id => @student.id, :host => @ep_host )%></span> to review plan and provide feedback if you are responsible for <%= @student_first_name %>:<br/><br/>
-Subject Area => <strong><%= @subject_area %></strong><br/><br/>
-Knowledge Strand=> <strong><%= @strand_name %></strong><br/><br/>
-Mastery Level=> <strong><%= @mastery_level %></strong><br/><br/>
-<span style="text-decoration:underline; font-size:16px;"><%= @student_first_name %> Identified The Following Action Plan</span>
-<ul>
-  <span style="font-style:italic; font-size:16px;"><%=simple_format (@milestone.description)%></span>
-</ul>
-<br/>
-<%=pluralize(@guardian_count, ' Guardian')%> Notified: <%= @guardian_cc %><br/><br/>
-To date, <%= @student_first_name %> has achieved <strong><%=@miles_achieved %>-of-<%=pluralize(@miles_defined, ' milestone')%></strong> for
-<strong><%= @subject_area %></strong>.
-<br/><br/>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 800px;">
+  <!-- start copy -->
+  <tr>
+    <td bgcolor="#ffffff" align="left" style="padding: 1.5em 2em .5em 2em; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 20px; line-height: 1.5em;">
+      <h2 align="center" style="margin: .5em 0em .5em 0em;  color:#3F7990; font-weight: bold; ">
+        SAT/ACT Prep Milestone: <%= @student_full_name %>
+      </h2>
+      <h4 align="center" style="margin: .5em 0em 1em 0em;  color:#3F7990; font-weight: normal; ">
+        Teacher Group Notification
+      </h4>
+      <p style="padding: .5em 0em 0em 0em;">
+        <span style="padding: 0em 0em 0em 0em; color:#3F7990; font-weight: bold;">
+          <%= @student_full_name %>
+        </span> has created a new SAT/ACT prep plan milestone.
+      </p>
+      <p style="padding: 0em 0em 0em 0em; font-weight: normal;">
+        Subject: <span style="font-weight:bold; color:#3F7990;"><%= @subject_area %></span>
+      </p>
+      <p style="padding: 0em 0em 0em 0em; font-weight: normal;">
+        Knowledge Area: <span style="font-weight:bold; color:#3F7990;"><%= @strand_name %></span>
+      </p>
+      <p style="padding: 0em 0em 0em 0em; font-weight: normal;">
+        Mastery Level: <span style="font-weight:bold; color:#3F7990;"><%= @mastery_level %></span>
+      </p>
+      <p style="padding: .5em 0em 0em 0em;">
+        <%= @student_first_name %> Identified the following work focus:
+      </p>
+      <p style="padding: 0em 3em 0em 3em; color:#3F7990; font-weight: normal; font-style:italic;">
+        <%= @milestone.description%>
+      </p>
+      <p style="padding: 0em 0em 0em 0em;">
+        To date, <%= @student_first_name %> has achieved <%=@miles_achieved %>-of-<%=pluralize(@miles_defined, ' milestone')%> for <%= @subject_area %>.
+      </p>
+      <p style="padding: 0em 0em 0em 0em;">
+        If <%= @student_first_name %> is your student, please review the milestone and provide appropriate guidance.
+      </p>
+      <p style="padding: 0em 0em 0em 0em; font-size:13px;">
+        (cc: <%=pluralize(@guardian_count, ' Guardian')%>: <%= @guardian_cc %>)
+      </p>
+    </td>
+  </tr>
+  <!-- end copy -->
+
+  <!-- start button -->
+  <%= render :partial => 'button_student_plan_link', :locals => {:student=> @student, :school => @organization, :subject => @act_subject, :ep_host => @ep_host} %>
+  <tr>
+    <td align="center" bgcolor="#ffffff" style="padding: 1em 0em 3em 0em;">
+
+    </td>
+  </tr>
+</table>

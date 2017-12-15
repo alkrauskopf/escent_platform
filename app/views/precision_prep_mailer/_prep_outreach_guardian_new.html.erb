@@ -1,0 +1,29 @@
+<tr>
+  <td bgcolor="#ffffff" align="left" style="padding: 2em 2em .5em 2em; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 17px; line-height: 1.5em;">
+    <hr>
+    <h4 align="center" style= "margin: 1em 0em 1em 0em; color:#3F7990; font-weight:bold;">
+      What's Precision Prep?
+    </h4>
+    <p style="margin:0">
+      <span style="color:#3F7990; font-weight:bold;">Precision Prep</span> is a program <%= school_name %> has adopted to prepare <%= student_name %> for the SAT/ACT's.
+    </p>
+    <p style="margin:0">
+      It's likely that some SAT/ACT preparation needs may fall outside of what <%= student_name %> is covering in class during the school day.
+      This is why teachers at <%= school_name %> are organizing an after-school program to help students work toward their SAT/ACT goals.
+      Click below if you would like a <%= school_name %> teacher to explain this after-school program to you.
+    </p>
+  </td>
+</tr>
+<tr>
+  <td align="center" bgcolor="#ffffff" style="padding: 1em 0em 3em 0em;">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="center" bgcolor="#E9F8FF" style="border-radius: 6px;">
+            <span rel="noopener noreferrer" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">
+              <%= link_to "Learn More About The After School Program", precision_interest_guardian_url(:organization_id => organization_id, :guardian_id => guardian_id, :host => @ep_host )%>
+            </span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>

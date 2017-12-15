@@ -1,24 +1,57 @@
-Dear <%= @student_first_name %>:<br/>
-<br />
-You created a new <strong><%= @subject_area %></strong> milestone.<br/><br/>
-Knowledge Strand: <strong><%= @strand_name %></strong><br/><br/>
-Mastery Level: <strong><%= @mastery_level %></strong><br/><br/>
-<span style="text-decoration:underline; font-size:16px;">You Identified The Following Action Plan</span>
-<ul>
-  <span style="font-style:italic; font-size:16px;"><%=simple_format (@milestone.description)%></span>
-</ul>
-Remember:<br/>
-<ul>
-  <li>
-    Your teacher will guide you on ways to achieve this milestone.
-  </li><br/>
-  <li>
-    When you feel you've achieved your milestone, attach evidence to your plan and explain why you've achieved mastery.
-  </li>
-</ul>
-<br/>
-So far, you have achieved <strong><%=@plan.milestones.achieved.size %>-of-<%=pluralize(@plan.milestones.size, ' milestone')%></strong> for
-<strong><%= @subject_area %></strong>.
-<br/><br/><small>(cc: <%= @guardian_cc %>)</small>
-<%= render :partial => 'prep_outreach_student', :locals => {:school_name=> @school_name, :student_name => @student_first_name, :organization_id => @organization.public_id,
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 800px;">
+  <!-- start copy -->
+  <tr>
+    <td bgcolor="#ffffff" align="left" style="padding: 1.5em 2em .5em 2em; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 20px; line-height: 1.5em;">
+      <h2 align="center" style="margin: .5em 0em .5em 0em;  color:#3F7990; font-weight: bold; ">
+        <%= @school_name %> SAT/ACT Prep: <%= @student_full_name %>
+      </h2>
+      <h4 align="center" style="margin: .5em 0em 1em 0em;  color:#3F7990; font-weight: normal; ">
+        Student Milestone Notification
+      </h4>
+      <p style="padding: 0em 0em 0em 0em; ">Dear <%= @student_first_name %>:</p>
+      <p style="padding: .5em 0em 0em 0em;">
+        You created a new SAT/ACT Prep milestone.
+      </p>
+      <p style="padding: 0em 0em 0em 0em; font-weight: normal;">
+        Subject: <span style="font-weight:bold; color:#3F7990;"><%= @subject_area %></span>
+      </p>
+      <p style="padding: 0em 0em 0em 0em;  font-weight: normal;">
+        Knowledge Area: <span style="font-weight:bold; color:#3F7990;"><%= @strand_name %></span>
+      </p>
+      <p style="padding: 0em 0em 0em 0em; font-weight: normal;">
+        Mastery Level: <span style="font-weight:bold; color:#3F7990; "><%= @mastery_level %></span>
+      </p>
+      <% if !@teacher_name.nil? %>
+          <p style="padding: 0em 0em 0em 0em; font-weight: normal;">
+            Teacher: <span style="font-weight:bold; color:#3F7990;"><%= @teacher_name %></span>
+          </p>
+      <% end %>
+      <p style="padding: .5em 0em 0em 0em;">
+        You Identified the following work focus:
+      </p>
+      <p style="padding: 0em 3em 0em 3em; color:#3F7990; font-weight: normal; font-style:italic;">
+        <%= @milestone.description%>
+      </p>
+      <p style="padding: 0em 0em 0em 0em;">
+        Your teacher will guide you on ways to achieve this milestone. When you feel you've achieved your milestone, attach evidence to your plan and explain why you've achieved mastery.
+      </p>
+      <p style="padding: 0em 0em 0em 0em;">
+        So far, you have achieved <%=@plan.milestones.achieved.size %>-of-<%=pluralize(@plan.milestones.size, ' milestone')%> for
+        <%= @subject_area %>.
+      </p>
+      <p style="padding: 0em 0em 0em 0em; font-size:13px;">
+        (cc: <%= @guardian_cc %>)
+      </p>
+    </td>
+  </tr>
+  <!-- end copy -->
+
+  <!-- start button -->
+  <%= render :partial => 'button_school_link', :locals => {:school_name=> @school_name, :school => @organization, :ep_host => @ep_host} %>
+  <!-- end button -->
+
+  <!-- start copy -->
+<%= render :partial => 'prep_outreach_student_new', :locals => {:school_name=> @school_name, :student_name => @student_first_name, :organization_id => @organization.public_id,
                                                             :student_id=>@student.public_id} %>
+  <!-- end copy -->
+</table>

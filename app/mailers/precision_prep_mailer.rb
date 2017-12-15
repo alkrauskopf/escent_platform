@@ -2,7 +2,8 @@ class PrecisionPrepMailer < ActionMailer::Base
   default from: "no-reply@PrecisionSchoolImprovement.com"
   layout "precision_prep_mailer_old", :except=>['prep_guardian_add', 'milestone_created_guardian',
                                                 'milestone_created_student', 'milestone_created_teacher',
-                                                'milestone_created_teacher_group', 'remark_student', 'remark_guardian'  ]
+                                                'milestone_created_teacher_group', 'remark_student', 'remark_guardian',
+                                                'prep_guardian_inquiry', 'prep_student_inquiry']
 
   def assessment_submission(recipient, sender, classroom, organization, must_review, ep_host)
     @organization = organization

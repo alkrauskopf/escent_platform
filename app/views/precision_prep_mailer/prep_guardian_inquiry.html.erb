@@ -1,15 +1,36 @@
-<br/>
-<strong>Guardian</strong> <%= @guardian_full_name %> has made an after-school Precision Prep inquiry.
-<br/>
-<br/>
-School:<%= @school_name %>
-<br/><br/>
-Student: <%= @student.full_name %>
-<br/><br/>
-Email: <%= @guardian_email%>
-<br/><br/>
-Phone: <%=@guardian_phone %>
-<br/><br/>
-<%= @student.first_name %> Guardians: <%= @guardian_cc %>
-<br/><br/>
-<strong>Please follow-up with <%= @guardian_full_name %> as soon as possible.</strong>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 800px;">
+  <!-- start copy -->
+  <tr>
+    <td bgcolor="#ffffff" align="left" style="padding: 1.5em 2em .5em 2em; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 20px; line-height: 1.5em;">
+      <h2 align="center" style="margin: .5em 0em .5em 0em;  color:#3F7990; font-weight: bold; ">
+        Precision Prep Guardian Inquiry
+      </h2>
+      <p style="padding: 0em 0em 0em 0em; font-weight: normal;">
+        Inquiring Guardian: <span style="font-weight:bold; color:#3F7990; "><%= @guardian_full_name %></span>
+      </p>
+      <p style="padding: 0em 0em 0em 0em; font-weight: normal;">
+        Student: <span style="font-weight:bold; color:#3F7990; "><%= @student_full_name %></span>
+      </p>
+      <p style="padding: 0em 0em 0em 0em; font-weight: normal;">
+        School: <span style="font-weight:bold; color:#3F7990;"><%= @school_name %></span>
+      </p>
+      <p style="padding: 0em 0em 0em 0em;; font-weight: normal;">
+        Email: <span style="font-weight:bold; color:#3F7990"><%= @guardian_email%></span>
+      </p>
+      <p style="padding: 0em 0em 0em 0em;; font-weight: normal;">
+        Phone: <span style="font-weight:bold; color:#3F7990"><%=@guardian_phone %></span>
+      </p>
+      <p style="padding: 0em 0em 0em 0em;">
+        Please follow-up with <%= @guardian_full_name %> as soon as possible.
+      </p>
+    </td>
+  </tr>
+  <!-- end copy -->
+
+  <!-- start button -->
+  <tr>
+    <td align="center" bgcolor="#ffffff" style="padding: 1em 0em 3em 0em;">
+
+    </td>
+  </tr>
+</table>

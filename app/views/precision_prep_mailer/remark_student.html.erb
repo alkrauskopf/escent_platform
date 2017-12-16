@@ -1,44 +1,48 @@
-<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 800px;">
+<table class="envelope_box" border="0" cellpadding="0" cellspacing="0">
   <!-- start copy -->
   <tr>
-    <td bgcolor="#ffffff" align="left" style="padding: 1.5em 2em .5em 2em; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 20px; line-height: 1.5em;">
-      <h2 align="center" style="margin: .5em 0em .5em 0em;  color:#3F7990; font-weight: bold; ">
-        <%= @school_name %> SAT/ACT Prep: <%= @student_full_name %>
-      </h2>
-      <h4 align="center" style="margin: .5em 0em 1em 0em;  color:#3F7990; font-weight: normal; ">
-        Teacher Remark Notification
-      </h4>
-      <p style="padding: 0em 0em 0em 0em; ">Dear <%= @student_first_name %>:</p>
-      <p style="padding: .5em 0em 0em 0em;">
+    <td class="envelope">
+      <p class="env_header">
+        <%= @student_last_name %> | SAT/ACT Prep | <%= @school_name %>
+      </p>
+      <p class="env_subheader">
+        Student Notification | Teacher Remark
+      </p>
+      <p class="env_dear">
+        Dear <%= @student_first_name %>:
+      </p>
+      <p class="env_text_line">
         A teacher just added a remark to your SAT/ACT Prep plan.
       </p>
-      <p style="padding: 0em 0em 0em 0em; color:#3F7990; font-weight: normal;">
-        Teacher: <span style="font-weight:bold;"><%= @teacher_last_name %></span>&nbsp;
-        <span style="font-weight:normal; font-size:14px">(<%= @teacher_email %>)</span>
+      <p class="env_content_line">
+        Student: <span class="content_a"><%= @student_full_name%></span>
       </p>
-      <p style="padding: 0em 0em 0em 0em; color:#3F7990; font-weight: normal;">
-        Subject: <span style="font-weight:bold;"><%= @subject_area %></span>
+      <p class="env_content_line">
+        Teacher: <span class="content_a"><%= @teacher_full_name %></span>
+        <span class="content_b">(<%= @teacher_email %>)</span>
       </p>
-      <p style="padding: .5em 0em 0em 0em;">
+      <p class="env_content_line">
+        Subject: <span class="content_a"><%= @subject_area %></span>
+      </p>
+      <p class="env_content_line">
         Remark:
       </p>
-      <p style="padding: 0em 3em 0em 3em; color:#3F7990; font-weight: normal; font-style:italic;">
-        <%=@remark%>
+      <p class="env_content_line_remark">
+        "<%=@remark%>"
       </p>
-
-      <p style="padding: 0em 0em 0em 0em;">
-        So far, you have achieved <%=@miles_achieved %> of <%=pluralize(@miles_defined, ' SAT/ACT Prep milestone')%> for
+      <p class="env_text_line">
+        So far, you have achieved <%=@miles_achieved %> of <%=pluralize(@miles_defined, ' milestone')%> for
         <%= @subject_area %>.
       </p>
-      <p style="padding: 0em 0em 0em 0em; font-size:13px;">
-        (cc: <%= @guardian_cc %>)
+      <p class="env_text_line">
+        <span class="cc">(cc: <%= @guardian_cc %>)</span>
       </p>
     </td>
   </tr>
   <!-- end copy -->
 
   <!-- start button -->
-  <%= render :partial => 'button_school_link', :locals => {:school_name=> @school_name, :school => @organization, :ep_host => @ep_host} %>
+  <%= render :partial => 'button_student_plan_link', :locals => {:student=> @student, :school => @organization, :subject => @act_subject, :ep_host => @ep_host} %>
   <!-- end button -->
 
   <!-- start copy -->

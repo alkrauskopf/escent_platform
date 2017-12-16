@@ -1,14 +1,13 @@
 <tr>
-  <td bgcolor="#ffffff" align="left" style="padding: 2em 2em .5em 2em; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 17px; line-height: 1.5em;">
+  <td class="env_outreach">
     <hr>
-    <h4 align="center" style= "margin: 1em 0em 1em 0em; color:#3F7990; font-weight:bold;">
+    <p class="env_outreach_header">
       What's Precision Prep?
-    </h4>
-    <p style="margin:0">
-      <span style="color:#3F7990; font-weight:bold;">Precision Prep</span> is a program <%= school_name %> has adopted to prepare you for the SAT/ACT's.
-      It's purpose is NOT to evaluate or judge you.
     </p>
-    <p style="margin:0">
+    <p class="env_outreach_text">
+      <span class="emphasis">Precision Prep</span> is a program <%= school_name %> has adopted to prepare <%= student_name %> for the SAT/ACT's.
+    </p>
+    <p class="env_outreach_text">
       It's likely, <%= student_name %>, that some of your needs for the SAT/ACT's may fall outside of what you are covering in class.
       This is why teachers at <%= school_name %> are organizing an after-school program to help students work toward their SAT/ACT goals.
       Click below if you would like a <%= school_name %> teacher to explain this after-school program to you.
@@ -16,13 +15,13 @@
   </td>
 </tr>
 <tr>
-  <td align="center" bgcolor="#ffffff" style="padding: 1em 0em 3em 0em;">
+  <td class='env_button' align="center">
     <table border="0" cellpadding="0" cellspacing="0">
       <tr>
-        <td align="center" bgcolor="#E9F8FF" style="border-radius: 6px;">
-            <span rel="noopener noreferrer" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">
-              <%= link_to "Learn More About The After School Program", precision_interest_student_url(:organization_id => organization_id, :student_id => student_id, :host => @ep_host )%>
-            </span>
+        <td class='env_button_blue'>
+          <span rel="noopener noreferrer">
+            <%= link_to "Learn More About The After School Program", precision_interest_student_url(:organization_id => organization_id, :student_id => student_id, :host => @ep_host )%>
+          </span>
         </td>
       </tr>
     </table>

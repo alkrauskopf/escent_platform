@@ -206,6 +206,7 @@ class PrecisionPrepMailer < ActionMailer::Base
 
   def student_info(student)
     @student_first_name = student.first_name.titleize
+    @student_last_name = student.last_name.titleize
     @student_full_name = student.full_name.titleize
     @student = student
     @student_email = @student.preferred_email
@@ -235,6 +236,7 @@ class PrecisionPrepMailer < ActionMailer::Base
 
   def plan_info(plan)
     @subject_area = plan.subject_area.name
+    @act_subject = plan.subject_area
     @plan = plan
     @plan_needs = plan.needs.blank? ? 'Not Defined'  : plan.needs
     @plan_goals = plan.goals.blank? ? 'Not Defined'  : plan.goals

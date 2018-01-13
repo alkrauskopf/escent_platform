@@ -32,6 +32,20 @@
 
   add_dashboard_cell_id = false
 
+  update_assessment_stats = true
+
+  if update_assessment_stats
+    ActAssessment.all.each do |ass|
+      cum_subs = ass.act_submissions.final.size
+      cum_ques = ass.questions_for_test.size * cum_subs
+      cum_choices = ass.act_submissions.final.map{|s| s.tot_choices}.sum
+      cum_points = ass.act_submissions.final.map{|s| s.tot_points}.sum
+      cum_duration = ass.act_submissions.final.map{|s| s.duration}.sum
+      ass.update_attributes('cum_submissions' => cum_subs, 'cum_questions_asked' => cum_ques, 'cum_choices_made' => cum_choices,
+      'cum_points_earned' => cum_points, 'cum_duration' => cum_duration)
+    end
+  end
+
 
   if add_dashboard_cell_id
     IfaDashboardCell.all.each do |db_cell|

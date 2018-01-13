@@ -364,9 +364,21 @@ class ActSubmission < ActiveRecord::Base
       # if !self.period_dashboard?(self.organization)
       #  self.auto_ifa_dashboard_update_new(self.organization, standard)
       # end
+      self.update_assessment_stats
       finalized = true
     end
     finalized
+  end
+
+  def update_assessment_stats
+    if self.act_assessment
+      ass = self.act_assessment
+      ass.update_attributes('cum_submissions' => ass.cum_submissions + 1,
+                                            'cum_questions_asked' => ass.cum_questions_asked + ass.questions_for_test.size,
+                                            'cum_choices_made' => ass.cum_choices_made + self.tot_choices,
+                                            'cum_points_earned' => ass.cum_points_earned + self.tot_points,
+                                            'cum_duration' => ass.cum_duration + self.duration)
+    end
   end
 
   def period_dashboard?(entity)

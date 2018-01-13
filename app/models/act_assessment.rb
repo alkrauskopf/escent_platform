@@ -84,7 +84,7 @@ class ActAssessment < ActiveRecord::Base
   end
 
   def questions_for_test
-    self.act_questions.for_test
+    self.act_questions.empty? ? [] : self.act_questions.for_test
   end
 
   def correct_test_choices

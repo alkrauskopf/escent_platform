@@ -1280,6 +1280,10 @@ class User < ActiveRecord::Base
     self.has_authority?(AuthorizationLevel.app_teacher(CoopApp.core), nil)
   end
 
+  def super_student?  # for any org
+    self.has_authority?(AuthorizationLevel.app_teacher(CoopApp.core), nil)
+  end
+
   def content_admin_for_org?(org)
     self.content_manager_for_org?(org)
   end

@@ -929,7 +929,7 @@
   border:0px solid #ddd;
 }
 .dashboard_box_in {
-  padding:1em 1em 1em 1em;
+  padding:0em 1em 1em 1em;
   border:0px solid #ddd;
 }
 .dashboard_table {
@@ -1043,14 +1043,14 @@
 }
 .plan_lus_header {
   color:$blue_text;
-  font-size:16px;
+  font-size:14px;
   text-align:center;
   font-weight:normal;
 }
 .plan_lus {
 color:$blue_text;
-font-size:12px;
-text-align:center;
+font-size:13px;
+padding-left: 1em;
 font-weight:normal;
 }
 .plan_create_msg {
@@ -1095,7 +1095,7 @@ font-weight:normal;
   font-weight:normal;
 }
 .dashboard_title_4 {
-  margin: .5em 0em 0em 0em;
+  margin: 0em 0em 0em 0em;
   font-size:13px;
   color:$blue_text;
   word-wrap:break-word;
@@ -1103,8 +1103,46 @@ font-weight:normal;
   vertical-align:middle;
   font-weight:bold;
 }
+.dashboard_test_prep {
+  margin: 1em 0em 0em 0em;
+  padding: 1em 1em 1em 1em;
+  font-size:13px;
+  border:1px solid #ddd;
+  color:$dark_text;
+  font-weight:normal;
+}
+.dashboard_test_prep_table {
+  padding: 2em 0em 2em 0em;
+  border:1px dashed #ddd;
+  background-color: $light_text;
+  color:$blue_text;
+  font-weight:normal;
+}
+.dashboard_test_prep_table_header {
+  margin: 1em 0em 0em 0em;
+  font-size:16px;
+  text-decoration: underline;
+  text-align:center;
+  vertical-align:middle;
+  border:0px solid #ddd;
+}
+.dashboard_test_prep_table_data {
+  padding: 0em 0em 0em 0em;
+  font-size:14px;
+  line-height:2em;
+  text-align:center;
+  vertical-align:middle;
+  border-bottom:0px dashed #ddd;
+}
 .dashboard_header_row {
   padding: 0em 0em 0em 3em;
+}
+.dashboard_comment_time {
+  margin: 0em 0em 0em 0em;
+  font-size:11px;
+  color:$blue_text;
+  text-align:center;
+  font-weight:bold;
 }
 .dashboard_comment_header {
   margin: 1em 0em .5em 0em;
@@ -1126,13 +1164,13 @@ font-weight:normal;
   font-weight:normal;
 }
 .dashboard_teacher {
-  margin: 1em 0em 0em 0em;
-  font-size:13px;
+  margin: 0em 0em 0em 0em;
+  font-size:14px;
   color:$blue_text;
   word-wrap:break-word;
   text-align:center;
   vertical-align:middle;
-  font-weight:bold;
+  font-weight:normal;
 }
 .dashboard_title_dashboardable {
   padding: 1em 0em 0em 1em;

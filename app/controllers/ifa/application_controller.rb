@@ -238,21 +238,54 @@ class Ifa::ApplicationController < ApplicationController
     @assessment = {}
     if !submission.nil?
       @assessment['id'] = submission.id
+      @assessment['student_name'] = submission.user.nil? ? 'Undefined' : submission.user.first_name
       @assessment['taken_time'] = submission.created_at
       @assessment['standard'] = standard
       @assessment['subject'] = submission.subject
       @assessment['comment'] = submission.student_comment
       @assessment['standard_score'] = submission.sms_score(standard).nil? ? 0 : submission.sms_score(standard)
       @assessment['sat_score'] = ActScoreRange.sat_score(standard, submission.subject, @assessment['standard_score'])
-      @assessment['score_status'] = submission.final? ? '' : 'Estimated '
+      @assessment['score_status'] = submission.final? ? 'Estimated ' : 'Estimated '
       @assessment['status'] = submission.final? ? 'Final' : 'Pending'
       @assessment['teacher'] = submission.teacher.nil? ? 'Not Identified' : submission.teacher.last_name
       @assessment['answer_count'] = submission.tot_choices.nil? ? 0 : submission.tot_choices
-      @assessment['total_points'] = submission.tot_points.nil? ? 0.0 : submission.tot_points
+      @assessment['total_points'] = submission.tot_points.nil? ? 0.0 : submission.tot_points.round
       @assessment['duration_secs'] = submission.duration.nil? ? 0 : submission.duration
-      @assessment['duration_minutes'] = @assessment['duration_secs']/60.0
+      @assessment['duration_minutes'] = (@assessment['duration_secs']/60.0).round(1)
+      @assessment['answer_rate'] = @assessment['answer_count'] == 0 ? 0 : (@assessment['duration_secs'].to_f/@assessment['answer_count'].to_f).round
       @assessment['proficiency'] = @assessment['answer_count'] == 0 ? 0 : (100.0 * @assessment['total_points']/@assessment['answer_count'].to_f).round
       @assessment['efficiency'] = @assessment['total_points'] == 0.0 ? 0 : (@assessment['duration_secs'].to_f/@assessment['total_points']).round
+      if !submission.act_assessment.nil?
+        @assessment['title'] = submission.act_assessment.name
+        @assessment['question_count'] = submission.act_assessment.questions_for_test.size
+        @assessment['best_duration'] = (submission.act_assessment.shortest_duration/60.0).round(1)
+        @assessment['best_point_rate'] = submission.act_assessment.best_time_per_point
+        @assessment['best_pct'] = submission.act_assessment.best_pct
+        @assessment['best_points'] = submission.act_assessment.most_points.round
+        @assessment['target_duration'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_submissions.to_f/60.0).round(1)
+        @assessment['target_point_rate'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_points_earned).round
+        @assessment['target_points'] = (submission.act_assessment.cum_points_earned/submission.act_assessment.cum_submissions.to_f).round
+        @assessment['target_pct'] = (100.0 * submission.act_assessment.cum_points_earned/submission.act_assessment.cum_choices_made.to_f).round
+        @assessment['target_question_rate'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_questions_asked.to_f).round
+        @assessment['target_answer_rate'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_choices_made.to_f).round
+        @assessment['target_questions'] = (submission.act_assessment.cum_questions_asked.to_f/submission.act_assessment.cum_submissions.to_f).round
+        @assessment['target_answers'] = (submission.act_assessment.cum_choices_made.to_f/submission.act_assessment.cum_submissions.to_f).round
+      else
+        @assessment['title'] = 'Unknown Assessment'
+        @assessment['question_count'] = nil
+        @assessment['best_duration'] = nil
+        @assessment['best_point_rate'] = nil
+        @assessment['best_pct'] = nil
+        @assessment['best_points'] = nil
+        @assessment['target_duration'] = nil
+        @assessment['target_point_rate'] = nil
+        @assessment['target_points'] = nil
+        @assessment['target_pct'] = nil
+        @assessment['target_question_rate'] = nil
+        @assessment['target_answer_rate'] = nil
+        @assessment['target_questions'] = nil
+        @assessment['target_answers'] = nil
+      end
     end
   end
 

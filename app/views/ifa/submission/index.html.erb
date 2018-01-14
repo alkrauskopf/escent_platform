@@ -30,13 +30,13 @@
       <% if !@current_student_plan.nil? -%>
         <% if !@suggested_topics.empty? %>
           <div class="row plan_lus_header">
-            Your Plan Learning Units
+            Your Plan Focus:
+            <% @suggested_topics.each do |lu| %>
+              <span class="plan_lus">
+                <%= link_to lu.title, offering_view_path(:organization_id => @current_organization, :topic_id => lu, :id => @classroom) %>
+              </span>
+            <% end %>
           </div>
-          <% @suggested_topics.each do |lu| %>
-            <div class="row plan_lus">
-              <%= link_to lu.title, offering_view_path(:organization_id => @current_organization, :topic_id => lu, :id => @classroom) %>
-            </div>
-          <% end %>
         <% end %>
       <% else %>
         <div class="row plan_create_msg">

@@ -6,7 +6,9 @@
           <%= render :partial => "/ifa/ifa_dashboard/header_dashboard" %>
         <% end %>
         <% if !@assessment.nil? %>
-            <%= render :partial => "/ifa/ifa_dashboard/header_assessment" %>
+            <hr>
+            <%= render :partial => "/ifa/ifa_dashboard/header_assessment_stats" %>
+            <%#= render :partial => "/ifa/ifa_dashboard/header_assessment" %>
         <% end %>
         <% if !@aggregate.nil? %>
             <%= render :partial => "/ifa/ifa_dashboard/header_aggregate", :locals => {:dashboard => dashboard} %>

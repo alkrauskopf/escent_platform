@@ -1,0 +1,111 @@
+
+
+      <table class="dashboard_test_prep_table">
+        <tbody >
+          <colgroup>
+            <col style="width:34%">
+            <col style="width:22%">
+            <col style="width:22%">
+            <col style="width:22%">
+          </colgroup>
+          <tr >
+            <td class="dashboard_test_prep_table_header">
+              Test Prep Stats
+            </td>
+            <td class="dashboard_test_prep_table_header">
+              <%= @assessment['student_name'] %>
+            </td>
+            <td class="dashboard_test_prep_table_header" >
+              Target
+            </td>
+            <td class="dashboard_test_prep_table_header">
+              Best-So-Far
+            </td>
+          </tr>
+          <tr >
+            <td class="dashboard_test_prep_table_data">
+              Answered
+            </td>
+            <td class="dashboard_test_prep_table_data">
+              <%= @assessment['answer_count'] %> of <%= @assessment['question_count'] %>
+            </td>
+            <td class="dashboard_test_prep_table_data" >
+              <%= @assessment['target_answers'] %> of <%= @assessment['target_questions'] %>
+            </td>
+            <td class="dashboard_test_prep_table_data">
+            </td>
+          </tr>
+          <tr >
+            <td class="dashboard_test_prep_table_data">
+              % Correct
+            </td>
+            <td class="dashboard_test_prep_table_data">
+              <%= @assessment['proficiency']%>%
+            </td>
+            <td class="dashboard_test_prep_table_data" >
+              <%= @assessment['target_pct']%>%
+            </td>
+            <td class="dashboard_test_prep_table_data">
+              <%= @assessment['best_pct']%>%
+            </td>
+          </tr>
+          <tr >
+            <td class="dashboard_test_prep_table_data">
+              Duration
+            </td>
+            <td class="dashboard_test_prep_table_data">
+              <%= pluralize(@assessment['duration_minutes'], ' Min')%>
+            </td>
+            <td class="dashboard_test_prep_table_data" >
+              <%= pluralize(@assessment['target_duration'], ' Min')%>
+            </td>
+            <td class="dashboard_test_prep_table_data">
+              <%= pluralize(@assessment['best_duration'], ' Min')%>
+            </td>
+          </tr>
+          <tr >
+            <td class="dashboard_test_prep_table_data">
+              Total Points
+            </td>
+            <td class="dashboard_test_prep_table_data">
+              <%= @assessment['total_points']%>
+            </td>
+            <td class="dashboard_test_prep_table_data" >
+              <%= @assessment['target_points']%>
+            </td>
+            <td class="dashboard_test_prep_table_data">
+              <%= @assessment['best_points']%>
+            </td>
+          </tr>
+          <tr >
+            <td class="dashboard_test_prep_table_data">
+              Time To Answer
+            </td>
+            <td class="dashboard_test_prep_table_data">
+              <%= pluralize(@assessment['answer_rate'], ' Sec')%>
+            </td>
+            <td class="dashboard_test_prep_table_data" >
+              <%= pluralize(@assessment['target_answer_rate'], ' Sec')%>
+            </td>
+            <td class="dashboard_test_prep_table_data">
+
+            </td>
+          </tr>
+          <tr >
+            <td class="dashboard_test_prep_table_data">
+              Time To Get A Point
+            </td>
+            <td class="dashboard_test_prep_table_data">
+              <%= pluralize(@assessment['efficiency'], ' Sec')%>
+            </td>
+            <td class="dashboard_test_prep_table_data" >
+              <%= pluralize(@assessment['target_point_rate'], ' Sec')%>
+            </td>
+            <td class="dashboard_test_prep_table_data">
+              <%= pluralize(@assessment['best_point_rate'], ' Sec')%>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+

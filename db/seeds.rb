@@ -32,7 +32,7 @@
 
   add_dashboard_cell_id = false
 
-  update_assessment_stats = false
+  update_assessment_stats = true
 
   if update_assessment_stats
      ActAssessment.all.each do |ass|

@@ -1,0 +1,33 @@
+<div class="row dashboard_header_row">
+  <div class="col-md-2">
+    <div class="row dashboard_comment_time ">
+      <%= (time_ago_in_words(@assessment['taken_time']).sub(/about /, '') + " ago").titleize %>
+    </div>
+    <% if @assessment['comment'] != '' %>
+        <div class="row dashboard_comment_header ">
+          Student Comment
+        </div>
+        <div class="row dashboard_comment ">
+          <%= @assessment['comment']%>
+        </div>
+    <% end %>
+  </div>
+  <div class="col-md-8 ">
+    <div class="row dashboard_title_4">
+      <%=@assessment['score_status']%>Mastery Level: <%= @assessment['standard'].abbrev %>&nbsp;<%= @assessment['standard_score']%>
+      <%= @assessment['sat_score'].nil? ? '' : (', SAT ' + @assessment['sat_score'].to_s) %>
+    </div>
+    <div class="row dashboard_title_3">
+      <%=@assessment['title']%>
+    </div>
+    <%= render :partial => "/ifa/ifa_dashboard/header_test_prep" %>
+  </div>
+  <div class="col-md-2 dashboard_teacher">
+    <div class="row">
+      <%= @assessment['teacher']%>
+    </div>
+    <div class="row">
+      <%= @assessment['status'] %>
+    </div>
+  </div>
+</div>

@@ -410,6 +410,48 @@ class Ifa::ApplicationController < ApplicationController
       end
     end
   end
+  def student_test_prep_stats(students, subject, standard)
+    @test_prep_stats = []
+    idx = 0
+    students.each do |student|
+      student.assessments_taken(:subject => subject).each do |sub|
+        stat_row = {}
+        stat_row['name'] = student.last_name_first
+        stat_row['assessment_name'] = sub.act_assessment.nil? ? 'Assessment Undefined' : sub.act_assessment.name
+        stat_row['date'] = sub.created_at
+        stat_row['score'] = sub.sms_score(standard)
+        stat_row['sat_score'] = ActScoreRange.sat_score(standard, subject, stat_row['score'])
+        stat_row['score'] = sub.tot_choices
+        stat_row['total_points'] = sub.tot_points.nil? ? 0.0.round : sub.tot_points.round
+        stat_row['answer_count'] = sub.tot_choices.nil? ? 0 : sub.tot_choices
+        stat_row['question_count'] = sub.act_assessment.nil? ? 0 : sub.act_assessment.questions_for_test.size
+        stat_row['proficiency'] = stat_row['answer_count'] == 0 ? 0 : (100.0 * stat_row['total_points']/stat_row['answer_count'].to_f).round
+        stat_row['duration_secs'] = sub.duration.nil? ? 0 : sub.duration
+        stat_row['duration_minutes'] = (stat_row['duration_secs']/60.0).round(1)
+        stat_row['answer_rate'] = stat_row['answer_count'] == 0 ? 0 : (stat_row['duration_secs'].to_f/stat_row['answer_count'].to_f).round
+        stat_row['point_rate'] = stat_row['total_points'] == 0.0 ? 0 : (stat_row['duration_secs'].to_f/stat_row['total_points']).round
+        if !sub.act_assessment.nil? && sub.act_assessment.cum_submissions > 0
+          stat_row['target_points'] = (sub.act_assessment.cum_points_earned.to_f/sub.act_assessment.cum_submissions.to_f).round
+          stat_row['target_pct'] =  (100.0 * sub.act_assessment.cum_points_earned.to_f/sub.act_assessment.cum_choices_made.to_f).round
+          stat_row['target_answers'] = (sub.act_assessment.cum_choices_made.to_f/sub.act_assessment.cum_submissions.to_f).round
+          stat_row['target_duration'] = (sub.act_assessment.cum_duration.to_f/sub.act_assessment.cum_submissions.to_f/60.0).round(1)
+          stat_row['target_point_rate'] = (sub.act_assessment.cum_duration.to_f/sub.act_assessment.cum_points_earned.to_f).round
+          stat_row['target_answer_rate'] = (sub.act_assessment.cum_duration.to_f/sub.act_assessment.cum_choices_made.to_f).round
+        else
+          stat_row['target_points'] = 0
+          stat_row['target_pct'] =  0
+          stat_row['target_answers'] = 0
+          stat_row['target_duration'] = 0
+          stat_row['target_point_rate'] = 0
+          stat_row['target_answer_rate'] = 0
+
+        end
+          @test_prep_stats << stat_row
+      end
+      stat_row = {}
+      @test_prep_stats << stat_row
+    end
+  end
 
   def dashboard_plan_markers_old(users, subject, standard)
     @plan_markers = {}

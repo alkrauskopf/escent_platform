@@ -49,6 +49,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       db_users = []
       db_users << @current_classroom.students
       dashboard_plan_markers(@current_classroom.students, @current_classroom.act_subject, @current_standard)
+      student_test_prep_stats(@current_classroom.students, @current_classroom.act_subject, @current_standard)
     end
 
     def review_student_dashboard

@@ -561,7 +561,7 @@ class ActSubmission < ActiveRecord::Base
     if sms_score_record
       score = 0
       if self.final?
-        score = sms_score_record.est_sms.nil? ? 0 : sms_score_record.est_sms
+        score = sms_score_record.final_sms.nil? ? 0 : sms_score_record.final_sms
       else
         score = sms_score_record.final_sms.nil? ? 0 : sms_score_record.final_sms
       end

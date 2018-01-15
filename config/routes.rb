@@ -597,6 +597,7 @@ EscentPartners::Application.routes.draw do
   post '/ifa/submission/review/final' => 'ifa/submission#teacher_review_update'    # ifa_submission_review_final_path
   get '/ifa/submission/review/student/dashboard' => 'ifa/submission#review_student_dashboard'    # ifa_submission_review_student_dashboard_path
   get '/ifa/submission/review/classroom/dashboard' => 'ifa/submission#review_classroom_dashboard'    # ifa_submission_review_classroom_dashboard_path
+  get '/ifa/submission/stats' => 'ifa/submission#show_submission_stats' #  ifa_submission_stats_path
 
   get '/ifa/assessment/take' => 'apps/assessment#take_assessment'    # ifa_assessment_take_path
   get '/ifa/assessment/edit' => 'apps/assessment#edit_ifa_assessment'   # ifa_assessment_edit_path

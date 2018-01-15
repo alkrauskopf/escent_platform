@@ -1,6 +1,6 @@
 class Ifa::SubmissionController <  Ifa::ApplicationController
 
-    layout "ifa_submission"
+    layout "ifa_submission", :except =>[:show_submission_stats]
 
     before_filter :current_classroom
     before_filter :current_user_classroom_period?, :only=>[:index]
@@ -22,6 +22,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       @assessment_subjects = @current_user.act_submissions.collect{|s| s.act_subject}.uniq rescue []
       @dashboard_subjects = @current_user.ifa_dashboards.collect{|s| s.act_subject}.compact.uniq rescue []
       entity_subject_dashboards(@current_user)
+      entity_subject_submissions(@current_user)
       start_date = @current_provider.ifa_org_option.begin_school_year
       prepare_ifa_dashboard(@current_user, start_date, Date.today)
       student_assessment_dashboard(@last_submission)
@@ -31,6 +32,11 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       db_users = []
       db_users << @current_user
       dashboard_plan_markers(db_users, @current_subject, @current_standard)
+    end
+
+    def show_submission_stats
+      get_current_submission
+      assessment_header_info(@current_submission, @current_standard)
     end
 
     def teacher_review
@@ -175,6 +181,12 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       @entity_dashboards = {}
       ActSubject.all_subjects.each do |subject|
         @entity_dashboards[subject] = entity.ifa_dashboards.for_subject(subject).by_date
+      end
+    end
+    def entity_subject_submissions(entity)
+      @entity_submissions = {}
+      ActSubject.all_subjects.each do |subject|
+        @entity_submissions[subject] = entity.act_submissions.for_subject(subject).final
       end
     end
 

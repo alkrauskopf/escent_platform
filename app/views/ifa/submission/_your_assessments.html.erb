@@ -2,7 +2,7 @@
   <div class= "precision_prep_review_panel">
     <div class="row">
       <div class="col-md-12">
-        <%= @current_user.full_name %> Dashboards, <%= pluralize(@dashboard_subjects.size, ' Subject') %>
+        <%= @current_user.full_name %> Assessment History, <%= pluralize(@dashboard_subjects.size, ' Subject') %>
       </div>
     </div>
   </div>
@@ -20,7 +20,7 @@
           <div class="row ">
             <div class="col-md-12">
               <div class="subject_growth_row">
-                <%= render :partial  => "ifa/ifa_dashboard/list_subject_dashboards", :locals=>{:subject => sub, :entity_dashboards => @entity_dashboards[sub], :entity => @current_user, :view_code=>'S' } %>
+                <%= render :partial  => "list_subject_submissions", :locals=>{:subject => sub, :entity_submissions => @entity_submissions[sub], :entity => @current_user, :view_code=>'S' } %>
               </div>
             </div>
           </div>

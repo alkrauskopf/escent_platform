@@ -1114,7 +1114,7 @@ font-weight:normal;
 .dashboard_test_prep_table {
   padding: 2em 0em 2em 0em;
   border:1px dashed #ddd;
-  background-color: $light_text;
+  background-color: $light_box;
   color:$blue_text;
   font-weight:normal;
 }
@@ -1180,6 +1180,15 @@ font-weight:normal;
   text-align:left;
   vertical-align:middle;
   font-weight:normal;
+}
+.submission_stat_box {
+  margin: 1em 4em 1em 4em;
+  padding: 2em 2em 2em 2em;
+  background-color:white;
+  border:3px solid #ddd;
+  line-height:1.75em;
+  border-radius: 10px;
+
 }
 .ifa_pending_destroy {
   padding-top:.5em;

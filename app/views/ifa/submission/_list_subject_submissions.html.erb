@@ -1,0 +1,28 @@
+<div id="list_subs_<%=subject.id%><%=entity.public_id%>" >
+  <% view_code ||= 'N'%>
+  <div class="row ">
+    <div class="col-md-12 ">
+      <table id="subs_<%=subject.id%><%=entity.public_id%><%=view_code%>">
+        <tbody>
+          <% entity_submissions.each do |sub| -%>
+              <% col_label = sub.created_at.strftime("%b %d, %Y")  + " - " + (sub.act_assessment.nil? ? 'No Assessment Found' :  sub.act_assessment.name) %>
+              <tr>
+                <td class="authorization_levels_close">
+                  <%= link_to '', ifa_submission_stats_path(:organization_id => @current_organization, :subject_id => subject.id,  :act_submission_id => sub.id, :details => nil) %>
+                  <%= col_label %>
+                  <span></span>
+                </td>
+              </tr>
+          <% end -%>
+        </tbody>
+      </table>
+      <script type="text/javascript" charset="utf-8">
+        jQ(document).ready(function() {
+          jQ('#subs_<%=subject.id%><%=entity.public_id%><%=view_code%> .authorization_levels_close').toggleAuthorizationLevels();
+          jQ('#subs_<%=subject.id%><%=entity.public_id%><%=view_code%> .authorization_levels_open').toggleAuthorizationLevels();
+        });
+      </script>
+    </div>
+  </div>
+</div>
+

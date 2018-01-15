@@ -67,6 +67,11 @@
         <%= tab_1_label %></span></a>
       </li>
       <li>
+        <%  tab_4_label = " My Assessment History " %>
+        <a href="#tabs-4"><span class="tab_label">
+        <%= tab_4_label %></span></a>
+      </li>
+      <li>
         <%  tab_2_label = " My Dashboards " %>
         <a href="#tabs-2"><span class="tab_label">
         <%= tab_2_label %></span></a>
@@ -90,6 +95,11 @@
     <div id="tabs-3" class="row">
       <div class="col-md-12">
         <%= render :partial => "/ifa/ifa_plan/student_review_plans" %>
+      </div>
+    </div>
+    <div id="tabs-4" class="row">
+      <div class="col-md-12">
+        <%= render :partial => "your_assessments"  -%>
       </div>
     </div>
   </div>

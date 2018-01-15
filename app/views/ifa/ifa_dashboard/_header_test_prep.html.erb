@@ -16,10 +16,10 @@
               <%= @assessment['student_name'] %>
             </td>
             <td class="dashboard_test_prep_table_header" >
-              Target
+              Others
             </td>
             <td class="dashboard_test_prep_table_header">
-              Best-So-Far
+              Best, So Far
             </td>
           </tr>
           <tr >
@@ -33,6 +33,7 @@
               <%= @assessment['target_answers'] %> of <%= @assessment['target_questions'] %>
             </td>
             <td class="dashboard_test_prep_table_data">
+              <%= @assessment['most_answered'] %> of <%= @assessment['question_count'] %>
             </td>
           </tr>
           <tr >
@@ -88,7 +89,7 @@
               <%= pluralize(@assessment['target_answer_rate'], ' Sec')%>
             </td>
             <td class="dashboard_test_prep_table_data">
-
+              <%= pluralize(@assessment['best_answer_rate'], ' Sec')%>
             </td>
           </tr>
           <tr >

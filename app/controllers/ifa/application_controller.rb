@@ -262,6 +262,8 @@ class Ifa::ApplicationController < ApplicationController
         @assessment['best_point_rate'] = submission.act_assessment.best_time_per_point
         @assessment['best_pct'] = submission.act_assessment.best_pct
         @assessment['best_points'] = submission.act_assessment.most_points.round
+        @assessment['best_answer_rate'] = submission.act_assessment.best_answer_rate
+        @assessment['most_answered'] = submission.act_assessment.most_answered
         @assessment['target_duration'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_submissions.to_f/60.0).round(1)
         @assessment['target_point_rate'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_points_earned).round
         @assessment['target_points'] = (submission.act_assessment.cum_points_earned/submission.act_assessment.cum_submissions.to_f).round
@@ -285,6 +287,7 @@ class Ifa::ApplicationController < ApplicationController
         @assessment['target_answer_rate'] = nil
         @assessment['target_questions'] = nil
         @assessment['target_answers'] = nil
+        @assessment['best_answer_rate'] = nil
       end
     end
   end

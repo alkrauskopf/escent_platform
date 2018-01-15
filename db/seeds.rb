@@ -32,27 +32,35 @@
 
   add_dashboard_cell_id = false
 
-  update_assessment_stats = false
+  update_assessment_stats = true
 
   if update_assessment_stats
      ActAssessment.all.each do |ass|
-       cum_subs = ass.act_submissions.final.size
+       subs = ass.act_submissions.final.select{|s| s.authentic?}
+       cum_subs = subs.size
        cum_ques = ass.questions_for_test.size * cum_subs
-       cum_choices = ass.act_submissions.final.map{|s| s.tot_choices}.sum
-       cum_points = ass.act_submissions.final.map{|s| s.tot_points}.sum
-       cum_duration = ass.act_submissions.final.map{|s| s.duration}.sum
+       cum_choices = subs.map{|s| s.tot_choices}.sum
+       cum_points = subs.map{|s| s.tot_points}.sum
+       cum_duration = subs.map{|s| s.duration}.sum
        ass.update_attributes('cum_submissions' => cum_subs, 'cum_questions_asked' => cum_ques, 'cum_choices_made' => cum_choices,
        'cum_points_earned' => cum_points, 'cum_duration' => cum_duration)
-   #    shortest_time = ass.act_submissions.final.empty? ? 18000 : (ass.act_submissions.final.map{|s| s.not_authentic? ? 18000 : (s.duration > 0 ?  s.duration : 18000)}.min)
-       shortest_time = ass.act_submissions.final.empty? ? 18000 : (ass.act_submissions.final.map{|s| s.duration}.min)
-   #    best_time_point = ass.act_submissions.final.empty? ? 18000 : (ass.act_submissions.final.map{|s| s.not_authentic? ? 18000 : (s.tot_points > 0.0 ? (s.duration.to_f/s.tot_points).round : 18000)}.min)
-       best_time_point = ass.act_submissions.final.empty? ? 18000 : (ass.act_submissions.final.map{|s| (s.tot_points > 0.0 ? (s.duration.to_f/s.tot_points).round : 18000)}.min)
-   #    best_pct = ass.act_submissions.final.empty? ? 0 : (ass.act_submissions.final.map{|s| s.not_authentic? ? 0 : (s.tot_choices > 0 ? (100.0 * s.tot_points/s.tot_choices.to_f).round : 0)}.max)
-       best_pct = ass.act_submissions.final.empty? ? 0 : (ass.act_submissions.final.map{|s| (s.tot_choices > 0 ? (100.0 * s.tot_points/s.tot_choices.to_f).round : 0)}.max)
-  #     most_points = ass.act_submissions.final.empty? ? 0.0 : (ass.act_submissions.final.map{|s| s.not_authentic? ? 0.0 : s.tot_points}.max)
-       most_points = ass.act_submissions.final.empty? ? 0.0 : (ass.act_submissions.final.map{|s| s.tot_points}.max)
+       if !subs.empty?
+        shortest_time = subs.map{|s| s.duration}.min
+        best_time_point = subs.map{|s| (s.tot_points > 0.0 ? (s.duration.to_f/s.tot_points).round : 18000)}.min
+        best_pct = subs.map{|s| (100.0 * s.tot_points/s.tot_choices.to_f).round}.max
+        most_points = subs.map{|s| s.tot_points}.max
+        answer_rate = subs.map{|s| (s.duration.to_f/s.tot_choices.to_f).round}.min
+        most_answers = [subs.map{|s| s.tot_choices}.max, ass.questions_for_test.size].min
+       else
+         shortest_time = 18000
+         best_time_point = 18000
+         best_pct = 0
+         most_points = 0.0
+         answer_rate = 18000
+         most_answers = 0
+       end
        ass.update_attributes('shortest_duration' => shortest_time, 'best_time_per_point' => best_time_point, 'best_pct' => best_pct,
-        'most_points' => most_points)
+        'most_points' => most_points, 'best_answer_rate' => answer_rate, 'most_answered' => most_answers)
      end
   end
 

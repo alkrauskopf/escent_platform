@@ -28,36 +28,42 @@
                         </div>
                       </td>
                       <td class="student_test_prep_stats_data">
-                        <%= stat['name'] %>: <%= stat['sat_score'] %>,
-                          <%=pluralize(stat['total_points'], ' Point')%>, <%=pluralize(stat['answer_count'], ' Answer')%>&nbsp;(<%=stat['proficiency']%>%)
+                        <%= stat['name'] %>: <%= stat['sat_score'] %> |
+                          <%=stat['total_points']%> Pts | <%=stat['answer_count']%> Ans |  <%=stat['proficiency']%>%
                         <div class="population">
-                          Others:&nbsp;
-                          <%=pluralize(stat['target_points'], ' Point')%>, <%=pluralize(stat['target_answers'], ' Answer')%>&nbsp;(<%=stat['target_pct']%>%)
+                          Others:&nbsp;&nbsp;|
+                          <%= stat['target_points']%> Pts | <%=stat['target_answers']%> Ans | <%=stat['target_pct']%>%
                         </div>
                       </td>
                       <td class="student_test_prep_stats_data">
-                        <%= stat['name'] %>: <%=pluralize(stat['duration_minutes'], ' Min')%>,&nbsp;
-                          <%=pluralize(stat['answer_rate'], ' Sec')%>/Ques, <%=pluralize(stat['point_rate'], ' Sec')%>/Point
+                        <%= stat['name'] %>: <%=pluralize(stat['duration_minutes'], ' Min')%>&nbsp;|&nbsp;
+                          <%=pluralize(stat['answer_rate'], ' Sec')%> | <%=pluralize(stat['point_rate'], ' Sec')%>
                         <div class="population">
-                        Others:&nbsp;
-                        <%=pluralize(stat['target_duration'], ' Min')%>,&nbsp;
-                        <%=pluralize(stat['target_answer_rate'], ' Sec')%>/Ques, <%=pluralize(stat['target_point_rate'], ' Sec')%>/Point
+                          Others:&nbsp;
+                          <%=pluralize(stat['target_duration'], ' Min')%>&nbsp;|&nbsp;
+                          <%=pluralize(stat['target_answer_rate'], ' Sec')%> | <%=pluralize(stat['target_point_rate'], ' Sec')%>
                         </div>
                       </td>
                     </tr>
                   <% elsif stat['ass_taken'] > 0 %>
                     <tr >
                       <td  class="student_test_prep_stats_break">
-                        <%=stat['name']%>&nbsp;(<%=stat['ass_taken']%>)
+                        <%=stat['name']%>
                       </td>
                       <td  class="student_test_prep_stats_break">
                         <div class="heading">
                           Proficiency
+                          <div class="sub_heading">
+                            Score | Points | Answers Made | % Correct
+                          </div>
                         </div>
                       </td>
                       <td  class="student_test_prep_stats_break">
                         <div class="heading">
                           Efficiency
+                          <div class="sub_heading">
+                            Test Duration | Time/Question | Time/Point
+                          </div>
                         </div>
                       </td>
                     </tr >

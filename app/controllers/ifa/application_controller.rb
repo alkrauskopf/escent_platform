@@ -412,11 +412,16 @@ class Ifa::ApplicationController < ApplicationController
   end
   def student_test_prep_stats(students, subject, standard)
     @test_prep_stats = []
-    idx = 0
     students.each do |student|
+      stat_row = {}
+      stat_row['name'] = student.last_name_first
+      stat_row['break'] = true
+      stat_row['ass_taken'] = student.assessments_taken(:subject => subject).size
+      @test_prep_stats << stat_row
       student.assessments_taken(:subject => subject).each do |sub|
         stat_row = {}
-        stat_row['name'] = student.last_name_first
+        stat_row['break'] = false
+        stat_row['name'] = student.first_name
         stat_row['assessment_name'] = sub.act_assessment.nil? ? 'Assessment Undefined' : sub.act_assessment.name
         stat_row['date'] = sub.created_at
         stat_row['score'] = sub.sms_score(standard)
@@ -448,8 +453,6 @@ class Ifa::ApplicationController < ApplicationController
         end
           @test_prep_stats << stat_row
       end
-      stat_row = {}
-      @test_prep_stats << stat_row
     end
   end
 

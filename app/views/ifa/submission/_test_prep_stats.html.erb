@@ -13,43 +13,25 @@
           <table class="table table-bordered table-hover student_test_prep_stats_table">
             <tbody >
               <colgroup>
-                <col style="width:20%">
-                <col style="width:20%">
-                <col style="width:30%">
-                <col style="width:30%">
+                <col style="width:24%">
+                <col style="width:35%">
+                <col style="width:41%">
               </colgroup>
-              <tr >
-                <th class="student_test_prep_stats_header">
-                 Student
-                </th>
-                <th class="student_test_prep_stats_header">
-                  Assessment
-                </th>
-                <th class="student_test_prep_stats_header">
-                  Proficiency
-                </th>
-                <th class="student_test_prep_stats_header">
-                  Efficiency
-                </th>
-              </tr>
               <% if !@test_prep_stats.empty? %>
                 <% @test_prep_stats.each do |stat| %>
-                  <tr >
-                    <% if !stat['name'].nil? %>
+                  <% if !stat['break'] %>
+                    <tr >
                       <td class="student_test_prep_stats_row">
-                        <%= stat['name']%>
-                        <span class="date">
-                          &nbsp;<%= stat['date'].nil? ? '' : stat['date'].strftime("%m-%d-%y")%>
-                        </span>
-                      </td>
-                      <td class="student_test_prep_stats_row">
+                        <%= stat['date'].nil? ? '' : stat['date'].strftime("%b %d, %Y")%>
+                        <div>
                           <%= stat['assessment_name']%>
-                        <div class="date">
-                          <%= pluralize(stat['question_count'], ' question')%>
+                          <div class="date">
+                            <%= pluralize(stat['question_count'], ' question')%>
+                          </div>
                         </div>
                       </td>
                       <td class="student_test_prep_stats_data">
-                        Score: <%= stat['sat_score'] %>,
+                        <%= stat['name'] %>: <%= stat['sat_score'] %>,
                           <%=pluralize(stat['total_points'], ' Point')%>, <%=pluralize(stat['answer_count'], ' Answer')%>&nbsp;(<%=stat['proficiency']%>%)
                         <div class="population">
                           Others:&nbsp;
@@ -57,7 +39,7 @@
                         </div>
                       </td>
                       <td class="student_test_prep_stats_data">
-                        <%=pluralize(stat['duration_minutes'], ' Min')%>,&nbsp;
+                        <%= stat['name'] %>: <%=pluralize(stat['duration_minutes'], ' Min')%>,&nbsp;
                           <%=pluralize(stat['answer_rate'], ' Sec')%>/Ques, <%=pluralize(stat['point_rate'], ' Sec')%>/Point
                         <div class="population">
                         Others:&nbsp;
@@ -65,11 +47,24 @@
                         <%=pluralize(stat['target_answer_rate'], ' Sec')%>/Ques, <%=pluralize(stat['target_point_rate'], ' Sec')%>/Point
                         </div>
                       </td>
-                    <% else%>
-                      <td colspan=4 class="student_test_prep_stats_break">
+                    </tr>
+                  <% elsif stat['ass_taken'] > 0 %>
+                    <tr >
+                      <td  class="student_test_prep_stats_break">
+                        <%=stat['name']%>&nbsp;(<%=stat['ass_taken']%>)
                       </td>
-                    <% end %>
-                  </tr>
+                      <td  class="student_test_prep_stats_break">
+                        <div class="heading">
+                          Proficiency
+                        </div>
+                      </td>
+                      <td  class="student_test_prep_stats_break">
+                        <div class="heading">
+                          Efficiency
+                        </div>
+                      </td>
+                    </tr >
+                  <% end %>
                 <% end %>
               <% end %>
             </tbody>

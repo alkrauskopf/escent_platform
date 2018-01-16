@@ -1543,7 +1543,7 @@ font-weight:normal;
 }
 .student_test_prep_stats_row {
   padding:.5em 0em .5em 1em;
-  font-size:12px;
+  font-size:14px;
   text-align:left;
 }
 .student_test_prep_stats_row .sub_row1{
@@ -1557,11 +1557,11 @@ font-weight:normal;
 .student_test_prep_stats_row .date{
   padding:0em 0em 0em 2em;
   font-style: italic;
-  font-size:11px;
+  font-size:12px;
 }
 .student_test_prep_stats_data {
   padding:.5em 0em .5em 0em;
-  font-size:12px;
+  font-size:14px;
   text-align:center;
 }
 .student_test_prep_stats_data .sub_row{
@@ -1572,10 +1572,19 @@ font-weight:normal;
   padding-top:.5em;
   border-top:1px dashed #ddd;
   font-style: italic;
-  font-size:11px;
+  font-size:14px;
 }
+
 .student_test_prep_stats_break {
   background-color: $slay_panel;
+  padding:.5em 0em .5em 2em;
+  color:$light_text;
+  font-size:13px;
+  font-weight:normal;
+  text-align:left;
+}
+.student_test_prep_stats_break .heading{
+  text-align:center;
 }
 
 .teacher_review_student_plans {

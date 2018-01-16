@@ -22,24 +22,22 @@
                   <% if !stat['break'] %>
                     <tr >
                       <td class="student_test_prep_stats_row">
-                        <%= stat['date'].nil? ? '' : stat['date'].strftime("%b %d, %Y")%>
                         <div>
                           <%= stat['assessment_name']%>
                         </div>
+                        <%= stat['date'].nil? ? '' : stat['date'].strftime("%b %d, %Y")%>
                       </td>
                       <td class="student_test_prep_stats_data">
-                        <%= stat['name'] %>: <%= stat['sat_score'] %> |
-                          <%=stat['total_points']%> Pts | <%=stat['answer_count']%> Ans |  <%=stat['proficiency']%>%
+                        <%= stat['sat_score'] %> | <%=stat['total_points']%> Pts | <%=stat['answer_count']%> Ans |  <%=stat['proficiency']%>%
                         <div class="population">
-                          Others:&nbsp;&nbsp;|
+                          Population:&nbsp;&nbsp;
                           <%= stat['target_points']%> Pts | <%=stat['target_answers']%> Ans | <%=stat['target_pct']%>%
                         </div>
                       </td>
                       <td class="student_test_prep_stats_data">
-                        <%= stat['name'] %>: <%=pluralize(stat['duration_minutes'], ' Min')%>&nbsp;|&nbsp;
-                          <%=pluralize(stat['answer_rate'], ' Sec')%> | <%=pluralize(stat['point_rate'], ' Sec')%>
+                        <%=pluralize(stat['duration_minutes'], ' Min')%>&nbsp;|&nbsp;<%=pluralize(stat['answer_rate'], ' Sec')%> | <%=pluralize(stat['point_rate'], ' Sec')%>
                         <div class="population">
-                          Others:&nbsp;
+                          Population:&nbsp;
                           <%=pluralize(stat['target_duration'], ' Min')%>&nbsp;|&nbsp;
                           <%=pluralize(stat['target_answer_rate'], ' Sec')%> | <%=pluralize(stat['target_point_rate'], ' Sec')%>
                         </div>

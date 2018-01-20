@@ -34,7 +34,9 @@
 
   update_assessment_stats = false
 
-  create_default_strategies = true
+  create_default_strategies = false
+
+  add_default_question_strategy = true
 
   if create_default_strategies
     ActSubject.no_na.each do |subject|
@@ -43,7 +45,14 @@
                            'description'=> 'This indicates when a question is answered directly. A strategy is not necessary or possible.',
                            'act_subject_id'=> subject.id})
       end
+    end
+  end
 
+  if add_default_question_strategy
+    ActQuestion.all.each do |question|
+      if question.act_strategy.nil? && !question.act_subject.nil? && !question.act_subject.act_strategies.default.nil?
+        question.update_attributes({'act_strategy_id' => question.act_subject.act_strategies.default.id})
+      end
     end
   end
 

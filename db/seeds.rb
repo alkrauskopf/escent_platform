@@ -36,7 +36,7 @@
 
   create_default_strategies = false
 
-  add_default_question_strategy = true
+  add_default_question_strategy = false
 
   if create_default_strategies
     ActSubject.no_na.each do |subject|

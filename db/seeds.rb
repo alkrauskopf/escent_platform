@@ -34,6 +34,19 @@
 
   update_assessment_stats = false
 
+  create_default_strategies = true
+
+  if create_default_strategies
+    ActSubject.no_na.each do |subject|
+      if subject.act_strategies.default.nil?
+        ActStrategy.create({'name' => 'No Strategy Needed', 'pos' => 0, 'is_active'=>1, 'is_default'=>1,
+                           'description'=> 'This indicates when a question is answered directly. A strategy is not necessary or possible.',
+                           'act_subject_id'=> subject.id})
+      end
+
+    end
+  end
+
   if update_assessment_stats
      ActAssessment.all.each do |ass|
        subs = ass.act_submissions.final.select{|s| s.authentic?}

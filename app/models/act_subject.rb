@@ -24,6 +24,7 @@ class ActSubject < ActiveRecord::Base
   has_many :co_csap_ranges
   has_many :subject_areas
   has_many :ifa_plans
+  has_many :act_strategies
 #  has_many :classrooms, :through => :subject_areas
         
   scope :no_na, {:conditions => ["name != ?", "-na-"]}
@@ -85,25 +86,29 @@ class ActSubject < ActiveRecord::Base
     where('is_enabled').order('posit ASC')
   end
 
-    def available_questions(user, level, strand)
-      if user.nil? && level.nil? && strand.nil?
-        self.act_questions.enabled
-      elsif level.nil? && strand.nil?
-        self.act_questions.for_user(user).enabled
-      elsif user.nil? && strand.nil?
-        self.act_questions.for_level(level).enabled
-      elsif user.nil? && level.nil?
-        self.act_questions.for_strand(strand).enabled
-      elsif !level.nil? && !user.nil? && strand.nil?
-        self.act_questions.for_user(user).for_level(level).enabled
-      elsif !level.nil? && !strand.nil? && user.nil?
-        self.act_questions.for_level(level).for_strand(strand).enabled
-      elsif !user.nil? && !strand.nil? && level.nil?
-        self.act_questions.for_user(user).for_strand(strand).enabled
-      else
-        self.act_questions.for_user(user).for_level(level).for_strand(strand).enabled
-      end
+  def available_questions(user, level, strand)
+    if user.nil? && level.nil? && strand.nil?
+      self.act_questions.enabled
+    elsif level.nil? && strand.nil?
+      self.act_questions.for_user(user).enabled
+    elsif user.nil? && strand.nil?
+      self.act_questions.for_level(level).enabled
+    elsif user.nil? && level.nil?
+      self.act_questions.for_strand(strand).enabled
+    elsif !level.nil? && !user.nil? && strand.nil?
+      self.act_questions.for_user(user).for_level(level).enabled
+    elsif !level.nil? && !strand.nil? && user.nil?
+      self.act_questions.for_level(level).for_strand(strand).enabled
+    elsif !user.nil? && !strand.nil? && level.nil?
+      self.act_questions.for_user(user).for_strand(strand).enabled
+    else
+      self.act_questions.for_user(user).for_level(level).for_strand(strand).enabled
     end
+  end
+
+  def active_strategies
+    self.act_strategies.active
+  end
 
 end
 

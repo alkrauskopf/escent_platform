@@ -33,12 +33,19 @@
           <%= text_area :act_strategy, :description, :rows=>6, :cols => 60, :value => @current_strategy.description %>
         </div>
       </div>
-
       <div class="row ifa_edit_row">
-        <div class="col-md-2 ifa_edit_label">
+        <div class="col-md-3 ifa_edit_label">
+          Subject Default?
+        </div>
+        <div class="col-md-9 ifa_edit_text">
+          <%= check_box :act_strategy, :is_default, :checked=> @current_strategy.default?%>
+        </div>
+      </div>
+      <div class="row ifa_edit_row">
+        <div class="col-md-3 ifa_edit_label">
           Active?
         </div>
-        <div class="col-md-10 ifa_edit_text">
+        <div class="col-md-9 ifa_edit_text">
           <%= check_box :act_strategy, :is_active, :checked=> @current_strategy.active?%>
         </div>
       </div>

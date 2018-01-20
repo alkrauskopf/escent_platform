@@ -1,5 +1,5 @@
 class ActStrategy < ActiveRecord::Base
-  attr_accessible :act_subject_id, :description, :is_active, :name, :pos, :show_strategy
+  attr_accessible :act_subject_id, :description, :is_active, :name, :pos, :is_default
 
   belongs_to :act_subject
 
@@ -15,6 +15,14 @@ class ActStrategy < ActiveRecord::Base
 
   def self.active
     where('is_active').order('pos ASC')
+  end
+
+  def default?
+    self.is_default
+  end
+
+  def self.default
+    where('is_default').first rescue nil
   end
 
   def self.by_position

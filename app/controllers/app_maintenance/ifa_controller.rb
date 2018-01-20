@@ -8,8 +8,8 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   before_filter :clear_notification, :except => []
   before_filter :current_standard, :except => []
   before_filter :current_subject, :except => []
-  before_filter :subjects, :except => [:strategy_add, :strategy_select]
-  before_filter :enabled_subjects, :only => [:strategy_add, :strategy_select]
+  before_filter :subjects, :except => [:strategy_add, :strategy_create, :strategy_select]
+  before_filter :enabled_subjects, :only => [:strategy_add, :strategy_create, :strategy_select]
   before_filter :current_ifa_options
   before_filter :prep_classrooms
 
@@ -42,6 +42,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     @current_strategy.description = params[:act_strategy][:description]
     @current_strategy.act_subject_id = params[:act_strategy][:act_subject_id]
     @current_strategy.is_active = params[:act_strategy][:is_active]
+    @current_strategy.is_default = params[:act_strategy][:is_default]
     if @current_strategy.save
       flash[:notice] = "Strategy Created"
     else
@@ -53,7 +54,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   def strategy_update
     get_strategy
     @current_strategy.update_attributes(:name=>params[:name], :is_active => (params[:is_active].upcase == 'Y' ? true:false),
-                                        :description=>params[:description], :pos => params[:pos])
+                                        :is_default => (params[:is_default].upcase == 'Y' ? true:false), :description=>params[:description], :pos => params[:pos])
     render :partial =>  "edit_strategy", :locals=>{:strategy => @current_strategy}
   end
 

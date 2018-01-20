@@ -27,11 +27,19 @@
     </div>
   </div>
   <div class="row ifa_edit_row">
-    <div class="col-md-2 ifa_edit_label">
+    <div class="col-md-3 ifa_edit_label">
       Active?
     </div>
-    <div class="col-md-10 ifa_edit_text">
+    <div class="col-md-9 ifa_edit_text">
       <%= text_field :act_strategy, :is_active, :size=>1, :value=> @current_strategy.active? ? 'Y':'N'%>
+    </div>
+  </div>
+  <div class="row ifa_edit_row">
+    <div class="col-md-3 ifa_edit_label">
+      Subject Default?
+    </div>
+    <div class="col-md-9 ifa_edit_text">
+      <%= text_field :act_strategy, :is_default, :size=>1, :value=> @current_strategy.default? ? 'Y':'N'%>
     </div>
   </div>
   <div class="row ifa_edit_row">
@@ -40,7 +48,6 @@
           Update
       </span>
     </div>
-
     <div class="col-md-2 ifa_edit_label">
       <% if strategy.destroyable? %>
         <span class= "button_red" id="strategy_destroy">
@@ -57,8 +64,9 @@
         var pos = jQ('#act_strategy_pos').val();
         var description = jQ('#act_strategy_description').val();
         var active = jQ('#act_strategy_is_active').val();
+        var is_default = jQ('#act_strategy_is_default').val();
         var url = "<%= app_maintenance_ifa_strategy_update_url(:organization_id => @current_organization, :act_strategy_id => strategy.id) %>";
-        jQ.get(url, {'name':name, 'description':description, 'pos':pos, 'is_active':active}, function(data) {
+        jQ.get(url, {'name':name, 'description':description, 'pos':pos, 'is_active':active, 'is_default':is_default}, function(data) {
           jQ("#edit_strategy_<%= strategy.id %>").html(data);
           jQ("#edit_strategy_<%= strategy.id %>").show();
         });

@@ -42,7 +42,7 @@
     ActSubject.no_na.each do |subject|
       if subject.act_strategies.default.nil?
         ActStrategy.create({'name' => 'No Strategy Needed', 'pos' => 0, 'is_active'=>1, 'is_default'=>1,
-                           'description'=> 'This indicates when a question is answered directly. A strategy is not necessary or possible.',
+                           'description'=> 'This indicates when a strategy is/was not necessary or possible to answer a question.',
                            'act_subject_id'=> subject.id})
       end
     end

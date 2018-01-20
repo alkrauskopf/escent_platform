@@ -67,6 +67,8 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
         @current_assessment.update_attributes(:is_active => !@current_assessment.is_active)
       elsif params[:function] == 'Lock'
         @current_assessment.update_attributes(:is_locked => !@current_assessment.is_locked)
+      elsif params[:function] == 'Strategy'
+        @current_assessment.update_attributes(:is_strategy_test => !@current_assessment.is_strategy_test)
       end
       render :partial =>  "assessment_buttons"
     end

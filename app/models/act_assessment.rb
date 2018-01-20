@@ -62,6 +62,10 @@ class ActAssessment < ActiveRecord::Base
     assessments.select{|a| a.untagged?}
   end
 
+  def test_strategies?
+    self.is_strategy_test
+  end
+
   def self.empties
     ActAssessment.all.select{|a| a.act_assessment_act_questions.empty?}
   end

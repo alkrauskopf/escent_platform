@@ -13,7 +13,6 @@
     <%= render :partial => "/shared/error_and_notice" %>
     <%= render :partial =>  "form_assessment", :locals=>{}%>
   <% if @function == 'Update' %>
-    <%= render :partial =>  "assessment_buttons", :locals=>{}%>
     <hr>
     <%= render :partial =>  "assessment_questions", :locals=>{}%>
   <% end %>

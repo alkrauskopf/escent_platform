@@ -4,26 +4,42 @@
                  :url => ifa_repo_assessment_create_path(:organization_id => @current_organization, :act_subject_id => @current_subject.id,
                                                        :act_assessment_id => @current_assessment.id, :function => @function)) do |form| -%>
       <div class="row repo_edit_row">
-        <div class="col-md-3 repo_label_field">
-          Assessment Name
+        <div class="col-md-1">
+          <div class="row repo_text_row">
+            <%= form.submit @function, :class =>"update_button button_blue" %>
+          </div>
+          <div class="row repo_text_row">
+            <%= link_to "PreView", ifa_submission_take_path(:organization_id => @current_organization, :act_assessment_id => @current_assessment.id,
+                                                        :classroom_id => (@current_classroom.nil? ? nil : @current_classroom.id),
+                                                        :topic_id => (@topic.nil? ? nil : @topic.id),
+                                                        :period_id =>(@current_periond.nil? ? nil : @current_classroom_period.id),
+                                                        :teacher_id => (@current_teacher.nil? ? '': @current_teacher.id),
+                                                        :function => "preview"), {:class => "update_button button_light_blue", :target => "_blank"} %>
+          </div>
         </div>
-        <div class="col-md-9 repo_text_field">
-          <%= text_field :act_assessment, :name, :size => 40, :placeholder => 'Enter Name', :value => @current_assessment.name  %>
+        <div class="col-md-7">
+          <div class="row repo_text_row">
+            <div class="col-md-2 repo_label_field">
+              Name
+            </div>
+            <div class="col-md-10 repo_text_field">
+              <%= text_field :act_assessment, :name, :size => 40, :placeholder => 'Enter Name', :value => @current_assessment.name  %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 repo_label_field">
+              Comment
+            </div>
+            <div class="col-md-10 repo_text_field">
+              <%= text_field :act_assessment, :comment, :size => 60, :placeholder => 'Enter Comment', :value => @current_assessment.comment  %>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="row repo_edit_row">
-        <div class="col-md-3 repo_label_field">
-          Comment
+        <div class="col-md-4">
+          <% if @function == 'Update' %>
+            <%= render :partial =>  "assessment_buttons", :locals=>{}%>
+          <% end %>
         </div>
-        <div class="col-md-9 repo_text_field">
-          <%= text_field :act_assessment, :comment, :size => 60, :placeholder => 'Enter Comment', :value => @current_assessment.comment  %>
-        </div>
-      </div>
-      <div class="row repo_button_row">
-        <div class="col-md-6">
-          <%= form.submit @function + ' Assessment', :class =>"update_button button_blue" %>
-        </div>
-        <div class="col-md-6"></div>
       </div>
     <% end %>
   <% end %>

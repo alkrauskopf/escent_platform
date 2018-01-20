@@ -8,12 +8,14 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
   before_filter :clear_notification, :except => []
   before_filter :current_standard, :except => []
   before_filter :current_subject, :except => []
-  before_filter :subjects, :except => []
+  before_filter :subjects, :except => [:strategy_add, :strategy_select]
+  before_filter :enabled_subjects, :only => [:strategy_add, :strategy_select]
   before_filter :current_ifa_options
   before_filter :prep_classrooms
 
   def index
     standards
+    strategies
     strands
     active_strands
     current_strand
@@ -22,6 +24,536 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     benchmark_dashboard
     current_level
   end
+
+  def strategy_select
+    get_strategy
+    strategies
+    render :partial =>  "manage_strategies", :locals=>{}
+  end
+
+  def strategy_add
+    @current_strategy = ActStrategy.new
+  end
+
+  def strategy_create
+    @current_strategy = ActStrategy.new
+    @current_strategy.name = params[:act_strategy][:name]
+    @current_strategy.pos = params[:act_strategy][:pos]
+    @current_strategy.description = params[:act_strategy][:description]
+    @current_strategy.act_subject_id = params[:act_strategy][:act_subject_id]
+    @current_strategy.is_active = params[:act_strategy][:is_active]
+    if @current_strategy.save
+      flash[:notice] = "Strategy Created"
+    else
+      flash[:error] = @current_strategy.errors.full_messages.to_sentence
+    end
+    render :strategy_add
+  end
+
+  def strategy_update
+    get_strategy
+    @current_strategy.update_attributes(:name=>params[:name], :is_active => (params[:is_active].upcase == 'Y' ? true:false),
+                                        :description=>params[:description], :pos => params[:pos])
+    render :partial =>  "edit_strategy", :locals=>{:strategy => @current_strategy}
+  end
+
+  def strategy_destroy
+    get_strategy
+    strategies
+    if @current_strategy && @current_strategy.destroyable?
+      if @current_strategy.destroy
+        flash[:notice] = "Strategy Destroyed"
+      end
+    end
+    @current_strategy = nil
+    render :partial =>  "manage_strategies", :locals=>{}
+  end
+
+  def standard_maint_select
+    standards
+    render :partial =>  "manage_standards", :locals=>{}
+  end
+
+  def standard_update
+    if params[:is_default] == 'Y'
+      ActMaster.all_defaults.each do |std|
+        std.update_attributes(:is_default => false)
+      end
+    end
+    @current_standard.update_attributes(:name=>params[:name], :is_national => (params[:national] == 'Y' ? true:false),
+                                        :abbrev=>params[:abbrev], :is_default => (params[:is_default] == 'Y' ? true:false),
+                                        :source=>params[:source], :abbrev_old => params[:abbrev_old])
+    render :partial =>  "edit_standard", :locals=>{:standard => @current_standard}
+  end
+
+  def standard_add
+    @current_standard = ActMaster.new
+  end
+
+  def standard_create
+    @current_standard = ActMaster.new
+    @current_standard.name = params[:act_master][:name]
+    @current_standard.abbrev = params[:act_master][:abbrev].upcase
+    @current_standard.abbrev_old = @current_standard.abbrev
+    @current_standard.source = params[:act_master][:source]
+    @current_standard.is_default = false
+    @current_standard.is_national = params[:act_master][:is_national]
+    if @current_standard.save
+      flash[:notice] = "Standard Created"
+    else
+      flash[:error] = @current_standard.errors.full_messages.to_sentence
+    end
+    render :standard_add
+  end
+
+  def standard_destroy
+    current_standard
+    if @current_standard != @current_provider.master_standard && @current_standard.destoyable?
+      if @current_standard.destroy
+        flash[:notice] = "Standard Destroyed"
+        @current_standard = @current_provider.master_standard
+      end
+    end
+    standards
+    render :partial =>  "manage_standards", :locals=>{}
+  end
+
+  def standard_select
+    standards
+    strands
+    current_strand
+    levels
+    active_strands
+    active_levels
+    benchmark_dashboard
+    render :partial =>  "manage_standard", :locals=>{}
+  end
+
+  def strand_add
+    @strand = ActStandard.new
+  end
+
+  def strand_create
+    @strand = ActStandard.new
+    @strand.name = params[:act_standard][:name]
+    @strand.abbrev = params[:act_standard][:abbrev]
+    @strand.description = params[:act_standard][:description]
+    @strand.strand_background = params[:act_standard][:strand_background]
+    @strand.strand_font = params[:act_standard][:strand_font]
+    @strand.pos = params[:act_standard][:pos]
+    @strand.is_active = params[:act_standard][:is_active]
+    @strand.act_subject_id = @current_subject.id
+    @strand.act_master_id = @current_standard.id
+    if @strand.save
+      flash[:notice] = "Strand Created"
+    else
+      flash[:error] = @strand.errors.full_messages.to_sentence
+    end
+    render :strand_add
+  end
+
+  def strand_select
+    strands
+    current_strand
+    render :partial =>  "manage_strands", :locals=>{}
+  end
+
+  def bench_level_change
+    cell_strand
+    cell_level
+    active_strands
+    active_levels
+    current_benchmark
+    @current_benchmark.update_attributes(:act_score_range_id => params[:new_range_id])
+    benchmark_dashboard
+    render :partial =>  "manage_benchmarks_cell", :locals=>{:strand => @cell_strand, :level => @cell_level}
+  end
+
+  def bench_strand_change
+    cell_strand
+    cell_level
+    active_strands
+    active_levels
+    current_benchmark
+    @current_benchmark.update_attributes(:act_standard_id => params[:new_strand_id])
+    benchmark_dashboard
+    render :partial =>  "manage_benchmarks_cell", :locals=>{:strand => @cell_strand, :level => @cell_level}
+  end
+
+  def bench_cell_select
+    active_strands
+    active_levels
+    cell_strand
+    cell_level
+    benchmark_dashboard
+    #  current_strand_benchmarks(:level => @cell_level)
+    render :partial =>  "manage_benchmarks", :locals=>{}
+  end
+
+  def benchmark_view_close
+    active_strands
+    active_levels
+    benchmark_dashboard
+    render :partial =>  "manage_benchmarks", :locals=>{}
+  end
+
+  def bench_strand_select_x
+    active_strands
+    active_levels
+    get_strand
+    benchmark_dashboard
+    current_strand_benchmarks
+    render :partial =>  "manage_benchmarks", :locals=>{}
+  end
+
+  def bench_level_select_x
+    active_levels
+    active_strands
+    get_level
+    benchmark_dashboard
+    current_level_benchmarks
+    render :partial =>  "manage_benchmarks", :locals=>{}
+  end
+
+
+  def strand_update
+    strands
+    current_strand
+    @current_strand.update_attributes(:name=>params[:name], :abbrev => params[:abbrev], :description=>params[:description],
+                                      :strand_background=>params[:strand_background], :strand_font=>params[:strand_font], :pos=>params[:pos])
+    render :partial =>  "edit_strand", :locals=>{:strand => @current_strand}
+  end
+
+  def strand_toggle
+    strands
+    current_strand
+    @current_strand.update_attributes(:is_active=> !@current_strand.is_active)
+    render :partial =>  "edit_strand", :locals=>{:strand => @current_strand}
+  end
+
+  def strand_destroy
+    strands
+    current_strand
+    if @current_strand.destroyable?
+      if @current_strand.destroy
+        flash[:notice] = "Strand Destroyed"
+        strands
+        @current_strand = @strands.first rescue nil
+      end
+    end
+    render :partial =>  "edit_strand", :locals=>{:strand => @current_strand}
+  end
+
+  def subject_update
+    @subject = ActSubject.find_by_id(params[:subject_id]) rescue nil
+    @subject.update_attributes(:name=>params[:name], :is_plannable => (params[:is_plannable] == 'Y' ? true:false), :is_enabled => (params[:is_active] == 'Y' ? true:false),
+                               :posit => params[:position])
+    render :partial =>  "edit_subject", :locals=>{:subject => @subject}
+  end
+
+  def genre_create
+    ActGenre.create(:name=>params[:name], :description=>params[:description])
+    render :partial =>  "manage_genres"
+  end
+
+  def genre_update
+    @genre = ActGenre.find_by_id(params[:act_genre_id]) rescue nil
+    @genre.update_attributes(:name=>params[:name], :description=>params[:description], :is_active => (params[:is_active].upcase == 'Y' ? true:false))
+    render :partial =>  "edit_genre", :locals=>{:genre => @genre}
+  end
+
+  def level_select
+    levels
+    current_level
+    render :partial =>  "manage_levels", :locals=>{}
+  end
+
+  def level_add
+    sat_map
+    @current_level = ActScoreRange.new
+  end
+
+  def level_create
+    @current_level = ActScoreRange.new
+    @current_level.act_subject_id = @current_subject.id
+    @current_level.act_master_id = @current_standard.id
+    @current_level.range = params[:act_score_range][:range]
+    @current_level.lower_score = params[:act_score_range][:lower_score]
+    @current_level.upper_score = params[:act_score_range][:upper_score]
+    if sat_map_input?(params[:sat_map][:lower], params[:sat_map][:upper])
+      sat_map =get_sat_map_id(params[:sat_map][:lower].to_i, params[:sat_map][:upper].to_i)
+      @current_level.act_sat_map_id = sat_map.nil? ? nil : sat_map.id
+    end
+    @current_level.score_background = params[:act_score_range][:score_background]
+    @current_level.score_font = params[:act_score_range][:score_font]
+    @current_level.is_active = params[:act_score_range][:is_active]
+    if @current_level.save
+      flash[:notice] = "Level Created"
+    else
+      flash[:error] = @current_level.errors.full_messages.to_sentence
+    end
+    render :level_add
+  end
+
+  def level_update
+    levels
+    current_level
+    if sat_map_input?(params[:sat_map_lower], params[:sat_map_upper])
+      sat_map =get_sat_map_id(params[:sat_map_lower].to_i, params[:sat_map_upper].to_i)
+      sat_map_id = sat_map.nil? ? nil : sat_map.id
+    else
+      sat_map_id = nil
+    end
+    @current_level.update_attributes(:range=>params[:range], :lower_score => params[:lower_score], :upper_score => params[:upper_score],
+                                     :score_background=>params[:score_background], :score_font=>params[:score_font], :act_sat_map_id => sat_map_id)
+    render :partial =>  "edit_level", :locals=>{:level => @current_level}
+  end
+
+  def level_toggle
+    levels
+    current_level
+    @current_level.update_attributes(:is_active=> !@current_level.is_active)
+    render :partial =>  "edit_level", :locals=>{:level => @current_level}
+  end
+
+  def level_destroy
+    levels
+    current_level
+    if @current_level.destroyable?
+      if @current_level.destroy
+        flash[:notice] = "Level Destroy"
+        levels
+        @current_level = @levels.first rescue nil
+      end
+    end
+    render :partial =>  "edit_level", :locals=>{:level => @current_level}
+  end
+
+  def benchmark_refresh
+    get_strand
+    active_strands
+    active_levels
+    current_strand_benchmarks
+    render :partial =>  "manage_benchmarks_strand", :locals=>{:strand => @current_strand, :levels => @active_levels, :strands => @active_strands}
+  end
+
+  def benchmark_refresh_l
+    get_level
+    active_strands
+    active_levels
+    current_level_benchmarks
+    render :partial =>  "manage_benchmarks_level", :locals=>{:level => @current_level, :levels => @active_levels, :strands => @active_strands}
+  end
+
+  def benchmark_dashboard_refresh
+    active_strands
+    active_levels
+    benchmark_dashboard
+    render :partial =>  "benchmark_dashboard"
+  end
+
+  def benchmark_toggle
+    current_benchmark
+    active_levels
+    active_strands
+    if params[:function] == 'Active'
+      @current_benchmark.update_attributes(:is_active=> !@current_benchmark.is_active)
+    elsif params[:function] == 'View'
+      @current_benchmark.update_attributes(:is_s_viewable=> !@current_benchmark.is_s_viewable)
+    elsif params[:function] == 'Tag'
+      @current_benchmark.update_attributes(:is_q_taggable=> !@current_benchmark.is_q_taggable)
+    end
+    render :partial =>  "show_benchmark",  :locals=>{:strand => @current_benchmark.strand, :level => @current_benchmark.mastery_level,
+                                                     :levels => @active_levels, :strands => @active_strands, :by => params[:by],
+                                                     :benchmark => @current_benchmark, :benchmark_id => @current_benchmark.public_id}
+  end
+
+  def benchmark_destroy
+    current_benchmark
+    active_levels
+    active_strands
+    strand = @current_benchmark.strand
+    level = @current_benchmark.mastery_level
+    benchmark_id = @current_benchmark.public_id
+    if @current_benchmark.destroy
+      flash[:notice] = "Benchmark Destroyed"
+    end
+    render :partial =>  "show_benchmark",  :locals=>{:strand => strand, :level => level, :strands => @active_strands, :levels => @active_levels, :benchmark => nil, :benchmark_id => benchmark_id, :by => params[:by]}
+  end
+
+  def benchmark_standard_select
+    current_benchmark
+    @benchmark_standard = ActMaster.find_by_id(params[:bench_standard_id]) rescue nil
+    benchmark_source_standards
+    @current_benchmark ||= ActBench.new
+    render :partial => "benchmark_source"
+  end
+
+  def benchmark_add
+    get_strand
+    get_level
+    @benchmark_standard = nil
+    benchmark_source_standards
+    @bench_types = @current_level.standard.act_bench_types
+    @current_benchmark = ActBench.new
+    set_default_bench_type(@current_benchmark)
+  end
+
+  def benchmark_edit
+    get_strand
+    get_level
+    current_benchmark
+    @benchmark_standard = @current_benchmark.other_source_standard
+    benchmark_source_standards
+    @bench_types = @current_level.standard.act_bench_types
+  end
+
+  def benchmark_create
+    get_strand
+    get_level
+    @bench_types = @current_level.standard.act_bench_types
+    @current_benchmark = ActBench.new
+    @current_benchmark.act_master_id = @current_level.standard.id
+    @current_benchmark.act_subject_id = @current_level.subject_area.id
+    @current_benchmark.act_standard_id = @current_strand.id
+    @current_benchmark.act_score_range_id = @current_level.id
+    @current_benchmark.user_id = @current_user.id
+    @current_benchmark.organization_id = @current_organization.id
+    @current_benchmark.description = params[:act_bench][:description]
+    @current_benchmark.is_active = true
+    get_source_level_strand_ids
+    @current_benchmark.source_level_id = @source_level_id
+    @current_benchmark.source_strand_id = @source_strand_id
+    if params[:act_bench][:act_benchmark_type_id] == ''
+      set_default_bench_type(@current_benchmark)
+    else
+      @current_benchmark.act_bench_type_id = params[:act_bench][:act_benchmark_type_id]
+    end
+    @current_benchmark.pos = params[:act_bench][:pos]
+    if @current_benchmark.save
+      flash[:notice] = "Benchmark Created"
+      @current_benchmark = ActBench.new
+    else
+      flash[:error] = @current_benchmark.errors.full_messages.to_sentence
+    end
+    @benchmark_standard = @current_benchmark.other_source_standard
+    benchmark_source_standards
+    render :benchmark_add
+  end
+
+  def benchmark_update
+    get_strand
+    get_level
+    current_benchmark
+    @bench_types = @current_level.standard.act_bench_types
+    @current_benchmark.user_id = @current_user.id
+    @current_benchmark.organization_id = @current_organization.id
+    @current_benchmark.description = params[:act_bench][:description]
+    get_source_level_strand_ids
+    @current_benchmark.source_level_id = @source_level_id
+    @current_benchmark.source_strand_id = @source_strand_id
+    if params[:act_bench][:act_benchmark_type_id] != ''
+      @current_benchmark.act_bench_type_id = params[:act_bench][:act_benchmark_type_id]
+    end
+    @current_benchmark.pos = params[:act_bench][:pos]
+    if @current_benchmark.save
+      flash[:notice] = "Benchmark Updated"
+    else
+      flash[:error] = @current_benchmark.errors.full_messages.to_sentence
+    end
+    @benchmark_standard = @current_benchmark.other_source_standard
+    benchmark_source_standards
+    render :benchmark_edit
+  end
+
+  # Options
+
+  def add_remove_standard_option
+    master = ActMaster.find_by_public_id(params[:master_id]) rescue nil
+    if !@current_provider.ifa_org_option.act_masters.include?(master)
+      @current_provider.ifa_org_option.act_masters << master
+    else
+      remove_masters = @current_provider.ifa_org_option.ifa_org_option_act_masters.for_master(master) rescue nil
+      remove_masters.each do|m|
+        m.destroy
+      end
+    end
+    render :partial => "manage_options_ifa_masters"
+  end
+
+  def edit_options
+    if @current_organization.ifa_org_option
+      school_start_valid = true
+      school_start = DateTime.parse(params[:start_date]).strftime("%Y-%m-%d") rescue school_start_valid = false
+      @current_organization.ifa_org_option.begin_school_year = school_start if school_start_valid
+      #
+      # Temp Fix for set school start
+      #
+      @current_organization.ifa_org_option.begin_school_year = "2015-08-30"
+
+      @current_organization.ifa_org_option.days_til_repeat = params[:option][:days_til_repeat].to_i < 0 ? 0: params[:option][:days_til_repeat].to_i
+      if @current_organization.ifa_org_option.update_attributes(params[:ifa_org_option])
+        flash[:notice] = "Options Updated Successfully"
+      else
+        flash[:error] = @current_organization.ifa_org_option.errors.full_messages.to_sentence
+      end
+    end
+    redirect_to app_maintenance_ifa_path(:organization_id => @current_organization)
+  end
+
+  def classroom_select
+    prep_classrooms
+    get_classroom
+    render :partial =>  "manage_demos", :locals=>{}
+  end
+
+  def student_select
+    prep_classrooms
+    get_classroom
+    get_student
+    get_period
+    render :partial =>  "manage_demos", :locals=>{}
+  end
+
+  def edit_dashboard
+    get_classroom
+    get_student
+    get_period
+    get_dashboard
+    get_class_org_dashboards(@current_subject, @current_period)
+    demo_dash_hashes(@current_dashboard, @current_subject, @current_standard)
+    if @current_dashboard.nil?
+      @current_dashboard = IfaDashboard.new
+      @function = 'Create'
+    else
+      @function = 'Update'
+    end
+  end
+
+  def update_dashboard
+    get_classroom
+    get_student
+    get_period
+    get_dashboard
+    if @current_dashboard.nil?
+      create_user_dashboard
+    else
+      adjust_user_dashboard
+    end
+    if !@current_dashboard.nil?
+      dashboard_deltas(@current_dashboard, @current_subject, @current_standard)
+      adjust_dashboard(@current_classroom,  @current_subject, @current_period)
+      adjust_dashboard(@current_classroom.organization,  @current_subject, @current_period)
+      @function = 'Update'
+    else
+      @current_dashboard = IfaDashboard.new
+      @function = 'Create'
+    end
+    get_class_org_dashboards(@current_subject, @current_dashboard.nil? ? @current_period: @current_dashboard.period_end)
+    demo_dash_hashes(@current_dashboard, @current_subject, @current_standard)
+    render 'edit_dashboard'
+  end
+
 
   def tool_r
     @tool_r_classroom_total = Classroom.all.size
@@ -506,490 +1038,6 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     render :partial =>  "tool_g", :locals=>{}
   end
 
-  def standard_maint_select
-    standards
-    render :partial =>  "manage_standards", :locals=>{}
-  end
-
-  def standard_update
-    if params[:is_default] == 'Y'
-      ActMaster.all_defaults.each do |std|
-        std.update_attributes(:is_default => false)
-      end
-    end
-    @current_standard.update_attributes(:name=>params[:name], :is_national => (params[:national] == 'Y' ? true:false),
-                                        :abbrev=>params[:abbrev], :is_default => (params[:is_default] == 'Y' ? true:false),
-                                        :source=>params[:source], :abbrev_old => params[:abbrev_old])
-    render :partial =>  "edit_standard", :locals=>{:standard => @current_standard}
-  end
-
-  def standard_add
-    @current_standard = ActMaster.new
-  end
-
-  def standard_create
-    @current_standard = ActMaster.new
-    @current_standard.name = params[:act_master][:name]
-    @current_standard.abbrev = params[:act_master][:abbrev].upcase
-    @current_standard.abbrev_old = @current_standard.abbrev
-    @current_standard.source = params[:act_master][:source]
-    @current_standard.is_default = false
-    @current_standard.is_national = params[:act_master][:is_national]
-    if @current_standard.save
-      flash[:notice] = "Standard Created"
-    else
-      flash[:error] = @current_standard.errors.full_messages.to_sentence
-    end
-    render :standard_add
-  end
-
-  def standard_destroy
-    current_standard
-    if @current_standard != @current_provider.master_standard && @current_standard.destoyable?
-      if @current_standard.destroy
-        flash[:notice] = "Standard Destroyed"
-        @current_standard = @current_provider.master_standard
-      end
-    end
-    standards
-    render :partial =>  "manage_standards", :locals=>{}
-  end
-
-  def standard_select
-    standards
-    strands
-    current_strand
-    levels
-    active_strands
-    active_levels
-    benchmark_dashboard
-    render :partial =>  "manage_standard", :locals=>{}
-  end
-
-  def strand_add
-    @strand = ActStandard.new
-  end
-
-  def strand_create
-    @strand = ActStandard.new
-    @strand.name = params[:act_standard][:name]
-    @strand.abbrev = params[:act_standard][:abbrev]
-    @strand.description = params[:act_standard][:description]
-    @strand.strand_background = params[:act_standard][:strand_background]
-    @strand.strand_font = params[:act_standard][:strand_font]
-    @strand.pos = params[:act_standard][:pos]
-    @strand.is_active = params[:act_standard][:is_active]
-    @strand.act_subject_id = @current_subject.id
-    @strand.act_master_id = @current_standard.id
-    if @strand.save
-      flash[:notice] = "Strand Created"
-    else
-      flash[:error] = @strand.errors.full_messages.to_sentence
-    end
-    render :strand_add
-  end
-
-  def strand_select
-    strands
-    current_strand
-    render :partial =>  "manage_strands", :locals=>{}
-  end
-
-  def bench_level_change
-    cell_strand
-    cell_level
-    active_strands
-    active_levels
-    current_benchmark
-    @current_benchmark.update_attributes(:act_score_range_id => params[:new_range_id])
-    benchmark_dashboard
-    render :partial =>  "manage_benchmarks_cell", :locals=>{:strand => @cell_strand, :level => @cell_level}
-  end
-
-  def bench_strand_change
-    cell_strand
-    cell_level
-    active_strands
-    active_levels
-    current_benchmark
-    @current_benchmark.update_attributes(:act_standard_id => params[:new_strand_id])
-    benchmark_dashboard
-    render :partial =>  "manage_benchmarks_cell", :locals=>{:strand => @cell_strand, :level => @cell_level}
-  end
-
-  def bench_cell_select
-    active_strands
-    active_levels
-    cell_strand
-    cell_level
-    benchmark_dashboard
-  #  current_strand_benchmarks(:level => @cell_level)
-    render :partial =>  "manage_benchmarks", :locals=>{}
-  end
-
-  def benchmark_view_close
-    active_strands
-    active_levels
-    benchmark_dashboard
-    render :partial =>  "manage_benchmarks", :locals=>{}
-  end
-
-  def bench_strand_select_x
-    active_strands
-    active_levels
-    get_strand
-    benchmark_dashboard
-    current_strand_benchmarks
-    render :partial =>  "manage_benchmarks", :locals=>{}
-  end
-
-  def bench_level_select_x
-    active_levels
-    active_strands
-    get_level
-    benchmark_dashboard
-    current_level_benchmarks
-    render :partial =>  "manage_benchmarks", :locals=>{}
-  end
-
-
-  def strand_update
-    strands
-    current_strand
-    @current_strand.update_attributes(:name=>params[:name], :abbrev => params[:abbrev], :description=>params[:description],
-    :strand_background=>params[:strand_background], :strand_font=>params[:strand_font], :pos=>params[:pos])
-    render :partial =>  "edit_strand", :locals=>{:strand => @current_strand}
-  end
-
-  def strand_toggle
-    strands
-    current_strand
-    @current_strand.update_attributes(:is_active=> !@current_strand.is_active)
-    render :partial =>  "edit_strand", :locals=>{:strand => @current_strand}
-  end
-
-  def strand_destroy
-    strands
-    current_strand
-    if @current_strand.destroyable?
-      if @current_strand.destroy
-        flash[:notice] = "Strand Destroyed"
-        strands
-        @current_strand = @strands.first rescue nil
-      end
-    end
-    render :partial =>  "edit_strand", :locals=>{:strand => @current_strand}
-  end
-
-  def subject_update
-    @subject = ActSubject.find_by_id(params[:subject_id]) rescue nil
-    @subject.update_attributes(:name=>params[:name], :is_plannable => (params[:is_plannable] == 'Y' ? true:false), :is_enabled => (params[:is_active] == 'Y' ? true:false),
-    :posit => params[:position])
-    render :partial =>  "edit_subject", :locals=>{:subject => @subject}
-  end
-
-  def genre_create
-    ActGenre.create(:name=>params[:name], :description=>params[:description])
-    render :partial =>  "manage_genres"
-  end
-
-  def genre_update
-    @genre = ActGenre.find_by_id(params[:act_genre_id]) rescue nil
-    @genre.update_attributes(:name=>params[:name], :description=>params[:description], :is_active => (params[:is_active].upcase == 'Y' ? true:false))
-    render :partial =>  "edit_genre", :locals=>{:genre => @genre}
-  end
-
-  def level_select
-    levels
-    current_level
-    render :partial =>  "manage_levels", :locals=>{}
-  end
-
-  def level_add
-    sat_map
-    @current_level = ActScoreRange.new
-  end
-
-  def level_create
-    @current_level = ActScoreRange.new
-    @current_level.act_subject_id = @current_subject.id
-    @current_level.act_master_id = @current_standard.id
-    @current_level.range = params[:act_score_range][:range]
-    @current_level.lower_score = params[:act_score_range][:lower_score]
-    @current_level.upper_score = params[:act_score_range][:upper_score]
-    if sat_map_input?(params[:sat_map][:lower], params[:sat_map][:upper])
-      sat_map =get_sat_map_id(params[:sat_map][:lower].to_i, params[:sat_map][:upper].to_i)
-      @current_level.act_sat_map_id = sat_map.nil? ? nil : sat_map.id
-    end
-    @current_level.score_background = params[:act_score_range][:score_background]
-    @current_level.score_font = params[:act_score_range][:score_font]
-    @current_level.is_active = params[:act_score_range][:is_active]
-    if @current_level.save
-      flash[:notice] = "Level Created"
-    else
-      flash[:error] = @current_level.errors.full_messages.to_sentence
-    end
-    render :level_add
-  end
-
-  def level_update
-    levels
-    current_level
-    if sat_map_input?(params[:sat_map_lower], params[:sat_map_upper])
-      sat_map =get_sat_map_id(params[:sat_map_lower].to_i, params[:sat_map_upper].to_i)
-      sat_map_id = sat_map.nil? ? nil : sat_map.id
-    else
-      sat_map_id = nil
-    end
-    @current_level.update_attributes(:range=>params[:range], :lower_score => params[:lower_score], :upper_score => params[:upper_score],
-                                      :score_background=>params[:score_background], :score_font=>params[:score_font], :act_sat_map_id => sat_map_id)
-    render :partial =>  "edit_level", :locals=>{:level => @current_level}
-  end
-
-  def level_toggle
-    levels
-    current_level
-    @current_level.update_attributes(:is_active=> !@current_level.is_active)
-    render :partial =>  "edit_level", :locals=>{:level => @current_level}
-  end
-
-  def level_destroy
-    levels
-    current_level
-    if @current_level.destroyable?
-     if @current_level.destroy
-      flash[:notice] = "Level Destroy"
-      levels
-      @current_level = @levels.first rescue nil
-     end
-    end
-    render :partial =>  "edit_level", :locals=>{:level => @current_level}
-  end
-
-  def benchmark_refresh
-    get_strand
-    active_strands
-    active_levels
-    current_strand_benchmarks
-    render :partial =>  "manage_benchmarks_strand", :locals=>{:strand => @current_strand, :levels => @active_levels, :strands => @active_strands}
-  end
-
-  def benchmark_refresh_l
-    get_level
-    active_strands
-    active_levels
-    current_level_benchmarks
-    render :partial =>  "manage_benchmarks_level", :locals=>{:level => @current_level, :levels => @active_levels, :strands => @active_strands}
-  end
-
-  def benchmark_dashboard_refresh
-    active_strands
-    active_levels
-    benchmark_dashboard
-    render :partial =>  "benchmark_dashboard"
-  end
-
-  def benchmark_toggle
-    current_benchmark
-    active_levels
-    active_strands
-    if params[:function] == 'Active'
-      @current_benchmark.update_attributes(:is_active=> !@current_benchmark.is_active)
-    elsif params[:function] == 'View'
-      @current_benchmark.update_attributes(:is_s_viewable=> !@current_benchmark.is_s_viewable)
-    elsif params[:function] == 'Tag'
-      @current_benchmark.update_attributes(:is_q_taggable=> !@current_benchmark.is_q_taggable)
-    end
-    render :partial =>  "show_benchmark",  :locals=>{:strand => @current_benchmark.strand, :level => @current_benchmark.mastery_level,
-                                                     :levels => @active_levels, :strands => @active_strands, :by => params[:by],
-                                                     :benchmark => @current_benchmark, :benchmark_id => @current_benchmark.public_id}
-  end
-
-  def benchmark_destroy
-    current_benchmark
-    active_levels
-    active_strands
-    strand = @current_benchmark.strand
-    level = @current_benchmark.mastery_level
-    benchmark_id = @current_benchmark.public_id
-    if @current_benchmark.destroy
-      flash[:notice] = "Benchmark Destroyed"
-    end
-    render :partial =>  "show_benchmark",  :locals=>{:strand => strand, :level => level, :strands => @active_strands, :levels => @active_levels, :benchmark => nil, :benchmark_id => benchmark_id, :by => params[:by]}
-  end
-
-  def benchmark_standard_select
-    current_benchmark
-    @benchmark_standard = ActMaster.find_by_id(params[:bench_standard_id]) rescue nil
-    benchmark_source_standards
-    @current_benchmark ||= ActBench.new
-    render :partial => "benchmark_source"
-  end
-
-  def benchmark_add
-    get_strand
-    get_level
-    @benchmark_standard = nil
-    benchmark_source_standards
-    @bench_types = @current_level.standard.act_bench_types
-    @current_benchmark = ActBench.new
-    set_default_bench_type(@current_benchmark)
-  end
-
-  def benchmark_edit
-    get_strand
-    get_level
-    current_benchmark
-    @benchmark_standard = @current_benchmark.other_source_standard
-    benchmark_source_standards
-    @bench_types = @current_level.standard.act_bench_types
-  end
-
-  def benchmark_create
-    get_strand
-    get_level
-    @bench_types = @current_level.standard.act_bench_types
-    @current_benchmark = ActBench.new
-    @current_benchmark.act_master_id = @current_level.standard.id
-    @current_benchmark.act_subject_id = @current_level.subject_area.id
-    @current_benchmark.act_standard_id = @current_strand.id
-    @current_benchmark.act_score_range_id = @current_level.id
-    @current_benchmark.user_id = @current_user.id
-    @current_benchmark.organization_id = @current_organization.id
-    @current_benchmark.description = params[:act_bench][:description]
-    @current_benchmark.is_active = true
-    get_source_level_strand_ids
-    @current_benchmark.source_level_id = @source_level_id
-    @current_benchmark.source_strand_id = @source_strand_id
-    if params[:act_bench][:act_benchmark_type_id] == ''
-      set_default_bench_type(@current_benchmark)
-    else
-      @current_benchmark.act_bench_type_id = params[:act_bench][:act_benchmark_type_id]
-    end
-    @current_benchmark.pos = params[:act_bench][:pos]
-    if @current_benchmark.save
-      flash[:notice] = "Benchmark Created"
-      @current_benchmark = ActBench.new
-    else
-      flash[:error] = @current_benchmark.errors.full_messages.to_sentence
-    end
-    @benchmark_standard = @current_benchmark.other_source_standard
-    benchmark_source_standards
-    render :benchmark_add
-  end
-
-  def benchmark_update
-    get_strand
-    get_level
-    current_benchmark
-    @bench_types = @current_level.standard.act_bench_types
-    @current_benchmark.user_id = @current_user.id
-    @current_benchmark.organization_id = @current_organization.id
-    @current_benchmark.description = params[:act_bench][:description]
-    get_source_level_strand_ids
-    @current_benchmark.source_level_id = @source_level_id
-    @current_benchmark.source_strand_id = @source_strand_id
-    if params[:act_bench][:act_benchmark_type_id] != ''
-      @current_benchmark.act_bench_type_id = params[:act_bench][:act_benchmark_type_id]
-    end
-    @current_benchmark.pos = params[:act_bench][:pos]
-    if @current_benchmark.save
-      flash[:notice] = "Benchmark Updated"
-    else
-      flash[:error] = @current_benchmark.errors.full_messages.to_sentence
-    end
-    @benchmark_standard = @current_benchmark.other_source_standard
-    benchmark_source_standards
-    render :benchmark_edit
-  end
-
-  # Options
-
-  def add_remove_standard_option
-    master = ActMaster.find_by_public_id(params[:master_id]) rescue nil
-    if !@current_provider.ifa_org_option.act_masters.include?(master)
-      @current_provider.ifa_org_option.act_masters << master
-    else
-      remove_masters = @current_provider.ifa_org_option.ifa_org_option_act_masters.for_master(master) rescue nil
-      remove_masters.each do|m|
-        m.destroy
-      end
-    end
-    render :partial => "manage_options_ifa_masters"
-  end
-
-  def edit_options
-    if @current_organization.ifa_org_option
-      school_start_valid = true
-      school_start = DateTime.parse(params[:start_date]).strftime("%Y-%m-%d") rescue school_start_valid = false
-      @current_organization.ifa_org_option.begin_school_year = school_start if school_start_valid
-      #
-      # Temp Fix for set school start
-      #
-      @current_organization.ifa_org_option.begin_school_year = "2015-08-30"
-
-      @current_organization.ifa_org_option.days_til_repeat = params[:option][:days_til_repeat].to_i < 0 ? 0: params[:option][:days_til_repeat].to_i
-      if @current_organization.ifa_org_option.update_attributes(params[:ifa_org_option])
-        flash[:notice] = "Options Updated Successfully"
-      else
-        flash[:error] = @current_organization.ifa_org_option.errors.full_messages.to_sentence
-      end
-    end
-    redirect_to app_maintenance_ifa_path(:organization_id => @current_organization)
-  end
-
-  def classroom_select
-    prep_classrooms
-    get_classroom
-    render :partial =>  "manage_demos", :locals=>{}
-  end
-
-  def student_select
-    prep_classrooms
-    get_classroom
-    get_student
-    get_period
-    render :partial =>  "manage_demos", :locals=>{}
-  end
-
-  def edit_dashboard
-    get_classroom
-    get_student
-    get_period
-    get_dashboard
-    get_class_org_dashboards(@current_subject, @current_period)
-    demo_dash_hashes(@current_dashboard, @current_subject, @current_standard)
-    if @current_dashboard.nil?
-      @current_dashboard = IfaDashboard.new
-      @function = 'Create'
-    else
-      @function = 'Update'
-    end
-  end
-
-  def update_dashboard
-    get_classroom
-    get_student
-    get_period
-    get_dashboard
-    if @current_dashboard.nil?
-      create_user_dashboard
-    else
-      adjust_user_dashboard
-    end
-    if !@current_dashboard.nil?
-      dashboard_deltas(@current_dashboard, @current_subject, @current_standard)
-      adjust_dashboard(@current_classroom,  @current_subject, @current_period)
-      adjust_dashboard(@current_classroom.organization,  @current_subject, @current_period)
-      @function = 'Update'
-    else
-      @current_dashboard = IfaDashboard.new
-      @function = 'Create'
-    end
-    get_class_org_dashboards(@current_subject, @current_dashboard.nil? ? @current_period: @current_dashboard.period_end)
-    demo_dash_hashes(@current_dashboard, @current_subject, @current_standard)
-    render 'edit_dashboard'
-  end
 
   private
 
@@ -1036,6 +1084,10 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
     @standards = ActMaster.all
   end
 
+  def strategies
+    @strategies = ActStrategy.by_position
+  end
+
   def strands
     @strands = ActStandard.all_for_standard_and_subject(@current_standard, @current_subject)
   end
@@ -1046,6 +1098,10 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
 
   def subjects
     @subjects = ActSubject.all
+  end
+
+  def enabled_subjects
+    @subjects = ActSubject.all_subjects
   end
 
   def current_strand
@@ -1167,6 +1223,14 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
       @cell_level = ActScoreRange.find_by_id(params[:act_score_range_id]) rescue nil
     else
       @cell_level = nil
+    end
+  end
+
+  def get_strategy
+    if params[:act_strategy_id]
+      @current_strategy = ActStrategy.find_by_id(params[:act_strategy_id]) rescue nil
+    else
+      @current_strategy = nil
     end
   end
 

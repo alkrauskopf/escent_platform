@@ -72,6 +72,11 @@
 		    <%= tab_5_label %></span></a>
       </li>
       <li>
+        <%  tab_11_label = "Strategies" %>
+        <a href="#tabs-11"><span class="tab_label">
+		    <%= tab_11_label %></span></a>
+      </li>
+      <li>
         <%  tab_6_label = "Subjects" %>
         <a href="#tabs-6"><span class="tab_label">
 		    <%= tab_6_label %></span></a>
@@ -121,6 +126,13 @@
       <div class="col-md-1"></div>
       <div class="col-md-10">
         <%= render :partial =>  "manage_genres", :locals=>{}%>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+    <div id="tabs-11" class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <%= render :partial =>  "manage_strategies", :locals=>{}%>
       </div>
       <div class="col-md-1"></div>
     </div>

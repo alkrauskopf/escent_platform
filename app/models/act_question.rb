@@ -24,6 +24,7 @@ class ActQuestion < ActiveRecord::Base
   belongs_to :content
   belongs_to :act_rel_reading
   belongs_to :co_grade_level
+  belongs_to :act_strategy
 
 
   has_many :act_assessment_act_questions, :dependent => :destroy

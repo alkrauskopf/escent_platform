@@ -1,0 +1,31 @@
+<div id="manage_strategies">
+  <div class="row standard_row">
+    <div class="strand_add">
+      <%= link_to 'New Strategy', app_maintenance_ifa_strategy_add_path(:organization_id => @current_organization), {class: 'button_gray', :target=>'_blank'}  %>
+    </div>
+  </div>
+    <div class="row standard_row">
+    <% if !@strategies.empty? %>
+      <div class="standard_select" id="strategy_select">
+        <%=  select(:actx, :strategy_id, @strategies.collect{|s| [(truncate(s.act_subject.name, :omission => "...", :length => 10)+ s.name),s.id]},{:prompt => 'Select Strategy'}) %>
+      </div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#strategy_select").change(function(){
+            var strategy_id = jQ('#actx_strategy_id').val();
+            var url = "<%= app_maintenance_ifa_strategy_select_url(:organization_id => @current_organization) %>";
+            jQ.get(url, {'act_strategy_id': strategy_id}, function(data) {
+              jQ("#manage_strategies").html(data);
+              jQ("#manage_strategies").show();
+            });
+          })
+        });
+      </script>
+    <% end %>
+  </div>
+  <% if !@current_strategy.nil?%>
+    <div class="ifa_edit_box">
+      <%= render :partial =>  "edit_strategy", :locals=>{:strategy => @current_strategy}%>
+    </div>
+  <% end %>
+</div>

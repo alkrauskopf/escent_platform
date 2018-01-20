@@ -204,9 +204,14 @@ EscentPartners::Application.routes.draw do
   post '/app/maintenance/ifa/level/create' => 'app_maintenance/ifa#level_create' # app_maintenance_ifa_level_create_path
   get '/app/maintenance/ifa/standard/add' => 'app_maintenance/ifa#standard_add' # app_maintenance_ifa_standard_add_path
   post '/app/maintenance/ifa/standard/create' => 'app_maintenance/ifa#standard_create' # app_maintenance_ifa_standard_create_path
+  get '/app/maintenance/ifa/strategy/add' => 'app_maintenance/ifa#strategy_add' # app_maintenance_ifa_stategy_add_path
+  post '/app/maintenance/ifa/strategy/create' => 'app_maintenance/ifa#strategy_create' # app_maintenance_ifa_strategy_create_path
   get '/app/maintenance/ifa/master/select' => 'app_maintenance/ifa#standard_maint_select' # app_maintenance_ifa_master_select_url
+  get '/app/maintenance/ifa/strategy/select' => 'app_maintenance/ifa#strategy_select' # app_maintenance_ifa_strategy_select_url
   get '/app/maintenance/ifa/standard/destroy' => 'app_maintenance/ifa#standard_destroy' # app_maintenance_ifa_standard_destroy_url
   get '/app/maintenance/ifa/standard/update' => 'app_maintenance/ifa#standard_update' # app_maintenance_ifa_standard_update_url
+  get '/app/maintenance/ifa/strategy/destroy' => 'app_maintenance/ifa#strategy_destroy' # app_maintenance_ifa_strategy_destroy_url
+  get '/app/maintenance/ifa/strategy/update' => 'app_maintenance/ifa#strategy_update' # app_maintenance_ifa_strategy_update_url
   get '/app/maintenance/ifa/level_select' => 'app_maintenance/ifa#level_select' # app_maintenance_ifa_level_select_url
   get '/app/maintenance/ifa/level/update' => 'app_maintenance/ifa#level_update' # app_maintenance_ifa_level_update_url
   get '/app/maintenance/ifa/level/toggle' => 'app_maintenance/ifa#level_toggle' # app_maintenance_ifa_level_toggle_url

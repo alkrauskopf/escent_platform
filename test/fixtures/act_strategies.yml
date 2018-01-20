@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  act_subject_id: 1
+  pos: 1
+  name: MyString
+  description: MyText
+  show_strategy: false
+  is_active: false
+
+two:
+  act_subject_id: 1
+  pos: 1
+  name: MyString
+  description: MyText
+  show_strategy: false
+  is_active: false

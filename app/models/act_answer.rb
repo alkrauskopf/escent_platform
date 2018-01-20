@@ -9,6 +9,7 @@ class ActAnswer < ActiveRecord::Base
   belongs_to :user
   belongs_to :organization  
   belongs_to :classroom
+  belongs_to :act_strategy
   has_one :act_subject, :through => :act_submission
   has_one :mastery_level, :through => :act_question
   has_one :strand, :through => :act_question

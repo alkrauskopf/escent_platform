@@ -16,6 +16,18 @@
           <%= tinymce %>
         </div>
       </div>
+      <% if !@current_subject.active_strategies.empty? %>
+              <% question_strategy = @current_question.act_strategy.nil? ? @current_subject.act_strategies.default : @current_question.act_strategy %>
+        <div class="row repo_edit_row">
+          <div class="col-md-3 repo_label_field">
+            Preferred Solution Strategy
+          </div>
+          <div class="col-md-9 repo_select_field">
+            <%=  select(:act_question, :act_strategy_id, @current_subject.active_strategies.collect{|s| [s.name, s.id]},
+                        :selected => @current_question.act_strategy.nil? ? @current_subject.act_strategies.default.id : @current_question.act_strategy.id, :prompt => question_strategy.name) %>
+          </div>
+        </div>
+      <% end %>
       <div class="row repo_edit_row">
         <div class="col-md-3 repo_label_field">
           Comment

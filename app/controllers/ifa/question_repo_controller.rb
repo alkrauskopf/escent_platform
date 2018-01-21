@@ -334,6 +334,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     @current_question.is_random = params[:act_question][:is_random]
     @current_question.is_enlarged = params[:act_question][:is_enlarged]
     @current_question.is_calc_free = params[:act_question][:is_calc_free]
+    @current_question.act_strategy_id = params[:act_question][:act_strategy_id]
     @current_question.act_subject_id = @current_subject.id
     @current_question.user_id = @current_user.id
     @current_question.organization_id = @current_organization.id

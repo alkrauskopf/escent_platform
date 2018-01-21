@@ -204,6 +204,17 @@
   padding:0em 0em 2em 0em;
   border:1px solid #ddd;
 }
+.question_button_row {
+  margin:1em 0em 2em 2em;
+  color:$blue_text;
+  font-size:18px;
+}
+.question_strategy {
+  padding:0em 0em 0em 1em;
+  color:$red_text;
+  font-weight:bold;
+  font-size:18px;
+}
 .repo_panel {
   @extend .panel-heading;
   margin: 0em 0em 0em 0em;
@@ -521,7 +532,7 @@
   font-size:13px;
 }
 .question_pool_tags {
-  padding-top:1em;
+  padding-top:.5em;
   line-height:1.5em;
 }
 .question_disabled {

@@ -81,6 +81,9 @@
                   ,&nbsp;Calibrated
                 <% end %>
               </div>
+              <div>
+                Solution Strategy: <%= question.act_strategy.nil? ? 'Not Defined' : question.act_strategy.name %>
+              </div>
             </div>
           </div>
           <div class= "col-md-2">

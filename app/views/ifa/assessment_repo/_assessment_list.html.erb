@@ -61,6 +61,15 @@
               Calibrated
             </div>
           <% end %>
+          <% if ass.test_strategies? %>
+              <div class=" assessment_disabled">
+                Strategies ON
+              </div>
+          <% else %>
+              <div>
+                Strategies OFF
+              </div>
+          <% end %>
           <div >
             <%= ass.user ? ass.user.last_name.upcase : 'Former User' %>
           </div>

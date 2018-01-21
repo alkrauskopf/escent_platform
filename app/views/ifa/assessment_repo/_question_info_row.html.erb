@@ -27,6 +27,9 @@
         <%= question.question.html_safe%>
       </div>
       <div class="question_pool_reading">
+        <div>
+          STRATEGY:&nbsp;<%= question.act_strategy.nil? ? 'Not Defined' : question.act_strategy.name %>
+        </div>
         <% if question.reading? %>
           <div >
             READING:&nbsp;<%= question.reading.label%>

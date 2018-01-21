@@ -40,7 +40,9 @@ class ActQuestion < ActiveRecord::Base
   has_many :act_standards, :through => :act_question_act_standards  
   has_many :ifa_question_logs
   has_many :ifa_question_performances
-  
+
+  before_save :before_save_method
+
   validates_presence_of :act_subject_id
   validates_presence_of :act_score_range_id,  :message => 'Must Define Mastery Level'
   validates_presence_of :act_standard_id,  :message => 'Must Define Knowledge Strand'
@@ -66,6 +68,12 @@ class ActQuestion < ActiveRecord::Base
       [ "Multiple Choice", "MC" ],
       [ "Short Answer", "SA" ]
   ]
+
+  def before_save_method
+    if self.act_strategy.nil? && !self.act_subject.nil? && !self.act_subject.act_strategies.default.nil?
+      self.act_strategy_id = self.act_subject.act_strategies.default.id
+    end
+  end
 
   def self.creators
     ActQuestion.all.collect{|q| q.user}.compact.uniq.sort_by{|u| u.last_name}

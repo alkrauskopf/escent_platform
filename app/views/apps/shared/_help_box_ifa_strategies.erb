@@ -1,0 +1,41 @@
+                <div id="<%= id%>dialog">
+                  <div class="ifa_modal_header">
+                    <%=titl%>
+                  </div>
+                  <div class="ifa_modal_title">
+                      <%= blue %>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="ifa_modal_box">
+                      <% body.each_with_index do |strat| %>
+                        <%= strat.description.html_safe%>
+                        <hr>
+                      <% end %>
+                    </div>
+                  </div>
+								</div>
+<script type="text/javascript" charset="utf-8">
+    	jQ(document).ready(function() {
+
+    	    jQ("#<%= id%>dialog").dialog({
+    	            bgiframe: true,
+    	            autoOpen: false,
+    	            width: <%=width%>,
+    	            height: <%=height%>,
+    	            modal: true,
+    				buttons: {
+    					 Close: function(){
+    		                        jQ(this).dialog('close');
+    		                    }
+    				}
+        	    }
+    		);					
+			
+    		jQ('#<%= id%>').click(function(event){
+    		    jQ("#<%= id%>dialog").dialog('open');
+    			 event.preventDefault();
+    		})							
+
+    });
+</script>

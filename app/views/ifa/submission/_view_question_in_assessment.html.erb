@@ -67,7 +67,7 @@
              }
            </style>
            <tbody>
-           <% if quest.question_type =="MC" -%>
+             <% if quest.question_type =="MC" -%>
                <% quest.choices.each do |chc| -%>
                  <tr>
                    <td class="question_correct">
@@ -83,21 +83,38 @@
                    </td>
                  </tr>
                <% end -%>
-           <% else -%>
+             <% else -%>
                <tr>
-                 <td	colspan=2 width = 100% style="vertical-align:top; text-align:left; padding-top:0px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
+                 <td	colspan=3 width = 100% style="vertical-align:top; text-align:left; padding-top:0px; padding-bottom:5px; padding-left:10px;color: #000000; font-size:14px; margin-top:0px; font-weight:normal" >
                    <%= hidden_field_tag "short_ans[quest_id][]", quest.id %>
                    <%= text_area_tag "short_ans[answer][]", "", :rows => 3, :cols => 50, :maxlength => 255 %>
                  </td>
                </tr>
-           <% end -%>
+             <% end -%>
+             <% if !strategies.empty? %>
+               <tr>
+                 <td colspan=3 >
+                  <div class="row question_strategy">
+                    <div class="col-md-9">
+                      <%=  select(:strategy, quest.id, strategies.collect{|s| [s.name, s.id]}, :prompt => 'What Strategy Did You Use?') %>
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                  </div>
+                 </td>
+               </tr>
+             <% end %>
            </tbody>
          </table>
        </div>
        <% if superstudent%>
-         <div class="question_text">
-           <div class="mastery">
+         <div class="row question_text">
+           <div class="col-md-3 mastery">
             <%= quest.mastery_level.nil? ? 'No Level' : quest.mastery_level.range %>
+           </div>
+           <div class="col-md-9 mastery">
+            <%= quest.act_strategy.nil? ? 'Preferred Strategy Not Defined' : quest.act_strategy.name %>
            </div>
          </div>
        <% end %>

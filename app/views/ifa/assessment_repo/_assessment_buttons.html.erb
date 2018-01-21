@@ -1,11 +1,6 @@
 <div id= 'assessment_buttons_<%= @current_assessment.id %>'>
   <div class="row repo_button_list">
     <div class= "col-md-4 ">
-
-    </div>
-  </div>
-  <div class="row repo_button_list">
-    <div class= "col-md-4 ">
       <% button_color = @current_assessment.active? ? 'button_green' : 'button_red'%>
       <% button_label = @current_assessment.active? ? ' Enabled ' : ' Disabled '%>
       <% button_status = @current_assessment.enableable? ? 'active' : 'disabled'%>

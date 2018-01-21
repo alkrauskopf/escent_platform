@@ -95,12 +95,28 @@
   background-color: black;
 }
 .assessment_box {
-  margin: 2em 8em 8em 8em;
+  margin: .5em 8em 8em 8em;
   color:$dark_text;
   font-size:14px;
   background-color: white;
   border-top:3px solid #ddd;
 }
+.assessment_header {
+
+}
+.assess_form_scroll {
+  position: relative;
+}
+.strategy_box {
+  position: fixed;
+  right: 10em;
+  top: 15em;
+  color:$red_text;
+  font-size:16px;
+  text-decoration: underline;
+  cursor:pointer;
+}
+
 .question_list_box {
   margin: 2em 2em 0em 2em;
   padding: 3em 0em 2em 0em;
@@ -117,7 +133,7 @@
 }
 
 .assess_subheader_ctr {
-  padding:0em 0em 1em 0em;
+  padding:0em 0em .5em 0em;
   word-wrap:break-word;
   text-align:center;
   font-weight:bold;
@@ -299,6 +315,19 @@
   text-align:left;
   font-size:15px;
   color:$dark_text;
+}
+.question_strategy {
+  margin : 2em 2em 0em 5em;
+  vertical-align:middle;
+  text-align:left;
+  font-size:16px;
+  color:$red_text;
+}
+.question_strategy_help {
+  font-size:12px;
+  text-decoration: underline;
+  color:$red_text;
+  cursor:pointer;
 }
 
 .answer_box {

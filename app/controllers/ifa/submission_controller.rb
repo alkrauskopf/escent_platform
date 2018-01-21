@@ -90,6 +90,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     def take_assessment
       get_current_assessment
       get_current_teacher
+      current_strategies
       if params[:function]=="Assess"
         @preview = false
         @begin_time = Time.now
@@ -177,6 +178,14 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     ###############
 
   private
+
+    def current_strategies
+      if !@current_assessment.nil? && @current_assessment.act_subject && @current_assessment.test_strategies?
+        @current_strategies = @current_assessment.act_subject.active_strategies
+      else
+        @current_strategies = []
+      end
+    end
 
     def entity_subject_dashboards(entity)
       @entity_dashboards = {}
@@ -304,6 +313,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
           answer.organization_id = @current_submission.organization_id
           answer.classroom_id = @current_submission.classroom_id
           answer.teacher_id = @current_submission.teacher_id
+          answer.act_strategy_id = (params[:strategy] && params[:strategy][question.id.to_s] != '') ? params[:strategy][question.id.to_s]: nil
           answer.act_question_id = id
           answer.was_selected = true
           answer.is_correct = true
@@ -341,6 +351,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
         params[:ans_check].each_with_index do |choice_id, idx|
           choice = ActChoice.find_by_id(choice_id) rescue nil
           if !choice.nil?
+            question = choice.act_question
             selected_choices << choice
             answer = ActAnswer.new
             answer.act_assessment_id = @current_submission.act_assessment_id
@@ -349,6 +360,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
             answer.classroom_id = @current_submission.classroom_id
             answer.teacher_id = @current_submission.teacher_id
             answer.act_question_id = choice.act_question_id
+            answer.act_strategy_id = (params[:strategy] && params[:strategy][question.id.to_s] != '') ? params[:strategy][question.id.to_s]: nil
             answer.was_selected = true
             answer.is_correct = choice.correct?
             answer.is_calibrated = choice.act_question.is_calibrated

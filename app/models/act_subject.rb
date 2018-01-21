@@ -110,5 +110,9 @@ class ActSubject < ActiveRecord::Base
     self.act_strategies.active
   end
 
+  def default_strategy
+    self.act_strategies.default
+  end
+
 end
 

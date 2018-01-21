@@ -620,6 +620,18 @@ class ActSubmission < ActiveRecord::Base
     min_max_score
   end
 
+  def test_strategies?
+    self.act_assessment.nil? ? false : self.act_assessment.test_strategies?
+  end
+
+  def default_strategy
+    (!self.act_subject.nil? && self.test_strategies?) ? self.act_subject.default_strategy : nil
+  end
+
+  def default_strategy_id
+    self.default_strategy.nil? ? nil :  self.default_strategy.id
+  end
+
   #####   Original Finalize & Dashboarding methods
 
   def finalize(auto, reviewer_id)

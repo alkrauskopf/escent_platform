@@ -313,7 +313,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
           answer.organization_id = @current_submission.organization_id
           answer.classroom_id = @current_submission.classroom_id
           answer.teacher_id = @current_submission.teacher_id
-          answer.act_strategy_id = (params[:strategy] && params[:strategy][question.id.to_s] != '') ? params[:strategy][question.id.to_s]: nil
+          answer.act_strategy_id = (params[:strategy] && params[:strategy][question.id.to_s] != '') ? params[:strategy][question.id.to_s]: @current_submission.default_strategy_id
           answer.act_question_id = id
           answer.was_selected = true
           answer.is_correct = true
@@ -360,7 +360,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
             answer.classroom_id = @current_submission.classroom_id
             answer.teacher_id = @current_submission.teacher_id
             answer.act_question_id = choice.act_question_id
-            answer.act_strategy_id = (params[:strategy] && params[:strategy][question.id.to_s] != '') ? params[:strategy][question.id.to_s]: nil
+            answer.act_strategy_id = (params[:strategy] && params[:strategy][question.id.to_s] != '') ? params[:strategy][question.id.to_s]: @current_submission.default_strategy_id
             answer.was_selected = true
             answer.is_correct = choice.correct?
             answer.is_calibrated = choice.act_question.is_calibrated
@@ -537,4 +537,5 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
         @requester = "Admin"
       end
     end
+
 end

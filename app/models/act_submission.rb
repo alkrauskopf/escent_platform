@@ -378,15 +378,19 @@ class ActSubmission < ActiveRecord::Base
                                             'cum_choices_made' => ass.cum_choices_made + self.tot_choices,
                                             'cum_points_earned' => ass.cum_points_earned + self.tot_points,
                                             'cum_duration' => ass.cum_duration + self.duration)
-      if self.authentic?
+      if true || self.authentic?
         shortest_time = ( self.duration < ass.shortest_duration) ? self.duration : ass.shortest_duration
         best_time_point = (self.tot_points > 0.0 && ((self.duration.to_f/self.tot_points).round < ass.best_time_per_point)) ? (self.duration.to_f/self.tot_points).round : ass.best_time_per_point
         best_pct = (self.tot_choices > 0 && ((100.0* self.tot_points/self.tot_choices.to_f).round > ass.best_pct)) ? (100.0* self.tot_points/self.tot_choices.to_f).round : ass.best_pct
         most_points = (self.tot_points > ass.most_points) ? self.tot_points : ass.most_points
         answer_rate = (self.duration.to_f/self.tot_choices.to_f).round < ass.best_answer_rate ? (self.duration.to_f/self.tot_choices.to_f).round : ass.best_answer_rate
         most_answers = (self.tot_choices > ass.most_answered) ? [self.tot_choices, ass.questions_for_test.size].min : ass.most_answered
+        strat_choices = ass.strategy_choices + (self.is_strategy_test? ? self.tot_choices : 0)
+        strat_matches = ass.strategy_matches + (self.is_strategy_test? ? self.strategy_matches : 0)
         ass.update_attributes('shortest_duration' => shortest_time, 'best_time_per_point' => best_time_point, 'best_pct' => best_pct,
-                              'most_points' => most_points, 'best_answer_rate' => answer_rate, 'most_answered' => most_answers)
+                              'most_points' => most_points, 'best_answer_rate' => answer_rate, 'most_answered' => most_answers,
+                              'strategy_choices' => strat_choices,'strategy_matches' => strat_matches)
+
       end
     end
   end
@@ -621,7 +625,12 @@ class ActSubmission < ActiveRecord::Base
   end
 
   def test_strategies?
-    self.act_assessment.nil? ? false : self.act_assessment.test_strategies?
+    self.is_strategy_test
+  end
+
+
+  def self.strategy_tests
+    where('is_strategy_test').order('created_at DESC')
   end
 
   def default_strategy

@@ -127,6 +127,9 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
               @current_submission.destroy_it
               flash[:error] = 'Assessment Destroyed'
             else
+              if @current_submission.test_strategies?
+                @current_submission.save
+              end
               flash[:notice] = 'Submitted'
             end
           else
@@ -266,7 +269,6 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     @current_student_plan = @current_user.ifa_plan_for(@current_subject)
   end
 
-
   def create_current_submission?
     @current_submission = ActSubmission.new
     @current_submission.organization_id = @current_organization.id
@@ -279,6 +281,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     @current_submission.duration = assessment_duration
     @current_submission.student_comment = params[:act_submission][:student_comment]
     @current_submission.teacher_comment = ''
+    @current_submission.is_strategy_test = @current_assessment.is_strategy_test
     if @current_submission.save
       submitted = true
     else
@@ -321,7 +324,9 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
           answer.act_choice_id = 0
           answer.points = 0.0
           answer.short_answer = params[:short_ans][:answer][idx]
-          unless @current_submission.act_answers << answer
+          if @current_submission.act_answers << answer
+            update_strategy_count(question)
+          else
             sa_complete = false
           end
         end
@@ -366,7 +371,9 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
             answer.is_calibrated = choice.act_question.is_calibrated
             answer.act_choice_id = choice_id
             answer.points = choice.correct? ? 1.0 : 0.0
-            unless @current_submission.act_answers << answer
+            if @current_submission.act_answers << answer
+              update_strategy_count(question)
+            else
               mc_complete = false
             end
           end
@@ -393,6 +400,12 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       end
     end
     mc_complete
+  end
+
+  def update_strategy_count(question)
+    if !@current_submission.nil? && @current_submission.test_strategies? && params[:strategy] && !question.act_strategy.nil?
+      @current_submission.strategy_matches += (question.act_strategy.id.to_s == params[:strategy][question.id.to_s]) ? 1 : 0
+    end
   end
 
   def score_submission

@@ -69,6 +69,10 @@ class ActQuestion < ActiveRecord::Base
       [ "Short Answer", "SA" ]
   ]
 
+  def self.with_strategy(strategy)
+    where('act_strategy_id = ?', strategy.id)
+  end
+
   def before_save_method
     if self.act_strategy.nil? && !self.act_subject.nil? && !self.act_subject.act_strategies.default.nil?
       self.act_strategy_id = self.act_subject.act_strategies.default.id

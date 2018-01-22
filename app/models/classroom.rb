@@ -46,7 +46,9 @@ class Classroom < ActiveRecord::Base
   has_one :folder_folderable, :as => :folderable, :dependent => :destroy, :order => "position"
   has_one :folder, :through => :folder_folderable
 
-  has_many :elt_cases 
+  has_many :elt_cases
+
+  has_many :act_strategy_logs
   
   validates_presence_of :subject_area_id, :message => 'must be defined.  ' 
   validates_presence_of :course_name, :message => 'must be defined.  '

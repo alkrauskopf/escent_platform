@@ -98,7 +98,6 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       else
         @view_mode = 'Preview'
       end
-
       render :layout => "assessment"
     end
 
@@ -112,6 +111,9 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       get_current_assessment
       get_current_teacher
       if create_current_submission?
+        if @current_submission.test_strategies?
+          strategy_log('init')
+        end
         if sa_answers_completed?
           if mc_answers_completed?
             score_submission
@@ -129,6 +131,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
             else
               if @current_submission.test_strategies?
                 @current_submission.save
+                strategy_log('update')
               end
               flash[:notice] = 'Submitted'
             end
@@ -325,7 +328,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
           answer.points = 0.0
           answer.short_answer = params[:short_ans][:answer][idx]
           if @current_submission.act_answers << answer
-            update_strategy_count(question)
+            update_strategy_count(question, answer.is_correct)
           else
             sa_complete = false
           end
@@ -372,7 +375,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
             answer.act_choice_id = choice_id
             answer.points = choice.correct? ? 1.0 : 0.0
             if @current_submission.act_answers << answer
-              update_strategy_count(question)
+              update_strategy_count(question, choice.correct?)
             else
               mc_complete = false
             end
@@ -402,11 +405,39 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     mc_complete
   end
 
-  def update_strategy_count(question)
+  def update_strategy_count(question, correct_answer)
     if !@current_submission.nil? && @current_submission.test_strategies? && params[:strategy] && !question.act_strategy.nil?
       @current_submission.strategy_matches += (question.act_strategy.id.to_s == params[:strategy][question.id.to_s]) ? 1 : 0
+      @strategy_log[question.act_strategy.id.to_s + 'preferred'] += 1
+      if params[:strategy][question.id.to_s] != ''
+        @strategy_log[params[:strategy][question.id.to_s] + 'mis_matches'] += (question.act_strategy.id.to_s == params[:strategy][question.id.to_s]) ? 0 : 1
+        @strategy_log[params[:strategy][question.id.to_s] + 'matches'] += (question.act_strategy.id.to_s == params[:strategy][question.id.to_s]) ? 1 : 0
+        @strategy_log[params[:strategy][question.id.to_s] + 'incorrects'] += correct_answer ? 0 : 1
+        @strategy_log[params[:strategy][question.id.to_s] + 'corrects'] += correct_answer ? 1 : 0
+      end
     end
   end
+
+    def strategy_log(function)
+      if function == 'init'
+        @strategy_log = {}
+        @current_subject.active_strategies.each do |strategy|
+          @strategy_log[strategy.id.to_s + 'preferred'] = 0
+          @strategy_log[strategy.id.to_s + 'mis_matches'] = 0
+          @strategy_log[strategy.id.to_s + 'incorrects'] = 0
+          @strategy_log[strategy.id.to_s + 'matches'] = 0
+          @strategy_log[strategy.id.to_s + 'corrects'] = 0
+        end
+      elsif function == 'update'
+        @current_subject.active_strategies.each do |strategy|
+          ActStrategyLog.create('act_strategy_id'=>strategy.id, 'act_submission_id' => @current_submission.id, 'act_assessment_id' => @current_assessment.id,
+                                'user_id'=>@current_submission.user_id, 'organization_id'=>@current_submission.organization_id, 'classroom_id' => @current_submission.classroom_id,
+                                'preferred' => @strategy_log[strategy.id.to_s + 'preferred'], 'mis_matches' => @strategy_log[strategy.id.to_s + 'mis_matches'],
+                                'incorrects' => @strategy_log[strategy.id.to_s + 'incorrects'], 'matches' => @strategy_log[strategy.id.to_s + 'matches'],
+                                'corrects' => @strategy_log[strategy.id.to_s + 'corrects'])
+        end
+      end
+    end
 
   def score_submission
     @current_submission.score_it!(@current_provider.master_standard)

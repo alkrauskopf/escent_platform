@@ -12,6 +12,7 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     student_dashboards(@student_list)
     org_list
     org_dashboards(@org_list)
+    subject_strategies
     dashboardable_submissions_notice
     aggregate_dashboard_header_info(@organization_dashboards, @current_subject, @current_standard, @current_organization)
   end
@@ -266,5 +267,14 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
   def entity_dashboards(entity, subject)
     @entity_dashboards = {}
     @entity_dashboards[subject] = entity.ifa_dashboards.for_subject(subject).by_date
+  end
+
+  def subject_strategies
+    @subject_strategies= {}
+    @strategy_subjects = ActStrategy.subjects
+    @subject_strategies['Subject'] = @current_subject
+    if !@current_entity.nil?
+
+    end
   end
 end

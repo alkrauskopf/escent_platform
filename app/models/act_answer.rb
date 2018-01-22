@@ -33,6 +33,15 @@ class ActAnswer < ActiveRecord::Base
       [ "100%", 100 ]
   ]
 
+
+  def self.with_strategy(strategy)
+    where("act_strategy_id = ?", strategy.id)
+  end
+
+  def self.with_strategy_matches(strategy)
+    where("act_strategy_id = ? AND act_questions.act_strategy_id = ?", strategy.id, strategy.id).includes(:act_questions)
+  end
+
   def self.not_selected
     where('was_selected = ?', false)
   end

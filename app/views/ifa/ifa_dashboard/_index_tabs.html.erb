@@ -33,6 +33,11 @@
         <a href="#tabs-8"><span class="tab_label">
         <%= tab_8_label %></span></a>
       </li>
+      <li>
+        <%  tab_6_label = "Testing Strategies" %>
+        <a href="#tabs-6"><span class="tab_label">
+        <%= tab_6_label %></span></a>
+      </li>
     </ul>
     <div id="tabs-1" class="row">
       <div class="col-md-12">
@@ -67,6 +72,12 @@
     <div id="tabs-8" class="row">
       <div class="col-md-12">
         <%= render :partial => "/ifa/ifa_dashboard/dashboarding_tools", :locals=>{:organization=>@current_organization, :subject => @current_subject, :classrooms => @classroom_list, :students => @student_list} %>
+      </div>
+    </div>
+
+    <div id="tabs-6" class="row">
+      <div class="col-md-12">
+        strategies<%#= render :partial => "/ifa/ifa_dashboard/strategies", :locals=>{:organization=>@current_organization, :subject => @current_subject, :classrooms => @classroom_list, :students => @student_list} %>
       </div>
     </div>
   </div>

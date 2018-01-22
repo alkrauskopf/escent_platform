@@ -5,6 +5,7 @@ class ActStrategy < ActiveRecord::Base
 
   has_many :act_questions
   has_many :act_answers
+  has_many :act_strategy_logs
 
   validates_presence_of :act_subject_id,  :message => 'Subject Must Be Defined'
   validates_presence_of :name,  :message => 'Must Have Name'
@@ -31,6 +32,10 @@ class ActStrategy < ActiveRecord::Base
 
   def destroyable?
     self.act_answers.empty? && self.act_questions.enabled.empty?
+  end
+
+  def self.subjects
+    where('is_active').map{|s| s.act_subject}.compact.uniq rescue []
   end
 
 end

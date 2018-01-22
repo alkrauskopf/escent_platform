@@ -15,6 +15,7 @@ class ActSubmission < ActiveRecord::Base
   has_many :act_submission_scores, :dependent => :destroy
   has_many :ifa_student_levels, :dependent => :destroy
   has_many :ifa_question_logs, :dependent => :destroy
+  has_many :act_strategy_logs
   
   validates_presence_of :teacher_id, :message => 'No Teacher Identified - '
   validates_presence_of :act_assessment_id, :message => 'No Assessment Identified - '

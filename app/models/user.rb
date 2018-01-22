@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
   has_many :ifa_student_levels
   has_many :ifa_question_logs
   has_many :ifa_user_baseline_scores
+  has_many :act_strategy_logs
     
   has_one   :tchr_option, :dependent => :destroy  
   has_one   :bio, :as => :bioable, :dependent => :destroy 

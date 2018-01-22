@@ -12,6 +12,7 @@ class ActAssessment < ActiveRecord::Base
   has_many :act_submissions
   has_many :act_assessment_score_ranges
   has_many :ifa_question_logs
+  has_many :act_strategy_logs
   
   belongs_to :act_subject
   belongs_to :user

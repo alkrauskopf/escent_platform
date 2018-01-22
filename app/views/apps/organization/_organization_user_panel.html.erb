@@ -4,7 +4,7 @@
       <div class="user_side_panel">
         <% if !@prep_provider.nil? && @prep_teacher%>
             <div class="user_org_panel" style = "background-color: <%=@current_organization.brand_color%>">
-              <%= @current_organization.short_name %> Student Dashboards & Plans
+              <%= @current_organization.short_name %> Student SAT Prep Data & Plans
             </div>
             <div class="organization_panel_text">
               <div class="teacher_box">
@@ -30,27 +30,31 @@
             <div class="organization_user_panel_text">
               <% @user_offerings.each do |clsrm| %>
                 <div class="row offering_row">
-                  <%= link_to 'View', offering_view_path(:organization_id => @current_organization,  :id => clsrm), :class=> "button_gray" %>&nbsp;&nbsp;
-                  <span class="offering_link">
-                    <%= clsrm.course_name%>
-                  </span>
+                  <div class="col-md-2">
                   <% if @offering_list['ifa'+ clsrm.id.to_s] && !@offering_list['per'+ clsrm.id.to_s].nil? && @offering_list['s'+ clsrm.id.to_s]%>
-                    <div id="<%=clsrm.id.to_s%>_button" class="assess_link">
-                      <%= link_to 'Assess Needs', ifa_take_path(:organization_id => @current_organization,:classroom_id => clsrm.id,
-                                                           :period_id => @offering_list['per'+ clsrm.id.to_s].id, :topic_id =>  nil), :style=>'font-size:10px;', :id=>(clsrm.id.to_s + 'btnLink'), :class=>'button_blue'%>
-                      <script type="text/javascript">
-                        jQ("#<%=clsrm.id.to_s%>_button").click(function() {
+                      <div id="<%=clsrm.id.to_s%>_button" class="assess_link">
+                        <%= link_to 'SAT Prep', ifa_take_path(:organization_id => @current_organization,:classroom_id => clsrm.id,
+                                                                  :period_id => @offering_list['per'+ clsrm.id.to_s].id, :topic_id =>  nil), :style=>'font-size:10px;', :id=>(clsrm.id.to_s + 'btnLink'), :class=>'button_blue'%>
+                        <script type="text/javascript">
+                          jQ("#<%=clsrm.id.to_s%>_button").click(function() {
                             jQ("#<%=clsrm.id.to_s%>btnLink").attr("disabled", true);
                             return true;
-                        });
-                      </script>
-                    </div>
+                          });
+                        </script>
+                      </div>
                   <% elsif @offering_list['ifa'+ clsrm.id.to_s] && !@offering_list['per'+ clsrm.id.to_s].nil? && @offering_list['t'+ clsrm.id.to_s]%>
-                    <div class="assess_link">
-                      <%= link_to 'Assessments', ifa_submission_teacher_review_path(:organization_id => @current_organization,:classroom_id => clsrm.id,
-                                                                :period_id => @offering_list['per'+ clsrm.id.to_s].id, :topic_id =>  nil), :style=>'font-size:10px;', :class=>'button_blue'%>
-                    </div>
+                      <div class="assess_link">
+                        <%= link_to 'SAT Prep', ifa_submission_teacher_review_path(:organization_id => @current_organization,:classroom_id => clsrm.id,
+                                                                                      :period_id => @offering_list['per'+ clsrm.id.to_s].id, :topic_id =>  nil), :style=>'font-size:10px;', :class=>'button_blue'%>
+                      </div>
                   <% end %>
+                  </div>
+                  <div class="col-md-9">
+                    <span class="offering_link">
+                      <%= clsrm.course_name%>
+                    </span>
+                    <%= link_to 'Resources', offering_view_path(:organization_id => @current_organization,  :id => clsrm), :class=> "lu_link" %>
+                  </div>
                 </div>
               <% end %>
             </div>

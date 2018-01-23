@@ -434,7 +434,8 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
                                 'user_id'=>@current_submission.user_id, 'organization_id'=>@current_submission.organization_id, 'classroom_id' => @current_submission.classroom_id,
                                 'preferred' => @strategy_log[strategy.id.to_s + 'preferred'], 'mis_matches' => @strategy_log[strategy.id.to_s + 'mis_matches'],
                                 'incorrects' => @strategy_log[strategy.id.to_s + 'incorrects'], 'matches' => @strategy_log[strategy.id.to_s + 'matches'],
-                                'corrects' => @strategy_log[strategy.id.to_s + 'corrects'])
+                                'corrects' => @strategy_log[strategy.id.to_s + 'corrects'],
+                    'act_subject_id' => @current_submission.act_subject_id, 'period_end' => @current_submission.created_at.end_of_month)
         end
       end
     end

@@ -1,0 +1,52 @@
+<div id="strategy_row_<%=strategy.id%>">
+  <% if details == 'Y' %>
+    <% class_label = 'button_orange' %>
+    <% button_label = 'Close' %>
+  <% else %>
+    <% class_label = 'button_gray' %>
+    <% button_label = 'History' %>
+  <% end %>
+  <div id="history_<%=strategy.id%>" class=<%=class_label %>>
+    <%= button_label %>
+  </div>
+  <% if details == 'Y' %>
+    <div class="subject_strategy_detail_box">
+      <% idx = 0 %>
+      <% @entity_strategy_details['row_count'].times do  %>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-3 subject_strategy_row">
+            <div class="date_label">
+              <%= @entity_strategy_details['row'+ idx.to_s + 'ass_date'] %>
+            </div>
+            <%= @entity_strategy_details['row'+ idx.to_s + 'ass'] %><br/>
+            <%= @entity_strategy_details['row'+ idx.to_s + 'quest_count'] %><br/>
+          </div>
+          <div class="col-md-4 subject_strategy_row">
+            Strategy selected <%= pluralize( @entity_strategy_details['row'+ idx.to_s + 'used'], ' time')%><br/>
+            <%= pluralize(@entity_strategy_details['row'+ idx.to_s + 'match'], ' Match')%> to question strategy<br/>
+            <%= pluralize(@entity_strategy_details['row'+ idx.to_s + 'mis_matched'], ' Mis-match')%> to question strategy
+          </div>
+          <div class="col-md-4 subject_strategy_row">
+            <%= pluralize(@entity_strategy_details['row'+ idx.to_s + 'correct'], ' Correct answer')%> when used<br/>
+            <%= pluralize(@entity_strategy_details['row'+ idx.to_s + 'incorrect'], ' Wrong answer')%> when used
+          </div>
+        </div>
+        <hr>
+        <% idx += 1 %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+<script type="text/javascript">
+  jQ(document).ready(function() {
+    jQ("#history_<%=strategy.id%>").click(function(){
+      var url = "<%= ifa_dashboards_strategy_entity_details_url(:organization_id => @current_organization, :act_strategy_id => strategy.id, :subject_id => subject.id,
+        :entity_id => entity.public_id, :entity_class => entity.class.to_s, :details => details) %>";
+      jQ.get(url, {}, function(data) {
+        jQ("#strategy_row_<%=strategy.id%>").html(data);
+        jQ("#strategy_row_<%=strategy.id%>").show();
+      });
+    })
+  });
+</script>

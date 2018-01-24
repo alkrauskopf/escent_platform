@@ -1734,6 +1734,33 @@ font-weight:normal;
   font-size:10px;
   font-weight:normal;
 }
+.subject_strategy_name {
+  padding: 0em 0em 1em 1em;
+  text-align:left;
+  color:$prep_panel;
+  font-size:15px;
+  font-weight:bold;
+}
+.subject_strategy_detail_box {
+  margin:1em 1em 1em 1em;
+  padding:2em 0em 2em 0em;
+  border-radius: 10px;
+  border:1px solid #ddd;
+  background-color: white;
+}
+
+.subject_strategy_row {
+  margin: 0em 0em 0em 0em;
+  text-align:left;
+  color:$prep_panel;
+  font-size:14px;
+  font-weight:normal;
+}
+.subject_strategy_row .date_label{
+  padding: 0em 0em .5em 0em;
+  font-weight:bold;
+}
+
 .subject_student_db_row {
   padding: 1.5em 1em 1.5em 1em;
   border-bottom:1px dashed $prep_panel;

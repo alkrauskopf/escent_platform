@@ -10,4 +10,12 @@ class ActStrategyLog < ActiveRecord::Base
   belongs_to :user
   belongs_to :act_subject
 
+  def self.for_strategy(strategy)
+    where('act_strategy_id = ?', strategy.id).order('created_at DESC')
+  end
+
+  def self.for_subject(subject)
+    where('act_subject_id = ?', subject.id).order('created_at DESC')
+  end
+
 end

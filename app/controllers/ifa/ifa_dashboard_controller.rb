@@ -12,9 +12,27 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     student_dashboards(@student_list)
     org_list
     org_dashboards(@org_list)
-    subject_strategies
+    entity_strategies(@current_organization)
     dashboardable_submissions_notice
     aggregate_dashboard_header_info(@organization_dashboards, @current_subject, @current_standard, @current_organization)
+  end
+
+  def strategy_entity
+    get_subject
+    get_entity
+    classroom_list
+    student_list
+    org_list
+    entity_strategies(@entity)
+    render :partial => "/ifa/ifa_dashboard/strategies", :locals=>{:organization=>@current_organization, :subject => @current_subject}
+  end
+
+  def strategy_entity_details
+    get_subject
+    get_strategy
+    get_entity
+    entity_strategy_details(@entity, @current_strategy)
+    render :partial => "/ifa/ifa_dashboard/strategy_row", :locals=>{:strategy => @current_strategy, :entity => @entity, :subject=>@current_subject, :details=> (params[:details] == 'Y' ? 'N' : 'Y')}
   end
 
   def dashboard_submissions_process
@@ -131,6 +149,10 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
   end
 
   private
+
+  def get_strategy
+    @current_strategy = ActStrategy.find_by_id(params[:act_strategy_id]) rescue nil
+  end
 
   def get_subject
     @current_subject = ActSubject.find_by_id(params[:subject_id]) rescue nil
@@ -269,12 +291,60 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     @entity_dashboards[subject] = entity.ifa_dashboards.for_subject(subject).by_date
   end
 
-  def subject_strategies
-    @subject_strategies= {}
-    @strategy_subjects = ActStrategy.subjects
-    @subject_strategies['Subject'] = @current_subject
-    if !@current_entity.nil?
-
+  def entity_strategies(entity)
+    @entity_strategies = {}
+    @entity_strategies['entity'] = entity
+    @current_subject.active_strategies.each do |strategy|
+      @entity_strategies[strategy.id.to_s + 'name'] = strategy.name
+      @entity_strategies[strategy.id.to_s + 'ass_count'] = entity.act_strategy_logs.for_strategy(strategy).size
+      @entity_strategies[strategy.id.to_s + 'quest_count'] = entity.act_strategy_logs.for_strategy(strategy).map{|sl| sl.act_assessment.nil? ? 0 : sl.act_assessment.act_questions.with_strategy(strategy).size}.sum
+      @entity_strategies[strategy.id.to_s + 'prefers'] = entity.act_strategy_logs.for_strategy(strategy).map{|sl| sl.preferred}.sum
+      @entity_strategies[strategy.id.to_s + 'matches'] = entity.act_strategy_logs.for_strategy(strategy).map{|sl| sl.matches}.sum
+      @entity_strategies[strategy.id.to_s + 'mis_matches'] = entity.act_strategy_logs.for_strategy(strategy).map{|sl| sl.mis_matches}.sum
+      @entity_strategies[strategy.id.to_s + 'correct'] = entity.act_strategy_logs.for_strategy(strategy).map{|sl| sl.corrects}.sum
+      @entity_strategies[strategy.id.to_s + 'incorrect'] = entity.act_strategy_logs.for_strategy(strategy).map{|sl| sl.incorrects}.sum
+      @entity_strategies[strategy.id.to_s + 'used'] = @entity_strategies[strategy.id.to_s + 'mis_matches'] + @entity_strategies[strategy.id.to_s + 'matches']
+      @entity_strategies[strategy.id.to_s + 'match_pct'] = @entity_strategies[strategy.id.to_s + 'prefers'] == 0 ? 0 :
+          (100.0 * @entity_strategies[strategy.id.to_s + 'matches'].to_f/@entity_strategies[strategy.id.to_s + 'prefers'].to_f).round
+      @entity_strategies[strategy.id.to_s + 'mis_match_pct'] = @entity_strategies[strategy.id.to_s + 'prefers'] == 0 ? 0 :
+          (100.0 * @entity_strategies[strategy.id.to_s + 'mis_matches'].to_f/@entity_strategies[strategy.id.to_s + 'prefers'].to_f).round
+      @entity_strategies[strategy.id.to_s + 'tot_correct_pct'] = @entity_strategies[strategy.id.to_s + 'used'] == 0 ? 0 :
+          (100.0 * @entity_strategies[strategy.id.to_s + 'correct'].to_f/@entity_strategies[strategy.id.to_s + 'used'].to_f).round
+      @entity_strategies[strategy.id.to_s + 'tot_incorrect_pct'] = @entity_strategies[strategy.id.to_s + 'used'] == 0 ? 0 :
+          (100.0 * @entity_strategies[strategy.id.to_s + 'incorrect'].to_f/@entity_strategies[strategy.id.to_s + 'used'].to_f).round
     end
+  end
+
+  def entity_strategy_details(entity, strategy)
+    @entity_strategy_details = {}
+    idx = 0
+    if entity.class.to_s == 'User'
+      entity.act_strategy_logs.for_strategy(strategy).each do |sub_log|
+        @entity_strategy_details['row'+ idx.to_s + 'ass_date'] = sub_log.created_at.strftime("%b %d, %Y")
+        @entity_strategy_details['row'+ idx.to_s + 'ass'] = sub_log.act_assessment.nil? ? 'Assessment Undefined' : sub_log.act_assessment.name
+        strategy_questions = sub_log.act_assessment.nil? ? 0 : sub_log.act_assessment.act_questions.with_strategy(strategy).size
+        @entity_strategy_details['row'+ idx.to_s + 'quest_count'] =  strategy_questions.to_s + (strategy_questions == 1 ? ' Question' : ' Questions') + ' for strategy'
+        @entity_strategy_details['row'+ idx.to_s + 'match'] = sub_log.matches
+        @entity_strategy_details['row'+ idx.to_s + 'mis_match'] = sub_log.mis_matches
+        @entity_strategy_details['row'+ idx.to_s + 'used'] = @entity_strategy_details['row'+ idx.to_s + 'match'] + @entity_strategy_details['row'+ idx.to_s + 'mis_match']
+        @entity_strategy_details['row'+ idx.to_s + 'correct'] = sub_log.corrects
+        @entity_strategy_details['row'+ idx.to_s + 'incorrect'] = sub_log.incorrects
+        idx += 1
+      end
+    else
+      entity.act_strategy_logs.for_strategy(strategy).group_by{|sl| sl.period_end}.each do |sub_date, sub_logs|
+        @entity_strategy_details['row'+ idx.to_s + 'ass_date'] = sub_date.strftime("%b %Y")
+        @entity_strategy_details['row'+ idx.to_s + 'ass'] = sub_logs.size.to_s + (sub_logs.size == 1 ? ' Assessment' : ' Assessments')
+        strategy_questions = sub_logs.map{|sl| sl.act_assessment.nil? ? 0 : sl.act_assessment.act_questions.with_strategy(strategy).size}.sum
+        @entity_strategy_details['row'+ idx.to_s + 'quest_count'] =  strategy_questions.to_s + (strategy_questions == 1 ? ' Question' : ' Questions') + ' for strategy'
+        @entity_strategy_details['row'+ idx.to_s + 'match'] = sub_logs.map{|sl| sl.matches}.sum
+        @entity_strategy_details['row'+ idx.to_s + 'mis_match'] = sub_logs.map{|sl| sl.mis_matches}.sum
+        @entity_strategy_details['row'+ idx.to_s + 'used'] = @entity_strategy_details['row'+ idx.to_s + 'match'] + @entity_strategy_details['row'+ idx.to_s + 'mis_match']
+        @entity_strategy_details['row'+ idx.to_s + 'correct'] = sub_logs.map{|sl| sl.corrects}.sum
+        @entity_strategy_details['row'+ idx.to_s + 'incorrect'] = sub_logs.map{|sl| sl.incorrects}.sum
+        idx += 1
+      end
+    end
+    @entity_strategy_details['row_count'] = idx
   end
 end

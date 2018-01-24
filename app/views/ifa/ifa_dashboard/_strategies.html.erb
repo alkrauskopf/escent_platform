@@ -1,40 +1,95 @@
-<div id="student_dbs_<%=subject.id%>" >
+<div id="strategies_<%=subject.id%>" >
   <div class="teacher_review_period_box ">
+    <div class="row standard_row">
+      <div class= "col-md-1"></div>
+      <div class="col-md-3">
+        <div class="subject_select" id="s_org_id">
+          <%=  select(:strat, :org_id, @org_list.collect{|o| [o.short_name,o.public_id]},{:prompt => 'Select Organization'}) %>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="subject_select" id="s_classroom_id">
+          <%=  select(:strat, :classroom_id, @classroom_list.collect{|c| [c.name,c.public_id]},{:prompt => 'Select Classroom'}) %>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="subject_select" id="s_student_id">
+          <%=  select(:strat, :user_id, @student_list.collect{|s| [s.last_name_first,s.public_id]},{:prompt => 'Select Student'}) %>
+        </div>
+      </div>
+    </div>
+  <div class= "col-md-1"></div>
     <div class= "precision_prep_review_panel">
       <div class="teacher_review_header_label">
-      <%= pluralize(students.size, @student_dashboards['name'] + ' Student') %>
+        <%= @entity_strategies['entity'].name %> Testing Strategy Metrics
       </div>
     </div>
   </div>
-  <% if !students.empty? -%>
+  <% if !@current_subject.active_strategies.empty? -%>
     <div class="precision_milestone_panel">
       <div class="precision_prep_review_box">
-        <% students.each do |student| -%>
-          <div class="row subject_student_db_row">
-            <div class="col-md-12 subject_student_name">
-              <table id="subj_dbs_<%=student.id %>">
-                <tbody>
-                  <% student_label = student.last_name_first.upcase + @student_list_label[student.id] +' (' + @student_dashboards[student.id].size.to_s + ')' %>
-                  <tr>
-                    <td class="resource_levels_close">
-                      <%= link_to '', ifa_dashboards_entity_subject_path(:organization_id => @current_organization, :entity_class => "User", :subject_id => subject.id, :entity_id => student) %>
-                      <%= student_label %>
-                      <span></span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <script type="text/javascript" charset="utf-8">
-                jQ(document).ready(function() {
-                  jQ('#subj_dbs_<%=student.id %> .resource_levels_close').toggleResourceLevels();
-                  jQ('#subj_dbs_<%=student.id %> .resource_levels_open').toggleResourceLevels();
-                });
-              </script>
+        <% @current_subject.active_strategies.each do |strategy| -%>
+          <div class="subject_student_db_row">
+            <div class = 'subject_strategy_name'>
+              <%= @entity_strategies[strategy.id.to_s + 'name'] %>
             </div>
+            <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-3 subject_strategy_row">
+                <%= pluralize(@entity_strategies[strategy.id.to_s + 'ass_count'], ' Assessment') %><br/>
+                <%= pluralize(@entity_strategies[strategy.id.to_s + 'quest_count'], ' Question') %> for strategy
+              </div>
+              <div class="col-md-4 subject_strategy_row">
+                Strategy selected <%= @entity_strategies[strategy.id.to_s + 'match_pct']%>% (<%= pluralize(@entity_strategies[strategy.id.to_s + 'used'], ' time')%>)<br/>
+                <%= @entity_strategies[strategy.id.to_s + 'match_pct']%>%, <%= pluralize(@entity_strategies[strategy.id.to_s + 'matches'],  ' Match')%> to question strategy<br/>
+                <%= @entity_strategies[strategy.id.to_s + 'mis_match_pct']%>%, <%= pluralize(@entity_strategies[strategy.id.to_s + 'mis_matches'], ' Mis-match')%> to question strategy
+              </div>
+              <div class="col-md-4 subject_strategy_row">
+                <%= @entity_strategies[strategy.id.to_s + 'tot_correct_pct']%>%, <%= pluralize(@entity_strategies[strategy.id.to_s + 'correct'], ' Correct answer')%> when used<br/>
+                <%= @entity_strategies[strategy.id.to_s + 'tot_incorrect_pct']%>%, <%= pluralize(@entity_strategies[strategy.id.to_s + 'incorrect'],' Wrong answer')%> when used
+              </div>
+            </div>
+            <%= render :partial => "/ifa/ifa_dashboard/strategy_row", :locals=>{:strategy => strategy, :subject=>@current_subject, :entity => @entity_strategies['entity'], :details=>'N'} %>
           </div>
         <% end %>
       </div>
     </div>
   <% end %>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#s_org_id").change(function(){
+        var entity_id = jQ('#strat_org_id').val();
+        var url = "<%= ifa_dashboards_strategy_entity_url(:organization_id => @current_organization, :subject_id => @current_subject.id, :entity_class=>'Organization') %>";
+        jQ.get(url, {'entity_id': entity_id}, function(data) {
+          jQ("#strategies_<%=subject.id%>").html(data);
+          jQ("#strategies_<%=subject.id%>").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#s_classroom_id").change(function(){
+        var entity_id = jQ('#strat_classroom_id').val();
+        var url = "<%= ifa_dashboards_strategy_entity_url(:organization_id => @current_organization, :subject_id => @current_subject.id, :entity_class=>'Classroom') %>";
+        jQ.get(url, {'entity_id': entity_id}, function(data) {
+          jQ("#strategies_<%=subject.id%>").html(data);
+          jQ("#strategies_<%=subject.id%>").show();
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#s_student_id").change(function(){
+        var entity_id = jQ('#strat_user_id').val();
+        var url = "<%= ifa_dashboards_strategy_entity_url(:organization_id => @current_organization, :subject_id => @current_subject.id, :entity_class=>'User') %>";
+        jQ.get(url, {'entity_id': entity_id}, function(data) {
+          jQ("#strategies_<%=subject.id%>").html(data);
+          jQ("#strategies_<%=subject.id%>").show();
+        });
+      })
+    });
+  </script>
 </div>
 

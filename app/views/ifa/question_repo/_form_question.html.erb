@@ -17,7 +17,7 @@
         </div>
       </div>
       <% if !@current_subject.active_strategies.empty? %>
-              <% question_strategy = @current_question.act_strategy.nil? ? @current_subject.act_strategies.default : @current_question.act_strategy %>
+        <% question_strategy = @current_question.act_strategy.nil? ? @current_subject.act_strategies.default : @current_question.act_strategy %>
         <div class="row repo_edit_row">
           <div class="col-md-3 repo_label_field">
             Preferred Solution Strategy
@@ -34,6 +34,14 @@
         </div>
         <div class="col-md-9 repo_text_field">
           <%= text_field :act_question, :comment, :size => 55, :maxlength => 150,  :value => @current_question.comment  %>
+        </div>
+      </div>
+      <div class="row repo_edit_row">
+        <div class="col-md-3 repo_label_field">
+         Allotted Time (Secs)
+        </div>
+        <div class="col-md-9 repo_text_field">
+          <%= text_field :act_question, :allotted_time, :size => 3, :maxlength => 3,  :value => @current_question.allotted_time  %>
         </div>
       </div>
       <div class="row repo_edit_row">

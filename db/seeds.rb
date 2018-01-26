@@ -38,6 +38,16 @@
 
   add_default_question_strategy = false
 
+  set_default_question_times = true
+
+  if set_default_question_times
+    ActQuestion.all.each do |question|
+      if question.allotted_time == 0
+        question.update_attributes({'allotted_time' => question.act_subject.question_time})
+      end
+    end
+  end
+
   if create_default_strategies
     ActSubject.no_na.each do |subject|
       if subject.act_strategies.default.nil?

@@ -42,11 +42,12 @@ class ActQuestion < ActiveRecord::Base
   has_many :ifa_question_performances
 
   before_save :before_save_method
+  before_create :before_create_method
 
   validates_presence_of :act_subject_id
   validates_presence_of :act_score_range_id,  :message => 'Must Define Mastery Level'
   validates_presence_of :act_standard_id,  :message => 'Must Define Knowledge Strand'
-  validates_presence_of :question_type, :message => ': SELECT ANSWER TYPE' 
+  validates_presence_of :question_type, :message => ': SELECT ANSWER TYPE'
   validates_length_of :question, :within => 1..25500, :message => 'Invalid Length Of Question'  
 
   scope :unlocked, :conditions => { :is_locked => false }
@@ -71,12 +72,6 @@ class ActQuestion < ActiveRecord::Base
 
   def self.with_strategy(strategy)
     where('act_strategy_id = ?', strategy.id)
-  end
-
-  def before_save_method
-    if self.act_strategy.nil? && !self.act_subject.nil? && !self.act_subject.act_strategies.default.nil?
-      self.act_strategy_id = self.act_subject.act_strategies.default.id
-    end
   end
 
   def self.creators
@@ -377,6 +372,18 @@ class ActQuestion < ActiveRecord::Base
   end
 
   private
+
+  def before_create_method
+    if !self.act_subject.nil? && self.allotted_time <= 0
+      self.allotted_time = self.act_subject.question_time
+    end
+  end
+
+  def before_save_method
+    if self.act_strategy.nil? && !self.act_subject.nil? && !self.act_subject.act_strategies.default.nil?
+      self.act_strategy_id = self.act_subject.act_strategies.default.id
+    end
+  end
 
   def picture_width
     required_width  = 300

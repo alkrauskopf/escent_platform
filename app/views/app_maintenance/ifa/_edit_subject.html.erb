@@ -2,7 +2,8 @@
   <div class="row ">
     <div class="col-md-1 "></div>
     <div class="col-md-10 ">
-      <%=subject.name%> | <%=subject.plannable? ? ' Plannable' : ' Not Plannable'%> | <%=subject.active? ? ' Active' : ' InActive'%> | <%=subject.posit %>
+      <%=subject.name%> | <%=subject.plannable? ? ' Plannable' : ' Not Plannable'%> | <%=subject.active? ? ' Active' : ' InActive'%> |
+      <%=subject.posit %> | <%=subject.question_time %> Secs/Quest
     </div>
   </div>
   <div class="row">
@@ -11,17 +12,22 @@
           Update
       </span>
     </div>
-    <div class="col-md-6 ifa_edit_text">
-      <%= text_area :subj_name, subject.id, :rows=>1, :cols => 60, :value => subject.name %>
-    </div>
-    <div class="col-md-2 ifa_edit_text">
-      <%= text_area :is_plannable, subject.id, :rows=>1, :cols => 1, :value => subject.plannable? ? 'Y':'N' %>
-    </div>
-    <div class="col-md-2 ifa_edit_text">
-      <%= text_area :subj_active, subject.id, :rows=>1, :cols => 1, :value => subject.active? ? 'Y':'N' %>
-    </div>
-    <div class="col-md-2 ifa_edit_text">
-      <%= text_area :subj_pos, subject.id, :rows=>1, :cols => 1, :value => subject.posit %>
+    <div class="col-md-11">
+      <div class="row col-md-5 ifa_edit_text">
+        <%= text_field :subj_name, subject.id, :size => 60, :value => subject.name %>
+      </div>
+      <div class="col-md-1 ifa_edit_text">
+        <%= text_field :is_plannable, subject.id, :size => 1, :value => subject.plannable? ? 'Y':'N' %>
+      </div>
+      <div class="col-md-1 ifa_edit_text">
+        <%= text_field :subj_active, subject.id, :size => 1, :value => subject.active? ? 'Y':'N' %>
+      </div>
+      <div class="col-md-1 ifa_edit_text">
+        <%= text_field :subj_pos, subject.id, :size => 1, :value => subject.posit %>
+      </div>
+      <div class="col-md-2 ifa_edit_text">
+        <%= text_field :subj_time, subject.id, :size => 3, :value => subject.question_time %>
+      </div>
     </div>
   </div>
 
@@ -32,8 +38,9 @@
         var plannable = jQ('#is_plannable_<%=subject.id%>').val();
         var active = jQ('#subj_active_<%=subject.id%>').val();
         var position = jQ('#subj_pos_<%=subject.id%>').val();
+        var q_time = jQ('#subj_time_<%=subject.id%>').val();
         var url = "<%= app_maintenance_ifa_subject_update_url(:organization_id => @current_organization, :subject_id=> subject.id) %>";
-        jQ.get(url, {'name':name, 'is_plannable':plannable, 'is_active':active, 'position':position}, function(data) {
+        jQ.get(url, {'name':name, 'is_plannable':plannable, 'is_active':active, 'position':position, 'question_time':q_time}, function(data) {
           jQ("#edit_subject_<%= subject.id %>").html(data);
           jQ("#edit_subject_<%= subject.id %>").show();
         });

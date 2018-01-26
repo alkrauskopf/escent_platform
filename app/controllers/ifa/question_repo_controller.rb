@@ -31,6 +31,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     related_readings
     @function = 'Create'
     @current_question = ActQuestion.new
+    @current_question.allotted_time = @current_subject.question_time
   end
 
   def subject_select
@@ -330,6 +331,7 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     #
     @current_question.question = params[:act_question][:question]
     @current_question.comment = params[:act_question][:comment]
+    @current_question.allotted_time = params[:act_question][:allotted_time]
     @current_question.question_type = params[:question][:question_type] == '' ? @current_question.question_type : params[:question][:question_type]
     @current_question.is_random = params[:act_question][:is_random]
     @current_question.is_enlarged = params[:act_question][:is_enlarged]

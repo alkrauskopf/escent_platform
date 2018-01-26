@@ -38,7 +38,7 @@
 
   add_default_question_strategy = false
 
-  set_default_question_times = true
+  set_default_question_times = false
 
   if set_default_question_times
     ActQuestion.all.each do |question|

@@ -14,13 +14,13 @@
       <div class="repo_assessment_panel repo_header_label">
         <div class="row">
           <div class= "col-md-2">
-            <span class="button_blue repo_header_button" id="create_question">
+            <span class="button_gray repo_header_button" id="create_question">
               <%= link_to 'Create Question', ifa_repo_question_add_path(:organization_id => @current_organization, :act_subject_id => @current_assessment.act_subject.id,
-              :act_assessment_id => @current_assessment.id), {class: 'button_blue', :target=>'_blank'}  %>
+              :act_assessment_id => @current_assessment.id), { :target=>'_blank'}  %>
             </span>
           </div>
           <div class= "col-md-8 ">
-            <%= pluralize(@assessment_questions.size, ' Assessment Question')%>
+            <%= pluralize(@assessment_questions.size, ' Assessment Question')%> | <%= number_with_precision(@assessment_questions_mins, :precision=>1) %> Minutes
           </div>
           <div class= "col-md-2">
             <span class="button_gray repo_header_button" id="refresh_assessment">

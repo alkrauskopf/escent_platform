@@ -106,20 +106,6 @@ class Apps::ApplicationController < ApplicationController
     end
   end
 
-  def x_aggregate_dashboard_header_info(dashboards, subject, standard, entity)
-    @aggregate = {}
-    @aggregate['entity'] = entity
-    @aggregate['subject'] = subject
-    @aggregate['standard'] = standard
-    @aggregate['assess_count'] = dashboards.collect{|db| db.assessments_taken}.sum
-    @aggregate['answer_count'] = dashboards.collect{|db| db.finalized_answers}.sum
-    @aggregate['total_points'] = dashboards.collect{|db| db.fin_points}.sum
-    @aggregate['total_duration'] = dashboards.collect{|db| db.finalized_duration}.sum
-    @aggregate['proficiency'] = @aggregate['answer_count'] == 0 ? 0 : (100.0 * @aggregate['total_points']/@aggregate['answer_count'].to_f).round
-    @aggregate['start_period'] = dashboards.empty? ? Date.today : dashboards.sort_by{|d| d.period_end}.first.period_end
-    @aggregate['end_period'] = dashboards.empty? ? Date.today : dashboards.sort_by{|d| d.period_end}.last.period_end
-    @aggregate['efficiency'] = @aggregate['total_points'] == 0.0 ? 0 : (@aggregate['total_duration'].to_f/@aggregate['total_points']).round
-  end
 
   protected
   

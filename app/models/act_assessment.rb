@@ -92,6 +92,14 @@ class ActAssessment < ActiveRecord::Base
     self.act_questions.empty? ? [] : self.act_questions.for_test
   end
 
+  def allotted_duration
+    self.questions_for_test.map{|q| q.allotted_time}.sum
+  end
+
+  def question_pace
+    self.questions_for_test.empty? ? 0 : (self.allotted_duration/self.questions_for_test.size).round
+  end
+
   def correct_test_choices
     self.questions_for_test.map{|q| q.correct_choices}.flatten
   end

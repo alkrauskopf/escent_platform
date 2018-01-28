@@ -751,7 +751,8 @@ class Apps::AssessmentController < Apps::ApplicationController
   #  @current_classroom_dashboards = @classroom.ifa_dashboards.select{|d| !d.act_subject.nil? && !d.period_end.nil? && !d.organization_id.nil?}
   #  find_dashboard_update_start_dates(@classroom)
     aggregate_dashboard_cell_hashes(@current_classroom_dashboards, @current_subject, @current_user.standard_view)
-    aggregate_dashboard_header_info(@current_classroom_dashboards, @current_subject, @current_user.standard_view, @classroom)
+    aggregate_header_info(@current_classroom_dashboards, @current_subject, @current_user.standard_view, @classroom)
+  #  aggregate_dashboard_header_info(@current_classroom_dashboards, @current_subject, @current_user.standard_view, @classroom)
 
   end
 
@@ -763,7 +764,8 @@ class Apps::AssessmentController < Apps::ApplicationController
     end_date = Date.new(params[:end_yr].to_i, params[:end_mth].to_i, 1).end_of_month
     @dashboards = @entity.ifa_dashboards.subject_between_periods(@current_subject, start_date, end_date)
     aggregate_dashboard_cell_hashes(@dashboards, @current_subject, @current_standard)
-    aggregate_dashboard_header_info(@dashboards, @current_subject, @current_standard, @entity)
+    aggregate_header_info(@dashboards, @current_subject, @current_standard, @entity)
+ #   aggregate_dashboard_header_info(@dashboards, @current_subject, @current_standard, @entity)
 
     render :partial => "ifa/ifa_dashboard/dashboard",
            :locals=>{:dashboard => @entity, :subject => @current_subject, :standard=>@current_standard, :cell_corrects=>@cell_correct,
@@ -796,7 +798,8 @@ class Apps::AssessmentController < Apps::ApplicationController
     end_date = Date.today.end_of_month
     @organization_dashboards = @current_organization.ifa_dashboards.subject_between_periods(@current_subject, start_date, end_date) rescue []
  #   aggregate_dashboard_cell_hashes(@organization_dashboards, @current_subject, @current_standard)
-    aggregate_dashboard_header_info(@organization_dashboards, @current_subject, @current_standard, @current_organization)
+    aggregate_header_info(@organization_dashboards, @current_subject, @current_standard, @current_organization)
+ #   aggregate_dashboard_header_info(@organization_dashboards, @current_subject, @current_standard, @current_organization)
     org_analysys_instance_variables
 #    student_growth_plans
   end

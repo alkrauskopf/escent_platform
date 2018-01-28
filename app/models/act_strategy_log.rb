@@ -18,4 +18,12 @@ class ActStrategyLog < ActiveRecord::Base
     where('act_subject_id = ?', subject.id).order('created_at DESC')
   end
 
+  def self.default(strategy)
+    where('act_strategy_id = ?', strategy.id).first rescue nil
+  end
+
+  def use_count
+    self.matches + self.mis_matches
+  end
+
 end

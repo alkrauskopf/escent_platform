@@ -1,27 +1,142 @@
 
-    <div class="row dashboard_title_1">
-      <div class="col-md-1"></div>
-      <div class="col-md-10 ">
-        <%= @dashboard['name'] %> | <%= @dashboard['subject'].name %> | <%= @dashboard['period_end'].strftime("%B %Y")%>
-      </div>
-      <div class="col-md-1"></div>
+<div class="row dashboard_title_1">
+  <div class="col-md-2 dashboard_header_title_side">
+    <%= (time_ago_in_words(@dashboard_header['taken_time']).sub(/about /, '') + " ago").titleize %>
+    <div>
+      <%= @dashboard_header['db_type'] %>
     </div>
-    <div class="row dashboard_title_2">
-      <div class="col-md-1"></div>
-      <div class="col-md-10 ">
-        <%= pluralize(@dashboard['assess_count'], ' Assessment') %> |
-        <%= pluralize(@dashboard['answer_count'], ' Answer') %> |
-        <%= pluralize(number_with_precision(@dashboard['total_points'], :precision => 0), ' Point')%> |
-        <%= @dashboard['proficiency']%>% Proficiency |
-        <%= @dashboard['efficiency']%> Secs/Point
-      </div>
-      <div class="col-md-1"></div>
+  </div>
+  <div class="col-md-8 dashboard_header_title_center">
+    <%= @dashboard_header['row1'] %>
+    <%= @dashboard_header['row1_scores'] %>
+  </div>
+  <div class="col-md-2 dashboard_header_title_side">
+    <%= @dashboard_header['row1_right'] %>
+  </div>
+</div>
+<% if !@dashboard_header['table_0'].nil? %>
+  <div class="row">
+    <div class="col-md-1 dashboard_header_table_side"></div>
+    <div class="col-md-10 ">
+      <table class="table table-hover table-striped rl_table">
+        <tbody>
+          <colgroup>
+            <col style="width:23%">
+            <col style="width:13%">
+            <col style="width:13%">
+            <col style="width:13%">
+            <col style="width:13%">
+            <col style="width:25%">
+          </colgroup>
+          <% @dashboard_header['table_0'].size.times.with_index do |idx| %>
+            <% if idx == 0 %>
+              <tr >
+                <td class="dashboard_header_table_label">
+                  <%= @dashboard_header['table_0'][idx].html_safe %>
+                </td>
+                <td class="dashboard_header_table_header">
+                  <%= @dashboard_header['table_1'][idx].html_safe %>
+                </td>
+                <td class="dashboard_header_table_header">
+                  <%= @dashboard_header['table_2'][idx].html_safe %>
+                </td>
+                <td class="dashboard_header_table_header">
+                  <%= @dashboard_header['table_3'][idx].html_safe %>
+                </td>
+                <td class="dashboard_header_table_header">
+                  <%= @dashboard_header['table_4'][idx].html_safe %>
+                </td>
+                <td class="dashboard_header_table_note">
+                  <%= @dashboard_header['table_5'][idx].html_safe %>
+                </td>
+              </tr>
+            <% else %>
+              <tr >
+                <td class="dashboard_header_table_label">
+                  <i class=<%= @dashboard_header['table_glyph'][idx] %>></i>&nbsp;&nbsp;<%= @dashboard_header['table_0'][idx] %>
+                </td>
+                <td class="dashboard_header_table_stat">
+                  <%= @dashboard_header['table_1'][idx] %>
+                </td>
+                <td class="dashboard_header_table_stat">
+                  <%= @dashboard_header['table_2'][idx] %>
+                </td>
+                <td class="dashboard_header_table_stat">
+                  <%= @dashboard_header['table_3'][idx] %>
+                </td>
+                <td class="dashboard_header_table_stat">
+                  <%= @dashboard_header['table_4'][idx] %>
+                </td>
+                <td class="dashboard_header_table_note">
+                  <%= @dashboard_header['table_5'][idx] %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
     </div>
-    <div class="row dashboard_title_2">
-      <div class="col-md-1"></div>
-      <div class="col-md-10 ">
-        Mastery Level: <%= @dashboard['standard'].abbrev %>&nbsp;<%= @dashboard['standard_score']%>
-        <%= @dashboard['sat_score'].nil? ? '' : (', SAT ' + @dashboard['sat_score'].to_s) %>
-      </div>
-      <div class="col-md-1"></div>
+    <div class="col-md-1 dashboard_header_table_side"></div>
+  </div>
+<% end %>
+<% if !@dashboard_header['strat_0'].nil? %>
+  <div class="row">
+    <div class="col-md-1 dashboard_header_table_side"></div>
+    <div class="col-md-10 ">
+      <table class="table table-hover table-striped rl_table">
+        <tbody>
+        <colgroup>
+          <col style="width:26%">
+          <col style="width:16%">
+          <col style="width:16%">
+          <col style="width:16%">
+          <col style="width:26%">
+        </colgroup>
+        <% @dashboard_header['strat_0'].size.times.with_index do |idx| %>
+            <% if idx == 0 %>
+                <tr >
+                  <td class="dashboard_header_table_header">
+                    <%= @dashboard_header['strat_0'][idx].html_safe %>
+                  </td>
+                  <td class="dashboard_header_table_header">
+                    <%= @dashboard_header['strat_1'][idx].html_safe %>
+                  </td>
+                  <td class="dashboard_header_table_header">
+                    <%= @dashboard_header['strat_2'][idx].html_safe %>
+                  </td>
+                  <td class="dashboard_header_table_header">
+                    <%= @dashboard_header['strat_3'][idx].html_safe %>
+                  </td>
+                  <td class="dashboard_header_table_note">
+                    <%= @dashboard_header['strat_4'][idx].html_safe %>
+                  </td>
+                </tr>
+            <% else %>
+                <tr >
+                  <td class="dashboard_header_table_label">
+                    <%= @dashboard_header['strat_0'][idx] %>
+                  </td>
+                  <td class="dashboard_header_table_stat">
+                    <%= @dashboard_header['strat_1'][idx] %>
+                  </td>
+                  <td class="dashboard_header_table_stat">
+                    <%= @dashboard_header['strat_2'][idx] %>
+                  </td>
+                  <td class="dashboard_header_table_stat">
+                    <%= @dashboard_header['strat_3'][idx] %>
+                  </td>
+                  <td class="dashboard_header_table_note">
+                    <%= @dashboard_header['strat_4'][idx].html_safe %>
+                  </td>
+                </tr>
+            <% end %>
+        <% end %>
+        </tbody>
+      </table>
     </div>
+    <div class="col-md-1 dashboard_header_table_side"></div>
+  </div>
+<% end %>
+
+
+

@@ -16,7 +16,7 @@
               <%= @assessment['student_name'] %>
             </td>
             <td class="dashboard_test_prep_table_header" >
-              Others
+              Target
             </td>
             <td class="dashboard_test_prep_table_header">
               Best, So Far
@@ -80,13 +80,13 @@
           </tr>
           <tr >
             <td class="dashboard_test_prep_table_data">
-              Time To Answer
+              Pace<%= @assessment['actual_pace'] <= @assessment['target_pace'] ? ' Faster ' : ' Slower ' %> Than Target
             </td>
             <td class="dashboard_test_prep_table_data">
-              <%= pluralize(@assessment['answer_rate'], ' Sec')%>
+              <%= pluralize(@assessment['actual_pace'], ' Sec')%>
             </td>
             <td class="dashboard_test_prep_table_data" >
-              <%= pluralize(@assessment['target_answer_rate'], ' Sec')%>
+              <%= pluralize(@assessment['target_pace'], ' Sec')%>
             </td>
             <td class="dashboard_test_prep_table_data">
               <%= pluralize(@assessment['best_answer_rate'], ' Sec')%>

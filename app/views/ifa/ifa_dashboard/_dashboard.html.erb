@@ -2,15 +2,13 @@
   <div class="rowx dashboard_box">
     <% if !dashboard.nil? %>
       <div class="row dashboard_box_in">
-        <% if !@dashboard.nil? %>
+        <% if @dashboard_header['type'] == 'entity'%>
           <%= render :partial => "/ifa/ifa_dashboard/header_dashboard" %>
-        <% end %>
-        <% if !@assessment.nil? %>
-            <hr>
-            <%= render :partial => "/ifa/ifa_dashboard/header_assessment_stats" %>
-            <%#= render :partial => "/ifa/ifa_dashboard/header_assessment" %>
-        <% end %>
-        <% if !@aggregate.nil? %>
+        <% elsif @dashboard_header['type'] == 'assessment'%>
+          <div class = 'dashboard_assessment_header_box'>
+            <%= render :partial => "/ifa/ifa_dashboard/header_dashboard" %>
+          </div>
+        <% elsif @dashboard_header['type'] == 'aggregate'%>
             <%= render :partial => "/ifa/ifa_dashboard/header_aggregate", :locals => {:dashboard => dashboard} %>
         <% end %>
       </div>

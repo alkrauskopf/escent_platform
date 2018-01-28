@@ -151,6 +151,7 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
       @level_filter = ActScoreRange.find_by_id(params[:filter_level_id]) rescue nil
       @strand_filter = ActStandard.find_by_id(params[:filter_strand_id]) rescue nil
       @assessment_questions = @current_assessment.active_questions
+      @assessment_questions_mins = @current_assessment.active_questions.map{|q| q.allotted_time}.sum.to_f/60.0
       @question_pool = @current_subject.available_questions(@user_filter, @level_filter, @strand_filter) - @assessment_questions
       pool_filters
     end

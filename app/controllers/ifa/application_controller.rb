@@ -96,7 +96,7 @@ class Ifa::ApplicationController < ApplicationController
     end
   end
 
-  def dashboard_header_info(dashboard, subject, standard)
+  def dashboard_header_info_old(dashboard, subject, standard)
     @dashboard = {}
     if !dashboard.nil?
       @dashboard['id'] = dashboard.id
@@ -235,61 +235,110 @@ class Ifa::ApplicationController < ApplicationController
   end
 
   def assessment_header_info(submission, standard)
-    @assessment = {}
+    header = {}
+    header['type'] = 'assessment'
     if !submission.nil?
-      @assessment['id'] = submission.id
-      @assessment['student_name'] = submission.user.nil? ? 'Undefined' : submission.user.first_name
-      @assessment['taken_time'] = submission.created_at
-      @assessment['standard'] = standard
-      @assessment['subject'] = submission.subject
-      @assessment['comment'] = submission.student_comment
-      @assessment['standard_score'] = submission.sms_score(standard).nil? ? 0 : submission.sms_score(standard)
-      @assessment['sat_score'] = ActScoreRange.sat_score(standard, submission.subject, @assessment['standard_score'])
-      @assessment['score_status'] = submission.final? ? 'Estimated ' : 'Estimated '
-      @assessment['status'] = submission.final? ? 'Final' : 'Pending'
-      @assessment['teacher'] = submission.teacher.nil? ? 'Not Identified' : submission.teacher.last_name
-      @assessment['answer_count'] = submission.tot_choices.nil? ? 0 : submission.tot_choices
-      @assessment['total_points'] = submission.tot_points.nil? ? 0.0 : submission.tot_points.round
-      @assessment['duration_secs'] = submission.duration.nil? ? 0 : submission.duration
-      @assessment['duration_minutes'] = (@assessment['duration_secs']/60.0).round(1)
-      @assessment['answer_rate'] = @assessment['answer_count'] == 0 ? 0 : (@assessment['duration_secs'].to_f/@assessment['answer_count'].to_f).round
-      @assessment['proficiency'] = @assessment['answer_count'] == 0 ? 0 : (100.0 * @assessment['total_points']/@assessment['answer_count'].to_f).round
-      @assessment['efficiency'] = @assessment['total_points'] == 0.0 ? 0 : (@assessment['duration_secs'].to_f/@assessment['total_points']).round
+      header['submission'] = submission
+      header['entity_name'] = submission.user.nil? ? 'Undefined' : submission.user.first_name
+      header['taken_time'] = submission.created_at
+      header['standard'] = standard
+      header['std_abbrev'] = standard.abbrev
+      header['subject'] = submission.subject
+      header['comment'] = submission.student_comment
+      header['standard_score'] = submission.sms_score(standard).nil? ? '0' : submission.sms_score(standard)
+      header['sat_score'] = ActScoreRange.sat_score(standard, submission.subject, header['standard_score'])
+      header['score_status'] = submission.final? ? 'Est.' : 'Est.'
+      header['submission_status'] = submission.final? ? 'Final' : 'Pending'
+      header['teacher'] = submission.teacher.nil? ? 'Unkown Teacher' : submission.teacher.last_name
+      header['answer_count'] = submission.tot_choices.nil? ? 0 : submission.tot_choices
+      header['total_points'] = submission.tot_points.nil? ? 0.0 : submission.tot_points.round
+      header['duration_secs'] = submission.duration.nil? ? 0 : submission.duration
+      header['duration_minutes'] = (header['duration_secs']/60.0).round(1)
+      header['question_pace'] = submission.question_pace
+      header['proficiency'] = header['answer_count'] == 0 ? 0 : (100.0 * header['total_points']/header['answer_count'].to_f).round
+      header['point_pace'] = header['total_points'] == 0.0 ? 0 : (header['duration_secs'].to_f/header['total_points']).round
       if !submission.act_assessment.nil?
-        @assessment['title'] = submission.act_assessment.name
-        @assessment['question_count'] = submission.act_assessment.questions_for_test.size
-        @assessment['best_duration'] = (submission.act_assessment.shortest_duration/60.0).round(1)
-        @assessment['best_point_rate'] = submission.act_assessment.best_time_per_point
-        @assessment['best_pct'] = submission.act_assessment.best_pct
-        @assessment['best_points'] = submission.act_assessment.most_points.round
-        @assessment['best_answer_rate'] = submission.act_assessment.best_answer_rate
-        @assessment['most_answered'] = submission.act_assessment.most_answered
-        @assessment['target_duration'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_submissions.to_f/60.0).round(1)
-        @assessment['target_point_rate'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_points_earned).round
-        @assessment['target_points'] = (submission.act_assessment.cum_points_earned/submission.act_assessment.cum_submissions.to_f).round
-        @assessment['target_pct'] = (100.0 * submission.act_assessment.cum_points_earned/submission.act_assessment.cum_choices_made.to_f).round
-        @assessment['target_question_rate'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_questions_asked.to_f).round
-        @assessment['target_answer_rate'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_choices_made.to_f).round
-        @assessment['target_questions'] = (submission.act_assessment.cum_questions_asked.to_f/submission.act_assessment.cum_submissions.to_f).round
-        @assessment['target_answers'] = (submission.act_assessment.cum_choices_made.to_f/submission.act_assessment.cum_submissions.to_f).round
+        header['assess_title'] = submission.act_assessment.name
+        header['assessment'] = submission.act_assessment
+        header['total_questions'] = submission.act_assessment.questions_for_test.size
+        header['best_duration'] = (submission.act_assessment.shortest_duration/60.0).round(1)
+        header['best_point_pace'] = submission.act_assessment.best_time_per_point
+        header['best_proficiency'] = submission.act_assessment.best_pct
+        header['best_points'] = submission.act_assessment.most_points.round
+        header['best_question_pace'] = submission.act_assessment.best_answer_rate
+        header['best_answered'] = submission.act_assessment.most_answered
+        header['pop_duration'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_submissions.to_f/60.0).round(1)
+        header['pop_point_pace'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_points_earned).round
+        header['pop_points'] = (submission.act_assessment.cum_points_earned/submission.act_assessment.cum_submissions.to_f).round
+        header['pop_proficiency'] = (100.0 * submission.act_assessment.cum_points_earned/submission.act_assessment.cum_choices_made.to_f).round
+        header['pop_question_pace'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_choices_made.to_f).round
+        header['pop_answers'] = (submission.act_assessment.cum_choices_made.to_f/submission.act_assessment.cum_submissions.to_f).round
+        header['target_question_pace'] = submission.act_assessment.question_pace
+        header['target_duration'] = (submission.act_assessment.allotted_duration.to_f/60.0).round(1)
       else
-        @assessment['title'] = 'Unknown Assessment'
-        @assessment['question_count'] = nil
-        @assessment['best_duration'] = nil
-        @assessment['best_point_rate'] = nil
-        @assessment['best_pct'] = nil
-        @assessment['best_points'] = nil
-        @assessment['target_duration'] = nil
-        @assessment['target_point_rate'] = nil
-        @assessment['target_points'] = nil
-        @assessment['target_pct'] = nil
-        @assessment['target_question_rate'] = nil
-        @assessment['target_answer_rate'] = nil
-        @assessment['target_questions'] = nil
-        @assessment['target_answers'] = nil
-        @assessment['best_answer_rate'] = nil
+        header['assess_title'] = nil
+        header['assessment'] = nil
+        header['total_questions'] = nil
+        header['best_duration'] = nil
+        header['best_point_pace'] = nil
+        header['best_proficiency'] = nil
+        header['best_points'] = nil
+        header['best_question_pace'] = nil
+        header['best_answered'] = nil
+        header['pop_duration'] = nil
+        header['pop_point_pace'] = nil
+        header['pop_points'] = nil
+        header['pop_proficiency'] = nil
+        header['pop_question_pace'] = nil
+        header['pop_answers'] = nil
+        header['target_question_pace'] = nil
+        header['target_duration'] = nil
       end
+      dashboard_header_rows(header)
     end
+  end
+
+  def entity_header_info(dashboard, subject, standard)
+    header = {}
+    header['type'] = 'entity'
+    if !dashboard.nil?
+      header['entity_class'] = dashboard.ifa_dashboardable_type
+      header['dashboard'] = dashboard
+      header['last_updated'] = dashboard.updated_at
+      header['name'] = dashboard.entity_name
+      header['subject'] = subject
+      header['standard'] = standard
+      header['std_abbrev'] = standard.abbrev
+      header['standard_score'] = dashboard.score_for_standard(standard).nil? ? nil : dashboard.score_for_standard(standard).standard_score
+      header['sat_score'] = ActScoreRange.sat_score(standard, subject, header['standard_score'])
+      header['assess_count'] = dashboard.assessments_taken
+      header['answer_count'] = dashboard.finalized_answers
+      header['total_points'] = dashboard.fin_points.nil? ? 0.0 : dashboard.fin_points
+      header['total_duration'] = dashboard.finalized_duration
+      header['proficiency'] = header['answer_count'] == 0 ? 0 : (100.0 * header['total_points']/header['answer_count'].to_f).round
+      header['period_end'] = dashboard.period_end
+      header['efficiency'] = header['total_points'] == 0.0 ? 0 : (header['total_duration'].to_f/header['total_points']).round
+    end
+    dashboard_header_rows(header)
+  end
+
+  def aggregate_header_info(dashboards, subject, standard, entity)
+    header = {}
+    header['type'] = 'aggregate'
+    header['entity'] = entity
+    header['name'] = entity.name
+    header['entity_class'] = entity.class.to_s
+    header['subject'] = subject
+    header['standard'] = standard
+    header['assess_count'] = dashboards.collect{|db| db.assessments_taken}.sum
+    header['answer_count'] = dashboards.collect{|db| db.finalized_answers}.sum
+    header['total_points'] = dashboards.collect{|db| db.fin_points}.sum
+    header['total_duration'] = dashboards.collect{|db| db.finalized_duration}.sum
+    header['proficiency'] = header['answer_count'] == 0 ? 0 : (100.0 * header['total_points']/header['answer_count'].to_f).round
+    header['start_period'] = dashboards.empty? ? Date.today : dashboards.sort_by{|d| d.period_end}.first.period_end
+    header['end_period'] = dashboards.empty? ? Date.today : dashboards.sort_by{|d| d.period_end}.last.period_end
+    header['efficiency'] = header['total_points'] == 0.0 ? 0 : (header['total_duration'].to_f/header['total_points']).round
+    dashboard_header_rows(header)
   end
 
   def aggregate_dashboard_cell_hashes(dashboards, subject, standard)
@@ -337,21 +386,6 @@ class Ifa::ApplicationController < ApplicationController
         end
       end
     end
-  end
-
-  def aggregate_dashboard_header_info(dashboards, subject, standard, entity)
-    @aggregate = {}
-    @aggregate['entity'] = entity
-    @aggregate['subject'] = subject
-    @aggregate['standard'] = standard
-    @aggregate['assess_count'] = dashboards.collect{|db| db.assessments_taken}.sum
-    @aggregate['answer_count'] = dashboards.collect{|db| db.finalized_answers}.sum
-    @aggregate['total_points'] = dashboards.collect{|db| db.fin_points}.sum
-    @aggregate['total_duration'] = dashboards.collect{|db| db.finalized_duration}.sum
-    @aggregate['proficiency'] = @aggregate['answer_count'] == 0 ? 0 : (100.0 * @aggregate['total_points']/@aggregate['answer_count'].to_f).round
-    @aggregate['start_period'] = dashboards.empty? ? Date.today : dashboards.sort_by{|d| d.period_end}.first.period_end
-    @aggregate['end_period'] = dashboards.empty? ? Date.today : dashboards.sort_by{|d| d.period_end}.last.period_end
-    @aggregate['efficiency'] = @aggregate['total_points'] == 0.0 ? 0 : (@aggregate['total_duration'].to_f/@aggregate['total_points']).round
   end
 
   def assessment_performance(assessment)
@@ -456,38 +490,6 @@ class Ifa::ApplicationController < ApplicationController
     end
   end
 
-  def dashboard_plan_markers_old(users, subject, standard)
-    @plan_markers = {}
-    @plan_markers['w_total']=0
-    @plan_markers['a_total']=0
-    if !users.empty? && !subject.nil?
-      standard.act_standards.active.for_subject(subject).each do |strand|
-        @plan_markers['w_tot_s' + strand.id.to_s]=0
-        @plan_markers['a_tot_s' + strand.id.to_s]=0
-      end
-      standard.act_score_ranges.active.for_subject(subject).each do |level|
-        @plan_markers['w_tot_l' + level.id.to_s]=0
-        @plan_markers['a_tot_l' + level.id.to_s]=0
-        standard.act_standards.active.for_subject(subject).each do |strand|
-          hash_key = level.id.to_s + strand.id.to_s
-          @plan_markers['w'+hash_key] = 0
-          @plan_markers['a'+hash_key] = 0
-         # users.map{ |u| (u.ifa_plans.empty? ? []: u.ifa_plans.for_subject(subject))}.flatten.compact.each do |plan|
-          users.map{ |u| (u.ifa_plan_for(subject).nil? ? nil : u.ifa_plan_for(subject))}.flatten.compact.each do |plan|
-            @plan_markers['w'+hash_key] += plan.milestones.open_for_range_strand(level, strand).size
-            @plan_markers['a'+hash_key] += plan.milestones.achieved_for_range_strand(level, strand).size
-            @plan_markers['w_tot_s' + strand.id.to_s] += plan.milestones.open_for_range_strand(level, strand).size
-            @plan_markers['a_tot_s' + strand.id.to_s] += plan.milestones.achieved_for_range_strand(level, strand).size
-            @plan_markers['w_tot_l' + level.id.to_s] += plan.milestones.open_for_range_strand(level, strand).size
-            @plan_markers['a_tot_l' + level.id.to_s] += plan.milestones.achieved_for_range_strand(level, strand).size
-            @plan_markers['w_total'] += plan.milestones.open_for_range_strand(level, strand).size
-            @plan_markers['a_total'] += plan.milestones.achieved_for_range_strand(level, strand).size
-          end
-        end
-      end
-    end
-  end
-
   def dashboard_users(dashboard)
     entity = dashboard.ifa_dashboardable
     users = []
@@ -502,5 +504,108 @@ class Ifa::ApplicationController < ApplicationController
   end
 
   protected
+
+  def dashboard_header_rows(header)
+    @dashboard_header = {}
+    @dashboard_header['type'] = header['type']
+    if header['type'] == 'assessment'
+      @dashboard_header['db_type'] = header['assessment'].nil? ? '' : (header['assessment'].test_strategies? ? 'Test Strategies' : 'Needs Diagnostic')
+      @dashboard_header['row1'] = header['assess_title']
+      @dashboard_header['taken_time'] = header['taken_time']
+      @dashboard_header['row1_scores'] =  header['score_status'] + ' SAT ' + header['sat_score'].to_s + ', ' +
+          header['std_abbrev'] + ' ' + header['standard_score'].to_s
+      @dashboard_header['row1_right'] =header['teacher']
+      @dashboard_header['table_0'] = []
+      @dashboard_header['table_1'] = []
+      @dashboard_header['table_2'] = []
+      @dashboard_header['table_3'] = []
+      @dashboard_header['table_4'] = []
+      @dashboard_header['table_5'] = []
+      @dashboard_header['table_glyph'] = []
+      @dashboard_header['table_0'] << ''
+      @dashboard_header['table_1'] << header['entity_name']
+      @dashboard_header['table_2'] << 'Target'
+      @dashboard_header['table_3'] << 'Others'
+      @dashboard_header['table_4'] << 'Best'
+      @dashboard_header['table_5'] << ''
+      @dashboard_header['table_glyph'] << ''
+      @dashboard_header['table_0'] << 'Duration (Mins)'
+      @dashboard_header['table_1'] << header['duration_minutes']
+      @dashboard_header['table_2'] << header['target_duration']
+      @dashboard_header['table_3'] << header['pop_duration']
+      @dashboard_header['table_4'] << header['best_duration']
+      @dashboard_header['table_5'] << ''
+      @dashboard_header['table_glyph'] << (header['duration_minutes'] > header['target_duration'] ? 'orange_exclaim' : 'green_star')
+      @dashboard_header['table_0'] << 'Answers'
+      @dashboard_header['table_1'] << header['answer_count']
+      @dashboard_header['table_2'] << header['total_questions']
+      @dashboard_header['table_3'] << header['pop_answers']
+      @dashboard_header['table_4'] << header['best_answered']
+      @dashboard_header['table_5'] << ''
+      @dashboard_header['table_glyph'] << (header['answer_count'] < header['total_questions'] ? 'orange_exclaim' : 'green_star')
+      @dashboard_header['table_0'] << '% Correct'
+      @dashboard_header['table_1'] << header['proficiency'].to_s + '%'
+      @dashboard_header['table_2'] << ''
+      @dashboard_header['table_3'] << header['pop_proficiency'].to_s + '%'
+      @dashboard_header['table_4'] << header['best_proficiency'].to_s + '%'
+      @dashboard_header['table_5'] << ''
+      @dashboard_header['table_glyph'] << ''
+      @dashboard_header['table_0'] << 'Question Pace'
+      @dashboard_header['table_1'] << header['question_pace']
+      @dashboard_header['table_2'] << header['target_question_pace']
+      @dashboard_header['table_3'] << header['pop_question_pace']
+      @dashboard_header['table_4'] << header['best_question_pace']
+      @dashboard_header['table_5'] << 'Seconds per Question'
+      @dashboard_header['table_glyph'] << (header['question_pace'] > header['target_question_pace'] ? 'orange_exclaim' : 'green_star')
+      @dashboard_header['table_0'] << 'Proficiency Pace'
+      @dashboard_header['table_1'] << header['point_pace']
+      @dashboard_header['table_2'] << ''
+      @dashboard_header['table_3'] << header['pop_point_pace']
+      @dashboard_header['table_4'] << header['best_point_pace']
+      @dashboard_header['table_5'] << 'Seconds per Correct Answer'
+      @dashboard_header['table_glyph'] << ''
+      if !header['assessment'].nil? && header['assessment'].test_strategies?
+        @dashboard_header['strat_0'] = []
+        @dashboard_header['strat_1'] = []
+        @dashboard_header['strat_2'] = []
+        @dashboard_header['strat_3'] = []
+        @dashboard_header['strat_4'] = []
+        @dashboard_header['strat_0'][0] = '<br/>Strategy'
+        @dashboard_header['strat_1'][0] = '<br/>Used'
+        @dashboard_header['strat_2'][0] = 'Preferred<br/>Used'
+        @dashboard_header['strat_3'][0] = 'Correct</br>Answers'
+        @dashboard_header['strat_4'][0] = ''
+        header['submission'].act_strategy_logs.each do |log|
+          @dashboard_header['strat_0'] << log.act_strategy.name
+          @dashboard_header['strat_1'] << log.use_count.to_s
+          @dashboard_header['strat_2'] << log.matches.to_s
+          @dashboard_header['strat_3'] << (log.use_count == 0 ? '-' : ((100.0 * log.corrects.to_f/log.use_count.to_f).round.to_s + '%'))
+          @dashboard_header['strat_4'] << ''
+        end
+      end
+
+    elsif header['type'] == 'entity'
+      @dashboard_header['db_type'] = header['entity_class']
+      @dashboard_header['row1'] =   header['name'] + ' | ' + header['subject'].name  + ' | '
+      @dashboard_header['taken_time'] = header['last_updated']
+      @dashboard_header['row1_scores'] =  ' SAT ' + header['sat_score'].to_s + ', ' +
+          header['std_abbrev'] + ' ' + header['standard_score'].to_s
+
+    elsif header['type'] == 'aggregate'
+      @dashboard_header['db_type'] = header['entity_class']
+      @dashboard_header['row1'] =   header['name'] + ' | ' + header['subject'].name
+      @dashboard_header['taken_time'] = header['start_period']
+      @dashboard_header['row1_scores'] =  ''
+      @dashboard_header['start_period'] = header['start_period']
+      @dashboard_header['end_period'] = header['end_period']
+      @dashboard_header['entity'] = header['entity']
+      @dashboard_header['subject'] = header['subject']
+      @dashboard_header['proficiency'] = header['proficiency']
+      @dashboard_header['efficiency'] = header['efficiency']
+      @dashboard_header['total_points'] = header['total_points']
+      @dashboard_header['answer_count'] = header['answer_count']
+      @dashboard_header['assess_count'] = header['assess_count']
+    end
+  end
   
 end

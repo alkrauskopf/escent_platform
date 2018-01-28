@@ -14,7 +14,8 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     org_dashboards(@org_list)
     entity_strategies(@current_organization)
     dashboardable_submissions_notice
-    aggregate_dashboard_header_info(@organization_dashboards, @current_subject, @current_standard, @current_organization)
+    aggregate_header_info(@organization_dashboards, @current_subject, @current_standard, @current_organization)
+  #  aggregate_dashboard_header_info(@organization_dashboards, @current_subject, @current_standard, @current_organization)
   end
 
   def strategy_entity
@@ -49,7 +50,8 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     end_date = Date.new(params[:end_yr].to_i, params[:end_mth].to_i, 1).end_of_month
     @dashboards = @entity.ifa_dashboards.subject_between_periods(@current_subject, start_date, end_date)
     aggregate_dashboard_cell_hashes(@dashboards, @current_subject, @current_standard)
-    aggregate_dashboard_header_info(@dashboards, @current_subject, @current_standard, @entity)
+    aggregate_header_info(@dashboards, @current_subject, @current_standard, @entity)
+ #   aggregate_dashboard_header_info(@dashboards, @current_subject, @current_standard, @entity)
 
     render :partial => "ifa/ifa_dashboard/dashboard",
            :locals=>{:dashboard => @entity, :subject => @current_subject, :standard=>@current_standard, :cell_corrects=>@cell_correct,
@@ -75,7 +77,8 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     get_current_plan(@current_subject)
     student_view = @current_user.teacher? ? 'N':'Y'
     dashboard_cell_hashes(@entity_dashboard, @current_subject, @current_standard, :student => student_view )
-    dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
+ #   dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
+    entity_header_info(@entity_dashboard, @current_subject, @current_standard)
     dashboard_plan_markers(@entity_dashboard, @current_subject, @current_standard)
  #   dashboard_plan_markers_old(dashboard_users(@entity_dashboard), @current_subject, @current_standard)
   end
@@ -97,7 +100,8 @@ class Ifa::IfaDashboardController < Ifa::ApplicationController
     end
     get_dashboard
     dashboard_cell_hashes(@entity_dashboard, @current_subject, @current_standard)
-    dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
+    entity_header_info(@entity_dashboard, @current_subject, @current_standard)
+#    dashboard_header_info(@entity_dashboard, @current_subject, @current_standard)
     dashboardable_submissions(@entity_dashboard, @current_subject )
     render :partial => "ifa/ifa_dashboard/dashboard",
         :locals=>{:dashboard => @entity_dashboard, :subject => @current_subject, :standard => @current_user.standard_view, :cell_corrects=>@cell_correct,

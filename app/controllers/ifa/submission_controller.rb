@@ -45,7 +45,8 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       classroom_periods_students
       @current_classroom_dashboards = @current_classroom.ifa_dashboards
       aggregate_dashboard_cell_hashes(@current_classroom_dashboards, @current_classroom.act_subject, @current_standard)
-      aggregate_dashboard_header_info(@current_classroom_dashboards, @current_classroom.act_subject, @current_standard, @current_classroom)
+#      aggregate_dashboard_header_info(@current_classroom_dashboards, @current_classroom.act_subject, @current_standard, @current_classroom)
+      aggregate_header_info(@current_classroom_dashboards, @current_classroom.act_subject, @current_standard, @current_classroom)
       db_users = []
       db_users << @current_classroom.students
       dashboard_plan_markers(@current_classroom.students, @current_classroom.act_subject, @current_standard)
@@ -208,7 +209,8 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
 
     def format_dashboard(dashboard, subject, standard)
       dashboard_cell_hashes(dashboard, subject, standard)
-      dashboard_header_info(dashboard, subject, standard)
+   #   dashboard_header_info(dashboard, subject, standard)
+      entity_header_info(dashboard, subject, standard)
      # dashboardable_submissions(dashboard, subject )
     end
 
@@ -282,6 +284,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     @current_submission.act_subject_id = @current_assessment.nil? ? nil: @current_assessment.act_subject_id
     @current_submission.act_master_id = @current_provider.master_standard.id
     @current_submission.duration = assessment_duration
+    @current_submission.duration_delta = assessment_duration - @current_assessment.allotted_duration
     @current_submission.student_comment = params[:act_submission][:student_comment]
     @current_submission.teacher_comment = ''
     @current_submission.is_strategy_test = @current_assessment.is_strategy_test

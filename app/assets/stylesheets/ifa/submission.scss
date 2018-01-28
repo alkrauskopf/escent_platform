@@ -44,6 +44,20 @@
   padding:0em 0em 0em 0em;
   font-size:16px;
 }
+.red_exclaim {
+  @extend .glyphicon;
+  @extend .glyphicon-exclamation-sign;
+  color:$red_star;
+  padding:0em 0em 0em 0em;
+  font-size:16px;
+}
+.orange_exclaim {
+  @extend .glyphicon;
+  @extend .glyphicon-exclamation-sign;
+  color:$orange_star;
+  padding:0em 0em 0em 0em;
+  font-size:16px;
+}
 .correct_answer {
   @extend .glyphicon;
   @extend .glyphicon-ok;
@@ -1099,7 +1113,7 @@ font-weight:normal;
 .dashboard_title_1 {
   margin: 1em 0em .5em 0em;
   font-size:15px;
-  color:$blue_text;
+  color:$dark_text;
   word-wrap:break-word;
   text-align:center;
   vertical-align:middle;
@@ -1140,11 +1154,86 @@ font-weight:normal;
   color:$dark_text;
   font-weight:normal;
 }
+.dashboard_assessment_header_box {
+  padding: 1em 0em 1em 0em;
+  border:1px solid #ddd;
+  background-color: $light_box;
+  border-radius: 5px;
+  color:$blue_text;
+  font-weight:normal;
+}
+.dashboard_header_title_side {
+  font-size:11px;
+  font-weight:bold;
+}
+
+.dashboard_header_title_center {
+  font-size:15px;
+  font-weight:bold;
+}
+
+.dashboard_header_title_center .span{
+  padding:0em 0em 0em 2em;
+  color:$dark_text;
+  font-size:14px;
+  font-weight:normal;
+}
+
+.dashboard_header_table{
+  padding: 1em 0em 1em 0em;
+  font-size:16px;
+  line-height: 1.5em;
+  text-align:center;
+  color:$dark_text;
+  font-weight:normal;
+}
+.dashboard_header_table_label{
+  padding: 0em 1em 0em 0em;
+  font-size:15px;
+  text-align:right;
+}
+.dashboard_header_table_stat{
+  padding: 0em 0em 0em 0em;
+  font-size:14px;
+  text-align:center;
+}
+.dashboard_header_table_note{
+  padding: 0em 0em 0em 0em;
+  text-align:left;
+  font-size:11px;
+}
+.dashboard_header_table_header{
+  padding: 0em 0em .5em 0em;
+  font-size:15px;
+  line-height:1.2em;
+  font-weight:normal;
+  text-align:center;
+}
+.dashboard_header_table_row{
+  line-height:1.5em;
+}
+.dashboard_header_table_side {
+  font-size:11px;
+  color:$dark_text;
+  font-weight:normal;
+}
+
+.dashboard_header_table_center {
+
+}
+
+.dashboard_header_table_center .span{
+  padding:0em 0em 0em 0em;
+  color:$dark_text;
+  font-size:12px;
+  font-weight:normal;
+}
+
 .dashboard_test_prep_table {
   padding: 2em 0em 2em 0em;
   border:1px dashed #ddd;
   background-color: $light_box;
-  color:$blue_text;
+  color:$dark_text;
   font-weight:normal;
 }
 .dashboard_test_prep_table_header {

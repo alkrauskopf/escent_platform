@@ -14,38 +14,40 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-      <div class= 'panel_subtitle_blue'>
-        Period: <%= @current_classroom_period.name.upcase  %> | <%= @current_classroom_period.teacher_list %>
-        <%= render :partial => "/shared/error_and_notice" %>
+  <% if @last_submission.nil? %>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <div class= 'panel_subtitle_blue'>
+          Period: <%= @current_classroom_period.name.upcase  %> | <%= @current_classroom_period.teacher_list %>
+          <%= render :partial => "/shared/error_and_notice" %>
+        </div>
       </div>
+      <div class="col-md-1 "></div>
     </div>
-    <div class="col-md-1 "></div>
-  </div>
-  <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8 submission_success">
-      <% if !@current_student_plan.nil? -%>
-        <% if !@suggested_topics.empty? %>
-          <div class="row plan_lus_header">
-            Your Plan Focus:
-            <% @suggested_topics.each do |lu| %>
-              <span class="plan_lus">
-                <%= link_to lu.title, offering_view_path(:organization_id => @current_organization, :topic_id => lu, :id => @classroom) %>
-              </span>
-            <% end %>
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8 submission_success">
+        <% if !@current_student_plan.nil? -%>
+          <% if !@suggested_topics.empty? %>
+            <div class="row plan_lus_header">
+              Your Plan Focus:
+              <% @suggested_topics.each do |lu| %>
+                <span class="plan_lus">
+                  <%= link_to lu.title, offering_view_path(:organization_id => @current_organization, :topic_id => lu, :id => @classroom) %>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="row plan_create_msg">
+            <%= @current_user.first_name.titleize %>, Please Initiate Your <%=@current_subject.name %> Growth Plan
           </div>
         <% end %>
-      <% else %>
-        <div class="row plan_create_msg">
-          <%= @current_user.first_name.titleize %>, Please Initiate Your <%=@current_subject.name %> Growth Plan
-        </div>
-      <% end %>
+      </div>
+      <div class="col-md-2 "></div>
     </div>
-    <div class="col-md-2 "></div>
-  </div>
+  <% end %>
   <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-10 ifa_dashboard_box">

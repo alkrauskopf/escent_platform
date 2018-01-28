@@ -1,17 +1,17 @@
 <div class="row dashboard_title_1">
     <div class="col-md-1"></div>
     <div class="col-md-10 ">
-      <%= @aggregate['start_period'].strftime("%B %Y")%> - <%= @aggregate['end_period'].strftime("%B %Y")%>
+      <%= @dashboard_header['start_period'].strftime("%B %Y")%> - <%= @dashboard_header['end_period'].strftime("%B %Y")%>
   </div>
   <div class="col-md-1"></div>
 </div>
 <div class="row dashboard_title_date_select">
   <div class="col-md-3"></div>
   <div class="col-md-3 ">
-    <%= date_select(:dashboard, :start_date, :order=>[:month, :year], :start_year => (@aggregate['start_period'].year - 3), :end_year => @aggregate['end_period'].year,:default => @aggregate['start_period']) %>
+    <%= date_select(:dashboard, :start_date, :order=>[:month, :year], :start_year => (@dashboard_header['start_period'].year - 3), :end_year => @dashboard_header['end_period'].year,:default => @dashboard_header['start_period']) %>
   </div>
   <div class="col-md-3 ">
-    <%= date_select(:dashboard, :end_date, :order=>[:month, :year], :start_year => (@aggregate['start_period'].year - 3), :end_year => @aggregate['end_period'].year,:default => @aggregate['end_period']) %>
+    <%= date_select(:dashboard, :end_date, :order=>[:month, :year], :start_year => (@dashboard_header['start_period'].year - 3), :end_year => @dashboard_header['end_period'].year,:default => @dashboard_header['end_period']) %>
   </div>
   <div class="col-md-1"></div>
   <div class="col-md-2">
@@ -25,11 +25,11 @@
 <div class="row dashboard_title_2">
   <div class="col-md-1"></div>
   <div class="col-md-10 ">
-    <%= pluralize(@aggregate['assess_count'], ' Assessment') %> |
-    <%= pluralize(@aggregate['answer_count'], ' Answer') %> |&nbsp;
-    <%= pluralize(number_with_precision(@aggregate['total_points'], :precision => 0), ' Point')%> |
-    <%= @aggregate['proficiency']%>% Proficiency |
-    <%= @aggregate['efficiency']%> Secs/Point
+    <%= pluralize(@dashboard_header['assess_count'], ' Assessment') %> |
+    <%= pluralize(@dashboard_header['answer_count'], ' Answer') %> |&nbsp;
+    <%= pluralize(number_with_precision(@dashboard_header['total_points'], :precision => 0), ' Point')%> |
+    <%= @dashboard_header['proficiency']%>% Proficiency |
+    <%= @dashboard_header['efficiency']%> Secs/Point
   </div>
   <div class="col-md-1"></div>
 </div>
@@ -40,8 +40,8 @@
       var start_yr = jQ('#dashboard_start_date_1i').val();
       var end_mth = jQ('#dashboard_end_date_2i').val();
       var end_yr = jQ('#dashboard_end_date_1i').val();
-      var url = "<%= ifa_dashboard_window_url(:organization_id => @current_organization, :entity_id => @aggregate['entity'].public_id,
-      :entity_class => @aggregate['entity'].class.to_s, :subject_id => @aggregate['subject'].id) %>";
+      var url = "<%= ifa_dashboard_window_url(:organization_id => @current_organization, :entity_id => @dashboard_header['entity'].public_id,
+      :entity_class => @dashboard_header['entity'].class.to_s, :subject_id => @dashboard_header['subject'].id) %>";
       jQ.get(url, {'start_mth':start_mth, 'start_yr':start_yr, 'end_mth':end_mth, 'end_yr':end_yr }, function(data) {
         jQ("#entity_dashboard_<%= dashboard.public_id %>").html(data);
         jQ("#entity_dashboard_<%= dashboard.public_id %>").show();

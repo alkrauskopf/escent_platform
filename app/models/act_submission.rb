@@ -192,6 +192,10 @@ class ActSubmission < ActiveRecord::Base
     self.act_answers.short_answer(question)
   end
 
+  def question_pace
+    self.act_answers.empty? ? 0 : (self.duration/self.act_answers.size).round
+  end
+
   def correct_answers(options = {})
     if options[:level] && options[:strand]
       answers = self.act_answers.correct.selected.select{|a| !a.act_question.nil? && a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
@@ -640,6 +644,14 @@ class ActSubmission < ActiveRecord::Base
 
   def default_strategy_id
     self.default_strategy.nil? ? nil :  self.default_strategy.id
+  end
+
+  def strategy_matches
+    self.act_strategy_logs.map{|sl| sl.matches}.sum
+  end
+
+  def strategy_mismatches
+    self.act_strategy_logs.map{|sl| sl.mis_matches}.sum
   end
 
   #####   Original Finalize & Dashboarding methods

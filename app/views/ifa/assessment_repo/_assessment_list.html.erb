@@ -89,7 +89,7 @@
             </div>
           <% end %>
           <div class="assessment_pool_name">
-            <%= pluralize(ass.act_questions.size, ' Question') %>
+            <%= pluralize(ass.act_questions.size, ' Question') %> | <%= number_with_precision((ass.act_questions.enabled.map{|q| q.allotted_time}.sum.to_f/60.0), :precision => 1) %> Minutes
           </div>
           <%= render :partial => "assessment_classrooms", :locals => {:assessment => ass} %>
         </div>

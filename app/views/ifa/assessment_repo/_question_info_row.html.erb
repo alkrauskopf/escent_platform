@@ -51,6 +51,9 @@
         <div>
           <%= ActQuestion::TYPES.find { |n, m| m == question.question_type }[0] rescue ''%>: <%= pluralize(question.choices.size, 'Choice')%>
         </div>
+        <div>
+          Allotted Time:&nbsp;<%= question.allotted_time %>&nbsp;Seconds
+        </div>
         <% if question.calibrated? %>
           <div >
             Calibrated

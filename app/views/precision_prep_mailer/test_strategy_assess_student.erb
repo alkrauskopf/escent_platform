@@ -6,13 +6,10 @@
         <%= @student.last_name %> | SAT/ACT Prep | <%= @school_name %>
       </p>
       <p class="env_subheader">
-        <%= @student_first_name %> Test Strategy Assessment Notification
+        <%= @submission['classroom'].name %> Assessment Notification
       </p>
       <p class="env_dear">
         Dear <%= @student_first_name %>:
-      </p>
-      <p class="env_text_line">
-         You have completed an assessment to evaluate your test taking skills.
       </p>
       <p class="env_content_line">
         Subject: <span class="content_a"><%= @submission['subject'].name %></span>
@@ -28,7 +25,7 @@
         </p>
       <% end %>
       <p class="env_text_line">
-        You're encouraged to login, below, and explain your data to your guardian.
+        You're encouraged to login, below, and reflect on your data with your guardian.
       </p>
     </td>
   </tr>

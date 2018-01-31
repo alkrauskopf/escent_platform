@@ -291,6 +291,7 @@ class PrecisionPrepMailer < ActionMailer::Base
     @submission['submission'] = submission
     @submission['subject'] = submission.act_subject
     @submission['teacher'] = submission.teacher.last_name
+    @submission['classroom'] = submission.classroom
     @submission['duration'] = (submission.duration.to_f/60.0).round(1)
     @submission['delta_seconds'] = submission.duration_delta.abs
     @submission['slower_faster'] = submission.duration_delta == 0 ? ' Equal to ' : (submission.duration_delta > 0 ? ' Slower than ' : ' Faster than ')

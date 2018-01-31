@@ -267,12 +267,12 @@ class Ifa::ApplicationController < ApplicationController
         header['best_points'] = submission.act_assessment.most_points.round
         header['best_question_pace'] = submission.act_assessment.best_answer_rate
         header['best_answered'] = submission.act_assessment.most_answered
-        header['pop_duration'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_submissions.to_f/60.0).round(1)
-        header['pop_point_pace'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_points_earned).round
-        header['pop_points'] = (submission.act_assessment.cum_points_earned/submission.act_assessment.cum_submissions.to_f).round
-        header['pop_proficiency'] = (100.0 * submission.act_assessment.cum_points_earned/submission.act_assessment.cum_choices_made.to_f).round
-        header['pop_question_pace'] = (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_choices_made.to_f).round
-        header['pop_answers'] = (submission.act_assessment.cum_choices_made.to_f/submission.act_assessment.cum_submissions.to_f).round
+        header['pop_duration'] = submission.act_assessment.cum_submissions == 0 ? 0.0 : (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_submissions.to_f/60.0).round(1)
+        header['pop_point_pace'] = submission.act_assessment.cum_points_earned == 0 ? 0 : (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_points_earned).round
+        header['pop_points'] = submission.act_assessment.cum_submissions == 0 ? 0 : (submission.act_assessment.cum_points_earned/submission.act_assessment.cum_submissions.to_f).round
+        header['pop_proficiency'] = submission.act_assessment.cum_choices_made == 0 ? 0 : (100.0 * submission.act_assessment.cum_points_earned/submission.act_assessment.cum_choices_made.to_f).round
+        header['pop_question_pace'] = submission.act_assessment.cum_choices_made == 0 ? 0 : (submission.act_assessment.cum_duration.to_f/submission.act_assessment.cum_choices_made.to_f).round
+        header['pop_answers'] = submission.act_assessment.cum_submissions == 0 ? 0 : (submission.act_assessment.cum_choices_made.to_f/submission.act_assessment.cum_submissions.to_f).round
         header['target_question_pace'] = submission.act_assessment.question_pace
         header['target_duration'] = (submission.act_assessment.allotted_duration.to_f/60.0).round(1)
       else
@@ -301,13 +301,13 @@ class Ifa::ApplicationController < ApplicationController
   def entity_header_info(dashboard, subject, standard)
     header = {}
     header['type'] = 'entity'
+    header['subject'] = subject
+    header['standard'] = standard
+    header['dashboard'] = dashboard
     if !dashboard.nil?
       header['entity_class'] = dashboard.ifa_dashboardable_type
-      header['dashboard'] = dashboard
       header['last_updated'] = dashboard.updated_at
       header['name'] = dashboard.entity_name
-      header['subject'] = subject
-      header['standard'] = standard
       header['std_abbrev'] = standard.abbrev
       header['standard_score'] = dashboard.score_for_standard(standard).nil? ? nil : dashboard.score_for_standard(standard).standard_score
       header['sat_score'] = ActScoreRange.sat_score(standard, subject, header['standard_score'])
@@ -512,6 +512,7 @@ class Ifa::ApplicationController < ApplicationController
       @dashboard_header['db_type'] = header['assessment'].nil? ? '' : (header['assessment'].test_strategies? ? 'Test Strategies' : 'Needs Diagnostic')
       @dashboard_header['row1'] = header['assess_title']
       @dashboard_header['taken_time'] = header['taken_time']
+      @dashboard_header['comment'] = header['comment']
       @dashboard_header['row1_scores'] =  header['score_status'] + ' SAT ' + header['sat_score'].to_s + ', ' +
           header['std_abbrev'] + ' ' + header['standard_score'].to_s
       @dashboard_header['row1_right'] =header['teacher']
@@ -585,12 +586,18 @@ class Ifa::ApplicationController < ApplicationController
       end
 
     elsif header['type'] == 'entity'
-      @dashboard_header['db_type'] = header['entity_class']
-      @dashboard_header['row1'] =   header['name'] + ' | ' + header['subject'].name  + ' | '
-      @dashboard_header['taken_time'] = header['last_updated']
-      @dashboard_header['row1_scores'] =  ' SAT ' + header['sat_score'].to_s + ', ' +
-          header['std_abbrev'] + ' ' + header['standard_score'].to_s
-
+      if header['dashboard'].nil?
+        @dashboard_header['db_type'] = 'No Dashboard'
+        @dashboard_header['row1'] =    header['subject'].name  + ' | '
+        @dashboard_header['taken_time'] = nil
+        @dashboard_header['row1_scores'] =  'No Scores'
+      else
+        @dashboard_header['db_type'] = header['entity_class']
+        @dashboard_header['row1'] =   header['name'] + ' | ' + header['subject'].name  + ' | '
+        @dashboard_header['taken_time'] = header['last_updated']
+        @dashboard_header['row1_scores'] =  ' SAT ' + header['sat_score'].to_s + ', ' +
+            header['std_abbrev'] + ' ' + header['standard_score'].to_s
+      end
     elsif header['type'] == 'aggregate'
       @dashboard_header['db_type'] = header['entity_class']
       @dashboard_header['row1'] =   header['name'] + ' | ' + header['subject'].name

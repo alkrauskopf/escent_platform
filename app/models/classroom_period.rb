@@ -16,40 +16,40 @@ class ClassroomPeriod < ActiveRecord::Base
   validates_numericality_of :week_duration, :greater_than => 0, :message => 'must > 0.  '
 
 
-def teachers
-  self.classroom_period_users.teachers.collect{|u| u.user}.sort_by{|t| t.last_name.upcase}
-end
-
-def teacher_ids
-  self.classroom_period_users.teachers.collect{|u| u.user_id}
-end
-
-def teacher_list
-  unless self.teachers.empty?
-    self.teachers.collect{|t| t.last_name}.uniq.join(", ")
-  else
-    ""
+  def teachers
+    self.classroom_period_users.teachers.collect{|u| u.user}.sort_by{|t| t.last_name.upcase}
   end
-end
 
-def students
-  self.classroom_period_users.students.collect{|u| u.user}
-end
+  def teacher_ids
+    self.classroom_period_users.teachers.collect{|u| u.user_id}
+  end
 
-def student_ids
-  self.classroom_period_users.students.collect{|u| u.user_id}
-end
+  def teacher_list
+    unless self.teachers.empty?
+      self.teachers.collect{|t| t.last_name}.uniq.join(", ")
+    else
+      ""
+    end
+  end
 
-def student?(user)
-  self.students.include?(user)
-end
+  def students
+    self.classroom_period_users.students.collect{|u| u.user}
+  end
 
-def teacher?(user)
-  self.teachers.include?(user)
-end
+  def student_ids
+    self.classroom_period_users.students.collect{|u| u.user_id}
+  end
 
-def ctl_training?
-  self.itl_org_option
-end
+  def student?(user)
+    self.students.include?(user)
+  end
+
+  def teacher?(user)
+    self.teachers.include?(user)
+  end
+
+  def ctl_training?
+    self.itl_org_option
+  end
 
 end

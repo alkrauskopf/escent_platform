@@ -16,6 +16,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       current_student_plan
       get_current_submission
       get_current_teacher
+      other_user_prep_periods
       assessment_pool_info
       @last_submission = !@current_submission.nil? ? @current_submission : (@current_user.act_submissions.for_subject(@current_subject).empty? ? nil : @current_user.act_submissions.for_subject(@current_subject).last)
       @suggested_topics = @current_student_plan.nil? ? [] : @current_student_plan.classroom_lus(@current_classroom)
@@ -32,6 +33,12 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
       db_users = []
       db_users << @current_user
       dashboard_plan_markers(db_users, @current_subject, @current_standard)
+    end
+
+    def offering_switch
+      get_current_period
+      redirect_to ifa_take_path(:organization_id => @current_classroom_period.classroom.organization, :classroom_id => @current_classroom_period.classroom.id,
+                    :period_id => @current_classroom_period.id, :topic_id =>  nil)
     end
 
     def show_submission_stats
@@ -100,6 +107,12 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
         @view_mode = 'Preview'
       end
       render :layout => "assessment"
+    end
+
+    def submission_teacher_select
+      get_current_teacher
+      assessment_pool_info
+      render :partial => "list_classroom_assessments"
     end
 
     def submission_teacher_select
@@ -266,6 +279,21 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
     else
       @current_teacher = nil
     end
+  end
+
+    def get_current_period
+      @current_classroom_period = ClassroomPeriod.find_by_id(params[:period_id]) rescue nil
+      if @current_classroom_period.nil?
+        @current_classroom_period = ClassroomPeriod.find_by_id(params[:current_period_id])
+      end
+    end
+
+  def other_user_prep_offerings
+    @other_offerings = @current_user.active_prep_offerings - [@current_classroom]
+  end
+
+  def other_user_prep_periods
+    @other_periods = @current_user.active_prep_periods - [@current_classroom_period]
   end
 
   def assessment_pool_info

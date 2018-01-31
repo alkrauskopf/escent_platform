@@ -1,33 +1,39 @@
-<div class="row dashboard_header_row">
+
+  <% if false %>
+      <div class="row dashboard_header_row">
   <div class="col-md-2">
     <div class="row dashboard_comment_time ">
-      <%= (time_ago_in_words(@assessment['taken_time']).sub(/about /, '') + " ago").titleize %>
+      <%= (time_ago_in_words(@dashboard_header['taken_time']).sub(/about /, '') + " ago").titleize %>
     </div>
-    <% if @assessment['comment'] != '' %>
+    <% if @dashboard_header['comment'] != '' %>
         <div class="row dashboard_comment_header ">
           Student Comment
         </div>
         <div class="row dashboard_comment ">
-          <%= @assessment['comment']%>
+          <%= @dashboard_header['comment']%>
         </div>
     <% end %>
   </div>
   <div class="col-md-8 ">
     <div class="row dashboard_title_4">
-      <%=@assessment['score_status']%>Mastery Level: <%= @assessment['standard'].abbrev %>&nbsp;<%= @assessment['standard_score']%>
-      <%= @assessment['sat_score'].nil? ? '' : (', SAT ' + @assessment['sat_score'].to_s) %>
+      <%=@dashboard_header['score_status']%>Mastery Level: <%= @dashboard_header['standard'].abbrev %>&nbsp;<%= @dashboard_header['standard_score']%>
+      <%= @dashboard_header['sat_score'].nil? ? '' : (', SAT ' + @dashboard_header['sat_score'].to_s) %>
     </div>
     <div class="row dashboard_title_3">
-      <%=@assessment['title']%>
+      <%=@dashboard_header['row1']%>
     </div>
-    <%= render :partial => "/ifa/ifa_dashboard/header_test_prep" %>
+    <%#= render :partial => "/ifa/ifa_dashboard/header_test_prep" %>
   </div>
   <div class="col-md-2 dashboard_teacher">
     <div class="row">
-      <%= @assessment['teacher']%>
+      <%= @dashboard_header['row1_right']%>
     </div>
     <div class="row">
-      <%= @assessment['status'] %>
+      <%= @dashboard_header['status'] %>
     </div>
   </div>
-</div>
+      </div>
+  <% else %>
+    <%= render :partial => "/ifa/ifa_dashboard/header_dashboard" %>
+  <% end %>
+

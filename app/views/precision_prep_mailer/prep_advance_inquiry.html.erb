@@ -1,0 +1,33 @@
+<table class="envelope_box" border="0" cellpadding="0" cellspacing="0">
+  <!-- start copy -->
+  <tr>
+    <td class="envelope">
+      <p class="env_header">
+        <%= @student_last_name %> | SAT/ACT Prep | <%= @school_name %>
+      </p>
+      <p class="env_subheader">
+        Teacher Notification | Student/Guardian Inquiry
+      </p>
+      <p class="env_content_line">
+        <span class="content_a">
+          <%= @student_full_name %>, or guardian,
+        </span> is inquiring about Precision Prep Advanced Instruction.
+      </p>
+      <p class="env_content_line">
+        Email: <span class="content_a"><%= @student_email%></span>
+      </p>
+      <p class="env_content_line">
+        Phone: <span class="content_a"><%=@student_phone %></span>
+      </p>
+      <p class="env_content_line">
+        School: <span class="content_a"><%= @school_name %></span>
+      </p>
+      <p class="env_content_line">
+        Guardian List: <span class="content_a"><%= @guardian_cc %></span>
+      </p>
+      <p class="env_text_line">
+        Please follow-up with <%= @student_first_name %> as soon as possible.
+      </p>
+    </td>
+  </tr>
+</table>

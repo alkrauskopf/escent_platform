@@ -13,10 +13,7 @@
       </div>
       <div>
         <p>
-          Dear <%= @current_student.first_name %>:
-        </p>
-        <p>
-          Thank you for asking about the Advanced Instruction program at <%= @current_organization.name %> called <span style="font-weight:bold">Precision Prep</span>.
+          Thank you for asking about the Advanced Instruction program at <%= @current_organization.name %>.
         </p>
         <p>
           Following are the <%= @current_organization.short_name %> teachers that have been informed of your interest:
@@ -29,15 +26,16 @@
           <% end %>
         </ul>
         <p>
-          <%=@current_student.first_name %>, you are participating in an in-school SAT/ACT preparation program using the tools and methods of
+          <%=@current_student.first_name %> is participating in an SAT/ACT preparation program using the tools and methods of
           <a style="text-decoration: underline" href="http://www.precisionschoolimprovement.com/?child_id=76&id=64" target="_blank">Precision School Improvement</a>.
+          The tools allow <%=@current_student.first_name %> to identify the intructional priorities in terms of SAT & ACT benchmarks.
         </p>
         <p>
-          The purpose of the <span style="font-style:italic;">after-school</span> program is to give you more help with your personalized plan to achieve SAT/ACT goals,
-          and to provide you a means to visibly monitor your progress toward your goals.
+          The purpose of the <span style="font-style:italic;">Advanced Intruction</span> program is to help <%= @current_student.first_name %> achieve personalized milestones leading to SAT/ACT goals,
+          and to provide guardians a means to visibly monitor progress toward those goals.
         </p>
         <p>
-          Thank you again for your interest in Precision Prep, <%= @current_student.first_name %>.  You will be contacted shortly regarding the program at <%= @current_organization.short_name %>.
+          Thank you again for your interest in Precision Prep.  You will be contacted shortly regarding the Advanced Instruction program at <%= @current_organization.short_name %>.
         </p>
       </div>
   <% else %>

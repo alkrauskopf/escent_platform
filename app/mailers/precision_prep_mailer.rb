@@ -3,7 +3,8 @@ class PrecisionPrepMailer < ActionMailer::Base
   layout "precision_prep_mailer_old", :except=>['prep_guardian_add', 'milestone_created_guardian',
                                                 'milestone_created_student', 'milestone_created_teacher',
                                                 'milestone_created_teacher_group', 'remark_student', 'remark_guardian',
-                                                'prep_guardian_inquiry', 'prep_student_inquiry']
+                                                'prep_guardian_inquiry', 'prep_student_inquiry', 'prep_advance_inquiry',
+                                                'test_strategy_assess_student']
 
   def assessment_submission(recipient, sender, classroom, organization, must_review, ep_host)
     @organization = organization
@@ -152,6 +153,19 @@ class PrecisionPrepMailer < ActionMailer::Base
     end
   end
 
+  def prep_advance_inquiry(user, org, ep_host)
+    student_info(user)
+    org_info(org)
+    guardian_cc(user)
+    @recipient_list = org.ifa_admin_email_list
+    @subject_line = user.last_name + ' Advanced Instruction Inquiry'
+    @ep_host = ep_host
+    @from = 'SAT/ACT Prep Inquiry<noreply@PrecisionSchoolImprovement.com>'
+    unless @recipient_list == ''
+      mail(to:@recipient_list , subject: @subject_line, from: @from, date: DateTime.now)
+    end
+  end
+
   def prep_guardian_add(user, guardian, ep_host)
     student_info(user)
     guardian_cc(user)
@@ -200,6 +214,17 @@ class PrecisionPrepMailer < ActionMailer::Base
         guardian.increment_notify
       end
     end
+  end
+
+  def test_strategy_assess_student(submission, ep_host)
+    student_info(submission.user)
+    org_info(submission.organization)
+    guardian_cc(submission.user)
+    submission_strategy_stats(submission)
+    @subject_line = submission.user.first_name + ' SAT Prep '
+    @ep_host = ep_host
+    @from = @school_name + ' SAT/ACT Prep <noreply@PrecisionSchoolImprovement.com>'
+    mail(to:@student_email , cc: @cc_emails, subject: @subject_line, from: @from, date: DateTime.now)
   end
 
   private
@@ -258,5 +283,18 @@ class PrecisionPrepMailer < ActionMailer::Base
     @guardian_cc = user.guardians.empty? ? 'No Guardians' : (user.guardian_name_list)
     @guardian_count = user.guardians.size
     @cc_list = user.guardian_name_list
+    @cc_emails = user.guardian_email_list
+  end
+
+  def submission_strategy_stats(submission)
+    @submission = {}
+    @submission['submission'] = submission
+    @submission['subject'] = submission.act_subject
+    @submission['teacher'] = submission.teacher.last_name
+    @submission['duration'] = (submission.duration.to_f/60.0).round(1)
+    @submission['delta_seconds'] = submission.duration_delta.abs
+    @submission['slower_faster'] = submission.duration_delta == 0 ? ' Equal to ' : (submission.duration_delta > 0 ? ' Slower than ' : ' Faster than ')
+    @submission['class_color'] = submission.duration_delta > 0 ? 'slow_pace' : 'fast_pace'
+    @submission['stat_line'] = []
   end
 end

@@ -41,6 +41,23 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
     end
   end
 
+
+  def interest_advanced
+    current_student
+    @notify_success = (@current_student && @current_organization) ? true : false
+    if !@notify_success
+      @err_msgs = []
+      if @current_student.nil?
+        @err_msgs << 'No Student Identified'
+      end
+      if @current_organization.nil?
+        @err_msgs << 'No Organization Identified'
+      end
+    else
+      PrecisionPrepMailer.prep_advance_inquiry(@current_student, @current_organization, request.host_with_port).deliver
+    end
+  end
+
   def metrics_close
     render :partial => "/ifa/precision_prep/manage_metrics", :locals=>{:s_metrics=>false, :t_metrics=>false, :g_metrics=>false}
   end

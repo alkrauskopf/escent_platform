@@ -121,7 +121,7 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
             if auto_finalize?
               @current_submission.finalize_new(true, @current_submission.teacher_id, @current_provider.master_standard)
             end
-            if auto_notify?
+            if false && auto_notify?
               UserMailer.assessment_submission(@current_teacher, @current_user,@current_classroom,
                                                @current_organization, !auto_finalize?, request.host_with_port).deliver
             end
@@ -133,6 +133,9 @@ class Ifa::SubmissionController <  Ifa::ApplicationController
               if @current_submission.test_strategies?
                 @current_submission.save
                 strategy_log('update')
+                if @current_submission.classroom.precision_prep?
+                  PrecisionPrepMailer.test_strategy_assess_student(@current_submission, request.host_with_port).deliver
+                end
               end
               flash[:notice] = 'Submitted'
             end

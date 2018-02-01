@@ -40,6 +40,37 @@
 
   set_default_question_times = false
 
+  set_default_english_question_strategy = true
+
+  if set_default_english_question_strategy
+    ew_subject = ActSubject.ew
+    if !ew_subject.nil?
+      default_id = ew_subject.act_strategies.default.id rescue nil
+      strategy_id = ew_subject.act_strategies.with_name('Sentence Structure, Punctuation, Usage').first.id rescue  default_id
+      ew_subject.act_questions.select{|q| q.strand.abbrev.upcase == 'COP'}.each do |question|
+        question.update_attributes({'act_strategy_id' => strategy_id})
+      end
+      ew_subject.act_questions.select{|q| q.strand.abbrev.upcase == 'COU'}.each do |question|
+        question.update_attributes({'act_strategy_id' => strategy_id})
+      end
+      ew_subject.act_questions.select{|q| q.strand.abbrev.upcase == 'SS&F'}.each do |question|
+        question.update_attributes({'act_strategy_id' => strategy_id})
+      end
+      strategy_id = ew_subject.act_strategies.with_name('Organization').first.id rescue default_id
+      ew_subject.act_questions.select{|q| q.strand.abbrev.upcase == 'OU&C'}.each do |question|
+        question.update_attributes({'act_strategy_id' => strategy_id})
+      end
+      strategy_id = ew_subject.act_strategies.with_name('Word Choice').first.id rescue default_id
+      ew_subject.act_questions.select{|q| q.strand.abbrev.upcase == 'WCTSTCE'}.each do |question|
+        question.update_attributes({'act_strategy_id' => strategy_id})
+      end
+      strategy_id = ew_subject.act_strategies.with_name('Topic Development').first.id rescue default_id
+      ew_subject.act_questions.select{|q| q.strand.abbrev.upcase == 'TDTPF'}.each do |question|
+        question.update_attributes({'act_strategy_id' => strategy_id})
+      end
+    end
+  end
+
   if set_default_question_times
     ActQuestion.all.each do |question|
       if question.allotted_time == 0

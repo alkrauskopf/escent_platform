@@ -38,4 +38,8 @@ class ActStrategy < ActiveRecord::Base
     where('is_active').map{|s| s.act_subject}.compact.uniq rescue []
   end
 
+  def self.with_name(name)
+    where('name = ?', name)
+  end
+
 end

@@ -229,7 +229,7 @@ class Classroom < ActiveRecord::Base
   end
 
   def ifa_subject
-    self.subject_area.act_subject rescue nil
+    self.act_subject rescue nil
   end
 
   def ifable?

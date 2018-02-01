@@ -596,7 +596,7 @@ EscentPartners::Application.routes.draw do
   post '/ifa/submission/submit' => 'ifa/submission#submit_assessment'    # ifa_submission_submit_path
   get '/ifa/submission/teacher' => 'ifa/submission#submission_teacher_select'  # ifa_submission_teacher_url
   get '/ifa/submission/teacher/review' => 'ifa/submission#teacher_review'   # ifa_submission_teacher_review_path
-  get '/ifa/submission/offering/switch' => 'ifa/submission#offering_switch'   # ifa_submission_offering_switch_path
+  get '/ifa/submission/offering/switch' => 'ifa/submission#assessment_pool_switch'   # ifa_submission_offering_switch_path
   get '/ifa/submission/pending_destroy' => 'ifa/submission#destroy_pending'    # ifa_submission_pending_destroy_url
   get '/ifa/submission/pending_destroy_all' => 'ifa/submission#destroy_all_pending'    # ifa_submission_pending_destroy_all_url
   get '/ifa/submission/review/final' => 'ifa/submission#teacher_review_submission'    # ifa_submission_review_final_path

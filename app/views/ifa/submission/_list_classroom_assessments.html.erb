@@ -1,4 +1,4 @@
-<div id="classroom_period_assessements_<%= @current_classroom.id.to_s%>">
+<div id="classroom_period_assessements">
 <div class="teacher_review_period_box ">
   <div class= "precision_prep_review_panel">
     <div class="row">
@@ -22,8 +22,8 @@
               var teacher_id = jQ('#submission_teacher_id').val();
               var url = "<%= ifa_submission_teacher_path(:organization_id => @current_organization, :classroom_id => @current_classroom.id, :period_id => @current_classroom_period.id ) %>";
               jQ.get(url, {'teacher_id':teacher_id}, function(data) {
-                jQ("#classroom_period_assessements_<%= @current_classroom.id.to_s%>").html(data);
-                jQ("#classroom_period_assessements_<%= @current_classroom.id.to_s%>").show();
+                jQ("#classroom_period_assessements").html(data);
+                jQ("#classroom_period_assessements").show();
               });
             })
           });
@@ -31,14 +31,16 @@
       <% end -%>
     </div>
     <div id="other_offering_select" class="col-md-4 assess_teacher_select">
-      <% if false && @other_periods.size > 0 %>
-          <%= select(:submission, :period_id, @other_periods.collect{|p| [(p.classroom.organization.short_name + ' | ' + p.classroom.name), p.id]}, :prompt => 'Jumpt to Another Subject') %>
+      <% if @other_periods.size > 0 %>
+          <%= select(:submission, :period_id, @other_periods.collect{|p| [p.classroom.name, p.id]}, :prompt => 'Jump to Another Subject') %>
           <script type="text/javascript">
             jQ(document).ready(function() {
               jQ("#other_offering_select").change(function(){
                 var classroom_period_id = jQ('#submission_period_id').val();
-                var url = "<%= ifa_submission_offering_switch_path(:organization_id => @current_organization, :current_period_id => @current_classroom_period.id) %>";
+                var url = "<%= ifa_submission_offering_switch_path(:organization_id => @current_organization, :previous_period_id => @current_classroom_period.id) %>";
                 jQ.get(url, {'period_id':classroom_period_id}, function(data) {
+                  jQ("#classroom_period_assessements").html(data);
+                  jQ("#classroom_period_assessements").show();
                 });
               })
             });

@@ -816,8 +816,8 @@ class User < ActiveRecord::Base
     self.classroom_periods.map{|p| (p.classroom.active? && p.classroom.precision_prep?) ? p.classroom : nil }.compact.uniq.sort_by{|o| o.course_name} rescue []
   end
 
-  def active_prep_periods
-    self.classroom_periods.select{|cp| !cp.classroom.nil? && cp.classroom.active? && cp.classroom.is_prep}
+  def active_prep_periods(org)
+    self.classroom_periods.select{|cp| !cp.classroom.nil? && cp.classroom.active? && cp.classroom.is_prep && (cp.classroom.organization_id == org.id)}
   end
 
   def periods_taught(org)

@@ -121,6 +121,7 @@ class AppMaintenance::IfaController < AppMaintenance::ApplicationController
 
   def standard_select
     standards
+    strategies
     strands
     current_strand
     levels

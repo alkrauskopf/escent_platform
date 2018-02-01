@@ -40,7 +40,7 @@
 
   set_default_question_times = false
 
-  set_default_english_question_strategy = true
+  set_default_english_question_strategy = false
 
   if set_default_english_question_strategy
     ew_subject = ActSubject.ew

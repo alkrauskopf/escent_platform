@@ -1,9 +1,9 @@
 
 <% ActSubject.active_plannable.each do |subject| %>
   <% if student.ifa_plan_for(subject).nil? %>
-    <% button_label = 'Create Plan' %>
+    <% button_label = 'Create SAT Plan' %>
   <% else %>
-    <% button_label = 'View Plan' %>
+    <% button_label = 'View SAT Plan' %>
   <% end %>
   <% if !classroom.nil? && subject == classroom.act_subject %>
       <% button_class = 'red_text' %>

@@ -573,7 +573,7 @@ class Ifa::ApplicationController < ApplicationController
         @dashboard_header['strat_4'] = []
         @dashboard_header['strat_0'][0] = '<br/>Strategy'
         @dashboard_header['strat_1'][0] = '<br/>Used'
-        @dashboard_header['strat_2'][0] = 'Preferred<br/>Used'
+        @dashboard_header['strat_2'][0] = 'Preferred<br/>When Used'
         @dashboard_header['strat_3'][0] = 'Correct</br>Answers'
         @dashboard_header['strat_4'][0] = ''
         header['submission'].act_strategy_logs.each do |log|

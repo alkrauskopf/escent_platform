@@ -212,7 +212,7 @@ class Ifa::AssessmentRepoController < Ifa::ApplicationController
         @entity_assessments = ActAssessment.empties
       else
         get_entity
-        @entity_assessments = @current_entity.act_assessments
+        @entity_assessments = @current_entity.act_assessments.by_date
       end
       assessment_creators
       current_strands(:standard=>@current_standard)

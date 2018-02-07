@@ -141,6 +141,10 @@ class ActQuestion < ActiveRecord::Base
     self.act_assessments.lock.empty? && !self.active?
   end
 
+  def editable?
+    self.act_choices.empty?
+  end
+
   def enableable?
     self.short_answer? || !self.choices.empty? || true
   end

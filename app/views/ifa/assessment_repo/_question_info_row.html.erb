@@ -63,9 +63,16 @@
     </div>
     <div class= "col-md-2">
       <div class="row">
-        <div class="col-md-6 question_pool_button">
+        <div class="col-md-6 ">
           <%#= link_to 'View', ifa_question_show_path(:organization_id => @current_organization, :question_id => question.public_id), {:class => 'button_gray', :target => '_blank'} %>
-          <%= link_to "PreView", ifa_repo_question_preview_path(:organization_id => @current_organization, :act_question_id => question.id), {:class => "update_button button_light_blue", :target => "_blank"} %>
+          <div class="question_pool_button_row">
+            <%= link_to "PreView", ifa_repo_question_preview_path(:organization_id => @current_organization, :act_question_id => question.id), {:class => "update_button button_light_blue", :target => "_blank"} %>
+          </div>
+          <% if question.editable? %>
+            <div class="question_pool_button_row">
+              <%= link_to 'Edit', ifa_repo_question_edit_path(:organization_id => @current_organization, :act_subject_id => (question.act_subject ? question.act_subject_id : @current_subject.id), :act_question_id => question.id), {:class => 'button_gray', :target => '_blank'} %>
+            </div>
+          <% end %>
         </div>
         </div>
       <% if question.question_image.present? %>

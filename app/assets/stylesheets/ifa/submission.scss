@@ -283,6 +283,17 @@
   text-align:left;
   font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+.calculator_text {
+  padding-bottom:.5em;
+  padding-left:3em;
+  padding-right:0em;
+  padding-top:0em;
+  font-size:12px;
+  font-weight:normal;
+  text-align:left;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+  color:$red_text;
+}
 .question_text {
   width:100%;
   padding-bottom:0em;

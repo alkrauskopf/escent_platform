@@ -54,6 +54,11 @@
     <div class="col-md-2"></div>
     <div class="col-md-8">
      <div class="question_box">
+       <% if quest.calculator_free? %>
+         <div class="calculator_text">
+           - - No Calculator - -
+         </div>
+       <% end %>
        <div class="question_text">
         <%= simple_format quest.question.html_safe %>
        </div>

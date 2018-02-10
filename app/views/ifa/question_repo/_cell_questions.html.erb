@@ -76,7 +76,7 @@
               </div>
               <div>
                 <%= question.randomize? ? 'Randomized Choices' : 'Positioned Choices'%>,&nbsp;
-                <%= question.calculator_free? ? 'Calculator Free' : 'Calculator Allowed'%>
+                <%= question.calculator_free? ? 'No Calculator' : 'Calculator Allowed'%>
                 <% if question.calibrated? %>
                   ,&nbsp;Calibrated
                 <% end %>

@@ -98,8 +98,20 @@ class ActQuestion < ActiveRecord::Base
     self.is_active
   end
 
+  def locked?
+    self.is_locked
+  end
+
+  def moveable?
+    self.calibrated?
+  end
+
   def self.for_test
     where('is_active')
+  end
+
+  def unassign_benchmarks
+    self.act_bench_act_questions.destroy_all
   end
 
   def correct_choices
@@ -212,7 +224,6 @@ class ActQuestion < ActiveRecord::Base
       name = "No Level"
     end
   end
-
 
   def benchmarks
     self.act_benches.active.select{|b| b.benchmark?}

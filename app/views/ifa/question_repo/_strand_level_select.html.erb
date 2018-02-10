@@ -1,0 +1,42 @@
+<div id="strand_level_select<%= question.id%>">
+  <div class="row strand_select_block">
+    <%= question.strand.nil? ? "No Strand" : (question.strand.abbrev.upcase) %>&nbsp;|&nbsp;
+    <%= question.mastery_level.nil? ? "No Level" : (question.mastery_level.range) %>
+  </div>
+  <div class="row strand_select_row">
+    <div id="question_level_<%=question.id%>">
+      <%=  select(:q_level, question.id, @active_levels.collect{|s| [(s.range),s.id]},{:prompt => 'Move To Another Level'}) %>
+    </div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#question_level_<%=question.id%>").change(function(){
+        var level_id = jQ('#q_level_<%= question.id%>').val();
+        var url = "<%= ifa_repo_question_cell_select_url(:organization_id => @current_organization, :act_question_id => question.id,
+                      :act_standard_id => question.strand.id, :act_subject_id => @current_subject.id, :act_master_id => @current_standard.id ) %>";
+        jQ.get(url,{'act_score_range_id': level_id},  function(data) {
+          jQ("#strand_level_select<%= question.id%>").html(data);
+          jQ("#strand_level_select<%= question.id%>").show();
+        });
+      })
+    });
+  </script>
+  <div class="row strand_select_row">
+    <div id="question_strand_<%=question.id%>">
+      <%=  select(:q_strand, question.id, @active_strands.collect{|s| [(s.abbrev.upcase),s.id]},{:prompt => 'Move To Another Strand'}) %>
+    </div>
+  </div>
+  <script type="text/javascript">
+    jQ(document).ready(function() {
+      jQ("#question_strand_<%=question.id%>").change(function(){
+        var strand_id = jQ('#q_strand_<%= question.id%>').val();
+        var url = "<%= ifa_repo_question_cell_select_url(:organization_id => @current_organization, :act_question_id => question.id,
+                      :act_score_range_id => question.act_score_range_id, :act_subject_id => @current_subject.id, :act_master_id => @current_standard.id ) %>";
+        jQ.get(url,{'act_standard_id': strand_id},  function(data) {
+          jQ("#strand_level_select<%= question.id%>").html(data);
+          jQ("#strand_level_select<%= question.id%>").show();
+        });
+      })
+    });
+  </script>
+</div>

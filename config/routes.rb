@@ -564,6 +564,7 @@ EscentPartners::Application.routes.draw do
   get '/ifa/repo/question/assessment/select' => 'ifa/question_repo#assessment_select'    # ifa_repo_question_assessment_select_path
   get '/ifa/repo/question/benchmark/attach' => 'ifa/question_repo#benchmark_attach'    # ifa_repo_question_benchmark_attach_url
   get '/ifa/repo/question/view' => 'ifa/question_repo#static_question'   # ifa_repo_question_view_path
+  get '/ifa/repo/question/cell_select' => 'ifa/question_repo#cell_move'   # ifa_repo_question_cell_select_path
 
   get '/ifa/repo/assessment/add' => 'ifa/assessment_repo#index'    # ifa_repo_assessment_add_path
   post '/ifa/repo/assessment/add' => 'ifa/assessment_repo#index'    # ifa_repo_assessment_add_path

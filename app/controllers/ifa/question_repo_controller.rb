@@ -44,9 +44,24 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     get_subject
     get_level
     get_strand
+    active_levels
+    active_strands
     question_dashboard
     @question_list = @current_subject.act_questions.all_for_level_strand(@current_level, @current_strand)
     render :partial => "manage_questions"
+  end
+
+  def cell_move
+    get_current_question
+    get_level
+    get_strand
+    if !@current_level.nil? && !@current_strand.nil? && !@current_question.nil?
+      @current_question.update_attributes(:act_score_range_id => @current_level.id, :act_standard_id => @current_strand.id)
+      @current_question.unassign_benchmarks
+    end
+    active_levels
+    active_strands
+    render :partial => "strand_level_select", :locals=>{:question => @current_question}
   end
 
   def reading_select
@@ -465,5 +480,13 @@ class Ifa::QuestionRepoController < Ifa::ApplicationController
     else
       @current_strand = nil
     end
+  end
+
+  def active_levels
+    @active_levels = ActScoreRange.for_standard_and_subject(@current_standard, @current_subject)
+  end
+
+  def active_strands
+    @active_strands = ActStandard.all_for_standard_and_subject(@current_standard, @current_subject).active
   end
 end

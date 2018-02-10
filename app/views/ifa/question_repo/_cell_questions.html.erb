@@ -48,7 +48,7 @@
               <%= question.user ? question.user.last_name.upcase : 'Former User' %>
             </div>
           </div>
-          <div class= "col-md-7">
+          <div class= "col-md-4">
             <div class="question_pool_question">
               <%= question.question.html_safe%>
             </div>
@@ -88,6 +88,17 @@
                 Allotted Time: <%= question.allotted_time %> Seconds
               </div>
             </div>
+          </div>
+          <div class= "col-md-3">
+            <% if question.moveable?%>
+              <div class="row strand_select_block">
+                Anchored To:&nbsp;
+                <%= question.strand.nil? ? "No Strand" : (question.strand.abbrev.upcase) %>&nbsp;|&nbsp;
+                <%= question.mastery_level.nil? ? "No Level" : (question.mastery_level.range) %>
+              </div>
+            <% else %>
+              <%= render :partial => "strand_level_select", :locals=>{:question => question}%>
+            <% end %>
           </div>
           <div class= "col-md-2">
             <div class="row">

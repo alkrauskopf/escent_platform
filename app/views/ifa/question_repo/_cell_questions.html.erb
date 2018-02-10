@@ -91,12 +91,17 @@
           </div>
           <div class= "col-md-2">
             <div class="row">
-              <div class="col-md-6 question_pool_button">
+              <div class="col-md-6">
                 <%= link_to 'Analyze', ifa_repo_question_view_path(:organization_id => @current_organization, :act_question_id => question.id), :class => 'button_gray', :target=>'_blank' %>
               </div>
-              <div class="col-md-6 question_pool_button">
+              <div class="col-md-6 ">
+                <div class="row question_pool_preview">
+                  <%= link_to "PreView", ifa_repo_question_preview_path(:organization_id => @current_organization, :act_question_id => question.id), {:class => "button_light_blue", :target => "_blank"} %>
+                </div>
                 <% if @current_user.id == question.user_id || @current_user_app_admin %>
-                  <%= link_to 'Edit', ifa_repo_question_edit_path(:organization_id => @current_organization, :act_subject_id => (question.act_subject ? question.act_subject_id : @current_subject.id), :act_question_id => question.id), {:class => 'button_gray', :target => '_blank'} %>
+                  <div class="row question_pool_preview">
+                    <%= link_to 'Edit', ifa_repo_question_edit_path(:organization_id => @current_organization, :act_subject_id => (question.act_subject ? question.act_subject_id : @current_subject.id), :act_question_id => question.id), {:class => 'button_gray', :target => '_blank'} %>
+                  </div>
                 <% end %>
               </div>
             </div>

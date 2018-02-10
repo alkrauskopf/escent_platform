@@ -81,11 +81,14 @@ module Ifa::IfaPlanHelper
 
   def correct_assessment_answers(submission, options={})
     if options[:level] && options[:strand]
-      answers = submission.act_answers.correct.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+    #  answers = submission.act_answers.correct.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+      answers = submission.act_answers.correct.selected.select{|a| !a.act_question.nil? && a.act_question.act_score_range_id == options[:level].id && a.act_question.act_standard_id == options[:strand].id}
     elsif options[:level]
-      answers = submission.act_answers.correct.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+   #   answers = submission.act_answers.correct.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+      answers = submission.act_answers.correct.selected.select{|a| !a.act_question.nil? && a.act_question.act_score_range_id == options[:level].id}
     elsif options[:strand]
-      answers = submission.act_answers.correct.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+   #   answers = submission.act_answers.correct.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+      answers = submission.act_answers.correct.selected.select{|a| !a.act_question.nil?  && a.act_question.act_standard_id == options[:strand].id}
     else
       answers = submission.act_answers.correct.selected
     end
@@ -93,11 +96,14 @@ module Ifa::IfaPlanHelper
 
   def incorrect_assessment_answers(submission, options={})
     if options[:level] && options[:strand]
-      answers = submission.act_answers.incorrect.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+      #  answers = submission.act_answers.incorrect.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+      answers = submission.act_answers.incorrect.selected.select{|a| !a.act_question.nil? && a.act_question.act_score_range_id == options[:level].id && a.act_question.act_standard_id == options[:strand].id}
     elsif options[:level]
-      answers = submission.act_answers.incorrect.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+      #   answers = submission.act_answers.incorrect.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+      answers = submission.act_answers.incorrect.selected.select{|a| !a.act_question.nil? && a.act_question.act_score_range_id == options[:level].id}
     elsif options[:strand]
-      answers = submission.act_answers.incorrect.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+      #   answers = submission.act_answers.incorrect.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+      answers = submission.act_answers.incorrect.selected.select{|a| !a.act_question.nil?  && a.act_question.act_standard_id == options[:strand].id}
     else
       answers = submission.act_answers.incorrect.selected
     end
@@ -105,11 +111,14 @@ module Ifa::IfaPlanHelper
 
   def total_assessment_answers(submission, options={})
     if options[:level] && options[:strand]
-      answers = submission.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+      #  answers = submission.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level]) && a.act_question.of_strand?(options[:strand])}
+      answers = submission.act_answers.selected.select{|a| !a.act_question.nil? && a.act_question.act_score_range_id == options[:level].id && a.act_question.act_standard_id == options[:strand].id}
     elsif options[:level]
-      answers = submission.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+      #   answers = submission.act_answers.selected.select{|a| a.act_question.of_mastery_level?(options[:level])}
+      answers = submission.act_answers.selected.select{|a| !a.act_question.nil? && a.act_question.act_score_range_id == options[:level].id}
     elsif options[:strand]
-      answers = submission.act_answers.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+      #   answers = submission.act_answers.selected.select{|a| a.act_question.of_strand?(options[:strand])}
+      answers = submission.act_answers.selected.select{|a| !a.act_question.nil?  && a.act_question.act_standard_id == options[:strand].id}
     else
       answers = submission.act_answers.selected
     end

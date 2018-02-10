@@ -2,12 +2,12 @@
   <div class= 'row panel_title_blue'>
    <%= @current_organization.short_name %>&nbsp;<%= @current_application.app_name(:provider=>@current_provider) %>
   </div>
-  <% if @current_app_superuser && @current_organization == @current_provider%>
+  <% if @current_app_superuser %>
     <div class="row">
       <div class="col-md-10"></div>
       <div class="col-md-2">
         <% button_label = "Maintain " + @current_application.app_abbrev(:provider=>@current_provider)%>
-        <%= link_to button_label , app_maintenance_ifa_path(:organization_id => @current_organization), :class=> "button_green" %>
+        <%= link_to button_label , app_maintenance_ifa_path(:organization_id => @current_provider), :class=> "button_green" %>
       </div>
     </div>
   <% end %>

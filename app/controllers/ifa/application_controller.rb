@@ -253,10 +253,11 @@ class Ifa::ApplicationController < ApplicationController
       header['answer_count'] = submission.tot_choices.nil? ? 0 : submission.tot_choices
       header['total_points'] = submission.tot_points.nil? ? 0.0 : submission.tot_points.round
       header['duration_secs'] = submission.duration.nil? ? 0 : submission.duration
-      header['duration_minutes'] = (header['duration_secs']/60.0).round(1)
+      header['duration_minutes'] = (header['duration_secs'].to_f/60.0).round(1)
       header['question_pace'] = submission.question_pace
       header['proficiency'] = header['answer_count'] == 0 ? 0 : (100.0 * header['total_points']/header['answer_count'].to_f).round
       header['point_pace'] = header['total_points'] == 0.0 ? 0 : (header['duration_secs'].to_f/header['total_points']).round
+      byebug
       if !submission.act_assessment.nil?
         header['assess_title'] = submission.act_assessment.name
         header['assessment'] = submission.act_assessment

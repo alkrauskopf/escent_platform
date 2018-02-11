@@ -97,7 +97,7 @@ class ActAssessment < ActiveRecord::Base
   end
 
   def question_pace
-    self.questions_for_test.empty? ? 0 : (self.allotted_duration/self.questions_for_test.size).round
+    self.questions_for_test.empty? ? 0 : (self.allotted_duration.to_f/self.questions_for_test.size.to_f).to_i
   end
 
   def correct_test_choices

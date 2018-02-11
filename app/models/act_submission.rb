@@ -193,7 +193,7 @@ class ActSubmission < ActiveRecord::Base
   end
 
   def question_pace
-    self.act_answers.empty? ? 0 : (self.duration/self.act_answers.size).round
+    self.tot_choices == 0 ? 0.0 : (self.duration.to_f/self.tot_choices.to_f).to_i
   end
 
   def correct_answers(options = {})

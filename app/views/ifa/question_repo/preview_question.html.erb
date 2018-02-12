@@ -9,7 +9,7 @@
   <% if !@current_question.nil? %>
   <div class= 'row'>
     <div class="col-md-12">
-      <%= render(:partial => "apps/assessment/view_question_in_assessment" , :locals => {:quest => @current_question, :num => 1}) %>
+      <%= render(:partial => "ifa/submission/view_question_in_assessment" , :locals => {:quest => @current_question, :num => 1, :review=> false, :superstudent=>true, :strategies => []}) %>
     </div>
   </div>
   <% else %>

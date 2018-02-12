@@ -7,17 +7,6 @@
       </div>
     </div>
     <div class="col-md-9 ">
-      <% image_width = quest.image_enlarge? ? "100%" : "50%" %>
-      <% if quest.question_image.present? %>
-        <div class="row">
-          <div class="col-md-1"></div>
-          <div class="col-md-10 question_image">
-            <%#= image_tag quest.question_image, width= image_width %>
-            <img src="<%= quest.question_image %>" width= <%=image_width%> />
-          </div>
-          <div class="col-md-1"></div>
-        </div>
-      <% end %>
       <% if !quest.content.nil? -%>
         <div class="row">
           <div class="col-md-1"></div>
@@ -47,6 +36,17 @@
           <%= quest.act_question_reading.reading.html_safe %>
         </div>
       <% end -%>
+      <% image_width = quest.image_enlarge? ? "100%" : "50%" %>
+      <% if quest.question_image.present? %>
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 question_image">
+              <%#= image_tag quest.question_image, width= image_width %>
+              <img src="<%= quest.question_image %>" width= <%=image_width%> />
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+      <% end %>
     </div>
     <div class="col-md-2"></div>
   </div>

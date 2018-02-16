@@ -14,7 +14,8 @@
         <% if !assessments.empty? %>
           <div class="teacher_review_student_subs" >
             <% assessments.each do |submission| %>
-                <div class="row submission">
+                <% if !submission.classroom.nil? %>
+                    <div class="row submission">
                   <div class="col-md-2 sub_date">
                     <%= submission.created_at.strftime("%m-%d-%y") %>
                   </div>
@@ -32,6 +33,7 @@
                                                                           :act_submission_id => submission.id), {:class => "button_gray", :target => "_blank"} %>
                   </div>
                 </div>
+              <% end %>
             <% end %>
           </div>
         <% end %>

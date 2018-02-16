@@ -130,9 +130,11 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
       @strategy_metrics[subject.id.to_s + 'offerings'] = @current_organization.classrooms.precision_prep_subject(subject)
       @strategy_metrics[subject.id.to_s + 'view_offering'] = classroom
       @strategy_metrics['assessments'] = classroom.act_assessments.strategy_tests
+      @strategy_metrics['submission_count'] = 0
       classroom.act_assessments.strategy_tests.each do |ass|
       submissions = ass.act_submissions.for_classroom(classroom).select{|s| s.authentic?}
       @strategy_metrics[ass.id.to_s + 'submissions'] = submissions.size
+      @strategy_metrics['submission_count'] += submissions.size
       @strategy_metrics[ass.id.to_s + 'choices'] = submissions.map{|s| s.tot_choices}.sum
       @strategy_metrics[ass.id.to_s + 'points'] = submissions.map{|s| s.tot_points}.sum
       @strategy_metrics[ass.id.to_s + 'duration'] = submissions.map{|s| s.duration}.sum

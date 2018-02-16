@@ -24,79 +24,90 @@
           });
         </script>
     <% if !@strategy_metrics[subject.id.to_s + 'view_offering'].nil? %>
-      <% @strategy_metrics['assessments'].each do |ass| %>
         <div class="row">
           <div class="col-md-1"></div>
-          <div class="col-md-11">
-            <table class="dashboard_test_prep_table">
-              <tbody >
-                <colgroup>
-                  <col style="width:30%">
-                  <col style="width:10%">
-                  <col style="width:10%">
-                  <col style="width:50%">
-                </colgroup>
-                <tr >
-                  <td>
-                    <%= ass.name %>
-                  </td>
-                  <td>
-                    <%= @strategy_metrics[ass.id.to_s + 'submissions'] %> Taken
-                  </td>
-                  <td>
-                    <%= @strategy_metrics[ass.id.to_s + 'pct'] %>%
-                  </td>
-                  <td>
-                    <%= pluralize(@strategy_metrics[ass.id.to_s + 'q_pace'], 'Sec')%>/Q, Target: <%= pluralize(@strategy_metrics[ass.id.to_s + 'target_pace'], 'Sec')%>/Q
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="4">
-                    <table class="">
-                      <tbody >
-                        <colgroup>
-                          <col style="width:30%">
-                          <col style="width:10%">
-                          <col style="width:10%">
-                          <col style="width:50%">
-                        </colgroup>
-                        <tr>
-                          <td></td>
-                          <td>
-                            Used
-                          </td>
-                          <td>
-                            Preferred
-                          </td>
-                          <td>
-                            Correct
-                          </td>
-                        </tr>
-                        <% subject.act_strategies.active.each do |strat| %>
-                          <tr >
-                            <td>
-                              <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'strat_name'] %>
-                            </td>
-                            <td>
-                              <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'used'] %>
-                            </td>
-                            <td>
-                              <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'preferred'] %>
-                            </td>
-                            <td>
-                              <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'pct'] %>%
-                            </td>
-                          </tr>
-                        <% end %>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <hr>
+          <div class="col-md-6 metrics_title">
+            <%= pluralize(@strategy_metrics['submission_count'], ' Assessment') %> Taken
+          </div>
+          <div class="col-md-5">
+
           </div>
         </div>
+      <% @strategy_metrics['assessments'].each do |ass| %>
+        <% if @strategy_metrics[ass.id.to_s + 'submissions'] > 0%>
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-11">
+              <table class="dashboard_test_prep_table">
+                <tbody >
+                  <colgroup>
+                    <col style="width:30%">
+                    <col style="width:10%">
+                    <col style="width:10%">
+                    <col style="width:50%">
+                  </colgroup>
+                  <tr >
+                    <td>
+                      <%= ass.name %>
+                    </td>
+                    <td>
+                      <%= @strategy_metrics[ass.id.to_s + 'submissions'] %> Taken
+                    </td>
+                    <td>
+                      <%= @strategy_metrics[ass.id.to_s + 'pct'] %>%
+                    </td>
+                    <td>
+                      <%= pluralize(@strategy_metrics[ass.id.to_s + 'q_pace'], 'Sec')%>/Q, Target: <%= pluralize(@strategy_metrics[ass.id.to_s + 'target_pace'], 'Sec')%>/Q
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                      <table class="">
+                        <tbody >
+                          <colgroup>
+                            <col style="width:30%">
+                            <col style="width:10%">
+                            <col style="width:10%">
+                            <col style="width:50%">
+                          </colgroup>
+                          <tr>
+                            <td></td>
+                            <td>
+                              Used
+                            </td>
+                            <td>
+                              Preferred
+                            </td>
+                            <td>
+                              Correct
+                            </td>
+                          </tr>
+                          <% subject.act_strategies.active.each do |strat| %>
+                            <tr >
+                              <td>
+                                <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'strat_name'] %>
+                              </td>
+                              <td>
+                                <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'used'] %>
+                              </td>
+                              <td>
+                                <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'preferred'] %>
+                              </td>
+                              <td>
+                                <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'pct'] %>%
+                              </td>
+                            </tr>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <hr>
+            </div>
+          </div>
+        <% end %>
       <% end %>
     <% end %>
   </div>

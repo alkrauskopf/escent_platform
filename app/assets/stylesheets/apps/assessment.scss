@@ -833,19 +833,19 @@
 }
 .metrics_ass_name {
   font-weight:bold;
-  font-size:14px;
-  color:$blue_text;
-  text-align:left;
+  font-size:13px;
+  color:$dark_text;
+  text-align:center;
 }
 .metrics_ass_data {
   font-weight:normal;
-  font-size:14px;
-  color:$blue_text;
+  font-size:13px;
+  color:$dark_text;
   text-align:left;
 }
 .metrics_strat_name {
   padding: 0em 2em 0em 0em;
-  font-weight:bold;
+  font-weight:normal;
   font-size:12px;
   color:$dark_text;
   text-align:right;

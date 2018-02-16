@@ -39,6 +39,7 @@ class Apps::AssessmentController < Apps::ApplicationController
       find_dashboard_update_start_dates(@current_organization)
       question_creators_strands
       assessment_creators
+      strategy_subjects
     else
       redirect_to organization_view_path(:organization_id => @current_organization)
     end
@@ -2867,6 +2868,15 @@ end
 
   def assessment_creators
     @assessment_creators = ActAssessment.creators
+  end
+
+  def strategy_subjects
+    @strategy_subjects = []
+    @subjects.each do |subject|
+      if !subject.act_assessments.strategy_tests.empty?
+        @strategy_subjects << subject
+      end
+    end
   end
 
   def prepare_ifa_dashboard(entity, start_period, end_period)

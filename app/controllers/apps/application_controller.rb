@@ -106,7 +106,6 @@ class Apps::ApplicationController < ApplicationController
     end
   end
 
-
   protected
   
 end

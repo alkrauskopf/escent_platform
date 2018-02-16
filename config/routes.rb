@@ -924,6 +924,7 @@ EscentPartners::Application.routes.draw do
   get 'precision/interest/guardian' => 'ifa/precision_prep#interest_guardian'  # precision_interest_guardian_url
   get 'precision/interest/advanced' => 'ifa/precision_prep#interest_advanced'  # precision_interest_advanced_url
   get 'precision/metrics/close' => 'ifa/precision_prep#metrics_close'  # precision_metrics_close_url
+  get 'precision/metrics/strategies' => 'ifa/precision_prep#metrics_strategies'  # precision_metrics_strategies_url
   get 'precision/metrics/guardian' => 'ifa/precision_prep#metrics_guardian'  # precision_metrics_guardian_url
   get 'precision/metrics/teacher' => 'ifa/precision_prep#metrics_teacher'  # precision_metrics_teacher_url
   get 'precision/metrics/student' => 'ifa/precision_prep#metrics_student'  # precision_metrics_student_url

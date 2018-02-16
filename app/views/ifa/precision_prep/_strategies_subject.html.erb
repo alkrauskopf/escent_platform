@@ -1,0 +1,125 @@
+<div id="strategy_metrics_<%=subject.id%>">
+  <div class="metrics_box">
+    <% if view_data == 'C' %>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-1">
+          <span id = "show_<%= subject.id %>" class='button_gray enabled'>
+            <%='View' %>
+          </span>
+        </div>
+        <div class="col-md-10 metrics_title">
+          <%= subject.name %> Strategy Data
+        </div>
+      </div>
+        <script type="text/javascript">
+          jQ(document).ready(function() {
+            jQ("#show_<%= subject.id %>").click(function(){
+              var url = "<%= precision_metrics_strategies_url(:organization_id => @current_organization, :subject_id=>subject.id, :view_data => 'O') %>";
+              jQ.get(url, {}, function(data) {
+                jQ("#strategy_metrics_<%=subject.id%>").html(data);
+                jQ("#strategy_metrics_<%=subject.id%>").show();
+              });
+            })
+          });
+        </script>
+    <% else %>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-1">
+        <span id = "close_<%= subject.id %>" class='button_orange enabled'>
+          <%='Close' %>
+        </span>
+        </div>
+        <div class="col-md-10 metrics_title">
+          <%= subject.name %> Strategy Data | <%= pluralize(@strategy_metrics['assessments'].size, ' Assessment') %>
+        </div>
+      </div>
+      <script type="text/javascript">
+        jQ(document).ready(function() {
+          jQ("#close_<%= subject.id %>").click(function(){
+            var url = "<%= precision_metrics_strategies_url(:organization_id => @current_organization, :subject_id=>subject.id, :view_data => 'C') %>";
+            jQ.get(url, {}, function(data) {
+              jQ("#strategy_metrics_<%=subject.id%>").html(data);
+              jQ("#strategy_metrics_<%=subject.id%>").show();
+            });
+          })
+        });
+      </script>
+      <% @strategy_metrics['assessments'].each do |ass| %>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-11">
+            <table class="dashboard_test_prep_table">
+              <tbody >
+                <colgroup>
+                  <col style="width:30%">
+                  <col style="width:10%">
+                  <col style="width:10%">
+                  <col style="width:50%">
+                </colgroup>
+                <tr >
+                  <td>
+                    <%= ass.name %>
+                  </td>
+                  <td>
+                    <%= @strategy_metrics[ass.id.to_s + 'submissions'] %> Taken
+                  </td>
+                  <td>
+                    <%= @strategy_metrics[ass.id.to_s + 'pct'] %>%
+                  </td>
+                  <td>
+                    <%= pluralize(@strategy_metrics[ass.id.to_s + 'q_pace'], 'Sec')%>/Q, Target: <%= pluralize(@strategy_metrics[ass.id.to_s + 'target_pace'], 'Sec')%>/Q
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="4">
+                    <table class="">
+                      <tbody >
+                        <colgroup>
+                          <col style="width:30%">
+                          <col style="width:10%">
+                          <col style="width:10%">
+                          <col style="width:50%">
+                        </colgroup>
+                        <tr>
+                          <td></td>
+                          <td>
+                            </br>Used
+                          </td>
+                          <td>
+                            Preferred</br>When Used
+                          </td>
+                          <td>
+                            Correct</br>When Used
+                          </td>
+                        </tr>
+                        <% subject.act_strategies.active.each do |strat| %>
+                          <tr >
+                            <td>
+                              <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'strat_name'] %>
+                            </td>
+                            <td>
+                              <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'used'] %>
+                            </td>
+                            <td>
+                              <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'preferred'] %>
+                            </td>
+                            <td>
+                              <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'pct'] %>%
+                            </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <hr>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

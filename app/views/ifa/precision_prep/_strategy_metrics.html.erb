@@ -1,0 +1,12 @@
+<div id="strategies" >
+  <div class="row ifa_panel_title">
+    <div>
+      <%= @current_organization.short_name %> <%= @current_application.app_name(:provider=>@current_provider) %> Strategy Metrics
+    </div>
+  </div>
+  <% @strategy_subjects.each do |subject| %>
+    <div class="manage_metrics_box">
+      <%= render :partial => '/ifa/precision_prep/strategies_subject', :locals=> {:subject => subject, :view_data => 'C'} %>
+    </div>
+  <% end %>
+</div>

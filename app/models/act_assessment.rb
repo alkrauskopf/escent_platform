@@ -67,6 +67,10 @@ class ActAssessment < ActiveRecord::Base
     self.is_strategy_test
   end
 
+  def self.strategy_tests
+    where('is_strategy_test && is_active').order('updated_at DESC')
+  end
+
   def self.empties
     ActAssessment.all.select{|a| a.act_assessment_act_questions.empty?}
   end

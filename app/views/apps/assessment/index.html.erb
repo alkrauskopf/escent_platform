@@ -61,6 +61,11 @@
         <a href="#tabs-8"><span class="tab_label">
           <%= tab_8_label %></span></a>
       </li>
+      <li>
+        <%  tab_9_label = "Testing Strategy Data" %>
+        <a href="#tabs-9"><span class="tab_label">
+          <%= tab_9_label %></span></a>
+      </li>
     </ul>
     <div id="tabs-1" class="row">
       <div class="col-md-12">
@@ -89,6 +94,11 @@
     <div id="tabs-8" class="row">
       <div class="col-md-12">
         <%= render :partial => "/ifa/precision_prep/manage_metrics", :locals=>{:s_metrics=>false, :t_metrics=>false, :g_metrics=>false} %>
+      </div>
+    </div>
+    <div id="tabs-9" class="row">
+      <div class="col-md-12">
+        <%= render :partial => "/ifa/precision_prep/strategy_metrics", :locals=>{:s_metrics=>false} %>
       </div>
     </div>
   </div>

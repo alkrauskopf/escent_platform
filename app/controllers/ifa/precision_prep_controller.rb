@@ -62,6 +62,12 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
     render :partial => "/ifa/precision_prep/manage_metrics", :locals=>{:s_metrics=>false, :t_metrics=>false, :g_metrics=>false}
   end
 
+  def metrics_strategies
+    subject = ActSubject.find_by_id(params[:subject_id])
+    subject_strategy_metrics(subject)
+    render :partial => "/ifa/precision_prep/strategies_subject", :locals=>{:subject=>subject, :view_data => params[:view_data]}
+  end
+
   def guardian_filter
     @metric_organization = Organization.find_by_id(params[:entity_id])
     guardian_metrics
@@ -115,6 +121,24 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
 
   def current_guardian
     @current_guardian = UserGuardian.find_by_public_id(params[:guardian_id]) rescue nil
+  end
+
+  def subject_strategy_metrics(subject)
+    @strategy_metrics = {}
+    @strategy_metrics['assessments'] = subject.act_assessments.strategy_tests
+    subject.act_assessments.strategy_tests.each do |ass|
+      @strategy_metrics[ass.id.to_s + 'submissions'] = ass.cum_submissions
+      @strategy_metrics[ass.id.to_s + 'pct'] = ass.cum_choices_made == 0 ? 0 : (100.0 * (ass.cum_points_earned.to_f/ass.cum_choices_made.to_f)).round
+      @strategy_metrics[ass.id.to_s + 'q_pace'] = ass.cum_choices_made == 0 ? 0 : (ass.cum_duration.to_f/ass.cum_choices_made.to_f).round
+      @strategy_metrics[ass.id.to_s + 'target_pace'] = ass.question_pace
+      subject.act_strategies.active.each do |strat|
+        @strategy_metrics[ass.id.to_s + strat.id.to_s + 'strat_name'] = strat.name
+        @strategy_metrics[ass.id.to_s + strat.id.to_s + 'used'] = ass.act_strategy_logs.for_strategy(strat).map{|l| l.use_count}.sum
+        @strategy_metrics[ass.id.to_s + strat.id.to_s + 'preferred'] = ass.act_strategy_logs.for_strategy(strat).map{|l| l.matches}.sum
+        corrects = ass.act_strategy_logs.for_strategy(strat).map{|l| l.corrects}.sum
+        @strategy_metrics[ass.id.to_s + strat.id.to_s + 'pct'] = @strategy_metrics[ass.id.to_s + strat.id.to_s + 'used'] == 0 ? 0 : (100.0 * (corrects.to_f/@strategy_metrics[ass.id.to_s + strat.id.to_s + 'used'].to_f)).round
+      end
+    end
   end
 
   def guardian_metrics

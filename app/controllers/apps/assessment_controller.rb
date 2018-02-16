@@ -2877,6 +2877,13 @@ end
         @strategy_subjects << subject
       end
     end
+    @strategy_metrics = {}
+    @strategy_subjects.each do |subject|
+      if !@current_organization.classrooms.precision_prep_subject(subject).empty?
+        @strategy_metrics[subject.id.to_s + 'offerings'] = @current_organization.classrooms.precision_prep_subject(subject)
+        @strategy_metrics[subject.id.to_s + 'view_offering'] = nil
+      end
+    end
   end
 
   def prepare_ifa_dashboard(entity, start_period, end_period)

@@ -64,8 +64,9 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
 
   def metrics_strategies
     subject = ActSubject.find_by_id(params[:subject_id])
-    subject_strategy_metrics(subject)
-    render :partial => "/ifa/precision_prep/strategies_subject", :locals=>{:subject=>subject, :view_data => params[:view_data]}
+    classroom = Classroom.find_by_id(params[:classroom_id]) rescue nil
+    subject_strategy_metrics(subject, classroom)
+    render :partial => "/ifa/precision_prep/strategies_subject", :locals=>{:subject=>subject}
   end
 
   def guardian_filter
@@ -123,11 +124,14 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
     @current_guardian = UserGuardian.find_by_public_id(params[:guardian_id]) rescue nil
   end
 
-  def subject_strategy_metrics(subject)
+  def subject_strategy_metrics(subject, classroom)
     @strategy_metrics = {}
-    @strategy_metrics['assessments'] = subject.act_assessments.strategy_tests
-    subject.act_assessments.strategy_tests.each do |ass|
-      submissions = ass.act_submissions.for_org(@current_organization).select{|s| s.authentic?}
+    if !@current_organization.classrooms.precision_prep_subject(subject).empty?
+      @strategy_metrics[subject.id.to_s + 'offerings'] = @current_organization.classrooms.precision_prep_subject(subject)
+      @strategy_metrics[subject.id.to_s + 'view_offering'] = classroom
+      @strategy_metrics['assessments'] = classroom.act_assessments.strategy_tests
+      classroom.act_assessments.strategy_tests.each do |ass|
+      submissions = ass.act_submissions.for_classroom(classroom).select{|s| s.authentic?}
       @strategy_metrics[ass.id.to_s + 'submissions'] = submissions.size
       @strategy_metrics[ass.id.to_s + 'choices'] = submissions.map{|s| s.tot_choices}.sum
       @strategy_metrics[ass.id.to_s + 'points'] = submissions.map{|s| s.tot_points}.sum
@@ -143,6 +147,7 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
         corrects = logs.empty? ? 0 : logs.map{|l| l.corrects}.sum
         @strategy_metrics[ass.id.to_s + strat.id.to_s + 'pct'] = @strategy_metrics[ass.id.to_s + strat.id.to_s + 'used'] == 0 ? 0 : (100.0 * (corrects.to_f/@strategy_metrics[ass.id.to_s + strat.id.to_s + 'used'].to_f)).round
       end
+    end
     end
   end
 

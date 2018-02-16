@@ -360,6 +360,7 @@ class Organization < ActiveRecord::Base
   def classrooms_in_subject(subject)
     self.classrooms.active.select{|c| c.subject_area.parent_id == subject.id || c.subject_area_id == subject.id}.sort_by{|c| c.course_name.upcase}  rescue []
   end
+
   def classroom_count(subject)
     self.classrooms_in_subject(subject).size 
   end

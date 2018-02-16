@@ -800,6 +800,20 @@
   color:$dark_text;
   border:0px solid #ddd;
 }
+
+.assessment_metrics_table {
+  padding: 2em 0em 2em 0em;
+  border:0px dashed #ddd;
+  font-size:14px;
+  background-color: $light_box;
+  color:$dark_text;
+  font-weight:normal;
+}
+.strategy_metrics_table {
+  font-size:14px;
+  color:$dark_text;
+  font-weight:normal;
+}
 .metrics_row {
   padding:0em 0em 1em 0em;
   font-size:14px;
@@ -809,6 +823,39 @@
   font-weight:bold;
   font-size:14px;
   color:$red_text;
+}
+.metrics_subtitle {
+  padding:.5em 0em .5em 0em;
+  font-weight:normal;
+  font-size:14px;
+  color:$blue_text;
+  text-align:left;
+}
+.metrics_ass_name {
+  font-weight:bold;
+  font-size:14px;
+  color:$blue_text;
+  text-align:left;
+}
+.metrics_ass_data {
+  font-weight:normal;
+  font-size:14px;
+  color:$blue_text;
+  text-align:left;
+}
+.metrics_strat_name {
+  padding: 0em 2em 0em 0em;
+  font-weight:bold;
+  font-size:12px;
+  color:$dark_text;
+  text-align:right;
+}
+.metrics_strat_data {
+  padding: 0em 0em 0em 2em;
+  font-weight:normal;
+  font-size:12px;
+  color:$dark_text;
+  text-align:left;
 }
 .metrics_box {
   margin: 0em 3em 0em 3em;

@@ -26,7 +26,7 @@
     <% if !@strategy_metrics[subject.id.to_s + 'view_offering'].nil? %>
         <div class="row">
           <div class="col-md-1"></div>
-          <div class="col-md-6 metrics_title">
+          <div class="col-md-6 metrics_subtitle">
             <%= pluralize(@strategy_metrics['submission_count'], ' Assessment') %> Taken
           </div>
           <div class="col-md-5">
@@ -38,7 +38,7 @@
           <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-11">
-              <table class="dashboard_test_prep_table">
+              <table class="assessment_metrics_table">
                 <tbody >
                   <colgroup>
                     <col style="width:30%">
@@ -47,28 +47,28 @@
                     <col style="width:50%">
                   </colgroup>
                   <tr >
-                    <td>
+                    <td class="metrics_ass_name">
                       <%= ass.name %>
                     </td>
-                    <td>
+                    <td class="metrics_ass_data">
                       <%= @strategy_metrics[ass.id.to_s + 'submissions'] %> Taken
                     </td>
-                    <td>
+                    <td class="metrics_ass_data">
                       <%= @strategy_metrics[ass.id.to_s + 'pct'] %>%
                     </td>
-                    <td>
-                      <%= pluralize(@strategy_metrics[ass.id.to_s + 'q_pace'], 'Sec')%>/Q, Target: <%= pluralize(@strategy_metrics[ass.id.to_s + 'target_pace'], 'Sec')%>/Q
+                    <td class="metrics_ass_data">
+                      <%= pluralize(@strategy_metrics[ass.id.to_s + 'q_pace'], 'Sec')%> vs <%= pluralize(@strategy_metrics[ass.id.to_s + 'target_pace'], 'Sec')%> (Target Pace)
                     </td>
                   </tr>
                   <tr>
                     <td colspan="4">
-                      <table class="">
+                      <table class="strategy_metrics_table">
                         <tbody >
                           <colgroup>
-                            <col style="width:30%">
+                            <col style="width:35%">
                             <col style="width:10%">
                             <col style="width:10%">
-                            <col style="width:50%">
+                            <col style="width:45%">
                           </colgroup>
                           <tr>
                             <td></td>
@@ -76,25 +76,25 @@
                               Used
                             </td>
                             <td>
-                              Preferred
+                              Correct
                             </td>
                             <td>
-                              Correct
+                              Preferred Match
                             </td>
                           </tr>
                           <% subject.act_strategies.active.each do |strat| %>
                             <tr >
-                              <td>
+                              <td class="metrics_strat_name">
                                 <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'strat_name'] %>
                               </td>
-                              <td>
+                              <td class="metrics_strat_data">
                                 <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'used'] %>
                               </td>
-                              <td>
-                                <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'preferred'] %>
-                              </td>
-                              <td>
+                              <td class="metrics_strat_data">
                                 <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'pct'] %>%
+                              </td>
+                              <td class="metrics_strat_data">
+                                <%= @strategy_metrics[ass.id.to_s + strat.id.to_s + 'preferred'] %>
                               </td>
                             </tr>
                           <% end %>

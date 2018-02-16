@@ -29,6 +29,7 @@ class ActSubmission < ActiveRecord::Base
   scope :not_final, :conditions => { :is_final => false }
   scope :auto_finalized, :conditions => { :is_auto_finalized => true }
   scope :for_subject, lambda{|subject| {:conditions => ["act_subject_id = ? ", subject.id]}}
+  scope :for_org, lambda{|org| {:conditions => ["organization_id = ? ", org.id]}}
   scope :not_user_dashboarded, :conditions => {:is_user_dashboarded => false} rescue []
   scope :not_classroom_dashboarded, :conditions => { :is_classroom_dashboarded => false } rescue []
   scope :not_org_dashboarded, :conditions => {:is_org_dashboarded => false} rescue []
@@ -422,7 +423,7 @@ class ActSubmission < ActiveRecord::Base
 
   def authentic?
     !self.user.nil? && !self.organization.nil? && !self.act_assessment.nil? &&
-    !self.user.teacher? && !self.user.super_student? && self.duration > 240 && self.tot_choices > 10
+    !self.user.teacher? && !self.user.super_student? && self.duration > 180
   end
 
   def period_dashboard?(entity)

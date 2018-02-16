@@ -127,15 +127,20 @@ class Ifa::PrecisionPrepController < Ifa::ApplicationController
     @strategy_metrics = {}
     @strategy_metrics['assessments'] = subject.act_assessments.strategy_tests
     subject.act_assessments.strategy_tests.each do |ass|
-      @strategy_metrics[ass.id.to_s + 'submissions'] = ass.cum_submissions
-      @strategy_metrics[ass.id.to_s + 'pct'] = ass.cum_choices_made == 0 ? 0 : (100.0 * (ass.cum_points_earned.to_f/ass.cum_choices_made.to_f)).round
-      @strategy_metrics[ass.id.to_s + 'q_pace'] = ass.cum_choices_made == 0 ? 0 : (ass.cum_duration.to_f/ass.cum_choices_made.to_f).round
+      submissions = ass.act_submissions.for_org(@current_organization).select{|s| s.authentic?}
+      @strategy_metrics[ass.id.to_s + 'submissions'] = submissions.size
+      @strategy_metrics[ass.id.to_s + 'choices'] = submissions.map{|s| s.tot_choices}.sum
+      @strategy_metrics[ass.id.to_s + 'points'] = submissions.map{|s| s.tot_points}.sum
+      @strategy_metrics[ass.id.to_s + 'duration'] = submissions.map{|s| s.duration}.sum
+      @strategy_metrics[ass.id.to_s + 'pct'] = @strategy_metrics[ass.id.to_s + 'choices'] == 0 ? 0 : (100.0 * @strategy_metrics[ass.id.to_s + 'points']/@strategy_metrics[ass.id.to_s + 'choices'].to_f).round
+      @strategy_metrics[ass.id.to_s + 'q_pace'] = @strategy_metrics[ass.id.to_s + 'choices'] == 0 ? 0 : (@strategy_metrics[ass.id.to_s + 'duration'].to_f/@strategy_metrics[ass.id.to_s + 'choices'].to_f).round
       @strategy_metrics[ass.id.to_s + 'target_pace'] = ass.question_pace
       subject.act_strategies.active.each do |strat|
         @strategy_metrics[ass.id.to_s + strat.id.to_s + 'strat_name'] = strat.name
-        @strategy_metrics[ass.id.to_s + strat.id.to_s + 'used'] = ass.act_strategy_logs.for_strategy(strat).map{|l| l.use_count}.sum
-        @strategy_metrics[ass.id.to_s + strat.id.to_s + 'preferred'] = ass.act_strategy_logs.for_strategy(strat).map{|l| l.matches}.sum
-        corrects = ass.act_strategy_logs.for_strategy(strat).map{|l| l.corrects}.sum
+        logs = submissions.map{|s|s.act_strategy_logs.for_strategy(strat)}.flatten
+        @strategy_metrics[ass.id.to_s + strat.id.to_s + 'used'] = logs.empty? ? 0 : logs.map{|l| l.use_count}.sum
+        @strategy_metrics[ass.id.to_s + strat.id.to_s + 'preferred'] = logs.empty? ? 0 : logs.map{|l| l.matches}.sum
+        corrects = logs.empty? ? 0 : logs.map{|l| l.corrects}.sum
         @strategy_metrics[ass.id.to_s + strat.id.to_s + 'pct'] = @strategy_metrics[ass.id.to_s + strat.id.to_s + 'used'] == 0 ? 0 : (100.0 * (corrects.to_f/@strategy_metrics[ass.id.to_s + strat.id.to_s + 'used'].to_f)).round
       end
     end

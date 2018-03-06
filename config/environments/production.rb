@@ -71,12 +71,7 @@ EscentPartners::Application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-      :address => "smtp.sendgrid.net",
-      :port => 587,
-      :domain => "precisionschoolimprovement.com",
-      :authenication => :plain,
-      :user_name => 'alkrauskopf',
-      :password => 'florentin0'
+
       #    or   defined as server enviroment variables
 #     :user_name => ENV['SENDGRID_USER'],
  #    :password => ENV['SENDGRID_PASSWORD']

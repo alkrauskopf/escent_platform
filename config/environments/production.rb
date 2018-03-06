@@ -65,8 +65,7 @@ EscentPartners::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
   #
-  # :user_name => "alkrauskopf",
-  #     :password => "florentin0"
+
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :smtp
